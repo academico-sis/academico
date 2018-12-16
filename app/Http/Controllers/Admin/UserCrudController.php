@@ -22,7 +22,7 @@ class UserCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        $this->crud->setModel('App\Models\User');
+        $this->crud->setModel('App\User');
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/user');
         $this->crud->setEntityNameStrings('user', 'users');
 

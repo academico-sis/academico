@@ -19,10 +19,10 @@ return [
     'logo_mini' => '<b>A</b>c',
 
     // Developer or company name. Shown in footer.
-    'developer_name' => 'Alianza Francesa Cuenca',
+    'developer_name' => 'Laxsmi Apps',
 
     // Developer website. Link in footer.
-    'developer_link' => 'https://gitlab.com/laxsmi',
+    'developer_link' => 'https://laxsmi.github.io/',
 
     // Show powered by Laravel Backpack in the footer?
     'show_powered_by' => false,
