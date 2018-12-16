@@ -21,3 +21,5 @@
       <li><a href='{{ backpack_url('year') }}'><i class='fa fa-star'></i> <span>Années</span></a></li>
   </ul>
 </li>
+
+<li><a href='{{ backpack_url('user') }}'><i class='fa fa-user'></i> <span>Utilisateurs</span></a></li>

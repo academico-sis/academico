@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\CrudTrait;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Course extends Model
 {
@@ -122,6 +123,11 @@ class Course extends Model
     public function getCourseRythmNameAttribute()
     {
         return $this->rythm['name'];
+    }
+    
+    public function getCourseTeacherNameAttribute()
+    {
+        return $this->teacher['name'];
     }
     /*
     |--------------------------------------------------------------------------

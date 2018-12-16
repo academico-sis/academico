@@ -62,7 +62,7 @@
                             <td>{{ $course->course_level_name }}</td>
                             <td>{{ $course->name }}</td>
                             <td>{{ $course->volume }}h</td>
-                            <td>Profesor</td>
+                            <td>{{ $course->course_teacher_name }}</td>
                             <td>{{ $course->course_room_name }}</td>
                             <td>{{ $course->course_times }}</td>
                             <td>Inscritos</td>
