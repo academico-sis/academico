@@ -58,8 +58,8 @@
                     <tbody>
                     @foreach ($courses as $course)
                         <tr>
-                            <td>Modalidad</td>
-                            <td>Nivel</td>
+                            <td>{{ $course->course_rythm_name }}</td>
+                            <td>{{ $course->course_level_name }}</td>
                             <td>{{ $course->name }}</td>
                             <td>{{ $course->volume }}h</td>
                             <td>Profesor</td>

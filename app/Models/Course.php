@@ -35,6 +35,8 @@ class Course extends Model
         ->with('times')
         ->with('teacher')
         ->with('room')
+        ->with('rythm')
+        ->with('level')
         ->get();
     }
     /*
@@ -57,6 +59,16 @@ class Course extends Model
     {
         return $this->hasOne('\App\Models\Room', 'id', 'room_id');
     }
+
+    public function rythm()
+    {
+        return $this->hasOne('\App\Models\Rythm', 'id', 'rythm_id');
+    }
+
+    public function level()
+    {
+        return $this->hasOne('\App\Models\Level', 'id', 'level_id');
+    }
     /*
     |--------------------------------------------------------------------------
     | SCOPES
@@ -68,6 +80,16 @@ class Course extends Model
     | ACCESORS
     |--------------------------------------------------------------------------
     */
+
+    /**
+     * getCourseTimesAttribute
+     * 
+     * todo refactor this
+     * todo add times
+     *
+     * @param mixed $value
+     * @return void
+     */
     public function getCourseTimesAttribute($value)
     {
         $days = "";
@@ -89,6 +111,16 @@ class Course extends Model
     public function getCourseRoomNameAttribute()
     {
         return $this->room['name'];
+    }
+
+    public function getCourseLevelNameAttribute()
+    {
+        return $this->level['name'];
+    }
+
+    public function getCourseRythmNameAttribute()
+    {
+        return $this->rythm['name'];
     }
     /*
     |--------------------------------------------------------------------------
