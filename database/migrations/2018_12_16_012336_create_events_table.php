@@ -23,6 +23,7 @@ class CreateEventsTable extends Migration
             $table->string('name');
             $table->integer('course_time_id')->nullable();
             $table->boolean('exempt_attendance')->nullable();
+            $table->softDeletes();
             //$table->timestamps();
         });
     }

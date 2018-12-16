@@ -8,6 +8,7 @@ use Backpack\CRUD\CrudTrait;
 class Course extends Model
 {
     use CrudTrait;
+    use SoftDeletes;
 
     /*
     |--------------------------------------------------------------------------

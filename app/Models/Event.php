@@ -8,6 +8,7 @@ use Backpack\CRUD\CrudTrait;
 class Event extends Model
 {
     use CrudTrait;
+    use SoftDeletes;
 
     /*
     |--------------------------------------------------------------------------
