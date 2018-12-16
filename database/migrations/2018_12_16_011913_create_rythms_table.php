@@ -15,7 +15,7 @@ class CreateRythmsTable extends Migration
     {
         Schema::create('rythms', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('name')->unique();
             $table->integer('default_volume');
             //$table->timestamps();
         });
