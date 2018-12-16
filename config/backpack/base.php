@@ -19,7 +19,7 @@ return [
     'logo_mini' => '<b>A</b>c',
 
     // Developer or company name. Shown in footer.
-    'developer_name' => 'Laxsmi Apps',
+    'developer_name' => 'Alianza Francesa Cuenca',
 
     // Developer website. Link in footer.
     'developer_link' => 'https://gitlab.com/laxsmi',
@@ -75,7 +75,7 @@ return [
 
     // Set this to false if you would like to skip adding the dashboard routes
     // (you then need to overwrite the login route on your AuthController)
-    'setup_dashboard_routes' => true,
+    'setup_dashboard_routes' => false,
 
     // Set this to false if you would like to skip adding "my account" routes
     // (you then need to manually define the routes in your web.php)
