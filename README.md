@@ -16,6 +16,12 @@ Reports
 
 Installation
 
+Requirements
+
+php-bcmath
++ Laravel requirements
+
+
 git clone
 
 cd academico
