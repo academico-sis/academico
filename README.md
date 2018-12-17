@@ -30,6 +30,8 @@ cp .env.example .env
 
 Edit the .env file with your DB info
 
+php artisan key:generate
+
 composer install
 
 npm install
