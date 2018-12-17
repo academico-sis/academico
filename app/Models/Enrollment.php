@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Enrollment extends Model
 {
@@ -26,7 +27,7 @@ class Enrollment extends Model
 
     public function getStudentAgeAttribute()
     {
-        return 1;
+        return Carbon::createFromFormat('Y-m-d', $this->student_data['birthdate'])->age;
     }
 
     public function getStudentBirthdateAttribute()

@@ -73,14 +73,14 @@
 
                             <!-- list of students -->
                             @if ($course->enrollments_count > 0)
-                            <a type="button" class="btn btn-xs btn-secondary" href="course/{{ $course->id }}">
+                            <a type="button" class="btn btn-xs btn-secondary" href="{{ url('course', $course->id) }}">
                                 <i class="fa fa-user"></i>
                             </a>
                             @endif
 
                             <!-- attendance overview -->
                             @if ($course->exempt_attendance !== 1)
-                            <a type="button" class="btn btn-xs btn-secondary" href="attendance/course/{{ $course->id }}">
+                            <a type="button" class="btn btn-xs btn-secondary" href="{{ url('attendance/course', $course->id) }}">
                                 <i class="fa calendar-check-o"></i>
                             </a>
                             @endif
@@ -93,7 +93,7 @@
 
                             <!-- course deletion -->
                             @if ($course->enrollments_count == 0) <!-- todo restrict to admins -->
-                            <a type="button" class="btn btn-xs btn-danger" href="courses/{{ $course->id }}/delete">
+                            <a type="button" class="btn btn-xs btn-danger" href="{{ url('course', $course->id) }}/delete">
                                 <i class="fa fa-trash"></i>
                             </a>
                             @endif         

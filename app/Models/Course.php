@@ -128,7 +128,7 @@ class Course extends Model
 
     public function getCourseRoomNameAttribute()
     {
-        return $this->room['name'];
+        return strtoupper($this->room['name']);
     }
 
     public function getCourseLevelNameAttribute()
@@ -138,12 +138,12 @@ class Course extends Model
 
     public function getCourseRythmNameAttribute()
     {
-        return $this->rythm['name'];
+        return strtoupper($this->rythm['name']);
     }
     
     public function getCourseTeacherNameAttribute()
     {
-        return $this->teacher['name'];
+        return strtoupper($this->teacher['name']);
     }
 
     public function getCourseEnrolledStudents()
