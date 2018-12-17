@@ -38,7 +38,7 @@
             
             <div class="box-body">           
                 
-                <table id="DataTables_Table_0" class="table table-striped table-bordered responsive">
+                <table id="crudTable" class="table table-striped table-bordered responsive">
                     <thead>
                         <tr>
                             <th>{{ trans_choice('academico.rythms', 1) }}</th>
@@ -107,4 +107,22 @@
         </div>
     </div>
 </div>
+@endsection
+
+{{-- todo refactor this --}}
+@section('after_scripts')
+ <!-- DATA TABLES -->
+ <link href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css" rel="stylesheet" type="text/css" />
+ <link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
+
+ 
+ <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+ 
+ <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+
+  <script>
+        $(document).ready( function () {
+            $('#crudTable').DataTable();
+        } );
+</script>
 @endsection
