@@ -27,8 +27,7 @@ class CourseController extends Controller
         }
 
         $courses = (new Course)->get_all_internal_courses($period);
-        $current_period = $period->name;
-        return view('courses/index', compact('courses', 'current_period'));   
+        return view('courses/index', compact('courses', 'period'));   
     }
 
     /**

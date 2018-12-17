@@ -14,6 +14,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
+        \Blade::directive('lang_u', function ($s) {
+            return "<?php echo ucfirst(trans($s)); ?>";
+        });
+        
         if (\Schema::hasTable('periods')) {
             $periods = \App\Models\Period::orderBy('id','desc')->get();
             View::share('periods', $periods);
