@@ -5,7 +5,7 @@
 return [
     'courses' => 'cours',
     'coursesmanagement' => 'gestion des cours',
-    'rythm' => 'rythme',
+    'rythms' => 'rythme|rythmes',
     'level' => 'niveau',
     'name' => 'nom',
     'volume' => 'volume',
@@ -21,9 +21,9 @@ return [
     'levels' => 'niveaux',
     'rooms' => 'salles',
     'campuses' => 'campus',
-    'rythms' => 'rythmes',
     'years' => 'années',
     'users' => 'utilisateurs',
-    'settings' => 'paramètres'
+    'settings' => 'paramètres',
+    'coursedetails' => 'détails du cours'
     
 ];

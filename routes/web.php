@@ -13,3 +13,4 @@
 
 Route::get('/', 'HomeController@index');
 Route::get('courses/{period?}', 'CourseController@index');
+Route::get('course/{course}', 'CourseController@show');

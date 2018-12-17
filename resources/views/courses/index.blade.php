@@ -3,7 +3,7 @@
 @section('header')
 <section class="content-header">
     <h1>
-        @lang('academico.courses')
+        @lang_u('academico.courses')
     </h1>
 </section>
 @endsection
@@ -16,7 +16,7 @@
         <div class="box">
             <div class="box-header with-border">
                 <div class="box-title">
-                    @lang('academico.courses')
+                    @lang_u('academico.courses')
                 </div>
                 <div class="box-tools pull-right">
                     
@@ -41,17 +41,17 @@
                 <table id="DataTables_Table_0" class="table table-striped table-bordered responsive">
                     <thead>
                         <tr>
-                            <th>@lang_u('academico.rythm')</th>
-                            <th>@lang_u('academico.level')</th>
-                            <th>@lang_u('academico.name')</th>
-                            <th>@lang_u('academico.volume')</th>
-                            <th>@lang_u('academico.teacher')</th>
-                            <th>@lang_u('academico.room')</th>
-                            <th>@lang_u('academico.times')</th>
-                            <th>@lang_u('academico.enrollments')</th>
-                            <th>@lang_u('academico.start')</th>
-                            <th>@lang_u('academico.end')</th>
-                            <th>@lang_u('academico.actions')</th>
+                            <th>{{ trans_choice('academico.rythms', 1) }}</th>
+                            <th>{{ trans_choice('academico.level', 1) }}</th>
+                            <th>{{ trans_choice('academico.name', 1) }}</th>
+                            <th>{{ trans_choice('academico.volume', 1) }}</th>
+                            <th>{{ trans_choice('academico.teacher', 1) }}</th>
+                            <th>{{ trans_choice('academico.room', 1) }}</th>
+                            <th>{{ trans_choice('academico.times', 1) }}</th>
+                            <th>{{ trans_choice('academico.enrollments', 1) }}</th>
+                            <th>{{ trans_choice('academico.start', 1) }}</th>
+                            <th>{{ trans_choice('academico.end', 1) }}</th>
+                            <th>{{ trans_choice('academico.actions', 1) }}</th>
                         </tr>
                     </thead>
                     
@@ -66,9 +66,39 @@
                             <td>{{ $course->course_room_name }}</td>
                             <td>{{ $course->course_times }}</td>
                             <td>{{ $course->enrollments_count }}</td>
-                            <td>Inicia</td>
-                            <td>Finaliza</td>
-                            <td>Acciones</td>
+                            <td>{{ $course->start_date }}</td>
+                            <td>{{ $course->end_date }}</td>
+                            
+                            <td><!-- course available actions -->
+
+                            <!-- list of students -->
+                            @if ($course->enrollments_count > 0)
+                            <a type="button" class="btn btn-xs btn-secondary" href="course/{{ $course->id }}">
+                                <i class="fa fa-user"></i>
+                            </a>
+                            @endif
+
+                            <!-- attendance overview -->
+                            @if ($course->exempt_attendance !== 1)
+                            <a type="button" class="btn btn-xs btn-secondary" href="attendance/course/{{ $course->id }}">
+                                <i class="fa calendar-check-o"></i>
+                            </a>
+                            @endif
+
+                            <!-- todo course times editing -->
+
+                            <!-- todo course teacher and room editing -->
+
+                            <!-- todo grades or skills editing -->
+
+                            <!-- course deletion -->
+                            @if ($course->enrollments_count == 0) <!-- todo restrict to admins -->
+                            <a type="button" class="btn btn-xs btn-danger" href="courses/{{ $course->id }}/delete">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                            @endif         
+   
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>

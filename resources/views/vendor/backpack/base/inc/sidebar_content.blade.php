@@ -17,7 +17,7 @@
       <li><a href='{{ backpack_url('level') }}'><i class='fa fa-star'></i> <span>@lang_u('academico.levels')</span></a></li>
       <li><a href='{{ backpack_url('room') }}'><i class='fa fa-star'></i> <span>@lang_u('academico.rooms')</span></a></li>
       <li><a href='{{ backpack_url('campus') }}'><i class='fa fa-star'></i> <span>@lang_u('academico.campuses')</span></a></li>
-      <li><a href='{{ backpack_url('rythm') }}'><i class='fa fa-star'></i> <span>@lang_u('academico.rythms')</span></a></li>
+      <li><a href='{{ backpack_url('rythm') }}'><i class='fa fa-star'></i> <span>{{ ucfirst(trans_choice('academico.rythms', 2)) }}</span></a></li>
       <li><a href='{{ backpack_url('year') }}'><i class='fa fa-star'></i> <span>@lang_u('academico.years')</span></a></li>
   </ul>
 </li>

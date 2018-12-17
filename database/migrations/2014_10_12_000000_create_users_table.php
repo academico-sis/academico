@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('language');
             $table->string('idnumber');
             $table->integer('genre_id');
+            $table->date('birthdate');
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

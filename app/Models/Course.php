@@ -55,7 +55,7 @@ class Course extends Model
 
     public function teacher()
     {
-        return $this->hasOne('\App\User', 'id', 'teacher_id', 'id');
+        return $this->hasOne('\App\User', 'id', 'teacher_id');
     }
 
     public function room()
@@ -72,6 +72,7 @@ class Course extends Model
     {
         return $this->hasOne('\App\Models\Level', 'id', 'level_id');
     }
+
 
     /**
      * enrollments
@@ -143,6 +144,11 @@ class Course extends Model
     public function getCourseTeacherNameAttribute()
     {
         return $this->teacher['name'];
+    }
+
+    public function getCourseEnrolledStudents()
+    {
+        return $this->enrollments->name;
     }
 
     /*

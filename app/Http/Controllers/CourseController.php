@@ -59,7 +59,8 @@ class CourseController extends Controller
      */
     public function show(Course $course)
     {
-        //
+        $students = \App\Models\Enrollment::show($course);
+        return view('courses/show', compact('course', 'students'));   
     }
 
     /**
