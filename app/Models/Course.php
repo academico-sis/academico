@@ -39,6 +39,7 @@ class Course extends Model
         ->with('room')
         ->with('rythm')
         ->with('level')
+        ->withCount('enrollments')
         ->get();
     }
     /*
@@ -54,7 +55,7 @@ class Course extends Model
 
     public function teacher()
     {
-        return $this->hasOne('\App\User', 'id', 'teacher_id');
+        return $this->hasOne('\App\User', 'id', 'teacher_id', 'id');
     }
 
     public function room()
@@ -70,6 +71,20 @@ class Course extends Model
     public function level()
     {
         return $this->hasOne('\App\Models\Level', 'id', 'level_id');
+    }
+
+    /**
+     * enrollments
+     * 
+     * todo filter out cancelled enrollments
+     * 
+     * or use soft deletes ?
+     *
+     * @return void
+     */
+    public function enrollments()
+    {
+        return $this->hasMany('\App\Models\Enrollment', 'course_id', 'id');
     }
     /*
     |--------------------------------------------------------------------------
@@ -129,6 +144,7 @@ class Course extends Model
     {
         return $this->teacher['name'];
     }
+
     /*
     |--------------------------------------------------------------------------
     | MUTATORS

@@ -65,7 +65,7 @@
                             <td>{{ $course->course_teacher_name }}</td>
                             <td>{{ $course->course_room_name }}</td>
                             <td>{{ $course->course_times }}</td>
-                            <td>Inscritos</td>
+                            <td>{{ $course->enrollments_count }}</td>
                             <td>Inicia</td>
                             <td>Finaliza</td>
                             <td>Acciones</td>
