@@ -15,7 +15,8 @@
         "guzzlehttp/guzzle": "^6.3",
         "kkomelin/laravel-translatable-string-exporter": "^1.0",
         "laravel/framework": "5.7.*",
-        "laravel/tinker": "^1.0"
+        "laravel/tinker": "^1.0",
+        "sentry/sentry-laravel": "^0.11.0"
     },
     "require-dev": {
         "backpack/generators": "^1.2",
