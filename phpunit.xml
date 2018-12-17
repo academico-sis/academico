@@ -30,4 +30,8 @@
         <env name="QUEUE_CONNECTION" value="sync"/>
         <env name="SESSION_DRIVER" value="array"/>
     </php>
+
+<logging>
+    <log type="coverage-html" target="./report"  />
+</logging>
 </phpunit>
