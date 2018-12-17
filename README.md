@@ -36,4 +36,8 @@ composer install
 
 npm install
 
+php artisan vendor:publish --provider="Backpack\Base\BaseServiceProvider"
+
+npm run dev
+
 php artisan migrate
