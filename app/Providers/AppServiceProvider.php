@@ -14,8 +14,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $periods = \App\Models\Period::orderBy('id','desc')->get();
-        View::share('periods', $periods);
+        if (\Schema::hasTable('periods')) {
+            $periods = \App\Models\Period::orderBy('id','desc')->get();
+            View::share('periods', $periods);
+        }
     }
 
     /**
