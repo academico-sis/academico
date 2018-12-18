@@ -10,6 +10,7 @@
     "require": {
         "php": "^7.1.3",
         "backpack/crud": "^3.5",
+        "backpack/permissionmanager": "^4.0",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.7.*",
         "laravel/tinker": "^1.0"
