@@ -2,29 +2,22 @@
 
 namespace App\Models;
 
-use App\Scopes\TeacherScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Spatie\Permission\Traits\HasRoles;
+use Backpack\CRUD\CrudTrait;
 
-
-class Teacher extends BackpackUser
+class Teacher extends \App\User
 {
+
     protected $table = 'users';
 
-    /**
-     * The "booting" method of the model.
-     *
-     * @return void
-     */
-    protected static function boot()
+/*     public static function teachers()
     {
-        parent::boot();
+        return \App\User::role('admin')->get();
+    } */
 
-        // Restrict the results from this class to users who have the teacher role.
-        static::addGlobalScope('id', function (Builder $builder) {
-            $builder->role('admin');
 
-        });
-    }
+  
 
 }

@@ -18,17 +18,17 @@ class BackpackUser extends User
     protected $table = 'users';
 
 
-    protected static function boot()
+/*     protected static function boot()
     {
         parent::boot();
 
         // Restrict the results from this class to users who have the teacher role.
-        static::addGlobalScope('id', function (Builder $builder) {
+        static::addGlobalScope(function (Builder $builder) {
             $builder->role('admin');
             //User::role('writer')->get();
         });
     }
-
+ */
 
     /**
      * Send the password reset notification.
