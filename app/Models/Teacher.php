@@ -5,14 +5,10 @@ namespace App\Models;
 use App\Scopes\TeacherScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Spatie\Permission\Traits\HasRoles;
 
 
-class Teacher extends Model
+class Teacher extends BackpackUser
 {
-
-    use HasRoles;
-
     protected $table = 'users';
 
     /**
@@ -27,7 +23,7 @@ class Teacher extends Model
         // Restrict the results from this class to users who have the teacher role.
         static::addGlobalScope('id', function (Builder $builder) {
             $builder->role('admin');
-            //User::role('writer')->get();
+
         });
     }
 
