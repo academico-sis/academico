@@ -38,7 +38,7 @@
             
             <div class="box-body">           
                 
-                <table id="crudTable" class="table table-striped responsive">
+                <table id="coursesTable" class="table table-striped responsive" style="width:100%">
                     <thead>
                         <tr>
                             <th></th>
@@ -124,7 +124,7 @@
 
   <script>
     $(document).ready( function () {
-        $('#crudTable').DataTable(
+        $('#coursesTable').DataTable(
             {
                 "scrollX": true,
                 paging: false,

@@ -3,7 +3,7 @@
 @section('header')
 <section class="content-header">
     <h1>
-        @lang_u('academico.coursedetails')
+        {{ ucfirst(trans_choice('academico.students', 1)) }}
     </h1>
 </section>
 @endsection
@@ -16,10 +16,9 @@
         <div class="box">
             <div class="box-header with-border">
                 <div class="box-title">
-                    @lang_u('academico.courses')
+                        {{ ucfirst(trans_choice('academico.students', 1)) }}
                 </div>
                 <div class="box-tools pull-right">
-                    
                     
                 </div>
                 
@@ -31,9 +30,6 @@
                     <thead>
                         <tr>
                             <th>{{ trans_choice('academico.students', 1) }}</th>
-                            <th>{{ trans_choice('academico.age', 1) }}</th>
-                            <th>{{ trans_choice('academico.birthdate', 1) }}</th>
-                            <th>{{ trans_choice('academico.email', 1) }}</th>
                             <th>{{ trans_choice('academico.actions', 1) }}</th>
                         </tr>
                     </thead>
@@ -41,13 +37,17 @@
                     <tbody>
                         @foreach ($students as $student)
                         <tr>
-                            <td>{{ $student->student_name }}</td>
-                            <td>{{ $student->student_age }}</td>
-                            <td>{{ $student->student_birthdate }}</td>
-                            <td>{{ $student->student_email }}</td>
 
-                            <td><!-- available actions -->
+                            <td>{{ $student->name }}</td>
 
+                            <td><!-- course available actions -->
+
+                            <!-- student details -->
+                            <a type="button" class="btn btn-xs btn-secondary" href="">
+                                <i class="fa fa-user"></i>
+                            </a>
+
+                            <!-- todo enroll student -->    
    
                             </td>
                         </tr>
@@ -59,7 +59,6 @@
     </div>
 </div>
 @endsection
-
 
 {{-- todo refactor this --}}
 @section('after_scripts')
@@ -74,19 +73,26 @@
 
   <script>
     $(document).ready( function () {
-        $('#studentsTable').DataTable(
+        $('#coursesTable').DataTable(
             {
                 "scrollX": true,
                 paging: false,
                 responsive: {
                 details: {
                     display: $.fn.dataTable.Responsive.display.childRow,
-                    type: 'inline'
+                    type: 'column'
                 }
             },
             columnDefs: [
-
-                { responsivePriority: 1, targets: 0 }
+                {
+                className: 'control',
+                orderable: false,
+                targets: 0
+                },
+                { responsivePriority: 5, targets: 3 },
+                { responsivePriority: 6, targets: 5 },
+                { responsivePriority: 11000, targets: 4 },
+                { responsivePriority: 6, targets: -1 }
             ]
             }
         );

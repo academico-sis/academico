@@ -16,7 +16,7 @@ class EnrollmentTest extends TestCase
     public function test_that_a_new_enrollment_appears_in_student_list()
     {
         // given a user
-        $student = \App\User::find(1);
+        $student = \App\Student::find(1);
 
         // and a course
         $course = \App\Models\Course::find(1);
@@ -25,7 +25,7 @@ class EnrollmentTest extends TestCase
         $student->enroll($course);
 
         // they appear on the student roaster
-        $user = \App\User::find(2);
+        $user = \App\Student::find(2);
         \Auth::guard(backpack_guard_name())->login($user);
 
         $response = $this->get("/course/$course->id");
