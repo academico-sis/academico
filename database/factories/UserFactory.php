@@ -23,6 +23,7 @@ $factory->define(App\User::class, function (Faker $faker) {
         'remember_token' => str_random(10),
         'language' => 'fr',
         'idnumber' => '123AK456',
-        'genre_id' => '1'
+        'genre_id' => '1',
+        'birthdate' => now()
     ];
 });
