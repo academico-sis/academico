@@ -21,6 +21,9 @@
                     <div class="box-title">
                         {{ trans('backpack::base.login_status') }}
                     </div>
+                    <div class="box-tools pull-right">
+                    
+                    </div>
                 </div>
 
                 <div class="box-body">

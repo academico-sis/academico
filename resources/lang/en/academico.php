@@ -34,6 +34,10 @@ return [
     'permissions' => 'permissions',
     'firstname' => 'prénom',
     'lastname' => 'nom',
+    'student_info' => "Informations de l'étudiant",
+    'student_adm_comments' => "Commentaires administratifs",
+    'invoice_info' => "Informations de la facture",
+    'yearsold' => 'an|ans',
 
 
     'idnumber' => 'Numéro d\'identité'

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Student extends Model
 {
@@ -23,9 +24,21 @@ class Student extends Model
 
         $enrollment->save();
     }
+
+    public function invoicable()
+    {
+        return $this->hasOne('\App\Models\Invoicable', 'student_id');
+    }
     
     public function getNameAttribute()
     {
         return $this->firstname . ' ' . $this->lastname;
     }
+
+    public function getAgeAttribute()
+    {
+        return Carbon::createFromFormat('Y-m-d', $this->birthdate)->age;
+    }
+
+
 }

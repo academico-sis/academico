@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Student;
+use App\PreInvoice;
 use Illuminate\Http\Request;
 
-class StudentController extends Controller
+class PreInvoiceController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,16 +14,7 @@ class StudentController extends Controller
      */
     public function index()
     {
-        return view ('students/index');
-    }
-
-    /**
-     * returns a list of students as JSON
-     *
-     */
-    public function get()
-    {
-        return \App\User::all();
+        //
     }
 
     /**
@@ -50,21 +41,21 @@ class StudentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Student  $student
+     * @param  \App\PreInvoice  $preInvoice
      * @return \Illuminate\Http\Response
      */
-    public function show(Student $student)
+    public function show(PreInvoice $preInvoice)
     {
-        return view('students/show', compact('student'));
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Student  $student
+     * @param  \App\PreInvoice  $preInvoice
      * @return \Illuminate\Http\Response
      */
-    public function edit(Student $student)
+    public function edit(PreInvoice $preInvoice)
     {
         //
     }
@@ -73,10 +64,10 @@ class StudentController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Student  $student
+     * @param  \App\PreInvoice  $preInvoice
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Student $student)
+    public function update(Request $request, PreInvoice $preInvoice)
     {
         //
     }
@@ -84,10 +75,10 @@ class StudentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Student  $student
+     * @param  \App\PreInvoice  $preInvoice
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Student $student)
+    public function destroy(PreInvoice $preInvoice)
     {
         //
     }

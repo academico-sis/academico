@@ -84,7 +84,7 @@
             "data": 'id',
             "render": function ( data) {
                 return `
-                <a href='{{url("students/show") }}/${data}' class='btn btn btn-xs btn-secondary'>
+                <a href='{{url("students") }}/${data}' class='btn btn btn-xs btn-secondary'>
                     <i class='fa fa-briefcase'></i>
                 </a>
 
