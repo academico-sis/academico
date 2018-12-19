@@ -3,19 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
-use Spatie\Permission\Traits\HasRoles;
-use Backpack\CRUD\CrudTrait;
 
-class Teacher extends \App\User
+class Teacher extends Model
 {
 
-    protected $table = 'users';
+//    protected $table = 'users';
 
-/*     public static function teachers()
+    public static function get_all_users()
     {
-        return \App\User::role('admin')->get();
-    } */
+        return \App\Models\BackpackUser::role('prof')->get();
+    }
 
 
   
