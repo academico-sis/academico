@@ -8,6 +8,11 @@ class Student extends Model
 {
     protected $table = 'users';
 
+    public static function get_all_users()
+    {
+        return \App\Models\BackpackUser::role('student')->get();
+    }
+
     public function enroll(\App\Models\Course $course)
     {
         $enrollment = new \App\Models\Enrollment;
