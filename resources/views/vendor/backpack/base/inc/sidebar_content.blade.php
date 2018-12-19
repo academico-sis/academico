@@ -19,14 +19,12 @@
   </ul>
 </li>
 
-<li><a href='{{ backpack_url('user') }}'><i class='fa fa-user'></i> <span>@lang_u('academico.users')</span></a></li>
-
 <!-- Users, Roles Permissions -->
 <li class="treeview">
-  <a href="#"><i class="fa fa-group"></i> <span>Users, Roles, Permissions</span> <i class="fa fa-angle-left pull-right"></i></a>
+  <a href="#"><i class="fa fa-group"></i> <span>{{ ucfirst(trans_choice('academico.users', 2)) }}</span> <i class="fa fa-angle-left pull-right"></i></a>
   <ul class="treeview-menu">
-    <li><a href="{{ backpack_url('user') }}"><i class="fa fa-user"></i> <span>Users</span></a></li>
-    <li><a href="{{ backpack_url('role') }}"><i class="fa fa-group"></i> <span>Roles</span></a></li>
-    <li><a href="{{ backpack_url('permission') }}"><i class="fa fa-key"></i> <span>Permissions</span></a></li>
+    <li><a href="{{ backpack_url('user') }}"><i class="fa fa-user"></i> <span>{{ ucfirst(trans_choice('academico.users', 2)) }}</span></a></li>
+    <li><a href="{{ backpack_url('role') }}"><i class="fa fa-group"></i> <span>@lang_u('academico.roles')</span></a></li>
+    <li><a href="{{ backpack_url('permission') }}"><i class="fa fa-key"></i> <span>@lang_u('academico.permissions')</span></a></li>
   </ul>
 </li>

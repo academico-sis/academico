@@ -29,7 +29,14 @@ return [
     'age' => 'âge',
     'birthdate' => 'date de naissance',
     'email' => 'email',
-    'students' => 'étudiant|étudiants'
-    
+    'students' => 'étudiant|étudiants',
+    'roles' => 'rôles',
+    'permissions' => 'permissions',
+    'firstname' => 'prénom',
+    'lastname' => 'nom',
+
+
+    'idnumber' => 'Numéro d\'identité'
+
     
 ];
