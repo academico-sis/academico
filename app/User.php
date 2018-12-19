@@ -5,16 +5,10 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Backpack\CRUD\CrudTrait;
-use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasRoles;
     use Notifiable;
-    use SoftDeletes;
-    use CrudTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -22,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'firstname', 'lastname', 'email', 'password',
+        'name', 'email', 'password',
     ];
 
     /**
@@ -33,10 +27,4 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
-
-
-    public function getNameAttribute()
-    {
-        return $this->firstname . ' ' . $this->lastname;
-    }
 }
