@@ -9,6 +9,8 @@ class MigratePhoneNumbers extends Command
 {
     /**
      * The name and signature of the console command.
+     * 
+     * todo remove this method once the migration has been done
      *
      * @var string
      */
