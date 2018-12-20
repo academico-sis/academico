@@ -23,6 +23,7 @@ class CreateEnrollmentsTable extends Migration
             $table->text('comment')->nullable();
             $table->integer('parent_id')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

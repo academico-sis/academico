@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePreInvoicesTable extends Migration
+class CreateCommentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,12 @@ class CreatePreInvoicesTable extends Migration
      */
     public function up()
     {
-        Schema::create('pre_invoices', function (Blueprint $table) {
+        Schema::create('comments', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedinteger('student_id');
+            $table->string('body');
+            $table->string('scope');
+            $table->unsignedinteger('author_id');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -27,6 +31,6 @@ class CreatePreInvoicesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pre_invoices');
+        Schema::dropIfExists('comments');
     }
 }

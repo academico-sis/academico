@@ -29,6 +29,16 @@ class Student extends Model
     {
         return $this->hasOne('\App\Models\Invoicable', 'student_id');
     }
+
+    public function administrative_comments()
+    {
+        return $this->hasMany('\App\Models\Comment', 'student_id')->where('scope', 'administrative');
+    }
+
+    public function pedagogical_comments()
+    {
+        return $this->hasMany('\App\Models\Comment', 'student_id')->where('scope', 'pedagogical');
+    }
     
     public function getNameAttribute()
     {

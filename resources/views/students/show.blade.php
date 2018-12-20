@@ -34,6 +34,7 @@
         </div>
     </div>
 
+    @isset($student->invoicable)
     <div class="col-md-4">
             <div class="box">
                 <div class="box-header with-border">
@@ -45,17 +46,19 @@
                     </div>
                 </div>
                 
-                @($student->invoicable)
                 <div class="box-body">           
-                    <p>{{ ucfirst(trans_choice('academico.name', 1)) }}: {{ $student->invoicable->name ?? '-' }}</p>
-                    <p>{{ ucfirst(trans_choice('academico.idnumber', 1)) }}: {{ $student->invoicable->idnumber ?? '-' }}</p>
+                    <p>{{ ucfirst(trans_choice('academico.name', 1)) }}: {{ $student->invoicable->name }}</p>
+                    <p>{{ ucfirst(trans_choice('academico.idnumber', 1)) }}: {{ $student->invoicable->idnumber }}</p>
                     <p>{{ ucfirst(trans_choice('academico.address', 1)) }}: </p> {{-- todo --}}
                     <p>{{ ucfirst(trans_choice('academico.phonenumer', 1)) }}: </p> {{-- todo --}}
-                    <p>{{ ucfirst(trans_choice('academico.email', 1)) }}: {{ $student->invoicable->email ?? '-' }}</p>
+                    <p>{{ ucfirst(trans_choice('academico.email', 1)) }}: {{ $student->invoicable->email }}</p>
                 </div>
             </div>
         </div>
+    @endisset
 
+
+    @if (count($student->administrative_comments) > 0)
         <div class="col-md-4">
                 <div class="box">
                     <div class="box-header with-border">
@@ -67,10 +70,13 @@
                     </div>
                     
                     <div class="box-body">           
-
+                        @foreach($student->administrative_comments as $comment)
+                            <p>{{ $comment->body }} ({{ $comment->date }})</p>
+                        @endforeach
                     </div>
                 </div>
             </div>
+    @endif
 
 
 </div>
