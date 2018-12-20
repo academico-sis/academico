@@ -27,7 +27,7 @@
             <div class="box-body">           
                 <p>{{ ucfirst(trans_choice('academico.name', 1)) }}: {{ $student->name }}</p>
                 <p>{{ ucfirst(trans_choice('academico.idnumber', 1)) }}: {{ $student->idnumber }}</p>
-                <p>{{ ucfirst(trans_choice('academico.address', 1)) }}: </p> {{-- todo --}}
+                <p>{{ ucfirst(trans_choice('academico.address', 1)) }}: {{ $student->address }}</p>
                 <p>{{ ucfirst(trans_choice('academico.phonenumer', 1)) }}: </p> {{-- todo --}}
                 <p>{{ ucfirst(trans_choice('academico.email', 1)) }}: {{ $student->email }}</p>
                 <p>{{ ucfirst(trans_choice('academico.birthdate', 1)) }}: {{ $student->birthdate }}</p>
@@ -51,7 +51,7 @@
                 <div class="box-body">           
                     <p>{{ ucfirst(trans_choice('academico.name', 1)) }}: {{ $student->invoicable->name }}</p>
                     <p>{{ ucfirst(trans_choice('academico.idnumber', 1)) }}: {{ $student->invoicable->idnumber }}</p>
-                    <p>{{ ucfirst(trans_choice('academico.address', 1)) }}: </p> {{-- todo --}}
+                    <p>{{ ucfirst(trans_choice('academico.address', 1)) }}: {{ $student->invoicable->address }}</p>
                     <p>{{ ucfirst(trans_choice('academico.phonenumer', 1)) }}: </p> {{-- todo --}}
                     <p>{{ ucfirst(trans_choice('academico.email', 1)) }}: {{ $student->invoicable->email }}</p>
                 </div>

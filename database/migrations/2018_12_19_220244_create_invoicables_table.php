@@ -20,6 +20,7 @@ class CreateInvoicablesTable extends Migration
             $table->string('lastname');
             $table->string('idnumber');
             $table->string('email');
+            $table->string('address');
             $table->timestamps();
         });
     }
