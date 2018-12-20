@@ -36,6 +36,7 @@ return [
     'lastname' => 'nom',
     'student_info' => "Informations de l'étudiant",
     'student_adm_comments' => "Commentaires administratifs",
+    'student_ped_comments' => "Commentaires pédagogiques",
     'invoice_info' => "Informations de la facture",
     'yearsold' => 'an|ans',
 

@@ -32,12 +32,12 @@ class Student extends Model
 
     public function administrative_comments()
     {
-        return $this->hasMany('\App\Models\Comment', 'student_id')->where('scope', 'administrative');
+        return $this->morphMany('App\Models\Comment', 'commentable')->where('private', true);
     }
 
-    public function pedagogical_comments()
+     public function pedagogical_comments()
     {
-        return $this->hasMany('\App\Models\Comment', 'student_id')->where('scope', 'pedagogical');
+        return $this->morphMany('App\Models\Comment', 'commentable')->where('private', false);
     }
     
     public function getNameAttribute()

@@ -39,4 +39,9 @@ class Enrollment extends Model
     {
         return $this->student_data['email'];
     }
+
+    public function comments()
+    {
+        return $this->morphMany('App\Models\Comment', 'commentable');
+    }
 }

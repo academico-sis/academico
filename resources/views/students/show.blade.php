@@ -12,6 +12,8 @@
 @section('content')
 
 <div class="row">
+
+
     <div class="col-md-4">
         <div class="box">
             <div class="box-header with-border">
@@ -80,4 +82,31 @@
 
 
 </div>
+
+
+<div class="row">
+
+@if (count($student->pedagogical_comments) > 0)
+        <div class="col-md-4">
+                <div class="box">
+                    <div class="box-header with-border">
+                        <div class="box-title">
+                            {{ ucfirst(trans_choice('academico.student_ped_comments', 1)) }}
+                        </div>
+                        <div class="box-tools pull-right">
+                        </div>
+                    </div>
+                    
+                    <div class="box-body">           
+                        @foreach($student->administrative_comments as $comment)
+                            <p>{{ $comment->body }} ({{ $comment->date }})</p>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+    @endif
+
+</div>
+
+
 @endsection

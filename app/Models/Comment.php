@@ -11,4 +11,9 @@ class Comment extends Model
     {
         return Carbon::parse($this->updated_at, 'UTC')->toFormattedDateString();
     }
+
+    public function commentable()
+{
+    return $this->morphTo();
+}
 }
