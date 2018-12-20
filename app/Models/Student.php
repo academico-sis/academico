@@ -11,7 +11,8 @@ class Student extends Model
 
     public static function get_all_users()
     {
-        return \App\Models\BackpackUser::role('student')->get();
+        //return \App\Models\BackpackUser::role('student')->get();
+        return \App\User::all();
     }
 
     public function enroll(\App\Models\Course $course)
@@ -40,6 +41,11 @@ class Student extends Model
         return $this->morphMany('App\Models\Comment', 'commentable')->where('private', false);
     }
     
+    public function phone()
+    {
+        return $this->morphMany('App\Models\PhoneNumber', 'phoneable');
+    }
+
     public function getNameAttribute()
     {
         return $this->firstname . ' ' . $this->lastname;

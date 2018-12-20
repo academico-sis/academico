@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\UserPhoneNumber;
+use App\Models\PhoneNumber;
 use Illuminate\Http\Request;
 
-class UserPhoneNumberController extends Controller
+class PhoneNumberController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class UserPhoneNumberController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\UserPhoneNumber  $userPhoneNumber
+     * @param  \App\Models\PhoneNumber  $phoneNumber
      * @return \Illuminate\Http\Response
      */
-    public function show(UserPhoneNumber $userPhoneNumber)
+    public function show(PhoneNumber $phoneNumber)
     {
         //
     }
@@ -52,10 +52,10 @@ class UserPhoneNumberController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\UserPhoneNumber  $userPhoneNumber
+     * @param  \App\Models\PhoneNumber  $phoneNumber
      * @return \Illuminate\Http\Response
      */
-    public function edit(UserPhoneNumber $userPhoneNumber)
+    public function edit(PhoneNumber $phoneNumber)
     {
         //
     }
@@ -64,10 +64,10 @@ class UserPhoneNumberController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\UserPhoneNumber  $userPhoneNumber
+     * @param  \App\Models\PhoneNumber  $phoneNumber
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, UserPhoneNumber $userPhoneNumber)
+    public function update(Request $request, PhoneNumber $phoneNumber)
     {
         //
     }
@@ -75,10 +75,10 @@ class UserPhoneNumberController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\UserPhoneNumber  $userPhoneNumber
+     * @param  \App\Models\PhoneNumber  $phoneNumber
      * @return \Illuminate\Http\Response
      */
-    public function destroy(UserPhoneNumber $userPhoneNumber)
+    public function destroy(PhoneNumber $phoneNumber)
     {
         //
     }

@@ -28,7 +28,15 @@
                 <p>{{ ucfirst(trans_choice('academico.name', 1)) }}: {{ $student->name }}</p>
                 <p>{{ ucfirst(trans_choice('academico.idnumber', 1)) }}: {{ $student->idnumber }}</p>
                 <p>{{ ucfirst(trans_choice('academico.address', 1)) }}: {{ $student->address }}</p>
-                <p>{{ ucfirst(trans_choice('academico.phonenumer', 1)) }}: </p> {{-- todo --}}
+                @if (count($student->phone) > 0)
+                    <p>{{ ucfirst(trans_choice('academico.phonenumber', 1)) }}:
+                        <ul>
+                            @foreach($student->phone as $phone)
+                            <li>{{ $phone->phone_number }}</li>
+                            @endforeach
+                        </ul>
+                    </p>
+                @endif
                 <p>{{ ucfirst(trans_choice('academico.email', 1)) }}: {{ $student->email }}</p>
                 <p>{{ ucfirst(trans_choice('academico.birthdate', 1)) }}: {{ $student->birthdate }}</p>
                 <p>{{ ucfirst(trans_choice('academico.age', 1)) }}: {{ $student->age }} {{ trans_choice('academico.yearsold', $student->age) }}</p>
@@ -52,7 +60,15 @@
                     <p>{{ ucfirst(trans_choice('academico.name', 1)) }}: {{ $student->invoicable->name }}</p>
                     <p>{{ ucfirst(trans_choice('academico.idnumber', 1)) }}: {{ $student->invoicable->idnumber }}</p>
                     <p>{{ ucfirst(trans_choice('academico.address', 1)) }}: {{ $student->invoicable->address }}</p>
-                    <p>{{ ucfirst(trans_choice('academico.phonenumer', 1)) }}: </p> {{-- todo --}}
+                    @if (count($student->invoicable->phone) > 0)
+                        <p>{{ ucfirst(trans_choice('academico.phonenumber', 1)) }}:
+                            <ul>
+                                @foreach($student->invoicable->phone as $phone)
+                                <li>{{ $phone->phone_number }}</li>
+                                @endforeach
+                            </ul>
+                        </p>
+                    @endif
                     <p>{{ ucfirst(trans_choice('academico.email', 1)) }}: {{ $student->invoicable->email }}</p>
                 </div>
             </div>

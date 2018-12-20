@@ -10,4 +10,9 @@ class Invoicable extends Model
     {
         return $this->firstname . ' ' . $this->lastname;
     }
+
+    public function phone()
+    {
+        return $this->morphMany('App\Models\PhoneNumber', 'phoneable');
+    }
 }

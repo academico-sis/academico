@@ -39,6 +39,8 @@ return [
     'student_ped_comments' => "Commentaires pédagogiques",
     'invoice_info' => "Informations de la facture",
     'yearsold' => 'an|ans',
+    'phonenumber' => 'téléphone',
+    'address' => 'adresse',
 
 
     'idnumber' => 'Numéro d\'identité'
