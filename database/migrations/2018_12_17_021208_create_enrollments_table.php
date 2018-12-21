@@ -18,7 +18,7 @@ class CreateEnrollmentsTable extends Migration
             $table->integer('user_id')->unsigned(); // todo user or student ?
             $table->integer('responsible_id')->unsigned();
             $table->integer('course_id')->unsigned();
-            $table->integer('invoice_id')->nullable()->unsigned();
+            $table->integer('invoice_id')->nullable()->unsigned(); // todo add FK constrain
             $table->integer('status')->unsigned()->default(1); // todo add table. 1 = pending
             $table->text('comment')->nullable();
             $table->integer('parent_id')->nullable()->unsigned();

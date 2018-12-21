@@ -15,7 +15,7 @@ class CreateEventsTable extends Migration
     {
         Schema::create('events', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('course_id')->nullable()->unsigned();
+            $table->integer('course_id')->nullable()->unsigned(); // todo deduplicate. Force the course time id instead 
             $table->integer('teacher_id')->nullable()->unsigned();
             $table->integer('room_id')->nullable()->unsigned();
             $table->datetime('start');

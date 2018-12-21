@@ -17,6 +17,8 @@ class CreateRythmsTable extends Migration
             $table->increments('id');
             $table->string('name')->unique();
             $table->integer('default_volume')->unsigned();
+            $table->softDeletes();
+
             //$table->timestamps();
         });
     }
