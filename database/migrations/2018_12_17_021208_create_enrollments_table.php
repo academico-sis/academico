@@ -15,11 +15,11 @@ class CreateEnrollmentsTable extends Migration
     {
         Schema::create('enrollments', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id');
+            $table->integer('user_id'); // todo user or student ?
             $table->integer('responsible_id');
             $table->integer('course_id');
             $table->integer('invoice_id')->nullable();
-            $table->integer('status')->default(1); // pending
+            $table->integer('status')->default(1); // todo add table. 1 = pending
             $table->text('comment')->nullable();
             $table->integer('parent_id')->nullable();
             $table->timestamps();

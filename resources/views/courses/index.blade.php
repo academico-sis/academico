@@ -96,12 +96,11 @@
                             <!-- todo grades or skills editing -->
 
                             <!-- course deletion -->
-                            @if ($course->enrollments_count == 0) <!-- todo restrict to admins -->
-                            <a type="button" class="btn btn-xs btn-danger" href="{{ url('course', $course->id) }}/delete">
-                                <i class="fa fa-trash"></i>
-                            </a>
-
-                            <button onclick="deleteCourse({{$course->id}})">XX</button>
+                            @if ($course->enrollments_count == 0 && backpack_user()->can('courses.delete'))
+                                    <a type="button" class="btn btn-xs btn-danger" href="{{ url('course', $course->id) }}/delete">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                    <button onclick="deleteCourse({{$course->id}})">XX</button>
                             @endif         
    
                             </td>
