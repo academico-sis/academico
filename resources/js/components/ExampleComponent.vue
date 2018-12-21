@@ -1,17 +1,21 @@
 <template>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card card-default">
-                    <div class="card-header">Example Component</div>
+                        <tr>
+                        <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>h</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            
+                            <td><!-- course available actions -->
 
-                    <div class="card-body">
-                        I'm an example component.
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                            </td>
+                        </tr>
 </template>
 
 <script>

@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Student extends Model
 {
     protected $table = 'users';
-
+    use SoftDeletes;
+    
     public static function get_all_users()
     {
         //return \App\Models\BackpackUser::role('student')->get();

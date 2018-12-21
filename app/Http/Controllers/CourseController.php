@@ -92,8 +92,10 @@ class CourseController extends Controller
      * @param  \App\Models\Course  $course
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Course $course)
+    public function destroy(Request $course)
     {
-        dump($course->id);
+        // todo protect the method
+        Course::destroy($course->input('id'));
+        // todo return confirmation       
     }
 }

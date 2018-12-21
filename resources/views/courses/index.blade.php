@@ -3,7 +3,7 @@
 @section('header')
 <section class="content-header">
     <h1>
-        @lang_u('academico.courses')
+        {{ ucfirst(trans_choice('academico.courses', 2)) }}
     </h1>
 </section>
 @endsection
@@ -16,7 +16,7 @@
         <div class="box">
             <div class="box-header with-border">
                 <div class="box-title">
-                    @lang_u('academico.courses')
+                    {{ ucfirst(trans_choice('academico.periods', 1)) }} {{ $period->name }}
                 </div>
                 <div class="box-tools pull-right">
                     
@@ -27,16 +27,18 @@
                         </button>
                         <ul class="dropdown-menu">
                             @foreach ($periods as $period)
-                            <li><a href="/courses/{{ $period->id }}">{{ $period->name }}</a></li>
+                            <li><a href="{{ url('courses') }}/{{ $period->id }}">{{ $period->name }}</a></li>
                             @endforeach
                         </ul>
                     </div>
+
+                    <a href="{{ url('courses/create') }}" class="btn btn-primary">Nouveau cours</a>
                     
                 </div>
                 
             </div>
             
-            <div class="box-body">           
+            <div class="box-body" id="app">           
                 
                 <table id="coursesTable" class="table table-striped responsive" style="width:100%">
                     <thead>
@@ -58,7 +60,7 @@
                     
                     <tbody>
                         @foreach ($courses as $course)
-                        <tr>
+                        <tr id={{ $course->id }}>
                         <td></td>
                             <td>{{ $course->course_rythm_name }}</td>
                             <td>{{ $course->course_level_name }}</td>
@@ -98,6 +100,8 @@
                             <a type="button" class="btn btn-xs btn-danger" href="{{ url('course', $course->id) }}/delete">
                                 <i class="fa fa-trash"></i>
                             </a>
+
+                            <button onclick="deleteCourse({{$course->id}})">XX</button>
                             @endif         
    
                             </td>
@@ -111,8 +115,34 @@
 </div>
 @endsection
 
+
+@section('before_scripts')
+    <script>
+    function deleteCourse(id)
+        {
+            var table = $('#coursesTable').DataTable( {"retrieve": true} );
+
+            axios.delete('/courses', {
+                
+                params: { id }
+                
+                } )
+            .then(function (response) {
+                console.log(response);
+                table.row('#'+id).remove().draw();
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+        }
+    </script>
+@endsection
+
 {{-- todo refactor this --}}
 @section('after_scripts')
+
  <!-- DATA TABLES -->
  <link href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css" rel="stylesheet" type="text/css" />
  <link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css" rel="stylesheet" type="text/css" />
@@ -121,10 +151,14 @@
  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
  
  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+ <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
   <script>
+
+
     $(document).ready( function () {
-        $('#coursesTable').DataTable(
+
+        var table = $('#coursesTable').DataTable(
             {
                 "scrollX": true,
                 paging: false,
@@ -146,7 +180,19 @@
                 { responsivePriority: 6, targets: -1 }
             ]
             }
+
         );
-    } );
+            console.log(table);
+            table
+            .row(32)
+            .remove()
+            .draw();
+
+
+    });
+
+
+
 </script>
+
 @endsection

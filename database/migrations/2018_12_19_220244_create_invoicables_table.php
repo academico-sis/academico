@@ -22,6 +22,7 @@ class CreateInvoicablesTable extends Migration
             $table->string('email');
             $table->string('address');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

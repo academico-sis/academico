@@ -4,9 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Comment extends Model
 {
+
+    use SoftDeletes;
+
     public function getDateAttribute()
     {
         return Carbon::parse($this->updated_at, 'UTC')->toFormattedDateString();

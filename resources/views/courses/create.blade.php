@@ -26,9 +26,15 @@
             </div>
             
             <div class="box-body">           
-                
+                <div id="app">
+
+                </div>
             </div>
         </div>
     </div>
 </div>
+@endsection
+
+@section('after_scripts')
+<script src="/js/app.js"></script>
 @endsection
