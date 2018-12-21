@@ -102,6 +102,51 @@
 
 <div class="row">
 
+    @if (count($student->enrollments) > 0)
+        <div class="col-md-8">
+                <div class="box">
+                    <div class="box-header with-border">
+                        <div class="box-title">
+                            {{ ucfirst(trans_choice('academico.enrollments', 2)) }}
+                        </div>
+                        <div class="box-tools pull-right">
+                        </div>
+                    </div>
+                    
+                    <div class="box-body">
+                        <table class="table table-striped">
+                            <thead>
+                                <th>Fecha/hora</th>
+                                <th>No Matricula</th>
+                                <th>Curso</th> {{-- todo pop up with additional info --}}
+                                <th>Periodo</th>
+                                <th>Estado</th> {{-- todo click with invoice info --}}
+                                <th>Observaciones</th>
+                                <th>Resultado</th>
+                            </thead>
+
+                            <tbody>
+                                @foreach($student->enrollments as $enrollment)
+                                    <tr>
+                                        <td>{{ $enrollment->date }}</td>
+                                        <td>{{ $enrollment->id }}</td>
+                                        <td>{{ $enrollment->course_data->name }}</td>
+                                        <td>{{ $enrollment->course_data->period->name }}</td>
+                                        <td>{{ $enrollment->enrollment_status }}</td>
+                                        <td>{{ $enrollment->comments }}</td>
+                                        <td>{{ $enrollment->result }}</td>
+
+
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+    @endif
+
+
 @if (count($student->pedagogical_comments) > 0)
         <div class="col-md-4">
                 <div class="box">

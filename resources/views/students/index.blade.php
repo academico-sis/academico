@@ -84,11 +84,11 @@
             "data": 'id',
             "render": function ( data) {
                 return `
-                <a href='{{url("students") }}/${data}' class='btn btn btn-xs btn-secondary'>
+                <a href='{{url("students") }}/${data}' class='btn btn-secondary'>
                     <i class='fa fa-briefcase'></i>
                 </a>
 
-                <a href='{{url("students/enroll") }}/${data}' class='btn btn btn-xs btn-secondary'>
+                <a href='{{url("students/enroll") }}/${data}' class='btn btn-secondary'>
                     <i class='fa fa-user-plus'></i>
                 </a>
             `;

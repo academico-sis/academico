@@ -73,6 +73,11 @@ class Course extends Model
         return $this->hasOne('\App\Models\Level', 'id', 'level_id');
     }
 
+    public function period()
+    {
+        return $this->belongsTo('\App\Models\Period');
+    }
+
 
     /**
      * enrollments

@@ -22,10 +22,20 @@ class Enrollment extends Model
     {
         return $this->hasOne('\App\User', 'id', 'user_id');
     }
+
+    public function course_data()
+    {
+        return $this->hasOne('\App\Models\Course', 'id', 'course_id');
+    }
     
     public function getStudentNameAttribute()
     {
         return $this->student_data['name'];
+    }
+
+    public function getStudentIdAttribute()
+    {
+        return $this->student_data['id'];
     }
 
     public function getStudentAgeAttribute()
@@ -45,6 +55,21 @@ class Enrollment extends Model
 
     public function comments()
     {
-        return $this->morphMany('App\Models\Comment', 'commentable');
+        return $this->morphMany('App\Models\Comment', 'commentable'); // todo migrate this + old prefactura comments.
+    }
+
+    public function result()
+    {
+        return $this->hasOne('App\Models\Result'); // todo migrate this.
+    }
+
+    public function getDateAttribute()
+    {
+        return Carbon::parse($this->created_at, 'UTC')->toFormattedDateString();
+    }
+
+    public function getEnrollmentStatusAttribute()
+    {
+        return $this->status; // todo add table to translate numbers to text.
     }
 }

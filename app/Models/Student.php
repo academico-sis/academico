@@ -58,5 +58,9 @@ class Student extends Model
         return Carbon::createFromFormat('Y-m-d', $this->birthdate)->age;
     }
 
+    public function enrollments()
+    {
+        return $this->hasMany('\App\Models\Enrollment', 'user_id');
+    }
 
 }

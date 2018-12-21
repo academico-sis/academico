@@ -47,7 +47,9 @@
                             <td>{{ $student->student_email }}</td>
 
                             <td><!-- available actions -->
-
+                                <a href="/students/{{ $student->student_id }}" class='btn btn-secondary'>
+                                    <i class='fa fa-briefcase'></i>
+                                </a>
    
                             </td>
                         </tr>
