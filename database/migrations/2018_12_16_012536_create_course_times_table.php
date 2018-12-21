@@ -15,8 +15,8 @@ class CreateCourseTimesTable extends Migration
     {
         Schema::create('course_times', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('course_id');
-            $table->integer('day');
+            $table->integer('course_id')->unsigned();
+            $table->integer('day')->unsigned();
             $table->time('start');
             $table->time('end');
             //$table->timestamps();

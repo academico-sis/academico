@@ -35,6 +35,8 @@ class MigratePhoneNumbers extends Command
 
     /**
      * Execute the console command.
+     * 
+     * todo filter duplicates.
      *
      * @return mixed
      */

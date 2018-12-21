@@ -15,9 +15,15 @@ class CreateResultsTable extends Migration
     {
         Schema::create('results', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('enrollment_id');
-            $table->integer('result_type_id'); // todo add the table
+            $table->integer('enrollment_id')->unique()->unsigned();
+            $table->integer('result_type_id')->unsigned();
             $table->timestamps();
+        });
+
+        Schema::create('result_types', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('description')->unique();
+            //$table->timestamps();
         });
     }
 
@@ -29,5 +35,7 @@ class CreateResultsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('results');
+        Schema::dropIfExists('result_types');
+
     }
 }

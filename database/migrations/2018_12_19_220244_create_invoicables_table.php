@@ -15,7 +15,7 @@ class CreateInvoicablesTable extends Migration
     {
         Schema::create('invoicables', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedinteger('student_id');
+            $table->unsignedinteger('student_id')->unsigned();
             $table->string('firstname');
             $table->string('lastname');
             $table->string('idnumber');

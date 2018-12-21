@@ -18,7 +18,7 @@ class CreatePeriodsTable extends Migration
             $table->string('name')->unique();
             $table->date('start');
             $table->date('end');
-            $table->integer('year_id');
+            $table->integer('year_id')->unsigned();
             //$table->timestamps();
         });
     }
