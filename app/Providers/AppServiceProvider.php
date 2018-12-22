@@ -21,7 +21,10 @@ class AppServiceProvider extends ServiceProvider
         
         if (\Schema::hasTable('periods')) {
             $periods = \App\Models\Period::orderBy('id','desc')->get();
+            $current_period = \App\Models\Period::get_default_period();
             View::share('periods', $periods);
+            View::share('current_period', $current_period);
+
         }
     }
 

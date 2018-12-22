@@ -13,6 +13,8 @@
 
 Route::get('/', 'HomeController@index');
 Route::get('courses/create', 'CourseController@create');
+Route::post('courses', 'CourseController@store');
+
 Route::get('courses/{period?}', 'CourseController@index');
 Route::get('course/{course}', 'CourseController@show');
 Route::get('course/{course}/delete', 'CourseController@destroy');

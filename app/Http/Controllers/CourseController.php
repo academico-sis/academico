@@ -37,7 +37,10 @@ class CourseController extends Controller
      */
     public function create()
     {
-        return view('courses/create');
+        $rythms = \App\Models\Rythm::all();
+        $levels = \App\Models\Level::all();
+
+        return view('courses/create', compact('rythms', 'levels'));
     }
 
     /**
@@ -48,7 +51,18 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $course = new \App\Models\Course;
+        $course->period_id = $request->input('period');
+        $course->start_date = $request->input('start');
+        $course->end_date = $request->input('end');
+        $course->rythm_id = $request->input('rythm');
+        $course->level_id = $request->input('level');
+        $course->name = $request->input('name');
+        $course->volume = $request->input('volume');
+        $course->price = $request->input('price');
+        $course->save();
+
+        dump($course);
     }
 
     /**
