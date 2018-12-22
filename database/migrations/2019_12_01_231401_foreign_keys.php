@@ -13,7 +13,7 @@ class ForeignKeys extends Migration
      */
     public function up()
     {
-        Schema::table('courses', function (Blueprint $table) {
+        /* Schema::table('courses', function (Blueprint $table) {
             $table->foreign('campus_id')
             ->references('id')->on('campuses')
             ->onDelete('restrict');
@@ -121,11 +121,16 @@ class ForeignKeys extends Migration
             $table->foreign('user_id')
             ->references('id')->on('users')
             ->onDelete('cascade');
-        });
+        }); */
 
             // todo invoicables
 
             // todo preinvoice
+
+            // todo rules
+
+            // todo attendances
+
     }
 
     /**

@@ -23,10 +23,10 @@ class CreateCoursesTable extends Migration
             $table->decimal('price', 8, 2);
             $table->date('start_date');
             $table->date('end_date');
-            $table->integer('room_id')->nullable();
-            $table->integer('teacher_id')->nullable();
-            $table->integer('parent_course')->nullable();
-            $table->integer('eval_type')->nullable();
+            $table->integer('room_id')->unsigned()->nullable();
+            $table->integer('teacher_id')->unsigned()->nullable();
+            $table->integer('parent_course')->unsigned()->nullable();
+            $table->integer('eval_type')->unsigned()->nullable();
             $table->boolean('exempt_attendance')->nullable();
             $table->integer('period_id')->unsigned();
             $table->boolean('opened')->nullable();

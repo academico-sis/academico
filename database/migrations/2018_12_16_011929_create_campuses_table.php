@@ -18,8 +18,14 @@ class CreateCampusesTable extends Migration
             $table->string('name')->unique();
             //$table->timestamps();
             $table->softDeletes();
-
         });
+
+        DB::table('campuses')->insert(
+            array(
+                'id' => 1,
+                'name' => 'Interne'
+            )
+        );
     }
 
     /**

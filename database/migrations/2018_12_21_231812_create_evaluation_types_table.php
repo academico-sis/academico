@@ -15,9 +15,25 @@ class CreateEvaluationTypesTable extends Migration
     {
         Schema::create('evaluation_types', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('name')->unique();
             $table->timestamps();
         });
+
+        DB::table('evaluation_types')->insert(
+            array(
+                'id' => 1,
+                'name' => 'NOTES'
+            )
+        );
+
+        DB::table('evaluation_types')->insert(
+            array(
+                'id' => 2,
+                'name' => 'COMPÉTENCES'
+            )
+        );
     }
+
 
     /**
      * Reverse the migrations.

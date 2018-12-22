@@ -22,9 +22,35 @@ class CreateResultsTable extends Migration
 
         Schema::create('result_types', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('description')->unique();
+            $table->string('name')->unique();
+            $table->string('description')->nullable();
+
             //$table->timestamps();
         });
+
+        DB::table('result_types')->insert(
+            array(
+                'id' => 1,
+                'name' => 'VALIDE',
+                'description' => 'Peut passer au niveau suivant'
+                )
+        );
+
+        DB::table('result_types')->insert(
+            array(
+                'id' => 2,
+                'name' => 'NON VALIDE',
+                'description' => 'Ne peut pas passer au niveau suivant'
+                )
+        );
+
+        DB::table('result_types')->insert(
+            array(
+                'id' => 3,
+                'name' => 'SOUS CONDITIONS',
+                'description' => 'Voir avec le département Pédagogique'
+                )
+        );
     }
 
     /**

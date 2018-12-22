@@ -17,9 +17,9 @@ class CreateRoomsTable extends Migration
             $table->increments('id');
             $table->string('name')->unique();
             $table->integer('campus_id')->unsigned()->default(1);
-            $table->integer('capacity')->
+            $table->integer('capacity')->nullable()->unsigned();
             $table->softDeletes();
-            nullable()->unsigned();
+            
             //$table->timestamps();
         });
     }
