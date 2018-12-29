@@ -50,12 +50,12 @@ class CreateAttendancesTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->integer('event_id')->unsigned();
-            $table->integer('attendance_type')->unsigned();
+            $table->integer('attendance_type_id')->unsigned();
             $table->timestamps();
         });
 
         Schema::table('attendances', function (Blueprint $table) {
-            $table->foreign('attendance_type')
+            $table->foreign('attendance_type_id')
             ->references('id')->on('attendance_types')
             ->onDelete('restrict');
         });

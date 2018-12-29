@@ -16,7 +16,7 @@ class CreateEvaluationTypesTable extends Migration
         Schema::create('evaluation_types', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->unique();
-            $table->timestamps();
+            //$table->timestamps();
         });
 
         DB::table('evaluation_types')->insert(

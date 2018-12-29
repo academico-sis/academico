@@ -27,6 +27,10 @@ Route::patch('course/{course}/teacher', 'CourseTeacherController@update');
 Route::get('course/{course}/room', 'CourseRoomController@edit');
 Route::patch('course/{course}/room', 'CourseRoomController@update');
 
+/* Course Evaluation Type update */
+Route::get('course/{course}/evaluation', 'CourseEvaluationController@edit');
+Route::patch('course/{course}/evaluation', 'CourseEvaluationController@update');
+
 /* Course Times update */
 Route::get('course/{course}/time/get', 'CourseTimeController@show');
 Route::get('course/{course}/time', 'CourseTimeController@edit');

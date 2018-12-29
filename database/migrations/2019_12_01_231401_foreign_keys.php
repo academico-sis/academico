@@ -34,7 +34,7 @@ class ForeignKeys extends Migration
             ->references('id')->on('users')
             ->onDelete('restrict');
 
-            $table->foreign('parent_course')
+            $table->foreign('parent_course_id')
             ->references('id')->on('courses')
             ->onDelete('cascade');
 

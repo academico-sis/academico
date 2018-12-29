@@ -51,6 +51,9 @@
                             <th>{{ trans_choice('academico.teacher', 1) }}</th>
                             <th>{{ trans_choice('academico.room', 1) }}</th>
                             <th>{{ trans_choice('academico.times', 1) }}</th>
+                            @if(backpack_user()->can('courses.edit'))
+                                <th>{{ trans_choice('academico.evaluation', 1) }}</th>
+                            @endif
                             <th>{{ trans_choice('academico.enrollments', 1) }}</th>
                             <th>{{ trans_choice('academico.start', 1) }}</th>
                             <th>{{ trans_choice('academico.end', 1) }}</th>
@@ -101,6 +104,15 @@
                                 </a>
                             @endif
                             </td>
+
+                            @if(backpack_user()->can('courses.edit'))
+                            <td>
+                                {{ $course->course_evaluation_type_name }}
+                                <a type="button" class="btn btn-xs" href="{{ url('course', $course->id) }}/evaluation">
+                                    <i class="fa fa-pencil"></i>
+                                </a>
+                            </td>
+                            @endif
 
                             <td>{{ $course->enrollments_count }}</td>
 

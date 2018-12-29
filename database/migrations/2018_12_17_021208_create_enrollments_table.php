@@ -20,7 +20,7 @@ class CreateEnrollmentsTable extends Migration
             $table->integer('course_id')->unsigned();
             $table->integer('invoice_id')->nullable()->unsigned(); // todo add FK constrain
             $table->integer('status')->unsigned()->default(1); // todo add table. 1 = pending
-            $table->text('comment')->nullable();
+            $table->text('comment')->nullable(); // todo move to global comments table
             $table->integer('parent_id')->nullable()->unsigned();
             $table->timestamps();
             $table->softDeletes();

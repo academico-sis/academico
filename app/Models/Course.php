@@ -40,6 +40,7 @@ class Course extends Model
         ->with('rythm')
         ->with('level')
         ->withCount('enrollments')
+        ->with('evaluation_type')
         ->get();
     }
     /*
@@ -55,28 +56,34 @@ class Course extends Model
 
     public function teacher()
     {
-        return $this->hasOne('\App\User', 'id', 'teacher_id');
+        return $this->belongsTo('\App\User', 'teacher_id');
     }
 
     public function room()
     {
-        return $this->hasOne('\App\Models\Room', 'id', 'room_id');
+        return $this->belongsTo('\App\Models\Room');
     }
 
     public function rythm()
     {
-        return $this->hasOne('\App\Models\Rythm', 'id', 'rythm_id');
+        return $this->belongsTo('\App\Models\Rythm');
     }
 
     public function level()
     {
-        return $this->hasOne('\App\Models\Level', 'id', 'level_id');
+        return $this->belongsTo('\App\Models\Level');
     }
 
     public function period()
     {
         return $this->belongsTo('\App\Models\Period');
     }
+
+    public function evaluation_type()
+    {
+        return $this->belongsTo('\App\Models\EvaluationType', 'evaluation_type_id');
+    }
+
 
 
     /**
@@ -151,9 +158,9 @@ class Course extends Model
         return strtoupper($this->teacher['name']);
     }
 
-    public function getCourseEnrolledStudents()
+    public function getCourseEvaluationTypeNameAttribute()
     {
-        return $this->enrollments->name;
+        return $this->evaluation_type['name'];
     }
 
     /*

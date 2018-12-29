@@ -17,7 +17,7 @@ $factory->define(\App\Models\Course::class, function (Faker $faker) {
         'end_date' => date('Y-m-d', strtotime("+22 days")),
         'room_id' => 1,
         'teacher_id' => 1,
-        'parent_course' => null,
+        'parent_course_id' => null,
         'eval_type' => null,
         'exempt_attendance' => 1,
         'period_id' => $period->id,
