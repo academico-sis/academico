@@ -11,9 +11,9 @@ class Teacher extends Model
 //    protected $table = 'users';
     use SoftDeletes;
 
-    public static function get_all_users()
+    public static function all($columns = ['*'])
     {
-        return \App\Models\BackpackUser::role('prof')->get();
+        return \App\Models\BackpackUser::role('teacher')->get();
     }
 
 

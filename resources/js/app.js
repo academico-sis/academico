@@ -10,6 +10,7 @@ require('./bootstrap');
 window.Vue = require('vue');
 
 //Vue.component('course-creation-component', require('./components/CourseCreationComponent.vue').default);
+Vue.component('course-time-component', require('./components/CourseTimeComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -18,5 +19,5 @@ window.Vue = require('vue');
  */
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
 });

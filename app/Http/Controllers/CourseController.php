@@ -62,7 +62,8 @@ class CourseController extends Controller
         $course->price = $request->input('price');
         $course->save();
 
-        dump($course);
+        // redirect to teacher edit -- for now (todo)
+        return redirect("/course/$course->id/teacher");
     }
 
     /**

@@ -61,16 +61,51 @@
                     <tbody>
                         @foreach ($courses as $course)
                         <tr id={{ $course->id }}>
-                        <td></td>
+
+                            <td></td>
+
                             <td>{{ $course->course_rythm_name }}</td>
+
                             <td>{{ $course->course_level_name }}</td>
+
                             <td>{{ $course->name }}</td>
+
                             <td>{{ $course->volume }}h</td>
-                            <td>{{ $course->course_teacher_name }}</td>
-                            <td>{{ $course->course_room_name }}</td>
-                            <td>{{ $course->course_times }}</td>
+
+                            <td>
+                                {{ $course->course_teacher_name }}
+
+                                @if(backpack_user()->can('courses.edit'))
+                                    <a type="button" class="btn btn-xs" href="{{ url('course', $course->id) }}/teacher">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>
+                                @endif
+                            </td>
+
+                            <td>
+                                {{ $course->course_room_name }}
+
+                                @if(backpack_user()->can('courses.edit'))
+                                <a type="button" class="btn btn-xs" href="{{ url('course', $course->id) }}/room">
+                                    <i class="fa fa-pencil"></i>
+                                </a>
+                            @endif
+                            </td>
+
+                            <td>
+                                {{ $course->course_times }}
+
+                                @if(backpack_user()->can('courses.edit'))
+                                <a type="button" class="btn btn-xs" href="{{ url('course', $course->id) }}/time">
+                                    <i class="fa fa-pencil"></i>
+                                </a>
+                            @endif
+                            </td>
+
                             <td>{{ $course->enrollments_count }}</td>
+
                             <td>{{ $course->start_date }}</td>
+
                             <td>{{ $course->end_date }}</td>
                             
                             <td><!-- course available actions -->
