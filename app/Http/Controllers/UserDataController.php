@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Invoicable;
+use App\UserData;
 use Illuminate\Http\Request;
 
-class InvoicableController extends Controller
+class UserDataController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class InvoicableController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Invoicable  $invoicable
+     * @param  \App\UserData  $userData
      * @return \Illuminate\Http\Response
      */
-    public function show(Invoicable $invoicable)
+    public function show(UserData $userData)
     {
         //
     }
@@ -52,10 +52,10 @@ class InvoicableController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Invoicable  $invoicable
+     * @param  \App\UserData  $userData
      * @return \Illuminate\Http\Response
      */
-    public function edit(Invoicable $invoicable)
+    public function edit(UserData $userData)
     {
         //
     }
@@ -64,10 +64,10 @@ class InvoicableController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Invoicable  $invoicable
+     * @param  \App\UserData  $userData
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Invoicable $invoicable)
+    public function update(Request $request, UserData $userData)
     {
         //
     }
@@ -75,10 +75,10 @@ class InvoicableController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Invoicable  $invoicable
+     * @param  \App\UserData  $userData
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Invoicable $invoicable)
+    public function destroy(UserData $userData)
     {
         //
     }

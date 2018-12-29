@@ -75,9 +75,9 @@
     fixedHeader: true,
     
     columns: [
-        { data: 'idnumber' },
-        { data: 'firstname' },
-        { data: 'lastname' },
+        { data: 'self_data.idnumber' },
+        { data: 'self_data.firstname' },
+        { data: 'self_data.lastname' },
         { data: 'email' },
         {
             "targets": -1,

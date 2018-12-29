@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateInvoicablesTable extends Migration
+class CreateUserDataTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,15 @@ class CreateInvoicablesTable extends Migration
      */
     public function up()
     {
-        Schema::create('invoicables', function (Blueprint $table) {
+        Schema::create('user_data', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedinteger('student_id')->unsigned();
+            $table->unsignedinteger('user_id')->unsigned();
             $table->string('firstname');
             $table->string('lastname');
             $table->string('idnumber');
-            $table->string('email');
             $table->string('address');
+            $table->string('email')->nullable(); // if null; look in the users table
+            $table->integer('relationship_id')->nullable()->unsigned();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -33,6 +34,6 @@ class CreateInvoicablesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('invoicables');
+        Schema::dropIfExists('user_datas');
     }
 }

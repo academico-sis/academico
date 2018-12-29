@@ -25,9 +25,10 @@
             </div>
             
             <div class="box-body">           
-                <p>{{ ucfirst(trans_choice('academico.name', 1)) }}: {{ $student->name }}</p>
-                <p>{{ ucfirst(trans_choice('academico.idnumber', 1)) }}: {{ $student->idnumber }}</p>
-                <p>{{ ucfirst(trans_choice('academico.address', 1)) }}: {{ $student->address }}</p>
+                <p>{{ ucfirst(trans_choice('academico.name', 1)) }}: {{ $student->self_data->firstname }} {{ $student->self_data->lastname }}</p>
+                <p>{{ ucfirst(trans_choice('academico.idnumber', 1)) }}: {{ $student->self_data->idnumber }}</p>
+                <p>{{ ucfirst(trans_choice('academico.address', 1)) }}: {{ $student->self_data->address }}</p>
+                
                 @if (count($student->phone) > 0)
                     <p>{{ ucfirst(trans_choice('academico.phonenumber', 1)) }}:
                         <ul>
@@ -44,36 +45,37 @@
         </div>
     </div>
 
-    @isset($student->invoicable)
+    @foreach ($student->additional_data as $additional_data)
     <div class="col-md-4">
             <div class="box">
                 <div class="box-header with-border">
                     <div class="box-title">
-                        {{ ucfirst(trans_choice('academico.invoice_info', 1)) }}
+                        {{ ucfirst(trans_choice('academico.additional_info', 1)) }}
+                        {{ $additional_data->relationship }}
                     </div>
 
                     <div class="box-tools pull-right">
                     </div>
                 </div>
                 
-                <div class="box-body">           
-                    <p>{{ ucfirst(trans_choice('academico.name', 1)) }}: {{ $student->invoicable->name }}</p>
-                    <p>{{ ucfirst(trans_choice('academico.idnumber', 1)) }}: {{ $student->invoicable->idnumber }}</p>
-                    <p>{{ ucfirst(trans_choice('academico.address', 1)) }}: {{ $student->invoicable->address }}</p>
-                    @if (count($student->invoicable->phone) > 0)
+                <div class="box-body">
+                    <p>{{ ucfirst(trans_choice('academico.name', 1)) }}: {{ $additional_data->firstname }} {{ $additional_data->lastname }}</p>
+                    <p>{{ ucfirst(trans_choice('academico.idnumber', 1)) }}: {{ $additional_data->idnumber }}</p>
+                    <p>{{ ucfirst(trans_choice('academico.address', 1)) }}: {{ $additional_data->address }}</p>
+                    @if (count($additional_data->phone) > 0)
                         <p>{{ ucfirst(trans_choice('academico.phonenumber', 1)) }}:
                             <ul>
-                                @foreach($student->invoicable->phone as $phone)
+                                @foreach($additional_data->phone as $phone)
                                 <li>{{ $phone->phone_number }}</li>
                                 @endforeach
                             </ul>
                         </p>
                     @endif
-                    <p>{{ ucfirst(trans_choice('academico.email', 1)) }}: {{ $student->invoicable->email }}</p>
+                    <p>{{ ucfirst(trans_choice('academico.email', 1)) }}: {{ $additional_data->email }}</p>
                 </div>
             </div>
         </div>
-    @endisset
+    @endforeach
 
 
     @if (count($student->administrative_comments) > 0)

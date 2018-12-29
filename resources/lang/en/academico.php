@@ -38,6 +38,7 @@ return [
     'student_adm_comments' => "Commentaires administratifs",
     'student_ped_comments' => "Commentaires pédagogiques",
     'invoice_info' => "Informations de la facture",
+    'additional_info' => "Autre contact",
     'yearsold' => 'an|ans',
     'phonenumber' => 'téléphone',
     'address' => 'adresse',

@@ -123,14 +123,13 @@ class ForeignKeys extends Migration
             ->onDelete('cascade');
         }); */
 
-            // todo invoicables
-
             // todo preinvoice
 
             // todo rules
 
             // todo attendances
 
+            // ... and following migrations ...
     }
 
     /**

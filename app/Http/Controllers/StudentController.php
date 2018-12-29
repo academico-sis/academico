@@ -23,7 +23,7 @@ class StudentController extends Controller
      */
     public function get()
     {
-        return \App\User::all();
+        return \App\Models\Student::all();
     }
 
     /**

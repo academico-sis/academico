@@ -79,7 +79,7 @@ class MigratePhoneNumbers extends Command
             {
                 $phone = new \App\Models\PhoneNumber;
                 $phone->phone_number = $user->telefono;
-                $phone->phoneable_type = 'App\Models\Invoicable';
+                $phone->phoneable_type = 'App\Models\UserData';
                 $phone->phoneable_id = $user->id;
                 $phone->save();
             }
@@ -88,7 +88,7 @@ class MigratePhoneNumbers extends Command
             {
                 $phone = new \App\Models\PhoneNumber;
                 $phone->phone_number = $user->celular;
-                $phone->phoneable_type = 'App\Models\Invoicable';
+                $phone->phoneable_type = 'App\Models\UserData';
                 $phone->phoneable_id = $user->id;
                 $phone->save();
             }
