@@ -114,6 +114,10 @@ class ForeignKeys extends Migration
             $table->foreign('enrollment_id')
             ->references('id')->on('enrollments')
             ->onDelete('cascade');
+
+        $table->foreign('status_id')
+        ->references('id')->on('enrollment_status_types')
+        ->onDelete('restrict');
         });
 
 

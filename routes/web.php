@@ -11,10 +11,11 @@
 |
 */
 
-// inside the 'admin' prefix, I presume
+// custom user CRUDS
 Route::group(['prefix' => 'admin', 'middleware' => ['admin']], function () {
     CRUD::resource('user', '\App\Http\Controllers\Admin\UserCrudController');
 });
+
 
 Route::get('/', 'HomeController@index');
 Route::get('courses/create', 'CourseController@create');
@@ -49,3 +50,7 @@ Route::delete('courses', 'CourseController@destroy');
 
 Route::get('students/get', 'StudentController@get');
 Route::resource('students', 'StudentController');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

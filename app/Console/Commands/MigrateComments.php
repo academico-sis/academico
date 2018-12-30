@@ -52,7 +52,7 @@ class MigrateComments extends Command
             $new_comment->private = $comment->private;
             $new_comment->author_id = $comment->id_user_responsable;
             $new_comment->created_at = $comment->fecha;
-            $new_comment->updated_at = $comment->fecha;
+            $new_comment->updated_at = null;
             $new_comment->save();
         }
 
@@ -71,31 +71,79 @@ class MigrateComments extends Command
             $new_comment->private = true;
             $new_comment->author_id = $comment->id_user_responsable;
             $new_comment->created_at = $comment->fecha;
-            $new_comment->updated_at = $comment->fecha;
+            $new_comment->updated_at = null;
             $new_comment->save();
         }
 
         // enrollment comments - new structure
+        $enrollment_comments = DB::table('afc2.enrollments')
+        ->select(DB::raw('id, comment, id_user_create, fecha'))
+        ->where('comment', '!=', null)
+        ->get();
+
+        foreach ($enrollment_comments as $comment)
+        {
+            $new_comment = new \App\Models\Comment;
+            $new_comment->commentable_id = $comment->id;
+            $new_comment->commentable_type = 'App\Models\Enrollment';
+            $new_comment->body = $comment->comment;
+            $new_comment->private = true;
+            $new_comment->author_id = $comment->id_user_create;
+            $new_comment->created_at = $comment->fecha;
+            $new_comment->updated_at = null;
+            $new_comment->save();
+        }
+
 
         // enrollment / prefactura comments - old structure
 
-        // installments comments
-
-        // course result comments
-        $results = DB::table('afc2.matricula_result')
-        ->select(DB::raw('matricula_id, responsable_id, result_id, comment'))
+        $prefactura_comments = DB::table('afc2.bf_pre_factura_cabecera')
+        ->select(DB::raw('id, observaciones, v_encfac_fechaemision'))
         ->get();
+
+        foreach ($prefactura_comments as $comment)
+        {
+            $new_comment = new \App\Models\Comment;
+            $new_comment->commentable_id = $comment->id;
+            $new_comment->commentable_type = 'App\Models\PreInvoice';
+            $new_comment->body = $comment->observaciones;
+            $new_comment->private = true;
+            //$new_comment->author_id = $comment->id_user_create;
+            $new_comment->created_at = $comment->v_encfac_fechaemision;
+            $new_comment->updated_at = null;
+            $new_comment->save();
+        }
+
 
         foreach ($results as $result)
         {
             $new_comment = new \App\Models\Comment;
-            $new_comment->commentable_id = $result->matricula_id;
+            $new_comment->commentable_id = $result->id;
             $new_comment->commentable_type = 'App\Models\Result';
             $new_comment->body = $result->comment;
             $new_comment->private = false;
             $new_comment->author_id = $result->responsable_id;
             //$new_comment->created_at = $comment->fecha;
-            //$new_comment->updated_at = $comment->fecha;
+            //$new_comment->updated_at = null;
+            $new_comment->save();
+        }
+
+
+        // course result comments
+        $results = DB::table('afc2.matricula_result')
+        ->select(DB::raw('id, matricula_id, responsable_id, result_id, comment'))
+        ->get();
+
+        foreach ($results as $result)
+        {
+            $new_comment = new \App\Models\Comment;
+            $new_comment->commentable_id = $result->id;
+            $new_comment->commentable_type = 'App\Models\Result';
+            $new_comment->body = $result->comment;
+            $new_comment->private = false;
+            $new_comment->author_id = $result->responsable_id;
+            //$new_comment->created_at = $comment->fecha;
+            //$new_comment->updated_at = null;
             $new_comment->save();
         }
 
