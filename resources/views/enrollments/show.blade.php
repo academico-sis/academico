@@ -112,6 +112,11 @@
                     {{ $enrollment->enrollment_status['name'] }}
                 </div>
 
+                Invoice(s)
+                @foreach ($enrollment->pre_invoice as $pre_invoice)
+                {{ $pre_invoice->pre_invoice->invoice_id }}
+                @endforeach
+
                 {{-- if the enrollment is not yet invoiced --}}
                 @if($enrollment->enrollment_status['id'] == 1)
                 

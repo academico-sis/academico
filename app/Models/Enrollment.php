@@ -21,9 +21,14 @@ class Enrollment extends Model
 
     public function course_data()
     {
-        return $this->hasOne('\App\Models\Course', 'id', 'course_id');
+        return $this->belongsTo('\App\Models\Course');
     }
     
+    public function pre_invoice()
+    {
+        return $this->hasMany('\App\Models\PreInvoiceDetail')->with('pre_invoice');
+    }
+
     public function addToCart()
     {
         $product = Sale::firstOrNew([
@@ -66,7 +71,7 @@ class Enrollment extends Model
 
     public function comments()
     {
-        return $this->morphMany('App\Models\Comment', 'commentable'); // todo migrate this + old prefactura comments.
+        return $this->morphMany('App\Models\Comment', 'commentable');
     }
 
     public function result()

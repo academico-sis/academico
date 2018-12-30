@@ -10,6 +10,9 @@ class PreInvoice extends Model
 {
     use SoftDeletes;
 
-
+    public function details()
+    {
+        return $this->hasMany('PreInvoiceDetail');
+    }
     
 }

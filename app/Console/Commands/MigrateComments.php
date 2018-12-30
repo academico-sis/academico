@@ -96,16 +96,17 @@ class MigrateComments extends Command
 
 
         // enrollment / prefactura comments - old structure
+        // will be converted to enrollment comments
 
         $prefactura_comments = DB::table('afc2.bf_pre_factura_cabecera')
-        ->select(DB::raw('id, observaciones, v_encfac_fechaemision'))
+        ->select(DB::raw('id, id_matricula, observaciones, v_encfac_fechaemision'))
         ->get();
 
         foreach ($prefactura_comments as $comment)
         {
             $new_comment = new \App\Models\Comment;
-            $new_comment->commentable_id = $comment->id;
-            $new_comment->commentable_type = 'App\Models\PreInvoice';
+            $new_comment->commentable_id = $comment->id_matricula;
+            $new_comment->commentable_type = 'App\Models\Enrollment';
             $new_comment->body = $comment->observaciones;
             $new_comment->private = true;
             //$new_comment->author_id = $comment->id_user_create;
