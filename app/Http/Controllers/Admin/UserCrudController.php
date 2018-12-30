@@ -58,11 +58,35 @@ class UserCrudController extends CrudController
         // Fields
         $this->crud->addFields([
             [  // Select2
-                'label' => "Name",
+                'label' => trans('academico.firstname'),
                 'type' => 'text',
                 'name' => 'firstname', // the db column for the foreign key
                 'entity' => 'self_data', // the method that defines the relationship in your Model
                 'attribute' => 'firstname', // foreign key attribute that is shown to user
+                'model' => "App\Models\UserData" // foreign key model
+            ],
+            [  // Select2
+                'label' => trans('academico.lastname'),
+                'type' => 'text',
+                'name' => 'lastname', // the db column for the foreign key
+                'entity' => 'self_data', // the method that defines the relationship in your Model
+                'attribute' => 'lastname', // foreign key attribute that is shown to user
+                'model' => "App\Models\UserData" // foreign key model
+            ],
+            [  // todo investigate why this is needed and why it works...
+                'label' => trans('academico.id'),
+                'type' => 'hidden',
+                'name' => 'user_id', // the db column for the foreign key
+                'entity' => 'self_data', // the method that defines the relationship in your Model
+                'value' => 1,
+                'model' => "App\Models\UserData" // foreign key model
+            ],
+            [  // info about the use themselves
+                'label' => trans('academico.id'),
+                'type' => 'hidden',
+                'name' => 'relationship_id', // the db column for the foreign key
+                'entity' => 'self_data', // the method that defines the relationship in your Model
+                'value' => 1,
                 'model' => "App\Models\UserData" // foreign key model
             ],
             [
@@ -80,6 +104,18 @@ class UserCrudController extends CrudController
                 'label' => trans('backpack::permissionmanager.password_confirmation'),
                 'type'  => 'password',
             ],
+            [
+                'name'  => 'birthdate',
+                'label' => trans('academico.birthdate'),
+                'type'  => 'date',
+            ],
+
+            [
+                'name'  => 'language',
+                'label' => trans('academico.language'),
+                'type'  => 'text',
+            ],
+
             [
             // two interconnected entities
             'label'             => trans('backpack::permissionmanager.user_role_permission'),
