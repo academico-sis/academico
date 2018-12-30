@@ -88,7 +88,7 @@
                     <i class='fa fa-briefcase'></i>
                 </a>
 
-                <a href='{{url("students/enroll") }}/${data}' class='btn btn-secondary'>
+                <a href="students/${data}/enroll" class='btn btn-secondary'>
                     <i class='fa fa-user-plus'></i>
                 </a>
             `;

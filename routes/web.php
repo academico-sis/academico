@@ -16,6 +16,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['admin']], function () {
     CRUD::resource('user', '\App\Http\Controllers\Admin\UserCrudController');
 });
 
+/* 
+Route::group(['middleware' => 'web', 'prefix' => config('backpack.base.route_prefix')], function () {
+    Route::auth();
+    Route::get('logout', 'Auth\LoginController@logout');
+}); */
 
 Route::get('/', 'HomeController@index');
 Route::get('courses/create', 'CourseController@create');
@@ -51,6 +56,10 @@ Route::delete('courses', 'CourseController@destroy');
 Route::get('students/get', 'StudentController@get');
 Route::resource('students', 'StudentController');
 
-Auth::routes();
+Route::get('students/{student}/enroll/{period?}', 'EnrollmentController@create');
+Route::post('enrollments', 'EnrollmentController@store');
+Route::resource('enrollments', 'EnrollmentController');
+
+
 
 Route::get('/home', 'HomeController@index')->name('home');

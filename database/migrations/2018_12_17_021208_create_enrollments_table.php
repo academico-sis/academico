@@ -71,7 +71,7 @@ class CreateEnrollmentsTable extends Migration
 
         Schema::create('enrollments', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('student_id')->unsigned();
+            $table->integer('user_id')->unsigned();
             $table->integer('responsible_id')->unsigned();
             $table->integer('course_id')->unsigned();
             // invoice tables has one / many enrollments

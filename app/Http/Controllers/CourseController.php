@@ -74,7 +74,8 @@ class CourseController extends Controller
      */
     public function show(Course $course)
     {
-        $students = \App\Models\Enrollment::show($course);
+        $students = \App\Models\Course::get_students($course);
+        dump($students);
         return view('courses/show', compact('course', 'students'));   
     }
 

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Course;
 
 class Student extends Model
 {
@@ -17,15 +18,35 @@ class Student extends Model
         return Student::with('self_data')->get();
     }
 
-    public function enroll(\App\Models\Course $course)
+    /**
+     * enroll the student in a course.
+     * If the course has any children, we also enroll the student in the children courses.
+     */
+    public function enroll(Course $course)
     {
-        $enrollment = new \App\Models\Enrollment;
-        $enrollment->user_id = $this->id;
-        $enrollment->responsible_id = 1;
-        $enrollment->course_id = $course->id;
-        $enrollment->status = 1;
-
+        // avoid duplicates by retrieving an eventual existing enrollment for the same course
+        $enrollment = Enrollment::firstOrNew([
+            'user_id' =>  $this->id,
+            'course_id' => $course->id
+        ]);
+        $enrollment->responsible_id = backpack_user()->id;
         $enrollment->save();
+        
+        // if the course has children, enroll in children as well.
+        if($course->children_count > 0)
+        {
+            foreach($course->children as $children)
+            {
+                $enrollment = Enrollment::firstOrNew([
+                    'user_id' =>  $this->id,
+                    'course_id' => $children->id
+                ]);
+                $enrollment->responsible_id = backpack_user()->id;
+                $enrollment->save();
+            }
+        }
+
+        return $enrollment->id;
     }
 
     public function self_data()

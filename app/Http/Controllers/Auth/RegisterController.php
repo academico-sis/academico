@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Validator;
 
-class RegisterController extends Backpack\Base\app\Http\Controllers\Auth\RegisterController
+class RegisterController extends \Backpack\Base\app\Http\Controllers\Auth\RegisterController
 {
 
 }

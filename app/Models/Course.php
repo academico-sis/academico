@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\CrudTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Enrollment;
 
 class Course extends Model
 {
@@ -41,6 +42,26 @@ class Course extends Model
         ->with('level')
         ->withCount('enrollments')
         ->with('evaluation_type')
+        ->get();
+    }
+
+    public static function get_available_courses(Period $period)
+    {
+        return Course::where('period_id', $period->id)
+        ->where('campus_id', 1)
+        ->with('times')
+        ->with('teacher')
+        ->with('room')
+        ->with('rythm')
+        ->with('level')
+        ->withCount('enrollments')
+        ->get();
+    }
+
+    public static function get_students(Course $course)
+    {
+        return Enrollment::where('course_id', $course->id)
+        ->with('student_data')
         ->get();
     }
     /*
@@ -161,6 +182,16 @@ class Course extends Model
     public function getCourseEvaluationTypeNameAttribute()
     {
         return $this->evaluation_type['name'];
+    }
+
+    public function getChildrenCountAttribute()
+    {
+        return Course::where('parent_course_id', $this->id)->count();
+    }
+
+    public function getChildrenAttribute()
+    {
+        return Course::where('parent_course_id', $this->id)->get();
     }
 
     /*

@@ -11,16 +11,12 @@ class Enrollment extends Model
 
     use SoftDeletes;
 
-    public static function show(Course $course)
-    {
-        return Enrollment::where('course_id', $course->id)
-        ->with('student_data')
-        ->get();
-    }
+    protected $fillable = ['user_id', 'course_id'];
+
 
     public function student_data()
     {
-        return $this->hasOne('\App\User', 'id', 'user_id');
+        return $this->belongsTo('App\Models\Student', 'user_id')->with('self_data');
     }
 
     public function course_data()
@@ -30,7 +26,7 @@ class Enrollment extends Model
     
     public function getStudentNameAttribute()
     {
-        return $this->student_data['name'];
+        return $this->student_data->self_data['name'];
     }
 
     public function getStudentIdAttribute()

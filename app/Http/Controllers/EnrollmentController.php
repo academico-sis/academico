@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Enrollment;
 use Illuminate\Http\Request;
+use App\Models\Period;
+use App\Models\Student;
+use App\Models\Course;
 
 class EnrollmentController extends Controller
 {
@@ -22,9 +25,16 @@ class EnrollmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Student $student, Period $period)
     {
-        //
+        if (!$period->exists) {
+            $period = Period::get_default_period();
+        }
+
+        // display a list of available courses
+        $courses = \App\Models\Course::get_available_courses($period);
+
+        return view('enrollments/create', compact('courses', 'period', 'student'));
     }
 
     /**
@@ -35,7 +45,12 @@ class EnrollmentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $course = Course::findOrFail($request->course_id);
+        $student = Student::findOrFail($request->student_id);
+
+        $enrollment_id = $student->enroll($course);
+
+        return redirect()->to("/enrollments/$enrollment_id");
     }
 
     /**
@@ -46,7 +61,7 @@ class EnrollmentController extends Controller
      */
     public function show(Enrollment $enrollment)
     {
-        //
+        dump($enrollment);
     }
 
     /**
