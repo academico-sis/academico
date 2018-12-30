@@ -11,6 +11,11 @@
 |
 */
 
+// inside the 'admin' prefix, I presume
+Route::group(['prefix' => 'admin', 'middleware' => ['admin']], function () {
+    CRUD::resource('user', '\App\Http\Controllers\Admin\UserCrudController');
+});
+
 Route::get('/', 'HomeController@index');
 Route::get('courses/create', 'CourseController@create');
 Route::post('courses', 'CourseController@store');

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class UserData extends Model
 {
     protected $table = 'user_data';
+    protected $fillable = ['firstname'];
 
     use SoftDeletes;
 
@@ -16,4 +17,13 @@ class UserData extends Model
         return $this->morphMany('App\Models\PhoneNumber', 'phoneable');
     }
 
+    public function getNameAttribute()
+    {
+        return $this->firstname . ' ' . $this->lastname;
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
 }
