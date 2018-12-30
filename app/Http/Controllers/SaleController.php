@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\PreInvoice;
 use Illuminate\Http\Request;
 
-class PreInvoiceController extends Controller
+class SaleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -24,9 +23,9 @@ class PreInvoiceController extends Controller
      */
     public function create()
     {
-        
+        //
     }
-    
+
     /**
      * Store a newly created resource in storage.
      *
@@ -35,16 +34,16 @@ class PreInvoiceController extends Controller
      */
     public function store(Request $request)
     {
-        // create a preinvoice for an enrollment
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\PreInvoice  $preInvoice
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(PreInvoice $preInvoice)
+    public function show($id)
     {
         //
     }
@@ -52,10 +51,10 @@ class PreInvoiceController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\PreInvoice  $preInvoice
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(PreInvoice $preInvoice)
+    public function edit($id)
     {
         //
     }
@@ -64,10 +63,10 @@ class PreInvoiceController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\PreInvoice  $preInvoice
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, PreInvoice $preInvoice)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -75,10 +74,10 @@ class PreInvoiceController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\PreInvoice  $preInvoice
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(PreInvoice $preInvoice)
+    public function destroy($id)
     {
         //
     }

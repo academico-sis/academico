@@ -24,6 +24,21 @@ class Enrollment extends Model
         return $this->hasOne('\App\Models\Course', 'id', 'course_id');
     }
     
+    public function addToCart()
+    {
+        $product = Sale::firstOrNew([
+            'user_id' => $this->student_data->id,
+            'product_id' => $this->course_data->id,
+            'product_type' => Course::class
+        ]);
+
+        $product->save();
+        return $product->id;
+    }
+
+
+
+    /* Accessors */
     public function getStudentNameAttribute()
     {
         return $this->student_data->self_data['name'];
@@ -64,8 +79,8 @@ class Enrollment extends Model
         return Carbon::parse($this->created_at, 'UTC')->toFormattedDateString();
     }
 
-    public function getEnrollmentStatusAttribute()
+    public function enrollment_status()
     {
-        return $this->status; // todo add table to translate numbers to text.
+        return $this->belongsTo('\App\Models\EnrollmentStatusType', 'status_id');
     }
 }

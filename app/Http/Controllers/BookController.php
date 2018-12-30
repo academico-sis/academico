@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\PreInvoice;
+use App\Models\Book;
 use Illuminate\Http\Request;
 
-class PreInvoiceController extends Controller
+class BookController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -24,9 +24,9 @@ class PreInvoiceController extends Controller
      */
     public function create()
     {
-        
+        //
     }
-    
+
     /**
      * Store a newly created resource in storage.
      *
@@ -35,16 +35,16 @@ class PreInvoiceController extends Controller
      */
     public function store(Request $request)
     {
-        // create a preinvoice for an enrollment
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\PreInvoice  $preInvoice
+     * @param  \App\Models\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function show(PreInvoice $preInvoice)
+    public function show(Book $book)
     {
         //
     }
@@ -52,10 +52,10 @@ class PreInvoiceController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\PreInvoice  $preInvoice
+     * @param  \App\Models\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function edit(PreInvoice $preInvoice)
+    public function edit(Book $book)
     {
         //
     }
@@ -64,10 +64,10 @@ class PreInvoiceController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\PreInvoice  $preInvoice
+     * @param  \App\Models\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, PreInvoice $preInvoice)
+    public function update(Request $request, Book $book)
     {
         //
     }
@@ -75,10 +75,10 @@ class PreInvoiceController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\PreInvoice  $preInvoice
+     * @param  \App\Models\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function destroy(PreInvoice $preInvoice)
+    public function destroy(Book $book)
     {
         //
     }

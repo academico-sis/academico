@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\Period;
 use App\Models\Student;
 use App\Models\Course;
+use App\Models\Sale;
+use App\Models\PreInvoice;
+
 
 class EnrollmentController extends Controller
 {
@@ -61,7 +64,22 @@ class EnrollmentController extends Controller
      */
     public function show(Enrollment $enrollment)
     {
-        dump($enrollment);
+        // if the enrollment has not been invoiced
+
+        if ($enrollment->status_id == 1)
+        {
+            // if the current enrollment is not part of the cart, add it
+            $enrollment->addToCart();
+            // add default other products: enrollment fee + books associated to the course, if any (and if they do not already exist in the cart)
+            Sale::add_default_products($enrollment->user_id);
+        }
+        
+        $cart = Sale::where('user_id', $enrollment->user_id)->get();
+        
+        // otherwise, the paid products (if any) will be retrieved from the DB
+        //dump($cart);
+        // then load the page
+        return view('enrollments.show', compact('enrollment', 'cart'));
     }
 
     /**
