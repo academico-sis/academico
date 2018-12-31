@@ -73,12 +73,16 @@ class EnrollmentController extends Controller
             // add default other products: enrollment fee + books associated to the course, if any (and if they do not already exist in the cart)
             Sale::add_default_products($enrollment->user_id);
 
-        }     
-        // the pending products (if any) will also be retrieved from the DB
-        $cart = Sale::where('user_id', $enrollment->user_id)->get();
+            // the pending products (if any) will also be retrieved from the DB
+        }
+        $products = Sale::where('user_id', $enrollment->user_id)->get();
+        
+        // otherwise load the products from the invoice tables
+        //$products = PreInvoiceDetail::where('user_id', $enrollment->user_id)->get();
+
         
         // then load the page
-        return view('enrollments.show', compact('enrollment', 'cart'));
+        return view('enrollments.show', compact('enrollment', 'products'));
     }
 
     /**

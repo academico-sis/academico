@@ -71,11 +71,11 @@
                        <th>Actions</th>
                    </thead>
                    <tbody>
-                        @foreach ($cart as $item)
+                        @foreach ($products as $product)
                             <tr>
                                 <td></td>
-                                <td>{{ $item->product_type }}</td>
-                                <td>{{ $item->price }}</td>
+                                <td>{{ $product->product_type }}</td>
+                                <td>{{ $product->price }}</td>
                                 <td></td>
                                 <td></td>
 
@@ -114,7 +114,9 @@
 
                 Invoice(s)
                 @foreach ($enrollment->pre_invoice as $pre_invoice)
-                {{ $pre_invoice->pre_invoice->invoice_id }}
+                Fiche n°{{ $pre_invoice->id }}
+                Facture n°{{ $pre_invoice->invoice_number }}
+                <br>
                 @endforeach
 
                 {{-- if the enrollment is not yet invoiced --}}
