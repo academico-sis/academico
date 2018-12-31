@@ -47,7 +47,7 @@ class Enrollment extends Model
 
     public function addToCart()
     {
-        $product = Sale::firstOrNew([
+        $product = Cart::firstOrNew([
             'user_id' => $this->student_data->id,
             'product_id' => $this->course_data->id,
             'product_type' => Course::class

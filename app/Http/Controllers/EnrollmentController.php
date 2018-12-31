@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Period;
 use App\Models\Student;
 use App\Models\Course;
-use App\Models\Sale;
+use App\Models\Cart;
 use App\Models\PreInvoice;
 
 
@@ -82,17 +82,19 @@ class EnrollmentController extends Controller
      * @param  \App\Models\Enrollment  $enrollment
      * @return \Illuminate\Http\Response
      */
-    public function invoice(Enrollment $enrollment)
+    public function bill(Enrollment $enrollment)
     {
         // if the current enrollment is not part of the cart, add it
         $enrollment->addToCart();
 
         // add default other products: enrollment fee + books associated to the course, if any (and if they do not already exist in the cart)
-        Sale::add_default_products($enrollment->user_id);
+        Cart::add_default_products($enrollment->user_id);
 
         // the pending products (if any) will also be retrieved from the DB
-        $products = Sale::where('user_id', $enrollment->user_id)->get();
+        $products = Cart::where('user_id', $enrollment->user_id)->get();
 
+        // show the cart for the user
+        return redirect("carts/$enrollment->user_id");
     }
 
     /**
@@ -108,13 +110,18 @@ class EnrollmentController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Change the status of the enrollment to ANULADO
+     * 
+     * Later, use softdeletes instead?
      *
      * @param  \App\Models\Enrollment  $enrollment
      * @return \Illuminate\Http\Response
      */
     public function destroy(Enrollment $enrollment)
     {
-        //
+        if ($enrollment->status == 1) {
+            $enrollment->status = 3;
+            $enrollment->save();
+        }
     }
 }

@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Cart;
 
-class SaleController extends Controller
+class CartController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display the carts for all users
+     * 
+     * Monitoring purposes
      *
      * @return \Illuminate\Http\Response
      */
@@ -17,13 +20,13 @@ class SaleController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Add the product to the cart for checkout
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Enrollment $enrollment)
     {
-        //
+         
     }
 
     /**
@@ -38,26 +41,17 @@ class SaleController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified user cart.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+        $products = Cart::get_user_cart($id);
+        return view('carts.show', compact('products'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -72,13 +66,15 @@ class SaleController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Clear the specified cart.
+     * 
+     * For instance after an preinvoice has been generated.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        //
+        Cart::destroy($id);
     }
 }

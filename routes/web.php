@@ -60,6 +60,18 @@ Route::get('students/{student}/enroll/{period?}', 'EnrollmentController@create')
 Route::post('enrollments', 'EnrollmentController@store');
 Route::resource('enrollments', 'EnrollmentController');
 
+Route::get('enrollments/{enrollment}/bill', 'EnrollmentController@bill');
+
+// Cart / carts routes
+Route::resource('carts', 'CartController');
+
+// add an enrollment to the cart for checkout
+Route::post('products', 'ProductController@store');
+
+// remove something from the cart
+Route::delete('products', 'ProductController@destroy');
+
+
 Route::resource('invoices', 'PreInvoiceController');
 
 

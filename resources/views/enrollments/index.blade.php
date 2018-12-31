@@ -46,7 +46,15 @@
                             <td>{{ $enrollment->student_data->student_last_name }}</td>
                             <td>{{ $enrollment->course_data->name }}</td>
                             <td>{{ $enrollment->course_data->period->name }}</td>
-                            <td></td>
+                            <td>
+                                <a href="/enrollments" class="btn btn-primary">
+                                    <i class="fa fa-dollar"></i>
+                                </a>
+
+                                <a href="" class="btn btn-info">
+                                        <i class="fa fa-eye"></i>
+                                    </a>
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>

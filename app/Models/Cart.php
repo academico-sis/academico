@@ -4,14 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Sale extends Model
+class Cart extends Model
 {
 
     protected $fillable = ['user_id', 'product_id', 'product_type'];
 
     public static function add_default_products($student)
     {
-        $product = Sale::firstOrNew([
+        $product = Cart::firstOrNew([
             'user_id' => $student,
             'product_id' => 1,
             'product_type' => Fee::class
@@ -21,14 +21,19 @@ class Sale extends Model
         return $product->id;
     }
 
-    public function books()
+    public static function get_user_cart($id)
     {
-        return $this->morphedByMany('App\Models\Book', 'product');
+        return Cart::where('user_id', $id)->with('product')->get();
     }
 
-    public function fees()
+    /**
+     * returns the products registered in the cart
+     *
+     * @return void
+     */
+    public function product()
     {
-        return $this->morphedByMany('App\Models\Fee', 'product');
+        return $this->morphTo();
     }
 
 }

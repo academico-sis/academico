@@ -12,6 +12,8 @@ window.Vue = require('vue');
 //Vue.component('course-creation-component', require('./components/CourseCreationComponent.vue').default);
 Vue.component('course-time-component', require('./components/CourseTimeComponent.vue').default);
 
+Vue.component('cart-component', require('./components/CartComponent.vue').default);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
