@@ -20,27 +20,24 @@ class PreInvoiceController extends Controller
         return view('invoices.index', compact('invoices'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * Show the cart
-     * 
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        
-    }
     
     /**
-     * Store a newly created resource in storage.
+     * Create a preinvoice based on the cart contents for the specified user
+     * 
+     * Receive in the request: the user ID + the invoice data.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store($student, Request $request)
     {
         // create a preinvoice for an enrollment
+
+        $preinvoice = new PreInvoice;
+        
+        dump($student);
+        dump($request->all());
+
     }
 
     /**

@@ -64,6 +64,7 @@ Route::get('enrollments/{enrollment}/bill', 'EnrollmentController@bill');
 
 // Cart / carts routes
 Route::resource('carts', 'CartController');
+Route::post('carts/{student}/checkout', 'PreInvoiceController@store');
 
 // add an enrollment to the cart for checkout
 Route::post('products', 'ProductController@store');
