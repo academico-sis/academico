@@ -42,7 +42,7 @@ class Enrollment extends Model
     
     public function pre_invoice()
     {
-        return $this->hasMany('\App\Models\PreInvoice');
+        return $this->belongsToMany('App\Models\PreInvoice');
     }
 
     public function addToCart()

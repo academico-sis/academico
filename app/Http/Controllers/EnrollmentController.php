@@ -67,10 +67,10 @@ class EnrollmentController extends Controller
     public function show(Enrollment $enrollment)
     {
         
-        // otherwise load the products from the invoice tables
-        $products = PreInvoice::where('enrollment_id', $enrollment->id)
-        ->with('pre_invoice_details')
-        ->get();
+        // load the products from the invoice tables
+        $products = $enrollment->pre_invoice()
+            ->with('pre_invoice_details')
+            ->get();
         
         // then load the page
         return view('enrollments.show', compact('enrollment', 'products'));

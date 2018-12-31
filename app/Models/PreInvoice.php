@@ -10,9 +10,15 @@ class PreInvoice extends Model
 {
     use SoftDeletes;
 
+
     public function pre_invoice_details()
     {
         return $this->hasMany('\App\Models\PreInvoiceDetail');
+    }
+
+    public function enrollments()
+    {
+        return $this->hasMany('App\Models\Enrollment');
     }
     
 }

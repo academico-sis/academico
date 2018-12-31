@@ -17,8 +17,9 @@ class CreatePreInvoicesTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned(); // the client
             $table->integer('user_data_id')->unsigned()->nullable(); // the data to use in the invoice
+            //$table->json('products')->nullable(); // serialized products paid in the invoice.
             //$table->string('products'); // serialized products paid in the invoice.
-            $table->integer('enrollment_id')->unsigned()->nullable(); // enrollment id
+            //$table->integer('enrollment_id')->unsigned()->nullable(); // enrollment id
 
             // the following is here to keep all the data from the old system.
             //TODO check if this is really needed, otherwise remove it.
