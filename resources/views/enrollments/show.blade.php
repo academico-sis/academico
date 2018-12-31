@@ -46,6 +46,46 @@
     </div>
     
     
+
+    <div class="col-md-4">
+            <div class="box">
+                <div class="box-header with-border">
+                    <div class="box-title">
+                        {{ ucfirst(trans_choice('academico.course_info', 1)) }}
+                    </div>
+                    <div class="box-tools pull-right">
+                    </div>
+                </div>
+                
+                <div class="box-body">
+                        <p>{{ $enrollment->date }}</p>
+                        <p>{{ $enrollment->id }}</a>
+                        </p>
+                        @if ($enrollment->children_count > 0)
+                            <p>{{ $enrollment->course_data->name }}</p>
+                            <p>Children enrollments:</p>
+                            <ul>
+                            @foreach ($enrollment->children as $children)
+                                <li><a href="/enrollments/{{ $children->id }}">{{ $children->course_data->name }}</a>
+                                    ({{ $children->course_data->period->name }})</li>
+                            @endforeach
+                            </ul>
+                            @elseif ($enrollment->parent_id !== null)
+                            this enrollment belongs to <a href="/enrollments/{{ $enrollment->parent_id }}">{{ $enrollment->parent_id }}</a>
+                        @endif
+                        <p>{{ $enrollment->course_data->period->name }}</p>
+                        
+                        <p>
+                            {{ $enrollment->result['result_name']['name'] }}
+                            <a href="/results/{{ $enrollment->id }}" class="btn btn-xs btn-info">
+                                <i class="fa fa-eye"></i>
+                            </a>
+                        </p>
+                </div>
+            </div>
+        </div>
+
+
     <div class="col-md-4">
         <div class="box">
             <div class="box-header with-border">
@@ -63,6 +103,8 @@
         </div>
     </div>
     
+
+
     
 </div>
 <div class="row">

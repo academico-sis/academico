@@ -85,6 +85,16 @@ class Enrollment extends Model
         return Carbon::parse($this->created_at, 'UTC')->toFormattedDateString();
     }
 
+    public function getChildrenCountAttribute()
+    {
+        return Enrollment::where('parent_id', $this->id)->count();
+    }
+
+    public function getChildrenAttribute()
+    {
+        return Enrollment::where('parent_id', $this->id)->with('course_data')->get();
+    }
+
     public function enrollment_status()
     {
         return $this->belongsTo('\App\Models\EnrollmentStatusType', 'status_id');
