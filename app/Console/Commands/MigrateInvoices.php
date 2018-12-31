@@ -13,7 +13,7 @@ class MigrateInvoices extends Command
      *
      * @var string
      */
-    protected $signature = 'migration:invoices';
+    protected $signature = 'datamigration:invoices';
 
     /**
      * The console command description.

@@ -79,6 +79,7 @@ class MigrateComments extends Command
         $enrollment_comments = DB::table('afc2.enrollments')
         ->select(DB::raw('id, comment, id_user_create, fecha'))
         ->where('comment', '!=', null)
+        ->where('comment', '!=', "")
         ->get();
 
         foreach ($enrollment_comments as $comment)
@@ -100,6 +101,8 @@ class MigrateComments extends Command
 
         $prefactura_comments = DB::table('afc2.bf_pre_factura_cabecera')
         ->select(DB::raw('id, id_matricula, observaciones, v_encfac_fechaemision'))
+        ->where('observaciones', '!=', null)
+        ->where('observaciones', '!=', "")
         ->get();
 
         foreach ($prefactura_comments as $comment)
@@ -116,18 +119,6 @@ class MigrateComments extends Command
         }
 
 
-        foreach ($results as $result)
-        {
-            $new_comment = new \App\Models\Comment;
-            $new_comment->commentable_id = $result->id;
-            $new_comment->commentable_type = 'App\Models\Result';
-            $new_comment->body = $result->comment;
-            $new_comment->private = false;
-            $new_comment->author_id = $result->responsable_id;
-            //$new_comment->created_at = $comment->fecha;
-            //$new_comment->updated_at = null;
-            $new_comment->save();
-        }
 
 
         // course result comments

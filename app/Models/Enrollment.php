@@ -21,7 +21,7 @@ class Enrollment extends Model
 
     public function course_data()
     {
-        return $this->belongsTo('\App\Models\Course');
+        return $this->belongsTo('\App\Models\Course', 'course_id');
     }
     
     public function pre_invoice()
@@ -76,7 +76,8 @@ class Enrollment extends Model
 
     public function result()
     {
-        return $this->hasOne('App\Models\Result'); // todo migrate this.
+        return $this->hasOne('App\Models\Result')
+            ->with('result_name');
     }
 
     public function getDateAttribute()

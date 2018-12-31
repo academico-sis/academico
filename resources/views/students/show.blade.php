@@ -105,7 +105,7 @@
 <div class="row">
 
     @if (count($student->enrollments) > 0)
-        <div class="col-md-8">
+        <div class="col-md-12">
                 <div class="box">
                     <div class="box-header with-border">
                         <div class="box-title">
@@ -123,7 +123,6 @@
                                 <th>Curso</th> {{-- todo pop up with additional info --}}
                                 <th>Periodo</th>
                                 <th>Estado</th> {{-- todo click with invoice info --}}
-                                <th>Observaciones</th>
                                 <th>Resultado</th>
                             </thead>
 
@@ -131,14 +130,25 @@
                                 @foreach($student->enrollments as $enrollment)
                                     <tr>
                                         <td>{{ $enrollment->date }}</td>
-                                        <td>{{ $enrollment->id }}</td>
+                                        <td>
+                                            <a href="/enrollments/{{ $enrollment->id }}">
+                                            {{ $enrollment->id }}
+                                            </a>
+                                        </td>
                                         <td>{{ $enrollment->course_data->name }}</td>
                                         <td>{{ $enrollment->course_data->period->name }}</td>
-                                        <td>{{ $enrollment->enrollment_status }}</td>
-                                        <td>{{ $enrollment->comments }}</td>
-                                        <td>{{ $enrollment->result }}</td>
-
-
+                                        <td>
+                                            {{ $enrollment->enrollment_status->name }}
+                                            @if($enrollment->enrollment_status->id == 1)
+                                                <button class="btn btn-xs btn-primary"><i class="fa fa-dollar"></i></button>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            {{ $enrollment->result['result_name']['name'] }}
+                                            <a href="/results/{{ $enrollment->id }}" class="btn btn-xs btn-info">
+                                                <i class="fa fa-eye"></i>
+                                            </a>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>

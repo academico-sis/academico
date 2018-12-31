@@ -10,4 +10,10 @@ class Result extends Model
     {
         return $this->morphMany('App\Models\Comment', 'commentable');
     }
+
+    public function result_name()
+    {
+        return $this->belongsTo('\App\Models\ResultType', 'result_type_id');
+    }
+    
 }

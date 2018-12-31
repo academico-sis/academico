@@ -107,7 +107,8 @@ class Student extends Model
 
     public function enrollments()
     {
-        return $this->hasMany('\App\Models\Enrollment', 'user_id');
+        return $this->hasMany('\App\Models\Enrollment', 'user_id')
+            ->with('course_data');
     }
 
 }
