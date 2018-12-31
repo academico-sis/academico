@@ -2,19 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\PreInvoice;
+use App\Models\PreInvoice;
 use Illuminate\Http\Request;
 
 class PreInvoiceController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a list of all preinvoices generated
+     * 
+     * Here we also should allow some filtering (preinvoices without invoice number, etc)
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        $invoices = PreInvoice::all();
+        return view('invoices.index', compact('invoices'));
     }
 
     /**

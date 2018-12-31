@@ -14,13 +14,15 @@ use App\Models\PreInvoice;
 class EnrollmentController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a list of enrollments that need attention
+     * Pending enrollments 
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        $enrollments = Enrollment::pending();
+        return view('enrollments/index', compact('enrollments'));
     }
 
     /**

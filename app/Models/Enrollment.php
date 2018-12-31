@@ -14,6 +14,22 @@ class Enrollment extends Model
     protected $fillable = ['user_id', 'course_id'];
 
 
+    /**
+     * return all pending enrollments
+     * 
+     * without the child enrollments
+     *
+     * @return void
+     */
+    public static function pending()
+    {
+        return Enrollment::where('status_id', 1)
+            ->where('parent_id', null)
+            ->with('student_data')
+            ->with('course_data')
+            ->get();
+    }
+
     public function student_data()
     {
         return $this->belongsTo('App\Models\Student', 'user_id')->with('self_data');

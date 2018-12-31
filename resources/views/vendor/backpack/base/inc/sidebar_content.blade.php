@@ -5,6 +5,10 @@
 
 <li><a href="{{ url('/students') }}"><i class="fa fa-user"></i> <span>{{ ucfirst(trans_choice('academico.students', 2)) }}</span></a></li>
 
+<li><a href="{{ url('/enrollments') }}"><i class="fa fa-credit-card"></i> <span>{{ ucfirst(trans_choice('academico.pending', 2)) }}</span></a></li>
+
+<li><a href="{{ url('/invoices') }}"><i class="fa fa-dollar"></i> <span>{{ ucfirst(trans_choice('academico.invoices', 2)) }}</span></a></li>
+
 <li class="treeview">
   <a href="#"><i class="fa fa-link"></i> <span>@lang_u('academico.settings')</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
   <ul class="treeview-menu">

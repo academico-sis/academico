@@ -60,6 +60,7 @@ Route::get('students/{student}/enroll/{period?}', 'EnrollmentController@create')
 Route::post('enrollments', 'EnrollmentController@store');
 Route::resource('enrollments', 'EnrollmentController');
 
+Route::resource('invoices', 'PreInvoiceController');
 
 
 Route::get('/home', 'HomeController@index')->name('home');
