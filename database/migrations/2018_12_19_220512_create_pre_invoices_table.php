@@ -38,7 +38,7 @@ class CreatePreInvoicesTable extends Migration
 
         Schema::create('pre_invoice_details', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('quantity')->unsigned(); // quantity
+            //$table->integer('quantity')->unsigned(); // quantity
             $table->integer('pre_invoice_id')->unsigned(); // pre_invoice id
             $table->string('product_name');
             $table->decimal('price', 8, 2);

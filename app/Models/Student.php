@@ -32,17 +32,19 @@ class Student extends Model
         $enrollment->responsible_id = backpack_user()->id;
         $enrollment->save();
         
+        dump($enrollment);
         // if the course has children, enroll in children as well.
         if($course->children_count > 0)
         {
-            foreach($course->children as $children)
+            foreach($course->children as $children_course)
             {
-                $enrollment = Enrollment::firstOrNew([
+                $child_enrollment = Enrollment::firstOrNew([
                     'user_id' =>  $this->id,
-                    'course_id' => $children->id
+                    'course_id' => $children_course->id,
+                    'parent_id' => $enrollment->id
                 ]);
-                $enrollment->responsible_id = backpack_user()->id;
-                $enrollment->save();
+                $child_enrollment->responsible_id = backpack_user()->id;
+                $child_enrollment->save();
             }
         }
 

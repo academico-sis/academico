@@ -11,7 +11,7 @@ class Enrollment extends Model
 
     use SoftDeletes;
 
-    protected $fillable = ['user_id', 'course_id'];
+    protected $fillable = ['user_id', 'course_id', 'parent_id'];
 
 
     /**
