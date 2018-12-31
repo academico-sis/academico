@@ -64,22 +64,11 @@ class EnrollmentController extends Controller
      */
     public function show(Enrollment $enrollment)
     {
-        // if the enrollment has not been invoiced
-
-        if ($enrollment->status_id == 1)
-        {
-            // if the current enrollment is not part of the cart, add it
-            $enrollment->addToCart();
-            // add default other products: enrollment fee + books associated to the course, if any (and if they do not already exist in the cart)
-            Sale::add_default_products($enrollment->user_id);
-
-            // the pending products (if any) will also be retrieved from the DB
-        }
-        $products = Sale::where('user_id', $enrollment->user_id)->get();
         
         // otherwise load the products from the invoice tables
-        //$products = PreInvoiceDetail::where('user_id', $enrollment->user_id)->get();
-
+        $products = PreInvoice::where('enrollment_id', $enrollment->id)
+        ->with('pre_invoice_details')
+        ->get();
         
         // then load the page
         return view('enrollments.show', compact('enrollment', 'products'));
@@ -91,9 +80,17 @@ class EnrollmentController extends Controller
      * @param  \App\Models\Enrollment  $enrollment
      * @return \Illuminate\Http\Response
      */
-    public function edit(Enrollment $enrollment)
+    public function invoice(Enrollment $enrollment)
     {
-        //
+        // if the current enrollment is not part of the cart, add it
+        $enrollment->addToCart();
+
+        // add default other products: enrollment fee + books associated to the course, if any (and if they do not already exist in the cart)
+        Sale::add_default_products($enrollment->user_id);
+
+        // the pending products (if any) will also be retrieved from the DB
+        $products = Sale::where('user_id', $enrollment->user_id)->get();
+
     }
 
     /**

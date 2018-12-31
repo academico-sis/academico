@@ -54,15 +54,25 @@
                     {{ ucfirst(trans_choice('academico.products', 1)) }}
                 </div>
                 <div class="box-tools pull-right">
-                    <button class="btn btn-success"><i class="fa fa-plus"></i></button>
-                    <button class="btn btn-warning"><i class="fa fa-percent"></i></button>
-                    <button class="btn btn-info"><i class="fa fa-dollar"></i></button>
-
                 </div>
             </div>
             
-            <div class="box-body">           
-               <table>
+            <div class="box-body">
+                
+                @if($enrollment->enrollment_status['id'] == 2)
+
+                    <div class="label label-primary">
+                            {{ $enrollment->enrollment_status['name'] }}
+                        </div>
+        
+                        Invoice(s)
+                        @foreach ($enrollment->pre_invoice as $pre_invoice)
+                        Fiche n°{{ $pre_invoice->id }}
+                        Facture n°{{ $pre_invoice->invoice_number }}
+                        <br>
+                        @endforeach
+
+                        <table>
                    <thead>
                        <th>Qté</th>
                        <th>Produit</th>
@@ -71,58 +81,25 @@
                        <th>Actions</th>
                    </thead>
                    <tbody>
-                        @foreach ($products as $product)
+                       @foreach($products as $product)
+                        @foreach ($product->pre_invoice_details as $item)
                             <tr>
-                                <td></td>
-                                <td>{{ $product->product_type }}</td>
-                                <td>{{ $product->price }}</td>
-                                <td></td>
+                                <td>{{ $item->quantity }}</td>
+                                <td>{{ $item->product_name }}</td>
+                                <td>${{ $item->price }}</td>
+                                <td>${{ $item->price * $item->quantity }}</td>
                                 <td></td>
 
                             </tr>
                        @endforeach
-
+                       @endforeach
                    </tbody>
                </table>
-            </div>
-        </div>
-    </div>
 
-</div>
+               @elseif($enrollment->enrollment_status['id'] == 1)
+               Matricula pendiente
 
-
-
-
-
-
-<div class="row">
-
-    <div class="col-md-4">
-        <div class="box">
-            <div class="box-header with-border">
-                <div class="box-title">
-                    {{ ucfirst(trans_choice('academico.enrollment_status', 1)) }}
-                </div>
-                <div class="box-tools pull-right">
-                </div>
-            </div>
-            
-            <div class="box-body">
-                <div class="label label-primary">
-                    {{ $enrollment->enrollment_status['name'] }}
-                </div>
-
-                Invoice(s)
-                @foreach ($enrollment->pre_invoice as $pre_invoice)
-                Fiche n°{{ $pre_invoice->id }}
-                Facture n°{{ $pre_invoice->invoice_number }}
-                <br>
-                @endforeach
-
-                {{-- if the enrollment is not yet invoiced --}}
-                @if($enrollment->enrollment_status['id'] == 1)
-                
-                <button class="btn btn-primary">
+               <button class="btn btn-primary">
                     Facturer
                 </button>
 
@@ -130,14 +107,11 @@
                     Annuler
                 </button>
 
-                @endif
-
+               @endif
 
             </div>
         </div>
     </div>
-
-
-
 </div>
+
 @endsection

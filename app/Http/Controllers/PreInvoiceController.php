@@ -20,6 +20,8 @@ class PreInvoiceController extends Controller
     /**
      * Show the form for creating a new resource.
      *
+     * Show the cart
+     * 
      * @return \Illuminate\Http\Response
      */
     public function create()
