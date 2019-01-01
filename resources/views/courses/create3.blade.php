@@ -27,7 +27,7 @@
             <div class="box-body">           
                 <div id="app">
 
-                    <form action="/course/{{$course->id}}/room" method="post">
+                    <form action="/courses/{{$course->id}}/room" method="post">
                         @csrf()
                         @method('PATCH')
 

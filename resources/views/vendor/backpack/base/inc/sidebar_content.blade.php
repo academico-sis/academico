@@ -13,7 +13,7 @@
   <a href="#"><i class="fa fa-link"></i> <span>@lang_u('academico.settings')</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
   <ul class="treeview-menu">
       <li><a href='{{ backpack_url('period') }}'><i class='fa fa-calendar'></i> <span>{{ ucfirst(trans_choice('academico.periods', 2)) }}</span></a></li>
-      <li><a href='{{ backpack_url('course') }}'><i class='fa fa-graduation-cap'></i> <span>{{ ucfirst(trans_choice('academico.courses', 2)) }}</span></a></li>
+      <li><a href='{{ backpack_url('courses') }}'><i class='fa fa-graduation-cap'></i> <span>{{ ucfirst(trans_choice('academico.courses', 2)) }}</span></a></li>
       <li><a href='{{ backpack_url('event') }}'><i class='fa fa-star'></i> <span>{{ ucfirst(trans_choice('academico.events', 2)) }}</span></a></li>
       <li><a href='{{ backpack_url('level') }}'><i class='fa fa-star'></i> <span>{{ ucfirst(trans_choice('academico.levels', 2)) }}</span></a></li>
       <li><a href='{{ backpack_url('room') }}'><i class='fa fa-star'></i> <span>{{ ucfirst(trans_choice('academico.rooms', 2)) }}</span></a></li>

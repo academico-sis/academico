@@ -27,7 +27,7 @@
                         </button>
                         <ul class="dropdown-menu">
                             @foreach ($periods as $period)
-                            <li><a href="{{ url('courses') }}/{{ $period->id }}">{{ $period->name }}</a></li>
+                            <li><a href="{{ url('courses?period=') }}{{ $period->id }}">{{ $period->name }}</a></li>
                             @endforeach
                         </ul>
                     </div>
@@ -79,7 +79,7 @@
                                 {{ $course->course_teacher_name }}
 
                                 @if(backpack_user()->can('courses.edit'))
-                                    <a type="button" class="btn btn-xs" href="{{ url('course', $course->id) }}/teacher">
+                                    <a type="button" class="btn btn-xs" href="{{ url('courses', $course->id) }}/teacher">
                                         <i class="fa fa-pencil"></i>
                                     </a>
                                 @endif
@@ -89,7 +89,7 @@
                                 {{ $course->course_room_name }}
 
                                 @if(backpack_user()->can('courses.edit'))
-                                <a type="button" class="btn btn-xs" href="{{ url('course', $course->id) }}/room">
+                                <a type="button" class="btn btn-xs" href="{{ url('courses', $course->id) }}/room">
                                     <i class="fa fa-pencil"></i>
                                 </a>
                             @endif
@@ -99,7 +99,7 @@
                                 {{ $course->course_times }}
 
                                 @if(backpack_user()->can('courses.edit'))
-                                <a type="button" class="btn btn-xs" href="{{ url('course', $course->id) }}/time">
+                                <a type="button" class="btn btn-xs" href="{{ url('courses', $course->id) }}/time">
                                     <i class="fa fa-pencil"></i>
                                 </a>
                             @endif
@@ -108,7 +108,7 @@
                             @if(backpack_user()->can('courses.edit'))
                             <td>
                                 {{ $course->course_evaluation_type_name }}
-                                <a type="button" class="btn btn-xs" href="{{ url('course', $course->id) }}/evaluation">
+                                <a type="button" class="btn btn-xs" href="{{ url('courses', $course->id) }}/evaluation">
                                     <i class="fa fa-pencil"></i>
                                 </a>
                             </td>
@@ -124,7 +124,7 @@
 
                             <!-- list of students -->
                             @if ($course->enrollments_count > 0)
-                            <a type="button" class="btn btn-xs btn-secondary" href="{{ url('course', $course->id) }}">
+                            <a type="button" class="btn btn-xs btn-secondary" href="{{ url('courses', $course->id) }}">
                                 <i class="fa fa-user"></i>
                             </a>
                             @endif
@@ -144,7 +144,7 @@
 
                             <!-- course deletion -->
                             @if ($course->enrollments_count == 0 && backpack_user()->can('courses.delete'))
-                                    <a type="button" class="btn btn-xs btn-danger" href="{{ url('course', $course->id) }}/delete">
+                                    <a type="button" class="btn btn-xs btn-danger" href="{{ url('courses', $course->id) }}/delete">
                                         <i class="fa fa-trash"></i>
                                     </a>
                                     <button onclick="deleteCourse({{$course->id}})">XX</button>

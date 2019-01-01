@@ -31,7 +31,7 @@ class Course extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
-    public function get_all_internal_courses(Period $period)
+    public function get_all_internal_courses($period)
     {
         return Course::where('period_id', $period->id)
         ->where('campus_id', 1)

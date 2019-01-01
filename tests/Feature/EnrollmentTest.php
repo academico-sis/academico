@@ -28,7 +28,7 @@ class EnrollmentTest extends TestCase
         $user = \App\Student::find(2);
         \Auth::guard(backpack_guard_name())->login($user);
 
-        $response = $this->get("/course/$course->id");
+        $response = $this->get("/courses/$course->id");
         
         // with their name
         $response->assertSee("$student->name");

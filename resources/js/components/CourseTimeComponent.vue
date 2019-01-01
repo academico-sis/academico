@@ -89,7 +89,7 @@
 
             getTimes() {
                 axios
-                    .get('/course/1489/time/get')
+                    .get('/courses/1489/time/get')
                     .then(response => {
                         this.times = response.data
                     })
@@ -102,7 +102,7 @@
 
             addTime() {
                 axios
-                    .post('/course/1489/time', {
+                    .post('/courses/1489/time', {
                         day: this.day,
                         start: this.start,
                         end: this.end

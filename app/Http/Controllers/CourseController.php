@@ -20,11 +20,12 @@ class CourseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Period $period)
+    public function index(Request $request)
     {
-        if (!$period->exists) {
-            $period = Period::get_default_period();
-        }
+
+        $period_id = $request->query('period', null);
+        if ($period_id == null) { $period = Period::get_default_period(); }
+        else { $period = Period::find($period_id); }
 
         $courses = (new Course)->get_all_internal_courses($period);
         return view('courses/index', compact('courses', 'period'));   
@@ -63,7 +64,7 @@ class CourseController extends Controller
         $course->save();
 
         // redirect to teacher edit -- for now (todo)
-        return redirect("/course/$course->id/teacher");
+        return redirect("/courses/$course->id/teacher");
     }
 
     /**

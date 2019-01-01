@@ -1918,7 +1918,7 @@ __webpack_require__.r(__webpack_exports__);
     getTimes: function getTimes() {
       var _this = this;
 
-      axios.get('/course/1489/time/get').then(function (response) {
+      axios.get('/courses/1489/time/get').then(function (response) {
         _this.times = response.data;
       }).catch(function (error) {
         console.log(error);
@@ -1930,7 +1930,7 @@ __webpack_require__.r(__webpack_exports__);
     addTime: function addTime() {
       var _this2 = this;
 
-      axios.post('/course/1489/time', {
+      axios.post('/courses/1489/time', {
         day: this.day,
         start: this.start,
         end: this.end
