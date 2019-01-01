@@ -7,10 +7,6 @@
 // Routes you generate using Backpack\Generators will be placed here.
 
 
-Route::group(['prefix' => 'admin', 'middleware' => ['admin']], function () {
-    CRUD::resource('user', '\App\Http\Controllers\Admin\UserCrudController');
-});
-
 Route::group(
     [
         'namespace'  => '\App\Http\Controllers',

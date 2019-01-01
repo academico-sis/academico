@@ -100,6 +100,9 @@ class RegisterController extends \Backpack\Base\app\Http\Controllers\Auth\Regist
         // create a new record that the user has accepted the rules.
         $this->register_rules_acceptation($user->id);
 
+        // assign the role STUDENT to the new user
+        $user->assignRole('student');
+
         // flash a confirmation message
         \Alert::success('The user has successfully been registered')->flash();
 

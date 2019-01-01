@@ -62,8 +62,14 @@ class DatabaseSeeder extends Seeder
         // create core roles and assign permissions
 
         $role = Role::create(['name' => 'admin']);
-        // todo give all permissions to admins
+        // give all permissions to admins
+        foreach (Permission::all() as $permission)
+        {
+            $role->givePermissionTo($permission->name);
+        }
         
+        $role = Role::create(['name' => 'student']);
+
         $role = Role::create(['name' => 'manager']);
         $role->givePermissionTo('system.view');
         $role->givePermissionTo('hr.view');
