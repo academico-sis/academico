@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Http\Request;
 use Validator;
 use \App\Models\Rule;
+use App\Models\PhoneNumber;
 
 class RegisterController extends \Backpack\Base\app\Http\Controllers\Auth\RegisterController
 {
@@ -93,21 +94,23 @@ class RegisterController extends \Backpack\Base\app\Http\Controllers\Auth\Regist
         $phone = new PhoneNumber;
         $phone->phoneable_id = $user->id;
         $phone->phoneable_type = Student::class;
-        $phone->phone_number = $request->input('phone');
+        $phone->phone_number = $request->input('phone_number');
         $phone->save();
 
         // create a new record that the user has accepted the rules.
         $this->register_rules_acceptation($user->id);
 
-        // if invoice data has been required; serve a new form
+        // flash a confirmation message
+        \Alert::success('The user has successfully been registered')->flash();
+
+        // if invoice data has been required; redirect to the contact add form
         if($request->input('invoice_data')) {
-            dump('oui');
             $user_id = $user->id;
             return view('backpack::auth.invoice_data', compact('user_id'));
         }
-        
-        // todo update this
-        return redirect($this->redirectPath());
+
+        // redirect to the home page (login)
+        return redirect('/home');
     }
 
 }

@@ -75,9 +75,9 @@
     fixedHeader: true,
     
     columns: [
-        { data: 'self_data.idnumber' },
-        { data: 'self_data.firstname' },
-        { data: 'self_data.lastname' },
+        { data: 'idnumber' },
+        { data: 'firstname' },
+        { data: 'lastname' },
         { data: 'email' },
         {
             "targets": -1,
@@ -96,12 +96,7 @@
             }
         } ],
 });
+});
 
-$('#studentsTable tbody').on( 'click', 'button', function () {
-        var data = table.row( $(this).parents('tr') ).data();
-        alert( data[1] +"'s salary is: "+ data[ 1 ] );
-    } );
-
-    } );
     </script>
 @endsection

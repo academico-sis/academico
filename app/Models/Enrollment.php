@@ -32,7 +32,7 @@ class Enrollment extends Model
 
     public function student_data()
     {
-        return $this->belongsTo('App\Models\Student', 'user_id')->with('self_data');
+        return $this->belongsTo('App\Models\Student', 'user_id');
     }
 
     public function course_data()
@@ -62,7 +62,7 @@ class Enrollment extends Model
     /* Accessors */
     public function getStudentNameAttribute()
     {
-        return $this->student_data->self_data['name'];
+        return $this->student_data['name'];
     }
 
     public function getStudentIdAttribute()

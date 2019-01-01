@@ -25,9 +25,9 @@
             </div>
             
             <div class="box-body">
-                <p>{{ ucfirst(trans_choice('academico.name', 1)) }}: {{ $enrollment->student_data->self_data->firstname }} {{ $enrollment->student_data->self_data->lastname }}</p>
-                <p>{{ ucfirst(trans_choice('academico.idnumber', 1)) }}: {{ $enrollment->student_data->self_data->idnumber }}</p>
-                <p>{{ ucfirst(trans_choice('academico.address', 1)) }}: {{ $enrollment->student_data->self_data->address }}</p>
+                <p>{{ ucfirst(trans_choice('academico.name', 1)) }}: {{ $enrollment->student_data->firstname }} {{ $enrollment->student_data->lastname }}</p>
+                <p>{{ ucfirst(trans_choice('academico.idnumber', 1)) }}: {{ $enrollment->student_data->idnumber }}</p>
+                <p>{{ ucfirst(trans_choice('academico.address', 1)) }}: {{ $enrollment->student_data->address }}</p>
                 
                 @if (count($enrollment->student_data->phone) > 0)
                 <p>{{ ucfirst(trans_choice('academico.phonenumber', 1)) }}:

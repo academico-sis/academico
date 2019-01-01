@@ -22,20 +22,13 @@ class CreateUserDataRelationships extends Migration
         DB::table('user_data_relationships')->insert(
             array(
                 'id' => 1,
-                'name' => 'SELF'
-            )
-        );
-
-        DB::table('user_data_relationships')->insert(
-            array(
-                'id' => 2,
                 'name' => 'FAMILLE'
             )
         );
 
         DB::table('user_data_relationships')->insert(
             array(
-                'id' => 3,
+                'id' => 2,
                 'name' => 'ENTREPRISE'
             )
         );

@@ -41,8 +41,12 @@ class UserDataController extends Controller
         $phone = new PhoneNumber;
         $phone->phoneable_id = $contact->id;
         $phone->phoneable_type = UserData::class;
-        $phone->phone_number = $request->input('phone');
+        $phone->phone_number = $request->input('phone_number');
         $phone->save();
+
+        \Alert::success('The information has successfully been saved')->flash();
+
+        return redirect('/home');
     }
 
     /**

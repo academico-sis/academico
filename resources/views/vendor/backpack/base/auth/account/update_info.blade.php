@@ -68,12 +68,40 @@
 
                     <div class="form-group">
                         @php
-                            $label = trans('backpack::base.name');
-                            $field = 'name';
+                            $label = trans('academico.firstname');
+                            $field = 'firstname';
                         @endphp
                         <label class="required">{{ $label }}</label>
                         <input required class="form-control" type="text" name="{{ $field }}" value="{{ old($field) ? old($field) : $user->$field }}">
                     </div>
+
+                    <div class="form-group">
+                            @php
+                                $label = trans('academico.lastname');
+                                $field = 'lastname';
+                            @endphp
+                            <label class="required">{{ $label }}</label>
+                            <input required class="form-control" type="text" name="{{ $field }}" value="{{ old($field) ? old($field) : $user->$field }}">
+                    </div>
+
+                    <div class="form-group">
+                            @php
+                                $label = trans('academico.address');
+                                $field = 'address';
+                            @endphp
+                            <label class="required">{{ $label }}</label>
+                            <input required class="form-control" type="text" name="{{ $field }}" value="{{ old($field) ? old($field) : $user->$field }}">
+                    </div>
+
+                    <div class="form-group">
+                            @php
+                                $label = trans('academico.idnumber');
+                                $field = 'idnumber';
+                            @endphp
+                            <label class="required">{{ $label }}</label>
+                            <input required class="form-control" type="text" name="{{ $field }}" value="{{ old($field) ? old($field) : $user->$field }}">
+                    </div>
+
 
                     <div class="form-group">
                         @php

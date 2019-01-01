@@ -24,13 +24,14 @@ class UserCrudController extends CrudController
         // Columns.
         $this->crud->setColumns([
             [
-                // 1-n relationship
-                'label' => "Name", // Table column heading
-                'type' => "select",
-                'name' => 'user_id', // the column that contains the ID of that connected entity;
-                'entity' => 'self_data', // the method that defines the relationship in your Model
-                'attribute' => "name", // foreign key attribute that is shown to user
-                'model' => "App\Models\UserData", // foreign key model
+                'label' => "First Name", // Table column heading
+                'type' => "text",
+                'name' => 'firstname'
+            ],
+            [
+                'label' => "Last Name", // Table column heading
+                'type' => "text",
+                'name' => 'lastname'
             ],
             [
                 'name'  => 'email',
@@ -60,34 +61,12 @@ class UserCrudController extends CrudController
             [  // Select2
                 'label' => trans('academico.firstname'),
                 'type' => 'text',
-                'name' => 'firstname', // the db column for the foreign key
-                'entity' => 'self_data', // the method that defines the relationship in your Model
-                'attribute' => 'firstname', // foreign key attribute that is shown to user
-                'model' => "App\Models\UserData" // foreign key model
+                'name' => 'firstname'
             ],
             [  // Select2
                 'label' => trans('academico.lastname'),
                 'type' => 'text',
-                'name' => 'lastname', // the db column for the foreign key
-                'entity' => 'self_data', // the method that defines the relationship in your Model
-                'attribute' => 'lastname', // foreign key attribute that is shown to user
-                'model' => "App\Models\UserData" // foreign key model
-            ],
-            [  // todo investigate why this is needed and why it works...
-                'label' => trans('academico.id'),
-                'type' => 'hidden',
-                'name' => 'user_id', // the db column for the foreign key
-                'entity' => 'self_data', // the method that defines the relationship in your Model
-                'value' => 1,
-                'model' => "App\Models\UserData" // foreign key model
-            ],
-            [  // info about the use themselves
-                'label' => trans('academico.id'),
-                'type' => 'hidden',
-                'name' => 'relationship_id', // the db column for the foreign key
-                'entity' => 'self_data', // the method that defines the relationship in your Model
-                'value' => 1,
-                'model' => "App\Models\UserData" // foreign key model
+                'name' => 'lastname'
             ],
             [
                 'name'  => 'email',

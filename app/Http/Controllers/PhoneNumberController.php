@@ -7,15 +7,6 @@ use Illuminate\Http\Request;
 
 class PhoneNumberController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -34,17 +25,6 @@ class PhoneNumberController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\PhoneNumber  $phoneNumber
-     * @return \Illuminate\Http\Response
-     */
-    public function show(PhoneNumber $phoneNumber)
     {
         //
     }

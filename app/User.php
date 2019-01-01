@@ -22,8 +22,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'email', 'password', 'birthdate', 'genre_id', 'language'
-    ];
+        'firstname', 'lastname', 'email', 'password', 'birthdate', 'genre_id', 'language', 'idnumber', 'address'
+        ];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -34,8 +34,4 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function self_data()
-    {
-        return $this->hasOne('\App\Models\UserData', 'user_id')->where('relationship_id', 1);
-    }
 }
