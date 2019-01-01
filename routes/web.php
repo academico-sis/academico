@@ -67,7 +67,10 @@ Route::post('products', 'ProductController@store');
 Route::delete('products', 'ProductController@destroy');
 
 
-Route::resource('invoices', 'PreInvoiceController');
+Route::get('invoices', 'PreInvoiceController@index');
+
+Route::get('invoices/{preInvoice}', 'PreInvoiceController@show');
+Route::patch('invoices/{preInvoice}', 'PreInvoiceController@update');
 
 
 Route::get('/home', 'HomeController@index')->name('home');

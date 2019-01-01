@@ -76,7 +76,7 @@ class PreInvoiceController extends Controller
             $detail->save();
         }
 
-        // clear the cart
+        // todo clear the cart
         
         dump($student);
         dump($request->all());
@@ -90,7 +90,7 @@ class PreInvoiceController extends Controller
      */
     public function show(PreInvoice $preInvoice)
     {
-        //
+        return view('invoices.show', compact('preInvoice'));
     }
 
     /**
@@ -113,7 +113,9 @@ class PreInvoiceController extends Controller
      */
     public function update(Request $request, PreInvoice $preInvoice)
     {
-        //
+        $preInvoice->invoice_number = $request->input('invoice_number');
+        $preInvoice->save();
+        return redirect()->back();
     }
 
     /**

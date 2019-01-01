@@ -127,12 +127,13 @@
                     </div>
                     
                     Invoice(s)
-                    @foreach ($enrollment->pre_invoice as $pre_invoice)
-                    Fiche n°{{ $pre_invoice->id }}
-                    Facture n°{{ $pre_invoice->invoice_number }}
-                    <br>
-                    @endforeach
-
+                    <ul>
+                        @foreach ($enrollment->pre_invoice as $pre_invoice)
+                        <li>
+                            <a href="/invoices/{{ $pre_invoice->id }}">Numéro de facture: {{ $pre_invoice->invoice_number ?? "inconnu" }}</a>
+                    </li>
+                        @endforeach
+                    </ul>
                 @elseif($enrollment->enrollment_status['id'] == 1)
                 <p>Matricula pendiente</p>
                 

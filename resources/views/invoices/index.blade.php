@@ -43,11 +43,17 @@
                         @foreach ($invoices as $invoice)
                         <tr>
                             <td>{{ $invoice->id }}</td>
-                            <td>{{ $invoice->invoice_number }}</td>
+                            <td>{{ $invoice->invoice_number }}
+                                <a href="/invoices/{{ $invoice->id }}" class="btn btn-xs btn-warning">
+                                    <i class="fa fa-pencil"></i>
+                                </a>
+                            </td>
                             <td>{{ $invoice->id }}</td>
                             <td>{{ $invoice->created_at }}</td>
-                            <td>{{ $invoice->id }}</td>
-                            <td></td>
+                            <td>${{ $invoice->total_price }}</td>
+                            <td>
+
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>
