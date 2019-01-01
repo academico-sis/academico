@@ -13,6 +13,10 @@ class Student extends Model
     use SoftDeletes;
     
 
+    public static function all($columns = ['*'])
+    {
+        return \App\User::role('student')->get();
+    }
 
     /**
      * enroll the student in a course.

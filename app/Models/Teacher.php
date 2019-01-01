@@ -13,10 +13,7 @@ class Teacher extends Model
 
     public static function all($columns = ['*'])
     {
-        return \App\Models\BackpackUser::role('teacher')->get();
+        return \App\User::role('teacher')->get();
     }
-
-
-  
 
 }

@@ -32,10 +32,12 @@
                         </ul>
                     </div>
 
-                    <a href="{{ url('courses/create') }}" class="btn btn-primary">Nouveau cours</a>
+                    {{-- New course button --}}
+                    @if(backpack_user()->can('courses.edit'))
+                        <a href="{{ url('courses/create') }}" class="btn btn-primary">Nouveau cours</a>
+                    @endif
                     
                 </div>
-                
             </div>
             
             <div class="box-body" id="app">           
@@ -99,10 +101,8 @@
                                 {{ $course->course_times }}
 
                                 @if(backpack_user()->can('courses.edit'))
-                                <a type="button" class="btn btn-xs" href="{{ url('courses', $course->id) }}/time">
-                                    <i class="fa fa-pencil"></i>
-                                </a>
-                            @endif
+                                    <a type="button" class="btn btn-xs" href="{{ url('courses', $course->id) }}/time"><i class="fa fa-pencil"></i></a>
+                                @endif
                             </td>
 
                             @if(backpack_user()->can('courses.edit'))
@@ -123,31 +123,22 @@
                             <td><!-- course available actions -->
 
                             <!-- list of students -->
-                            @if ($course->enrollments_count > 0)
+                            @if ($course->enrollments_count > 0 && backpack_user()->can('courses.view'))
                             <a type="button" class="btn btn-xs btn-secondary" href="{{ url('courses', $course->id) }}">
                                 <i class="fa fa-user"></i>
                             </a>
                             @endif
 
                             <!-- attendance overview -->
-                            @if ($course->exempt_attendance !== 1)
+                            @if ($course->exempt_attendance !== 1 && backpack_user()->can('attendance.view'))
                             <a type="button" class="btn btn-xs btn-secondary" href="{{ url('attendance/course', $course->id) }}">
                                 <i class="fa calendar-check-o"></i>
                             </a>
                             @endif
 
-                            <!-- todo course times editing -->
-
-                            <!-- todo course teacher and room editing -->
-
-                            <!-- todo grades or skills editing -->
-
                             <!-- course deletion -->
                             @if ($course->enrollments_count == 0 && backpack_user()->can('courses.delete'))
-                                    <a type="button" class="btn btn-xs btn-danger" href="{{ url('courses', $course->id) }}/delete">
-                                        <i class="fa fa-trash"></i>
-                                    </a>
-                                    <button onclick="deleteCourse({{$course->id}})">XX</button>
+                                <button class="btn btn-xs btn-danger" onclick="deleteCourse({{$course->id}})"><i class="fa fa-trash"></i></button>
                             @endif         
    
                             </td>

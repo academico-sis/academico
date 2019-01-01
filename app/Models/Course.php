@@ -176,7 +176,7 @@ class Course extends Model
     
     public function getCourseTeacherNameAttribute()
     {
-        return strtoupper($this->teacher['name']);
+        return strtoupper($this->teacher['firstname'] . " " . $this->teacher['lastname']);
     }
 
     public function getCourseEvaluationTypeNameAttribute()
