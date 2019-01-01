@@ -2,21 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\UserData;
+use App\Models\UserData;
+use App\Models\PhoneNumber;
+
 use Illuminate\Http\Request;
 
 class UserDataController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -35,7 +27,22 @@ class UserDataController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $contact = new UserData;
+        $contact->user_id = $request->input('user_id');
+        $contact->firstname = $request->input('firstname');
+        $contact->lastname = $request->input('lastname');
+        $contact->idnumber = $request->input('idnumber');
+        $contact->address = $request->input('address');
+        $contact->email = $request->input('email');
+        //$contact->relationship_id = $request->input('relationship_id');
+        $contact->save();
+
+        // register the phone number
+        $phone = new PhoneNumber;
+        $phone->phoneable_id = $contact->id;
+        $phone->phoneable_type = UserData::class;
+        $phone->phone_number = $request->input('phone');
+        $phone->save();
     }
 
     /**

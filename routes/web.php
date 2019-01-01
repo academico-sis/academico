@@ -44,13 +44,10 @@ Route::group(
         });
 
 
-
-
-/* 
-Route::group(['middleware' => 'web', 'prefix' => config('backpack.base.route_prefix')], function () {
-    Route::auth();
-    Route::get('logout', 'Auth\LoginController@logout');
-}); */
+// routes used to add additional contacts to a user
+// these routes may be used by guests... -> todo find another protection.
+//Route::get('users/{user}/addcontact', 'UserDataController@create');
+Route::post('users/addcontact', 'UserDataController@store');
 
 Route::get('/', 'HomeController@index');
 Route::get('courses/create', 'CourseController@create');
