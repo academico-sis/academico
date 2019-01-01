@@ -10,7 +10,7 @@
                         {!! csrf_field() !!}
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label class="control-label">{{ trans('backpack::base.name') }}</label>
+                            <label class="control-label">{{ trans('academico.firstname') }}</label>
 
                             <div>
                                 <input type="text" class="form-control" name="name" value="{{ old('name') }}">
@@ -22,6 +22,97 @@
                                 @endif
                             </div>
                         </div>
+
+                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
+                            <label class="control-label">{{ trans('academico.lastname') }}</label>
+
+                            <div>
+                                <input type="text" class="form-control" name="name" value="{{ old('name') }}">
+
+                                @if ($errors->has('name'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('name') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has(backpack_authentication_column()) ? ' has-error' : '' }}">
+                            <label class="control-label">{{ trans('academico.idnumber') }}</label>
+
+                            <div>
+                                <input type="{{ backpack_authentication_column()=='email'?'email':'text'}}" class="form-control" name="{{ backpack_authentication_column() }}" value="{{ old(backpack_authentication_column()) }}">
+
+                                @if ($errors->has(backpack_authentication_column()))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first(backpack_authentication_column()) }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has(backpack_authentication_column()) ? ' has-error' : '' }}">
+                            <label class="control-label">{{ trans('academico.genre') }}</label>
+
+                            <div>
+                                <select class="form-control" name="genre_id">
+                                    <option>M</option>
+                                    <option>F</option>
+                                </select>
+
+                                @if ($errors->has(backpack_authentication_column()))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first(backpack_authentication_column()) }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+
+                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
+                                <label class="control-label">{{ trans('academico.birthdate') }}</label>
+    
+                                <div>
+                                    <input type="date" class="form-control" name="name" value="{{ old('name') }}">
+    
+                                    @if ($errors->has('name'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('name') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                        
+                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
+                                <label class="control-label">{{ trans('academico.phone') }}</label>
+    
+                                <div>
+                                    <input type="text" class="form-control" name="name" value="{{ old('name') }}">
+    
+                                    @if ($errors->has('name'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('name') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
+
+                            <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
+                                    <label class="control-label">{{ trans('academico.address') }}</label>
+        
+                                    <div>
+                                        <input type="text" class="form-control" name="name" value="{{ old('name') }}">
+        
+                                        @if ($errors->has('name'))
+                                            <span class="help-block">
+                                                <strong>{{ $errors->first('name') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
+
 
                         <div class="form-group{{ $errors->has(backpack_authentication_column()) ? ' has-error' : '' }}">
                             <label class="control-label">{{ config('backpack.base.authentication_column_name') }}</label>
@@ -64,6 +155,38 @@
                                 @endif
                             </div>
                         </div>
+
+
+                        <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
+                                <label class="control-label">Reglement</label>
+    
+                                <div>
+                                        <input id="reglamento" name="reglamento" type="checkbox" required>
+                                        <label for="reglamento">He leído y acepto los términos y condiciones del <a target="blank" href="https://academico.afcuenca.org.ec/reglamento.pdf">Reglamento interno de la Alianza Francesa de Cuenca</a></label>    
+                                    @if ($errors->has('password_confirmation'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('password_confirmation') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                        </div>
+
+
+
+                        <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
+                                <label class="control-label">Factura</label>
+    
+                                <div>
+                                        <input id="reglamento" name="reglamento" type="checkbox" required>
+                                        <label for="reglamento">Quiero ingresar otros datos para la factuar</label>    
+                                    @if ($errors->has('password_confirmation'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('password_confirmation') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                        </div>
+
 
                         <div class="form-group">
                             <div>
