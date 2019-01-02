@@ -4,7 +4,9 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
-use  App\Models\PreInvoice;
+use App\Models\PreInvoice;
+use App\Models\PreInvoiceDetail;
+use App\Models\User;
 
 class MigrateInvoices extends Command
 {
@@ -63,7 +65,6 @@ class MigrateInvoices extends Command
 
                 // substract the matricula fee from the total
                 $new_product = new \App\Models\PreInvoiceDetail;
-                $new_product->quantity = 1;
                 $new_product->pre_invoice_id = $detail->id_pre_factura_cabecera;
                 $new_product->product_name = $detail->v_detfac_descripcion;
                 $new_product->price = $detail->v_detfac_precio - 20;
@@ -73,7 +74,6 @@ class MigrateInvoices extends Command
 
                 // and add the matricula fee as a separate one
                 $new_product = new \App\Models\PreInvoiceDetail;
-                $new_product->quantity = 1;
                 $new_product->pre_invoice_id = $detail->id_pre_factura_cabecera;
                 $new_product->product_name = "COSTO MATRICULA";
                 $new_product->price = 20;
@@ -86,7 +86,6 @@ class MigrateInvoices extends Command
             else {
                         // otherwise just duplicate the record into the new table
                         $new_product = new \App\Models\PreInvoiceDetail;
-                        $new_product->quantity = 1;
                         $new_product->pre_invoice_id = $detail->id_pre_factura_cabecera;
                         $new_product->product_name = $detail->v_detfac_descripcion;
                         $new_product->price = $detail->v_detfac_precio;
@@ -130,15 +129,57 @@ class MigrateInvoices extends Command
         // retrieve the list of enrollments to migrate
         $enrollments = DB::table('afc2.enrollments')
         ->select(DB::raw('
-            id
+            enrollments.id, enrollments.id_user as id_user, enrollments.fecha as fecha,
+            enrollments.id_factura as invoice_number,
+            courses.name as course_name, courses.price as course_price
             '))
-            ->where('id', '>', 2685)
+            ->join('courses', 'id_cursos', 'courses.id')
+            ->where('enrollments.id', '>', 2684)
         ->get();
 
+        //dd($enrollments);
         // for each enrollment
+        foreach ($enrollments as $enrollment)
+        {
+            // generate an invoice for the course + a matricula fee
 
-        // add the course to the cart
+        $client = User::find($enrollment->id_user);
+
+        // generate a new preinvoice
+        $preinvoice = new PreInvoice;
+        $preinvoice->user_id = $enrollment->id_user;
+        //$preinvoice->user_data_id = $invoice_data->id;
+        $preinvoice->client_name = $client->name;
+        $preinvoice->client_idnumber =  $client->idnumber;
+        $preinvoice->client_address = $client->address;
+        $preinvoice->client_email = $client->email;
+        $preinvoice->total_price = 0;
+        $preinvoice->invoice_number = $enrollment->invoice_number;
+
+        $preinvoice->save();
+
+        echo "generated preinvoice\n";
+
+        // generate a preinvoice product (detail)
+        $detail = new PreInvoiceDetail;
+        $detail->pre_invoice_id = $preinvoice->id;
+        $detail->product_name = $enrollment->course_name;
+        $detail->price = $enrollment->course_price;
+        $detail->created_at = $enrollment->fecha;
+        $detail->save();
+
+        $matricula = new PreInvoiceDetail;
+        $matricula->pre_invoice_id = $preinvoice->id;
+        $matricula->product_name = "COSTO MATRICULA";
+        $matricula->price = 20;
+        $matricula->created_at = $enrollment->fecha;
+        $matricula->save();
+
+        }
+
+        }
+
 
         
     }
-}
+
