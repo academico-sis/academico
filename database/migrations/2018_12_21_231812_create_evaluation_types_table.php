@@ -32,6 +32,13 @@ class CreateEvaluationTypesTable extends Migration
                 'name' => 'COMPÉTENCES'
             )
         );
+
+        Schema::create('course_evaluation_type', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('course_id')->unsigned();
+            $table->integer('evaluation_type_id')->unsigned();
+            //$table->timestamps();
+        });
     }
 
 

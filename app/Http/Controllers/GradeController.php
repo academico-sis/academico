@@ -2,14 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Result;
 use App\Models\Grade;
-use App\Models\Skill;
-use App\Models\Enrollment;
-
 use Illuminate\Http\Request;
 
-class ResultController extends Controller
+class GradeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -45,26 +41,21 @@ class ResultController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Result  $result
+     * @param  \App\Models\Grade  $grade
      * @return \Illuminate\Http\Response
      */
-    public function show($enrollment)
+    public function show(Grade $grade)
     {
-        $enrollment = Enrollment::findOrFail($enrollment);
-        
-        $grades = $enrollment->grades;
-        $skills = $enrollment->skills;
-
-        return view('results.show', compact('enrollment', 'grades', 'skills'));
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Result  $result
+     * @param  \App\Models\Grade  $grade
      * @return \Illuminate\Http\Response
      */
-    public function edit(Result $result)
+    public function edit(Grade $grade)
     {
         //
     }
@@ -73,10 +64,10 @@ class ResultController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Result  $result
+     * @param  \App\Models\Grade  $grade
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Result $result)
+    public function update(Request $request, Grade $grade)
     {
         //
     }
@@ -84,10 +75,10 @@ class ResultController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Result  $result
+     * @param  \App\Models\Grade  $grade
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Result $result)
+    public function destroy(Grade $grade)
     {
         //
     }

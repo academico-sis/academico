@@ -4,8 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use PreInvoiceDetail;
-use Enrollment;
+
 
 class PreInvoice extends Model
 {
@@ -14,7 +13,7 @@ class PreInvoice extends Model
 
     public function pre_invoice_details()
     {
-        return $this->hasMany('PreInvoiceDetail');
+        return $this->hasMany('\App\Models\PreInvoiceDetail');
     }
 
     public function enrollments()

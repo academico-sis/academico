@@ -45,6 +45,21 @@ class Enrollment extends Model
         return $this->belongsToMany('App\Models\PreInvoice', 'enrollment_pre_invoice', 'enrollment_id', 'pre_invoice_id');
     }
 
+    public function getGradesAttribute()
+    {
+        return Grade::where('course_id', $this->course_data->id)->where('user_id', $this->student_data->id)
+            ->with('grade_type')
+            ->get();
+    }
+
+    public function getSkillsAttribute()
+    {
+        return Grade::where('course_id', $this->course_data->id)->where('user_id', $this->student_data->id)
+            ->with('grade_type')
+            ->get();
+    }
+
+    // todo refactor this
     public function addToCart()
     {
         $product = Cart::firstOrNew([

@@ -26,7 +26,7 @@ class CreateCoursesTable extends Migration
             $table->integer('room_id')->unsigned()->nullable();
             $table->integer('teacher_id')->unsigned()->nullable();
             $table->integer('parent_course_id')->unsigned()->nullable();
-            $table->integer('evaluation_type_id')->unsigned()->nullable();
+            //$table->integer('evaluation_type_id')->unsigned()->nullable();
             $table->boolean('exempt_attendance')->nullable();
             $table->integer('period_id')->unsigned();
             $table->boolean('opened')->nullable();

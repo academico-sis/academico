@@ -102,7 +102,17 @@ class Course extends Model
 
     public function evaluation_type()
     {
-        return $this->belongsTo('\App\Models\EvaluationType', 'evaluation_type_id');
+        return $this->belongsToMany('\App\Models\EvaluationType');
+    }
+
+    public function grade_type()
+    {
+        return $this->belongsToMany('\App\Models\GradeType');
+    }
+
+    public function grades()
+    {
+        return $this->hasMany('\App\Models\Grade');
     }
 
 

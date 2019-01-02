@@ -43,7 +43,7 @@ class MigrateInvoices extends Command
      */
      public function handle()
     {
-/*         // retrieve the old prefacturas (detalle)
+         // retrieve the old prefacturas (detalle)
         $details = DB::table('afc2.bf_pre_factura_detalle')
         ->select(DB::raw('
             id,
@@ -101,46 +101,12 @@ class MigrateInvoices extends Command
 
 
 
-        // try to retrieve the invoice numbers from the old comments
-
-        $invoices = DB::table('afc2.bf_pre_factura_cabecera')
-        ->select(DB::raw('
-            id,
-            observaciones
-            '))
-        ->get();
-
-        foreach ($invoices as $invoice)
-        {
-        // parse the comment for an invoice number. Usually factura+XXXX
-        $pattern = "/(?:factura ?|FACTURA ?)(\d+)/";
-            if (preg_match($pattern, $invoice->observaciones, $match) == 1)
-            { 
-                // if a number is found, update the new pre_invoices table.
-                $preinvoice = PreInvoice::findOrFail($invoice->id);
-                $preinvoice->invoice_number = $match[1];
-                $preinvoice->save();
-            }
-        }
- */
-
 
 
         // create missing preinvoices for recent enrollments
 
         // retrieve the list of enrollments to migrate
-        
-/*         $enrollments = DB::table('afc2.enrollments')
-        ->select(DB::raw('
-            enrollments.id as id, enrollments.id_user as id_user, enrollments.fecha as fecha,
-            enrollments.id_factura as invoice_number,
-            courses.name as course_name, courses.price as course_price
-            '))
-            ->join('courses', 'id_cursos', 'courses.id')
-            ->where('enrollments.id', '>', 2684)
-            ->where('enrollments.parent', null)
-            ->where('enrollments.estatus', 'PAGADO')
-        ->get(); */
+
 
         $enrollments = DB::table('afc2.enrollments')
         ->select(DB::raw('
@@ -199,8 +165,35 @@ class MigrateInvoices extends Command
         $matricula->created_at = $enrollment->fecha;
         $matricula->save();
 
-
         }
+
+
+
+
+        // try to retrieve the invoice numbers from the old comments
+
+        $invoices = DB::table('afc2.bf_pre_factura_cabecera')
+        ->select(DB::raw('
+            id,
+            observaciones
+            '))
+        ->get();
+
+        foreach ($invoices as $invoice)
+        {
+        // parse the comment for an invoice number. Usually factura+XXXX
+        $pattern = "/(?:factura ?|FACTURA ?)(\d+)/";
+            if (preg_match($pattern, $invoice->observaciones, $match) == 1)
+            { 
+                // if a number is found, update the new pre_invoices table.
+                $preinvoice = PreInvoice::findOrFail($invoice->id);
+                $preinvoice->invoice_number = $match[1];
+                $preinvoice->save();
+            }
+        }
+
+
+
 
         }
 
