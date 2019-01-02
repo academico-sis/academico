@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Enrollment;
 use Illuminate\Http\Request;
 use App\Models\Period;
-use App\Models\Student;
+use App\User;
 use App\Models\Course;
 use App\Models\Cart;
 use App\Models\PreInvoice;
@@ -30,7 +30,7 @@ class EnrollmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Student $student, Period $period)
+    public function create(User $student, Period $period)
     {
         if (!$period->exists) {
             $period = Period::get_default_period();

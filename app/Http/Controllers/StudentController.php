@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Student;
+use App\User;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -23,7 +23,7 @@ class StudentController extends Controller
      */
     public function get()
     {
-        return \App\Models\Student::all();
+        return \App\User::student()->get();
     }
 
     /**
@@ -53,7 +53,7 @@ class StudentController extends Controller
      * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function show(Student $student)
+    public function show(User $student)
     {
         return view('students/show', compact('student'));
     }
@@ -64,7 +64,7 @@ class StudentController extends Controller
      * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function edit(Student $student)
+    public function edit(User $student)
     {
         //
     }
@@ -76,7 +76,7 @@ class StudentController extends Controller
      * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Student $student)
+    public function update(Request $request, User $student)
     {
         //
     }
@@ -87,7 +87,7 @@ class StudentController extends Controller
      * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Student $student)
+    public function destroy(User $student)
     {
         //
     }
