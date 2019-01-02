@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use \App\Models\Course;
+use App\Models\Course;
+use App\Models\User;
 
 class CourseTeacherController extends Controller
 {
@@ -24,7 +25,7 @@ class CourseTeacherController extends Controller
      */
     public function edit(Course $course)
     {
-        $teachers = \App\Models\Teacher::all();
+        $teachers = User::teacher()->get();
         return view('courses/create2', compact('course', 'teachers'));
         // after refactor with VueSJS, no need for additionnal views
     }
