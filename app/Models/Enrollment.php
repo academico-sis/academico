@@ -32,7 +32,7 @@ class Enrollment extends Model
 
     public function student_data()
     {
-        return $this->belongsTo('App\User', 'user_id');
+        return $this->belongsTo('App\Models\User', 'user_id');
     }
 
     public function course_data()

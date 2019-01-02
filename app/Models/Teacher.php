@@ -13,7 +13,7 @@ class Teacher extends Model
 
     public static function all($columns = ['*'])
     {
-        return \App\User::role('teacher')->get();
+        return \App\Models\User::role('teacher')->get();
     }
 
 }

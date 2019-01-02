@@ -52,7 +52,7 @@ class UserDataController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\UserData  $userData
+     * @param  \App\Models\UserData  $userData
      * @return \Illuminate\Http\Response
      */
     public function show(UserData $userData)
@@ -63,7 +63,7 @@ class UserDataController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\UserData  $userData
+     * @param  \App\Models\UserData  $userData
      * @return \Illuminate\Http\Response
      */
     public function edit(UserData $userData)
@@ -75,7 +75,7 @@ class UserDataController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\UserData  $userData
+     * @param  \App\Models\UserData  $userData
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, UserData $userData)
@@ -86,7 +86,7 @@ class UserDataController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\UserData  $userData
+     * @param  \App\Models\UserData  $userData
      * @return \Illuminate\Http\Response
      */
     public function destroy(UserData $userData)

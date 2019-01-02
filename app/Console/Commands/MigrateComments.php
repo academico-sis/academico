@@ -47,7 +47,7 @@ class MigrateComments extends Command
         {
             $new_comment = new \App\Models\Comment;
             $new_comment->commentable_id = $comment->id_user;
-            $new_comment->commentable_type = 'App\Models\Student'; // todo confirm this. User ?
+            $new_comment->commentable_type = 'App\Models\User';
             $new_comment->body = $comment->comentario;
             $new_comment->private = $comment->private;
             $new_comment->author_id = $comment->id_user_responsable;
@@ -66,7 +66,7 @@ class MigrateComments extends Command
         {
             $new_comment = new \App\Models\Comment;
             $new_comment->commentable_id = $comment->id_user;
-            $new_comment->commentable_type = 'App\Models\Student'; // todo confirm this. User ? Client ?
+            $new_comment->commentable_type = 'App\Models\User';
             $new_comment->body = $comment->comentario;
             $new_comment->private = true;
             $new_comment->author_id = $comment->id_user_responsable;

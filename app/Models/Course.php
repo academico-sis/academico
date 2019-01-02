@@ -77,7 +77,7 @@ class Course extends Model
 
     public function teacher()
     {
-        return $this->belongsTo('\App\User', 'teacher_id');
+        return $this->belongsTo('\App\Models\User', 'teacher_id');
     }
 
     public function room()

@@ -93,7 +93,7 @@ class RegisterController extends \Backpack\Base\app\Http\Controllers\Auth\Regist
         // register the phone number
         $phone = new PhoneNumber;
         $phone->phoneable_id = $user->id;
-        $phone->phoneable_type = Student::class;
+        $phone->phoneable_type = User::class;
         $phone->phone_number = $request->input('phone_number');
         $phone->save();
 

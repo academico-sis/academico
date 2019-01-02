@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -23,7 +23,7 @@ class StudentController extends Controller
      */
     public function get()
     {
-        return \App\User::student()->get();
+        return User::student()->get();
     }
 
     /**

@@ -32,7 +32,7 @@ class BrowseCoursesTest extends TestCase
     public function test_that_a_new_course_within_the_current_period_appears_in_courses_management_panel()
     {
         // login the first fake user created by DB seeding
-        $user = \App\User::find(1);
+        $user = \App\Models\User::find(1);
         \Auth::guard(backpack_guard_name())->login($user);
 
         // visit the course management page and assert that we see the title of the course

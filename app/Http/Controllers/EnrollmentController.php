@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Enrollment;
 use Illuminate\Http\Request;
 use App\Models\Period;
-use App\User;
+use App\Models\User;
 use App\Models\Course;
 use App\Models\Cart;
 use App\Models\PreInvoice;
@@ -37,7 +37,7 @@ class EnrollmentController extends Controller
         }
 
         // display a list of available courses
-        $courses = \App\Models\Course::get_available_courses($period);
+        $courses = Course::get_available_courses($period);
 
         return view('enrollments/create', compact('courses', 'period', 'student'));
     }
@@ -51,7 +51,7 @@ class EnrollmentController extends Controller
     public function store(Request $request)
     {
         $course = Course::findOrFail($request->course_id);
-        $student = Student::findOrFail($request->student_id);
+        $student = User::student()->findOrFail($request->student_id);
 
         $enrollment_id = $student->enroll($course);
 
