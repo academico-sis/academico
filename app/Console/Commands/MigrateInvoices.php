@@ -129,12 +129,14 @@ class MigrateInvoices extends Command
         // retrieve the list of enrollments to migrate
         $enrollments = DB::table('afc2.enrollments')
         ->select(DB::raw('
-            enrollments.id, enrollments.id_user as id_user, enrollments.fecha as fecha,
+            enrollments.id as id, enrollments.id_user as id_user, enrollments.fecha as fecha,
             enrollments.id_factura as invoice_number,
             courses.name as course_name, courses.price as course_price
             '))
             ->join('courses', 'id_cursos', 'courses.id')
             ->where('enrollments.id', '>', 2684)
+            ->where('enrollments.parent', null)
+            ->where('enrollments.estatus', 'PAGADO')
         ->get();
 
         //dd($enrollments);
@@ -158,7 +160,7 @@ class MigrateInvoices extends Command
 
         $preinvoice->save();
 
-        echo "generated preinvoice\n";
+        echo "generated preinvoice for enrollment " . $enrollment->id . "\n";
 
         // generate a preinvoice product (detail)
         $detail = new PreInvoiceDetail;
