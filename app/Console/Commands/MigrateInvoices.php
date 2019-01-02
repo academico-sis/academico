@@ -100,7 +100,7 @@ class MigrateInvoices extends Command
 
 
 
-        // for each cabecera details
+        // try to retrieve the invoice numbers from the old comments
 
         $invoices = DB::table('afc2.bf_pre_factura_cabecera')
         ->select(DB::raw('
@@ -122,5 +122,23 @@ class MigrateInvoices extends Command
             }
         }
 
+
+
+
+        // create missing preinvoices for recent enrollments
+
+        // retrieve the list of enrollments to migrate
+        $enrollments = DB::table('afc2.enrollments')
+        ->select(DB::raw('
+            id
+            '))
+            ->where('id', '>', 2685)
+        ->get();
+
+        // for each enrollment
+
+        // add the course to the cart
+
+        
     }
 }
