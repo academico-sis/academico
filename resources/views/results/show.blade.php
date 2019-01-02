@@ -113,7 +113,14 @@
             </div>
             
             <div class="box-body">
-                
+                    <table class="table">
+                            @foreach ($skills as $skill)
+                            <tr>
+                                <td>{{ $skill->skill->name }}</td>
+                                <td>{{ $skill->id }}</td>
+                            </tr>
+                            @endforeach
+                        </table>
                 
             </div>
         </div>

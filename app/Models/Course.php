@@ -115,6 +115,11 @@ class Course extends Model
         return $this->hasMany('\App\Models\Grade');
     }
 
+    public function skills()
+    {
+        return $this->belongsToMany('\App\Models\Skill');
+    }
+
 
 
     /**

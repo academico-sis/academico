@@ -54,8 +54,9 @@ class Enrollment extends Model
 
     public function getSkillsAttribute()
     {
-        return Grade::where('course_id', $this->course_data->id)->where('user_id', $this->student_data->id)
-            ->with('grade_type')
+        return SkillEvaluation::where('user_id', $this->student_data->id)
+            ->where('course_id', $this->course_data->id)
+            ->with('skill')
             ->get();
     }
 
