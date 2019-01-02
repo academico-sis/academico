@@ -5,8 +5,10 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use App\Models\PreInvoice;
+
 use App\Models\PreInvoiceDetail;
 use App\Models\User;
+use App\Models\Enrollment;
 
 class MigrateInvoices extends Command
 {
@@ -39,9 +41,9 @@ class MigrateInvoices extends Command
      *
      * @return mixed
      */
-    public function handle()
+     public function handle()
     {
-        // retrieve the old prefacturas (detalle)
+/*         // retrieve the old prefacturas (detalle)
         $details = DB::table('afc2.bf_pre_factura_detalle')
         ->select(DB::raw('
             id,
@@ -120,14 +122,15 @@ class MigrateInvoices extends Command
                 $preinvoice->save();
             }
         }
-
+ */
 
 
 
         // create missing preinvoices for recent enrollments
 
         // retrieve the list of enrollments to migrate
-        $enrollments = DB::table('afc2.enrollments')
+        
+/*         $enrollments = DB::table('afc2.enrollments')
         ->select(DB::raw('
             enrollments.id as id, enrollments.id_user as id_user, enrollments.fecha as fecha,
             enrollments.id_factura as invoice_number,
@@ -137,7 +140,23 @@ class MigrateInvoices extends Command
             ->where('enrollments.id', '>', 2684)
             ->where('enrollments.parent', null)
             ->where('enrollments.estatus', 'PAGADO')
+        ->get(); */
+
+        $enrollments = DB::table('afc2.enrollments')
+        ->select(DB::raw('
+            enrollments.id as id, enrollments.id_user as id_user, enrollments.fecha as fecha,
+            enrollments.id_factura as invoice_number,
+            courses.nombre as course_name, courses.precio as course_price
+            '))
+            ->leftJoin('afc2.bf_pre_factura_cabecera', 'enrollments.id', 'bf_pre_factura_cabecera.id_matricula')
+            ->leftJoin('afc2.courses', 'enrollments.id_cursos', 'courses.id')
+            ->where('enrollments.parent', null)
+            ->where('enrollments.estatus', 'PAGADO')
+            ->where('id_prefactura', null)
         ->get();
+
+
+
 
         //dd($enrollments);
         // for each enrollment
@@ -160,7 +179,10 @@ class MigrateInvoices extends Command
 
         $preinvoice->save();
 
-        echo "generated preinvoice for enrollment " . $enrollment->id . "\n";
+        $nenrollment = Enrollment::findOrFail($enrollment->id);
+        $nenrollment->pre_invoice()->attach($preinvoice->id);
+
+        echo "generated preinvoice " . $preinvoice->id . "for enrollment " . $enrollment->id . "\n";
 
         // generate a preinvoice product (detail)
         $detail = new PreInvoiceDetail;
@@ -176,6 +198,7 @@ class MigrateInvoices extends Command
         $matricula->price = 20;
         $matricula->created_at = $enrollment->fecha;
         $matricula->save();
+
 
         }
 
