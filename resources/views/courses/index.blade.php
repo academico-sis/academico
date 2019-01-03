@@ -33,7 +33,7 @@
                     </div>
 
                     {{-- New course button --}}
-                    @if(backpack_user()->can('courses.edit'))
+                    @if($permissions->contains('name', 'courses.edit'))
                         <a href="{{ url('courses/create') }}" class="btn btn-primary">Nouveau cours</a>
                     @endif
                     
@@ -53,7 +53,7 @@
                             <th>{{ trans_choice('academico.teacher', 1) }}</th>
                             <th>{{ trans_choice('academico.room', 1) }}</th>
                             <th>{{ trans_choice('academico.times', 1) }}</th>
-                            @if(backpack_user()->can('courses.edit'))
+                            @if($permissions->contains('name', 'courses.edit'))
                                 <th>{{ trans_choice('academico.evaluation', 1) }}</th>
                             @endif
                             <th>{{ trans_choice('academico.enrollments', 1) }}</th>
@@ -80,7 +80,7 @@
                             <td>
                                 {{ $course->course_teacher_name }}
 
-                                @if(backpack_user()->can('courses.edit'))
+                                @if($permissions->contains('name', 'courses.edit'))
                                     <a type="button" class="btn btn-xs" href="{{ url('courses', $course->id) }}/teacher">
                                         <i class="fa fa-pencil"></i>
                                     </a>
@@ -90,7 +90,7 @@
                             <td>
                                 {{ $course->course_room_name }}
 
-                                @if(backpack_user()->can('courses.edit'))
+                                @if($permissions->contains('name', 'courses.edit'))
                                 <a type="button" class="btn btn-xs" href="{{ url('courses', $course->id) }}/room">
                                     <i class="fa fa-pencil"></i>
                                 </a>
@@ -100,18 +100,19 @@
                             <td>
                                 {{ $course->course_times }}
 
-                                @if(backpack_user()->can('courses.edit'))
+                                @if($permissions->contains('name', 'courses.edit'))
                                     <a type="button" class="btn btn-xs" href="{{ url('courses', $course->id) }}/time"><i class="fa fa-pencil"></i></a>
                                 @endif
                             </td>
 
-                            @if(backpack_user()->can('courses.edit'))
+                            @if($permissions->contains('name', 'courses.edit'))
                             <td>
-                                @foreach ($course->evaluation_type as $evaluation_type)
-                                {{ $evaluation_type }}
                                 <a type="button" class="btn btn-xs" href="{{ url('courses', $course->id) }}/evaluation">
-                                    <i class="fa fa-pencil"></i>
+                                        <i class="fa fa-pencil"></i>
                                 </a>
+
+                                @foreach ($course->evaluation_type as $evaluation_type)
+                                    {{ $evaluation_type->name }}
                                 @endforeach
                             </td>
                             @endif
@@ -125,23 +126,39 @@
                             <td><!-- course available actions -->
 
                             <!-- list of students -->
-                            @if ($course->enrollments_count > 0 && backpack_user()->can('courses.view'))
+                            @if ($course->enrollments_count > 0 && $permissions->contains('name', 'courses.view'))
                             <a type="button" class="btn btn-xs btn-secondary" href="{{ url('courses', $course->id) }}">
                                 <i class="fa fa-user"></i>
                             </a>
                             @endif
 
                             <!-- attendance overview -->
-                            @if ($course->exempt_attendance !== 1 && backpack_user()->can('attendance.view'))
-                            <a type="button" class="btn btn-xs btn-secondary" href="{{ url('attendance/course', $course->id) }}">
+                            @if ($course->exempt_attendance !== 1 && $permissions->contains('name', 'attendance.view'))
+                            <a type="button" class="btn btn-xs btn-secondary" href="{{ url('courses', $course->id) }}/attendance">
                                 <i class="fa calendar-check-o"></i>
                             </a>
                             @endif
 
+                            @if($permissions->contains('name', 'grades.edit') && $course->evaluation_type->contains(1))
+                            <a type="button" class="btn btn-xs btn-success" href="{{ url('courses', $course->id) }}/grades">
+                                Notes
+                            </a>
+                            @endif
+
+                            @if($permissions->contains('name', 'grades.edit') && $course->evaluation_type->contains(2))
+                            <a type="button" class="btn btn-xs btn-success" href="{{ url('courses', $course->id) }}/skills">
+                                Compétences du cours
+                            </a>
+
+                            <a type="button" class="btn btn-xs btn-success" href="{{ url('courses', $course->id) }}/skillsevaluation">
+                                Compétences des étudiants
+                            </a>
+                            @endif
+
                             <!-- course deletion -->
-                            @if ($course->enrollments_count == 0 && backpack_user()->can('courses.delete'))
+                            @if ($course->enrollments_count == 0 && $permissions->contains('name', 'courses.delete'))
                                 <button class="btn btn-xs btn-danger" onclick="deleteCourse({{$course->id}})"><i class="fa fa-trash"></i></button>
-                            @endif         
+                            @endif
    
                             </td>
                         </tr>
@@ -221,12 +238,6 @@
             }
 
         );
-            console.log(table);
-            table
-            .row(32)
-            .remove()
-            .draw();
-
 
     });
 

@@ -27,8 +27,11 @@ class CourseController extends Controller
         if ($period_id == null) { $period = Period::get_default_period(); }
         else { $period = Period::find($period_id); }
 
-        $courses = (new Course)->get_all_internal_courses($period);
-        return view('courses/index', compact('courses', 'period'));   
+        $courses = (new \App\Models\Course)->get_all_internal_courses($period);
+
+        $permissions = backpack_user()->getAllPermissions();
+
+        return view('courses/index', compact('courses', 'period', 'permissions'));   
     }
 
     /**
