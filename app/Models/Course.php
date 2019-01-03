@@ -64,6 +64,8 @@ class Course extends Model
         ->with('student_data')
         ->get();
     }
+
+
     /*
     |--------------------------------------------------------------------------
     | RELATIONS
@@ -112,9 +114,14 @@ class Course extends Model
 
     public function grades()
     {
-        return $this->hasMany('\App\Models\Grade');
+        return $this->hasMany('\App\Models\Grade')->with('student');
     }
 
+    public function students_with_grades()
+    {
+        return $this->hasMany('\App\Models\Enrollment', 'course_id', 'id')->with('student_data');
+
+    }
     public function skills()
     {
         return $this->belongsToMany('\App\Models\Skill');
@@ -133,7 +140,7 @@ class Course extends Model
      */
     public function enrollments()
     {
-        return $this->hasMany('\App\Models\Enrollment', 'course_id', 'id');
+        return $this->hasMany('\App\Models\Enrollment', 'course_id', 'id')->with('student_data');
     }
     /*
     |--------------------------------------------------------------------------

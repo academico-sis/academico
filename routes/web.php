@@ -49,6 +49,10 @@ Route::group(
     /* Skills Evaluation update */
     Route::get('courses/{course}/skillsevaluation', 'CourseSkillsController@show');
 
+        /* Course grades update */
+        Route::get('courses/{course}/grades', 'GradeController@edit');
+        Route::patch('courses/{course}/grades', 'GradeController@update');
+    
 
     /* Course Times update */
     Route::get('courses/{course}/time/get', 'CourseTimeController@show');
