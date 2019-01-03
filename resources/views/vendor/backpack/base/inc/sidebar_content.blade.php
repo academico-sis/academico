@@ -23,6 +23,20 @@
   </ul>
 </li>
 
+{{-- EVALUATION METHODS --}}
+<li class="treeview">
+  <a href="#"><i class="fa fa-link"></i> <span>@lang_u('academico.evaluation')</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
+  <ul class="treeview-menu">
+      <li><a href='{{ backpack_url('evaluationtype') }}'><span>{{ ucfirst(trans_choice('academico.evaluation_types', 2)) }}</span></a></li>
+      <li><a href='{{ backpack_url('gradetype') }}'><span>{{ ucfirst(trans_choice('academico.grade_types', 2)) }}</span></a></li>
+      <li><a href='{{ backpack_url('skill') }}'><span>{{ ucfirst(trans_choice('academico.skills', 2)) }}</span></a></li>
+      <li><a href='{{ backpack_url('skilltype') }}'><span>{{ ucfirst(trans_choice('academico.skill_types', 2)) }}</span></a></li>
+      <li><a href='{{ backpack_url('skillscale') }}'><span>{{ ucfirst(trans_choice('academico.skill_scales', 2)) }}</span></a></li>
+      <li><a href='{{ backpack_url('resulttype') }}'><span>{{ ucfirst(trans_choice('academico.result_types', 2)) }}</span></a></li>
+
+  </ul>
+</li>
+
 <!-- Users, Roles Permissions -->
 <li class="treeview">
   <a href="#"><i class="fa fa-group"></i> <span>{{ ucfirst(trans_choice('academico.users', 2)) }}</span> <i class="fa fa-angle-left pull-right"></i></a>

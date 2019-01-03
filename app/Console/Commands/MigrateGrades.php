@@ -75,6 +75,20 @@ class MigrateGrades extends Command
         // attach the grade types to the courses
         $gradetype = EvaluationType::find(1);
         $gradetype->courses()->sync($graded_courses);
+
+
+        // attach the skill eval type to all corresponding courses
+
+        $skilled_courses = DB::table('afc2.courses')
+        ->select(DB::raw('id, id_eval'))
+        ->where('id_eval', 2)
+        ->get();
+
+        foreach ($skilled_courses as $course)
+        {
+            $course = Course::findOrFail($course->id);
+            $course->evaluation_type()->attach(2);
+        }
     }
 }
 

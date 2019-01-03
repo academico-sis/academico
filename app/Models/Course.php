@@ -194,10 +194,6 @@ class Course extends Model
         return strtoupper($this->teacher['firstname'] . " " . $this->teacher['lastname']);
     }
 
-    public function getCourseEvaluationTypeNameAttribute()
-    {
-        return $this->evaluation_type['name'];
-    }
 
     public function getChildrenCountAttribute()
     {

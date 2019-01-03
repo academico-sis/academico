@@ -24,8 +24,7 @@ class CreateResultsTable extends Migration
             $table->increments('id');
             $table->string('name')->unique();
             $table->string('description')->nullable();
-
-            //$table->timestamps();
+            $table->timestamps();
         });
 
         DB::table('result_types')->insert(

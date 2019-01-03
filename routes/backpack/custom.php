@@ -43,4 +43,10 @@ Route::group([
     CRUD::resource('user', 'UserCrudController');
 
 
+    CRUD::resource('evaluationtype', 'EvaluationTypeCrudController');
+    CRUD::resource('gradetype', 'GradeTypeCrudController');
+    CRUD::resource('skill', 'SkillCrudController');
+    CRUD::resource('skilltype', 'SkillTypeCrudController');
+    CRUD::resource('skillscale', 'SkillScaleCrudController');
+    CRUD::resource('resulttype', 'ResultTypeCrudController');
 }); // this should be the absolute last line of this file

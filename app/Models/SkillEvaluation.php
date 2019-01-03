@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Backpack\CRUD\CrudTrait;
 
 class SkillEvaluation extends Model
 {
+    use CrudTrait;
+
     public function skill()
     {
         return $this->belongsTo('\App\Models\Skill');

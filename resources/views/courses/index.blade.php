@@ -107,10 +107,12 @@
 
                             @if(backpack_user()->can('courses.edit'))
                             <td>
-                                {{ $course->course_evaluation_type_name }}
+                                @foreach ($course->evaluation_type as $evaluation_type)
+                                {{ $evaluation_type }}
                                 <a type="button" class="btn btn-xs" href="{{ url('courses', $course->id) }}/evaluation">
                                     <i class="fa fa-pencil"></i>
                                 </a>
+                                @endforeach
                             </td>
                             @endif
 
