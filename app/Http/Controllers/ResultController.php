@@ -54,7 +54,7 @@ class ResultController extends Controller
         
         $grades = $enrollment->grades;
         $skills = $enrollment->skills;
-
+        dump($skills);
         return view('results.show', compact('enrollment', 'grades', 'skills'));
     }
 

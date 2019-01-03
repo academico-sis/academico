@@ -56,7 +56,7 @@ class Enrollment extends Model
     {
         return SkillEvaluation::where('user_id', $this->student_data->id)
             ->where('course_id', $this->course_data->id)
-            ->with('skill')
+            ->with('skill')->with('skill_scale')
             ->get();
     }
 

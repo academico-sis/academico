@@ -117,7 +117,7 @@
                             @foreach ($skills as $skill)
                             <tr>
                                 <td>{{ $skill->skill->name }}</td>
-                                <td>{{ $skill->id }}</td>
+                                <td>{{ $skill->skill_scale->shortname }}</td>
                             </tr>
                             @endforeach
                         </table>

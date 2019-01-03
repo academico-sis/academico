@@ -20,4 +20,9 @@ class SkillEvaluation extends Model
     {
         return $this->belongsTo('\App\Models\Course');
     }
+
+    public function skill_scale()
+    {
+        return $this->belongsTo('\App\Models\SkillScale');
+    } 
 }
