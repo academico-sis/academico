@@ -33,9 +33,11 @@ class GradeController extends Controller
      * @param  \App\Models\Grade  $grade
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Grade $grade)
+    public function store(Request $request)
     {
-        //
+        $grade = Grade::findOrFail($request->input('pk'));
+        $grade->grade = $request->input('value');
+        $grade->save();
     }
 
     /**
@@ -44,8 +46,9 @@ class GradeController extends Controller
      * @param  \App\Models\Grade  $grade
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Grade $grade)
+    public function destroy(Request $request)
     {
-        //
+        $grade = Grade::findOrFail($request->input('id'));
+        $grade->delete();
     }
 }
