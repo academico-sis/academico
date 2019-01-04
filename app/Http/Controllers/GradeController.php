@@ -20,11 +20,9 @@ class GradeController extends Controller
     public function edit(Course $course)
     {
         
-        $grades = $course->enrollments;
+        $enrollments = $course->enrollments;
 
-        dump($grades);
-
-        return view('grades.edit', compact('grades'));
+        return view('grades.edit', compact('enrollments'));
     }
 
 

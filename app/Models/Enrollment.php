@@ -47,7 +47,8 @@ class Enrollment extends Model
 
     public function getGradesAttribute()
     {
-        return Grade::where('course_id', $this->course_data->id)->where('user_id', $this->student_data->id)
+        return Grade::where('course_id', $this->course_data->id)
+            ->where('user_id', $this->student_data->id)
             ->with('grade_type')
             ->get();
     }

@@ -27,9 +27,17 @@
             <div class="box-body">           
                 <table class="table">
                     
-                    @foreach ($grades as $grade)
+                    @foreach ($enrollments as $enrollment)
                     <tr>
-                        <td>{{ $grade->grade }} / {{ $grade->grade_type->total }}</td>
+                        <td>{{ $enrollment->student_data->firstname }}</td>
+                        <td>
+                            <ul>
+                                @foreach ($enrollment->grades as $grade)
+                                <li>{{ $grade->grade_type->name }} : {{ $grade->grade }} / {{ $grade->grade_type->total }} </li>
+                                @endforeach
+                            </ul>
+                        </td>
+                        
                         {{-- for each grade type associated to the course --}}
                         {{-- retrieve  --}}
                     </tr>
