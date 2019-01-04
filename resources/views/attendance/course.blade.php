@@ -24,26 +24,22 @@
             </div>
             
             <div class="box-body">
+                <div id="app">
                 <table class="table">
-                    <thead>
+                        <thead>
                         @foreach ($course->events as $event)
                         <td></td>
                             <td>{{ $event->id }}</td>
                         @endforeach
-
                     </thead>
 
-                    <tbody>
-                        @foreach ($course->enrollments as $student)
-                            <tr>
-                                <td>
-                                    {{ $student->student_data->firstname }}
-                                </td>
-                            </tr>
+                        @foreach ($attendances as $attendance)
+                        <student-attendance-component
+                            :student="{{ json_encode($attendance) }}"></student-attendance-component>
                         @endforeach
                         
-                    </tbody>
                 </table>
+            </div>
             </div>
         </div>
     </div>
@@ -51,4 +47,10 @@
 
 </div>
 
+@endsection
+
+
+
+@section('after_scripts')
+    <script src="/js/app.js"></script>
 @endsection

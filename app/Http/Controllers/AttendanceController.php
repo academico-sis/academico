@@ -65,7 +65,22 @@ class AttendanceController extends Controller
     public function showCourse(Course $course)
     {
         $students = $course->enrollments()->with('student_data')->get();
-        return view('attendance/course', compact('students', 'course'));
+
+        foreach($students as $student)
+        {
+            foreach ($course->events as $event)
+            {
+                $attendances[$student->student_data->id]['student'] = $student->student_data->firstname;
+                $attendances[$student->student_data->id][$event->id]['attendance'] = $event->attendance->where('user_id', $student->student_data->id)->first();
+            }
+            
+            
+            // look if there is a match in attendance record for this user id
+
+        }
+
+        //dd($attendances);
+        return view('attendance/course', compact('attendances', 'course'));
     }
 
     public function showEvent(Event $event)

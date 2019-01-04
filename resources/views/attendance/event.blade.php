@@ -33,9 +33,9 @@
 
                     <tbody>
                         @foreach ($attendances as $attendance)
-                        <student-attendance-component
+                        <event-attendance-component
                             :attendance="{{ json_encode($attendance) }}">
-                        </student-attendance-component>
+                        </event-attendance-component>
                         @endforeach
                         
                     </tbody>

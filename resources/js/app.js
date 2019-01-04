@@ -14,6 +14,8 @@ Vue.component('course-time-component', require('./components/CourseTimeComponent
 
 Vue.component('cart-component', require('./components/CartComponent.vue').default);
 
+Vue.component('event-attendance-component', require('./components/EventAttendanceComponent.vue').default);
+
 Vue.component('student-attendance-component', require('./components/StudentAttendanceComponent.vue').default);
 
 /**
