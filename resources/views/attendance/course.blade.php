@@ -29,7 +29,7 @@
                         <thead>
                         @foreach ($course->events as $event)
                         <td></td>
-                            <td>{{ $event->id }}</td>
+                            <td><a href="/attendance/{{ $event->id }}">{{ $event->start }}</a></td>
                         @endforeach
                     </thead>
 
