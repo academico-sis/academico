@@ -31,12 +31,27 @@ class Event extends Model
     |--------------------------------------------------------------------------
     */
 
+
     /*
     |--------------------------------------------------------------------------
     | RELATIONS
     |--------------------------------------------------------------------------
     */
 
+    public function course()
+    {
+        return $course = $this->belongsTo('App\Models\Course');
+    }
+
+    public function students()
+    {
+        return $this->course->enrollments();
+    }
+
+    public function attendance()
+    {
+        return $this->hasMany('App\Models\Attendance');
+    }
     /*
     |--------------------------------------------------------------------------
     | SCOPES

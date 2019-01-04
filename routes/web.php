@@ -54,6 +54,11 @@ Route::group(
     Route::post('grades', 'GradeController@store');
     Route::delete('grades', 'GradeController@destroy');
 
+    /* Course attendance overview  */
+    Route::get('courses/{course}/attendance', 'AttendanceController@showCourse'); // showStudent method will exist
+    Route::get('attendance/get', 'AttendanceController@get'); // queryString parameters
+    Route::get('attendance/show/{event}', 'AttendanceController@showEvent'); // route model binding
+
 
     /* Course Times update */
     Route::get('courses/{course}/time/get', 'CourseTimeController@show');

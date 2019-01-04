@@ -135,7 +135,7 @@
                             <!-- attendance overview -->
                             @if ($course->exempt_attendance !== 1 && $permissions->contains('name', 'attendance.view'))
                             <a type="button" class="btn btn-xs btn-secondary" href="{{ url('courses', $course->id) }}/attendance">
-                                <i class="fa calendar-check-o"></i>
+                                <i class="fa fa-calendar-check-o"></i>
                             </a>
                             @endif
 

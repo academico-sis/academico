@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\CrudTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Enrollment;
+use App\Models\Event;
 
 class Course extends Model
 {
@@ -77,6 +78,11 @@ class Course extends Model
         return $this->hasMany('\App\Models\CourseTime', 'course_id');
     }
 
+    public function events()
+    {
+        return $this->hasMany('\App\Models\Event');
+    }
+
     public function teacher()
     {
         return $this->belongsTo('\App\Models\User', 'teacher_id');
@@ -120,6 +126,11 @@ class Course extends Model
     public function skills()
     {
         return $this->belongsToMany('\App\Models\Skill');
+    }
+
+    public function attendance()
+    {
+        return $this->hasManyThrough('App\Models\Attendance', 'App\Models\Event');
     }
 
 

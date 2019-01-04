@@ -14,6 +14,8 @@ Vue.component('course-time-component', require('./components/CourseTimeComponent
 
 Vue.component('cart-component', require('./components/CartComponent.vue').default);
 
+Vue.component('student-attendance-component', require('./components/StudentAttendanceComponent.vue').default);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

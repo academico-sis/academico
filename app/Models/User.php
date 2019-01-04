@@ -49,6 +49,10 @@ class User extends Authenticatable
         return User::role('student');
     }
 
+    public function attendance()
+    {
+        return $this->hasMany('App\Models\Attendance');
+    }
 
      /**
      * enroll the student in a course.
