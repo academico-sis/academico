@@ -105,6 +105,28 @@ class SkillCrudController extends CrudController
         // add asterisk for fields that are required in SkillRequest
         $this->crud->setRequiredFields(StoreRequest::class, 'create');
         $this->crud->setRequiredFields(UpdateRequest::class, 'edit');
+
+
+        $this->crud->addFilter([ // select2 filter
+            'name' => 'level_id',
+            'type' => 'select2',
+            'label'=> 'Level'
+          ], function() {
+              return \App\Models\Level::all()->pluck('name', 'id')->toArray();
+          }, function($value) { // if the filter is active
+                  $this->crud->addClause('where', 'level_id', $value);
+          });
+
+          $this->crud->addFilter([ // select2 filter
+            'name' => 'skill_type_id',
+            'type' => 'select2',
+            'label'=> 'Type'
+          ], function() {
+              return \App\Models\SkillType::all()->pluck('name', 'id')->toArray();
+          }, function($value) { // if the filter is active
+                  $this->crud->addClause('where', 'skill_type_id', $value);
+          });
+
     }
 
     public function store(StoreRequest $request)
