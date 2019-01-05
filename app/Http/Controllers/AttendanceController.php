@@ -5,19 +5,29 @@ namespace App\Http\Controllers;
 use App\Models\Attendance;
 use App\Models\Course;
 use App\Models\Event;
+use App\Models\Period;
 
 use Illuminate\Http\Request;
 
 class AttendanceController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Monitor attendance for all students
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        /* todo deduplicate */
+        $period_id = $request->query('period', null);
+        if ($period_id == null) { $period = Period::get_default_period(); }
+        else { $period = Period::find($period_id); }
+
+        $absences = (new Attendance)->get_absence_count($period);
+        $pending_attendance = (new Attendance)->get_pending_attendance();
+
+        return $absences;
+        //return view('attendance.index', compact('absences', 'pending_attendance'));
     }
 
 

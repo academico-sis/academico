@@ -23,4 +23,9 @@ class Period extends Model
         ->where('end', '>=', date('Y-m-d'))
         ->first();
     }
+
+    public function enrollments()
+    {
+        return $this->hasManyThrough('App\Models\Enrollment', 'App\Models\Course');
+    }
 }

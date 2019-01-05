@@ -56,7 +56,7 @@ Route::group(
 
     /* Course attendance overview  */
     Route::get('courses/{course}/attendance', 'AttendanceController@showCourse'); // showStudent method will exist
-    Route::get('attendance/get', 'AttendanceController@get'); // queryString parameters
+    Route::get('attendance', 'AttendanceController@index'); // queryString parameters for period
     Route::get('attendance/{event}', 'AttendanceController@showEvent'); // route model binding
 
 
