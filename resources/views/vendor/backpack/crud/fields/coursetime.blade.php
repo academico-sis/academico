@@ -34,7 +34,7 @@
 
         <tbody>
             @foreach ($entry->times as $time)
-                <tr>
+                <tr id="{{ $time->id }}">
                     <td>{{ $time->day }}</td>
                     <td>{{ $time->start }}</td>
                     <td>{{ $time->end }}</td>
@@ -71,8 +71,11 @@
 
         function removeTime(time) {
             $.ajax({
-                url : '/coursetime/'+time, // La ressource ciblée
-                type : 'DELETE' // Le type de la requête HTTP.
+                url : '/coursetime/'+time,
+                type : 'DELETE',
+                success : function(response, status) {
+                    $("#"+time).remove();
+                }
             });
         }
 
@@ -86,6 +89,24 @@
                 url : '/courses/'+course+'/time',
                 type : 'POST',
                 data : 'day=' + day + '&start=' + start + '&end=' + end,
+                success : function(response, status) {
+                    var markup = `
+                        <tr id="{{ $time->id }}">
+                            <td>{{ $time->day }}</td>
+                            <td>{{ $time->start }}</td>
+                            <td>{{ $time->end }}</td>
+                            <td>
+                                <button
+                                    type="button"
+                                    class="btn btn-xs btn-danger"
+                                    onclick="removeTime({{$time->id}})">
+                                        <i class="fa fa-times"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                    $("table tbody").append(markup);
+                }
             });
         }
         </script>

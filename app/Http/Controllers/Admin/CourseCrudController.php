@@ -269,8 +269,8 @@ class CourseCrudController extends CrudController
                 'name' => 'coursetime',
                 'label' => 'Course Events',
                 'related_model' => 'times', // the relationship on the main model
-                'type' => 'coursetime'
-                /// 'view_namespace' => 'yourpackage' // use a custom namespace of your package to load views within a custom view folder.
+                'type' => 'coursetime',
+                'tab' => 'Schedule'
               ]
              
 
