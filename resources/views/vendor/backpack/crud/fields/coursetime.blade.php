@@ -91,15 +91,15 @@
                 data : 'day=' + day + '&start=' + start + '&end=' + end,
                 success : function(response, status) {
                     var markup = `
-                        <tr id="{{ $time->id }}">
-                            <td>{{ $time->day }}</td>
-                            <td>{{ $time->start }}</td>
-                            <td>{{ $time->end }}</td>
+                        <tr id="${response}">
+                            <td>${day}</td>
+                            <td>${start}</td>
+                            <td>${end}</td>
                             <td>
                                 <button
                                     type="button"
                                     class="btn btn-xs btn-danger"
-                                    onclick="removeTime({{$time->id}})">
+                                    onclick="removeTime(${response})">
                                         <i class="fa fa-times"></i>
                                 </button>
                             </td>
@@ -109,6 +109,13 @@
                 }
             });
         }
+
+        $("form").submit(function() {
+            $('#day').remove();
+            $('#start').remove();
+            $('#end').remove();
+        });
+
         </script>
 
       @endpush

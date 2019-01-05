@@ -51,7 +51,7 @@ class CourseTimeController extends Controller
         $newTime->end = $request->input('end');
         $newTime->save();
 
-        // return something ?
+        return $newTime->id;
     }
 
 
