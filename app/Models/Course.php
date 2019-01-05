@@ -22,8 +22,8 @@ class Course extends Model
     protected $table = 'courses';
     // protected $primaryKey = 'id';
     public $timestamps = false;
-    // protected $guarded = ['id'];
-    protected $fillable = [];
+    protected $guarded = ['id'];
+    //protected $fillable = [];
     // protected $hidden = [];
     // protected $dates = [];
 
@@ -170,7 +170,7 @@ class Course extends Model
      * @param mixed $value
      * @return void
      */
-    public function getCourseTimesAttribute($value)
+    public function getCourseTimesAttribute()
     {
         $days = "";
 
@@ -217,6 +217,11 @@ class Course extends Model
     public function getChildrenAttribute()
     {
         return Course::where('parent_course_id', $this->id)->get();
+    }
+
+    public function getEnrollmentsCountAttribute()
+    {
+        return $this->enrollments()->count();
     }
 
     /*
