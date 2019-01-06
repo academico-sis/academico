@@ -89,7 +89,7 @@ class User extends Authenticatable
 
     public function additional_data()
     {
-        return $this->hasMany('\App\Models\UserData')->whereNull('relationship_id')->orWhereNotIn('relationship_id', [1]);
+        return $this->hasMany('\App\Models\UserData');
     }
 
     public function administrative_comments()
