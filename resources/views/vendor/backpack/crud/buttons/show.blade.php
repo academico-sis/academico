@@ -1,0 +1,1 @@
+<a href="{{ Request::url().'/'.$entry->getKey() }}/moderate" class="btn btn-xs btn-info"><i class="fa fa-user"></i></a>
