@@ -42,12 +42,12 @@ class User extends Authenticatable
 
     public function scopeTeacher($query)
     {
-        return User::role('teacher');
+        return $query->role('teacher')->get();
     }
 
     public function scopeStudent($query)
     {
-        return User::role('student');
+        return $query->role('student')->get();
     }
 
     public function attendance()

@@ -29,6 +29,8 @@ class StudentCrudController extends CrudController
 
         $this->crud->allowAccess('show');
 
+        $this->crud->addClause('student');
+
         $permissions = backpack_user()->getAllPermissions();
         
         if($permissions->contains('name', 'enrollments.create')) {
@@ -103,18 +105,6 @@ class StudentCrudController extends CrudController
             ],
 
         ]);
-        
-        
-        $this->crud->addFilter([ // add a "simple" filter called Draft 
-            'type' => 'simple',
-            'name' => 'students',
-            'label'=> 'Students'
-          ],
-          false, // the simple filter has no values, just the "Draft" label specified above
-          function() { 
-              $this->crud->addClause('student'); 
-          });
-
 
     }
 
