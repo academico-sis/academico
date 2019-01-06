@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Faker\Generator as Faker;
 
 /*
@@ -24,6 +25,7 @@ $factory->define(App\Models\User::class, function (Faker $faker) {
         'language' => 'fr',
         'idnumber' => '123AK456',
         'genre_id' => '1',
-        'birthdate' => now()
+        'address' => 'Example Lane 123',
+        'birthdate' => Carbon::parse("20 years ago"),
     ];
 });

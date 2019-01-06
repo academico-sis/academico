@@ -1,10 +1,13 @@
 <?php
 
+use App\Models\Course;
+use App\Models\Period;
 use Faker\Generator as Faker;
 
 
-$factory->define(\App\Models\Course::class, function (Faker $faker) {
-    $period = \App\Models\Period::get_default_period();
+$factory->define(Course::class, function (Faker $faker) {
+
+    $period = Period::get_default_period();
 
     return [
         'name' => "PHP UNIT TEST COURSE",
@@ -18,9 +21,8 @@ $factory->define(\App\Models\Course::class, function (Faker $faker) {
         'room_id' => 1,
         'teacher_id' => 1,
         'parent_course_id' => null,
-        'eval_type' => null,
         'exempt_attendance' => 1,
-        'period_id' => $period->id,
+        'period_id' => 1,
         'opened' => 1,
         'spots' => 10
     ];

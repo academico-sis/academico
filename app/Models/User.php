@@ -29,6 +29,7 @@ class User extends Authenticatable
         'firstname', 'lastname', 'email', 'password', 'birthdate', 'genre_id', 'language', 'idnumber', 'address'
         ];
 
+
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -65,7 +66,7 @@ class User extends Authenticatable
             'user_id' =>  $this->id,
             'course_id' => $course->id
         ]);
-        $enrollment->responsible_id = backpack_user()->id;
+        $enrollment->responsible_id = backpack_user()->id ?? 1; // todo fix
         $enrollment->save();
         
         // if the course has children, enroll in children as well.
@@ -111,9 +112,14 @@ class User extends Authenticatable
         return $this->firstname . ' ' . $this->lastname;
     }
 
-    public function getAgeAttribute()
+    public function getStudentAgeAttribute()
     {
-        return Carbon::createFromFormat('Y-m-d', $this->birthdate)->age;
+        return Carbon::parse($this->birthdate)->age;
+    }
+
+    public function getStudentBirthdateAttribute()
+    {
+        return Carbon::parse($this->birthdate)->toFormattedDateString();
     }
 
     public function enrollments()

@@ -3,11 +3,20 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
+use App\Models\User;
+use App\Models\Course;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class EnrollmentTest extends TestCase
 {
+
+    use RefreshDatabase;
+
+    use DatabaseMigrations;
+
+    
     /**
      * A basic test example.
      *
@@ -15,24 +24,19 @@ class EnrollmentTest extends TestCase
      */
     public function test_that_a_new_enrollment_appears_in_student_list()
     {
-        // given a user
-        $student = \App\Student::find(1);
+        $this->seed('DatabaseSeeder');
 
-        // and a course
-        $course = \App\Models\Course::find(1);
-        
+        // given a newly created user...
+        $student = factory(User::class)->create();
+
+        // and a newly created course
+        $course = factory(Course::class)->create();
+
         // if we enroll the user in the course
         $student->enroll($course);
 
-        // they appear on the student roaster
-        $user = \App\Student::find(2);
-        \Auth::guard(backpack_guard_name())->login($user);
-
-        $response = $this->get("/courses/$course->id");
-        
-        // with their name
-        $response->assertSee("$student->name");
-
-        // todo and their age
+        // they appear among the enrollments list for the course
+        $enrollments = $course->enrollments;
+        $this->assertTrue($enrollments->contains($student->id));
     }
 }

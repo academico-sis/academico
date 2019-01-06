@@ -2,8 +2,9 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
+use App\Models\Period;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,11 +21,10 @@ class AppServiceProvider extends ServiceProvider
         });
         
         if (\Schema::hasTable('periods')) {
-            $periods = \App\Models\Period::orderBy('id','desc')->get();
-            $current_period = \App\Models\Period::get_default_period();
+            $periods = Period::orderBy('id','desc')->get();
+            $current_period = Period::get_default_period();
             View::share('periods', $periods);
             View::share('current_period', $current_period);
-
         }
     }
 

@@ -40,7 +40,7 @@
                 @endif
                 <p>{{ ucfirst(trans_choice('academico.email', 1)) }}: {{ $student->email }}</p>
                 <p>{{ ucfirst(trans_choice('academico.birthdate', 1)) }}: {{ $student->birthdate }}</p>
-                <p>{{ ucfirst(trans_choice('academico.age', 1)) }}: {{ $student->age }} {{ trans_choice('academico.yearsold', $student->age) }}</p>
+                <p>{{ ucfirst(trans_choice('academico.age', 1)) }}: {{ $student->student_age }} {{ trans_choice('academico.yearsold', $student->student_age) }}</p>
             </div>
         </div>
     </div>

@@ -31,7 +31,9 @@ class CourseController extends Controller
 
         $permissions = backpack_user()->getAllPermissions();
 
-        return view('courses/index', compact('courses', 'period', 'permissions'));   
+        $periods = Period::orderBy('id','desc')->get();
+        
+        return view('courses/index', compact('courses', 'period', 'periods', 'permissions'));   
     }
 
     /**
@@ -78,8 +80,7 @@ class CourseController extends Controller
      */
     public function show(Course $course)
     {
-        $students = \App\Models\Course::get_students($course);
-        dump($students);
+        $students = Course::get_students($course);
         return view('courses/show', compact('course', 'students'));   
     }
 
