@@ -5,7 +5,7 @@
 
 <li><a href="{{ backpack_url('student') }}"><i class="fa fa-user"></i> <span>{{ ucfirst(trans_choice('academico.students', 2)) }}</span></a></li>
 
-<li><a href="{{ url('/enrollments') }}"><i class="fa fa-credit-card"></i> <span>{{ ucfirst(trans_choice('academico.pending', 2)) }}</span></a></li>
+<li><a href="{{ backpack_url('/enrollment?pending=true') }}"><i class="fa fa-credit-card"></i> <span>{{ ucfirst(trans_choice('academico.pending', 2)) }}</span></a></li>
 
 <li><a href="{{ url('/invoices') }}"><i class="fa fa-dollar"></i> <span>{{ ucfirst(trans_choice('academico.invoices', 2)) }}</span></a></li>
 

@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use Backpack\CRUD\CrudTrait;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Enrollment extends Model
 {
-
+    use CrudTrait;
     use SoftDeletes;
 
     protected $fillable = ['user_id', 'course_id', 'parent_id'];
@@ -21,9 +22,10 @@ class Enrollment extends Model
      *
      * @return void
      */
-    public static function pending()
+    public function scopePending($query)
     {
-        return Enrollment::where('status_id', 1)
+        return $query
+            ->where('status_id', 1)
             ->where('parent_id', null)
             ->with('student_data')
             ->with('course_data')

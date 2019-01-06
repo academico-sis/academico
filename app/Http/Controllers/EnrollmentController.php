@@ -13,17 +13,6 @@ use App\Models\PreInvoice;
 
 class EnrollmentController extends Controller
 {
-    /**
-     * Display a list of enrollments that need attention
-     * Pending enrollments 
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $enrollments = Enrollment::pending();
-        return view('enrollments/index', compact('enrollments'));
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -58,23 +47,6 @@ class EnrollmentController extends Controller
         return redirect()->to("/enrollments/$enrollment_id");
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Enrollment  $enrollment
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Enrollment $enrollment)
-    {
-        
-        // load the products from the invoice tables
-        $products = $enrollment->pre_invoice()
-            ->with('pre_invoice_details')
-            ->get();
-        
-        // then load the page
-        return view('enrollments.show', compact('enrollment', 'products'));
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -97,31 +69,6 @@ class EnrollmentController extends Controller
         return redirect("carts/$enrollment->user_id");
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Enrollment  $enrollment
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Enrollment $enrollment)
-    {
-        //
-    }
 
-    /**
-     * Change the status of the enrollment to ANULADO
-     * 
-     * Later, use softdeletes instead?
-     *
-     * @param  \App\Models\Enrollment  $enrollment
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Enrollment $enrollment)
-    {
-        if ($enrollment->status == 1) {
-            $enrollment->status = 3;
-            $enrollment->save();
-        }
-    }
+
 }

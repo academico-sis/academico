@@ -138,7 +138,7 @@ class StudentCrudController extends CrudController
 
     public function show($student)
     {
-        $student = User::student()->findOrFail($student);
+        $student = User::findOrFail($student);
         return view('students/show', compact('student'));
     }
 
