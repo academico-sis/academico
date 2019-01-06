@@ -32,6 +32,8 @@ class CourseCrudController extends CrudController
         if(!$permissions->contains('name', 'courses.edit')) {$this->crud->denyAccess('edit'); }
         if(!$permissions->contains('name', 'courses.create')) {$this->crud->denyAccess('new'); }
 
+        if($permissions->contains('name', 'courses.view')) {$this->crud->allowAccess('show'); }
+
 
 
         /*

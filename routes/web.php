@@ -46,10 +46,6 @@ Route::group(
     Route::delete('coursetime/{id}', 'CourseTimeController@destroy');
 
 
-    // Student management routes
-    Route::get('students/get', 'StudentController@get');
-    Route::resource('students', 'StudentController');
-
     // Enrollments routes
     Route::get('students/{student}/enroll/{period?}', 'EnrollmentController@create');
     Route::post('enrollments', 'EnrollmentController@store');
