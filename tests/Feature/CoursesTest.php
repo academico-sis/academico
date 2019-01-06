@@ -23,7 +23,7 @@ class CoursesTest extends TestCase
     {
         $this->seed('DatabaseSeeder');
 
-        factory(Period::class)->create();
+        $period = factory(Period::class)->create();
 
         // create a fake user
         $user = factory(User::class)->create();
@@ -35,10 +35,12 @@ class CoursesTest extends TestCase
         \Auth::guard(backpack_guard_name())->login($user);
 
         // create a fake course
-        $course = factory(Course::class)->create();
+        $course = factory(Course::class)->create([
+            'period_id' => $period->id,
+        ]);
 
         // visit the course management page and assert that we see the title of the course
-        $response = $this->get('/courses');
+        $response = $this->get("/admin/course/");
         $response->assertSee($course->name);
     }
 

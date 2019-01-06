@@ -7,8 +7,6 @@ use Faker\Generator as Faker;
 
 $factory->define(Course::class, function (Faker $faker) {
 
-    $period = Period::get_default_period();
-
     return [
         'name' => "PHP UNIT TEST COURSE",
         'campus_id' => 1,
@@ -22,7 +20,7 @@ $factory->define(Course::class, function (Faker $faker) {
         'teacher_id' => 1,
         'parent_course_id' => null,
         'exempt_attendance' => 1,
-        'period_id' => 1,
+        //'period_id' => 1,
         'opened' => 1,
         'spots' => 10
     ];

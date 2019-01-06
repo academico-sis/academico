@@ -46,10 +46,10 @@ class UserTest extends TestCase
         $teacher->assignRole('teacher');
         
         // users are filtered accordingly
-        $users = User::student()->get();
+        $users = User::student();
         $this->assertFalse($users->contains($teacher->id));
 
-        $users = User::teacher()->get();
+        $users = User::teacher();
         $this->assertFalse($users->contains($student->id));
     }
 
