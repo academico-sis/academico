@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Backpack\CRUD\app\Http\Controllers\CrudController;
+use App\Models\Course;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\CourseRequest as StoreRequest;
 use App\Http\Requests\CourseRequest as UpdateRequest;
+use Backpack\CRUD\app\Http\Controllers\CrudController;
 
 /**
  * Class CourseCrudController
@@ -41,75 +42,75 @@ class CourseCrudController extends CrudController
 
         $this->crud->setColumns([
             [
-                // RYTHM
-                'label' => "Rythm", // Table column heading
-                'type' => "select",
-                'name' => 'rythm_id', // the column that contains the ID of that connected entity;
-                'entity' => 'rythm', // the method that defines the relationship in your Model
-                'attribute' => "name", // foreign key attribute that is shown to user
-                'model' => "App\Models\Rythm", // foreign key model
-             ],
+            // RYTHM
+            'label' => "Rythm", // Table column heading
+            'type' => "select",
+            'name' => 'rythm_id', // the column that contains the ID of that connected entity;
+            'entity' => 'rythm', // the method that defines the relationship in your Model
+            'attribute' => "name", // foreign key attribute that is shown to user
+            'model' => "App\Models\Rythm", // foreign key model
+            ],
 
-             [
-                // LEVEL
-                'label' => "Level", // Table column heading
-                'type' => "select",
-                'name' => 'level_id', // the column that contains the ID of that connected entity;
-                'entity' => 'level', // the method that defines the relationship in your Model
-                'attribute' => "name", // foreign key attribute that is shown to user
-                'model' => "App\Models\Level", // foreign key model
-             ],
+            [
+            // LEVEL
+            'label' => "Level", // Table column heading
+            'type' => "select",
+            'name' => 'level_id', // the column that contains the ID of that connected entity;
+            'entity' => 'level', // the method that defines the relationship in your Model
+            'attribute' => "name", // foreign key attribute that is shown to user
+            'model' => "App\Models\Level", // foreign key model
+            ],
 
-             [
-                'name' => 'name', // The db column name
-                'label' => "Name", // Table column heading
-             ],
+            [
+            'name' => 'name', // The db column name
+            'label' => "Name", // Table column heading
+            ],
 
-             [
-                'name' => 'volume', // The db column name
-                'label' => "Volume", // Table column heading
-                'suffix' => "h",
-             ],
+            [
+            'name' => 'volume', // The db column name
+            'label' => "Volume", // Table column heading
+            'suffix' => "h",
+            ],
 
-             [
-                // TEACHER
-                'label' => "Teacher", // Table column heading
-                'type' => "select",
-                'name' => 'teacher_id', // the column that contains the ID of that connected entity;
-                'entity' => 'teacher', // the method that defines the relationship in your Model
-                'attribute' => "name", // foreign key attribute that is shown to user
-                'model' => "App\Models\User", // foreign key model
-             ],
+            [
+            // TEACHER
+            'label' => "Teacher", // Table column heading
+            'type' => "select",
+            'name' => 'teacher_id', // the column that contains the ID of that connected entity;
+            'entity' => 'teacher', // the method that defines the relationship in your Model
+            'attribute' => "name", // foreign key attribute that is shown to user
+            'model' => "App\Models\User", // foreign key model
+            ],
 
-             [
-                // ROOM
-                'label' => "Room", // Table column heading
-                'type' => "select",
-                'name' => 'room_id', // the column that contains the ID of that connected entity;
-                'entity' => 'room', // the method that defines the relationship in your Model
-                'attribute' => "name", // foreign key attribute that is shown to user
-                'model' => "App\Models\Room", // foreign key model
-             ],
+            [
+            // ROOM
+            'label' => "Room", // Table column heading
+            'type' => "select",
+            'name' => 'room_id', // the column that contains the ID of that connected entity;
+            'entity' => 'room', // the method that defines the relationship in your Model
+            'attribute' => "name", // foreign key attribute that is shown to user
+            'model' => "App\Models\Room", // foreign key model
+            ],
 
-             // COURSE SCHEDULED TIMES
-             [
-                'name' => "times",
-                'label' => "Schedule", // Table column heading
-                'type' => "model_function",
-                'function_name' => 'getCourseTimesAttribute', // the method in your Model
-                // 'limit' => 100, // Limit the number of characters shown
-             ],
+            // COURSE SCHEDULED TIMES
+            [
+            'name' => "times",
+            'label' => "Schedule", // Table column heading
+            'type' => "model_function",
+            'function_name' => 'getCourseTimesAttribute', // the method in your Model
+            // 'limit' => 100, // Limit the number of characters shown
+            ],
 
-             // EVALUATION METHODS
-             [
-                // n-n relationship (with pivot table)
-                'label' => "Evaluation method", // Table column heading
-                'type' => "select_multiple",
-                'name' => 'evaluation_type', // the method that defines the relationship in your Model
-                'entity' => 'evaluation_type', // the method that defines the relationship in your Model
-                'attribute' => "name", // foreign key attribute that is shown to user
-                'model' => "App\Models\EvaluationType", // foreign key model
-             ],
+            // EVALUATION METHODS
+            [
+            // n-n relationship (with pivot table)
+            'label' => "Evaluation method", // Table column heading
+            'type' => "select_multiple",
+            'name' => 'evaluation_type', // the method that defines the relationship in your Model
+            'entity' => 'evaluation_type', // the method that defines the relationship in your Model
+            'attribute' => "name", // foreign key attribute that is shown to user
+            'model' => "App\Models\EvaluationType", // foreign key model
+            ],
 
 
             // ENROLLMENTS COUNT
@@ -122,20 +123,19 @@ class CourseCrudController extends CrudController
             ],
 
             [
-                'name' => "start_date", // The db column name
-                'label' => "Start Date", // Table column heading
-                'type' => "date",
-                 // 'format' => 'l j F Y', // use something else than the base.default_date_format config value
-             ],
+            'name' => "start_date", // The db column name
+            'label' => "Start Date", // Table column heading
+            'type' => "date",
+                // 'format' => 'l j F Y', // use something else than the base.default_date_format config value
+            ],
 
-             [
-                'name' => "end_date", // The db column name
-                'label' => "End Date", // Table column heading
-                'type' => "date",
-                 // 'format' => 'l j F Y', // use something else than the base.default_date_format config value
-             ],
+            [
+            'name' => "end_date", // The db column name
+            'label' => "End Date", // Table column heading
+            'type' => "date",
+                // 'format' => 'l j F Y', // use something else than the base.default_date_format config value
+            ],
              
-
         ]);
 
 
@@ -264,6 +264,10 @@ class CourseCrudController extends CrudController
 
              ],
 
+             ]);
+
+
+             $this->crud->addField(
              [
                 // Custom Field
                 'name' => 'coursetime',
@@ -271,10 +275,10 @@ class CourseCrudController extends CrudController
                 'related_model' => 'times', // the relationship on the main model
                 'type' => 'coursetime',
                 'tab' => 'Schedule'
-              ]
-             
+             ],
+             'update');
 
-        ]);
+
 
 
         // add asterisk for fields that are required in CourseRequest
@@ -299,4 +303,24 @@ class CourseCrudController extends CrudController
         // use $this->data['entry'] or $this->crud->entry
         return $redirect_location;
     }
+
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Course  $course
+     * @return \Illuminate\Http\Response
+     */
+    public function show($course)
+    {
+        $students = Course::findOrFail($course)->enrollments;
+        return view('courses/show', compact('course', 'students'));   
+    }
+
+    public function destroy($id)
+   {
+      $this->crud->hasAccessOrFail('delete');
+      return $this->crud->delete($id);
+   }
+
 }

@@ -1,4 +1,4 @@
-<!-- field_type_name -->
+<!-- check if the course already exists -->
 <div @include('crud::inc.field_wrapper_attributes') >
     <label>{!! $field['label'] !!}</label>
     <table class="table">

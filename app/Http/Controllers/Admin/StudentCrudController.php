@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 
+use App\Models\User;
+use Illuminate\Http\Request;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use App\Http\Requests\UserStoreCrudRequest as StoreRequest;
 use App\Http\Requests\UserUpdateCrudRequest as UpdateRequest;
-use Illuminate\Http\Request;
 
 class StudentCrudController extends CrudController
 {
@@ -18,7 +19,7 @@ class StudentCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
         $this->crud->setModel(config('backpack.permissionmanager.models.user'));
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/students');
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/student');
         $this->crud->setEntityNameStrings('student', 'students');
         //$this->crud->removeAllButtons();
 
@@ -26,14 +27,12 @@ class StudentCrudController extends CrudController
         $this->crud->removeButton('create');
         $this->crud->removeButton('update');
 
+        $this->crud->allowAccess('show');
+
         $permissions = backpack_user()->getAllPermissions();
         
         if($permissions->contains('name', 'enrollments.create')) {
             $this->crud->addButtonFromView('line', 'enroll', 'enroll', 'beginning');
-        }
-
-        if($permissions->contains('name', 'students.view')) {
-            $this->crud->addButtonFromView('line', 'show', 'show', 'beginning');
         }
         
         if(!$permissions->contains('name', 'students.edit')) {
@@ -106,6 +105,15 @@ class StudentCrudController extends CrudController
         ]);
         
         
+        $this->crud->addFilter([ // add a "simple" filter called Draft 
+            'type' => 'simple',
+            'name' => 'students',
+            'label'=> 'Students'
+          ],
+          false, // the simple filter has no values, just the "Draft" label specified above
+          function() { 
+              $this->crud->addClause('student'); 
+          });
 
 
     }
@@ -137,6 +145,13 @@ class StudentCrudController extends CrudController
 
         return parent::updateCrud($request);
     }
+
+    public function show($student)
+    {
+        $student = User::student()->findOrFail($student);
+        return view('students/show', compact('student'));
+    }
+
 
     /**
      * Handle password input fields.

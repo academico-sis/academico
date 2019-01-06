@@ -20,27 +20,6 @@ Route::group(
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/', 'HomeController@index');
 
-    // Course management routes
-    Route::get('courses', 'CourseController@index');
-    Route::get('courses/{course}', 'CourseController@show');
-
-    Route::get('courses/create', 'CourseController@create');
-    Route::post('courses', 'CourseController@store');
-    
-    Route::delete('courses', 'CourseController@destroy');
-
-
-    /* Course Teacher update */
-    Route::get('courses/{course}/teacher', 'CourseTeacherController@edit');
-    Route::patch('courses/{course}/teacher', 'CourseTeacherController@update');
-
-    /* Course Room update */
-    Route::get('courses/{course}/room', 'CourseRoomController@edit');
-    Route::patch('courses/{course}/room', 'CourseRoomController@update');
-
-    /* Course Evaluation Type update */
-    Route::get('courses/{course}/evaluation', 'CourseEvaluationController@edit');
-    Route::patch('courses/{course}/evaluation', 'CourseEvaluationController@update');
 
     /* Course Skills update */
     Route::get('courses/{course}/skills', 'CourseSkillsController@edit');

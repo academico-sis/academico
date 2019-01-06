@@ -1,9 +1,9 @@
 <!-- This file is used to store sidebar items, starting with Backpack\Base 0.9.0 -->
 <li><a href="{{ url('/') }}"><i class="fa fa-book"></i> <span>{{ trans('backpack::base.dashboard') }}</span></a></li>
 
-<li><a href="{{ url('/courses') }}"><i class="fa fa-book"></i> <span>{{ ucfirst(trans_choice('academico.courses', 2)) }}</span></a></li>
+<li><a href="{{ backpack_url('course') }}"><i class="fa fa-book"></i> <span>{{ ucfirst(trans_choice('academico.courses', 2)) }}</span></a></li>
 
-<li><a href="{{ url('/students') }}"><i class="fa fa-user"></i> <span>{{ ucfirst(trans_choice('academico.students', 2)) }}</span></a></li>
+<li><a href="{{ backpack_url('student') }}"><i class="fa fa-user"></i> <span>{{ ucfirst(trans_choice('academico.students', 2)) }}</span></a></li>
 
 <li><a href="{{ url('/enrollments') }}"><i class="fa fa-credit-card"></i> <span>{{ ucfirst(trans_choice('academico.pending', 2)) }}</span></a></li>
 

@@ -59,12 +59,6 @@ class Course extends Model
         ->get();
     }
 
-    public static function get_students(Course $course)
-    {
-        return Enrollment::where('course_id', $course->id)
-        ->with('student_data')
-        ->get();
-    }
 
 
     /*
