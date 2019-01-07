@@ -1,0 +1,122 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Course;
+use Illuminate\Http\Request;
+use App\Models\Period;
+use App\Models\Campus;
+
+class CourseController extends Controller
+{
+
+    public function __construct()
+    {
+        $this->middleware(backpack_middleware());
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+
+        $period_id = $request->query('period', null);
+        if ($period_id == null) { $period = Period::get_default_period(); }
+        else { $period = Period::find($period_id); }
+
+        $courses = (new \App\Models\Course)->get_all_internal_courses($period);
+
+        $permissions = backpack_user()->getAllPermissions();
+
+        $periods = Period::orderBy('id','desc')->get();
+        
+        return view('courses/index', compact('courses', 'period', 'periods', 'permissions'));   
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        $rythms = \App\Models\Rythm::all();
+        $levels = \App\Models\Level::all();
+
+        return view('courses/create', compact('rythms', 'levels'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $course = new \App\Models\Course;
+        $course->period_id = $request->input('period');
+        $course->start_date = $request->input('start');
+        $course->end_date = $request->input('end');
+        $course->rythm_id = $request->input('rythm');
+        $course->level_id = $request->input('level');
+        $course->name = $request->input('name');
+        $course->volume = $request->input('volume');
+        $course->price = $request->input('price');
+        $course->save();
+
+        // redirect to teacher edit -- for now (todo)
+        return redirect("/courses/$course->id/teacher");
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Course  $course
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Course $course)
+    {
+        $students = Course::get_students($course);
+        return view('courses/show', compact('course', 'students'));   
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Course  $course
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Course $course)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Course  $course
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Course $course)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Course  $course
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $course)
+    {
+        // todo protect the method
+        Course::destroy($course->input('id'));
+        // todo return confirmation       
+    }
+}
