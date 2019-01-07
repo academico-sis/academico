@@ -9,7 +9,6 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
-//Vue.component('course-creation-component', require('./components/CourseCreationComponent.vue').default);
 Vue.component('course-time-component', require('./components/CourseTimeComponent.vue').default);
 
 Vue.component('cart-component', require('./components/CartComponent.vue').default);

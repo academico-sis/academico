@@ -3,18 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\Course;
+
 use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * get all events
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function get_course_events($course)
     {
-        //
+        return Course::findOrFail($course)->events;
     }
 
     /**

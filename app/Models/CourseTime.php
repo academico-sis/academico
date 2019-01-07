@@ -27,6 +27,17 @@ class CourseTime extends Model
     |--------------------------------------------------------------------------
     */
 
+    public function create_events()
+    {
+
+    }
+
+    public function delete_events()
+    {
+        Event::where('course_time_id', $this->id)->delete();
+    }
+
+
     /*
     |--------------------------------------------------------------------------
     | RELATIONS

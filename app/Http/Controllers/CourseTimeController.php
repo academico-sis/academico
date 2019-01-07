@@ -41,6 +41,7 @@ class CourseTimeController extends Controller
    public function store(Course $course, Request $request)
    {
 
+        // register the new course schedule entry
         $newTime = new CourseTime;
 
         $newTime->course_id = $course->id;
@@ -49,7 +50,11 @@ class CourseTimeController extends Controller
         $newTime->end = $request->input('end');
         $newTime->save();
 
-        return $newTime->id;
+        // create events for the new course time
+
+        $newTime->create_events();
+
+        //return $newTime->id; // necessary ?
     }
 
 
@@ -61,7 +66,14 @@ class CourseTimeController extends Controller
     */
    public function destroy($id)
    {
-       CourseTime::findOrFail($id)->delete();
+      $coursetime = CourseTime::findOrFail($id);
+
+      // delete associated events
+      $coursetime->delete_events();
+
+      // delete the course time entry
+      CourseTime::findOrFail($id)->delete();
+
    }
 }
 

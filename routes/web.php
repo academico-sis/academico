@@ -45,6 +45,11 @@ Route::group(
     Route::post('coursetime/{course}', 'CourseTimeController@store');
     Route::delete('coursetime/{id}', 'CourseTimeController@destroy');
 
+    // Course Events routes
+
+    Route::get('course/{course}/events/get', 'EventController@get_course_events');
+
+
     // Enrollments routes
     Route::get('students/{student}/enroll/{period?}', 'EnrollmentController@create');
     Route::post('enrollments', 'EnrollmentController@store');

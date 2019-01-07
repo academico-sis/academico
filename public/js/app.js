@@ -1894,11 +1894,58 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['course'],
   data: function data() {
     return {
       times: null,
+      events: null,
       loading: true,
       errored: false,
       day: null,
@@ -1908,6 +1955,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     this.getTimes();
+    this.getEvents();
   },
   methods: {
     getTimes: function getTimes() {
@@ -1922,28 +1970,44 @@ __webpack_require__.r(__webpack_exports__);
         return _this.loading = false;
       });
     },
-    addTime: function addTime() {
+    getEvents: function getEvents() {
       var _this2 = this;
+
+      axios.get('/course/' + this.course + '/events/get').then(function (response) {
+        _this2.events = response.data;
+      }).catch(function (error) {
+        console.log(error);
+        _this2.errored = true;
+      }).finally(function () {
+        return _this2.loading = false;
+      });
+    },
+    addTime: function addTime() {
+      var _this3 = this;
 
       axios.post('/coursetime/' + this.course, {
         day: this.day,
         start: this.start,
         end: this.end
       }).then(function (response) {
-        _this2.getTimes();
+        _this3.getTimes();
+
+        _this3.getEvents();
       }).catch(function (e) {
-        _this2.errors.push(e);
+        _this3.errors.push(e);
       });
     },
     removeTime: function removeTime(time) {
-      var _this3 = this;
+      var _this4 = this;
 
       axios.delete('/coursetime/' + time.id, {
         time: time
       }).then(function (response) {
-        _this3.getTimes();
+        _this4.getTimes();
+
+        _this4.getEvents();
       }).catch(function (e) {
-        _this3.errors.push(e);
+        _this4.errors.push(e);
       });
     }
   }
@@ -2857,6 +2921,32 @@ var render = function() {
           ])
         ])
       ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "col-md-6" }, [
+      _c("div", { staticClass: "box" }, [
+        _vm._m(1),
+        _vm._v(" "),
+        _c("div", { staticClass: "box-body" }, [
+          _c("table", { staticClass: "table" }, [
+            _vm._m(2),
+            _vm._v(" "),
+            _c(
+              "tbody",
+              _vm._l(_vm.events, function(event) {
+                return _c("tr", { key: event.id }, [
+                  _c("td", [_vm._v(_vm._s(event.start))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(event.end))]),
+                  _vm._v(" "),
+                  _c("td")
+                ])
+              }),
+              0
+            )
+          ])
+        ])
+      ])
     ])
   ])
 }
@@ -2871,6 +2961,38 @@ var staticRenderFns = [
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "box-tools pull-right" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "box-header with-border" }, [
+      _c("div", { staticClass: "box-title" }, [
+        _vm._v("\n                    Events\n                ")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "box-tools pull-right" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("th", [
+        _vm._v("\n                            Date\n                        ")
+      ]),
+      _vm._v(" "),
+      _c("th", [
+        _vm._v("\n                            Start\n                        ")
+      ]),
+      _vm._v(" "),
+      _c("th", [
+        _vm._v("\n                            End\n                        ")
+      ]),
+      _vm._v(" "),
+      _c("th")
     ])
   }
 ]
@@ -14302,8 +14424,7 @@ module.exports = g;
  */
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
-window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js"); //Vue.component('course-creation-component', require('./components/CourseCreationComponent.vue').default);
-
+window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 Vue.component('course-time-component', __webpack_require__(/*! ./components/CourseTimeComponent.vue */ "./resources/js/components/CourseTimeComponent.vue").default);
 Vue.component('cart-component', __webpack_require__(/*! ./components/CartComponent.vue */ "./resources/js/components/CartComponent.vue").default);
 Vue.component('event-attendance-component', __webpack_require__(/*! ./components/EventAttendanceComponent.vue */ "./resources/js/components/EventAttendanceComponent.vue").default);

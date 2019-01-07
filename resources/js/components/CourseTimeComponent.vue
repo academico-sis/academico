@@ -57,6 +57,52 @@
     </div>
 
 
+
+
+<div class="col-md-6">
+        <div class="box">
+            <div class="box-header with-border">
+                <div class="box-title">
+                    Events
+                </div>
+
+                <div class="box-tools pull-right">
+                </div>
+            </div>
+                    
+            <div class="box-body">
+                <table class="table">
+                    <thead>
+                        <th>
+                            Date
+                        </th>
+
+                        <th>
+                            Start
+                        </th>
+
+                        <th>
+                            End
+                        </th>
+
+                        <th>
+
+                        </th>
+                    </thead>
+
+                    <tbody>
+                        <tr v-for="event in events" v-bind:key="event.id">
+                            <td>{{ event.start }}</td>
+                            <td>{{ event.end }}</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
 </div>
 </template>
 
@@ -69,6 +115,7 @@
         data () {
             return {
                 times: null,
+                events: null,
                 loading: true,
                 errored: false,
                 day: null,
@@ -79,6 +126,7 @@
 
         mounted() {
             this.getTimes();
+            this.getEvents();
         },
 
         methods: {
@@ -96,6 +144,19 @@
                     .finally(() => this.loading = false)
             },
 
+            getEvents() {
+                axios
+                    .get('/course/'+this.course+'/events/get')
+                    .then(response => {
+                        this.events = response.data
+                    })
+                    .catch(error => {
+                        console.log(error)
+                        this.errored = true
+                    })
+                    .finally(() => this.loading = false)
+            },
+
             addTime() {
                 axios
                     .post('/coursetime/'+this.course, {
@@ -105,6 +166,7 @@
                     })
                     .then(response => {
                         this.getTimes();
+                        this.getEvents();
                     })
                     .catch(e => {
                         this.errors.push(e)
@@ -118,6 +180,7 @@
                     })
                     .then(response => {
                         this.getTimes();
+                        this.getEvents();
                     })
                     .catch(e => {
                         this.errors.push(e)
