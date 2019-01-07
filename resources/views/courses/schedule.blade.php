@@ -3,7 +3,7 @@
 @section('header')
 <section class="content-header">
     <h1>
-        @lang_u('academico.course_creation') (step 4) {{-- todo refactor --}}
+        @lang_u('academico.course_schedule')
     </h1>
 </section>
 @endsection
