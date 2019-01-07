@@ -36,8 +36,8 @@ class EventTest extends TestCase
     {
         // given a course
         $course = factory(Course::class)->create([
-            'start_date' => "2019-01-01", // Tuesday
-            'end_date' => "2019-01-06"
+            'start_date' => "2019-01-01", // Tuesday = day 2
+            'end_date' => "2019-01-06" // sunday = day 0
         ]);
 
         // with 2 weekly events
@@ -57,12 +57,14 @@ class EventTest extends TestCase
 
         // when a coursetime is deleted
 
-        dd($course->events);
-        $coursetime = $course->times->where('day', 4);
+        $coursetime = $course->times->where('day', 4)->first();
         $coursetime->delete();
 
         // related events are also deleted
+        $this->assertFalse($course->events->contains('start', "2019-01-03 15:00:00"));
 
-        //$this->assertFalse($course->events->contains('start'), ))
+        // but events related to other coursetimes are still present
+        $this->assertTrue($course->events->contains('start', "2019-01-05 09:00:00"));
+
     }
 }
