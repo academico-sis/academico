@@ -53,28 +53,19 @@ class CourseTimeController extends Controller
 
         // create events for the new course time
 
-        $newTime->create_events();
+        //$newTime->create_events();
 
         //return $newTime->id; // necessary ?
     }
 
 
    /**
-    * Remove the specified resource from storage.
-    *
-    * @param  int  $id
-    * @return \Illuminate\Http\Response
+    * Delete the specified course time.
+    * Model hooks will also delete the associated events
     */
    public function destroy($id)
    {
-      $coursetime = CourseTime::findOrFail($id);
-      
-      // delete associated events
-      $coursetime->events()->delete();
-
-      // delete the course time entry
-      $coursetime->delete();
-
+      CourseTime::findOrFail($id)->delete();
    }
 }
 

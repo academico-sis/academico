@@ -9,6 +9,21 @@ use Illuminate\Database\Eloquent\Model;
 class CourseTime extends Model
 {
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        // when a coursetime is added, we should create corresponding events
+        static::created(function($coursetime) {
+            $coursetime->create_events();
+        });
+
+        // when a coursetime is deleted, we should delete all associated future events
+        static::deleted(function($coursetime) {
+            $coursetime->events()->delete();
+            // todo delete only future events
+        });
+    }
     /*
     |--------------------------------------------------------------------------
     | GLOBAL VARIABLES
@@ -18,8 +33,8 @@ class CourseTime extends Model
     protected $table = 'course_times';
     // protected $primaryKey = 'id';
     public $timestamps = false;
-    // protected $guarded = ['id'];
-    protected $fillable = [];
+    protected $guarded = ['id'];
+    // protected $fillable = [];
     // protected $hidden = [];
     // protected $dates = [];
 
@@ -36,13 +51,17 @@ class CourseTime extends Model
         
         // for each day in the course period span
         while ($today <= $end) {
-            
+            echo "today is " . $today->toDateString() . "\n";
+            echo "day of week is " .$today->format('w') . "\n";
+
             // loop through the coursetimes
             foreach ($this->course->times as $coursetime)
             {
+                echo "the current coursetime day is " . $coursetime->day. "\n";
                 // if today is a day of class, create the event
                 if($coursetime->day == $today->format('w'))
                 {
+                    echo "creating an event \n";
                     Event::create([
                         'course_id' => $this->course->id,
                         'teacher_id' => $this->course->teacher_id,
@@ -53,9 +72,11 @@ class CourseTime extends Model
                         'course_time_id' => $this->id,
                         'exempt_attendance' => $this->course->exempt_attendance
                         ]);
+
                     }
+                    echo "and moving to the next coursetime";
                 }
-                
+
             $today->addDay();
         }
     }
