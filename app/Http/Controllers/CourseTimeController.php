@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CourseTime;
+use App\Models\Event;
 use App\Models\Course;
 
+use App\Models\CourseTime;
 use Illuminate\Http\Request;
 
 class CourseTimeController extends Controller
@@ -67,12 +68,12 @@ class CourseTimeController extends Controller
    public function destroy($id)
    {
       $coursetime = CourseTime::findOrFail($id);
-
+      
       // delete associated events
-      $coursetime->delete_events();
+      $coursetime->events()->delete();
 
       // delete the course time entry
-      CourseTime::findOrFail($id)->delete();
+      $coursetime->delete();
 
    }
 }

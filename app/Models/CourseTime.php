@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+use App\Models\CourseTime;
 use Illuminate\Database\Eloquent\Model;
 
 class CourseTime extends Model
@@ -29,12 +31,33 @@ class CourseTime extends Model
 
     public function create_events()
     {
-
-    }
-
-    public function delete_events()
-    {
-        Event::where('course_time_id', $this->id)->delete();
+        $today = Carbon::parse($this->course->start_date);
+        $end = Carbon::parse($this->course->end_date);
+        
+        // for each day in the course period span
+        while ($today <= $end) {
+            
+            // loop through the coursetimes
+            foreach ($this->course->times as $coursetime)
+            {
+                // if today is a day of class, create the event
+                if($coursetime->day == $today->format('w'))
+                {
+                    Event::create([
+                        'course_id' => $this->course->id,
+                        'teacher_id' => $this->course->teacher_id,
+                        'room_id' => $this->course->room_id,
+                        'start' => $today->setTimeFromTimeString($this->start)->toDateTimeString(),
+                        'end' => $today->setTimeFromTimeString($this->end)->toDateTimeString(),
+                        'name' => $this->course->name,
+                        'course_time_id' => $this->id,
+                        'exempt_attendance' => $this->course->exempt_attendance
+                        ]);
+                    }
+                }
+                
+            $today->addDay();
+        }
     }
 
 
@@ -43,6 +66,16 @@ class CourseTime extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
+
+    public function events()
+    {
+        return $this->hasMany('App\Models\Event');
+    }
+
+    public function course()
+    {
+        return $this->belongsTo('App\Models\Course');
+    }
 
     /*
     |--------------------------------------------------------------------------
