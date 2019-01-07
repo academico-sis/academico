@@ -40,11 +40,10 @@ Route::group(
 
 
     /* Course Times update */
-    Route::get('courses/{course}/time/get', 'CourseTimeController@show');
-    Route::get('courses/{course}/time', 'CourseTimeController@edit');
-    Route::post('courses/{course}/time', 'CourseTimeController@store');
+    Route::get('coursetime/{course}/get', 'CourseTimeController@show');
+    Route::get('coursetime/{course}/edit', 'CourseTimeController@edit');
+    Route::post('coursetime/{course}', 'CourseTimeController@store');
     Route::delete('coursetime/{id}', 'CourseTimeController@destroy');
-
 
     // Enrollments routes
     Route::get('students/{student}/enroll/{period?}', 'EnrollmentController@create');

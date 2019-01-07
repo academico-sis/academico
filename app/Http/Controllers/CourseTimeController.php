@@ -29,9 +29,7 @@ class CourseTimeController extends Controller
     */
    public function edit(Course $course)
    {
-       //$times = CourseTime::where('course_id', $course->id)->get();
-       return view('courses/create4', compact('course'));
-       // after refactor with VueSJS, no need for additionnal views
+       return view('courses.schedule', compact('course'));
    }
 
    /**
@@ -45,7 +43,7 @@ class CourseTimeController extends Controller
 
         $newTime = new CourseTime;
 
-        $newTime->course_id = 1489;
+        $newTime->course_id = $course->id;
         $newTime->day = $request->input('day');
         $newTime->start = $request->input('start');
         $newTime->end = $request->input('end');

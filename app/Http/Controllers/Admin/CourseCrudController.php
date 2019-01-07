@@ -286,19 +286,6 @@ class CourseCrudController extends CrudController
              ]);
 
 
-             $this->crud->addField(
-             [
-                // Custom Field
-                'name' => 'coursetime',
-                'label' => 'Course Events',
-                'related_model' => 'times', // the relationship on the main model
-                'type' => 'coursetime',
-                'tab' => 'Schedule'
-             ],
-             'update');
-
-
-
 
         // add asterisk for fields that are required in CourseRequest
         $this->crud->setRequiredFields(StoreRequest::class, 'create');

@@ -1894,13 +1894,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['course'],
   data: function data() {
     return {
       times: null,
@@ -1918,7 +1913,7 @@ __webpack_require__.r(__webpack_exports__);
     getTimes: function getTimes() {
       var _this = this;
 
-      axios.get('/courses/1489/time/get').then(function (response) {
+      axios.get('/coursetime/' + this.course + '/get').then(function (response) {
         _this.times = response.data;
       }).catch(function (error) {
         console.log(error);
@@ -1930,7 +1925,7 @@ __webpack_require__.r(__webpack_exports__);
     addTime: function addTime() {
       var _this2 = this;
 
-      axios.post('/courses/1489/time', {
+      axios.post('/coursetime/' + this.course, {
         day: this.day,
         start: this.start,
         end: this.end
@@ -2711,165 +2706,155 @@ var render = function() {
   return _c("div", { attrs: { id: "parent" } }, [
     _c("div", { staticClass: "col-md-6" }, [
       _c("div", { staticClass: "box" }, [
-        _c("div", { staticClass: "box-header with-border" }, [
-          _c("div", { staticClass: "box-title" }, [
-            _vm._v("\n                    TODO - new time\n                ")
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "box-tools pull-right" }, [
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-primary",
-                on: {
-                  click: function($event) {
-                    _vm.addTime()
-                  }
-                }
-              },
-              [_vm._v("Add")]
-            )
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "box-body" }, [
-          _c("div", { staticClass: "form-group" }, [
-            _c(
-              "select",
-              {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.day,
-                    expression: "day"
-                  }
-                ],
-                attrs: { required: "", name: "day" },
-                on: {
-                  change: function($event) {
-                    var $$selectedVal = Array.prototype.filter
-                      .call($event.target.options, function(o) {
-                        return o.selected
-                      })
-                      .map(function(o) {
-                        var val = "_value" in o ? o._value : o.value
-                        return val
-                      })
-                    _vm.day = $event.target.multiple
-                      ? $$selectedVal
-                      : $$selectedVal[0]
-                  }
-                }
-              },
-              [
-                _c("option", { attrs: { value: "1" } }, [_vm._v("Lundi")]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "2" } }, [_vm._v("Mardi")]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "3" } }, [_vm._v("Mercredi")]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "4" } }, [_vm._v("Jeudi")]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "5" } }, [_vm._v("Vendredi")]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "6" } }, [_vm._v("Samedi")])
-              ]
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
-            _c("label", { attrs: { for: "start" } }, [
-              _vm._v("Heure de début")
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.start,
-                  expression: "start"
-                }
-              ],
-              attrs: { type: "time", name: "start", required: "" },
-              domProps: { value: _vm.start },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.start = $event.target.value
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
-            _c("label", { attrs: { for: "end" } }, [_vm._v("Heure de fin")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.end,
-                  expression: "end"
-                }
-              ],
-              attrs: { type: "time", name: "end", required: "" },
-              domProps: { value: _vm.end },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.end = $event.target.value
-                }
-              }
-            })
-          ])
-        ])
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "col-md-6" }, [
-      _c("div", { staticClass: "box" }, [
         _vm._m(0),
         _vm._v(" "),
         _c("div", { staticClass: "box-body" }, [
-          _c(
-            "ul",
-            _vm._l(_vm.times, function(time) {
-              return _c("li", { key: time.id }, [
-                _vm._v(
-                  "\n                        " +
-                    _vm._s(time.day) +
-                    " de " +
-                    _vm._s(time.start) +
-                    " à " +
-                    _vm._s(time.end) +
-                    "\n                            "
-                ),
+          _c("table", { staticClass: "table" }, [
+            _c("thead", [
+              _c("th", [
                 _c(
-                  "a",
+                  "select",
                   {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.day,
+                        expression: "day"
+                      }
+                    ],
+                    attrs: { name: "day", id: "day" },
                     on: {
-                      click: function($event) {
-                        _vm.removeTime(time)
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.day = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
                       }
                     }
                   },
                   [
-                    _vm._v("("),
-                    _c("i", { staticClass: "fa fa-times" }),
-                    _vm._v(")")
+                    _c("option", { attrs: { value: "1" } }, [_vm._v("Lundi")]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "2" } }, [_vm._v("Mardi")]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "3" } }, [
+                      _vm._v("Mercredi")
+                    ]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "4" } }, [_vm._v("Jeudi")]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "5" } }, [
+                      _vm._v("Vendredi")
+                    ]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "6" } }, [_vm._v("Samedi")])
                   ]
                 )
+              ]),
+              _vm._v(" "),
+              _c("th", [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.start,
+                      expression: "start"
+                    }
+                  ],
+                  attrs: { type: "time", name: "start", id: "start" },
+                  domProps: { value: _vm.start },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.start = $event.target.value
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("th", [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.end,
+                      expression: "end"
+                    }
+                  ],
+                  attrs: { type: "time", name: "end", id: "end" },
+                  domProps: { value: _vm.end },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.end = $event.target.value
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("th", [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-xs btn-success",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        _vm.addTime()
+                      }
+                    }
+                  },
+                  [_c("i", { staticClass: "fa fa-plus" })]
+                )
               ])
-            }),
-            0
-          )
+            ]),
+            _vm._v(" "),
+            _c(
+              "tbody",
+              _vm._l(_vm.times, function(time) {
+                return _c("tr", { key: time.id }, [
+                  _c("td", [_vm._v(_vm._s(time.day))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(time.start))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(time.end))]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c(
+                      "a",
+                      {
+                        on: {
+                          click: function($event) {
+                            _vm.removeTime(time)
+                          }
+                        }
+                      },
+                      [
+                        _vm._v("("),
+                        _c("i", { staticClass: "fa fa-times" }),
+                        _vm._v(")")
+                      ]
+                    )
+                  ])
+                ])
+              }),
+              0
+            )
+          ])
         ])
       ])
     ])
@@ -2882,7 +2867,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "box-header with-border" }, [
       _c("div", { staticClass: "box-title" }, [
-        _vm._v("\n                    TODO - existing times\n                ")
+        _vm._v("\n                    TODO - new time\n                ")
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "box-tools pull-right" })

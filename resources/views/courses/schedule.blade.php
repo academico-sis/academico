@@ -14,7 +14,8 @@
 <div class="row">
     <div class="col-md-12">
         <div id="app">
-            <course-time-component></course-time-component>
+            <course-time-component
+            :course="{{ json_encode($course->id) }}"></course-time-component>
         </div>
     </div>
 </div>
