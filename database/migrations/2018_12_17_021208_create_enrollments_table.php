@@ -75,7 +75,7 @@ class CreateEnrollmentsTable extends Migration
             $table->integer('responsible_id')->unsigned();
             $table->integer('course_id')->unsigned();
             // invoice tables has one / many enrollments
-            //$table->integer('invoice_id')->nullable()->unsigned(); // todo add FK constrain
+            //$table->integer('invoice_id')->nullable()->unsigned();
             $table->integer('status_id')->unsigned()->default(1);
             //$table->text('comment')->nullable();
             // comments will be stored into the global comments table

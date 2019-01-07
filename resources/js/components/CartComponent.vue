@@ -58,7 +58,7 @@ props: ['products'],
                     .delete('/carts/'+id)
                     .then(response => {
                         document.location.reload(true);
-                        /* todo improve this: do not reload the whole page */
+                        // TODO improve this: do not reload the whole page
                     })
                     .catch(e => {
                         this.errors.push(e)

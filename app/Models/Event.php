@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\CrudTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Carbon\Carbon;
 
 class Event extends Model
 {
@@ -38,9 +39,14 @@ class Event extends Model
     |--------------------------------------------------------------------------
     */
 
+    public function coursetime()
+    {
+        return $this->belongsTo('App\Models\CourseTime');
+    }
+    
     public function course()
     {
-        return $course = $this->belongsTo('App\Models\Course');
+        return $this->belongsTo('App\Models\Course');
     }
 
     public function students()
@@ -52,6 +58,18 @@ class Event extends Model
     {
         return $this->hasMany('App\Models\Attendance');
     }
+
+    public function teacher()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
+
+    public function room()
+    {
+        return $this->belongsTo('App\Models\Room');
+    }
+
+
     /*
     |--------------------------------------------------------------------------
     | SCOPES
@@ -63,6 +81,11 @@ class Event extends Model
     | ACCESORS
     |--------------------------------------------------------------------------
     */
+
+    public function getVolumeAttribute()
+    {
+        return Carbon::parse($this->start)->diffInMinutes(Carbon::parse($this->end)) / 60;
+    }
 
     /*
     |--------------------------------------------------------------------------

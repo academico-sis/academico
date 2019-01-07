@@ -82,6 +82,9 @@ class CourseCrudController extends CrudController
             'entity' => 'teacher', // the method that defines the relationship in your Model
             'attribute' => "name", // foreign key attribute that is shown to user
             'model' => "App\Models\User", // foreign key model
+            'options'   => (function ($query) {
+                return $query->teacher();
+            }),
             ],
 
             [

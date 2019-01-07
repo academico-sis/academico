@@ -66,7 +66,7 @@ class User extends Authenticatable
             'user_id' =>  $this->id,
             'course_id' => $course->id
         ]);
-        $enrollment->responsible_id = backpack_user()->id ?? 1; // todo fix
+        $enrollment->responsible_id = backpack_user()->id ?? 1; // todo fix: phpunit does not seem to access backpack_user()
         $enrollment->save();
         
         // if the course has children, enroll in children as well.

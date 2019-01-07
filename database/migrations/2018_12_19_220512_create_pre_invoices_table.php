@@ -21,8 +21,7 @@ class CreatePreInvoicesTable extends Migration
             //$table->string('products'); // serialized products paid in the invoice.
             //$table->integer('enrollment_id')->unsigned()->nullable(); // enrollment id
 
-            // the following is here to keep all the data from the old system.
-            //TODO check if this is really needed, otherwise remove it.
+            // the client data are archived in this table to pevent any loss of data among the invoices
             $table->string('client_name')->nullable(); // client name.
             $table->string('client_idnumber')->nullable(); // client passport.
             $table->string('client_address')->nullable(); // client address.
