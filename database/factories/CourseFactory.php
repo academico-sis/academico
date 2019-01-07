@@ -20,7 +20,7 @@ $factory->define(Course::class, function (Faker $faker) {
         'teacher_id' => 1,
         'parent_course_id' => null,
         'exempt_attendance' => 1,
-        //'period_id' => 1,
+        'period_id' => 1,
         'opened' => 1,
         'spots' => 10
     ];

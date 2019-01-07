@@ -203,6 +203,12 @@ class CourseCrudController extends CrudController
              ],
 
              [
+                'name' => 'price', // The db column name
+                'label' => "Price", // Table column heading
+                'tab' => 'Course info'
+             ],
+
+             [
                 'name' => 'volume', // The db column name
                 'label' => "Volume", // Table column heading
                 'suffix' => "h",
@@ -247,6 +253,17 @@ class CourseCrudController extends CrudController
 
              ],
 
+
+             [
+                // PERIOD
+                'label' => "Period", // Table column heading
+                'type' => "select",
+                'name' => 'period_id', // the column that contains the ID of that connected entity;
+                'entity' => 'period', // the method that defines the relationship in your Model
+                'attribute' => "name", // foreign key attribute that is shown to user
+                'model' => "App\Models\Period", // foreign key model
+                'tab' => 'Schedule'
+             ],
 
             [
                 'name' => "start_date", // The db column name

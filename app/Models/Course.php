@@ -32,19 +32,7 @@ class Course extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
-    public function get_all_internal_courses(Period $period)
-    {
-        return Course::where('period_id', $period->id)
-        ->where('campus_id', 1)
-        ->with('times')
-        ->with('teacher')
-        ->with('room')
-        ->with('rythm')
-        ->with('level')
-        ->withCount('enrollments')
-        ->with('evaluation_type')
-        ->get();
-    }
+
 
     public static function get_available_courses(Period $period)
     {
@@ -102,14 +90,15 @@ class Course extends Model
         return $this->belongsTo('\App\Models\Period');
     }
 
+    /**
+     * return evaluation methods associated to the course.
+     * For instance - grades, skill-based evaluation...
+     *
+     * @return void
+     */
     public function evaluation_type()
     {
         return $this->belongsToMany('\App\Models\EvaluationType');
-    }
-
-    public function grade_type()
-    {
-        return $this->belongsToMany('\App\Models\GradeType');
     }
 
     public function grades()
@@ -122,6 +111,12 @@ class Course extends Model
         return $this->belongsToMany('\App\Models\Skill');
     }
 
+    /**
+     * return attendance records associated to the course
+     * Since the attendance records are linked to the event, we use a hasManyThrough relation.
+     *
+     * @return void
+     */
     public function attendance()
     {
         return $this->hasManyThrough('App\Models\Attendance', 'App\Models\Event');
@@ -133,7 +128,6 @@ class Course extends Model
      * enrollments
      * 
      * todo filter out cancelled enrollments
-     * 
      * or use soft deletes ?
      *
      * @return void
