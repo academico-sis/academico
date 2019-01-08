@@ -10,9 +10,9 @@
 
 
 @section('content')
+<div id="app">
 
 <div class="row">
-
 
     <div class="col-md-4">
         <div class="box">
@@ -21,7 +21,7 @@
                     {{ ucfirst(trans_choice('academico.student_info', 1)) }}
                 </div>
                 <div class="box-tools pull-right">
-                    <a class="btn btn-warning" href="/admin/student/{{$student->id}}/edit">
+                    <a class="btn btn-xs btn-warning" href="/admin/student/{{$student->id}}/edit">
                         <i class="fa fa-edit"></i>
                     </a>
                 </div>
@@ -60,7 +60,7 @@
                     </div>
 
                     <div class="box-tools pull-right">
-                        <a class="btn btn-warning" href="/admin/userdata/{{$additional_data->id}}/edit">
+                        <a class="btn btn-xs btn-warning" href="/admin/userdata/{{$additional_data->id}}/edit">
                             <i class="fa fa-edit"></i>
                         </a>
                     </div>
@@ -86,25 +86,12 @@
     @endforeach
 
 
-    @if (count($student->administrative_comments) > 0)
         <div class="col-md-4">
-                <div class="box">
-                    <div class="box-header with-border">
-                        <div class="box-title">
-                            {{ ucfirst(trans_choice('academico.student_adm_comments', 1)) }}
-                        </div>
-                        <div class="box-tools pull-right">
-                        </div>
-                    </div>
-                    
-                    <div class="box-body">           
-                        @foreach($student->administrative_comments as $comment)
-                            <p>{{ $comment->body }} ({{ $comment->date }})</p>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-    @endif
+            <administrative-comments
+                :comments="{{ json_encode($administrative_comments) }}">
+            </administrative-comments> 
+        </div>
+
 
 
 </div>
@@ -188,6 +175,9 @@
     @endif
 
 </div>
+</div>
+@endsection
 
-
+@section('after_scripts')
+    <script src="/js/app.js"></script>
 @endsection

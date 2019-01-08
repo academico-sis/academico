@@ -17,6 +17,8 @@ Vue.component('event-attendance-component', require('./components/EventAttendanc
 
 Vue.component('student-attendance-component', require('./components/StudentAttendanceComponent.vue').default);
 
+Vue.component('administrative-comments', require('./components/AdministrativeCommentComponent.vue').default);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
