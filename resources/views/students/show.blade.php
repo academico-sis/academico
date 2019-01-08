@@ -54,7 +54,9 @@
                 <div class="box-header with-border">
                     <div class="box-title">
                         {{ ucfirst(trans_choice('academico.additional_info', 1)) }}
-                        {{ $additional_data->relationship }}
+                        @if(isset($additional_data->relationship))
+                        ({{ $additional_data->relationship->name }})
+                        @endif
                     </div>
 
                     <div class="box-tools pull-right">
