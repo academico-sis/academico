@@ -32,8 +32,37 @@ class PeriodCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
 
-        // TODO: remove setFromDb() and manually define Fields and Columns
-        $this->crud->setFromDb();
+        $this->crud->setColumns([
+            [
+                'label'     => 'Year', 
+                'type'      => 'select',
+                'entity'    => 'year',
+                'attribute' => 'name', 
+            ],
+
+            [
+                'label' => "Name", 
+                'type' => "text",
+                'name' => 'name'
+            ],
+        ]);
+
+        $this->crud->addFields([
+            [
+                'label'     => 'Year', 
+                'type'      => 'select',
+                'name'      => 'year_id',
+                'entity'    => 'year',
+                'attribute' => 'name', 
+                'model'     => 'App\Models\Year', 
+            ],
+
+            [
+                'label' => "Name", 
+                'type' => "text",
+                'name' => 'name'
+            ],
+        ]);
 
         // add asterisk for fields that are required in PeriodRequest
         $this->crud->setRequiredFields(StoreRequest::class, 'create');

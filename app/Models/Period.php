@@ -28,4 +28,9 @@ class Period extends Model
     {
         return $this->hasManyThrough('App\Models\Enrollment', 'App\Models\Course');
     }
+
+    public function year()
+    {
+        return $this->belongsTo('App\Models\Year');
+    }
 }
