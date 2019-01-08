@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Backpack\CRUD\CrudTrait;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\Enrollment;
+use Carbon\Carbon;
 use App\Models\Event;
+use App\Models\Enrollment;
+use Backpack\CRUD\CrudTrait;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Course extends Model
 {
@@ -160,20 +161,27 @@ class Course extends Model
      */
     public function getCourseTimesAttribute()
     {
-        $days = "";
+        $schedule = "";
 
-       foreach ($this->times as $time)
+       foreach ($this->times->unique('day') as $time)
        {
-            if ($time->day == '1') { $days .= "L"; }
-            if ($time->day == '2') { $days .= "M"; }
-            if ($time->day == '3') { $days .= "X"; }
-            if ($time->day == '4') { $days .= "J"; }
-            if ($time->day == '5') { $days .= "V"; }
-            if ($time->day == '6') { $days .= "S"; }
-            if ($time->day == '0') { $days .= "D"; }
+            if ($time->day == '1') { $schedule .= "L"; }
+            if ($time->day == '2') { $schedule .= "M"; }
+            if ($time->day == '3') { $schedule .= "X"; }
+            if ($time->day == '4') { $schedule .= "J"; }
+            if ($time->day == '5') { $schedule .= "V"; }
+            if ($time->day == '6') { $schedule .= "S"; }
+            if ($time->day == '0') { $schedule .= "D"; }
        }
 
-       return $days;
+       $schedule .= " - ";
+
+       foreach ($this->times->unique('start') as $time)
+       {
+            $schedule .= Carbon::parse($time->start)->format('g:i') . ' - ' . Carbon::parse($time->end)->format('g:i');
+       }
+       
+       return $schedule;
     }
 
     public function getCourseRoomNameAttribute()

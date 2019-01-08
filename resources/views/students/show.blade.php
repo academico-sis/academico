@@ -21,6 +21,9 @@
                     {{ ucfirst(trans_choice('academico.student_info', 1)) }}
                 </div>
                 <div class="box-tools pull-right">
+                        <a class="btn btn-warning" href="/admin/student/{{$student->id}}/edit">
+                            <i class="fa fa-edit"></i>
+                        </a>
                 </div>
             </div>
             

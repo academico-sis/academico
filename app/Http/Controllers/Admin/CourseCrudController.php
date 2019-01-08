@@ -103,7 +103,7 @@ class CourseCrudController extends CrudController
             'label' => "Schedule", // Table column heading
             'type' => "model_function",
             'function_name' => 'getCourseTimesAttribute', // the method in your Model
-            // 'limit' => 100, // Limit the number of characters shown
+            'limit' => 150, // Limit the number of characters shown
             ],
 
             // EVALUATION METHODS
@@ -322,7 +322,8 @@ class CourseCrudController extends CrudController
      */
     public function show($course)
     {
-        $students = Course::findOrFail($course)->enrollments;
+        $course = Course::findOrFail($course);
+        $students = $course->enrollments;
         return view('courses/show', compact('course', 'students'));   
     }
 
