@@ -88,7 +88,8 @@
 
         <div class="col-md-4">
             <administrative-comments
-                :comments="{{ json_encode($administrative_comments) }}">
+                :comments="{{ json_encode($administrative_comments) }}"
+                :student="{{ json_encode($student) }}">
             </administrative-comments> 
         </div>
 
@@ -126,7 +127,7 @@
                                     <tr>
                                         <td>{{ $enrollment->date }}</td>
                                         <td>
-                                            <a href="/enrollments/{{ $enrollment->id }}">
+                                            <a href="/admin/enrollment/{{ $enrollment->id }}"> {{-- todo clean url --}}
                                             {{ $enrollment->id }}
                                             </a>
                                         </td>
@@ -154,25 +155,12 @@
     @endif
 
 
-@if (count($student->pedagogical_comments) > 0)
-        <div class="col-md-4">
-                <div class="box">
-                    <div class="box-header with-border">
-                        <div class="box-title">
-                            {{ ucfirst(trans_choice('academico.student_ped_comments', 1)) }}
-                        </div>
-                        <div class="box-tools pull-right">
-                        </div>
-                    </div>
-                    
-                    <div class="box-body">           
-                        @foreach($student->administrative_comments as $comment)
-                            <p>{{ $comment->body }} ({{ $comment->date }})</p>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-    @endif
+    <div class="col-md-4">
+            <educational-comments
+            :comments="{{ json_encode($educational_comments) }}"
+            :student="{{ json_encode($student) }}">
+        </educational-comments> 
+    </div>
 
 </div>
 </div>

@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Comment extends Model
 {
 
+    protected $guarded = ['id'];
+
     use SoftDeletes;
 
     public function getDateAttribute()

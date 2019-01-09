@@ -64,7 +64,7 @@
             addComment()
             {
                 axios
-                    .post('/admin_comment/', {
+                    .post('/educational_comment/', {
                         comment: this.comment,
                         student_id: this.student.id,
                     })

@@ -20,6 +20,8 @@ Vue.component('student-attendance-component', require('./components/StudentAtten
 
 Vue.component('administrative-comments', require('./components/AdministrativeCommentComponent.vue').default);
 
+Vue.component('educational-comments', require('./components/EducationalCommentComponent.vue').default);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

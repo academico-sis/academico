@@ -49,6 +49,11 @@ Route::group(
 
     Route::get('course/{course}/events/get', 'EventController@get_course_events');
 
+    // Comments routes
+
+    // Store an administrative comment
+    Route::post('admin_comment', 'AdministrativeCommentController@store');
+    Route::delete('comment/{comment}', 'CommentController@destroy');
 
     // Enrollments routes
     Route::get('students/{student}/enroll/{period?}', 'EnrollmentController@create');
