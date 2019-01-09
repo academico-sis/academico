@@ -24,6 +24,11 @@
                     <a class="btn btn-xs btn-warning" href="/admin/student/{{$student->id}}/edit">
                         <i class="fa fa-edit"></i>
                     </a>
+
+                    <a class="btn btn-xs btn-primary" data-toggle="modal" data-target="#userDataModal">
+                        <i class="fa fa-plus"></i>
+                    </a>
+
                 </div>
             </div>
             
@@ -164,6 +169,51 @@
 
 </div>
 </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="userDataModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">Add a new contact</h4>
+            </div>
+            <div class="modal-body">
+              
+                <div class="form-group">
+                    <label for="firstname">prénom</label>
+                    <input type="text" name="firstname">
+                </div>
+
+                <div class="form-group">
+                    <label for="lastname">Nom</label>
+                    <input type="text" name="lastname">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="text" name="email">
+            </div>
+
+            <div class="form-group">
+                <label for="address">Address</label>
+                <input type="text" name="address">
+            </div>
+
+            <div class="form-group">
+                <label for="idnumber">ID Number</label>
+                <input type="text" name="idnumber">
+            </div>
+
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" onclick="save()" class="btn btn-success">Save new Contact</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
 @endsection
 
 @section('after_scripts')

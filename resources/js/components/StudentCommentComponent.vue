@@ -31,7 +31,7 @@
         <h4 class="modal-title" id="myModalLabel">New comment</h4>
       </div>
       <div class="modal-body">
-        <textarea name="comment" id="comment" cols="70" rows="5" v-model="comment_body"></textarea>
+        <textarea name="comment" id="comment" cols="50" rows="5" v-model="comment_body"></textarea>
         <input type="checkbox" name="private" id="private" v-model="comment_private">
         <label for="private">Make the comment private</label>
       </div>
