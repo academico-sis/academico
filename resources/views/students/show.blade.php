@@ -87,10 +87,10 @@
 
 
         <div class="col-md-4">
-            <administrative-comments
+            <student-comments
                 :comments="{{ json_encode($administrative_comments) }}"
                 :student="{{ json_encode($student) }}">
-            </administrative-comments> 
+            </student-comments> 
         </div>
 
 
@@ -156,10 +156,10 @@
 
 
     <div class="col-md-4">
-            <educational-comments
+            <student-comments
             :comments="{{ json_encode($educational_comments) }}"
             :student="{{ json_encode($student) }}">
-        </educational-comments> 
+        </student-comments> 
     </div>
 
 </div>

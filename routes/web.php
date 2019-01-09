@@ -51,8 +51,7 @@ Route::group(
 
     // Comments routes
 
-    // Store an administrative comment
-    Route::post('admin_comment', 'AdministrativeCommentController@store');
+    Route::post('comment', 'CommentController@store');
     Route::delete('comment/{comment}', 'CommentController@destroy');
 
     // Enrollments routes

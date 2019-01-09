@@ -99,7 +99,7 @@ class User extends Authenticatable
 
      public function educational_comments()
     {
-        return $this->morphMany('App\Models\Comment', 'commentable')->where('private', '!=', true);
+        return $this->morphMany('App\Models\Comment', 'commentable')->where('private', false);
     }
     
     public function phone()
