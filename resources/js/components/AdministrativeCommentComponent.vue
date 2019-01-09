@@ -15,7 +15,7 @@
     <div class="box-body">
         <ul>
             <li v-for="comment in comments">
-                {{ comment.body }} ({{ moment().format(comment.created_at) }})
+                {{ comment.body }} ({{comment.created_at | moment("D MMM YY") }})
             </li>
         </ul>
 <!--     @if (count($student->administrative_comments) > 0)
@@ -42,6 +42,7 @@
         },
 
         mounted() {
+
         },
 
         methods: {

@@ -8,6 +8,7 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+Vue.use(require('vue-moment'));
 
 Vue.component('course-time-component', require('./components/CourseTimeComponent.vue').default);
 
