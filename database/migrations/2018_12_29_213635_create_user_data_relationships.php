@@ -16,7 +16,7 @@ class CreateUserDataRelationships extends Migration
     {
         Schema::create('user_data_relationships', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->text('name');
             //$table->timestamps();
         });
 

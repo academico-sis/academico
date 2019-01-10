@@ -11,5 +11,5 @@ class SkillScale extends Model
     use CrudTrait;
     protected $guarded = ['id'];
     use HasTranslations;
-    public $translatable = ['name'];
+    public $translatable = ['name', 'shortname'];
 }

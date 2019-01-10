@@ -15,7 +15,7 @@ class CreateGradeTypesTable extends Migration
     {
         Schema::create('grade_types', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->text('name');
             $table->integer('total');
             $table->timestamps();
             $table->softDeletes();

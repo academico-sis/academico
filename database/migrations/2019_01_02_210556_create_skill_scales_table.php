@@ -16,8 +16,8 @@ class CreateSkillScalesTable extends Migration
     {
         Schema::create('skill_scales', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('shortname');
-            $table->string('name')->nullable();
+            $table->text('shortname');
+            $table->text('name');
             $table->decimal('value', 2, 1); // decimal number between 0 and 1
             $table->timestamps();
             $table->softDeletes(); 
@@ -38,7 +38,7 @@ class CreateSkillScalesTable extends Migration
             'es' => 'No adquirido'
          ];
 
-        $skill_scale->setTranslations('name', $shortname);
+        $skill_scale->setTranslations('shortname', $shortname);
         $skill_scale->setTranslations('name', $name);
         $skill_scale->value = 0;
         $skill_scale->save();
@@ -56,7 +56,7 @@ class CreateSkillScalesTable extends Migration
             'es' => 'En curso de adquisicion'
          ];
 
-        $skill_scale->setTranslations('name', $shortname); 
+        $skill_scale->setTranslations('shortname', $shortname); 
         $skill_scale->setTranslations('name', $name);
         $skill_scale->value = 0.5;
         $skill_scale->save();
@@ -74,8 +74,7 @@ class CreateSkillScalesTable extends Migration
             'fr' => 'Acquis',
             'es' => 'Adquirido'
          ];
-         $skill_scale->setTranslations('name', $shortname); 
-
+         $skill_scale->setTranslations('shortname', $shortname); 
         $skill_scale->setTranslations('name', $name);
         $skill_scale->value = 1;
         $skill_scale->save();
