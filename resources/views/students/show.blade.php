@@ -170,52 +170,60 @@
 </div>
 </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="userDataModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <!-- Add additional user data Modal-->
+    <div class="modal fade" id="userDataModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="myModalLabel">Add a new contact</h4>
+              <h4 class="modal-title">Add a new contact</h4>
             </div>
             <div class="modal-body">
               
+                <form action="/admin/userdata" method="post">
+                @csrf
+                <input type="hidden" name="user_id" value="{{ $student->id }}">
+                
                 <div class="form-group">
                     <label for="firstname">prénom</label>
-                    <input type="text" name="firstname">
+                    <input type="text" id="firstname" name="firstname">
                 </div>
 
                 <div class="form-group">
                     <label for="lastname">Nom</label>
-                    <input type="text" name="lastname">
+                    <input type="text" id="lastname" name="lastname">
                 </div>
 
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="text" name="email">
+                    <input type="text" id="email" name="email">
             </div>
 
             <div class="form-group">
                 <label for="address">Address</label>
-                <input type="text" name="address">
+                <input type="text" id="address" name="address">
             </div>
 
             <div class="form-group">
                 <label for="idnumber">ID Number</label>
-                <input type="text" name="idnumber">
+                <input type="text" id="idnumber" name="idnumber">
             </div>
 
 
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="button" onclick="save()" class="btn btn-success">Save new Contact</button>
+              <button type="submit" class="btn btn-success">Save new Contact</button>
             </div>
+        </form>
           </div>
         </div>
       </div>
+    </div>
 
 @endsection
 
 @section('after_scripts')
     <script src="/js/app.js"></script>
+
+    
 @endsection

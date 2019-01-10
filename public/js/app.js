@@ -3355,7 +3355,7 @@ var render = function() {
                   attrs: {
                     name: "comment",
                     id: "comment",
-                    cols: "70",
+                    cols: "50",
                     rows: "5"
                   },
                   domProps: { value: _vm.comment_body },
@@ -19463,7 +19463,6 @@ Vue.component('course-time-component', __webpack_require__(/*! ./components/Cour
 Vue.component('cart-component', __webpack_require__(/*! ./components/CartComponent.vue */ "./resources/js/components/CartComponent.vue").default);
 Vue.component('event-attendance-component', __webpack_require__(/*! ./components/EventAttendanceComponent.vue */ "./resources/js/components/EventAttendanceComponent.vue").default);
 Vue.component('student-attendance-component', __webpack_require__(/*! ./components/StudentAttendanceComponent.vue */ "./resources/js/components/StudentAttendanceComponent.vue").default);
-Vue.component('student-comments', __webpack_require__(/*! ./components/StudentCommentComponent.vue */ "./resources/js/components/StudentCommentComponent.vue").default);
 Vue.component('student-comments', __webpack_require__(/*! ./components/StudentCommentComponent.vue */ "./resources/js/components/StudentCommentComponent.vue").default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to

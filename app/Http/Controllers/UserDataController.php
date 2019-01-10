@@ -38,15 +38,18 @@ class UserDataController extends Controller
         $contact->save();
 
         // register the phone number
-        $phone = new PhoneNumber;
-        $phone->phoneable_id = $contact->id;
-        $phone->phoneable_type = UserData::class;
-        $phone->phone_number = $request->input('phone_number');
-        $phone->save();
+        if(($request->input('phone_number')) !== null)
+        {
+            $phone = new PhoneNumber;
+            $phone->phoneable_id = $contact->id;
+            $phone->phoneable_type = UserData::class;
+            $phone->phone_number = $request->input('phone_number');
+            $phone->save();
+        }
 
         \Alert::success('The information has successfully been saved')->flash();
 
-        return redirect('/home');
+        return redirect('/home'); // todo NO redirect here...
     }
 
     /**
