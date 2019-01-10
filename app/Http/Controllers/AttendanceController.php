@@ -26,8 +26,8 @@ class AttendanceController extends Controller
         $absences = (new Attendance)->get_absence_count($period);
         $pending_attendance = (new Attendance)->get_pending_attendance();
 
-        return $absences;
-        //return view('attendance.index', compact('absences', 'pending_attendance'));
+        //return $absences;
+        return view('attendance.monitor', compact('absences', 'pending_attendance'));
     }
 
 
@@ -74,6 +74,9 @@ class AttendanceController extends Controller
      */
     public function showCourse(Course $course)
     {
+        // if the course has any events
+        if($course->events->count() > 0) {
+
         $students = $course->enrollments()->with('student_data')->get();
 
         foreach($students as $student)
@@ -88,9 +91,15 @@ class AttendanceController extends Controller
             // look if there is a match in attendance record for this user id
 
         }
+        
 
         //dd($attendances);
         return view('attendance/course', compact('attendances', 'course'));
+    }
+    else {
+        \Alert::warning('The cours has no events')->flash();
+        return back();
+    }
     }
 
     public function showEvent(Event $event)

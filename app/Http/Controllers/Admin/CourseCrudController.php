@@ -33,7 +33,9 @@ class CourseCrudController extends CrudController
         if(!$permissions->contains('name', 'courses.create')) {$this->crud->denyAccess('new'); }
 
         if($permissions->contains('name', 'courses.view')) {$this->crud->allowAccess('show'); }
-
+        if($permissions->contains('name', 'attendance.view')) {
+            $this->crud->addButtonFromView('line', 'attendance', 'attendance', 'end');
+        }
 
 
         /*

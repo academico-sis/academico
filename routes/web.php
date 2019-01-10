@@ -34,9 +34,11 @@ Route::group(
     Route::delete('grades', 'GradeController@destroy');
 
     /* Course attendance overview  */
-    Route::get('courses/{course}/attendance', 'AttendanceController@showCourse'); // showStudent method will exist
     Route::get('attendance', 'AttendanceController@index'); // queryString parameters for period
-    Route::get('attendance/{event}', 'AttendanceController@showEvent'); // route model binding
+    
+    Route::get('attendance/course/{course}', 'AttendanceController@showCourse'); // route model binding
+
+    Route::get('attendance/event/{event}', 'AttendanceController@showEvent'); // route model binding
 
 
     /* Course Times update */
