@@ -17,7 +17,8 @@ class AppServiceProvider extends ServiceProvider
     {
 
         \Blade::directive('lang_u', function ($s) {
-            return "<?php echo ucfirst(trans($s)); ?>";
+            
+            return "<?php echo mb_convert_case(trans($s), MB_CASE_TITLE, 'UTF-8'); ?>";
         });
         
         if (\Schema::hasTable('periods')) {

@@ -3,7 +3,7 @@
 @section('header')
 <section class="content-header">
     <h1>
-        {{ ucfirst(trans_choice('academico.cart_details', 1)) }}
+        @lang_u('academico.cart_details')
     </h1>
 </section>
 @endsection
@@ -20,7 +20,7 @@
             <div class="box">
                 <div class="box-header with-border">
                     <div class="box-title">
-                        {{ ucfirst(trans_choice('academico.student_info', 1)) }}
+                        @lang_u('academico.student_info')
                     </div>
                     <div class="box-tools pull-right">
 
@@ -34,12 +34,12 @@
                 </div>
                 
                 <div class="box-body">           
-                    <p>{{ ucfirst(trans_choice('academico.name', 1)) }}: {{ $student->firstname }} {{ $student->lastname }}</p>
-                    <p>{{ ucfirst(trans_choice('academico.idnumber', 1)) }}: {{ $student->idnumber }}</p>
-                    <p>{{ ucfirst(trans_choice('academico.address', 1)) }}: {{ $student->address }}</p>
+                    <p>@lang_u('academico.name'): {{ $student->firstname }} {{ $student->lastname }}</p>
+                    <p>@lang_u('academico.idnumber'): {{ $student->idnumber }}</p>
+                    <p>@lang_u('academico.address'): {{ $student->address }}</p>
                     
                     @if (count($student->phone) > 0)
-                        <p>{{ ucfirst(trans_choice('academico.phonenumber', 1)) }}:
+                        <p>@lang_u('academico.phonenumber'):
                             <ul>
                                 @foreach($student->phone as $phone)
                                 <li>{{ $phone->phone_number }}</li>
@@ -47,9 +47,9 @@
                             </ul>
                         </p>
                     @endif
-                    <p>{{ ucfirst(trans_choice('academico.email', 1)) }}: {{ $student->email }}</p>
-                    <p>{{ ucfirst(trans_choice('academico.birthdate', 1)) }}: {{ $student->birthdate }}</p>
-                    <p>{{ ucfirst(trans_choice('academico.age', 1)) }}: {{ $student->age }} {{ trans_choice('academico.yearsold', $student->age) }}</p>
+                    <p>@lang_u('academico.email'): {{ $student->email }}</p>
+                    <p>@lang_u('academico.birthdate'): {{ $student->birthdate }}</p>
+                    <p>@lang_u('academico.age'): {{ $student->age }} {{ @lang('academico.yearsold')</p>
                 </div>
             </div>
         </div>
@@ -59,7 +59,7 @@
                 <div class="box">
                     <div class="box-header with-border">
                         <div class="box-title">
-                            {{ ucfirst(trans_choice('academico.additional_info', 1)) }}
+                            @lang_u('academico.additional_info')
                             {{ $additional_data->relationship }}
                         </div>
     
@@ -76,11 +76,11 @@
                     </div>
                     
                     <div class="box-body">
-                        <p>{{ ucfirst(trans_choice('academico.name', 1)) }}: {{ $additional_data->firstname }} {{ $additional_data->lastname }}</p>
-                        <p>{{ ucfirst(trans_choice('academico.idnumber', 1)) }}: {{ $additional_data->idnumber }}</p>
-                        <p>{{ ucfirst(trans_choice('academico.address', 1)) }}: {{ $additional_data->address }}</p>
+                        <p>@lang_u('academico.name'): {{ $additional_data->firstname }} {{ $additional_data->lastname }}</p>
+                        <p>@lang_u('academico.idnumber'): {{ $additional_data->idnumber }}</p>
+                        <p>@lang_u('academico.address'): {{ $additional_data->address }}</p>
                         @if (count($additional_data->phone) > 0)
-                            <p>{{ ucfirst(trans_choice('academico.phonenumber', 1)) }}:
+                            <p>@lang_u('academico.phonenumber'):
                                 <ul>
                                     @foreach($additional_data->phone as $phone)
                                     <li>{{ $phone->phone_number }}</li>
@@ -88,7 +88,7 @@
                                 </ul>
                             </p>
                         @endif
-                        <p>{{ ucfirst(trans_choice('academico.email', 1)) }}: {{ $additional_data->email }}</p>
+                        <p>@lang_u('academico.email'): {{ $additional_data->email }}</p>
                     </div>
                 </div>
             </div>

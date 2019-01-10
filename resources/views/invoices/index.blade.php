@@ -3,7 +3,7 @@
 @section('header')
 <section class="content-header">
     <h1>
-        {{ ucfirst(trans_choice('academico.invoices', 2)) }}
+        @lang_u('academico.invoices')
     </h1>
 </section>
 @endsection
@@ -16,7 +16,7 @@
         <div class="box">
             <div class="box-header with-border">
                 <div class="box-title">
-                        {{ ucfirst(trans_choice('academico.invoices', 2)) }}
+                        @lang_u('academico.invoices')
                 </div>
                 <div class="box-tools pull-right">
                     
@@ -30,10 +30,10 @@
                     <thead>
                         <tr>
                             <th>PreInvoice ID</th>
-                            <th>{{ ucfirst(trans_choice('academico.invoice_number', 1)) }}</th>
-                            <th>{{ ucfirst(trans_choice('academico.client', 1)) }}</th>
-                            <th>{{ ucfirst(trans_choice('academico.date', 1)) }}</th>
-                            <th>{{ ucfirst(trans_choice('academico.price', 1)) }}</th>
+                            <th>@lang_u('academico.invoice_number')</th>
+                            <th>@lang_u('academico.client')</th>
+                            <th>@lang_u('academico.date')</th>
+                            <th>@lang_u('academico.price')</th>
 
                             <th>Actions</th>
                         </tr>

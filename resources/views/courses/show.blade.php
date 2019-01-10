@@ -74,11 +74,11 @@
                 <table id="studentsTable" class="table table-striped responsive" style="width:100%">
                     <thead>
                         <tr>
-                            <th>{{ trans_choice('academico.students', 1) }}</th>
-                            <th>{{ trans_choice('academico.age', 1) }}</th>
-                            <th>{{ trans_choice('academico.birthdate', 1) }}</th>
-                            <th>{{ trans_choice('academico.email', 1) }}</th>
-                            <th>{{ trans_choice('academico.actions', 1) }}</th>
+                            <th>@lang_u('academico.students')</th>
+                            <th>@lang_u('academico.age')</th>
+                            <th>@lang_u('academico.birthdate')</th>
+                            <th>@lang_u('academico.email')</th>
+                            <th>@lang_u('academico.actions')</th>
                         </tr>
                     </thead>
                     

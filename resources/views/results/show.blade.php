@@ -3,7 +3,7 @@
 @section('header')
 <section class="content-header">
     <h1>
-        {{ ucfirst(trans_choice('academico.enrollment_details', 1)) }}
+        @lang_u('academico.enrollment_details')
     </h1>
 </section>
 @endsection
@@ -17,14 +17,14 @@
         <div class="box">
             <div class="box-header with-border">
                 <div class="box-title">
-                    {{ ucfirst(trans_choice('academico.student_info', 1)) }}
+                    @lang_u('academico.student_info')
                 </div>
                 <div class="box-tools pull-right">
                 </div>
             </div>
             
             <div class="box-body">
-                <p>{{ ucfirst(trans_choice('academico.name', 1)) }}: {{ $enrollment->student_data->firstname }} {{ $enrollment->student_data->lastname }}</p>
+                <p>@lang_u('academico.name'): {{ $enrollment->student_data->firstname }} {{ $enrollment->student_data->lastname }}</p>
                 
                 <p>{{ $enrollment->date }}</p>
                         <p>{{ $enrollment->id }}</p>
@@ -49,7 +49,7 @@
             <div class="box">
                 <div class="box-header with-border">
                     <div class="box-title">
-                        {{ ucfirst(trans_choice('academico.course_info', 1)) }}
+                        @lang_u('academico.course_info')
                     </div>
                     <div class="box-tools pull-right">
                     </div>
@@ -84,7 +84,7 @@
         <div class="box">
             <div class="box-header with-border">
                 <div class="box-title">
-                    {{ ucfirst(trans_choice('academico.grades', 2)) }}
+                    @lang_u('academico.grades')
                 </div>
                 <div class="box-tools pull-right">
                 </div>
@@ -110,7 +110,7 @@
         <div class="box">
             <div class="box-header with-border">
                 <div class="box-title">
-                    {{ ucfirst(trans_choice('academico.skills', 2)) }}
+                    @lang_u('academico.skills')
                 </div>
                 <div class="box-tools pull-right">
                 </div>

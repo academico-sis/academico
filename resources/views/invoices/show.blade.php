@@ -3,7 +3,7 @@
 @section('header')
 <section class="content-header">
     <h1>
-        {{ ucfirst(trans_choice('academico.invoices', 2)) }}
+        @lang_u(('academico.invoices') }}
     </h1>
 </section>
 @endsection
@@ -16,7 +16,7 @@
         <div class="box">
             <div class="box-header with-border">
                 <div class="box-title">
-                        {{ ucfirst(trans_choice('academico.invoices', 2)) }}
+                        @lang_u(('academico.invoices') }}
                 </div>
                 <div class="box-tools pull-right">
                     

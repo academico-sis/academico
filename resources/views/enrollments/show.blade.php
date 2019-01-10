@@ -3,7 +3,7 @@
 @section('header')
 <section class="content-header">
     <h1>
-        {{ ucfirst(trans_choice('academico.enrollment_details', 1)) }}
+        @lang_u('academico.enrollment_details')
     </h1>
 </section>
 @endsection
@@ -17,7 +17,7 @@
         <div class="box">
             <div class="box-header with-border">
                 <div class="box-title">
-                    {{ ucfirst(trans_choice('academico.student_info', 1)) }}
+                    @lang_u('academico.student_info')
                 </div>
                 <div class="box-tools pull-right">
                     <button class="btn btn-warning"><i class="fa fa-pencil"></i></button>
@@ -25,12 +25,12 @@
             </div>
             
             <div class="box-body">
-                <p>{{ ucfirst(trans_choice('academico.name', 1)) }}: {{ $enrollment->student_data->firstname }} {{ $enrollment->student_data->lastname }}</p>
-                <p>{{ ucfirst(trans_choice('academico.idnumber', 1)) }}: {{ $enrollment->student_data->idnumber }}</p>
-                <p>{{ ucfirst(trans_choice('academico.address', 1)) }}: {{ $enrollment->student_data->address }}</p>
+                <p>@lang_u('academico.name'): {{ $enrollment->student_data->firstname }} {{ $enrollment->student_data->lastname }}</p>
+                <p>@lang_u('academico.idnumber'): {{ $enrollment->student_data->idnumber }}</p>
+                <p>@lang_u('academico.address'): {{ $enrollment->student_data->address }}</p>
                 
                 @if (count($enrollment->student_data->phone) > 0)
-                <p>{{ ucfirst(trans_choice('academico.phonenumber', 1)) }}:
+                <p>@lang_u('academico.phonenumber'):
                     <ul>
                         @foreach($enrollment->student_data->phone as $phone)
                         <li>{{ $phone->phone_number }}</li>
@@ -38,9 +38,9 @@
                     </ul>
                 </p>
                 @endif
-                <p>{{ ucfirst(trans_choice('academico.email', 1)) }}: {{ $enrollment->student_data->email }}</p>
-                <p>{{ ucfirst(trans_choice('academico.birthdate', 1)) }}: {{ $enrollment->student_data->birthdate }}</p>
-                <p>{{ ucfirst(trans_choice('academico.age', 1)) }}: {{ $enrollment->student_data->age }} {{ trans_choice('academico.yearsold', $enrollment->student_data->age) }}</p>
+                <p>@lang_u('academico.email'): {{ $enrollment->student_data->email }}</p>
+                <p>@lang_u('academico.birthdate'): {{ $enrollment->student_data->birthdate }}</p>
+                <p>@lang_u('academico.age'): {{ $enrollment->student_data->age }} @lang('academico.yearsold')</p>
             </div>
         </div>
     </div>
@@ -51,7 +51,7 @@
             <div class="box">
                 <div class="box-header with-border">
                     <div class="box-title">
-                        {{ ucfirst(trans_choice('academico.course_info', 1)) }}
+                        @lang_u('academico.course_info')
                     </div>
                     <div class="box-tools pull-right">
                     </div>
@@ -90,7 +90,7 @@
         <div class="box">
             <div class="box-header with-border">
                 <div class="box-title">
-                    {{ ucfirst(trans_choice('academico.comments', 1)) }}
+                    @lang_u('academico.comments')
                 </div>
                 <div class="box-tools pull-right">
                     <button class="btn btn-primary"><i class="fa fa-plus"></i></button>
@@ -113,7 +113,7 @@
         <div class="box">
             <div class="box-header with-border">
                 <div class="box-title">
-                    {{ ucfirst(trans_choice('academico.status', 1)) }}
+                    @lang_u('academico.status')
                 </div>
                 <div class="box-tools pull-right">
                 </div>
@@ -156,7 +156,7 @@
         <div class="box">
             <div class="box-header with-border">
                 <div class="box-title">
-                    {{ ucfirst(trans_choice('academico.products', 1)) }}
+                    @lang_u('academico.products')
                 </div>
                 <div class="box-tools pull-right">
                 </div>

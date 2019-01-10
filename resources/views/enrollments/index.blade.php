@@ -3,7 +3,7 @@
 @section('header')
 <section class="content-header">
     <h1>
-        {{ ucfirst(trans_choice('academico.pending', 2)) }}
+        @lang_u('academico.pending')
     </h1>
 </section>
 @endsection
@@ -16,7 +16,7 @@
         <div class="box">
             <div class="box-header with-border">
                 <div class="box-title">
-                        {{ ucfirst(trans_choice('academico.pending', 2)) }}
+                        @lang_u('academico.pending')
                 </div>
                 <div class="box-tools pull-right">
                     
@@ -30,10 +30,10 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>{{ ucfirst(trans_choice('academico.firstname', 1)) }}</th>
-                            <th>{{ ucfirst(trans_choice('academico.lastname', 1)) }}</th>
-                            <th>{{ ucfirst(trans_choice('academico.course_name', 1)) }}</th>
-                            <th>{{ ucfirst(trans_choice('academico.period', 1)) }}</th>
+                            <th>@lang_u('academico.firstname')</th>
+                            <th>@lang_u('academico.lastname')</th>
+                            <th>@lang_u('academico.course_name')</th>
+                            <th>@lang_u('academico.period')</th>
                             <th>Actions</th>
                         </tr>
                     </thead>

@@ -15,7 +15,7 @@
         <div class="box">
             <div class="box-header with-border">
                 <div class="box-title">
-                    {{ ucfirst(trans_choice('academico.periods', 1)) }} {{ $period->name }}
+                    @lang_u('academico.periods') {{ $period->name }}
                 </div>
                 <div class="box-tools pull-right">
                     
@@ -40,16 +40,16 @@
                     <thead>
                         <tr>
                             <th></th>
-                            <th>{{ trans_choice('academico.rythms', 1) }}</th>
-                            <th>{{ trans_choice('academico.level', 1) }}</th>
-                            <th>{{ trans_choice('academico.name', 1) }}</th>
-                            <th>{{ trans_choice('academico.volume', 1) }}</th>
-                            <th>{{ trans_choice('academico.teacher', 1) }}</th>
-                            <th>{{ trans_choice('academico.times', 1) }}</th>
-                            <th>{{ trans_choice('academico.enrollments', 1) }}</th>
-                            <th>{{ trans_choice('academico.start', 1) }}</th>
-                            <th>{{ trans_choice('academico.end', 1) }}</th>
-                            <th>{{ trans_choice('academico.actions', 1) }}</th>
+                            <th>@lang_u('academico.rythms')</th>
+                            <th>@lang_u('academico.level')</th>
+                            <th>@lang_u('academico.name')</th>
+                            <th>@lang_u('academico.volume')</th>
+                            <th>@lang_u('academico.teacher')</th>
+                            <th>@lang_u('academico.times')</th>
+                            <th>@lang_u('academico.enrollments')</th>
+                            <th>@lang_u('academico.start')</th>
+                            <th>@lang_u('academico.end')</th>
+                            <th>@lang_u('academico.actions')</th>
                         </tr>
                     </thead>
                     
