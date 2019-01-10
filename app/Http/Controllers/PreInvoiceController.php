@@ -11,18 +11,7 @@ use Illuminate\Http\Request;
 
 class PreInvoiceController extends Controller
 {
-    /**
-     * Display a list of all preinvoices generated
-     * 
-     * Here we also should allow some filtering (preinvoices without invoice number, etc)
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $invoices = PreInvoice::all();
-        return view('invoices.index', compact('invoices'));
-    }
+
 
     
     /**
@@ -82,27 +71,8 @@ class PreInvoiceController extends Controller
         dump($request->all());
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\PreInvoice  $preInvoice
-     * @return \Illuminate\Http\Response
-     */
-    public function show(PreInvoice $preInvoice)
-    {
-        return view('invoices.show', compact('preInvoice'));
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\PreInvoice  $preInvoice
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(PreInvoice $preInvoice)
-    {
-        //
-    }
+
 
     /**
      * Update the specified resource in storage.

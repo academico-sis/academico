@@ -7,7 +7,10 @@
 
 <li><a href="{{ backpack_url('/enrollment?pending=true') }}"><i class="fa fa-credit-card"></i> <span>{{ ucfirst(trans_choice('academico.pending', 2)) }}</span></a></li>
 
-<li><a href="{{ url('/invoices') }}"><i class="fa fa-dollar"></i> <span>{{ ucfirst(trans_choice('academico.invoices', 2)) }}</span></a></li>
+<li><a href="{{ backpack_url('preinvoice') }}"><i class="fa fa-dollar"></i> <span>{{ ucfirst(trans_choice('academico.invoices', 2)) }}</span></a></li>
+
+<li><a href="{{ backpack_url('comment') }}"><i class="fa fa-pencil"></i> <span>{{ ucfirst(trans_choice('academico.comment', 2)) }}</span></a></li>
+
 
 <li class="treeview">
   <a href="#"><i class="fa fa-link"></i> <span>@lang_u('academico.settings')</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>

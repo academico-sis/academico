@@ -41,6 +41,8 @@ Route::group([
     CRUD::resource('year', 'YearCrudController');
     CRUD::resource('campus', 'CampusCrudController');
     CRUD::resource('user', 'UserCrudController');
+    CRUD::resource('comment', 'CommentCrudController');
+    CRUD::resource('preinvoice', 'PreInvoiceCrudController');
 
 
     CRUD::resource('evaluationtype', 'EvaluationTypeCrudController');

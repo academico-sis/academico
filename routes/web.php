@@ -72,8 +72,6 @@ Route::group(
     Route::delete('products', 'ProductController@destroy');
 
     // Preinvoices management
-    Route::get('invoices', 'PreInvoiceController@index');
-    Route::get('invoices/{preInvoice}', 'PreInvoiceController@show');
     Route::patch('invoices/{preInvoice}', 'PreInvoiceController@update');
 
     // course result management -- todo some of these routes will need to be visible by students
