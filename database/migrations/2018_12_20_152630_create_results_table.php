@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\ResultType;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -22,36 +23,69 @@ class CreateResultsTable extends Migration
 
         Schema::create('result_types', function (Blueprint $table) {
             $table->increments('id');
-            $table->text('name')->unique(); // fix JSON not working
-            $table->text('description')->nullable();
+            $table->text('name'); // fix JSON not working
+            $table->text('description');
             $table->timestamps();
         });
 
-        // $newsItem->name = 'New translation';
+        $result_type = new ResultType;
 
-        DB::table('result_types')->insert(
-            array(
-                'id' => 1,
-                'name' => 'VALIDE',
-                'description' => 'Peut passer au niveau suivant'
-                )
-        );
+        $name = [
+            'en' => 'PASS',
+            'fr' => 'VALIDÉ',
+            'es' => 'APROBADO'
+         ];
 
-        DB::table('result_types')->insert(
-            array(
-                'id' => 2,
-                'name' => 'NON VALIDE',
-                'description' => 'Ne peut pas passer au niveau suivant'
-                )
-        );
+         $description = [
+            'en' => 'Allowed to enter next level',
+            'fr' => 'Peut passer au niveau suivant',
+            'es' => 'Puede entrar al nivel siguiente'
+         ];
 
-        DB::table('result_types')->insert(
-            array(
-                'id' => 3,
-                'name' => 'SOUS CONDITIONS',
-                'description' => 'Voir avec le département Pédagogique'
-                )
-        );
+        $result_type->setTranslations('name', $name);
+        $result_type->setTranslations('description', $description);
+        $result_type->save();
+
+
+        $result_type = new ResultType;
+
+        $name = [
+            'en' => 'FAIL',
+            'fr' => 'NON VALIDÉ',
+            'es' => 'REPROBADO'
+         ];
+
+         $description = [
+            'en' => 'May not enter next level',
+            'fr' => 'Ne peut pas passer au niveau suivant',
+            'es' => 'No puede entrar al nivel siguiente'
+         ];
+
+        $result_type->setTranslations('name', $name);
+        $result_type->setTranslations('description', $description);
+        $result_type->save();
+
+
+
+        $result_type = new ResultType;
+
+        $name = [
+            'en' => 'SEE COORD.',
+            'fr' => 'VOIR DIR.',
+            'es' => 'VER COORD.'
+         ];
+
+         $description = [
+            'en' => 'Consult with Academic affairs',
+            'fr' => 'Voir avec la Coordination',
+            'es' => 'Ver con el departamento pedagogico'
+         ];
+
+        $result_type->setTranslations('name', $name);
+        $result_type->setTranslations('description', $description);
+        $result_type->save();
+
+        
     }
 
     /**

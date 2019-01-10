@@ -5,9 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
 
-class UserDataRelationship extends Model
+class AttendanceType extends Model
 {
-    protected $table = "user_data_relationships";
     use HasTranslations;
     public $translatable = ['name'];
 }
