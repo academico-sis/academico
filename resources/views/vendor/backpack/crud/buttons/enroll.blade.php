@@ -1,1 +1,1 @@
-<a href="{{ Request::url().'/'.$entry->getKey() }}/moderate" class="btn btn-xs btn-primary"><i class="fa fa-user-plus"></i></a>
+<a href="/students/{{$entry->getKey() }}/enroll" class="btn btn-xs btn-primary"><i class="fa fa-user-plus"></i></a>

@@ -137,9 +137,9 @@
                 @elseif($enrollment->enrollment_status['id'] == 1)
                 <p>Matricula pendiente</p>
                 
-                <button class="btn btn-primary">
+                <a href="/enrollments/{{ $enrollment->id }}/bill" class="btn btn-primary">
                     Facturer
-                </button>
+                </a>
                 
                 <button class="btn btn-danger">
                     Annuler

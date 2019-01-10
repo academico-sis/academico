@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\PreInvoice;
 use App\Models\UserData;
+use App\Models\User;
 use App\Models\Cart;
 use App\Models\PreInvoiceDetail;
 
@@ -34,10 +35,9 @@ class PreInvoiceController extends Controller
         }
         else
         {
-            $invoice_data = UserData::where('user_id', $student)->firstOrFail();
+            $invoice_data = User::findOrFail($student);
         }
 
-        dump($invoice_data);
 
         // generate a new preinvoice
         $preinvoice = new PreInvoice;
@@ -52,7 +52,6 @@ class PreInvoiceController extends Controller
 
         $cart = Cart::get_user_cart($student);
 
-        dump($cart);
         // for each product in the cart
         foreach ($cart as $product)
         {
@@ -67,8 +66,7 @@ class PreInvoiceController extends Controller
 
         // todo clear the cart
         
-        dump($student);
-        dump($request->all());
+        return redirect("admin/preinvoice/" . $preinvoice->id);
     }
 
 

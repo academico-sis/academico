@@ -19,9 +19,12 @@ class EnrollmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(User $student, Period $period)
+    public function create(User $student, Request $request)
     {
-        if (!$period->exists) {
+        if($request->query('period') !== null) {
+            $period = Period::findOrFail($request->query('period'));
+        }
+        else {
             $period = Period::get_default_period();
         }
 
@@ -40,11 +43,11 @@ class EnrollmentController extends Controller
     public function store(Request $request)
     {
         $course = Course::findOrFail($request->course_id);
-        $student = User::student()->findOrFail($request->student_id);
+        $student = User::findOrFail($request->student_id);
 
         $enrollment_id = $student->enroll($course);
 
-        return redirect()->to("/enrollments/$enrollment_id");
+        return redirect()->to("/admin/enrollment/$enrollment_id");
     }
 
 

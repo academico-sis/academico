@@ -58,12 +58,16 @@
                 <div class="box-body">                      
                         <p>
                             {{ $enrollment->result['result_name']['name'] }}
-                            <a href="/results/{{ $enrollment->id }}" class="btn btn-xs btn-info">
-                                <i class="fa fa-eye"></i>
+                            @if (true) {{-- if the user has permission to edit result --}}
+                            <a href="/admin/result/{{ $enrollment->result['id'] }}/edit" class="btn btn-xs btn-warning">
+                                <i class="fa fa-edit"></i>
                             </a>
+                            @endif
                         </p>
 
-                        Comments
+                        @foreach ($comments as $comment)
+                            <p>{{ $comment-> body}}</p>
+                        @endforeach
                 </div>
             </div>
         </div>

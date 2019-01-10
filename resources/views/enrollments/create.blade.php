@@ -20,16 +20,16 @@
                 <div class="box-tools pull-right">
                     
                     <!-- Period selection dropdown -->
-{{--                     <div class="btn-group">
+                     <div class="btn-group">
                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {{ $period->name }} <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu">
                             @foreach ($periods as $period)
-                            <li><a href="{{ url('courses') }}/{{ $period->id }}">{{ $period->name }}</a></li>
+                            <li><a href="{{ url()->current() }}/?period={{ $period->id }}">{{ $period->name }}</a></li>
                             @endforeach
                         </ul>
-                    </div> --}}                    
+                    </div>                 
                 </div>
                 
             </div>

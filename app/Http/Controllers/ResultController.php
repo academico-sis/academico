@@ -11,25 +11,6 @@ use Illuminate\Http\Request;
 
 class ResultController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -54,8 +35,8 @@ class ResultController extends Controller
         
         $grades = $enrollment->grades;
         $skills = $enrollment->skills;
-        dump($skills);
-        return view('results.show', compact('enrollment', 'grades', 'skills'));
+        $comments = $enrollment->result->comments;
+        return view('results.show', compact('enrollment', 'grades', 'skills', 'comments'));
     }
 
     /**
@@ -81,14 +62,4 @@ class ResultController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Result  $result
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Result $result)
-    {
-        //
-    }
 }

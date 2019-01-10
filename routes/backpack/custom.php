@@ -43,6 +43,7 @@ Route::group([
     CRUD::resource('user', 'UserCrudController');
     CRUD::resource('comment', 'CommentCrudController');
     CRUD::resource('preinvoice', 'PreInvoiceCrudController');
+    CRUD::resource('result', 'ResultCrudController');
 
 
     CRUD::resource('evaluationtype', 'EvaluationTypeCrudController');
