@@ -40,22 +40,28 @@ class Attendance extends Model
     public function get_pending_attendance(Period $period)
     {
         // get all events to check (past)
-        $events = Event::select('events.id')
+        $events = Event::selectRaw('events.id, count(attendances.id) as recorded_attendance')
         ->join('courses', 'courses.id', '=', 'events.course_id')
+        ->join('attendances', 'events.id', '=', 'attendances.event_id')
         ->where('courses.period_id', $period->id)
         ->where('events.start', '<', 'now()') // todo careful with timezones
+        ->groupBy('events.id')
         ->get();
-
+//dd($events);
         foreach ($events as $event)
         {
             // get the course enrollment count
-
+            $course_enrollments = $event->course;
+            dd($course_enrollments);
             // check if the number of attendance records matches the number of students
-            $missing = $attendance - $course_enrollments;
+            $missing = $event['recorded_attendance'] - $course_enrollments;
             if ($missing > 0) {
-
+                $pending_attendance->push($event);
             }
+
         }
+
+        dd($pending_attendance);
 
         
     }
