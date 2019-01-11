@@ -58,6 +58,7 @@ class Event extends Model
     {
         return $this->hasMany('App\Models\Attendance');
     }
+    
 
     public function teacher()
     {
@@ -85,6 +86,16 @@ class Event extends Model
     public function getVolumeAttribute()
     {
         return Carbon::parse($this->start)->diffInMinutes(Carbon::parse($this->end)) / 60;
+    }
+
+    public function getAttendanceCountAttribute()
+    {
+        return $this->attendance->count();
+    }
+
+    public function getCourseEnrollmentsCountAttribute()
+    {
+        return $this->course->enrollments_count;
     }
 
     /*

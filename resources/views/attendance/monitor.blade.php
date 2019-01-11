@@ -24,7 +24,16 @@
             </div>
             
             <div class="box-body">
-
+                <table class="table">
+                    @foreach($pending_attendance as $event)
+                    <tr>
+                        <td>{{ $event['event'] }}</td>
+                        <td>{{ $event['event_date'] }}</td>
+                        <td>{{ $event['teacher'] }}</td>
+                        <td>{{ $event['pending'] }}</td>
+                    </tr>
+                    @endforeach
+                </table>
             </div>
         </div>
     </div>

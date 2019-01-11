@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Course;
+use Carbon\Carbon;
 
 class Attendance extends Model
 {    
@@ -39,30 +41,35 @@ class Attendance extends Model
     // todo optimize this method
     public function get_pending_attendance(Period $period)
     {
-        // get all events to check (past)
-        $events = Event::selectRaw('events.id, count(attendances.id) as recorded_attendance')
-        ->join('courses', 'courses.id', '=', 'events.course_id')
-        ->join('attendances', 'events.id', '=', 'attendances.event_id')
-        ->where('courses.period_id', $period->id)
-        ->where('events.start', '<', 'now()') // todo careful with timezones
-        ->groupBy('events.id')
+        // get all events to check
+        $events = Event::where('exempt_attendance', '!=', true)
+        ->where('course_id', '!=', null)
+        ->with('attendance')
+        ->with('course.enrollments')
+        ->where('start', '<', (new Carbon)->toDateTimeString()) // todo check timezones
+        ->whereHas('course', function ($query) use ($period) {
+            $query->where('period_id', '=', $period->id);
+        })
         ->get();
-//dd($events);
-        foreach ($events as $event)
-        {
-            // get the course enrollment count
-            $course_enrollments = $event->course;
-            dd($course_enrollments);
-            // check if the number of attendance records matches the number of students
-            $missing = $event['recorded_attendance'] - $course_enrollments;
-            if ($missing > 0) {
-                $pending_attendance->push($event);
-            }
-
-        }
-
-        dd($pending_attendance);
 
         
+        $pending_events = [];
+
+        foreach ($events as $event)
+        {
+            // if the attendance record count do not match the enrollment count, push the event to array
+            $pending_attendance = $event->course->enrollments->count() - $event->attendance->count();
+
+            if ($pending_attendance > 0)
+            {
+                $pending_events[$event->id]['event'] = $event->name;
+                $pending_events[$event->id]['event_date'] = $event->start;
+                $pending_events[$event->id]['teacher'] = $event->teacher->name;
+                $pending_events[$event->id]['pending'] = $pending_attendance;
+            }
+
     }
+
+    return $pending_events;
+}
 }
