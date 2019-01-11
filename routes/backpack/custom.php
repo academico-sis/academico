@@ -15,23 +15,24 @@ Route::group(
     ],
     function () {
 
-            // Registration Routes...
-            Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('backpack.auth.register');
-            Route::post('register', 'Auth\RegisterController@register');
+    // Registration Routes...
+    Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('backpack.auth.register');
+    Route::post('register', 'Auth\RegisterController@register');
     
 
     // if not otherwise configured, setup the "my account" routes
-        Route::get('edit-account-info', 'Auth\MyAccountController@getAccountInfoForm')->name('backpack.account.info');
-        Route::post('edit-account-info', 'Auth\MyAccountController@postAccountInfoForm');
+    Route::get('edit-account-info', 'Auth\MyAccountController@getAccountInfoForm')->name('backpack.account.info');
+    Route::post('edit-account-info', 'Auth\MyAccountController@postAccountInfoForm');
     
 
-        });
+    });
+
 
 Route::group([
-    'prefix'     => config('backpack.base.route_prefix', 'admin'),
+    'prefix'     => config('backpack.base.route_prefix'),
     'middleware' => ['web', config('backpack.base.middleware_key', 'admin')],
     'namespace'  => 'App\Http\Controllers\Admin',
-], function () { // custom admin routes
+    ], function () { // custom admin routes
     CRUD::resource('period', 'PeriodCrudController');
     CRUD::resource('course', 'CourseCrudController');
     CRUD::resource('event', 'EventCrudController');
@@ -44,8 +45,6 @@ Route::group([
     CRUD::resource('comment', 'CommentCrudController');
     CRUD::resource('preinvoice', 'PreInvoiceCrudController');
     CRUD::resource('result', 'ResultCrudController');
-
-
     CRUD::resource('evaluationtype', 'EvaluationTypeCrudController');
     CRUD::resource('gradetype', 'GradeTypeCrudController');
     CRUD::resource('skill', 'SkillCrudController');

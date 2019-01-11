@@ -91,7 +91,7 @@
                             <td>{{ $student->student_email }}</td>
 
                             <td><!-- available actions -->
-                                <a href="/admin/student/{{ $student->student_id }}" class='btn btn-secondary'>{{-- todo clean --}}
+                                <a href="/student/{{ $student->student_id }}" class='btn btn-secondary'>{{-- todo clean --}}
                                     <i class='fa fa-briefcase'></i>
                                 </a>
    

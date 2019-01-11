@@ -1,9 +1,6 @@
 <?php
 
-// custom user CRUD controller
-Route::group(['prefix' => 'admin', 'middleware' => ['admin']], function () {
-    CRUD::resource('user', '\App\Http\Controllers\Admin\UserCrudController');
-});
+
 
 // routes used to add additional contacts to a user
 // these routes may be used by guests... -> todo find another protection.

@@ -59,7 +59,7 @@
                         <p>
                             {{ $enrollment->result['result_name']['name'] }}
                             @if (true) {{-- if the user has permission to edit result --}}
-                            <a href="/admin/result/{{ $enrollment->result['id'] }}/edit" class="btn btn-xs btn-warning">
+                            <a href="/result/{{ $enrollment->result['id'] }}/edit" class="btn btn-xs btn-warning">
                                 <i class="fa fa-edit"></i>
                             </a>
                             @endif

@@ -47,7 +47,7 @@ class EnrollmentController extends Controller
 
         $enrollment_id = $student->enroll($course);
 
-        return redirect()->to("/admin/enrollment/$enrollment_id");
+        return redirect()->to("/enrollment/$enrollment_id");
     }
 
 

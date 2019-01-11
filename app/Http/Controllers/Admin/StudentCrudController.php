@@ -28,6 +28,7 @@ class StudentCrudController extends CrudController
         $this->crud->removeButton('update');
 
         $this->crud->allowAccess('show');
+        $this->crud->denyAccess('create');
 
         $this->crud->addClause('student');
 

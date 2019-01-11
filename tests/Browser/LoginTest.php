@@ -17,7 +17,7 @@ class LoginTest extends DuskTestCase
         // a guest user is redirected to the login page
         $this->browse(function (Browser $browser) {
             $browser->visit('/')
-                    ->assertUrlIs('http://localhost:8000/admin/login');
+                    ->assertUrlIs('http://localhost:8000/login');
         });
 
     }
@@ -53,7 +53,7 @@ class LoginTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) {
             $browser->visit('/')
-                    ->assertUrlIs('http://localhost:8000/admin/login');
+                    ->assertUrlIs('http://localhost:8000/login');
         });
         
     }

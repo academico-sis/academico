@@ -21,7 +21,7 @@
                     @lang('student_info')
                 </div>
                 <div class="box-tools pull-right">
-                    <a class="btn btn-xs btn-warning" href="/admin/student/{{$student->id}}/edit">
+                    <a class="btn btn-xs btn-warning" href="/student/{{$student->id}}/edit">
                         <i class="fa fa-edit"></i>
                     </a>
 
@@ -65,7 +65,7 @@
                     </div>
 
                     <div class="box-tools pull-right">
-                        <a class="btn btn-xs btn-warning" href="/admin/userdata/{{$additional_data->id}}/edit">
+                        <a class="btn btn-xs btn-warning" href="/userdata/{{$additional_data->id}}/edit">
                             <i class="fa fa-edit"></i>
                         </a>
                     </div>
@@ -132,7 +132,7 @@
                                     <tr>
                                         <td>{{ $enrollment->date }}</td>
                                         <td>
-                                            <a href="/admin/enrollment/{{ $enrollment->id }}"> {{-- todo clean url --}}
+                                            <a href="/enrollment/{{ $enrollment->id }}"> {{-- todo clean url --}}
                                             {{ $enrollment->id }}
                                             </a>
                                         </td>
@@ -180,7 +180,7 @@
             </div>
             <div class="modal-body">
               
-                <form action="/admin/userdata" method="post">
+                <form action="/userdata" method="post">
                 @csrf
                 <input type="hidden" name="user_id" value="{{ $student->id }}">
                 
