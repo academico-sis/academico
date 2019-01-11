@@ -24,9 +24,7 @@
             </div>
             
             <div class="box-body">
-                <table class="table">
 
-                </table>
             </div>
         </div>
     </div>
@@ -42,7 +40,15 @@
             </div>
             
             <div class="box-body">
-                
+                <table class="table">
+                    @foreach($absences as $absence)
+                    <tr>
+                        <td>{{ $absence->firstname }} {{ $absence->lastname }}</td>
+                        <td>{{ $absence->course_name }}</td>
+                        <td>{{ $absence->count }}</td>
+                    </tr>
+                    @endforeach
+                </table>
             </div>
         </div>
     </div>

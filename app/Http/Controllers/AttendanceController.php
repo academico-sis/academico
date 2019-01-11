@@ -24,6 +24,7 @@ class AttendanceController extends Controller
         else { $period = Period::find($period_id); }
 
         $absences = (new Attendance)->get_absence_count($period);
+        //dd($absences);
         $pending_attendance = (new Attendance)->get_pending_attendance();
 
         //return $absences;
