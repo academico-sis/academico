@@ -90,22 +90,7 @@
                             @endif
                         </div>
                     </div>
-                    
-                    {{-- PHONE NUMBER --}}
-                    <div class="form-group{{ $errors->has('phone_number') ? ' has-error' : '' }}">
-                        <label class="control-label">{{ trans('academico.phone') }}</label>
-                        
-                        <div>
-                            <input type="text" class="form-control" name="phone_number" value="{{ old('phone_number') }}">
-                            
-                            @if ($errors->has('phone_number'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('phone_number') }}</strong>
-                            </span>
-                            @endif
-                        </div>
-                    </div>
-                    
+                                       
                     
                     {{-- ADDRESS --}}
                     <div class="form-group{{ $errors->has('address') ? ' has-error' : '' }}">

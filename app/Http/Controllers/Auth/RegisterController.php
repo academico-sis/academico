@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Validator;
 use \App\Models\Rule;
 use App\Models\PhoneNumber;
+use App\Models\User;
 
 class RegisterController extends \Backpack\Base\app\Http\Controllers\Auth\RegisterController
 {
@@ -109,6 +110,7 @@ class RegisterController extends \Backpack\Base\app\Http\Controllers\Auth\Regist
         // if invoice data has been required; redirect to the contact add form
         if($request->input('invoice_data')) {
             $user_id = $user->id;
+            \Alert::success('The additional info has successfully been saved')->flash();
             return view('backpack::auth.invoice_data', compact('user_id'));
         }
 
