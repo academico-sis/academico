@@ -3,7 +3,7 @@
 @section('header')
 <section class="content-header">
     <h1>
-        @lang_u('academico.coursedetails')
+        @lang('coursedetails')
     </h1>
 </section>
 @endsection
@@ -60,7 +60,7 @@
         <div class="box">
             <div class="box-header with-border">
                 <div class="box-title">
-                    @lang_u('academico.courses')
+                    @lang('courses')
                 </div>
                 <div class="box-tools pull-right">
                     
@@ -74,11 +74,11 @@
                 <table id="studentsTable" class="table table-striped responsive" style="width:100%">
                     <thead>
                         <tr>
-                            <th>@lang_u('academico.students')</th>
-                            <th>@lang_u('academico.age')</th>
-                            <th>@lang_u('academico.birthdate')</th>
-                            <th>@lang_u('academico.email')</th>
-                            <th>@lang_u('academico.actions')</th>
+                            <th>@lang('students')</th>
+                            <th>@lang('age')</th>
+                            <th>@lang('birthdate')</th>
+                            <th>@lang('email')</th>
+                            <th>@lang('actions')</th>
                         </tr>
                     </thead>
                     

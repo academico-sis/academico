@@ -3,7 +3,7 @@
 @section('header')
 <section class="content-header">
     <h1>
-        @lang_u('academico.course_creation')
+        @lang('course_creation')
     </h1>
 </section>
 @endsection
@@ -15,7 +15,7 @@
         <div class="box">
             <div class="box-header with-border">
                 <div class="box-title">
-                    @lang_u('academico.periods') {{ $period->name }}
+                    @lang('periods') {{ $period->name }}
                 </div>
                 <div class="box-tools pull-right">
                     
@@ -40,16 +40,16 @@
                     <thead>
                         <tr>
                             <th></th>
-                            <th>@lang_u('academico.rythms')</th>
-                            <th>@lang_u('academico.level')</th>
-                            <th>@lang_u('academico.name')</th>
-                            <th>@lang_u('academico.volume')</th>
-                            <th>@lang_u('academico.teacher')</th>
-                            <th>@lang_u('academico.times')</th>
-                            <th>@lang_u('academico.enrollments')</th>
-                            <th>@lang_u('academico.start')</th>
-                            <th>@lang_u('academico.end')</th>
-                            <th>@lang_u('academico.actions')</th>
+                            <th>@lang('rythms')</th>
+                            <th>@lang('level')</th>
+                            <th>@lang('name')</th>
+                            <th>@lang('volume')</th>
+                            <th>@lang('teacher')</th>
+                            <th>@lang('times')</th>
+                            <th>@lang('enrollments')</th>
+                            <th>@lang('start')</th>
+                            <th>@lang('end')</th>
+                            <th>@lang('actions')</th>
                         </tr>
                     </thead>
                     

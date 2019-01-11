@@ -3,7 +3,7 @@
 @section('header')
 <section class="content-header">
     <h1>
-        @lang_u('academico.invoices')
+        @lang('invoices')
     </h1>
 </section>
 @endsection
@@ -16,7 +16,7 @@
         <div class="box">
             <div class="box-header with-border">
                 <div class="box-title">
-                        @lang_u('academico.invoices')
+                        @lang('invoices')
                 </div>
                 <div class="box-tools pull-right">
                     
@@ -66,7 +66,7 @@
     <div class="box">
         <div class="box-header with-border">
             <div class="box-title">
-                @lang_u('academico.products')
+                @lang('products')
             </div>
             <div class="box-tools pull-right">
             </div>

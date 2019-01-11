@@ -3,7 +3,7 @@
 @section('header')
 <section class="content-header">
     <h1>
-        @lang_u('academico.enrollment_details')
+        @lang('enrollment_details')
     </h1>
 </section>
 @endsection
@@ -17,14 +17,14 @@
         <div class="box">
             <div class="box-header with-border">
                 <div class="box-title">
-                    @lang_u('academico.student_info')
+                    @lang('student_info')
                 </div>
                 <div class="box-tools pull-right">
                 </div>
             </div>
             
             <div class="box-body">
-                <p>@lang_u('academico.name'): {{ $enrollment->student_data->firstname }} {{ $enrollment->student_data->lastname }}</p>
+                <p>@lang('name'): {{ $enrollment->student_data->firstname }} {{ $enrollment->student_data->lastname }}</p>
                 
                 <p>{{ $enrollment->date }}</p>
                         <p>{{ $enrollment->id }}</p>
@@ -49,7 +49,7 @@
             <div class="box">
                 <div class="box-header with-border">
                     <div class="box-title">
-                        @lang_u('academico.course_info')
+                        @lang('course_info')
                     </div>
                     <div class="box-tools pull-right">
                     </div>
@@ -84,7 +84,7 @@
         <div class="box">
             <div class="box-header with-border">
                 <div class="box-title">
-                    @lang_u('academico.grades')
+                    @lang('grades')
                 </div>
                 <div class="box-tools pull-right">
                 </div>
@@ -110,7 +110,7 @@
         <div class="box">
             <div class="box-header with-border">
                 <div class="box-title">
-                    @lang_u('academico.skills')
+                    @lang('skills')
                 </div>
                 <div class="box-tools pull-right">
                 </div>

@@ -3,7 +3,7 @@
 @section('header')
 <section class="content-header">
     <h1>
-        @lang_u('academico.attendance')
+        @lang('attendance')
     </h1>
 </section>
 @endsection
@@ -17,7 +17,7 @@
         <div class="box">
             <div class="box-header with-border">
                 <div class="box-title">
-                    @lang_u('academico.pending_attendance')
+                    @lang('pending_attendance')
                 </div>
                 <div class="box-tools pull-right">
                 </div>
@@ -42,7 +42,7 @@
         <div class="box">
             <div class="box-header with-border">
                 <div class="box-title">
-                    @lang_u('academico.absences')
+                    @lang('absences')
                 </div>
                 <div class="box-tools pull-right">
                 </div>

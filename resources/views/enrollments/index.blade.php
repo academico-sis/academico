@@ -3,7 +3,7 @@
 @section('header')
 <section class="content-header">
     <h1>
-        @lang_u('academico.pending')
+        @lang('pending')
     </h1>
 </section>
 @endsection
@@ -16,7 +16,7 @@
         <div class="box">
             <div class="box-header with-border">
                 <div class="box-title">
-                        @lang_u('academico.pending')
+                        @lang('pending')
                 </div>
                 <div class="box-tools pull-right">
                     
@@ -30,10 +30,10 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>@lang_u('academico.firstname')</th>
-                            <th>@lang_u('academico.lastname')</th>
-                            <th>@lang_u('academico.course_name')</th>
-                            <th>@lang_u('academico.period')</th>
+                            <th>@lang('firstname')</th>
+                            <th>@lang('lastname')</th>
+                            <th>@lang('course_name')</th>
+                            <th>@lang('period')</th>
                             <th>Actions</th>
                         </tr>
                     </thead>

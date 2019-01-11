@@ -3,7 +3,7 @@
 @section('header')
 <section class="content-header">
     <h1>
-        @lang_u('academico.invoices')
+        @lang('invoices')
     </h1>
 </section>
 @endsection
@@ -16,7 +16,7 @@
         <div class="box">
             <div class="box-header with-border">
                 <div class="box-title">
-                        @lang_u('academico.invoices')
+                        @lang('invoices')
                 </div>
                 <div class="box-tools pull-right">
                     
@@ -30,10 +30,10 @@
                     <thead>
                         <tr>
                             <th>PreInvoice ID</th>
-                            <th>@lang_u('academico.invoice_number')</th>
-                            <th>@lang_u('academico.client')</th>
-                            <th>@lang_u('academico.date')</th>
-                            <th>@lang_u('academico.price')</th>
+                            <th>@lang('invoice_number')</th>
+                            <th>@lang('client')</th>
+                            <th>@lang('date')</th>
+                            <th>@lang('price')</th>
 
                             <th>Actions</th>
                         </tr>

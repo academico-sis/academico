@@ -68,7 +68,7 @@
 
                     <div class="form-group">
                         @php
-                            $label = trans('academico.firstname');
+                            $label = trans('firstname');
                             $field = 'firstname';
                         @endphp
                         <label class="required">{{ $label }}</label>
@@ -77,7 +77,7 @@
 
                     <div class="form-group">
                             @php
-                                $label = trans('academico.lastname');
+                                $label = trans('lastname');
                                 $field = 'lastname';
                             @endphp
                             <label class="required">{{ $label }}</label>
@@ -86,7 +86,7 @@
 
                     <div class="form-group">
                             @php
-                                $label = trans('academico.address');
+                                $label = trans('address');
                                 $field = 'address';
                             @endphp
                             <label class="required">{{ $label }}</label>
@@ -95,7 +95,7 @@
 
                     <div class="form-group">
                             @php
-                                $label = trans('academico.idnumber');
+                                $label = trans('idnumber');
                                 $field = 'idnumber';
                             @endphp
                             <label class="required">{{ $label }}</label>

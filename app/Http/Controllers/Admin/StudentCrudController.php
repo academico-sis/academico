@@ -69,12 +69,12 @@ class StudentCrudController extends CrudController
         // Fields
         $this->crud->addFields([
             [  // Select2
-                'label' => trans('academico.firstname'),
+                'label' => trans('firstname'),
                 'type' => 'text',
                 'name' => 'firstname'
             ],
             [  // Select2
-                'label' => trans('academico.lastname'),
+                'label' => trans('lastname'),
                 'type' => 'text',
                 'name' => 'lastname'
             ],
@@ -95,12 +95,12 @@ class StudentCrudController extends CrudController
             ],
             [
                 'name'  => 'birthdate',
-                'label' => trans('academico.birthdate'),
+                'label' => trans('birthdate'),
                 'type'  => 'date',
             ],
             [
                 'name'  => 'language',
-                'label' => trans('academico.language'),
+                'label' => trans('language'),
                 'type'  => 'text',
             ],
 

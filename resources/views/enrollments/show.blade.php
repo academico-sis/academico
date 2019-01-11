@@ -3,7 +3,7 @@
 @section('header')
 <section class="content-header">
     <h1>
-        @lang_u('academico.enrollment_details')
+        @lang('enrollment_details')
     </h1>
 </section>
 @endsection
@@ -17,7 +17,7 @@
         <div class="box">
             <div class="box-header with-border">
                 <div class="box-title">
-                    @lang_u('academico.student_info')
+                    @lang('student_info')
                 </div>
                 <div class="box-tools pull-right">
                     <button class="btn btn-warning"><i class="fa fa-pencil"></i></button>
@@ -25,12 +25,12 @@
             </div>
             
             <div class="box-body">
-                <p>@lang_u('academico.name'): {{ $enrollment->student_data->firstname }} {{ $enrollment->student_data->lastname }}</p>
-                <p>@lang_u('academico.idnumber'): {{ $enrollment->student_data->idnumber }}</p>
-                <p>@lang_u('academico.address'): {{ $enrollment->student_data->address }}</p>
+                <p>@lang('name'): {{ $enrollment->student_data->firstname }} {{ $enrollment->student_data->lastname }}</p>
+                <p>@lang('idnumber'): {{ $enrollment->student_data->idnumber }}</p>
+                <p>@lang('address'): {{ $enrollment->student_data->address }}</p>
                 
                 @if (count($enrollment->student_data->phone) > 0)
-                <p>@lang_u('academico.phonenumber'):
+                <p>@lang('phonenumber'):
                     <ul>
                         @foreach($enrollment->student_data->phone as $phone)
                         <li>{{ $phone->phone_number }}</li>
@@ -38,9 +38,9 @@
                     </ul>
                 </p>
                 @endif
-                <p>@lang_u('academico.email'): {{ $enrollment->student_data->email }}</p>
-                <p>@lang_u('academico.birthdate'): {{ $enrollment->student_data->birthdate }}</p>
-                <p>@lang_u('academico.age'): {{ $enrollment->student_data->age }} @lang('academico.yearsold')</p>
+                <p>@lang('email'): {{ $enrollment->student_data->email }}</p>
+                <p>@lang('birthdate'): {{ $enrollment->student_data->birthdate }}</p>
+                <p>@lang('age'): {{ $enrollment->student_data->age }} @lang('yearsold')</p>
             </div>
         </div>
     </div>
@@ -51,7 +51,7 @@
             <div class="box">
                 <div class="box-header with-border">
                     <div class="box-title">
-                        @lang_u('academico.course_info')
+                        @lang('course_info')
                     </div>
                     <div class="box-tools pull-right">
                     </div>
@@ -90,7 +90,7 @@
         <div class="box">
             <div class="box-header with-border">
                 <div class="box-title">
-                    @lang_u('academico.comments')
+                    @lang('comments')
                 </div>
                 <div class="box-tools pull-right">
                     <button class="btn btn-primary"><i class="fa fa-plus"></i></button>
@@ -113,7 +113,7 @@
         <div class="box">
             <div class="box-header with-border">
                 <div class="box-title">
-                    @lang_u('academico.status')
+                    @lang('status')
                 </div>
                 <div class="box-tools pull-right">
                 </div>

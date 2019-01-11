@@ -11,7 +11,7 @@
                     
                     {{-- FIRST NAME --}}
                     <div class="form-group{{ $errors->has('firstname') ? ' has-error' : '' }}">
-                        <label class="control-label">{{ trans('academico.firstname') }}</label>
+                        <label class="control-label">{{ trans('firstname') }}</label>
                         
                         <div>
                             <input type="text" class="form-control" name="firstname" value="{{ old('firstname') }}">
@@ -27,7 +27,7 @@
                     
                     {{-- LAST NAME --}}
                     <div class="form-group{{ $errors->has('lastname') ? ' has-error' : '' }}">
-                        <label class="control-label">{{ trans('academico.lastname') }}</label>
+                        <label class="control-label">{{ trans('lastname') }}</label>
                         
                         <div>
                             <input type="text" class="form-control" name="lastname" value="{{ old('lastname') }}">
@@ -43,7 +43,7 @@
                     
                     {{-- ID NUMBER --}}
                     <div class="form-group{{ $errors->has('idnumber') ? ' has-error' : '' }}">
-                        <label class="control-label">{{ trans('academico.idnumber') }}</label>
+                        <label class="control-label">{{ trans('idnumber') }}</label>
                         
                         <div>
                             <input type="text" class="form-control" name="idnumber" value="{{ old('idnumber') }}">
@@ -59,7 +59,7 @@
                     
                     {{-- GENRE --}}
                     <div class="form-group{{ $errors->has('genre_id') ? ' has-error' : '' }}">
-                        <label class="control-label">{{ trans('academico.genre') }}</label>
+                        <label class="control-label">{{ trans('genre') }}</label>
                         
                         <div>
                             <select class="form-control" name="genre_id">
@@ -78,7 +78,7 @@
                     
                     {{-- BIRTHDATE --}}
                     <div class="form-group{{ $errors->has('birthdate') ? ' has-error' : '' }}">
-                        <label class="control-label">{{ trans('academico.birthdate') }}</label>
+                        <label class="control-label">{{ trans('birthdate') }}</label>
                         
                         <div>
                             <input type="date" class="form-control" name="birthdate" value="{{ old('birthdate') }}">
@@ -94,7 +94,7 @@
                     
                     {{-- ADDRESS --}}
                     <div class="form-group{{ $errors->has('address') ? ' has-error' : '' }}">
-                        <label class="control-label">{{ trans('academico.address') }}</label>
+                        <label class="control-label">{{ trans('address') }}</label>
                         
                         <div>
                             <input type="text" class="form-control" name="address" value="{{ old('address') }}">
@@ -109,7 +109,7 @@
 
                     {{-- PHONE NUMBER --}}
                     <div class="form-group{{ $errors->has('phone_number') ? ' has-error' : '' }}">
-                            <label class="control-label">{{ trans('academico.phone_number') }}</label>
+                            <label class="control-label">{{ trans('phone_number') }}</label>
                             
                             <div>
                                 <input type="text" class="form-control" name="phone_number" value="{{ old('phone_number') }}">
@@ -173,7 +173,7 @@
                     
                     {{-- RULES ACCEPTATION --}}
                     <div class="form-group{{ $errors->has('rules') ? ' has-error' : '' }}">
-                        <label class="control-label">{{ trans('academico.rules') }}</label>
+                        <label class="control-label">{{ trans('rules') }}</label>
                         
                         <div>
                             <input id="rules" name="rules" type="checkbox">
@@ -189,7 +189,7 @@
                     
                     {{-- INVOICE DATA --}}
                     <div class="form-group{{ $errors->has('invoice_data') ? ' has-error' : '' }}">
-                        <label class="control-label">{{ trans('academico.invoice_data') }}</label>
+                        <label class="control-label">{{ trans('invoice_data') }}</label>
                         
                         <div>
                             <input id="invoice_data" name="invoice_data" type="checkbox">

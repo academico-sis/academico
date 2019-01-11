@@ -3,7 +3,7 @@
 @section('header')
 <section class="content-header">
     <h1>
-        @lang_u('academico.course_schedule')
+        @lang('course_schedule')
     </h1>
 </section>
 @endsection

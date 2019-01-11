@@ -14,7 +14,7 @@
 
                     {{-- FIRST NAME --}}
                     <div class="form-group{{ $errors->has('firstname') ? ' has-error' : '' }}">
-                        <label class="control-label">{{ trans('academico.firstname') }}</label>
+                        <label class="control-label">{{ trans('firstname') }}</label>
                         
                         <div>
                             <input type="text" class="form-control" name="firstname" value="{{ old('firstname') }}">
@@ -30,7 +30,7 @@
                     
                     {{-- LAST NAME --}}
                     <div class="form-group{{ $errors->has('lastname') ? ' has-error' : '' }}">
-                        <label class="control-label">{{ trans('academico.lastname') }}</label>
+                        <label class="control-label">{{ trans('lastname') }}</label>
                         
                         <div>
                             <input type="text" class="form-control" name="lastname" value="{{ old('lastname') }}">
@@ -46,7 +46,7 @@
                     
                     {{-- ID NUMBER --}}
                     <div class="form-group{{ $errors->has('idnumber') ? ' has-error' : '' }}">
-                        <label class="control-label">{{ trans('academico.idnumber') }}</label>
+                        <label class="control-label">{{ trans('idnumber') }}</label>
                         
                         <div>
                             <input type="text" class="form-control" name="idnumber" value="{{ old('idnumber') }}">
@@ -62,7 +62,7 @@
                     
                     {{-- PHONE NUMBER --}}
                     <div class="form-group{{ $errors->has('phone_number') ? ' has-error' : '' }}">
-                        <label class="control-label">{{ trans('academico.phone') }}</label>
+                        <label class="control-label">{{ trans('phone') }}</label>
                         
                         <div>
                             <input type="text" class="form-control" name="phone_number" value="{{ old('phone_number') }}">
@@ -78,7 +78,7 @@
                     
                     {{-- ADDRESS --}}
                     <div class="form-group{{ $errors->has('address') ? ' has-error' : '' }}">
-                        <label class="control-label">{{ trans('academico.address') }}</label>
+                        <label class="control-label">{{ trans('address') }}</label>
                         
                         <div>
                             <input type="text" class="form-control" name="address" value="{{ old('address') }}">
@@ -94,7 +94,7 @@
                     
                     {{-- EMAIL --}}
                     <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label class="control-label">{{ trans('academico.email') }}</label>
+                            <label class="control-label">{{ trans('email') }}</label>
                             
                             <div>
                                 <input type="email" class="form-control" name="email" value="{{ old('email') }}">

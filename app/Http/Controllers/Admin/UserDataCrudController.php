@@ -64,12 +64,12 @@ class UserDataCrudController extends CrudController
 
         $this->crud->addFields([
             [  // Select2
-                'label' => trans('academico.firstname'),
+                'label' => trans('firstname'),
                 'type' => 'text',
                 'name' => 'firstname'
             ],
             [  // Select2
-                'label' => trans('academico.lastname'),
+                'label' => trans('lastname'),
                 'type' => 'text',
                 'name' => 'lastname'
             ],

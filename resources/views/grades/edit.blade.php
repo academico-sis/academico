@@ -3,7 +3,7 @@
 @section('header')
 <section class="content-header">
     <h1>
-        @lang_u('academico.grades_edit')
+        @lang('grades_edit')
     </h1>
 </section>
 @endsection
@@ -16,7 +16,7 @@
         <div class="box">
             <div class="box-header with-border">
                 <div class="box-title">
-                    @lang_u('academico.grades_edit')
+                    @lang('grades_edit')
                 </div>
                 
                 <div class="box-tools pull-right">

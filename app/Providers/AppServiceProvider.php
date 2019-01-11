@@ -16,7 +16,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
 
-        \Blade::directive('lang_u', function ($s) {
+        \Blade::directive('lang', function ($s) {
             
             return "<?php echo mb_convert_case(trans($s), MB_CASE_TITLE, 'UTF-8'); ?>";
         });
