@@ -30,7 +30,7 @@ class CourseCrudController extends CrudController
         $permissions = backpack_user()->getAllPermissions();
         if(!$permissions->contains('name', 'courses.delete')) {$this->crud->denyAccess('delete'); }
         if(!$permissions->contains('name', 'courses.edit')) {$this->crud->denyAccess('edit'); }
-        if(!$permissions->contains('name', 'courses.create')) {$this->crud->denyAccess('create'); }
+        if(!$permissions->contains('name', 'courses.edit')) {$this->crud->denyAccess('create'); }
 
         if($permissions->contains('name', 'courses.view')) {$this->crud->allowAccess('show'); }
         if($permissions->contains('name', 'attendance.view')) {

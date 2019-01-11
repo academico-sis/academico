@@ -19,14 +19,14 @@ Route::group(
 
 
     /* Course Skills update */
-    Route::get('courses/{course}/skills', 'CourseSkillsController@edit');
-    Route::patch('courses/{course}/skills', 'CourseSkillsController@update');
+    Route::get('course/{course}/skills', 'CourseSkillController@edit');
+    Route::patch('course/{course}/skills', 'CourseSkillController@update');
 
     /* Skills Evaluation update */
-    Route::get('courses/{course}/skillsevaluation', 'CourseSkillsController@show');
+    Route::get('course/{course}/skillsevaluation', 'CourseSkillEvaluationController@show');
 
     /* Course grades update */
-    Route::get('courses/{course}/grades', 'GradeController@edit');
+    Route::get('course/{course}/grades', 'GradeController@edit');
     Route::post('grades', 'GradeController@store');
     Route::delete('grades', 'GradeController@destroy');
 
@@ -61,19 +61,19 @@ Route::group(
     // Billing and Invoicing routes
     Route::get('enrollments/{enrollment}/bill', 'EnrollmentController@bill');
 
-    Route::resource('carts', 'CartController');
-    Route::post('carts/{student}/checkout', 'PreInvoiceController@store');
+    Route::resource('cart', 'CartController');
+    Route::post('cart/{student}/checkout', 'PreInvoiceController@store');
 
     // add an enrollment to the cart for checkout
-    Route::post('products', 'ProductController@store');
+    Route::post('product', 'ProductController@store');
 
     // remove something from the cart
-    Route::delete('products', 'ProductController@destroy');
+    Route::delete('product', 'ProductController@destroy');
 
     // Preinvoices management
-    Route::patch('invoices/{preInvoice}', 'PreInvoiceController@update');
+    Route::patch('invoice/{preInvoice}', 'PreInvoiceController@update');
 
     // course result management -- todo some of these routes will need to be visible by students
-    Route::resource('results', 'ResultController');
+    //Route::resource('result', 'ResultController');
 
 });
