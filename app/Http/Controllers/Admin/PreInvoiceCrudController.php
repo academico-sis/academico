@@ -71,6 +71,7 @@ class PreInvoiceCrudController extends CrudController
     public function show($preInvoice)
     {
         $preInvoice = PreInvoice::findOrFail($preInvoice);
-        return view('invoices.show', compact('preInvoice'));
+        $products = $preInvoice->pre_invoice_details;
+        return view('invoices.show', compact('preInvoice', 'products'));
     }
 }

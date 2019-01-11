@@ -3,7 +3,7 @@
 @section('header')
 <section class="content-header">
     <h1>
-        @lang_u(('academico.invoices') }}
+        @lang_u('academico.invoices')
     </h1>
 </section>
 @endsection
@@ -16,7 +16,7 @@
         <div class="box">
             <div class="box-header with-border">
                 <div class="box-title">
-                        @lang_u(('academico.invoices') }}
+                        @lang_u('academico.invoices')
                 </div>
                 <div class="box-tools pull-right">
                     
@@ -59,6 +59,53 @@
             </div>
         </div>
 </div>
+
+<div class="row">
+
+<div class="col-md-8">
+    <div class="box">
+        <div class="box-header with-border">
+            <div class="box-title">
+                @lang_u('academico.products')
+            </div>
+            <div class="box-tools pull-right">
+            </div>
+        </div>
+        
+        <div class="box-body">
+            
+            <table class="table">
+                <thead>
+                    <th>Qté</th>
+                    <th>Produit</th>
+                    <th>Prix</th>
+                    <th>Total</th>
+                </thead>
+                <tbody>
+                    @foreach($products as $product)
+                        <tr>
+                            <td>{{ $product->quantity }}</td>
+                            <td>{{ $product->product_name }}</td>
+                            <td>${{ $product->price }}</td>
+                            <td>${{ $product->price * $product->quantity }}</td>
+                        </tr>
+                    @endforeach
+                    <tr>
+                        <td></td>
+                        <td>TOTAL</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+                            
+            
+        </div>
+    </div>
+</div>
+
+</div>
+
 
       <!-- Modal -->
       <div class="modal fade" id="editInvoiceNumberModal" tabindex="-1" role="dialog">

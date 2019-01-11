@@ -150,52 +150,6 @@
         </div>
     </div>
     
-    @if($enrollment->enrollment_status['id'] == 2)
-
-    <div class="col-md-8">
-        <div class="box">
-            <div class="box-header with-border">
-                <div class="box-title">
-                    @lang_u('academico.products')
-                </div>
-                <div class="box-tools pull-right">
-                </div>
-            </div>
-            
-            <div class="box-body">
-                
-                <table class="table">
-                    <thead>
-                        <th>Qté</th>
-                        <th>Produit</th>
-                        <th>Prix</th>
-                        <th>Total</th>
-                    </thead>
-                    <tbody>
-                        @foreach($products as $product)
-                            @foreach ($product->pre_invoice_details as $item)
-                            <tr>
-                                <td>{{ $item->quantity }}</td>
-                                <td>{{ $item->product_name }}</td>
-                                <td>${{ $item->price }}</td>
-                                <td>${{ $item->price * $item->quantity }}</td>
-                            </tr>
-                            @endforeach
-                        @endforeach
-                        <tr>
-                            <td></td>
-                            <td>TOTAL</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-                                
-                
-            </div>
-        </div>
-    </div>
-    @endif
 
 </div>
 
