@@ -31,7 +31,7 @@ class SkillCrudController extends CrudController
         | CrudPanel Configuration
         |--------------------------------------------------------------------------
         */
-
+        //$this->crud->setFromDb();
         $this->crud->setColumns([
 
             [ // skill type
@@ -66,7 +66,8 @@ class SkillCrudController extends CrudController
 
         ]);
 
-
+        $this->crud->enableBulkActions();
+        $this->crud->addButtonFromView('top', 'bulk_attach_skill', 'bulk_attach_skill', 'end');
         $this->crud->addFields([
 
             [ // skill type

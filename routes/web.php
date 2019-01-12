@@ -39,11 +39,6 @@ Route::group(
 
     Route::get('attendance/event/{event}', 'AttendanceController@showEvent'); // route model binding
 
-
-    // child course creation
-    //Route::post('course/{course}/children', 'ChildCourseController@store');
-
-
     /* Course Times update */
     Route::get('coursetime/{course}/get', 'CourseTimeController@show');
     Route::get('coursetime/{course}/edit', 'CourseTimeController@edit');
