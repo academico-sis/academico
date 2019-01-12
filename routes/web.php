@@ -41,7 +41,7 @@ Route::group(
 
 
     // child course creation
-    Route::get('course/{course}/children', 'ChildCourseController@store');
+    //Route::post('course/{course}/children', 'ChildCourseController@store');
 
 
     /* Course Times update */
