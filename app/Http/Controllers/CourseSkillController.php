@@ -31,7 +31,7 @@ class CourseSkillController extends Controller
             return $item;
         });
         //dd($skills);
-        return view('skills.edit', compact('course', 'skills'));
+        return view('skills.course', compact('course', 'skills'));
     }
 
     public function update(Course $course, Request $request)

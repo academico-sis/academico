@@ -7,7 +7,11 @@ use Backpack\CRUD\CrudTrait;
 
 class SkillEvaluation extends Model
 {
+    protected $table = "skill_evaluations";
+    protected $guarded = ['id'];
+
     use CrudTrait;
+
 
     public function skill()
     {

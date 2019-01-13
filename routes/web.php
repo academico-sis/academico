@@ -23,8 +23,9 @@ Route::group(
     Route::patch('course/{course}/skills', 'CourseSkillController@update');
 
     /* Skills Evaluation update */
-    Route::get('course/{course}/skillsevaluation', 'CourseSkillEvaluationController@show');
-
+    Route::get('course/{course}/skillsevaluation/{student}', 'CourseSkillEvaluationController@edit');
+    Route::post('skillsevaluation', 'CourseSkillEvaluationController@store');
+    
     /* Course grades update */
     Route::get('course/{course}/grades', 'GradeController@edit');
     Route::post('grades', 'GradeController@store');

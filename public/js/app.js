@@ -2253,6 +2253,94 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/StudentSkillEvaluationComponent.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/StudentSkillEvaluationComponent.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['saved_skills', 'student', 'course'],
+  data: function data() {
+    return {
+      skills: this.saved_skills
+    };
+  },
+  mounted: function mounted() {},
+  methods: {
+    saveSkillStatus: function saveSkillStatus(skill, status) {
+      var _this = this;
+
+      axios.post('/skillsevaluation/', {
+        skill: skill,
+        status: status,
+        student: this.student.id,
+        course: this.course.id
+      }).then(function (response) {
+        document.location.reload(true); // TODO improve this: do not reload the whole page
+      }).catch(function (e) {
+        _this.errors.push(e);
+      });
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/is-buffer/index.js":
 /*!*****************************************!*\
   !*** ./node_modules/is-buffer/index.js ***!
@@ -3490,6 +3578,145 @@ var staticRenderFns = [
       _c("h4", { staticClass: "modal-title", attrs: { id: "myModalLabel" } }, [
         _vm._v("New comment")
       ])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/StudentSkillEvaluationComponent.vue?vue&type=template&id=0de23550&":
+/*!**********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/StudentSkillEvaluationComponent.vue?vue&type=template&id=0de23550& ***!
+  \**********************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "table",
+      { staticClass: "table table-striped", attrs: { id: "skillsTable" } },
+      [
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "tbody",
+          _vm._l(_vm.skills, function(skill) {
+            return _c("tr", { key: skill.id }, [
+              _c("td", { staticStyle: { width: "50%" } }, [
+                _vm._v(_vm._s(skill.name) + " " + _vm._s(skill.id))
+              ]),
+              _vm._v(" "),
+              _c("td", [
+                _c(
+                  "div",
+                  {
+                    staticClass: "btn-group btn-group-justified",
+                    attrs: { role: "group", "aria-label": "" }
+                  },
+                  [
+                    _c(
+                      "div",
+                      { staticClass: "btn-group", attrs: { role: "group" } },
+                      [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-secondary",
+                            class: { "btn-success": skill.status == 3 },
+                            on: {
+                              click: function($event) {
+                                _vm.saveSkillStatus(skill.id, 3)
+                              }
+                            }
+                          },
+                          [
+                            _vm._v("\n                    AQ "),
+                            _c("i", { staticClass: "fa fa-check" })
+                          ]
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "btn-group", attrs: { role: "group" } },
+                      [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-secondary",
+                            class: { "btn-warning": skill.status == 2 },
+                            on: {
+                              click: function($event) {
+                                _vm.saveSkillStatus(skill.id, 2)
+                              }
+                            }
+                          },
+                          [
+                            _vm._v("\n                    EC "),
+                            _c("i", { staticClass: "fa fa-asterisk" })
+                          ]
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "btn-group", attrs: { role: "group" } },
+                      [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-secondary",
+                            class: { "btn-danger": skill.status == 1 },
+                            on: {
+                              click: function($event) {
+                                _vm.saveSkillStatus(skill.id, 1)
+                              }
+                            }
+                          },
+                          [
+                            _vm._v("\n                    NA "),
+                            _c("i", { staticClass: "fa fa-times" })
+                          ]
+                        )
+                      ]
+                    )
+                  ]
+                )
+              ])
+            ])
+          }),
+          0
+        )
+      ]
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("th", [_vm._v("Skill")]),
+      _vm._v(" "),
+      _c("th"),
+      _vm._v(" "),
+      _c("th"),
+      _vm._v(" "),
+      _c("th")
     ])
   }
 ]
@@ -19464,6 +19691,7 @@ Vue.component('cart-component', __webpack_require__(/*! ./components/CartCompone
 Vue.component('event-attendance-component', __webpack_require__(/*! ./components/EventAttendanceComponent.vue */ "./resources/js/components/EventAttendanceComponent.vue").default);
 Vue.component('student-attendance-component', __webpack_require__(/*! ./components/StudentAttendanceComponent.vue */ "./resources/js/components/StudentAttendanceComponent.vue").default);
 Vue.component('student-comments', __webpack_require__(/*! ./components/StudentCommentComponent.vue */ "./resources/js/components/StudentCommentComponent.vue").default);
+Vue.component('student-skills-component', __webpack_require__(/*! ./components/StudentSkillEvaluationComponent.vue */ "./resources/js/components/StudentSkillEvaluationComponent.vue").default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -19875,6 +20103,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_StudentCommentComponent_vue_vue_type_template_id_7817649e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_StudentCommentComponent_vue_vue_type_template_id_7817649e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/StudentSkillEvaluationComponent.vue":
+/*!*********************************************************************!*\
+  !*** ./resources/js/components/StudentSkillEvaluationComponent.vue ***!
+  \*********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _StudentSkillEvaluationComponent_vue_vue_type_template_id_0de23550___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./StudentSkillEvaluationComponent.vue?vue&type=template&id=0de23550& */ "./resources/js/components/StudentSkillEvaluationComponent.vue?vue&type=template&id=0de23550&");
+/* harmony import */ var _StudentSkillEvaluationComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./StudentSkillEvaluationComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/StudentSkillEvaluationComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _StudentSkillEvaluationComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _StudentSkillEvaluationComponent_vue_vue_type_template_id_0de23550___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _StudentSkillEvaluationComponent_vue_vue_type_template_id_0de23550___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/StudentSkillEvaluationComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/StudentSkillEvaluationComponent.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************!*\
+  !*** ./resources/js/components/StudentSkillEvaluationComponent.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_StudentSkillEvaluationComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./StudentSkillEvaluationComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/StudentSkillEvaluationComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_StudentSkillEvaluationComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/StudentSkillEvaluationComponent.vue?vue&type=template&id=0de23550&":
+/*!****************************************************************************************************!*\
+  !*** ./resources/js/components/StudentSkillEvaluationComponent.vue?vue&type=template&id=0de23550& ***!
+  \****************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_StudentSkillEvaluationComponent_vue_vue_type_template_id_0de23550___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./StudentSkillEvaluationComponent.vue?vue&type=template&id=0de23550& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/StudentSkillEvaluationComponent.vue?vue&type=template&id=0de23550&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_StudentSkillEvaluationComponent_vue_vue_type_template_id_0de23550___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_StudentSkillEvaluationComponent_vue_vue_type_template_id_0de23550___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

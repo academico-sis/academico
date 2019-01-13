@@ -2,31 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CourseSkillEvaluation;
+use App\Models\User;
+use App\Models\Course;
 use Illuminate\Http\Request;
+use App\Models\SkillEvaluation;
+use App\Models\CourseSkillEvaluation;
 
 class CourseSkillEvaluationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -35,18 +18,20 @@ class CourseSkillEvaluationController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $skill = $request->input('skill');
+        $status = $request->input('status');
+        $student = $request->input('student');
+        $course = $request->input('course');
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\CourseSkillEvaluation  $courseSkillEvaluation
-     * @return \Illuminate\Http\Response
-     */
-    public function show(CourseSkillEvaluation $courseSkillEvaluation)
-    {
-        //
+        $new_skill = SkillEvaluation::firstOrNew([
+            'course_id' => $course,
+            'user_id' => $student,
+            'skill_id' => $skill,
+        ]);
+        $new_skill->skill_scale_id = $status;
+        $new_skill->save();
+        
+        dd($new_skill);
     }
 
     /**
@@ -55,21 +40,18 @@ class CourseSkillEvaluationController extends Controller
      * @param  \App\Models\CourseSkillEvaluation  $courseSkillEvaluation
      * @return \Illuminate\Http\Response
      */
-    public function edit(CourseSkillEvaluation $courseSkillEvaluation)
+    public function edit(Course $course, User $student)
     {
-        //
-    }
+        
+        $student_skills = SkillEvaluation::where('user_id', $student->id)->where('course_id', $course->id)->get();
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\CourseSkillEvaluation  $courseSkillEvaluation
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, CourseSkillEvaluation $courseSkillEvaluation)
-    {
-        //
+        $skills = $course->skills->map(function ($skill, $key) use($student_skills) {
+            $skill['status'] = $student_skills[$skill->id]->skill_scale_id ?? null;
+            return $skill;
+        });
+        
+        //dump($skills);
+        return view('skills.student', compact('course', 'student', 'skills'));
     }
 
     /**
