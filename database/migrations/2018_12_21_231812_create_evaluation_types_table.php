@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\EvaluationType;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -16,27 +15,23 @@ class CreateEvaluationTypesTable extends Migration
     {
         Schema::create('evaluation_types', function (Blueprint $table) {
             $table->increments('id');
-            $table->text('name');
+            $table->string('name')->unique();
             //$table->timestamps();
         });
 
-        $eval_type = new EvaluationType;
-        $name = [
-            'en' => 'Grades',
-            'fr' => 'Notes',
-            'es' => 'Notas'
-         ];
-        $eval_type->setTranslations('name', $name);
-        $eval_type->save();
+        DB::table('evaluation_types')->insert(
+            array(
+                'id' => 1,
+                'name' => 'NOTES'
+            )
+        );
 
-        $eval_type = new EvaluationType;
-        $name = [
-            'en' => 'Skills',
-            'fr' => 'Compétences',
-            'es' => 'Competencias'
-         ];
-        $eval_type->setTranslations('name', $name);
-        $eval_type->save();
+        DB::table('evaluation_types')->insert(
+            array(
+                'id' => 2,
+                'name' => 'COMPÉTENCES'
+            )
+        );
 
         Schema::create('course_evaluation_type', function (Blueprint $table) {
             $table->increments('id');

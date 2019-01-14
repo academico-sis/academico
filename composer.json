@@ -14,8 +14,7 @@
         "fideloper/proxy": "^4.0",
         "kkomelin/laravel-translatable-string-exporter": "^1.0",
         "laravel/framework": "5.7.*",
-        "laravel/tinker": "^1.0",
-        "spatie/laravel-translatable": "^3.1"
+        "laravel/tinker": "^1.0"
     },
     "require-dev": {
         "backpack/generators": "^1.2",

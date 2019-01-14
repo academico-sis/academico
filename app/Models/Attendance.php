@@ -7,7 +7,7 @@ use App\Models\Course;
 use Carbon\Carbon;
 
 class Attendance extends Model
-{    
+{
     public function student_data()
     {
         return $this->belongsTo('App\Models\User', 'user_id');

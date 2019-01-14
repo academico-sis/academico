@@ -2,14 +2,11 @@
 
 namespace App\Models;
 
-use Backpack\CRUD\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Translatable\HasTranslations;
+use Backpack\CRUD\CrudTrait;
 
 class SkillScale extends Model
 {
     use CrudTrait;
     protected $guarded = ['id'];
-    use HasTranslations;
-    public $translatable = ['name', 'shortname'];
 }

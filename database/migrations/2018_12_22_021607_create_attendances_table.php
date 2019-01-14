@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\AttendanceType;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -16,56 +15,36 @@ class CreateAttendancesTable extends Migration
     {
         Schema::create('attendance_types', function (Blueprint $table) {
             $table->increments('id');
-            $table->text('name');
+            $table->string('name');
         });
 
+        DB::table('attendance_types')->insert(
+            array(
+                'id' => 1,
+                'name' => 'PRÉSENT(E)'
+            )
+        );
 
-        $attendance_type = new AttendanceType;
-        $name = [
-            'en' => 'PRESENT',
-            'fr' => 'PRÉSENT(E)',
-            'es' => 'PRESENTE'
-         ];
-        $attendance_type->setTranslations('name', $name);
-        $attendance_type->save();
+        DB::table('attendance_types')->insert(
+            array(
+                'id' => 2,
+                'name' => 'PRÉSENCE PARTIELLE'
+            )
+        );
 
+        DB::table('attendance_types')->insert(
+            array(
+                'id' => 3,
+                'name' => 'EXCUSÉ(E)'
+            )
+        );
 
-
-        $attendance_type = new AttendanceType;
-        $name = [
-            'en' => 'PARTIALLY PRESENT',
-            'fr' => 'PRÉSENCE PARTIELLE',
-            'es' => 'PRESENTE POR PARTE'
-         ];
-        $attendance_type->setTranslations('name', $name);
-        $attendance_type->save();
-
-        $attendance_type = new AttendanceType;
-        $name = [
-            'en' => 'PARTIALLY PRESENT',
-            'fr' => 'PRÉSENCE PARTIELLE',
-            'es' => 'PRESENTE POR PARTE'
-         ];
-        $attendance_type->setTranslations('name', $name);
-        $attendance_type->save();
-
-        $attendance_type = new AttendanceType;
-        $name = [
-            'en' => 'JUSTIFIED ABSENCE',
-            'fr' => 'ABSENCE JUSTIFIED',
-            'es' => 'AUSENCIA JUSTIFICADA'
-         ];
-        $attendance_type->setTranslations('name', $name);
-        $attendance_type->save();
-
-        $attendance_type = new AttendanceType;
-        $name = [
-            'en' => 'ABSENT',
-            'fr' => 'ABSENT(E)',
-            'es' => 'AUSENTE'
-         ];
-        $attendance_type->setTranslations('name', $name);
-        $attendance_type->save();
+        DB::table('attendance_types')->insert(
+            array(
+                'id' => 4,
+                'name' => 'ABSENT(E)'
+            )
+        );
 
         Schema::create('attendances', function (Blueprint $table) {
             $table->increments('id');
