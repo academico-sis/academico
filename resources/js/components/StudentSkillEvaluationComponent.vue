@@ -10,7 +10,7 @@
     </thead>
     <tbody>
         <tr v-for="skill in skills" v-bind:key="skill.id">
-            <td style="width: 50%">{{ skill.name }} {{skill.id}}</td>
+            <td style="width: 50%">{{ skill.name }}</td>
             
             <td>
             <div class="btn-group btn-group-justified" role="group" aria-label="">

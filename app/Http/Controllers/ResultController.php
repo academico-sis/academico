@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Result;
 use App\Models\Grade;
 use App\Models\Skill;
-use App\Models\Enrollment;
+use App\Models\Result;
+use App\Models\Comment;
 
+use App\Models\Enrollment;
 use Illuminate\Http\Request;
 
 class ResultController extends Controller
@@ -20,7 +21,20 @@ class ResultController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $result = Result::firstOrNew([
+            'enrollment_id' => $request->input('enrollment')
+        ]);
+
+        Comment::create([
+            'commentable_id' => $result->id,
+            'commentable_type' => Result::class,
+            'body' => $request->input('comment'),
+            'author_id' => \backpack_user()->id,
+        ]);
+
+        $result->result_type_id = $request->input('result');
+
+        $result->save();
     }
 
     /**

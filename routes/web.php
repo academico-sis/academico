@@ -23,6 +23,7 @@ Route::group(
     Route::patch('course/{course}/skills', 'CourseSkillController@update');
 
     /* Skills Evaluation update */
+    Route::get('course/{course}/skillsevaluation', 'CourseSkillEvaluationController@index');
     Route::get('course/{course}/skillsevaluation/{student}', 'CourseSkillEvaluationController@edit');
     Route::post('skillsevaluation', 'CourseSkillEvaluationController@store');
     
@@ -76,6 +77,6 @@ Route::group(
     Route::patch('invoice/{preInvoice}', 'PreInvoiceController@update');
 
     // course result management -- todo some of these routes will need to be visible by students
-    //Route::resource('result', 'ResultController');
+    Route::resource('result', 'ResultController');
 
 });

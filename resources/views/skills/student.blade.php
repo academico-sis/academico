@@ -25,11 +25,19 @@
             
             <div class="box-body" id="app">    
                 <student-skills-component
-                :saved_skills="{{ json_encode($skills) }}"
-                :student="{{ json_encode($student) }}"
-                :course="{{ json_encode($course) }}">
+                    :saved_skills="{{ json_encode($skills) }}"
+                    :student="{{ json_encode($student) }}"
+                    :course="{{ json_encode($course) }}">
                 </student-skills-component>
-              
+
+                <course-result-component
+                    :student="{{ json_encode($student) }}"
+                    :course="{{ json_encode($course) }}"
+                    :results="{{ json_encode($results) }}"
+                    :comments="{{ json_encode($comments) }}"
+                    :course_result="{{ json_encode($course_result) }}">
+                </course-result-component>
+
             </div>
         </div>
     </form>
@@ -40,11 +48,10 @@
 
 
 @section('before_scripts')
-   
+
 @endsection
 
 
 @section('after_scripts')
-<script src="/js/app.js"></script>
-
+    <script src="/js/app.js"></script>
 @endsection
