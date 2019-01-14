@@ -26,6 +26,12 @@ class CreateCampusesTable extends Migration
                 'name' => 'Interne'
             )
         );
+        DB::table('campuses')->insert(
+            array(
+                'id' => 2,
+                'name' => 'Externe'
+            )
+        );
     }
 
     /**

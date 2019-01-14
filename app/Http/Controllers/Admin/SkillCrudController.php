@@ -66,8 +66,7 @@ class SkillCrudController extends CrudController
 
         ]);
 
-        $this->crud->enableBulkActions();
-        $this->crud->addButtonFromView('top', 'bulk_attach_skill', 'bulk_attach_skill', 'end');
+
         $this->crud->addFields([
 
             [ // skill type

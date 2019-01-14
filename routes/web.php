@@ -10,7 +10,7 @@ Route::post('users/addcontact', 'UserDataController@store');
 
 /* Routes protected by Backpack */
 Route::group(
-    ['middleware' => 'web'],
+    ['middleware' => ['web', 'role:admin']],
     function () {
         
     // dashboard and home routes
