@@ -13,7 +13,7 @@ class ForeignKeys extends Migration
      */
     public function up()
     {
-        /* Schema::table('courses', function (Blueprint $table) {
+        Schema::table('courses', function (Blueprint $table) {
             $table->foreign('campus_id')
             ->references('id')->on('campuses')
             ->onDelete('restrict');
@@ -37,10 +37,6 @@ class ForeignKeys extends Migration
             $table->foreign('parent_course_id')
             ->references('id')->on('courses')
             ->onDelete('cascade');
-
-            $table->foreign('eval_type')
-            ->references('id')->on('evaluation_types')
-            ->onDelete('restrict');
 
             $table->foreign('period_id')
             ->references('id')->on('periods')
@@ -115,9 +111,6 @@ class ForeignKeys extends Migration
             ->references('id')->on('enrollments')
             ->onDelete('cascade');
 
-        $table->foreign('status_id')
-        ->references('id')->on('enrollment_status_types')
-        ->onDelete('restrict');
         });
 
 
@@ -125,15 +118,8 @@ class ForeignKeys extends Migration
             $table->foreign('user_id')
             ->references('id')->on('users')
             ->onDelete('cascade');
-        }); */
+        });
 
-            // todo preinvoice
-
-            // todo rules
-
-            // todo attendances
-
-            // ... and following migrations ...
     }
 
     /**

@@ -21,8 +21,20 @@ class CreateBooksTable extends Migration
         });
 
         Schema::create('book_course', function (Blueprint $table) {
-            $table->integer('book_id');
-            $table->integer('course_id');
+            $table->integer('book_id')->unsigned();
+            $table->integer('course_id')->unsigned();
+        });
+
+        Schema::table('book_course', function (Blueprint $table) {
+            $table->foreign('book_id')
+            ->references('id')->on('books')
+            ->onDelete('restrict');
+        });
+
+        Schema::table('book_course', function (Blueprint $table) {
+            $table->foreign('course_id')
+            ->references('id')->on('courses')
+            ->onDelete('cascade');
         });
     }
 

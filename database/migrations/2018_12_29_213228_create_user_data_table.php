@@ -25,6 +25,13 @@ class CreateUserDataTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+
+        Schema::table('user_data', function (Blueprint $table) {
+            $table->foreign('user_id')
+            ->references('id')->on('users')
+            ->onDelete('cascade');
+        });
+
     }
 
     /**

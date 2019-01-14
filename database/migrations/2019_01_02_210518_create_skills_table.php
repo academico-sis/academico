@@ -20,8 +20,13 @@ class CreateSkillsTable extends Migration
             $table->integer('level_id')->unsigned();
             $table->integer('skill_type_id')->unsigned();
             $table->timestamps();
-            $table->softDeletes(); 
+            $table->softDeletes();
+        });
 
+        Schema::table('skills', function (Blueprint $table) {
+            $table->foreign('level_id')
+            ->references('id')->on('levels')
+            ->onDelete('restrict');
         });
     }
 

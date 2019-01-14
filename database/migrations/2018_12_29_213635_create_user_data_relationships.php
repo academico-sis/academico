@@ -33,6 +33,12 @@ class CreateUserDataRelationships extends Migration
             )
         );
 
+        Schema::table('user_data', function (Blueprint $table) {
+            $table->foreign('relationship_id')
+            ->references('id')->on('user_data_relationships')
+            ->onDelete('cascade');
+        });
+
     }
 
     /**

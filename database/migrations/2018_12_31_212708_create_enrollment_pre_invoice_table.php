@@ -15,9 +15,21 @@ class CreateEnrollmentPreInvoiceTable extends Migration
     {
         Schema::create('enrollment_pre_invoice', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('enrollment_id')->unsigned()->nullable();
-            $table->integer('pre_invoice_id')->unsigned()->nullable();
+            $table->integer('enrollment_id')->unsigned();
+            $table->integer('pre_invoice_id')->unsigned();
             //$table->timestamps();
+        });
+
+        Schema::table('enrollment_pre_invoice', function (Blueprint $table) {
+            $table->foreign('enrollment_id')
+            ->references('id')->on('enrollments')
+            ->onDelete('cascade');
+        });
+
+        Schema::table('enrollment_pre_invoice', function (Blueprint $table) {
+            $table->foreign('pre_invoice_id')
+            ->references('id')->on('pre_invoices')
+            ->onDelete('cascade');
         });
     }
 

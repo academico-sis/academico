@@ -17,11 +17,17 @@ class CreateCartsTable extends Migration
     {
         Schema::create('carts', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id');
+            $table->integer('user_id')->unsigned();
             $table->integer('product_id');
             $table->string('product_type');
             $table->timestamps();
             $table->softDeletes();
+        });
+
+        Schema::table('carts', function (Blueprint $table) {
+            $table->foreign('user_id')
+            ->references('id')->on('users')
+            ->onDelete('cascade');
         });
     }
 

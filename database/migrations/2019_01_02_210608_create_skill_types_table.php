@@ -21,6 +21,12 @@ class CreateSkillTypesTable extends Migration
             $table->softDeletes(); 
 
         });
+
+        Schema::table('skills', function (Blueprint $table) {
+            $table->foreign('skill_type_id')
+            ->references('id')->on('skill_types')
+            ->onDelete('restrict');
+        });
     }
 
     /**

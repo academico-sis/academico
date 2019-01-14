@@ -15,11 +15,23 @@ class CreateCourseSkillsTable extends Migration
     {
         Schema::create('course_skill', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('course_id');
-            $table->integer('skill_id');
+            $table->integer('course_id')->unsigned();
+            $table->integer('skill_id')->unsigned();
             $table->integer('weight'); // specific weight of the skill in this course
             $table->timestamps();
             $table->softDeletes();
+        });
+
+        Schema::table('course_skill', function (Blueprint $table) {
+            $table->foreign('course_id')
+            ->references('id')->on('courses')
+            ->onDelete('cascade');
+        });
+
+        Schema::table('course_skill', function (Blueprint $table) {
+            $table->foreign('skill_id')
+            ->references('id')->on('skills')
+            ->onDelete('restrict');
         });
     }
 

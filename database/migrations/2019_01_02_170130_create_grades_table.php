@@ -22,6 +22,18 @@ class CreateGradesTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+
+        Schema::table('grades', function (Blueprint $table) {
+            $table->foreign('user_id')
+            ->references('id')->on('users')
+            ->onDelete('cascade');
+        });
+
+        Schema::table('grades', function (Blueprint $table) {
+            $table->foreign('course_id')
+            ->references('id')->on('courses')
+            ->onDelete('cascade');
+        });
     }
 
     /**

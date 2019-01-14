@@ -22,8 +22,8 @@ class CreateResultsTable extends Migration
 
         Schema::create('result_types', function (Blueprint $table) {
             $table->increments('id');
-            $table->text('name')->unique(); // fix JSON not working
-            $table->text('description')->nullable();
+            $table->string('name')->unique();
+            $table->string('description')->nullable();
             $table->timestamps();
         });
 
