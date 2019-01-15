@@ -12,7 +12,7 @@ class Enrollment extends Model
     use CrudTrait;
     use SoftDeletes;
 
-    protected $fillable = ['user_id', 'course_id', 'parent_id'];
+    protected $fillable = ['user_id', 'course_id', 'parent_id', 'status_id'];
 
 
     /**
@@ -133,5 +133,10 @@ class Enrollment extends Model
     public function enrollment_status()
     {
         return $this->belongsTo('\App\Models\EnrollmentStatusType', 'status_id');
+    }
+
+    public function getStatusAttribute()
+    {
+        return $this->status_id;
     }
 }

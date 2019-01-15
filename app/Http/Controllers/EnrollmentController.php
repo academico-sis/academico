@@ -69,7 +69,7 @@ class EnrollmentController extends Controller
         $products = Cart::where('user_id', $enrollment->user_id)->get();
 
         // show the cart for the user
-        return redirect("carts/$enrollment->user_id");
+        return redirect("cart/$enrollment->user_id");
     }
 
 

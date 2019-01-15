@@ -53,6 +53,36 @@ class UserTest extends TestCase
         $this->assertFalse($users->contains($student->id));
     }
 
+    public function test_add_additional_contact_to_user()
+    {
+        // Arrange: given a user
+        $student = factory(User::class)->create();
+
+        // Act: send additional contact data (x2)
+        $this->json('POST', "users/addcontact", [
+            'user_id' => $student->id,
+            'firstname' => "John",
+            'lastname' => "Doe",
+            'email' => "johndoe@example.com",
+            'address' => "example 123 address",
+            'idnumber' => "1010WWW2B",
+        ]);
+
+        $this->json('POST', "users/addcontact", [
+            'user_id' => $student->id,
+            'firstname' => "Eva",
+            'lastname' => "Verdo",
+            'email' => "evita@example.com",
+            'address' => "example 123 address",
+            'idnumber' => "65656565FGFGFG",
+        ]);
+
+
+        // Assert: verify that the additional contacts data are linked to the student
+        $this->assertTrue($student->additional_data->first()['idnumber'] == "1010WWW2B");
+        $this->assertTrue($student->additional_data->last()['email'] == "evita@example.com");
+    }
+
     public function test_that_a_user_additional_contacts_are_returned()
     {
         // given a user

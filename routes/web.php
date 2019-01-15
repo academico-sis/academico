@@ -31,14 +31,11 @@ Route::group(
     Route::post('grades', 'GradeController@store');
     Route::delete('grades', 'GradeController@destroy');
 
-
-
     /* Course attendance overview  */
     Route::get('attendance', 'AttendanceController@index'); // queryString parameters for period
     Route::get('attendance/course/{course}', 'AttendanceController@showCourse');
     Route::get('attendance/event/{event}', 'AttendanceController@showEvent');
     Route::post('attendance', 'AttendanceController@store');
-
 
     /* Course Times update */
     Route::get('coursetime/{course}/get', 'CourseTimeController@show');
@@ -47,11 +44,9 @@ Route::group(
     Route::delete('coursetime/{id}', 'CourseTimeController@destroy');
 
     // Course Events routes
-
     Route::get('course/{course}/events/get', 'EventController@get_course_events');
 
     // Comments routes
-
     Route::post('comment', 'CommentController@store');
     Route::delete('comment/{comment}', 'CommentController@destroy');
 
@@ -63,7 +58,9 @@ Route::group(
     // Billing and Invoicing routes
     Route::get('enrollments/{enrollment}/bill', 'EnrollmentController@bill');
 
-    Route::resource('cart', 'CartController');
+    Route::get('cart/{id}', 'CartController@show');
+    Route::delete('cart/{id}', 'CartController@destroy');
+
     Route::post('cart/{student}/checkout', 'PreInvoiceController@store');
 
     // add an enrollment to the cart for checkout

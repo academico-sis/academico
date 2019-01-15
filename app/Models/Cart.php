@@ -36,4 +36,9 @@ class Cart extends Model
         return $this->morphTo();
     }
 
+    public static function clear_cart_for_user($id)
+    {
+        Cart::where('user_id', $id)->delete();
+    }
+
 }

@@ -7,6 +7,8 @@ use App\Models\UserData;
 use App\Models\User;
 use App\Models\Cart;
 use App\Models\PreInvoiceDetail;
+use App\Models\Course;
+use App\Models\Enrollment;
 
 use Illuminate\Http\Request;
 
@@ -64,9 +66,23 @@ class PreInvoiceController extends Controller
             $detail->save();
         }
 
-        // todo clear the cart
-        
-        return redirect("admin/preinvoice/" . $preinvoice->id);
+
+        // mark the enrollment(s) as paid. TODO REFACTOR this.
+        $courses = Cart::where('user_id', $student)->where('product_type', Course::class)->get();
+        //dump($courses);
+
+        foreach($courses as $course)
+        {
+            $enrollment = Enrollment::where('course_id', $course->product_id)->where('user_id', $student)->first();
+            $enrollment->status_id = 2;
+            $enrollment->save();
+            //dd($enrollment);
+        }
+
+        // clear the cart
+        Cart::clear_cart_for_user($student);
+
+        return redirect("/preinvoice/" . $preinvoice->id);
     }
 
 

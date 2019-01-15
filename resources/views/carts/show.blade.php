@@ -24,7 +24,7 @@
                     </div>
                     <div class="box-tools pull-right">
 
-                            <form action="/carts/{{$student->id}}/checkout" method="POST">
+                            <form action="/cart/{{$student->id}}/checkout" method="POST">
                                 @csrf
                                 <button type="submit" class="btn btn-success"><i class="fa fa-dollar"></i>@lang('Continue with this contact information')</button>
                             </form>
@@ -65,7 +65,7 @@
     
                         <div class="box-tools pull-right">
 
-                            <form action="/carts/{{$student->id}}/checkout" method="POST">
+                            <form action="/cart/{{$student->id}}/checkout" method="POST">
                                 @csrf
                                 <input type="hidden" name="invoice_data" value="{{$additional_data->id}}">
                                 <button type="submit" class="btn btn-success"><i class="fa fa-dollar"></i>@lang('Continue with this contact information')</button>

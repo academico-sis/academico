@@ -39,4 +39,38 @@ class EnrollmentTest extends TestCase
         $enrollments = $course->enrollments;
         $this->assertTrue($enrollments->contains($student->id));
     }
+
+
+    public function test_pending_enrollment_checkout()
+    {
+        $this->seed('DatabaseSeeder');
+        
+        // arrange: given a newly created enrollment
+        $student = factory(User::class)->create();
+        $course = factory(Course::class)->create();
+        $student->enroll($course);
+
+        // the enrollment is pending
+        $enrollment = $student->enrollments->first();
+        $this->assertTrue($enrollment->status_id == 1);
+
+        // act: add the enrollment to cart
+        $this->json('POST', "enrollments/$enrollment->id/bill", [
+            'user_id' => $student->id,
+            'firstname' => "Eva",
+            'lastname' => "",
+            'email' => "evita@example.com",
+            'address' => "example 123 address",
+            'idnumber' => "65656565FGFGFG",
+        ]);
+
+        // checkout cart
+        $this->json('POST', "cart/$student->id/checkout", [
+
+        ]);
+        
+        //dd($student->enrollments);
+        // assert: the enrollment appears as paid with all relevant data
+        $this->assertTrue($enrollment->status_id == 2);
+    }
 }
