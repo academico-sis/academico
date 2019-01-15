@@ -61,7 +61,7 @@ class User extends Authenticatable
      */
     public function enroll(Course $course)
     {
-        // avoid duplicates by retrieving an eventual existing enrollment for the same course
+        // avoid duplicates by retrieving an potential existing enrollment for the same course
         $enrollment = Enrollment::firstOrNew([
             'user_id' =>  $this->id,
             'course_id' => $course->id

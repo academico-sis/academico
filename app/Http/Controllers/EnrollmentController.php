@@ -42,11 +42,9 @@ class EnrollmentController extends Controller
      */
     public function store(Request $request)
     {
-        $course = Course::findOrFail($request->course_id);
-        $student = User::findOrFail($request->student_id);
-
+        $course = Course::findOrFail($request->input('course_id'));
+        $student = User::findOrFail($request->input('student_id'));
         $enrollment_id = $student->enroll($course);
-
         return redirect()->to("/enrollment/$enrollment_id");
     }
 

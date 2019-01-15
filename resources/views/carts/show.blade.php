@@ -49,7 +49,7 @@
                     @endif
                     <p>@lang('email'): {{ $student->email }}</p>
                     <p>@lang('birthdate'): {{ $student->birthdate }}</p>
-                    <p>@lang('age'): {{ $student->age }} @lang('yearsold')</p>
+                    <p>@lang('age'): {{ $student->age }} @lang('years old')</p>
                 </div>
             </div>
         </div>

@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
+use App\Models\Cart;
 use App\Models\User;
 use App\Models\Course;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -18,7 +19,7 @@ class EnrollmentTest extends TestCase
 
     
     /**
-     * A basic test example.
+     * Enroll a student
      *
      * @return void
      */
@@ -26,18 +27,32 @@ class EnrollmentTest extends TestCase
     {
         $this->seed('DatabaseSeeder');
 
-        // given a newly created user...
+        // create an admin user and log them in to access enrollment routes
+        $admin = factory(User::class)->create();
+        $admin->assignRole('admin');
+        backpack_auth()->login($admin, true);
+
+        // Arrange: given a newly created user...
         $student = factory(User::class)->create();
 
         // and a newly created course
         $course = factory(Course::class)->create();
 
-        // if we enroll the user in the course
-        $student->enroll($course);
+        // Act: if we enroll the user in the course
+        $this->json('POST', "/enrollments", [
+            'student_id' => $student->id,
+            'course_id' => $course->id,
+        ]);
 
-        // they appear among the enrollments list for the course
-        $enrollments = $course->enrollments;
-        $this->assertTrue($enrollments->contains($student->id));
+        // Assert: they appear among the enrollments list for the course
+        $this->assertTrue($student->enrollments->contains("course_id", $course->id));
+        
+        /* todo: to test the course view endpoint we need a room, a level, a rythm */
+        /* $response = $this->get("/course/$course->id");
+        dd($response);
+        $response->assertSee("$student->firstname"); */
+
+        // todo also test a enrollment with children (make another test because we don't know if this feature will be kept in the future)
     }
 
 
@@ -45,6 +60,11 @@ class EnrollmentTest extends TestCase
     {
         $this->seed('DatabaseSeeder');
         
+        // create an admin user and log them in to access protected routes
+        $admin = factory(User::class)->create();
+        $admin->assignRole('admin');
+        backpack_auth()->login($admin, true);
+
         // arrange: given a newly created enrollment
         $student = factory(User::class)->create();
         $course = factory(Course::class)->create();
@@ -55,22 +75,33 @@ class EnrollmentTest extends TestCase
         $this->assertTrue($enrollment->status_id == 1);
 
         // act: add the enrollment to cart
-        $this->json('POST', "enrollments/$enrollment->id/bill", [
-            'user_id' => $student->id,
-            'firstname' => "Eva",
-            'lastname' => "",
-            'email' => "evita@example.com",
-            'address' => "example 123 address",
-            'idnumber' => "65656565FGFGFG",
-        ]);
+        $this->get("enrollments/$enrollment->id/bill");
+
+        // assert: the enrollment appears in the user cart
+        $cart = Cart::where('user_id', $student->id)->get();
+        $expected_course = $enrollment->course_data;
+        $this->assertTrue($cart->contains('product_id', $expected_course->id));
 
         // checkout cart
         $this->json('POST', "cart/$student->id/checkout", [
 
         ]);
-        
-        //dd($student->enrollments);
-        // assert: the enrollment appears as paid with all relevant data
+    
+        // assert: the enrollment status changes
         $this->assertTrue($enrollment->status_id == 2);
+        
+            // a pre-invoice is generated with the selected data
+            
+            // and the cart is cleared
+
     }
+
+    public function test_cart_checkout()
+    {
+        // arrange: given an existing cart with an enrollment pending
+
+        // act: when the enrollment is being paid
+        
+    }
+
 }

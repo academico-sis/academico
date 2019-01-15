@@ -52,6 +52,8 @@ Route::group(
 
     // Enrollments routes
     Route::get('students/{student}/enroll/{period?}', 'EnrollmentController@create');
+
+    // todo make singular and move all methods to the same controller
     Route::post('enrollments', 'EnrollmentController@store');
     Route::resource('enrollments', 'EnrollmentController');
 

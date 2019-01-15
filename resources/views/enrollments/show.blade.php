@@ -40,7 +40,7 @@
                 @endif
                 <p>@lang('email'): {{ $enrollment->student_data->email }}</p>
                 <p>@lang('birthdate'): {{ $enrollment->student_data->birthdate }}</p>
-                <p>@lang('age'): {{ $enrollment->student_data->age }} @lang('yearsold')</p>
+                <p>@lang('age'): {{ $enrollment->student_data->age }} @lang('years old')</p>
             </div>
         </div>
     </div>
