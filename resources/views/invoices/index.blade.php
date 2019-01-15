@@ -3,7 +3,7 @@
 @section('header')
 <section class="content-header">
     <h1>
-        @lang('invoices')
+        @lang('Invoices')
     </h1>
 </section>
 @endsection
@@ -16,7 +16,7 @@
         <div class="box">
             <div class="box-header with-border">
                 <div class="box-title">
-                        @lang('invoices')
+                        @lang('Invoices')
                 </div>
                 <div class="box-tools pull-right">
                     
@@ -29,13 +29,12 @@
                 <table class="table table-striped responsive">
                     <thead>
                         <tr>
-                            <th>PreInvoice ID</th>
-                            <th>@lang('invoice_number')</th>
-                            <th>@lang('client')</th>
-                            <th>@lang('date')</th>
-                            <th>@lang('price')</th>
-
-                            <th>Actions</th>
+                            <th>@lang('Pre-invoice ID')</th>
+                            <th>@lang('Invoice Number')</th>
+                            <th>@lang('Client')</th>
+                            <th>@lang('Date')</th>
+                            <th>@lang('Price')</th>
+                            <th>@lang('Actions')</th>
                         </tr>
                     </thead>
 

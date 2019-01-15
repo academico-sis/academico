@@ -3,7 +3,7 @@
 @section('header')
 <section class="content-header">
     <h1>
-        @lang('course_creation')
+        @lang('Course creation')
     </h1>
 </section>
 @endsection
@@ -75,7 +75,6 @@
                                 {{ $course->course_times }}
                             </td>
 
-
                             <td>{{ $course->enrollments_count }}</td>
 
                             <td>{{ $course->start_date }}</td>
@@ -89,8 +88,6 @@
                                     <input type="hidden" name="course_id" value="{{ $course->id }}" />
                                     <button type="submit" class="btn btn-primary"><i class="fa fa-user-plus"></i></button>
                                 </form>
-                                
-   
                             </td>
                         </tr>
                         @endforeach

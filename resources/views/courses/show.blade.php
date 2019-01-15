@@ -3,7 +3,7 @@
 @section('header')
 <section class="content-header">
     <h1>
-        @lang('coursedetails')
+        @lang('Course Details')
     </h1>
 </section>
 @endsection
@@ -17,7 +17,7 @@
                 <div class="info-box">
                 <span class="info-box-icon bg-aqua"><i class="fa fa-users"></i></span>
                 <div class="info-box-content">
-                <span class="info-box-text">Enseignant(e)</span>
+                <span class="info-box-text">@lang('Teacher')</span>
                 <span class="info-box-number">{{ $course->teacher->name }}</span>
                 </div>
                 </div>
@@ -27,7 +27,7 @@
                 <div class="info-box">
           <span class="info-box-icon bg-aqua"><i class="fa fa-building-o"></i></span>
           <div class="info-box-content">
-            <span class="info-box-text">Rythme</span>
+            <span class="info-box-text">@lang('Rythm')</span>
             <span class="info-box-number">{{ $course->rythm->name . ' ' . $course->level->name  }}</span>
           </div>
         </div>
@@ -37,7 +37,7 @@
                 <div class="info-box">
           <span class="info-box-icon bg-aqua"><i class="fa fa-clock-o"></i></span>
           <div class="info-box-content">
-            <span class="info-box-text">Horaires</span>
+            <span class="info-box-text">@lang('Schedule')</span>
             <span class="info-box-number">{{ $course->course_times }}</span>
           </div>
         </div>
@@ -47,7 +47,7 @@
                 <div class="info-box">
           <span class="info-box-icon bg-aqua"><i class="fa fa-clock-o"></i></span>
           <div class="info-box-content">
-            <span class="info-box-text">Salle</span>
+            <span class="info-box-text">@lang('Room')</span>
             <span class="info-box-number">{{ $course->room->name }}</span>
           </div>
         </div>

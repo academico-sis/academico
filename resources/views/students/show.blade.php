@@ -3,7 +3,7 @@
 @section('header')
 <section class="content-header">
     <h1>
-        {{ $student->name }}
+        @lang('Student details for') {{ $student->name }}
     </h1>
 </section>
 @endsection
@@ -18,7 +18,7 @@
         <div class="box">
             <div class="box-header with-border">
                 <div class="box-title">
-                    @lang('student_info')
+                    @lang('Student Info')
                 </div>
                 <div class="box-tools pull-right">
                     <a class="btn btn-xs btn-warning" href="/student/{{$student->id}}/edit">
@@ -58,7 +58,7 @@
             <div class="box">
                 <div class="box-header with-border">
                     <div class="box-title">
-                        @lang('additional_info')
+                        @lang('Additional Contact')
                         @if(isset($additional_data->relationship))
                         ({{ $additional_data->relationship->name }})
                         @endif
@@ -119,12 +119,12 @@
                     <div class="box-body">
                         <table class="table table-striped">
                             <thead>
-                                <th>Fecha/hora</th>
-                                <th>No Matricula</th>
-                                <th>Curso</th> {{-- todo pop up with additional info --}}
-                                <th>Periodo</th>
-                                <th>Estado</th> {{-- todo click with invoice info --}}
-                                <th>Resultado</th>
+                                <th>@lang('Date')</th>
+                                <th>@lang('Enrollment ID')</th>
+                                <th>@lang('Course')</th> {{-- todo pop up with Additional Contact --}}
+                                <th>@lang('Period')</th>
+                                <th>@lang('Status')</th> {{-- todo click with invoice info --}}
+                                <th>@lang('Result')</th>
                             </thead>
 
                             <tbody>
@@ -176,7 +176,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title">Add a new contact</h4>
+              <h4 class="modal-title">@lang('Add a new contact')</h4>
             </div>
             <div class="modal-body">
               
@@ -185,34 +185,34 @@
                 <input type="hidden" name="user_id" value="{{ $student->id }}">
                 
                 <div class="form-group">
-                    <label for="firstname">prénom</label>
+                    <label for="firstname">@lang('Firstname')</label>
                     <input type="text" id="firstname" name="firstname">
                 </div>
 
                 <div class="form-group">
-                    <label for="lastname">Nom</label>
+                    <label for="lastname">@lang('Name')</label>
                     <input type="text" id="lastname" name="lastname">
                 </div>
 
                 <div class="form-group">
-                    <label for="email">Email</label>
+                    <label for="email">@lang('Email')</label>
                     <input type="text" id="email" name="email">
             </div>
 
             <div class="form-group">
-                <label for="address">Address</label>
+                <label for="address">@lang('Address')</label>
                 <input type="text" id="address" name="address">
             </div>
 
             <div class="form-group">
-                <label for="idnumber">ID Number</label>
+                <label for="idnumber">@lang('ID Number')</label>
                 <input type="text" id="idnumber" name="idnumber">
             </div>
 
 
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-success">Save new Contact</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">@lang('Close')</button>
+              <button type="submit" class="btn btn-success">@lang('Save new Contact')</button>
             </div>
         </form>
           </div>

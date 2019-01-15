@@ -3,7 +3,7 @@
 @section('header')
 <section class="content-header">
     <h1>
-        @lang('cart_details')
+        @lang('Cart Details')
     </h1>
 </section>
 @endsection
@@ -20,13 +20,13 @@
             <div class="box">
                 <div class="box-header with-border">
                     <div class="box-title">
-                        @lang('student_info')
+                        @lang('Student Info')
                     </div>
                     <div class="box-tools pull-right">
 
                             <form action="/carts/{{$student->id}}/checkout" method="POST">
                                 @csrf
-                                <button type="submit" class="btn btn-success"><i class="fa fa-dollar"></i>Continuer avec ces coordonnées</button>
+                                <button type="submit" class="btn btn-success"><i class="fa fa-dollar"></i>@lang('Continue with this contact information')</button>
                             </form>
 
 
@@ -39,7 +39,7 @@
                     <p>@lang('address'): {{ $student->address }}</p>
                     
                     @if (count($student->phone) > 0)
-                        <p>@lang('phonenumber'):
+                        <p>@lang('Phone Number'):
                             <ul>
                                 @foreach($student->phone as $phone)
                                 <li>{{ $phone->phone_number }}</li>
@@ -49,7 +49,7 @@
                     @endif
                     <p>@lang('email'): {{ $student->email }}</p>
                     <p>@lang('birthdate'): {{ $student->birthdate }}</p>
-                    <p>@lang('age'): {{ $student->age }} {{ @lang('yearsold')</p>
+                    <p>@lang('age'): {{ $student->age }} @lang('yearsold')</p>
                 </div>
             </div>
         </div>
@@ -59,7 +59,7 @@
                 <div class="box">
                     <div class="box-header with-border">
                         <div class="box-title">
-                            @lang('additional_info')
+                            @lang('Additional Contact')
                             {{ $additional_data->relationship }}
                         </div>
     
@@ -68,7 +68,7 @@
                             <form action="/carts/{{$student->id}}/checkout" method="POST">
                                 @csrf
                                 <input type="hidden" name="invoice_data" value="{{$additional_data->id}}">
-                                <button type="submit" class="btn btn-success"><i class="fa fa-dollar"></i>Continuer avec ces coordonnées</button>
+                                <button type="submit" class="btn btn-success"><i class="fa fa-dollar"></i>@lang('Continue with this contact information')</button>
                             </form>
 
 

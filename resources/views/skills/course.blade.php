@@ -33,9 +33,9 @@
                <table class="table table-striped" id="skillsTable">
                    <thead>
                        <td></td>
-                       <td>Skill Type</td>
-                       <td>Level</td>
-                       <td>Skill</td>
+                       <td>@lang('Skill Type')</td>
+                       <td>@lang('Level')</td>
+                       <td>@lang('Skill')</td>
                    </thead>
                    <tbody>
                        @foreach ($skills as $skill)

@@ -3,7 +3,7 @@
 @section('header')
 <section class="content-header">
     <h1>
-        @lang('attendance') }}
+        @lang('Attendance')
     </h1>
 </section>
 @endsection
@@ -17,7 +17,7 @@
         <div class="box">
             <div class="box-header with-border">
                 <div class="box-title">
-                    @lang('attendance') }}
+                    @lang('Attendance')
                 </div>
                 <div class="box-tools pull-right">
                 </div>

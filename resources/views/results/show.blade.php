@@ -3,7 +3,7 @@
 @section('header')
 <section class="content-header">
     <h1>
-        @lang('enrollment_details')
+        @lang('Course Result Details')
     </h1>
 </section>
 @endsection
@@ -17,7 +17,7 @@
         <div class="box">
             <div class="box-header with-border">
                 <div class="box-title">
-                    @lang('student_info')
+                    @lang('Student Info')
                 </div>
                 <div class="box-tools pull-right">
                 </div>
@@ -30,7 +30,7 @@
                         <p>{{ $enrollment->id }}</p>
                         @if ($enrollment->children_count > 0)
                             <p>{{ $enrollment->course_data->name }}</p>
-                            <p>Children enrollments:</p>
+                            <p>@lang('Children enrollments'):</p>
                             <ul>
                             @foreach ($enrollment->children as $children)
                                 <li><a href="/enrollments/{{ $children->id }}">{{ $children->course_data->name }}</a>
@@ -49,7 +49,7 @@
             <div class="box">
                 <div class="box-header with-border">
                     <div class="box-title">
-                        @lang('course_info')
+                        @lang('Course info')
                     </div>
                     <div class="box-tools pull-right">
                     </div>
@@ -66,7 +66,7 @@
                         </p>
 
                         @foreach ($comments as $comment)
-                            <p>{{ $comment-> body}}</p>
+                            <p>{{ $comment->body}}</p>
                         @endforeach
                 </div>
             </div>
@@ -84,7 +84,7 @@
         <div class="box">
             <div class="box-header with-border">
                 <div class="box-title">
-                    @lang('grades')
+                    @lang('Grades')
                 </div>
                 <div class="box-tools pull-right">
                 </div>
@@ -110,7 +110,7 @@
         <div class="box">
             <div class="box-header with-border">
                 <div class="box-title">
-                    @lang('skills')
+                    @lang('Skills')
                 </div>
                 <div class="box-tools pull-right">
                 </div>

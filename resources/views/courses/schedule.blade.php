@@ -3,7 +3,7 @@
 @section('header')
 <section class="content-header">
     <h1>
-        @lang('course_schedule')
+        @lang('Course Schedule')
     </h1>
 </section>
 @endsection

@@ -3,7 +3,7 @@
 @section('header')
 <section class="content-header">
     <h1>
-        @lang('enrollment_details')
+        @lang('Enrollment Details')
     </h1>
 </section>
 @endsection
@@ -17,7 +17,7 @@
         <div class="box">
             <div class="box-header with-border">
                 <div class="box-title">
-                    @lang('student_info')
+                    @lang('Student Info')
                 </div>
                 <div class="box-tools pull-right">
                     <button class="btn btn-warning"><i class="fa fa-pencil"></i></button>
@@ -51,7 +51,7 @@
             <div class="box">
                 <div class="box-header with-border">
                     <div class="box-title">
-                        @lang('course_info')
+                        @lang('Course info')
                     </div>
                     <div class="box-tools pull-right">
                     </div>
@@ -63,7 +63,7 @@
                         </p>
                         @if ($enrollment->children_count > 0)
                             <p>{{ $enrollment->course_data->name }}</p>
-                            <p>Children enrollments:</p>
+                            <p>@lang('Children enrollments'):</p>
                             <ul>
                             @foreach ($enrollment->children as $children)
                                 <li><a href="/enrollments/{{ $children->id }}">{{ $children->course_data->name }}</a>
@@ -71,7 +71,7 @@
                             @endforeach
                             </ul>
                             @elseif ($enrollment->parent_id !== null)
-                            this enrollment belongs to <a href="/enrollments/{{ $enrollment->parent_id }}">{{ $enrollment->parent_id }}</a>
+                            @lang('This enrollment belongs to') <a href="/enrollments/{{ $enrollment->parent_id }}">{{ $enrollment->parent_id }}</a>
                         @endif
                         <p>{{ $enrollment->course_data->period->name }}</p>
                         
@@ -130,19 +130,19 @@
                     <ul>
                         @foreach ($enrollment->pre_invoice as $pre_invoice)
                         <li>
-                            <a href="/invoices/{{ $pre_invoice->id }}">Numéro de facture: {{ $pre_invoice->invoice_number ?? "inconnu" }}</a>
+                            <a href="/invoices/{{ $pre_invoice->id }}">@lang('Numéro de facture'): {{ $pre_invoice->invoice_number ?? "inconnu" }}</a>
                     </li>
                         @endforeach
                     </ul>
                 @elseif($enrollment->enrollment_status['id'] == 1)
-                <p>Matricula pendiente</p>
+                <p>@lang('This enrollment has not yet been canceled')</p>
                 
                 <a href="/enrollments/{{ $enrollment->id }}/bill" class="btn btn-primary">
-                    Facturer
+                    @lang('Checkout')
                 </a>
                 
                 <button class="btn btn-danger">
-                    Annuler
+                    @lang('Delete Enrollment')
                 </button>
 
             @endif

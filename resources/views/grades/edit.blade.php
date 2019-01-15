@@ -3,7 +3,7 @@
 @section('header')
 <section class="content-header">
     <h1>
-        @lang('grades_edit')
+        @lang('Edit Grades')
     </h1>
 </section>
 @endsection
@@ -16,11 +16,12 @@
         <div class="box">
             <div class="box-header with-border">
                 <div class="box-title">
-                    @lang('grades_edit')
+                    @lang('Edit Grades')
                 </div>
                 
                 <div class="box-tools pull-right">
-                    <a class="btn btn-primary" href=""><i class="fa fa-plus"></i> Add Grade Type to course</a>
+                    <a class="btn btn-primary" href="">
+                        <i class="fa fa-plus"></i> @lang('Add Grade Type to Course')</a>
                 </div>  
             </div>
             

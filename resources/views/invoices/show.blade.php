@@ -3,7 +3,7 @@
 @section('header')
 <section class="content-header">
     <h1>
-        @lang('invoices')
+        @lang('Invoices')
     </h1>
 </section>
 @endsection
@@ -16,22 +16,21 @@
         <div class="box">
             <div class="box-header with-border">
                 <div class="box-title">
-                        @lang('invoices')
+                    @lang('Invoices')
                 </div>
                 <div class="box-tools pull-right">
-                    
                 </div>
                 
             </div>
             
             <div class="box-body">           
-                <p>Numéro de pré-facture : {{ $preInvoice->id }}</p>
-                <p>Date : {{ $preInvoice->created_at }}</p>
-                <p>Nom du client : {{ $preInvoice->client_name }}</p>
-                <p>Email du client : {{ $preInvoice->client_email }}</p>
-                <p>Adresse du client : {{ $preInvoice->client_address }}</p>
-                <p>Numéro d'identité du client : {{ $preInvoice->client_idnumber }}</p>
-                <p>Numéro de téléphone du client : todo</p>
+                <p>@lang('Pre-invoice ID') : {{ $preInvoice->id }}</p>
+                <p>@lang('Date') : {{ $preInvoice->created_at }}</p>
+                <p>@lang('Client name') : {{ $preInvoice->client_name }}</p>
+                <p>@lang('Client email') : {{ $preInvoice->client_email }}</p>
+                <p>@lang('Client address') : {{ $preInvoice->client_address }}</p>
+                <p>@lang('Client ID Number') : {{ $preInvoice->client_idnumber }}</p>
+                <p>@lang('Client Phone Number') : todo</p>
 
             </div>
         </div>
@@ -41,7 +40,7 @@
             <div class="box">
                 <div class="box-header with-border">
                     <div class="box-title">
-                        Numéro de facture
+                        @lang('Numéro de facture')
                     </div>
                     <div class="box-tools pull-right">
                         <button class="btn btn-warning" data-toggle="modal" data-target="#editInvoiceNumberModal">
@@ -53,8 +52,6 @@
                 
                 <div class="box-body">           
                     <h3>{{ $preInvoice->invoice_number }}</h3>
-                    
-    
                 </div>
             </div>
         </div>
@@ -76,10 +73,10 @@
             
             <table class="table">
                 <thead>
-                    <th>Qté</th>
-                    <th>Produit</th>
-                    <th>Prix</th>
-                    <th>Total</th>
+                    <th>@lang('Qty')</th>
+                    <th>@lang('Product')</th>
+                    <th>@lang('Price')</th>
+                    <th>@lang('Total')</th>
                 </thead>
                 <tbody>
                     @foreach($products as $product)
@@ -92,7 +89,7 @@
                     @endforeach
                     <tr>
                         <td></td>
-                        <td>TOTAL</td>
+                        <td>@lang('TOTAL')</td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -113,20 +110,20 @@
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="myModalLabel">Ajouter un numéro de facture</h4>
+              <h4 class="modal-title" id="myModalLabel">@lang('Add invoice number')</h4>
             </div>
             <div class="modal-body">
             <form method="POST" action="/invoices/{{ $preInvoice->id }}">
                 @method('PATCH')
                 @csrf
-                <label for="invoice_number">Nouveau numéro de facture</label>
+                <label for="invoice_number">@lang('Nouveau numéro de facture')</label>
                 <input type="text" name="invoice_number">
-                <button type="submit" class="btn btn-primary">Save changes</button>
+                <button type="submit" class="btn btn-primary">@lang('Save changes')</button>
 
             </form>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">@lang('Close')</button>
             </div>
           </div>
         </div>

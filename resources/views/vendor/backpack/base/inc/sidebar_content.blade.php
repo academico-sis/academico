@@ -19,7 +19,7 @@
       <li><a href='{{ backpack_url('event') }}'><i class='fa fa-star'></i> <span>@lang('events')</span></a></li>
       <li><a href='{{ backpack_url('level') }}'><i class='fa fa-star'></i> <span>@lang('levels')</span></a></li>
       <li><a href='{{ backpack_url('room') }}'><i class='fa fa-star'></i> <span>@lang('rooms')</span></a></li>
-      <li><a href='{{ backpack_url('campus') }}'><i class='fa fa-star'></i> <span>@lang('campuses')<an></a></li>
+      <li><a href='{{ backpack_url('campus') }}'><i class='fa fa-star'></i> <span>@lang('campuses')</span></a></li>
       <li><a href='{{ backpack_url('rythm') }}'><i class='fa fa-star'></i> <span>@lang('rythms')</span></a></li>
       <li><a href='{{ backpack_url('year') }}'><i class='fa fa-star'></i> <span>@lang('Years')</span></a></li>
   </ul>
@@ -29,12 +29,12 @@
 <li class="treeview">
   <a href="#"><i class="fa fa-link"></i> <span>@lang('evaluation')</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
   <ul class="treeview-menu">
-      <li><a href='{{ backpack_url('evaluationtype') }}'><span>@lang('evaluation_types')</span></a></li>
-      <li><a href='{{ backpack_url('gradetype') }}'><span>@lang('grade_types')</span></a></li>
-      <li><a href='{{ backpack_url('skill') }}'><span>@lang('skills')</span></a></li>
-      <li><a href='{{ backpack_url('skilltype') }}'><span>@lang('skill_types')</span></a></li>
-      <li><a href='{{ backpack_url('skillscale') }}'><span>@lang('skill_scales')</span></a></li>
-      <li><a href='{{ backpack_url('resulttype') }}'><span>@lang('result_types')</span></a></li>
+      <li><a href='{{ backpack_url('evaluationtype') }}'><span>@lang('Evaluation Types')</span></a></li>
+      <li><a href='{{ backpack_url('gradetype') }}'><span>@lang('Grade Types')</span></a></li>
+      <li><a href='{{ backpack_url('skill') }}'><span>@lang('Skills')</span></a></li>
+      <li><a href='{{ backpack_url('skilltype') }}'><span>@lang('Skill Types')</span></a></li>
+      <li><a href='{{ backpack_url('skillscale') }}'><span>@lang('Skill Scales')</span></a></li>
+      <li><a href='{{ backpack_url('resulttype') }}'><span>@lang('Result Types')</span></a></li>
 
   </ul>
 </li>

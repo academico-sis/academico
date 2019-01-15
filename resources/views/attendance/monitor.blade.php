@@ -3,7 +3,7 @@
 @section('header')
 <section class="content-header">
     <h1>
-        @lang('attendance')
+        @lang('Attendance')
     </h1>
 </section>
 @endsection
@@ -17,7 +17,7 @@
         <div class="box">
             <div class="box-header with-border">
                 <div class="box-title">
-                    @lang('pending_attendance')
+                    @lang('Classes without attendance')
                 </div>
                 <div class="box-tools pull-right">
                 </div>
@@ -42,7 +42,7 @@
         <div class="box">
             <div class="box-header with-border">
                 <div class="box-title">
-                    @lang('absences')
+                    @lang('Last Absences')
                 </div>
                 <div class="box-tools pull-right">
                 </div>
@@ -61,13 +61,9 @@
             </div>
         </div>
     </div>
-
-
 </div>
 
 @endsection
-
-
 
 @section('after_scripts')
 @endsection

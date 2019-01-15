@@ -29,12 +29,12 @@
                 <table class="table table-striped responsive">
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <th>@lang('ID')</th>
                             <th>@lang('firstname')</th>
                             <th>@lang('lastname')</th>
-                            <th>@lang('course_name')</th>
+                            <th>@langCourse Name</th>
                             <th>@lang('period')</th>
-                            <th>Actions</th>
+                            <th>@lang('Actions')</th>
                         </tr>
                     </thead>
 
