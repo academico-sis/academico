@@ -15,10 +15,6 @@ use App\Http\Requests\YearRequest as UpdateRequest;
  */
 class YearCrudController extends CrudController
 {
-    public function __construct()
-    {
-        $this->middleware(['role:admin']);
-    }
 
     public function setup()
     {
