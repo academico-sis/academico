@@ -6,6 +6,8 @@ use Tests\TestCase;
 use App\Models\Cart;
 use App\Models\User;
 use App\Models\Course;
+use App\Models\Enrollment;
+
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -83,25 +85,20 @@ class EnrollmentTest extends TestCase
         $this->assertTrue($cart->contains('product_id', $expected_course->id));
 
         // checkout cart
-        $this->json('POST', "cart/$student->id/checkout", [
-
-        ]);
+        $response = $this->json('POST', "cart/$student->id/checkout");
     
         // assert: the enrollment status changes
+        $enrollment = Enrollment::where('user_id', $student->id)->first();
+        //dd($enrollment);
         $this->assertTrue($enrollment->status_id == 2);
+
+        // a pre-invoice is generated with the selected data
+        $this->assertTrue($enrollment->pre_invoice->count() == 1);
         
-            // a pre-invoice is generated with the selected data
-            
-            // and the cart is cleared
+        // and the cart is cleared
+        $this->assertTrue(Cart::get_user_cart($student->id)->count() == 0);
 
     }
 
-    public function test_cart_checkout()
-    {
-        // arrange: given an existing cart with an enrollment pending
-
-        // act: when the enrollment is being paid
-        
-    }
 
 }

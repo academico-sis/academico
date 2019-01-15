@@ -63,13 +63,12 @@ class Enrollment extends Model
             ->get();
     }
 
-    // todo refactor this
     public function addToCart()
     {
         $product = Cart::firstOrNew([
             'user_id' => $this->student_data->id,
-            'product_id' => $this->course_data->id,
-            'product_type' => Course::class
+            'product_id' => $this->id,
+            'product_type' => Enrollment::class
         ]);
 
         $product->save();

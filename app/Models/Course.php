@@ -107,6 +107,11 @@ class Course extends Model
         return $this->hasMany('\App\Models\Grade')->with('student');
     }
 
+    public function grade_type()
+    {
+        return $this->belongsToMany('App\Models\GradeType');
+    }
+
     public function skills()
     {
         return $this->belongsToMany('App\Models\Skill');

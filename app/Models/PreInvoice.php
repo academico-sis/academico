@@ -14,12 +14,12 @@ class PreInvoice extends Model
 
     public function pre_invoice_details()
     {
-        return $this->hasMany('\App\Models\PreInvoiceDetail');
+        return $this->hasMany('App\Models\PreInvoiceDetail');
     }
 
     public function enrollments()
     {
-        return $this->belongsToMany('\App\Models\Enrollment', 'enrollment_pre_invoice', 'enrollment_id', 'pre_invoice_id');
+        return $this->belongsToMany('App\Models\Enrollment', 'enrollment_pre_invoice', 'pre_invoice_id', 'enrollment_id');
     }
     
 }

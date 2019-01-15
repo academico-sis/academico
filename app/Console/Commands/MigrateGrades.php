@@ -89,6 +89,7 @@ class MigrateGrades extends Command
             $course = Course::findOrFail($course->id);
             $course->evaluation_type()->attach(2);
         }
+        die();
     }
 }
 

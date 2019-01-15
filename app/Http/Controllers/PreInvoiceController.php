@@ -27,9 +27,14 @@ class PreInvoiceController extends Controller
      */
     public function store($student, Request $request)
     {
-        // if there are any products in the cart
-        
-        // check if we are using custom invoice data
+
+        // ensure that there are any products in the cart
+        if (Cart::where('user_id', $student)->count() == 0)
+        {
+            return "The cart has no item";
+        }
+
+        // retrieve which data to use for the invoice
 
         if ($request->input('invoice_data') !== null)
         {
@@ -54,30 +59,30 @@ class PreInvoiceController extends Controller
 
         $cart = Cart::get_user_cart($student);
 
+        //return $cart;
         // for each product in the cart
         foreach ($cart as $product)
         {
             // generate a preinvoice product (detail)
             $detail = new PreInvoiceDetail;
             $detail->pre_invoice_id = $preinvoice->id;
-            $detail->product_name = $product->product->name;
-            $detail->price = $product->product->price;
+            $detail->product_name = $product->product->name ?? 'product without name'; // todo fix this
+            $detail->price = $product->product->price ?? 0; // todo fix this
 
             $detail->save();
+
+            // mark the enrollment(s) as paid.
+            // link the enrollment(s) to the newly ceated preinvoice
+            if($product->product_type == Enrollment::class)
+            {
+                $enrollment = Enrollment::find($product->product_id);
+                $enrollment->status_id = 2;
+                $enrollment->save();
+                
+                $preinvoice->enrollments()->attach($enrollment);
+            }
         }
 
-
-        // mark the enrollment(s) as paid. TODO REFACTOR this.
-        $courses = Cart::where('user_id', $student)->where('product_type', Course::class)->get();
-        //dump($courses);
-
-        foreach($courses as $course)
-        {
-            $enrollment = Enrollment::where('course_id', $course->product_id)->where('user_id', $student)->first();
-            $enrollment->status_id = 2;
-            $enrollment->save();
-            //dd($enrollment);
-        }
 
         // clear the cart
         Cart::clear_cart_for_user($student);
