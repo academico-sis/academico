@@ -6,6 +6,9 @@ use App\Models\Attendance;
 use App\Models\Course;
 use App\Models\Event;
 use App\Models\Period;
+use App\Models\User;
+use App\Models\AttendanceType;
+
 
 use Illuminate\Http\Request;
 
@@ -63,7 +66,19 @@ class AttendanceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dump($request->all());
+        $student = User::findOrFail($request->input('student'));
+        $event = Event::findOrFail($request->input('event'));
+        $attendance_type = AttendanceType::findOrFail($request->input('attendance'));
+
+        $attendance = Attendance::firstOrNew([
+            'user_id' => $student->id,
+            'event_id' => $event->id,
+        ]);
+        $attendance->attendance_type_id = $attendance_type->id;
+
+        $attendance->save();
+
     }
 
     /**
@@ -123,7 +138,7 @@ class AttendanceController extends Controller
         }
         //return $attendances;
         
-        return view('attendance/event', compact('attendances'));
+        return view('attendance/event', compact('attendances', 'event'));
         
     }
 

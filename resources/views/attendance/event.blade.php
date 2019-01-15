@@ -34,7 +34,8 @@
                     <tbody>
                         @foreach ($attendances as $attendance)
                         <event-attendance-component
-                            :attendance="{{ json_encode($attendance) }}">
+                            :attendance="{{ json_encode($attendance) }}"
+                            :event="{{ json_encode($event) }}">
                         </event-attendance-component>
                         @endforeach
                         

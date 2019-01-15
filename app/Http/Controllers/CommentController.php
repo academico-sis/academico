@@ -19,7 +19,6 @@ class CommentController extends Controller
             'body' => $request->input('comment'),
             'private' => $request->input('private') ?? 0,
             'author_id' => \backpack_user()->id,
-
         ]);
     }
 

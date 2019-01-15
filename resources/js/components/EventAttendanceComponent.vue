@@ -13,9 +13,9 @@
         <div class="btn-group" role="group">
             <button
                 id=""
-                onclick=""
+                @click="saveAttendance(1)"
                 class="btn btn-secondary" 
-                v-bind:class="{ 'btn-success': attendance.attendance.attendance_type_id == 1 }">
+                v-bind:class="{ 'btn-success': studentAttendance == 1 }">
                 P <i class="fa fa-user"></i>
             </button>
         </div>
@@ -23,9 +23,9 @@
         <div class="btn-group" role="group">
             <button
                 id=""
-                onclick=""
+                @click="saveAttendance(2)"
                 class="btn btn-secondary"
-                v-bind:class="{ 'btn-warning': attendance.attendance.attendance_type_id == 2 }">
+                v-bind:class="{ 'btn-warning': studentAttendance == 2 }">
                 PP <i class="fa fa-clock-o"></i>
             </button>
         </div>
@@ -33,9 +33,9 @@
         <div class="btn-group" role="group">
             <button
                 id=""
-                onclick=""
+                @click="saveAttendance(3)"
                 class="btn btn-secondary"
-                v-bind:class="{ 'btn-info': attendance.attendance.attendance_type_id == 3 }">
+                v-bind:class="{ 'btn-info': studentAttendance == 3 }">
                 AJ <i class="fa fa-exclamation"></i>
             </button>
         </div>
@@ -43,9 +43,9 @@
         <div class="btn-group" role="group">
             <button
                 id=""
-                onclick=""
+                @click="saveAttendance(4)"
                 class="btn btn-secondary"
-                v-bind:class="{ 'btn-danger': attendance.attendance.attendance_type_id == 4 }">
+                v-bind:class="{ 'btn-danger': studentAttendance == 4 }">
                 A <i class="fa fa-user-times"></i>
             </button>
         </div>
@@ -64,11 +64,11 @@
 
     export default {
 
-        props: ['attendance'],
+        props: ['attendance', 'event'],
         
         data () {
             return {
-                
+                studentAttendance: this.attendance.attendance.attendance_type_id
             }
         },
 
@@ -77,7 +77,20 @@
         },
 
         methods: {
-
+            saveAttendance(attendance) {
+                axios
+                    .post('/attendance/', {
+                        event: this.event.id,
+                        student: this.attendance.student.id,
+                        attendance
+                    })
+                    .then(response => {
+                        this.studentAttendance = attendance
+                    })
+                    .catch(e => {
+                        this.errors.push(e)
+                    })
+            },
         }
     }
     

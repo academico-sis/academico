@@ -4,7 +4,6 @@
 
 // routes used to add additional contacts to a user
 // these routes may be used by guests... -> todo find another protection.
-//Route::get('users/{user}/addcontact', 'UserDataController@create');
 Route::post('users/addcontact', 'UserDataController@store');
 
 
@@ -36,10 +35,10 @@ Route::group(
 
     /* Course attendance overview  */
     Route::get('attendance', 'AttendanceController@index'); // queryString parameters for period
-    
-    Route::get('attendance/course/{course}', 'AttendanceController@showCourse'); // route model binding
+    Route::get('attendance/course/{course}', 'AttendanceController@showCourse');
+    Route::get('attendance/event/{event}', 'AttendanceController@showEvent');
+    Route::post('attendance', 'AttendanceController@store');
 
-    Route::get('attendance/event/{event}', 'AttendanceController@showEvent'); // route model binding
 
     /* Course Times update */
     Route::get('coursetime/{course}/get', 'CourseTimeController@show');

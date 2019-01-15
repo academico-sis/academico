@@ -2199,12 +2199,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['attendance'],
+  props: ['attendance', 'event'],
   data: function data() {
-    return {};
+    return {
+      studentAttendance: this.attendance.attendance.attendance_type_id
+    };
   },
   mounted: function mounted() {},
-  methods: {}
+  methods: {
+    saveAttendance: function saveAttendance(attendance) {
+      var _this = this;
+
+      axios.post('/attendance/', {
+        event: this.event.id,
+        student: this.attendance.student.id,
+        attendance: attendance
+      }).then(function (response) {
+        _this.studentAttendance = attendance;
+      }).catch(function (e) {
+        _this.errors.push(e);
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -3556,11 +3572,13 @@ var render = function() {
                 "button",
                 {
                   staticClass: "btn btn-secondary",
-                  class: {
-                    "btn-success":
-                      _vm.attendance.attendance.attendance_type_id == 1
-                  },
-                  attrs: { id: "", onclick: "" }
+                  class: { "btn-success": _vm.studentAttendance == 1 },
+                  attrs: { id: "" },
+                  on: {
+                    click: function($event) {
+                      _vm.saveAttendance(1)
+                    }
+                  }
                 },
                 [
                   _vm._v("\n                P "),
@@ -3574,11 +3592,13 @@ var render = function() {
                 "button",
                 {
                   staticClass: "btn btn-secondary",
-                  class: {
-                    "btn-warning":
-                      _vm.attendance.attendance.attendance_type_id == 2
-                  },
-                  attrs: { id: "", onclick: "" }
+                  class: { "btn-warning": _vm.studentAttendance == 2 },
+                  attrs: { id: "" },
+                  on: {
+                    click: function($event) {
+                      _vm.saveAttendance(2)
+                    }
+                  }
                 },
                 [
                   _vm._v("\n                PP "),
@@ -3592,11 +3612,13 @@ var render = function() {
                 "button",
                 {
                   staticClass: "btn btn-secondary",
-                  class: {
-                    "btn-info":
-                      _vm.attendance.attendance.attendance_type_id == 3
-                  },
-                  attrs: { id: "", onclick: "" }
+                  class: { "btn-info": _vm.studentAttendance == 3 },
+                  attrs: { id: "" },
+                  on: {
+                    click: function($event) {
+                      _vm.saveAttendance(3)
+                    }
+                  }
                 },
                 [
                   _vm._v("\n                AJ "),
@@ -3610,11 +3632,13 @@ var render = function() {
                 "button",
                 {
                   staticClass: "btn btn-secondary",
-                  class: {
-                    "btn-danger":
-                      _vm.attendance.attendance.attendance_type_id == 4
-                  },
-                  attrs: { id: "", onclick: "" }
+                  class: { "btn-danger": _vm.studentAttendance == 4 },
+                  attrs: { id: "" },
+                  on: {
+                    click: function($event) {
+                      _vm.saveAttendance(4)
+                    }
+                  }
                 },
                 [
                   _vm._v("\n                A "),
