@@ -58,8 +58,10 @@ class UserTest extends TestCase
         // Arrange: given a user
         $student = factory(User::class)->create();
 
+        \Auth::guard(backpack_guard_name())->login($student);
+
         // Act: send additional contact data (x2)
-        $this->json('POST', "users/addcontact", [
+        $this->json('POST', "user/addcontact", [
             'user_id' => $student->id,
             'firstname' => "John",
             'lastname' => "Doe",
@@ -68,7 +70,7 @@ class UserTest extends TestCase
             'idnumber' => "1010WWW2B",
         ]);
 
-        $this->json('POST', "users/addcontact", [
+        $response = $this->json('POST', "user/addcontact", [
             'user_id' => $student->id,
             'firstname' => "Eva",
             'lastname' => "Verdo",
@@ -76,7 +78,6 @@ class UserTest extends TestCase
             'address' => "example 123 address",
             'idnumber' => "65656565FGFGFG",
         ]);
-
 
         // Assert: verify that the additional contacts data are linked to the student
         $this->assertTrue($student->additional_data->first()['idnumber'] == "1010WWW2B");
