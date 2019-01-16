@@ -107,11 +107,14 @@ class RegisterController extends \Backpack\Base\app\Http\Controllers\Auth\Regist
         // flash a confirmation message
         \Alert::success('The user has successfully been registered')->flash();
 
-        // if invoice data has been required; redirect to the contact add form
+        // if invoice data has been required; log the user in and open the form to add a contact
         if($request->input('invoice_data')) {
-            $user_id = $user->id;
+            backpack_auth()->login($$user, false); // do not remember the user
             \Alert::success('The Additional Contact has successfully been saved')->flash();
+            
             return view('backpack::auth.invoice_data', compact('user_id'));
+
+            // todo log them out when done!
         }
 
         // redirect to the home page (login)

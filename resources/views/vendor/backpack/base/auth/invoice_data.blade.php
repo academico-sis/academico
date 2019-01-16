@@ -6,7 +6,7 @@
         <h3 class="text-center m-b-20">Additional Contact Info</h3>
         <div class="box">
             <div class="box-body">
-                <form class="col-md-12 p-t-10" role="form" method="POST" action="/users/addcontact">
+                <form class="col-md-12 p-t-10" role="form" method="POST" action="/user/addcontact">
                     {!! csrf_field() !!}
                     
                     {{-- the user ID to whom the new contact belongs to --}}

@@ -41,6 +41,5 @@ class UserDataController extends Controller
 
         \Alert::success('The information has successfully been saved')->flash();
 
-        return redirect('/home'); // todo NO redirect here...
     }
 }
