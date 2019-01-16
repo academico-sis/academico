@@ -16,11 +16,11 @@ class PermissionMiddleware
      */
     public function handle($request, Closure $next, $permission)
     {
-        if (Auth::guest()) {
+        if (backpack_auth()->guest()) {
             return redirect('login');
         }
 
-        if (! $request->user()->can($permission)) {
+        if (! backpack_user()->can($permission)) {
            abort(403);
         }
 

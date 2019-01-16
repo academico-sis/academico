@@ -47,7 +47,7 @@
                             <td>{{ $enrollment->course_data->name }}</td>
                             <td>{{ $enrollment->course_data->period->name }}</td>
                             <td>
-                                <a href="/enrollments" class="btn btn-primary">
+                                <a href="/student/enroll" class="btn btn-primary">
                                     <i class="fa fa-dollar"></i>
                                 </a>
 

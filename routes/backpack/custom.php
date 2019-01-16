@@ -24,12 +24,21 @@ Route::group(
         });
 
 
+// course management
 Route::group([
     'prefix'     => config('backpack.base.route_prefix'),
-    'middleware' => ['web'],
+    'middleware' => ['web', 'permission:courses.view'],
     'namespace'  => 'App\Http\Controllers\Admin',
     ], function () { // custom admin routes
-    CRUD::resource('course', 'CourseCrudController')->middleware('permission:courses.view');
+    CRUD::resource('course', 'CourseCrudController');
+});
+
+// students and enrollments management
+Route::group([
+    'prefix'     => config('backpack.base.route_prefix'),
+    'middleware' => ['web', 'permission:enrollments.view'],
+    'namespace'  => 'App\Http\Controllers\Admin',
+    ], function () { // custom admin routes
     CRUD::resource('student', 'StudentCrudController');
     CRUD::resource('enrollment', 'EnrollmentCrudController');
     CRUD::resource('userdata', 'UserDataCrudController');

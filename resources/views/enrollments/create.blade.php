@@ -82,7 +82,7 @@
                             <td>{{ $course->end_date }}</td>
                             
                             <td><!-- course available actions -->
-                                <form action="/enrollments" method="POST">
+                                <form action="/student/enroll" method="POST">
                                     @csrf
                                     <input type="hidden" name="student_id" value="{{ $student->id }}" />
                                     <input type="hidden" name="course_id" value="{{ $course->id }}" />

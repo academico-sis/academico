@@ -41,7 +41,7 @@ class EnrollmentTest extends TestCase
         $course = factory(Course::class)->create();
 
         // Act: if we enroll the user in the course
-        $this->json('POST', "/enrollments", [
+        $this->json('POST', "/student/enroll", [
             'student_id' => $student->id,
             'course_id' => $course->id,
         ]);
