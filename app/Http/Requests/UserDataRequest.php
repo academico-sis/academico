@@ -26,7 +26,14 @@ class UserDataRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'name' => 'required|min:5|max:255'
+            // 'name' => 'required|max:255'
+            'user_id' => 'required',
+            'firstname' => 'required|max:255',
+            'lastname' => 'required|max:255',
+            'idnumber' => 'required|max:255',
+            'address' => 'required|max:255',
+            'email' => 'required|email|max:255',
+            'relationship_id' => 'nullable',
         ];
     }
 

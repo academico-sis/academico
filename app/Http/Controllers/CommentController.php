@@ -6,12 +6,13 @@ use App\Models\Comment;
 use App\Models\User;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\CommentRequest as StoreRequest;
 
 class CommentController extends Controller
 {
 
 
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
         Comment::create([
             'commentable_id' => $request->input('student_id'),

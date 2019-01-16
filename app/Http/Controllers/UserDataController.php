@@ -6,18 +6,10 @@ use App\Models\UserData;
 use App\Models\PhoneNumber;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\UserDataRequest as StoreRequest;
 
 class UserDataController extends Controller
 {
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -25,7 +17,7 @@ class UserDataController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
         $contact = new UserData;
         $contact->user_id = $request->input('user_id');
@@ -50,50 +42,5 @@ class UserDataController extends Controller
         \Alert::success('The information has successfully been saved')->flash();
 
         return redirect('/home'); // todo NO redirect here...
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\UserData  $userData
-     * @return \Illuminate\Http\Response
-     */
-    public function show(UserData $userData)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\UserData  $userData
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(UserData $userData)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\UserData  $userData
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, UserData $userData)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\UserData  $userData
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(UserData $userData)
-    {
-        //
     }
 }

@@ -33,6 +33,7 @@ class CourseRequest extends FormRequest
             'start_date' => 'required|date',
             'end_date' => 'required|date',
             'period_id' => 'required|numeric',
+            'rythm_id' => 'required|numeric',
         ];
     }
 

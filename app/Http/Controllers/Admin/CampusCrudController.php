@@ -32,8 +32,9 @@ class CampusCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
 
-        // TODO: remove setFromDb() and manually define Fields and Columns
-        $this->crud->setFromDb();
+        $this->crud->addColumn(['name' => 'name', 'label' => "Name"]);
+
+        $this->crud->addField(['name' => 'name', 'label' => "Name", 'type' => 'text']);
 
         // add asterisk for fields that are required in CampusRequest
         $this->crud->setRequiredFields(StoreRequest::class, 'create');

@@ -64,6 +64,15 @@ class UserDataCrudController extends CrudController
 
         $this->crud->addFields([
             [  // Select2
+                'label' => "Student",
+                'type' => 'select2',
+                'name' => 'user_id', // the db column for the foreign key
+                'entity' => 'user', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model' => "App\Models\User" // foreign key model
+            ],
+
+            [  // Select2
                 'label' => trans('firstname'),
                 'type' => 'text',
                 'name' => 'firstname'

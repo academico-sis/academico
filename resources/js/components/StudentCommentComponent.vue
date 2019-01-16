@@ -56,6 +56,7 @@
             return {
                 comment_body: null,
                 comment_private: null,
+                errors: [],
             }
         },
 
