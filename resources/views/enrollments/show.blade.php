@@ -143,7 +143,7 @@
                 @elseif($enrollment->enrollment_status['id'] == 1)
                 <p>@lang('This enrollment has not yet been canceled')</p>
                 
-                <a href="/enrollment/{{ $enrollment->id }}/bill" class="btn btn-primary">
+                <a href="/enrollments/{{ $enrollment->id }}/bill" class="btn btn-primary">
                     @lang('Checkout')
                 </a>
                 

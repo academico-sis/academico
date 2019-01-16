@@ -1797,10 +1797,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['products'],
   data: function data() {
@@ -2986,43 +2982,39 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { attrs: { id: "parent" } }, [
-    _c("div", { staticClass: "col-md-12" }, [
-      _c("div", { staticClass: "box" }, [
-        _vm._m(0),
+  return _c("div", { staticClass: "box" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "box-body" }, [
+      _c("table", { staticClass: "table" }, [
+        _vm._m(1),
         _vm._v(" "),
-        _c("div", { staticClass: "box-body" }, [
-          _c("table", { staticClass: "table" }, [
-            _vm._m(1),
-            _vm._v(" "),
-            _c(
-              "tbody",
-              _vm._l(_vm.products, function(product) {
-                return _c("tr", { key: product.id }, [
-                  _c("td", [_vm._v(_vm._s(product.product.name))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(product.product.price))]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-xs btn-danger",
-                        on: {
-                          click: function($event) {
-                            _vm.removeFromCart(product.id)
-                          }
-                        }
-                      },
-                      [_c("i", { staticClass: "fa fa-times" })]
-                    )
-                  ])
-                ])
-              }),
-              0
-            )
-          ])
-        ])
+        _c(
+          "tbody",
+          _vm._l(_vm.products, function(product) {
+            return _c("tr", { key: product.id }, [
+              _c("td", [_vm._v(_vm._s(product.product.name))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(product.product.price))]),
+              _vm._v(" "),
+              _c("td", [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-xs btn-danger",
+                    on: {
+                      click: function($event) {
+                        _vm.removeFromCart(product.id)
+                      }
+                    }
+                  },
+                  [_c("i", { staticClass: "fa fa-times" })]
+                )
+              ])
+            ])
+          }),
+          0
+        )
       ])
     ])
   ])
@@ -3034,14 +3026,10 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "box-header with-border" }, [
       _c("div", { staticClass: "box-title" }, [
-        _vm._v("\n                    Cart details\n                ")
+        _vm._v("\n            Cart details\n        ")
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "box-tools pull-right" }, [
-        _c("button", { staticClass: "btn btn-primary" }, [
-          _c("i", { staticClass: "fa fa-plus" })
-        ])
-      ])
+      _c("div", { staticClass: "box-tools pull-right" })
     ])
   },
   function() {
