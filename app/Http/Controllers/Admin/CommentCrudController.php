@@ -75,6 +75,15 @@ class CommentCrudController extends CrudController
         ]);
 
 
+        $this->crud->addFields([
+
+             ['label' => "Comment", 'type' => "text", 'name' => 'body'],
+
+             ['label' => "Private", 'type' => "checkbox", 'name' => 'private'],
+
+        ]);
+
+
         $this->crud->addFilter([ // simple filter
             'type' => 'simple',
             'name' => 'private',

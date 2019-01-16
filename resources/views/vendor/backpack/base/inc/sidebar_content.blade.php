@@ -9,7 +9,7 @@
 
 <li><a href="{{ backpack_url('preinvoice') }}"><i class="fa fa-dollar"></i> <span>@lang('invoices')</span></a></li>
 
-<li><a href="{{ backpack_url('comment') }}"><i class="fa fa-pencil"></i> <span>@lang('comment')</span></a></li>
+<li><a href="{{ backpack_url('comment') }}"><i class="fa fa-pencil"></i> <span>@lang('comments')</span></a></li>
 
 
 <li class="treeview">
