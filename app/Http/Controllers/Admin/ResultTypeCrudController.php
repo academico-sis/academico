@@ -15,6 +15,13 @@ use App\Http\Requests\ResultTypeRequest as UpdateRequest;
  */
 class ResultTypeCrudController extends CrudController
 {
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->middleware(['role:admin']);
+    }
+    
     public function setup()
     {
         /*

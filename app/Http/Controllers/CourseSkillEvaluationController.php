@@ -16,13 +16,12 @@ class CourseSkillEvaluationController extends Controller
 
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\CourseSkillEvaluation  $courseSkillEvaluation
-     * @return \Illuminate\Http\Response
+     * Show the skills overview for all students in the course
      */
     public function index(Course $course)
     {
+        $this->middleware(['permission:grades.edit']);
+
         $skills = $course->skills;
         $students = $course->enrollments;
 
@@ -30,13 +29,12 @@ class CourseSkillEvaluationController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * Store a skill evaluation record for a student
      */
     public function store(Request $request)
     {
+        $this->middleware(['permission:grades.edit']);
+
         $skill = $request->input('skill');
         $status = $request->input('status');
         $student = $request->input('student');
@@ -47,18 +45,18 @@ class CourseSkillEvaluationController extends Controller
             'user_id' => $student,
             'skill_id' => $skill,
         ]);
+
         $new_skill->skill_scale_id = $status;
         $new_skill->save();
         }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\CourseSkillEvaluation  $courseSkillEvaluation
-     * @return \Illuminate\Http\Response
+     * Show the form for editing a specific student's skills for the specified course.
      */
     public function edit(Course $course, User $student)
     {
+        $this->middleware(['permission:grades.edit']);
+
         $student_skills = SkillEvaluation::where('user_id', $student->id)
         ->where('course_id', $course->id)
         ->get();
@@ -79,14 +77,4 @@ class CourseSkillEvaluationController extends Controller
         return view('skills.student', compact('course', 'student', 'skills', 'comments', 'course_result', 'results'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\CourseSkillEvaluation  $courseSkillEvaluation
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(CourseSkillEvaluation $courseSkillEvaluation)
-    {
-        //
-    }
 }

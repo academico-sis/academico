@@ -13,9 +13,6 @@ class UserDataController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
     public function store(StoreRequest $request)
     {
@@ -26,7 +23,7 @@ class UserDataController extends Controller
         $contact->idnumber = $request->input('idnumber');
         $contact->address = $request->input('address');
         $contact->email = $request->input('email');
-        //$contact->relationship_id = $request->input('relationship_id');
+        //$contact->relationship_id = $request->input('relationship_id'); // todo add this
         $contact->save();
 
         // register the phone number
@@ -39,7 +36,7 @@ class UserDataController extends Controller
             $phone->save();
         }
 
-        \Alert::success('The information has successfully been saved')->flash();
+        \Alert::success(@lang('The information has successfully been saved'))->flash();
 
     }
 }

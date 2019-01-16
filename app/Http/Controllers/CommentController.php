@@ -11,9 +11,11 @@ use App\Http\Requests\CommentRequest as StoreRequest;
 class CommentController extends Controller
 {
 
-
     public function store(StoreRequest $request)
     {
+        $this->middleware(['permission:comments.edit']);
+
+
         Comment::create([
             'commentable_id' => $request->input('student_id'),
             'commentable_type' => User::class,
@@ -24,14 +26,10 @@ class CommentController extends Controller
     }
 
     
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Comment  $comment
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy(Comment $comment)
     {
+        $this->middleware(['role:admin']);
         $comment->delete();
     }
 }

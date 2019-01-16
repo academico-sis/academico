@@ -11,6 +11,13 @@ use App\Http\Requests\UserUpdateCrudRequest as UpdateRequest;
 
 class StudentCrudController extends CrudController
 {
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->middleware(['permission:enrollments.view']);
+    }
+    
     public function setup()
     {
         /*

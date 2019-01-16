@@ -15,6 +15,12 @@ use App\Http\Requests\UserDataRequest as UpdateRequest;
  */
 class UserDataCrudController extends CrudController
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->middleware(['role:admin']);
+    }
+    
     public function setup()
     {
         /*

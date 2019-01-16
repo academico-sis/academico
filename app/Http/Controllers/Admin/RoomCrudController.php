@@ -15,6 +15,14 @@ use App\Http\Requests\RoomRequest as UpdateRequest;
  */
 class RoomCrudController extends CrudController
 {
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->middleware(['role:admin']);
+    }
+
+
     public function setup()
     {
         /*

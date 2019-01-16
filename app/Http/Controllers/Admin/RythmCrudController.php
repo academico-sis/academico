@@ -15,6 +15,14 @@ use App\Http\Requests\RythmRequest as UpdateRequest;
  */
 class RythmCrudController extends CrudController
 {
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->middleware(['role:admin']);
+    }
+
+    
     public function setup()
     {
         /*

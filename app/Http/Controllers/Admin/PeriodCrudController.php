@@ -15,6 +15,13 @@ use App\Http\Requests\PeriodRequest as UpdateRequest;
  */
 class PeriodCrudController extends CrudController
 {
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->middleware(['role:admin']);
+    }
+    
     public function setup()
     {
         /*

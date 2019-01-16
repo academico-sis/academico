@@ -15,6 +15,13 @@ use App\Http\Requests\CampusRequest as UpdateRequest;
  */
 class CampusCrudController extends CrudController
 {
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->middleware(['role:admin']);
+    }
+
     public function setup()
     {
         /*

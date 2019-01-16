@@ -11,12 +11,11 @@ class CartController extends Controller
 
     /**
      * Display the specified user cart.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
+        $this->middleware(['permission:enrollments.view']);
+
         $products = Cart::get_user_cart($id);
         $student = User::student()->find($id);
         return view('carts.show', compact('products', 'student'));

@@ -15,6 +15,12 @@ use App\Http\Requests\EvaluationTypeRequest as UpdateRequest;
  */
 class EvaluationTypeCrudController extends CrudController
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->middleware(['permission:grades.edit']);
+    }
+
     public function setup()
     {
         /*

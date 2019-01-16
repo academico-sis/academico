@@ -16,6 +16,14 @@ use App\Http\Requests\EnrollmentRequest as UpdateRequest;
  */
 class EnrollmentCrudController extends CrudController
 {
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->middleware(['permission:enrollments.view']);
+    }
+
+
     public function setup()
     {
         /*
@@ -27,10 +35,7 @@ class EnrollmentCrudController extends CrudController
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/enrollment');
         $this->crud->setEntityNameStrings('enrollment', 'enrollments');
 
-        $permissions = backpack_user()->getAllPermissions();
-        if($permissions->contains('name', 'enrollments.view')) {
-            $this->crud->allowAccess('show');
-        }
+        $this->crud->allowAccess('show');
 
         $this->crud->denyAccess('update');
         $this->crud->removeButton('delete');

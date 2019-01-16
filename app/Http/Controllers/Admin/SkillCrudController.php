@@ -15,6 +15,14 @@ use App\Http\Requests\SkillRequest as UpdateRequest;
  */
 class SkillCrudController extends CrudController
 {
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->middleware(['permission:grades.edit']);
+    }
+
+    
     public function setup()
     {
         /*

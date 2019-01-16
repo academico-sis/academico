@@ -10,6 +10,12 @@ use Illuminate\Http\Request;
 
 class UserCrudController extends CrudController
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->middleware(['role:admin']);
+    }
+    
     public function setup()
     {
         /*

@@ -16,6 +16,14 @@ use App\Http\Requests\PreInvoiceRequest as UpdateRequest;
  */
 class PreInvoiceCrudController extends CrudController
 {
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->middleware(['permission:enrollments.view']);
+    }
+
+
     public function setup()
     {
         /*

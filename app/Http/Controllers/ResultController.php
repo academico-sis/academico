@@ -14,23 +14,25 @@ class ResultController extends Controller
 {
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created result in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
+        $this->middleware(['permission:grades.edit']);
+
         $result = Result::firstOrNew([
             'enrollment_id' => $request->input('enrollment')
         ]);
 
-        Comment::create([
-            'commentable_id' => $result->id,
-            'commentable_type' => Result::class,
-            'body' => $request->input('comment'),
-            'author_id' => \backpack_user()->id,
-        ]);
+        if($request->input('comment') !== null) {
+            Comment::create([
+                'commentable_id' => $result->id,
+                'commentable_type' => Result::class,
+                'body' => $request->input('comment'),
+                'author_id' => \backpack_user()->id,
+            ]);
+        }
 
         $result->result_type_id = $request->input('result');
 
@@ -38,13 +40,12 @@ class ResultController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Result  $result
-     * @return \Illuminate\Http\Response
+     * Display the specified resource (result for a specific enrollment)
      */
     public function show($enrollment)
     {
+        $this->middleware(['permission:grades.view']);
+
         $enrollment = Enrollment::findOrFail($enrollment);
         
         $grades = $enrollment->grades;
@@ -53,27 +54,5 @@ class ResultController extends Controller
         return view('results.show', compact('enrollment', 'grades', 'skills', 'comments'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Result  $result
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Result $result)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Result  $result
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Result $result)
-    {
-        //
-    }
 
 }

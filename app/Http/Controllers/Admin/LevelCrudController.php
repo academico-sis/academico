@@ -15,6 +15,12 @@ use App\Http\Requests\LevelRequest as UpdateRequest;
  */
 class LevelCrudController extends CrudController
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->middleware(['role:admin']);
+    }
+
     public function setup()
     {
         /*

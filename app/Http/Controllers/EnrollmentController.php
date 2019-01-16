@@ -15,12 +15,13 @@ class EnrollmentController extends Controller
 {
 
     /**
-     * Show the form for creating a new resource.
+     * Show the page for creating a new enrollment for the specified student
      *
-     * @return \Illuminate\Http\Response
      */
     public function create(User $student, Request $request)
     {
+        $this->middleware(['permission:enrollments.create']);
+
         if($request->query('period') !== null) {
             $period = Period::findOrFail($request->query('period'));
         }
@@ -35,13 +36,12 @@ class EnrollmentController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * Store the newly created enrollment
      */
     public function store(Request $request)
     {
+        $this->middleware(['permission:enrollments.create']);
+
         $course = Course::findOrFail($request->input('course_id'));
         $student = User::findOrFail($request->input('student_id'));
         $enrollment_id = $student->enroll($course);
@@ -50,13 +50,12 @@ class EnrollmentController extends Controller
 
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Enrollment  $enrollment
-     * @return \Illuminate\Http\Response
+     * Show the page for billing the specified enrollment
      */
     public function bill(Enrollment $enrollment)
     {
+        $this->middleware(['permission:enrollments.edit']);
+
         // if the current enrollment is not part of the cart, add it
         $enrollment->addToCart();
 
@@ -69,7 +68,6 @@ class EnrollmentController extends Controller
         // show the cart for the user
         return redirect("cart/$enrollment->user_id");
     }
-
 
 
 }

@@ -16,6 +16,12 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
  */
 class CourseCrudController extends CrudController
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->middleware(['permission:courses.view']);
+    }
+
     public function setup()
     {
         /*

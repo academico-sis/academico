@@ -9,17 +9,22 @@ use Illuminate\Http\Request;
 
 class GradeController extends Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->middleware(['permission:grades.edit']);
+    }
+
 
     /**
      * Show the form to edit grades for a course
      * 
      * Todo refactor to prevent the number of queries to depend upong the number of records
-     *
-     * @return \Illuminate\Http\Response
+     * 
      */
     public function edit(Course $course)
     {
-        
+
         $enrollments = $course->enrollments;
 
         return view('grades.edit', compact('enrollments'));
@@ -28,10 +33,7 @@ class GradeController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Grade  $grade
-     * @return \Illuminate\Http\Response
+     * 
      */
     public function store(Request $request)
     {
@@ -43,8 +45,6 @@ class GradeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Grade  $grade
-     * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request)
     {

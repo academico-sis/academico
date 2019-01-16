@@ -11,36 +11,34 @@ use Illuminate\Http\Request;
 class CourseTimeController extends Controller
 {
     /**
-    * Display a listing of the resource.
-    *
-    * @return \Illuminate\Http\Response
+    * Returns a list of coursetime records for the specified course
     */
    public function show(Course $course)
    {
-       // serve info via ajax
-       $times = CourseTime::where('course_id', $course->id)->get();
+        $this->middleware(['permission:courses.view']);
 
-       return $times;
+        $times = CourseTime::where('course_id', $course->id)->get();
+
+        return $times;
    }
 
    /**
-    * Show the form for creating a new resource.
-    *
-    * @return \Illuminate\Http\Response
+    * Show the form for editing the course schedule
     */
    public function edit(Course $course)
    {
-       return view('courses.schedule', compact('course'));
+        $this->middleware(['permission:courses.edit']);
+
+        return view('courses.schedule', compact('course'));
    }
 
    /**
-    * Store a newly created resource in storage.
-    *
-    * @param  \Illuminate\Http\Request  $request
-    * @return \Illuminate\Http\Response
+    * Store a newly created coursetime record
+    * Events creation is triggered by the Model observers
     */
    public function store(Course $course, Request $request)
    {
+        $this->middleware(['permission:courses.edit']);
 
         // register the new course schedule entry
         $newTime = new CourseTime;
@@ -50,12 +48,6 @@ class CourseTimeController extends Controller
         $newTime->start = $request->input('start');
         $newTime->end = $request->input('end');
         $newTime->save();
-
-        // create events for the new course time
-
-        //$newTime->create_events();
-
-        //return $newTime->id; // necessary ?
     }
 
 

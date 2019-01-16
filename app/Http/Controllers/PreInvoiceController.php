@@ -21,17 +21,16 @@ class PreInvoiceController extends Controller
      * Create a preinvoice based on the cart contents for the specified user
      * 
      * Receive in the request: the user ID + the invoice data.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * 
      */
     public function store($student, Request $request)
     {
+        $this->middleware(['permission:enrollments.edit']);
 
         // ensure that there are any products in the cart
         if (Cart::where('user_id', $student)->count() == 0)
         {
-            return "The cart has no item";
+            return "The cart has no item"; // todo translate this
         }
 
         // retrieve which data to use for the invoice
@@ -58,7 +57,6 @@ class PreInvoiceController extends Controller
 
         $cart = Cart::get_user_cart($student);
 
-        //return $cart;
         // for each product in the cart
         foreach ($cart as $product)
         {
@@ -82,7 +80,6 @@ class PreInvoiceController extends Controller
             }
         }
 
-
         // clear the cart
         Cart::clear_cart_for_user($student);
 
@@ -93,27 +90,18 @@ class PreInvoiceController extends Controller
 
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\PreInvoice  $preInvoice
-     * @return \Illuminate\Http\Response
+     * Update the specified preinvoice (with the invoice number).
      */
     public function update(Request $request, PreInvoice $preInvoice)
     {
+        $this->middleware(['permission:enrollments.edit']);
+
+
         $preInvoice->invoice_number = $request->input('invoice_number');
         $preInvoice->save();
+        Alert::success(@lang('The invoice number has been saved'))->flash();
+
         return redirect()->back();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\PreInvoice  $preInvoice
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(PreInvoice $preInvoice)
-    {
-        //
-    }
 }

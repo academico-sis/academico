@@ -58,6 +58,7 @@ class DatabaseSeeder extends Seeder
         Permission::create(['name' => 'system.view']);
         Permission::create(['name' => 'system.edit']);
 
+        Permission::create(['name' => 'comments.edit']);
 
         // create core roles and assign permissions
 
@@ -76,6 +77,8 @@ class DatabaseSeeder extends Seeder
         $role->givePermissionTo('calendars.view');
         $role->givePermissionTo('reports.view');
         $role->givePermissionTo('courses.view');
+        $role->givePermissionTo('comments.edit');
+
 
         $role = Role::create(['name' => 'teacher']);
         $role->givePermissionTo('courses.own');
@@ -83,6 +86,8 @@ class DatabaseSeeder extends Seeder
         $role->givePermissionTo('attendance.edit');
         $role->givePermissionTo('grades.edit');
         $role->givePermissionTo('results.edit');
+        $role->givePermissionTo('comments.edit');
+
 
         $role = Role::create(['name' => 'secretary']);
         $role->givePermissionTo('calendars.view');
@@ -92,6 +97,8 @@ class DatabaseSeeder extends Seeder
         $role->givePermissionTo('enrollments.view');
         $role->givePermissionTo('enrollments.create');
         $role->givePermissionTo('courses.view');
+        $role->givePermissionTo('comments.edit');
+
 
     }
 }

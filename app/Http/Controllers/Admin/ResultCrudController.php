@@ -15,6 +15,13 @@ use App\Http\Requests\ResultRequest as UpdateRequest;
  */
 class ResultCrudController extends CrudController
 {
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->middleware(['permission:enrollments.view']);
+    }
+
     public function setup()
     {
         /*
