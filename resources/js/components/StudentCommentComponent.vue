@@ -15,6 +15,7 @@
     <div class="box-body">
         <ul>
             <li v-for="comment in comments" v-bind:key="comment.id">
+                <label v-if="comment.private" class="label label-danger">Private</label>
                 {{ comment.body }} ({{comment.created_at | moment("D MMM YY") }})
                 <button type="button" @click="deleteComment(comment.id)" class="btn btn-danger btn-xs">X</button>
 

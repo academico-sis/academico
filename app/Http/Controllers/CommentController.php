@@ -11,7 +11,7 @@ use App\Http\Requests\CommentRequest as StoreRequest;
 class CommentController extends Controller
 {
 
-    public function store(StoreRequest $request)
+    public function store(Request $request)
     {
         $this->middleware(['permission:comments.edit']);
 

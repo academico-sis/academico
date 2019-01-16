@@ -89,22 +89,27 @@ class User extends Authenticatable
 
     public function additional_data()
     {
-        return $this->hasMany('\App\Models\UserData');
+        return $this->hasMany('App\Models\UserData');
     }
 
-    public function administrative_comments()
+    public function comments()
     {
-        return $this->morphMany('App\Models\Comment', 'commentable')->where('private', true);
-    }
-
-     public function educational_comments()
-    {
-        return $this->morphMany('App\Models\Comment', 'commentable')->where('private', false);
+        return $this->morphMany('App\Models\Comment', 'commentable');
     }
     
     public function phone()
     {
         return $this->morphMany('App\Models\PhoneNumber', 'phoneable');
+    }
+
+    public function getFirstnameAttribute($value)
+    {
+        return ucwords(strtolower($value));
+    }
+
+    public function getLastnameAttribute($value)
+    {
+        return strtoupper($value);
     }
 
     public function getNameAttribute()
@@ -124,7 +129,7 @@ class User extends Authenticatable
 
     public function enrollments()
     {
-        return $this->hasMany('\App\Models\Enrollment')
+        return $this->hasMany('App\Models\Enrollment')
             ->with('course_data');
     }
 

@@ -2344,6 +2344,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['comments', 'student'],
   data: function data() {
@@ -3744,6 +3745,11 @@ var render = function() {
         "ul",
         _vm._l(_vm.comments, function(comment) {
           return _c("li", { key: comment.id }, [
+            comment.private
+              ? _c("label", { staticClass: "label label-danger" }, [
+                  _vm._v("Private")
+                ])
+              : _vm._e(),
             _vm._v(
               "\n                " +
                 _vm._s(comment.body) +

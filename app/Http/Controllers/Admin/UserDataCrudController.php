@@ -127,7 +127,8 @@ class UserDataCrudController extends CrudController
         $redirect_location = parent::storeCrud($request);
         // your additional operations after save here
         // use $this->data['entry'] or $this->crud->entry
-        return $redirect_location;
+        return back();
+        //return $redirect_location;
     }
 
     public function update(UpdateRequest $request)

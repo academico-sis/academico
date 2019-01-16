@@ -86,7 +86,18 @@ class AttendanceTest extends TestCase
     }
 
     public function test_that_a_teacher_can_register_attendance_only_for_their_own_classes()
-{
+    {
 
-}
+    }
+
+    public function test_attendance_overview_per_course()
+    {
+        // arrange a course with 3 events and 3 students
+        // create relevant attendance records
+
+        // act: when a user visits the course attendance page
+        $response = $this->get('/course');
+        dd($response);
+        // assert: they see the expected attendance records
+    }
 }

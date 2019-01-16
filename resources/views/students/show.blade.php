@@ -90,23 +90,20 @@
         </div>
     @endforeach
 
-
-        <div class="col-md-4">
-            <student-comments
-                :comments="{{ json_encode($administrative_comments) }}"
-                :student="{{ json_encode($student) }}">
-            </student-comments> 
-        </div>
-
-
-
-</div>
+{{-- </div>
 
 
 <div class="row">
+ --}}
+    <div class="col-md-4">
+            <student-comments
+            :comments="{{ json_encode($comments) }}"
+            :student="{{ json_encode($student) }}">
+        </student-comments> 
+    </div>
 
     @if (count($student->enrollments) > 0)
-        <div class="col-md-12">
+        <div class="col-md-8">
                 <div class="box">
                     <div class="box-header with-border">
                         <div class="box-title">
@@ -158,14 +155,6 @@
                 </div>
             </div>
     @endif
-
-
-    <div class="col-md-4">
-            <student-comments
-            :comments="{{ json_encode($educational_comments) }}"
-            :student="{{ json_encode($student) }}">
-        </student-comments> 
-    </div>
 
 </div>
 </div>

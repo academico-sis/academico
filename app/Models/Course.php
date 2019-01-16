@@ -8,6 +8,7 @@ use App\Models\Enrollment;
 use Backpack\CRUD\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Builder;
 
 class Course extends Model
 {
@@ -33,6 +34,12 @@ class Course extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
+
+
+    public function scopeParent($query)
+    {
+        return $query->where('parent_course_id', null);
+    }
 
 
     public static function get_available_courses(Period $period)
@@ -69,6 +76,11 @@ class Course extends Model
     public function teacher()
     {
         return $this->belongsTo('\App\Models\User', 'teacher_id');
+    }
+
+    public function campus()
+    {
+        return $this->belongsTo('\App\Models\Campus');
     }
 
     public function room()

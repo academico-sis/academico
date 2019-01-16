@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "8ffa0d913efcef3cc2f6a279d3bdc04d",
+    "content-hash": "87757cf3d481cc26c16182a3d368b177",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -4753,16 +4753,16 @@
         },
         {
             "name": "laravel/dusk",
-            "version": "v4.0.4",
+            "version": "v4.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/dusk.git",
-                "reference": "3b2df334d92b6215400ddd183253eb4bcc07debb"
+                "reference": "c30c8a01d35661e253a7d3ea7ae6a79faf3f8d92"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/dusk/zipball/3b2df334d92b6215400ddd183253eb4bcc07debb",
-                "reference": "3b2df334d92b6215400ddd183253eb4bcc07debb",
+                "url": "https://api.github.com/repos/laravel/dusk/zipball/c30c8a01d35661e253a7d3ea7ae6a79faf3f8d92",
+                "reference": "c30c8a01d35661e253a7d3ea7ae6a79faf3f8d92",
                 "shasum": ""
             },
             "require": {
@@ -4810,7 +4810,7 @@
                 "testing",
                 "webdriver"
             ],
-            "time": "2018-12-19T13:55:39+00:00"
+            "time": "2019-01-10T14:22:35+00:00"
         },
         {
             "name": "laravel/telescope",

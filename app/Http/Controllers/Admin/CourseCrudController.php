@@ -195,6 +195,16 @@ class CourseCrudController extends CrudController
         });
 
 
+        $this->crud->addFilter([ // add a "simple" filter called Draft 
+            'type' => 'simple',
+            'name' => 'parent',
+            'label'=> 'Hide Children Courses'
+          ],
+          false,
+          function() {
+              $this->crud->addClause('parent'); 
+          });
+
 
         $this->crud->addFields([
             [
@@ -206,7 +216,6 @@ class CourseCrudController extends CrudController
                 'attribute' => "name", // foreign key attribute that is shown to user
                 'model' => "App\Models\Rythm", // foreign key model
                 'tab' => 'Course info'
-
              ],
 
              [
@@ -259,7 +268,17 @@ class CourseCrudController extends CrudController
                 'attribute' => "name", // foreign key attribute that is shown to user
                 'model' => "App\Models\Room", // foreign key model
                 'tab' => 'Resources'
+             ],
 
+             [
+                // RYTHM
+                'label' => "Campus", // Table column heading
+                'type' => "select",
+                'name' => 'campus_id', // the column that contains the ID of that connected entity;
+                'entity' => 'campus', // the method that defines the relationship in your Model
+                'attribute' => "name", // foreign key attribute that is shown to user
+                'model' => "App\Models\Campus", // foreign key model
+                'tab' => 'Resources'
              ],
 
 
