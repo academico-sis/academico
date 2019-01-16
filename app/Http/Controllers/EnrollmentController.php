@@ -45,6 +45,7 @@ class EnrollmentController extends Controller
         $course = Course::findOrFail($request->input('course_id'));
         $student = User::findOrFail($request->input('student_id'));
         $enrollment_id = $student->enroll($course);
+        \Alert::success('Enrollment successfully registered')->flash();
         return redirect()->to("/enrollment/$enrollment_id");
     }
 

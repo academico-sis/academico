@@ -6,8 +6,8 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 use App\Models\PreInvoice;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
-use App\Http\Requests\PreInvoiceRequest as StoreRequest;
-use App\Http\Requests\PreInvoiceRequest as UpdateRequest;
+//use App\Http\Requests\PreInvoiceRequest as StoreRequest;
+//use App\Http\Requests\PreInvoiceRequest as UpdateRequest;
 
 /**
  * Class PreInvoiceCrudController
@@ -34,6 +34,7 @@ class PreInvoiceCrudController extends CrudController
         $this->crud->setModel('App\Models\PreInvoice');
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/preinvoice');
         $this->crud->setEntityNameStrings('preinvoice', 'pre_invoices');
+        $this->crud->orderBy('created_at', 'desc');
 
         /*
         |--------------------------------------------------------------------------
@@ -41,21 +42,41 @@ class PreInvoiceCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
 
-        // TODO: remove setFromDb() and manually define Fields and Columns
-        $this->crud->setFromDb();
+        $this->crud->setColumns([
+            // client name
+            ['label' => "Client Name", 'type' => "text", 'name' => 'client_name'],
+
+            // client ID number
+            ['label' => "Client ID number", 'type' => "text", 'name' => 'client_idnumber'],
+
+            // client email
+            ['label' => "Client Email", 'type' => "text", 'name' => 'client_email'],
+
+            // student
+            ['label' => 'Student', 'type'  => 'select', 'entity' => 'user', 'attribute' => 'name'],
+
+            // total price
+            ['label' => "Total", 'type' => "numeric", 'name' => 'total_price', 'prefix' => '$ '],
+
+            // date
+            ['label' => "Client Email", 'type' => "text", 'name' => 'client_email'],
+
+            // real invoice number
+            ['label' => "Invoice Number", 'type' => "text", 'name' => 'invoice_number'],
+
+        ]);
 
 
-        $permissions = backpack_user()->getAllPermissions();
+        //$permissions = backpack_user()->getAllPermissions();
         $this->crud->allowAccess('show');
-
         $this->crud->denyAccess('update');
         $this->crud->denyAccess('delete');
         $this->crud->denyAccess('create');
 
 
         // add asterisk for fields that are required in PreInvoiceRequest
-        $this->crud->setRequiredFields(StoreRequest::class, 'create');
-        $this->crud->setRequiredFields(UpdateRequest::class, 'edit');
+        //$this->crud->setRequiredFields(StoreRequest::class, 'create');
+        //$this->crud->setRequiredFields(UpdateRequest::class, 'edit');
     }
 
     public function store(StoreRequest $request)

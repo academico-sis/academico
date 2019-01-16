@@ -1,4 +1,4 @@
-@if ($crud->hasAccess('show') && $entry->enrollments_count > 0)
+@if ($crud->hasAccess('show'))
 	@if (!$crud->model->translationEnabled())
 
 	<!-- Single edit button -->

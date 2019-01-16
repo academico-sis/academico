@@ -49,6 +49,8 @@ class StudentCrudController extends CrudController
             $this->crud->denyAccess('edit');
         }
 
+        $this->crud->orderBy('created_at', 'desc');
+
         // Columns.
         $this->crud->setColumns([
             [
@@ -69,7 +71,7 @@ class StudentCrudController extends CrudController
             [
                 'name'  => 'email',
                 'label' => trans('backpack::permissionmanager.email'),
-                'type'  => 'email',
+                'type'  => 'text',
             ],
             
         ]);

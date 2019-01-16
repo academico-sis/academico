@@ -21,5 +21,10 @@ class PreInvoice extends Model
     {
         return $this->belongsToMany('App\Models\Enrollment', 'enrollment_pre_invoice', 'pre_invoice_id', 'enrollment_id');
     }
+
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
     
 }

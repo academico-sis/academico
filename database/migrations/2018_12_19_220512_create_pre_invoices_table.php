@@ -16,7 +16,7 @@ class CreatePreInvoicesTable extends Migration
         Schema::create('pre_invoices', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned(); // the client
-            $table->integer('user_data_id')->unsigned()->nullable(); // the data to use in the invoice
+            // $table->integer('user_data_id')->unsigned()->nullable(); // the data to use in the invoice -- this has been removed since the data is hardcoded in the preinvoices table anyway
             //$table->json('products')->nullable(); // serialized products paid in the invoice.
             //$table->string('products'); // serialized products paid in the invoice.
             //$table->integer('enrollment_id')->unsigned()->nullable(); // enrollment id

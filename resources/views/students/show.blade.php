@@ -110,6 +110,9 @@
                             @lang('enrollments')
                         </div>
                         <div class="box-tools pull-right">
+                            <a href="{{ url('student')}}/{{$student->id }}/enroll" class="btn btn-xs btn-primary">
+                                <i class="fa fa-user-plus"></i>
+                            </a>
                         </div>
                     </div>
                     
