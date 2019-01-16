@@ -13,7 +13,7 @@
 
 <div class="row">
     
-    <div class="col-md-12">
+    <div class="col-lg-6">
         <div class="box">
             <div class="box-header with-border">
                 <div class="box-title">
@@ -25,7 +25,7 @@
             
             <div class="box-body">
                 <div id="app">
-                <table class="table">
+                <table class="table table-striped">
                     <thead>
                         <td>Student</td>
                         <td></td>
@@ -33,10 +33,10 @@
 
                     <tbody>
                         @foreach ($attendances as $attendance)
-                        <event-attendance-component
-                            :attendance="{{ json_encode($attendance) }}"
-                            :event="{{ json_encode($event) }}">
-                        </event-attendance-component>
+                            <tr is="event-attendance-component"
+                                :attendance="{{ json_encode($attendance) }}"
+                                :event="{{ json_encode($event) }}">
+                            </tr>
                         @endforeach
                         
                     </tbody>

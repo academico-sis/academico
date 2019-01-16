@@ -8,6 +8,8 @@ use Carbon\Carbon;
 
 class Attendance extends Model
 {
+    protected $guarded = ['id'];
+    
     public function student_data()
     {
         return $this->belongsTo('App\Models\User', 'user_id');

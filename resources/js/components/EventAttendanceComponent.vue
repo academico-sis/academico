@@ -1,14 +1,13 @@
 <template>
-<div>
 
     <tr>
         <td>
-            {{ attendance.student.firstname }}
+            {{ attendance.student.firstname }} {{ attendance.student.lastname }}
         </td>
                                 
-        <td style="width: 50%;"> <!-- todo clean -->
+        <td>
                        
-        <div class="btn-group btn-group-justified" role="group" aria-label="">
+        <div class="btn-group " role="group" aria-label="">
 
         <div class="btn-group" role="group">
             <button
@@ -55,7 +54,7 @@
         </td>
 
         </tr>
-</div>
+
 </template>
 
 

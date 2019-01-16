@@ -27,17 +27,21 @@
                 <div id="app">
                 <table class="table">
                         <thead>
-                        @foreach ($course->events as $event)
-                        <td></td>
-                            <td><a href="/attendance/event/{{ $event->id }}">{{ $event->start }}</a></td>
+                            <td></td>
+                        @foreach ($events as $event)
+                            <td><a href="/attendance/event/{{ $event->id }}">
+                                {{ Carbon\Carbon::parse($event->start)->toFormattedDateString() }}
+                            </a></td>
                         @endforeach
                     </thead>
 
+                    <tbody>
                         @foreach ($attendances as $attendance)
-                        <student-attendance-component
-                            :student="{{ json_encode($attendance) }}"></student-attendance-component>
+                            <tr is="course-attendance-component"
+                                :student="{{ json_encode($attendance) }}">
+                            </tr>
                         @endforeach
-                        
+                    </tbody>
                 </table>
             </div>
             </div>

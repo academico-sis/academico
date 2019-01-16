@@ -16,7 +16,7 @@ Vue.component('cart-component', require('./components/CartComponent.vue').defaul
 
 Vue.component('event-attendance-component', require('./components/EventAttendanceComponent.vue').default);
 
-Vue.component('student-attendance-component', require('./components/StudentAttendanceComponent.vue').default);
+Vue.component('course-attendance-component', require('./components/CourseAttendanceComponent.vue').default);
 
 Vue.component('student-comments', require('./components/StudentCommentComponent.vue').default);
 

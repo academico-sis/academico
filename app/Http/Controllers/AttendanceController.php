@@ -8,7 +8,7 @@ use App\Models\Event;
 use App\Models\Period;
 use App\Models\User;
 use App\Models\AttendanceType;
-
+use Carbon\Carbon;
 
 use Illuminate\Http\Request;
 
@@ -36,22 +36,6 @@ class AttendanceController extends Controller
         return view('attendance.monitor', compact('absences', 'pending_attendance'));
     }
 
-
-    /**
-     * get attendance for a specific event and user
-     * 
-     * todo refactor to reduce number of queries
-     *
-     * @param Request $request
-     */
-    public function get(Request $request)
-    {
-        $this->middleware(['permission:attendance.view']);
-
-        return Attendance::where('user_id', $request->query('student'))
-            ->where('event_id', $request->query('event'))
-            ->get();
-    }
 
 
 
@@ -84,21 +68,28 @@ class AttendanceController extends Controller
     {
         $this->middleware(['permission:attendance.view']);
 
-        // if the course has any events
-        if($course->events->count() > 0) {
+        // get past events for the course
+        $events = $course->events->filter(function ($value, $key) {
+            return Carbon::parse($value->start) < Carbon::now();
+        })->sortBy('start');
+
+
+        // if the course has any past events
+        if($events->count() > 0) {
 
         $students = $course->enrollments()->with('student_data')->get();
 
+
         foreach($students as $student)
         {
-            foreach ($course->events as $event)
+            foreach ($events as $event)
             {
-                $attendances[$student->student_data->id]['student'] = $student->student_data->firstname;
-                $attendances[$student->student_data->id][$event->id]['attendance'] = $event->attendance->where('user_id', $student->student_data->id)->first();
+                $attendances[$student->student_data->id]['student'] = $student->student_data->firstname . ' ' . $student->student_data->lastname;
+                $attendances[$student->student_data->id][]['attendance'] = $event->attendance->where('user_id', $student->student_data->id)->first();
             }
         }
         
-        return view('attendance/course', compact('attendances', 'course'));
+        return view('attendance/course', compact('attendances', 'course', 'events'));
         }
 
         else {
@@ -123,7 +114,7 @@ class AttendanceController extends Controller
         foreach($students as $student)
         {
             $attendances[$student->student_data->id]['student'] = $student->student_data;
-            $attendances[$student->student_data->id]['attendance'] = $attendance->where('user_id', $student->student_data->id)->first();
+            $attendances[$student->student_data->id]['attendance'] = $attendance->where('user_id', $student->student_data->id)->first() ?? '[attendance][attendance_type_id]';
         }
         
         return view('attendance/event', compact('attendances', 'event'));
