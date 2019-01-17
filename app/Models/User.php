@@ -133,4 +133,14 @@ class User extends Authenticatable
             ->with('course_data');
     }
 
+    public function courses()
+    {
+        return $this->hasMany('App\Models\Course', 'teacher_id');
+    }
+
+    public function current_courses()
+    {
+        return $this->courses()->where('period_id', 21);
+    }
+
 }

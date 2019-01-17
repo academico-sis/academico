@@ -17,4 +17,13 @@ class HomeController extends Controller
         return view('welcome');
     }
 
+    public function teacher()
+    {
+        $teacher = backpack_user();
+        return view('teacher.dashboard', [
+            'teacher' => $teacher,
+            'courses' => $teacher->current_courses,
+        ]);
+    }
+
 }

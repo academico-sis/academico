@@ -103,3 +103,14 @@ Route::group(
     Route::resource('result', 'ResultController');
 
 });
+
+// TEACHER ROUTES
+Route::group(
+    ['middleware' => ['web', 'role:teacher']],
+    function () {
+
+        Route::get('teacher/dashboard', 'HomeController@teacher');
+
+
+
+});
