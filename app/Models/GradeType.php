@@ -9,6 +9,10 @@ class GradeType extends Model
 {
     use CrudTrait;
 
-    protected $fillable = ['course_id', 'grade_type_id'];
+    protected $fillable = ['name', 'total'];
 
+    public function courses()
+    {
+        return $this->belongsToMany('App\Models\Course', 'course_grade_type', 'grade_type_id', 'course_id');
+    }
 }
