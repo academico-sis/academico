@@ -40,11 +40,12 @@ class Attendance extends Model
     }
 
     // return events for which the attendance records do not match the course student count
-    // todo optimize this method
+    // todo optimize this method to reduce the number of queries
     public function get_pending_attendance(Period $period)
     {
         // get all events to check
         $events = Event::where('exempt_attendance', '!=', true)
+        ->orWhereNull('exempt_attendance')
         ->where('course_id', '!=', null)
         ->with('attendance')
         ->with('course.enrollments')

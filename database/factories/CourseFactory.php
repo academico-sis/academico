@@ -19,7 +19,7 @@ $factory->define(Course::class, function (Faker $faker) {
         'room_id' => 1,
         'teacher_id' => 1,
         'parent_course_id' => null,
-        'exempt_attendance' => 1,
+        'exempt_attendance' => false,
         'period_id' => 1,
         'opened' => 1,
         'spots' => 10

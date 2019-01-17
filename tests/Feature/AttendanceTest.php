@@ -6,6 +6,9 @@ use Tests\TestCase;
 use App\Models\User;
 use App\Models\Course;
 use App\Models\Event;
+use App\Models\Period;
+use App\Models\Attendance;
+
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -92,12 +95,72 @@ class AttendanceTest extends TestCase
 
     public function test_attendance_overview_per_course()
     {
-        // arrange a course with 3 events and 3 students
+        $this->seed('DatabaseSeeder');
+        $period = factory(Period::class)->create();
+
+        // Arrange a course with a teacher, some events, and students
+        $teacher = factory(User::class)->create();
+        $teacher->assignRole('teacher');
+        $teacher->givePermissionTo('courses.view');
+        $teacher->givePermissionTo('attendance.view');
+
+        $course = factory(Course::class)->create([
+            'teacher_id' => $teacher->id,
+            'period_id' => $period->id,
+            'exempt_attendance' => false,
+        ]);
+        
+        $course->events()->create([
+            'start' => Carbon::parse('10 days ago'),
+            'end' => Carbon::parse('10 days ago'),
+            'name' => 'test event 1',
+            'course_id' => $course->id,
+        ]);
+
+        $course->events()->create([
+            'start' => Carbon::parse('4 days ago'),
+            'end' => Carbon::parse('4 days ago'),
+            'name' => 'test event 2',
+            'course_id' => $course->id,
+        ]);
+
+        $course->events()->create([
+            'start' => Carbon::parse('2 days ago'),
+            'end' => Carbon::parse('2 days ago'),
+            'name' => 'test event 3',
+            'course_id' => $course->id,
+        ]);
+
+        $course->events()->create([
+            'start' => Carbon::parse('+2 days'),
+            'end' => Carbon::parse('+2 days'),
+            'name' => 'test event 4',
+            'course_id' => $course->id,
+        ]);
+
+
+        for ($i=0; $i < 4; $i++) { 
+            $student = factory(User::class)->create();
+            $student->assignRole('student');
+            $student->enroll($course);
+        }
+
+        \Auth::guard(backpack_guard_name())->login($teacher);
         // create relevant attendance records
 
-        // act: when a user visits the course attendance page
-        $response = $this->get('/course');
-        dd($response);
+        // act: when the admin gets the pending attendance
+        $pending_attendance = (new Attendance)->get_pending_attendance($period);
+
+        //dd($pending_attendance);
+        $this->assertTrue($pending_attendance->has('test event 1'));
+        // we see the name of the past events without attendance
+        $response->assertSeeText('test event 1');
+        $response->assertSeeText('test event 2');
+        $response->assertSeeText('test event 3');
+
+        // but we can't see the future event
+        $response->assertDontSeeText('test event 4');
+
         // assert: they see the expected attendance records
     }
 }
