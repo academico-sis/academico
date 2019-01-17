@@ -55,6 +55,10 @@ class CourseCrudController extends CrudController
             $this->crud->addButtonFromView('line', 'grades', 'grades', 'end');
         }
 
+        if($permissions->contains('name', 'courses.edit')) {
+            $this->crud->addButtonFromView('line', 'schedule', 'schedule', 'end');
+        }
+
         $this->crud->allowAccess('clone');
 
         /*
