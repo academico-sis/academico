@@ -10,25 +10,49 @@ use App\Models\User;
 class ExampleTest extends DuskTestCase
 {
     use DatabaseMigrations;
+
+
     /**
-     * A basic browser test example.
-     *
-     * @return void
+     * Login as an admin and take a screenshot of the dashboard.
      */
-    public function testBasicExample()
+    public function testAdminDashboard()
     {
 
-        //$this->seed('DatabaseSeeder');
+        $this->seed('DatabaseSeeder');
         
         // create an admin user and log them in to access protected routes
         $admin = factory(User::class)->create();
-        //$admin->assignRole('admin');
-        backpack_auth()->login($admin, true);
+        $admin->assignRole('admin');
 
-        //dd(backpack_auth()->user());
-        $this->browse(function (Browser $browser) {
-            $response = $browser->visit('/')->assertPathIs('/');;
-            $response->driver->takeScreenshot(base_path('tests/Browser/screenshots/testLogin.png'));
+        $this->browse(function (Browser $browser) use ($admin) {
+            $browser->visit('/login')
+                    ->type('email', $admin->email)
+                    ->type('password', 'secret')
+                    ->press('Connexion')
+                    ->screenshot('admin-dashboard');
         });
     }
+
+
+    public function testTeacherDashboard()
+    {
+
+        $this->seed('DatabaseSeeder');
+        
+        // create an admin user and log them in to access protected routes
+        $admin = factory(User::class)->create();
+        $admin->assignRole('teacher');
+
+        $this->browse(function (Browser $browser) use ($admin) {
+            $browser->visit('/login')
+                    ->type('email', $admin->email)
+                    ->type('password', 'secret')
+                    ->press('Connexion')
+                    ->screenshot('teacher-dashboard');
+        });
+    }
+
+
 }
+
+
