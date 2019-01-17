@@ -32,6 +32,9 @@ Route::group(
     Route::get('course/{course}/grades', 'GradeController@edit');
     Route::post('grades', 'GradeController@store');
     Route::delete('grades', 'GradeController@destroy');
+    Route::post('course/gradetype', 'GradeController@add_grade_type_to_course');
+    Route::delete('course/{course}/gradetype/{gradetype}', 'GradeController@remove_grade_type_from_course');
+
 });
 
 
