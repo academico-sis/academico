@@ -1,4 +1,9 @@
 <!-- This file is used to store sidebar items, starting with Backpack\Base 0.9.0 -->
+
+{{-- ADMIN LINKS --}}
+
+@if(backpack_user()->hasRole('admin'))
+
 <li><a href="{{ url('/') }}"><i class="fa fa-book"></i> <span>{{ trans('backpack::base.dashboard') }}</span></a></li>
 
 <li><a href="{{ backpack_url('course') }}"><i class="fa fa-book"></i> <span>@lang('courses')</span></a></li>
@@ -14,6 +19,10 @@
 <li><a href="{{ backpack_url('attendance') }}"><i class="fa fa-calendar"></i> <span>@lang('attendance')</span></a></li>
 
 
+@endif
+
+@if(backpack_user()->hasRole('admin'))
+
 <li class="treeview">
   <a href="#"><i class="fa fa-link"></i> <span>@lang('settings')</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
   <ul class="treeview-menu">
@@ -26,6 +35,10 @@
       <li><a href='{{ backpack_url('year') }}'><i class='fa fa-star'></i> <span>@lang('Years')</span></a></li>
   </ul>
 </li>
+
+@endif
+
+@if(backpack_user()->hasRole('admin'))
 
 {{-- EVALUATION METHODS --}}
 <li class="treeview">
@@ -41,6 +54,9 @@
   </ul>
 </li>
 
+@endif
+
+@if(backpack_user()->hasRole('admin'))
 <!-- Users, Roles Permissions -->
 <li class="treeview">
   <a href="#"><i class="fa fa-group"></i> <span>@lang('users')</span> <i class="fa fa-angle-left pull-right"></i></a>
@@ -50,3 +66,12 @@
     <li><a href="{{ backpack_url('permission') }}"><i class="fa fa-key"></i> <span>@lang('permissions')</span></a></li>
   </ul>
 </li>
+@endif
+
+
+
+@if(backpack_user()->hasRole('teacher'))
+
+<li><a href="{{ url('/teacher/dashboard') }}"><i class="fa fa-home"></i> <span>{{ trans('backpack::base.dashboard') }}</span></a></li>
+
+@endif

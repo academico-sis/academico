@@ -41,11 +41,29 @@ class Attendance extends Model
 
     // return events for which the attendance records do not match the course student count
     // todo optimize this method to reduce the number of queries
-    public function get_pending_attendance(Period $period)
+    // too add         ->orWhereNull('exempt_attendance')
+    public function get_pending_attendance(Period $period, User $teacher = null)
     {
+
+        if(isset($teacher))
+        {
         // get all events to check
         $events = Event::where('exempt_attendance', '!=', true)
-        ->orWhereNull('exempt_attendance')
+        ->where('course_id', '!=', null)
+        ->where('teacher_id', $teacher->id)
+        ->with('attendance')
+        ->with('course.enrollments')
+        ->where('start', '<', (new Carbon)->toDateTimeString()) // todo check timezones
+        ->whereHas('course', function ($query) use ($period) {
+            $query->where('period_id', '=', $period->id);
+        })
+        ->get();
+        }
+
+        else
+        {
+        // get all events to check
+        $events = Event::where('exempt_attendance', '!=', true)
         ->where('course_id', '!=', null)
         ->with('attendance')
         ->with('course.enrollments')
@@ -54,6 +72,7 @@ class Attendance extends Model
             $query->where('period_id', '=', $period->id);
         })
         ->get();
+        }
 
         
         $pending_events = [];
@@ -66,7 +85,8 @@ class Attendance extends Model
             if ($pending_attendance > 0)
             {
                 $pending_events[$event->id]['event'] = $event->name;
-                $pending_events[$event->id]['event_date'] = $event->start;
+                $pending_events[$event->id]['event_id'] = $event->id;
+                $pending_events[$event->id]['event_date'] = Carbon::parse($event->start)->toDateString();
                 $pending_events[$event->id]['teacher'] = $event->teacher->name;
                 $pending_events[$event->id]['pending'] = $pending_attendance;
             }
