@@ -152,4 +152,9 @@ class User extends Authenticatable
             ->where('children_count', 0);
     }
 
+    public function events()
+    {
+        return $this->hasMany('App\Models\Event', 'teacher_id');
+    }
+
 }

@@ -105,6 +105,10 @@ Route::group(
 
 });
 
+// calendars routes
+Route::get('/calendar/room/{room}', 'RoomController@show');
+Route::get('/calendar/teacher/{teacher}', 'TeacherController@show');
+
 // TEACHER ROUTES
 Route::group(
     ['middleware' => ['web', 'role:teacher']],

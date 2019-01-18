@@ -24,6 +24,8 @@ Vue.component('student-skills-component', require('./components/StudentSkillEval
 
 Vue.component('course-result-component', require('./components/CourseResultComponent.vue').default);
 
+
+  
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -33,3 +35,4 @@ Vue.component('course-result-component', require('./components/CourseResultCompo
 const app = new Vue({
     el: '#app',
 });
+

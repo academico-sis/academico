@@ -68,6 +68,24 @@
 </li>
 @endif
 
+<li class="treeview">
+    <a href="#"><i class="fa fa-group"></i> <span>@lang('teachers')</span> <i class="fa fa-angle-left pull-right"></i></a>
+    <ul class="treeview-menu">
+      @foreach ($teachers as $teacher)
+        <li><a href="/calendar/teacher/{{$teacher->id}}"><span>{{ $teacher->name }}</span></a></li>
+      @endforeach
+  </ul>
+</li>
+
+
+<li class="treeview">
+    <a href="#"><i class="fa fa-building"></i> <span>@lang('rooms')</span> <i class="fa fa-angle-left pull-right"></i></a>
+    <ul class="treeview-menu">
+      @foreach ($rooms as $room)
+        <li><a href="/calendar/room/{{$room->id}}"><span>{{ $room->name }}</span></a></li>
+      @endforeach
+  </ul>
+</li>
 
 
 @if(backpack_user()->hasRole('teacher'))

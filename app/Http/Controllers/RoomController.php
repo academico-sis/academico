@@ -21,7 +21,19 @@ class RoomController extends Controller
      */
     public function show(Room $room)
     {
-        //
+        $events = $room->events->toArray();
+        $events = array_map(function($event) {
+            return array(
+                'title' => $event['name'],
+                'start' => $event['start'],
+                'end' => $event['end']
+            );
+        }, $events);
+
+        return view('calendars.simple', [
+            'events' => $events,
+            'ressource' => $room,
+        ]);
     }
 
 }

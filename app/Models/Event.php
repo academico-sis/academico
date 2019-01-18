@@ -98,6 +98,11 @@ class Event extends Model
         return $this->course->enrollments_count;
     }
 
+    public function getTitleAttribute()
+    {
+        return 'myTitle';
+    }
+    
     /*
     |--------------------------------------------------------------------------
     | MUTATORS
