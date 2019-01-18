@@ -31,4 +31,14 @@ class HomeController extends Controller
         ]);
     }
 
+    public function admin()
+    {
+        $period = Period::get_default_period();
+
+        return view('admin.dashboard', [
+            'enrollment_count' => $period->enrollments->where('status_id', 2)->count(),
+            'pending_attendance' => (new Attendance)->get_pending_attendance($period)
+        ]);
+    }
+
 }

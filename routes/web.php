@@ -8,6 +8,7 @@ Route::group(
     // dashboard and home routes
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/', 'HomeController@index');
+    Route::get('/admin', 'HomeController@admin');
 
     // add additional contacts to a user
     Route::post('user/addcontact', 'UserDataController@store');
