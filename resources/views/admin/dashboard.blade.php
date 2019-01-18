@@ -55,7 +55,9 @@
                 </div>
 
                 <div class="box-body">
-                    {{ $enrollment_count }}
+                    {{ $pending_enrollment_count + $paid_enrollment_count }} @lang('enrollments'),
+                    {{ $paid_enrollment_count }} @lang('paid')
+                    {{ $students_count }} @lang('students')
                 </div>
             </div>
         </div>

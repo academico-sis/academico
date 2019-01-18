@@ -26,7 +26,42 @@ class Period extends Model
 
     public function enrollments()
     {
-        return $this->hasManyThrough('App\Models\Enrollment', 'App\Models\Course');
+        return $this->hasManyThrough('App\Models\Enrollment', 'App\Models\Course')
+            ->with('course_data');
+    }
+
+
+    /**
+     * getPendingEnrollmentsCountAttribute
+     * Do not count enrollments in children courses
+     *
+     */
+    public function getPendingEnrollmentsCountAttribute()
+    {
+        return $this
+            ->enrollments
+            ->where('status_id', 1) // pending
+            ->where('course_data.parent_course_id', null)
+            ->count();
+    }
+
+    public function getStudentsCountAttribute()
+    {
+        return $this->enrollments->unique('user_id')->count();
+    }
+
+    /**
+     * getPaidEnrollmentsCountAttribute
+     * Do not count enrollments in children courses
+     *
+     */
+    public function getPaidEnrollmentsCountAttribute()
+    {
+        return $this
+            ->enrollments
+            ->where('status_id', 2) // pending
+            ->where('course_data.parent_course_id', null)
+            ->count();
     }
 
     public function year()
