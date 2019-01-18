@@ -9,7 +9,7 @@ use App\Models\User;
 
 class ExampleTest extends DuskTestCase
 {
-    use DatabaseMigrations;
+    //use DatabaseMigrations;
 
 
     /**
@@ -18,11 +18,11 @@ class ExampleTest extends DuskTestCase
     public function testAdminDashboard()
     {
 
-        $this->seed('DatabaseSeeder');
+        //$this->seed('DatabaseSeeder');
         
         // create an admin user and log them in to access protected routes
-        $admin = factory(User::class)->create();
-        $admin->assignRole('admin');
+        //$admin = factory(User::class)->create();
+        //$admin->assignRole('admin');
 
         $this->browse(function (Browser $browser) use ($admin) {
             $browser->visit('/login')
@@ -36,16 +36,15 @@ class ExampleTest extends DuskTestCase
 
     public function testTeacherDashboard()
     {
+        //$this->seed('DatabaseSeeder');
 
-        $this->seed('DatabaseSeeder');
-        
         // create an admin user and log them in to access protected routes
-        $admin = factory(User::class)->create();
-        $admin->assignRole('teacher');
+        //$teacher = factory(User::class)->create();
+        //$teacher->assignRole('teacher');
 
-        $this->browse(function (Browser $browser) use ($admin) {
+        $this->browse(function (Browser $browser) use ($teacher) {
             $browser->visit('/login')
-                    ->type('email', $admin->email)
+                    ->type('email', $teacher->email)
                     ->type('password', 'secret')
                     ->press('Connexion')
                     ->screenshot('teacher-dashboard');
