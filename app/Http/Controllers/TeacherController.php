@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Event;
 use Illuminate\Http\Request;
 
 class TeacherController extends Controller
@@ -12,7 +13,30 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        
+        $events = Event::all()->toArray(); // todo only get last xxx events
+        $teachers = User::teacher()->all();
+
+        $teachers = array_map(function($teacher) {
+            return array(
+                'id' => $teacher['id'],
+                'title' => $teacher['name'],
+            );
+        }, $teachers);
+
+        $events = array_map(function($event) {
+            return array(
+                'title' => $event['name'],
+                'resourceId' => $event['teacher_id'],
+                'start' => $event['start'],
+                'end' => $event['end']
+            );
+        }, $events);
+
+        //dd($events);
+        return view('calendars.overview', [
+            'events' => $events,
+            'ressources' => $teachers,
+        ]);
     }
 
  /**

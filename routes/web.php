@@ -107,7 +107,10 @@ Route::group(
 
 // calendars routes
 Route::get('/calendar/room/{room}', 'RoomController@show');
+Route::get('/calendar/room', 'RoomController@index');
+
 Route::get('/calendar/teacher/{teacher}', 'TeacherController@show');
+Route::get('/calendar/teacher', 'TeacherController@index');
 
 // TEACHER ROUTES
 Route::group(

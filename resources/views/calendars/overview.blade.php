@@ -2,7 +2,10 @@
 
 @section('after_styles')
 <link rel='stylesheet' href='/css/fullcalendar.min.css' />
+<link rel='stylesheet' href='/css/scheduler.min.css' />
+
 <script src='/js/fullcalendar.min.js'></script>
+<script src='/js/scheduler.min.js'></script>
 
 @endsection
 
@@ -26,7 +29,7 @@
             <div class="box">
                 <div class="box-header with-border">
                     <div class="box-title">                          
-                        <strong>@lang('Calendar for') {{ $ressource->name }}</strong>
+                        <strong>@lang('Ressource Calendars')</strong>
                     </div>
                     <div class="box-tools pull-right">
 
@@ -35,7 +38,6 @@
 
                 <div class="box-body">
                     <div id="calendar"></div>
-
                 </div>
             </div>
         </div>
@@ -52,14 +54,20 @@ document.addEventListener('DOMContentLoaded', function() { // page is now ready.
 var calendarEl = document.getElementById('calendar'); // grab element reference
 
 var calendar = new FullCalendar.Calendar(calendarEl, {
-    defaultView: 'agendaWeek',
+    schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
+    defaultView: 'timelineWeek',
+    resources: <?php echo json_encode($ressources) ?>,
+    height: "auto",
     minTime: "06:00:00",
     maxTime: "23:00:00",
     nowIndicator: true,
     hiddenDays: [ 0 ],
     firstDay: 1,
-    events: <?php echo json_encode($events) ?>
-    });
+    eventSources: [
+    {
+        events: <?php echo json_encode($events) ?>
+    },
+    ]});
 
     calendar.render();
     });

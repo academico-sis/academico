@@ -2,5 +2,7 @@
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
     "/css/fullcalendar.min.css": "/css/fullcalendar.min.css",
-    "/js/fullcalendar.min.js": "/js/fullcalendar.min.js"
+    "/js/fullcalendar.min.js": "/js/fullcalendar.min.js",
+    "/js/scheduler.min.js": "/js/scheduler.min.js",
+    "/css/scheduler.min.css": "/css/scheduler.min.css"
 }

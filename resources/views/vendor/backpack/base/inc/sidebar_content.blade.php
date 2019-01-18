@@ -71,6 +71,7 @@
 <li class="treeview">
     <a href="#"><i class="fa fa-group"></i> <span>@lang('teachers')</span> <i class="fa fa-angle-left pull-right"></i></a>
     <ul class="treeview-menu">
+      <li><a href="/calendar/teacher"><i class="fa fa-binoculars"></i><span>@lang('Overview')</span></a></li>
       @foreach ($teachers as $teacher)
         <li><a href="/calendar/teacher/{{$teacher->id}}"><span>{{ $teacher->name }}</span></a></li>
       @endforeach
@@ -81,6 +82,7 @@
 <li class="treeview">
     <a href="#"><i class="fa fa-building"></i> <span>@lang('rooms')</span> <i class="fa fa-angle-left pull-right"></i></a>
     <ul class="treeview-menu">
+      <li><a href="/calendar/room"><i class="fa fa-binoculars"></i><span>@lang('Overview')</span></a></li>
       @foreach ($rooms as $room)
         <li><a href="/calendar/room/{{$room->id}}"><span>{{ $room->name }}</span></a></li>
       @endforeach
