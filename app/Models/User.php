@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Carbon\Carbon;
 use App\Models\Course;
 use App\Models\Enrollment;
+use App\Models\Period;
 
 class User extends Authenticatable
 {
@@ -131,6 +132,24 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\Enrollment')
             ->with('course_data');
+    }
+
+    public function courses()
+    {
+        return $this->hasMany('App\Models\Course', 'teacher_id');
+    }
+
+    public function getCurrentCoursesAttribute()
+    {
+        $period = Period::get_default_period();
+
+        return $this->courses()
+            ->where('period_id', $period->id)
+            ->where('end_date', '>', (new Carbon)->toDateTimeString())
+            ->withCount('children')
+            ->withCount('enrollments')
+            ->get()
+            ->where('children_count', 0);
     }
 
 }

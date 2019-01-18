@@ -934,6 +934,237 @@
             "time": "2018-06-11T11:59:03+00:00"
         },
         {
+            "name": "doctrine/cache",
+            "version": "v1.8.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/cache.git",
+                "reference": "d768d58baee9a4862ca783840eca1b9add7a7f57"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/cache/zipball/d768d58baee9a4862ca783840eca1b9add7a7f57",
+                "reference": "d768d58baee9a4862ca783840eca1b9add7a7f57",
+                "shasum": ""
+            },
+            "require": {
+                "php": "~7.1"
+            },
+            "conflict": {
+                "doctrine/common": ">2.2,<2.4"
+            },
+            "require-dev": {
+                "alcaeus/mongo-php-adapter": "^1.1",
+                "doctrine/coding-standard": "^4.0",
+                "mongodb/mongodb": "^1.1",
+                "phpunit/phpunit": "^7.0",
+                "predis/predis": "~1.0"
+            },
+            "suggest": {
+                "alcaeus/mongo-php-adapter": "Required to use legacy MongoDB driver"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.8.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Doctrine\\Common\\Cache\\": "lib/Doctrine/Common/Cache"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Roman Borschel",
+                    "email": "roman@code-factory.org"
+                },
+                {
+                    "name": "Benjamin Eberlei",
+                    "email": "kontakt@beberlei.de"
+                },
+                {
+                    "name": "Guilherme Blanco",
+                    "email": "guilhermeblanco@gmail.com"
+                },
+                {
+                    "name": "Jonathan Wage",
+                    "email": "jonwage@gmail.com"
+                },
+                {
+                    "name": "Johannes Schmitt",
+                    "email": "schmittjoh@gmail.com"
+                }
+            ],
+            "description": "Caching library offering an object-oriented API for many cache backends",
+            "homepage": "https://www.doctrine-project.org",
+            "keywords": [
+                "cache",
+                "caching"
+            ],
+            "time": "2018-08-21T18:01:43+00:00"
+        },
+        {
+            "name": "doctrine/dbal",
+            "version": "v2.9.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/dbal.git",
+                "reference": "22800bd651c1d8d2a9719e2a3dc46d5108ebfcc9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/22800bd651c1d8d2a9719e2a3dc46d5108ebfcc9",
+                "reference": "22800bd651c1d8d2a9719e2a3dc46d5108ebfcc9",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/cache": "^1.0",
+                "doctrine/event-manager": "^1.0",
+                "ext-pdo": "*",
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "doctrine/coding-standard": "^5.0",
+                "jetbrains/phpstorm-stubs": "^2018.1.2",
+                "phpstan/phpstan": "^0.10.1",
+                "phpunit/phpunit": "^7.4",
+                "symfony/console": "^2.0.5|^3.0|^4.0",
+                "symfony/phpunit-bridge": "^3.4.5|^4.0.5"
+            },
+            "suggest": {
+                "symfony/console": "For helpful console commands such as SQL execution and import of files."
+            },
+            "bin": [
+                "bin/doctrine-dbal"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.9.x-dev",
+                    "dev-develop": "3.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Doctrine\\DBAL\\": "lib/Doctrine/DBAL"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Roman Borschel",
+                    "email": "roman@code-factory.org"
+                },
+                {
+                    "name": "Benjamin Eberlei",
+                    "email": "kontakt@beberlei.de"
+                },
+                {
+                    "name": "Guilherme Blanco",
+                    "email": "guilhermeblanco@gmail.com"
+                },
+                {
+                    "name": "Jonathan Wage",
+                    "email": "jonwage@gmail.com"
+                }
+            ],
+            "description": "Powerful PHP database abstraction layer (DBAL) with many features for database schema introspection and management.",
+            "homepage": "https://www.doctrine-project.org/projects/dbal.html",
+            "keywords": [
+                "abstraction",
+                "database",
+                "dbal",
+                "mysql",
+                "persistence",
+                "pgsql",
+                "php",
+                "queryobject"
+            ],
+            "time": "2018-12-31T03:27:51+00:00"
+        },
+        {
+            "name": "doctrine/event-manager",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/event-manager.git",
+                "reference": "a520bc093a0170feeb6b14e9d83f3a14452e64b3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/event-manager/zipball/a520bc093a0170feeb6b14e9d83f3a14452e64b3",
+                "reference": "a520bc093a0170feeb6b14e9d83f3a14452e64b3",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1"
+            },
+            "conflict": {
+                "doctrine/common": "<2.9@dev"
+            },
+            "require-dev": {
+                "doctrine/coding-standard": "^4.0",
+                "phpunit/phpunit": "^7.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Doctrine\\Common\\": "lib/Doctrine/Common"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Roman Borschel",
+                    "email": "roman@code-factory.org"
+                },
+                {
+                    "name": "Benjamin Eberlei",
+                    "email": "kontakt@beberlei.de"
+                },
+                {
+                    "name": "Guilherme Blanco",
+                    "email": "guilhermeblanco@gmail.com"
+                },
+                {
+                    "name": "Jonathan Wage",
+                    "email": "jonwage@gmail.com"
+                },
+                {
+                    "name": "Johannes Schmitt",
+                    "email": "schmittjoh@gmail.com"
+                },
+                {
+                    "name": "Marco Pivetta",
+                    "email": "ocramius@gmail.com"
+                }
+            ],
+            "description": "Doctrine Event Manager component",
+            "homepage": "https://www.doctrine-project.org/projects/event-manager.html",
+            "keywords": [
+                "event",
+                "eventdispatcher",
+                "eventmanager"
+            ],
+            "time": "2018-06-11T11:59:03+00:00"
+        },
+        {
             "name": "doctrine/inflector",
             "version": "v1.3.0",
             "source": {
@@ -1600,6 +1831,128 @@
             ],
             "description": "Highlight PHP code in terminal",
             "time": "2018-09-29T18:48:56+00:00"
+        },
+        {
+            "name": "jenssegers/date",
+            "version": "v3.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jenssegers/date.git",
+                "reference": "3f5f94f28bd5108fab011869434209101d4189ae"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jenssegers/date/zipball/3f5f94f28bd5108fab011869434209101d4189ae",
+                "reference": "3f5f94f28bd5108fab011869434209101d4189ae",
+                "shasum": ""
+            },
+            "require": {
+                "nesbot/carbon": "^1.0",
+                "php": ">=5.6",
+                "symfony/translation": "^2.7|^3.0|^4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.0|^6.0|^7.0",
+                "satooshi/php-coveralls": "^2.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.1-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Jenssegers\\Date\\DateServiceProvider"
+                    ],
+                    "aliases": {
+                        "Date": "Jenssegers\\Date\\Date"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Jenssegers\\Date\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jens Segers",
+                    "homepage": "https://jenssegers.com"
+                }
+            ],
+            "description": "A date library to help you work with dates in different languages",
+            "homepage": "https://github.com/jenssegers/date",
+            "keywords": [
+                "carbon",
+                "date",
+                "datetime",
+                "i18n",
+                "laravel",
+                "time",
+                "translation"
+            ],
+            "time": "2018-05-16T11:53:55+00:00"
+        },
+        {
+            "name": "kkomelin/laravel-translatable-string-exporter",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kkomelin/laravel-translatable-string-exporter.git",
+                "reference": "bb6b754e07290cdb869b95ab71533e718d27ba79"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kkomelin/laravel-translatable-string-exporter/zipball/bb6b754e07290cdb869b95ab71533e718d27ba79",
+                "reference": "bb6b754e07290cdb869b95ab71533e718d27ba79",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "illuminate/support": "5.4.*|5.5.*|5.6.*|5.7.*",
+                "illuminate/translation": "5.4.*|5.5.*|5.6.*|5.7.*",
+                "php": ">=5.4.0",
+                "symfony/finder": "^3.2|^4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.0",
+                "orchestra/testbench": "~3.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "KKomelin\\TranslatableStringExporter\\Providers\\ExporterServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "KKomelin\\TranslatableStringExporter\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Konstantin Komelin",
+                    "email": "konstantin.komelin@gmail.com"
+                }
+            ],
+            "description": "Translatable String Exporter for Laravel >= 5.4",
+            "keywords": [
+                "export",
+                "exporter",
+                "laravel",
+                "translations"
+            ],
+            "time": "2018-11-25T13:49:07+00:00"
         },
         {
             "name": "jenssegers/date",
@@ -2759,6 +3112,66 @@
                 "promise"
             ],
             "time": "2016-01-26T13:27:02+00:00"
+        },
+        {
+            "name": "prologue/alerts",
+            "version": "0.4.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/prologuephp/alerts.git",
+                "reference": "d3bf5d7ea480cbbf372bb7f80e23e193ce4862c7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/prologuephp/alerts/zipball/d3bf5d7ea480cbbf372bb7f80e23e193ce4862c7",
+                "reference": "d3bf5d7ea480cbbf372bb7f80e23e193ce4862c7",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/config": "~5",
+                "illuminate/session": "~5",
+                "illuminate/support": "~5",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9",
+                "phpunit/phpunit": "~4.1"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Prologue\\Alerts\\AlertsServiceProvider"
+                    ],
+                    "aliases": {
+                        "Alert": "Prologue\\Alerts\\Facades\\Alert"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Prologue\\Alerts\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dries Vints",
+                    "email": "dries.vints@gmail.com",
+                    "homepage": "http://driesvints.com",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "Prologue Alerts is a package that handles global site messages.",
+            "keywords": [
+                "alerts",
+                "laravel",
+                "messages"
+            ],
+            "time": "2018-02-08T11:29:22+00:00"
         },
         {
             "name": "prologue/alerts",
@@ -4324,46 +4737,6 @@
             "time": "2018-09-06T13:02:30+00:00"
         },
         {
-            "name": "tightenco/parental",
-            "version": "v0.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/tightenco/parental.git",
-                "reference": "7e0f8abecccbbc160b7af099cc1b1ded75d6c2f6"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/tightenco/parental/zipball/7e0f8abecccbbc160b7af099cc1b1ded75d6c2f6",
-                "reference": "7e0f8abecccbbc160b7af099cc1b1ded75d6c2f6",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/database": "~5.6.0|~5.7.0"
-            },
-            "require-dev": {
-                "orchestra/testbench": "3.7.*",
-                "phpunit/phpunit": "^7.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Tightenco\\Parental\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Caleb Porzio",
-                    "email": "calebporzio@gmail.com"
-                }
-            ],
-            "description": "A simple eloquent trait that allows relationships to be accessed through child models.",
-            "time": "2018-09-06T13:02:30+00:00"
-        },
-        {
             "name": "tijsverkoyen/css-to-inline-styles",
             "version": "2.2.1",
             "source": {
@@ -4741,6 +5114,58 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
+                "BSD-2-Clause"
+            ],
+            "description": "PSR HTTP Message implementations",
+            "homepage": "https://github.com/zendframework/zend-diactoros",
+            "keywords": [
+                "http",
+                "psr",
+                "psr-7"
+            ],
+            "time": "2018-09-05T19:29:37+00:00"
+        }
+    ],
+    "packages-dev": [
+        {
+            "name": "backpack/generators",
+            "version": "1.2.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Laravel-Backpack/Generators.git",
+                "reference": "cb6d3ebbc469a7d2ced7e37964de459db8ba021f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Laravel-Backpack/Generators/zipball/cb6d3ebbc469a7d2ced7e37964de459db8ba021f",
+                "reference": "cb6d3ebbc469a7d2ced7e37964de459db8ba021f",
+                "shasum": ""
+            },
+            "require": {
+                "backpack/base": "0.9.*|1.0.*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.*",
+                "scrutinizer/ocular": "~1.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Backpack\\Generators\\GeneratorsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Backpack\\Generators\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
                 "proprietary"
             ],
             "authors": [
@@ -4761,6 +5186,74 @@
                 "view"
             ],
             "time": "2018-11-22T21:14:13+00:00"
+        },
+        {
+            "name": "barryvdh/laravel-debugbar",
+            "version": "v3.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/barryvdh/laravel-debugbar.git",
+                "reference": "9d5caf43c5f3a3aea2178942f281054805872e7c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/barryvdh/laravel-debugbar/zipball/9d5caf43c5f3a3aea2178942f281054805872e7c",
+                "reference": "9d5caf43c5f3a3aea2178942f281054805872e7c",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/routing": "5.5.x|5.6.x|5.7.x",
+                "illuminate/session": "5.5.x|5.6.x|5.7.x",
+                "illuminate/support": "5.5.x|5.6.x|5.7.x",
+                "maximebf/debugbar": "~1.15.0",
+                "php": ">=7.0",
+                "symfony/debug": "^3|^4",
+                "symfony/finder": "^3|^4"
+            },
+            "require-dev": {
+                "laravel/framework": "5.5.x"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.2-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Barryvdh\\Debugbar\\ServiceProvider"
+                    ],
+                    "aliases": {
+                        "Debugbar": "Barryvdh\\Debugbar\\Facade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Barryvdh\\Debugbar\\": "src/"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Barry vd. Heuvel",
+                    "email": "barryvdh@gmail.com"
+                }
+            ],
+            "description": "PHP Debugbar integration for Laravel",
+            "keywords": [
+                "debug",
+                "debugbar",
+                "laravel",
+                "profiler",
+                "webprofiler"
+            ],
+            "time": "2018-11-09T08:37:55+00:00"
         },
         {
             "name": "beyondcode/laravel-dump-server",

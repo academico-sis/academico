@@ -103,6 +103,12 @@ class Course extends Model
         return $this->belongsTo('\App\Models\Period');
     }
 
+    public function children()
+    {
+        return $this->hasMany('App\Models\Course', 'parent_course_id');
+    }
+
+
     /**
      * return evaluation methods associated to the course.
      * For instance - grades, skill-based evaluation...
