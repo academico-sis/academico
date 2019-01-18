@@ -65,9 +65,9 @@ class Attendance extends Model
 
             if ($pending_attendance > 0)
             {
-                $pending_events[$event->id]['event'] = $event->name;
+                $pending_events[$event->id]['event'] = $event->name ?? '-';
                 $pending_events[$event->id]['event_date'] = $event->start;
-                $pending_events[$event->id]['teacher'] = $event->teacher->name;
+                $pending_events[$event->id]['teacher'] = $event->teacher->name ?? '-';
                 $pending_events[$event->id]['pending'] = $pending_attendance;
             }
 
