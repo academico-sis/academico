@@ -31,6 +31,8 @@ class RoomController extends Controller
                 'start' => $event['start'],
                 'end' => $event['end'],
                 'groupId' => $event['course_id'],
+                'backgroundColor' => '#' . substr(md5($event['course_id']), 0, 6),
+                'borderColor' => '#' . substr(md5($event['course_id']), 0, 6),
             );
         }, $events);
 

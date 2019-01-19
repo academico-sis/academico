@@ -63,6 +63,8 @@ document.addEventListener('DOMContentLoaded', function() { // page is now ready.
         nowIndicator: true,
         hiddenDays: [ 0 ],
         firstDay: 1,
+        slotWidth: 20,
+        resourceAreaWidth: 150,
         eventSources: [
             {
                 events: <?php echo json_encode($events) ?>
