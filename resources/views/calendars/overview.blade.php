@@ -29,7 +29,7 @@
             <div class="box">
                 <div class="box-header with-border">
                     <div class="box-title">                          
-                        <strong>@lang('Ressource Calendars')</strong>
+                        <strong>@lang('resource Calendars')</strong>
                     </div>
                     <div class="box-tools pull-right">
 
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() { // page is now ready.
     var calendar = new FullCalendar.Calendar(calendarEl, {
         schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
         defaultView: 'timelineWeek',
-        resources: <?php echo json_encode($ressources) ?>,
+        resources: <?php echo json_encode($resources) ?>,
         height: "auto",
         minTime: "06:00:00",
         maxTime: "23:00:00",
@@ -69,7 +69,6 @@ document.addEventListener('DOMContentLoaded', function() { // page is now ready.
             },
         ],
         
-        ressourceEditable: true,
         eventDrop: function(info) {
             axios.patch(window.location.href, {
                     course_id: info.event.groupId,

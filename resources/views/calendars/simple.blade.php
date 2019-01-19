@@ -26,7 +26,7 @@
             <div class="box">
                 <div class="box-header with-border">
                     <div class="box-title">                          
-                        <strong>@lang('Calendar for') {{ $ressource->name }}</strong>
+                        <strong>@lang('Calendar for') {{ $resource->name }}</strong>
                     </div>
                     <div class="box-tools pull-right">
 

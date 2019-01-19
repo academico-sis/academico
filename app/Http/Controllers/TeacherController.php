@@ -36,7 +36,7 @@ class TeacherController extends Controller
         //dd($events);
         return view('calendars.overview', [
             'events' => $events,
-            'ressources' => $teachers,
+            'resources' => $teachers,
         ]);
     }
 
@@ -56,7 +56,7 @@ class TeacherController extends Controller
 
         return view('calendars.simple', [
             'events' => $events,
-            'ressource' => $teacher,
+            'resource' => $teacher,
         ]);
     }
 

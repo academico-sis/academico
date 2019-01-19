@@ -36,7 +36,7 @@ class RoomController extends Controller
 
         return view('calendars.overview', [
             'events' => $events,
-            'ressources' => $rooms,
+            'resources' => $rooms,
         ]);
     }
 
@@ -57,7 +57,7 @@ class RoomController extends Controller
 
         return view('calendars.simple', [
             'events' => $events,
-            'ressource' => $room,
+            'resource' => $room,
         ]);
     }
 
