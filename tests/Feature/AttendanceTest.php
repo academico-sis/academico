@@ -149,7 +149,7 @@ class AttendanceTest extends TestCase
         // create relevant attendance records
 
         // act: when the admin gets the pending attendance
-        $pending_attendance = (new Attendance)->get_pending_attendance($period);
+        $pending_attendance = (new Attendance)->get_pending_attendance();
         
         // we see the name of the past events without attendance
         $this->assertTrue($pending_attendance[1]['event'] == 'test event 1');

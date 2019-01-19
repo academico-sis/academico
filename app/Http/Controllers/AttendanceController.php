@@ -31,7 +31,7 @@ class AttendanceController extends Controller
 
         $absences = (new Attendance)->get_absence_count($period);
 
-        $pending_attendance = (new Attendance)->get_pending_attendance($period);
+        $pending_attendance = (new Attendance)->get_pending_attendance();
 
         return view('attendance.monitor', compact('absences', 'pending_attendance'));
     }

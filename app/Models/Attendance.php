@@ -4,6 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Course;
+use App\Models\User;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PendingAttendanceReminder;
+
 use Carbon\Carbon;
 
 class Attendance extends Model
@@ -18,6 +22,20 @@ class Attendance extends Model
     public function event()
     {
         return $this->belongsTo('App\Models\Event');
+    }
+
+    public function remindPendingAttendance()
+    {
+        $period = $period = Period::get_default_period();
+        foreach (User::teacher()->all() as $teacher)
+        {
+            $events = $this->events_with_pending_attendance($teacher);
+            if ($events->count() > 0)
+            {
+                Mail::to($teacher->email)->send(new PendingAttendanceReminder($teacher));
+            }
+        }
+
     }
 
     // get 'absent' attendance records for the period ; grouped by student
@@ -39,25 +57,29 @@ class Attendance extends Model
         ->get();
     }
 
-    // return events for which the attendance records do not match the course student count
-    // todo optimize this method to reduce the number of queries
-    // todo add         ->orWhereNull('exempt_attendance')
-    public function get_pending_attendance(Period $period, User $teacher = null)
-    {
 
-        if(isset($teacher))
-        {
-        // get all events to check
-        $events = Event::where('exempt_attendance', '!=', true)
+    private function events_with_pending_attendance(User $teacher)
+    {
+        return Event::where('exempt_attendance', '!=', true)
         ->where('course_id', '!=', null)
         ->where('teacher_id', $teacher->id)
         ->with('attendance')
         ->with('course.enrollments')
         ->where('start', '<', (new Carbon)->toDateTimeString()) // todo check timezones
-        ->whereHas('course', function ($query) use ($period) {
-            $query->where('period_id', '=', $period->id);
-        })
         ->get();
+    }
+
+
+    // return events for which the attendance records do not match the course student count
+    // todo optimize this method to reduce the number of queries
+    // todo add         ->orWhereNull('exempt_attendance')
+    public function get_pending_attendance(User $teacher = null)
+    {
+
+        if(isset($teacher))
+        {
+            // get all events to check
+            $events = $this->events_with_pending_attendance($teacher);
         }
 
         else
@@ -68,9 +90,6 @@ class Attendance extends Model
         ->with('attendance')
         ->with('course.enrollments')
         ->where('start', '<', (new Carbon)->toDateTimeString()) // todo check timezones
-        ->whereHas('course', function ($query) use ($period) {
-            $query->where('period_id', '=', $period->id);
-        })
         ->get();
         }
 

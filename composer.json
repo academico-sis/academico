@@ -12,6 +12,7 @@
         "backpack/crud": "^3.5",
         "backpack/permissionmanager": "^4.0",
         "fideloper/proxy": "^4.0",
+        "guzzlehttp/guzzle": "^6.3",
         "kkomelin/laravel-translatable-string-exporter": "^1.0",
         "laravel/framework": "5.7.*",
         "laravel/tinker": "^1.0"

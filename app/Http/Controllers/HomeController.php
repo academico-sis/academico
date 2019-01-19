@@ -43,7 +43,7 @@ class HomeController extends Controller
         return view('teacher.dashboard', [
             'teacher' => $teacher,
             'courses' => $teacher->current_courses,
-            'pending_attendance' => (new Attendance)->get_pending_attendance($period, $teacher)
+            'pending_attendance' => (new Attendance)->get_pending_attendance($teacher)
         ]);
     }
 
@@ -55,7 +55,7 @@ class HomeController extends Controller
             'pending_enrollment_count' => $period->pending_enrollments_count,
             'paid_enrollment_count' => $period->paid_enrollments_count,
             'students_count' => $period->students_count,
-            'pending_attendance' => (new Attendance)->get_pending_attendance($period)
+            'pending_attendance' => (new Attendance)->get_pending_attendance()
         ]);
     }
 

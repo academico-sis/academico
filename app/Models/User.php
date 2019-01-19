@@ -13,6 +13,8 @@ use Carbon\Carbon;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Period;
+use Backpack\Base\app\Notifications\ResetPasswordNotification as ResetPasswordNotification;
+use Tightenco\Parental\HasParentModel;
 
 class User extends Authenticatable
 {
@@ -20,7 +22,8 @@ class User extends Authenticatable
     use SoftDeletes;
     use CrudTrait; // <----- this
     use HasRoles; // <------ and this
-    
+    use HasParentModel;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -39,6 +42,30 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+
+    /**
+     * Send the password reset notification.
+     *
+     * @param string $token
+     *
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPasswordNotification($token));
+    }
+
+    /**
+     * Get the e-mail address where password reset links are sent.
+     *
+     * @return string
+     */
+    public function getEmailForPasswordReset()
+    {
+        return $this->email;
+    }
+
 
 
     public function scopeTeacher($query)
