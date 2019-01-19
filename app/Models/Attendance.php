@@ -30,9 +30,12 @@ class Attendance extends Model
         foreach (User::teacher()->all() as $teacher)
         {
             $events = $this->events_with_pending_attendance($teacher);
+            $when = now()->addMinutes(3);
+
             if ($events->count() > 0)
             {
-                Mail::to($teacher->email)->send(new PendingAttendanceReminder($teacher));
+                Mail::to($teacher->email)
+                ->later($when, new PendingAttendanceReminder($teacher, $events));
             }
         }
 
@@ -66,7 +69,11 @@ class Attendance extends Model
         ->with('attendance')
         ->with('course.enrollments')
         ->where('start', '<', (new Carbon)->toDateTimeString()) // todo check timezones
-        ->get();
+        ->get()
+        ->filter(function ($event, $key) {
+            return $event->course->enrollments->count() > $event->attendance->count();
+        });
+
     }
 
 
@@ -109,7 +116,6 @@ class Attendance extends Model
                 $pending_events[$event->id]['teacher'] = $event->teacher->name;
                 $pending_events[$event->id]['pending'] = $pending_attendance;
             }
-
     }
 
     return $pending_events;
