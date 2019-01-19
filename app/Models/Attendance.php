@@ -2,21 +2,44 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use App\Models\Course;
+use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Course;
+use App\Jobs\WatchAttendance;
+use App\Mail\AbsenceNotification;
+
 use Illuminate\Support\Facades\Mail;
 use App\Mail\PendingAttendanceReminder;
-
-use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 
 class Attendance extends Model
 {
     protected $guarded = ['id'];
-    
+ 
+    protected static function boot()
+    {
+        parent::boot();
+
+        // when an attendance record is added, we check if this is an absence
+        static::saved(function(Attendance $attendance) {
+            if($attendance->attendance_type_id == 4)
+            {
+                // will check the record again in 10 minutes and send a notification if it hasn't changed
+                WatchAttendance::dispatch($attendance)
+                ->delay(now()->addMinutes(10));
+            }
+        });
+
+    }
+
     public function student_data()
     {
         return $this->belongsTo('App\Models\User', 'user_id');
+    }
+
+    public function additional_data()
+    {
+        return $this->hasMany('App\Models\UserData', 'user_id', 'user_id');
     }
 
     public function event()
