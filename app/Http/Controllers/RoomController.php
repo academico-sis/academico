@@ -29,7 +29,8 @@ class RoomController extends Controller
                 'title' => $event['name'],
                 'resourceId' => $event['room_id'],
                 'start' => $event['start'],
-                'end' => $event['end']
+                'end' => $event['end'],
+                'groupId' => $event['course_id'],
             );
         }, $events);
 

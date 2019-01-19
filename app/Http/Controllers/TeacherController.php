@@ -28,7 +28,8 @@ class TeacherController extends Controller
                 'title' => $event['name'],
                 'resourceId' => $event['teacher_id'],
                 'start' => $event['start'],
-                'end' => $event['end']
+                'end' => $event['end'],
+                'groupId' => $event['course_id'],
             );
         }, $events);
 

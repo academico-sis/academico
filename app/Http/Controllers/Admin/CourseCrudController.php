@@ -107,9 +107,6 @@ class CourseCrudController extends CrudController
             'entity' => 'teacher', // the method that defines the relationship in your Model
             'attribute' => "name", // foreign key attribute that is shown to user
             'model' => "App\Models\User", // foreign key model
-            'options'   => (function ($query) {
-                return $query->teacher();
-            }),
             ],
 
             [
@@ -260,7 +257,10 @@ class CourseCrudController extends CrudController
                 'entity' => 'teacher', // the method that defines the relationship in your Model
                 'attribute' => "name", // foreign key attribute that is shown to user
                 'model' => "App\Models\User", // foreign key model
-                'tab' => 'Resources'
+                'tab' => 'Resources',
+                'options'   => (function ($query) {
+                    return $query->teacher();
+                }),
              ],
 
              [
@@ -354,6 +354,21 @@ class CourseCrudController extends CrudController
         $redirect_location = parent::updateCrud($request);
         // your additional operations after save here
         // use $this->data['entry'] or $this->crud->entry
+        
+        // check whether the events for this course match the teacher from the request.
+        $outdated_events = $this->crud->entry->events->where('teacher_id', '!=', $this->crud->entry->teacher_id);
+
+        // if a mismatch exists, offer to update the events
+        if($outdated_events->count() > 0)
+        {
+            return view('courses.update_events', [
+                'outdated_events' => $outdated_events,
+                'course' => $this->crud->entry,
+                ]);
+        }
+
+        // todo idem for the room.
+
         return $redirect_location;
     }
 

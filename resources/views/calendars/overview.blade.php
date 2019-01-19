@@ -51,26 +51,48 @@
 <script>
 
 document.addEventListener('DOMContentLoaded', function() { // page is now ready...
-var calendarEl = document.getElementById('calendar'); // grab element reference
+    var calendarEl = document.getElementById('calendar'); // grab element reference
 
-var calendar = new FullCalendar.Calendar(calendarEl, {
-    schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
-    defaultView: 'timelineWeek',
-    resources: <?php echo json_encode($ressources) ?>,
-    height: "auto",
-    minTime: "06:00:00",
-    maxTime: "23:00:00",
-    nowIndicator: true,
-    hiddenDays: [ 0 ],
-    firstDay: 1,
-    eventSources: [
-    {
-        events: <?php echo json_encode($events) ?>
-    },
-    ]});
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
+        defaultView: 'timelineWeek',
+        resources: <?php echo json_encode($ressources) ?>,
+        height: "auto",
+        minTime: "06:00:00",
+        maxTime: "23:00:00",
+        nowIndicator: true,
+        hiddenDays: [ 0 ],
+        firstDay: 1,
+        eventSources: [
+            {
+                events: <?php echo json_encode($events) ?>
+            },
+        ],
+        
+        ressourceEditable: true,
+        eventDrop: function(info) {
+            axios.patch(window.location.href, {
+                    course_id: info.event.groupId,
+                    resource_id: info.newResource.id,
+                } )
 
-    calendar.render();
+            .then(function (response) {
+                new PNotify({
+                    title: "Operation successful",
+                    text: "The course has been updated.",
+                    type: "success"
+                    });
+            })
+            
+            .catch(function (error) {
+                console.log(error);
+            });
+        }
     });
 
+    calendar.render();
+});
+
 </script>
+    <script src="/js/app.js"></script>
 @endsection

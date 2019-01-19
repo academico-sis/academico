@@ -65,6 +65,11 @@ Route::group(
 
     // Course Events routes
     Route::get('course/{course}/events/get', 'EventController@get_course_events');
+    Route::patch('course/{course}/events/update', 'EventController@update_teacher');
+    Route::patch('calendar/teacher', 'EventController@update_course_teacher');
+    Route::patch('calendar/room', 'EventController@update_course_room');
+
+
 });
 
 

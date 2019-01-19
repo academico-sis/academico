@@ -58,8 +58,8 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
     nowIndicator: true,
     hiddenDays: [ 0 ],
     firstDay: 1,
-    events: <?php echo json_encode($events) ?>
-    });
+    events: <?php echo json_encode($events) ?>,
+});
 
     calendar.render();
     });
