@@ -30,12 +30,11 @@ class Attendance extends Model
         foreach (User::teacher()->all() as $teacher)
         {
             $events = $this->events_with_pending_attendance($teacher);
-            $when = now()->addMinutes(3);
 
             if ($events->count() > 0)
             {
                 Mail::to($teacher->email)
-                ->later($when, new PendingAttendanceReminder($teacher, $events));
+                ->queue(new PendingAttendanceReminder($teacher, $events));
             }
         }
 
