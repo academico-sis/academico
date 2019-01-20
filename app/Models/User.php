@@ -184,4 +184,44 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Event', 'teacher_id');
     }
 
+    public function period_planned_hours(Period $period)
+    {
+        return $this
+            ->hasMany('App\Models\Event', 'teacher_id')
+            ->get()
+            ->where('start', '>=', Carbon::parse($period->start)->setTime(0, 0, 0)->toDateTimeString())
+            ->where('end', '<=', Carbon::parse($period->end)->setTime(23, 59, 0)->toDateTimeString())
+            ->sum('length');
+    }
+
+    public function period_worked_hours(Period $period)
+    {
+        return $this
+            ->hasMany('App\Models\Event', 'teacher_id')
+            ->get()
+            ->where('start', '>=', Carbon::parse($period->start)->setTime(0, 0, 0)->toDateTimeString())
+            ->where('end', '<=', Carbon::parse($period->end)->setTime(23, 59, 0)->toDateTimeString())
+            ->where('end', '<=', (new Carbon)->toDateTimeString())
+            ->sum('length');
+    }
+
+    public function remote_events()
+    {
+        return $this->hasMany('App\Models\RemoteEvent');
+    }
+
+    public function periodRemoteHours(Period $period)
+    {
+        return $this
+            ->hasMany('App\Models\RemoteEvent')
+            ->where('period_id', $period->id)
+            ->get()
+            ->sum('worked_hours');
+    }
+
+    public function period_max_hours(Period $period)
+    {
+        return 250;
+    }
+
 }

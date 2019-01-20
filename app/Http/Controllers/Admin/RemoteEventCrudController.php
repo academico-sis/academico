@@ -68,6 +68,42 @@ class RemoteEventCrudController extends CrudController
 
         ]);
 
+
+        $this->crud->addFields([
+            [
+                // 1-n relationship
+                'label' => "Period", // Table column heading
+                'type' => "select",
+                'name' => 'period_id', // the column that contains the ID of that connected entity;
+                'entity' => 'period', // the method that defines the relationship in your Model
+                'attribute' => "name", // foreign key attribute that is shown to user
+                'model' => "App\Models\Period", // foreign key model
+             ],
+
+             [
+                // 1-n relationship
+                'label' => "Teacher", // Table column heading
+                'type' => "select",
+                'name' => 'user_id', // the column that contains the ID of that connected entity;
+                'entity' => 'user', // the method that defines the relationship in your Model
+                'attribute' => "name", // foreign key attribute that is shown to user
+                'model' => "App\Models\User", // foreign key model
+             ],
+
+             [
+                'name' => 'worked_hours', // The db column name
+                'label' => "Worked Hours", // Table column heading
+                'type' => "number",
+                'suffix' => " h",
+                'decimals' => 2,
+             ],
+
+             [
+                'name' => 'name', // The db column name
+                'label' => "Project", // Table column heading
+             ],
+
+        ]);
         // add asterisk for fields that are required in RemoteEventRequest
         $this->crud->setRequiredFields(StoreRequest::class, 'create');
         $this->crud->setRequiredFields(UpdateRequest::class, 'edit');

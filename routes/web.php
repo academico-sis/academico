@@ -111,11 +111,23 @@ Route::group(
 });
 
 // calendars routes
+Route::group(
+    ['middleware' => ['web', 'permission:calendars.view']],
+    function () {
 Route::get('/calendar/room/{room}', 'RoomController@show');
 Route::get('/calendar/room', 'RoomController@index');
 
 Route::get('/calendar/teacher/{teacher}', 'TeacherController@show');
 Route::get('/calendar/teacher', 'TeacherController@index');
+});
+
+// HR routes
+Route::group(
+    ['middleware' => ['web', 'permission:hr.view']],
+    function () {
+Route::get('/hr', 'HRController@index');
+});
+
 
 // TEACHER ROUTES
 Route::group(
@@ -123,7 +135,5 @@ Route::group(
     function () {
 
         Route::get('teacher/dashboard', 'HomeController@teacher');
-
-
 
 });

@@ -25,13 +25,17 @@ class Event extends Model
     //protected $fillable = [];
     // protected $hidden = [];
     // protected $dates = [];
+    protected $appends = ['length'];
 
     /*
     |--------------------------------------------------------------------------
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
-
+    public function getLengthAttribute()
+    {
+        return Carbon::parse($this->end)->diffInSeconds(Carbon::parse($this->start)) / 3600;
+    }
 
     /*
     |--------------------------------------------------------------------------
@@ -68,6 +72,11 @@ class Event extends Model
     public function room()
     {
         return $this->belongsTo('App\Models\Room');
+    }
+
+    public function getPeriodAttribute()
+    {
+        return $this->course->period_id;
     }
 
 
