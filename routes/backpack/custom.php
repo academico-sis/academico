@@ -87,4 +87,6 @@ Route::group([
     CRUD::resource('skilltype', 'SkillTypeCrudController');
     CRUD::resource('skillscale', 'SkillScaleCrudController');
     CRUD::resource('resulttype', 'ResultTypeCrudController');
+    CRUD::resource('remoteevent', 'RemoteEventCrudController');
+    CRUD::resource('leave', 'LeaveCrudController');
 }); // this should be the absolute last line of this file

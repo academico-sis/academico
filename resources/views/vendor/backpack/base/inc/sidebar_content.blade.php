@@ -18,6 +18,10 @@
 
 <li><a href="{{ backpack_url('attendance') }}"><i class="fa fa-calendar"></i> <span>@lang('attendance')</span></a></li>
 
+<li><a href="{{ backpack_url('leave') }}"><i class="fa fa-calendar"></i> <span>@lang('leave')</span></a></li>
+
+<li><a href="{{ backpack_url('remoteevent') }}"><i class="fa fa-calendar"></i> <span>@lang('Remote Events')</span></a></li>
+
 
 @endif
 
