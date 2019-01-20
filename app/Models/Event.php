@@ -26,6 +26,7 @@ class Event extends Model
     // protected $hidden = [];
     // protected $dates = [];
     protected $appends = ['length'];
+    protected $with = ['course'];
 
     /*
     |--------------------------------------------------------------------------
@@ -50,7 +51,7 @@ class Event extends Model
     
     public function course()
     {
-        return $this->belongsTo('App\Models\Course');
+        return $this->belongsTo('App\Models\Course')->withCount('enrollments');
     }
 
     public function students()

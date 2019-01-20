@@ -28,6 +28,8 @@ class Course extends Model
     //protected $fillable = [];
     // protected $hidden = [];
     // protected $dates = [];
+    //protected $with = ['enrollments'];
+    //protected $append = ['enrollments_count'];
 
     /*
     |--------------------------------------------------------------------------

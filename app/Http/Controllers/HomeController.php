@@ -43,7 +43,7 @@ class HomeController extends Controller
         return view('teacher.dashboard', [
             'teacher' => $teacher,
             'courses' => $teacher->current_courses,
-            'pending_attendance' => (new Attendance)->get_pending_attendance($teacher)
+            'pending_attendance' => $teacher->events_with_pending_attendance,
         ]);
     }
 

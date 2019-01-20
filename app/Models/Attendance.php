@@ -22,16 +22,17 @@ class Attendance extends Model
 
         // when an attendance record is added, we check if this is an absence
         static::saved(function(Attendance $attendance) {
-            if($attendance->attendance_type_id == 4)
+            if($attendance->attendance_type_id == 4) // todo move to config array
             {
-                // will check the record again in 10 minutes and send a notification if it hasn't changed
+                // will check the record again and send a notification if it hasn't changed
                 WatchAttendance::dispatch($attendance)
-                ->delay(now()->addMinutes(10));
+                ->delay(now()->addMinutes(30));
             }
         });
 
     }
 
+    /** RELATIONS */
     public function student_data()
     {
         return $this->belongsTo('App\Models\User', 'user_id');
@@ -46,6 +47,14 @@ class Attendance extends Model
     {
         return $this->belongsTo('App\Models\Event');
     }
+
+    public function attendance_type()
+    {
+        return $this->belongsTo('App\Models\AttendanceType');
+    }
+
+
+    /** METHODS */
 
     public function remindPendingAttendance()
     {
@@ -83,45 +92,25 @@ class Attendance extends Model
     }
 
 
-    private function events_with_pending_attendance(User $teacher)
-    {
-        return Event::where('exempt_attendance', '!=', true)
-        ->where('course_id', '!=', null)
-        ->where('teacher_id', $teacher->id)
-        ->with('attendance')
-        ->with('course.enrollments')
-        ->where('start', '<', (new Carbon)->toDateTimeString()) // todo check timezones
-        ->get()
-        ->filter(function ($event, $key) {
-            return $event->course->enrollments->count() > $event->attendance->count();
-        });
 
-    }
 
 
     // return events for which the attendance records do not match the course student count
-    // todo optimize this method to reduce the number of queries
-    // todo add         ->orWhereNull('exempt_attendance')
-    public function get_pending_attendance(User $teacher = null)
+    // todo optimize this method (reduce the number of queries and avoid the foreach loop)
+    // but filtering the collection increases the number of DB queries... (why ?)
+    public function get_pending_attendance()
     {
 
-        if(isset($teacher))
-        {
-            // get all events to check
-            $events = $this->events_with_pending_attendance($teacher);
-        }
-
-        else
-        {
-        // get all events to check
-        $events = Event::where('exempt_attendance', '!=', true)
+        $events = Event::where(function($query) {
+            $query->where('exempt_attendance', '!=', true);
+            $query->where('exempt_attendance', '!=', 1);
+            $query->orWhereNull('exempt_attendance');
+        })
         ->where('course_id', '!=', null)
         ->with('attendance')
         ->with('course.enrollments')
         ->where('start', '<', (new Carbon)->toDateTimeString()) // todo check timezones
         ->get();
-        }
-
         
         $pending_events = [];
 

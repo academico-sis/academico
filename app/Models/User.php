@@ -224,4 +224,23 @@ class User extends Authenticatable
         return 250;
     }
 
+
+    public function getEventsWithPendingAttendanceAttribute()
+    {
+        return $this->events()
+            ->where(function($query) {
+                $query->where('exempt_attendance', '!=', true);
+                $query->where('exempt_attendance', '!=', 1);
+                $query->orWhereNull('exempt_attendance');
+            })
+            ->where('course_id', '!=', null)
+            ->with('attendance')
+            ->with('course.enrollments')
+            ->where('start', '<', (new Carbon)->toDateTimeString()) // todo check timezones
+            ->get()
+            ->filter(function ($event, $key) {
+                return $event->course->enrollments->count() != $event->attendance()->count();
+            });
+    }
+
 }

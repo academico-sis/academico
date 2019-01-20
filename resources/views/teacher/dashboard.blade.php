@@ -33,7 +33,7 @@
                     <div class="box-body">
                         <ul>
                             @foreach($pending_attendance as $event)
-                            <li>{{ $event['event_date'] }}: <a href="/attendance/event/{{ $event['event_id'] }}">{{ $event['event'] }}</a>
+                                <li>{{ $event->start }}: <a href="/attendance/event/{{ $event->id }}">{{ $event->name }}</a>
                             </li>
                             @endforeach
                         </ul>
