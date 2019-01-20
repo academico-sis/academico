@@ -15,21 +15,21 @@ class SkillEvaluation extends Model
 
     public function skill()
     {
-        return $this->belongsTo('\App\Models\Skill');
+        return $this->belongsTo('App\Models\Skill');
     }
 
     public function student()
     {
-        return $this->belongsTo('\App\Models\User', 'user_id');
+        return $this->belongsTo('App\Models\User', 'user_id');
     }
     
     public function course()
     {
-        return $this->belongsTo('\App\Models\Course');
+        return $this->belongsTo('App\Models\Course');
     }
 
     public function skill_scale()
     {
-        return $this->belongsTo('\App\Models\SkillScale');
+        return $this->belongsTo('App\Models\SkillScale');
     } 
 }

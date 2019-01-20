@@ -31,18 +31,24 @@ class Course extends Model
     //protected $with = ['enrollments'];
     //protected $append = ['enrollments_count'];
 
+
     /*
     |--------------------------------------------------------------------------
-    | FUNCTIONS
+    | SCOPES
     |--------------------------------------------------------------------------
     */
-
 
     public function scopeParent($query)
     {
         return $query->where('parent_course_id', null);
     }
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | FUNCTIONS
+    |--------------------------------------------------------------------------
+    */
 
     public static function get_available_courses(Period $period)
     {
@@ -67,42 +73,42 @@ class Course extends Model
 
     public function times()
     {
-        return $this->hasMany('\App\Models\CourseTime', 'course_id');
+        return $this->hasMany('App\Models\CourseTime', 'course_id');
     }
 
     public function events()
     {
-        return $this->hasMany('\App\Models\Event');
+        return $this->hasMany('App\Models\Event');
     }
 
     public function teacher()
     {
-        return $this->belongsTo('\App\Models\User', 'teacher_id');
+        return $this->belongsTo('App\Models\User', 'teacher_id');
     }
 
     public function campus()
     {
-        return $this->belongsTo('\App\Models\Campus');
+        return $this->belongsTo('App\Models\Campus');
     }
 
     public function room()
     {
-        return $this->belongsTo('\App\Models\Room');
+        return $this->belongsTo('App\Models\Room');
     }
 
     public function rythm()
     {
-        return $this->belongsTo('\App\Models\Rythm');
+        return $this->belongsTo('App\Models\Rythm');
     }
 
     public function level()
     {
-        return $this->belongsTo('\App\Models\Level');
+        return $this->belongsTo('App\Models\Level');
     }
 
     public function period()
     {
-        return $this->belongsTo('\App\Models\Period');
+        return $this->belongsTo('App\Models\Period');
     }
 
     public function children()
@@ -111,20 +117,15 @@ class Course extends Model
     }
 
 
-    /**
-     * return evaluation methods associated to the course.
-     * For instance - grades, skill-based evaluation...
-     *
-     * @return void
-     */
+    /** evaluation methods associated to the course - grades, skill-based evaluation... */
     public function evaluation_type()
     {
-        return $this->belongsToMany('\App\Models\EvaluationType');
+        return $this->belongsToMany('App\Models\EvaluationType');
     }
 
     public function grades()
     {
-        return $this->hasMany('\App\Models\Grade')->with('student');
+        return $this->hasMany('App\Models\Grade')->with('student');
     }
 
     public function grade_type()
@@ -140,8 +141,6 @@ class Course extends Model
     /**
      * return attendance records associated to the course
      * Since the attendance records are linked to the event, we use a hasManyThrough relation.
-     *
-     * @return void
      */
     public function attendance()
     {
@@ -149,25 +148,14 @@ class Course extends Model
     }
 
 
-
-    /**
-     * enrollments
-     * 
-     * todo filter out cancelled enrollments
-     * or use soft deletes ?
-     *
-     * @return void
-     */
     public function enrollments()
     {
-        return $this->hasMany('\App\Models\Enrollment', 'course_id', 'id')
+        return $this
+            ->hasMany('App\Models\Enrollment', 'course_id', 'id')
+            ->whereIn('status_id', [1, 2]) // pending or paid enrollments only
             ->with('student_data');
     }
-    /*
-    |--------------------------------------------------------------------------
-    | SCOPES
-    |--------------------------------------------------------------------------
-    */
+
 
     /*
     |--------------------------------------------------------------------------
@@ -177,12 +165,7 @@ class Course extends Model
 
     /**
      * getCourseTimesAttribute
-     * 
-     * todo refactor this
-     * todo add times
-     *
-     * @param mixed $value
-     * @return void
+     * todo refactor and/or this method
      */
     public function getCourseTimesAttribute()
     {

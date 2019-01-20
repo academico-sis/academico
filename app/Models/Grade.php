@@ -11,11 +11,11 @@ class Grade extends Model
 
     public function grade_type()
     {
-        return $this->belongsTo('\App\Models\GradeType');
+        return $this->belongsTo('App\Models\GradeType');
     }
 
     public function student()
     {
-        return $this->belongsTo('\App\Models\User', 'user_id');
+        return $this->belongsTo('App\Models\User', 'user_id');
     }
 }

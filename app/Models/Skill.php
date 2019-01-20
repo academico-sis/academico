@@ -12,7 +12,7 @@ class Skill extends Model
 
     public function skill_type()
     {
-        return $this->belongsTo('\App\Models\SkillType');
+        return $this->belongsTo('App\Models\SkillType');
     }
 
     public function level()
@@ -22,11 +22,11 @@ class Skill extends Model
 
     public function course()
     {
-        return $this->belongsToMany('\App\Models\Course');
+        return $this->belongsToMany('App\Models\Course');
     }
 
     public function skill_evaluation()
     {
-        return $this->hasMany('\App\Models\CourseSkillEvaluation');
+        return $this->hasMany('App\Models\CourseSkillEvaluation');
     }
 }

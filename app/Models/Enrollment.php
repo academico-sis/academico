@@ -16,11 +16,7 @@ class Enrollment extends Model
 
 
     /**
-     * return all pending enrollments
-     * 
-     * without the child enrollments
-     *
-     * @return void
+     * return all pending enrollments without the child enrollments
      */
     public function scopePending($query)
     {
@@ -32,6 +28,22 @@ class Enrollment extends Model
             ->get();
     }
 
+    
+    /** FUNCTIONS */
+    public function addToCart()
+    {
+        $product = Cart::firstOrNew([
+            'user_id' => $this->student_data->id,
+            'product_id' => $this->id,
+            'product_type' => Enrollment::class
+        ]);
+
+        $product->save();
+        return $product->id;
+    }
+
+
+    /** RELATIONS */
     public function student_data()
     {
         return $this->belongsTo('App\Models\User', 'user_id');
@@ -39,7 +51,7 @@ class Enrollment extends Model
 
     public function course_data()
     {
-        return $this->belongsTo('\App\Models\Course', 'course_id');
+        return $this->belongsTo('App\Models\Course', 'course_id');
     }
     
     public function pre_invoice()
@@ -47,6 +59,24 @@ class Enrollment extends Model
         return $this->belongsToMany('App\Models\PreInvoice', 'enrollment_pre_invoice', 'enrollment_id', 'pre_invoice_id');
     }
 
+    public function comments()
+    {
+        return $this->morphMany('App\Models\Comment', 'commentable');
+    }
+
+    public function result()
+    {
+        return $this->hasOne('App\Models\Result')
+            ->with('result_name');
+    }
+
+    public function enrollment_status()
+    {
+        return $this->belongsTo('App\Models\EnrollmentStatusType', 'status_id');
+    }
+
+
+    /* Accessors */
     public function getGradesAttribute()
     {
         return Grade::where('course_id', $this->course_data->id)
@@ -63,21 +93,6 @@ class Enrollment extends Model
             ->get();
     }
 
-    public function addToCart()
-    {
-        $product = Cart::firstOrNew([
-            'user_id' => $this->student_data->id,
-            'product_id' => $this->id,
-            'product_type' => Enrollment::class
-        ]);
-
-        $product->save();
-        return $product->id;
-    }
-
-
-
-    /* Accessors */
     public function getStudentNameAttribute()
     {
         return $this->student_data['name'];
@@ -103,17 +118,6 @@ class Enrollment extends Model
         return $this->student_data['email'];
     }
 
-    public function comments()
-    {
-        return $this->morphMany('App\Models\Comment', 'commentable');
-    }
-
-    public function result()
-    {
-        return $this->hasOne('App\Models\Result')
-            ->with('result_name');
-    }
-
     public function getDateAttribute()
     {
         return Carbon::parse($this->created_at, 'UTC')->toFormattedDateString();
@@ -127,11 +131,6 @@ class Enrollment extends Model
     public function getChildrenAttribute()
     {
         return Enrollment::where('parent_id', $this->id)->with('course_data')->get();
-    }
-
-    public function enrollment_status()
-    {
-        return $this->belongsTo('\App\Models\EnrollmentStatusType', 'status_id');
     }
 
     public function getStatusAttribute()

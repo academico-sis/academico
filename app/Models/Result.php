@@ -18,7 +18,7 @@ class Result extends Model
 
     public function result_name()
     {
-        return $this->belongsTo('\App\Models\ResultType', 'result_type_id');
+        return $this->belongsTo('App\Models\ResultType', 'result_type_id');
     }
 
     public function enrollment()

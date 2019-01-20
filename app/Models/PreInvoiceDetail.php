@@ -10,6 +10,6 @@ class PreInvoiceDetail extends Model
     use SoftDeletes;
 
     public function pre_invoice() {
-        return $this->belongsTo('\App\Models\PreInvoice');
+        return $this->belongsTo('App\Models\PreInvoice');
     }
 }
