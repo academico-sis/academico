@@ -41,6 +41,13 @@ class Room extends Model
     {
         return $this->hasMany('App\Models\Event');
     }
+
+    public function campus()
+    {
+        return $this->belongsTo('App\Models\Campus');
+    }
+
+    
     /*
     |--------------------------------------------------------------------------
     | SCOPES

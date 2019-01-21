@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\CrudTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/** This class could perhaps be renamed to Category instead */
 class Rhythm extends Model
 {
     use CrudTrait;

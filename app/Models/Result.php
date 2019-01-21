@@ -21,6 +21,10 @@ class Result extends Model
         return $this->belongsTo('App\Models\ResultType', 'result_type_id');
     }
 
+    /**
+     * A Result is linked to an Enrollment
+     * 
+     */
     public function enrollment()
     {
         return $this->belongsTo('App\Models\Enrollment');

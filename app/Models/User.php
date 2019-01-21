@@ -6,8 +6,8 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Backpack\CRUD\CrudTrait; // <------------------------------- this one
-use Spatie\Permission\Traits\HasRoles;// <---------------------- and this one
+use Backpack\CRUD\CrudTrait;
+use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Builder;
 use Carbon\Carbon;
 use App\Models\Course;
@@ -20,8 +20,8 @@ class User extends Authenticatable
 {
     use Notifiable;
     use SoftDeletes;
-    use CrudTrait; // <----- this
-    use HasRoles; // <------ and this
+    use CrudTrait;
+    use HasRoles;
     use HasParentModel;
 
     /**
@@ -221,7 +221,7 @@ class User extends Authenticatable
 
     public function period_max_hours(Period $period)
     {
-        return 250;
+        return 250; // will be editable in the future
     }
 
 

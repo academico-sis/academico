@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\CrudTrait;
 
+/** A RemoteEvent represents hours that do not have a specific date/time, but that should be taken into account in the teacher's total for the month or the period */
 class RemoteEvent extends Model
 {
     use CrudTrait;
@@ -20,6 +21,7 @@ class RemoteEvent extends Model
         return $this->belongsTo('App\Models\Period');
     }
 
+    /** we store the time volume in seconds */
     public function getWorkedHoursAttribute($value)
     {
         return $value / 3600;
