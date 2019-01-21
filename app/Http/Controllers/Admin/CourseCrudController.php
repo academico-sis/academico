@@ -59,6 +59,7 @@ class CourseCrudController extends CrudController
             $this->crud->addButtonFromView('line', 'schedule', 'schedule', 'end');
         }
 
+        $this->crud->addButtonFromView('line', 'children_badge', 'children_badge', 'beginning');
         $this->crud->allowAccess('clone');
 
         /*
