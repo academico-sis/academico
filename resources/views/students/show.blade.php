@@ -71,7 +71,7 @@
             <student-comments
             :comments="{{ json_encode($comments) }}"
             :student="{{ json_encode($student) }}">
-        </student-comments> 
+        </student-comments>
     </div>
 
     @if (count($student->enrollments) > 0)

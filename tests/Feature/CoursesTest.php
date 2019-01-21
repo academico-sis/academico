@@ -21,7 +21,7 @@ class CoursesTest extends TestCase
      */
     public function test_that_authorized_user_can_view_courses_within_the_current_period()
     {
-/*         $this->seed('DatabaseSeeder');
+        $this->seed('DatabaseSeeder');
 
         $period = factory(Period::class)->create();
 
@@ -39,12 +39,11 @@ class CoursesTest extends TestCase
             'period_id' => $period->id,
         ]);
 
-        $all_courses = Course::all();
-        dd($all_courses);
+        //dd(Course::all());
 
         // visit the course management page and assert that we see the title of the course
-        $response = $this->get("/admin/course/");
-        $response->assertSee($course->name); */
+        $response = $this->get("/course");
+        $response->assertSee($course->name); // no model found
     }
 
     /**

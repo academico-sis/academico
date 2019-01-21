@@ -14,13 +14,12 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class GradesTest extends TestCase
 {
-    use RefreshDatabase;
-
     use DatabaseMigrations;
 
-
-    public function test_adding_a_new_gradetype_to_course()
+    public function setUp()
     {
+        parent::setUp();
+
         $this->seed('DatabaseSeeder');
 
         $user = factory(User::class)->create();
@@ -28,21 +27,25 @@ class GradesTest extends TestCase
         \Auth::guard(backpack_guard_name())->login($user);
 
         // create a fake course
-        $course = factory(Course::class)->create();
+        $this->course = factory(Course::class)->create();
 
         // enable grades-based evaluation for this course
-        $course->evaluation_type()->attach(1);
+        $this->course->evaluation_type()->attach(1);
+    }
 
+
+    public function test_adding_a_new_gradetype_to_course()
+    {
         $gradetype = GradeType::create([
             'name' => 'writing',
             'total' => 20,
         ]);
 
         // act: add a new gradetype to the course
-        $course->grade_type()->attach($gradetype->id);
+        $this->course->grade_type()->attach($gradetype->id);
 
         // assert: the course now has this gradetype
-        $this->assertTrue($course->grade_type->contains('name', 'writing'));
+        $this->assertTrue($this->course->grade_type->contains('name', 'writing'));
     }
 
     /**

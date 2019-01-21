@@ -14,26 +14,27 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class EnrollmentTest extends TestCase
 {
-
-    use RefreshDatabase;
-
     use DatabaseMigrations;
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->seed('DatabaseSeeder');
+
+         // create an admin user and log them in to access enrollment routes
+         $admin = factory(User::class)->create();
+         $admin->assignRole('admin');
+         backpack_auth()->login($admin, true);
+    }
 
     
     /**
      * Enroll a student
      *
-     * @return void
      */
     public function test_that_a_new_enrollment_appears_in_student_list()
     {
-        $this->seed('DatabaseSeeder');
-
-        // create an admin user and log them in to access enrollment routes
-        $admin = factory(User::class)->create();
-        $admin->assignRole('admin');
-        backpack_auth()->login($admin, true);
-
         // Arrange: given a newly created user...
         $student = factory(User::class)->create();
 
@@ -49,24 +50,20 @@ class EnrollmentTest extends TestCase
         // Assert: they appear among the enrollments list for the course
         $this->assertTrue($student->enrollments->contains("course_id", $course->id));
         
-        /* todo: to test the course view endpoint we need a room, a level, a rhythm */
-        /* $response = $this->get("/course/$course->id");
-        dd($response);
+        /* failing: test the course view endpoint */
+/*         $response = $this->get("/course/$course->id");
         $response->assertSee("$student->firstname"); */
 
-        // todo also test a enrollment with children (make another test because we don't know if this feature will be kept in the future)
+    }
+
+    public function test_child_courses_enrollment()
+    {
+
     }
 
 
     public function test_pending_enrollment_checkout()
     {
-        $this->seed('DatabaseSeeder');
-        
-        // create an admin user and log them in to access protected routes
-        $admin = factory(User::class)->create();
-        $admin->assignRole('admin');
-        backpack_auth()->login($admin, true);
-
         // arrange: given a newly created enrollment
         $student = factory(User::class)->create();
         $course = factory(Course::class)->create();
