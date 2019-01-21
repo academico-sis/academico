@@ -40,7 +40,7 @@
                     <thead>
                         <tr>
                             <th></th>
-                            <th>@lang('rythms')</th>
+                            <th>@lang('rhythms')</th>
                             <th>@lang('level')</th>
                             <th>@lang('name')</th>
                             <th>@lang('volume')</th>
@@ -59,7 +59,7 @@
 
                             <td></td>
 
-                            <td>{{ $course->course_rythm_name }}</td>
+                            <td>{{ $course->course_rhythm_name }}</td>
 
                             <td>{{ $course->course_level_name }}</td>
 

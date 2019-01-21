@@ -38,11 +38,13 @@ class Attendance extends Model
         return $this->belongsTo('App\Models\User', 'user_id');
     }
 
+    /** Additional data = contact information associated to the student */
     public function additional_data()
     {
         return $this->hasMany('App\Models\UserData', 'user_id', 'user_id');
     }
 
+    /** event = one instance of the course */
     public function event()
     {
         return $this->belongsTo('App\Models\Event');
@@ -56,6 +58,7 @@ class Attendance extends Model
 
     /** METHODS */
 
+    /** Send email reminders to all teachers who have classes with incomplete attendance records */
     public function remindPendingAttendance()
     {
         $period = $period = Period::get_default_period();
@@ -72,7 +75,10 @@ class Attendance extends Model
 
     }
 
-    // get 'absent' attendance records for the period ; grouped by student
+    /**
+     * get absences count per student
+     * this is useful for monitoring the absences
+     */
     public function get_absence_count(Period $period)
     {
         return Attendance::selectRaw('
@@ -95,9 +101,13 @@ class Attendance extends Model
 
 
 
-    // return events for which the attendance records do not match the course student count
-    // todo optimize this method (reduce the number of queries and avoid the foreach loop)
-    // but filtering the collection increases the number of DB queries... (why ?)
+    /**
+     * Return events for which the attendance records do not match the course student count
+     * 
+     * todo - optimize this method (reduce the number of queries and avoid the foreach loop)
+     * but filtering the collection increases the number of DB queries... (why ?)
+     * 
+     */
     public function get_pending_attendance()
     {
 

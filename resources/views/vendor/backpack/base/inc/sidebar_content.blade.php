@@ -39,7 +39,7 @@
       <li><a href='{{ backpack_url('level') }}'><i class='fa fa-star'></i> <span>@lang('levels')</span></a></li>
       <li><a href='{{ backpack_url('room') }}'><i class='fa fa-star'></i> <span>@lang('rooms')</span></a></li>
       <li><a href='{{ backpack_url('campus') }}'><i class='fa fa-star'></i> <span>@lang('campuses')</span></a></li>
-      <li><a href='{{ backpack_url('rythm') }}'><i class='fa fa-star'></i> <span>@lang('rythms')</span></a></li>
+      <li><a href='{{ backpack_url('rhythm') }}'><i class='fa fa-star'></i> <span>@lang('rhythms')</span></a></li>
       <li><a href='{{ backpack_url('year') }}'><i class='fa fa-star'></i> <span>@lang('Years')</span></a></li>
   </ul>
 </li>

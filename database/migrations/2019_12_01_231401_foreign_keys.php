@@ -18,8 +18,8 @@ class ForeignKeys extends Migration
             ->references('id')->on('campuses')
             ->onDelete('restrict');
 
-            $table->foreign('rythm_id')
-            ->references('id')->on('rythms')
+            $table->foreign('rhythm_id')
+            ->references('id')->on('rhythms')
             ->onDelete('restrict');
             
             $table->foreign('level_id')

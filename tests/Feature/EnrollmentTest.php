@@ -49,7 +49,7 @@ class EnrollmentTest extends TestCase
         // Assert: they appear among the enrollments list for the course
         $this->assertTrue($student->enrollments->contains("course_id", $course->id));
         
-        /* todo: to test the course view endpoint we need a room, a level, a rythm */
+        /* todo: to test the course view endpoint we need a room, a level, a rhythm */
         /* $response = $this->get("/course/$course->id");
         dd($response);
         $response->assertSee("$student->firstname"); */

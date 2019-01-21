@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\CrudTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Rythm extends Model
+class Rhythm extends Model
 {
     use CrudTrait;
     use SoftDeletes;
@@ -17,7 +17,7 @@ class Rythm extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'rythms';
+    protected $table = 'rhythms';
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     // protected $guarded = ['id'];

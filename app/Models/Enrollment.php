@@ -16,7 +16,7 @@ class Enrollment extends Model
 
 
     /**
-     * return all pending enrollments without the child enrollments
+     * return all pending enrollments, without the child enrollments
      */
     public function scopePending($query)
     {
@@ -30,6 +30,8 @@ class Enrollment extends Model
 
     
     /** FUNCTIONS */
+
+    /** adds the enrollment to the user cart */
     public function addToCart()
     {
         $product = Cart::firstOrNew([

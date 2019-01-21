@@ -10,7 +10,7 @@ $factory->define(Course::class, function (Faker $faker) {
     return [
         'name' => "PHP UNIT TEST COURSE",
         'campus_id' => 1,
-        'rythm_id' => 1,
+        'rhythm_id' => 1,
         'level_id' => 1,
         'volume' => 10,
         'price' => 10,

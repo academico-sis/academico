@@ -19,4 +19,8 @@ class Campus extends Model
     protected $fillable = ['name'];
     // protected $hidden = [];
     // protected $dates = [];
+
+    /** in the current configuration, the campus with the ID of 1 represent the school itself
+     * the campus model with the ID of 2 represents all external courses
+     */
   }

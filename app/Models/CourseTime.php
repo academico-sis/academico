@@ -77,6 +77,10 @@ class CourseTime extends Model
     |--------------------------------------------------------------------------
     */
 
+    /** events = class sessions.
+     * An Event is related to the CourseTime that generated it. This is needed to update related events when updating the course schedule
+     * 
+     */
     public function events()
     {
         return $this->hasMany('App\Models\Event');

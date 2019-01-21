@@ -5,15 +5,15 @@ namespace App\Http\Controllers\Admin;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
-use App\Http\Requests\RythmRequest as StoreRequest;
-use App\Http\Requests\RythmRequest as UpdateRequest;
+use App\Http\Requests\RhythmRequest as StoreRequest;
+use App\Http\Requests\RhythmRequest as UpdateRequest;
 
 /**
- * Class RythmCrudController
+ * Class RhythmCrudController
  * @package App\Http\Controllers\Admin
  * @property-read CrudPanel $crud
  */
-class RythmCrudController extends CrudController
+class RhythmCrudController extends CrudController
 {
 
     public function __construct()
@@ -30,9 +30,9 @@ class RythmCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        $this->crud->setModel('App\Models\Rythm');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/rythm');
-        $this->crud->setEntityNameStrings('rythm', 'rythms');
+        $this->crud->setModel('App\Models\Rhythm');
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/rhythm');
+        $this->crud->setEntityNameStrings('rhythm', 'rhythms');
 
         /*
         |--------------------------------------------------------------------------
@@ -43,7 +43,7 @@ class RythmCrudController extends CrudController
         // TODO: remove setFromDb() and manually define Fields and Columns
         $this->crud->setFromDb();
 
-        // add asterisk for fields that are required in RythmRequest
+        // add asterisk for fields that are required in RhythmRequest
         $this->crud->setRequiredFields(StoreRequest::class, 'create');
         $this->crud->setRequiredFields(UpdateRequest::class, 'edit');
     }

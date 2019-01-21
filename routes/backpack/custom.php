@@ -77,7 +77,7 @@ Route::group([
     CRUD::resource('event', 'EventCrudController');
     CRUD::resource('level', 'LevelCrudController');
     CRUD::resource('room', 'RoomCrudController');
-    CRUD::resource('rythm', 'RythmCrudController');
+    CRUD::resource('rhythm', 'RhythmCrudController');
     CRUD::resource('year', 'YearCrudController');
     CRUD::resource('campus', 'CampusCrudController');
     CRUD::resource('user', 'UserCrudController');

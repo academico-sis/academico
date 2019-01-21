@@ -25,13 +25,13 @@
         </div>
     @endif
     
-    @if(isset($course->rythm) || isset($course->level))
+    @if(isset($course->rhythm) || isset($course->level))
         <div class="col-md-3">
             <div class="info-box">
                 <span class="info-box-icon bg-aqua"><i class="fa fa-building-o"></i></span>
                 <div class="info-box-content">
-                    <span class="info-box-text">@lang('Rythm/level')</span>
-                    <span class="info-box-number">{{ $course->rythm->name ?? '-' . ' ' . $course->level->name ?? '-' }}</span>
+                    <span class="info-box-text">@lang('Rhythm/level')</span>
+                    <span class="info-box-number">{{ $course->rhythm->name ?? '-' . ' ' . $course->level->name ?? '-' }}</span>
                 </div>
             </div>
         </div>

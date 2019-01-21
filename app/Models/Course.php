@@ -38,11 +38,11 @@ class Course extends Model
     |--------------------------------------------------------------------------
     */
 
+    /** filter only the courses that have no parent */
     public function scopeParent($query)
     {
         return $query->where('parent_course_id', null);
     }
-
 
     /*
     |--------------------------------------------------------------------------
@@ -50,6 +50,7 @@ class Course extends Model
     |--------------------------------------------------------------------------
     */
 
+    /** returns all courses that are open for enrollments */
     public static function get_available_courses(Period $period)
     {
         return Course::where('period_id', $period->id)
@@ -57,7 +58,7 @@ class Course extends Model
         ->with('times')
         ->with('teacher')
         ->with('room')
-        ->with('rythm')
+        ->with('rhythm')
         ->with('level')
         ->withCount('enrollments')
         ->get();
@@ -71,16 +72,19 @@ class Course extends Model
     |--------------------------------------------------------------------------
     */
 
+    /** the scheduled day/times for the course, that repeat throughout the course date span */
     public function times()
     {
         return $this->hasMany('App\Models\CourseTime', 'course_id');
     }
 
+    /** course sessions (classes) with a specific start and end date/time */
     public function events()
     {
         return $this->hasMany('App\Models\Event');
     }
 
+    /** may be null if the teacher is not yet assigned */
     public function teacher()
     {
         return $this->belongsTo('App\Models\User', 'teacher_id');
@@ -91,26 +95,31 @@ class Course extends Model
         return $this->belongsTo('App\Models\Campus');
     }
 
+    /** may be null if the room is not yet assigned */
     public function room()
     {
         return $this->belongsTo('App\Models\Room');
     }
 
-    public function rythm()
+    /** the "category" of course */
+    public function rhythm()
     {
-        return $this->belongsTo('App\Models\Rythm');
+        return $this->belongsTo('App\Models\Rhythm');
     }
 
+    /** a course can only have one level. Parent courses would generally have no level defined */
     public function level()
     {
         return $this->belongsTo('App\Models\Level');
     }
 
+    /** a course needs to belong to a period */
     public function period()
     {
         return $this->belongsTo('App\Models\Period');
     }
 
+    /** children courses = sub-courses, or course modules */
     public function children()
     {
         return $this->hasMany('App\Models\Course', 'parent_course_id');
@@ -123,16 +132,19 @@ class Course extends Model
         return $this->belongsToMany('App\Models\EvaluationType');
     }
 
+    /** a Grade model = an individual grade, belongs to a student */
     public function grades()
     {
         return $this->hasMany('App\Models\Grade')->with('student');
     }
 
+    /** the different grade types associated to the course */
     public function grade_type()
     {
         return $this->belongsToMany('App\Models\GradeType');
     }
 
+    /** in the case of skills-based evaluation, Skill models are attached to the course */
     public function skills()
     {
         return $this->belongsToMany('App\Models\Skill');
@@ -164,8 +176,8 @@ class Course extends Model
     */
 
     /**
-     * getCourseTimesAttribute
-     * todo refactor and/or this method
+     * returns the course repeating schedule
+     * todo improve this method
      */
     public function getCourseTimesAttribute()
     {
@@ -202,9 +214,9 @@ class Course extends Model
         return $this->level['name'];
     }
 
-    public function getCourseRythmNameAttribute()
+    public function getCourseRhythmNameAttribute()
     {
-        return strtoupper($this->rythm['name']);
+        return strtoupper($this->rhythm['name']);
     }
     
     public function getCourseTeacherNameAttribute()
