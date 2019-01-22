@@ -383,7 +383,6 @@ class CourseCrudController extends CrudController
      */
     public function show($course)
     {
-        Log::info("A course has been viewed");
         $course = Course::findOrFail($course);
         $students = $course->enrollments;
         return view('courses/show', compact('course', 'students'));   
