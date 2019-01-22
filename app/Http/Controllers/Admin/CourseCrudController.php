@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Course;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
+use Illuminate\Support\Facades\Log;
 use App\Http\Requests\CourseRequest as StoreRequest;
 use App\Http\Requests\CourseRequest as UpdateRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -382,6 +383,7 @@ class CourseCrudController extends CrudController
      */
     public function show($course)
     {
+        Log::info("A course has been viewed");
         $course = Course::findOrFail($course);
         $students = $course->enrollments;
         return view('courses/show', compact('course', 'students'));   
