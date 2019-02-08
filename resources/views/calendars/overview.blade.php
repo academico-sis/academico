@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function() { // page is now ready.
                 events: <?php echo json_encode($unassigned_events) ?>
             },
             {
-                events: <?php echo json_encode($leaves) ?>,
+                events: <?php echo json_encode($leaves ?? null) ?>,
                 color: 'red',
                 textColor: 'white',
             },
