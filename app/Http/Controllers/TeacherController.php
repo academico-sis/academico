@@ -21,7 +21,7 @@ class TeacherController extends Controller
     {
         $events = Event::orderBy('id', 'desc')->limit(10000)->get()->toArray();
         
-        $teachers = Teacher::all();
+        $teachers = Teacher::all()->toArray();
 
         $teachers = array_map(function($teacher) {
             return array(
