@@ -21,12 +21,12 @@ class TeacherController extends Controller
     {
         $events = Event::orderBy('id', 'desc')->limit(10000)->get()->toArray();
         
-        $teachers = Teacher::all()->toArray();
+        $teachers = Teacher::with('user')->get()->toArray();
 
         $teachers = array_map(function($teacher) {
             return array(
                 'id' => $teacher['id'],
-                'title' => $teacher['firstname'] . ' ' . $teacher['lastname'] ,
+                'title' => $teacher['user']['firstname'],
             );
         }, $teachers);
 
@@ -64,7 +64,7 @@ class TeacherController extends Controller
         $leaves = array_map(function($event) {
             return array(
                 'title' => $event->leaveType->name ?? 'vacances', // todo fix
-                'resourceId' => $event['user_id'],
+                'resourceId' => $event['teacher_id'],
                 'start' => $event['date'],
                 'allDay' => true,
                 'resourceEditable' => false,
