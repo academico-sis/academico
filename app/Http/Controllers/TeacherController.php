@@ -26,7 +26,7 @@ class TeacherController extends Controller
         $teachers = array_map(function($teacher) {
             return array(
                 'id' => $teacher['id'],
-                'title' => $teacher['name'],
+                'title' => $teacher['firstname'] . ' ' . $teacher['lastname'] ,
             );
         }, $teachers);
 
