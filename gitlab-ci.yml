@@ -20,7 +20,7 @@ stage_deploy:
     paths:
       - build/
   only:
-    - master
+    - preprod
   script:
     - ssh-add <(echo "$USER_PASS")
     - ssh -p17177 afcuenca@45.33.114.180 "mkdir beta/_tmp"
