@@ -1,0 +1,29 @@
+image: tetraweb/php
+
+cache:
+  paths:
+    - node_modules/
+
+before_script:
+  - apt-get update
+  - apt-get install zip unzip
+  - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+  - php composer-setup.php
+  - php -r "unlink('composer-setup.php');"
+  - php composer.phar install
+  - npm install
+  - npm run prod
+  - apt-get update -qq && apt-get install -y -qq sshpass
+
+stage_deploy:
+  artifacts:
+    paths:
+      - build/
+  only:
+    - master
+  script:
+    - ssh-add <(echo "$USER_PASS")
+    - ssh -p17177 afcuenca@45.33.114.180 "mkdir beta/_tmp"
+    - scp -P17177 -r build/* afcuenca@45.33.114.180:beta/_tmp
+    - ssh -p17177 afcuenca@45.33.114.180 "mv beta/live beta/_old && mv beta/_tmp beta/live"
+    - ssh -p17177 afcuenca@45.33.114.180 "rm -rf beta/_old"
