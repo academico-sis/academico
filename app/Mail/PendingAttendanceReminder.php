@@ -6,7 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use App\Models\User;
+use App\Models\Teacher;
 
 class PendingAttendanceReminder extends Mailable implements ShouldQueue
 {
@@ -20,7 +20,7 @@ class PendingAttendanceReminder extends Mailable implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(User $teacher, $events)
+    public function __construct(Teacher $teacher, $events)
     {
         $this->teacher = $teacher;
         $this->events = $events;
