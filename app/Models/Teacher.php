@@ -16,6 +16,7 @@ class Teacher extends Model
   
     public $timestamps = true;
     protected $guarded = ['id'];
+    protected $with = ['user'];
     
     /** relations */
     public function user()
