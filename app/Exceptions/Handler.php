@@ -35,7 +35,7 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
-        if (app()->bound('sentry') && $this->shouldReport($exception)) {
+        if (app()->bound('sentry')) {
             app('sentry')->captureException($exception);
         }
 
@@ -53,7 +53,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if (app()->bound('sentry') && $this->shouldReport($exception)) {
+        if (app()->bound('sentry')) {
             app('sentry')->captureException($exception);
         }
 
