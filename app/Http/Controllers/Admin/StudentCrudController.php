@@ -26,7 +26,7 @@ class StudentCrudController extends CrudController
         */
         $this->crud->setModel('App\Models\Student');
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/student');
-        $this->crud->setEntityNameStrings('student', 'students');
+        $this->crud->setEntityNameStrings(__('student'), __('students'));
         //$this->crud->removeAllButtons();
 
         $this->crud->removeButton('delete');
@@ -58,20 +58,15 @@ class StudentCrudController extends CrudController
                 'name' => 'idnumber'
             ],
             [
-                'label' => __('First Name'),
-                'type' => "select",
-                'name' => 'user_id',
-                'entity' => 'user',
-                'attribute' => "firstname",
-                'model' => "App\Models\User",
-            ],
-            [
-                'label' => __('Last Name'),
-                'type' => "select",
-                'name' => 'user_id',
-                'entity' => 'user',
-                'attribute' => "lastname",
-                'model' => "App\Models\User",
+                'label' => __('Name'),
+                'type' => "text",
+                'name' => 'name',
+                'searchLogic' => function ($query, $column, $searchTerm) {
+                    $query->orWhereHas('user', function ($q) use ($column, $searchTerm) {
+                        $q->where('firstname', 'like', '%'.$searchTerm.'%')
+                          ->orWhere('lastname', 'like', '%'.$searchTerm.'%');
+                    });
+                }
             ],
             [
                 'name'  => 'email',

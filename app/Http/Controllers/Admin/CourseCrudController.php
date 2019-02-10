@@ -32,7 +32,7 @@ class CourseCrudController extends CrudController
         */
         $this->crud->setModel('App\Models\Course');
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/course');
-        $this->crud->setEntityNameStrings('course', 'courses');
+        $this->crud->setEntityNameStrings(__('course'), __('courses'));
 
         $permissions = backpack_user()->getAllPermissions();
         if(!$permissions->contains('name', 'courses.delete')) { $this->crud->denyAccess('delete'); }
