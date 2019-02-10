@@ -14,6 +14,7 @@ use Backpack\CRUD\CrudTrait;
 use App\Models\EnrollmentStatusType;
 use App\Models\Skills\SkillEvaluation;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Enrollment extends Model
@@ -32,9 +33,19 @@ class Enrollment extends Model
         return $query
             ->where('status_id', 1)
             ->where('parent_id', null)
-            ->with('student')
-            ->with('course')
             ->get();
+    }
+
+    public function scopeNoresult($query)
+    {
+        return $query->doesntHave('result');
+    }
+
+
+    public function scopePeriod(Builder $query, $period) {
+        return $query->whereHas('course', function ($q) use ($period) {
+            $q->where('period_id', $period);
+        });
     }
 
     
@@ -81,6 +92,7 @@ class Enrollment extends Model
             ->with('result_name')
             ->with('comments');
     }
+
 
     public function enrollmentStatus()
     {

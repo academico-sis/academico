@@ -93,7 +93,7 @@
                     })
                     .then(response => {
                         this.course_result = response.data;
-                        this.comments = [];
+                        this.comments = []; // todo get existing comments if any
                     })
                     .catch(e => {
                         this.errors.push(e)

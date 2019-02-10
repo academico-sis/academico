@@ -24,6 +24,10 @@ class Result extends Model
         return $this->belongsTo(ResultType::class, 'result_type_id');
     }
 
+    public function getResultTypeAttribute()
+    {
+        return $this->result_name->name;
+    }
     /**
      * A Result is linked to an Enrollment
      * 

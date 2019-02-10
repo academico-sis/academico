@@ -1971,7 +1971,7 @@ __webpack_require__.r(__webpack_exports__);
         enrollment: this.enrollment.id
       }).then(function (response) {
         _this2.course_result = response.data;
-        _this2.comments = [];
+        _this2.comments = []; // todo get existing comments if any
       }).catch(function (e) {
         _this2.errors.push(e);
       });

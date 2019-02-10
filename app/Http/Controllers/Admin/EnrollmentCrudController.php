@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Enrollment;
+use App\Models\Period;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
+use App\Models\Enrollment;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use App\Http\Requests\EnrollmentRequest as StoreRequest;
 use App\Http\Requests\EnrollmentRequest as UpdateRequest;
@@ -79,6 +80,15 @@ class EnrollmentCrudController extends CrudController
             'label' => 'Period',
             'type' => 'text'
             ],
+
+            [
+                // RESULT
+                'label' => "Result", // Table column heading
+                'type' => "select",
+                'entity' => 'result', // the method that defines the relationship in your Model
+                'attribute' => "result_type", // foreign key attribute that is shown to user
+                'model' => "App\Models\Result", // foreign key model
+                ],
         ]);
         
 
@@ -96,6 +106,27 @@ class EnrollmentCrudController extends CrudController
           false,
           function() {
               $this->crud->addClause('pending'); 
+          });
+
+
+          $this->crud->addFilter([
+            'type' => 'simple',
+            'name' => 'noresult',
+            'label'=> 'No Result'
+          ],
+          false,
+          function() {
+              $this->crud->addClause('noResult'); 
+          });
+
+        $this->crud->addFilter([
+            'name' => 'period_id',
+            'type' => 'select2',
+            'label'=> 'Period'
+          ], function() {
+              return Period::all()->pluck('name', 'id')->toArray();
+          }, function($value) { // if the filter is active
+            $this->crud->addClause('period', $value); 
           });
 
 
