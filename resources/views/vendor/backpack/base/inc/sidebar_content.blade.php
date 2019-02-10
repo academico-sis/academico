@@ -1,15 +1,15 @@
 <!-- This file is used to store sidebar items, starting with Backpack\Base 0.9.0 -->
 
-@if(backpack_user()->hasRole('admin'))
+@if(backpack_user()->hasRole(['admin', 'secretary']))
   <li class="header">@lang('COURSES')</li>
 
   <li><a href="{{ url('/') }}"><i class="fa fa-book"></i> <span>{{ trans('backpack::base.dashboard') }}</span></a></li>
-  <li><a href="{{ backpack_url('course') }}"><i class="fa fa-book"></i> <span>@lang('courses')</span></a></li>
-  <li><a href="{{ backpack_url('student') }}"><i class="fa fa-user"></i> <span>@lang('students')</span></a></li>
-  <li><a href="{{ backpack_url('/enrollment?pending=true') }}"><i class="fa fa-credit-card"></i> <span>@lang('pending')</span></a></li>
-  <li><a href="{{ backpack_url('preinvoice') }}"><i class="fa fa-dollar"></i> <span>@lang('invoices')</span></a></li>
-  <li><a href="{{ backpack_url('comment') }}"><i class="fa fa-pencil"></i> <span>@lang('comments')</span></a></li>
-  <li><a href="{{ backpack_url('attendance') }}"><i class="fa fa-calendar"></i> <span>@lang('attendance')</span></a></li>
+  <li><a href="{{ backpack_url('course') }}"><i class="fa fa-book"></i> <span>@lang('Courses')</span></a></li>
+  <li><a href="{{ backpack_url('student') }}"><i class="fa fa-user"></i> <span>@lang('Students')</span></a></li>
+  <li><a href="{{ backpack_url('/enrollment?pending=true') }}"><i class="fa fa-credit-card"></i> <span>@lang('Pending')</span></a></li>
+  <li><a href="{{ backpack_url('preinvoice') }}"><i class="fa fa-dollar"></i> <span>@lang('Invoices')</span></a></li>
+  <li><a href="{{ backpack_url('comment') }}"><i class="fa fa-pencil"></i> <span>@lang('Comments')</span></a></li>
+  <li><a href="{{ backpack_url('attendance') }}"><i class="fa fa-calendar"></i> <span>@lang('Attendance')</span></a></li>
 
 @endif
 

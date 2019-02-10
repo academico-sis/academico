@@ -99,24 +99,9 @@ class StudentCrudController extends CrudController
                 'type'  => 'email',
             ],
             [
-                'name'  => 'password',
-                'label' => trans('backpack::permissionmanager.password'),
-                'type'  => 'password',
-            ],
-            [
-                'name'  => 'password_confirmation',
-                'label' => trans('backpack::permissionmanager.password_confirmation'),
-                'type'  => 'password',
-            ],
-            [
                 'name'  => 'birthdate',
                 'label' => trans('birthdate'),
                 'type'  => 'date',
-            ],
-            [
-                'name'  => 'language',
-                'label' => trans('language'),
-                'type'  => 'text',
             ],
 
         ]);

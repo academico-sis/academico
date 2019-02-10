@@ -29,7 +29,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if(backpack_user()->hasRole('admin'))
+        if(backpack_user()->hasRole(['admin', 'secretary']))
         {
             return redirect()->route('admin');
         }
@@ -76,6 +76,11 @@ class HomeController extends Controller
     {
         $period = Period::get_default_period();
 
+        if(!backpack_user()->hasRole(['admin', 'secretary']))
+        {
+            abort(403);
+        }
+        
         return view('admin.dashboard', [
             'pending_enrollment_count' => $period->pending_enrollments_count,
             'paid_enrollment_count' => $period->paid_enrollments_count,

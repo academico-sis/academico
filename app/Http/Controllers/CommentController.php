@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Result;
 
 use App\Models\Comment;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use App\Http\Requests\CommentRequest as StoreRequest;
 
@@ -21,9 +22,8 @@ class CommentController extends Controller
     {
         Comment::create([
             'commentable_id' => $request->input('student_id'),
-            'commentable_type' => User::class,
+            'commentable_type' => Student::class,
             'body' => $request->input('comment'),
-            'private' => $request->input('private') ?? 0,
             'author_id' => \backpack_user()->id,
         ]);
     }

@@ -300,6 +300,7 @@ class DatabaseSeeder extends Seeder
         $role->givePermissionTo('calendars.view');
         $role->givePermissionTo('evaluation.view');
         $role->givePermissionTo('attendance.view');
+        $role->givePermissionTo('attendance.edit');
         $role->givePermissionTo('enrollments.view');
         $role->givePermissionTo('enrollments.create');
         $role->givePermissionTo('courses.view');

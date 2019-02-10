@@ -27,16 +27,6 @@ Route::group(
 
 
 
-// ADMIN ROUTES
-Route::group(
-    ['middleware' => ['web', 'language', 'role:admin']],
-    function () {
-        
-    // dashboard and home routes
-    Route::get('/admin', 'HomeController@admin')->name('admin');
-
-});
-
 // EVALUATION RELATED ROUTES
 Route::group(
     ['middleware' => ['web', 'permission:evaluation.edit', 'language']],
