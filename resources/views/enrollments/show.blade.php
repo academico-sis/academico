@@ -92,7 +92,7 @@
         <div class="box">
             <div class="box-header with-border">
                 <div class="box-title">
-                    @lang('comments')
+                    @lang('Comments')
                 </div>
                 <div class="box-tools pull-right">
                     {{-- <button class="btn btn-primary"><i class="fa fa-plus"></i></button>  todo allow adding comments --}}
@@ -119,38 +119,44 @@
         <div class="box">
             <div class="box-header with-border">
                 <div class="box-title">
-                    @lang('status')
+                    @lang('Status')
                 </div>
                 <div class="box-tools pull-right">
                 </div>
             </div>
             
             <div class="box-body">
-                @if($enrollment->enrollment_status['id'] == 2)
+                @if($enrollment->status_id == 2)
                 
                     <div class="label label-primary">
-                        {{ $enrollment->enrollment_status['name'] }}
-                    </div>
+                            {{ $enrollment->enrollmentStatus->name }}
+                        </div>
                     
                     @lang('Invoice(s)')
-                    <ul>
                         @foreach ($enrollment->pre_invoice as $pre_invoice)
-                        <li>
-                            <a href="/invoice/{{ $pre_invoice->id }}">@lang('Invoice Number'): {{ $pre_invoice->invoice_number ?? "inconnu" }}</a>
-                    </li>
+                            <a href="/preinvoice/{{ $pre_invoice->id }}">{{ $pre_invoice->invoice_number ?? "inconnu" }}</a> 
                         @endforeach
-                    </ul>
-                @elseif($enrollment->enrollment_status['id'] == 1)
-                <p>@lang('This enrollment has not yet been canceled')</p>
+
+                @elseif($enrollment->status_id == 1)
+
+                <div class="label label-warning">
+                        {{ $enrollment->enrollmentStatus->name }}
+                    </div>
                 
+                    <div>
                 <a href="/enrollments/{{ $enrollment->id }}/bill" class="btn btn-primary">
                     @lang('Checkout')
                 </a>
-                
-                <button class="btn btn-danger">
+            </div>
+               {{--  <form method="POST" action="/enrollment/{{$enrollment->id}}">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-danger">
                     @lang('Delete Enrollment')
                 </button>
-
+                </form> todo allow to delete enrollment --}}
+@else
+{{ $enrollment->enrollmentStatus->name }}
             @endif
             </div>
         </div>

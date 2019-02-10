@@ -28,6 +28,15 @@ class Enrollment extends Model
     /**
      * return all pending enrollments, without the child enrollments
      */
+
+    public function scopeParent($query)
+    {
+        return $query
+            ->where('parent_id', null)
+            ->get();
+    }
+
+    /** only pending enrollments */
     public function scopePending($query)
     {
         return $query

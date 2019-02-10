@@ -12,7 +12,7 @@
 @section('content')
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-4">
         <div class="box">
             <div class="box-header with-border">
                 <div class="box-title">
@@ -36,16 +36,16 @@
         </div>
     </div>
 
-    <div class="col-md-6">
+    <div class="col-md-4">
             <div class="box">
                 <div class="box-header with-border">
                     <div class="box-title">
                         @lang('Invoice Number')
                     </div>
                     <div class="box-tools pull-right">
-                        <button class="btn btn-warning" data-toggle="modal" data-target="#editInvoiceNumberModal">
+{{--                         <button class="btn btn-warning" data-toggle="modal" data-target="#editInvoiceNumberModal">
                             <i class="fa fa-pencil"></i>
-                        </button>
+                        </button> --}}
                     </div>
                     
                 </div>
@@ -55,6 +55,33 @@
                 </div>
             </div>
         </div>
+
+@if($preInvoice->comments->count() > 0)
+        <div class="col-md-4">
+                <div class="box">
+                    <div class="box-header with-border">
+                        <div class="box-title">
+                            @lang('Comment')
+                        </div>
+                        <div class="box-tools pull-right">
+    {{--                         <button class="btn btn-warning" data-toggle="modal" data-target="#editInvoiceNumberModal">
+                                <i class="fa fa-pencil"></i>
+                            </button> todo allow comments--}}
+                        </div>
+                        
+                    </div>
+                    
+                    <div class="box-body">           
+                            <ul>
+                                    @foreach ($preInvoice->comments as $comment)
+                                        <li>{{ $comment->body }} ({{ $comment->date }})</li>
+                                    @endforeach
+                                </ul>
+                    </div>
+                </div>
+            </div>
+
+            @endif
 </div>
 
 <div class="row">
@@ -63,7 +90,7 @@
     <div class="box">
         <div class="box-header with-border">
             <div class="box-title">
-                @lang('products')
+                @lang('Products')
             </div>
             <div class="box-tools pull-right">
             </div>
