@@ -20,7 +20,7 @@
 
     <div class="row">
 
-        @if(isset($pending_attendance) && backpack_user()->can('attendance.edit'))
+        @if(isset($pending_attendance) && backpack_user()->hasRole('admin'))
         <div class="col-md-4">
                 <div class="box">
                     <div class="box-header with-border">
