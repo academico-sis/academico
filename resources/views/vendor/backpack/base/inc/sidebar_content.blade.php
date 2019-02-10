@@ -26,7 +26,7 @@
 
 @if(backpack_user()->hasRole(['admin']))
   
-  <li><a href="{{ backpack_url('leave') }}"><i class="fa fa-calendar"></i> <span>@lang('leave')</span></a></li>
+  <li><a href="{{ backpack_url('leave') }}"><i class="fa fa-calendar"></i> <span>@lang('Leave')</span></a></li>
   <li><a href="{{ backpack_url('remoteevent') }}"><i class="fa fa-calendar"></i> <span>@lang('Remote Events')</span></a></li>
   <li><a href="{{ backpack_url('event') }}"><i class="fa fa-calendar"></i> <span>@lang('Events')</span></a></li>
 
@@ -37,7 +37,7 @@
   <li class="header">@lang('SETTINGS')</li>
 
   <li class="treeview">
-    <a href="#"><i class="fa fa-link"></i> <span>@lang('settings')</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
+    <a href="#"><i class="fa fa-link"></i> <span>@lang('Settings')</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
     <ul class="treeview-menu">
         <li><a href='{{ backpack_url('period') }}'><i class='fa fa-calendar'></i> <span>@lang('periods')</span></a></li>
         <li><a href='{{ backpack_url('level') }}'><i class='fa fa-star'></i> <span>@lang('levels')</span></a></li>
@@ -50,12 +50,12 @@
 
   <!-- Users, Roles Permissions -->
   <li class="treeview">
-      <a href="#"><i class="fa fa-group"></i> <span>@lang('users')</span> <i class="fa fa-angle-left pull-right"></i></a>
+      <a href="#"><i class="fa fa-group"></i> <span>@lang('Users')</span> <i class="fa fa-angle-left pull-right"></i></a>
       <ul class="treeview-menu">
-        <li><a href="{{ backpack_url('user') }}"><i class="fa fa-user"></i> <span>@lang('users')</span></a></li>
-        <li><a href="{{ backpack_url('teacher') }}"><i class="fa fa-user"></i> <span>@lang('teachers')</span></a></li>
-        <li><a href="{{ backpack_url('role') }}"><i class="fa fa-group"></i> <span>@lang('roles')</span></a></li>
-        <li><a href="{{ backpack_url('permission') }}"><i class="fa fa-key"></i> <span>@lang('permissions')</span></a></li>
+        <li><a href="{{ backpack_url('user') }}"><i class="fa fa-user"></i> <span>@lang('Users')</span></a></li>
+        <li><a href="{{ backpack_url('teacher') }}"><i class="fa fa-user"></i> <span>@lang('Teachers')</span></a></li>
+        <li><a href="{{ backpack_url('role') }}"><i class="fa fa-group"></i> <span>@lang('Roles')</span></a></li>
+        <li><a href="{{ backpack_url('permission') }}"><i class="fa fa-key"></i> <span>@lang('Permissions')</span></a></li>
       </ul>
     </li>
 
