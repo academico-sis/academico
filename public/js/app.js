@@ -1939,54 +1939,41 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['student', 'course', 'results', 'course_result', 'comments'],
+  props: ['student', 'enrollment', 'results', 'result', 'stored_comments'],
   data: function data() {
     return {
-      skills: this.saved_skills,
-      result: null,
-      comment: null
+      newcomment: null,
+      course_result: this.result,
+      comments: this.stored_comments
     };
   },
   mounted: function mounted() {},
   methods: {
-    saveResult: function saveResult() {
+    saveComment: function saveComment() {
       var _this = this;
 
-      axios.post('/result/', {
-        result: this.result,
-        student: this.student.id,
-        enrollment: this.course_result.enrollment_id,
-        comment: this.comment
+      axios.post('/resultcomment/', {
+        enrollment: this.enrollment.id,
+        comment: this.newcomment
       }).then(function (response) {
-        document.location.reload(true); // TODO improve this: do not reload the whole page
+        _this.comments.push(response.data);
       }).catch(function (e) {
         _this.errors.push(e);
+      });
+    },
+    saveResult: function saveResult(result) {
+      var _this2 = this;
+
+      axios.post('/result/', {
+        result: result.id,
+        student: this.student.id,
+        enrollment: this.enrollment.id
+      }).then(function (response) {
+        _this2.course_result = response.data;
+        _this2.comments = [];
+      }).catch(function (e) {
+        _this2.errors.push(e);
       });
     }
   }
@@ -2449,6 +2436,19 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3183,170 +3183,116 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("h2", [_vm._v("Course result")]),
-    _vm._v(" "),
-    _c("label", [_vm._v(_vm._s(_vm.course_result.result_name.name))]),
-    _vm._v(" "),
-    _c(
-      "button",
-      {
-        attrs: { "data-toggle": "modal", "data-target": "#ResultModal" },
-        on: {
-          click: function($event) {
-            _vm.editResult()
-          }
-        }
-      },
-      [_vm._v("\n        Edit\n    ")]
-    ),
-    _vm._v(" "),
-    _c("h2", [_vm._v("Comments")]),
-    _vm._v(" "),
-    _c(
-      "ul",
-      _vm._l(_vm.comments, function(comment) {
-        return _c("li", { key: comment.id }, [_vm._v(_vm._s(comment.body))])
-      }),
-      0
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        staticClass: "modal fade",
-        attrs: {
-          id: "ResultModal",
-          tabindex: "-1",
-          role: "dialog",
-          "aria-labelledby": "myModalLabel"
-        }
-      },
-      [
+  return _c("div", { staticClass: "col-md-12" }, [
+    _c("div", { staticClass: "box" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "box-body" }, [
         _c(
           "div",
-          { staticClass: "modal-dialog", attrs: { role: "document" } },
-          [
-            _c("div", { staticClass: "modal-content" }, [
-              _vm._m(0),
-              _vm._v(" "),
-              _c("div", { staticClass: "modal-body" }, [
-                _vm._m(1),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group" }, [
-                  _c(
-                    "select",
-                    {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.result,
-                          expression: "result"
-                        }
-                      ],
-                      attrs: { id: "result", name: "result", required: "" },
-                      on: {
-                        change: function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.result = $event.target.multiple
-                            ? $$selectedVal
-                            : $$selectedVal[0]
-                        }
-                      }
-                    },
-                    [
-                      _c("option", { attrs: { value: "" } }, [
-                        _vm._v("Choisir une décision")
-                      ]),
-                      _vm._v(" "),
-                      _vm._l(_vm.results, function(result_option) {
-                        return _c(
-                          "option",
-                          {
-                            key: result_option.id,
-                            domProps: { value: result_option.id }
-                          },
-                          [
-                            _vm._v(
-                              "\n                  " +
-                                _vm._s(result_option.name) +
-                                "\n                  "
-                            )
-                          ]
-                        )
-                      })
-                    ],
-                    2
-                  )
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group" }, [
-                  _c("textarea", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.comment,
-                        expression: "comment"
-                      }
-                    ],
-                    attrs: {
-                      id: "comment",
-                      name: "comment",
-                      cols: "50",
-                      lines: "5",
-                      required: ""
-                    },
-                    domProps: { value: _vm.comment },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.comment = $event.target.value
-                      }
-                    }
-                  })
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "modal-footer" }, [
+          {
+            staticClass: "btn-group btn-group-justified",
+            attrs: { role: "group", "aria-label": "" }
+          },
+          _vm._l(_vm.results, function(result) {
+            return _c(
+              "div",
+              {
+                key: result.id,
+                staticClass: "btn-group",
+                attrs: { role: "group" }
+              },
+              [
                 _c(
                   "button",
                   {
-                    staticClass: "btn btn-success",
-                    attrs: { type: "button" },
+                    staticClass: "btn btn-secondary",
+                    class: {
+                      "btn-success":
+                        _vm.course_result &&
+                        _vm.course_result.result_type_id == result.id &&
+                        result.id == 1,
+                      "btn-danger":
+                        _vm.course_result &&
+                        _vm.course_result.result_type_id == result.id &&
+                        result.id == 2,
+                      "btn-info":
+                        _vm.course_result &&
+                        _vm.course_result.result_type_id == result.id &&
+                        result.id == 3
+                    },
                     on: {
                       click: function($event) {
-                        _vm.saveResult()
+                        _vm.saveResult(result)
                       }
                     }
                   },
-                  [_vm._v("Enregistrer")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-default",
-                    attrs: { type: "button", "data-dismiss": "modal" }
-                  },
-                  [_vm._v("Fermer")]
+                  [
+                    _vm._v(
+                      "\n                      " +
+                        _vm._s(result.name.fr) +
+                        "\n                  "
+                    )
+                  ]
                 )
-              ])
+              ]
+            )
+          }),
+          0
+        ),
+        _vm._v(" "),
+        this.course_result
+          ? _c("div", [
+              _c("h4", [_vm._v("Commentaires")]),
+              _vm._v(" "),
+              _c(
+                "ul",
+                _vm._l(this.comments, function(comment) {
+                  return _c("li", { key: comment.id }, [
+                    _vm._v(_vm._s(comment.body))
+                  ])
+                }),
+                0
+              ),
+              _vm._v(" "),
+              _c("textarea", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.newcomment,
+                    expression: "newcomment"
+                  }
+                ],
+                staticStyle: { width: "100%" },
+                attrs: { name: "comment", id: "comment", rows: "4" },
+                domProps: { value: _vm.newcomment },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.newcomment = $event.target.value
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  attrs: { type: "button" },
+                  on: {
+                    click: function($event) {
+                      _vm.saveComment(_vm.newcomment)
+                    }
+                  }
+                },
+                [_vm._v("Enregistrer")]
+              )
             ])
-          ]
-        )
-      ]
-    )
+          : _vm._e()
+      ])
+    ])
   ])
 }
 var staticRenderFns = [
@@ -3354,33 +3300,12 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-header" }, [
-      _c(
-        "button",
-        {
-          staticClass: "close",
-          attrs: {
-            type: "button",
-            "data-dismiss": "modal",
-            "aria-label": "Close"
-          }
-        },
-        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-      ),
+    return _c("div", { staticClass: "box-header with-border" }, [
+      _c("div", { staticClass: "box-title" }, [
+        _vm._v("\n                  Résultat final ")
+      ]),
       _vm._v(" "),
-      _c("h4", { staticClass: "modal-title", attrs: { id: "myModalLabel" } }, [
-        _vm._v("Résultat pour le cours "),
-        _c("span", { attrs: { id: "course_name" } })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("h3", [
-      _vm._v("Apprenant(e) : "),
-      _c("span", { attrs: { id: "student" } })
+      _c("div", { staticClass: "box-tools pull-right" })
     ])
   }
 ]
@@ -4038,82 +3963,100 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c(
-      "table",
-      { staticClass: "table table-striped", attrs: { id: "skillsTable" } },
-      [
-        _vm._m(0),
-        _vm._v(" "),
+  return _c("div", { staticClass: "col-md-12" }, [
+    _c("div", { staticClass: "box" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "box-body" }, [
         _c(
-          "tbody",
-          _vm._l(_vm.skills, function(skill) {
-            return _c("tr", { key: skill.id }, [
-              _c("td", { staticStyle: { width: "50%" } }, [
-                _vm._v(_vm._s(skill.name))
-              ]),
-              _vm._v(" "),
-              _c("td", [
-                _c(
-                  "div",
-                  {
-                    staticClass: "btn-group btn-group-justified",
-                    attrs: { role: "group", "aria-label": "" }
-                  },
-                  _vm._l(_vm.skillScales, function(skillScale) {
-                    return _c(
+          "table",
+          { staticClass: "table table-striped", attrs: { id: "skillsTable" } },
+          [
+            _vm._m(1),
+            _vm._v(" "),
+            _c(
+              "tbody",
+              _vm._l(_vm.skills, function(skill) {
+                return _c("tr", { key: skill.id }, [
+                  _c("td", { staticStyle: { width: "50%" } }, [
+                    _vm._v(_vm._s(skill.name))
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c(
                       "div",
                       {
-                        key: skillScale.id,
-                        staticClass: "btn-group",
-                        attrs: { role: "group" }
+                        staticClass: "btn-group btn-group-justified",
+                        attrs: { role: "group", "aria-label": "" }
                       },
-                      [
-                        _c(
-                          "button",
+                      _vm._l(_vm.skillScales, function(skillScale) {
+                        return _c(
+                          "div",
                           {
-                            staticClass: "btn btn-secondary",
-                            class: {
-                              "btn-success":
-                                skillScale.value > 0.75 &&
-                                skill.status == skillScale.id,
-                              "btn-warning":
-                                0.4 <= skillScale.value &&
-                                0.75 >= skillScale.value &&
-                                skill.status == skillScale.id,
-                              "btn-danger":
-                                skillScale.value < 0.5 &&
-                                skill.status == skillScale.id
-                            },
-                            on: {
-                              click: function($event) {
-                                _vm.saveSkillStatus(skill, skillScale.id)
-                              }
-                            }
+                            key: skillScale.id,
+                            staticClass: "btn-group",
+                            attrs: { role: "group" }
                           },
                           [
-                            _vm._v(
-                              "\n                        " +
-                                _vm._s(skillScale.name.fr) +
-                                "\n                    "
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-secondary",
+                                class: {
+                                  "btn-success":
+                                    skillScale.value > 0.75 &&
+                                    skill.status == skillScale.id,
+                                  "btn-warning":
+                                    0.4 <= skillScale.value &&
+                                    0.75 >= skillScale.value &&
+                                    skill.status == skillScale.id,
+                                  "btn-danger":
+                                    skillScale.value < 0.5 &&
+                                    skill.status == skillScale.id
+                                },
+                                on: {
+                                  click: function($event) {
+                                    _vm.saveSkillStatus(skill, skillScale.id)
+                                  }
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(skillScale.name.fr) +
+                                    "\n                            "
+                                )
+                              ]
                             )
                           ]
                         )
-                      ]
+                      }),
+                      0
                     )
-                  }),
-                  0
-                )
-              ])
-            ])
-          }),
-          0
+                  ])
+                ])
+              }),
+              0
+            )
+          ]
         )
-      ]
-    )
+      ])
+    ])
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "box-header with-border" }, [
+      _c("div", { staticClass: "box-title" }, [
+        _vm._v("\n                Compétences ")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "box-tools pull-right" })
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

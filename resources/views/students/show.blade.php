@@ -118,7 +118,7 @@
                                         </td>
                                         <td>
                                             {{ $enrollment->result['result_name']['name'] }}
-                                            <a href="/result/{{ $enrollment->id }}" class="btn btn-xs btn-info">
+                                            <a href="/result/{{ $enrollment->result['id'] }}" class="btn btn-xs btn-info">
                                                 <i class="fa fa-eye"></i>
                                             </a>
                                         </td>
