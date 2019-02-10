@@ -20,11 +20,15 @@
 
 @if(backpack_user()->hasRole(['admin', 'manager']))
   <li class="header">@lang('HR')</li>
+  <li><a href="{{ route('hrDashboard') }}"><i class="fa fa-calendar"></i> <span>@lang('HR')</span></a></li>
 
+@endif
+
+@if(backpack_user()->hasRole(['admin']))
+  
   <li><a href="{{ backpack_url('leave') }}"><i class="fa fa-calendar"></i> <span>@lang('leave')</span></a></li>
   <li><a href="{{ backpack_url('remoteevent') }}"><i class="fa fa-calendar"></i> <span>@lang('Remote Events')</span></a></li>
   <li><a href="{{ backpack_url('event') }}"><i class="fa fa-calendar"></i> <span>@lang('Events')</span></a></li>
-  <li><a href="{{ route('hrDashboard') }}"><i class="fa fa-calendar"></i> <span>@lang('HR')</span></a></li>
 
 @endif
 
