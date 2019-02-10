@@ -103,6 +103,8 @@ class CommentCrudController extends CrudController
             'App\Models\User' => 'Students',
             'App\Models\Enrollment' => 'Enrollments',
             'App\Models\PreInvoice' => 'PreInvoice',
+            'App\Models\Result' => 'Result',
+
           ], function($value) { // if the filter is active
               $this->crud->addClause('where', 'commentable_type', '=', $value);
           },

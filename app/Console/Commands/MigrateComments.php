@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use Carbon\Carbon;
+use App\Models\Enrollment;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
@@ -38,9 +40,10 @@ class MigrateComments extends Command
      */
     public function handle()
     {
-        // pedagogical comments
-        $comments = DB::table('afc2.comments')
-        ->select(DB::raw('id_user, id_user_responsable, fecha, comentario, if(scope = 1, false, true) as private'))
+        // private comments -> transform to adm
+/*          $comments = DB::table('afc2.comments')
+        ->select(DB::raw('id_user, id_user_responsable, fecha, comentario'))
+        ->where('scope', 3)
         ->get();
 
         foreach ($comments as $comment)
@@ -49,12 +52,100 @@ class MigrateComments extends Command
             $new_comment->commentable_id = $comment->id_user;
             $new_comment->commentable_type = 'App\Models\Student';
             $new_comment->body = $comment->comentario;
-            $new_comment->private = $comment->private;
             $new_comment->author_id = $comment->id_user_responsable;
             $new_comment->created_at = $comment->fecha;
             $new_comment->updated_at = null;
             $new_comment->save();
         }
+ */
+        // general comments (transform to result comments)
+        $comments = DB::table('afc2.comments')
+        ->select(DB::raw('id, id_user, id_user_responsable, fecha, comentario'))
+        ->where('scope', '!=', 3)
+        ->where('id_user_responsable', '!=', 3)
+        ->get();
+
+        foreach ($comments as $comment)
+        {
+            $enrollments_1 = Enrollment::where('student_id', $comment->id_user)->with('course')->get();
+            
+            // first look for the courses with this teacher
+            $enrollments_2 = $enrollments_1->where('course.teacher_id', $comment->id_user_responsable);
+
+            // if there is only one course with this teacher, associate the comment to this course
+            if ($enrollments_2->count() == 1 && isset($enrollments_1->first()->result))
+            {
+                $new_comment = new \App\Models\Comment;
+                $new_comment->commentable_id = $enrollments_1->first()->result->id;
+                $new_comment->commentable_type = 'App\Models\Result';
+                $new_comment->body = $comment->comentario;
+                $new_comment->author_id = $comment->id_user_responsable;
+                $new_comment->created_at = $comment->fecha;
+                $new_comment->save();
+
+                DB::table('afc2.comments')->where('id', $comment->id)->delete();
+                continue;
+            }
+
+            // otherwise loop through all courses and filter according to dates
+            foreach($enrollments_2 as $course) {
+                // filter out all courses that started after the comment
+                if((Carbon::parse($course->course->start_date) < Carbon::parse($comment->fecha) && Carbon::parse($course->course->end_date)->modify('+60 days') > Carbon::parse($comment->fecha)) && isset($course->result))
+                {
+                    // if dates match, register comment
+                    $new_comment = new \App\Models\Comment;
+                    $new_comment->commentable_id = $course->result->id;
+                    $new_comment->commentable_type = 'App\Models\Result';
+                    $new_comment->body = $comment->comentario;
+                    $new_comment->author_id = $comment->id_user_responsable;
+                    $new_comment->created_at = $comment->fecha;
+                    $new_comment->save();
+                    DB::table('afc2.comments')->where('id', $comment->id)->delete();
+                    break;
+                }
+            
+            }
+        }
+        
+        
+
+         $comments = DB::table('afc2.comments')
+        ->select(DB::raw('id, id_user, id_user_responsable, fecha, comentario'))
+        ->where('scope', '!=', 3)
+        ->where('id_user_responsable', 3)
+        ->get();
+
+        foreach ($comments as $comment)
+        {
+           
+            $enrollments_1 = Enrollment::where('student_id', $comment->id_user)->with('course')->get();
+           
+
+            // otherwise loop through all courses and filter according to dates
+            foreach($enrollments_1 as $course) {
+                
+                if((Carbon::parse($course->course->start_date) < Carbon::parse($comment->fecha) && Carbon::parse($course->course->end_date)->modify('+20 days') > Carbon::parse($comment->fecha)) && isset($course->result))
+                {
+                    // if dates match, register comment
+                    $new_comment = new \App\Models\Comment;
+                    $new_comment->commentable_id = $course->result->id;
+                    $new_comment->commentable_type = 'App\Models\Result';
+                    $new_comment->body = $comment->comentario;
+                    $new_comment->author_id = $comment->id_user_responsable;
+                    $new_comment->created_at = $comment->fecha;
+                    $new_comment->save();
+                    DB::table('afc2.comments')->where('id', $comment->id)->delete();
+
+                    break;
+
+                }
+            
+            }
+        }
+
+
+
+/* 
 
         // administrative comments
 
@@ -137,7 +228,7 @@ class MigrateComments extends Command
             //$new_comment->created_at = $comment->fecha;
             //$new_comment->updated_at = null;
             $new_comment->save();
-        }
+        } */
 
 
     }
