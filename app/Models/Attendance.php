@@ -29,7 +29,7 @@ class Attendance extends Model
             {
                 // will check the record again and send a notification if it hasn't changed
                 WatchAttendance::dispatch($attendance)
-                ->delay(now()->addMinutes(30)); // todo move to configurable settings
+                ->delay(now()->addMinutes(1)); // todo move to configurable settings
             }
         });
 
@@ -40,7 +40,7 @@ class Attendance extends Model
     // todo is this necessary? Why not access it through the student?
     public function student()
     {
-        return $this->belongsTo(User::class, 'student_id');
+        return $this->belongsTo(Student::class, 'student_id');
     }
 
     /** Additional data = contact information associated to the student */

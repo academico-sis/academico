@@ -13,7 +13,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Contracts\Translation\HasLocalePreference;
 use Backpack\Base\app\Notifications\ResetPasswordNotification as ResetPasswordNotification;
 
-class User extends Authenticatable implements HasLocalePreference
+class User extends Authenticatable
 {
     use Notifiable;
     use SoftDeletes;
@@ -56,10 +56,10 @@ class User extends Authenticatable implements HasLocalePreference
     }
 
 
-    public function preferredLocale()
+/*     public function preferredLocale()
     {
         return $this->locale;
-    }
+    } */
     
     public function isTeacher()
     {

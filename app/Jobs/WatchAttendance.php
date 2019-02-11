@@ -36,15 +36,15 @@ class WatchAttendance implements ShouldQueue
             // if so, send an email
             $student = $this->attendance->student;
 
-            Mail::to($student->email)
-            ->locale($student->preferredLocale)
-            ->queue(new AbsenceNotification($this->attendance->event, $student));
+            Mail::to($student->user->email)
+            ->locale($student->locale)
+            ->queue(new AbsenceNotification($this->attendance->event, $student->user));
 
-            foreach ($this->attendance->contacts as $contact)
+            foreach ($this->attendance->student->contacts as $contact)
             {
                 Mail::to($contact->email)
-                ->locale($contact->preferredLocale)
-                ->queue(new AbsenceNotification($this->attendance->event, $student));
+                ->locale($contact->locale)
+                ->queue(new AbsenceNotification($this->attendance->event, $student->user));
             }
         };
     }

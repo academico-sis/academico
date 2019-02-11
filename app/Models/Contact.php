@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Translation\HasLocalePreference;
 
-class Contact extends Model implements HasLocalePreference
+class Contact extends Model
 {
     protected $table = 'contacts';
     protected $fillable = ['firstname', 'lastname', 'idnumber', 'address', 'email', 'relationship_id', 'student_id'];
@@ -18,10 +18,10 @@ class Contact extends Model implements HasLocalePreference
     use CrudTrait;
 
 
-    public function preferredLocale()
+/*     public function preferredLocale()
     {
         return $this->locale;
-    }
+    } */
     
     public function phone()
     {
