@@ -43,6 +43,7 @@ class Period extends Model
         ->whereIn('status_id', ['1', '2']) // pending or paid
         ->where('parent_id', null);
     }
+    
     /**
      * getPendingEnrollmentsCountAttribute
      * Do not count enrollments in children courses (todo why filter on course parent when we have a prent field on the enrollment record?)
@@ -142,9 +143,9 @@ class Period extends Model
     public function getPeriodSoldHoursCountAttribute()
     {
         $total = 0;
-        foreach ($this->courses()->withCount('enrollments')->get() as $course)
+        foreach ($this->courses()->withCount('real_enrollments')->get() as $course)
         {
-            $total += $course->volume * $course->enrollments_count;
+            $total += $course->volume * $course->real_enrollments_count;
         }
         return $total;
     }

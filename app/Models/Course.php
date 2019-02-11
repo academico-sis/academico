@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use App\Models\Event;
+use App\Models\Course;
+use App\Models\Period;
 use App\Models\Enrollment;
 use Backpack\CRUD\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Course extends Model
 {
@@ -210,9 +212,17 @@ protected static function boot()
     public function enrollments()
     {
         return $this
-            ->hasMany('App\Models\Enrollment', 'course_id', 'id')
+            ->hasMany(Enrollment::class, 'course_id', 'id')
             ->whereIn('status_id', [1, 2]) // pending or paid enrollments only
             ->with('student');
+    }
+
+    /** returns only pending or paid enrollments, without the child enrollments */
+    public function real_enrollments()
+    {
+        return $this->hasMany(Enrollment::class, 'course_id', 'id')
+        ->whereIn('status_id', ['1', '2']) // pending or paid
+        ->where('parent_id', null);
     }
 
 
