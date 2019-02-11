@@ -11,7 +11,7 @@
 
 @section('content')
 
-<div class="row">
+<div class="row" id="app">
     
     <div class="col-md-4">
         <div class="box">
@@ -25,7 +25,9 @@
             </div>
             
             <div class="box-body">
-                <p>@lang('name'): {{ $enrollment->student->firstname }} {{ $enrollment->student->lastname }}</p>
+                <p>@lang('name'): 
+                    <a href="{{ url('student') }}/{{$enrollment->student->id }}">{{ $enrollment->student->firstname }} {{ $enrollment->student->lastname }}</a>
+                </p>
                 <p>@lang('idnumber'): {{ $enrollment->student->idnumber }}</p>
                 <p>@lang('address'): {{ $enrollment->student->address }}</p>
                 
@@ -89,31 +91,15 @@
 
 
     <div class="col-md-4">
-        <div class="box">
-            <div class="box-header with-border">
-                <div class="box-title">
-                    @lang('Comments')
-                </div>
-                <div class="box-tools pull-right">
-                    {{-- <button class="btn btn-primary"><i class="fa fa-plus"></i></button>  todo allow adding comments --}}
-                </div>
-            </div>
-            
-            <div class="box-body">
-                <ul>
-                    @foreach ($comments as $comment)
-                        <li>{{ $comment->body }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        </div>
+
+            <student-comments
+            :comments="{{ json_encode($enrollment->student->comments) }}"
+            :student="{{ json_encode($enrollment->student) }}">
+        </student-comments>
+
     </div>
     
 
-
-    
-</div>
-<div class="row">
     
 <div class="col-md-4">
         <div class="box">
@@ -165,4 +151,11 @@
 
 </div>
 
+@endsection
+
+
+@section('after_scripts')
+    <script src="/js/app.js"></script>
+
+    
 @endsection
