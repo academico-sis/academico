@@ -1,73 +1,48 @@
 <template>
-<div>
 
-    <h2>Course result</h2>
-    <label>{{ course_result.result_name.name }}</label>
-    
-    <button @click="editResult()"
-    data-toggle="modal"
-    data-target="#ResultModal"
-    >
-        Edit
-    </button>
+  <div class="col-md-12">
+        <div class="box">
+            <div class="box-header with-border">
+                <div class="box-title">
+                    Résultat final <!-- todo translate -->
+                </div>
 
-<h2>Comments</h2>
-    <ul>
-        <li v-for="comment in comments" v-bind:key="comment.id">{{ comment.body }}</li>
-    </ul>
-
-
-
-
-<!-- Modal -->
-<div class="modal fade" id="ResultModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="myModalLabel">Résultat pour le cours <span id="course_name"></span></h4>
+                <div class="box-tools pull-right">
+                </div>  
+            </div>
+            
+            <div class="box-body">
+            <div class="btn-group btn-group-justified" role="group" aria-label="">
+                <!-- todo get styling from the model -->
+                <div class="btn-group" role="group"
+                v-for="result in results" v-bind:key="result.id">
+                    <button
+                    class="btn btn-secondary"
+                    v-bind:class="{
+                        'btn-success': course_result && course_result.result_type_id == result.id && result.id == 1,
+                        'btn-danger': course_result && course_result.result_type_id == result.id && result.id == 2,
+                        'btn-info': course_result && course_result.result_type_id == result.id && result.id == 3,
+                        }"
+                    v-on:click="saveResult(result)"
+                    >
+                        {{ result.name.fr }}
+                    </button>
+                </div>
             </div>
 
-            <div class="modal-body">
-              <h3>Apprenant(e) : <span id="student"></span></h3>
+            <div v-if="this.course_result">
+                <h4>Commentaires</h4><!-- todo translate -->
+                <ul>
+                    <li v-for="comment in this.comments" v-bind:key="comment.id">{{ comment.body }}</li>
+                </ul>
 
-<!--               <input id="matricula_id" name ="matricula_id" type="hidden" value=""/>
-              <input id="course_id" name ="course_id" type="hidden" value=""/> -->
-              
-              <div class="form-group">
-              <select id="result" name="result" required v-model="result">
-              <option value="">Choisir une décision</option>
-                <option v-for="result_option in results"
-                  :value="result_option.id"
-                  v-bind:key="result_option.id">
-                  {{ result_option.name }}
-                  </option>
-              </select>
-              </div>
+                <textarea name="comment" id="comment" style="width:100%" rows="4" v-model="newcomment"></textarea>
+                <button type="button" @click="saveComment(newcomment)">Enregistrer</button>
+            </div>
 
-              <div class="form-group">
-              <textarea id="comment"
-                name="comment"
-                cols="50"
-                lines="5"
-                required
-                v-model="comment">
-              </textarea>
-              </div>
-
-          </div>
-          
-        <div class="modal-footer">
-            <button type="button" class="btn btn-success" @click="saveResult()">Enregistrer</button>
-            <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
         </div>
-        </div>
-
     </div>
-    </div>
-
-
-</div>
+  </div>
 </template>
 
 
@@ -76,13 +51,13 @@
 
     export default {
 
-        props: ['student', 'course', 'results', 'course_result', 'comments'],
+        props: ['student', 'enrollment', 'results', 'result', 'stored_comments'],
         
         data () {
             return {
-                skills: this.saved_skills,
-                result: null,
-                comment: null,
+                newcomment: null,
+                course_result: this.result,
+                comments: this.stored_comments,
             }
         },
 
@@ -91,17 +66,34 @@
         },
 
         methods: {
-            saveResult()
+
+            saveComment()
+            {
+                axios
+                    .post('/resultcomment/', {
+                        enrollment: this.enrollment.id,
+                        comment: this.newcomment
+                    })
+                    .then(response => {
+                        this.comments.push(response.data);
+                    })
+                    .catch(e => {
+                        this.errors.push(e)
+                    })
+                
+            },
+
+            saveResult(result)
             {
                 axios
                     .post('/result/', {
-                        result: this.result,
+                        result: result.id,
                         student: this.student.id,
-                        enrollment: this.course_result.enrollment_id,
-                        comment: this.comment,
+                        enrollment: this.enrollment.id
                     })
                     .then(response => {
-                        document.location.reload(true); // TODO improve this: do not reload the whole page
+                        this.course_result = response.data;
+                        this.comments = []; // todo get existing comments if any
                     })
                     .catch(e => {
                         this.errors.push(e)

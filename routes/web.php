@@ -21,21 +21,11 @@ Route::group(
 
     // moodle token login
     Route::get('moodlelogin', 'MoodleController@moodlelogin')->name('moodleLogin');
-    Route::resource('result', 'ResultController');
+    //Route::resource('result', 'ResultController');
 
 });
 
 
-
-// ADMIN ROUTES
-Route::group(
-    ['middleware' => ['web', 'language', 'role:admin']],
-    function () {
-        
-    // dashboard and home routes
-    Route::get('/admin', 'HomeController@admin')->name('admin');
-
-});
 
 // EVALUATION RELATED ROUTES
 Route::group(
@@ -95,9 +85,10 @@ Route::group(
 
 // Comments routes
 Route::group(
-    ['middleware' => ['web', 'permission:comments.view', 'language']],
+    ['middleware' => ['web', 'permission:comments.edit', 'language']],
     function () {
         Route::post('comment', 'CommentController@store')->name('storeComment');
+        Route::post('resultcomment', 'CommentController@storeresult');
         Route::delete('comment/{comment}', 'CommentController@destroy');
     }
 );

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Enrollment;
+use App\Models\Period;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
+use App\Models\Enrollment;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use App\Http\Requests\EnrollmentRequest as StoreRequest;
 use App\Http\Requests\EnrollmentRequest as UpdateRequest;
@@ -40,6 +41,7 @@ class EnrollmentCrudController extends CrudController
         $this->crud->denyAccess('update');
         $this->crud->removeButton('delete');
         $this->crud->denyAccess('create');
+        $this->crud->addClause('parent');
 
 
         /*
@@ -57,7 +59,7 @@ class EnrollmentCrudController extends CrudController
 
             [
             // STUDENT NAME
-            'label' => "Student", // Table column heading
+            'label' => __("Student"), // Table column heading
             'type' => "select",
             'entity' => 'student', // the method that defines the relationship in your Model
             'attribute' => "name", // foreign key attribute that is shown to user
@@ -66,7 +68,7 @@ class EnrollmentCrudController extends CrudController
 
             [
             // COURSE NAME
-            'label' => "Course", // Table column heading
+            'label' => __("Course"), // Table column heading
             'type' => "select",
             'name' => 'course_id', // the column that contains the ID of that connected entity;
             'entity' => 'course', // the method that defines the relationship in your Model
@@ -76,9 +78,18 @@ class EnrollmentCrudController extends CrudController
 
             [
             'name' => 'course.period.name',
-            'label' => 'Period',
+            'label' => __('Period'),
             'type' => 'text'
             ],
+
+            [
+                // RESULT
+                'label' => __("Result"), // Table column heading
+                'type' => "select",
+                'entity' => 'result', // the method that defines the relationship in your Model
+                'attribute' => "result_type", // foreign key attribute that is shown to user
+                'model' => "App\Models\Result", // foreign key model
+                ],
         ]);
         
 
@@ -91,11 +102,32 @@ class EnrollmentCrudController extends CrudController
         $this->crud->addFilter([ // filter only pending enrollments
             'type' => 'simple',
             'name' => 'pending',
-            'label'=> 'Pending'
+            'label'=> __('Pending')
           ],
           false,
           function() {
               $this->crud->addClause('pending'); 
+          });
+
+
+          $this->crud->addFilter([
+            'type' => 'simple',
+            'name' => 'noresult',
+            'label'=> __('No Result')
+          ],
+          false,
+          function() {
+              $this->crud->addClause('noResult'); 
+          });
+
+        $this->crud->addFilter([
+            'name' => 'period_id',
+            'type' => 'select2',
+            'label'=> __('Period')
+          ], function() {
+              return Period::all()->pluck('name', 'id')->toArray();
+          }, function($value) { // if the filter is active
+            $this->crud->addClause('period', $value); 
           });
 
 

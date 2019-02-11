@@ -207,14 +207,14 @@ class DatabaseSeeder extends Seeder
             'id' => 2,
             'shortname' => ['fr' => 'EC', 'es' => 'EC', 'en' => 'WIP'],
             'name' => ['fr' => 'EN COURS', 'es' => 'EN CURSO DE ADQUISICIÓN', 'en' => 'IN PROGRESS'],
-            'value' => 0
+            'value' => 0.4
         ]);
 
         SkillScale::create([
             'id' => 3,
             'shortname' => ['fr' => 'OUI', 'es' => 'SI', 'en' => 'YES'],
             'name' => ['fr' => 'ACQUIS', 'es' => 'ADQUIRIDO', 'en' => 'ACQUIRED'],
-            'value' => 0
+            'value' => 1
         ]);
 
         LeaveType::create([
@@ -300,6 +300,7 @@ class DatabaseSeeder extends Seeder
         $role->givePermissionTo('calendars.view');
         $role->givePermissionTo('evaluation.view');
         $role->givePermissionTo('attendance.view');
+        $role->givePermissionTo('attendance.edit');
         $role->givePermissionTo('enrollments.view');
         $role->givePermissionTo('enrollments.create');
         $role->givePermissionTo('courses.view');

@@ -15,30 +15,14 @@
     
     <div class="col-md-4">
         <div class="box">
-            <div class="box-header with-border">
-                <div class="box-title">
-                    @lang('Student Info')
-                </div>
-                <div class="box-tools pull-right">
-                </div>
-            </div>
-            
+                <div class="box-header with-border">
+                        <div class="box-title">
+                                <strong>{{ $enrollment->student->firstname }} {{ $enrollment->student->lastname }}</strong>
+                        </div>
+                </div>    
             <div class="box-body">
-                <p>@lang('name'): {{ $enrollment->student->firstname }} {{ $enrollment->student->lastname }}</p>
                 
-                <p>{{ $enrollment->date }}</p>
-                        <p>{{ $enrollment->id }}</p>
-                        @if ($enrollment->children_count > 0)
-                            <p>{{ $enrollment->course->name }}</p>
-                            <p>@lang('Children enrollments'):</p>
-                            <ul>
-                            @foreach ($enrollment->children as $children)
-                                <li><a href="/enrollments/{{ $children->id }}">{{ $children->course->name }}</a>
-                                    ({{ $children->course->period->name }})</li>
-                            @endforeach
-                            </ul>
-                        @endif
-                        <p>{{ $enrollment->course->period->name }}</p>
+                <p>{{ $enrollment->course->name }} ({{ $enrollment->course->period->name }})</p>
             </div>
         </div>
     </div>
@@ -49,30 +33,49 @@
             <div class="box">
                 <div class="box-header with-border">
                     <div class="box-title">
-                        @lang('Course info')
+                        @lang('Course result')
                     </div>
                     <div class="box-tools pull-right">
+                        {{--  todo enable result edition                           @if (true) {{-- if the user has permission to edit result 
+                            <a href="/result/{{ $enrollment->result['id'] }}/edit" class="btn btn-xs btn-warning">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                            @endif --}}
                     </div>
                 </div>
                 
                 <div class="box-body">                      
                         <p>
-                            {{ $enrollment->result['result_name']['name'] }}
-{{--  todo enable result edition                           @if (true) {{-- if the user has permission to edit result 
-                            <a href="/result/{{ $enrollment->result['id'] }}/edit" class="btn btn-xs btn-warning">
-                                <i class="fa fa-edit"></i>
-                            </a>
-                            @endif --}}
+                            {{ $result->result_name->name }}
                         </p>
-
-{{-- todo enable comments                        @foreach ($comments as $comment)
-                            <p>{{ $comment->body}}</p>
-                        @endforeach --}}
                 </div>
             </div>
         </div>
 
    
+        <div class="col-md-4">
+                <div class="box">
+                    <div class="box-header with-border">
+                        <div class="box-title">
+                            @lang('Comments')
+                        </div>
+                        <div class="box-tools pull-right">
+                            {{--  todo enable result edition                           @if (true) {{-- if the user has permission to edit result 
+                                <a href="/result/{{ $enrollment->result['id'] }}/edit" class="btn btn-xs btn-warning">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                                @endif --}}
+                        </div>
+                    </div>
+                    
+                    <div class="box-body">                      
+                            @foreach ($result->comments as $comment)
+                                <p>{{ $comment->body }}</p>
+                           @endforeach
+                    </div>
+                </div>
+            </div>
+
 
 
     

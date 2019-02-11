@@ -33,6 +33,8 @@ class AbsenceNotification extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.absence_notification');
+        return $this
+            ->subject(__('Absence Notification'))
+            ->view('emails.absence_notification');
     }
 }

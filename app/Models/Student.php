@@ -23,6 +23,7 @@ class Student extends Model
         return $this->belongsTo(User::class);
     }
 
+
     public function attendance()
     {
         return $this->hasMany(Attendance::class);
@@ -104,7 +105,7 @@ class Student extends Model
             foreach($course->children as $children_course)
             {
                 $child_enrollment = Enrollment::firstOrNew([
-                    'user_id' =>  $this->id,
+                    'student_id' =>  $this->id,
                     'course_id' => $children_course->id,
                     'parent_id' => $enrollment->id
                 ]);

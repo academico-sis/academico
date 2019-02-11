@@ -77,7 +77,7 @@ Route::group([
         CRUD::resource('contact', 'ContactCrudController');
         CRUD::resource('comment', 'CommentCrudController');
         //CRUD::resource('preinvoice', 'PreInvoiceCrudController')->middleware('permission:invoice.view');
-        //CRUD::resource('result', 'ResultCrudController');
+        CRUD::resource('result', 'ResultCrudController');
         CRUD::resource('availablecourse', 'AvailableCourseCrudController');
 });
 

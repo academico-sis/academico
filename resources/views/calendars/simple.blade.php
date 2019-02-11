@@ -63,7 +63,7 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
                 events: <?php echo json_encode($events) ?>,
             },
             {
-                events: <?php echo json_encode($leaves) ?>,
+                events: <?php echo json_encode($leaves ?? null) ?>,
                 color: 'red',
                 textColor: 'white',
             },

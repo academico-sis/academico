@@ -20,7 +20,7 @@
 
     <div class="row">
 
-        @if(isset($pending_attendance))
+        @if(isset($pending_attendance) && backpack_user()->hasRole('admin'))
         <div class="col-md-4">
                 <div class="box">
                     <div class="box-header with-border">
@@ -46,6 +46,8 @@
             </div>
         @endif
 
+
+        @if($unassigned_teacher->count() > 0 && backpack_user()->can('hr.manage'))
         <div class="col-md-4">
             <div class="box">
                 <div class="box-header with-border">
@@ -66,8 +68,9 @@
                 </div>
             </div>
         </div>
+        @endif
 
-
+        @if(backpack_user()->can('hr.manage'))
         <div class="col-md-4">
                 <div class="box">
                     <div class="box-header with-border">
@@ -92,6 +95,7 @@
                     </div>
                 </div>
             </div>
+            @endif
 
     </div>
 @endsection

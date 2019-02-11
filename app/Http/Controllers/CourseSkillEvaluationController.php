@@ -72,14 +72,15 @@ class CourseSkillEvaluationController extends Controller
             return $skill;
         });
 
-        $course_result = Enrollment::where('student_id', $student->id)
-        ->where('course_id', $course->id)
-        ->first()->result;
+        $enrollment = Enrollment::where('student_id', $student->id)
+        ->where('course_id', $course->id)->first();
+
+        $result = Result::where(['enrollment_id' => $enrollment->id])->with('result_name')->first();
         
         $results = ResultType::all();
         $skillScales = SkillScale::all();
 
-        return view('skills.student', compact('course', 'student', 'skills', 'skillScales', 'course_result', 'results'));
+        return view('skills.student', compact('course', 'student', 'skills', 'skillScales', 'result', 'enrollment', 'results'));
     }
 
 }

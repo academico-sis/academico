@@ -1,43 +1,56 @@
 <template>
-<div>
-
- <table class="table table-striped" id="skillsTable">
-    <thead>
-        <th>Skill</th>
-        <th></th>
-        <th></th>
-        <th></th>
-    </thead>
-    <tbody>
-        <tr v-for="skill in skills" v-bind:key="skill.id">
-            <td style="width: 50%">{{ skill.name }}</td>
-            
-            <td>
-            <div class="btn-group btn-group-justified" role="group" aria-label="">
-
-                <!-- todo get styling from the model -->
-                <div class="btn-group" role="group"
-                v-for="(skillScale) in skillScales" v-bind:key="skillScale.id">
-                    <button
-                    class="btn btn-secondary"
-                    v-bind:class="{
-                        'btn-success': skillScale.value > 0.75 && skill.status == skillScale.id,
-                        'btn-warning': 0.4 <= skillScale.value && 0.75 >= skillScale.value && skill.status == skillScale.id,
-                        'btn-danger': skillScale.value < 0.5 && skill.status == skillScale.id
-                    }"
-                    v-on:click="saveSkillStatus(skill, skillScale.id)"
-                    >
-                        {{ skillScale.name.fr }}
-                    </button>
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-header with-border">
+                <div class="box-title">
+                    Compétences <!-- todo TRANSLATE -->
                 </div>
 
+                <div class="box-tools pull-right">
+                </div>  
             </div>
-            </td>
-        </tr>
-    </tbody>
-</table>
+            
+            <div class="box-body">
 
-</div>
+            <table class="table table-striped" id="skillsTable">
+                <thead>
+                    <th>Skill</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </thead>
+                <tbody>
+                    <tr v-for="skill in skills" v-bind:key="skill.id">
+                        <td style="width: 50%">{{ skill.name }}</td>
+                        
+                        <td>
+                        <div class="btn-group btn-group-justified" role="group" aria-label="">
+
+                            <!-- todo get styling from the model -->
+                            <div class="btn-group" role="group"
+                            v-for="(skillScale) in skillScales" v-bind:key="skillScale.id">
+                                <button
+                                class="btn btn-secondary"
+                                v-bind:class="{
+                                    'btn-success': skillScale.value > 0.75 && skill.status == skillScale.id,
+                                    'btn-warning': 0.4 <= skillScale.value && 0.75 >= skillScale.value && skill.status == skillScale.id,
+                                    'btn-danger': skillScale.value < 0.5 && skill.status == skillScale.id
+                                }"
+                                v-on:click="saveSkillStatus(skill, skillScale.id)"
+                                >
+                                    {{ skillScale.name.fr }}
+                                </button>
+                            </div>
+
+                        </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            </div>
+        </div>
+    </div>
 </template>
 
 

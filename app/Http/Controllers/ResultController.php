@@ -55,8 +55,8 @@ class ResultController extends Controller
         {
             $grades = $enrollment->grades;
             $skills = $enrollment->skills;
-            $comments = $enrollment->result;
-            return view('results.show', compact('enrollment', 'grades', 'skills', 'comments'));
+            $result = $enrollment->result;
+            return view('results.show', compact('enrollment', 'grades', 'skills', 'result'));
         }
         else {
             abort(403);

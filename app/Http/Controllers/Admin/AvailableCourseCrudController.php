@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Course;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
+use App\Models\Rhythm;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -20,7 +22,7 @@ class AvailableCourseCrudController extends CrudController
     {
         parent::__construct();
         $this->middleware(['permission:enrollments.create']);
-        $this->student = $request->query('student');
+        $this->student = Student::find($request->query('student'));
     }
 
     public function setup()
@@ -36,7 +38,7 @@ class AvailableCourseCrudController extends CrudController
         }
         $this->crud->setModel('App\Models\Course');
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/availablecourse');
-        $this->crud->setEntityNameStrings('available course', 'available courses');
+        $this->crud->setEntityNameStrings(__('available course'), __('available courses'));
         $this->crud->denyAccess('delete');
         $this->crud->denyAccess('update');
         $this->crud->denyAccess('create');
@@ -44,6 +46,8 @@ class AvailableCourseCrudController extends CrudController
         $this->crud->addButtonFromView('line', 'enroll', 'enroll', 'end');
         $this->crud->addButtonFromView('line', 'children_badge', 'children_badge', 'beginning');
         
+
+        $this->crud->setListView('courses.available');
 
         /*
         |--------------------------------------------------------------------------
@@ -54,7 +58,7 @@ class AvailableCourseCrudController extends CrudController
         $this->crud->setColumns([
             [
             // RYTHM
-            'label' => "Rhythm",
+            'label' => __("Rhythm"),
             'type' => "select",
             'name' => 'rhythm_id', // the column that contains the ID of that connected entity;
             'entity' => 'rhythm', // the method that defines the relationship in your Model
@@ -64,7 +68,7 @@ class AvailableCourseCrudController extends CrudController
 
             [
             // LEVEL
-            'label' => "Level",
+            'label' => __("Level"),
             'type' => "select",
             'name' => 'level_id', // the column that contains the ID of that connected entity;
             'entity' => 'level', // the method that defines the relationship in your Model
@@ -74,18 +78,18 @@ class AvailableCourseCrudController extends CrudController
 
             [
             'name' => 'name', // The db column name
-            'label' => "Name",
+            'label' => __("Name"),
             ],
 
             [
             'name' => 'volume', // The db column name
-            'label' => "Volume",
+            'label' => __("Volume"),
             'suffix' => "h",
             ],
 
             [
             // TEACHER
-            'label' => "Teacher",
+            'label' => __("Teacher"),
             'type' => "select",
             'name' => 'teacher_id', // the column that contains the ID of that connected entity;
             'entity' => 'teacher', // the method that defines the relationship in your Model
@@ -95,7 +99,7 @@ class AvailableCourseCrudController extends CrudController
 
             [
             // ROOM
-            'label' => "Room",
+            'label' => __("Room"),
             'type' => "select",
             'name' => 'room_id', // the column that contains the ID of that connected entity;
             'entity' => 'room', // the method that defines the relationship in your Model
@@ -106,7 +110,7 @@ class AvailableCourseCrudController extends CrudController
             // COURSE SCHEDULED TIMES
             [
             'name' => "times",
-            'label' => "Schedule",
+            'label' => __("Schedule"),
             'type' => "model_function",
             'function_name' => 'getCourseTimesAttribute',
             'limit' => 150, // Limit the number of characters shown
@@ -115,20 +119,20 @@ class AvailableCourseCrudController extends CrudController
             // ENROLLMENTS COUNT
             [
             'name' => "enrollments",
-            'label' => "Enrollments",
+            'label' => __("Enrollments"),
             'type' => "model_function",
             'function_name' => 'getCourseEnrollmentsCountAttribute',
             ],
 
             [
             'name' => "start_date",
-            'label' => "Start Date",
+            'label' => __("Start Date"),
             'type' => "date",
             ],
 
             [
             'name' => "end_date",
-            'label' => "End Date",
+            'label' => __("End Date"),
             'type' => "date",
             ],
              
@@ -138,7 +142,7 @@ class AvailableCourseCrudController extends CrudController
         $this->crud->addFilter([ // select2 filter
             'name' => 'campus_id',
             'type' => 'select2',
-            'label'=> 'Campus'
+            'label'=> __('Campus')
           ], function() {
               return \App\Models\Campus::all()->pluck('name', 'id')->toArray();
           }, function($value) { // if the filter is active
@@ -152,7 +156,7 @@ class AvailableCourseCrudController extends CrudController
         $this->crud->addFilter([ // select2 filter
             'name' => 'period_id',
             'type' => 'select2',
-            'label'=> 'Period'
+            'label'=> __('Period')
           ], function() {
               return \App\Models\Period::all()->pluck('name', 'id')->toArray();
           }, function($value) { // if the filter is active
@@ -165,9 +169,22 @@ class AvailableCourseCrudController extends CrudController
         });
 
         $this->crud->addFilter([ // select2 filter
+            'name' => 'rhythm_id',
+            'type' => 'select2',
+            'label'=> __('Rhythm')
+          ], function() {
+              return \App\Models\Rhythm::all()->pluck('name', 'id')->toArray();
+          }, function($value) { // if the filter is active
+                  $this->crud->addClause('where', 'rhythm_id', $value);
+          },
+          function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
+            
+        });
+
+        $this->crud->addFilter([ // select2 filter
             'name' => 'level_id',
             'type' => 'select2',
-            'label'=> 'Level'
+            'label'=> __('Level')
           ], function() {
               return \App\Models\Level::all()->pluck('name', 'id')->toArray();
           }, function($value) { // if the filter is active
@@ -178,15 +195,18 @@ class AvailableCourseCrudController extends CrudController
         });
 
 
-        $this->crud->addFilter([ // add a "simple" filter called Draft 
+        $this->crud->addFilter([
             'type' => 'simple',
             'name' => 'parent',
-            'label'=> 'Hide Children Courses'
+            'label'=> __('Show Children Courses')
           ],
           false,
           function() {
-              $this->crud->addClause('parent'); 
-          });
+              $this->crud->addClause('children'); 
+            },
+            function() {
+                $this->crud->addClause('parent'); 
+        });
 
 
     }

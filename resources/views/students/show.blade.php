@@ -25,9 +25,9 @@
                         <i class="fa fa-edit"></i>
                     </a>
 
-                    <a class="btn btn-xs btn-primary" data-toggle="modal" data-target="#userDataModal">
+{{--  todo enable                   <a class="btn btn-xs btn-primary" data-toggle="modal" data-target="#userDataModal">
                         <i class="fa fa-plus"></i>
-                    </a>
+                    </a> --}}
 
                 </div>
             </div>
@@ -79,10 +79,10 @@
                 <div class="box">
                     <div class="box-header with-border">
                         <div class="box-title">
-                            @lang('enrollments')
+                            @lang('Enrollments')
                         </div>
                         <div class="box-tools pull-right">
-                            <a href="{{ url('student')}}/{{$student->id }}/enroll" class="btn btn-xs btn-primary">
+                            <a href="/availablecourse?student={{ $student->id }}" class="btn btn-xs btn-primary">
                                 <i class="fa fa-user-plus"></i>
                             </a>
                         </div>
@@ -104,9 +104,9 @@
                                     <tr>
                                         <td>{{ $enrollment->date }}</td>
                                         <td>
-                                            <a href="/enrollment/{{ $enrollment->id }}"> {{-- todo clean url --}}
+                                            {{-- <a href="/enrollment/{{ $enrollment->id }}"> todo reenable --}}
                                             {{ $enrollment->id }}
-                                            </a>
+                                           {{--  </a> --}}
                                         </td>
                                         <td>{{ $enrollment->course->name }}</td>
                                         <td>{{ $enrollment->course->period->name }}</td>
@@ -117,10 +117,12 @@
                                             @endif
                                         </td>
                                         <td>
+                                            @if(isset($enrollment->result))
                                             {{ $enrollment->result['result_name']['name'] }}
-                                            <a href="/results/{{ $enrollment->id }}" class="btn btn-xs btn-info">
+                                            <a href="/result/{{ $enrollment->result['id'] }}" class="btn btn-xs btn-info">
                                                 <i class="fa fa-eye"></i>
                                             </a>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach
