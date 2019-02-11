@@ -24,9 +24,9 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
 
-        Queue::failing(function ($connection, $job, $data) {
+/*         Queue::failing(function ($connection, $job, $data) {
             // todo Notify by email of failing job...
-        });
+        }); */
 
 
 /*         \Blade::directive('lang', function ($s) {

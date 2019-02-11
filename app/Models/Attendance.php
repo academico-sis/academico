@@ -40,7 +40,7 @@ class Attendance extends Model
     // todo is this necessary? Why not access it through the student?
     public function student()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'student_id');
     }
 
     /** Additional data = contact information associated to the student */
