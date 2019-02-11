@@ -25,9 +25,9 @@
                         <i class="fa fa-edit"></i>
                     </a>
 
-{{--  todo enable                   <a class="btn btn-xs btn-primary" data-toggle="modal" data-target="#userDataModal">
+                    <a class="btn btn-xs btn-primary" data-toggle="modal" data-target="#userDataModal">
                         <i class="fa fa-plus"></i>
-                    </a> --}}
+                    </a>
 
                 </div>
             </div>
@@ -148,7 +148,7 @@
               
                 <form action="{{ route('addContact') }}" method="post">
                 @csrf
-                <input type="hidden" name="user_id" value="{{ $student->id }}">
+                <input type="hidden" name="student_id" value="{{ $student->id }}">
                 
                 <div class="form-group">
                     <label for="firstname">@lang('Firstname')</label>

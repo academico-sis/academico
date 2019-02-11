@@ -31,8 +31,7 @@
       </div>
 
       <div class="modal-body">
-        <textarea name="comment" id="comment" cols="50" rows="5" v-model="comment_body"></textarea>
-        <input type="checkbox" name="private" id="private" v-model="comment_private">
+        <textarea name="comment" id="comment" style="width: 100%" rows="5" v-model="comment_body"></textarea>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>

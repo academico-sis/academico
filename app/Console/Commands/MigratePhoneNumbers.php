@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Student;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
@@ -53,7 +54,7 @@ class MigratePhoneNumbers extends Command
             {
                 $phone = new \App\Models\PhoneNumber;
                 $phone->phone_number = $user->telefono;
-                $phone->phoneable_type = 'App\Models\User';
+                $phone->phoneable_type = Student::class;
                 $phone->phoneable_id = $user->id;
                 $phone->save();
             }
@@ -62,7 +63,7 @@ class MigratePhoneNumbers extends Command
             {
                 $phone = new \App\Models\PhoneNumber;
                 $phone->phone_number = $user->celular;
-                $phone->phoneable_type = 'App\Models\User';
+                $phone->phoneable_type = Student::class;
                 $phone->phoneable_id = $user->id;
                 $phone->save();
             }

@@ -31,7 +31,7 @@ class Student extends Model
 
     public function contacts()
     {
-        return $this->hasMany(Contact::class, 'id');
+        return $this->hasMany(Contact::class, 'student_id');
     }
 
     public function comments()

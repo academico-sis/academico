@@ -43,7 +43,10 @@ class ContactController extends Controller
         }
 
         \Alert::success(__('The information has successfully been saved'))->flash();
-        backpack_auth()->logout();
-        return redirect('/');
+        if(backpack_user()->isStudent())
+        {
+            backpack_auth()->logout();
+        }
+        return back();
     }
 }
