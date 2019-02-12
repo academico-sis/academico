@@ -40,17 +40,10 @@ class AssignRoles extends Command
      */
     public function handle()
     {
-         // get admins
-        $users = DB::table('afc2.users')
-        ->select(DB::raw('id, email'))
-        ->where('role_id', 1)
-        ->get();
 
-        foreach ($users as $user)
-        {
-            User::find($user->id)->assignRole('admin');
-            echo "Role ADMIN assigned to " . $user->email . "\n";
-        }
+        User::find(3)->assignRole('admin');
+
+        User::find(5)->assignRole('manager');
 
 
         // get ex teachers
@@ -63,7 +56,8 @@ class AssignRoles extends Command
         {
             $u = Teacher::find($user->id);
             $u->deleted_at = "2018-01-01";
-            $u->user()->deleted_at = "2018-01-01";
+            $u->user()->delete();
+            $u->delete();
             $u->save();
             echo "DELETED TEACHER " . $user->email . "\n";
         }
@@ -89,8 +83,11 @@ class AssignRoles extends Command
             $user->givePermissionTo('evaluation.view');
             $user->givePermissionTo('calendars.view');
             $user->givePermissionTo('hr.view');
-
-
+            $user->givePermissionTo('courses.view');
+            $user->givePermissionTo('enrollments.create');
+            $user->givePermissionTo('enrollments.view');
+            $user->givePermissionTo('attendance.view');
+            $user->givePermissionTo('attendance.edit');
         }
 
     }
