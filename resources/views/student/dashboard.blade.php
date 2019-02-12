@@ -34,7 +34,7 @@
                     <p>@lang('Period') : {{ $enrollment->course->period->name }}</p>
                    
                     @if(isset($enrollment->result_name))
-                        <p>@lang('Result') : <a href="/result/{{ $enrollment->id }}">{{ $enrollment->result_name }}</a></p>
+                        <p>@lang('Result') : <a href="/result/{{ $enrollment->result['id'] }}">{{ $enrollment->result_name }}</a></p>
                     @endif
 
                     <p>@lang('Status') : {{ $enrollment->status }}</p>

@@ -40,6 +40,7 @@ Route::group(
         // if not otherwise configured, setup the "my account" routes
         Route::get('edit-account-info', 'Auth\MyAccountController@getAccountInfoForm')->name('backpack.account.info');
         Route::post('edit-account-info', 'Auth\MyAccountController@postAccountInfoForm');
+        CRUD::resource('result', 'Admin\ResultCrudController');
 
         CRUD::resource('preinvoice', 'Admin\PreInvoiceCrudController');
 
@@ -77,7 +78,6 @@ Route::group([
         CRUD::resource('contact', 'ContactCrudController');
         CRUD::resource('comment', 'CommentCrudController');
         //CRUD::resource('preinvoice', 'PreInvoiceCrudController')->middleware('permission:invoice.view');
-        CRUD::resource('result', 'ResultCrudController');
         CRUD::resource('availablecourse', 'AvailableCourseCrudController');
 });
 
