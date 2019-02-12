@@ -51,6 +51,16 @@ class Student extends Model
     }
 
 
+    public function getRealEnrollmentsAttribute()
+    {
+        return $this->hasMany(Enrollment::class)
+            ->with('course')
+            ->where('status_id', ['1', '2'])
+            ->get()
+            ->where('children_count', 0);
+    }
+
+
     /** attributes */
     public function getFirstnameAttribute()
     {

@@ -46,6 +46,7 @@ class ContactController extends Controller
         if(backpack_user()->isStudent())
         {
             backpack_auth()->logout();
+            return redirect('/');
         }
         return back();
     }
