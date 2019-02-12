@@ -292,9 +292,20 @@ protected static function boot()
         return Course::where('parent_course_id', $this->id)->get();
     }
 
-     public function getCourseEnrollmentsCountAttribute()
+    public function getCourseEnrollmentsCountAttribute()
     {
         return $this->enrollments()->count();
+    }
+
+    public function getParentAttribute()
+    {
+        if ($this->parent_course_id !== null)
+        {
+            return $this->parent_course_id;
+        }
+        else{
+            return $this->id;
+        }
     }
 
     /*

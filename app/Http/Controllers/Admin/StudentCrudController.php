@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use App\Http\Requests\UserStoreCrudRequest as StoreRequest;
 use App\Http\Requests\UserUpdateCrudRequest as UpdateRequest;
@@ -157,4 +158,30 @@ class StudentCrudController extends CrudController
             $request->request->remove('password');
         }
     }
+
+    public function dataAjax(Request $request)
+
+    {
+
+    	$data = [];
+
+
+        if($request->has('q')){
+
+            $search = $request->q;
+
+            $data = DB::table("users")
+            		->select("id","firstname", "lastname")
+                    ->where('firstname','LIKE',"%$search%")
+                    ->orWhere('lastname','LIKE',"%$search%")
+
+            		->get();
+        }
+
+
+        return response()->json($data);
+
+    }
+
+
 }

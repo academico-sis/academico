@@ -3,6 +3,8 @@
 // save an additional contact for a student
 Route::post('user/addcontact', 'ContactController@store')->name('addContact');
 
+Route::get('searchstudents', 'Admin\StudentCrudController@dataAjax');
+
 
 /* All routes should be protected by Backpack */
 Route::group(
