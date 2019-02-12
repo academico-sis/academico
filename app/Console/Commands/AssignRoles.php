@@ -88,6 +88,7 @@ class AssignRoles extends Command
             $user->givePermissionTo('enrollments.view');
             $user->givePermissionTo('attendance.view');
             $user->givePermissionTo('attendance.edit');
+            $user->givePermissionTo('comments.edit');
         }
 
     }
