@@ -35,7 +35,7 @@
                         </div>
                     </div>
 
-        @if(isset($pending_attendance))
+        @if(isset($pending_attendance) && $pending_attendance->count() > 0)
                 <div class="box">
                     <div class="box-header with-border">
                         <div class="box-title">

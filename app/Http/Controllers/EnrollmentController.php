@@ -35,7 +35,10 @@ class EnrollmentController extends Controller
         $student = Student::findOrFail($request->input('student_id'));
         $enrollment_id = $student->enroll($course);
         \Alert::success(__('Enrollment successfully created'))->flash();
-        return redirect()->to("/enrollment/$enrollment_id");
+        
+        if(backpack_user()->can('enrollments.edit')) {
+            return redirect()->to("/enrollment/$enrollment_id");
+        }
     }
 
 
