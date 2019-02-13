@@ -37,7 +37,7 @@
                         
                         <ul>
                         @foreach($outdated_teacher_events as $event)
-                            <li>{{ $event->start }} @lang('is registered with') {{ $event->teacher->name }}.</li>
+                            <li>{{ $event->start }} @lang('is registered with') {{ $event->teacher->name ?? '-' }}.</li>
                         @endforeach
                         </ul>
                     </div>
@@ -51,7 +51,7 @@
                         
                         <ul>
                         @foreach($outdated_room_events as $event)
-                            <li>{{ $event->start }} @lang('is registered in room') {{ $event->room->name }}</li>
+                            <li>{{ $event->start }} @lang('is registered in room') {{ $event->room->name ?? '-' }}</li>
                         @endforeach
                         </ul>
                     </div>
