@@ -29,7 +29,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if(backpack_user()->hasRole(['admin', 'secretary']))
+        if(backpack_user()->hasRole(['admin', 'secretary', 'manager']))
         {
             return redirect()->route('admin');
         }
@@ -76,7 +76,7 @@ class HomeController extends Controller
     {
         $period = Period::get_default_period();
 
-        if(!backpack_user()->hasRole(['admin', 'secretary']))
+        if(!backpack_user()->hasRole(['admin', 'secretary', 'manager']))
         {
             abort(403);
         }
