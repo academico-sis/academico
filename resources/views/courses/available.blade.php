@@ -146,9 +146,9 @@
   <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.1.5/css/fixedHeader.dataTables.min.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.1/css/responsive.bootstrap.min.css">
 
-  <link rel="stylesheet" href="{{ asset('vendor/backpack/crud/css/crud.css') }}">
-  <link rel="stylesheet" href="{{ asset('vendor/backpack/crud/css/form.css') }}">
-  <link rel="stylesheet" href="{{ asset('vendor/backpack/crud/css/list.css') }}">
+  <link rel="stylesheet" href="{{ asset('public/vendor/backpack/crud/css/crud.css') }}">
+  <link rel="stylesheet" href="{{ asset('public/vendor/backpack/crud/css/form.css') }}">
+  <link rel="stylesheet" href="{{ asset('public/vendor/backpack/crud/css/list.css') }}">
 
   <!-- CRUD LIST CONTENT - crud_list_styles stack -->
   @stack('crud_list_styles')
@@ -157,9 +157,9 @@
 @section('after_scripts')
 	@include('crud::inc.datatables_logic')
 
-  <script src="{{ asset('vendor/backpack/crud/js/crud.js') }}"></script>
-  <script src="{{ asset('vendor/backpack/crud/js/form.js') }}"></script>
-  <script src="{{ asset('vendor/backpack/crud/js/list.js') }}"></script>
+  <script src="{{ asset('public/vendor/backpack/crud/js/crud.js') }}"></script>
+  <script src="{{ asset('public/vendor/backpack/crud/js/form.js') }}"></script>
+  <script src="{{ asset('public/vendor/backpack/crud/js/list.js') }}"></script>
 
   <!-- CRUD LIST CONTENT - crud_list_scripts stack -->
   @stack('crud_list_scripts')
