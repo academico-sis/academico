@@ -42,6 +42,8 @@ class HomeController extends Controller
         }
         else {
             // this should never happen
+            Log::warning(backpack_user()->id . ' accessed the generic dashboard (no role identified)');
+
             return view('welcome');
         }
     }
@@ -52,7 +54,7 @@ class HomeController extends Controller
         $period = $this->selectPeriod($request);
 
         $teacher = Teacher::findOrFail(backpack_user()->id);
-        Log::info('User accessed the student dashboard' . $teacher->name);
+        Log::info($teacher->name . ' accessed the student dashboard');
 
         return view('teacher.dashboard', [
             'teacher' => $teacher,
@@ -67,7 +69,7 @@ class HomeController extends Controller
     {
         
         $student = Student::find(backpack_user()->id);
-        Log::info('User accessed the student dashboard' . $student->name);
+        Log::info($student->name . ' accessed the student dashboard');
         
         return view('student.dashboard', [
             'student' => $student,
@@ -84,7 +86,7 @@ class HomeController extends Controller
             abort(403);
         }
         
-        Log::info("User " . backpack_user()->firstname . ' ' . backpack_user()->lastname . " accessed the admin dashboard");
+        Log::info(backpack_user()->firstname . ' ' . backpack_user()->lastname . " accessed the admin dashboard");
 
         return view('admin.dashboard', [
             'pending_enrollment_count' => $period->pending_enrollments_count,

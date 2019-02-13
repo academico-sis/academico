@@ -39,8 +39,6 @@ class Handler extends ExceptionHandler
             app('sentry')->captureException($exception);
         }
 
-        Log::critical($exception);
-
         parent::report($exception);
     }
 
@@ -56,8 +54,6 @@ class Handler extends ExceptionHandler
         if (app()->bound('sentry')) {
             app('sentry')->captureException($exception);
         }
-
-        Log::critical($exception);
 
         return parent::render($request, $exception);
     }
