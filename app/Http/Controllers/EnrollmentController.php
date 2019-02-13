@@ -79,7 +79,7 @@ class EnrollmentController extends Controller
         $comment = $request->input('comment');
         $enrollment = Enrollment::findOrFail($request->input('enrollment_id'));
 
-        if($enrollment->status_id !== 1)
+        if($enrollment->status_id != 1)
         {
             abort(422, 'Esta matricula no esta pendiente');
         }
