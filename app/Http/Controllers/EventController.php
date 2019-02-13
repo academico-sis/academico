@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Room;
+use App\Models\User;
 use App\Models\Event;
 use App\Models\Course;
-use App\Models\User;
-use App\Models\Room;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class EventController extends Controller
 {
@@ -31,6 +32,7 @@ class EventController extends Controller
 
     public function update_course_teacher(Request $request)
     {
+        Log::notice('Calendar events updated by user ' . backpack_user()->id);
         $course = Course::findOrFail($request->input('course_id'));
         $teacher = User::findOrFail($request->input('resource_id'));
 
@@ -41,6 +43,8 @@ class EventController extends Controller
 
     public function update_course_room(Request $request)
     {
+        Log::notice('Calendar events updated by user ' . backpack_user()->id);
+
         $course = Course::findOrFail($request->input('course_id'));
         $room = Room::findOrFail($request->input('resource_id'));
 
