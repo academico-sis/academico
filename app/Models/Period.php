@@ -20,6 +20,7 @@ class Period extends Model
   
     public static function get_default_period()
     {
+        return Period::find(22);
         return Period::where('start', '<=', date('Y-m-d'))
         ->where('end', '>=', date('Y-m-d'))
         ->first();
