@@ -12,7 +12,6 @@
 @section('content')
 
 <div class="row" id="app">
-  
     <student-skills-component
         :saved_skills="{{ json_encode($skills) }}"
         :student="{{ json_encode($student) }}"
@@ -22,6 +21,8 @@
     </student-skills-component>
 
     <course-result-component
+        comment-post-route="{{ route('storeResultComment') }}"
+        result-post-route="{{ url('result') }}"
         :student="{{ json_encode($student) }}"
         :enrollment="{{ json_encode($enrollment) }}"
         :results="{{ json_encode($results) }}"

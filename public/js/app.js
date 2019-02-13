@@ -1940,7 +1940,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['student', 'enrollment', 'results', 'result', 'stored_comments'],
+  props: ['student', 'enrollment', 'results', 'result', 'stored_comments', 'resultPostRoute', 'commentPostRoute'],
   data: function data() {
     return {
       newcomment: null,
@@ -1953,7 +1953,7 @@ __webpack_require__.r(__webpack_exports__);
     saveComment: function saveComment() {
       var _this = this;
 
-      axios.post('/resultcomment/', {
+      axios.post(this.commentPostRoute, {
         enrollment: this.enrollment.id,
         comment: this.newcomment
       }).then(function (response) {
@@ -1965,13 +1965,12 @@ __webpack_require__.r(__webpack_exports__);
     saveResult: function saveResult(result) {
       var _this2 = this;
 
-      axios.post('/result/', {
+      axios.post(this.resultPostRoute, {
         result: result.id,
         student: this.student.id,
         enrollment: this.enrollment.id
       }).then(function (response) {
-        _this2.course_result = response.data;
-        _this2.comments = []; // todo get existing comments if any
+        document.location.reload(true); // todo improve
       }).catch(function (e) {
         _this2.errors.push(e);
       });

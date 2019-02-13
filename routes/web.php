@@ -92,7 +92,7 @@ Route::group(
     ['middleware' => ['web', 'permission:comments.edit', 'language']],
     function () {
         Route::post('comment', 'CommentController@store')->name('storeComment');
-        Route::post('resultcomment', 'CommentController@storeresult');
+        Route::post('resultcomment', 'CommentController@storeresult')->name('storeResultComment');
         Route::delete('comment/{comment}', 'CommentController@destroy');
     }
 );

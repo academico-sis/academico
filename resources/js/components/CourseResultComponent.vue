@@ -51,7 +51,7 @@
 
     export default {
 
-        props: ['student', 'enrollment', 'results', 'result', 'stored_comments'],
+        props: ['student', 'enrollment', 'results', 'result', 'stored_comments', 'resultPostRoute', 'commentPostRoute'],
         
         data () {
             return {
@@ -70,7 +70,7 @@
             saveComment()
             {
                 axios
-                    .post('resultcomment/', {
+                    .post(this.commentPostRoute, {
                         enrollment: this.enrollment.id,
                         comment: this.newcomment
                     })
@@ -86,14 +86,13 @@
             saveResult(result)
             {
                 axios
-                    .post('result/', {
+                    .post(this.resultPostRoute, {
                         result: result.id,
                         student: this.student.id,
                         enrollment: this.enrollment.id
                     })
                     .then(response => {
-                        this.course_result = response.data;
-                        this.comments = []; // todo get existing comments if any
+                        document.location.reload(true); // todo improve
                     })
                     .catch(e => {
                         this.errors.push(e)
