@@ -1,5 +1,7 @@
 <?php
 
+Route::permanentRedirect('/auth/login', '/');
+
 // save an additional contact for a student
 Route::post('user/addcontact', 'ContactController@store')->name('addContact');
 
