@@ -8,6 +8,7 @@ use App\Models\Result;
 use App\Models\Comment;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Http\Requests\CommentRequest as StoreRequest;
 
 class CommentController extends Controller
@@ -20,6 +21,9 @@ class CommentController extends Controller
     // todo use CommentRequest instead
     public function store(Request $request)
     {
+
+        Log::info('Comment created by ' . backpack_user()->firstname);
+
         Comment::create([
             'commentable_id' => $request->input('student_id'),
             'commentable_type' => Student::class,

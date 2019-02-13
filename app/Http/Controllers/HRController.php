@@ -7,6 +7,7 @@ use App\Models\Period;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
 use App\Traits\PeriodSelection;
+use Illuminate\Support\Facades\Log;
 
 class HRController extends Controller
 {
@@ -29,6 +30,7 @@ class HRController extends Controller
 
         $period = $this->selectPeriod($request);
 
+        Log::info('HR Dahsboard viewed by '. backpack_user()->firstname);
         return view('hr.dashboard', [
             'selected_period' => $period,
             'teachers' => $teachers

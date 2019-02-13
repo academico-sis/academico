@@ -13,6 +13,7 @@ use App\Models\Attendance;
 use Illuminate\Http\Request;
 use App\Models\AttendanceType;
 use App\Traits\PeriodSelection;
+use Illuminate\Support\Facades\Log;
 
 class AttendanceController extends Controller
 {
@@ -33,6 +34,8 @@ class AttendanceController extends Controller
      */
     public function index(Request $request)
     {
+
+        Log::info('Attendance dashboard viewed by ' . \backpack_user()->id);
         $period = $this->selectPeriod($request);
 
         $absences = (new Attendance)->get_absence_count($period);
@@ -60,6 +63,8 @@ class AttendanceController extends Controller
 
         $attendance->save();
 
+        Log::info('Attendance recorded by ' . \backpack_user()->id);
+
     }
 
     /**
@@ -85,7 +90,8 @@ class AttendanceController extends Controller
                     $attendances[$enrollment->student->id][]['attendance'] = $event->attendance->where('student_id', $enrollment->student->id)->first();
                 }
             }
-            
+            Log::info('Attendance for course viewed by ' . \backpack_user()->id);
+
             return view('attendance/course', compact('attendances', 'course', 'events'));
         }
 
@@ -112,7 +118,8 @@ class AttendanceController extends Controller
             $attendances[$enrollment->student->id]['student_id'] = $enrollment->student->id;
             $attendances[$enrollment->student->id]['attendance'] = $attendance->where('student_id', $enrollment->student->id)->first() ?? '[attendance][attendance_type_id]';
         }
-        
+        Log::info('Attendance for event viewed by ' . \backpack_user()->id);
+
         return view('attendance/event', compact('attendances', 'event'));
     }
 

@@ -4,13 +4,14 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use App\Models\User;
-use App\Models\Contact;
 use App\Models\Course;
-use App\Models\AttendanceType;
-
+use App\Models\Contact;
 use App\Jobs\WatchAttendance;
+
+use App\Models\AttendanceType;
 use App\Mail\AbsenceNotification;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\PendingAttendanceReminder;
 use Illuminate\Database\Eloquent\Model;
@@ -27,9 +28,10 @@ class Attendance extends Model
         static::saved(function(Attendance $attendance) {
             if($attendance->attendance_type_id == 4) // todo move to configurable settings
             {
+                Log::info('Absence marked for student ' . $attendance->student->name);
                 // will check the record again and send a notification if it hasn't changed
                 WatchAttendance::dispatch($attendance)
-                ->delay(now()->addMinutes(1)); // todo move to configurable settings
+                ->delay(now()->addMinutes(30)); // todo move to configurable settings
             }
         });
 

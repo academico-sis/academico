@@ -69,11 +69,16 @@ class EnrollmentController extends Controller
     /** this method is temporary. It serves as a shortcut until the invoicing system is in place */
     public function quickBill(Enrollment $enrollment)
     {        
+        Log::info(backpack_user()->firstname . ' is (quick) billing enrollment ' . $enrollment->id);
+
         return view('invoices.create', compact('enrollment'));
     }
 
     public function quickInvoice(Request $request)
     {
+
+        Log::info(backpack_user()->firstname . ' is (quick) invoicing enrollment ' . $request->input('enrollment_id'));
+
         // get the invoice number and the comment
         $invoice_number = $request->input('invoice_number');
         $comment = $request->input('comment');

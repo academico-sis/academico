@@ -6,6 +6,7 @@ use App\Models\Year;
 use App\Models\Period;
 use Illuminate\Http\Request;
 use App\Traits\PeriodSelection;
+use Illuminate\Support\Facades\Log;
 
 class ReportController extends Controller
 {
@@ -37,6 +38,7 @@ class ReportController extends Controller
             $data[$data_period->id]['sold_hours'] = $data_period->period_sold_hours_count;
         }
         
+        Log::info('Reports viewed by ' . backpack_user()->firstname);
         return view('reports.index', [
             'period' => $period,
             'pending_enrollment_count' => $period->pending_enrollments_count,
