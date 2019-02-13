@@ -10,6 +10,7 @@ use App\Models\Teacher;
 use App\Models\Attendance;
 use Illuminate\Http\Request;
 use App\Traits\PeriodSelection;
+use Illuminate\Support\Facades\Log;
 use App\Exceptions\MissingBaseTables;
 
 class HomeController extends Controller
@@ -51,6 +52,7 @@ class HomeController extends Controller
         $period = $this->selectPeriod($request);
 
         $teacher = Teacher::findOrFail(backpack_user()->id);
+        Log::info('User accessed the student dashboard' . $teacher->name);
 
         return view('teacher.dashboard', [
             'teacher' => $teacher,
@@ -63,8 +65,9 @@ class HomeController extends Controller
 
     public function student()
     {
-
+        
         $student = Student::find(backpack_user()->id);
+        Log::info('User accessed the student dashboard' . $student->name);
         
         return view('student.dashboard', [
             'student' => $student,
@@ -81,6 +84,8 @@ class HomeController extends Controller
             abort(403);
         }
         
+        Log::info("User " . backpack_user()->firstname . ' ' . backpack_user()->lastname . " accessed the admin dashboard");
+
         return view('admin.dashboard', [
             'pending_enrollment_count' => $period->pending_enrollments_count,
             'paid_enrollment_count' => $period->paid_enrollments_count,

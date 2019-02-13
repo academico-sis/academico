@@ -13,6 +13,7 @@
         "backpack/crud": "^3.5",
         "backpack/permissionmanager": "^4.0",
         "curl/curl": "^2.2",
+        "eduardoarandah/backpacklogviewer": "1.0.5.1",
         "fideloper/proxy": "^4.0",
         "guzzlehttp/guzzle": "~6.0",
         "kkomelin/laravel-translatable-string-exporter": "^1.0",

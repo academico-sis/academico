@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "049931a3314dfd01f26f5cf0c4d2cc91",
+    "content-hash": "570d1ef13484b7f1c068de631532a255",
     "packages": [
         {
             "name": "akaunting/language",
@@ -106,6 +106,128 @@
                 "web"
             ],
             "time": "2018-02-04T12:54:57+00:00"
+        },
+        {
+            "name": "arcanedev/log-viewer",
+            "version": "4.6.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ARCANEDEV/LogViewer.git",
+                "reference": "bc5ff72393bbadbb10aca7d5862b0cc542d8d0df"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ARCANEDEV/LogViewer/zipball/bc5ff72393bbadbb10aca7d5862b0cc542d8d0df",
+                "reference": "bc5ff72393bbadbb10aca7d5862b0cc542d8d0df",
+                "shasum": ""
+            },
+            "require": {
+                "arcanedev/support": "~4.4.0",
+                "php": ">=7.1.3",
+                "psr/log": "~1.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "~1.0",
+                "orchestra/testbench": "~3.7.0",
+                "phpunit/phpcov": "~5.0",
+                "phpunit/phpunit": "~7.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Arcanedev\\LogViewer\\LogViewerServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Arcanedev\\LogViewer\\": "src/"
+                },
+                "files": [
+                    "constants.php",
+                    "helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "ARCANEDEV",
+                    "email": "arcanedev.maroc@gmail.com",
+                    "homepage": "https://github.com/arcanedev-maroc",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Provides a Log Viewer for Laravel 5",
+            "homepage": "https://github.com/ARCANEDEV/LogViewer",
+            "keywords": [
+                "arcanedev",
+                "arcanesoft",
+                "laravel",
+                "log",
+                "log viewer",
+                "log-viewer",
+                "logviewer"
+            ],
+            "time": "2018-12-04T09:25:29+00:00"
+        },
+        {
+            "name": "arcanedev/support",
+            "version": "4.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ARCANEDEV/Support.git",
+                "reference": "9f4d9947563c6bec10ea7fa7954129e012216af9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ARCANEDEV/Support/zipball/9f4d9947563c6bec10ea7fa7954129e012216af9",
+                "reference": "9f4d9947563c6bec10ea7fa7954129e012216af9",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/filesystem": "~5.7.0",
+                "illuminate/support": "~5.7.0",
+                "php": ">=7.1.3"
+            },
+            "require-dev": {
+                "orchestra/testbench": "~3.7.0",
+                "phpunit/phpcov": "~5.0",
+                "phpunit/phpunit": "~7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Arcanedev\\Support\\": "src/"
+                },
+                "files": [
+                    "constants.php",
+                    "helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "ARCANEDEV",
+                    "email": "arcanedev.maroc@gmail.com",
+                    "homepage": "https://github.com/arcanedev-maroc"
+                }
+            ],
+            "description": "ARCANEDEV Support Helpers",
+            "homepage": "https://github.com/ARCANEDEV/Support",
+            "keywords": [
+                "arcanedev",
+                "arcanesoft",
+                "laravel",
+                "support"
+            ],
+            "time": "2018-09-04T17:19:43+00:00"
         },
         {
             "name": "backpack/base",
@@ -1033,6 +1155,64 @@
                 "schedule"
             ],
             "time": "2018-06-06T03:12:17+00:00"
+        },
+        {
+            "name": "eduardoarandah/backpacklogviewer",
+            "version": "1.0.5.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/eduardoarandah/backpacklogviewer.git",
+                "reference": "c123e6fe048ae1b99028af0f1cb00c2f22bec816"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/eduardoarandah/backpacklogviewer/zipball/c123e6fe048ae1b99028af0f1cb00c2f22bec816",
+                "reference": "c123e6fe048ae1b99028af0f1cb00c2f22bec816",
+                "shasum": ""
+            },
+            "require": {
+                "arcanedev/log-viewer": "~4.5",
+                "illuminate/support": "~5.1",
+                "php": ">=7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": ">=5.4.3",
+                "squizlabs/php_codesniffer": "^2.3"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "EduardoArandaH\\BackpackLogViewer\\BackpackLogViewerServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "EduardoArandaH\\BackpackLogViewer\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Eduardo Aranda Hernandez",
+                    "email": "eduardoarandah@gmail.com",
+                    "homepage": "https://eduardoarandah.github.io/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Integrate ArcaneDev/LogViewer in your Laravel-Backpack project",
+            "homepage": "https://github.com/eduardoarandah/backpacklogviewer",
+            "keywords": [
+                "eduardoarandah",
+                "laravel",
+                "laravel backpack",
+                "log viewer"
+            ],
+            "time": "2018-06-12T17:23:37+00:00"
         },
         {
             "name": "egulias/email-validator",

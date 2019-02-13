@@ -56,6 +56,7 @@
         <li><a href="{{ backpack_url('teacher') }}"><i class="fa fa-user"></i> <span>@lang('Teachers')</span></a></li>
         <li><a href="{{ backpack_url('role') }}"><i class="fa fa-group"></i> <span>@lang('Roles')</span></a></li>
         <li><a href="{{ backpack_url('permission') }}"><i class="fa fa-key"></i> <span>@lang('Permissions')</span></a></li>
+        <li><a href='{{route("log-viewer::logs.list")}}'><i class='fa fa-history'></i> <span>Logs</span></a></li>
       </ul>
     </li>
 
@@ -129,3 +130,5 @@
   <li><a href="{{ route('moodleLogin') }}"><i class="fa fa-clock-o"></i> <span>@lang('SPHERE')</span></a></li>
 
 @endif
+
+
