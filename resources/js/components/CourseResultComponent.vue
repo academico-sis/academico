@@ -70,7 +70,7 @@
             saveComment()
             {
                 axios
-                    .post('/resultcomment/', {
+                    .post('resultcomment/', {
                         enrollment: this.enrollment.id,
                         comment: this.newcomment
                     })
@@ -86,7 +86,7 @@
             saveResult(result)
             {
                 axios
-                    .post('/result/', {
+                    .post('result/', {
                         result: result.id,
                         student: this.student.id,
                         enrollment: this.enrollment.id
