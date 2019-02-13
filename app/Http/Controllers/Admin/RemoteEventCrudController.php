@@ -82,10 +82,10 @@ class RemoteEventCrudController extends CrudController
                 // 1-n relationship
                 'label' => "Teacher", // Table column heading
                 'type' => "select",
-                'name' => 'user_id', // the column that contains the ID of that connected entity;
+                'name' => 'teacher_id', // the column that contains the ID of that connected entity;
                 'entity' => 'user', // the method that defines the relationship in your Model
                 'attribute' => "name", // foreign key attribute that is shown to user
-                'model' => "App\Models\User", // foreign key model
+                'model' => "App\Models\Teacher", // foreign key model
              ],
 
              [
