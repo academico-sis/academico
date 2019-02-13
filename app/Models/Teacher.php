@@ -67,8 +67,7 @@ class Teacher extends Model
     public function period_remote_events(Period $period)
     {
         return $this->remote_events
-            ->where('start', '>=', Carbon::parse($period->start)->setTime(0, 0, 0)->toDateTimeString())
-            ->where('end', '<=', Carbon::parse($period->end)->setTime(23, 59, 0)->toDateTimeString());
+            ->where('period_id', $period->id);
     }
 
     public function events()

@@ -21,13 +21,18 @@
                     @lang('Student Info')
                 </div>
                 <div class="box-tools pull-right">
-                    <a class="btn btn-xs btn-warning" href="/student/{{$student->id}}/edit">
-                        <i class="fa fa-edit"></i>
-                    </a>
 
-                    <a class="btn btn-xs btn-primary" data-toggle="modal" data-target="#userDataModal">
-                        <i class="fa fa-plus"></i>
-                    </a>
+                    @if(backpack_user()->can('enrollments.edit'))
+                        <a class="btn btn-xs btn-warning" href="/student/{{$student->id}}/edit">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                    @endif
+
+                    @if(backpack_user()->can('enrollments.edit'))
+                        <a class="btn btn-xs btn-primary" data-toggle="modal" data-target="#userDataModal">
+                            <i class="fa fa-plus"></i>
+                        </a>
+                    @endif
 
                 </div>
             </div>
@@ -49,9 +54,12 @@
                     </div>
 
                     <div class="box-tools pull-right">
-                        <a class="btn btn-xs btn-warning" href="/contact/{{$contact->id}}/edit">
-                            <i class="fa fa-edit"></i>
-                        </a>
+                        @if(backpack_user()->can('enrollments.edit'))
+                            <a class="btn btn-xs btn-warning" href="/contact/{{$contact->id}}/edit">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                        @endif
+
                     </div>
                 </div>
                 
@@ -67,12 +75,15 @@
 
 <div class="row">
  --}}
+
+ @if(backpack_user()->can('enrollments.edit'))
     <div class="col-md-4">
-            <student-comments
-            :comments="{{ json_encode($comments) }}"
-            :student="{{ json_encode($student) }}">
+        <student-comments
+        :comments="{{ json_encode($comments) }}"
+        :student="{{ json_encode($student) }}">
         </student-comments>
     </div>
+@endif
 
     @if (count($student->enrollments) > 0)
         <div class="col-md-8">
@@ -82,9 +93,13 @@
                             @lang('Enrollments')
                         </div>
                         <div class="box-tools pull-right">
+                                @if(backpack_user()->can('enrollments.edit'))
+
                             <a href="/availablecourse?student={{ $student->id }}" class="btn btn-xs btn-primary">
                                 <i class="fa fa-user-plus"></i>
                             </a>
+                            @endif
+
                         </div>
                     </div>
                     
@@ -95,7 +110,10 @@
                                 <th>@lang('Enrollment ID')</th>
                                 <th>@lang('Course')</th>
                                 <th>@lang('Period')</th>
-                                <th>@lang('Status')</th> {{-- todo click with invoice info --}}
+                                @if(backpack_user()->can('enrollments.edit'))
+                                    <th>@lang('Status')</th>
+                                @endif
+
                                 <th>@lang('Result')</th>
                             </thead>
 
@@ -110,12 +128,9 @@
                                         </td>
                                         <td>{{ $enrollment->course->name }}</td>
                                         <td>{{ $enrollment->course->period->name }}</td>
-                                        <td>
-                                            {{ $enrollment->status }}
-                                            @if($enrollment->enrollmentStatus->id == 1)
-                                                <button class="btn btn-xs btn-primary"><i class="fa fa-dollar"></i></button>
-                                            @endif
-                                        </td>
+                                        @if(backpack_user()->can('enrollments.edit'))
+                                            <td>{{ $enrollment->status }}</td>
+                                        @endif
                                         <td>
                                             @if(isset($enrollment->result))
                                             {{ $enrollment->result['result_name']['name'] }}
