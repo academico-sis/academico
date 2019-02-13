@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Student;
 use App\Models\PhoneNumber;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class RegisterController extends \Backpack\Base\app\Http\Controllers\Auth\RegisterController
 {
@@ -106,6 +107,7 @@ class RegisterController extends \Backpack\Base\app\Http\Controllers\Auth\Regist
 
         // flash a confirmation message
         \Alert::success(__('The user has successfully been registered'))->flash();
+        Log::info('New user registered with ID ' . $user->id);
 
         // if invoice data has been required; log the user in and open the form to add a contact
         if($request->input('invoice_data')) {
