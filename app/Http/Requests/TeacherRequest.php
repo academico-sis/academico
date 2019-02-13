@@ -26,10 +26,7 @@ class TeacherRequest extends FormRequest
     public function rules()
     {
         return [
-            'firstname' => 'required|min:2|max:255',
-            'lastname' => 'required|min:2|max:255',
-            'email'    => 'required|unique:'.config('permission.table_names.users', 'users').',email,'.$this->get('id'),
-            'password' => 'confirmed',
+
         ];
     }
 

@@ -69,30 +69,17 @@ class TeacherCrudController extends CrudController
 
         $this->crud->addFields([
             [
-                'label' => trans('firstname'),
-                'type' => 'text',
-                'name' => 'firstname'
+                'name'  => 'max_week_hours',
+                'label' => __('Weekly workable hours'),
+                'type'  => 'number',
             ],
+
             [
-                'label' => trans('lastname'),
-                'type' => 'text',
-                'name' => 'lastname'
+                'name'  => 'hired_at',
+                'label' => __('Hire Date'),
+                'type'  => 'date',
             ],
-            [
-                'name'  => 'email',
-                'label' => trans('backpack::permissionmanager.email'),
-                'type'  => 'email',
-            ],
-            [
-                'name'  => 'password',
-                'label' => trans('backpack::permissionmanager.password'),
-                'type'  => 'password',
-            ],
-            [
-                'name'  => 'password_confirmation',
-                'label' => trans('backpack::permissionmanager.password_confirmation'),
-                'type'  => 'password',
-            ],
+
 
         ]);
 
