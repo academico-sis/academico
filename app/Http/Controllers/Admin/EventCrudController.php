@@ -61,7 +61,7 @@ class EventCrudController extends CrudController
             'name' => 'teacher_id', // the column that contains the ID of that connected entity;
             'entity' => 'teacher', // the method that defines the relationship in your Model
             'attribute' => "name", // foreign key attribute that is shown to user
-            'model' => "App\Models\User", // foreign key model
+            'model' => "App\Models\Teacher", // foreign key model
             ],
 
             [
@@ -92,6 +92,22 @@ class EventCrudController extends CrudController
         ]);
 
 
+        $this->crud->addFilter([ // daterange filter
+            'type' => 'date_range',
+            'name' => 'from_to',
+            'label'=> __('Date range')
+          ],
+          false,
+          function($value) { // if the filter is active, apply these constraints
+            $dates = json_decode($value);
+            $this->crud->addClause('where', 'start', '>=', $dates->from);
+            $this->crud->addClause('where', 'start', '<=', $dates->to . ' 23:59:59');
+          });
+
+
+          
+
+
         $this->crud->addFields([
             
             [
@@ -107,10 +123,8 @@ class EventCrudController extends CrudController
             'name' => 'teacher_id', // the column that contains the ID of that connected entity;
             'entity' => 'teacher', // the method that defines the relationship in your Model
             'attribute' => "name", // foreign key attribute that is shown to user
-            'model' => "App\Models\User", // foreign key model
-            'options'   => (function ($query) {
-                return $query->teacher();
-            }),
+            'model' => "App\Models\Teacher", // foreign key model
+
             ],
 
             [
