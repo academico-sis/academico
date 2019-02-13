@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use \Curl\Curl;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class MoodleController extends Controller
 {
@@ -16,7 +17,7 @@ class MoodleController extends Controller
     /** Login to Moodle via token */
     public function moodlelogin()
     {
-        
+
         $token = env('MOODLE_TOKEN');
         $domainname = env('MOODLE_URL');
 
@@ -55,7 +56,10 @@ class MoodleController extends Controller
             return $loginurl;
         }
 
-return redirect(getloginurl($email, $token, $domainname));
+        Log::info(backpack_user()->id . ' generated a Moodle login token');
+
+
+        return redirect(getloginurl($email, $token, $domainname));
 
     }
 

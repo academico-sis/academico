@@ -13,6 +13,7 @@ use App\Models\PreInvoice;
 use Illuminate\Http\Request;
 use App\Traits\PeriodSelection;
 use App\Models\PreInvoiceDetail;
+use Illuminate\Support\Facades\Log;
 
 
 class EnrollmentController extends Controller
@@ -36,6 +37,8 @@ class EnrollmentController extends Controller
         $enrollment_id = $student->enroll($course);
         \Alert::success(__('Enrollment successfully created'))->flash();
         
+        Log::info(backpack_user()->firstname . ' generated a new enrollment for student ' . $student->name);
+
         if(backpack_user()->can('enrollments.edit')) {
             return redirect()->to("/enrollment/$enrollment_id");
         }
