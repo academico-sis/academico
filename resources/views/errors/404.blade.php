@@ -5,12 +5,12 @@
 @endphp
 
 @section('title')
-  Page not found.
+  Esta página no existe.
 @endsection
 
 @section('description')
   @php
-    $default_error_message = "Please <a href='javascript:history.back()''>go back</a> or return to <a href='".url('')."'>our homepage</a>.";
+    $default_error_message = "Puede <a href='javascript:history.back()''>regresar a la página anterior</a> o ingresar a la <a href='".url('')."'>página principal</a>.";
   @endphp
   {!! isset($exception)? ($exception->getMessage()?$exception->getMessage():$default_error_message): $default_error_message !!}
 @endsection

@@ -5,7 +5,7 @@
 @endphp
 
 @section('title')
-  Forbidden.
+  No autorizado.
 @endsection
 
 @section('description')
