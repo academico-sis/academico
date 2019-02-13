@@ -2386,7 +2386,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['comments', 'student'],
+  props: ['comments', 'student', 'route'],
   data: function data() {
     return {
       comment_body: null,
@@ -2398,7 +2398,7 @@ __webpack_require__.r(__webpack_exports__);
     addComment: function addComment() {
       var _this = this;
 
-      axios.post('/comment/', {
+      axios.post(this.route, {
         comment: this.comment_body,
         student_id: this.student.id
       }).then(function (response) {

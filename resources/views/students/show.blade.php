@@ -80,7 +80,8 @@
     <div class="col-md-4">
         <student-comments
         :comments="{{ json_encode($comments) }}"
-        :student="{{ json_encode($student) }}">
+        :student="{{ json_encode($student) }}"
+        route="{{ url('comment') }}">
         </student-comments>
     </div>
 @endif

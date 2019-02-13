@@ -48,7 +48,7 @@
     
     export default {
 
-        props: ['comments', 'student'],
+        props: ['comments', 'student', 'route'],
 
         data () {
             return {
@@ -65,7 +65,7 @@
             addComment()
             {
                 axios
-                    .post('/comment/', {
+                    .post(this.route, {
                         comment: this.comment_body,
                         student_id: this.student.id,
                     })

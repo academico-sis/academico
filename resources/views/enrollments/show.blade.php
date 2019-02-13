@@ -94,7 +94,8 @@
 
             <student-comments
             :comments="{{ json_encode($enrollment->student->comments) }}"
-            :student="{{ json_encode($enrollment->student) }}">
+            :student="{{ json_encode($enrollment->student) }}"
+            route="{{ url('comment') }}">
         </student-comments>
 
     </div>
