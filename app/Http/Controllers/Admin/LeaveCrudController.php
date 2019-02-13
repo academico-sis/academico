@@ -60,6 +60,63 @@ class LeaveCrudController extends CrudController
              ],
         ]);
 
+
+        $this->crud->addFilter([ // select2 filter
+            'name' => 'teacher_id',
+            'type' => 'select2',
+            'label'=> __('Teacher')
+          ], function() {
+              return \App\Models\Teacher::all()->pluck('name', 'id')->toArray();
+          }, function($value) { // if the filter is active
+                  $this->crud->addClause('where', 'teacher_id', $value);
+          },
+          function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
+            
+        });
+
+
+        $this->crud->addFilter([ // daterange filter
+            'type' => 'date_range',
+            'name' => 'from_to',
+            'label'=> __('Date range')
+          ],
+          false,
+          function($value) { // if the filter is active, apply these constraints
+            $dates = json_decode($value);
+            $this->crud->addClause('where', 'date', '>=', $dates->from);
+            $this->crud->addClause('where', 'date', '<=', $dates->to . ' 23:59:59');
+          });
+
+
+
+        $this->crud->addFields([
+            [
+                // 1-n relationship
+                'label' => "Teacher", // Table column heading
+                'type' => "select",
+                'name' => 'teacher_id', // the column that contains the ID of that connected entity;
+                'entity' => 'teacher', // the method that defines the relationship in your Model
+                'attribute' => "name", // foreign key attribute that is shown to user
+                'model' => "App\Models\Teacher", // foreign key model
+             ],
+
+             [
+                // 1-n relationship
+                'label' => "Type", // Table column heading
+                'type' => "select",
+                'name' => 'leave_type_id', // the column that contains the ID of that connected entity;
+                'entity' => 'leaveType', // the method that defines the relationship in your Model
+                'attribute' => "name", // foreign key attribute that is shown to user
+                'model' => "App\Models\LeaveType", // foreign key model
+             ],
+
+             [
+                'name' => "date", // The db column name
+                'label' => "Date", // Table column heading
+                'type' => "date",
+             ],
+        ]);
+
         // add asterisk for fields that are required in LeaveRequest
         $this->crud->setRequiredFields(StoreRequest::class, 'create');
         $this->crud->setRequiredFields(UpdateRequest::class, 'edit');
