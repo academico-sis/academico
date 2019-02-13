@@ -10,7 +10,7 @@ class MoodleController extends Controller
     public function __construct()
     {
         parent::__construct();
-        $this->middleware(['permission:moodle.login']);
+        //$this->middleware(['permission:moodle.login']);
     }
 
     /** Login to Moodle via token */
