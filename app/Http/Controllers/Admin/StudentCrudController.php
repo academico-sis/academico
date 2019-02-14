@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Period;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -76,6 +77,41 @@ class StudentCrudController extends CrudController
             ],
             
         ]);
+
+
+        $this->crud->addFilter([ // select2_multiple filter
+            'name' => 'enrolled',
+            'type' => 'select2_multiple',
+            'label'=> 'Is Enrolled in'
+          ], function() { // the options that show up in the select2
+              return Period::all()->pluck('name', 'id')->toArray();
+          }, function($values) { // if the filter is active
+              foreach (json_decode($values) as $key => $value) {
+                  $this->crud->query = $this->crud->query->whereHas('enrollments', function ($query) use ($value) {
+                    return $query->whereHas('course', function ($q) use ($value) {
+                        $q->where('period_id', $value);
+                    });
+                  });
+              }
+          });
+
+
+        $this->crud->addFilter([ // select2_multiple filter
+            'name' => 'notenrolled',
+            'type' => 'select2_multiple',
+            'label'=> 'Is Not Enrolled in'
+          ], function() { // the options that show up in the select2
+              return Period::all()->pluck('name', 'id')->toArray();
+          }, function($values) { // if the filter is active
+              foreach (json_decode($values) as $key => $value) {
+                  $this->crud->query = $this->crud->query->whereHas('enrollments', function ($query) use ($value) {
+                    return $query->whereDoesntHave('course', function ($q) use ($value) {
+                        $q->where('period_id', $value);
+                    });
+                  });
+              }
+          });
+
 
         // Fields
         $this->crud->addFields([
