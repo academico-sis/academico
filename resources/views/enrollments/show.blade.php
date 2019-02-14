@@ -80,7 +80,7 @@
                         
                         @if(isset($enrollment->result))
                             <p>
-                                <a href="/result/{{ $enrollment->id }}" class="btn btn-xs btn-info">
+                                <a href="/result/{{ $enrollment->result->id }}" class="btn btn-xs btn-info">
                                     <i class="fa fa-eye"></i> {{ $enrollment->result['result_name']['name'] }}
                                 </a>
                             </p>
