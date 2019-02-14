@@ -6,6 +6,7 @@ use App\Models\Period;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
 use App\Models\Enrollment;
+use App\Models\ResultType;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use App\Http\Requests\EnrollmentRequest as StoreRequest;
 use App\Http\Requests\EnrollmentRequest as UpdateRequest;
@@ -138,6 +139,20 @@ class EnrollmentCrudController extends CrudController
               return Period::all()->pluck('name', 'id')->toArray();
           }, function($value) { // if the filter is active
             $this->crud->addClause('period', $value); 
+          });
+
+          $this->crud->addFilter([ // select2_multiple filter
+            'name' => 'result',
+            'type' => 'select2_multiple',
+            'label'=> __('Result')
+          ], function() { // the options that show up in the select2
+              return ResultType::all()->pluck('name', 'id')->toArray();
+          }, function($values) { // if the filter is active
+              foreach (json_decode($values) as $key => $value) {
+                  $this->crud->query = $this->crud->query->whereHas('result', function ($query) use ($value) {
+                      $query->where('result_type_id', $value);
+                  });
+              }
           });
 
 
