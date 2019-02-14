@@ -23,6 +23,7 @@ class Enrollment extends Model
     use SoftDeletes;
 
     protected $fillable = ['student_id', 'course_id', 'parent_id', 'status_id'];
+    protected $append = ['children'];
 
 
     /**
@@ -32,7 +33,15 @@ class Enrollment extends Model
     public function scopeParent($query)
     {
         return $query
-            ->where('parent_id', null)
+        ->where('parent_id', null)
+        ->get();
+
+    }
+
+    public function scopeReal($query)
+    {
+        return $query
+            ->whereDoesntHave('children')
             ->get();
     }
 
@@ -100,6 +109,11 @@ class Enrollment extends Model
         return $this->hasOne(Result::class)
             ->with('result_name')
             ->with('comments');
+    }
+
+    public function children()
+    {
+        return $this->hasMany(Enrollment::class, 'parent_id');
     }
 
 

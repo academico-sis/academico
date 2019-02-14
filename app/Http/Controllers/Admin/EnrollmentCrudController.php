@@ -41,7 +41,7 @@ class EnrollmentCrudController extends CrudController
         $this->crud->denyAccess('update');
         $this->crud->removeButton('delete');
         $this->crud->denyAccess('create');
-        $this->crud->addClause('parent');
+        //$this->crud->addClause('parent');
 
 
         /*
@@ -118,6 +118,16 @@ class EnrollmentCrudController extends CrudController
           false,
           function() {
               $this->crud->addClause('noResult'); 
+          });
+
+          $this->crud->addFilter([
+            'type' => 'simple',
+            'name' => 'hideparents',
+            'label'=> __('Hide Parents')
+          ],
+          false,
+          function() {
+              $this->crud->addClause('real'); 
           });
 
         $this->crud->addFilter([
