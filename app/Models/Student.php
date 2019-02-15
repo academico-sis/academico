@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use App\Models\LeadType;
 use Backpack\CRUD\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -50,6 +51,13 @@ class Student extends Model
             ->with('course');
     }
 
+    public function leadType()
+    {
+        return $this->belongsTo(LeadType::class);
+    }
+
+
+        /** attributes */
 
     public function getRealEnrollmentsAttribute()
     {
@@ -61,7 +69,6 @@ class Student extends Model
     }
 
 
-    /** attributes */
     public function getFirstnameAttribute()
     {
         return $this->user->firstname;

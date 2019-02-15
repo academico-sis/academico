@@ -75,6 +75,23 @@ class StudentCrudController extends CrudController
                 'label' => trans('backpack::permissionmanager.email'),
                 'type'  => 'text',
             ],
+
+            [
+                'name'  => 'email',
+                'label' => trans('backpack::permissionmanager.email'),
+                'type'  => 'text',
+            ],
+
+            [
+                // 1-n relationship
+                'label' => __("Status"), // Table column heading
+                'type' => "select",
+                'name' => 'lead_type_id', // the column that contains the ID of that connected entity;
+                'entity' => 'leadType', // the method that defines the relationship in your Model
+                'attribute' => "name", // foreign key attribute that is shown to user
+                'model' => "App\Models\LeadType", // foreign key model
+             ],
+
             
         ]);
 
@@ -134,7 +151,7 @@ class StudentCrudController extends CrudController
                 'name'  => 'birthdate',
                 'label' => trans('birthdate'),
                 'type'  => 'date',
-            ],
+            ]
 
         ]);
 
@@ -161,7 +178,7 @@ class StudentCrudController extends CrudController
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(UpdateRequest $request)
+    public function update(Request $request)
     {
         $this->handlePasswordInput($request);
 
