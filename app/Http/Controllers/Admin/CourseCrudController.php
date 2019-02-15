@@ -63,6 +63,10 @@ class CourseCrudController extends CrudController
 
         $this->crud->addButtonFromView('line', 'children_badge', 'children_badge', 'beginning');
         
+        if(backpack_user()->hasRole('admin'))
+        {
+            $this->crud->enableExportButtons();
+        }
 
         /*
         |--------------------------------------------------------------------------
