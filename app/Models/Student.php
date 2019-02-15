@@ -51,13 +51,12 @@ class Student extends Model
     }
 
 
-    public function getRealEnrollmentsAttribute()
+    public function real_enrollments()
     {
         return $this->hasMany(Enrollment::class)
             ->with('course')
-            ->where('status_id', ['1', '2'])
-            ->get()
-            ->where('children_count', 0);
+            ->whereIn('status_id', ['1', '2'])
+            ->whereDoesntHave('children');
     }
 
 
