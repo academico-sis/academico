@@ -47,8 +47,18 @@ class EventCrudController extends CrudController
             ],
 
             [
+                // ROOM
+                'label' => __("Course"), // Table column heading
+                'type' => "select",
+                'name' => 'course_id', // the column that contains the ID of that connected entity;
+                'entity' => 'course', // the method that defines the relationship in your Model
+                'attribute' => "name", // foreign key attribute that is shown to user
+                'model' => "App\Models\Course", // foreign key model
+                ],
+
+            [
             'name' => "volume",
-            'label' => "Volume", // Table column heading
+            'label' => __("Volume"), // Table column heading
             'type' => "model_function",
             'function_name' => 'getVolumeAttribute', // the method in your Model
             'suffix' => "h",
@@ -56,7 +66,7 @@ class EventCrudController extends CrudController
 
             [
             // TEACHER
-            'label' => "Teacher", // Table column heading
+            'label' => __("Teacher"), // Table column heading
             'type' => "select",
             'name' => 'teacher_id', // the column that contains the ID of that connected entity;
             'entity' => 'teacher', // the method that defines the relationship in your Model
@@ -66,7 +76,7 @@ class EventCrudController extends CrudController
 
             [
             // ROOM
-            'label' => "Room", // Table column heading
+            'label' => __("Room"), // Table column heading
             'type' => "select",
             'name' => 'room_id', // the column that contains the ID of that connected entity;
             'entity' => 'room', // the method that defines the relationship in your Model
@@ -77,14 +87,14 @@ class EventCrudController extends CrudController
 
             [
             'name' => "start", // The db column name
-            'label' => "Start Date", // Table column heading
+            'label' => __("Start Date"), // Table column heading
             'type' => "datetime",
                 // 'format' => 'l j F Y', // use something else than the base.defauormat config value
             ],
 
             [
             'name' => "end", // The db column name
-            'label' => "End Date", // Table column heading
+            'label' => __("End Date"), // Table column heading
             'type' => "datetime",
                 // 'format' => 'l j F Y', // use something else than the base.default_date_format config value
             ],
@@ -104,7 +114,15 @@ class EventCrudController extends CrudController
             $this->crud->addClause('where', 'start', '<=', $dates->to . ' 23:59:59');
           });
 
-
+          $this->crud->addFilter([ // daterange filter
+            'type' => 'simple',
+            'name' => 'orphan',
+            'label'=> __('Events with no course')
+          ],
+          false,
+          function($value) { // if the filter is active, apply these constraints
+            $this->crud->query->where('course_id', null);
+          });
           
 
 
