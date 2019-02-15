@@ -104,8 +104,8 @@ class StudentCrudController extends CrudController
               return Period::all()->pluck('name', 'id')->toArray();
           }, function($values) { // if the filter is active
               foreach (json_decode($values) as $key => $value) {
-                  $this->crud->query = $this->crud->query->whereHas('enrollments', function ($query) use ($value) {
-                    return $query->whereDoesntHave('course', function ($q) use ($value) {
+                  $this->crud->query = $this->crud->query->whereDoesntHave('enrollments', function ($query) use ($value) {
+                    return $query->whereHas('course', function ($q) use ($value) {
                         $q->where('period_id', $value);
                     });
                   });
