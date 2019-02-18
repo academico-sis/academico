@@ -86,6 +86,17 @@
     </div>
 @endif
 
+@if(backpack_user()->hasRole('admin'))
+
+    <lead-status-component
+    :student="{{ json_encode($student) }}"
+    :leadtypes="{{ json_encode($lead_types) }}"
+    route="{{ route('postLeadStatus') }}"
+    >
+    </lead-status-component>
+
+@endif
+
     @if (count($student->enrollments) > 0)
         <div class="col-md-8">
                 <div class="box">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Period;
 use App\Models\Student;
+use App\Models\LeadType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -189,8 +190,9 @@ class StudentCrudController extends CrudController
     {
         $student = Student::findOrFail($student);
         $comments = $student->comments;
+        $lead_types = LeadType::all();
 
-        return view('students/show', compact('student', 'comments'));
+        return view('students/show', compact('student', 'comments', 'lead_types'));
     }
 
 

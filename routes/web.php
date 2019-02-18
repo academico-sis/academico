@@ -154,3 +154,5 @@ Route::group(
         Route::get('/report/rhythms', 'ReportController@rhythms')->name('rhythmReport');
     }
 );
+
+Route::post('leadstatus', 'LeadStatusController@update')->name('postLeadStatus');
