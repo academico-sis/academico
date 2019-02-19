@@ -75,7 +75,7 @@
                             <a href="/course/{{$course->id}}" class="btn btn-default btn-xs"><i class="fa fa-users"></i></a>
                         @endif
 
-                        @if($course->events->count() > 0 && $course->exempt_attendance !== 1)
+                        @if($course->enrollments->count() > 0 && $course->events->count() > 0 && $course->exempt_attendance !== 1)
                             <a href="{{ route('monitorCourseAttendance', ['course' => $course->id]) }}" class="btn btn-default btn-xs"><i class="fa fa-calendar"></i></a>
                         @endif
 
