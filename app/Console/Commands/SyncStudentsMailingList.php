@@ -36,10 +36,10 @@ class SyncStudentsMailingList extends Command
         $this->api_key = env('mailerlite_api_key');
     }
 
-    private function add_users_to_group($source_users, $target_group_id, $api_key)
+    private function add_users_to_group($source_users, $target_group_id)
     {
-        $groupsApi = (new \MailerLiteApi\MailerLite($api_key))->groups();
-        $subscribersApi = (new \MailerLiteApi\MailerLite($api_key))->subscribers();
+        $groupsApi = (new \MailerLiteApi\MailerLite($this->api_key))->groups();
+        $subscribersApi = (new \MailerLiteApi\MailerLite($this->api_key))->subscribers();
 
         $target_users = $groupsApi->limit(10000)->getSubscribers($target_group_id);
 
@@ -75,6 +75,8 @@ class SyncStudentsMailingList extends Command
                 // if they do not exist, create them
                 if ($exist == false)
                 {
+
+                    dd($student->email);
                     $new_subscriber = [
                         'email' => $student->email,
                         'name' => ucwords($student->firstname),
@@ -115,20 +117,27 @@ class SyncStudentsMailingList extends Command
 
         $current_students = $period->enrollments;
 
-
         $student_group_id = 8868042; // ETUDIANTS ACTUELS
 
+        $groupsApi = (new \MailerLiteApi\MailerLite($this->api_key))->groups();
 
-        $this->add_users_to_group($current_students, $student_group_id, $api_key);
+
+        //$addedSubscribers = $groupsApi->importSubscribers($student_group_id, $subscribers, $options); // returns imported subscribers divided into groups by import status
 
 
-        $this->clean_users_from_group($current_students, $student_group_id, $api_key);
+        // enroll all converted students to this group
+
+
+        $this->add_users_to_group($current_students, $student_group_id);
+
+
+        //$this->clean_users_from_group($current_students, $student_group_id, $api_key);
         
-        // and another time with parents data
+       /*  // and another time with parents data
         $current_parents = $this->users_model->get_current_students_parents($period);
         $parent_group_id = 10862650; // PARENTS ACTUELS
         $this->add_users_to_group($current_parents, $parent_group_id, $api_key);
-        $this->clean_users_from_group($current_parents, $parent_group_id, $api_key);
+        $this->clean_users_from_group($current_parents, $parent_group_id, $api_key); */
         
     }
 }
