@@ -203,16 +203,9 @@
         });
     });
     
-    $(document).ready(function() {
-        $('#DataTables_Table_0').DataTable( {
-            paging: false,
-            fixedHeader: true
-        } );
-    } );
-    
     function enroll()
     {
-        var idc = {{ json_encode($course->parent) }};
+        var idc = {{ $course->parent }};
         var student = document.getElementById("student").value;
     
     $.ajax({
