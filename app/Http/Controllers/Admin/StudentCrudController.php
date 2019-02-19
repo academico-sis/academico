@@ -132,14 +132,29 @@ class StudentCrudController extends CrudController
           });
 
           $this->crud->addFilter([ // select2 filter
-            'name' => 'lead_status',
-            'type' => 'select2',
-            'label'=> __('Status')
+            'name' => 'lead_status_is',
+            'type' => 'select2_multiple',
+            'label'=> __('Status is')
           ], function() {
               return LeadType::all()->pluck('name', 'id')->toArray();
-          }, function($value) { // if the filter is active
-                  $this->crud->addClause('where', 'lead_type_id', $value);
-          });
+          }, function($values) { // if the filter is active
+            foreach (json_decode($values) as $key => $value) {
+                 $this->crud->addClause('orWhere', 'lead_type_id', $value);
+             }
+            });
+
+
+            $this->crud->addFilter([ // select2 filter
+                'name' => 'lead_status_isnot',
+                'type' => 'select2_multiple',
+                'label'=> __('Status is not')
+              ], function() {
+                  return LeadType::all()->pluck('name', 'id')->toArray();
+              }, function($values) { // if the filter is active
+                foreach (json_decode($values) as $key => $value) {
+                     $this->crud->addClause('where', 'lead_type_id', '!=', $value);
+                 }
+                });
 
 
         // Fields
