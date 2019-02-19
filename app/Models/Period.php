@@ -14,7 +14,7 @@ class Period extends Model
     // protected $primaryKey = 'id';
     public $timestamps = false;
     // protected $guarded = ['id'];
-    protected $fillable = ['name', 'year_id'];
+    protected $fillable = ['name', 'year_id', 'start', 'end'];
     // protected $hidden = [];
     // protected $dates = [];
   

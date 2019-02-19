@@ -41,22 +41,34 @@ class PeriodCrudController extends CrudController
 
         $this->crud->setColumns([
             [
-                'label'     => 'Year', 
+                'label'     => __('Year'),
                 'type'      => 'select',
                 'entity'    => 'year',
                 'attribute' => 'name', 
             ],
 
             [
-                'label' => "Name", 
+                'label' => __("Name"), 
                 'type' => "text",
                 'name' => 'name'
+            ],
+
+            [
+                'label' => __("Start"),
+                'type' => "date",
+                'name' => 'start'
+            ],
+
+            [
+                'label' => __("End"), 
+                'type' => "date",
+                'name' => 'end'
             ],
         ]);
 
         $this->crud->addFields([
             [
-                'label'     => 'Year', 
+                'label'     => __('Year'),
                 'type'      => 'select',
                 'name'      => 'year_id',
                 'entity'    => 'year',
@@ -65,9 +77,21 @@ class PeriodCrudController extends CrudController
             ],
 
             [
-                'label' => "Name", 
+                'label' => __("Name"),
                 'type' => "text",
                 'name' => 'name'
+            ],
+
+            [
+                'label' => __("Start"),
+                'type' => "date",
+                'name' => 'start'
+            ],
+
+            [
+                'label' => __("End"), 
+                'type' => "date",
+                'name' => 'end'
             ],
         ]);
 
