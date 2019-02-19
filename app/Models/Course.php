@@ -303,7 +303,7 @@ protected static function boot()
         {
             return $this->parent_course_id;
         }
-        else{
+        else {
             return $this->id;
         }
     }
