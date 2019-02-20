@@ -29,6 +29,8 @@ Vue.component('event-data-sync-component', require('./components/EventDataSyncCo
 
 Vue.component('lead-status-component', require('./components/LeadStatusComponent.vue').default);
 
+Vue.component('absence-buttons', require('./components/AbsenceButtonsComponent.vue').default);
+
   
 /**
  * Next, we will create a fresh Vue application instance and attach it to

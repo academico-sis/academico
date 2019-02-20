@@ -1754,6 +1754,70 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AbsenceButtonsComponent.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/AbsenceButtonsComponent.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['attendance', 'route'],
+  data: function data() {
+    return {
+      studentAttendance: this.attendance.attendance_type_id
+    };
+  },
+  mounted: function mounted() {},
+  methods: {
+    saveAttendance: function saveAttendance(attendance) {
+      var _this = this;
+
+      axios.post(this.route, {
+        event: this.attendance.event.id,
+        student: this.attendance.student_id,
+        attendance: attendance
+      }).then(function (response) {
+        _this.studentAttendance = attendance;
+      }).catch(function (e) {
+        _this.errors.push(e);
+      });
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CartComponent.vue?vue&type=script&lang=js&":
 /*!************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/CartComponent.vue?vue&type=script&lang=js& ***!
@@ -3081,6 +3145,70 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
                          (this && this.clearImmediate);
 
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AbsenceButtonsComponent.vue?vue&type=template&id=72cc3484&":
+/*!**************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/AbsenceButtonsComponent.vue?vue&type=template&id=72cc3484& ***!
+  \**************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "btn-group", attrs: { role: "group" } }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-secondary",
+          class: { "btn-info": _vm.studentAttendance == 3 },
+          attrs: { id: "" },
+          on: {
+            click: function($event) {
+              return _vm.saveAttendance(3)
+            }
+          }
+        },
+        [
+          _vm._v("\n                Absence justifiée "),
+          _c("i", { staticClass: "fa fa-check" })
+        ]
+      )
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "btn-group", attrs: { role: "group" } }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-secondary",
+          class: { "btn-danger": _vm.studentAttendance == 4 },
+          attrs: { id: "" },
+          on: {
+            click: function($event) {
+              return _vm.saveAttendance(4)
+            }
+          }
+        },
+        [
+          _vm._v("\n                Absence non justifiée "),
+          _c("i", { staticClass: "fa fa-user-times" })
+        ]
+      )
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
 
 /***/ }),
 
@@ -20847,6 +20975,7 @@ Vue.component('student-skills-component', __webpack_require__(/*! ./components/S
 Vue.component('course-result-component', __webpack_require__(/*! ./components/CourseResultComponent.vue */ "./resources/js/components/CourseResultComponent.vue").default);
 Vue.component('event-data-sync-component', __webpack_require__(/*! ./components/EventDataSyncComponent.vue */ "./resources/js/components/EventDataSyncComponent.vue").default);
 Vue.component('lead-status-component', __webpack_require__(/*! ./components/LeadStatusComponent.vue */ "./resources/js/components/LeadStatusComponent.vue").default);
+Vue.component('absence-buttons', __webpack_require__(/*! ./components/AbsenceButtonsComponent.vue */ "./resources/js/components/AbsenceButtonsComponent.vue").default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -20915,6 +21044,75 @@ if (token) {
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/components/AbsenceButtonsComponent.vue":
+/*!*************************************************************!*\
+  !*** ./resources/js/components/AbsenceButtonsComponent.vue ***!
+  \*************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _AbsenceButtonsComponent_vue_vue_type_template_id_72cc3484___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AbsenceButtonsComponent.vue?vue&type=template&id=72cc3484& */ "./resources/js/components/AbsenceButtonsComponent.vue?vue&type=template&id=72cc3484&");
+/* harmony import */ var _AbsenceButtonsComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AbsenceButtonsComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/AbsenceButtonsComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _AbsenceButtonsComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _AbsenceButtonsComponent_vue_vue_type_template_id_72cc3484___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _AbsenceButtonsComponent_vue_vue_type_template_id_72cc3484___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/AbsenceButtonsComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/AbsenceButtonsComponent.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************!*\
+  !*** ./resources/js/components/AbsenceButtonsComponent.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AbsenceButtonsComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./AbsenceButtonsComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AbsenceButtonsComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AbsenceButtonsComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/AbsenceButtonsComponent.vue?vue&type=template&id=72cc3484&":
+/*!********************************************************************************************!*\
+  !*** ./resources/js/components/AbsenceButtonsComponent.vue?vue&type=template&id=72cc3484& ***!
+  \********************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AbsenceButtonsComponent_vue_vue_type_template_id_72cc3484___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./AbsenceButtonsComponent.vue?vue&type=template&id=72cc3484& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AbsenceButtonsComponent.vue?vue&type=template&id=72cc3484&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AbsenceButtonsComponent_vue_vue_type_template_id_72cc3484___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AbsenceButtonsComponent_vue_vue_type_template_id_72cc3484___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
 
 /***/ }),
 

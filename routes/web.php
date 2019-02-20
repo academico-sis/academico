@@ -59,6 +59,7 @@ Route::group(
 
     /* Course attendance overview  */
     Route::get('attendance', 'AttendanceController@index')->name('monitorAttendance');
+    Route::get('attendance/student/{student}', 'AttendanceController@student')->name('studentAttendance');
     Route::get('attendance/course/{course}', 'AttendanceController@showCourse')->name('monitorCourseAttendance');
     Route::get('attendance/event/{event}', 'AttendanceController@showEvent')->name('eventAttendance');
     Route::post('attendance', 'AttendanceController@store')->name('storeAttendance');

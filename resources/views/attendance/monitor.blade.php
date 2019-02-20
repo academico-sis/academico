@@ -52,7 +52,7 @@
                 <table class="table">
                     @foreach($absences as $absence)
                     <tr>
-                        <td>{{ $absence->firstname }} {{ $absence->lastname }}</td>
+                        <td><a href="{{ route('studentAttendance', ['student' => $absence->student_id]) }}">{{ $absence->firstname }} {{ $absence->lastname }}</a></td>
                         <td>{{ $absence->course_name }}</td>
                         <td>{{ $absence->count }}</td>
                     </tr>

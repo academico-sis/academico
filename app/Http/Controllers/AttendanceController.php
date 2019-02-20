@@ -45,6 +45,11 @@ class AttendanceController extends Controller
         return view('attendance.monitor', compact('absences', 'pending_attendance'));
     }
 
+    public function student(Student $student)
+    {
+        return view('attendance.student', compact('student'));
+
+    }
 
     /**
      * Store a newly created attendance record.

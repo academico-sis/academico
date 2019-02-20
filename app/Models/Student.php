@@ -30,6 +30,17 @@ class Student extends Model
         return $this->hasMany(Attendance::class);
     }
 
+    public function periodAbsences()
+    {
+        return $this->hasMany(Attendance::class)
+        ->where('attendance_type_id', 4) // absence
+        ->whereHas('event', function($q) {
+            return $q->whereHas('course', function($c) {
+                return $c->where('period_id', 22);
+            });
+        });
+    }
+
     public function contacts()
     {
         return $this->hasMany(Contact::class, 'student_id');
