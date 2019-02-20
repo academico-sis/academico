@@ -7,13 +7,13 @@
   <li><a href="{{ backpack_url('course') }}"><i class="fa fa-book"></i> <span>@lang('Courses')</span></a></li>
   <li><a href="{{ backpack_url('student') }}"><i class="fa fa-user"></i> <span>@lang('Students')</span></a></li>
   <li><a href="{{ backpack_url('/enrollment?pending=true') }}"><i class="fa fa-credit-card"></i> <span>@lang('Pending')</span></a></li>
+  <li><a href="{{ backpack_url('attendance') }}"><i class="fa fa-calendar"></i> <span>@lang('Attendance')</span></a></li>
 
 @endif
 
 @if(backpack_user()->hasRole(['admin']))
   <li><a href="{{ backpack_url('preinvoice') }}"><i class="fa fa-dollar"></i> <span>@lang('Invoices')</span></a></li>
   <li><a href="{{ backpack_url('comment') }}"><i class="fa fa-pencil"></i> <span>@lang('Comments')</span></a></li>
-  <li><a href="{{ backpack_url('attendance') }}"><i class="fa fa-calendar"></i> <span>@lang('Attendance')</span></a></li>
 
 @endif
 
