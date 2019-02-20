@@ -45,6 +45,11 @@ class EnrollmentCrudController extends CrudController
         //$this->crud->addClause('parent');
 
 
+        if(backpack_user()->hasRole('admin'))
+        {
+            $this->crud->enableExportButtons();
+        }
+        
         /*
         |--------------------------------------------------------------------------
         | CrudPanel Configuration
