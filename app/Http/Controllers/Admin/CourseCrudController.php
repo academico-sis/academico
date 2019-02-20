@@ -189,6 +189,19 @@ class CourseCrudController extends CrudController
 
 
         $this->crud->addFilter([ // select2 filter
+            'name' => 'rhythm_id',
+            'type' => 'select2',
+            'label'=> __('Rhythm')
+          ], function() {
+              return \App\Models\Rhythm::all()->pluck('name', 'id')->toArray();
+          }, function($value) { // if the filter is active
+                  $this->crud->addClause('where', 'rhythm_id', $value);
+          },
+          function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
+            
+        });
+        
+        $this->crud->addFilter([ // select2 filter
             'name' => 'level_id',
             'type' => 'select2',
             'label'=> __('Level')
