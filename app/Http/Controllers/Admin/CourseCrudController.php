@@ -200,7 +200,21 @@ class CourseCrudController extends CrudController
           function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
             
         });
-        
+
+
+        $this->crud->addFilter([ // select2 filter
+            'name' => 'teacher_id',
+            'type' => 'select2',
+            'label'=> __('Teacher')
+          ], function() {
+              return \App\Models\Teacher::all()->pluck('name', 'id')->toArray();
+          }, function($value) { // if the filter is active
+                  $this->crud->addClause('where', 'teacher_id', $value);
+          },
+          function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
+            
+        });
+
         $this->crud->addFilter([ // select2 filter
             'name' => 'level_id',
             'type' => 'select2',
