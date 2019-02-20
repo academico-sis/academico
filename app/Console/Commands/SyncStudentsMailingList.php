@@ -106,6 +106,88 @@ class SyncStudentsMailingList extends Command
 
 
 
+
+
+    private function createStudentSubscriber($student)
+    {
+
+        $groupsApi = (new \MailerLiteApi\MailerLite($this->api_key))->groups();
+
+        $student_group_id = 8868042; // ETUDIANTS ACTUELS
+
+        $subscriber = [
+            'email' => $student->email,
+            'name' => ucwords($student->firstname),
+            'fields' => [
+                'last_name' => ucwords($student->lastname),
+                'birthdate' => $student->birthdate ?? ''
+            ]
+        ];
+
+        $addedSubscriber = $groupsApi->addSubscriber($student_group_id, $subscriber); // returns added subscriber
+
+        return $addedSubscriber;
+
+    }
+
+
+    private function createParentSubscriber($contact)
+    {
+
+        $groupsApi = (new \MailerLiteApi\MailerLite($this->api_key))->groups();
+
+        $parent_group_id = 10862650; // PARENTS ACTUELS
+
+        $subscriber = [
+            'email' => $contact->email,
+            'name' => ucwords($contact->firstname),
+            'fields' => [
+                'last_name' => ucwords($contact->lastname),
+            ]
+        ];
+
+        $addedSubscriber = $groupsApi->addSubscriber($parent_group_id, $subscriber); // returns added subscriber
+
+        return $addedSubscriber;
+
+    }
+
+
+    private function createAlumniSubscriber($contact)
+    {
+
+        $groupsApi = (new \MailerLiteApi\MailerLite($this->api_key))->groups();
+
+        $alumni_group_id = 10862806; // ALUMNI
+
+        $subscriber = [
+            'email' => $contact->email,
+            'name' => ucwords($contact->firstname),
+            'fields' => [
+                'last_name' => ucwords($contact->lastname),
+            ]
+        ];
+
+        $groupsApi->addSubscriber($alumni_group_id, $subscriber); // returns added subscriber
+
+    }
+
+
+    private function unsubscribeSubscriber($email)
+    {
+
+        $subscribersApi = (new \MailerLiteApi\MailerLite($this->api_key))->subscribers();
+
+        // change type of subscriber
+        $subscriberData = [
+            'type' => 'unsubscribed',
+        ];
+
+        return $subscribersApi->update($email, $subscriberData); // returns object of updated subscriber
+
+
+    }
+
     /**
      * Execute the console command.
      *
@@ -115,29 +197,55 @@ class SyncStudentsMailingList extends Command
     {
         $period = Period::get_default_period();
 
-        $current_students = $period->enrollments;
-
-        $student_group_id = 8868042; // ETUDIANTS ACTUELS
+        $enrollments = $period->enrollments;
 
         $groupsApi = (new \MailerLiteApi\MailerLite($this->api_key))->groups();
 
 
-        //$addedSubscribers = $groupsApi->importSubscribers($student_group_id, $subscribers, $options); // returns imported subscribers divided into groups by import status
+        // create subscribers from all students and associated contact in period
+
+        foreach ($enrollments as $enrollment)
+        {
+            if ($enrollment->student->lead_type_id == 1) // converted
+            {
+
+                dump($this->createStudentSubscriber($enrollment->student));
+
+                foreach ($enrollment->student->contacts as $contact)
+                {
+                    dump($this->createParentSubscriber($contact));
+                }
+
+            }
+
+            if($enrollment->student->lead_type_id == 3) // dead
+            {
+                // unsubscribe
+                $this->unsubscribeSubscriber($enrollment->student->email);
+
+                foreach ($enrollment->student->contacts as $contact)
+                {
+                    dump($this->unsubscribeSubscriber($contact->email));
+                }
+            }
+
+            if($enrollment->student->lead_type_id == 6) // exAlumno
+            {
+                // unsubscribe
+                $this->unsubscribeSubscriber($enrollment->student->email);
+
+                foreach ($enrollment->student->contacts as $contact)
+                {
+                    dump($this->unsubscribeSubscriber($contact->email));
+                }
+            }
+        }
 
 
-        // enroll all converted students to this group
+        // todo clean ETUDIANTS ACTUELS group - remove student whose status have changed.
+        // but do not remove them right away, maybe wait a little
 
 
-        $this->add_users_to_group($current_students, $student_group_id);
-
-
-        //$this->clean_users_from_group($current_students, $student_group_id, $api_key);
-        
-       /*  // and another time with parents data
-        $current_parents = $this->users_model->get_current_students_parents($period);
-        $parent_group_id = 10862650; // PARENTS ACTUELS
-        $this->add_users_to_group($current_parents, $parent_group_id, $api_key);
-        $this->clean_users_from_group($current_parents, $parent_group_id, $api_key); */
         
     }
 }
