@@ -69,7 +69,16 @@ class EnrollmentCrudController extends CrudController
             'type' => "select",
             'entity' => 'student', // the method that defines the relationship in your Model
             'attribute' => "name", // foreign key attribute that is shown to user
+            'searchLogic' => function ($query, $column, $searchTerm) {
+                $query->orWhereHas('student', function ($q) use ($column, $searchTerm) {
+                    $q->WhereHas('user', function ($q) use ($column, $searchTerm) {
+                        $q->where('firstname', 'like', '%'.$searchTerm.'%')
+                        ->orWhere('lastname', 'like', '%'.$searchTerm.'%');
+                    });
+                });
+            }
             ],
+
 
 
             [

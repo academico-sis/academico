@@ -134,9 +134,7 @@
                                     <tr>
                                         <td>{{ $enrollment->date }}</td>
                                         <td>
-                                            {{-- <a href="/enrollment/{{ $enrollment->id }}"> todo reenable --}}
-                                            {{ $enrollment->id }}
-                                           {{--  </a> --}}
+                                            <a href="/enrollment/{{ $enrollment->id }}">{{ $enrollment->id }}</a>
                                         </td>
                                         <td>{{ $enrollment->course->name }}</td>
                                         <td>{{ $enrollment->course->period->name }}</td>
