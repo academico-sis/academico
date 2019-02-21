@@ -86,7 +86,7 @@
     </div>
 @endif
 
-@if(backpack_user()->hasRole('admin'))
+@if(backpack_user()->can('leads.manage'))
 
     <lead-status-component
     :student="{{ json_encode($student) }}"

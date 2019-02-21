@@ -279,6 +279,8 @@ class DatabaseSeeder extends Seeder
         Permission::create(['name' => 'student.edit']);
         Permission::create(['name' => 'comments.edit']);
 
+        Permission::create(['name' => 'leads.manage']);
+
         // create core roles and assign permissions
 
         // admins have all permissions
@@ -305,6 +307,8 @@ class DatabaseSeeder extends Seeder
         $role->givePermissionTo('enrollments.edit');
         $role->givePermissionTo('enrollments.create');
         $role->givePermissionTo('courses.view');
+        $role->givePermissionTo('leads.manage');
+
 
 
         Permission::create(['name' => 'moodle.login']);
