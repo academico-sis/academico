@@ -44,6 +44,32 @@ class EnrollmentController extends Controller
         }
     }
 
+    public function change(Request $request)
+    {
+        $enrollment = Enrollment::findOrFail($request->input('enrollment_id'));
+        $course = Course::findOrFail($request->input('course_id'));
+
+        // display a confirmation message
+
+        // first mark the original enrollment as cancelled
+        $enrollment->delete();
+
+        // then create a whole new enrollment
+        $enrollment->student->enroll($course);
+
+        // todo migrate comments, attendance, grades, skills...
+    }
+
+    public function delete(Enrollment $enrollment)
+    {
+        /** mark the enrollment as cancelled */
+        $enrollment->delete();
+
+        // delete attendance
+        // delete grades
+        // delete skills
+    }
+
 
 
     /**

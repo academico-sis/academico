@@ -189,4 +189,17 @@ class Enrollment extends Model
     {
         return $this->enrollmentStatus->name;
     }
+
+    
+    public function delete()
+    {
+        $this->status_id = 3; // cancelled
+        $this->save();
+
+        // if the enrollment had children, delete them entirely
+        foreach ($this->chidren as $child)
+        {
+            $child->delete();
+        }
+    }
 }
