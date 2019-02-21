@@ -28,7 +28,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->call(function () {
             (new Attendance)->remindPendingAttendance();
-        })->daily();
+        })->dailyAt('08:00');
 
     }
 
