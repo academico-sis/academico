@@ -26,7 +26,7 @@ interface Mailer {
     public function unsubscribeSubscriber($email);
 }
 
-class SyncStudentsMailingList extends Command implements Mailer
+class SyncStudentsMailingList extends Command
 {
 
     /**
