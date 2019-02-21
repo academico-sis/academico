@@ -60,17 +60,6 @@ class EnrollmentController extends Controller
         // todo migrate comments, attendance, grades, skills...
     }
 
-    public function delete(Enrollment $enrollment)
-    {
-        /** mark the enrollment as cancelled */
-        $enrollment->delete();
-
-        // delete attendance
-        // delete grades
-        // delete skills
-    }
-
-
 
     /**
      * Show the page for billing the specified enrollment
