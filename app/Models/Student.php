@@ -141,6 +141,8 @@ class Student extends Model
             }
         }
 
+        $this->lead_type_id = 1; // converted
+        $this->save();
         return $enrollment->id;
     }
 }
