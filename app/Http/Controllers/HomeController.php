@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Event;
 use App\Models\Leave;
 use App\Models\Period;
@@ -88,6 +89,28 @@ class HomeController extends Controller
         
         Log::info(backpack_user()->firstname . ' ' . backpack_user()->lastname . " accessed the admin dashboard");
 
+
+        // todo refactor this !!
+        $events = Event::orderBy('id', 'desc')->get()->toArray();
+        
+        $teachers = Teacher::with('user')->get()->toArray();
+
+        $teachers = array_map(function($teacher) {
+            return array(
+                'id' => $teacher['id'],
+                'title' => $teacher['user']['firstname'],
+            );
+        }, $teachers);
+
+        $events = array_map(function($event) {
+            return array(
+                'title' => $event['name'],
+                'resourceId' => $event['teacher_id'],
+                'start' => $event['start'],
+                'end' => $event['end'],
+            );
+        }, $events);
+
         return view('admin.dashboard', [
             'pending_enrollment_count' => $period->pending_enrollments_count,
             'paid_enrollment_count' => $period->paid_enrollments_count,
@@ -97,6 +120,8 @@ class HomeController extends Controller
             'pending_attendance' => (new Attendance)->get_pending_attendance(),
             'unassigned_teacher' => (new Event)->unassigned_teacher,
             'upcoming_leaves' => Leave::upcoming_leaves(),
+            'resources' => $teachers,
+            'events' => $events,
         ]);
     }
 
