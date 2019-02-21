@@ -185,6 +185,8 @@ class SyncStudentsMailingList extends Command
                     dump($this->createAlumniSubscriber($contact));
                 }
             }
+
+            sleep(1);
         }
 
     }
