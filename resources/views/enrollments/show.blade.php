@@ -136,12 +136,13 @@
                     @endif
                 </div>
 
-
-                {{-- todo translate and improve the confirmation message --}}
-                <button type="submit" class="btn btn-danger" onclick="if(confirm('Voulez-vous vraiment supprimer cette inscription ?')) cancel({{ $enrollment->id }})">
-                    @lang('Delete Enrollment')
-                </button>
-
+                @if(backpack_user()->can('enrollments.edit'))
+                    {{-- todo translate and improve the confirmation message --}}
+                    <button type="submit" class="btn btn-danger" onclick="if(confirm('Voulez-vous vraiment supprimer cette inscription ?')) cancel({{ $enrollment->id }})">
+                        @lang('Delete Enrollment')
+                    </button>
+                @endif
+                
             @else
                 {{ $enrollment->enrollmentStatus->name }}
             @endif
