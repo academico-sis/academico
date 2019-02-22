@@ -23,7 +23,7 @@ class Enrollment extends Model
     use SoftDeletes;
 
     protected $fillable = ['student_id', 'course_id', 'parent_id', 'status_id'];
-    protected $append = ['children'];
+    protected $append = ['childrenEnrollments'];
 
 
     /**
@@ -41,7 +41,7 @@ class Enrollment extends Model
     public function scopeReal($query)
     {
         return $query
-            ->whereDoesntHave('children')
+            ->whereDoesntHave('childrenEnrollments')
             ->get();
     }
 

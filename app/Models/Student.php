@@ -75,7 +75,7 @@ class Student extends Model
         return $this->hasMany(Enrollment::class)
             ->with('course')
             ->whereIn('status_id', ['1', '2'])
-            ->whereDoesntHave('children');
+            ->whereDoesntHave('childrenEnrollments');
     }
 
 

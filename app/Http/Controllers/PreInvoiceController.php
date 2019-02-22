@@ -77,9 +77,9 @@ class PreInvoiceController extends Controller
                 $enrollment->status_id = 2;
                 $enrollment->save();
 
-                if($enrollment->children->count() > 0)
+                if($enrollment->childrenEnrollments->count() > 0)
                 {
-                    foreach ($enrollment->children as $child_enrollment)
+                    foreach ($enrollment->childrenEnrollments as $child_enrollment)
                     {
                         $child_enrollment->status_id = 2;
                         $child_enrollment->save();
