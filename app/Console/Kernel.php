@@ -2,10 +2,11 @@
 
 namespace App\Console;
 
-use Illuminate\Console\Scheduling\Schedule;
-use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Models\User;
 use App\Models\Attendance;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
@@ -29,7 +30,7 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () {
             Log::info('Sending attendance reminders');
             (new Attendance)->remindPendingAttendance();
-        })->dailyAt('08:10');
+        })->dailyAt('08:15');
 
     }
 
