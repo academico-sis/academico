@@ -27,8 +27,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->call(function () {
+            Log::info('Sending attendance reminders');
             (new Attendance)->remindPendingAttendance();
-        })->dailyAt('08:00');
+        })->dailyAt('08:10');
 
     }
 
