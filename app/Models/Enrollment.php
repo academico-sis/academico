@@ -111,7 +111,7 @@ class Enrollment extends Model
             ->with('comments');
     }
 
-    public function children()
+    public function childrenEnrollments()
     {
         return $this->hasMany(Enrollment::class, 'parent_id');
     }
@@ -188,5 +188,22 @@ class Enrollment extends Model
     public function getStatusAttribute()
     {
         return $this->enrollmentStatus->name;
+    }
+
+    
+    public function cancel()
+    {
+        $this->status_id = 3; // cancelled
+        $this->save();
+
+        dump($this->childrenEnrollments);
+        // if the enrollment had children, delete them entirely
+         if ($this->childrenEnrollments && $this->childrenEnrollments->count() > 0)
+        {
+            foreach ($this->childrenEnrollments as $child)
+            {
+                $child->delete();
+            }
+        }
     }
 }

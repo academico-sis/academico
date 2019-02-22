@@ -117,33 +117,33 @@
                 
                     <div class="label label-primary">
                             {{ $enrollment->enrollmentStatus->name }}
-                        </div>
+                    </div>
                     
                     @lang('Invoice(s)')
                         @foreach ($enrollment->pre_invoice as $pre_invoice)
-                            <a href="/preinvoice/{{ $pre_invoice->id }}">{{ $pre_invoice->invoice_number ?? "inconnu" }}</a> 
+                            <a href="/preinvoice/{{ $pre_invoice->id }}">{{ $pre_invoice->invoice_number ?? "?" }}</a> 
                         @endforeach
 
                 @elseif($enrollment->status_id == 1)
 
                 <div class="label label-warning">
-                        {{ $enrollment->enrollmentStatus->name }}
-                    </div>
+                    {{ $enrollment->enrollmentStatus->name }}
+                </div>
                 
-                    <div>
-                <a href="/enrollments/{{ $enrollment->id }}/bill" class="btn btn-primary">
-                    @lang('Checkout')
-                </a>
-            </div>
-               {{--  <form method="POST" action="/enrollment/{{$enrollment->id}}">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-danger">
+                <div>
+                    @if ($enrollment->children_count  == 0)
+                        <a href="/enrollments/{{ $enrollment->id }}/bill" class="btn btn-primary">@lang('Checkout')</a>
+                    @endif
+                </div>
+
+
+                {{-- todo translate and improve the confirmation message --}}
+                <button type="submit" class="btn btn-danger" onclick="if(confirm('Voulez-vous vraiment supprimer cette inscription ?')) cancel({{ $enrollment->id }})">
                     @lang('Delete Enrollment')
                 </button>
-                </form> todo allow to delete enrollment --}}
-@else
-{{ $enrollment->enrollmentStatus->name }}
+
+            @else
+                {{ $enrollment->enrollmentStatus->name }}
             @endif
             </div>
         </div>
@@ -155,8 +155,22 @@
 @endsection
 
 
+@section('before_scripts')
+<script>
+        function cancel(enrollment)
+            {
+                axios.delete('/enrollment/'+enrollment)
+                    .then(function (response) {
+                        document.location.reload(true);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+    </script>
+
+@endsection
+
 @section('after_scripts')
     <script src="/js/app.js"></script>
-
-    
 @endsection

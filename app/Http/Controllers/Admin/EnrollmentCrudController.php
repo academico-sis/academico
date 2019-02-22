@@ -7,6 +7,7 @@ use App\Models\Period;
 // VALIDATION: change the requests to match your own file names if you need form validation
 use App\Models\Enrollment;
 use App\Models\ResultType;
+use Illuminate\Support\Facades\Log;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use App\Http\Requests\EnrollmentRequest as StoreRequest;
 use App\Http\Requests\EnrollmentRequest as UpdateRequest;
@@ -209,9 +210,7 @@ class EnrollmentCrudController extends CrudController
 
         /**
      * Change the status of the enrollment to ANULADO
-     * 
      * todo/Later, use softdeletes instead?
-     * anyway, move the logic to the model
      *
      * @param  \App\Models\Enrollment  $enrollment
      * @return \Illuminate\Http\Response
@@ -219,9 +218,10 @@ class EnrollmentCrudController extends CrudController
     public function destroy($enrollment)
     {
         $enrollment = Enrollment::findOrFail($enrollment);
-        if ($enrollment->status == 1) {
-            $enrollment->status = 3;
-            $enrollment->save();
+        if ($enrollment->status_id == 1) {
+            $enrollment->cancel();
         }
+        
+        Log::notice('Enrollment canceled by user ' . backpack_user()->id);
     }
 }

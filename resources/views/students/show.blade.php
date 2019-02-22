@@ -121,6 +121,7 @@
                                 <th>@lang('Date')</th>
                                 <th>@lang('Enrollment ID')</th>
                                 <th>@lang('Course')</th>
+                                <th>@lang('Teacher')</th>
                                 <th>@lang('Period')</th>
                                 @if(backpack_user()->can('enrollments.edit'))
                                     <th>@lang('Status')</th>
@@ -137,6 +138,7 @@
                                             <a href="/enrollment/{{ $enrollment->id }}">{{ $enrollment->id }}</a>
                                         </td>
                                         <td>{{ $enrollment->course->name }}</td>
+                                        <td>{{ $enrollment->course->teacher->name ?? '-'}}</td>
                                         <td>{{ $enrollment->course->period->name }}</td>
                                         @if(backpack_user()->can('enrollments.edit'))
                                             <td>{{ $enrollment->status }}</td>
