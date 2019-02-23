@@ -144,7 +144,7 @@ class Teacher extends Model
             ->where('course_id', '!=', null)
             ->withCount('attendance')
             ->with('course')
-            ->where('start', '<', (Carbon::parse('15 minutes from now'))->toDateTimeString()) // todo check timezones
+            ->where('start', '<', (new Carbon)->toDateTimeString()) // todo check timezones
             ->get()
             ->filter(function ($event, $key) {
                 return $event->course->enrollments_count != $event->attendance_count; // todo improve check
