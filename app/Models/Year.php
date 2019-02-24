@@ -18,7 +18,7 @@ class Year extends Model
 
     protected $table = 'years';
     // protected $primaryKey = 'id';
-    // public $timestamps = false;
+    public $timestamps = false;
     // protected $guarded = ['id'];
     protected $fillable = [];
     // protected $hidden = [];

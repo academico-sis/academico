@@ -58,10 +58,7 @@ class Event extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
-    public function getLengthAttribute()
-    {
-        return Carbon::parse($this->end)->diffInSeconds(Carbon::parse($this->start)) / 3600;
-    }
+
 
     /*
     |--------------------------------------------------------------------------
@@ -117,6 +114,11 @@ class Event extends Model
     | ACCESORS
     |--------------------------------------------------------------------------
     */
+
+    public function getLengthAttribute()
+    {
+        return Carbon::parse($this->end)->diffInSeconds(Carbon::parse($this->start)) / 3600;
+    }
 
     public function getVolumeAttribute()
     {

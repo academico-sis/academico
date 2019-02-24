@@ -2,7 +2,7 @@
 
 use Carbon\Carbon;
 use App\Models\User;
-use App\Models\Student;
+use App\Models\Teacher;
 use Faker\Generator as Faker;
 
 /*
@@ -17,12 +17,8 @@ use Faker\Generator as Faker;
 */
 
 
-$factory->define(Student::class, function (Faker $faker) {
+$factory->define(Teacher::class, function (Faker $faker) {
     return [
-        'idnumber' => $faker->randomNumber,
-        'genre_id' => '1',
-        'address' => $faker->streetAddress,
-        'birthdate' => $faker->dateTimeThisCentury->format('Y-m-d'),
         'user_id' => factory(User::class)->create()->id
     ];
 });
