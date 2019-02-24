@@ -54,12 +54,6 @@ class User extends Authenticatable
     {
         return $this->email;
     }
-
-
-/*     public function preferredLocale()
-    {
-        return $this->locale;
-    } */
     
     public function isTeacher()
     {

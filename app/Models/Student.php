@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use App\Models\LeadType;
 use Backpack\CRUD\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -23,7 +22,6 @@ class Student extends Model
     {
         return $this->belongsTo(User::class);
     }
-
 
     public function attendance()
     {
@@ -67,9 +65,6 @@ class Student extends Model
         return $this->belongsTo(LeadType::class);
     }
 
-
-        /** attributes */
-
     public function real_enrollments()
     {
         return $this->hasMany(Enrollment::class)
@@ -78,6 +73,9 @@ class Student extends Model
             ->whereDoesntHave('childrenEnrollments');
     }
 
+
+
+    /** attributes */
 
     public function getFirstnameAttribute()
     {
@@ -112,7 +110,7 @@ class Student extends Model
 
     /** functions */
 
-          /**
+    /**
      * enroll the student in a course.
      * If the course has any children, we also enroll the student in the children courses.
      */
