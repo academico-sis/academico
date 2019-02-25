@@ -18,9 +18,9 @@ class Period extends Model
     // protected $hidden = [];
     // protected $dates = [];
   
+    /** todo allow admin to override this */
     public static function get_default_period()
     {
-        return Period::find(22);
         return Period::where('start', '<=', date('Y-m-d'))
         ->where('end', '>=', date('Y-m-d'))
         ->first();

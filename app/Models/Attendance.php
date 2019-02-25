@@ -39,7 +39,6 @@ class Attendance extends Model
 
     /** RELATIONS */
 
-    // todo is this necessary? Why not access it through the student?
     public function student()
     {
         return $this->belongsTo(Student::class, 'student_id');
