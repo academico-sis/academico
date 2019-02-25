@@ -12,7 +12,7 @@ class CoreTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->seed('DatabaseSeeder');
+        //$this->seed('DatabaseSeeder');
     }
 
     /** @test */

@@ -10,11 +10,10 @@ use App\Models\Level;
 use App\Models\Room;
 use App\Models\Period;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class EventTest extends TestCase
 {
-    use DatabaseMigrations;
+    use RefreshDatabase;
    
     public function test_that_events_are_created_with_new_coursetime()
     {
