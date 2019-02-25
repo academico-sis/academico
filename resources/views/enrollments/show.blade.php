@@ -131,7 +131,7 @@
                 </div>
                 
                 <div>
-                    @if ($enrollment->children_count  == 0)
+                    @if ($enrollment->parent_id == null)
                         <a href="/enrollments/{{ $enrollment->id }}/bill" class="btn btn-primary">@lang('Checkout')</a>
                     @endif
                 </div>
