@@ -216,9 +216,13 @@ class StudentCrudController extends CrudController
     {
         $student = Student::findOrFail($student);
         $comments = $student->comments;
-        $lead_types = LeadType::all();
 
-        return view('students/show', compact('student', 'comments', 'lead_types'));
+        return view('students/show', [
+            'student' => $student,
+            'comments' => $comments,
+            'lead_types' => LeadType::all(),
+            'attendances' => $student->periodAttendance()->get()
+        ]);
     }
 
 

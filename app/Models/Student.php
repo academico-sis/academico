@@ -28,13 +28,31 @@ class Student extends Model
         return $this->hasMany(Attendance::class);
     }
 
-    public function periodAbsences()
+    public function periodAbsences(Period $period = null)
     {
+        if ($period == null) {
+            $period = Period::get_default_period();
+        }
+
         return $this->hasMany(Attendance::class)
         ->where('attendance_type_id', 4) // absence
-        ->whereHas('event', function($q) {
-            return $q->whereHas('course', function($c) {
-                return $c->where('period_id', 22);
+        ->whereHas('event', function($q) use ($period) {
+            return $q->whereHas('course', function($c) use ($period) {
+                return $c->where('period_id', $period->id);
+            });
+        });
+    }
+
+    public function periodAttendance(Period $period = null)
+    {
+        if ($period == null) {
+            $period = Period::get_default_period();
+        }
+
+        return $this->hasMany(Attendance::class)
+        ->whereHas('event', function($q) use ($period) {
+            return $q->whereHas('course', function($c) use ($period) {
+                return $c->where('period_id', $period->id);
             });
         });
     }

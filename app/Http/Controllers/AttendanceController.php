@@ -45,9 +45,15 @@ class AttendanceController extends Controller
         return view('attendance.monitor', compact('absences', 'pending_attendance'));
     }
 
-    public function student(Student $student)
+    public function student(Request $request, Student $student)
     {
-        return view('attendance.student', compact('student'));
+        $period = $this->selectPeriod($request);
+
+        return view('attendance.student', [
+            'student' => $student,
+            'selected_period' => $period,
+            'absences'=> $student->periodAbsences($period)->get()
+        ]);
 
     }
 

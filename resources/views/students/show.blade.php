@@ -41,6 +41,7 @@
             </div>
         </div>
     </div>
+    
 
     @foreach ($student->contacts as $contact)
     <div class="col-md-4">
@@ -75,6 +76,37 @@
 
 <div class="row">
  --}}
+
+
+ <div class="col-md-4">
+        <div class="box">
+            <div class="box-header with-border">
+                <div class="box-title">
+                    @lang('Attendance')
+                </div>
+                <div class="box-tools pull-right">
+                </div>
+            </div>
+            
+            <div class="box-body" id="app">
+                <table class="table">
+                    @foreach($attendances as $attendance)
+                        @if ($attendance->attendance_type_id == 4)
+                        <a href="{{ route('studentAttendance', ['student' => $student->id]) }}">
+                            <label class="label-danger">{{ $attendance->event->shortDate }}</label>
+                        </a>
+                        @elseif($attendance->attendance_type_id == 1)
+                            <label class="label-success">{{ $attendance->event->shortDate }}</label>
+                        @else
+                            <label class="label-warning">{{ $attendance->event->shortDate }}</label>
+                        @endif
+                        -
+                    @endforeach
+                </table>
+            </div>
+        </div>
+    </div>
+
 
  @if(backpack_user()->can('enrollments.edit'))
     <div class="col-md-4">
