@@ -101,6 +101,8 @@ class AttendanceTest extends TestCase
         
         public function test_attendance_overview_per_course()
         {
+            // the teacher can view the attendance for their courses
+            // but not for other courses
         }
         
         

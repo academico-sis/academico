@@ -1,16 +1,17 @@
 <?php
 
-use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
 use App\Models\Campus;
-use App\Models\EnrollmentStatusType;
-use App\Models\ResultType;
-use App\Models\EvaluationType;
-use App\Models\AttendanceType;
-use App\Models\ContactRelationship;
-use App\Models\Skills\SkillScale;
+use App\Models\Period;
 use App\Models\LeaveType;
+use App\Models\ResultType;
+use App\Models\AttendanceType;
+use App\Models\EvaluationType;
+use Illuminate\Database\Seeder;
+use App\Models\Skills\SkillScale;
+use Spatie\Permission\Models\Role;
+use App\Models\ContactRelationship;
+use App\Models\EnrollmentStatusType;
+use Spatie\Permission\Models\Permission;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,7 +23,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         //factory(App\Models\User::class, 20)->create();
-        //factory(App\Models\Period::class, 1)->create();
+        factory(Period::class, 1)->create();
         //factory(App\Models\Course::class, 5)->create();
         
         Campus::create([
