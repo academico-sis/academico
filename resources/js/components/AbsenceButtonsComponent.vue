@@ -46,9 +46,9 @@
             saveAttendance(attendance) {
                 axios
                     .post(this.route, {
-                        event: this.attendance.event.id,
-                        student: this.attendance.student_id,
-                        attendance
+                        event_id: this.attendance.event.id,
+                        student_id: this.attendance.student_id,
+                        attendance_type_id: attendance
                     })
                     .then(response => {
                         this.studentAttendance = attendance

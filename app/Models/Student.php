@@ -121,7 +121,8 @@ class Student extends Model
             'student_id' =>  $this->id,
             'course_id' => $course->id
         ]);
-        $enrollment->responsible_id = backpack_user()->id;
+
+        $enrollment->responsible_id = backpack_user()->id ?? 1;
         $enrollment->save();
         
         // if the course has children, enroll in children as well.

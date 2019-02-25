@@ -56,10 +56,15 @@ class AttendanceController extends Controller
      */
     public function store(Request $request)
     {
-        $student = Student::findOrFail($request->input('student'));
-        $event = Event::findOrFail($request->input('event'));
-        $attendance_type = AttendanceType::findOrFail($request->input('attendance'));
+        $student = Student::findOrFail($request->input('student_id'));
+        $event = Event::findOrFail($request->input('event_id'));
+        $attendance_type = AttendanceType::findOrFail($request->input('attendance_type_id'));
 
+        if ($event->teacher_id != \backpack_user()->id)
+        { 
+            abort(403);
+        }
+        
         $attendance = Attendance::firstOrNew([
             'student_id' => $student->id,
             'event_id' => $event->id,
