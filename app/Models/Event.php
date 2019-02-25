@@ -156,6 +156,11 @@ class Event extends Model
     {
         return round(Carbon::parse($this->end)->diffInMinutes(Carbon::parse($this->start)) / 60, 2);
     }
+
+    public function getShortDateAttribute()
+    {
+        return Carbon::parse($this->start)->day . '/' . Carbon::parse($this->start)->month;
+    }
     
     /*
     |--------------------------------------------------------------------------
