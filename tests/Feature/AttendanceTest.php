@@ -46,18 +46,17 @@ class AttendanceTest extends TestCase
 
         }
         
-        private function recordAttendanceByTeacher()
+        private function recordAttendanceByTeacher($attributes)
         {
             \Auth::guard(backpack_guard_name())->login($this->course->teacher->user);
 
             // when the teacher posts a new attendance record
-            $this->json('POST', route('storeAttendance'), $this->attributes);
+            $this->json('POST', route('storeAttendance'), $attributes);
         }
 
         /** @test */
         public function authorized_users_can_take_attendance()
         {
-
             $this->recordAttendanceByTeacher($this->attributes);
 
             // it is persisted to the DB
@@ -113,24 +112,33 @@ class AttendanceTest extends TestCase
         
         public function test_absence_monitoring()
         {
+            $student = $this->course->enrollments()->first()->student;
+
             // when an absence record is created, the student number of absences is incremented.
 
-            $attributes = [
-                'student_id' => $this->course->enrollments()->first()->student->id,
+            $this->recordAttendanceByTeacher([
+                'student_id' => $student->id,
                 'event_id' => $this->course->events->first()->id,
                 'attendance_type_id' => 4,
-            ];
+            ]);
 
-            $this->recordAttendanceByTeacher($attributes);
+            $absencesCountBefore = $student->periodAbsences($this->course->period)->count();
+            
+            $this->recordAttendanceByTeacher([
+                'student_id' => $student->id,
+                'event_id' => $this->course->events->last()->id,
+                'attendance_type_id' => 4,
+            ]);
 
-            $absenceCountBefore = $this->course->enrollments()->first()->student->periodAbsences;
+            $this->recordAttendanceByTeacher([
+                'student_id' => $student->id,
+                'event_id' => $this->course->events->get(2)->id,
+                'attendance_type_id' => 1,
+            ]);
 
-            $this->recordAttendanceByTeacher($attributes);
+            $absencesCountAfter = $student->periodAbsences($this->course->period)->count();
 
-            $absenceCountAfter = $this->course->enrollments()->first()->student->periodAbsences->count();
-
-            dump($absenceCountBefore);
-            $this->assertTrue($absenceCountAfter == $absenceCountBefore + 1);
+            $this->assertTrue($absencesCountAfter == $absencesCountBefore + 1);
         }
     }
     
