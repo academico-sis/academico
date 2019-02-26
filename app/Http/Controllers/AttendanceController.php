@@ -66,7 +66,7 @@ class AttendanceController extends Controller
         $event = Event::findOrFail($request->input('event_id'));
         $attendance_type = AttendanceType::findOrFail($request->input('attendance_type_id'));
 
-        if ($event->teacher_id == \backpack_user()->id || $event->course->teacher_id == \backpack_user()->id || \backpack_user()->hasRole('admin'))
+        if ($event->teacher_id == \backpack_user()->id || $event->course->teacher_id == \backpack_user()->id || \backpack_user()->can('attendance.edit'))
         { 
 
             $attendance = Attendance::firstOrNew([
