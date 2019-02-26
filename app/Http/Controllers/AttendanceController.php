@@ -66,20 +66,25 @@ class AttendanceController extends Controller
         $event = Event::findOrFail($request->input('event_id'));
         $attendance_type = AttendanceType::findOrFail($request->input('attendance_type_id'));
 
-        if ($event->teacher_id != \backpack_user()->id || \backpack_user()->isAdmin())
+        if ($event->teacher_id == \backpack_user()->id || $event->course->teacher_id == \backpack_user()->id || \backpack_user()->hasRole('admin'))
         { 
+
+            $attendance = Attendance::firstOrNew([
+                'student_id' => $student->id,
+                'event_id' => $event->id,
+            ]);
+            $attendance->attendance_type_id = $attendance_type->id;
+    
+            $attendance->save();
+    
+            Log::info('Attendance recorded by ' . \backpack_user()->id);
+            
+        } else {
+            
             abort(403);
         }
         
-        $attendance = Attendance::firstOrNew([
-            'student_id' => $student->id,
-            'event_id' => $event->id,
-        ]);
-        $attendance->attendance_type_id = $attendance_type->id;
 
-        $attendance->save();
-
-        Log::info('Attendance recorded by ' . \backpack_user()->id);
 
     }
 
