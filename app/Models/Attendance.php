@@ -129,7 +129,7 @@ class Attendance extends Model
         ->with('attendance')
         ->with('teacher')
         ->with('course.enrollments')
-        ->where('start', '<', (new Carbon)->toDateTimeString()) // todo check timezones
+        ->where('start', '<', Carbon::now(env('COURSES_TIMEZONE'))->toDateTimeString())
         ->get();
         
         $pending_events = [];
