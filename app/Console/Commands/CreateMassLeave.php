@@ -42,15 +42,14 @@ class CreateMassLeave extends Command
 
         // todo move to UI
         $dates = [
-            0 => Carbon::parse('2019-03-02'),
-            1 => Carbon::parse('2019-03-04'),
-            2 => Carbon::parse('2019-03-05'),
+            0 => Carbon::parse('2019-04-19'),
+            1 => Carbon::parse('2019-04-20'),
         ];
 
         foreach (Teacher::all() as $teacher)
         {
             foreach ($dates as $date)
-            {               
+            {
                 $teacher->leaves()->create([
                     'date' => $date->toDateString(),
                     'leave_type_id' => 1,
