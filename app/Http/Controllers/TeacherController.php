@@ -63,7 +63,7 @@ class TeacherController extends Controller
 
         $leaves = array_map(function($event) {
             return array(
-                'title' => $event->leaveType->name ?? 'vacances', // todo fix
+                'title' => $event->leaveType->name ?? 'congés', // todo fix
                 'resourceId' => $event['teacher_id'],
                 'start' => $event['date'],
                 'allDay' => true,
