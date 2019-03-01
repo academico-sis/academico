@@ -185,7 +185,7 @@ protected static function boot()
     /** in the case of skills-based evaluation, Skill models are attached to the course */
     public function skills()
     {
-        return $this->belongsToMany('App\Models\Skills\Skill');
+        return $this->belongsToMany('App\Models\Skills\Skill')->orderBy('order');
     }
 
     public function skill_evaluations()

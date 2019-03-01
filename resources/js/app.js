@@ -26,10 +26,11 @@ Vue.component('course-result-component', require('./components/CourseResultCompo
 
 Vue.component('event-data-sync-component', require('./components/EventDataSyncComponent.vue').default);
 
-
 Vue.component('lead-status-component', require('./components/LeadStatusComponent.vue').default);
 
 Vue.component('absence-buttons', require('./components/AbsenceButtonsComponent.vue').default);
+
+Vue.component('skills-list', require('./components/SkillsListComponent.vue').default);
 
   
 /**

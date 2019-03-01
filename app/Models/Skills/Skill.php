@@ -13,6 +13,7 @@ class Skill extends Model
 {
     use CrudTrait;
     protected $guarded = ['id'];
+    protected $with = ['level', 'skill_type'];
 
     public function skill_type()
     {

@@ -31,6 +31,7 @@
     "fullcalendar-scheduler": "^4.0.0-alpha.4",
     "moment": "^2.23.0",
     "npm": "^6.5.0",
+    "vue-draggable": "^2.0.0-beta.1",
     "vue-moment": "^4.0.0"
   }
 }
