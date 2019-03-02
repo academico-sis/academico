@@ -9,6 +9,7 @@ use App\Models\Course;
 use App\Models\Result;
 use App\Models\Comment;
 use App\Models\Student;
+use App\Models\Attendance;
 use App\Models\PreInvoice;
 use Backpack\CRUD\CrudTrait;
 use App\Models\EnrollmentStatusType;
@@ -25,6 +26,25 @@ class Enrollment extends Model
     protected $fillable = ['student_id', 'course_id', 'parent_id', 'status_id'];
     protected $append = ['childrenEnrollments'];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        // when creating a new enrollment, also add past attendance
+        static::created(function(Enrollment $enrollment) {
+            $events = $enrollment->course->events->where('start', '<', (new Carbon)->toDateString());
+            foreach ($events as $event)
+            {
+                $event->attendance()->create([
+                    'student_id' => $enrollment->student_id,
+                    'attendance_type_id' => 3,
+                ]);
+            }
+            
+            
+        });
+
+    }
 
     /**
      * return all pending enrollments, without the child enrollments
@@ -196,7 +216,6 @@ class Enrollment extends Model
         $this->status_id = 3; // cancelled
         $this->save();
 
-        dump($this->childrenEnrollments);
         // if the enrollment had children, delete them entirely
          if ($this->childrenEnrollments && $this->childrenEnrollments->count() > 0)
         {
@@ -205,5 +224,11 @@ class Enrollment extends Model
                 $child->delete();
             }
         }
+
+        // delete attendance records related to the enrollment
+        $attendances = $this->course->attendance->where('student_id', $this->student->id);
+        Attendance::destroy($attendances->map(function ($item, $key) {
+            return $item->id;
+        }));
     }
 }
