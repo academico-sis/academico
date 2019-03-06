@@ -26,31 +26,10 @@
                 </div>  
             </div>
             
-            <div class="box-body">
+            <div class="box-body" id="app">
                 
-                @if($skills->count() > 0)
-                    <table class="table table-striped" id="skillsTable">
-                        <thead>
-                            <td>@lang('Skill Type')</td>
-                            <td>@lang('Level')</td>
-                            <td>@lang('Skill')</td>
-                        </thead>
-                        <tbody>
-                            @foreach ($skills as $skill)
-                            <tr>
-                                <td>{{ $skill->skill_type->shortname }}</td>
-                                <td>{{ $skill->level->name }}</td>
-                                <td>{{ $skill->name }}</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                    <skills-list :course={!! json_encode($course->id) !!}></skills-list>
                 
-                @else
-
-                <p>@lang('There are no skills attached to this course')</p>
-
-                @endif
             </div>
         </div>
     </form>
@@ -59,12 +38,8 @@
 
 @endsection
 
-
-@section('before_scripts')
-
-@endsection
-
-
 @section('after_scripts')
+    <script src="/js/app.js"></script>
 
+    
 @endsection

@@ -40,6 +40,9 @@ Route::group(
     Route::get('course/{course}/skillsevaluation', 'CourseSkillEvaluationController@index')->name('courseSkillsEvaluation');
     Route::get('course/{course}/skillsevaluation/{student}', 'CourseSkillEvaluationController@edit')->name('studentSkillsEvaluation');
     Route::post('skillsevaluation', 'CourseSkillEvaluationController@store')->name('storeSkillEvaluation');
+    Route::get('course/{course}/skill', 'CourseSkillController@show');
+    Route::get('course/{course}/getskills', 'CourseSkillController@get');
+    Route::patch('course/{course}/setskills', 'CourseSkillController@set');
 
     // todo review this entire module
     /* Course grades update */
