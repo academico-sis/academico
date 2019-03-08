@@ -48,7 +48,7 @@
                     <div class="box-body">
                         <ul>
                             @foreach($pending_attendance as $event)
-                            <li>{{ $event['event'] }} ({{ $event['event_date'] }})</li>
+                            <li>{{ $event['event'] }} ({{ $event['event_date'] }}) - {{ $event['event_id'] }}</li>
                             @endforeach
                         </ul>
     
