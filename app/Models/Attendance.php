@@ -139,7 +139,7 @@ class Attendance extends Model
             // if the attendance record count do not match the enrollment count, push the event to array
             $pending_attendance = $event->course->enrollments->count() - $event->attendance->count();
 
-            if ($pending_attendance > 0)
+            if ($pending_attendance != 0)
             {
                 $pending_events[$event->id]['event'] = $event->name ?? "";
                 $pending_events[$event->id]['event_id'] = $event->id;
