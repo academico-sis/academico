@@ -48,7 +48,7 @@
                     <div class="box-body">
                         <ul>
                             @foreach($pending_attendance as $event)
-                            <li>{{ $event['event'] }} ({{ $event['event_date'] }}) - <a href="{{ route('eventAttendance', ['event' => $event->id]) }}">{{ $event['event_id'] }}</a></li>
+                            <li>{{ $event['event'] }} ({{ $event['event_date'] }}) - <a href="{{ route('eventAttendance', ['event' => $event['event_id']]) }}">{{ $event['event_id'] }}</a></li>
                             @endforeach
                         </ul>
     
