@@ -11,6 +11,14 @@
 
 @section('content')
 
+
+<div class="row">
+    
+    <div class="col-lg-8 col-lg-offset-2">
+        <h2>Classe du {{ Carbon\Carbon::parse($event->start)->day }} / {{ Carbon\Carbon::parse($event->start)->month }}</h2>
+    </div>
+</div>
+
 <div class="row">
     
     <div class="col-lg-8 col-lg-offset-2">
