@@ -54,8 +54,8 @@
                         <tr>
                             <th>@lang('Student')</th>
                             <th>@lang('Course')</th>
-                            <th>@lang('Excused absences')</th>
                             <th>@lang('Non-excused absences')</th>
+                            <th>@lang('Excused absences')</th>
                             <th>@lang('Total')</th>
                         </tr>
                     </thead>
