@@ -50,13 +50,28 @@
             
             <div class="box-body">
                 <table class="table">
-                    @foreach($absences as $absence)
-                    <tr>
-                        <td><a href="{{ route('studentAttendance', ['student' => $absence->student_id]) }}">{{ $absence->firstname }} {{ $absence->lastname }}</a></td>
-                        <td>{{ $absence->course_name }}</td>
-                        <td>{{ $absence->count }}</td>
-                    </tr>
-                    @endforeach
+                    <thead>
+                        <tr>
+                            <th>@lang('Student')</th>
+                            <th>@lang('Course')</th>
+                            <th>@lang('Excused absences')</th>
+                            <th>@lang('Non-excused absences')</th>
+                            <th>@lang('Total')</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($absences as $absence)
+                            @if($absence->unexcused + $absence->excused > 0)
+                            <tr>
+                                <td><a href="{{ route('studentAttendance', ['student' => $absence->student_id]) }}">{{ $absence->firstname }} {{ $absence->lastname }}</a></td>
+                                <td>{{ $absence->course_name }}</td>
+                                <td>{{ $absence->unexcused }}</td>
+                                <td>{{ $absence->excused }}</td>
+                                <td>{{ $absence->unexcused + $absence->excused }}</td>
+                            </tr>
+                            @endif
+                        @endforeach
+                    </tbody>
                 </table>
             </div>
         </div>

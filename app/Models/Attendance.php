@@ -91,7 +91,8 @@ class Attendance extends Model
     public function get_absence_count(Period $period)
     {
         return Attendance::selectRaw('
-            count(*) AS count,
+            SUM(case when attendance_type_id = 3 then 1 else 0 end) as excused,
+            SUM(case when attendance_type_id = 4 then 1 else 0 end) as unexcused,
             student_id,
             users.firstname as firstname,
             users.lastname as lastname,
@@ -100,9 +101,8 @@ class Attendance extends Model
         ->join('courses', 'courses.id', '=', 'events.course_id')
         ->join('users', 'attendances.student_id', '=', 'users.id')
         ->where('courses.period_id', $period->id)
-        ->where('attendances.attendance_type_id', 4) // todo make this configurable
         ->groupBy('course_name', 'student_id', 'firstname', 'lastname')
-        ->orderBy('count', 'DESC')
+        ->orderBy('excused', 'DESC')
         ->get();
     }
 
