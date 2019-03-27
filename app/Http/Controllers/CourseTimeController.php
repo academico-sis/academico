@@ -40,17 +40,34 @@ class CourseTimeController extends Controller
     * Store a newly created coursetime record
     * Events creation is triggered by the Model observers
     */
-   public function store(Course $course, Request $request)
-   {
-        // register the new course schedule entry
-        $newTime = new CourseTime;
-
-        $newTime->course_id = $course->id;
-        $newTime->day = $request->input('day');
-        $newTime->start = $request->input('start');
-        $newTime->end = $request->input('end');
-        $newTime->save();
-    }
+    public function store(Course $course, Request $request)
+    {
+     // register the new course schedule entry
+     
+     // if the course has children, register the coursetime for all children instead.
+     if ($course->children->count() > 0)
+     {
+          foreach ($course->children as $child)
+          {
+               $newTime = new CourseTime;
+               $newTime->course_id = $child->id;
+               $newTime->day = $request->input('day');
+               $newTime->start = $request->input('start');
+               $newTime->end = $request->input('end');
+               $newTime->save();
+          }
+     }
+     else
+     {
+          $newTime->course_id = $course->id;
+          $newTime->day = $request->input('day');
+          $newTime->start = $request->input('start');
+          $newTime->end = $request->input('end');
+          $newTime->save();
+     }
+     
+     
+}
 
 
    /**
