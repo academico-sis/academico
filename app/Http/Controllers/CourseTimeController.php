@@ -59,6 +59,7 @@ class CourseTimeController extends Controller
      }
      else
      {
+          $newTime = new CourseTime;
           $newTime->course_id = $course->id;
           $newTime->day = $request->input('day');
           $newTime->start = $request->input('start');
