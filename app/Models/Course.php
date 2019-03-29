@@ -163,6 +163,11 @@ protected static function boot()
         return $this->hasMany('App\Models\Course', 'parent_course_id');
     }
 
+    public function parent()
+    {
+        return $this->belongsTo('App\Models\Course', 'parent_course_id');
+    }
+
 
     /** evaluation methods associated to the course - grades, skill-based evaluation... */
     public function evaluation_type()

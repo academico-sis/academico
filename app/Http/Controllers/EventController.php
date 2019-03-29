@@ -39,6 +39,17 @@ class EventController extends Controller
         $course->teacher_id = $teacher->id;
         $course->save();
         $course->events()->update(['teacher_id' => $course->teacher_id]);
+
+        // if the course has a parent, update the children of the parent as well.
+        if ($course->parent_course_id !== null)
+        {
+            $parent = Course::find($course->parent_course_id);
+            foreach ($parent->children as $child)
+            {
+                $child->events()->update(['teacher_id' => $course->teacher_id]);
+            }
+        }
+        
     }
 
     public function update_course_room(Request $request)
