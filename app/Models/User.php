@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Student;
 use Backpack\CRUD\CrudTrait;
 use Spatie\Permission\Traits\HasRoles;
 use Tightenco\Parental\HasParentModel;
@@ -63,5 +64,25 @@ class User extends Authenticatable
     public function isStudent()
     {
         return (Student::where('user_id', backpack_user()->id)->count() > 0);
+    }
+
+    public function student()
+    {
+        return $this->hasOne(Student::class);
+    }
+
+    public function getIdnumberAttribute()
+    {
+        return $this->student->idnumber;
+    }
+
+    public function getAddressAttribute()
+    {
+        return $this->student->address;
+    }
+
+    public function getBirthdateAttribute()
+    {
+        return $this->student->birthdate;
     }
 }
