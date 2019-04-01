@@ -7,10 +7,13 @@
         <div class="box">
             <div class="box-body">
                 <form class="col-md-12 p-t-10" role="form" method="POST" action="{{ route('addContact') }}">
-                    {!! csrf_field() !!}
+                    @csrf
                     
                     {{-- the user ID to whom the new contact belongs to --}}
                     <input type="hidden" name="student_id" value="{{ $student_id }}">
+
+                    {{-- we want to log the user out when the contact is added --}}
+                    <input type="hidden" name="destination" value="logout">
 
                     {{-- FIRST NAME --}}
                     <div class="form-group{{ $errors->has('firstname') ? ' has-error' : '' }}">

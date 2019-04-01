@@ -40,7 +40,7 @@
     <div class="col-md-3">
         @include('backpack::auth.account.sidemenu')
     </div>
-    <div class="col-md-6">
+    <div class="col-md-5">
 
         <form class="form" action="{{ route('backpack.account.info') }}" method="post">
 
@@ -129,5 +129,105 @@
         </form>
 
     </div>
+
+    <div class="col-md-4">
+            <div class="box">
+                <div class="box-header with-border">
+                    <div class="box-title">
+                        @lang('New Additional Contact')
+                    </div>
+
+                    <div class="box-tools pull-right">
+                        <a class="btn btn-xs btn-primary" data-toggle="modal" data-target="#userDataModal">
+                                <i class="fa fa-plus"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    @foreach ($user->student->contacts as $contact)
+    <div class="col-md-4">
+            <div class="box">
+                <div class="box-header with-border">
+                    <div class="box-title">
+                        @lang('Additional Contact')
+                        @if(isset($contact->relationship))
+                        ({{ $contact->relationship->name }})
+                        @endif
+                    </div>
+
+                    <div class="box-tools pull-right">
+                            <a class="btn btn-xs btn-warning" href="/contact/{{$contact->id}}/edit">
+                                <i class="fa fa-edit"></i>
+                            </a>
+
+                    </div>
+                </div>
+                
+                <div class="box-body">
+                    @include('students.additional_info')
+                </div>
+            </div>
+        </div>
+    @endforeach
+
 </div>
+
+
+    <!-- Add additional user data Modal-->
+    <div class="modal fade" id="userDataModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">@lang('Add a new contact')</h4>
+            </div>
+            <div class="modal-body">
+              
+                <form action="{{ route('addContact') }}" method="post">
+                @csrf
+                <input type="hidden" name="student_id" value="{{ $user->student->id }}">
+                
+                <div class="form-group">
+                    <label for="firstname">@lang('Firstname')</label>
+                    <input type="text" id="firstname" name="firstname">
+                </div>
+
+                <div class="form-group">
+                    <label for="lastname">@lang('Name')</label>
+                    <input type="text" id="lastname" name="lastname">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">@lang('Email')</label>
+                    <input type="text" id="email" name="email">
+            </div>
+
+            <div class="form-group">
+                <label for="address">@lang('Address')</label>
+                <input type="text" id="address" name="address">
+            </div>
+
+            <div class="form-group">
+                <label for="phone_number">@lang('Phone Number')</label>
+                <input type="text" id="phone_number" name="phone_number">
+            </div>
+
+            <div class="form-group">
+                <label for="idnumber">@lang('ID Number')</label>
+                <input type="text" id="idnumber" name="idnumber">
+            </div>
+
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">@lang('Close')</button>
+              <button type="submit" class="btn btn-success">@lang('Save new Contact')</button>
+            </div>
+        </form>
+          </div>
+        </div>
+      </div>
+    </div>
 @endsection

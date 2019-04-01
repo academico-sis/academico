@@ -6,6 +6,7 @@ use App\Models\Contact;
 use App\Models\PhoneNumber;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use App\Http\Requests\ContactRequest as StoreRequest;
 
 class ContactController extends Controller
@@ -43,11 +44,13 @@ class ContactController extends Controller
         }
 
         \Alert::success(__('The information has successfully been saved'))->flash();
-        if(backpack_user()->isStudent())
+
+        if($request->input('destination') == 'logout')
         {
             backpack_auth()->logout();
             return redirect('/');
         }
+        
         return back();
     }
 }
