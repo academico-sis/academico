@@ -39,7 +39,7 @@ class syncLeads extends Command
      */
     public function handle()
     {
-        $period = Period::find(22);
+/*         $period = Period::find(22);
         
         // for each enrollment in current period,
         foreach($period->enrollments as $enrollment)
@@ -48,7 +48,7 @@ class syncLeads extends Command
             $enrollment->student()->update([
                 'lead_type_id' => 1
             ]);
-        }
+        } */
 /*         
         $value = $period->id;
         
@@ -69,5 +69,24 @@ class syncLeads extends Command
 
         // remove the converted status
 
-    }
+
+        // alumni
+
+        $period = Period::find(22);
+
+        // for each past student, get the last level. If is B2 or C1, mark the student as alumnus.
+        foreach (Student::all() as $student)
+        {
+            if ($student->enrollments->count() > 0)
+            {
+                if (($student->enrollments->last()->course->level_id == 71 || $student->enrollments->last()->course->level_id == 72) && $student->enrollments->last()->course->period_id != $period->id)
+                {
+                    $student->update([
+                        'lead_type_id' => 6
+                    ]);
+                }
+            }
+        }
+
+        }
 }
