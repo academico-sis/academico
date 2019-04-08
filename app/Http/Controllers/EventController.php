@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Event;
 use App\Models\Course;
 
+use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -34,7 +35,7 @@ class EventController extends Controller
     {
         Log::notice('Calendar events updated by user ' . backpack_user()->id);
         $course = Course::findOrFail($request->input('course_id'));
-        $teacher = User::findOrFail($request->input('resource_id'));
+        $teacher = Teacher::findOrFail($request->input('resource_id'));
 
         $course->teacher_id = $teacher->id;
         $course->save();
