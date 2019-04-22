@@ -73,16 +73,25 @@ class User extends Authenticatable
 
     public function getIdnumberAttribute()
     {
-        return $this->student->idnumber;
+        if ($this->isStudent())
+        {
+            return $this->student->idnumber;
+        }
     }
 
     public function getAddressAttribute()
     {
+        if ($this->isStudent())
+        {
         return $this->student->address;
+        }
     }
 
     public function getBirthdateAttribute()
     {
+        if ($this->isStudent())
+        {
         return $this->student->birthdate;
+        }
     }
 }
