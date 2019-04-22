@@ -6,6 +6,8 @@ use App\Models\Comment;
 use App\Models\Enrollment;
 use App\Models\ResultType;
 use Backpack\CRUD\CrudTrait;
+use App\Mail\ResultNotification;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Database\Eloquent\Model;
 
 class Result extends Model
@@ -13,6 +15,18 @@ class Result extends Model
     use CrudTrait;
     protected $guarded = ['id'];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        // when a result is added, send a notification
+        static::saved(function(Result $result) {
+            Mail::to($result->enrollment->student->user->email)
+            ->locale($result->enrollment->student->locale)
+            ->queue(new ResultNotification($result->enrollment->course, $result->enrollment->student->user));
+        });
+
+    }
 
     public function comments()
     {
