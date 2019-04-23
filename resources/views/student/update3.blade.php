@@ -15,33 +15,28 @@
 
 
 @section('content')
-    <div class="row">
+    <div class="row" id="app">
 
         <div class="col-lg-6 col-lg-offset-3">
             <div class="box">
                 <div class="box-body text-center">
-
                     <h4>@lang('Please check your personal phone number(s)')</h4>
                     <h4>@lang('This is important, so that we can reach you in case of an emergency')</h4>
 
-                    @forelse ($user->student->phone as $phoneable)
-                        <ul>
-                            <li class="input-lg">{{ $phoneable->phone_number }}</li>
-                        </ul>    
-                    @empty
-                        @lang('No phone numbers registered')
-                    @endforelse
-
-                    @lang('Add new')
+                    <phone-number-update-component></phone-number-update-component>
 
                 </div>
             </div>
         </div>
 
             <div class="col-lg-6 col-lg-offset-3 text-center">
-                <button type="submit" class="btn btn-lg btn-success"><span class="ladda-label"><i class="fa fa-save"></i> @lang('Next')</span></button>
+                <a class="btn btn-lg btn-success" href="/update/4"><span class="ladda-label">@lang('Next')</span></a>
             </div>
         </div>
 
     </div>
+@endsection
+
+@section('after_scripts')
+    <script src="/js/app.js"></script>   
 @endsection

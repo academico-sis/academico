@@ -15,6 +15,11 @@
 
 
 @section('content')
+
+<form action="/update/2" method="post">
+    @method('patch')
+    @csrf
+
     <div class="row">
 
         <div class="col-lg-6 col-lg-offset-3">
@@ -23,17 +28,17 @@
 
                     <div class="form-group">
                         <label for="birthdate">@lang('Birthate')</label>
-                        <input class="form-control input-lg" id="birthdate" type="date" value="{{ $user->student->birthdate }}">
+                        <input class="form-control input-lg" id="birthdate" name="birthdate" type="date" value="{{ $user->student->birthdate }}">
                     </div>
 
                     <div class="form-group">
                         <label for="address">@lang('Address')</label>
-                        <input class="form-control input-lg" id="address" type="text" value="{{ $user->student->address }}">
+                        <input class="form-control input-lg" id="address" name="address" type="text" value="{{ $user->student->address }}">
                     </div>
 
                     <div class="form-group">
                         <label for="idnumber">@lang('ID Number')</label>
-                        <input class="form-control input-lg" id="idnumber" type="text" value="{{ $user->student->idnumber }}">
+                        <input class="form-control input-lg" id="idnumber" name="idnumber" type="text" value="{{ $user->student->idnumber }}">
                     </div>
 
 
@@ -46,5 +51,5 @@
             </div>
         </div>
 
-    </div>
+</form>
 @endsection

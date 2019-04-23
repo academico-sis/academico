@@ -60,6 +60,6 @@ class PhoneNumberController extends Controller
      */
     public function destroy(PhoneNumber $phoneNumber)
     {
-        //
+        $phoneNumber->delete();
     }
 }
