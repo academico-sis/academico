@@ -2,20 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Student;
 use App\Models\PhoneNumber;
 use Illuminate\Http\Request;
 
 class PhoneNumberController extends Controller
 {
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+
+    public function get(Student $student)
     {
-        //
+        return $student->phone;
     }
 
     /**
@@ -26,7 +23,12 @@ class PhoneNumberController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $number = PhoneNumber::create([
+            'phoneable_type' => Student::class,
+            'phoneable_id' => $request->student,
+            'phone_number' => $request->number,
+        ]);
+        
     }
 
     /**

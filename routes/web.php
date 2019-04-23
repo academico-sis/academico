@@ -36,8 +36,10 @@ Route::group(
     Route::patch('update/5', 'DataUpdateController@update5');
     Route::patch('update/6', 'DataUpdateController@update6');
 
+    Route::get('student/{student}/phonenumbers', 'PhoneNumberController@get');
     Route::delete('phonenumber/{phoneNumber}', 'PhoneNumberController@destroy');
-    
+    Route::post('phonenumber', 'PhoneNumberController@store');
+
     // moodle token login
     Route::get('moodlelogin', 'MoodleController@moodlelogin')->name('moodleLogin');
     //Route::resource('result', 'ResultController');

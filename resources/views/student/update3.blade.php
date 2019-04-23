@@ -23,7 +23,7 @@
                     <h4>@lang('Please check your personal phone number(s)')</h4>
                     <h4>@lang('This is important, so that we can reach you in case of an emergency')</h4>
 
-                    <phone-number-update-component></phone-number-update-component>
+                    <phone-number-update-component :student="{{$user->student->id }}"></phone-number-update-component>
 
                 </div>
             </div>
