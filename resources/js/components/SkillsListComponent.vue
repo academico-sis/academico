@@ -24,7 +24,6 @@
 
     export default {
         
-
         props: ['course'],
         data () {
             return {
