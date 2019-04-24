@@ -53,4 +53,32 @@ class ContactController extends Controller
         
         return back();
     }
+
+    public function getPhoneNumber(Contact $contact)
+    {
+        return $contact->phone;
+    }
+
+    public function storePhoneNumber(Request $request)
+    {
+        $number = PhoneNumber::create([
+            'phoneable_type' => Contact::class,
+            'phoneable_id' => $request->contact,
+            'phone_number' => $request->number,
+        ]);
+    }
+
+    public function update(Request $request)
+    {
+        $contact = Contact::findOrFail($request->contact);
+        $contact->firstname = $request->input('firstname');
+        $contact->lastname = $request->input('lastname');
+        $contact->idnumber = $request->input('idnumber');
+        $contact->address = $request->input('address');
+        $contact->email = $request->input('email');
+        $contact->save();
+
+        \Alert::success(__('The information has successfully been saved'))->flash();
+        return back();
+    }
 }

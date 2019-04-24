@@ -19,7 +19,8 @@
 
     export default {
         
-        props: ['student'],
+        props: ['contact'],
+        
         data () {
             return {
                 phoneables: [ ],
@@ -34,7 +35,7 @@
         methods: {
             getPhoneNumbers()
             {
-                axios.get('/student/' + this.student + '/phonenumbers')
+                axios.get('/contact/' + this.contact + '/phonenumbers')
                 .then(response => {
                     this.phoneables = response.data
                     })
@@ -44,14 +45,15 @@
 
             addPhoneNumber()
             {
-                axios.post('/phonenumber',
+                axios.post('/contactphonenumber',
                 {
-                    student: this.student,
+                    contact: this.contact,
                     number: this.number
                 })
                 .then(response => {
                         this.getPhoneNumbers();
                         this.number = "";
+
                     })
                 {
                 }

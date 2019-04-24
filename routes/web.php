@@ -34,11 +34,14 @@ Route::group(
     Route::patch('update/3', 'DataUpdateController@update3');
     Route::patch('update/4', 'DataUpdateController@update4');
     Route::patch('update/5', 'DataUpdateController@update5');
-    Route::patch('update/6', 'DataUpdateController@update6');
+    Route::patch('update/6', 'ContactController@update');
 
     Route::get('student/{student}/phonenumbers', 'PhoneNumberController@get');
+    Route::get('contact/{contact}/phonenumbers', 'ContactController@getPhoneNumber');
+
     Route::delete('phonenumber/{phoneNumber}', 'PhoneNumberController@destroy');
     Route::post('phonenumber', 'PhoneNumberController@store');
+    Route::post('contactphonenumber', 'ContactController@storePhoneNumber');
 
     // moodle token login
     Route::get('moodlelogin', 'MoodleController@moodlelogin')->name('moodleLogin');
