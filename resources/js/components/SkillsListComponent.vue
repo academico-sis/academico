@@ -25,6 +25,10 @@ import draggable from 'vuedraggable'
 
     export default {
         
+          components: {
+    draggable
+  },
+
         props: ['course'],
         data () {
             return {
