@@ -30,7 +30,11 @@
         </div>
 
             <div class="col-lg-6 col-lg-offset-3 text-center">
-                <a class="btn btn-lg btn-success" href="/update/4"><span class="ladda-label">@lang('Next')</span></a>
+            <form action="/update/3" method="post">
+                @method('patch')
+                @csrf
+                    <button class="btn btn-lg btn-success" type='submit'><span class="ladda-label">@lang('Next')</span></button>
+            </form>
             </div>
         </div>
 

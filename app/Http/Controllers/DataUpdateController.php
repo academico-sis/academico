@@ -20,12 +20,19 @@ class DataUpdateController extends Controller
 
     public function update(Request $request)
     {
+        $user = backpack_user();
+
+
         $result = backpack_user()->update([
             'firstname' => $request->firstname,
             'lastname' => $request->lastname,
             'email' => $request->email,
         ]);
-
+        
+        $user->student()->update([
+            'force_update' => 2
+        ]);
+        
         \Alert::success(__('Your data has been saved'))->flash();
         return redirect('/update/2');
     }
@@ -41,10 +48,16 @@ class DataUpdateController extends Controller
 
     public function update2(Request $request)
     {
+        $user = backpack_user();
+
         $result = backpack_user()->student()->update([
             'address' => $request->address,
             'idnumber' => $request->idnumber,
             'birthdate' => $request->birthdate,
+        ]);
+
+        $user->student()->update([
+            'force_update' => 3
         ]);
 
         \Alert::success(__('Your data has been saved'))->flash();
@@ -60,6 +73,17 @@ class DataUpdateController extends Controller
         ]);
     }
 
+    public function update3()
+    {
+        $user = backpack_user();
+        $user->student()->update([
+            'force_update' => 4
+        ]);
+
+        \Alert::success(__('Your data has been saved'))->flash();
+        return redirect('/update/4');
+    }
+
     public function index4()
     {
         $user = backpack_user();
@@ -71,7 +95,7 @@ class DataUpdateController extends Controller
 
     public function update4(Request $request)
     {
-        $profession = Profession::create([
+        $profession = Profession::updateOrCreate([
             'name' => $request->profession,
         ]);
 
@@ -80,12 +104,17 @@ class DataUpdateController extends Controller
         ]);
 
 
-        $institution = Institution::create([
+        $institution = Institution::updateOrCreate([
             'name' => $request->institution,
         ]);
 
         backpack_user()->student()->update([
             'institution_id' => $institution->id
+        ]);
+
+        $user = backpack_user();
+        $user->student()->update([
+            'force_update' => 5
         ]);
 
         \Alert::success(__('Your data has been saved'))->flash();
@@ -103,11 +132,19 @@ class DataUpdateController extends Controller
 
     public function update5(Request $request)
     {
-        $user = Student::where('user_id', backpack_user()->id)->first();
+        if ($request->fileToUpload != null)
+        {
+            $user = Student::where('user_id', backpack_user()->id)->first();
         
-        $user
-           ->addMedia($request->fileToUpload)
-           ->toMediaCollection();
+            $user
+               ->addMedia($request->fileToUpload)
+               ->toMediaCollection();    
+        }
+        
+           $user = backpack_user();
+           $user->student()->update([
+               'force_update' => 6
+           ]);
 
         \Alert::success(__('Your picture has been saved'))->flash();
         return redirect('/update/6');
@@ -125,9 +162,11 @@ class DataUpdateController extends Controller
     public function finishUpdate()
     {
         $user = backpack_user();
-        
+
         $user->student()->update([
-            'force_update' => null
+            'force_update' => 0
         ]);
+
+        return redirect('/');
     }
 }

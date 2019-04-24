@@ -51,9 +51,11 @@
                     <div class="box-body text-center">
                         <h4>@lang('When everything is ready, please confirm that your data is up-to-date')</h4>
        
-                        <a class="btn btn btn-success" href="/update/end">
-                            <i class="fa fa-check"></i> @lang('Finish update')
-                        </a>
+                        <form action="/update/6" method="post">
+                            @method('patch')
+                            @csrf
+                                <button class="btn btn-lg btn-success" type='submit'><i class="fa fa-check"></i> @lang('Finish update')</button>
+                        </form>
                     </div>
                 </div>
             </div>
