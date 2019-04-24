@@ -7,27 +7,23 @@
         <td>Skill</td>
         <td>Order</td>
     </thead>
-    <draggable :list="skills" :options="{}" :element="'tbody'" @change="update">
+    <tbody>
         <tr v-for="skill in skills" :key="skill.id">
             <td>{{ skill.skill_type.shortname }}</td>
             <td>{{ skill.level.name }}</td>
             <td>{{ skill.name }}</td>
             <td>{{ skill.order }}</td>
         </tr>
-    </draggable>
+    </tbody>
 </table>
 
 </template>
 
 <script>
 
-import draggable from 'vuedraggable'
 
     export default {
         
-          components: {
-    draggable
-  },
 
         props: ['course'],
         data () {
