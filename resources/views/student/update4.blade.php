@@ -30,12 +30,12 @@
 
                     <div class="form-group">
                         <label for="profession">@lang('Profession')</label>
-                        <input class="form-control input-lg" id="profession" name="profession" type="text" value="{{ $user->student->profession }}">
+                        <input class="form-control input-lg" id="profession" name="profession" type="text" value="{{ $user->student->profession->name ?? "" }}">
                     </div>
 
                     <div class="form-group">
                         <label for="institution">@lang('Institution')</label>
-                        <input class="form-control input-lg" id="institution" name="institution" type="text" value="{{ $user->student->institution }}">
+                        <input class="form-control input-lg" id="institution" name="institution" type="text" value="{{ $user->student->institution->name ?? "" }}">
                     </div>
 
 

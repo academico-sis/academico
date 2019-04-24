@@ -35,6 +35,7 @@ Route::group(
     Route::patch('update/4', 'DataUpdateController@update4');
     Route::patch('update/5', 'DataUpdateController@update5');
     Route::patch('update/6', 'ContactController@update');
+    Route::get('update/end', 'DataUpdateController@finishUpdate');
 
     Route::get('student/{student}/phonenumbers', 'PhoneNumberController@get');
     Route::get('contact/{contact}/phonenumbers', 'ContactController@getPhoneNumber');

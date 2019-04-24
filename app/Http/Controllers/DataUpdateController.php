@@ -121,4 +121,13 @@ class DataUpdateController extends Controller
             'user' => $user,
         ]);
     }
+
+    public function finishUpdate()
+    {
+        $user = backpack_user();
+        
+        $user->student()->update([
+            'force_update' => null
+        ]);
+    }
 }

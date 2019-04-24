@@ -63,9 +63,7 @@
     <div class="row" id="app">
 
         @foreach ($user->student->contacts as $contact)
-        <form action="/update/6" method="post">
-            @method('patch')
-            @csrf
+
         <div class="col-md-4">
                 <div class="box">
                     <div class="box-header with-border">
