@@ -9,6 +9,7 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 Vue.use(require('vue-moment'));
+Vue.use(require('vue-draggable'));
 
 Vue.component('course-time-component', require('./components/CourseTimeComponent.vue').default);
 
