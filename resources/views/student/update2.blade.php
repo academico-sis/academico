@@ -27,7 +27,7 @@
                 <div class="box-body">
 
                     <div class="form-group">
-                        <label for="birthdate">@lang('Birthate')</label>
+                        <label for="birthdate">@lang('Birthdate')</label>
                         <input class="form-control input-lg" id="birthdate" name="birthdate" type="date" value="{{ $user->student->birthdate }}">
                     </div>
 
