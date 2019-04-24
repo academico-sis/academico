@@ -15,6 +15,8 @@ class ForceUpdate
      */
     public function handle($request, Closure $next)
     {
+if (backpack_user() != null) {
+
 
         if ((!\Request::is('update')) && backpack_user()->isStudent() && backpack_user()->student->force_update == 1) {
             return redirect('/update');
@@ -40,6 +42,7 @@ class ForceUpdate
             return redirect('/update/6');
         }
 
+    }
         return $next($request);
     }
 }
