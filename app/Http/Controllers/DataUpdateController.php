@@ -6,6 +6,7 @@ use App\Models\Student;
 use App\Models\Profession;
 use App\Models\Institution;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class DataUpdateController extends Controller
 {
@@ -34,6 +35,8 @@ class DataUpdateController extends Controller
         ]);
         
         \Alert::success(__('Your data has been saved'))->flash();
+        Log::info('User updated their data step 1');
+
         return redirect('/update/2');
     }
 
@@ -61,6 +64,8 @@ class DataUpdateController extends Controller
         ]);
 
         \Alert::success(__('Your data has been saved'))->flash();
+        Log::info('User updated their data step 2');
+
         return redirect('/update/3');
     }
 
@@ -81,6 +86,8 @@ class DataUpdateController extends Controller
         ]);
 
         \Alert::success(__('Your data has been saved'))->flash();
+        Log::info('User updated their data step 3');
+
         return redirect('/update/4');
     }
 
@@ -118,6 +125,8 @@ class DataUpdateController extends Controller
         ]);
 
         \Alert::success(__('Your data has been saved'))->flash();
+        Log::info('User updated their data step 4');
+
         return redirect('/update/5');
     }
 
@@ -147,6 +156,8 @@ class DataUpdateController extends Controller
            ]);
 
         \Alert::success(__('Your picture has been saved'))->flash();
+        Log::info('User updated their data step 5');
+
         return redirect('/update/6');
     }
 
@@ -166,6 +177,7 @@ class DataUpdateController extends Controller
         $user->student()->update([
             'force_update' => 0
         ]);
+        Log::info('User updated their data step 6');
 
         return redirect('/');
     }
