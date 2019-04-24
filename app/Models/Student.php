@@ -9,12 +9,16 @@ use Backpack\CRUD\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Student extends Model
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+
+class Student extends Model implements HasMedia
 {
 
     use CrudTrait;
     use SoftDeletes;
-    
+    use HasMediaTrait;
+
     public $timestamps = true;
     protected $guarded = ['id'];
     

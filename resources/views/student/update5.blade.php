@@ -15,6 +15,11 @@
 
 
 @section('content')
+<form action="/update/5" method="post" enctype="multipart/form-data">
+
+    @method('patch')
+    @csrf
+    
     <div class="row">
 
         <div class="col-lg-6 col-lg-offset-3">
@@ -23,7 +28,7 @@
 
                     <h4>@lang('Please upload an ID picture. This step is recommended but not mandatory')</h4>
 
-
+                        <input type="file" name="fileToUpload" id="fileToUpload">
 
                 </div>
             </div>
@@ -35,4 +40,6 @@
         </div>
 
     </div>
+</form>
+
 @endsection

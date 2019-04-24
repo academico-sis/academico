@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Student;
 use App\Models\Profession;
 use App\Models\Institution;
 use Illuminate\Http\Request;
@@ -98,6 +99,18 @@ class DataUpdateController extends Controller
         return view('student/update5', [
             'user' => $user,
         ]);
+    }
+
+    public function update5(Request $request)
+    {
+        $user = Student::where('user_id', backpack_user()->id)->first();
+        
+        $user
+           ->addMedia($request->fileToUpload)
+           ->toMediaCollection();
+
+        \Alert::success(__('Your picture has been saved'))->flash();
+        return redirect('/update/6');
     }
 
     public function index6()
