@@ -69,7 +69,7 @@ class HomeController extends Controller
     public function student()
     {
         
-        $student = Student::find(backpack_user()->id);
+        $student = Student::where('user_id', backpack_user()->id)->first();
         Log::info($student->name . ' accessed the student dashboard');
         
         return view('student.dashboard', [
