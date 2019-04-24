@@ -54,7 +54,7 @@ class HomeController extends Controller
 
         $period = $this->selectPeriod($request);
 
-        $teacher = Teacher::findOrFail(backpack_user()->id);
+        $teacher = Teacher::where('user_id', backpack_user()->id)->first();
         Log::info($teacher->name . ' accessed the student dashboard');
 
         return view('teacher.dashboard', [
