@@ -34,7 +34,18 @@ class MyAccountController extends Controller
      */
     public function postAccountInfoForm(Request $request)
     {
-        $result = $this->guard()->user()->update($request->except(['_token']));
+        $result = $this->guard()->user()->update([
+            'firstname' => $request->firstname,
+            'lastname' => $request->lastname,
+            'email' => $request->email,
+        ]);
+           
+        $this->guard()->user()->student()->update([
+            'idnumber' => $request->idnumber,
+            'address' => $request->address,
+            'birthdate' => $request->birthdate,
+            ]);
+
 
         if ($result) {
             Alert::success(trans('backpack::base.account_updated'))->flash();

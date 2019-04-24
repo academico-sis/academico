@@ -22,6 +22,26 @@ Route::group(
 
     Route::get('dashboard/student', 'HomeController@student')->name('studentDashboard'); // todo protect
 
+    Route::get('update', 'DataUpdateController@index');
+    Route::get('update/2', 'DataUpdateController@index2');
+    Route::get('update/3', 'DataUpdateController@index3');
+    Route::get('update/4', 'DataUpdateController@index4');
+    Route::get('update/5', 'DataUpdateController@index5');
+    Route::get('update/6', 'DataUpdateController@index6');
+
+    Route::patch('update', 'DataUpdateController@update');
+    Route::patch('update/2', 'DataUpdateController@update2');
+    Route::patch('update/3', 'DataUpdateController@update3');
+    Route::patch('update/4', 'DataUpdateController@update4');
+    Route::patch('update/5', 'DataUpdateController@update5');
+    Route::patch('update/6', 'DataUpdateController@finishUpdate');
+
+    Route::get('student/{student}/phonenumbers', 'PhoneNumberController@get');
+    Route::get('contact/{contact}/phonenumbers', 'ContactController@getPhoneNumber');
+
+    Route::delete('phonenumber/{phoneNumber}', 'PhoneNumberController@destroy');
+    Route::post('phonenumber', 'PhoneNumberController@store');
+    Route::post('contactphonenumber', 'ContactController@storePhoneNumber');
 
     // moodle token login
     Route::get('moodlelogin', 'MoodleController@moodlelogin')->name('moodleLogin');

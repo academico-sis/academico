@@ -10,11 +10,10 @@ use App\Models\Enrollment;
 
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class EnrollmentTest extends TestCase
 {
-    use DatabaseMigrations;
+    use RefreshDatabase;
 
     public function setUp()
     {
@@ -29,14 +28,11 @@ class EnrollmentTest extends TestCase
     }
 
     
-    /**
-     * Enroll a student
-     *
-     */
-    public function test_that_a_new_enrollment_appears_in_student_list()
+    /** @test */
+    public function a_new_enrollment_appears_in_course_students_list()
     {
-        // Arrange: given a newly created user...
-        $student = factory(User::class)->create();
+        // Arrange: given a newly created student...
+        $student = factory(Student::class)->create();
 
         // and a newly created course
         $course = factory(Course::class)->create();

@@ -3,16 +3,22 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use App\Models\Profession;
+use App\Models\Institution;
 use Backpack\CRUD\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Student extends Model
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+
+class Student extends Model implements HasMedia
 {
 
     use CrudTrait;
     use SoftDeletes;
-    
+    use HasMediaTrait;
+
     public $timestamps = true;
     protected $guarded = ['id'];
     
@@ -91,6 +97,15 @@ class Student extends Model
             ->whereDoesntHave('childrenEnrollments');
     }
 
+    public function institution()
+    {
+        return $this->belongsTo(Institution::class);
+    }
+
+    public function profession()
+    {
+        return $this->belongsTo(Profession::class);
+    }
 
 
     /** attributes */

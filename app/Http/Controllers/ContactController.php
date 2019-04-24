@@ -6,6 +6,7 @@ use App\Models\Contact;
 use App\Models\PhoneNumber;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use App\Http\Requests\ContactRequest as StoreRequest;
 
 class ContactController extends Controller
@@ -43,11 +44,41 @@ class ContactController extends Controller
         }
 
         \Alert::success(__('The information has successfully been saved'))->flash();
-        if(backpack_user()->isStudent())
+
+        if($request->input('destination') == 'logout')
         {
             backpack_auth()->logout();
             return redirect('/');
         }
+        
+        return back();
+    }
+
+    public function getPhoneNumber(Contact $contact)
+    {
+        return $contact->phone;
+    }
+
+    public function storePhoneNumber(Request $request)
+    {
+        $number = PhoneNumber::create([
+            'phoneable_type' => Contact::class,
+            'phoneable_id' => $request->contact,
+            'phone_number' => $request->number,
+        ]);
+    }
+
+    public function update(Request $request)
+    {
+        $contact = Contact::findOrFail($request->contact);
+        $contact->firstname = $request->input('firstname');
+        $contact->lastname = $request->input('lastname');
+        $contact->idnumber = $request->input('idnumber');
+        $contact->address = $request->input('address');
+        $contact->email = $request->input('email');
+        $contact->save();
+
+        \Alert::success(__('The information has successfully been saved'))->flash();
         return back();
     }
 }

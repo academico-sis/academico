@@ -32,6 +32,9 @@ Vue.component('absence-buttons', require('./components/AbsenceButtonsComponent.v
 
 Vue.component('skills-list', require('./components/SkillsListComponent.vue').default);
 
+Vue.component('phone-number-update-component', require('./components/PhoneNumberUpdateComponent.vue').default);
+Vue.component('contact-phone-number-update-component', require('./components/ContactPhoneNumberUpdateComponent.vue').default);
+
   
 /**
  * Next, we will create a fresh Vue application instance and attach it to

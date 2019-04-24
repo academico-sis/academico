@@ -27,7 +27,7 @@ class ContactRequest extends FormRequest
     {
         return [
             // 'name' => 'required|max:255'
-            'student_id' => 'required',
+            //'student_id' => 'required',
             'firstname' => 'required|max:255',
             'lastname' => 'required|max:255',
             'idnumber' => 'required|max:255',

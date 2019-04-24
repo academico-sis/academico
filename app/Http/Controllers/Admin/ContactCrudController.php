@@ -18,7 +18,7 @@ class ContactCrudController extends CrudController
     public function __construct()
     {
         parent::__construct();
-        $this->middleware(['role:admin']);
+        //$this->middleware(['role:admin']);
     }
     
     public function setup()
@@ -31,7 +31,7 @@ class ContactCrudController extends CrudController
         $this->crud->setModel('App\Models\Contact');
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/contact');
         $this->crud->setEntityNameStrings('contact', 'contacts');
-
+        $this->crud->setEditView('students/edit-contact');
         
         /*
         |--------------------------------------------------------------------------
@@ -69,14 +69,14 @@ class ContactCrudController extends CrudController
 
 
         $this->crud->addFields([
-            [  // Select2
+/*             [  // Select2
                 'label' => "Student",
                 'type' => 'select2',
                 'name' => 'user_id', // the db column for the foreign key
                 'entity' => 'user', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
                 'model' => "App\Models\User" // foreign key model
-            ],
+            ], */
 
             [  // Select2
                 'label' => trans('firstname'),

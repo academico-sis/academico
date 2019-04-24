@@ -41,6 +41,7 @@ Route::group(
         Route::get('edit-account-info', 'Auth\MyAccountController@getAccountInfoForm')->name('backpack.account.info');
         Route::post('edit-account-info', 'Auth\MyAccountController@postAccountInfoForm');
         CRUD::resource('result', 'Admin\ResultCrudController');
+        CRUD::resource('contact', 'Admin\ContactCrudController');
 
         CRUD::resource('preinvoice', 'Admin\PreInvoiceCrudController');
 
@@ -75,7 +76,6 @@ Route::group([
     ], function () {
         CRUD::resource('student', 'StudentCrudController');
         CRUD::resource('enrollment', 'EnrollmentCrudController');
-        CRUD::resource('contact', 'ContactCrudController');
         CRUD::resource('comment', 'CommentCrudController');
         //CRUD::resource('preinvoice', 'PreInvoiceCrudController')->middleware('permission:invoice.view');
         CRUD::resource('availablecourse', 'AvailableCourseCrudController');
