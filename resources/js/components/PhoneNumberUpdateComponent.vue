@@ -49,6 +49,7 @@
                     number: this.number
                 })
                 .then(response => {
+                        this.getPhoneNumbers();
                     })
                 {
                 }
@@ -58,10 +59,7 @@
             {
                 axios.delete('/phonenumber/' + phonenumber)
                     .then(response => {
-                        if (response.status == 200)
-                        {
-                            
-                        }
+                        this.getPhoneNumbers();
                     })
             }
         }

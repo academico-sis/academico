@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Profession;
+use App\Models\Institution;
 use Illuminate\Http\Request;
 
 class DataUpdateController extends Controller
@@ -64,6 +66,29 @@ class DataUpdateController extends Controller
         return view('student/update4', [
             'user' => $user,
         ]);
+    }
+
+    public function update4(Request $request)
+    {
+        $profession = Profession::create([
+            'name' => $request->profession,
+        ]);
+
+        backpack_user()->student()->update([
+            'profession_id' => $profession->id
+        ]);
+
+
+        $institution = Institution::create([
+            'name' => $request->institution,
+        ]);
+
+        backpack_user()->student()->update([
+            'institution_id' => $institution->id
+        ]);
+
+        \Alert::success(__('Your data has been saved'))->flash();
+        return redirect('/update/5');
     }
 
     public function index5()

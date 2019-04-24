@@ -2508,15 +2508,21 @@ __webpack_require__.r(__webpack_exports__);
       {}
     },
     addPhoneNumber: function addPhoneNumber() {
+      var _this2 = this;
+
       axios.post('/phonenumber', {
         student: this.student,
         number: this.number
-      }).then(function (response) {});
+      }).then(function (response) {
+        _this2.getPhoneNumbers();
+      });
       {}
     },
     deletePhoneNumber: function deletePhoneNumber(phonenumber) {
+      var _this3 = this;
+
       axios.delete('/phonenumber/' + phonenumber).then(function (response) {
-        if (response.status == 200) {}
+        _this3.getPhoneNumbers();
       });
     }
   }

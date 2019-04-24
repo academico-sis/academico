@@ -15,6 +15,11 @@
 
 
 @section('content')
+
+<form action="/update/4" method="post">
+    @method('patch')
+    @csrf
+
     <div class="row">
 
         <div class="col-lg-6 col-lg-offset-3">
@@ -23,15 +28,27 @@
 
                     <h4>@lang("Please fill in your profession and your institution (school, workplace). You may leave these fields blank if they do not apply to your situation")</h4>
 
+                    <div class="form-group">
+                        <label for="profession">@lang('Profession')</label>
+                        <input class="form-control input-lg" id="profession" name="profession" type="text" value="{{ $user->student->profession }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="institution">@lang('Institution')</label>
+                        <input class="form-control input-lg" id="institution" name="institution" type="text" value="{{ $user->student->institution }}">
+                    </div>
+
 
                 </div>
             </div>
         </div>
 
             <div class="col-lg-6 col-lg-offset-3 text-center">
-                <button type="submit" class="btn btn-lg btn-success"><span class="ladda-label"><i class="fa fa-save"></i> @lang('Next')</span></button>
+                <button type="submit" class="btn btn-lg btn-success"><span class="ladda-label"><i class="fa fa-save"></i> @lang('Save')</span></button>
             </div>
         </div>
 
     </div>
+
+</form>
 @endsection

@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use App\Models\Profession;
+use App\Models\Institution;
 use Backpack\CRUD\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -91,6 +93,15 @@ class Student extends Model
             ->whereDoesntHave('childrenEnrollments');
     }
 
+    public function institution()
+    {
+        return $this->belongsTo(Institution::class);
+    }
+
+    public function profession()
+    {
+        return $this->belongsTo(Profession::class);
+    }
 
 
     /** attributes */
