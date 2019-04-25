@@ -2613,7 +2613,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-!(function webpackMissingModule() { var e = new Error("Cannot find module 'vuedraggable'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
 //
 //
 //
@@ -2635,7 +2634,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['course'],
   data: function data() {
@@ -4398,11 +4396,7 @@ var render = function() {
       _vm._m(0),
       _vm._v(" "),
       _c(
-        "draggable",
-        {
-          attrs: { list: _vm.skills, options: {}, element: "tbody" },
-          on: { change: _vm.update }
-        },
+        "tbody",
         _vm._l(_vm.skills, function(skill) {
           return _c("tr", { key: skill.id }, [
             _c("td", [_vm._v(_vm._s(skill.skill_type.shortname))]),
@@ -4416,8 +4410,7 @@ var render = function() {
         }),
         0
       )
-    ],
-    1
+    ]
   )
 }
 var staticRenderFns = [
