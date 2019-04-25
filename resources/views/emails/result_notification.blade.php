@@ -4,7 +4,7 @@
 
 <p>@lang('You may log in to view your results, and the comments from your teacher, if any')</p>
 
-<p>{{ url('/'); }}</p>
+<p>{{ url('/') }}</p>
 
 <p>@lang('Best regards,')</p>
 
