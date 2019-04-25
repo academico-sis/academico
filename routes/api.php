@@ -19,7 +19,6 @@ Route::middleware('auth:api')->get('/attendance', function () {
     return Teacher::where('user_id', request()->user()->id)->firstOrFail()->events_with_pending_attendance;
 });
  
-//
 Route::middleware('auth:api')->get('/teacherinfo', function () {
     return Teacher::where('user_id', request()->user()->id)->firstOrFail();
 });
