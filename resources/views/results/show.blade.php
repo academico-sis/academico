@@ -124,7 +124,15 @@
                             @foreach ($skills as $skill)
                             <tr>
                                 <td>{{ $skill->skill->name }}</td>
-                                <td>{{ $skill->skill_scale->shortname }}</td>
+                                @if($skill->skill_scale->id == 1)
+                                    <td class="bg-danger">{{ $skill->skill_scale->shortname }}</td>
+                                @elseif ($skill->skill_scale->id == 2)
+                                    <td class="bg-warning">{{ $skill->skill_scale->shortname }}</td>
+                                @elseif ($skill->skill_scale->id == 3)
+                                    <td class="bg-success">{{ $skill->skill_scale->shortname }}</td>
+                                @else
+                                    <td>{{ $skill->skill_scale }}</td>
+                                @endif
                             </tr>
                             @endforeach
                         </table>
