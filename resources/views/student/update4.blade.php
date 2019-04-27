@@ -26,16 +26,16 @@
             <div class="box">
                 <div class="box-body text-center">
 
-                    <h4>@lang("Please fill in your profession and your institution (school, workplace). You may leave these fields blank if they do not apply to your situation")</h4>
+                    <h4>@lang("Please fill in your profession and your institution (school, workplace).")</h4>
 
                     <div class="form-group">
                         <label for="profession">@lang('Profession')</label>
-                        <input class="form-control input-lg" id="profession" name="profession" type="text" value="{{ $user->student->profession->name ?? "" }}">
+                        <input required class="form-control input-lg" id="profession" name="profession" type="text" value="{{ $user->student->profession->name ?? "" }}">
                     </div>
 
                     <div class="form-group">
                         <label for="institution">@lang('Institution')</label>
-                        <input class="form-control input-lg" id="institution" name="institution" type="text" value="{{ $user->student->institution->name ?? "" }}">
+                        <input required class="form-control input-lg" id="institution" name="institution" type="text" value="{{ $user->student->institution->name ?? "" }}">
                     </div>
 
 

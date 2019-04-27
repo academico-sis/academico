@@ -26,9 +26,9 @@
             <div class="box">
                 <div class="box-body text-center">
 
-                    <h4>@lang('Please upload an ID picture. This step is recommended but not mandatory')</h4>
+                    <h4>@lang('Please upload an ID picture')</h4>
 
-                        <input type="file" name="fileToUpload" id="fileToUpload">
+                        <input required type="file" name="fileToUpload" id="fileToUpload">
 
                 </div>
             </div>
