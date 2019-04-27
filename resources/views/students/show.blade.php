@@ -14,6 +14,14 @@
 
 <div class="row">
 
+    @if ($student->getFirstMediaUrl() != null)
+    <div class="col-md-2">
+        <div class="box">
+            <img src="{{$student->getFirstMediaUrl()}}" style="width: 100%" />
+        </div>
+    </div>
+    @endif
+
     <div class="col-md-4">
         <div class="box">
             <div class="box-header with-border">
@@ -41,7 +49,8 @@
             </div>
         </div>
     </div>
-    
+
+
 
     @foreach ($student->contacts as $contact)
     <div class="col-md-4">
