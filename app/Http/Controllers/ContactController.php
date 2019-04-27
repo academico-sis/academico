@@ -61,11 +61,14 @@ class ContactController extends Controller
 
     public function storePhoneNumber(Request $request)
     {
-        $number = PhoneNumber::create([
-            'phoneable_type' => Contact::class,
-            'phoneable_id' => $request->contact,
-            'phone_number' => $request->number,
-        ]);
+        if ($request->number != null)
+        {
+            $number = PhoneNumber::create([
+                'phoneable_type' => Contact::class,
+                'phoneable_id' => $request->contact,
+                'phone_number' => $request->number,
+            ]);
+        }
     }
 
     public function update(Request $request)
