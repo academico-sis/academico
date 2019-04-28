@@ -147,7 +147,7 @@ class DataUpdateController extends Controller
         
             $user
                ->addMedia($request->fileToUpload)
-               ->toMediaCollection();    
+               ->toMediaCollection();
         }
         
            $user = backpack_user();

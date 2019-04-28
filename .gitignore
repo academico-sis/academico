@@ -2,7 +2,7 @@
 /public/hot
 /public/storage
 /public/vendor
-/storage/*.key
+/storage
 /vendor
 /report
 .env

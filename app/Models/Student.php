@@ -9,6 +9,7 @@ use Backpack\CRUD\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
@@ -23,6 +24,13 @@ class Student extends Model implements HasMedia
     protected $guarded = ['id'];
     
     
+    public function registerMediaConversions(Media $media = null)
+    {
+        $this->addMediaConversion('thumb')
+              ->width(1200)
+              ->height(1200);
+    }
+
     /** relations */
     public function user()
     {
