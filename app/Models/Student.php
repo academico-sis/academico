@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Spatie\Image\Manipulations;
 
 class Student extends Model implements HasMedia
 {
@@ -27,8 +28,8 @@ class Student extends Model implements HasMedia
     public function registerMediaConversions(Media $media = null)
     {
         $this->addMediaConversion('thumb')
-              ->width(1200)
-              ->height(1200);
+            ->fit(Manipulations::FIT_MAX, 1200, 1200)
+            ->optimize();
     }
 
     /** relations */
