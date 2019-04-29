@@ -36,7 +36,6 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\HttpsProtocol::class,
-            \App\Http\Middleware\ForceUpdate::class,
 
         ],
 
@@ -66,6 +65,7 @@ class Kernel extends HttpKernel
         //'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
         'role' => \App\Http\Middleware\RoleMiddleware::class,
         'permission' => \App\Http\Middleware\PermissionMiddleware::class,
+        'forceupdate' => \App\Http\Middleware\ForceUpdate::class,
 
 
     ];
