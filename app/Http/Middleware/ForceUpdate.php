@@ -26,9 +26,9 @@ if (backpack_user() != null) {
             return redirect('/update/2');
         }
 
-/*         if (((!\Request::is('update/3') || !\Request::is('update/3')) && backpack_user()->isStudent() && backpack_user()->student->force_update == 3) {
+         if ((!\Request::is('update/3') || !\Request::is('update/3')) && backpack_user()->isStudent() && backpack_user()->student->force_update == 3) {
             return redirect('/update/3');
-        } */
+        }
 
         if ((!\Request::is('update/4')) && backpack_user()->isStudent() && backpack_user()->student->force_update == 4) {
             return redirect('/update/4');
@@ -38,9 +38,9 @@ if (backpack_user() != null) {
             return redirect('/update/5');
         }
 
-/*         if ((!\Request::is('update/6')) && backpack_user()->isStudent() && backpack_user()->student->force_update == 6) {
+         if ((!\Request::is('update/6')) && backpack_user()->isStudent() && backpack_user()->student->force_update == 6) {
             return redirect('/update/6');
-        } */
+        }
 
     }
         return $next($request);
