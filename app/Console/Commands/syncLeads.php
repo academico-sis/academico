@@ -40,15 +40,7 @@ class syncLeads extends Command
     public function handle()
     {
          $period = Period::find(23);
-        
-        // for each enrollment in current period,
-        foreach($period->enrollments as $enrollment)
-        {
-            // mark the status as converted
-            $enrollment->student()->update([
-                'lead_type_id' => 1
-            ]);
-        }
+
          
         $value = $period->id;
         
@@ -63,6 +55,16 @@ class syncLeads extends Command
                 ]);
             }
 
+        }
+
+                
+        // for each enrollment in current period,
+        foreach($period->enrollments as $enrollment)
+        {
+            // mark the status as converted
+            $enrollment->student()->update([
+                'lead_type_id' => 1
+            ]);
         }
         // TODO for each converted student who is not enrolled,
 
