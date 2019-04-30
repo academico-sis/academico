@@ -31,7 +31,7 @@
 
     <div class="row">
 
-        @if($pending_attendance->count() > 0 && backpack_user()->hasRole('admin'))
+        @if(isset($pending_attendance) && backpack_user()->hasRole('admin'))
         <div class="col-md-3">
                 <div class="box">
                     <div class="box-header with-border">
