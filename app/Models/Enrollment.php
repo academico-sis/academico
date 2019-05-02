@@ -65,6 +65,20 @@ class Enrollment extends Model
             ->get();
     }
 
+    public function scopeWithoutChildren($query)
+    {
+        
+        return $query
+            ->where(function ($query) {
+                $query->whereDoesntHave('childrenEnrollments')
+                ->where('parent_id', null);
+            })
+            ->orWhere(function ($query) {
+                $query->where('parent_id', null);
+            })
+            ->get();
+    }
+
     /** only pending enrollments */
     public function scopePending($query)
     {

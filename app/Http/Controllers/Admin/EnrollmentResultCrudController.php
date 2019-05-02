@@ -6,9 +6,8 @@ use App\Models\Period;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
 use App\Models\Enrollment;
-use App\Models\EnrollmentStatus;
+use App\Models\ResultType;
 use Illuminate\Support\Facades\Log;
-use App\Models\EnrollmentStatusType;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use App\Http\Requests\EnrollmentRequest as StoreRequest;
 use App\Http\Requests\EnrollmentRequest as UpdateRequest;
@@ -18,7 +17,7 @@ use App\Http\Requests\EnrollmentRequest as UpdateRequest;
  * @package App\Http\Controllers\Admin
  * @property-read CrudPanel $crud
  */
-class EnrollmentCrudController extends CrudController
+class EnrollmentResultCrudController extends CrudController
 {
 
     public function __construct()
@@ -36,8 +35,8 @@ class EnrollmentCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
         $this->crud->setModel('App\Models\Enrollment');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/enrollment');
-        $this->crud->setEntityNameStrings('enrollment', 'enrollments');
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/enrollmentresult');
+        $this->crud->setEntityNameStrings('result', 'results');
 
         $this->crud->allowAccess('show');
 
@@ -100,15 +99,13 @@ class EnrollmentCrudController extends CrudController
             ],
 
             [
-                // STATUS
-                'label' => __("Status"), // Table column heading
+                // RESULT
+                'label' => __("Result"), // Table column heading
                 'type' => "select",
-                'name' => 'status_id', // the column that contains the ID of that connected entity;
-                'entity' => 'enrollmentStatus', // the method that defines the relationship in your Model
-                'attribute' => "name", // foreign key attribute that is shown to user
-                'model' => "App\Models\EnrollmentStatusType", // foreign key model
-            ],
-
+                'entity' => 'result', // the method that defines the relationship in your Model
+                'attribute' => "result_type", // foreign key attribute that is shown to user
+                'model' => "App\Models\Result", // foreign key model
+                ],
         ]);
         
 
@@ -118,26 +115,23 @@ class EnrollmentCrudController extends CrudController
 
 
           $this->crud->addFilter([
-            'name' => 'status_id',
-            'type' => 'select2_multiple',
-            'label'=> __('Status')
-          ], function() {
-              return EnrollmentStatusType::all()->pluck('name', 'id')->toArray();
-          },
-          function($values) { // if the filter is active
-             foreach (json_decode($values) as $key => $value) {
-                 $this->crud->addClause('orWhere', 'status_id', $value);
-             }
-             });
-
-          $this->crud->addFilter([
             'type' => 'simple',
-            'name' => 'hidechildren',
-            'label'=> __('Hide Children')
+            'name' => 'noresult',
+            'label'=> __('No Result')
           ],
           false,
           function() {
-              $this->crud->addClause('parent'); 
+              $this->crud->addClause('noResult'); 
+          });
+
+          $this->crud->addFilter([
+            'type' => 'simple',
+            'name' => 'hideparents',
+            'label'=> __('Hide Parents')
+          ],
+          false,
+          function() {
+              $this->crud->addClause('real'); 
           });
 
         $this->crud->addFilter([
@@ -150,6 +144,19 @@ class EnrollmentCrudController extends CrudController
             $this->crud->addClause('period', $value); 
           });
 
+          $this->crud->addFilter([ // select2_multiple filter
+            'name' => 'result',
+            'type' => 'select2_multiple',
+            'label'=> __('Result')
+          ], function() { // the options that show up in the select2
+              return ResultType::all()->pluck('name', 'id')->toArray();
+          }, function($values) { // if the filter is active
+              foreach (json_decode($values) as $key => $value) {
+                  $this->crud->query = $this->crud->query->whereHas('result', function ($query) use ($value) {
+                      $query->where('result_type_id', $value);
+                  });
+              }
+          });
 
 
     }
