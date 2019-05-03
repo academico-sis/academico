@@ -24,4 +24,4 @@ Route::middleware('auth:api')->get('/teacherinfo', function () {
     return Teacher::where('user_id', request()->user()->id)->firstOrFail();
 });
 
-Route::get('/attendance/{event}/students', 'ApiController@get_event_attendance');
+Route::get('/event/{event}/students', 'ApiController@get_event_attendance');
