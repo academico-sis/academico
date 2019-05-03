@@ -145,9 +145,6 @@ class AttendanceController extends Controller
     }
 
 
-public function get_event_attendance(Event $event)
-{
-    return Event::find('event')->enrollments;
-}
+
 
 }
