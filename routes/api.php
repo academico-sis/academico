@@ -22,3 +22,7 @@ Route::middleware('auth:api')->get('/attendance', function () {
 Route::middleware('auth:api')->get('/teacherinfo', function () {
     return Teacher::where('user_id', request()->user()->id)->firstOrFail();
 });
+
+Route::middleware('auth:api')->get('/attendance/{event}/students', function () {
+    return Event::findOrFail('event')->enrollments;
+});
