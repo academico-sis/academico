@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Event;
 use App\Models\Teacher;
 use App\Models\Attendance;
 use Illuminate\Http\Request;
@@ -24,5 +25,5 @@ Route::middleware('auth:api')->get('/teacherinfo', function () {
 });
 
 Route::middleware('auth:api')->get('/attendance/{event}/students', function () {
-    return Event::findOrFail('event')->enrollments;
+    return Event::find('event')->enrollments;
 });
