@@ -41,5 +41,5 @@ Route::middleware('auth:api')->get('/event/{event}/students', function (Event $e
             $attendances[$enrollment->student->id]['attendance'] = $attendance->where('student_id', $enrollment->student->id)->first() ?? '[attendance][attendance_type_id]';
         }
 
-        return $attendances->toJson();
+        return collect($attendances);
 });
