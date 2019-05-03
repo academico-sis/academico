@@ -144,4 +144,10 @@ class AttendanceController extends Controller
         return view('attendance/event', compact('attendances', 'event'));
     }
 
+
+public function get_event_attendance(Event $event)
+{
+    return Event::find('event')->enrollments;
+}
+
 }
