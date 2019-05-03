@@ -25,5 +25,21 @@ Route::middleware('auth:api')->get('/teacherinfo', function () {
 });
 
 Route::middleware('auth:api')->get('/event/{event}/students', function (Event $event) {
-    return $event->enrollments;
+        // get students
+        $enrollments = $event->enrollments()->with('student')->get();
+    
+        // get the attendance record for the event
+        $attendance = $event->attendance;
+        
+        $attendances = [];
+        // build a collection : for each student, display attendance
+
+        foreach($enrollments as $enrollment)
+        {
+            $attendances[$enrollment->student->id]['student'] = $enrollment->student->name;
+            $attendances[$enrollment->student->id]['student_id'] = $enrollment->student->id;
+            $attendances[$enrollment->student->id]['attendance'] = $attendance->where('student_id', $enrollment->student->id)->first() ?? '[attendance][attendance_type_id]';
+        }
+
+        return $attendances;
 });
