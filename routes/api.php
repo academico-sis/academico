@@ -34,11 +34,11 @@ Route::middleware('auth:api')->get('/event/{event}/students', function (Event $e
         $attendances = [];
         // build a collection : for each student, display attendance
 
-        foreach($enrollments as $enrollment)
+        foreach($enrollments as $e => $enrollment)
         {
-            $attendances[$enrollment->student->id]['student'] = $enrollment->student->name;
-            $attendances[$enrollment->student->id]['student_id'] = $enrollment->student->id;
-            $attendances[$enrollment->student->id]['attendance'] = $attendance->where('student_id', $enrollment->student->id)->first() ?? '[attendance][attendance_type_id]';
+            $attendances[$e]['student'] = $enrollment->student->name;
+            $attendances[$e]['student_id'] = $enrollment->student->id;
+            $attendances[$e]['attendance'] = $attendance->where('student_id', $enrollment->student->id)->first() ?? '[attendance][attendance_type_id]';
         }
 
         return $attendances;
