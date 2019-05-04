@@ -1,9 +1,11 @@
 <?php
 
 use App\Models\Event;
+use App\Models\Student;
 use App\Models\Teacher;
 use App\Models\Attendance;
 use Illuminate\Http\Request;
+use App\Models\AttendanceType;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,10 +47,19 @@ Route::middleware('auth:api')->get('/event/{event}/students', function (Event $e
 });
 
 
-Route::middleware('auth:api')->post('/attendance'), function () {
-    Attendance::create([
-        'student_id' => 12112,
-        'event_id' => 12112,
-        'attendance_type_id' => 1
-    ]);
-}
+Route::middleware('auth:api')->post('/attendance', function (Request $request) {
+
+    $student = Student::findOrFail($request->input('body.student_id'));
+    $event = Event::findOrFail($request->input('body.event_id'));
+    $attendance_type = AttendanceType::findOrFail($request->input('body.attendance_type_id'));
+
+        $attendance = Attendance::firstOrNew([
+            'student_id' => $student->id,
+            'event_id' => $event->id,
+        ]);
+
+        $attendance->attendance_type_id = $attendance_type->id;
+
+        $attendance->save();
+
+});
