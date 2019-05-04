@@ -43,3 +43,12 @@ Route::middleware('auth:api')->get('/event/{event}/students', function (Event $e
 
         return $attendances;
 });
+
+
+Route::middleware('auth:api')->post('/attendance'), function () {
+    Attendance::create([
+        'student_id' => 12112,
+        'event_id' => 12112,
+        'attendance_type_id' => 1
+    ]);
+}
