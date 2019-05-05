@@ -21,6 +21,7 @@
         "laravel/tinker": "^1.0",
         "mailerlite/mailerlite-api-v2-php-sdk": "^0.2.3",
         "sentry/sentry-laravel": "^0.11.0",
+        "simplesoftwareio/simple-qrcode": "^2.0",
         "spatie/laravel-medialibrary": "^7.0.0",
         "spatie/laravel-translatable": "^3.1",
         "symfony/psr-http-message-bridge": "^1.1"

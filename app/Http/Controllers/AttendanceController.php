@@ -144,4 +144,7 @@ class AttendanceController extends Controller
         return view('attendance/event', compact('attendances', 'event'));
     }
 
+
+
+
 }

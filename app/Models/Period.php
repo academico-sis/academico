@@ -21,9 +21,8 @@ class Period extends Model
     /** todo allow admin to override this */
     public static function get_default_period()
     {
-        return Period::find(23); // todo let user override the default period from the UI
-        return Period::where('start', '<=', date('Y-m-d'))
-        ->where('end', '>=', date('Y-m-d'))
+        //return Period::find(22); todo let user override the default period from the UI
+        return Period::where('end', '>=', date('Y-m-d'))
         ->first();
     }
 
