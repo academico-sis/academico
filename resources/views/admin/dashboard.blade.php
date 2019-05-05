@@ -32,7 +32,7 @@
     <div class="row">
 
         @if(isset($pending_attendance) && backpack_user()->hasRole('admin'))
-        <div class="col-md-4">
+        <div class="col-md-3">
                 <div class="box">
                     <div class="box-header with-border">
                         <div class="box-title">
@@ -59,7 +59,7 @@
 
 
         @if($unassigned_teacher->count() > 0 && backpack_user()->can('hr.manage'))
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="box">
                 <div class="box-header with-border">
                     <div class="box-title">                          
@@ -82,7 +82,7 @@
         @endif
 
         @if(backpack_user()->can('hr.manage'))
-        <div class="col-md-4">
+        <div class="col-md-3">
                 <div class="box">
                     <div class="box-header with-border">
                         <div class="box-title">                          
@@ -107,6 +107,33 @@
                 </div>
             </div>
             @endif
+
+            <div class="col-md-3">
+                <div class="box">
+                    <div class="box-header with-border">
+                        <div class="box-title">                          
+                            <strong>@lang('Leads')</strong>
+                        </div>
+                        <div class="box-tools pull-right">
+    
+                        </div>
+                    </div>
+    
+                    <div class="box-body">
+                        <p>@lang('Pending leads') : <a href='student?lead_status_is=["4"]'>{{ $pending_leads }}</a></p>
+                        <p>@lang('Leads to call') : <a href='student?lead_status_is=["5"]'>{{ $call_leads }}</a></p>
+
+{{--                         <p>@lang('Upcoming Leaves') : <ul>
+                            @foreach ($upcoming_leaves as $leave)
+                                {{ $leave }}
+                            @endforeach
+                        </ul> --}}
+
+                        {{-- nombre d'heures de cours aujourd'hui, cette semaine, ce mois, ce cycle --}}
+                        {{-- comparaison par rapport au cycle dernier --}}
+                    </div>
+                </div>
+            </div>
 
     </div>
 

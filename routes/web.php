@@ -14,13 +14,13 @@ Route::group(
     function () {
         
     // dashboard and home routes
-    Route::get('/home', 'HomeController@index')->name('home');
-    Route::get('/', 'HomeController@index')->name('home');
+    Route::get('/home', 'HomeController@index')->name('home')->middleware('forceupdate');
+    Route::get('/', 'HomeController@index')->name('home')->middleware('forceupdate');
     Route::get('/admin', 'HomeController@admin')->name('admin');
     Route::get('dashboard/teacher', 'HomeController@teacher')->name('teacherDashboard'); // todo protect
     Route::get('dashboard/teacher/{teacher}/hours', 'HRController@teacher')->name('teacherHours'); // todo protect
 
-    Route::get('dashboard/student', 'HomeController@student')->name('studentDashboard'); // todo protect
+    Route::get('dashboard/student', 'HomeController@student')->name('studentDashboard')->middleware('forceupdate'); // todo protect
 
     Route::get('update', 'DataUpdateController@index');
     Route::get('update/2', 'DataUpdateController@index2');

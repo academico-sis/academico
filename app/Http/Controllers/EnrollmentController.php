@@ -33,7 +33,7 @@ class EnrollmentController extends Controller
     public function store(Request $request)
     {
         $course = Course::findOrFail($request->input('course_id'));
-        $student = Student::findOrFail($request->input('student_id'));
+        $student = Student::where('user_id', $request->input('student_id'))->firstOrFail();
         $enrollment_id = $student->enroll($course);
         \Alert::success(__('Enrollment successfully created'))->flash();
         
