@@ -47,6 +47,9 @@ Route::group(
     Route::get('moodlelogin', 'MoodleController@moodlelogin')->name('moodleLogin');
     //Route::resource('result', 'ResultController');
 
+    Route::get('apitoken', 'ApiTokenController@index');
+    Route::post('apitoken', 'ApiTokenController@store');
+
 });
 
 
