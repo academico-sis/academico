@@ -148,6 +148,7 @@ class Teacher extends Model
             ->get()
             ->filter(function ($event, $key) {
                 return $event->course->enrollments_count != $event->attendance_count; // todo improve check
-            });
+            })
+            ->values(); // reset the array keys to start at 0
     }
 }

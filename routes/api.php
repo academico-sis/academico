@@ -40,7 +40,7 @@ Route::middleware('auth:api')->get('/event/{event}/students', function (Event $e
         {
             $attendances[$e]['student'] = $enrollment->student->name;
             $attendances[$e]['student_id'] = $enrollment->student->id;
-            $attendances[$e]['attendance'] = $attendance->where('student_id', $enrollment->student->id)->first() ?? '[attendance][attendance_type_id]';
+            $attendances[$e]['attendance'] = $attendance->where('student_id', $enrollment->student->id)->first() ?? 'undefined';
         }
 
         return $attendances;
