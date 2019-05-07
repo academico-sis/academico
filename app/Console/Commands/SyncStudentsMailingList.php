@@ -219,7 +219,7 @@ class SyncStudentsMailingList extends Command
                 }
             }
 
-            //sleep(1);
+            sleep(1);
         }
 
     }
