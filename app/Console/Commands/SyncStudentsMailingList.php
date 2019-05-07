@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Period;
+use App\Models\Enrollment;
 use Illuminate\Http\Request;
 use Illuminate\Console\Command;
 
@@ -63,6 +64,28 @@ class SyncStudentsMailingList extends Command
         $groupsApi = (new \MailerLiteApi\MailerLite($this->api_key))->groups();
 
         $student_group_id = 8868042; // ETUDIANTS ACTUELS
+
+        $subscriber = [
+            'email' => $student->email,
+            'name' => ucwords($student->firstname),
+            'fields' => [
+                'last_name' => ucwords($student->lastname),
+                'birthdate' => $student->birthdate ?? ''
+            ]
+        ];
+
+        $addedSubscriber = $groupsApi->addSubscriber($student_group_id, $subscriber); // returns added subscriber
+
+        return $addedSubscriber;
+
+    }
+
+    private function createOldStudentSubscriber($student)
+    {
+
+        $groupsApi = (new \MailerLiteApi\MailerLite($this->api_key))->groups();
+
+        $student_group_id = 10862804; // ANCIENS ETUDIANTS
 
         $subscriber = [
             'email' => $student->email,
@@ -146,7 +169,7 @@ class SyncStudentsMailingList extends Command
     {
         $period = Period::get_default_period();
 
-        $enrollments = $period->enrollments;
+        $enrollments = Enrollment::all();
 
         $groupsApi = (new \MailerLiteApi\MailerLite($this->api_key))->groups();
 
@@ -183,6 +206,16 @@ class SyncStudentsMailingList extends Command
                 foreach ($enrollment->student->contacts as $contact)
                 {
                     dump($this->createAlumniSubscriber($contact));
+                }
+            }
+
+            if($enrollment->student->lead_type_id == 7) // oldStudent
+            {
+                $this->createOldStudentSubscriber($enrollment->student);
+
+                foreach ($enrollment->student->contacts as $contact)
+                {
+                    dump($this->createOldStudentSubscriber($contact));
                 }
             }
 
