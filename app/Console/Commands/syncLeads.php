@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Period;
 use App\Models\Student;
+use App\Models\Enrollment;
 use Illuminate\Console\Command;
 
 class syncLeads extends Command
@@ -39,54 +40,23 @@ class syncLeads extends Command
      */
     public function handle()
     {
-         $period = Period::find(23);
+        $period = Period::find(23);
 
-         
-        $value = $period->id;
-        
-        foreach(Student::where('lead_type_id', 1)->get() as $converted)
+        // get all past enrollments
+        $leads = Enrollment::whereHas('course', function($q) use ($period) {
+            return $q->where('period_id', '<', $period->id);
+        })->get();
+
+        // mark every student without a lead status as oldStudent
+        foreach($leads as $lead)
         {
-            if ($converted->enrollments->where('course', function ($q) use ($value) {
-                    $q->where('period_id', $value);
-                })->count() == 0)
-            {
-                $converted->update([
-                    'lead_type_id' => 4
+            if ($lead->student->lead_type_id == null) {
+                $lead->student->update([
+                    'lead_type_id' => 7
                 ]);
             }
-
         }
 
-                
-        // for each enrollment in current period,
-        foreach($period->enrollments as $enrollment)
-        {
-            // mark the status as converted
-            $enrollment->student()->update([
-                'lead_type_id' => 1
-            ]);
-        }
-        // TODO for each converted student who is not enrolled,
-
-        // remove the converted status
-
-
-
-
-        // alumni
-        // for each past student, get the last level. If is B2 or C1, mark the student as alumnus.
-/*         foreach (Student::all() as $student)
-        {
-            if ($student->enrollments->count() > 0)
-            {
-                if (($student->enrollments->last()->course->level_id == 71 || $student->enrollments->last()->course->level_id == 72) && $student->enrollments->last()->course->period_id != $period->id)
-                {
-                    $student->update([
-                        'lead_type_id' => 6
-                    ]);
-                }
-            }
-        } */
 
         }
 }
