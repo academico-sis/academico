@@ -22,15 +22,20 @@ class MoodleController extends Controller
         $domainname = env('MOODLE_URL');
 
         $email = backpack_user()->email;
+        $firstname = backpack_user()->firstname;
+        $lastname = backpack_user()->lastname;
 
-        function getloginurl($email, $token, $domainname)
+        function getloginurl($email, $firstname, $lastname, $token, $domainname)
         {
 
             $functionname = 'auth_userkey_request_login_url';
 
             $param = [
                 'user' => [
-                    'email' => $email
+                    'email' => $email,
+                    'firstname' => $firstname, // You will not need this parameter, if you are not creating/updating users
+                    'lastname'  => $lastname, // You will not need this parameter, if you are not creating/updating users
+                    'username'  => $email, 
                 ]
             ];
 
@@ -59,7 +64,7 @@ class MoodleController extends Controller
         Log::info(backpack_user()->id . ' generated a Moodle login token');
 
 
-        return redirect(getloginurl($email, $token, $domainname));
+        return redirect(getloginurl($email, $firstname, $lastname, $token, $domainname));
 
     }
 
