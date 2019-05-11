@@ -78,7 +78,7 @@ class ReportController extends Controller
     {
         $period = $this->selectPeriod($request);
         
-        $courses = $period->courses()->where('parent_course_id', null)->withCount('enrollments')->get()->where('enrollments_count', '>', 0);
+        $courses = $period->courses()->where('parent_course_id', null)->withCount('enrollments')->orderBy('enrollments_count')->get()->where('enrollments_count', '>', 0);
 
         return view('reports.courses', [
             'period' => $period,
