@@ -42,7 +42,7 @@
         <div class="box">
             <div class="box-header with-border">
                 <div class="box-title">
-                    @lang('Last Absences')
+                    @lang('Unjustified Absences')
                 </div>
                 <div class="box-tools pull-right">
                 </div>
@@ -54,20 +54,49 @@
                         <tr>
                             <th>@lang('Student')</th>
                             <th>@lang('Course')</th>
-                            <th>@lang('Non-excused absences')</th>
-                            <th>@lang('Excused absences')</th>
-                            <th>@lang('Total')</th>
+                            <th>@lang('Number of absences')</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($absences as $absence)
-                            @if($absence->unexcused + $absence->excused > 0)
+                        @foreach($unjustified_absences as $absence)
+                            @if($absence->absence_count > 0)
                             <tr>
                                 <td><a href="{{ route('studentAttendance', ['student' => $absence->student_id]) }}">{{ $absence->firstname }} {{ $absence->lastname }}</a></td>
                                 <td>{{ $absence->course_name }}</td>
-                                <td>{{ $absence->unexcused }}</td>
-                                <td>{{ $absence->excused }}</td>
-                                <td>{{ $absence->unexcused + $absence->excused }}</td>
+                                <td>{{ $absence->absence_count }}</td>
+                            </tr>
+                            @endif
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="box">
+            <div class="box-header with-border">
+                <div class="box-title">
+                    @lang('Justified Absences')
+                </div>
+                <div class="box-tools pull-right">
+                </div>
+            </div>
+            
+            <div class="box-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>@lang('Student')</th>
+                            <th>@lang('Course')</th>
+                            <th>@lang('Number of absences')</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($justified_absences as $absence)
+                            @if($absence->absence_count > 0)
+                            <tr>
+                                <td><a href="{{ route('studentAttendance', ['student' => $absence->student_id]) }}">{{ $absence->firstname }} {{ $absence->lastname }}</a></td>
+                                <td>{{ $absence->course_name }}</td>
+                                <td>{{ $absence->absence_count }}</td>
                             </tr>
                             @endif
                         @endforeach

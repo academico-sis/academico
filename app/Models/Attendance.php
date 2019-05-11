@@ -88,12 +88,12 @@ class Attendance extends Model
     /**
      * get absences count per student
      * this is useful for monitoring the absences
+     * TODO REFACTOR 
      */
-    public function get_absence_count(Period $period)
+    public function get_unjustified_absence_count(Period $period)
     {
         return Attendance::selectRaw('
-            SUM(case when attendance_type_id = 3 then 1 else 0 end) as excused,
-            SUM(case when attendance_type_id = 4 then 1 else 0 end) as unexcused,
+            SUM(case when attendance_type_id = 4 then 1 else 0 end) as absence_count,
             student_id,
             users.firstname as firstname,
             users.lastname as lastname,
@@ -104,7 +104,25 @@ class Attendance extends Model
         ->join('users', 'users.id', '=', 'students.user_id')
         ->where('courses.period_id', $period->id)
         ->groupBy('course_name', 'student_id', 'firstname', 'lastname')
-        ->orderBy('excused', 'DESC')
+        ->orderBy('absence_count', 'DESC')
+        ->get();
+    }
+
+    public function get_justified_absence_count(Period $period)
+    {
+        return Attendance::selectRaw('
+            SUM(case when attendance_type_id = 3 then 1 else 0 end) as absence_count,
+            student_id,
+            users.firstname as firstname,
+            users.lastname as lastname,
+            courses.name as course_name')
+        ->join('events', 'events.id', '=', 'attendances.event_id')
+        ->join('courses', 'courses.id', '=', 'events.course_id')
+        ->join('students', 'attendances.student_id', '=', 'students.id')
+        ->join('users', 'users.id', '=', 'students.user_id')
+        ->where('courses.period_id', $period->id)
+        ->groupBy('course_name', 'student_id', 'firstname', 'lastname')
+        ->orderBy('absence_count', 'DESC')
         ->get();
     }
 
