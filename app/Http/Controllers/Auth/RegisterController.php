@@ -31,7 +31,7 @@ class RegisterController extends \Backpack\Base\app\Http\Controllers\Auth\Regist
         return Validator::make($data, [
             'firstname'                            => 'required|max:255',
             'lastname'                             => 'required|max:255',
-            'idnumber'                             => 'required|max:255|unique:contacts',
+            'idnumber'                             => 'required|max:255|unique:students',
             'genre_id'                             => 'required',
             'birthdate'                            => 'required|date',
             'phone_number'                         => 'required',
