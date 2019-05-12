@@ -1,7 +1,6 @@
 <div class="box">
     <div class="box-body box-profile">
 	    <img class="profile-user-img img-responsive img-circle" src="{{ backpack_avatar_url(backpack_auth()->user()) }}">
-	    <h3 class="profile-username text-center">{{ backpack_auth()->user()->firstname }}</h3>
 	</div>
 
 	<ul class="nav nav-pills nav-stacked">
@@ -10,8 +9,38 @@
 		@if (Request::route()->getName() == 'backpack.account.info')
 	  	class="active"
 	  	@endif
-	  	><a href="{{ route('backpack.account.info') }}">{{ trans('backpack::base.update_account_info') }}</a></li>
+	  	><a href="{{ route('backpack.account.info') }}">@lang('Account Data')</a></li>
 
+		<li role="presentation"
+		@if (Request::route()->getName() == 'backpack.student.info')
+			class="active"
+			@endif
+			><a href="{{ route('backpack.student.info') }}">@lang('Additional Data')</a></li>
+
+		<li role="presentation"
+		@if (Request::route()->getName() == 'backpack.account.phone')
+			class="active"
+			@endif
+			><a href="{{ route('backpack.account.phone') }}">@lang('Phone Numbers')</a></li>
+
+		<li role="presentation"
+		@if (Request::route()->getName() == 'backpack.account.photo')
+			class="active"
+			@endif
+			><a href="{{ route('backpack.account.photo') }}">@lang('Profile Picture')</a></li>
+
+		<li role="presentation"
+		@if (Request::route()->getName() == 'backpack.account.profession')
+			class="active"
+			@endif
+			><a href="{{ route('backpack.account.profession') }}">@lang('Profession')</a></li>
+
+		<li role="presentation"
+		@if (Request::route()->getName() == 'backpack.account.contacts')
+			class="active"
+			@endif
+			><a href="{{ route('backpack.account.contacts') }}">@lang('Additional Contacts')</a></li>
+					
 	  <li role="presentation"
 		@if (Request::route()->getName() == 'backpack.account.password')
 	  	class="active"
