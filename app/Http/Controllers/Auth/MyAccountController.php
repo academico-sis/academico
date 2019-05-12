@@ -54,7 +54,7 @@ class MyAccountController extends Controller
     public function getStudentInfoForm()
     {
         $this->data['title'] = trans('backpack::base.my_account');
-        $this->data['user'] = $this->guard()->user()->student;
+        $this->data['user'] = $this->guard()->user();
 
         return view('backpack::auth.account.update_student_info', $this->data);
     }
@@ -74,6 +74,31 @@ class MyAccountController extends Controller
 
         return redirect()->back();
     }
+
+
+    /**
+     * Show the phone numbers edit screen
+     */
+    public function getPhoneForm()
+    {
+        $this->data['title'] = trans('backpack::base.my_account');
+        $this->data['user'] = $this->guard()->user();
+
+        return view('backpack::auth.account.update_phone', $this->data);
+    }
+
+
+    /**
+     * Show the phone numbers edit screen
+     */
+    public function getPhotoForm()
+    {
+        $this->data['title'] = trans('backpack::base.my_account');
+        $this->data['user'] = $this->guard()->user();
+
+        return view('backpack::auth.account.update_photo', $this->data);
+    }
+
 
     /**
      * Get the guard to be used for account manipulation.

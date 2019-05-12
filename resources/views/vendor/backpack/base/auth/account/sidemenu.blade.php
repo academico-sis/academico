@@ -1,7 +1,14 @@
 <div class="box">
     <div class="box-body box-profile">
-	    <img class="profile-user-img img-responsive img-circle" src="{{ backpack_avatar_url(backpack_auth()->user()) }}">
+				@if ($user->student->getFirstMediaUrl() != null)
+					<img src="{{ $user->student->getMedia()->last()->getUrl('thumb') }}" style="width: 100%" />
+				@else
+					<img class="profile-user-img img-responsive img-circle" src="{{ backpack_avatar_url(backpack_auth()->user()) }}">
+				@endif
 	</div>
+
+
+
 
 	<ul class="nav nav-pills nav-stacked">
 
