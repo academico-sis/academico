@@ -32,13 +32,13 @@ class RegisterController extends \Backpack\Base\app\Http\Controllers\Auth\Regist
             'firstname'                            => 'required|max:255',
             'lastname'                             => 'required|max:255',
             'idnumber'                             => 'required|max:255|unique:contacts',
-            'genre_id'                             => 'required',
+            'genre_id'                             => 'required|numeric',
             'birthdate'                            => 'required|date',
             'phone_number'                         => 'required',
             'address'                              => 'required',
             backpack_authentication_column()       => 'required|'.$email_validation.'max:255|unique:'.$users_table,
             'password'                             => 'required|min:6|confirmed',
-            'rules'                                => 'required'
+            'rules'                                => 'required|boolean'
         ]);
     }
 
