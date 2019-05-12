@@ -80,6 +80,39 @@ class RegisterTest extends TestCase
         $this->assertEquals($student->address, $address);
         $this->assertEquals($student->genre_id, $genre_id);
         $this->assertTrue($student->phone->contains('phone_number', $phone));
+    }
+
+    /**
+     * Check that validation rules prevent incomplete data to be submitted to the DB
+     * @test
+     */
+    public function testUserCreationValidationRules()
+    {
+        $firstname = $this->faker->firstName();
+        $lastname = $this->faker->lastName();
+        $email = $this->faker->unique()->safeEmail;
+        $address = $this->faker->address();
+        $idnumber = $this->faker->randomNumber();
+        $phone = $this->faker->e164PhoneNumber();
+        $birthdate = $this->faker->date();
+        $genre_id = $this->faker->numberBetween($min = 0, $max = 2);
+
+        // when we post data to the endpoint
+        $response = $this->json('POST', route('backpack.auth.register'), [
+            'firstname' => '',
+            'lastname' => '',
+            'idnumber' => '',
+            'genre_id' => 'abc',
+            'birthdate' => 'abc',
+            'address' => '',
+            'email' => '123',
+            'password' => 'secret',
+            'password_confirmation' => 'secret',
+            'rules' => false,
+            ]);
+
+        // Assert that the errors are returned
+        $response->assertJsonValidationErrors('firstname', 'lastname', 'idnumber', 'genre_id', 'birthdate', 'address', 'email', 'rules');
 
     }
 }
