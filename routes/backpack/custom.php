@@ -40,9 +40,9 @@ Route::group(
         // if not otherwise configured, setup the "my account" routes
         Route::get('edit-account-info', 'Auth\MyAccountController@getAccountInfoForm')->name('backpack.account.info');
         Route::get('edit-student-info', 'Auth\MyAccountController@getStudentInfoForm')->name('backpack.student.info');
-        Route::get('edit-account-phone', 'Auth\MyAccountController@getAccountPhoneForm')->name('backpack.account.phone');
+        Route::get('edit-account-phone', 'Auth\MyAccountController@getPhoneForm')->name('backpack.account.phone');
         Route::get('edit-account-profession', 'Auth\MyAccountController@getAccountProfessionForm')->name('backpack.account.profession');
-        Route::get('edit-account-photo', 'Auth\MyAccountController@getAccountPhotoForm')->name('backpack.account.photo');
+        Route::get('edit-account-photo', 'Auth\MyAccountController@getPhotoForm')->name('backpack.account.photo');
         Route::get('edit-account-contacts', 'Auth\MyAccountController@getAccountContactsForm')->name('backpack.account.contacts');
         
         Route::post('edit-account-info', 'Auth\MyAccountController@postAccountInfoForm');

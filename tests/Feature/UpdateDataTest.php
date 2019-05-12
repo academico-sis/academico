@@ -47,7 +47,9 @@ class UpdateDataTest extends TestCase
     }
 
     // todo duplicate method ( edit // update) and test data saving to DB
-
+    // todo add validation testing
+    // todo test that the force update status is updated after each step.
+    
 
     /**
      * Users may view the edit screen for additional data
@@ -74,7 +76,8 @@ class UpdateDataTest extends TestCase
         \Auth::guard(backpack_guard_name())->login($this->student->user);
         $response = $this->get(route('backpack.account.info'));
         $response->assertStatus(200);
-        $response->assertSee();
+        // todo: test that the phone numbers are visible
+        // todo refactor post method.
     }
 
     /**
