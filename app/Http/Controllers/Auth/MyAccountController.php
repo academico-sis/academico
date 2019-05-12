@@ -99,6 +99,17 @@ class MyAccountController extends Controller
         return view('backpack::auth.account.update_photo', $this->data);
     }
 
+    /**
+     * Show the additional contacts review screen
+     */
+    public function getContactsForm()
+    {
+        $this->data['title'] = trans('backpack::base.my_account');
+        $this->data['user'] = $this->guard()->user();
+
+        return view('backpack::auth.account.additional_contacts', $this->data);
+    }
+
 
     /**
      * Get the guard to be used for account manipulation.
