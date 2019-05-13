@@ -115,13 +115,23 @@ class UpdateDataTest extends TestCase
      * When a user has a force_update DB record set to 3, they are redirected to the relevant update screen
      * (phone number)
      */
-    public function SelectedUsersAreRedirectedToPhoneUpdateScreen()
+    public function SelectedUsersWillUpdatePhoneNumbers()
     {
-        \Auth::guard(backpack_guard_name())->login($student->user);
+        \Auth::guard(backpack_guard_name())->login($this->student->user);
         
-        $student->update(['force_update' => 3]);
+        // test redirect
+        $this->student->update(['force_update' => 3]);
         $response = $this->get('/');
         $response->assertRedirect(route('backpack.account.phone'));
+
+        // test update screen
+        $response = $this->get(route('backpack.account.info'));
+        $response->assertStatus(200);
+        // todo: test that the phone numbers are visible
+        // todo refactor post method.
+
+        // todo test data save
+
     }
 
     /**
@@ -130,13 +140,20 @@ class UpdateDataTest extends TestCase
      * When a user has a force_update DB record set to 4, they are redirected to the relevant update screen
      * (profession)
      */
-    public function SelectedUsersAreRedirectedToProfessionUpdateScreen()
+    public function SelectedUsersWillUpdateProfession()
     {
         \Auth::guard(backpack_guard_name())->login($this->student->user);
         
+        // redirect
         $this->student->update(['force_update' => 4]);
         $response = $this->get('/');
         $response->assertRedirect(route('backpack.account.profession'));
+
+        // todo review
+
+        // todo store
+
+        // todo next step
     }
 
     /**
@@ -145,13 +162,21 @@ class UpdateDataTest extends TestCase
      * When a user has a force_update DB record set to 5, they are redirected to the relevant update screen
      * (profile picture)
      */
-    public function SelectedUsersAreRedirectedToPhotoUpdateScreen()
+    public function SelectedUsersWillUpdateProfilePicture()
     {
         \Auth::guard(backpack_guard_name())->login($this->student->user);
         
+        // redirect
         $this->student->update(['force_update' => 5]);
         $response = $this->get('/');
         $response->assertRedirect(route('backpack.account.photo'));
+
+        // todo submit
+        $response = $this->get(route('backpack.account.info'));
+        $response->assertStatus(200);
+        
+        // todo update
+
     }
 
     /**
@@ -160,10 +185,11 @@ class UpdateDataTest extends TestCase
      * When a user has a force_update DB record set to 6, they are redirected to the relevant update screen
      * (profile picture)
      */
-    public function SelectedUsersAreRedirectedToContactsUpdateScreen()
+    public function SelectedUsersWillUpdateContacts()
     {
         \Auth::guard(backpack_guard_name())->login($this->student->user);
         
+        // redirect
         $this->student->update(['force_update' => 6]);
         $response = $this->get('/');
         $response->assertRedirect(route('backpack.account.contacts'));
@@ -174,56 +200,4 @@ class UpdateDataTest extends TestCase
     
 
 
-    /**
-     * Users may view the edit screen for phone numbers
-     * This is Update Step 3
-     * @test
-     */
-    public function UsersMayUpdatePhoneNumbers()
-    {
-        \Auth::guard(backpack_guard_name())->login($this->student->user);
-        $response = $this->get(route('backpack.account.info'));
-        $response->assertStatus(200);
-        // todo: test that the phone numbers are visible
-        // todo refactor post method.
-    }
-
-    /**
-     * Users may update their profile picture
-     * This is Update Step 4
-     * @test
-     */
-    public function UsersMayUpdateProfilePicture()
-    {
-        \Auth::guard(backpack_guard_name())->login($this->student->user);
-        $response = $this->get(route('backpack.account.info'));
-        $response->assertStatus(200);
-        $response->assertSee();
-    }
-
-    /**
-     * Users may view the edit screen for profession and institution
-     * This is Update Step 5
-     * @test
-     */
-    public function UsersMayUpdateWorkData()
-    {
-        \Auth::guard(backpack_guard_name())->login($this->student->user);
-        $response = $this->get(route('backpack.account.info'));
-        $response->assertStatus(200);
-        $response->assertSee();
-    }
-
-    /**
-     * Users may view the edit screen for additional contacts
-     * This is Update Step 6
-     * @test
-     */
-    public function UsersMayUpdateAdditionalContacts()
-    {
-        \Auth::guard(backpack_guard_name())->login($this->student->user);
-        $response = $this->get(route('backpack.account.info'));
-        $response->assertStatus(200);
-        $response->assertSee();
-    }
 }
