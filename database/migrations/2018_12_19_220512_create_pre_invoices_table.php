@@ -41,8 +41,8 @@ class CreatePreInvoicesTable extends Migration
         });
 
         Schema::table('pre_invoices', function (Blueprint $table) {
-            $table->foreign('user_id')
-            ->references('id')->on('users')
+            $table->foreign('user_id') // todo rename this field to student_id
+            ->references('id')->on('students')
             ->onDelete('cascade');
         });
 
