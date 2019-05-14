@@ -141,7 +141,7 @@ class UpdateDataTest extends TestCase
         // test data save
         $this->assertTrue($this->student->phone->contains('phone_number', $phoneNumber));
 
-        // todo next step
+        // move to next step
         $this->assertEquals(4, \Auth::guard(backpack_guard_name())->user()->student->force_update);
     }
 
@@ -149,7 +149,7 @@ class UpdateDataTest extends TestCase
      * @test
      * 
      * When a user has a force_update DB record set to 4, they are redirected to the relevant update screen
-     * (profession)
+     * They may update their profession and institution and move to the next update step.
      */
     public function SelectedUsersWillUpdateProfession()
     {
