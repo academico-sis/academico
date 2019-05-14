@@ -95,6 +95,30 @@ class MyAccountController extends Controller
         return view('backpack::auth.account.update_phone', $this->data);
     }
 
+    /**
+     * Move the update step after reviewing the phone numbers
+     */
+    public function postPhoneForm()
+    {
+        backpack_user()->student()->update([
+            'force_update' => 4
+        ]);
+
+        \Alert::success(__('Your data has been saved'))->flash();
+
+        return redirect('/');
+    }
+
+    /**
+     * Show the phone numbers edit screen
+     */
+    public function getAccountProfessionForm()
+    {
+        $this->data['title'] = trans('backpack::base.my_account');
+        $this->data['user'] = $this->guard()->user();
+
+        return view('backpack::auth.account.update_profession', $this->data);
+    }
 
     /**
      * Show the phone numbers edit screen

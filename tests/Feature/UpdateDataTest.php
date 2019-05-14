@@ -127,10 +127,19 @@ class UpdateDataTest extends TestCase
         // test update screen
         $response = $this->get(route('backpack.account.info'));
         $response->assertStatus(200);
+        
         // todo: test that the phone numbers are visible
-        // todo refactor post method.
 
-        // todo test data save
+        $phoneNumber = $this->faker->phoneNumber();
+
+        // todo refactor post method. Name route
+        $this->json('POST', '/phonenumber', [
+            'student' => $this->student->id,
+            'number' => $phoneNumber,
+            ]);
+            
+        // test data save
+        $this->assertTrue($this->student->phone->contains('phone_number', $phoneNumber));
 
         // todo next step
         $this->assertEquals(4, \Auth::guard(backpack_guard_name())->user()->student->force_update);

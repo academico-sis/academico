@@ -47,6 +47,7 @@ Route::group(
         
         Route::post('edit-account-info', 'Auth\MyAccountController@postAccountInfoForm');
         Route::post('edit-student-info', 'Auth\MyAccountController@postStudentInfoForm');
+        Route::post('edit-phone', 'Auth\MyAccountController@postPhoneForm');
 
         CRUD::resource('result', 'Admin\ResultCrudController');
         CRUD::resource('contact', 'Admin\ContactCrudController');
