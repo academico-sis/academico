@@ -132,6 +132,8 @@ class UpdateDataTest extends TestCase
 
         // todo test data save
 
+        // todo next step
+        $this->assertEquals(4, \Auth::guard(backpack_guard_name())->user()->student->force_update);
     }
 
     /**
@@ -154,6 +156,7 @@ class UpdateDataTest extends TestCase
         // todo store
 
         // todo next step
+        $this->assertEquals(5, \Auth::guard(backpack_guard_name())->user()->student->force_update);
     }
 
     /**
@@ -176,7 +179,7 @@ class UpdateDataTest extends TestCase
         $response->assertStatus(200);
         
         // todo update
-
+        $this->assertEquals(6, \Auth::guard(backpack_guard_name())->user()->student->force_update);
     }
 
     /**
@@ -193,11 +196,12 @@ class UpdateDataTest extends TestCase
         $this->student->update(['force_update' => 6]);
         $response = $this->get('/');
         $response->assertRedirect(route('backpack.account.contacts'));
+
+        // todo remove force_update flag
+        $this->assertEquals(null, \Auth::guard(backpack_guard_name())->user()->student->force_update);
+
     }
 
-
-    // todo add data validation testing
-    
-
+    // todo add data validation (testing ?)
 
 }
