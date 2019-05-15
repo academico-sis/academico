@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Alert;
 use Auth;
+use Alert;
+use App\Models\Profession;
+use App\Models\Institution;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Hash;
 use Backpack\Base\app\Http\Controllers\Controller;
 use Backpack\Base\app\Http\Requests\ChangePasswordRequest;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Http\Request;
 
 class MyAccountController extends Controller
 {
@@ -100,9 +103,10 @@ class MyAccountController extends Controller
      */
     public function postPhoneForm()
     {
-        backpack_user()->student()->update([
-            'force_update' => 4
-        ]);
+        // if the user has been selected for a forced update, move to the next step
+        if($this->guard()->user()->student->force_update == 3) {
+            $this->guard()->user()->student->update(['force_update' => 4]);
+        }
 
         \Alert::success(__('Your data has been saved'))->flash();
 
@@ -120,6 +124,37 @@ class MyAccountController extends Controller
         return view('backpack::auth.account.update_profession', $this->data);
     }
 
+    public function postAccountProfessionForm(Request $request)
+    {
+
+        $profession = Profession::firstOrCreate([
+            'name' => $request->profession,
+        ]);
+
+        $this->guard()->user()->student()->update([
+            'profession_id' => $profession->id
+        ]);
+
+
+        $institution = Institution::firstOrCreate([
+            'name' => $request->institution,
+        ]);
+
+        $this->guard()->user()->student()->update([
+            'institution_id' => $institution->id
+        ]);
+
+        // if the user has been selected for a forced update, move to the next step
+        if($this->guard()->user()->student->force_update == 4) {
+            $this->guard()->user()->student->update(['force_update' => 5]);
+        }
+
+        \Alert::success(__('Your data has been saved'))->flash();
+        Log::info('User updated their data step 4');
+
+        return redirect('/');
+    }
+
     /**
      * Show the phone numbers edit screen
      */
@@ -129,6 +164,28 @@ class MyAccountController extends Controller
         $this->data['user'] = $this->guard()->user();
 
         return view('backpack::auth.account.update_photo', $this->data);
+    }
+
+    public function postPhotoForm(Request $request)
+    {
+        if ($request->fileToUpload != null)
+        {
+            $user = $this->guard()->user();
+        
+            $user
+               ->addMedia($request->fileToUpload)
+               ->toMediaCollection();
+        }
+        
+        // if the user has been selected for a forced update, move to the next step
+        if($this->guard()->user()->student->force_update == 5) {
+            $this->guard()->user()->student->update(['force_update' => 6]);
+        }
+
+        \Alert::success(__('Your picture has been saved'))->flash();
+        Log::info('User updated their data step 5');
+
+        return redirect('/');
     }
 
     /**

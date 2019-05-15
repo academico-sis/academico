@@ -42,7 +42,7 @@
     </div>
     <div class="col-md-6">
 
-        <form class="form" action="{{ route('backpack.account.info') }}" method="post">
+        <form class="form" action="/edit-profession" method="post">
 
             {!! csrf_field() !!}
 
@@ -66,23 +66,24 @@
                         </div>
                     @endif
 
+                    <h4>@lang("Please fill in your profession and your institution (school, workplace).")</h4>
+
                     <div class="form-group">
                         @php
                             $label = trans('Profession');
-                            $field = 'profession';
                         @endphp
                         <label class="required">{{ $label }}</label>
-                        <input required class="form-control" type="text" name="{{ $field }}" value="{{ old($field) ? old($field) : $user->$field }}">
+                        <input required class="form-control" type="text" name="profession" value="{{ $user->student->profession->name ?? '' }}">
                     </div>
 
                     <div class="form-group">
                             @php
                                 $label = trans('Institution');
-                                $field = 'institution';
                             @endphp
                             <label class="required">{{ $label }}</label>
-                            <input required class="form-control" type="text" name="{{ $field }}" value="{{ old($field) ? old($field) : $user->$field }}">
+                            <input required class="form-control" type="text" name="institution" value="{{ $user->student->institution->name ?? '' }}">
                     </div>
+
 
                     <div class="form-group m-b-0">
                         <button type="submit" class="btn btn-success"><span class="ladda-label"><i class="fa fa-save"></i> {{ trans('backpack::base.save') }}</span></button>

@@ -31,16 +31,16 @@
 			><a href="{{ route('backpack.account.phone') }}">@lang('Phone Numbers')</a></li>
 
 		<li role="presentation"
-		@if (Request::route()->getName() == 'backpack.account.photo')
-			class="active"
-			@endif
-			><a href="{{ route('backpack.account.photo') }}">@lang('Profile Picture')</a></li>
-
-		<li role="presentation"
 		@if (Request::route()->getName() == 'backpack.account.profession')
 			class="active"
 			@endif
 			><a href="{{ route('backpack.account.profession') }}">@lang('Profession')</a></li>
+
+		<li role="presentation"
+		@if (Request::route()->getName() == 'backpack.account.photo')
+			class="active"
+			@endif
+			><a href="{{ route('backpack.account.photo') }}">@lang('Profile Picture')</a></li>
 
 		<li role="presentation"
 		@if (Request::route()->getName() == 'backpack.account.contacts')

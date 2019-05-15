@@ -26,6 +26,7 @@
     });
  */
     
+     
 Route::group(
     [
         'namespace'  => '\App\Http\Controllers',
@@ -36,6 +37,27 @@ Route::group(
         // Registration Routes...
         Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('backpack.auth.register');
         Route::post('register', 'Auth\RegisterController@register');
+
+        CRUD::resource('result', 'Admin\ResultCrudController');
+        CRUD::resource('contact', 'Admin\ContactCrudController');
+
+        CRUD::resource('preinvoice', 'Admin\PreInvoiceCrudController');
+        
+        Route::post('edit-account-info', 'Auth\MyAccountController@postAccountInfoForm');
+        Route::post('edit-student-info', 'Auth\MyAccountController@postStudentInfoForm');
+        Route::post('edit-phone', 'Auth\MyAccountController@postPhoneForm');
+        Route::post('edit-profession', 'Auth\MyAccountController@postAccountProfessionForm');
+
+        });
+
+
+Route::group(
+    [
+        'namespace'  => '\App\Http\Controllers',
+        'middleware' => ['web', 'language', 'forceupdate'],
+        'prefix'     => config('backpack.base.route_prefix'),
+    ],
+    function () {
         
         // if not otherwise configured, setup the "my account" routes
         Route::get('edit-account-info', 'Auth\MyAccountController@getAccountInfoForm')->name('backpack.account.info');
@@ -44,16 +66,6 @@ Route::group(
         Route::get('edit-profession', 'Auth\MyAccountController@getAccountProfessionForm')->name('backpack.account.profession');
         Route::get('edit-photo', 'Auth\MyAccountController@getPhotoForm')->name('backpack.account.photo');
         Route::get('edit-contacts', 'Auth\MyAccountController@getContactsForm')->name('backpack.account.contacts');
-        
-        Route::post('edit-account-info', 'Auth\MyAccountController@postAccountInfoForm');
-        Route::post('edit-student-info', 'Auth\MyAccountController@postStudentInfoForm');
-        Route::post('edit-phone', 'Auth\MyAccountController@postPhoneForm');
-
-        CRUD::resource('result', 'Admin\ResultCrudController');
-        CRUD::resource('contact', 'Admin\ContactCrudController');
-
-        CRUD::resource('preinvoice', 'Admin\PreInvoiceCrudController');
-
 
         });
 

@@ -4,6 +4,8 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Models\Student;
+use App\Models\Profession;
+use App\Models\Institution;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -142,6 +144,7 @@ class UpdateDataTest extends TestCase
         $this->assertTrue($this->student->phone->contains('phone_number', $phoneNumber));
 
         // move to next step
+        $this->json('POST', '/edit-phone'); // todo name route
         $this->assertEquals(4, \Auth::guard(backpack_guard_name())->user()->student->force_update);
     }
 
@@ -153,18 +156,30 @@ class UpdateDataTest extends TestCase
      */
     public function SelectedUsersWillUpdateProfession()
     {
-        \Auth::guard(backpack_guard_name())->login($this->student->user);
+        $student = factory(Student::class)->create();
+        \Auth::guard(backpack_guard_name())->login($student->user);
         
         // redirect
-        $this->student->update(['force_update' => 4]);
+        $student->update(['force_update' => 4]);
         $response = $this->get('/');
         $response->assertRedirect(route('backpack.account.profession'));
 
-        // todo review
+        // save and review
 
-        // todo store
+        $profession = $this->faker->word();
+        $institution = $this->faker->word();
 
-        // todo next step
+        $this->json('POST', '/edit-profession', [
+            'profession' => $profession,
+            'institution' => $institution,
+            ]);
+
+        $response = $this->get(route('backpack.account.profession'));
+        $response->assertStatus(200);
+        
+        // todo assert that profession and institution values are visible on the page...
+ 
+        // move to next step
         $this->assertEquals(5, \Auth::guard(backpack_guard_name())->user()->student->force_update);
     }
 
