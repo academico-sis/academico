@@ -127,7 +127,7 @@ class UpdateDataTest extends TestCase
         $response->assertRedirect(route('backpack.account.phone'));
 
         // test update screen
-        $response = $this->get(route('backpack.account.info'));
+        $response = $this->get(route('backpack.account.phone'));
         $response->assertStatus(200);
         
         // todo: test that the phone numbers are visible
@@ -169,16 +169,15 @@ class UpdateDataTest extends TestCase
         $profession = $this->faker->word();
         $institution = $this->faker->word();
 
+        // todo assert that profession and institution values are visible on the page...
+        $response = $this->get(route('backpack.account.profession'));
+        $response->assertStatus(200);
+
         $this->json('POST', '/edit-profession', [
             'profession' => $profession,
             'institution' => $institution,
-            ]);
+            ]);     
 
-        $response = $this->get(route('backpack.account.profession'));
-        $response->assertStatus(200);
-        
-        // todo assert that profession and institution values are visible on the page...
- 
         // move to next step
         $this->assertEquals(5, \Auth::guard(backpack_guard_name())->user()->student->force_update);
     }
