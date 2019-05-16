@@ -199,10 +199,12 @@ class UpdateDataTest extends TestCase
         $response->assertRedirect(route('backpack.account.photo'));
 
         // todo submit
-        $response = $this->get(route('backpack.account.info'));
+        $response = $this->get(route('backpack.account.photo'));
         $response->assertStatus(200);
         
-        // todo update
+        // todo upload a picture here...
+        $this->json('POST', '/edit-photo');
+            
         $this->assertEquals(6, \Auth::guard(backpack_guard_name())->user()->student->force_update);
     }
 
@@ -222,6 +224,7 @@ class UpdateDataTest extends TestCase
         $response->assertRedirect(route('backpack.account.contacts'));
 
         // todo remove force_update flag
+        $this->json('POST', '/edit-contacts');
         $this->assertEquals(null, \Auth::guard(backpack_guard_name())->user()->student->force_update);
 
     }

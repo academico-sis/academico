@@ -199,6 +199,16 @@ class MyAccountController extends Controller
         return view('backpack::auth.account.additional_contacts', $this->data);
     }
 
+    public function postContactsForm()
+    {
+        if($this->guard()->user()->student->force_update == 6) {
+            $this->guard()->user()->student->update(['force_update' => null]);
+        }
+        Log::info('User updated their data step 6');
+
+        return redirect('/');
+    }
+
 
     /**
      * Get the guard to be used for account manipulation.

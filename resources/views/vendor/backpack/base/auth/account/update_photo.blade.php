@@ -42,7 +42,7 @@
     </div>
     <div class="col-md-6">
 
-        <form action="/update/5" method="post" enctype="multipart/form-data">
+        <form action="/edit-photo" method="post" enctype="multipart/form-data">
 
             @method('patch')
             @csrf
