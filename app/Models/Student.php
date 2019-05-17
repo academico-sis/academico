@@ -177,7 +177,7 @@ class Student extends Model implements HasMedia
                     'course_id' => $children_course->id,
                     'parent_id' => $enrollment->id
                 ]);
-                $child_enrollment->responsible_id = backpack_user()->id;
+                $child_enrollment->responsible_id = backpack_user()->id ?? null;
                 $child_enrollment->save();
             }
         }
