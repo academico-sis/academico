@@ -61,6 +61,7 @@ Route::group(
     function () {
         
         // if not otherwise configured, setup the "my account" routes
+        // todo rename routes to numbers to match the DB forceupdate field
         Route::get('edit-account-info', 'Auth\MyAccountController@getAccountInfoForm')->name('backpack.account.info');
         Route::get('edit-student-info', 'Auth\MyAccountController@getStudentInfoForm')->name('backpack.student.info');
         Route::get('edit-phone', 'Auth\MyAccountController@getPhoneForm')->name('backpack.account.phone');

@@ -81,9 +81,7 @@
                         <button type="submit" class="btn btn-success"><span class="ladda-label"><i class="fa fa-save"></i> {{ trans('backpack::base.save') }}</span></button>
                         
                         
-                        @if ($user->student->getFirstMediaUrl() != null)
-                            @lang('or') <a href="{{ backpack_url() }}" class="btn btn-primary"><span class="ladda-label">@lang('Continue with the same profile picture')</span></a>
-                        @endif
+                            @lang('or') <a href="{{ route('backpack.account.contacts') }}" class="btn btn-primary"><span class="ladda-label">@lang('Continue with the same profile picture')</span></a>
 
                     </div>
 

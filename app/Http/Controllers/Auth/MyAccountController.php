@@ -71,19 +71,23 @@ class MyAccountController extends Controller
      */
     public function postStudentInfoForm(Request $request)
     {
-        $result = $this->guard()->user()->student->update($request->except(['_token']));
-        if ($result) {
-            Alert::success(trans('backpack::base.account_updated'))->flash();
+        Student::updateOrCreate(
+            ['user_id' => $this->guard()->user()->id],
+            [
+                'idnumber' => $request->idnumber,
+                'address' => $request->address,
+                'birthdate' => $request->birthdate,
+            ]
+        );
+            
+        Alert::success(trans('backpack::base.account_updated'))->flash();
 
-            // if the user has been selected for a forced update, move to the next step
-            if($this->guard()->user()->student->force_update == 2) {
-                $this->guard()->user()->student->update(['force_update' => 3]);
-            }
-        } else {
-            Alert::error(trans('backpack::base.error_saving'))->flash();
+        // if the user has been selected for a forced update, move to the next step
+        if($this->guard()->user()->student->force_update == 2 || $this->guard()->user()->student->force_update == null) {
+            $this->guard()->user()->student->update(['force_update' => 3]);
         }
 
-        return redirect()->back();
+        return redirect('/');
     }
 
 
