@@ -44,7 +44,6 @@
 
         <form action="/edit-photo" method="post" enctype="multipart/form-data">
 
-            @method('patch')
             @csrf
 
             <div class="box padding-10">

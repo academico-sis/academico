@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use Auth;
 use Alert;
+use App\Models\Student;
 use App\Models\Profession;
 use App\Models\Institution;
 use Illuminate\Http\Request;
@@ -170,7 +171,7 @@ class MyAccountController extends Controller
     {
         if ($request->fileToUpload != null)
         {
-            $user = $this->guard()->user();
+            $user = Student::where('user_id', $this->guard()->user()->id)->first();
         
             $user
                ->addMedia($request->fileToUpload)
