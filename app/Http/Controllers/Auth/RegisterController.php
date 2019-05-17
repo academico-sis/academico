@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Log;
 class RegisterController extends \Backpack\Base\app\Http\Controllers\Auth\RegisterController
 {
 
-        /**
+    /**
      * Get a validator for an incoming registration request.
      *
      * @param array $data
@@ -93,26 +93,26 @@ class RegisterController extends \Backpack\Base\app\Http\Controllers\Auth\Regist
         }
 
         $this->validator($request->all())->validate();
-        $user = $this->create($request->all());
+        $student = $this->create($request->all());
 
         // register the phone number
         $phone = new PhoneNumber;
-        $phone->phoneable_id = $user->id;
+        $phone->phoneable_id = $student->id;
         $phone->phoneable_type = Student::class;
         $phone->phone_number = $request->input('phone_number');
         $phone->save();
 
-        // create a new record that the user has accepted the rules.
-        $this->register_rules_acceptation($user);
+        // create a new record that the student has accepted the rules.
+        $this->register_rules_acceptation($student);
 
         // flash a confirmation message
-        \Alert::success(__('The user has successfully been registered'))->flash();
-        Log::info('New user registered with ID ' . $user->id);
+        \Alert::success(__('The student has successfully been registered'))->flash();
+        Log::info('New student registered with ID ' . $student->id);
 
         // if invoice data has been required; log the user in and open the form to add a contact
         if($request->input('invoice_data')) {
-            backpack_auth()->login(User::find($user->user_id), false); // do not remember the user
-            $student_id = $user->id;
+            backpack_auth()->login(User::find($student->user_id), false); // do not remember the user
+            $student_id = $student->id;
             return view('backpack::auth.invoice_data', compact('student_id'));
         }
 

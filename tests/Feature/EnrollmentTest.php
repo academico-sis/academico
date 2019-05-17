@@ -30,8 +30,12 @@ class EnrollmentTest extends TestCase
 
     
     /** @test */
-    public function a_new_enrollment_appears_in_course_students_list()
+    public function authorized_users_may_enroll_students()
     {
+        $admin = factory(User::class)->create();
+        $admin->assignRole('admin');
+        backpack_auth()->login($admin, true);
+
         // Arrange: given a newly created student...
         $student = factory(Student::class)->create();
 
@@ -39,14 +43,36 @@ class EnrollmentTest extends TestCase
         $course = factory(Course::class)->create();
 
         // Act: if we enroll the user in the course
-        $this->json('POST', "/student/enroll", [
-            'student_id' => $student->id,
+        $response = $this->json('POST', "/student/enroll", [
+            'student_id' => $student->user->id,
             'course_id' => $course->id,
         ]);
 
         // Assert: they appear among the enrollments list for the course
         $this->assertTrue($student->enrollments->contains("course_id", $course->id));
         
+
+        $guest = factory(User::class)->create();
+        backpack_auth()->login($guest, true);
+
+
+        // Arrange: given a newly created student...
+        $student_2 = factory(Student::class)->create();
+
+        // and a newly created course
+        $course = factory(Course::class)->create();
+
+        // Act: if we enroll the user in the course
+        $response = $this->json('POST', "/student/enroll", [
+            'student_id' => $student_2->user->id,
+            'course_id' => $course->id,
+        ]);
+
+        // Assert: they appear among the enrollments list for the course
+        $this->assertFalse($student_2->enrollments->contains("course_id", $course->id));
+        
+
+
         /* failing: test the course view endpoint */
 /*         $response = $this->get("/course/$course->id");
         $response->assertSee("$student->firstname"); */

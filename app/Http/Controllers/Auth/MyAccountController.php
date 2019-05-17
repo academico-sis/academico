@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Auth;
 use Alert;
 use App\Models\Student;
 use App\Models\Profession;
