@@ -59,16 +59,13 @@ Route::group(
         'prefix'     => config('backpack.base.route_prefix'),
     ],
     function () {
-        
-        // if not otherwise configured, setup the "my account" routes
-        // todo rename routes to numbers to match the DB forceupdate field
-        Route::get('edit-account-info', 'Auth\MyAccountController@getAccountInfoForm')->name('backpack.account.info');
-        Route::get('edit-student-info', 'Auth\MyAccountController@getStudentInfoForm')->name('backpack.student.info');
-        Route::get('edit-phone', 'Auth\MyAccountController@getPhoneForm')->name('backpack.account.phone');
-        Route::get('edit-profession', 'Auth\MyAccountController@getAccountProfessionForm')->name('backpack.account.profession');
-        Route::get('edit-photo', 'Auth\MyAccountController@getPhotoForm')->name('backpack.account.photo');
-        Route::get('edit-contacts', 'Auth\MyAccountController@getContactsForm')->name('backpack.account.contacts');
-
+        // route numbers match the DB forceupdate field
+        Route::get('edit/1', 'Auth\MyAccountController@getAccountInfoForm')->name('backpack.account.info');
+        Route::get('edit/2', 'Auth\MyAccountController@getStudentInfoForm')->name('backpack.student.info');
+        Route::get('edit/3', 'Auth\MyAccountController@getPhoneForm')->name('backpack.account.phone');
+        Route::get('edit/4', 'Auth\MyAccountController@getAccountProfessionForm')->name('backpack.account.profession');
+        Route::get('edit/5', 'Auth\MyAccountController@getPhotoForm')->name('backpack.account.photo');
+        Route::get('edit/6', 'Auth\MyAccountController@getContactsForm')->name('backpack.account.contacts');
         });
 
 

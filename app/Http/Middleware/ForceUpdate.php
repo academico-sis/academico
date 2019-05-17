@@ -15,13 +15,21 @@ class ForceUpdate
      */
     public function handle($request, Closure $next)
     {
-        
+        // if the current user has a forceupdate field set, we check that they can only access this route or a lower forceupdate step
+
         if (backpack_user() != null)
         {
             if(backpack_user()->isStudent())
             {
+                if (backpack_user()->student->force_update)
+                {
+                    if (\Route::current() != 'update/' . backpack_user()->student->force_update)
+                    {
+                        return 'redirect';
+                    }
+                }
  
-                if (\Route::current()->getName() != 'backpack.account.info' && backpack_user()->student->force_update == 1) {
+/*                 if (\Route::current()->getName() != 'backpack.account.info' && backpack_user()->student->force_update == 1) {
                     \Alert::warning(__('Please update your data before you continue your navigation'))->flash();
                     return redirect(route('backpack.account.info'));
                 }
@@ -45,7 +53,7 @@ class ForceUpdate
 
                 if (\Request::route()->getName() != 'backpack.account.contacts' && backpack_user()->student->force_update == 6) {
                     return redirect(route('backpack.account.contacts'));
-                }
+                } */
             }
         }
 
