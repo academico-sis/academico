@@ -47,11 +47,9 @@
 
                 <h4>@lang('Please check the additional contact data associated to your account')</h4>
 
-                <h4>@lang('This data is used for invoices')</h4>
+                <h4>@lang('You also need to add the invoice information here')</h4>
 
                 <h4>@lang('Students under 18, please add contact data from your legal representatives')</h4>
-
-                <h4>@lang('You may add more than contact to your account')</h4>
 
                 <a class="btn btn btn-primary" data-toggle="modal" data-target="#userDataModal">
                     <i class="fa fa-plus"></i> @lang('Create another Contact')

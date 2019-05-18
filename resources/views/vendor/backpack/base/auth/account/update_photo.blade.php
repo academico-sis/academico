@@ -79,7 +79,7 @@
                     <div class="form-group m-b-0">
                         <button type="submit" class="btn btn-success"><span class="ladda-label"><i class="fa fa-save"></i> {{ trans('backpack::base.save') }}</span></button>
 
-                        @lang('or') <button type="submit" class="btn btn-primary"><span class="ladda-label">@lang('Continue with the same profile picture')</span></button>
+                        @lang('or') <button type="submit" class="btn btn-primary"><span class="ladda-label">@lang('Continue without uploading a profile picture')</span></button>
                     </div>
 
                 </div>
