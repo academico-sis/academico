@@ -210,8 +210,9 @@ class MyAccountController extends Controller
         }
         Log::info('User updated their data step 6');
 
-        if (session()->has($this->guard()->user()->id)) {
+        if (session()->has('logout')) {
             backpack_auth()->logout();
+            session()->flush();
         }
         return redirect('/');
     }

@@ -60,7 +60,6 @@ class RegisterController extends \Backpack\Base\app\Http\Controllers\Auth\Regist
 
         return $user;
 
-        session([$user->id => 'new']);
     }
     
     public function register_rules_acceptation(Student $student)
@@ -86,6 +85,7 @@ class RegisterController extends \Backpack\Base\app\Http\Controllers\Auth\Regist
 
         $this->validator($request->all())->validate();
         $user = $this->create($request->all());
+        session(['logout' => $user->id]);
 
         // flash a confirmation message
         \Alert::success(__('The user has successfully been registered'))->flash();
