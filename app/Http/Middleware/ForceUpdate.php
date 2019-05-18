@@ -23,37 +23,11 @@ class ForceUpdate
             {
                 if (backpack_user()->student->force_update)
                 {
-                    if (\Route::current() != 'update/' . backpack_user()->student->force_update)
+                    if (request()->path() != 'edit/' . backpack_user()->student->force_update)
                     {
-                        return 'redirect';
+                        return redirect(url('edit/' . backpack_user()->student->force_update));
                     }
                 }
- 
-/*                 if (\Route::current()->getName() != 'backpack.account.info' && backpack_user()->student->force_update == 1) {
-                    \Alert::warning(__('Please update your data before you continue your navigation'))->flash();
-                    return redirect(route('backpack.account.info'));
-                }
-
-                if (\Route::current()->getName() != 'backpack.student.info' && backpack_user()->student->force_update == 2) {
-                    \Alert::warning(__('Please update your data before you continue your navigation'))->flash();
-                    return redirect(route('backpack.student.info'));
-                }
-
-                if (\Request::route()->getName() != 'backpack.account.phone' && backpack_user()->student->force_update == 3) {
-                    return redirect(route('backpack.account.phone'));
-                }
-
-                if (\Request::route()->getName() != 'backpack.account.profession' && backpack_user()->student->force_update == 4) {
-                    return redirect(route('backpack.account.profession'));
-                }
-
-                if (\Request::route()->getName() != 'backpack.account.photo' && backpack_user()->student->force_update == 5) {
-                    return redirect(route('backpack.account.photo'));
-                }
-
-                if (\Request::route()->getName() != 'backpack.account.contacts' && backpack_user()->student->force_update == 6) {
-                    return redirect(route('backpack.account.contacts'));
-                } */
             }
         }
 

@@ -26,35 +26,36 @@
 			@endif
 			><a href="{{ route('backpack.student.info') }}">@lang('Additional Data')</a></li>
 
-		<li role="presentation"
-		@if (Request::route()->getName() == 'backpack.account.phone')
-			class="active"
-			@endif
-			><a href="{{ route('backpack.account.phone') }}">@lang('Phone Numbers')</a></li>
+		@if(backpack_user()->isStudent())
+			<li role="presentation"
+			@if (Request::route()->getName() == 'backpack.account.phone')
+				class="active"
+				@endif
+				><a href="{{ route('backpack.account.phone') }}">@lang('Phone Numbers')</a></li>
 
-		<li role="presentation"
-		@if (Request::route()->getName() == 'backpack.account.profession')
-			class="active"
-			@endif
-			><a href="{{ route('backpack.account.profession') }}">@lang('Profession')</a></li>
+			<li role="presentation"
+			@if (Request::route()->getName() == 'backpack.account.profession')
+				class="active"
+				@endif
+				><a href="{{ route('backpack.account.profession') }}">@lang('Profession')</a></li>
 
-		<li role="presentation"
-		@if (Request::route()->getName() == 'backpack.account.photo')
-			class="active"
-			@endif
-			><a href="{{ route('backpack.account.photo') }}">@lang('Profile Picture')</a></li>
+			<li role="presentation"
+			@if (Request::route()->getName() == 'backpack.account.photo')
+				class="active"
+				@endif
+				><a href="{{ route('backpack.account.photo') }}">@lang('Profile Picture')</a></li>
 
-		<li role="presentation"
-		@if (Request::route()->getName() == 'backpack.account.contacts')
-			class="active"
-			@endif
-			><a href="{{ route('backpack.account.contacts') }}">@lang('Additional Contacts')</a></li>
-					
-	  <li role="presentation"
-		@if (Request::route()->getName() == 'backpack.account.password')
-	  	class="active"
-	  	@endif
-	  	><a href="{{ route('backpack.account.password') }}">{{ trans('backpack::base.change_password') }}</a></li>
-
+			<li role="presentation"
+			@if (Request::route()->getName() == 'backpack.account.contacts')
+				class="active"
+				@endif
+				><a href="{{ route('backpack.account.contacts') }}">@lang('Additional Contacts')</a></li>
+						
+			<li role="presentation"
+			@if (Request::route()->getName() == 'backpack.account.password')
+				class="active"
+				@endif
+				><a href="{{ route('backpack.account.password') }}">{{ trans('backpack::base.change_password') }}</a></li>
+		@endif
 	</ul>
 </div>

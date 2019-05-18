@@ -71,18 +71,15 @@
 
                             <h4>@lang('Please chose an image on your computer to update your profile picture')</h4>
         
-                                <input required type="file" name="fileToUpload" id="fileToUpload">
+                                <input type="file" name="fileToUpload" id="fileToUpload">
         
                         </div>
                     </div>
 
-
                     <div class="form-group m-b-0">
                         <button type="submit" class="btn btn-success"><span class="ladda-label"><i class="fa fa-save"></i> {{ trans('backpack::base.save') }}</span></button>
-                        
-                        
-                            @lang('or') <a href="{{ route('backpack.account.contacts') }}" class="btn btn-primary"><span class="ladda-label">@lang('Continue with the same profile picture')</span></a>
 
+                        @lang('or') <button type="submit" class="btn btn-primary"><span class="ladda-label">@lang('Continue with the same profile picture')</span></button>
                     </div>
 
                 </div>

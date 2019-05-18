@@ -71,7 +71,7 @@ class MyAccountController extends Controller
      */
     public function postStudentInfoForm(Request $request)
     {
-        Student::updateOrCreate(
+        $student = Student::updateOrCreate(
             ['user_id' => $this->guard()->user()->id],
             [
                 'idnumber' => $request->idnumber,
@@ -79,7 +79,7 @@ class MyAccountController extends Controller
                 'birthdate' => $request->birthdate,
             ]
         );
-            
+        
         Alert::success(trans('backpack::base.account_updated'))->flash();
 
         // if the user has been selected for a forced update, move to the next step
@@ -210,6 +210,9 @@ class MyAccountController extends Controller
         }
         Log::info('User updated their data step 6');
 
+        if (session()->has($this->guard()->user()->id)) {
+            backpack_auth()->logout();
+        }
         return redirect('/');
     }
 

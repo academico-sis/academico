@@ -42,7 +42,7 @@
     </div>
     <div class="col-md-6">
 
-        <form class="form" action="{{ route('backpack.student.info') }}" method="post">
+        <form class="form" action="/edit-student-info" method="post">
 
             {!! csrf_field() !!}
 

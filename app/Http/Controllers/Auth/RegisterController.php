@@ -35,6 +35,7 @@ class RegisterController extends \Backpack\Base\app\Http\Controllers\Auth\Regist
             'lastname'                             => 'required|max:255',
             backpack_authentication_column()       => 'required|'.$email_validation.'max:255|unique:'.$users_table,
             'password'                             => 'required|min:6|confirmed',
+            'rules'                                => 'required'
         ]);
     }
 
@@ -59,6 +60,7 @@ class RegisterController extends \Backpack\Base\app\Http\Controllers\Auth\Regist
 
         return $user;
 
+        session([$user->id => 'new']);
     }
     
     public function register_rules_acceptation(Student $student)

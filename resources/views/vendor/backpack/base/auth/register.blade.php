@@ -41,88 +41,6 @@
                     </div>
                     
                     
-                    {{-- ID NUMBER --}}
-                    <div class="form-group{{ $errors->has('idnumber') ? ' has-error' : '' }}">
-                        <label class="control-label">{{ __('ID Number') }}</label>
-                        
-                        <div>
-                            <input type="text" class="form-control" name="idnumber" value="{{ old('idnumber') }}">
-                            
-                            @if ($errors->has('idnumber'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('idnumber') }}</strong>
-                            </span>
-                            @endif
-                        </div>
-                    </div>
-                    
-                    
-                    {{-- GENRE --}}
-                    <div class="form-group{{ $errors->has('genre_id') ? ' has-error' : '' }}">
-                        <label class="control-label">{{ __('Sex') }}</label>
-                        
-                        <div>
-                            <select class="form-control" name="genre_id">
-                                <option value=1>F</option>
-                                <option value=2>M</option>
-                            </select>
-                            
-                            @if ($errors->has(backpack_authentication_column()))
-                            <span class="help-block">
-                                <strong>{{ $errors->first(backpack_authentication_column()) }}</strong>
-                            </span>
-                            @endif
-                        </div>
-                    </div>
-                    
-                    
-                    {{-- BIRTHDATE --}}
-                    <div class="form-group{{ $errors->has('birthdate') ? ' has-error' : '' }}">
-                        <label class="control-label">{{ __('Birthdate') }}</label>
-                        
-                        <div>
-                            <input type="date" class="form-control" name="birthdate" value="{{ old('birthdate') }}">
-                            
-                            @if ($errors->has('birthdate'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('birthdate') }}</strong>
-                            </span>
-                            @endif
-                        </div>
-                    </div>
-                                       
-                    
-                    {{-- ADDRESS --}}
-                    <div class="form-group{{ $errors->has('address') ? ' has-error' : '' }}">
-                        <label class="control-label">{{ __('Address') }}</label>
-                        
-                        <div>
-                            <input type="text" class="form-control" name="address" value="{{ old('address') }}">
-                            
-                            @if ($errors->has('address'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('address') }}</strong>
-                            </span>
-                            @endif
-                        </div>
-                    </div>
-
-                    {{-- PHONE NUMBER --}}
-                    <div class="form-group{{ $errors->has('phone_number') ? ' has-error' : '' }}">
-                            <label class="control-label">{{ __('Phone Number') }}</label>
-                            
-                            <div>
-                                <input type="text" class="form-control" name="phone_number" value="{{ old('phone_number') }}">
-                                
-                                @if ($errors->has('phone_number'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('phone_number') }}</strong>
-                                </span>
-                                @endif
-                            </div>
-                    </div>
-                    
-                    
                     {{-- EMAIL / IDENTIFIER --}}
                     <div class="form-group{{ $errors->has(backpack_authentication_column()) ? ' has-error' : '' }}">
                         <label class="control-label">{{ config('backpack.base.authentication_column_name') }}</label>
@@ -186,19 +104,6 @@
                     </div>
                     
                     
-                    {{-- INVOICE DATA --}}
-                    <div class="form-group{{ $errors->has('invoice_data') ? ' has-error' : '' }}">
-                       
-                        <div>
-                            <input id="invoice_data" name="invoice_data" type="checkbox">
-                            <label for="invoice_data">@lang('I need additional data for the invoice')</label>
-                            @if ($errors->has('invoice_data'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('invoice_data') }}</strong>
-                            </span>
-                            @endif
-                        </div>
-                    </div>
                     
                     {{-- SUBMIT BUTTON --}}
                     <div class="form-group">
