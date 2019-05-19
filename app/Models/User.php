@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Models\Student;
 use Backpack\CRUD\CrudTrait;
 use Spatie\Permission\Traits\HasRoles;
-use Tightenco\Parental\HasParentModel;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -20,7 +19,6 @@ class User extends Authenticatable
     use SoftDeletes;
     use CrudTrait;
     use HasRoles;
-    use HasParentModel;
 
     /**
      * The attributes that are mass assignable.
