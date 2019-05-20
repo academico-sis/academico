@@ -94,7 +94,7 @@
                         @foreach($justified_absences as $absence)
                             @if($absence->absence_count > 0)
                             <tr>
-                                <td><a href="{{ route('studentAttendance', ['student' => $absence->student_id]) }}">{{ $absence->firstname }} {{ $absence->lastname }}</a></td>
+                                <td><a href="student/{{$absence->student_id}}">{{ $absence->firstname }} {{ $absence->lastname }}</a></td>
                                 <td>{{ $absence->course_name }}</td>
                                 <td>{{ $absence->absence_count }}</td>
                             </tr>

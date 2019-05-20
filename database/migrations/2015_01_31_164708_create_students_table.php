@@ -15,8 +15,8 @@ class CreateStudentsTable extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned(); // todo - check - or use polymorphism?
-            $table->string('idnumber');
+            $table->integer('user_id')->unsigned();
+            $table->string('idnumber')->unique();
             $table->string('address');
             $table->integer('genre_id')->nullable();
             $table->date('birthdate');

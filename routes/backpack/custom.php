@@ -26,6 +26,7 @@
     });
  */
     
+     
 Route::group(
     [
         'namespace'  => '\App\Http\Controllers',
@@ -36,16 +37,35 @@ Route::group(
         // Registration Routes...
         Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('backpack.auth.register');
         Route::post('register', 'Auth\RegisterController@register');
-        
-        // if not otherwise configured, setup the "my account" routes
-        Route::get('edit-account-info', 'Auth\MyAccountController@getAccountInfoForm')->name('backpack.account.info');
-        Route::post('edit-account-info', 'Auth\MyAccountController@postAccountInfoForm');
+
         CRUD::resource('result', 'Admin\ResultCrudController');
         CRUD::resource('contact', 'Admin\ContactCrudController');
 
         CRUD::resource('preinvoice', 'Admin\PreInvoiceCrudController');
+        
+        Route::post('edit-account-info', 'Auth\MyAccountController@postAccountInfoForm');
+        Route::post('edit-student-info', 'Auth\MyAccountController@postStudentInfoForm');
+        Route::post('edit-profession', 'Auth\MyAccountController@postAccountProfessionForm');
+        Route::post('edit-phone', 'Auth\MyAccountController@postPhoneForm');
+        Route::post('edit-photo', 'Auth\MyAccountController@postPhotoForm');
+        Route::post('edit-contacts', 'Auth\MyAccountController@postContactsForm');
+        });
 
 
+Route::group(
+    [
+        'namespace'  => '\App\Http\Controllers',
+        'middleware' => ['web', 'language', 'forceupdate'],
+        'prefix'     => config('backpack.base.route_prefix'),
+    ],
+    function () {
+        // route numbers match the DB forceupdate field
+        Route::get('edit/1', 'Auth\MyAccountController@getAccountInfoForm')->name('backpack.account.info');
+        Route::get('edit/2', 'Auth\MyAccountController@getStudentInfoForm')->name('backpack.student.info');
+        Route::get('edit/3', 'Auth\MyAccountController@getPhoneForm')->name('backpack.account.phone');
+        Route::get('edit/4', 'Auth\MyAccountController@getAccountProfessionForm')->name('backpack.account.profession');
+        Route::get('edit/5', 'Auth\MyAccountController@getPhotoForm')->name('backpack.account.photo');
+        Route::get('edit/6', 'Auth\MyAccountController@getContactsForm')->name('backpack.account.contacts');
         });
 
 

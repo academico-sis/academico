@@ -14,7 +14,9 @@ use Illuminate\Support\Facades\Log;
 class RegisterController extends \Backpack\Base\app\Http\Controllers\Auth\RegisterController
 {
 
-        /**
+
+
+    /**
      * Get a validator for an incoming registration request.
      *
      * @param array $data
@@ -31,11 +33,6 @@ class RegisterController extends \Backpack\Base\app\Http\Controllers\Auth\Regist
         return Validator::make($data, [
             'firstname'                            => 'required|max:255',
             'lastname'                             => 'required|max:255',
-            'idnumber'                             => 'required|max:255|unique:students',
-            'genre_id'                             => 'required',
-            'birthdate'                            => 'required|date',
-            'phone_number'                         => 'required',
-            'address'                              => 'required',
             backpack_authentication_column()       => 'required|'.$email_validation.'max:255|unique:'.$users_table,
             'password'                             => 'required|min:6|confirmed',
             'rules'                                => 'required'
@@ -61,13 +58,7 @@ class RegisterController extends \Backpack\Base\app\Http\Controllers\Auth\Regist
             'password'                             => bcrypt($data['password'])
         ]);
 
-        return Student::create([
-            'user_id'                              => $user->id,
-            'idnumber'                             => $data['idnumber'],
-            'genre_id'                             => $data['genre_id'],
-            'birthdate'                            => $data['birthdate'],
-            'address'                              => $data['address'],
-        ]);
+        return $user;
 
     }
     
@@ -94,30 +85,16 @@ class RegisterController extends \Backpack\Base\app\Http\Controllers\Auth\Regist
 
         $this->validator($request->all())->validate();
         $user = $this->create($request->all());
-
-        // register the phone number
-        $phone = new PhoneNumber;
-        $phone->phoneable_id = $user->id;
-        $phone->phoneable_type = Student::class;
-        $phone->phone_number = $request->input('phone_number');
-        $phone->save();
-
-        // create a new record that the user has accepted the rules.
-        $this->register_rules_acceptation($user);
+        session(['logout' => $user->id]);
 
         // flash a confirmation message
         \Alert::success(__('The user has successfully been registered'))->flash();
         Log::info('New user registered with ID ' . $user->id);
 
-        // if invoice data has been required; log the user in and open the form to add a contact
-        if($request->input('invoice_data')) {
-            backpack_auth()->login(User::find($user->user_id), false); // do not remember the user
-            $student_id = $user->id;
-            return view('backpack::auth.invoice_data', compact('student_id'));
-        }
+        // log the user in to continue the registration process
+        backpack_auth()->login(User::find($user->id), false); // do not remember the user
+        return redirect(route('backpack.student.info'));
 
-        // redirect to the home page (login)
-        return redirect()->route('home');
     }
 
 }

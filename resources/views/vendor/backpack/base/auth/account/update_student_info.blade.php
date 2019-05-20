@@ -42,7 +42,7 @@
     </div>
     <div class="col-md-6">
 
-        <form class="form" action="{{ route('backpack.account.info') }}" method="post">
+        <form class="form" action="/edit-student-info" method="post">
 
             {!! csrf_field() !!}
 
@@ -68,30 +68,30 @@
 
                     <div class="form-group">
                         @php
-                            $label = trans('firstname');
-                            $field = 'firstname';
+                            $field = 'idnumber';
                         @endphp
-                        <label class="required">{{ $label }}</label>
-                        <input required class="form-control" type="text" name="{{ $field }}" value="{{ old($field) ? old($field) : $user->$field }}">
+                        <label class="required">@lang('ID Number')</label>
+                        <input required class="form-control" type="text" name="{{ $field }}" value="{{ old($field) ? old($field) : $user->student->$field ?? '' }}">
                     </div>
 
-                    <div class="form-group">
-                            @php
-                                $label = trans('lastname');
-                                $field = 'lastname';
-                            @endphp
-                            <label class="required">{{ $label }}</label>
-                            <input required class="form-control" type="text" name="{{ $field }}" value="{{ old($field) ? old($field) : $user->$field }}">
-                    </div>
 
                     <div class="form-group">
                         @php
-                            $label = config('backpack.base.authentication_column_name');
-                            $field = backpack_authentication_column();
+                            $field = 'address';
                         @endphp
-                        <label class="required">{{ $label }}</label>
-                        <input required class="form-control" type="{{ backpack_authentication_column()=='email'?'email':'text' }}" name="{{ $field }}" value="{{ old($field) ? old($field) : $user->$field }}">
+                        <label class="required">@lang('Address')</label>
+                        <input required class="form-control" type="text" name="{{ $field }}" value="{{ old($field) ? old($field) : $user->student->$field ?? '' }}">
                     </div>
+
+
+                    <div class="form-group">
+                        @php
+                            $field = 'birthdate';
+                        @endphp
+                        <label class="required">@lang('Birthdate')</label>
+                        <input required class="form-control" type="date" name="{{ $field }}" value="{{ old($field) ? old($field) : $user->student->$field ?? '' }}">
+                    </div>
+
 
                     <div class="form-group m-b-0">
                         <button type="submit" class="btn btn-success"><span class="ladda-label"><i class="fa fa-save"></i> {{ trans('backpack::base.save') }}</span></button>

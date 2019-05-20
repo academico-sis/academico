@@ -15,34 +15,22 @@ class ForceUpdate
      */
     public function handle($request, Closure $next)
     {
-        
-if (backpack_user() != null) {
+        // if the current user has a forceupdate field set, we check that they can only access this route or a lower forceupdate step
 
-        if (backpack_user()->isStudent() && backpack_user()->student->force_update == 1) {
-            return redirect('/update');
+        if (backpack_user() != null)
+        {
+            if(backpack_user()->isStudent())
+            {
+                if (backpack_user()->student->force_update)
+                {
+                    if (request()->path() != 'edit/' . backpack_user()->student->force_update)
+                    {
+                        return redirect(url('edit/' . backpack_user()->student->force_update));
+                    }
+                }
+            }
         }
 
-        if (backpack_user()->isStudent() && backpack_user()->student->force_update == 2) {
-            return redirect('/update/2');
-        }
-
-         if (backpack_user()->isStudent() && backpack_user()->student->force_update == 3) {
-            return redirect('/update/3');
-        }
-
-        if (backpack_user()->isStudent() && backpack_user()->student->force_update == 4) {
-            return redirect('/update/4');
-        }
-
-        if (backpack_user()->isStudent() && backpack_user()->student->force_update == 5) {
-            return redirect('/update/5');
-        }
-
-         if (backpack_user()->isStudent() && backpack_user()->student->force_update == 6) {
-            return redirect('/update/6');
-        }
-
-    }
         return $next($request);
     }
 }

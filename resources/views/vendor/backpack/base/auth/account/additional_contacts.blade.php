@@ -1,68 +1,64 @@
 @extends('backpack::layout')
 
-@section('header')
-    <section class="content-header">
-      <h1 class="text-center">
-        @lang('Please update your data')
-      </h1>
-
-      <h6 class="text-center">
-        <span>Personal Data</span> > <span>Phone numbers</span> > <span>Profession</span> > <span>Photo</span> > <span class="text-bold">Additional Contacts</span>
-      </h6>
-
-    </section>
+@section('after_styles')
+<style media="screen">
+    .backpack-profile-form .required::after {
+        content: ' *';
+        color: red;
+    }
+</style>
 @endsection
 
+@section('header')
+<section class="content-header">
+
+    <h1>
+        {{ trans('backpack::base.my_account') }}
+    </h1>
+
+    <ol class="breadcrumb">
+
+        <li>
+            <a href="{{ backpack_url() }}">{{ config('backpack.base.project_name') }}</a>
+        </li>
+
+        <li>
+            <a href="{{ route('backpack.account.info') }}">{{ trans('backpack::base.my_account') }}</a>
+        </li>
+
+        <li class="active">
+            {{ trans('backpack::base.update_account_info') }}
+        </li>
+
+    </ol>
+
+</section>
+@endsection
 
 @section('content')
-    <div class="row">
-
-        <div class="col-md-6">
-            <div class="box">
-                <div class="box-body text-center">
-
-                    <h4>@lang('Please check the additional contact data associated to your account')</h4>
-
-                    <h4>@lang('This data is used for invoices')</h4>
-
-                    <h4>@lang('Students under 18, please add contact data from your legal representatives')</h4>
-
-                </div>
-            </div>
-        </div>
-
-
-        <div class="col-md-3">
-            <div class="box">
-                <div class="box-body text-center">
-                    <h4>@lang('You may add more than contact to your account')</h4>
-
-                    <a class="btn btn btn-primary" data-toggle="modal" data-target="#userDataModal">
-                        <i class="fa fa-plus"></i> @lang('Create another Contact')
-                    </a>
-
-                </div>
-            </div>
-        </div>
-
-
-        <div class="col-md-3">
-                <div class="box">
-                    <div class="box-body text-center">
-                        <h4>@lang('When everything is ready, please confirm that your data is up-to-date')</h4>
-       
-                        <form action="/update/6" method="post">
-                            @method('patch')
-                            @csrf
-                                <button class="btn btn-lg btn-success" type='submit'><i class="fa fa-check"></i> @lang('Finish update')</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-    
-
+<div class="row" id="app">
+    <div class="col-md-3">
+        @include('backpack::auth.account.sidemenu')
     </div>
-    <div class="row" id="app">
+
+    <div class="col-md-9">
+        <div class="box">
+            <div class="box-body text-center">
+
+                <h4>@lang('Please check the additional contact data associated to your account')</h4>
+
+                <h4>@lang('You also need to add the invoice information here')</h4>
+
+                <h4>@lang('Students under 18, please add contact data from your legal representatives')</h4>
+
+                <a class="btn btn btn-primary" data-toggle="modal" data-target="#userDataModal">
+                    <i class="fa fa-plus"></i> @lang('Create another Contact')
+                </a>
+
+            </div>
+        </div>
+    </div>
+
 
         @foreach ($user->student->contacts as $contact)
 
@@ -111,6 +107,18 @@
             </div>
         @endforeach
 
+        <div class="col-md-3">
+                <div class="box">
+                    <div class="box-body text-center">
+                        <h4>@lang('When everything is ready, please confirm that your data is up-to-date')</h4>
+        
+                        <form action="/edit-contacts" method="post">
+                            @csrf
+                                <button class="btn btn-lg btn-success" type='submit'><i class="fa fa-check"></i> @lang('Finish update')</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
 
         </div>
 

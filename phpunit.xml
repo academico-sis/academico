@@ -33,7 +33,7 @@
         <env name="DB_DATABASE" value=":memory:"/>
     </php>
 
-<logging>
+<!-- <logging>
     <log type="coverage-html" target="./report"  />
-</logging>
+</logging> -->
 </phpunit>

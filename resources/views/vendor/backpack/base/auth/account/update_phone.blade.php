@@ -36,13 +36,26 @@
 @endsection
 
 @section('content')
-<div class="row">
+<div class="row" id="app">
+
     <div class="col-md-3">
         @include('backpack::auth.account.sidemenu')
     </div>
-    <div class="col-md-6">
 
-        <form class="form" action="{{ route('backpack.account.info') }}" method="post">
+    <div class="col-md-6">
+        <div class="box">
+            <div class="box-body text-center">
+                <h4>@lang('Please check your personal phone number(s)')</h4>
+                <h4>@lang('This is important, so that we can reach you in case of an emergency')</h4>
+
+                <phone-number-update-component :student="{{ $user->student->id }}"></phone-number-update-component>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 text-center">
+        <form class="form" action="/edit-phone" method="post">
 
             {!! csrf_field() !!}
 
@@ -66,33 +79,6 @@
                         </div>
                     @endif
 
-                    <div class="form-group">
-                        @php
-                            $label = trans('firstname');
-                            $field = 'firstname';
-                        @endphp
-                        <label class="required">{{ $label }}</label>
-                        <input required class="form-control" type="text" name="{{ $field }}" value="{{ old($field) ? old($field) : $user->$field }}">
-                    </div>
-
-                    <div class="form-group">
-                            @php
-                                $label = trans('lastname');
-                                $field = 'lastname';
-                            @endphp
-                            <label class="required">{{ $label }}</label>
-                            <input required class="form-control" type="text" name="{{ $field }}" value="{{ old($field) ? old($field) : $user->$field }}">
-                    </div>
-
-                    <div class="form-group">
-                        @php
-                            $label = config('backpack.base.authentication_column_name');
-                            $field = backpack_authentication_column();
-                        @endphp
-                        <label class="required">{{ $label }}</label>
-                        <input required class="form-control" type="{{ backpack_authentication_column()=='email'?'email':'text' }}" name="{{ $field }}" value="{{ old($field) ? old($field) : $user->$field }}">
-                    </div>
-
                     <div class="form-group m-b-0">
                         <button type="submit" class="btn btn-success"><span class="ladda-label"><i class="fa fa-save"></i> {{ trans('backpack::base.save') }}</span></button>
                         <a href="{{ backpack_url() }}" class="btn btn-default"><span class="ladda-label">{{ trans('backpack::base.cancel') }}</span></a>
@@ -102,7 +88,11 @@
             </div>
 
         </form>
-
     </div>
+
 </div>
+@endsection
+
+@section('after_scripts')
+    <script src="/js/app.js"></script>
 @endsection

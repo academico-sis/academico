@@ -42,9 +42,9 @@
     </div>
     <div class="col-md-6">
 
-        <form class="form" action="{{ route('backpack.account.info') }}" method="post">
+        <form action="/edit-photo" method="post" enctype="multipart/form-data">
 
-            {!! csrf_field() !!}
+            @csrf
 
             <div class="box padding-10">
 
@@ -66,36 +66,20 @@
                         </div>
                     @endif
 
-                    <div class="form-group">
-                        @php
-                            $label = trans('firstname');
-                            $field = 'firstname';
-                        @endphp
-                        <label class="required">{{ $label }}</label>
-                        <input required class="form-control" type="text" name="{{ $field }}" value="{{ old($field) ? old($field) : $user->$field }}">
-                    </div>
+                    <div class="box">
+                        <div class="box-body">
 
-                    <div class="form-group">
-                            @php
-                                $label = trans('lastname');
-                                $field = 'lastname';
-                            @endphp
-                            <label class="required">{{ $label }}</label>
-                            <input required class="form-control" type="text" name="{{ $field }}" value="{{ old($field) ? old($field) : $user->$field }}">
-                    </div>
-
-                    <div class="form-group">
-                        @php
-                            $label = config('backpack.base.authentication_column_name');
-                            $field = backpack_authentication_column();
-                        @endphp
-                        <label class="required">{{ $label }}</label>
-                        <input required class="form-control" type="{{ backpack_authentication_column()=='email'?'email':'text' }}" name="{{ $field }}" value="{{ old($field) ? old($field) : $user->$field }}">
+                            <h4>@lang('Please chose an image on your computer to update your profile picture')</h4>
+        
+                                <input type="file" name="fileToUpload" id="fileToUpload">
+        
+                        </div>
                     </div>
 
                     <div class="form-group m-b-0">
                         <button type="submit" class="btn btn-success"><span class="ladda-label"><i class="fa fa-save"></i> {{ trans('backpack::base.save') }}</span></button>
-                        <a href="{{ backpack_url() }}" class="btn btn-default"><span class="ladda-label">{{ trans('backpack::base.cancel') }}</span></a>
+
+                        @lang('or') <button type="submit" class="btn btn-primary"><span class="ladda-label">@lang('Continue without uploading a profile picture')</span></button>
                     </div>
 
                 </div>

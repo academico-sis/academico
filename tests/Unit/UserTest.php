@@ -2,10 +2,12 @@
 
 namespace Tests\Unit;
 
-use App\Models\Student;
 use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\User;
+use App\Models\Course;
+use App\Models\Student;
+use App\Models\Enrollment;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UserTest extends TestCase

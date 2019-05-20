@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
-use App\Models\User;
 use App\Models\Course;
-use App\Models\Period;
 use App\Models\Comment;
 use App\Models\Student;
 use App\Models\Enrollment;
@@ -33,7 +31,7 @@ class EnrollmentController extends Controller
     public function store(Request $request)
     {
         $course = Course::findOrFail($request->input('course_id'));
-        $student = Student::where('user_id', $request->input('student_id'))->firstOrFail();
+        $student = Student::where('user_id', $request->input('student_id'))->firstOrFail(); // todo refactor this
         $enrollment_id = $student->enroll($course);
         \Alert::success(__('Enrollment successfully created'))->flash();
         
