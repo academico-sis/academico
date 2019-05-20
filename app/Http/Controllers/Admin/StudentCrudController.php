@@ -17,7 +17,7 @@ class StudentCrudController extends CrudController
     public function __construct()
     {
         parent::__construct();
-        $this->middleware('permission:enrollments.view', ['except' => ['dataAjax']]);
+        $this->middleware('permission:enrollments.view', ['except' => ['dataAjax', 'show']]);
     }
     
     public function setup()
@@ -215,6 +215,12 @@ class StudentCrudController extends CrudController
     public function show($student)
     {
         $student = Student::findOrFail($student);
+
+        if (!backpack_user()->can('show', $student) && !backpack_user()->can('enrollments.view'))
+        {
+            abort(403);
+        }
+
         $comments = $student->comments;
 
         return view('students/show', [

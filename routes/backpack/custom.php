@@ -69,6 +69,17 @@ Route::group(
         });
 
 
+
+// when finer control is needed, move routes here and protect them with policies instead of permissions
+Route::group([
+    'prefix'     => config('backpack.base.route_prefix'),
+    'middleware' => ['web', 'language'],
+    'namespace'  => 'App\Http\Controllers\Admin',
+    ], function () {
+        CRUD::resource('student', 'StudentCrudController');
+});
+
+
 // course management
 Route::group([
     'prefix'     => config('backpack.base.route_prefix'),
@@ -94,7 +105,6 @@ Route::group([
     'middleware' => ['web', 'permission:enrollments.view', 'language'],
     'namespace'  => 'App\Http\Controllers\Admin',
     ], function () {
-        CRUD::resource('student', 'StudentCrudController');
         CRUD::resource('enrollment', 'EnrollmentCrudController');
         CRUD::resource('comment', 'CommentCrudController');
         //CRUD::resource('preinvoice', 'PreInvoiceCrudController')->middleware('permission:invoice.view');
