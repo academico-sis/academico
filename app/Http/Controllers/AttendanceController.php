@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use App\Models\AttendanceType;
 use App\Traits\PeriodSelection;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Gate;
 
 class AttendanceController extends Controller
 {
@@ -22,8 +23,7 @@ class AttendanceController extends Controller
 
     public function __construct()
     {
-        $this->middleware('permission:attendance.view');
-        $this->middleware('permission:attendance.edit', ['only' => ['store']]);
+        $this->middleware('permission:attendance.view', ['except' => ['showCourse', 'showEvent', 'store']]);
     }
 
 
@@ -64,30 +64,26 @@ class AttendanceController extends Controller
      */
     public function store(Request $request)
     {
-        $student = Student::findOrFail($request->input('student_id'));
         $event = Event::findOrFail($request->input('event_id'));
-        $attendance_type = AttendanceType::findOrFail($request->input('attendance_type_id'));
 
-        if ($event->teacher_id == \backpack_user()->id || $event->course->teacher_id == \backpack_user()->id || \backpack_user()->can('attendance.edit'))
-        { 
-
-            $attendance = Attendance::firstOrNew([
-                'student_id' => $student->id,
-                'event_id' => $event->id,
-            ]);
-            $attendance->attendance_type_id = $attendance_type->id;
-    
-            $attendance->save();
-    
-            Log::info('Attendance recorded by ' . \backpack_user()->id);
-            
-        } else {
-            
+        // If the user is not allowed to perform this action
+        if (Gate::forUser(backpack_user())->denies('edit-attendance', $event)) {
             abort(403);
         }
-        
 
+        $student = Student::findOrFail($request->input('student_id'));
+        $attendance_type = AttendanceType::findOrFail($request->input('attendance_type_id'));
 
+        $attendance = Attendance::firstOrNew([
+            'student_id' => $student->id,
+            'event_id' => $event->id,
+        ]);
+
+        $attendance->attendance_type_id = $attendance_type->id;
+
+        $attendance->save();
+
+        Log::info('Attendance recorded by ' . \backpack_user()->id);
     }
 
     /**
@@ -95,6 +91,12 @@ class AttendanceController extends Controller
      */
     public function showCourse(Course $course)
     {
+
+    // The current is not allowed to view the page
+    if (Gate::forUser(backpack_user())->denies('view-course-attendance', $course)) {
+        abort(403);
+    }
+
         // get past events for the course
         $events = $course->events->filter(function ($value, $key) {
             return Carbon::parse($value->start) < Carbon::now();
@@ -126,6 +128,12 @@ class AttendanceController extends Controller
 
     public function showEvent(Event $event)
     {
+
+    // The current is not allowed to view the page
+    if (Gate::forUser(backpack_user())->denies('view-event-attendance', $event)) {
+        abort(403);
+    }
+
         // get students
         $enrollments = $event->enrollments()->with('student')->get();
         
@@ -145,8 +153,5 @@ class AttendanceController extends Controller
 
         return view('attendance/event', compact('attendances', 'event'));
     }
-
-
-
 
 }
