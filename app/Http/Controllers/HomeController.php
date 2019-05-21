@@ -51,6 +51,10 @@ class HomeController extends Controller
 
     public function teacher(Request $request)
     {
+        if(!backpack_user()->isTeacher())
+        {
+            abort(403);
+        }
 
         $period = $this->selectPeriod($request);
 
@@ -68,7 +72,11 @@ class HomeController extends Controller
 
     public function student()
     {
-        
+        if(!backpack_user()->isStudent())
+        {
+            abort(403);
+        }
+
         $student = Student::where('user_id', backpack_user()->id)->first();
         Log::info($student->name . ' accessed the student dashboard');
         
