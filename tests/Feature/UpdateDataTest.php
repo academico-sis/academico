@@ -16,7 +16,7 @@ class UpdateDataTest extends TestCase
     use WithFaker;
 
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->seed('DatabaseSeeder');

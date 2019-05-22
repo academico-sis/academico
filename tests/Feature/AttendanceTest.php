@@ -14,7 +14,7 @@ class AttendanceTest extends TestCase
 {
     use RefreshDatabase;
     
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         
@@ -93,8 +93,6 @@ class AttendanceTest extends TestCase
 
             // teacher with permission but for a class that is not their own
             $user = factory(Teacher::class)->create()->user;
-            $user->givePermissionTo('attendance.edit');
-            $user->givePermissionTo('attendance.view');
 
             \Auth::guard(backpack_guard_name())->login($user);
 

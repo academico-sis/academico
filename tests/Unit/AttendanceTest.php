@@ -12,7 +12,7 @@ class AttendanceTest extends TestCase
 {
     use RefreshDatabase;
     
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         
@@ -29,7 +29,7 @@ class AttendanceTest extends TestCase
     /** @test */
     public function an_attendance_record_has_an_associated_student()
     {
-        dd($student);
+
     }
     
     /** @test */

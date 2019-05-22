@@ -5,6 +5,6 @@ use Faker\Generator as Faker;
 
 $factory->define(Year::class, function (Faker $faker) {
     return [
-        'name' => $faker->year($max = 'now'),
+        'name' => $faker->unique()->year($max = 'now'),
     ];
 });
