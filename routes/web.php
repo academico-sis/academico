@@ -25,6 +25,9 @@ Route::group(
     Route::get('student/{student}/phonenumbers', 'PhoneNumberController@get');
     Route::get('contact/{contact}/phonenumbers', 'ContactController@getPhoneNumber');
 
+    Route::get('contact/{contact}/edit', 'ContactController@edit');
+    Route::patch('contact/{contact}', 'ContactController@update')->name('updateContact');
+
     Route::delete('phonenumber/{phoneNumber}', 'PhoneNumberController@destroy');
     Route::post('phonenumber', 'PhoneNumberController@store');
     Route::post('contactphonenumber', 'ContactController@storePhoneNumber');

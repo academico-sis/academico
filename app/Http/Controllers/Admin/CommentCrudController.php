@@ -19,7 +19,7 @@ class CommentCrudController extends CrudController
     public function __construct()
     {
         parent::__construct();
-        $this->middleware(['permission:enrollments.view']);
+        $this->middleware(['permission:comments.edit']);
     }
 
     public function setup()

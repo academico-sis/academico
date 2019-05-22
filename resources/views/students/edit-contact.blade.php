@@ -2,15 +2,7 @@
 
 @section('header')
 	<section class="content-header">
-	  <h1>
-        <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}</span>
-        <small>{!! $crud->getSubheading() ?? trans('backpack::crud.edit').' '.$crud->entity_name !!}.</small>
-	  </h1>
-	  <ol class="breadcrumb">
-	    <li><a href="{{ url(config('backpack.base.route_prefix'),'dashboard') }}">{{ trans('backpack::crud.admin') }}</a></li>
-	    <li><a href="{{ url($crud->route) }}" class="text-capitalize">{{ $crud->entity_name_plural }}</a></li>
-	    <li class="active">{{ trans('backpack::crud.edit') }}</li>
-	  </ol>
+		<h1>@lang('Edit contact')</h1>
 	</section>
 @endsection
 
@@ -18,63 +10,93 @@
 
 
 <div class="row m-t-20">
-	<div class="{{ $crud->getEditContentClass() }}">
-		<!-- Default box -->
+	<div class="col-md-12">
 
-		@include('crud::inc.grouped_errors')
+			<div class="box">
+				
+				<div class="box-header with-border">
 
-		  <form method="post"
-		  		action="{{ url($crud->route.'/'.$entry->getKey()) }}"
-				@if ($crud->hasUploadFields('update', $entry->getKey()))
-				enctype="multipart/form-data"
-				@endif
-		  		>
-		  {!! csrf_field() !!}
-		  {!! method_field('PUT') !!}
-		  <div class="col-md-12">
-		  	@if ($crud->model->translationEnabled())
-		    <div class="row m-b-10">
-		    	<!-- Single button -->
-				<div class="btn-group pull-right">
-				  <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				    {{trans('backpack::crud.language')}}: {{ $crud->model->getAvailableLocales()[$crud->request->input('locale')?$crud->request->input('locale'):App::getLocale()] }} &nbsp; <span class="caret"></span>
-				  </button>
-				  <ul class="dropdown-menu">
-				  	@foreach ($crud->model->getAvailableLocales() as $key => $locale)
-					  	<li><a href="{{ url($crud->route.'/'.$entry->getKey().'/edit') }}?locale={{ $key }}">{{ $locale }}</a></li>
-				  	@endforeach
-				  </ul>
 				</div>
-		    </div>
-		    @endif
-		    <div class="row display-flex-wrap">
-		      <!-- load the view from the application if it exists, otherwise load the one in the package -->
-		      @if(view()->exists('vendor.backpack.crud.form_content'))
-		      	@include('vendor.backpack.crud.form_content', ['fields' => $fields, 'action' => 'edit'])
-		      @else
-		      	@include('crud::form_content', ['fields' => $fields, 'action' => 'edit'])
-		      @endif
-		    </div><!-- /.box-body -->
+				
+				<div class="box-body">
 
-            <div class="">
+					<form method="post" action="{{ route('updateContact', ['contact' => $contact->id]) }}">
+						{!! csrf_field() !!}
+						{!! method_field('PATCH') !!}
 
-                <div id="saveActions" class="form-group">
 
-                    <input type="hidden" name="save_action" value="save_and_back">
-                
-                    <div class="btn-group">
-                
-                        <button type="submit" class="btn btn-success">
-                            <span class="fa fa-save" role="presentation" aria-hidden="true"></span> &nbsp;
-                            <span data-value="save_and_back">@lang('Save')</span>
-                        </button>
-                
-                    </div>
-                
-                </div>
-		    </div><!-- /.box-footer-->
-		  </div><!-- /.box -->
-		  </form>
+					@if ($errors->count())
+						<div class="alert alert-danger">
+							<ul>
+								@foreach ($errors->all() as $e)
+								<li>{{ $e }}</li>
+								@endforeach
+							</ul>
+						</div>
+					@endif
+
+
+					<div class="form-group">
+						@php
+							$label = trans('firstname');
+							$field = 'firstname';
+						@endphp
+						<label class="required">{{ $label }}</label>
+						<input required class="form-control" type="text" name="{{ $field }}" value="{{ old($field) ? old($field) : $contact->$field }}">
+					</div>
+
+
+					<div class="form-group">
+						@php
+							$label = trans('lastname');
+							$field = 'lastname';
+						@endphp
+						<label class="required">{{ $label }}</label>
+						<input required class="form-control" type="text" name="{{ $field }}" value="{{ old($field) ? old($field) : $contact->$field }}">
+					</div>
+
+
+					<div class="form-group">
+						@php
+							$label = trans('email');
+							$field = 'email';
+						@endphp
+						<label class="required">{{ $label }}</label>
+						<input required class="form-control" type="{{ $field }}" name="{{ $field }}" value="{{ old($field) ? old($field) : $contact->$field }}">
+					</div>
+
+
+					<div class="form-group">
+						@php
+							$label = trans('ID number');
+							$field = 'idnumber';
+						@endphp
+						<label class="required">{{ $label }}</label>
+						<input required class="form-control" type="{{ $field }}" name="{{ $field }}" value="{{ old($field) ? old($field) : $contact->$field }}">
+					</div>
+
+
+					<div class="form-group">
+						@php
+							$label = trans('Address');
+							$field = 'address';
+						@endphp
+						<label class="required">{{ $label }}</label>
+						<input required class="form-control" type="{{ $field }}" name="{{ $field }}" value="{{ old($field) ? old($field) : $contact->$field }}">
+					</div>
+
+
+					<div class="form-group m-b-0">
+						<button type="submit" class="btn btn-success"><span class="ladda-label"><i class="fa fa-save"></i> {{ trans('backpack::base.save') }}</span></button>
+
+						<a href="{{ backpack_url() }}" class="btn btn-default"><span class="ladda-label">{{ trans('backpack::base.cancel') }}</span></a>
+					</div>
+				
+					</form>
+				</div>
+				
+		</div>
 	</div>
 </div>
+
 @endsection

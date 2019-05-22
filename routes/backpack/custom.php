@@ -39,7 +39,6 @@ Route::group(
         Route::post('register', 'Auth\RegisterController@register');
 
         CRUD::resource('result', 'Admin\ResultCrudController');
-        CRUD::resource('contact', 'Admin\ContactCrudController');
 
         CRUD::resource('preinvoice', 'Admin\PreInvoiceCrudController');
         

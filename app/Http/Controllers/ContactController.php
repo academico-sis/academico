@@ -71,17 +71,37 @@ class ContactController extends Controller
         }
     }
 
-    public function update(Request $request)
+    public function update(Contact $contact, Request $request)
     {
-        $contact = Contact::findOrFail($request->contact);
-        $contact->firstname = $request->input('firstname');
-        $contact->lastname = $request->input('lastname');
-        $contact->idnumber = $request->input('idnumber');
-        $contact->address = $request->input('address');
-        $contact->email = $request->input('email');
-        $contact->save();
+
+        // check if the user is allowed to edit the contact
+        if (!backpack_user()->can('update', $contact))
+        {
+            abort(403);
+        }
+
+        $contact->update([
+            'firstname' => $request->firstname,
+            'lastname' => $request->lastname,
+            'idnumber' => $request->idnumber,
+            'address' => $request->address,
+            'email' => $request->email,
+        ]);
 
         \Alert::success(__('The information has successfully been saved'))->flash();
+
         return back();
+    }
+
+    // open a page to update contact information
+    public function edit(Contact $contact)
+    {
+        // check if the user is allowed to edit the contact
+        if (!backpack_user()->can('update', $contact))
+        {
+            abort(403);
+        }
+
+        return view('students.edit-contact', compact('contact'));
     }
 }
