@@ -18,7 +18,7 @@ class EventCrudController extends CrudController
     public function __construct()
     {
         parent::__construct();
-        $this->middleware(['permission:courses.view']);
+        $this->middleware(['permission:courses.edit']);
     }
 
     public function setup()

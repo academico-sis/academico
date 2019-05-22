@@ -15,6 +15,13 @@ use App\Http\Requests\RemoteEventRequest as UpdateRequest;
  */
 class RemoteEventCrudController extends CrudController
 {
+
+   public function __construct()
+    {
+        parent::__construct();
+        $this->middleware('permission:courses.edit');
+    }
+
     public function setup()
     {
         /*
