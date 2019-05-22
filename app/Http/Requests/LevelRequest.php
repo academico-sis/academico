@@ -26,7 +26,7 @@ class LevelRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique|max:255'
+            'name' => 'required|unique|max:55'
         ];
     }
 

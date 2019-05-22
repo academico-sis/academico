@@ -26,8 +26,8 @@ class SkillTypeRequest extends FormRequest
     public function rules()
     {
         return [
-            'shortname' => 'required|max:10',
-            'name' => 'max:10',
+            'shortname' => 'required|max:6|unique',
+            'name' => 'max:60|unique',
         ];
     }
 

@@ -26,7 +26,7 @@ class RoomRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:255|unique'
+            'name' => 'required|max:60|unique'
         ];
     }
 

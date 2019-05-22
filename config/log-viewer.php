@@ -53,7 +53,7 @@ return [
             'prefix'     => config('backpack.base.route_prefix', 'admin').'/log-viewer',
 
             //BACKPACK: admin middleware is needed
-            'middleware' => env('ARCANEDEV_LOGVIEWER_MIDDLEWARE') ? explode(',', env('ARCANEDEV_LOGVIEWER_MIDDLEWARE')) : ['web','admin'] ,
+            'middleware' => env('ARCANEDEV_LOGVIEWER_MIDDLEWARE') ? explode(',', env('ARCANEDEV_LOGVIEWER_MIDDLEWARE')) : ['web','admin', 'role:admin'] ,
         ],
     ],
 

@@ -26,7 +26,7 @@ class PeriodRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:periods|max:255',
+            'name' => 'required|unique:periods|max:60',
             'year_id' => 'required|integer',
             'start' => 'date|required',
             'end' => 'date|required',

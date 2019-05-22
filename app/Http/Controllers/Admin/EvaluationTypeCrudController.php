@@ -18,7 +18,6 @@ class EvaluationTypeCrudController extends CrudController
     public function __construct()
     {
         parent::__construct();
-        $this->middleware(['permission:evaluation.edit']);
     }
 
     public function setup()
