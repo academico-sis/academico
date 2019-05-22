@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\Leave;
 use App\Models\Teacher;
+use Illuminate\Support\Facades\Gate;
 
 class TeacherController extends Controller
 {
 
     public function __construct()
     {
-        $this->middleware(['permission:calendars.view']);
+        $this->middleware('permission:calendars.view', ['except' => 'show']);
     }
 
     /**
@@ -79,11 +80,16 @@ class TeacherController extends Controller
         ]);
     }
 
- /**
+    /**
      * Display the specified resource.
      */
     public function show(Teacher $teacher)
     {
+        // If the user is not allowed to perform this action
+        if (Gate::forUser(backpack_user())->denies('view-teacher-calendar', $teacher)) {
+            abort(403);
+        }
+
         $events = $teacher->events->toArray();
         $events = array_map(function($event) {
             return array(

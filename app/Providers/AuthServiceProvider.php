@@ -52,6 +52,15 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('edit-attendance', function ($user, $event) {
             return $event->teacher_id == $user->id || $event->course->teacher_id == $user->id || $user->can('attendance.edit');
         });
+
+
+        /**
+         * teachers are allowed to view their own calendar,
+         * and users with explicit permission can view all calendars
+         */
+        Gate::define('view-teacher-calendar', function ($user, $teacher) {
+            return $user->id == $teacher->user_id || $user->can('calendars.view');
+        });
         
     }
 }

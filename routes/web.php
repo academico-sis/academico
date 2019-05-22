@@ -139,7 +139,7 @@ Route::group(
 
 // calendars routes
 Route::group(
-    ['middleware' => ['web', 'permission:calendars.view', 'language']],
+    ['middleware' => ['web', 'language']],
     function () {
         Route::get('/calendar/room/{room}', 'RoomController@show')->name('roomCalendar');
         Route::get('/calendar/room', 'RoomController@index')->name('roomsCalendar');
