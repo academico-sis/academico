@@ -69,6 +69,11 @@ class User extends Authenticatable
         return $this->hasOne(Student::class);
     }
 
+    public function getNameAttribute()
+    {
+        return $this->firstname . ' ' . $this->lastname;   
+    }
+    
     public function getIdnumberAttribute()
     {
         if ($this->isStudent())

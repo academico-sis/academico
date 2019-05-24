@@ -5,13 +5,14 @@ Route::permanentRedirect('/auth/login', '/');
 // save an additional contact for a student
 Route::post('user/addcontact', 'ContactController@store')->name('addContact');
 
-Route::get('searchstudents', 'Admin\StudentCrudController@dataAjax');
 
 
 /* All routes should be protected by Backpack */
 Route::group(
     ['middleware' => ['web', 'language']],
     function () {
+
+    Route::get('searchstudents', 'Admin\StudentCrudController@dataAjax');
         
     // dashboard and home routes
     Route::get('/home', 'HomeController@index')->name('home')->middleware('forceupdate');

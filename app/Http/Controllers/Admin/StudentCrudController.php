@@ -18,7 +18,10 @@ class StudentCrudController extends CrudController
     {
         parent::__construct();
         $this->middleware('permission:enrollments.view', ['except' => ['dataAjax', 'show']]);
+        $this->middleware('permission:student.edit', ['except' => ['index', 'show', 'search']]);
+
     }
+    
     
     public function setup()
     {
@@ -251,7 +254,6 @@ class StudentCrudController extends CrudController
     }
 
     public function dataAjax(Request $request)
-
     {
 
     	$data = [];
@@ -268,7 +270,6 @@ class StudentCrudController extends CrudController
 
             		->get();
         }
-
 
         return response()->json($data);
 
