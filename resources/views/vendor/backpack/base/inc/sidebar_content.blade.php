@@ -14,7 +14,7 @@
 @if(backpack_user()->hasRole(['admin']))
   <li><a href="{{ backpack_url('preinvoice') }}"><i class="fa fa-dollar"></i> <span>@lang('Invoices')</span></a></li>
   <li><a href="{{ backpack_url('comment') }}"><i class="fa fa-pencil"></i> <span>@lang('Comments')</span></a></li>
-  <li><a href="{{ backpack_url('/enrollmentresult?hideparents=true') }}"><i class="fa fa-percent"></i> <span>@lang('Results')</span></a></li>
+  <li><a href="{{ backpack_url('/result?hideparents=true') }}"><i class="fa fa-percent"></i> <span>@lang('Results')</span></a></li>
 
 
 @endif

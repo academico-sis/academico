@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Student;
+use App\Models\Teacher;
 use Backpack\CRUD\CrudTrait;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
@@ -69,6 +70,11 @@ class User extends Authenticatable
         return $this->hasOne(Student::class);
     }
 
+    public function teacher()
+    {
+        return $this->hasOne(Teacher::class);
+    }
+
     public function getNameAttribute()
     {
         return $this->firstname . ' ' . $this->lastname;   
@@ -96,5 +102,10 @@ class User extends Authenticatable
         {
         return $this->student->birthdate;
         }
+    }
+
+    public function getTeacherIdAttribute()
+    {
+        return $this->teacher->id ?? null;
     }
 }

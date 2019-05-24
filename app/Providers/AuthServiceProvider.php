@@ -30,7 +30,7 @@ class AuthServiceProvider extends ServiceProvider
          * or if they have explicit permission to view all course attendance sheets
          */
         Gate::define('view-course-attendance', function ($user, $course) {
-            return ($user->id == $course->teacher_id) || $user->can('attendance.view');
+            return ($user->teacher_id == $course->teacher_id) || $user->can('attendance.view');
         });
 
 
@@ -40,7 +40,7 @@ class AuthServiceProvider extends ServiceProvider
          * or if they have explicit permission to view all event attendance sheets
          */
         Gate::define('view-event-attendance', function ($user, $event) {
-            return $event->teacher_id == $user->id || $event->course->teacher_id == $user->id || $user->can('attendance.view');
+            return $event->teacher_id == $user->teacher_id || $event->course->teacher_id == $user->teacher_id || $user->can('attendance.view');
         });
 
 
@@ -50,7 +50,7 @@ class AuthServiceProvider extends ServiceProvider
          * or if they have explicit permission to edit any attendance sheets
          */
         Gate::define('edit-attendance', function ($user, $event) {
-            return $event->teacher_id == $user->id || $event->course->teacher_id == $user->id || $user->can('attendance.edit');
+            return $event->teacher_id == $user->teacher_id || $event->course->teacher_id == $user->teacher_id || $user->can('attendance.edit');
         });
 
 
@@ -59,7 +59,7 @@ class AuthServiceProvider extends ServiceProvider
          * and users with explicit permission can view all calendars
          */
         Gate::define('view-teacher-calendar', function ($user, $teacher) {
-            return $user->id == $teacher->user_id || $user->can('calendars.view');
+            return $user->teacher_id == $teacher->user_id || $user->can('calendars.view');
         });
         
         
@@ -68,7 +68,18 @@ class AuthServiceProvider extends ServiceProvider
          * and users with explicit permission can view all courses
          */
         Gate::define('view-course', function ($user, $course) {
-            return $user->id == $course->teacher_id || $user->can('courses.view');
+            return $user->teacher_id == $course->teacher_id || $user->can('courses.view');
         });
+
+
+        /**
+         * the user is allowed to view the result if they are the student,
+         * if they are the teacher of the course for this result
+         * of if they have explicit permission to view any result
+         */
+        Gate::define('view-enrollment', function ($user, $enrollment) {
+            return $user->id == $enrollment->student_id || $user->teacher_id == $enrollment->course->teacher_id || $user->can('evaluation.view');
+        });
+
     }
 }

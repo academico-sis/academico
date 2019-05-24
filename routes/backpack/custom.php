@@ -127,7 +127,6 @@ Route::group([
         CRUD::resource('skilltype', 'SkillTypeCrudController');
         CRUD::resource('skillscale', 'SkillScaleCrudController');
         CRUD::resource('resulttype', 'ResultTypeCrudController');
-        CRUD::resource('enrollmentresult', 'EnrollmentResultCrudController');
 
         CRUD::resource('remoteevent', 'RemoteEventCrudController');
         CRUD::resource('leave', 'LeaveCrudController');

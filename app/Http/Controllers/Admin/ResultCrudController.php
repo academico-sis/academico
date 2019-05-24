@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Result;
+use App\Models\Period;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
+use App\Models\Result;
+use App\Models\Comment;
 use App\Models\Enrollment;
+use App\Models\ResultType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\ResultRequest as StoreRequest;
 use App\Http\Requests\ResultRequest as UpdateRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -22,7 +26,7 @@ class ResultCrudController extends CrudController
     public function __construct()
     {
         parent::__construct();
-        //$this->middleware(['permission:evaluation.view']);
+        $this->middleware('permission:evaluation.view', ['except' => ['show']]);
         $this->middleware('permission:evaluation.edit', ['only' => ['store', 'update']]);
     }
 
@@ -33,7 +37,7 @@ class ResultCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        $this->crud->setModel('App\Models\Result');
+        $this->crud->setModel('App\Models\Enrollment');
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/result');
         $this->crud->setEntityNameStrings('result', 'results');
 
@@ -48,65 +52,107 @@ class ResultCrudController extends CrudController
         | CrudPanel Configuration
         |--------------------------------------------------------------------------
         */
-
         $this->crud->setColumns([
+
             [
-                'label'     => 'Result', 
-                'type'      => 'select',
-                'entity'    => 'result_name',
-                'attribute' => 'name', 
+                'name' => 'id',
+                'label' => "ID",
             ],
 
             [
+            // STUDENT NAME
+            'label' => __("Student"), // Table column heading
+            'type' => "select",
+            'entity' => 'student', // the method that defines the relationship in your Model
+            'attribute' => "name", // foreign key attribute that is shown to user
+            'searchLogic' => function ($query, $column, $searchTerm) {
+                $query->orWhereHas('student', function ($q) use ($column, $searchTerm) {
+                    $q->WhereHas('user', function ($q) use ($column, $searchTerm) {
+                        $q->where('firstname', 'like', '%'.$searchTerm.'%')
+                        ->orWhere('lastname', 'like', '%'.$searchTerm.'%');
+                    });
+                });
+            }
+            ],
 
-                'name' => "student",
-                'label' => "Student", // Table column heading
-                'type' => "model_function",
-                'function_name' => 'getStudentNameAttribute', // the method in your Model
+
+
+            [
+            // COURSE NAME
+            'label' => __("Course"), // Table column heading
+            'type' => "select",
+            'name' => 'course_id', // the column that contains the ID of that connected entity;
+            'entity' => 'course', // the method that defines the relationship in your Model
+            'attribute' => "name", // foreign key attribute that is shown to user
+            'model' => "App\Models\Course", // foreign key model
             ],
 
             [
-                'name' => "course",
-                'label' => "Course", // Table column heading
-                'type' => "model_function",
-                'function_name' => 'getCourseNameAttribute', // the method in your Model
+            'name' => 'course.period.name',
+            'label' => __('Period'),
+            'type' => 'text'
             ],
 
             [
-
-                'name' => "period",
-                'label' => "Period", // Table column heading
-                'type' => "model_function",
-                'function_name' => 'getCoursePeriodAttribute', // the method in your Model
-            ],
+                // RESULT
+                'label' => __("Result"), // Table column heading
+                'type' => "select",
+                'entity' => 'result', // the method that defines the relationship in your Model
+                'attribute' => "result_type", // foreign key attribute that is shown to user
+                'model' => "App\Models\Result", // foreign key model
+                ],
         ]);
+        
 
-        $this->crud->addFilter([ // select2 filter
-            'name' => 'result_type_id',
+        // add asterisk for fields that are required in EnrollmentRequest
+        $this->crud->setRequiredFields(UpdateRequest::class, 'edit');
+
+
+          $this->crud->addFilter([
+            'type' => 'simple',
+            'name' => 'noresult',
+            'label'=> __('No Result')
+          ],
+          false,
+          function() {
+              $this->crud->addClause('noResult'); 
+          });
+
+          $this->crud->addFilter([
+            'type' => 'simple',
+            'name' => 'hideparents',
+            'label'=> __('Hide Parents')
+          ],
+          false,
+          function() {
+              $this->crud->addClause('real'); 
+          });
+
+        $this->crud->addFilter([
+            'name' => 'period_id',
             'type' => 'select2',
-            'label'=> 'Result'
+            'label'=> __('Period')
           ], function() {
-              return \App\Models\ResultType::all()->pluck('name', 'id')->toArray();
+              return Period::all()->pluck('name', 'id')->toArray();
           }, function($value) { // if the filter is active
-                  $this->crud->addClause('where', 'result_type_id', $value);
+            $this->crud->addClause('period', $value); 
+          });
+
+          $this->crud->addFilter([ // select2_multiple filter
+            'name' => 'result',
+            'type' => 'select2_multiple',
+            'label'=> __('Result')
+          ], function() { // the options that show up in the select2
+              return ResultType::all()->pluck('name', 'id')->toArray();
+          }, function($values) { // if the filter is active
+              foreach (json_decode($values) as $key => $value) {
+                  $this->crud->query = $this->crud->query->whereHas('result', function ($query) use ($value) {
+                      $query->where('result_type_id', $value);
+                  });
+              }
           });
 
 
-          $this->crud->addFields([
-            [  // Select
-                'label' => "Result",
-                'type' => 'select',
-                'name' => 'result_type_id', // the db column for the foreign key
-                'entity' => 'result_name', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => "App\Models\ResultType",
-            ]             
-          ]);
-
-
-        // add asterisk for fields that are required in ResultRequest
-        $this->crud->setRequiredFields(StoreRequest::class, 'create');
-        $this->crud->setRequiredFields(UpdateRequest::class, 'edit');
     }
     /**
      * Store a newly created result in storage.
@@ -140,20 +186,24 @@ class ResultCrudController extends CrudController
     /**
      * Display the specified resource (result for a specific enrollment)
      */
-    public function show($result)
+    public function show($enrollment)
     {
-        $enrollment = Result::findOrFail($result)->enrollment;
+        // the user is allowed to view the result if they are the student,
+        // if they are the teacher of the course for this result
+        // of if they have explicit permission to view any result
         
-        if(backpack_user()->can('evaluation.view') || backpack_user()->id == $enrollment->student->id)
-        {
+        $enrollment = Enrollment::findOrFail($enrollment);
+
+        if (Gate::forUser(backpack_user())->denies('view-enrollment', $enrollment)) {
+            abort(403);
+        }
+        
             $grades = $enrollment->grades;
             $skills = $enrollment->skills;
             $result = $enrollment->result;
+
             return view('results.show', compact('enrollment', 'grades', 'skills', 'result'));
-        }
-        else {
-            abort(403);
-        }
+
     }
 
     public function update(UpdateRequest $request)
