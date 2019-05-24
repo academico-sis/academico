@@ -76,17 +76,11 @@ Route::group([
     'namespace'  => 'App\Http\Controllers\Admin',
     ], function () {
         CRUD::resource('student', 'StudentCrudController');
-});
-
-
-// course management
-Route::group([
-    'prefix'     => config('backpack.base.route_prefix'),
-    'middleware' => ['web', 'permission:courses.view', 'language'],
-    'namespace'  => 'App\Http\Controllers\Admin',
-    ], function () {
         CRUD::resource('course', 'CourseCrudController');
+
 });
+
+
 
 Route::group([
     'prefix'     => config('backpack.base.route_prefix'),

@@ -6,6 +6,7 @@ use App\Models\Course;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\CourseRequest as StoreRequest;
 use App\Http\Requests\CourseRequest as UpdateRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -20,7 +21,9 @@ class CourseCrudController extends CrudController
     public function __construct()
     {
         parent::__construct();
-        $this->middleware(['permission:courses.view']);
+        $this->middleware('permission:courses.view', ['except' => 'show']);
+        $this->middleware('permission:courses.edit', ['except' => ['index', 'show']]);
+
     }
 
     public function setup()
@@ -429,6 +432,12 @@ class CourseCrudController extends CrudController
     public function show($course)
     {
         $course = Course::findOrFail($course);
+
+        // The current is not allowed to view the page
+        if (Gate::forUser(backpack_user())->denies('view-course', $course)) {
+            abort(403);
+        }
+
         $enrollments = $course->enrollments()->with('student')->get();
         return view('courses/show', compact('course', 'enrollments'));   
     }

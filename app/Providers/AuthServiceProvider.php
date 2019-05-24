@@ -62,5 +62,13 @@ class AuthServiceProvider extends ServiceProvider
             return $user->id == $teacher->user_id || $user->can('calendars.view');
         });
         
+        
+        /**
+         * teachers are allowed to view their own courses,
+         * and users with explicit permission can view all courses
+         */
+        Gate::define('view-course', function ($user, $course) {
+            return $user->id == $course->teacher_id || $user->can('courses.view');
+        });
     }
 }
