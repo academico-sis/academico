@@ -172,3 +172,6 @@ Route::group(
 );
 
 Route::post('leadstatus', 'LeadStatusController@update')->name('postLeadStatus');
+
+Route::get('coursesskillsexport', 'CourseSkillController@export');
+Route::get('coursesskillsimport', 'CourseSkillController@import');

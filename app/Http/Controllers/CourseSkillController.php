@@ -3,13 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Exports\UsersExport;
 use App\Models\Skills\Skill;
 use Illuminate\Http\Request;
+use App\Exports\CoursesExport;
+
 use Illuminate\Support\Facades\DB;
 use Prologue\Alerts\Facades\Alert;
+use App\Imports\CourseSkillsImport;
+use Maatwebsite\Excel\Facades\Excel;
+
+use Maatwebsite\Excel\Concerns\ToArray;
+use Maatwebsite\Excel\Concerns\Importable;
 
 class CourseSkillController extends Controller
 {
+
+    use Importable;
 
     public function __construct()
     {
@@ -42,6 +52,33 @@ class CourseSkillController extends Controller
             $s->save();
         }
         //return $course->skills->toJson();
+    }
+
+
+    public function export() 
+    {
+        return Excel::download(new CoursesExport, 'skills.xlsx');
+    }
+
+
+    public function import() 
+    {
+        $course = Course::find(1702);
+        $course->skills()->detach();
+
+        $skills = Excel::toArray(new CourseSkillsImport, 'skills.xlsx');
+        
+        foreach ($skills as $skill)
+        {
+            foreach($skill as $e)
+            {
+                $course->skills()->attach(Skill::find($e[0]),
+                    ['weight' => 1]
+                );
+            }
+        }
+
+        return redirect('/')->with('success', 'All good!');
     }
 
 }
