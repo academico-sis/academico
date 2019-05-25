@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Traits\PeriodSelection;
 use App\Models\PreInvoiceDetail;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Gate;
 
 
 class EnrollmentController extends Controller
@@ -21,7 +22,7 @@ class EnrollmentController extends Controller
     public function __construct()
     {
         parent::__construct();
-        $this->middleware(['permission:enrollments.create']);
+        $this->middleware('permission:enrollments.create', ['except' => 'store']);
     }
 
 
@@ -31,6 +32,11 @@ class EnrollmentController extends Controller
     public function store(Request $request)
     {
         $course = Course::findOrFail($request->input('course_id'));
+
+        if (Gate::forUser(backpack_user())->denies('enroll-in-course', $course)) {
+            abort(403);
+        }
+
         $student = Student::where('user_id', $request->input('student_id'))->firstOrFail(); // todo refactor this
         $enrollment_id = $student->enroll($course);
         \Alert::success(__('Enrollment successfully created'))->flash();

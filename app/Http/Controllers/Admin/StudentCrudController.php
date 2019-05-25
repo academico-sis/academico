@@ -18,7 +18,7 @@ class StudentCrudController extends CrudController
     {
         parent::__construct();
         $this->middleware('permission:enrollments.view', ['except' => ['dataAjax', 'show']]);
-        $this->middleware('permission:student.edit', ['except' => ['index', 'show', 'search']]);
+        $this->middleware('permission:student.edit', ['except' => ['index', 'show', 'search', 'dataAjax']]);
 
     }
     

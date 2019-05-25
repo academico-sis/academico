@@ -40,6 +40,9 @@ Route::group(
     Route::get('apitoken', 'ApiTokenController@index');
     Route::post('apitoken', 'ApiTokenController@store');
 
+    // creates a new enrollment
+    Route::post('student/enroll', 'EnrollmentController@store')->name('storeEnrollment');
+
 });
 
 
@@ -118,9 +121,6 @@ Route::group(
 Route::group(
     ['middleware' => ['web', 'permission:enrollments.create', 'language']],
     function () {
-        
-    // creates a new enrollment
-    Route::post('student/enroll', 'EnrollmentController@store')->name('storeEnrollment');
     
     Route::get('enrollments/{enrollment}/bill', 'EnrollmentController@quickBill'); // temporary
     Route::post('preinvoice', 'EnrollmentController@quickInvoice')->name('quickInvoice'); // temporary

@@ -13,8 +13,7 @@ class CourseTimeController extends Controller
 
      public function __construct()
      {
-         $this->middleware('permission:courses.view');
-         $this->middleware('permission:courses.edit', ['only' => ['edit', 'store', 'destroy']]);
+         $this->middleware('permission:courses.edit');
      }
 
 
