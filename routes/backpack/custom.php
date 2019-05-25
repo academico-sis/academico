@@ -5,26 +5,6 @@
 // --------------------------
 // This route file is loaded automatically by Backpack\Base.
 // Routes you generate using Backpack\Generators will be placed here.
-
-/* Route::group(
-    [
-        'namespace'  => 'Backpack\Base\app\Http\Controllers',
-        'middleware' => 'web',
-        'prefix'     => config('backpack.base.route_prefix'),
-    ],
-    function () {
-        // if not otherwise configured, setup the auth routes
-        if (config('backpack.base.setup_auth_routes')) {
-
-            // Password Reset Routes...
-            Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('backpack.auth.password.reset');
-            Route::post('password/reset', 'Auth\ResetPasswordController@reset');
-            Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('backpack.auth.password.reset.token');
-            Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('backpack.auth.password.email');
-        }
-
-    });
- */
     
      
 Route::group(
@@ -39,8 +19,10 @@ Route::group(
         Route::post('register', 'Auth\RegisterController@register');
 
         CRUD::resource('result', 'Admin\ResultCrudController');
-
-        CRUD::resource('preinvoice', 'Admin\PreInvoiceCrudController');
+        CRUD::resource('student', 'Admin\StudentCrudController');
+        CRUD::resource('course', 'Admin\CourseCrudController');
+        CRUD::resource('comment', 'Admin\CommentCrudController');
+        CRUD::resource('courseskill', 'Admin\CourseSkillCrudController');
         
         Route::post('edit-account-info', 'Auth\MyAccountController@postAccountInfoForm');
         Route::post('edit-student-info', 'Auth\MyAccountController@postStudentInfoForm');
@@ -48,7 +30,8 @@ Route::group(
         Route::post('edit-phone', 'Auth\MyAccountController@postPhoneForm');
         Route::post('edit-photo', 'Auth\MyAccountController@postPhotoForm');
         Route::post('edit-contacts', 'Auth\MyAccountController@postContactsForm');
-        });
+        }
+);
 
 
 Route::group(
@@ -65,44 +48,23 @@ Route::group(
         Route::get('edit/4', 'Auth\MyAccountController@getAccountProfessionForm')->name('backpack.account.profession');
         Route::get('edit/5', 'Auth\MyAccountController@getPhotoForm')->name('backpack.account.photo');
         Route::get('edit/6', 'Auth\MyAccountController@getContactsForm')->name('backpack.account.contacts');
-        });
+    }
+);
 
 
+// enrollments and invoicing
 
-// when finer control is needed, move routes here and protect them with policies instead of permissions
-Route::group([
-    'prefix'     => config('backpack.base.route_prefix'),
-    'middleware' => ['web', 'language'],
-    'namespace'  => 'App\Http\Controllers\Admin',
-    ], function () {
-        CRUD::resource('student', 'StudentCrudController');
-        CRUD::resource('course', 'CourseCrudController');
-
-});
-
-
-
-Route::group([
-    'prefix'     => config('backpack.base.route_prefix'),
-    'middleware' => ['web', 'permission:evaluation.view', 'language'],
-    'namespace'  => 'App\Http\Controllers\Admin',
-    ], function () {
-        CRUD::resource('courseskill', 'CourseSkillCrudController');
-
-});
-
-
-// students and enrollments management
 Route::group([
     'prefix'     => config('backpack.base.route_prefix'),
     'middleware' => ['web', 'permission:enrollments.view', 'language'],
     'namespace'  => 'App\Http\Controllers\Admin',
     ], function () {
         CRUD::resource('enrollment', 'EnrollmentCrudController');
-        CRUD::resource('comment', 'CommentCrudController');
-        //CRUD::resource('preinvoice', 'PreInvoiceCrudController')->middleware('permission:invoice.view');
         CRUD::resource('availablecourse', 'AvailableCourseCrudController');
-});
+        CRUD::resource('preinvoice', 'PreInvoiceCrudController');
+    }
+);
+
 
 /* Admin routes */
 Route::group([
@@ -127,9 +89,8 @@ Route::group([
         CRUD::resource('skilltype', 'SkillTypeCrudController');
         CRUD::resource('skillscale', 'SkillScaleCrudController');
         CRUD::resource('resulttype', 'ResultTypeCrudController');
-
         CRUD::resource('remoteevent', 'RemoteEventCrudController');
         CRUD::resource('leave', 'LeaveCrudController');
         CRUD::resource('external', 'ExternalCourseCrudController');
-    CRUD::resource('leadtype', 'LeadTypeCrudController');
+        CRUD::resource('leadtype', 'LeadTypeCrudController');
 }); // this should be the absolute last line of this file

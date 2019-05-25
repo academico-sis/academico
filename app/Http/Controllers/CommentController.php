@@ -15,12 +15,13 @@ class CommentController extends Controller
 {
      public function __construct()
     {
-        $this->middleware(['permission:comments.edit']);
+        $this->middleware('permission:comments.edit', ['only' => 'delete']);
     }
 
     // todo use CommentRequest instead
-    public function store(Request $request)
+    public function store_student_comment(StoreRequest $request)
     {
+
 
         Log::info('Comment created by ' . backpack_user()->firstname);
 
@@ -48,6 +49,7 @@ class CommentController extends Controller
 
     
 
+    // todo deduplicate from commentCrudController
     public function destroy(Comment $comment)
     {
         $comment->delete();

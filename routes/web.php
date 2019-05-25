@@ -108,7 +108,7 @@ Route::group(
 Route::group(
     ['middleware' => ['web', 'permission:comments.edit', 'language']],
     function () {
-        Route::post('comment', 'CommentController@store')->name('storeComment');
+        Route::post('comment', 'CommentController@store_student_comment')->name('storeComment');
         Route::post('resultcomment', 'CommentController@storeresult')->name('storeResultComment');
         Route::delete('comment/{comment}', 'CommentController@destroy');
     }
