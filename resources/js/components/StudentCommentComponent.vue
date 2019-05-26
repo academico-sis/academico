@@ -48,7 +48,7 @@
     
     export default {
 
-        props: ['comments', 'student', 'route'],
+        props: ['comments', 'id', 'type', 'route'],
 
         data () {
             return {
@@ -66,8 +66,9 @@
             {
                 axios
                     .post(this.route, {
-                        comment: this.comment_body,
-                        student_id: this.student.id,
+                        body: this.comment_body,
+                        commentable_id: this.id,
+                        commentable_type: this.type,
                     })
                     .then(response => {
                         document.location.reload(true); // TODO improve this: do not reload the whole page

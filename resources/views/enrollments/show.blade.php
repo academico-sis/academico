@@ -92,10 +92,11 @@
 
     <div class="col-md-4">
 
-            <student-comments
-            :comments="{{ json_encode($enrollment->student->comments) }}"
-            :student="{{ json_encode($enrollment->student) }}"
-            route="{{ url('comment') }}">
+        <student-comments
+            :comments="{{ json_encode($enrollment->comments) }}"
+            :id="{{ json_encode($enrollment->id) }}"
+            :type="'App\\Models\\Enrollment'"
+            route="{{ route('storeComment') }}">
         </student-comments>
 
     </div>

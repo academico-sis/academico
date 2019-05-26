@@ -87,7 +87,7 @@
 <div class="row">
  --}}
 
-
+@if ($attendances->count() > 0)
  <div class="col-md-4">
         <div class="box">
             <div class="box-header with-border">
@@ -116,14 +116,15 @@
             </div>
         </div>
     </div>
+@endif
 
-
- @if(backpack_user()->can('enrollments.edit'))
+ @if(backpack_user()->can('comments.edit'))
     <div class="col-md-4">
         <student-comments
         :comments="{{ json_encode($comments) }}"
-        :student="{{ json_encode($student) }}"
-        route="{{ url('comment') }}">
+        :id="{{ json_encode($student->id) }}"
+        :type="'App\\Models\\Student'"
+        route="{{ route('storeComment') }}">
         </student-comments>
     </div>
 @endif

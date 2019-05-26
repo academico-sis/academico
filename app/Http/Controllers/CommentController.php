@@ -19,16 +19,16 @@ class CommentController extends Controller
     }
 
     // todo use CommentRequest instead
-    public function store_student_comment(StoreRequest $request)
+    public function store(StoreRequest $request)
     {
 
 
         Log::info('Comment created by ' . backpack_user()->firstname);
 
         Comment::create([
-            'commentable_id' => $request->input('student_id'),
-            'commentable_type' => Student::class,
-            'body' => $request->input('comment'),
+            'commentable_id' => $request->input('commentable_id'),
+            'commentable_type' => $request->input('commentable_type'),
+            'body' => $request->input('body'),
             'author_id' => \backpack_user()->id,
         ]);
     }
