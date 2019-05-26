@@ -21,6 +21,7 @@
         "laravel/telescope": "^2.0",
         "laravel/tinker": "^1.0",
         "mailerlite/mailerlite-api-v2-php-sdk": "^0.2.3",
+        "pragmarx/version": "^0.2.9",
         "sentry/sentry-laravel": "^1.0",
         "simplesoftwareio/simple-qrcode": "^2.0",
         "spatie/laravel-medialibrary": "^7.0.0",
