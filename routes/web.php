@@ -43,6 +43,13 @@ Route::group(
     // creates a new enrollment
     Route::post('student/enroll', 'EnrollmentController@store')->name('storeEnrollment');
 
+    // Attendance routes
+    Route::get('attendance', 'AttendanceController@index')->name('monitorAttendance');
+    Route::get('attendance/student/{student}', 'AttendanceController@student')->name('studentAttendance');
+    Route::get('attendance/course/{course}', 'AttendanceController@showCourse')->name('monitorCourseAttendance');
+    Route::get('attendance/event/{event}', 'AttendanceController@showEvent')->name('eventAttendance');
+    Route::post('attendance', 'AttendanceController@store')->name('storeAttendance');
+
 });
 
 
@@ -70,19 +77,6 @@ Route::group(
 
 });
 
-
-// ATTENDANCE RELATED ROUTES
-Route::group(
-    ['middleware' => ['web', 'permission:attendance.view', 'language']],
-    function () {
-
-    /* Course attendance overview  */
-    Route::get('attendance', 'AttendanceController@index')->name('monitorAttendance');
-    Route::get('attendance/student/{student}', 'AttendanceController@student')->name('studentAttendance');
-    Route::get('attendance/course/{course}', 'AttendanceController@showCourse')->name('monitorCourseAttendance');
-    Route::get('attendance/event/{event}', 'AttendanceController@showEvent')->name('eventAttendance');
-    Route::post('attendance', 'AttendanceController@store')->name('storeAttendance');
-});
 
 
 // COURSE EDITION ROUTES
