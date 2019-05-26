@@ -21,11 +21,11 @@ class ForceUpdate
         {
             if(backpack_user()->isStudent())
             {
-                if (backpack_user()->student->force_update)
+                if (backpack_user()->force_update)
                 {
-                    if (request()->path() != 'edit/' . backpack_user()->student->force_update)
+                    if (request()->path() != 'edit/' . backpack_user()->force_update)
                     {
-                        return redirect(url('edit/' . backpack_user()->student->force_update));
+                        return redirect(url('edit/' . backpack_user()->force_update));
                     }
                 }
             }

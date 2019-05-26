@@ -62,7 +62,7 @@ class UpdateDataTest extends TestCase
         $this->assertEquals($student->email, $email);
 
         // check that the update process is moved to the next step
-        $this->assertEquals(2, \Auth::guard(backpack_guard_name())->user()->student->force_update);
+        $this->assertEquals(2, \Auth::guard(backpack_guard_name())->user()->force_update);
     }
 
 
@@ -107,7 +107,7 @@ class UpdateDataTest extends TestCase
         $this->assertEquals($student->birthdate, $birthdate); */
 
         // move update process to the next step
-        $this->assertEquals(3, \Auth::guard(backpack_guard_name())->user()->student->force_update);
+        $this->assertEquals(3, \Auth::guard(backpack_guard_name())->user()->force_update);
 
     }
 
@@ -145,7 +145,7 @@ class UpdateDataTest extends TestCase
 
         // move to next step
         $this->json('POST', '/edit-phone'); // todo name route
-        $this->assertEquals(4, \Auth::guard(backpack_guard_name())->user()->student->force_update);
+        $this->assertEquals(4, \Auth::guard(backpack_guard_name())->user()->force_update);
     }
 
     /**
@@ -179,7 +179,7 @@ class UpdateDataTest extends TestCase
             ]);     
 
         // move to next step
-        $this->assertEquals(5, \Auth::guard(backpack_guard_name())->user()->student->force_update);
+        $this->assertEquals(5, \Auth::guard(backpack_guard_name())->user()->force_update);
     }
 
     /**
@@ -204,7 +204,7 @@ class UpdateDataTest extends TestCase
         // todo upload a picture here...
         $this->json('POST', '/edit-photo');
             
-        $this->assertEquals(6, \Auth::guard(backpack_guard_name())->user()->student->force_update);
+        $this->assertEquals(6, \Auth::guard(backpack_guard_name())->user()->force_update);
     }
 
     /**
@@ -224,7 +224,7 @@ class UpdateDataTest extends TestCase
 
         // todo remove force_update flag
         $this->json('POST', '/edit-contacts');
-        $this->assertEquals(null, \Auth::guard(backpack_guard_name())->user()->student->force_update);
+        $this->assertEquals(null, \Auth::guard(backpack_guard_name())->user()->force_update);
 
     }
 

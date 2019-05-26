@@ -20,12 +20,14 @@
 	  	@endif
 	  	><a href="{{ route('backpack.account.info') }}">@lang('Account Data')</a></li>
 
-		<li role="presentation"
-		@if (Request::route()->getName() == 'backpack.student.info')
-			class="active"
-			@endif
-			><a href="{{ route('backpack.student.info') }}">@lang('Additional Data')</a></li>
-
+		@if(backpack_user()->getRoleNames()->count() == 0)
+			<li role="presentation"
+			@if (Request::route()->getName() == 'backpack.student.info')
+				class="active"
+				@endif
+				><a href="{{ route('backpack.student.info') }}">@lang('Additional Data')</a></li>
+		@endif
+			
 		@if(backpack_user()->isStudent())
 			<li role="presentation"
 			@if (Request::route()->getName() == 'backpack.account.phone')

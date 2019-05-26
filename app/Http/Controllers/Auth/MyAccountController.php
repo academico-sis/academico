@@ -43,7 +43,7 @@ class MyAccountController extends Controller
             Alert::success(trans('backpack::base.account_updated'))->flash();
 
             // if the user has been selected for a forced update, move to the next step
-            if($this->guard()->user()->student->force_update == 1) {
+            if($this->guard()->user()->force_update == 1) {
                 $this->guard()->user()->student->update(['force_update' => 2]);
             }
         } else {
@@ -83,7 +83,7 @@ class MyAccountController extends Controller
         Alert::success(trans('backpack::base.account_updated'))->flash();
 
         // if the user has been selected for a forced update, move to the next step
-        if($this->guard()->user()->student->force_update == 2 || $this->guard()->user()->student->force_update == null) {
+        if($this->guard()->user()->force_update == 2 || $this->guard()->user()->force_update == null) {
             $this->guard()->user()->student->update(['force_update' => 3]);
         }
 
@@ -108,7 +108,7 @@ class MyAccountController extends Controller
     public function postPhoneForm()
     {
         // if the user has been selected for a forced update, move to the next step
-        if($this->guard()->user()->student->force_update == 3) {
+        if($this->guard()->user()->force_update == 3) {
             $this->guard()->user()->student->update(['force_update' => 4]);
         }
 
@@ -149,7 +149,7 @@ class MyAccountController extends Controller
         ]);
 
         // if the user has been selected for a forced update, move to the next step
-        if($this->guard()->user()->student->force_update == 4) {
+        if($this->guard()->user()->force_update == 4) {
             $this->guard()->user()->student->update(['force_update' => 5]);
         }
 
@@ -182,7 +182,7 @@ class MyAccountController extends Controller
         }
         
         // if the user has been selected for a forced update, move to the next step
-        if($this->guard()->user()->student->force_update == 5) {
+        if($this->guard()->user()->force_update == 5) {
             $this->guard()->user()->student->update(['force_update' => 6]);
         }
 
@@ -205,7 +205,7 @@ class MyAccountController extends Controller
 
     public function postContactsForm()
     {
-        if($this->guard()->user()->student->force_update == 6) {
+        if($this->guard()->user()->force_update == 6) {
             $this->guard()->user()->student->update(['force_update' => null]);
         }
         Log::info('User updated their data step 6');

@@ -41,6 +41,8 @@ class StudentCrudController extends CrudController
 
         $this->crud->allowAccess('show');
         $this->crud->denyAccess('create');
+        $this->crud->denyAccess('store');
+        $this->crud->denyAccess('update');
 
         //$this->crud->addClause('student');
 
@@ -50,9 +52,6 @@ class StudentCrudController extends CrudController
             $this->crud->addButtonFromView('line', 'selectCourse', 'selectCourse', 'beginning');
         }
         
-        if(!$permissions->contains('name', 'students.edit')) {
-            $this->crud->denyAccess('edit');
-        }
 
         $this->crud->orderBy('created_at', 'desc');
 
@@ -187,33 +186,6 @@ class StudentCrudController extends CrudController
 
     }
 
-    /**
-     * Store a newly created resource in the database.
-     *
-     * @param StoreRequest $request - type injection used for validation using Requests
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function store(StoreRequest $request)
-    {
-        $this->handlePasswordInput($request);
-
-        return parent::storeCrud($request);
-    }
-
-    /**
-     * Update the specified resource in the database.
-     *
-     * @param UpdateRequest $request - type injection used for validation using Requests
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function update(Request $request)
-    {
-        $this->handlePasswordInput($request);
-
-        return parent::updateCrud($request);
-    }
 
     public function show($student)
     {

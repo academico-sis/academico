@@ -22,7 +22,7 @@ class CourseCrudController extends CrudController
     {
         parent::__construct();
         $this->middleware('permission:courses.view', ['except' => 'show']);
-        $this->middleware('permission:courses.edit', ['except' => ['index', 'show']]);
+        $this->middleware('permission:courses.edit', ['only' => ['update', 'create', 'store', 'destroy']]);
 
     }
 
