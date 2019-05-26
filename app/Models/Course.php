@@ -125,7 +125,7 @@ protected static function boot()
     /** may be null if the teacher is not yet assigned */
     public function teacher()
     {
-        return $this->belongsTo('App\Models\Teacher');
+        return $this->belongsTo('App\Models\Teacher')->withTrashed();
     }
 
     public function campus()
@@ -136,7 +136,7 @@ protected static function boot()
     /** may be null if the room is not yet assigned */
     public function room()
     {
-        return $this->belongsTo('App\Models\Room');
+        return $this->belongsTo('App\Models\Room')->withTrashed();
     }
 
     /** the "category" of course */

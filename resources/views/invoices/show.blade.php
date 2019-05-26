@@ -1,15 +1,3 @@
-@extends('backpack::layout')
-
-@section('header')
-<section class="content-header">
-    <h1>
-        @lang('Invoices')
-    </h1>
-</section>
-@endsection
-
-
-@section('content')
 
 <div class="row">
     <div class="col-md-4">
@@ -23,40 +11,25 @@
                 
             </div>
             
-            <div class="box-body">           
-                <p>@lang('Pre-invoice ID') : {{ $preInvoice->id }}</p>
-                <p>@lang('Date') : {{ $preInvoice->created_at }}</p>
-                <p>@lang('Client name') : {{ $preInvoice->client_name }}</p>
-                <p>@lang('Client email') : {{ $preInvoice->client_email }}</p>
-                <p>@lang('Client address') : {{ $preInvoice->client_address }}</p>
-                <p>@lang('Client ID Number') : {{ $preInvoice->client_idnumber }}</p>
+            <div class="box-body">        
+                <p>@lang('Invoice ID') : {{ $enrollment->pre_invoice()->first()->invoice_number }}</p>   
+                <p>@lang('Pre-invoice ID') : {{ $enrollment->pre_invoice()->first()->id }}</p>
+                {{--                         <button class="btn btn-warning" data-toggle="modal" data-target="#editInvoiceNumberModal">
+                            <i class="fa fa-pencil"></i>
+                        </button> --}}
+                <p>@lang('Date') : {{ $enrollment->pre_invoice()->first()->created_at }}</p>
+                <p>@lang('Client name') : {{ $enrollment->pre_invoice()->first()->client_name }}</p>
+                <p>@lang('Client email') : {{ $enrollment->pre_invoice()->first()->client_email }}</p>
+                <p>@lang('Client address') : {{ $enrollment->pre_invoice()->first()->client_address }}</p>
+                <p>@lang('Client ID Number') : {{ $enrollment->pre_invoice()->first()->client_idnumber }}</p>
                 <p>@lang('Client Phone Number') : todo</p>
 
             </div>
         </div>
     </div>
 
-    <div class="col-md-4">
-            <div class="box">
-                <div class="box-header with-border">
-                    <div class="box-title">
-                        @lang('Invoice Number')
-                    </div>
-                    <div class="box-tools pull-right">
-{{--                         <button class="btn btn-warning" data-toggle="modal" data-target="#editInvoiceNumberModal">
-                            <i class="fa fa-pencil"></i>
-                        </button> --}}
-                    </div>
-                    
-                </div>
-                
-                <div class="box-body">           
-                    <h3>{{ $preInvoice->invoice_number }}</h3>
-                </div>
-            </div>
-        </div>
 
-@if($preInvoice->comments->count() > 0)
+@if($enrollment->pre_invoice()->first()->comments->count() > 0)
         <div class="col-md-4">
                 <div class="box">
                     <div class="box-header with-border">
@@ -73,7 +46,7 @@
                     
                     <div class="box-body">           
                             <ul>
-                                    @foreach ($preInvoice->comments as $comment)
+                                    @foreach ($enrollment->pre_invoice()->first()->comments as $comment)
                                         <li>{{ $comment->body }} ({{ $comment->date }})</li>
                                     @endforeach
                                 </ul>
@@ -82,9 +55,7 @@
             </div>
 
             @endif
-</div>
 
-<div class="row">
 
 <div class="col-md-8">
     <div class="box">
@@ -106,7 +77,7 @@
                     <th>@lang('Total')</th>
                 </thead>
                 <tbody>
-                    @foreach($products as $product)
+                    @foreach($enrollment->pre_invoice()->first()->pre_invoice_details as $product)
                         <tr>
                             <td>{{ $product->quantity }}</td>
                             <td>{{ $product->product_name }}</td>
@@ -129,31 +100,4 @@
 </div>
 
 </div>
-
-
-      <!-- Modal -->
-      <div class="modal fade" id="editInvoiceNumberModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="myModalLabel">@lang('Add invoice number')</h4>
-            </div>
-            <div class="modal-body">
-            <form method="POST" action="/invoices/{{ $preInvoice->id }}">
-                @method('PATCH')
-                @csrf
-                <label for="invoice_number">@lang('New Invoice Number')</label>
-                <input type="text" name="invoice_number">
-                <button type="submit" class="btn btn-primary">@lang('Save changes')</button>
-
-            </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">@lang('Close')</button>
-            </div>
-          </div>
-        </div>
-      </div>
-@endsection
 

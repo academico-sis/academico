@@ -61,7 +61,6 @@ Route::group([
     ], function () {
         CRUD::resource('enrollment', 'EnrollmentCrudController');
         CRUD::resource('availablecourse', 'AvailableCourseCrudController');
-        CRUD::resource('preinvoice', 'PreInvoiceCrudController');
     }
 );
 

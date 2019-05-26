@@ -120,10 +120,6 @@
                             {{ $enrollment->enrollmentStatus->name }}
                     </div>
                     
-                    @lang('Invoice(s)')
-                        @foreach ($enrollment->pre_invoice as $pre_invoice)
-                            <a href="/preinvoice/{{ $pre_invoice->id }}">{{ $pre_invoice->invoice_number ?? "?" }}</a> 
-                        @endforeach
 
                 @elseif($enrollment->status_id == 1)
 
@@ -153,6 +149,10 @@
     
 
 </div>
+
+@if ($enrollment->pre_invoice()->count() > 0)
+    @include('invoices.show')
+@endif
 
 @endsection
 
