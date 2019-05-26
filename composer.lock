@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "baba239d048302e00b71402a4fc2dac6",
+    "content-hash": "2a87d9e959d451a56ce69a3dd596d317",
     "packages": [
         {
             "name": "akaunting/language",
@@ -3292,6 +3292,127 @@
             "time": "2015-07-25T16:39:46+00:00"
         },
         {
+            "name": "pragmarx/version",
+            "version": "v0.2.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/antonioribeiro/version.git",
+                "reference": "360a234d7becfd9b8619e0044b1335ff6ffe9094"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/antonioribeiro/version/zipball/360a234d7becfd9b8619e0044b1335ff6ffe9094",
+                "reference": "360a234d7becfd9b8619e0044b1335ff6ffe9094",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": ">=5.5.33",
+                "php": "^7.0",
+                "pragmarx/yaml": "^0.1",
+                "symfony/process": "^3.3|^4.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": ">=3.5",
+                "phpunit/phpunit": ">=6.4"
+            },
+            "type": "library",
+            "extra": {
+                "component": "package",
+                "laravel": {
+                    "providers": [
+                        "PragmaRX\\Version\\Package\\ServiceProvider"
+                    ],
+                    "aliases": {
+                        "Version": "PragmaRX\\Version\\Package\\Facade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PragmaRX\\Version\\Package\\": "src/package",
+                    "PragmaRX\\Version\\Tests\\": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Antonio Carlos Ribeiro",
+                    "email": "acr@antoniocarlosribeiro.com",
+                    "role": "Creator & Designer"
+                }
+            ],
+            "description": "Take control over your Laravel app version",
+            "keywords": [
+                "laravel",
+                "version",
+                "versioning"
+            ],
+            "time": "2019-03-18T23:26:23+00:00"
+        },
+        {
+            "name": "pragmarx/yaml",
+            "version": "v0.1.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/antonioribeiro/yaml.git",
+                "reference": "0c704b622ce276904eda7f09dd43f756ddc89910"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/antonioribeiro/yaml/zipball/0c704b622ce276904eda7f09dd43f756ddc89910",
+                "reference": "0c704b622ce276904eda7f09dd43f756ddc89910",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": ">=5.5.33",
+                "php": "^7.0",
+                "symfony/yaml": "^3.4|^4.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "3.5|^3.6",
+                "phpunit/phpunit": "^6.4|^4.0"
+            },
+            "type": "library",
+            "extra": {
+                "component": "package",
+                "laravel": {
+                    "providers": [
+                        "PragmaRX\\Yaml\\Package\\ServiceProvider"
+                    ],
+                    "aliases": {
+                        "Yaml": "PragmaRX\\Yaml\\Package\\Facade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PragmaRX\\Yaml\\Package\\": "src/package",
+                    "PragmaRX\\Yaml\\Tests\\": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Antonio Carlos Ribeiro",
+                    "email": "acr@antoniocarlosribeiro.com",
+                    "role": "Creator & Designer"
+                }
+            ],
+            "description": "Load your Laravel config files using yaml",
+            "keywords": [
+                "config",
+                "laravel",
+                "yaml"
+            ],
+            "time": "2018-09-22T17:12:12+00:00"
+        },
+        {
             "name": "prologue/alerts",
             "version": "0.4.3",
             "source": {
@@ -5766,6 +5887,65 @@
                 "dump"
             ],
             "time": "2019-05-01T12:55:36+00:00"
+        },
+        {
+            "name": "symfony/yaml",
+            "version": "v4.2.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/yaml.git",
+                "reference": "6712daf03ee25b53abb14e7e8e0ede1a770efdb1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/6712daf03ee25b53abb14e7e8e0ede1a770efdb1",
+                "reference": "6712daf03ee25b53abb14e7e8e0ede1a770efdb1",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.3",
+                "symfony/polyfill-ctype": "~1.8"
+            },
+            "conflict": {
+                "symfony/console": "<3.4"
+            },
+            "require-dev": {
+                "symfony/console": "~3.4|~4.0"
+            },
+            "suggest": {
+                "symfony/console": "For validating YAML files using the lint command"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.2-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Yaml\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Yaml Component",
+            "homepage": "https://symfony.com",
+            "time": "2019-03-30T15:58:42+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
