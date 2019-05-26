@@ -17,7 +17,7 @@ class HRController extends Controller
     public function __construct()
     {
         parent::__construct();
-        $this->middleware(['permission:hr.view']);
+        $this->middleware('permission:hr.view', ['except' => 'teacher']);
     }
 
     
@@ -39,6 +39,11 @@ class HRController extends Controller
 
     public function teacher(Request $request, Teacher $teacher)
     {
+        // If the user is not allowed to perform this action
+        if (Gate::forUser(backpack_user())->denies('view-teacher-hours', $teacher)) {
+            abort(403);
+        }
+
         $period = $this->selectPeriod($request);
 
         return view('teacher.hours', [
