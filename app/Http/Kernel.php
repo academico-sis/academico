@@ -19,7 +19,6 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \App\Http\Middleware\TrustProxies::class,
-        \App\Http\Middleware\Cors::class,
     ];
 
     /**
@@ -67,7 +66,7 @@ class Kernel extends HttpKernel
         'role' => \App\Http\Middleware\RoleMiddleware::class,
         'permission' => \App\Http\Middleware\PermissionMiddleware::class,
         'forceupdate' => \App\Http\Middleware\ForceUpdate::class,
-
+        'cors' => \App\Http\Middleware\Cors::class,
 
     ];
 
