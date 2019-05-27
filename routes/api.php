@@ -17,49 +17,53 @@ use App\Models\AttendanceType;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::group(
+    ['middleware' => ['auth:api', 'cors']],
+    function () {
 
-Route::middleware('auth:api')->get('/attendance', function () {
-    return Teacher::where('user_id', request()->user()->id)->firstOrFail()->events_with_pending_attendance;
-});
- 
-Route::middleware('auth:api')->get('/teacherinfo', function () {
-    return Teacher::where('user_id', request()->user()->id)->firstOrFail();
-});
-
-Route::middleware('auth:api')->get('/event/{event}/students', function (Event $event) {
-        // get students
-        $enrollments = $event->enrollments()->with('student')->get();
-    
-        // get the attendance record for the event
-        $attendance = $event->attendance;
+        Route::get('/attendance', function () {
+            return Teacher::where('user_id', request()->user()->id)->firstOrFail()->events_with_pending_attendance;
+        });
         
-        $attendances = [];
-        // build a collection : for each student, display attendance
+        Route::get('/teacherinfo', function () {
+            return Teacher::where('user_id', request()->user()->id)->firstOrFail();
+        });
 
-        foreach($enrollments as $e => $enrollment)
-        {
-            $attendances[$e]['student'] = $enrollment->student->name;
-            $attendances[$e]['student_id'] = $enrollment->student->id;
-            $attendances[$e]['attendance'] = $attendance->where('student_id', $enrollment->student->id)->first() ?? 'undefined';
-        }
+        Route::get('/event/{event}/students', function (Event $event) {
+                // get students
+                $enrollments = $event->enrollments()->with('student')->get();
+            
+                // get the attendance record for the event
+                $attendance = $event->attendance;
+                
+                $attendances = [];
+                // build a collection : for each student, display attendance
 
-        return $attendances;
-});
+                foreach($enrollments as $e => $enrollment)
+                {
+                    $attendances[$e]['student'] = $enrollment->student->name;
+                    $attendances[$e]['student_id'] = $enrollment->student->id;
+                    $attendances[$e]['attendance'] = $attendance->where('student_id', $enrollment->student->id)->first() ?? 'undefined';
+                }
+
+                return $attendances;
+        });
 
 
-Route::middleware('auth:api')->post('/attendance', function (Request $request) {
+        Route::post('/attendance', function (Request $request) {
 
-    $student = Student::findOrFail($request->input('body.student_id'));
-    $event = Event::findOrFail($request->input('body.event_id'));
-    $attendance_type = AttendanceType::findOrFail($request->input('body.attendance_type_id'));
+            $student = Student::findOrFail($request->input('body.student_id'));
+            $event = Event::findOrFail($request->input('body.event_id'));
+            $attendance_type = AttendanceType::findOrFail($request->input('body.attendance_type_id'));
 
-        $attendance = Attendance::firstOrNew([
-            'student_id' => $student->id,
-            'event_id' => $event->id,
-        ]);
+                $attendance = Attendance::firstOrNew([
+                    'student_id' => $student->id,
+                    'event_id' => $event->id,
+                ]);
 
-        $attendance->attendance_type_id = $attendance_type->id;
+                $attendance->attendance_type_id = $attendance_type->id;
 
-        $attendance->save();
+                $attendance->save();
 
-});
+        });
+    });
