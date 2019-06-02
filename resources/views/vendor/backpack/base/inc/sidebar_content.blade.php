@@ -122,8 +122,8 @@
   <li class="header">@lang('TEACHER')</li>
 
   <li><a href="{{ route('teacherDashboard') }}"><i class="fa fa-home"></i> <span>@lang('Teacher Dashboard')</span></a></li>
-  <li><a href="{{ route('teacherCalendar', ['teacher' => backpack_user()->id]) }}"><i class="fa fa-calendar"></i> <span>@lang('My Schedule')</span></a></li>
-  <li><a href="{{ route('teacherHours', ['teacher' => backpack_user()->id]) }}"><i class="fa fa-clock-o"></i> <span>@lang('My Hours')</span></a></li>
+  <li><a href="{{ route('teacherCalendar', ['teacher' => backpack_user()->teacher_id]) }}"><i class="fa fa-calendar"></i> <span>@lang('My Schedule')</span></a></li>
+  <li><a href="{{ route('teacherHours', ['teacher' => backpack_user()->teacher_id]) }}"><i class="fa fa-clock-o"></i> <span>@lang('My Hours')</span></a></li>
 
 @endif
 
