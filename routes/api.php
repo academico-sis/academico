@@ -17,13 +17,17 @@ use App\Models\AttendanceType;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::get('/courses', 'Api\CourseController@getCourses');
+
 Route::group(
-    ['middleware' => ['auth:api', 'cors']],
+    [
+        'middleware' => ['auth:api', 'cors'],
+        'namespace'  => '\App\Http\Controllers\Api',
+    ],
     function () {
 
-        Route::get('/attendance', function () {
-            return Teacher::where('user_id', request()->user()->id)->firstOrFail()->events_with_pending_attendance;
-        });
+        Route::get('/attendance', 'AttendanceController@getTeacherAttendance');
         
         Route::get('/teacherinfo', function () {
             return Teacher::where('user_id', request()->user()->id)->firstOrFail();
