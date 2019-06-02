@@ -1,6 +1,9 @@
 <?php
 
-namespace App\Http\Api\Controllers;
+namespace App\Http\Controllers\Api;
+
+use App\Models\Course;
+use App\Models\Period;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
@@ -13,7 +16,9 @@ class CourseController extends BaseController
 
     public function getCourses()
     {
-        return 12;
+        return Course::get_courses_offer(Period::get_default_period())
+        ->where('spots', '>', 'enrollments_count')
+        ->toJson();
     }
 
 
