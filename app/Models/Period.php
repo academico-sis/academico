@@ -26,6 +26,15 @@ class Period extends Model
         ->first();
     }
 
+    /**
+     * Return the period to preselect for all enrollment-related methods
+     */
+    public static function get_enrollments_period()
+    {
+        //return Period::find(22); todo let user override the default period from the UI
+        return Period::find(24);
+    }
+
     public function enrollments()
     {
         return $this->hasManyThrough(Enrollment::class, Course::class)

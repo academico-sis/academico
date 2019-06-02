@@ -16,7 +16,7 @@ class CourseController extends BaseController
 
     public function getCourses()
     {
-        return Course::get_courses_offer(Period::get_default_period())->toJson();
+        return Course::get_courses_offer(Period::get_enrollments_period())->toJson();
     }
 
 
