@@ -122,6 +122,7 @@
                     <div class="box-body">
                         <p>@lang('Pending leads') : <a href='student?lead_status_is=["4"]'>{{ $pending_leads }}</a></p>
                         <p>@lang('Leads to call') : <a href='student?lead_status_is=["5"]'>{{ $call_leads }}</a></p>
+                        <p>@lang('Actionnable Comments') : <a href='/comment?action=true'>{{ $action_comments }}</a></p>
 
 {{--                         <p>@lang('Upcoming Leaves') : <ul>
                             @foreach ($upcoming_leaves as $leave)

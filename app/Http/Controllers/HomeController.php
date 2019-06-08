@@ -132,6 +132,7 @@ class HomeController extends Controller
             'events' => $events,
             'call_leads' => Student::where('lead_type_id', 5)->count(),
             'pending_leads' => Student::where('lead_type_id', 4)->count(),
+            'action_comments' => Comment::where('action', 1)->count(),
         ]);
     }
 
