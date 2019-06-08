@@ -145,7 +145,6 @@ class EnrollmentController extends Controller
                 'commentable_id' => $preinvoice->id,
                 'commentable_type' => Preinvoice::class,
                 'body' => $comment,
-                'private' => true,
                 'author_id' => backpack_user()->id,
             ]);
         }

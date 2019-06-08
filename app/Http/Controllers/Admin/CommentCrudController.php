@@ -68,9 +68,9 @@ class CommentCrudController extends CrudController
 
              [
                 // Commentable entity
-                'label' => "Private", // Table column heading
+                'label' => "Action", // Table column heading
                 'type' => "boolean",
-                'name' => 'private', // the column that contains the ID of that connected entity;
+                'name' => 'action', // the column that contains the ID of that connected entity;
              ],
         ]);
 
@@ -79,19 +79,19 @@ class CommentCrudController extends CrudController
 
              ['label' => "Comment", 'type' => "text", 'name' => 'body'],
 
-             ['label' => "Private", 'type' => "checkbox", 'name' => 'private'],
+             ['label' => "Action", 'type' => "checkbox", 'name' => 'action'],
 
         ]);
 
 
         $this->crud->addFilter([ // simple filter
             'type' => 'simple',
-            'name' => 'private',
-            'label'=> 'Private'
+            'name' => 'action',
+            'label'=> 'Action'
           ], 
           false, 
           function() { // if the filter is active
-            $this->crud->addClause('where', 'private', true);
+            $this->crud->addClause('where', 'action', true);
           } );
 
 
@@ -100,7 +100,7 @@ class CommentCrudController extends CrudController
             'type' => 'dropdown',
             'label'=> 'Type'
           ], [
-            'App\Models\User' => 'Students',
+            'App\Models\Student' => 'Student',
             'App\Models\Enrollment' => 'Enrollments',
             'App\Models\PreInvoice' => 'PreInvoice',
             'App\Models\Result' => 'Result',
@@ -109,8 +109,8 @@ class CommentCrudController extends CrudController
               $this->crud->addClause('where', 'commentable_type', '=', $value);
           },
           function() { // if the filter is not active
-            $this->crud->addClause('where', 'commentable_type', '=', 'App\Models\User');
-            $this->crud->request->request->add(['commentable_type' => 'App\Models\User']); // to make the filter look active
+            $this->crud->addClause('where', 'commentable_type', '=', 'App\Models\Student');
+            $this->crud->request->request->add(['commentable_type' => 'App\Models\Student']); // to make the filter look active
 
         });
 

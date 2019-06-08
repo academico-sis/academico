@@ -18,7 +18,7 @@ class CreateCommentsTable extends Migration
             $table->integer('commentable_id')->unsigned();
             $table->string('commentable_type');
             $table->text('body');
-            $table->boolean('private')->default(false)->nullable();
+            $table->boolean('action')->default(false)->nullable();
             $table->integer('author_id')->unsigned()->nullable();
             $table->timestamps();
             $table->softDeletes();
