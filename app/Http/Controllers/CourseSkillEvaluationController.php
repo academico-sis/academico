@@ -9,13 +9,14 @@ use App\Models\Enrollment;
 use App\Models\ResultType;
 use Illuminate\Http\Request;
 use App\Models\Skills\SkillScale;
+use Illuminate\Support\Facades\Gate;
 use App\Models\Skills\SkillEvaluation;
 
 class CourseSkillEvaluationController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['permission:evaluation.edit']);
+        //$this->middleware(['permission:evaluation.edit']);
     }
 
     /**
@@ -23,6 +24,10 @@ class CourseSkillEvaluationController extends Controller
      */
     public function index(Course $course)
     {
+
+        if (Gate::forUser(backpack_user())->denies('view-course', $course)) {
+            abort(403);
+        }
 
         $skills = $course->skills;
         $enrollments = $course->enrollments;
@@ -43,10 +48,15 @@ class CourseSkillEvaluationController extends Controller
         $skill = $request->input('skill');
         $status = $request->input('status');
         $student = $request->input('student');
-        $course = $request->input('course');
+        $course = Course::findOrFail($request->input('course'));
+
+
+        if (Gate::forUser(backpack_user())->denies('view-course', $course)) {
+            abort(403);
+        }
 
         $new_skill = SkillEvaluation::firstOrNew([
-            'course_id' => $course,
+            'course_id' => $course->id,
             'student_id' => $student,
             'skill_id' => $skill,
         ]);
@@ -63,6 +73,11 @@ class CourseSkillEvaluationController extends Controller
     public function edit(Course $course, User $student)
     {
 
+        
+        if (Gate::forUser(backpack_user())->denies('view-course', $course)) {
+            abort(403);
+        }
+        
         $student_skills = SkillEvaluation::where('student_id', $student->id)
         ->where('course_id', $course->id)
         ->get();

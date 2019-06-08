@@ -50,6 +50,12 @@ Route::group(
     Route::get('attendance/event/{event}', 'AttendanceController@showEvent')->name('eventAttendance');
     Route::post('attendance', 'AttendanceController@store')->name('storeAttendance');
 
+    // Skills Evaluation
+    Route::get('course/{course}/skillsevaluation', 'CourseSkillEvaluationController@index')->name('courseSkillsEvaluation');
+    Route::get('course/{course}/skillsevaluation/{student}', 'CourseSkillEvaluationController@edit')->name('studentSkillsEvaluation');
+    Route::post('skillsevaluation', 'CourseSkillEvaluationController@store')->name('storeSkillEvaluation');
+    Route::post('resultcomment', 'CommentController@storeresult')->name('storeResultComment'); // todo protect
+
 });
 
 
@@ -59,10 +65,7 @@ Route::group(
     ['middleware' => ['web', 'permission:evaluation.edit', 'language']],
     function () {
 
-    /* Skills Evaluation update */
-    Route::get('course/{course}/skillsevaluation', 'CourseSkillEvaluationController@index')->name('courseSkillsEvaluation');
-    Route::get('course/{course}/skillsevaluation/{student}', 'CourseSkillEvaluationController@edit')->name('studentSkillsEvaluation');
-    Route::post('skillsevaluation', 'CourseSkillEvaluationController@store')->name('storeSkillEvaluation');
+   
     Route::get('course/{course}/skill', 'CourseSkillController@show');
     Route::get('course/{course}/getskills', 'CourseSkillController@get');
     Route::patch('course/{course}/setskills', 'CourseSkillController@set');
@@ -106,7 +109,6 @@ Route::group(
     ['middleware' => ['web', 'permission:comments.edit', 'language']],
     function () {
         Route::post('comment', 'CommentController@store')->name('storeComment');
-        Route::post('resultcomment', 'CommentController@storeresult')->name('storeResultComment');
         Route::delete('comment/{comment}', 'CommentController@destroy');
     }
 );
