@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Event;
 use App\Models\Leave;
+use App\Models\Comment;
 use App\Models\Period;
 use App\Models\Student;
 use App\Models\Teacher;
