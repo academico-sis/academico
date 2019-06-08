@@ -59,7 +59,7 @@ class AuthServiceProvider extends ServiceProvider
          * and users with explicit permission can view all calendars
          */
         Gate::define('view-teacher-calendar', function ($user, $teacher) {
-            return $user->teacher_id == $teacher->user_id || $user->can('calendars.view');
+            return $user->teacher_id == $teacher->id || $user->can('calendars.view');
         });
         
         
@@ -95,8 +95,18 @@ class AuthServiceProvider extends ServiceProvider
          * and users with explicit permission can view all hours
          */
         Gate::define('view-teacher-hours', function ($user, $teacher) {
-            return $user->teacher_id == $teacher->user_id || $user->can('hr.view');
+            return $user->teacher_id == $teacher->id || $user->can('hr.view');
         });
+
+
+        /**
+         * teachers are allowed to edit results for their own students
+         * as well as users with explicit permission to edit any result
+         */
+        Gate::define('edit-result', function ($user, $enrollment) {
+            return $user->teacher_id == $enrollment->course->teacher_id || $user->can('evaluation.edit');
+        });
+
 
     }
 }

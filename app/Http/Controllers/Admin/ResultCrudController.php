@@ -26,8 +26,8 @@ class ResultCrudController extends CrudController
     public function __construct()
     {
         parent::__construct();
-        $this->middleware('permission:evaluation.view', ['except' => ['show']]);
-        $this->middleware('permission:evaluation.edit', ['only' => ['store', 'update']]);
+        $this->middleware('permission:evaluation.view', ['except' => ['show', 'store']]);
+        //$this->middleware('permission:evaluation.edit', ['only' => ['store', 'update']]);
     }
 
     public function setup()
@@ -161,11 +161,16 @@ class ResultCrudController extends CrudController
     public function store(Request $request)
     {
 
-        //dd($request);
+        $enrollment = Enrollment::findOrFail($request->input('enrollment'));
+
+        if (Gate::forUser(backpack_user())->denies('edit-result', $enrollment)) {
+            abort(403);
+        }
 
         $result = Result::firstOrNew([
-            'enrollment_id' => $request->input('enrollment')
+            'enrollment_id' => $enrollment->id
         ]);
+
 
 /*         if($request->input('comment') !== null) {
             Comment::create([
@@ -208,6 +213,7 @@ class ResultCrudController extends CrudController
 
     public function update(UpdateRequest $request)
     {
+        // todo protect this method
         // your additional operations before save here
         $redirect_location = parent::updateCrud($request);
         // your additional operations after save here

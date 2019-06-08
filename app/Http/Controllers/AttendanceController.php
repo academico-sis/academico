@@ -103,7 +103,9 @@ class AttendanceController extends Controller
         })->sortBy('start');
 
         // if the course has any past events
-        if($events->count() > 0) {
+        if($events->count() == 0 || $course->enrollments()->count() == 0) {
+            abort(404, 'The course has no attendance record');
+        }
 
             $enrollments = $course->enrollments()->with('student')->get();
 
@@ -118,12 +120,7 @@ class AttendanceController extends Controller
             Log::info('Attendance for course viewed by ' . \backpack_user()->id);
 
             return view('attendance/course', compact('attendances', 'course', 'events'));
-        }
 
-        else {
-            \Alert::warning(__('The course has no events'))->flash();
-            return back();
-        }
     }
 
     public function showEvent(Event $event)

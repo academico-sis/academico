@@ -86,9 +86,9 @@
                         @endif
 
                         @if($course->evaluation_type->contains(2))
-                            <a href="/courseskill?course={{$course->id }}" class="btn btn-xs btn-default">
+{{--                             <a href="/courseskill?course={{$course->id }}" class="btn btn-xs btn-default">
                                 <i class="fa fa-list"></i>
-                            </a>
+                            </a> --}}
 
                             <a href="{{ route('courseSkillsEvaluation', ['course' => $course->id]) }}" class="btn btn-xs btn-default">
                                 <i class="fa fa-th"></i>

@@ -61,26 +61,24 @@
       </ul>
     </li>
 
-@endif
+    <li class="header">@lang('EVALUATION')</li>
 
-@if(backpack_user()->hasRole('admin'))
-  <li class="header">@lang('EVALUATION')</li>
-
-  {{-- EVALUATION METHODS --}}
-  <li class="treeview">
-    <a href="#"><i class="fa fa-link"></i> <span>@lang('evaluation')</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
-    <ul class="treeview-menu">
-        <li><a href='{{ backpack_url('evaluationtype') }}'><span>@lang('Evaluation Types')</span></a></li>
-        <li><a href='{{ backpack_url('gradetype') }}'><span>@lang('Grade Types')</span></a></li>
-        <li><a href='{{ backpack_url('skill') }}'><span>@lang('Skills')</span></a></li>
-        <li><a href='{{ backpack_url('skilltype') }}'><span>@lang('Skill Types')</span></a></li>
-        <li><a href='{{ backpack_url('skillscale') }}'><span>@lang('Skill Scales')</span></a></li>
-        <li><a href='{{ backpack_url('resulttype') }}'><span>@lang('Result Types')</span></a></li>
-
-    </ul>
-  </li>
+    {{-- EVALUATION METHODS --}}
+    <li class="treeview">
+      <a href="#"><i class="fa fa-link"></i> <span>@lang('Evaluation')</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
+      <ul class="treeview-menu">
+          <li><a href='{{ backpack_url('evaluationtype') }}'><span>@lang('Evaluation Types')</span></a></li>
+          <li><a href='{{ backpack_url('gradetype') }}'><span>@lang('Grade Types')</span></a></li>
+          <li><a href='{{ backpack_url('skill') }}'><span>@lang('Skills')</span></a></li>
+          <li><a href='{{ backpack_url('skilltype') }}'><span>@lang('Skill Types')</span></a></li>
+          <li><a href='{{ backpack_url('skillscale') }}'><span>@lang('Skill Scales')</span></a></li>
+          <li><a href='{{ backpack_url('resulttype') }}'><span>@lang('Result Types')</span></a></li>
+  
+      </ul>
+    </li>
 
 @endif
+
 
 
 @if(backpack_user()->hasRole(['admin', 'secretary']))

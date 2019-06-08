@@ -28,7 +28,7 @@ class CreateContactsTable extends Migration
 
         Schema::table('contacts', function (Blueprint $table) {
             $table->foreign('student_id')
-            ->references('id')->on('users')
+            ->references('id')->on('students')
             ->onDelete('cascade');
         });
 

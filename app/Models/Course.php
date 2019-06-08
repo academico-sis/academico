@@ -62,8 +62,7 @@ protected static function boot()
     // protected $hidden = [];
     // protected $dates = [];
     //protected $with = ['enrollments'];
-    //protected $append = ['enrollments_count'];
-
+    protected $appends = ['course_times'];
 
     /*
     |--------------------------------------------------------------------------
@@ -103,6 +102,17 @@ protected static function boot()
     }
 
 
+    public static function get_courses_offer(Period $period)
+    {
+        return Course::where('parent_course_id', null)
+        ->where('period_id', $period->id)
+        ->where('campus_id', 1)
+        ->with('room')
+        ->with('rhythm')
+        ->with('level')
+        ->withCount('enrollments')
+        ->get();
+    }
 
     /*
     |--------------------------------------------------------------------------
@@ -243,27 +253,48 @@ protected static function boot()
      */
     public function getCourseTimesAttribute()
     {
-        $schedule = "";
+        $days = "";
+        $times = "";
 
-       foreach ($this->times->unique('day') as $time)
-       {
-            if ($time->day == '1') { $schedule .= "L"; }
-            if ($time->day == '2') { $schedule .= "M"; }
-            if ($time->day == '3') { $schedule .= "X"; }
-            if ($time->day == '4') { $schedule .= "J"; }
-            if ($time->day == '5') { $schedule .= "V"; }
-            if ($time->day == '6') { $schedule .= "S"; }
-            if ($time->day == '0') { $schedule .= "D"; }
-       }
+        if ($this->times->count() > 0)
+        {
+            foreach ($this->times->unique('day') as $time)
+            {
+                 if ($time->day == '1') { $days .= "L"; }
+                 if ($time->day == '2') { $days .= "M"; }
+                 if ($time->day == '3') { $days .= "X"; }
+                 if ($time->day == '4') { $days .= "J"; }
+                 if ($time->day == '5') { $days .= "V"; }
+                 if ($time->day == '6') { $days .= "S"; }
+                 if ($time->day == '0') { $days .= "D"; }
+            }
 
-       $schedule .= " - ";
+            foreach ($this->times->unique('start') as $time)
+            {
+                $times .= Carbon::parse($time->start)->format('g:i') . ' - ' . Carbon::parse($time->end)->format('g:i');
+            }
 
-       foreach ($this->times->unique('start') as $time)
-       {
-            $schedule .= Carbon::parse($time->start)->format('g:i') . ' - ' . Carbon::parse($time->end)->format('g:i');
-       }
-       
-       return $schedule;
+        } elseif($this->children->count() > 0) {
+            foreach ($this->children->first()->times->unique('day') as $time)
+            {
+                 if ($time->day == '1') { $days .= "L"; }
+                 if ($time->day == '2') { $days .= "M"; }
+                 if ($time->day == '3') { $days .= "X"; }
+                 if ($time->day == '4') { $days .= "J"; }
+                 if ($time->day == '5') { $days .= "V"; }
+                 if ($time->day == '6') { $days .= "S"; }
+                 if ($time->day == '0') { $days .= "D"; }
+            }
+
+
+            foreach ($this->children->first()->times->unique('start') as $time)
+            {
+                $times .= Carbon::parse($time->start)->format('g:i') . ' - ' . Carbon::parse($time->end)->format('g:i');
+            }
+        }
+
+  
+       return $days . " - " . $times;
     }
 
     public function getCourseRoomNameAttribute()

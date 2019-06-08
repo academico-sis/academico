@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Event;
 use App\Models\Leave;
+use App\Models\Comment;
 use App\Models\Period;
 use App\Models\Student;
 use App\Models\Teacher;
@@ -132,6 +133,7 @@ class HomeController extends Controller
             'events' => $events,
             'call_leads' => Student::where('lead_type_id', 5)->count(),
             'pending_leads' => Student::where('lead_type_id', 4)->count(),
+            'action_comments' => Comment::where('action', 1)->count(),
         ]);
     }
 
