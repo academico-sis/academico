@@ -218,11 +218,6 @@ protected static function boot()
         return $this->hasManyThrough('App\Models\Attendance', 'App\Models\Event');
     }
 
-    /** manual students count for external courses */
-    public function students_count()
-    {
-        return $this->hasOne('App\Models\ExternalCourse');
-    }
 
     public function enrollments()
     {
