@@ -136,7 +136,7 @@ class Enrollment extends Model
     
     public function pre_invoice()
     {
-        return $this->belongsToMany(PreInvoice::class, 'enrollment_pre_invoice', 'enrollment_id', 'pre_invoice_id');
+        return $this->hasOne(PreInvoice::class);
     }
 
     public function comments()
