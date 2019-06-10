@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Student;
 use App\Models\Course;
 use App\Models\Result;
 use App\Models\Enrollment;
@@ -70,7 +71,7 @@ class CourseSkillEvaluationController extends Controller
     /**
      * Show the form for editing a specific student's skills for the specified course.
      */
-    public function edit(Course $course, User $student)
+    public function edit(Course $course, Student $student)
     {
 
         
