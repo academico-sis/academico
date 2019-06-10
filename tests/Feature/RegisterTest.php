@@ -8,6 +8,8 @@ use App\Models\Student;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
+/** You need to set BACKPACK_REGISTRATION_OPEN=true in your .env file for this test to work */
+
 class RegisterTest extends TestCase
 {
     use RefreshDatabase;
@@ -41,21 +43,16 @@ class RegisterTest extends TestCase
         $firstname = $this->faker->firstName();
         $lastname = $this->faker->lastName();
         $email = $this->faker->unique()->safeEmail;
-        $address = $this->faker->address();
+        /* $address = $this->faker->address();
         $idnumber = $this->faker->randomNumber();
         $phone = $this->faker->e164PhoneNumber();
         $birthdate = $this->faker->date();
-        $genre_id = $this->faker->numberBetween($min = 0, $max = 2);
+        $genre_id = $this->faker->numberBetween($min = 0, $max = 2); */
 
         // when we post data to the endpoint
         $response = $this->json('POST', route('backpack.auth.register'), [
             'firstname' => $firstname,
             'lastname' => $lastname,
-            'idnumber' => $idnumber,
-            'genre_id' => $genre_id,
-            'birthdate' => $birthdate,
-            'address' => $address,
-            'phone_number' => $phone,
             'email' => $email,
             'password' => 'secret',
             'password_confirmation' => 'secret',
@@ -68,19 +65,11 @@ class RegisterTest extends TestCase
         ->where('email', $email);
 
         $this->assertTrue($user->count() > 0);
-        $user = $user->first();
+    }
 
-        // with associated student (return response)
-        $student = Student::where('user_id', $user->id);
+    public function test_that_a_student_is_created()
+    {
 
-        $this->assertTrue($student->count() > 0);
-        $student = $student->first();
-
-        $this->assertEquals($student->idnumber, $idnumber);
-        $this->assertEquals($student->birthdate, $birthdate);
-        $this->assertEquals($student->address, $address);
-        $this->assertEquals($student->genre_id, $genre_id);
-        $this->assertTrue($student->phone->contains('phone_number', $phone));
     }
 
 
@@ -95,17 +84,13 @@ class RegisterTest extends TestCase
         $response = $this->json('POST', route('backpack.auth.register'), [
             'firstname' => '',
             'lastname' => '',
-            'idnumber' => '',
-            'genre_id' => 'abc',
-            'birthdate' => 'abc',
-            'address' => '',
             'email' => '123',
             'password' => 'secret',
             'password_confirmation' => 'secret',
             ]);
 
         // Assert that the errors are returned
-        $response->assertJsonValidationErrors(['firstname', 'lastname', 'idnumber', 'genre_id', 'birthdate', 'address', 'email', 'rules']);
+        $response->assertJsonValidationErrors(['firstname', 'lastname', 'email', 'rules']);
 
     }
 }
