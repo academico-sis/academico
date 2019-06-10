@@ -37,7 +37,7 @@
                 </ul>
 
                 <textarea name="comment" id="comment" style="width:100%" rows="4" v-model="newcomment"></textarea>
-                <button type="button" @click="saveComment(newcomment)">Enregistrer</button>
+                <button v-if="newcomment != null" type="button" @click="saveComment(newcomment)">Enregistrer</button>
             </div>
 
         </div>
