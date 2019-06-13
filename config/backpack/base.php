@@ -31,10 +31,9 @@ return [
     'skin' => env('APP_COLOR', 'skin-red'),
     // Options: skin-black, skin-blue, skin-purple, skin-red, skin-yellow, skin-green, skin-blue-light, skin-black-light, skin-purple-light, skin-green-light, skin-red-light, skin-yellow-light
 
-    // Date & Datetime Format Syntax: https://github.com/jenssegers/date#usage
-    // (same as Carbon)
-    'default_date_format'     => 'j F Y',
-    'default_datetime_format' => 'j F Y H:i',
+    // Date & Datetime Format Syntax: https://carbon.nesbot.com/docs/#api-localization
+    'default_date_format'     => 'D MMM YYYY',
+    'default_datetime_format' => 'D MMM YYYY, HH:mm',
 
     // Content of the HTML meta robots tag to prevent indexing and link following
     'meta_robots_content' => 'noindex, nofollow',
