@@ -61,9 +61,8 @@ class CourseSkillController extends Controller
     }
 
 
-    public function import() 
+    public function import(Course $course) 
     {
-        $course = Course::find(1702);
         $course->skills()->detach();
 
         $skills = Excel::toArray(new CourseSkillsImport, 'skills.xlsx');

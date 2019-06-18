@@ -15,10 +15,10 @@ class CourseSkillsImport implements ToModel
     */
     public function model(array $row)
     {
-        $course = Course::find(1702);
+/*         $course = Course::find(1702);
         $course->skills()->attach(Skill::find($row[0]),
             ['weight' => 1]
-        );
+        ); */
     }
 
 }
