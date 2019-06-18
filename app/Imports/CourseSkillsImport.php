@@ -8,6 +8,14 @@ use Maatwebsite\Excel\Concerns\ToModel;
 
 class CourseSkillsImport implements ToModel
 {
+
+    protected $course;
+
+    public function __construct(Course $course)
+    {
+        $this->course = $course;
+    }
+
     /**
     * @param array $row
     *
@@ -15,10 +23,9 @@ class CourseSkillsImport implements ToModel
     */
     public function model(array $row)
     {
-/*         $course = Course::find(1702);
-        $course->skills()->attach(Skill::find($row[0]),
+        $this->course->skills()->attach(Skill::find($row[0]),
             ['weight' => 1]
-        ); */
+        );
     }
 
 }

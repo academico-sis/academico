@@ -28,7 +28,7 @@
                         @lang('Export skills')
                     </a>
 
-                    <a class="btn btn-primary" href="{{ backpack_url('skill') }}?course={{$course->id}}">
+                    <a class="btn btn-primary" href="{{ route('course-skills-import', ['course_id' => $course->id]) }}">
                         @lang('Import skills')
                     </a>
                 </div>  
