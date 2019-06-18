@@ -7,11 +7,19 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 
 class CoursesExport implements FromCollection
 {
+
+    protected $course;
+
+    public function __construct(Course $course)
+    {
+        $this->course = $course;
+    }
+
     /**
     * @return \Illuminate\Support\Collection
     */
     public function collection()
     {
-        return Course::find(1702)->skills;
+        return $this->course->skills;
     }
 }

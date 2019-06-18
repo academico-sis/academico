@@ -29,7 +29,7 @@ class CourseSkillController extends Controller
     /**
      * Display the specified course skills list.
      */
-    public function show(Course $course)
+    public function index(Course $course)
     {
         $skills = $course->skills->toJson();
 
@@ -55,9 +55,9 @@ class CourseSkillController extends Controller
     }
 
 
-    public function export() 
+    public function export(Course $course) 
     {
-        return Excel::download(new CoursesExport, 'skills.xlsx');
+        return Excel::download(new CoursesExport($course), 'skills.xlsx');
     }
 
 
