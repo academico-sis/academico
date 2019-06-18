@@ -21,19 +21,7 @@ class AppServiceProvider extends ServiceProvider
      * @return void
      */
     public function boot()
-    {
-        Schema::defaultStringLength(191);
-
-/*         Queue::failing(function ($connection, $job, $data) {
-            // todo Notify by email of failing job...
-        }); */
-
-
-/*         \Blade::directive('lang', function ($s) {
-            
-            return "<?php echo mb_convert_case(trans($s), MB_CASE_TITLE, 'UTF-8'); ?>";
-        }); */
-        
+    {        
         if (\Schema::hasTable('periods')) {
             $periods = Period::orderBy('id','desc')->get();
             $current_period = Period::get_default_period();
