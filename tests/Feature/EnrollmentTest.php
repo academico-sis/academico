@@ -3,6 +3,10 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
+
+use App\Models\Attendance;
+use App\Models\Event;
+
 use App\Models\Cart;
 use App\Models\User;
 use App\Models\Course;
@@ -141,6 +145,41 @@ class EnrollmentTest extends TestCase
         /** @test */
         public function an_enrollment_may_be_deleted_by_authorized_users_only()
         {
+        }
+
+        /** @test */
+        public function an_enrollment_may_be_changed_by_authorized_users()
+        {
+            // given 2 courses
+            $courseA = factory(Course::class)->create();
+            $courseB = factory(Course::class)->create();
+
+            // given an enrollment in course A
+            $enrollment = factory(Enrollment::class)->create([
+                'course_id' => $courseA->id,
+                'student_id' => factory(Student::class)->create()
+            ]);
+            
+            // and some attendance in course A
+            Attendance::create([
+                'event_id' => factory(Event::class)->create(['course_id' => $courseA->id]),
+                'student_id' => $enrollment->student_id,
+                'attendance_type_id' => 1
+            ]);
+
+            dd($courseA->attendance);
+
+            //$this->assertTrue($courseA->id, $enrollment->course_id);
+
+            // if we change the enrollment
+            $enrollment->changeCourse($courseB);
+
+            // it now belongs to courseB
+            $this->assertEquals($courseB->id, $enrollment->course_id);
+
+            // the previous attendance have been deleted
+
+
         }
 
 

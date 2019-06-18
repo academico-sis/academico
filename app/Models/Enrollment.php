@@ -116,6 +116,12 @@ class Enrollment extends Model
         return $product->id;
     }
 
+    public function changeCourse(Course $newCourse)
+    {
+        $this->course_id = $newCourse->id;
+        $this->save();
+    }
+
 
     /** RELATIONS */
     public function student()
