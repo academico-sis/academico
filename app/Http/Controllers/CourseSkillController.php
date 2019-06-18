@@ -13,7 +13,7 @@ use Prologue\Alerts\Facades\Alert;
 use App\Imports\CourseSkillsImport;
 use Maatwebsite\Excel\Facades\Excel;
 
-use Maatwebsite\Excel\Concerns\ToArray;
+use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\Importable;
 
 class CourseSkillController extends Controller
@@ -65,8 +65,8 @@ class CourseSkillController extends Controller
     {
         $course->skills()->detach();
 
-        $skills = Excel::toArray(new CourseSkillsImport($course), 'skills.xlsx');
-        
+        $skills = Excel::toArray(new CourseSkillsImport, 'skills.xlsx');
+
         foreach ($skills as $skill)
         {
             foreach($skill as $e)
