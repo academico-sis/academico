@@ -66,9 +66,12 @@ Route::group(
     function () {
 
    
-    Route::get('course/{course}/skill', 'CourseSkillController@show');
+    Route::get('course/{course}/skill', 'CourseSkillController@index')->name('course-skills');
     Route::get('course/{course}/getskills', 'CourseSkillController@get');
     Route::patch('course/{course}/setskills', 'CourseSkillController@set');
+
+    Route::get('course/{course}/skills/export', 'CourseSkillController@export')->name('course-skills-export');
+    Route::post('course/{course}/skills/import', 'CourseSkillController@import')->name('course-skills-import');;
 
     // todo review this entire module
     /* Course grades update */
@@ -169,3 +172,4 @@ Route::group(
 );
 
 Route::post('leadstatus', 'LeadStatusController@update')->name('postLeadStatus');
+
