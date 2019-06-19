@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use App\Models\Book;
 use App\Models\Event;
 use App\Models\Course;
 use App\Models\Period;
@@ -209,6 +210,11 @@ protected static function boot()
         ->with('skill_scale');
     }
 
+    public function books()
+    {
+        return $this->belongsToMany(Book::class);
+    }
+    
     /**
      * return attendance records associated to the course
      * Since the attendance records are linked to the event, we use a hasManyThrough relation.

@@ -353,6 +353,19 @@ class CourseCrudController extends CrudController
 
              ],
 
+             [
+                // n-n relationship (with pivot table)
+                'label' => __("Books"), // Table column heading
+                'type' => "select_multiple",
+                'name' => 'books', // the method that defines the relationship in your Model
+                'entity' => 'books', // the method that defines the relationship in your Model
+                'attribute' => "name", // foreign key attribute that is shown to user
+                'model' => "App\Models\Book", // foreign key model
+                'pivot' => true, // on create&update, do you need to add/delete pivot table entries?
+                'tab' => __('Pedagogy')
+
+             ],
+
 
              [
                 // PERIOD
