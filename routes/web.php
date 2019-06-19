@@ -71,7 +71,7 @@ Route::group(
     Route::patch('course/{course}/setskills', 'CourseSkillController@set');
 
     Route::get('course/{course}/skills/export', 'CourseSkillController@export')->name('course-skills-export');
-    Route::get('course/{course}/skills/import', 'CourseSkillController@import')->name('course-skills-import');;
+    Route::post('course/{course}/skills/import', 'CourseSkillController@import')->name('course-skills-import');;
 
     // todo review this entire module
     /* Course grades update */

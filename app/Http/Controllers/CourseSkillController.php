@@ -61,11 +61,15 @@ class CourseSkillController extends Controller
     }
 
 
-    public function import(Course $course) 
+    public function import(Course $course, Request $request)
     {
+        if (!$request->hasFile('skillset')) {
+            abort(422, 'No file has been uploaded');
+        }
+
         $course->skills()->detach();
 
-        $skills = Excel::toArray(new CourseSkillsImport, 'skills.xlsx');
+        $skills = Excel::toArray(new CourseSkillsImport, $request->file('skillset'));
 
         foreach ($skills as $skill)
         {
@@ -77,7 +81,7 @@ class CourseSkillController extends Controller
             }
         }
 
-        return redirect('/')->with('success', 'All good!');
+        return back();
     }
 
 }

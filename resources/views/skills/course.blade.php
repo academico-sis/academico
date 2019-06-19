@@ -28,7 +28,7 @@
                         @lang('Export skills')
                     </a>
 
-                    <a class="btn btn-primary" href="{{ route('course-skills-import', ['course_id' => $course->id]) }}">
+                    <a class="btn btn-primary" data-toggle="modal" data-target="#skillsUploadModal">
                         @lang('Import skills')
                     </a>
                 </div>  
@@ -44,6 +44,36 @@
 </div>
 </div>
 
+
+
+    <!-- Skillset upload Modal-->
+    <div class="modal fade" id="skillsUploadModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">@lang('Upload skillset file')</h4>
+            </div>
+            <div class="modal-body">
+                <h4 class="danger">@lang('This will erase all skills currently associated to the course')</h4>
+
+                <form action="{{ route('course-skills-import', ['course_id' => $course->id]) }}" method="post" enctype="multipart/form-data">
+                @csrf
+                
+                <div class="form-group">
+                    <label for="skillset">@lang('Skillset File')</label>
+                    <input type="file" id="skillset" name="skillset">
+                </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">@lang('Close')</button>
+              <button type="submit" class="btn btn-success">@lang('Save')</button>
+            </div>
+        </form>
+          </div>
+        </div>
+      </div>
+    </div>
 @endsection
 
 @section('after_scripts')
