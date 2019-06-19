@@ -90,4 +90,8 @@ Route::group([
         CRUD::resource('remoteevent', 'RemoteEventCrudController');
         CRUD::resource('leave', 'LeaveCrudController');
         CRUD::resource('leadtype', 'LeadTypeCrudController');
+        CRUD::resource('book', 'BookCrudController');
+        CRUD::resource('fee', 'FeeCrudController');
+        CRUD::resource('discount', 'DiscountCrudController');
+        CRUD::resource('coupon', 'CouponCrudController');
 }); // this should be the absolute last line of this file
