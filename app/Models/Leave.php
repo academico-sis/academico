@@ -14,6 +14,21 @@ class Leave extends Model
     protected $guarded = ['id'];
     protected $with = ['leaveType'];
     
+    protected static function boot()
+    {
+        parent::boot();
+
+        // when a leave is, we detach the events from the teacher
+        static::saved(function(Leave $leave) {
+            $events = Event::where('teacher_id', $leave->teacher_id)->whereDate('start', $leave->date)->get();
+            foreach($events as $event) {
+                $event->teacher_id = null;
+                $event->save();
+            }
+        });
+
+    }
+
     public static function upcoming_leaves()
     {
         return Leave::limit(15)->get()->groupBy('teacher_id'); // todo return first teacher with date span
