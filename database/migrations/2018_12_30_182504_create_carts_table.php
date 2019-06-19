@@ -17,19 +17,31 @@ class CreateCartsTable extends Migration
     {
         Schema::create('carts', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned();
+            $table->integer('student_id')->unsigned();
+            $table->timestamps();
+        });
+
+        Schema::create('cart_product', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('cart_id')->unsigned();
             $table->integer('product_id');
             $table->string('product_type');
-            $table->timestamps();
-            $table->softDeletes();
         });
 
         Schema::table('carts', function (Blueprint $table) {
-            $table->foreign('user_id')
-            ->references('id')->on('users')
+            $table->foreign('student_id')
+            ->references('id')->on('students')
             ->onDelete('cascade');
         });
+
+        Schema::table('cart_product', function (Blueprint $table) {
+            $table->foreign('cart_id')
+            ->references('id')->on('carts')
+            ->onDelete('cascade');
+        });
+
     }
+
 
     /**
      * Reverse the migrations.
@@ -41,5 +53,6 @@ class CreateCartsTable extends Migration
         Schema::disableForeignKeyConstraints();
 
         Schema::dropIfExists('carts');
+        Schema::dropIfExists('cart_product');
     }
 }
