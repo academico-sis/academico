@@ -110,7 +110,6 @@ class EnrollmentController extends Controller
 
         // create a preinvoice with this enrollment
         $preinvoice = new PreInvoice;
-        $preinvoice->user_id = $enrollment->student->id;
         $preinvoice->client_name = $enrollment->student->name;
         $preinvoice->client_idnumber =  $enrollment->student->idnumber;
         $preinvoice->client_address = $enrollment->student->address;
