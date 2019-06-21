@@ -48,7 +48,6 @@ class PreInvoiceController extends Controller
 
         // generate a new preinvoice
         $preinvoice = new PreInvoice;
-        $preinvoice->user_id = $student; // todo remove
         $preinvoice->client_name = $invoice_data->name;
         $preinvoice->client_idnumber =  $invoice_data->idnumber;
         $preinvoice->client_address = $invoice_data->address;

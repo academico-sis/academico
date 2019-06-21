@@ -23,12 +23,6 @@ class PreInvoice extends Model
     {
         return $this->belongsTo(Enrollment::class);
     }
-
-    /** todo remove */
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
     
     public function comments()
     {
