@@ -21,6 +21,7 @@ Route::group(
         CRUD::resource('result', 'Admin\ResultCrudController');
         CRUD::resource('student', 'Admin\StudentCrudController');
         CRUD::resource('course', 'Admin\CourseCrudController');
+        CRUD::resource('externalcourse', 'Admin\ExternalCourseCrudController');
         CRUD::resource('comment', 'Admin\CommentCrudController');
         
         Route::post('edit-account-info', 'Auth\MyAccountController@postAccountInfoForm');

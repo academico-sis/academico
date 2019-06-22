@@ -2,26 +2,21 @@
 
 @section('header')
     <section class="content-header">
-      <h1>
-        {{ trans('backpack::base.dashboard') }}
-      </h1>
+      <h1>@lang('External Courses Report')</h1>
       <ol class="breadcrumb">
         <li><a href="{{ backpack_url() }}">{{ config('backpack.base.project_name') }}</a></li>
-        <li class="active">{{ trans('backpack::base.dashboard') }}</li>
+        <li class="active">@lang('External Courses Report')</li>
       </ol>
     </section>
 @endsection
 
 
 @section('content')
-
-@include('reports.insights')
-
     <div class="row">
 
 
 
-        <div class="col-md-12">
+    <div class="col-md-12">
             <div class="box">
                 <div class="box-header with-border">
                     <div class="box-title">
@@ -32,7 +27,7 @@
                 </div>
                 
                 <div class="box-body">
-                        <canvas id="myChart"></canvas>
+                    <!-- <canvas id="myChart"></canvas> -->
                 </div>
             </div>
         </div>
@@ -44,7 +39,18 @@
                     <div class="box-title">
                     </div>
                     <div class="box-tools pull-right">
-
+                    <span>@lang('Start from period:')</span>
+                    <!-- Period selection dropdown -->
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ $startperiod->name }} <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            @foreach ($periods as $period)
+                            <li><a href="{{ url()->current() }}/?startperiod={{ $period->id }}">{{ $period->name }}</a></li>
+                            @endforeach
+                        </ul>
+                    </div> 
                     </div>
                 </div>
                 
@@ -52,20 +58,21 @@
                     <table class="table table-striped">
                         <thead>
                             <th>@lang('Period')</th>
+                            <th>@lang('Number of Courses')</th>
                             <th>@lang('Enrollments')</th>
-                            <th>@lang('Students')</th>
-                            <th>@lang('Acquisition Rate')(*)</th>
                             <th>@lang('New Students')</th>    
                             <th>@lang('Hours Taught')</th>
                             <th>@lang('Hours Sold')</th>
                         </thead>
 
                         @php
-                            $current_year = \App\Models\Period::first()->year_id;
+                            $current_year = $period->year->id;
                             $i = 0;
                             $year_enrollments = 0;
                             $year_taught_hours = 0;
                             $year_sold_hours = 0;
+                            $year_students = 0;
+                            $year_courses = 0;
                         @endphp
 
                         <tbody>
@@ -80,19 +87,15 @@
                                     </td>
 
                                     <td>
+                                        {{ $year_courses ?? '-' }}
+                                    </td>
+
+                                    <td>
                                         {{ $year_enrollments ?? '-' }}
                                     </td>
 
                                     <td>
-                                        {{ \App\Models\Year::find($current_year)->year_distinct_students_count ?? '-' }}
-                                    </td>
-
-                                    <td>
-                                        {{ $data_period['acquisition_rate'] ?? '-' }}
-                                    </td>
-
-                                    <td>
-                                        {{ $data_period['new_students'] ?? '-' }}
+                                        {{ $year_students ?? '-' }}
                                     </td>
                                     
                                     <td>
@@ -107,6 +110,8 @@
                                 @php
                                     $i ++;
                                     $year_enrollments = 0;
+                                    $year_students = 0;
+                                    $year_courses = 0;
                                     $year_taught_hours = 0;
                                     $year_sold_hours = 0;
                                 @endphp
@@ -114,7 +119,9 @@
                             @endif
 
                             @php
+                                $year_courses += $data_period['courses'];
                                 $year_enrollments += $data_period['enrollments'];
+                                $year_students += $data_period['students'];
                                 $year_taught_hours += $data_period['taught_hours'];
                                 $year_sold_hours += $data_period['sold_hours'];
                             @endphp
@@ -125,19 +132,15 @@
                                     </td>
 
                                     <td>
+                                        {{ $data_period['courses'] ?? '-' }}
+                                    </td>
+
+                                    <td>
                                         {{ $data_period['enrollments'] ?? '-' }}
                                     </td>
 
                                     <td>
                                         {{ $data_period['students'] ?? '-' }}
-                                    </td>
-
-                                    <td>
-                                        {{ $data_period['acquisition_rate'] ?? '-' }}
-                                    </td>
-
-                                    <td>
-                                        {{ $data_period['new_students'] ?? '-' }}
                                     </td>
                                     
                                     <td>
@@ -156,10 +159,10 @@
                             @endforeach
                         </tbody>
                     </table>
-                    <p>(*) = @lang('share of students from previous period who were re-enrolled')</p>
                 </div>
             </div>
         </div>
+
 
     </div>
 @endsection
@@ -171,49 +174,5 @@
 
 
 @section('after_scripts')
-    <script src="/js/Chart.min.js"></script>
-
-    <script>
-$(document).ready(function(){
-var data = <?php echo json_encode($data) ?>;
-
-var chartData = {
-  labels: [],
-  datasets: [
-    {
-        label: "Apprenants différents",
-        data: [],
-        backgroundColor: '#98d1f1',
-        borderColor: '#5b76d8'
-    },
-    {
-        label: "Inscriptions",
-        data: [],
-        borderColor: '#dd4b39',
-        backgroundColor: '#ffc9d1'
-    }
-]
-};
-
-for (s in data) {
-    chartData.labels.push(data[s].period);
-    chartData.datasets[1].data.push(data[s].enrollments);
-    chartData.datasets[0].data.push(data[s].students);
-}
-
-	var ctx = document.getElementById("myChart");
-
-	var myChart = new Chart(ctx, {
-		type: 'line',
-		data: chartData,
-		options: {
-			legend: {
-				display: true
-                },
-                aspectRatio: '4'
-		}
-    });
-});
-            </script>
 
 @endsection

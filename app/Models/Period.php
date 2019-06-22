@@ -103,9 +103,24 @@ class Period extends Model
             ->count();
     }
 
-    public function getTotalEnrollmentsCountAttribute()
+    public function getInternalEnrollmentsCountAttribute()
     {
         return $this->paid_enrollments_count + $this->pending_enrollments_count;
+    }
+
+    public function getExternalEnrollmentsCountAttribute()
+    {
+        return $this->external_courses->sum('heads_count');
+    }
+
+    public function getExternalStudentsCountAttribute()
+    {
+        return $this->external_courses->sum('students_count');
+    }
+
+    public function getExternalCoursesCountAttribute()
+    {
+        return $this->external_courses->count();
     }
 
     public function year()
@@ -167,6 +182,23 @@ class Period extends Model
         foreach ($this->courses()->internal()->withCount('real_enrollments')->get() as $course)
         {
             $total += $course->volume * $course->real_enrollments_count;
+        }
+        return $total;
+    }
+
+
+    public function getExternalTaughtHoursCountAttribute()
+    {
+        // return the sum of all courses' volume for period
+        return $this->external_courses->where('parent_course_id', null)->sum('volume');
+    }
+
+    public function getExternalSoldHoursCountAttribute()
+    {
+        $total = 0;
+        foreach ($this->external_courses as $course)
+        {
+            $total += $course->volume * $course->heads_count;
         }
         return $total;
     }

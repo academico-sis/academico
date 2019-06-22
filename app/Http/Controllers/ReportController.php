@@ -21,9 +21,48 @@ class ReportController extends Controller
             'period' => $period,
             'pending_enrollment_count' => $period->pending_enrollments_count,
             'paid_enrollment_count' => $period->paid_enrollments_count,
-            'total_enrollment_count' => $period->total_enrollments_count,
+            'total_enrollment_count' => $period->internal_enrollments_count,
             'students_count' => $period->students_count,
-        ]);    }
+        ]);
+    }
+
+
+    
+    public function external(Request $request)
+    {
+        $period = Period::get_default_period();
+
+        $data = [];
+
+        if (!isset($request->startperiod))
+        {
+            $startperiod = Period::first();
+        }
+        else
+        {
+            $startperiod = Period::find($request->startperiod);
+        }
+
+        $periods = Period::where('id', '>=', $startperiod->id)->get();
+
+
+        foreach($periods as $i => $data_period)
+        {
+            $data[$data_period->id]['period'] = $data_period->name;
+            $data[$data_period->id]['year_id'] = $data_period->year_id;
+            $data[$data_period->id]['courses'] = $data_period->external_courses_count;
+            $data[$data_period->id]['enrollments'] = $data_period->external_enrollments_count;
+            $data[$data_period->id]['students'] = $data_period->external_students_count;
+            $data[$data_period->id]['taught_hours'] = $data_period->external_taught_hours_count;
+            $data[$data_period->id]['sold_hours'] = $data_period->external_sold_hours_count;
+        }
+        
+        Log::info('Reports viewed by ' . backpack_user()->firstname);
+        return view('reports.external', [
+            'startperiod' => $startperiod,
+            'data' => $data,
+        ]);
+    }
 
 
     /**
@@ -44,7 +83,7 @@ class ReportController extends Controller
             $data[$data_period->id]['period'] = $data_period->name;
             $data[$data_period->id]['year_id'] = $data_period->year_id;
 
-            $data[$data_period->id]['enrollments'] = $data_period->total_enrollments_count;
+            $data[$data_period->id]['enrollments'] = $data_period->internal_enrollments_count;
             $data[$data_period->id]['students'] = $data_period->students_count;
             $data[$data_period->id]['acquisition_rate'] = $data_period->acquisition_rate;
             $data[$data_period->id]['new_students'] = $data_period->new_students_count;
@@ -57,7 +96,7 @@ class ReportController extends Controller
             'period' => $period,
             'pending_enrollment_count' => $period->pending_enrollments_count,
             'paid_enrollment_count' => $period->paid_enrollments_count,
-            'total_enrollment_count' => $period->total_enrollments_count,
+            'total_enrollment_count' => $period->internal_enrollments_count,
             'students_count' => $period->students_count,
             'data' => $data,
         ]);
@@ -100,8 +139,4 @@ class ReportController extends Controller
         ]);
     }
 
-    public function external()
-    {
-
-    }
 }
