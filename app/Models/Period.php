@@ -110,12 +110,12 @@ class Period extends Model
 
     public function getExternalEnrollmentsCountAttribute()
     {
-        return $this->external_courses->sum('heads_count');
+        return $this->external_courses->sum('head_count');
     }
 
     public function getExternalStudentsCountAttribute()
     {
-        return $this->external_courses->sum('students_count');
+        return $this->external_courses->sum('new_students');
     }
 
     public function getExternalCoursesCountAttribute()
@@ -198,7 +198,7 @@ class Period extends Model
         $total = 0;
         foreach ($this->external_courses as $course)
         {
-            $total += $course->volume * $course->heads_count;
+            $total += $course->volume * $course->head_count;
         }
         return $total;
     }
