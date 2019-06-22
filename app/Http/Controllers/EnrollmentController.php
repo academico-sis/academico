@@ -66,10 +66,13 @@ class EnrollmentController extends Controller
 
 
     /**
-     * Show the page for billing the specified enrollment
+     * Generate a preinvoice and add the specified enrollment
      */
-    public function bill(Enrollment $enrollment)
+    public function bill(Enrollment $enrollment, $preinvoice = null)
     {
+        // retrieve the preinvoice passed, or create a new one
+        $preinvoice = PreInvoice::firstOrNew($preinvoice);
+        $preinvoice->save();
 
         // if the current enrollment is not part of the cart, add it
         $enrollment->addToCart();

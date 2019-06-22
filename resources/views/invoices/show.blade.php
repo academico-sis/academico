@@ -28,7 +28,7 @@
         </div>
     </div>
 
-
+<!-- todo remove this, since there are no longer preinvoice comments -->
 @if($enrollment->pre_invoice()->first()->comments->count() > 0)
         <div class="col-md-4">
                 <div class="box">
@@ -37,24 +37,20 @@
                             @lang('Comment')
                         </div>
                         <div class="box-tools pull-right">
-    {{--                         <button class="btn btn-warning" data-toggle="modal" data-target="#editInvoiceNumberModal">
-                                <i class="fa fa-pencil"></i>
-                            </button> todo allow comments--}}
                         </div>
                         
                     </div>
                     
                     <div class="box-body">           
-                            <ul>
-                                    @foreach ($enrollment->pre_invoice()->first()->comments as $comment)
-                                        <li>{{ $comment->body }} ({{ $comment->date }})</li>
-                                    @endforeach
-                                </ul>
+                        <ul>
+                            @foreach ($enrollment->pre_invoice()->first()->comments as $comment)
+                                <li>{{ $comment->body }} ({{ $comment->date }})</li>
+                            @endforeach
+                        </ul>
                     </div>
                 </div>
             </div>
-
-            @endif
+@endif
 
 
 <div class="col-md-8">
@@ -71,25 +67,19 @@
             
             <table class="table">
                 <thead>
-                    <th>@lang('Qty')</th>
                     <th>@lang('Product')</th>
                     <th>@lang('Price')</th>
-                    <th>@lang('Total')</th>
                 </thead>
                 <tbody>
                     @foreach($enrollment->pre_invoice()->first()->pre_invoice_details as $product)
                         <tr>
-                            <td>{{ $product->quantity }}</td>
                             <td>{{ $product->product_name }}</td>
                             <td>${{ $product->price }}</td>
-                            <td>${{ $product->price * $product->quantity }}</td>
                         </tr>
                     @endforeach
-                    <tr>
-                        <td></td>
+                    <tr style="font-weight: bold">
                         <td>@lang('TOTAL')</td>
-                        <td></td>
-                        <td></td>
+                        <td>${{ $enrollment->pre_invoice->total_price }}</td>
                     </tr>
                 </tbody>
             </table>
