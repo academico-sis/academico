@@ -81,6 +81,16 @@ protected static function boot()
         return $query->where('parent_course_id', '!=', null);
     }
 
+    public function scopeInternal($query)
+    {
+        return $query->where('campus_id', 1);
+    }
+
+    public function scopeExternal($query)
+    {
+        return $query->where('campus_id', 2);
+    }
+
     /*
     |--------------------------------------------------------------------------
     | FUNCTIONS

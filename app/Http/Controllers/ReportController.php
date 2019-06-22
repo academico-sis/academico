@@ -12,6 +12,20 @@ class ReportController extends Controller
 {
     use PeriodSelection;
     
+
+    public function index()
+    {
+        $period = Period::get_default_period();
+
+        return view('reports.index', [
+            'period' => $period,
+            'pending_enrollment_count' => $period->pending_enrollments_count,
+            'paid_enrollment_count' => $period->paid_enrollments_count,
+            'total_enrollment_count' => $period->total_enrollments_count,
+            'students_count' => $period->students_count,
+        ]);    }
+
+
     /**
      * The reports dashboard
      * Displays last insights on enrollments; along with comparison to previous periods
@@ -19,7 +33,7 @@ class ReportController extends Controller
      * Todo - optimize this method: is there another way than using an array? How to reduce the number of queries?
      * Todo - Limit to the three last years to keep the figures readable
      */
-    public function index()
+    public function internal()
     {
         $period = Period::get_default_period();
 
@@ -39,7 +53,7 @@ class ReportController extends Controller
         }
         
         Log::info('Reports viewed by ' . backpack_user()->firstname);
-        return view('reports.index', [
+        return view('reports.internal', [
             'period' => $period,
             'pending_enrollment_count' => $period->pending_enrollments_count,
             'paid_enrollment_count' => $period->paid_enrollments_count,

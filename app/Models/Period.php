@@ -46,6 +46,16 @@ class Period extends Model
         return $this->hasMany(Course::class);
     }
 
+    public function internal_courses()
+    {
+        return $this->hasMany(Course::class)->internal();
+    }
+
+    public function external_courses()
+    {
+        return $this->hasMany(Course::class)->external();
+    }
+
     /** returns only pending or paid enrollments, without the child enrollments */
     public function real_enrollments()
     {
@@ -148,13 +158,13 @@ class Period extends Model
     public function getPeriodTaughtHoursCountAttribute()
     {
         // return the sum of all courses' volume for period
-        return $this->courses->where('parent_course_id', null)->sum('volume');
+        return $this->internal_courses->where('parent_course_id', null)->sum('volume');
     }
 
     public function getPeriodSoldHoursCountAttribute()
     {
         $total = 0;
-        foreach ($this->courses()->withCount('real_enrollments')->get() as $course)
+        foreach ($this->courses()->internal()->withCount('real_enrollments')->get() as $course)
         {
             $total += $course->volume * $course->real_enrollments_count;
         }
