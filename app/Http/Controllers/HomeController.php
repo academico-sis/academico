@@ -126,7 +126,7 @@ class HomeController extends Controller
             'students_count' => $period->students_count,
             'period' => $period,
             'total_enrollment_count' => $period->internal_enrollments_count,
-            'pending_attendance' => (new Attendance)->get_pending_attendance(),
+            'pending_attendance' => count((new Attendance)->get_pending_attendance()),
             'unassigned_teacher' => (new Event)->unassigned_teacher,
             'upcoming_leaves' => Leave::upcoming_leaves(),
             'resources' => $teachers,
