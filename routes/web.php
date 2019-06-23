@@ -56,6 +56,7 @@ Route::group(
     Route::post('skillsevaluation', 'CourseSkillEvaluationController@store')->name('storeSkillEvaluation');
     Route::post('resultcomment', 'CommentController@storeresult')->name('storeResultComment'); // todo protect
 
+    Route::get('setup', 'SetupController@index')->name('setupHome');
 });
 
 

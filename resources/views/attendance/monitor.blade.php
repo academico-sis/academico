@@ -27,7 +27,7 @@
                 <table class="table">
                     @foreach($pending_attendance as $event)
                     <tr>
-                        <td>{{ $event['event'] }}</td>
+                        <td><a href="{{ route('eventAttendance', ['event' => $event['event_id']]) }}">{{ $event['event'] }}</a></td>
                         <td>{{ $event['event_date'] }}</td>
                         <td>{{ $event['teacher'] }}</td>
                         <td>{{ $event['pending'] }}</td>

@@ -31,32 +31,6 @@
 
     <div class="row">
 
-        @if(isset($pending_attendance) && backpack_user()->hasRole('admin'))
-        <div class="col-md-3">
-                <div class="box">
-                    <div class="box-header with-border">
-                        <div class="box-title">
-                            <strong>
-                                @lang('Pending Attendance')
-                            </strong>
-                        </div>
-                        <div class="box-tools pull-right">
-                        
-                        </div>
-                    </div>
-    
-                    <div class="box-body">
-                        <ul>
-                            @foreach($pending_attendance as $event)
-                            <li>{{ $event['event'] }} ({{ $event['event_date'] }}) - <a href="{{ route('eventAttendance', ['event' => $event['event_id']]) }}">{{ $event['event_id'] }}</a></li>
-                            @endforeach
-                        </ul>
-    
-                    </div>
-                </div>
-            </div>
-        @endif
-
 
         @if($unassigned_teacher->count() > 0 && backpack_user()->can('hr.manage'))
         <div class="col-md-3">
@@ -123,6 +97,7 @@
                         <p>@lang('Pending leads') : <a href='student?lead_status_is=["4"]'>{{ $pending_leads }}</a></p>
                         <p>@lang('Leads to call') : <a href='student?lead_status_is=["5"]'>{{ $call_leads }}</a></p>
                         <p>@lang('Actionnable Comments') : <a href='/comment?action=true'>{{ $action_comments }}</a></p>
+                        <p>@lang('Pending Attendance') : <a href="/attendance">{{ $pending_attendance }}</a></p>
 
 {{--                         <p>@lang('Upcoming Leaves') : <ul>
                             @foreach ($upcoming_leaves as $leave)

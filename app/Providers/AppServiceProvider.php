@@ -22,6 +22,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {        
+        Schema::defaultStringLength(191);
+        
         if (\Schema::hasTable('periods')) {
             $periods = Period::orderBy('id','desc')->get();
             $current_period = Period::get_default_period();
