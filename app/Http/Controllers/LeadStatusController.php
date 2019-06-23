@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class LeadStatusController extends Controller
 {
@@ -17,5 +18,11 @@ class LeadStatusController extends Controller
         $student->save();
 
         return $student->lead_type_id;
+    }
+
+    public function reset_all_converted_leads()
+    {
+        DB::table('students')->where('lead_type_id', '=', 1)->update(array('lead_type_id' => 4));
+        return back();
     }
 }

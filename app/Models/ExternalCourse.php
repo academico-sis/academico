@@ -2,13 +2,21 @@
 
 namespace App\Models;
 
-use App\Models\Student;
 use Backpack\CRUD\CrudTrait;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
-class LeadType extends Model
+class ExternalCourse extends Course
 {
     use CrudTrait;
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('external', function (Builder $builder) {
+            $builder->where('campus_id', 2);
+        });
+    }
 
     /*
     |--------------------------------------------------------------------------
@@ -16,11 +24,11 @@ class LeadType extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'lead_types';
+    protected $table = 'courses';
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     // protected $guarded = ['id'];
-    protected $fillable = ['name'];
+    protected $fillable = [];
     // protected $hidden = [];
     // protected $dates = [];
 
@@ -35,11 +43,6 @@ class LeadType extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
-    
-    public function students()
-    {
-        return $this->hasMany(Student::class);
-    }
 
     /*
     |--------------------------------------------------------------------------

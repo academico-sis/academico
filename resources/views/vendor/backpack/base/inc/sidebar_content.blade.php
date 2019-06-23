@@ -112,10 +112,20 @@
 @if(backpack_user()->hasRole(['admin', 'manager']))
 
   <li class="header">@lang('REPORTS')</li>
-  <li><a href="{{ route('homeReport') }}"><i class="fa fa-book"></i> <span>@lang('Reports')</span></a></li>
-  <li><a href="{{ route('rhythmReport') }}"><i class="fa fa-pie-chart"></i><span>@lang('Per rhythm')</span></a></li>
-  <li><a href="{{ route('courseReport') }}"><i class="fa fa-graduation-cap"></i> <span>@lang('Per course')</span></a></li>
-  {{-- <li><a href="{{ route('externalReport') }}"><i class="fa fa-bus"></i> <span>@lang('External Courses')</span></a></li> --}}
+
+  <li><a href="{{ route('allReports') }}"><i class="fa fa-bar-chart"></i> <span>@lang('Overview')</span></a></li>
+
+  <li class="treeview">
+      <a href="#"><i class="fa fa-home"></i> <span>@lang('Internal')</span> <i class="fa fa-angle-left pull-right"></i></a>
+      <ul class="treeview-menu">
+        <li><a href="{{ route('homeReport') }}"><i class="fa fa-users"></i> <span>@lang('Students')</span></a></li>
+        <li><a href="{{ route('rhythmReport') }}"><i class="fa fa-pie-chart"></i><span>@lang('Per rhythm')</span></a></li>
+        <li><a href="{{ route('courseReport') }}"><i class="fa fa-graduation-cap"></i> <span>@lang('Per course')</span></a></li>
+    </ul>
+  </li>
+
+  <li><a href="{{ route('externalReport') }}"><i class="fa fa-bus"></i> <span>@lang('External')</span></a></li>
+
 
 @endif
 

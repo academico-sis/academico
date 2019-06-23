@@ -57,6 +57,7 @@ Route::group(
     Route::post('resultcomment', 'CommentController@storeresult')->name('storeResultComment'); // todo protect
 
     Route::get('setup', 'SetupController@index')->name('setupHome');
+    Route::post('/leads/reset-converted', 'LeadStatusController@reset_all_converted_leads')->name('resetAllConvertedLeads');
 });
 
 
@@ -166,7 +167,11 @@ Route::group(
 Route::group(
     ['middleware' => ['web', 'permission:reports.view', 'language']],
     function () {
-        Route::get('/report', 'ReportController@index')->name('homeReport');
+        Route::get('/report', 'ReportController@index')->name('allReports');
+
+        Route::get('/report/internal', 'ReportController@internal')->name('homeReport');
+        Route::get('/report/external', 'ReportController@external')->name('externalReport');
+
         Route::get('/report/courses', 'ReportController@courses')->name('courseReport');
         Route::get('/report/rhythms', 'ReportController@rhythms')->name('rhythmReport');
     }
