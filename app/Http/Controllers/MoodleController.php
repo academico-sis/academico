@@ -18,8 +18,8 @@ class MoodleController extends Controller
     public function moodlelogin()
     {
 
-        $token = env('MOODLE_TOKEN');
-        $domainname = env('MOODLE_URL');
+        $token = Config::where('name', 'moodle_token')->first()->value;
+        $domainname = Config::where('name', 'moodle_url')->first()->value;
 
         $email = backpack_user()->email;
         $firstname = backpack_user()->firstname;
