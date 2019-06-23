@@ -56,6 +56,8 @@ Route::group(
     Route::post('skillsevaluation', 'CourseSkillEvaluationController@store')->name('storeSkillEvaluation');
     Route::post('resultcomment', 'CommentController@storeresult')->name('storeResultComment'); // todo protect
 
+    Route::get('setup', 'SetupController@index')->name('setupHome');
+    Route::post('/leads/reset-converted', 'LeadStatusController@reset_all_converted_leads')->name('resetAllConvertedLeads');
 });
 
 

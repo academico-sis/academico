@@ -57,9 +57,12 @@
         <li><a href="{{ backpack_url('teacher') }}"><i class="fa fa-user"></i> <span>@lang('Teachers')</span></a></li>
         <li><a href="{{ backpack_url('role') }}"><i class="fa fa-group"></i> <span>@lang('Roles')</span></a></li>
         <li><a href="{{ backpack_url('permission') }}"><i class="fa fa-key"></i> <span>@lang('Permissions')</span></a></li>
-        <li><a href='{{route("log-viewer::logs.list")}}'><i class='fa fa-history'></i> <span>Logs</span></a></li>
+        <li><a href='{{ route("log-viewer::logs.list")}}'><i class='fa fa-history'></i> <span>Logs</span></a></li>
       </ul>
     </li>
+
+    <li><a href='{{ route('setupHome') }}'><i class='fa fa-gears'></i> <span>@lang('Setup Dashboard')</span></a></li>
+    <li><a href='{{ backpack_url('config') }}'><i class='fa fa-gears'></i> <span>@lang('Internal Settings')</span></a></li>
 
     <li class="header">@lang('EVALUATION')</li>
 

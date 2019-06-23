@@ -2,11 +2,10 @@
 
 namespace App\Models;
 
-use App\Models\Student;
-use Backpack\CRUD\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
+use Backpack\CRUD\CrudTrait;
 
-class LeadType extends Model
+class Config extends Model
 {
     use CrudTrait;
 
@@ -16,11 +15,11 @@ class LeadType extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'lead_types';
+    protected $table = 'config';
     // protected $primaryKey = 'id';
     // public $timestamps = false;
-    // protected $guarded = ['id'];
-    protected $fillable = ['name'];
+    protected $guarded = ['id'];
+    // protected $fillable = [];
     // protected $hidden = [];
     // protected $dates = [];
 
@@ -35,11 +34,6 @@ class LeadType extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
-    
-    public function students()
-    {
-        return $this->hasMany(Student::class);
-    }
 
     /*
     |--------------------------------------------------------------------------
