@@ -94,7 +94,7 @@
                        
                         <div>
                             <input id="rules" name="rules" type="checkbox">
-                            <label for="rules">@lang('I agree to the terms and conditions defined by') <a target="blank" href="@php echo env('TERMS_AND_CONDITIONS_URL') @endphp">@lang('the internal rules of the institution')</a></label>{{-- todo allow config here --}}
+                            <label for="rules">@lang('I agree to the terms and conditions defined by') <a target="blank" href="{{ \App\Models\Config::where('name', 'institution_rules_url')->first()->value }}">@lang('the internal rules of the institution')</a></label>{{-- todo allow config here --}}
                             @if ($errors->has('rules'))
                             <span class="help-block">
                                 <strong>{{ $errors->first('rules') }}</strong>

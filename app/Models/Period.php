@@ -21,9 +21,17 @@ class Period extends Model
     /** todo allow admin to override this */
     public static function get_default_period()
     {
-        //return Period::find(22); todo let user override the default period from the UI
-        return Period::where('end', '>=', date('Y-m-d'))
-        ->first();
+        $selected_period = Config::where('name', 'current_period')->first()->value;
+
+        if (Period::where('id', $selected_period)->count() > 0)
+        {
+            return Period::find($selected_period);
+        }
+        else
+        {
+            return Period::where('end', '>=', date('Y-m-d'))->first();
+        }
+        
     }
 
     /**
@@ -31,8 +39,17 @@ class Period extends Model
      */
     public static function get_enrollments_period()
     {
-        //return Period::find(22); todo let user override the default period from the UI
-        return Period::find(24);
+        $selected_period = Config::where('name', 'default_enrollment_period')->first()->value;
+
+        if (Period::where('id', $selected_period)->count() > 0)
+        {
+            return Period::find($selected_period);
+        }
+        else
+        {
+            return Period::get_default_period();
+        }
+
     }
 
     public function enrollments()
