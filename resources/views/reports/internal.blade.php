@@ -44,7 +44,18 @@
                     <div class="box-title">
                     </div>
                     <div class="box-tools pull-right">
-
+                        <span>@lang('Start from period:')</span>
+                        <!-- Period selection dropdown -->
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ $startperiod->name }} <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                @foreach ($periods as $period)
+                                <li><a href="{{ url()->current() }}/?startperiod={{ $period->id }}">{{ $period->name }}</a></li>
+                                @endforeach
+                            </ul>
+                        </div> 
                     </div>
                 </div>
                 

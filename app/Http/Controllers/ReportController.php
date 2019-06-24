@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Year;
+use App\Models\Config;
 use App\Models\Period;
 use Illuminate\Http\Request;
 use App\Traits\PeriodSelection;
@@ -36,7 +37,7 @@ class ReportController extends Controller
 
         if (!isset($request->startperiod))
         {
-            $startperiod = Period::first();
+            $startperiod = Period::find(Config::where('name', 'first_period')->first()->value);
         }
         else
         {
@@ -72,13 +73,26 @@ class ReportController extends Controller
      * Todo - optimize this method: is there another way than using an array? How to reduce the number of queries?
      * Todo - Limit to the three last years to keep the figures readable
      */
-    public function internal()
+    public function internal(Request $request)
     {
         $period = Period::get_default_period();
 
+
+        if (!isset($request->startperiod))
+        {
+            $startperiod = Period::find(Config::where('name', 'first_period')->first()->value);
+        }
+        else
+        {
+            $startperiod = Period::find($request->startperiod);
+        }
+
+        $periods = Period::where('id', '>=', $startperiod->id)->get();
+
+
         $data = [];
 
-        foreach(Period::all() as $i => $data_period)
+        foreach($periods as $i => $data_period)
         {
             $data[$data_period->id]['period'] = $data_period->name;
             $data[$data_period->id]['year_id'] = $data_period->year_id;
@@ -99,6 +113,7 @@ class ReportController extends Controller
             'total_enrollment_count' => $period->internal_enrollments_count,
             'students_count' => $period->students_count,
             'data' => $data,
+            'startperiod' => $startperiod,
         ]);
     }
 
