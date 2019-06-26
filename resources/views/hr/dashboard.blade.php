@@ -93,10 +93,6 @@
   <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.1.5/css/fixedHeader.dataTables.min.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.1/css/responsive.bootstrap.min.css">
 
-  <link rel="stylesheet" href="{{ asset('vendor/backpack/crud/css/crud.css') }}">
-  <link rel="stylesheet" href="{{ asset('vendor/backpack/crud/css/form.css') }}">
-  <link rel="stylesheet" href="{{ asset('vendor/backpack/crud/css/list.css') }}">
-
 @endsection
 
 @section('after_scripts')
@@ -104,12 +100,7 @@
   <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js" type="text/javascript"></script>
   <script src="https://cdn.datatables.net/responsive/2.2.1/js/dataTables.responsive.min.js"></script>
   <script src="https://cdn.datatables.net/responsive/2.2.1/js/responsive.bootstrap.min.js"></script>
-  <script src="
-https://cdn.datatables.net/fixedheader/3.1.5/js/dataTables.fixedHeader.min.js"></script>
-
-  <script src="{{ asset('vendor/backpack/crud/js/crud.js') }}"></script>
-  <script src="{{ asset('vendor/backpack/crud/js/form.js') }}"></script>
-  <script src="{{ asset('vendor/backpack/crud/js/list.js') }}"></script>
+  <script src="https://cdn.datatables.net/fixedheader/3.1.5/js/dataTables.fixedHeader.min.js"></script>
 
 <script>
   $(document).ready( function () {
