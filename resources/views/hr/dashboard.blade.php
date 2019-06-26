@@ -40,7 +40,6 @@
                     <thead>
                         <tr>
                             <th>@lang('Teacher')</th>
-                            <th></th>
                             <th>@lang('Planned Hours')</th>
                             <th>@lang('Period Max')</th>
                             <th><strong>@lang('Period Total')</strong></th>
