@@ -40,10 +40,11 @@
                     <thead>
                         <tr>
                             <th>@lang('Teacher')</th>
-                            <th>@lang('Remote Work')</th>
+                            <th></th>
                             <th>@lang('Planned Hours')</th>
                             <th>@lang('Period Max')</th>
                             <th><strong>@lang('Period Total')</strong></th>
+                            <th><strong>@lang('% of period max')</strong></th>
                             <th>@lang('Worked Hours')</th>
                         </tr>
                     </thead>
@@ -57,17 +58,23 @@
                         @endphp
                         <tr>
                             <td>{{ $teacher->name }}</td>
-                            <td>{{ number_format($remote_hours, 2, '.', ',') }} h</td>
-                            <td>{{ number_format($period_hours, 2, '.', ',') }} h</td>
+                            <td>
+                                <p>@lang('Remote') : {{ number_format($remote_hours, 2, '.', ',') }} h</p>
+                                <p>@lang('Presencial') : {{ number_format($period_hours, 2, '.', ',') }} h</p>
+                            </td>
+
                             <td>{{ number_format($max_hours, 2, '.', ',') }} h</td>
 
                             <td>
                                 <strong>{{ number_format($period_hours + $remote_hours, 2, '.', ',') }} h</strong>
-                                ({{ number_format(100 * ($period_hours + $remote_hours)/$max_hours, 0) }}%)
+                                
                                 <div class="progress progress-xs">
                                     <div class="progress-bar progress-bar-red" style="width: {{100 * ($period_hours + $remote_hours)/$max_hours}}%"></div>
                               </div>
                             </td>
+
+                            <td>{{ number_format(100 * ($period_hours + $remote_hours)/$max_hours, 0) }}%</td>
+
                             <td>{{ number_format($teacher->period_worked_hours($selected_period), 2, '.', ',') }} h</td>
                         </tr>
                         @endforeach
