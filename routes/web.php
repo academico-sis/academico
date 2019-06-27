@@ -6,7 +6,6 @@ Route::permanentRedirect('/auth/login', '/');
 Route::post('user/addcontact', 'ContactController@store')->name('addContact');
 
 
-Route::get('course/{course}/syllabus', 'CourseSkillController@exportCourseSyllabus')->name('exportCourseSyllabus');
 
 /* All routes should be protected by Backpack */
 Route::group(
@@ -75,6 +74,8 @@ Route::group(
 
     Route::get('course/{course}/skills/export', 'CourseSkillController@export')->name('course-skills-export');
     Route::post('course/{course}/skills/import', 'CourseSkillController@import')->name('course-skills-import');;
+
+    Route::get('course/{course}/syllabus', 'CourseSkillController@exportCourseSyllabus')->name('exportCourseSyllabus');
 
     // todo review this entire module
     /* Course grades update */

@@ -41,6 +41,8 @@ class CourseSkillController extends Controller
         
         $section->addText("Enseignant(e) : " . $course->teacher->name);
         
+        $section->addText("Dates du cours : " . $course->start_date->format('DD/MM/YYYY') . " - " . $course->end_date->format('DD/MM/YYYY');
+
         $section->addTextBreak();
         
         
@@ -48,7 +50,7 @@ class CourseSkillController extends Controller
         $level = "";
         $type = "";
 
-        foreach ($course->skills as $s => $skill)
+        foreach ($course->skills->sortBy('skill_type_id') as $s => $skill)
         {
             if ($skill->level->name != $level)
             {
