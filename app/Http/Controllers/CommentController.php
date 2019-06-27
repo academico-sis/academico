@@ -28,6 +28,7 @@ class CommentController extends Controller
         return Comment::create([
             'commentable_id' => $request->input('commentable_id'),
             'commentable_type' => $request->input('commentable_type'),
+            'action' => $request->input('action'),
             'body' => $request->input('body'),
             'author_id' => \backpack_user()->id,
         ]);

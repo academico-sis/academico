@@ -33,6 +33,8 @@
 
       <div class="modal-body">
         <textarea name="comment" id="comment" style="width: 100%" rows="5" v-model="comment_body"></textarea>
+        <label for="action">@lang("This comment requires an action")</label>
+        <input name="action" id="action" type="checkbox" v-model="action"/>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
@@ -54,6 +56,7 @@
         data () {
             return {
                 comment_body: null,
+                action: false,
                 errors: [],
                 commentlist: this.comments
             }
@@ -71,6 +74,7 @@
                         body: this.comment_body,
                         commentable_id: this.id,
                         commentable_type: this.type,
+                        action: this.action
                     })
                     .then(response => {
                         this.commentlist.push(response.data);
