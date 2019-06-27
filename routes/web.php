@@ -6,6 +6,7 @@ Route::permanentRedirect('/auth/login', '/');
 Route::post('user/addcontact', 'ContactController@store')->name('addContact');
 
 
+Route::get('course/{course}/syllabus', 'CourseSkillController@exportCourseSyllabus')->name('exportCourseSyllabus');
 
 /* All routes should be protected by Backpack */
 Route::group(
