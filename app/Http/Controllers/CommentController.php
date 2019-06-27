@@ -25,7 +25,7 @@ class CommentController extends Controller
 
         Log::info('Comment created by ' . backpack_user()->firstname);
 
-        Comment::create([
+        return Comment::create([
             'commentable_id' => $request->input('commentable_id'),
             'commentable_type' => $request->input('commentable_type'),
             'body' => $request->input('body'),

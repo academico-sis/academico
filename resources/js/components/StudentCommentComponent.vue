@@ -14,9 +14,10 @@
     
     <div class="box-body">
         <ul>
-            <li v-for="comment in comments" v-bind:key="comment.id">
+            <li v-for="(comment, index) in commentlist" v-bind:key="comment.id">
                 {{ comment.body }} ({{comment.created_at | moment("D MMM YY") }})
-                <button type="button" @click="deleteComment(comment.id)" class="btn btn-danger btn-xs">X</button>
+                <button type="button" @click="deleteComment(comment.id, index)" class="btn btn-danger btn-xs">X</button>
+                <!-- <button type="button" @click="editComment(comment.id)" class="btn btn-info btn-xs">Edit</button> -->
             </li>
         </ul>
     </div>
@@ -54,6 +55,7 @@
             return {
                 comment_body: null,
                 errors: [],
+                commentlist: this.comments
             }
         },
 
@@ -71,19 +73,20 @@
                         commentable_type: this.type,
                     })
                     .then(response => {
-                        document.location.reload(true); // TODO improve this: do not reload the whole page
+                        this.commentlist.push(response.data);
+                        $('#myModal').modal('hide');
                     })
                     .catch(e => {
                         this.errors.push(e)
                     })
             },
 
-            deleteComment(comment)
+            deleteComment(comment, index)
             {
                 axios
                     .delete('/comment/'+comment)
                     .then(response => {
-                        document.location.reload(true); // TODO improve this: do not reload the whole page
+                        this.$delete(this.commentlist, index)
                     })
                     .catch(e => {
                         this.errors.push(e)
