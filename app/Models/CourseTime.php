@@ -48,8 +48,8 @@ class CourseTime extends Model
 
     public function create_events()
     {
-        $today = Carbon::parse($this->course->start_date);
-        $end = Carbon::parse($this->course->end_date);
+        $today = Carbon::parse($this->course->start_date)->startOfDay();
+        $end = Carbon::parse($this->course->end_date)->endOfDay();
         
         // for each day in the course period span
         while ($today <= $end) {
