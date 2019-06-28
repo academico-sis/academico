@@ -60,7 +60,7 @@ protected static function boot()
     protected $guarded = ['id'];
     //protected $fillable = [];
     // protected $hidden = [];
-    // protected $dates = [];
+    protected $dates = ['start_date', 'end_date'];
     //protected $with = ['enrollments'];
     protected $appends = ['course_times'];
 

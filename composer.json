@@ -26,6 +26,7 @@
         "sentry/sentry-laravel": "^1.0",
         "simplesoftwareio/simple-qrcode": "^2.0",
         "spatie/laravel-medialibrary": "^7.0.0",
+        "phpoffice/phpword": "^0.16.0",
         "spatie/laravel-translatable": "^3.1",
         "symfony/psr-http-message-bridge": "^1.1"
     },

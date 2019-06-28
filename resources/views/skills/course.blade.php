@@ -31,6 +31,10 @@
                     <a class="btn btn-primary" data-toggle="modal" data-target="#skillsUploadModal">
                         @lang('Import skills')
                     </a>
+
+                    <a class="btn btn-primary" href="{{ route('exportCourseSyllabus', ['course_id' => $course->id]) }}">
+                        @lang('Export Course syllabus')
+                    </a>
                 </div>  
             </div>
             
