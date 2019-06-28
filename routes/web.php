@@ -50,6 +50,10 @@ Route::group(
     Route::get('attendance/event/{event}', 'AttendanceController@showEvent')->name('eventAttendance');
     Route::post('attendance', 'AttendanceController@store')->name('storeAttendance');
 
+    Route::get('attendance/event/{event}/exempt', 'AttendanceController@exemptEvent')->name('exemptEventAttendance');
+    Route::get('attendance/course/{course}/exempt', 'AttendanceController@exemptCourse')->name('exemptCourseAttendance');
+
+
     // Skills Evaluation
     Route::get('course/{course}/skillsevaluation', 'CourseSkillEvaluationController@index')->name('courseSkillsEvaluation');
     Route::get('course/{course}/skillsevaluation/{student}', 'CourseSkillEvaluationController@edit')->name('studentSkillsEvaluation');

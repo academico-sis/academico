@@ -25,12 +25,27 @@
             
             <div class="box-body">
                 <table class="table">
+                <thead>
+                    <tr>
+                        <th>@lang('Course')</th>
+                        <th>@lang('Date')</th>
+                        <th>@lang('Teacher')</th>
+                        <th>@lang('Missing students')</th>
+                        <th>@lang('Actions')</th>
+                    </tr>
+                    </thead>
                     @foreach($pending_attendance as $event)
                     <tr>
-                        <td><a href="{{ route('eventAttendance', ['event' => $event['event_id']]) }}">{{ $event['event'] }}</a></td>
+                        <td>{{ $event['event'] }}</td>
                         <td>{{ $event['event_date'] }}</td>
                         <td>{{ $event['teacher'] }}</td>
                         <td>{{ $event['pending'] }}</td>
+                        <td>
+                            <a class="btn btn-primary btn-xs" href="{{ route('eventAttendance', ['event' => $event['event_id']]) }}" title="@lang('View attendance sheet for event')"><i class="fa fa-eye"></i></a>
+                            <a class="btn btn-warning btn-xs" href="{{ route('exemptEventAttendance', ['event' => $event['event_id']]) }}" title="@lang('Exempt event from attendance sheet')" onclick="return confirm('Are you sure? The attendance sheet for this event will be deleted')"><i class="fa fa-times"></i></a>
+                            <a class="btn btn-warning btn-xs" href="{{ route('exemptCourseAttendance', ['course' => $event['course_id']]) }}" title="@lang('Exempt all course events from attendance sheet')" onclick="return confirm('Are you sure? The attendance sheet for all course events will be deleted')"><i class="fa fa-times"></i><i class="fa fa-times"></i></a>
+
+                        </td>
                     </tr>
                     @endforeach
                 </table>

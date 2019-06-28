@@ -151,4 +151,36 @@ class AttendanceController extends Controller
         return view('attendance/event', compact('attendances', 'event'));
     }
 
+    public function exemptEvent(Event $event)
+    {
+        $event->exempt_attendance = 1;
+        $event->attendance()->delete();
+        $event->save();
+        return back();
+    }
+
+    public function exemptCourse(Course $course)
+    {
+
+        $course->exempt_attendance = 1;
+        $course->save();
+
+        foreach($course->events as $event)
+        {
+            $this->exemptEvent($event);
+        }
+
+        foreach($course->children as $child)
+        {
+            $child->exempt_attendance = 1;
+            $child->save();
+            foreach($child->events as $event)
+                {
+                    $this->exemptEvent($event);
+                }
+        }
+
+        return back();
+    }
+
 }
