@@ -41,7 +41,7 @@ class CourseSkillController extends Controller
         
         $section->addText("Enseignant(e) : " . $course->teacher->name);
         
-        $section->addText("Dates du cours : " . $course->start_date->format('DD/MM/YYYY') . " - " . $course->end_date->format('DD/MM/YYYY');
+        $section->addText("Dates du cours : " . $course->start_date->format('d/m') . " - " . $course->end_date->format('d/m'));
 
         $section->addTextBreak();
         
