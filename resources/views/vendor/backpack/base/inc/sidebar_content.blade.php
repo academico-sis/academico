@@ -120,7 +120,7 @@
       <ul class="treeview-menu">
         <li><a href="{{ route('homeReport') }}"><i class="fa fa-users"></i> <span>@lang('Students')</span></a></li>
         <li><a href="{{ route('rhythmReport') }}"><i class="fa fa-pie-chart"></i><span>@lang('Per rhythm')</span></a></li>
-        <li><a href="{{ route('courseReport') }}"><i class="fa fa-graduation-cap"></i> <span>@lang('Per course')</span></a></li>
+        <li><a href="{{ route('courseReport') }}"><i class="fa fa-graduation-cap"></i><span>@lang('Per course')</span></a></li>
     </ul>
   </li>
 

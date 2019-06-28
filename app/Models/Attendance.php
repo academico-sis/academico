@@ -163,6 +163,7 @@ class Attendance extends Model
             {
                 $pending_events[$event->id]['event'] = $event->name ?? "";
                 $pending_events[$event->id]['event_id'] = $event->id;
+                $pending_events[$event->id]['course_id'] = $event->course_id;
                 $pending_events[$event->id]['event_date'] = Carbon::parse($event->start)->toDateString();
                 $pending_events[$event->id]['teacher'] = $event->teacher->name ?? "";
                 $pending_events[$event->id]['pending'] = $pending_attendance ?? "";
