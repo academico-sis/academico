@@ -305,6 +305,13 @@ class CourseCrudController extends CrudController
              ],
 
              [
+                'name' => 'exempt_attendance', // The db column name
+                'label' => __("Exempt Attendance"), // Table column heading
+                'type' => 'checkbox',
+                'tab' => __('Course info')
+             ],
+
+             [
                 // TEACHER
                 'label' => __("Teacher"), // Table column heading
                 'type' => "select",
