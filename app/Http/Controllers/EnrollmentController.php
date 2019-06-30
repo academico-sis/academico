@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Book;
 
 use App\Models\Fee;
 use App\Models\Cart;
@@ -94,7 +95,12 @@ class EnrollmentController extends Controller
         $books = Session::get('books');
         $fees = Session::get('fees');
 
-        return view('carts.show', compact('enrollments', 'fees', 'books'));
+        $availableBooks = Book::all();
+
+        $availableFees = Fee::all();
+
+
+        return view('carts.show', compact('enrollments', 'fees', 'books', 'availableBooks', 'availableFees'));
     }
 
     /** this method is temporary. It serves as a shortcut until the invoicing system is in place */

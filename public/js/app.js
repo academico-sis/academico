@@ -1812,33 +1812,114 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['enrollmentslist', 'feeslist', 'bookslist'],
+  props: ['enrollmentslist', 'feeslist', 'bookslist', 'availablebooks', 'availablefees'],
   data: function data() {
     return {
-      enrollments: this.enrollmentslist,
-      books: this.bookslist,
-      fees: this.feeslist,
-      totalPrice: 0
+      enrollments: this.enrollmentslist || [],
+      books: this.bookslist || [],
+      fees: this.feeslist || [],
+      totalPrice: 0,
+      errors: []
     };
   },
   mounted: function mounted() {},
-  methods: {},
+  methods: {
+    addBook: function addBook(book) {
+      this.books.push(book);
+    },
+    addFee: function addFee(fee) {
+      this.fees.push(fee);
+    },
+    removeEnrollmentFromCart: function removeEnrollmentFromCart(index) {
+      this.enrollments.splice(index, 1);
+    },
+    removeBookFromCart: function removeBookFromCart(index) {
+      this.books.splice(index, 1);
+    },
+    removeFeeFromCart: function removeFeeFromCart(index) {
+      this.fees.splice(index, 1);
+    }
+  },
   computed: {
     shoppingCartTotal: function shoppingCartTotal() {
-      return this.books.map(function (item) {
-        return parseFloat(item.price);
-      }).reduce(function (total, amount) {
-        return total + amount;
-      }) + this.fees.map(function (item) {
-        return parseFloat(item.price);
-      }).reduce(function (total, amount) {
-        return total + amount;
-      }) + this.enrollments.map(function (item) {
-        return parseFloat(item.course.price);
-      }).reduce(function (total, amount) {
-        return total + amount;
-      });
+      var total = 0;
+
+      if (this.books) {
+        this.books.forEach(function (book) {
+          total += parseFloat(book.price);
+        });
+      }
+
+      if (this.fees) {
+        this.fees.forEach(function (fee) {
+          total += parseFloat(fee.price);
+        });
+      }
+
+      if (this.enrollments) {
+        this.enrollments.forEach(function (enrollment) {
+          total += parseFloat(enrollment.course.price);
+        });
+      }
+
+      return total;
+      /* this.books.map(item => parseFloat(item.price)).reduce((total, amount) => total + amount)
+      +this.fees.map(item => parseFloat(item.price)).reduce((total, amount) => total + amount)
+      +this.enrollments.map(item => parseFloat(item.course.price)).reduce((total, amount) => total + amount); */
     }
   }
 });
@@ -3395,90 +3476,166 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "box" }, [
-    _vm._m(0),
-    _vm._v(" "),
-    _c("div", { staticClass: "box-body" }, [
-      _c("table", { staticClass: "table" }, [
-        _vm._m(1),
+  return _c("div", { staticClass: "row" }, [
+    _c("div", { staticClass: "col col-md-8" }, [
+      _c("div", { staticClass: "box" }, [
+        _vm._m(0),
         _vm._v(" "),
-        _c(
-          "tbody",
-          [
-            _vm._l(_vm.enrollments, function(enrollment) {
-              return _c("tr", { key: enrollment.id }, [
-                _c("td", [_vm._v(_vm._s(enrollment.course.name))]),
-                _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(enrollment.course.price))]),
-                _vm._v(" "),
-                _c("td", [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-xs btn-danger",
-                      on: {
-                        click: function($event) {
-                          return _vm.removeFromCart(_vm.product.id)
-                        }
-                      }
-                    },
-                    [_c("i", { staticClass: "fa fa-times" })]
-                  )
-                ])
-              ])
-            }),
+        _c("div", { staticClass: "box-body" }, [
+          _c("table", { staticClass: "table" }, [
+            _vm._m(1),
             _vm._v(" "),
-            _vm._l(_vm.books, function(book) {
-              return _c("tr", { key: book.id }, [
-                _c("td", [_vm._v(_vm._s(book.name))]),
+            _c(
+              "tbody",
+              [
+                _vm._l(_vm.enrollments, function(enrollment, index) {
+                  return _c("tr", { key: enrollment.id }, [
+                    _c("td", [_vm._v(_vm._s(enrollment.course.name))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v("$ " + _vm._s(enrollment.course.price))]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-xs btn-danger",
+                          on: {
+                            click: function($event) {
+                              return _vm.removeEnrollmentFromCart(index)
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "fa fa-times" })]
+                      )
+                    ])
+                  ])
+                }),
                 _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(book.price))]),
+                _vm._l(_vm.books, function(book, index) {
+                  return _c("tr", { key: book.id }, [
+                    _c("td", [_vm._v(_vm._s(book.name))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v("$ " + _vm._s(book.price))]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-xs btn-danger",
+                          on: {
+                            click: function($event) {
+                              return _vm.removeBookFromCart(index)
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "fa fa-times" })]
+                      )
+                    ])
+                  ])
+                }),
                 _vm._v(" "),
-                _c("td", [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-xs btn-danger",
-                      on: {
-                        click: function($event) {
-                          return _vm.removeFromCart(_vm.product.id)
-                        }
-                      }
-                    },
-                    [_c("i", { staticClass: "fa fa-times" })]
-                  )
-                ])
-              ])
-            }),
+                _vm._l(_vm.fees, function(fee, index) {
+                  return _c("tr", { key: fee.id }, [
+                    _c("td", [_vm._v(_vm._s(fee.name))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v("$ " + _vm._s(fee.price))]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-xs btn-danger",
+                          on: {
+                            click: function($event) {
+                              return _vm.removeFeeFromCart(index)
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "fa fa-times" })]
+                      )
+                    ])
+                  ])
+                })
+              ],
+              2
+            ),
             _vm._v(" "),
-            _vm._l(_vm.fees, function(fee) {
-              return _c("tr", { key: fee.id }, [
-                _c("td", [_vm._v(_vm._s(fee.name))]),
+            _c("tfoot", [
+              _c("tr", { staticClass: "bold" }, [
+                _c("td", [_vm._v("TOTAL")]),
                 _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(fee.price))]),
+                _c("td", [_vm._v("$ " + _vm._s(_vm.shoppingCartTotal))]),
                 _vm._v(" "),
-                _c("td", [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-xs btn-danger",
-                      on: {
-                        click: function($event) {
-                          return _vm.removeFromCart(_vm.product.id)
-                        }
-                      }
-                    },
-                    [_c("i", { staticClass: "fa fa-times" })]
-                  )
-                ])
+                _c("td")
               ])
-            })
-          ],
-          2
-        )
-      ]),
-      _vm._v(" "),
-      _c("p", [_vm._v("Total: " + _vm._s(_vm.shoppingCartTotal))])
+            ])
+          ])
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "col col-md-4" }, [
+      _c("div", { staticClass: "box" }, [
+        _vm._m(2),
+        _vm._v(" "),
+        _c("div", { staticClass: "box-body" }, [
+          _c("div", { staticClass: "form-group" }, [
+            _c("div", { staticClass: "btn-group" }, [
+              _vm._m(3),
+              _vm._v(" "),
+              _c(
+                "ul",
+                { staticClass: "dropdown-menu" },
+                _vm._l(this.availablebooks, function(availableBook) {
+                  return _c("li", { key: availableBook.id }, [
+                    _c(
+                      "a",
+                      {
+                        attrs: { href: "#" },
+                        on: {
+                          click: function($event) {
+                            return _vm.addBook(availableBook)
+                          }
+                        }
+                      },
+                      [_vm._v(_vm._s(availableBook.name))]
+                    )
+                  ])
+                }),
+                0
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group" }, [
+            _c("div", { staticClass: "btn-group" }, [
+              _vm._m(4),
+              _vm._v(" "),
+              _c(
+                "ul",
+                { staticClass: "dropdown-menu" },
+                _vm._l(this.availablefees, function(availableFee) {
+                  return _c("li", { key: availableFee.id }, [
+                    _c(
+                      "a",
+                      {
+                        attrs: { href: "#" },
+                        on: {
+                          click: function($event) {
+                            return _vm.addBook(availableFee)
+                          }
+                        }
+                      },
+                      [_vm._v(_vm._s(availableFee.name))]
+                    )
+                  ])
+                }),
+                0
+              )
+            ])
+          ])
+        ])
+      ])
     ])
   ])
 }
@@ -3489,7 +3646,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "box-header with-border" }, [
       _c("div", { staticClass: "box-title" }, [
-        _vm._v("\n            Cart details\n        ")
+        _vm._v("\n                    Cart details\n                ")
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "box-tools pull-right" })
@@ -3506,6 +3663,50 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("th", [_vm._v("Actions")])
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "box-header with-border" }, [
+      _c("div", { staticClass: "box-title" }, [
+        _vm._v("\n                    Add products\n                ")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "box-tools pull-right" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "btn btn-default dropdown-toggle",
+        attrs: { type: "button", "data-toggle": "dropdown" }
+      },
+      [
+        _c("span", { staticClass: "caret" }),
+        _vm._v(" Books\n                    ")
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "btn btn-default dropdown-toggle",
+        attrs: { type: "button", "data-toggle": "dropdown" }
+      },
+      [
+        _c("span", { staticClass: "caret" }),
+        _vm._v(" Fees\n                    ")
+      ]
+    )
   }
 ]
 render._withStripped = true
