@@ -75,26 +75,10 @@ class EnrollmentController extends Controller
      */
     public function bill(Enrollment $enrollment)
     {
-        // the cart can contain three types of products
-        Session::put('enrollments');
-        Session::put('books');
-        Session::put('fees');
 
-        // we add the enrollment to the cart
-        Session::push('enrollments', $enrollment);
-
-        // we add default products to the cart
-        Session::push('fees', Fee::first());
-        
-        // we add the course book to the cart
-        foreach($enrollment->course->books as $book)
-        {
-            Session::push('books', $book);
-        }
-
-        $enrollments = Session::get('enrollments');
-        $books = Session::get('books');
-        $fees = Session::get('fees');
+        $enrollments = Enrollment::where('id', $enrollment->id)->get();
+        $books = $enrollment->course->books ?? [];
+        $fees = Fee::first()->get();
 
         $availableBooks = Book::all();
         $availableFees = Fee::all();
