@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Fee;
 use App\Models\Cart;
 use App\Models\Course;
 use App\Models\Comment;
@@ -13,6 +14,7 @@ use App\Traits\PeriodSelection;
 use App\Models\PreInvoiceDetail;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Session;
 
 
 class EnrollmentController extends Controller
@@ -66,26 +68,33 @@ class EnrollmentController extends Controller
 
 
     /**
-     * Generate a preinvoice and add the specified enrollment
+     * Create a new cart with the specified enrollment
+     * and display the cart
      */
-    public function bill(Enrollment $enrollment, $preinvoice = null)
+    public function bill(Enrollment $enrollment)
     {
-        // retrieve the preinvoice passed, or create a new one
-        $preinvoice = PreInvoice::firstOrNew($preinvoice);
-        $preinvoice->save();
+        // the cart can contain three types of products
+        Session::put('enrollments');
+        Session::put('books');
+        Session::put('fees');
 
-        // if the current enrollment is not part of the cart, add it
-        $enrollment->addToCart();
+        // we add the enrollment to the cart
+        Session::push('enrollments', $enrollment);
 
-        // add default other products: enrollment fee + books associated to the course, if any (and if they do not already exist in the cart)
-        Cart::add_default_products($enrollment->student_id);
+        // we add default products to the cart
+        Session::push('fees', Fee::first());
+        
+        // we add the course book to the cart
+        foreach($enrollment->course->books as $book)
+        {
+            Session::push('books', $book);
+        }
 
-        // the pending products (if any) will also be retrieved from the DB
-        $products = Cart::where('user_id', $enrollment->student->user->id)->get();
+        $enrollments = Session::get('enrollments');
+        $books = Session::get('books');
+        $fees = Session::get('fees');
 
-        // show the cart for the user
-        $id = $enrollment->student->user->id;
-        return redirect("cart/$id");
+        return view('carts.show', compact('enrollments', 'fees', 'books'));
     }
 
     /** this method is temporary. It serves as a shortcut until the invoicing system is in place */

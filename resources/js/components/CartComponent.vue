@@ -18,9 +18,25 @@
                     <th>Actions</th>
                 </thead>
                 <tbody>
-                    <tr v-bind:key="product.id" v-for="product in products">
-                        <td>{{ product.product.name }}</td>
-                        <td>{{ product.product.price }}</td>
+                    <tr v-bind:key="enrollment.id" v-for="enrollment in enrollments">
+                        <td>{{ enrollment.course.name }}</td>
+                        <td>{{ enrollment.course.price }}</td>
+                        <td>
+                            <button class="btn btn-xs btn-danger" v-on:click="removeFromCart(product.id)"><i class="fa fa-times"></i></button>
+                        </td>
+                    </tr>
+
+                    <tr v-bind:key="book.id" v-for="book in books">
+                        <td>{{ book.name }}</td>
+                        <td>{{ book.price }}</td>
+                        <td>
+                            <button class="btn btn-xs btn-danger" v-on:click="removeFromCart(product.id)"><i class="fa fa-times"></i></button>
+                        </td>
+                    </tr>
+
+                    <tr v-bind:key="fee.id" v-for="fee in fees">
+                        <td>{{ fee.name }}</td>
+                        <td>{{ fee.price }}</td>
                         <td>
                             <button class="btn btn-xs btn-danger" v-on:click="removeFromCart(product.id)"><i class="fa fa-times"></i></button>
                         </td>
@@ -28,6 +44,7 @@
                 </tbody>
 
             </table>
+            <p>Total: {{ shoppingCartTotal }}</p>
         </div>
     </div>
 </template>
@@ -36,10 +53,14 @@
 
     export default {
 
-props: ['products'],
+        props: ['enrollmentslist', 'feeslist', 'bookslist'],
+
         data () {
             return {
-
+                enrollments: this.enrollmentslist,
+                books: this.bookslist,
+                fees: this.feeslist,
+                totalPrice: 0,
             }
         },
 
@@ -48,19 +69,15 @@ props: ['products'],
 
         methods: {
 
-            removeFromCart(id)
-            {
-                axios
-                    .delete('/carts/'+id)
-                    .then(response => {
-                        document.location.reload(true);
-                        // TODO improve this: do not reload the whole page
-                    })
-                    .catch(e => {
-                        this.errors.push(e)
-                    })
-            }
  
-        }
+        },
+
+        computed: {
+            shoppingCartTotal() {
+                return this.books.map(item => parseFloat(item.price)).reduce((total, amount) => total + amount)
+                +this.fees.map(item => parseFloat(item.price)).reduce((total, amount) => total + amount)
+                +this.enrollments.map(item => parseFloat(item.course.price)).reduce((total, amount) => total + amount);
+            }
+        },
     }
 </script>
