@@ -1,13 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Book;
-
 use App\Models\Fee;
+
+use App\Models\Book;
 use App\Models\Cart;
 use App\Models\Course;
 use App\Models\Comment;
 use App\Models\Student;
+use App\Models\Discount;
 use App\Models\Enrollment;
 use App\Models\PreInvoice;
 use Illuminate\Http\Request;
@@ -98,9 +99,9 @@ class EnrollmentController extends Controller
         $availableBooks = Book::all();
         $availableFees = Fee::all();
         $availableEnrollments = Enrollment::where('status_id', 1)->with('student')->with('course')->get();
+        $availableDiscounts = Discount::all();
 
-
-        return view('carts.show', compact('enrollments', 'fees', 'books', 'availableBooks', 'availableFees', 'availableEnrollments'));
+        return view('carts.show', compact('enrollments', 'fees', 'books', 'availableBooks', 'availableFees', 'availableEnrollments', 'availableDiscounts'));
     }
 
     /** this method is temporary. It serves as a shortcut until the invoicing system is in place */

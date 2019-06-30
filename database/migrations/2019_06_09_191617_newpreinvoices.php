@@ -14,9 +14,8 @@ class Newpreinvoices extends Migration
     public function up()
     {
         
-        Schema::disableForeignKeyConstraints();
-
         Schema::table('pre_invoices', function (Blueprint $table) {
+            $table->dropForeign('pre_invoices_user_id_foreign');
             $table->integer('enrollment_id');
             $table->dropColumn('user_id');
         });

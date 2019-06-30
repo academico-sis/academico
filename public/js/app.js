@@ -1873,15 +1873,43 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['enrollmentslist', 'feeslist', 'bookslist', 'availablebooks', 'availablefees', 'availableenrollments'],
+  props: ['enrollmentslist', 'feeslist', 'bookslist', 'availablebooks', 'availablefees', 'availableenrollments', 'availablediscounts'],
   data: function data() {
     return {
       enrollments: this.enrollmentslist || [],
       books: this.bookslist || [],
       fees: this.feeslist || [],
       totalPrice: 0,
-      errors: []
+      errors: [],
+      discounts: []
     };
   },
   mounted: function mounted() {},
@@ -1903,10 +1931,21 @@ __webpack_require__.r(__webpack_exports__);
     },
     removeFeeFromCart: function removeFeeFromCart(index) {
       this.fees.splice(index, 1);
+    },
+    addDiscount: function addDiscount(discount) {
+      this.discounts.push(discount);
+    },
+    removeDiscount: function removeDiscount(index) {
+      this.discounts.splice(index, 1);
+    },
+    discount: function discount(price) {
+      return price * this.totalDiscount;
     }
   },
   computed: {
     shoppingCartTotal: function shoppingCartTotal() {
+      var _this = this;
+
       var total = 0;
 
       if (this.books) {
@@ -1923,7 +1962,7 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.enrollments) {
         this.enrollments.forEach(function (enrollment) {
-          total += parseFloat(enrollment.course.price);
+          total += parseFloat(enrollment.course.price) - _this.discount(parseFloat(enrollment.course.price));
         });
       }
 
@@ -1931,6 +1970,17 @@ __webpack_require__.r(__webpack_exports__);
       /* this.books.map(item => parseFloat(item.price)).reduce((total, amount) => total + amount)
       +this.fees.map(item => parseFloat(item.price)).reduce((total, amount) => total + amount)
       +this.enrollments.map(item => parseFloat(item.course.price)).reduce((total, amount) => total + amount); */
+    },
+    totalDiscount: function totalDiscount() {
+      var total = 0;
+
+      if (this.discounts) {
+        this.discounts.forEach(function (discount) {
+          total += parseFloat(discount.value) / 100;
+        });
+      }
+
+      return total;
     }
   }
 });
@@ -3511,7 +3561,17 @@ var render = function() {
                       )
                     ]),
                     _vm._v(" "),
-                    _c("td", [_vm._v("$ " + _vm._s(enrollment.course.price))]),
+                    _c("td", [
+                      _vm._v("$ " + _vm._s(enrollment.course.price) + " "),
+                      _vm.discount(enrollment.course.price) > 0
+                        ? _c("span", { staticClass: "label label-info" }, [
+                            _vm._v(
+                              "- $" +
+                                _vm._s(_vm.discount(enrollment.course.price))
+                            )
+                          ])
+                        : _vm._e()
+                    ]),
                     _vm._v(" "),
                     _c("td", [
                       _c(
@@ -3524,7 +3584,7 @@ var render = function() {
                             }
                           }
                         },
-                        [_c("i", { staticClass: "fa fa-times" })]
+                        [_c("i", { staticClass: "fa fa-trash" })]
                       )
                     ])
                   ])
@@ -3547,7 +3607,7 @@ var render = function() {
                             }
                           }
                         },
-                        [_c("i", { staticClass: "fa fa-times" })]
+                        [_c("i", { staticClass: "fa fa-trash" })]
                       )
                     ])
                   ])
@@ -3570,7 +3630,7 @@ var render = function() {
                             }
                           }
                         },
-                        [_c("i", { staticClass: "fa fa-times" })]
+                        [_c("i", { staticClass: "fa fa-trash" })]
                       )
                     ])
                   ])
@@ -3580,7 +3640,7 @@ var render = function() {
             ),
             _vm._v(" "),
             _c("tfoot", [
-              _c("tr", { staticClass: "bold" }, [
+              _c("tr", [
                 _c("td", [_vm._v("TOTAL")]),
                 _vm._v(" "),
                 _c("td", [_vm._v("$ " + _vm._s(_vm.shoppingCartTotal))]),
@@ -3623,10 +3683,8 @@ var render = function() {
                 }),
                 0
               )
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
+            ]),
+            _vm._v(" "),
             _c("div", { staticClass: "btn-group" }, [
               _vm._m(4),
               _vm._v(" "),
@@ -3651,10 +3709,8 @@ var render = function() {
                 }),
                 0
               )
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
+            ]),
+            _vm._v(" "),
             _c("div", { staticClass: "btn-group" }, [
               _vm._m(5),
               _vm._v(" "),
@@ -3685,6 +3741,68 @@ var render = function() {
                             ")"
                         )
                       ]
+                    )
+                  ])
+                }),
+                0
+              )
+            ])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "box" }, [
+        _vm._m(6),
+        _vm._v(" "),
+        _c("div", { staticClass: "box-body" }, [
+          _c(
+            "ul",
+            _vm._l(_vm.discounts, function(discount, index) {
+              return _c("li", { key: discount.id }, [
+                _vm._v(
+                  "\n                        " +
+                    _vm._s(discount.name) +
+                    " (" +
+                    _vm._s(discount.value) +
+                    "%)\n                        "
+                ),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-xs btn-warning",
+                    on: {
+                      click: function($event) {
+                        return _vm.removeDiscount(index)
+                      }
+                    }
+                  },
+                  [_c("i", { staticClass: "fa fa-times" })]
+                )
+              ])
+            }),
+            0
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group" }, [
+            _c("div", { staticClass: "btn-group" }, [
+              _vm._m(7),
+              _vm._v(" "),
+              _c(
+                "ul",
+                { staticClass: "dropdown-menu" },
+                _vm._l(this.availablediscounts, function(availableDiscount) {
+                  return _c("li", { key: availableDiscount.id }, [
+                    _c(
+                      "a",
+                      {
+                        attrs: { href: "#" },
+                        on: {
+                          click: function($event) {
+                            return _vm.addDiscount(availableDiscount)
+                          }
+                        }
+                      },
+                      [_vm._v(_vm._s(availableDiscount.name))]
                     )
                   ])
                 }),
@@ -3779,6 +3897,34 @@ var staticRenderFns = [
       [
         _c("span", { staticClass: "caret" }),
         _vm._v(" Enrollment\n                        ")
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "box-header with-border" }, [
+      _c("div", { staticClass: "box-title" }, [
+        _vm._v("\n                    Discounts\n                ")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "box-tools pull-right" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "btn btn-default dropdown-toggle",
+        attrs: { type: "button", "data-toggle": "dropdown" }
+      },
+      [
+        _c("span", { staticClass: "caret" }),
+        _vm._v(" Add discount\n                        ")
       ]
     )
   }

@@ -21,6 +21,7 @@
             :availablebooks="{{ json_encode($availableBooks) }}"
             :availablefees="{{ json_encode($availableFees) }}"
             :availableenrollments="{{ json_encode($availableEnrollments) }}"
+            :availablediscounts="{{ json_encode($availableDiscounts) }}"
 
         >
         </cart-component>

@@ -23,9 +23,9 @@
                         <tbody>
                             <tr v-bind:key="enrollment.id" v-for="(enrollment, index) in enrollments">
                                 <td>{{ enrollment.course.name }} para {{ enrollment.student.user.firstname }} {{ enrollment.student.user.lastname }}</td>
-                                <td>$ {{ enrollment.course.price }}</td>
+                                <td>$ {{ enrollment.course.price }} <span class="label label-info" v-if="discount(enrollment.course.price) > 0">- ${{ discount(enrollment.course.price) }}</span></td>
                                 <td>
-                                    <button class="btn btn-xs btn-danger" v-on:click="removeEnrollmentFromCart(index)"><i class="fa fa-times"></i></button>
+                                    <button class="btn btn-xs btn-danger" v-on:click="removeEnrollmentFromCart(index)"><i class="fa fa-trash"></i></button>
                                 </td>
                             </tr>
 
@@ -33,7 +33,7 @@
                                 <td>{{ book.name }}</td>
                                 <td>$ {{ book.price }}</td>
                                 <td>
-                                    <button class="btn btn-xs btn-danger" v-on:click="removeBookFromCart(index)"><i class="fa fa-times"></i></button>
+                                    <button class="btn btn-xs btn-danger" v-on:click="removeBookFromCart(index)"><i class="fa fa-trash"></i></button>
                                 </td>
                             </tr>
 
@@ -41,12 +41,12 @@
                                 <td>{{ fee.name }}</td>
                                 <td>$ {{ fee.price }}</td>
                                 <td>
-                                    <button class="btn btn-xs btn-danger" v-on:click="removeFeeFromCart(index)"><i class="fa fa-times"></i></button>
+                                    <button class="btn btn-xs btn-danger" v-on:click="removeFeeFromCart(index)"><i class="fa fa-trash"></i></button>
                                 </td>
                             </tr>
                         </tbody>
                         <tfoot>
-                            <tr class="bold">
+                            <tr>
                                 <td>TOTAL</td>
                                 <td>$ {{ shoppingCartTotal }}</td>
                                 <td></td>
@@ -65,7 +65,6 @@
                         Add products
                     </div>
                     <div class="box-tools pull-right">
-                        <!-- <button class="btn btn-primary"><i class="fa fa-plus"></i></button> todo -->
                     </div>
                 </div>
                 
@@ -80,9 +79,7 @@
                             <li v-for="availableBook in this.availablebooks" v-bind:key="availableBook.id"><a href="#" @click="addBook(availableBook)">{{ availableBook.name }}</a></li>
                             </ul>
                         </div>
-                    </div>
-
-                    <div class="form-group">
+                    
                         <div class="btn-group">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                             <span class="caret"></span> Fees
@@ -91,15 +88,45 @@
                             <li v-for="availableFee in this.availablefees" v-bind:key="availableFee.id"><a href="#" @click="addFee(availableFee)">{{ availableFee.name }}</a></li>
                             </ul>
                         </div>
-                    </div>
-
-                    <div class="form-group">
+                    
                         <div class="btn-group">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                             <span class="caret"></span> Enrollment
                             </button>
                             <ul class="dropdown-menu">
                             <li v-for="availableEnrollment in this.availableenrollments" v-bind:key="availableEnrollment.id"><a href="#" @click="addEnrollment(availableEnrollment)">{{ availableEnrollment.student.user.lastname }} {{ availableEnrollment.student.user.firstname }} ({{ availableEnrollment.course.name }})</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="box">
+                <div class="box-header with-border">
+                    <div class="box-title">
+                        Discounts
+                    </div>
+                    <div class="box-tools pull-right">
+                    </div>
+                </div>
+                
+                <div class="box-body">
+
+                    <ul>
+                        <li v-bind:key="discount.id" v-for="(discount, index) in discounts">
+                            {{ discount.name }} ({{ discount.value }}%)
+                            <button class="btn btn-xs btn-warning" v-on:click="removeDiscount(index)"><i class="fa fa-times"></i></button>
+                        </li>
+                    </ul>
+
+                    <div class="form-group">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span> Add discount
+                            </button>
+                            <ul class="dropdown-menu">
+                            <li v-for="availableDiscount in this.availablediscounts" v-bind:key="availableDiscount.id"><a href="#" @click="addDiscount(availableDiscount)">{{ availableDiscount.name }}</a></li>
                             </ul>
                         </div>
                     </div>
@@ -114,7 +141,7 @@
 
     export default {
 
-        props: ['enrollmentslist', 'feeslist', 'bookslist', 'availablebooks', 'availablefees', 'availableenrollments'],
+        props: ['enrollmentslist', 'feeslist', 'bookslist', 'availablebooks', 'availablefees', 'availableenrollments', 'availablediscounts'],
 
         data () {
             return {
@@ -123,6 +150,7 @@
                 fees: this.feeslist || [],
                 totalPrice: 0,
                 errors: [],
+                discounts: [],
             }
         },
 
@@ -162,8 +190,24 @@
                 this.fees.splice(index, 1);
 
             },
-        },
 
+
+            addDiscount(discount)
+            {
+                this.discounts.push(discount);
+            },
+
+            removeDiscount(index)
+            {
+                this.discounts.splice(index, 1);
+
+            },
+
+            discount(price)
+            {
+                return price * this.totalDiscount;
+            }
+        },
         computed: {
             shoppingCartTotal() {
                 let total = 0;
@@ -181,7 +225,7 @@
 
                 if(this.enrollments) {
                     this.enrollments.forEach(enrollment => {
-                        total += parseFloat(enrollment.course.price);
+                        total += parseFloat(enrollment.course.price) - this.discount(parseFloat(enrollment.course.price));
                     });
                 }
                 return total;
@@ -189,7 +233,20 @@
                 /* this.books.map(item => parseFloat(item.price)).reduce((total, amount) => total + amount)
                 +this.fees.map(item => parseFloat(item.price)).reduce((total, amount) => total + amount)
                 +this.enrollments.map(item => parseFloat(item.course.price)).reduce((total, amount) => total + amount); */
-            }
+            },
+
+            totalDiscount() {
+                let total = 0;
+                if(this.discounts) {
+                    this.discounts.forEach(discount => {
+                        total += parseFloat(discount.value)/100;
+                    });
+                }
+                
+                return total;
+
+            },
+
         },
     }
 </script>
