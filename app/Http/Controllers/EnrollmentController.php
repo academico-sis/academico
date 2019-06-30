@@ -96,11 +96,11 @@ class EnrollmentController extends Controller
         $fees = Session::get('fees');
 
         $availableBooks = Book::all();
-
         $availableFees = Fee::all();
+        $availableEnrollments = Enrollment::where('status_id', 1)->with('student')->with('course')->get();
 
 
-        return view('carts.show', compact('enrollments', 'fees', 'books', 'availableBooks', 'availableFees'));
+        return view('carts.show', compact('enrollments', 'fees', 'books', 'availableBooks', 'availableFees', 'availableEnrollments'));
     }
 
     /** this method is temporary. It serves as a shortcut until the invoicing system is in place */

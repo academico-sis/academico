@@ -1865,8 +1865,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['enrollmentslist', 'feeslist', 'bookslist', 'availablebooks', 'availablefees'],
+  props: ['enrollmentslist', 'feeslist', 'bookslist', 'availablebooks', 'availablefees', 'availableenrollments'],
   data: function data() {
     return {
       enrollments: this.enrollmentslist || [],
@@ -1883,6 +1891,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     addFee: function addFee(fee) {
       this.fees.push(fee);
+    },
+    addEnrollment: function addEnrollment(enrollment) {
+      this.enrollments.push(enrollment);
     },
     removeEnrollmentFromCart: function removeEnrollmentFromCart(index) {
       this.enrollments.splice(index, 1);
@@ -3490,7 +3501,15 @@ var render = function() {
               [
                 _vm._l(_vm.enrollments, function(enrollment, index) {
                   return _c("tr", { key: enrollment.id }, [
-                    _c("td", [_vm._v(_vm._s(enrollment.course.name))]),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(enrollment.course.name) +
+                          " para " +
+                          _vm._s(enrollment.student.user.firstname) +
+                          " " +
+                          _vm._s(enrollment.student.user.lastname)
+                      )
+                    ]),
                     _vm._v(" "),
                     _c("td", [_vm._v("$ " + _vm._s(enrollment.course.price))]),
                     _vm._v(" "),
@@ -3622,11 +3641,50 @@ var render = function() {
                         attrs: { href: "#" },
                         on: {
                           click: function($event) {
-                            return _vm.addBook(availableFee)
+                            return _vm.addFee(availableFee)
                           }
                         }
                       },
                       [_vm._v(_vm._s(availableFee.name))]
+                    )
+                  ])
+                }),
+                0
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group" }, [
+            _c("div", { staticClass: "btn-group" }, [
+              _vm._m(5),
+              _vm._v(" "),
+              _c(
+                "ul",
+                { staticClass: "dropdown-menu" },
+                _vm._l(this.availableenrollments, function(
+                  availableEnrollment
+                ) {
+                  return _c("li", { key: availableEnrollment.id }, [
+                    _c(
+                      "a",
+                      {
+                        attrs: { href: "#" },
+                        on: {
+                          click: function($event) {
+                            return _vm.addEnrollment(availableEnrollment)
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(
+                          _vm._s(availableEnrollment.student.user.lastname) +
+                            " " +
+                            _vm._s(availableEnrollment.student.user.firstname) +
+                            " (" +
+                            _vm._s(availableEnrollment.course.name) +
+                            ")"
+                        )
+                      ]
                     )
                   ])
                 }),
@@ -3688,7 +3746,7 @@ var staticRenderFns = [
       },
       [
         _c("span", { staticClass: "caret" }),
-        _vm._v(" Books\n                    ")
+        _vm._v(" Books\n                        ")
       ]
     )
   },
@@ -3704,7 +3762,23 @@ var staticRenderFns = [
       },
       [
         _c("span", { staticClass: "caret" }),
-        _vm._v(" Fees\n                    ")
+        _vm._v(" Fees\n                        ")
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "btn btn-default dropdown-toggle",
+        attrs: { type: "button", "data-toggle": "dropdown" }
+      },
+      [
+        _c("span", { staticClass: "caret" }),
+        _vm._v(" Enrollment\n                        ")
       ]
     )
   }

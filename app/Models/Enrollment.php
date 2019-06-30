@@ -25,6 +25,7 @@ class Enrollment extends Model
 
     protected $fillable = ['student_id', 'course_id', 'parent_id', 'status_id'];
     protected $append = ['childrenEnrollments'];
+    protected $with = ['student', 'course'];
 
     protected static function boot()
     {
