@@ -272,7 +272,7 @@
                 </div>
                 <div class="box-body">
 
-                    <table>
+                    <table class="table">
                         <thead>
                             <tr>
                                 <th>Forma de pago</th>
@@ -283,12 +283,12 @@
                         <tbody>
                             <tr v-for="payment in payments">
                                 <td>
-                                    <select name="method">
-                                        <option value="">Tarjeta</option>
-                                        <option value="">Crédito</option>
+                                    <select name="method" v-model="payment.method">
+                                        <option value="tarjeta">Tarjeta</option>
+                                        <option value="credito">Crédito</option>
                                     </select>
                                 </td>
-                                <td><input type="number" step="0.01" /></td>
+                                <td>$<input type="number" step="0.01" v-model="payment.value"/></td>
                             </tr>
                             <tr>
                                 <td>
@@ -297,9 +297,9 @@
                             </tr>
                         </tbody>
                     </table>
+
                     <div class="form-group">
-                        <label for="paidprice">Valor recibida:</label>
-                        
+                        <h4>Valor total recibida: $ {{ paidTotal }}"</h4>
                     </div>
 
                     <div class="form-group">
@@ -424,8 +424,8 @@
             addPayment()
             {
                 let payment = {
-                    method: "Tarjeta",
-                    value: 1
+                    method: "",
+                    value: this.shoppingCartTotal
                 };
 
                 this.payments.push(payment);
@@ -466,6 +466,17 @@
                 /* this.books.map(item => parseFloat(item.price)).reduce((total, amount) => total + amount)
                 +this.fees.map(item => parseFloat(item.price)).reduce((total, amount) => total + amount)
                 +this.enrollments.map(item => parseFloat(item.course.price)).reduce((total, amount) => total + amount); */
+            },
+
+            paidTotal()
+            {
+                let total = 0;
+                if(this.payments) {
+                    this.payments.forEach(payment => {
+                        total += payment.value;
+                    });
+                }
+                return total;
             },
 
             totalDiscount() {

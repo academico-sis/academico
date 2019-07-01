@@ -2173,8 +2173,8 @@ __webpack_require__.r(__webpack_exports__);
     },
     addPayment: function addPayment() {
       var payment = {
-        method: "Tarjeta",
-        value: 1
+        method: "",
+        value: this.shoppingCartTotal
       };
       this.payments.push(payment);
     },
@@ -2212,6 +2212,17 @@ __webpack_require__.r(__webpack_exports__);
       /* this.books.map(item => parseFloat(item.price)).reduce((total, amount) => total + amount)
       +this.fees.map(item => parseFloat(item.price)).reduce((total, amount) => total + amount)
       +this.enrollments.map(item => parseFloat(item.course.price)).reduce((total, amount) => total + amount); */
+    },
+    paidTotal: function paidTotal() {
+      var total = 0;
+
+      if (this.payments) {
+        this.payments.forEach(function (payment) {
+          total += payment.value;
+        });
+      }
+
+      return total;
     },
     totalDiscount: function totalDiscount() {
       var total = 0;
@@ -4351,7 +4362,7 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "box-body" }, [
-                _c("table", [
+                _c("table", { staticClass: "table" }, [
                   _vm._m(11),
                   _vm._v(" "),
                   _c(
@@ -4359,9 +4370,79 @@ var render = function() {
                     [
                       _vm._l(_vm.payments, function(payment) {
                         return _c("tr", [
-                          _vm._m(12, true),
+                          _c("td", [
+                            _c(
+                              "select",
+                              {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: payment.method,
+                                    expression: "payment.method"
+                                  }
+                                ],
+                                attrs: { name: "method" },
+                                on: {
+                                  change: function($event) {
+                                    var $$selectedVal = Array.prototype.filter
+                                      .call($event.target.options, function(o) {
+                                        return o.selected
+                                      })
+                                      .map(function(o) {
+                                        var val =
+                                          "_value" in o ? o._value : o.value
+                                        return val
+                                      })
+                                    _vm.$set(
+                                      payment,
+                                      "method",
+                                      $event.target.multiple
+                                        ? $$selectedVal
+                                        : $$selectedVal[0]
+                                    )
+                                  }
+                                }
+                              },
+                              [
+                                _c("option", { attrs: { value: "tarjeta" } }, [
+                                  _vm._v("Tarjeta")
+                                ]),
+                                _vm._v(" "),
+                                _c("option", { attrs: { value: "credito" } }, [
+                                  _vm._v("Crédito")
+                                ])
+                              ]
+                            )
+                          ]),
                           _vm._v(" "),
-                          _vm._m(13, true)
+                          _c("td", [
+                            _vm._v("$"),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: payment.value,
+                                  expression: "payment.value"
+                                }
+                              ],
+                              attrs: { type: "number", step: "0.01" },
+                              domProps: { value: payment.value },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    payment,
+                                    "value",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          ])
                         ])
                       }),
                       _vm._v(" "),
@@ -4385,9 +4466,15 @@ var render = function() {
                   )
                 ]),
                 _vm._v(" "),
-                _vm._m(14),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("h4", [
+                    _vm._v(
+                      "Valor total recibida: $ " + _vm._s(_vm.paidTotal) + '"'
+                    )
+                  ])
+                ]),
                 _vm._v(" "),
-                _vm._m(15)
+                _vm._m(12)
               ])
             ])
           ])
@@ -4560,32 +4647,6 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Valor recibida")])
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("select", { attrs: { name: "method" } }, [
-        _c("option", { attrs: { value: "" } }, [_vm._v("Tarjeta")]),
-        _vm._v(" "),
-        _c("option", { attrs: { value: "" } }, [_vm._v("Crédito")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [_c("input", { attrs: { type: "number", step: "0.01" } })])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c("label", { attrs: { for: "paidprice" } }, [_vm._v("Valor recibida:")])
     ])
   },
   function() {
