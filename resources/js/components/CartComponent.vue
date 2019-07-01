@@ -1,5 +1,11 @@
 <template>
 <div>
+    <ol class="breadcrumb">
+        <li v-if="step >= 1"><a @click="step = 1">Products</a></li>
+        <li v-if="step >= 2" class="active"><a @click="step = 2">Invoice Data</a></li>
+        <li v-if="step >= 3" class="active"><a @click="step = 3">Payment</a></li>
+      </ol>
+
     <div class="row" v-if="step == 1">
         <div class="col col-md-8">
 
@@ -147,7 +153,7 @@
                         Estudiante
                     </div>
                     <div class="box-tools pull-right">
-                        <button class="btn btn-success" @click="step = 3"><i class="fa fa-check"></i>Selectionar</button>
+                        <button class="btn btn-success" @click="selectStudentData()"><i class="fa fa-check"></i>Selectionar</button>
                     </div>
                 </div>
                 <div class="box-body">
@@ -155,6 +161,25 @@
                     <p>{{enrollments[0].student.idnumber}}</p>
                     <p>{{enrollments[0].student.address}}</p>
                     <p>{{enrollments[0].student.user.email}}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4" v-for="contact in this.contactdata">
+            <div class="box">
+                <div class="box-header with-border">
+                    <div class="box-title">
+                        Contact
+                    </div>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-success" @click="selectInvoiceData(contact)"><i class="fa fa-check"></i>Selectionar</button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <p>{{contact.firstname}} {{contact.lastname}}</p>
+                    <p>{{contact.idnumber}}</p>
+                    <p>{{contact.address}}</p>
+                    <p>{{contact.email}}</p>
                 </div>
             </div>
         </div>
@@ -182,17 +207,17 @@
                             <th>Prix</th>
                         </thead>
                         <tbody>
-                            <tr v-bind:key="enrollment.id" v-for="(enrollment, index) in enrollments">
+                            <tr v-bind:key="enrollment.id" v-for="enrollment in enrollments">
                                 <td>{{ enrollment.course.name }} para {{ enrollment.student.user.firstname }} {{ enrollment.student.user.lastname }}</td>
                                 <td>$ {{ enrollment.course.price }} <span class="label label-info" v-if="discount(enrollment.course.price) > 0">- ${{ discount(enrollment.course.price) }}</span></td>
                             </tr>
 
-                            <tr v-bind:key="book.id" v-for="(book, index) in books">
+                            <tr v-bind:key="book.id" v-for="book in books">
                                 <td>{{ book.name }}</td>
                                 <td>$ {{ book.price }}</td>
                             </tr>
 
-                            <tr v-bind:key="fee.id" v-for="(fee, index) in fees">
+                            <tr v-bind:key="fee.id" v-for="fee in fees">
                                 <td>{{ fee.name }}</td>
                                 <td>$ {{ fee.price }}</td>
                             </tr>
@@ -208,7 +233,7 @@
                 </div>
             </div>
 
-        </div>        
+        </div>
         <div class="col-md-4">
             <div class="box box-solid box-primary">
                 <div class="box-header with-border">
@@ -225,6 +250,29 @@
                     <p>Comentario:</p>          
                 </div>
             </div>
+
+            <div class="box box-solid box-primary">
+                <div class="box-header with-border">
+                    <div class="box-title">
+                        Datos de factura
+                    </div>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-success" @click="finish()"><i class="fa fa-check"></i>Facturar</button>
+
+                    </div>
+                </div>
+                <div class="box-body">
+                    <ul>
+                        <li>{{clientname}}</li>
+                        <li>{{clientphone}}</li>
+                        <li>{{clientaddress}}</li>
+                        <li>{{clientemail}}</li>
+                        <li>{{clientidnumber}}</li>
+                    </ul>
+                          
+                </div>
+            </div>
+
         </div>
 
     </div>
@@ -249,6 +297,11 @@
                 errors: [],
                 discounts: [],
                 step: 1,
+                clientname: '',
+                clientphone: '',
+                clientaddress: '',
+                clientemail: '',
+                clientidnumber: '',
             }
         },
 
@@ -304,6 +357,29 @@
             discount(price)
             {
                 return price * this.totalDiscount;
+            },
+
+            selectStudentData()
+            {
+                this.clientname = this.enrollments[0].student.user.firstname + ' ' + this.enrollments[0].student.user.lastname
+                this.clientphone = this.enrollments[0].student.user.email //todo
+                this.clientaddress = this.enrollments[0].student.address
+                this.clientidnumber = this.enrollments[0].student.idnumber
+                this.clientemail = this.enrollments[0].student.user.email
+                
+                this.step = 3;
+
+            },
+
+            selectInvoiceData(contact)
+            {
+                this.clientname = contact.firstname + ' ' + contact.lastname
+                this.clientphone = contact.email //todo
+                this.clientaddress = contact.address
+                this.clientidnumber = contact.idnumber
+                this.clientemail = contact.email
+                
+                this.step = 3;
             },
 
             finish()

@@ -1384,7 +1384,7 @@ module.exports = function spread(callback) {
 
 
 var bind = __webpack_require__(/*! ./helpers/bind */ "./node_modules/axios/lib/helpers/bind.js");
-var isBuffer = __webpack_require__(/*! is-buffer */ "./node_modules/is-buffer/index.js");
+var isBuffer = __webpack_require__(/*! is-buffer */ "./node_modules/axios/node_modules/is-buffer/index.js");
 
 /*global toString:true*/
 
@@ -1688,6 +1688,28 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./node_modules/axios/node_modules/is-buffer/index.js":
+/*!************************************************************!*\
+  !*** ./node_modules/axios/node_modules/is-buffer/index.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/*!
+ * Determine if an object is a Buffer
+ *
+ * @author   Feross Aboukhadijeh <https://feross.org>
+ * @license  MIT
+ */
+
+module.exports = function isBuffer (obj) {
+  return obj != null && obj.constructor != null &&
+    typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AbsenceButtonsComponent.vue?vue&type=script&lang=js&":
 /*!**********************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/AbsenceButtonsComponent.vue?vue&type=script&lang=js& ***!
@@ -1743,7 +1765,7 @@ __webpack_require__.r(__webpack_exports__);
         attendance_type_id: attendance
       }).then(function (response) {
         _this.studentAttendance = attendance;
-      })["catch"](function (e) {
+      }).catch(function (e) {
         _this.errors.push(e);
       });
     }
@@ -1997,6 +2019,54 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['enrollmentslist', 'feeslist', 'bookslist', 'availablebooks', 'availablefees', 'availableenrollments', 'availablediscounts', 'contactdata'],
   data: function data() {
@@ -2007,7 +2077,12 @@ __webpack_require__.r(__webpack_exports__);
       totalPrice: 0,
       errors: [],
       discounts: [],
-      step: 1
+      step: 1,
+      clientname: '',
+      clientphone: '',
+      clientaddress: '',
+      clientemail: '',
+      clientidnumber: ''
     };
   },
   mounted: function mounted() {},
@@ -2038,6 +2113,24 @@ __webpack_require__.r(__webpack_exports__);
     },
     discount: function discount(price) {
       return price * this.totalDiscount;
+    },
+    selectStudentData: function selectStudentData() {
+      this.clientname = this.enrollments[0].student.user.firstname + ' ' + this.enrollments[0].student.user.lastname;
+      this.clientphone = this.enrollments[0].student.user.email; //todo
+
+      this.clientaddress = this.enrollments[0].student.address;
+      this.clientidnumber = this.enrollments[0].student.idnumber;
+      this.clientemail = this.enrollments[0].student.user.email;
+      this.step = 3;
+    },
+    selectInvoiceData: function selectInvoiceData(contact) {
+      this.clientname = contact.firstname + ' ' + contact.lastname;
+      this.clientphone = contact.email; //todo
+
+      this.clientaddress = contact.address;
+      this.clientidnumber = contact.idnumber;
+      this.clientemail = contact.email;
+      this.step = 3;
     },
     finish: function finish() {
       axios.post('/checkout', {
@@ -2152,7 +2245,7 @@ __webpack_require__.r(__webpack_exports__);
     deletePhoneNumber: function deletePhoneNumber(phonenumber) {
       var _this3 = this;
 
-      axios["delete"]('/phonenumber/' + phonenumber).then(function (response) {
+      axios.delete('/phonenumber/' + phonenumber).then(function (response) {
         _this3.getPhoneNumbers();
       });
     }
@@ -2301,7 +2394,7 @@ __webpack_require__.r(__webpack_exports__);
         comment: this.newcomment
       }).then(function (response) {
         _this.comments.push(response.data);
-      })["catch"](function (e) {
+      }).catch(function (e) {
         _this.errors.push(e);
       });
     },
@@ -2314,7 +2407,7 @@ __webpack_require__.r(__webpack_exports__);
         enrollment: this.enrollment.id
       }).then(function (response) {
         document.location.reload(true); // todo improve
-      })["catch"](function (e) {
+      }).catch(function (e) {
         _this2.errors.push(e);
       });
     }
@@ -2463,10 +2556,10 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('/coursetime/' + this.course + '/get').then(function (response) {
         _this.times = response.data;
-      })["catch"](function (error) {
+      }).catch(function (error) {
         console.log(error);
         _this.errored = true;
-      })["finally"](function () {
+      }).finally(function () {
         return _this.loading = false;
       });
     },
@@ -2475,10 +2568,10 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('/course/' + this.course + '/events/get').then(function (response) {
         _this2.events = response.data;
-      })["catch"](function (error) {
+      }).catch(function (error) {
         console.log(error);
         _this2.errored = true;
-      })["finally"](function () {
+      }).finally(function () {
         return _this2.loading = false;
       });
     },
@@ -2493,20 +2586,20 @@ __webpack_require__.r(__webpack_exports__);
         _this3.getTimes();
 
         _this3.getEvents();
-      })["catch"](function (e) {
+      }).catch(function (e) {
         _this3.errors.push(e);
       });
     },
     removeTime: function removeTime(time) {
       var _this4 = this;
 
-      axios["delete"]('/coursetime/' + time.id, {
+      axios.delete('/coursetime/' + time.id, {
         time: time
       }).then(function (response) {
         _this4.getTimes();
 
         _this4.getEvents();
-      })["catch"](function (e) {
+      }).catch(function (e) {
         _this4.errors.push(e);
       });
     }
@@ -2603,7 +2696,7 @@ __webpack_require__.r(__webpack_exports__);
         attendance_type_id: attendance
       }).then(function (response) {
         _this.studentAttendance = attendance;
-      })["catch"](function (e) {
+      }).catch(function (e) {
         _this.errors.push(e);
       });
     }
@@ -2653,7 +2746,7 @@ __webpack_require__.r(__webpack_exports__);
           text: "The events have been updated.",
           type: "success"
         });
-      })["catch"](function (error) {
+      }).catch(function (error) {
         console.log(error);
       });
     },
@@ -2664,7 +2757,7 @@ __webpack_require__.r(__webpack_exports__);
           text: "The events have been updated.",
           type: "success"
         });
-      })["catch"](function (error) {
+      }).catch(function (error) {
         console.log(error);
       });
     }
@@ -2732,7 +2825,7 @@ __webpack_require__.r(__webpack_exports__);
         status: status
       }).then(function (response) {
         _this.status = response.data;
-      })["catch"](function (e) {
+      }).catch(function (e) {
         _this.errors.push(e);
       });
     }
@@ -2803,7 +2896,7 @@ __webpack_require__.r(__webpack_exports__);
     deletePhoneNumber: function deletePhoneNumber(phonenumber) {
       var _this3 = this;
 
-      axios["delete"]('/phonenumber/' + phonenumber).then(function (response) {
+      axios.delete('/phonenumber/' + phonenumber).then(function (response) {
         _this3.getPhoneNumbers();
       });
     }
@@ -2958,16 +3051,16 @@ __webpack_require__.r(__webpack_exports__);
         _this.commentlist.push(response.data);
 
         $('#myModal').modal('hide');
-      })["catch"](function (e) {
+      }).catch(function (e) {
         _this.errors.push(e);
       });
     },
     deleteComment: function deleteComment(comment, index) {
       var _this2 = this;
 
-      axios["delete"]('/comment/' + comment).then(function (response) {
+      axios.delete('/comment/' + comment).then(function (response) {
         _this2.$delete(_this2.commentlist, index);
-      })["catch"](function (e) {
+      }).catch(function (e) {
         _this2.errors.push(e);
       });
     }
@@ -3062,34 +3155,12 @@ __webpack_require__.r(__webpack_exports__);
         course: this.course.id
       }).then(function (response) {
         skill.status = response.data;
-      })["catch"](function (e) {
+      }).catch(function (e) {
         _this.errors.push(e);
       });
     }
   }
 });
-
-/***/ }),
-
-/***/ "./node_modules/is-buffer/index.js":
-/*!*****************************************!*\
-  !*** ./node_modules/is-buffer/index.js ***!
-  \*****************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-/*!
- * Determine if an object is a Buffer
- *
- * @author   Feross Aboukhadijeh <https://feross.org>
- * @license  MIT
- */
-
-module.exports = function isBuffer (obj) {
-  return obj != null && obj.constructor != null &&
-    typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)
-}
-
 
 /***/ }),
 
@@ -3586,12 +3657,12 @@ var render = function() {
           attrs: { id: "" },
           on: {
             click: function($event) {
-              return _vm.saveAttendance(3)
+              _vm.saveAttendance(3)
             }
           }
         },
         [
-          _vm._v("\n                Absence justifiée "),
+          _vm._v("\r\n                Absence justifiée "),
           _c("i", { staticClass: "fa fa-check" })
         ]
       )
@@ -3606,12 +3677,12 @@ var render = function() {
           attrs: { id: "" },
           on: {
             click: function($event) {
-              return _vm.saveAttendance(4)
+              _vm.saveAttendance(4)
             }
           }
         },
         [
-          _vm._v("\n                Absence non justifiée "),
+          _vm._v("\r\n                Absence non justifiée "),
           _c("i", { staticClass: "fa fa-user-times" })
         ]
       )
@@ -3641,6 +3712,56 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
+    _c("ol", { staticClass: "breadcrumb" }, [
+      _vm.step >= 1
+        ? _c("li", [
+            _c(
+              "a",
+              {
+                on: {
+                  click: function($event) {
+                    _vm.step = 1
+                  }
+                }
+              },
+              [_vm._v("Products")]
+            )
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.step >= 2
+        ? _c("li", { staticClass: "active" }, [
+            _c(
+              "a",
+              {
+                on: {
+                  click: function($event) {
+                    _vm.step = 2
+                  }
+                }
+              },
+              [_vm._v("Invoice Data")]
+            )
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.step >= 3
+        ? _c("li", { staticClass: "active" }, [
+            _c(
+              "a",
+              {
+                on: {
+                  click: function($event) {
+                    _vm.step = 3
+                  }
+                }
+              },
+              [_vm._v("Payment")]
+            )
+          ])
+        : _vm._e()
+    ]),
+    _vm._v(" "),
     _vm.step == 1
       ? _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col col-md-8" }, [
@@ -3693,7 +3814,7 @@ var render = function() {
                                 staticClass: "btn btn-xs btn-danger",
                                 on: {
                                   click: function($event) {
-                                    return _vm.removeEnrollmentFromCart(index)
+                                    _vm.removeEnrollmentFromCart(index)
                                   }
                                 }
                               },
@@ -3716,7 +3837,7 @@ var render = function() {
                                 staticClass: "btn btn-xs btn-danger",
                                 on: {
                                   click: function($event) {
-                                    return _vm.removeBookFromCart(index)
+                                    _vm.removeBookFromCart(index)
                                   }
                                 }
                               },
@@ -3739,7 +3860,7 @@ var render = function() {
                                 staticClass: "btn btn-xs btn-danger",
                                 on: {
                                   click: function($event) {
-                                    return _vm.removeFeeFromCart(index)
+                                    _vm.removeFeeFromCart(index)
                                   }
                                 }
                               },
@@ -3801,7 +3922,7 @@ var render = function() {
                               attrs: { href: "#" },
                               on: {
                                 click: function($event) {
-                                  return _vm.addBook(availableBook)
+                                  _vm.addBook(availableBook)
                                 }
                               }
                             },
@@ -3827,7 +3948,7 @@ var render = function() {
                               attrs: { href: "#" },
                               on: {
                                 click: function($event) {
-                                  return _vm.addFee(availableFee)
+                                  _vm.addFee(availableFee)
                                 }
                               }
                             },
@@ -3855,7 +3976,7 @@ var render = function() {
                               attrs: { href: "#" },
                               on: {
                                 click: function($event) {
-                                  return _vm.addEnrollment(availableEnrollment)
+                                  _vm.addEnrollment(availableEnrollment)
                                 }
                               }
                             },
@@ -3892,11 +4013,11 @@ var render = function() {
                   _vm._l(_vm.discounts, function(discount, index) {
                     return _c("li", { key: discount.id }, [
                       _vm._v(
-                        "\n                            " +
+                        "\r\n                            " +
                           _vm._s(discount.name) +
                           " (" +
                           _vm._s(discount.value) +
-                          "%)\n                            "
+                          "%)\r\n                            "
                       ),
                       _c(
                         "button",
@@ -3904,7 +4025,7 @@ var render = function() {
                           staticClass: "btn btn-xs btn-warning",
                           on: {
                             click: function($event) {
-                              return _vm.removeDiscount(index)
+                              _vm.removeDiscount(index)
                             }
                           }
                         },
@@ -3932,7 +4053,7 @@ var render = function() {
                               attrs: { href: "#" },
                               on: {
                                 click: function($event) {
-                                  return _vm.addDiscount(availableDiscount)
+                                  _vm.addDiscount(availableDiscount)
                                 }
                               }
                             },
@@ -3951,53 +4072,110 @@ var render = function() {
       : _vm._e(),
     _vm._v(" "),
     _vm.step == 2
-      ? _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-4" }, [
-            _c("div", { staticClass: "box" }, [
-              _c("div", { staticClass: "box-header with-border" }, [
-                _c("div", { staticClass: "box-title" }, [
-                  _vm._v(
-                    "\n                        Estudiante\n                    "
-                  )
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "box-tools pull-right" }, [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-success",
-                      on: {
-                        click: function($event) {
-                          _vm.step = 3
+      ? _c(
+          "div",
+          { staticClass: "row" },
+          [
+            _c("div", { staticClass: "col-md-4" }, [
+              _c("div", { staticClass: "box" }, [
+                _c("div", { staticClass: "box-header with-border" }, [
+                  _c("div", { staticClass: "box-title" }, [
+                    _vm._v(
+                      "\r\n                        Estudiante\r\n                    "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "box-tools pull-right" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-success",
+                        on: {
+                          click: function($event) {
+                            _vm.selectStudentData()
+                          }
                         }
-                      }
-                    },
-                    [
-                      _c("i", { staticClass: "fa fa-check" }),
-                      _vm._v("Selectionar")
-                    ]
-                  )
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "box-body" }, [
-                _c("p", [
-                  _vm._v(
-                    _vm._s(_vm.enrollments[0].student.user.firstname) +
-                      " " +
-                      _vm._s(_vm.enrollments[0].student.user.lastname)
-                  )
+                      },
+                      [
+                        _c("i", { staticClass: "fa fa-check" }),
+                        _vm._v("Selectionar")
+                      ]
+                    )
+                  ])
                 ]),
                 _vm._v(" "),
-                _c("p", [_vm._v(_vm._s(_vm.enrollments[0].student.idnumber))]),
-                _vm._v(" "),
-                _c("p", [_vm._v(_vm._s(_vm.enrollments[0].student.address))]),
-                _vm._v(" "),
-                _c("p", [_vm._v(_vm._s(_vm.enrollments[0].student.user.email))])
+                _c("div", { staticClass: "box-body" }, [
+                  _c("p", [
+                    _vm._v(
+                      _vm._s(_vm.enrollments[0].student.user.firstname) +
+                        " " +
+                        _vm._s(_vm.enrollments[0].student.user.lastname)
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("p", [
+                    _vm._v(_vm._s(_vm.enrollments[0].student.idnumber))
+                  ]),
+                  _vm._v(" "),
+                  _c("p", [_vm._v(_vm._s(_vm.enrollments[0].student.address))]),
+                  _vm._v(" "),
+                  _c("p", [
+                    _vm._v(_vm._s(_vm.enrollments[0].student.user.email))
+                  ])
+                ])
               ])
-            ])
-          ])
-        ])
+            ]),
+            _vm._v(" "),
+            _vm._l(this.contactdata, function(contact) {
+              return _c("div", { staticClass: "col-md-4" }, [
+                _c("div", { staticClass: "box" }, [
+                  _c("div", { staticClass: "box-header with-border" }, [
+                    _c("div", { staticClass: "box-title" }, [
+                      _vm._v(
+                        "\r\n                        Contact\r\n                    "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "box-tools pull-right" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-success",
+                          on: {
+                            click: function($event) {
+                              _vm.selectInvoiceData(contact)
+                            }
+                          }
+                        },
+                        [
+                          _c("i", { staticClass: "fa fa-check" }),
+                          _vm._v("Selectionar")
+                        ]
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "box-body" }, [
+                    _c("p", [
+                      _vm._v(
+                        _vm._s(contact.firstname) +
+                          " " +
+                          _vm._s(contact.lastname)
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("p", [_vm._v(_vm._s(contact.idnumber))]),
+                    _vm._v(" "),
+                    _c("p", [_vm._v(_vm._s(contact.address))]),
+                    _vm._v(" "),
+                    _c("p", [_vm._v(_vm._s(contact.email))])
+                  ])
+                ])
+              ])
+            })
+          ],
+          2
+        )
       : _vm._e(),
     _vm._v(" "),
     _vm.step == 3
@@ -4013,7 +4191,7 @@ var render = function() {
                   _c(
                     "tbody",
                     [
-                      _vm._l(_vm.enrollments, function(enrollment, index) {
+                      _vm._l(_vm.enrollments, function(enrollment) {
                         return _c("tr", { key: enrollment.id }, [
                           _c("td", [
                             _vm._v(
@@ -4047,7 +4225,7 @@ var render = function() {
                         ])
                       }),
                       _vm._v(" "),
-                      _vm._l(_vm.books, function(book, index) {
+                      _vm._l(_vm.books, function(book) {
                         return _c("tr", { key: book.id }, [
                           _c("td", [_vm._v(_vm._s(book.name))]),
                           _vm._v(" "),
@@ -4055,7 +4233,7 @@ var render = function() {
                         ])
                       }),
                       _vm._v(" "),
-                      _vm._l(_vm.fees, function(fee, index) {
+                      _vm._l(_vm.fees, function(fee) {
                         return _c("tr", { key: fee.id }, [
                           _c("td", [_vm._v(_vm._s(fee.name))]),
                           _vm._v(" "),
@@ -4083,7 +4261,7 @@ var render = function() {
               _c("div", { staticClass: "box-header with-border" }, [
                 _c("div", { staticClass: "box-title" }, [
                   _vm._v(
-                    "\n                        Forma de pago\n                    "
+                    "\r\n                        Forma de pago\r\n                    "
                   )
                 ]),
                 _vm._v(" "),
@@ -4094,7 +4272,7 @@ var render = function() {
                       staticClass: "btn btn-success",
                       on: {
                         click: function($event) {
-                          return _vm.finish()
+                          _vm.finish()
                         }
                       }
                     },
@@ -4107,6 +4285,48 @@ var render = function() {
               ]),
               _vm._v(" "),
               _vm._m(10)
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "box box-solid box-primary" }, [
+              _c("div", { staticClass: "box-header with-border" }, [
+                _c("div", { staticClass: "box-title" }, [
+                  _vm._v(
+                    "\r\n                        Datos de factura\r\n                    "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "box-tools pull-right" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success",
+                      on: {
+                        click: function($event) {
+                          _vm.finish()
+                        }
+                      }
+                    },
+                    [
+                      _c("i", { staticClass: "fa fa-check" }),
+                      _vm._v("Facturar")
+                    ]
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "box-body" }, [
+                _c("ul", [
+                  _c("li", [_vm._v(_vm._s(_vm.clientname))]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v(_vm._s(_vm.clientphone))]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v(_vm._s(_vm.clientaddress))]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v(_vm._s(_vm.clientemail))]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v(_vm._s(_vm.clientidnumber))])
+                ])
+              ])
             ])
           ])
         ])
@@ -4120,7 +4340,9 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "box-header with-border" }, [
       _c("div", { staticClass: "box-title" }, [
-        _vm._v("\n                        Cart details\n                    ")
+        _vm._v(
+          "\r\n                        Cart details\r\n                    "
+        )
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "box-tools pull-right" })
@@ -4144,7 +4366,9 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "box-header with-border" }, [
       _c("div", { staticClass: "box-title" }, [
-        _vm._v("\n                        Add products\n                    ")
+        _vm._v(
+          "\r\n                        Add products\r\n                    "
+        )
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "box-tools pull-right" })
@@ -4162,7 +4386,7 @@ var staticRenderFns = [
       },
       [
         _c("span", { staticClass: "caret" }),
-        _vm._v(" Books\n                            ")
+        _vm._v(" Books\r\n                            ")
       ]
     )
   },
@@ -4178,7 +4402,7 @@ var staticRenderFns = [
       },
       [
         _c("span", { staticClass: "caret" }),
-        _vm._v(" Fees\n                            ")
+        _vm._v(" Fees\r\n                            ")
       ]
     )
   },
@@ -4194,7 +4418,7 @@ var staticRenderFns = [
       },
       [
         _c("span", { staticClass: "caret" }),
-        _vm._v(" Enrollment\n                            ")
+        _vm._v(" Enrollment\r\n                            ")
       ]
     )
   },
@@ -4204,7 +4428,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "box-header with-border" }, [
       _c("div", { staticClass: "box-title" }, [
-        _vm._v("\n                        Discounts\n                    ")
+        _vm._v("\r\n                        Discounts\r\n                    ")
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "box-tools pull-right" })
@@ -4222,7 +4446,7 @@ var staticRenderFns = [
       },
       [
         _c("span", { staticClass: "caret" }),
-        _vm._v(" Add discount\n                            ")
+        _vm._v(" Add discount\r\n                            ")
       ]
     )
   },
@@ -4232,7 +4456,9 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "box-header with-border" }, [
       _c("div", { staticClass: "box-title" }, [
-        _vm._v("\n                        Cart details\n                    ")
+        _vm._v(
+          "\r\n                        Cart details\r\n                    "
+        )
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "box-tools pull-right" })
@@ -4297,7 +4523,7 @@ var render = function() {
               staticClass: "btn btn-danger",
               on: {
                 click: function($event) {
-                  return _vm.deletePhoneNumber(phoneable.id)
+                  _vm.deletePhoneNumber(phoneable.id)
                 }
               }
             },
@@ -4337,7 +4563,7 @@ var render = function() {
             staticClass: "btn",
             on: {
               click: function($event) {
-                return _vm.addPhoneNumber()
+                _vm.addPhoneNumber()
               }
             }
           },
@@ -4472,7 +4698,7 @@ var render = function() {
                     },
                     on: {
                       click: function($event) {
-                        return _vm.saveResult(result)
+                        _vm.saveResult(result)
                       }
                     }
                   },
@@ -4533,7 +4759,7 @@ var render = function() {
                       attrs: { type: "button" },
                       on: {
                         click: function($event) {
-                          return _vm.saveComment(_vm.newcomment)
+                          _vm.saveComment(_vm.newcomment)
                         }
                       }
                     },
@@ -4692,7 +4918,7 @@ var render = function() {
                     attrs: { type: "button" },
                     on: {
                       click: function($event) {
-                        return _vm.addTime()
+                        _vm.addTime()
                       }
                     }
                   },
@@ -4717,7 +4943,7 @@ var render = function() {
                       {
                         on: {
                           click: function($event) {
-                            return _vm.removeTime(time)
+                            _vm.removeTime(time)
                           }
                         }
                       },
@@ -4771,7 +4997,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "box-header with-border" }, [
       _c("div", { staticClass: "box-title" }, [
-        _vm._v("\n                    TODO - new time\n                ")
+        _vm._v("\r\n                    TODO - new time\r\n                ")
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "box-tools pull-right" })
@@ -4783,7 +5009,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "box-header with-border" }, [
       _c("div", { staticClass: "box-title" }, [
-        _vm._v("\n                    Events\n                ")
+        _vm._v("\r\n                    Events\r\n                ")
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "box-tools pull-right" })
@@ -4795,15 +5021,21 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("th", [
-        _vm._v("\n                            Date\n                        ")
+        _vm._v(
+          "\r\n                            Date\r\n                        "
+        )
       ]),
       _vm._v(" "),
       _c("th", [
-        _vm._v("\n                            Start\n                        ")
+        _vm._v(
+          "\r\n                            Start\r\n                        "
+        )
       ]),
       _vm._v(" "),
       _c("th", [
-        _vm._v("\n                            End\n                        ")
+        _vm._v(
+          "\r\n                            End\r\n                        "
+        )
       ]),
       _vm._v(" "),
       _c("th")
@@ -4853,7 +5085,7 @@ var render = function() {
                 attrs: { id: "" },
                 on: {
                   click: function($event) {
-                    return _vm.saveAttendance(1)
+                    _vm.saveAttendance(1)
                   }
                 }
               },
@@ -4873,7 +5105,7 @@ var render = function() {
                 attrs: { id: "" },
                 on: {
                   click: function($event) {
-                    return _vm.saveAttendance(2)
+                    _vm.saveAttendance(2)
                   }
                 }
               },
@@ -4893,7 +5125,7 @@ var render = function() {
                 attrs: { id: "" },
                 on: {
                   click: function($event) {
-                    return _vm.saveAttendance(3)
+                    _vm.saveAttendance(3)
                   }
                 }
               },
@@ -4913,7 +5145,7 @@ var render = function() {
                 attrs: { id: "" },
                 on: {
                   click: function($event) {
-                    return _vm.saveAttendance(4)
+                    _vm.saveAttendance(4)
                   }
                 }
               },
@@ -5009,7 +5241,7 @@ var render = function() {
                   },
                   on: {
                     click: function($event) {
-                      return _vm.saveStatus(leadtype.id)
+                      _vm.saveStatus(leadtype.id)
                     }
                   }
                 },
@@ -5081,7 +5313,7 @@ var render = function() {
               staticClass: "btn btn-danger",
               on: {
                 click: function($event) {
-                  return _vm.deletePhoneNumber(phoneable.id)
+                  _vm.deletePhoneNumber(phoneable.id)
                 }
               }
             },
@@ -5121,7 +5353,7 @@ var render = function() {
             staticClass: "btn",
             on: {
               click: function($event) {
-                return _vm.addPhoneNumber()
+                _vm.addPhoneNumber()
               }
             }
           },
@@ -5224,11 +5456,11 @@ var render = function() {
         _vm._l(_vm.commentlist, function(comment, index) {
           return _c("li", { key: comment.id }, [
             _vm._v(
-              "\n                " +
+              "\r\n                " +
                 _vm._s(comment.body) +
                 " (" +
                 _vm._s(_vm._f("moment")(comment.created_at, "D MMM YY")) +
-                ")\n                "
+                ")\r\n                "
             ),
             _c(
               "button",
@@ -5237,7 +5469,7 @@ var render = function() {
                 attrs: { type: "button" },
                 on: {
                   click: function($event) {
-                    return _vm.deleteComment(comment.id, index)
+                    _vm.deleteComment(comment.id, index)
                   }
                 }
               },
@@ -5351,7 +5583,7 @@ var render = function() {
                     attrs: { type: "button" },
                     on: {
                       click: function($event) {
-                        return _vm.addComment()
+                        _vm.addComment()
                       }
                     }
                   },
@@ -5372,7 +5604,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "box-header with-border" }, [
       _c("div", { staticClass: "box-title" }, [
-        _vm._v("\n            Commentaires\n        ")
+        _vm._v("\r\n            Commentaires\r\n        ")
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "box-tools pull-right" }, [
@@ -5489,10 +5721,7 @@ var render = function() {
                                 },
                                 on: {
                                   click: function($event) {
-                                    return _vm.saveSkillStatus(
-                                      skill,
-                                      skillScale.id
-                                    )
+                                    _vm.saveSkillStatus(skill, skillScale.id)
                                   }
                                 }
                               },
@@ -10376,17 +10605,17 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 /***/ }),
 
-/***/ "./node_modules/vue/dist/vue.common.dev.js":
-/*!*************************************************!*\
-  !*** ./node_modules/vue/dist/vue.common.dev.js ***!
-  \*************************************************/
+/***/ "./node_modules/vue/dist/vue.common.js":
+/*!*********************************************!*\
+  !*** ./node_modules/vue/dist/vue.common.js ***!
+  \*********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(global, setImmediate) {/*!
- * Vue.js v2.6.10
- * (c) 2014-2019 Evan You
+ * Vue.js v2.5.21
+ * (c) 2014-2018 Evan You
  * Released under the MIT License.
  */
 
@@ -10464,21 +10693,13 @@ function isValidArrayIndex (val) {
   return n >= 0 && Math.floor(n) === n && isFinite(val)
 }
 
-function isPromise (val) {
-  return (
-    isDef(val) &&
-    typeof val.then === 'function' &&
-    typeof val.catch === 'function'
-  )
-}
-
 /**
  * Convert a value to a string that is actually rendered.
  */
 function toString (val) {
   return val == null
     ? ''
-    : Array.isArray(val) || (isPlainObject(val) && val.toString === _toString)
+    : typeof val === 'object'
       ? JSON.stringify(val, null, 2)
       : String(val)
 }
@@ -10754,8 +10975,7 @@ var LIFECYCLE_HOOKS = [
   'destroyed',
   'activated',
   'deactivated',
-  'errorCaptured',
-  'serverPrefetch'
+  'errorCaptured'
 ];
 
 /*  */
@@ -10859,13 +11079,6 @@ var config = ({
 /*  */
 
 /**
- * unicode letters used for parsing html tags, component names and property paths.
- * using https://www.w3.org/TR/html53/semantics-scripting.html#potentialcustomelementname
- * skipping \u10000-\uEFFFF due to it freezing up PhantomJS
- */
-var unicodeRegExp = /a-zA-Z\u00B7\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u037D\u037F-\u1FFF\u200C-\u200D\u203F-\u2040\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD/;
-
-/**
  * Check if a string starts with $ or _
  */
 function isReserved (str) {
@@ -10888,7 +11101,7 @@ function def (obj, key, val, enumerable) {
 /**
  * Parse simple path.
  */
-var bailRE = new RegExp(("[^" + (unicodeRegExp.source) + ".$_\\d]"));
+var bailRE = /[^\w.$]/;
 function parsePath (path) {
   if (bailRE.test(path)) {
     return
@@ -10919,8 +11132,6 @@ var isEdge = UA && UA.indexOf('edge/') > 0;
 var isAndroid = (UA && UA.indexOf('android') > 0) || (weexPlatform === 'android');
 var isIOS = (UA && /iphone|ipad|ipod|ios/.test(UA)) || (weexPlatform === 'ios');
 var isChrome = UA && /chrome\/\d+/.test(UA) && !isEdge;
-var isPhantomJS = UA && /phantomjs/.test(UA);
-var isFF = UA && UA.match(/firefox\/(\d+)/);
 
 // Firefox has a "watch" function on Object.prototype...
 var nativeWatch = ({}).watch;
@@ -11000,7 +11211,7 @@ var tip = noop;
 var generateComponentTrace = (noop); // work around flow check
 var formatComponentName = (noop);
 
-{
+if (true) {
   var hasConsole = typeof console !== 'undefined';
   var classifyRE = /(?:^|[-_])(\w)/g;
   var classify = function (str) { return str
@@ -11033,7 +11244,7 @@ var formatComponentName = (noop);
       ? vm.options
       : vm._isVue
         ? vm.$options || vm.constructor.options
-        : vm;
+        : vm || {};
     var name = options.name || options._componentTag;
     var file = options.__file;
     if (!name && file) {
@@ -11117,7 +11328,7 @@ Dep.prototype.depend = function depend () {
 Dep.prototype.notify = function notify () {
   // stabilize the subscriber list first
   var subs = this.subs.slice();
-  if (!config.async) {
+  if ( true && !config.async) {
     // subs aren't sorted in scheduler if not running async
     // we need to sort them now to make sure they fire in correct
     // order
@@ -11128,9 +11339,9 @@ Dep.prototype.notify = function notify () {
   }
 };
 
-// The current target watcher being evaluated.
-// This is globally unique because only one watcher
-// can be evaluated at a time.
+// the current target watcher being evaluated.
+// this is globally unique because there could be only one
+// watcher being evaluated at any time.
 Dep.target = null;
 var targetStack = [];
 
@@ -11438,7 +11649,7 @@ function defineReactive$$1 (
         return
       }
       /* eslint-enable no-self-compare */
-      if (customSetter) {
+      if ( true && customSetter) {
         customSetter();
       }
       // #7981: for accessor properties without setter
@@ -11460,7 +11671,8 @@ function defineReactive$$1 (
  * already exist.
  */
 function set (target, key, val) {
-  if (isUndef(target) || isPrimitive(target)
+  if ( true &&
+    (isUndef(target) || isPrimitive(target))
   ) {
     warn(("Cannot set reactive property on undefined, null, or primitive value: " + ((target))));
   }
@@ -11475,7 +11687,7 @@ function set (target, key, val) {
   }
   var ob = (target).__ob__;
   if (target._isVue || (ob && ob.vmCount)) {
-    warn(
+     true && warn(
       'Avoid adding reactive properties to a Vue instance or its root $data ' +
       'at runtime - declare it upfront in the data option.'
     );
@@ -11494,7 +11706,8 @@ function set (target, key, val) {
  * Delete a property and trigger change if necessary.
  */
 function del (target, key) {
-  if (isUndef(target) || isPrimitive(target)
+  if ( true &&
+    (isUndef(target) || isPrimitive(target))
   ) {
     warn(("Cannot delete reactive property on undefined, null, or primitive value: " + ((target))));
   }
@@ -11504,7 +11717,7 @@ function del (target, key) {
   }
   var ob = (target).__ob__;
   if (target._isVue || (ob && ob.vmCount)) {
-    warn(
+     true && warn(
       'Avoid deleting properties on a Vue instance or its root $data ' +
       '- just set it to null.'
     );
@@ -11546,7 +11759,7 @@ var strats = config.optionMergeStrategies;
 /**
  * Options with restrictions
  */
-{
+if (true) {
   strats.el = strats.propsData = function (parent, child, vm, key) {
     if (!vm) {
       warn(
@@ -11564,15 +11777,9 @@ var strats = config.optionMergeStrategies;
 function mergeData (to, from) {
   if (!from) { return to }
   var key, toVal, fromVal;
-
-  var keys = hasSymbol
-    ? Reflect.ownKeys(from)
-    : Object.keys(from);
-
+  var keys = Object.keys(from);
   for (var i = 0; i < keys.length; i++) {
     key = keys[i];
-    // in case the object is already observed...
-    if (key === '__ob__') { continue }
     toVal = to[key];
     fromVal = from[key];
     if (!hasOwn(to, key)) {
@@ -11640,7 +11847,7 @@ strats.data = function (
 ) {
   if (!vm) {
     if (childVal && typeof childVal !== 'function') {
-      warn(
+       true && warn(
         'The "data" option should be a function ' +
         'that returns a per-instance value in component ' +
         'definitions.',
@@ -11662,26 +11869,13 @@ function mergeHook (
   parentVal,
   childVal
 ) {
-  var res = childVal
+  return childVal
     ? parentVal
       ? parentVal.concat(childVal)
       : Array.isArray(childVal)
         ? childVal
         : [childVal]
-    : parentVal;
-  return res
-    ? dedupeHooks(res)
-    : res
-}
-
-function dedupeHooks (hooks) {
-  var res = [];
-  for (var i = 0; i < hooks.length; i++) {
-    if (res.indexOf(hooks[i]) === -1) {
-      res.push(hooks[i]);
-    }
-  }
-  return res
+    : parentVal
 }
 
 LIFECYCLE_HOOKS.forEach(function (hook) {
@@ -11703,7 +11897,7 @@ function mergeAssets (
 ) {
   var res = Object.create(parentVal || null);
   if (childVal) {
-    assertObjectType(key, childVal, vm);
+     true && assertObjectType(key, childVal, vm);
     return extend(res, childVal)
   } else {
     return res
@@ -11731,7 +11925,7 @@ strats.watch = function (
   if (childVal === nativeWatch) { childVal = undefined; }
   /* istanbul ignore if */
   if (!childVal) { return Object.create(parentVal || null) }
-  {
+  if (true) {
     assertObjectType(key, childVal, vm);
   }
   if (!parentVal) { return childVal }
@@ -11792,10 +11986,11 @@ function checkComponents (options) {
 }
 
 function validateComponentName (name) {
-  if (!new RegExp(("^[a-zA-Z][\\-\\.0-9_" + (unicodeRegExp.source) + "]*$")).test(name)) {
+  if (!/^[a-zA-Z][\w-]*$/.test(name)) {
     warn(
       'Invalid component name: "' + name + '". Component names ' +
-      'should conform to valid custom element name in html5 specification.'
+      'can only contain alphanumeric characters and the hyphen, ' +
+      'and must start with a letter.'
     );
   }
   if (isBuiltInTag(name) || config.isReservedTag(name)) {
@@ -11822,7 +12017,7 @@ function normalizeProps (options, vm) {
       if (typeof val === 'string') {
         name = camelize(val);
         res[name] = { type: null };
-      } else {
+      } else if (true) {
         warn('props must be strings when using array syntax.');
       }
     }
@@ -11834,7 +12029,7 @@ function normalizeProps (options, vm) {
         ? val
         : { type: val };
     }
-  } else {
+  } else if (true) {
     warn(
       "Invalid value for option \"props\": expected an Array or an Object, " +
       "but got " + (toRawType(props)) + ".",
@@ -11862,7 +12057,7 @@ function normalizeInject (options, vm) {
         ? extend({ from: key }, val)
         : { from: val };
     }
-  } else {
+  } else if (true) {
     warn(
       "Invalid value for option \"inject\": expected an Array or an Object, " +
       "but got " + (toRawType(inject)) + ".",
@@ -11878,9 +12073,9 @@ function normalizeDirectives (options) {
   var dirs = options.directives;
   if (dirs) {
     for (var key in dirs) {
-      var def$$1 = dirs[key];
-      if (typeof def$$1 === 'function') {
-        dirs[key] = { bind: def$$1, update: def$$1 };
+      var def = dirs[key];
+      if (typeof def === 'function') {
+        dirs[key] = { bind: def, update: def };
       }
     }
   }
@@ -11905,7 +12100,7 @@ function mergeOptions (
   child,
   vm
 ) {
-  {
+  if (true) {
     checkComponents(child);
   }
 
@@ -11916,7 +12111,7 @@ function mergeOptions (
   normalizeProps(child, vm);
   normalizeInject(child, vm);
   normalizeDirectives(child);
-
+  
   // Apply extends and mixins on the child options,
   // but only if it is a raw options object that isn't
   // the result of another mergeOptions call.
@@ -11973,7 +12168,7 @@ function resolveAsset (
   if (hasOwn(assets, PascalCaseId)) { return assets[PascalCaseId] }
   // fallback to prototype chain
   var res = assets[id] || assets[camelizedId] || assets[PascalCaseId];
-  if (warnMissing && !res) {
+  if ( true && warnMissing && !res) {
     warn(
       'Failed to resolve ' + type.slice(0, -1) + ': ' + id,
       options
@@ -12019,7 +12214,9 @@ function validateProp (
     observe(value);
     toggleObserving(prevShouldObserve);
   }
-  {
+  if (
+    true
+  ) {
     assertProp(prop, key, value, vm, absent);
   }
   return value
@@ -12035,7 +12232,7 @@ function getPropDefaultValue (vm, prop, key) {
   }
   var def = prop.default;
   // warn against non-factory defaults for Object & Array
-  if (isObject(def)) {
+  if ( true && isObject(def)) {
     warn(
       'Invalid default value for prop "' + key + '": ' +
       'Props with type Object/Array must use a factory function ' +
@@ -12207,52 +12404,23 @@ function isBoolean () {
 /*  */
 
 function handleError (err, vm, info) {
-  // Deactivate deps tracking while processing error handler to avoid possible infinite rendering.
-  // See: https://github.com/vuejs/vuex/issues/1505
-  pushTarget();
-  try {
-    if (vm) {
-      var cur = vm;
-      while ((cur = cur.$parent)) {
-        var hooks = cur.$options.errorCaptured;
-        if (hooks) {
-          for (var i = 0; i < hooks.length; i++) {
-            try {
-              var capture = hooks[i].call(cur, err, vm, info) === false;
-              if (capture) { return }
-            } catch (e) {
-              globalHandleError(e, cur, 'errorCaptured hook');
-            }
+  if (vm) {
+    var cur = vm;
+    while ((cur = cur.$parent)) {
+      var hooks = cur.$options.errorCaptured;
+      if (hooks) {
+        for (var i = 0; i < hooks.length; i++) {
+          try {
+            var capture = hooks[i].call(cur, err, vm, info) === false;
+            if (capture) { return }
+          } catch (e) {
+            globalHandleError(e, cur, 'errorCaptured hook');
           }
         }
       }
     }
-    globalHandleError(err, vm, info);
-  } finally {
-    popTarget();
   }
-}
-
-function invokeWithErrorHandling (
-  handler,
-  context,
-  args,
-  vm,
-  info
-) {
-  var res;
-  try {
-    res = args ? handler.apply(context, args) : handler.call(context);
-    if (res && !res._isVue && isPromise(res) && !res._handled) {
-      res.catch(function (e) { return handleError(e, vm, info + " (Promise/async)"); });
-      // issue #9511
-      // avoid catch triggering multiple times when nested calls
-      res._handled = true;
-    }
-  } catch (e) {
-    handleError(e, vm, info);
-  }
-  return res
+  globalHandleError(err, vm, info);
 }
 
 function globalHandleError (err, vm, info) {
@@ -12260,18 +12428,14 @@ function globalHandleError (err, vm, info) {
     try {
       return config.errorHandler.call(null, err, vm, info)
     } catch (e) {
-      // if the user intentionally throws the original error in the handler,
-      // do not log it twice
-      if (e !== err) {
-        logError(e, null, 'config.errorHandler');
-      }
+      logError(e, null, 'config.errorHandler');
     }
   }
   logError(err, vm, info);
 }
 
 function logError (err, vm, info) {
-  {
+  if (true) {
     warn(("Error in " + info + ": \"" + (err.toString()) + "\""), vm);
   }
   /* istanbul ignore else */
@@ -12283,8 +12447,6 @@ function logError (err, vm, info) {
 }
 
 /*  */
-
-var isUsingMicroTask = false;
 
 var callbacks = [];
 var pending = false;
@@ -12298,69 +12460,76 @@ function flushCallbacks () {
   }
 }
 
-// Here we have async deferring wrappers using microtasks.
-// In 2.5 we used (macro) tasks (in combination with microtasks).
-// However, it has subtle problems when state is changed right before repaint
-// (e.g. #6813, out-in transitions).
-// Also, using (macro) tasks in event handler would cause some weird behaviors
-// that cannot be circumvented (e.g. #7109, #7153, #7546, #7834, #8109).
-// So we now use microtasks everywhere, again.
-// A major drawback of this tradeoff is that there are some scenarios
-// where microtasks have too high a priority and fire in between supposedly
-// sequential events (e.g. #4521, #6690, which have workarounds)
-// or even between bubbling of the same event (#6566).
-var timerFunc;
+// Here we have async deferring wrappers using both microtasks and (macro) tasks.
+// In < 2.4 we used microtasks everywhere, but there are some scenarios where
+// microtasks have too high a priority and fire in between supposedly
+// sequential events (e.g. #4521, #6690) or even between bubbling of the same
+// event (#6566). However, using (macro) tasks everywhere also has subtle problems
+// when state is changed right before repaint (e.g. #6813, out-in transitions).
+// Here we use microtask by default, but expose a way to force (macro) task when
+// needed (e.g. in event handlers attached by v-on).
+var microTimerFunc;
+var macroTimerFunc;
+var useMacroTask = false;
 
-// The nextTick behavior leverages the microtask queue, which can be accessed
-// via either native Promise.then or MutationObserver.
-// MutationObserver has wider support, however it is seriously bugged in
-// UIWebView in iOS >= 9.3.3 when triggered in touch event handlers. It
-// completely stops working after triggering a few times... so, if native
-// Promise is available, we will use it:
+// Determine (macro) task defer implementation.
+// Technically setImmediate should be the ideal choice, but it's only available
+// in IE. The only polyfill that consistently queues the callback after all DOM
+// events triggered in the same loop is by using MessageChannel.
+/* istanbul ignore if */
+if (typeof setImmediate !== 'undefined' && isNative(setImmediate)) {
+  macroTimerFunc = function () {
+    setImmediate(flushCallbacks);
+  };
+} else if (typeof MessageChannel !== 'undefined' && (
+  isNative(MessageChannel) ||
+  // PhantomJS
+  MessageChannel.toString() === '[object MessageChannelConstructor]'
+)) {
+  var channel = new MessageChannel();
+  var port = channel.port2;
+  channel.port1.onmessage = flushCallbacks;
+  macroTimerFunc = function () {
+    port.postMessage(1);
+  };
+} else {
+  /* istanbul ignore next */
+  macroTimerFunc = function () {
+    setTimeout(flushCallbacks, 0);
+  };
+}
+
+// Determine microtask defer implementation.
 /* istanbul ignore next, $flow-disable-line */
 if (typeof Promise !== 'undefined' && isNative(Promise)) {
   var p = Promise.resolve();
-  timerFunc = function () {
+  microTimerFunc = function () {
     p.then(flushCallbacks);
-    // In problematic UIWebViews, Promise.then doesn't completely break, but
+    // in problematic UIWebViews, Promise.then doesn't completely break, but
     // it can get stuck in a weird state where callbacks are pushed into the
     // microtask queue but the queue isn't being flushed, until the browser
     // needs to do some other work, e.g. handle a timer. Therefore we can
     // "force" the microtask queue to be flushed by adding an empty timer.
     if (isIOS) { setTimeout(noop); }
   };
-  isUsingMicroTask = true;
-} else if (!isIE && typeof MutationObserver !== 'undefined' && (
-  isNative(MutationObserver) ||
-  // PhantomJS and iOS 7.x
-  MutationObserver.toString() === '[object MutationObserverConstructor]'
-)) {
-  // Use MutationObserver where native Promise is not available,
-  // e.g. PhantomJS, iOS7, Android 4.4
-  // (#6466 MutationObserver is unreliable in IE11)
-  var counter = 1;
-  var observer = new MutationObserver(flushCallbacks);
-  var textNode = document.createTextNode(String(counter));
-  observer.observe(textNode, {
-    characterData: true
-  });
-  timerFunc = function () {
-    counter = (counter + 1) % 2;
-    textNode.data = String(counter);
-  };
-  isUsingMicroTask = true;
-} else if (typeof setImmediate !== 'undefined' && isNative(setImmediate)) {
-  // Fallback to setImmediate.
-  // Techinically it leverages the (macro) task queue,
-  // but it is still a better choice than setTimeout.
-  timerFunc = function () {
-    setImmediate(flushCallbacks);
-  };
 } else {
-  // Fallback to setTimeout.
-  timerFunc = function () {
-    setTimeout(flushCallbacks, 0);
-  };
+  // fallback to macro
+  microTimerFunc = macroTimerFunc;
+}
+
+/**
+ * Wrap a function so that if any code inside triggers state change,
+ * the changes are queued using a (macro) task instead of a microtask.
+ */
+function withMacroTask (fn) {
+  return fn._withTask || (fn._withTask = function () {
+    useMacroTask = true;
+    try {
+      return fn.apply(null, arguments)
+    } finally {
+      useMacroTask = false;    
+    }
+  })
 }
 
 function nextTick (cb, ctx) {
@@ -12378,7 +12547,11 @@ function nextTick (cb, ctx) {
   });
   if (!pending) {
     pending = true;
-    timerFunc();
+    if (useMacroTask) {
+      macroTimerFunc();
+    } else {
+      microTimerFunc();
+    }
   }
   // $flow-disable-line
   if (!cb && typeof Promise !== 'undefined') {
@@ -12393,7 +12566,7 @@ function nextTick (cb, ctx) {
 var mark;
 var measure;
 
-{
+if (true) {
   var perf = inBrowser && window.performance;
   /* istanbul ignore if */
   if (
@@ -12408,7 +12581,7 @@ var measure;
       perf.measure(name, startTag, endTag);
       perf.clearMarks(startTag);
       perf.clearMarks(endTag);
-      // perf.clearMeasures(name)
+      perf.clearMeasures(name);
     };
   }
 }
@@ -12417,7 +12590,7 @@ var measure;
 
 var initProxy;
 
-{
+if (true) {
   var allowedGlobals = makeMap(
     'Infinity,undefined,NaN,isFinite,isNaN,' +
     'parseFloat,parseInt,decodeURI,decodeURIComponent,encodeURI,encodeURIComponent,' +
@@ -12555,7 +12728,7 @@ var normalizeEvent = cached(function (name) {
   }
 });
 
-function createFnInvoker (fns, vm) {
+function createFnInvoker (fns) {
   function invoker () {
     var arguments$1 = arguments;
 
@@ -12563,11 +12736,11 @@ function createFnInvoker (fns, vm) {
     if (Array.isArray(fns)) {
       var cloned = fns.slice();
       for (var i = 0; i < cloned.length; i++) {
-        invokeWithErrorHandling(cloned[i], null, arguments$1, vm, "v-on handler");
+        cloned[i].apply(null, arguments$1);
       }
     } else {
       // return handler return value for single handlers
-      return invokeWithErrorHandling(fns, null, arguments, vm, "v-on handler")
+      return fns.apply(null, arguments)
     }
   }
   invoker.fns = fns;
@@ -12588,13 +12761,13 @@ function updateListeners (
     old = oldOn[name];
     event = normalizeEvent(name);
     if (isUndef(cur)) {
-      warn(
+       true && warn(
         "Invalid handler for event \"" + (event.name) + "\": got " + String(cur),
         vm
       );
     } else if (isUndef(old)) {
       if (isUndef(cur.fns)) {
-        cur = on[name] = createFnInvoker(cur, vm);
+        cur = on[name] = createFnInvoker(cur);
       }
       if (isTrue(event.once)) {
         cur = on[name] = createOnceHandler(event.name, cur, event.capture);
@@ -12668,7 +12841,7 @@ function extractPropsFromVNodeData (
   if (isDef(attrs) || isDef(props)) {
     for (var key in propOptions) {
       var altKey = hyphenate(key);
-      {
+      if (true) {
         var keyInLowerCase = key.toLowerCase();
         if (
           key !== keyInLowerCase &&
@@ -12805,1167 +12978,6 @@ function normalizeArrayChildren (children, nestedIndex) {
 
 /*  */
 
-function initProvide (vm) {
-  var provide = vm.$options.provide;
-  if (provide) {
-    vm._provided = typeof provide === 'function'
-      ? provide.call(vm)
-      : provide;
-  }
-}
-
-function initInjections (vm) {
-  var result = resolveInject(vm.$options.inject, vm);
-  if (result) {
-    toggleObserving(false);
-    Object.keys(result).forEach(function (key) {
-      /* istanbul ignore else */
-      {
-        defineReactive$$1(vm, key, result[key], function () {
-          warn(
-            "Avoid mutating an injected value directly since the changes will be " +
-            "overwritten whenever the provided component re-renders. " +
-            "injection being mutated: \"" + key + "\"",
-            vm
-          );
-        });
-      }
-    });
-    toggleObserving(true);
-  }
-}
-
-function resolveInject (inject, vm) {
-  if (inject) {
-    // inject is :any because flow is not smart enough to figure out cached
-    var result = Object.create(null);
-    var keys = hasSymbol
-      ? Reflect.ownKeys(inject)
-      : Object.keys(inject);
-
-    for (var i = 0; i < keys.length; i++) {
-      var key = keys[i];
-      // #6574 in case the inject object is observed...
-      if (key === '__ob__') { continue }
-      var provideKey = inject[key].from;
-      var source = vm;
-      while (source) {
-        if (source._provided && hasOwn(source._provided, provideKey)) {
-          result[key] = source._provided[provideKey];
-          break
-        }
-        source = source.$parent;
-      }
-      if (!source) {
-        if ('default' in inject[key]) {
-          var provideDefault = inject[key].default;
-          result[key] = typeof provideDefault === 'function'
-            ? provideDefault.call(vm)
-            : provideDefault;
-        } else {
-          warn(("Injection \"" + key + "\" not found"), vm);
-        }
-      }
-    }
-    return result
-  }
-}
-
-/*  */
-
-
-
-/**
- * Runtime helper for resolving raw children VNodes into a slot object.
- */
-function resolveSlots (
-  children,
-  context
-) {
-  if (!children || !children.length) {
-    return {}
-  }
-  var slots = {};
-  for (var i = 0, l = children.length; i < l; i++) {
-    var child = children[i];
-    var data = child.data;
-    // remove slot attribute if the node is resolved as a Vue slot node
-    if (data && data.attrs && data.attrs.slot) {
-      delete data.attrs.slot;
-    }
-    // named slots should only be respected if the vnode was rendered in the
-    // same context.
-    if ((child.context === context || child.fnContext === context) &&
-      data && data.slot != null
-    ) {
-      var name = data.slot;
-      var slot = (slots[name] || (slots[name] = []));
-      if (child.tag === 'template') {
-        slot.push.apply(slot, child.children || []);
-      } else {
-        slot.push(child);
-      }
-    } else {
-      (slots.default || (slots.default = [])).push(child);
-    }
-  }
-  // ignore slots that contains only whitespace
-  for (var name$1 in slots) {
-    if (slots[name$1].every(isWhitespace)) {
-      delete slots[name$1];
-    }
-  }
-  return slots
-}
-
-function isWhitespace (node) {
-  return (node.isComment && !node.asyncFactory) || node.text === ' '
-}
-
-/*  */
-
-function normalizeScopedSlots (
-  slots,
-  normalSlots,
-  prevSlots
-) {
-  var res;
-  var hasNormalSlots = Object.keys(normalSlots).length > 0;
-  var isStable = slots ? !!slots.$stable : !hasNormalSlots;
-  var key = slots && slots.$key;
-  if (!slots) {
-    res = {};
-  } else if (slots._normalized) {
-    // fast path 1: child component re-render only, parent did not change
-    return slots._normalized
-  } else if (
-    isStable &&
-    prevSlots &&
-    prevSlots !== emptyObject &&
-    key === prevSlots.$key &&
-    !hasNormalSlots &&
-    !prevSlots.$hasNormal
-  ) {
-    // fast path 2: stable scoped slots w/ no normal slots to proxy,
-    // only need to normalize once
-    return prevSlots
-  } else {
-    res = {};
-    for (var key$1 in slots) {
-      if (slots[key$1] && key$1[0] !== '$') {
-        res[key$1] = normalizeScopedSlot(normalSlots, key$1, slots[key$1]);
-      }
-    }
-  }
-  // expose normal slots on scopedSlots
-  for (var key$2 in normalSlots) {
-    if (!(key$2 in res)) {
-      res[key$2] = proxyNormalSlot(normalSlots, key$2);
-    }
-  }
-  // avoriaz seems to mock a non-extensible $scopedSlots object
-  // and when that is passed down this would cause an error
-  if (slots && Object.isExtensible(slots)) {
-    (slots)._normalized = res;
-  }
-  def(res, '$stable', isStable);
-  def(res, '$key', key);
-  def(res, '$hasNormal', hasNormalSlots);
-  return res
-}
-
-function normalizeScopedSlot(normalSlots, key, fn) {
-  var normalized = function () {
-    var res = arguments.length ? fn.apply(null, arguments) : fn({});
-    res = res && typeof res === 'object' && !Array.isArray(res)
-      ? [res] // single vnode
-      : normalizeChildren(res);
-    return res && (
-      res.length === 0 ||
-      (res.length === 1 && res[0].isComment) // #9658
-    ) ? undefined
-      : res
-  };
-  // this is a slot using the new v-slot syntax without scope. although it is
-  // compiled as a scoped slot, render fn users would expect it to be present
-  // on this.$slots because the usage is semantically a normal slot.
-  if (fn.proxy) {
-    Object.defineProperty(normalSlots, key, {
-      get: normalized,
-      enumerable: true,
-      configurable: true
-    });
-  }
-  return normalized
-}
-
-function proxyNormalSlot(slots, key) {
-  return function () { return slots[key]; }
-}
-
-/*  */
-
-/**
- * Runtime helper for rendering v-for lists.
- */
-function renderList (
-  val,
-  render
-) {
-  var ret, i, l, keys, key;
-  if (Array.isArray(val) || typeof val === 'string') {
-    ret = new Array(val.length);
-    for (i = 0, l = val.length; i < l; i++) {
-      ret[i] = render(val[i], i);
-    }
-  } else if (typeof val === 'number') {
-    ret = new Array(val);
-    for (i = 0; i < val; i++) {
-      ret[i] = render(i + 1, i);
-    }
-  } else if (isObject(val)) {
-    if (hasSymbol && val[Symbol.iterator]) {
-      ret = [];
-      var iterator = val[Symbol.iterator]();
-      var result = iterator.next();
-      while (!result.done) {
-        ret.push(render(result.value, ret.length));
-        result = iterator.next();
-      }
-    } else {
-      keys = Object.keys(val);
-      ret = new Array(keys.length);
-      for (i = 0, l = keys.length; i < l; i++) {
-        key = keys[i];
-        ret[i] = render(val[key], key, i);
-      }
-    }
-  }
-  if (!isDef(ret)) {
-    ret = [];
-  }
-  (ret)._isVList = true;
-  return ret
-}
-
-/*  */
-
-/**
- * Runtime helper for rendering <slot>
- */
-function renderSlot (
-  name,
-  fallback,
-  props,
-  bindObject
-) {
-  var scopedSlotFn = this.$scopedSlots[name];
-  var nodes;
-  if (scopedSlotFn) { // scoped slot
-    props = props || {};
-    if (bindObject) {
-      if (!isObject(bindObject)) {
-        warn(
-          'slot v-bind without argument expects an Object',
-          this
-        );
-      }
-      props = extend(extend({}, bindObject), props);
-    }
-    nodes = scopedSlotFn(props) || fallback;
-  } else {
-    nodes = this.$slots[name] || fallback;
-  }
-
-  var target = props && props.slot;
-  if (target) {
-    return this.$createElement('template', { slot: target }, nodes)
-  } else {
-    return nodes
-  }
-}
-
-/*  */
-
-/**
- * Runtime helper for resolving filters
- */
-function resolveFilter (id) {
-  return resolveAsset(this.$options, 'filters', id, true) || identity
-}
-
-/*  */
-
-function isKeyNotMatch (expect, actual) {
-  if (Array.isArray(expect)) {
-    return expect.indexOf(actual) === -1
-  } else {
-    return expect !== actual
-  }
-}
-
-/**
- * Runtime helper for checking keyCodes from config.
- * exposed as Vue.prototype._k
- * passing in eventKeyName as last argument separately for backwards compat
- */
-function checkKeyCodes (
-  eventKeyCode,
-  key,
-  builtInKeyCode,
-  eventKeyName,
-  builtInKeyName
-) {
-  var mappedKeyCode = config.keyCodes[key] || builtInKeyCode;
-  if (builtInKeyName && eventKeyName && !config.keyCodes[key]) {
-    return isKeyNotMatch(builtInKeyName, eventKeyName)
-  } else if (mappedKeyCode) {
-    return isKeyNotMatch(mappedKeyCode, eventKeyCode)
-  } else if (eventKeyName) {
-    return hyphenate(eventKeyName) !== key
-  }
-}
-
-/*  */
-
-/**
- * Runtime helper for merging v-bind="object" into a VNode's data.
- */
-function bindObjectProps (
-  data,
-  tag,
-  value,
-  asProp,
-  isSync
-) {
-  if (value) {
-    if (!isObject(value)) {
-      warn(
-        'v-bind without argument expects an Object or Array value',
-        this
-      );
-    } else {
-      if (Array.isArray(value)) {
-        value = toObject(value);
-      }
-      var hash;
-      var loop = function ( key ) {
-        if (
-          key === 'class' ||
-          key === 'style' ||
-          isReservedAttribute(key)
-        ) {
-          hash = data;
-        } else {
-          var type = data.attrs && data.attrs.type;
-          hash = asProp || config.mustUseProp(tag, type, key)
-            ? data.domProps || (data.domProps = {})
-            : data.attrs || (data.attrs = {});
-        }
-        var camelizedKey = camelize(key);
-        var hyphenatedKey = hyphenate(key);
-        if (!(camelizedKey in hash) && !(hyphenatedKey in hash)) {
-          hash[key] = value[key];
-
-          if (isSync) {
-            var on = data.on || (data.on = {});
-            on[("update:" + key)] = function ($event) {
-              value[key] = $event;
-            };
-          }
-        }
-      };
-
-      for (var key in value) loop( key );
-    }
-  }
-  return data
-}
-
-/*  */
-
-/**
- * Runtime helper for rendering static trees.
- */
-function renderStatic (
-  index,
-  isInFor
-) {
-  var cached = this._staticTrees || (this._staticTrees = []);
-  var tree = cached[index];
-  // if has already-rendered static tree and not inside v-for,
-  // we can reuse the same tree.
-  if (tree && !isInFor) {
-    return tree
-  }
-  // otherwise, render a fresh tree.
-  tree = cached[index] = this.$options.staticRenderFns[index].call(
-    this._renderProxy,
-    null,
-    this // for render fns generated for functional component templates
-  );
-  markStatic(tree, ("__static__" + index), false);
-  return tree
-}
-
-/**
- * Runtime helper for v-once.
- * Effectively it means marking the node as static with a unique key.
- */
-function markOnce (
-  tree,
-  index,
-  key
-) {
-  markStatic(tree, ("__once__" + index + (key ? ("_" + key) : "")), true);
-  return tree
-}
-
-function markStatic (
-  tree,
-  key,
-  isOnce
-) {
-  if (Array.isArray(tree)) {
-    for (var i = 0; i < tree.length; i++) {
-      if (tree[i] && typeof tree[i] !== 'string') {
-        markStaticNode(tree[i], (key + "_" + i), isOnce);
-      }
-    }
-  } else {
-    markStaticNode(tree, key, isOnce);
-  }
-}
-
-function markStaticNode (node, key, isOnce) {
-  node.isStatic = true;
-  node.key = key;
-  node.isOnce = isOnce;
-}
-
-/*  */
-
-function bindObjectListeners (data, value) {
-  if (value) {
-    if (!isPlainObject(value)) {
-      warn(
-        'v-on without argument expects an Object value',
-        this
-      );
-    } else {
-      var on = data.on = data.on ? extend({}, data.on) : {};
-      for (var key in value) {
-        var existing = on[key];
-        var ours = value[key];
-        on[key] = existing ? [].concat(existing, ours) : ours;
-      }
-    }
-  }
-  return data
-}
-
-/*  */
-
-function resolveScopedSlots (
-  fns, // see flow/vnode
-  res,
-  // the following are added in 2.6
-  hasDynamicKeys,
-  contentHashKey
-) {
-  res = res || { $stable: !hasDynamicKeys };
-  for (var i = 0; i < fns.length; i++) {
-    var slot = fns[i];
-    if (Array.isArray(slot)) {
-      resolveScopedSlots(slot, res, hasDynamicKeys);
-    } else if (slot) {
-      // marker for reverse proxying v-slot without scope on this.$slots
-      if (slot.proxy) {
-        slot.fn.proxy = true;
-      }
-      res[slot.key] = slot.fn;
-    }
-  }
-  if (contentHashKey) {
-    (res).$key = contentHashKey;
-  }
-  return res
-}
-
-/*  */
-
-function bindDynamicKeys (baseObj, values) {
-  for (var i = 0; i < values.length; i += 2) {
-    var key = values[i];
-    if (typeof key === 'string' && key) {
-      baseObj[values[i]] = values[i + 1];
-    } else if (key !== '' && key !== null) {
-      // null is a speical value for explicitly removing a binding
-      warn(
-        ("Invalid value for dynamic directive argument (expected string or null): " + key),
-        this
-      );
-    }
-  }
-  return baseObj
-}
-
-// helper to dynamically append modifier runtime markers to event names.
-// ensure only append when value is already string, otherwise it will be cast
-// to string and cause the type check to miss.
-function prependModifier (value, symbol) {
-  return typeof value === 'string' ? symbol + value : value
-}
-
-/*  */
-
-function installRenderHelpers (target) {
-  target._o = markOnce;
-  target._n = toNumber;
-  target._s = toString;
-  target._l = renderList;
-  target._t = renderSlot;
-  target._q = looseEqual;
-  target._i = looseIndexOf;
-  target._m = renderStatic;
-  target._f = resolveFilter;
-  target._k = checkKeyCodes;
-  target._b = bindObjectProps;
-  target._v = createTextVNode;
-  target._e = createEmptyVNode;
-  target._u = resolveScopedSlots;
-  target._g = bindObjectListeners;
-  target._d = bindDynamicKeys;
-  target._p = prependModifier;
-}
-
-/*  */
-
-function FunctionalRenderContext (
-  data,
-  props,
-  children,
-  parent,
-  Ctor
-) {
-  var this$1 = this;
-
-  var options = Ctor.options;
-  // ensure the createElement function in functional components
-  // gets a unique context - this is necessary for correct named slot check
-  var contextVm;
-  if (hasOwn(parent, '_uid')) {
-    contextVm = Object.create(parent);
-    // $flow-disable-line
-    contextVm._original = parent;
-  } else {
-    // the context vm passed in is a functional context as well.
-    // in this case we want to make sure we are able to get a hold to the
-    // real context instance.
-    contextVm = parent;
-    // $flow-disable-line
-    parent = parent._original;
-  }
-  var isCompiled = isTrue(options._compiled);
-  var needNormalization = !isCompiled;
-
-  this.data = data;
-  this.props = props;
-  this.children = children;
-  this.parent = parent;
-  this.listeners = data.on || emptyObject;
-  this.injections = resolveInject(options.inject, parent);
-  this.slots = function () {
-    if (!this$1.$slots) {
-      normalizeScopedSlots(
-        data.scopedSlots,
-        this$1.$slots = resolveSlots(children, parent)
-      );
-    }
-    return this$1.$slots
-  };
-
-  Object.defineProperty(this, 'scopedSlots', ({
-    enumerable: true,
-    get: function get () {
-      return normalizeScopedSlots(data.scopedSlots, this.slots())
-    }
-  }));
-
-  // support for compiled functional template
-  if (isCompiled) {
-    // exposing $options for renderStatic()
-    this.$options = options;
-    // pre-resolve slots for renderSlot()
-    this.$slots = this.slots();
-    this.$scopedSlots = normalizeScopedSlots(data.scopedSlots, this.$slots);
-  }
-
-  if (options._scopeId) {
-    this._c = function (a, b, c, d) {
-      var vnode = createElement(contextVm, a, b, c, d, needNormalization);
-      if (vnode && !Array.isArray(vnode)) {
-        vnode.fnScopeId = options._scopeId;
-        vnode.fnContext = parent;
-      }
-      return vnode
-    };
-  } else {
-    this._c = function (a, b, c, d) { return createElement(contextVm, a, b, c, d, needNormalization); };
-  }
-}
-
-installRenderHelpers(FunctionalRenderContext.prototype);
-
-function createFunctionalComponent (
-  Ctor,
-  propsData,
-  data,
-  contextVm,
-  children
-) {
-  var options = Ctor.options;
-  var props = {};
-  var propOptions = options.props;
-  if (isDef(propOptions)) {
-    for (var key in propOptions) {
-      props[key] = validateProp(key, propOptions, propsData || emptyObject);
-    }
-  } else {
-    if (isDef(data.attrs)) { mergeProps(props, data.attrs); }
-    if (isDef(data.props)) { mergeProps(props, data.props); }
-  }
-
-  var renderContext = new FunctionalRenderContext(
-    data,
-    props,
-    children,
-    contextVm,
-    Ctor
-  );
-
-  var vnode = options.render.call(null, renderContext._c, renderContext);
-
-  if (vnode instanceof VNode) {
-    return cloneAndMarkFunctionalResult(vnode, data, renderContext.parent, options, renderContext)
-  } else if (Array.isArray(vnode)) {
-    var vnodes = normalizeChildren(vnode) || [];
-    var res = new Array(vnodes.length);
-    for (var i = 0; i < vnodes.length; i++) {
-      res[i] = cloneAndMarkFunctionalResult(vnodes[i], data, renderContext.parent, options, renderContext);
-    }
-    return res
-  }
-}
-
-function cloneAndMarkFunctionalResult (vnode, data, contextVm, options, renderContext) {
-  // #7817 clone node before setting fnContext, otherwise if the node is reused
-  // (e.g. it was from a cached normal slot) the fnContext causes named slots
-  // that should not be matched to match.
-  var clone = cloneVNode(vnode);
-  clone.fnContext = contextVm;
-  clone.fnOptions = options;
-  {
-    (clone.devtoolsMeta = clone.devtoolsMeta || {}).renderContext = renderContext;
-  }
-  if (data.slot) {
-    (clone.data || (clone.data = {})).slot = data.slot;
-  }
-  return clone
-}
-
-function mergeProps (to, from) {
-  for (var key in from) {
-    to[camelize(key)] = from[key];
-  }
-}
-
-/*  */
-
-/*  */
-
-/*  */
-
-/*  */
-
-// inline hooks to be invoked on component VNodes during patch
-var componentVNodeHooks = {
-  init: function init (vnode, hydrating) {
-    if (
-      vnode.componentInstance &&
-      !vnode.componentInstance._isDestroyed &&
-      vnode.data.keepAlive
-    ) {
-      // kept-alive components, treat as a patch
-      var mountedNode = vnode; // work around flow
-      componentVNodeHooks.prepatch(mountedNode, mountedNode);
-    } else {
-      var child = vnode.componentInstance = createComponentInstanceForVnode(
-        vnode,
-        activeInstance
-      );
-      child.$mount(hydrating ? vnode.elm : undefined, hydrating);
-    }
-  },
-
-  prepatch: function prepatch (oldVnode, vnode) {
-    var options = vnode.componentOptions;
-    var child = vnode.componentInstance = oldVnode.componentInstance;
-    updateChildComponent(
-      child,
-      options.propsData, // updated props
-      options.listeners, // updated listeners
-      vnode, // new parent vnode
-      options.children // new children
-    );
-  },
-
-  insert: function insert (vnode) {
-    var context = vnode.context;
-    var componentInstance = vnode.componentInstance;
-    if (!componentInstance._isMounted) {
-      componentInstance._isMounted = true;
-      callHook(componentInstance, 'mounted');
-    }
-    if (vnode.data.keepAlive) {
-      if (context._isMounted) {
-        // vue-router#1212
-        // During updates, a kept-alive component's child components may
-        // change, so directly walking the tree here may call activated hooks
-        // on incorrect children. Instead we push them into a queue which will
-        // be processed after the whole patch process ended.
-        queueActivatedComponent(componentInstance);
-      } else {
-        activateChildComponent(componentInstance, true /* direct */);
-      }
-    }
-  },
-
-  destroy: function destroy (vnode) {
-    var componentInstance = vnode.componentInstance;
-    if (!componentInstance._isDestroyed) {
-      if (!vnode.data.keepAlive) {
-        componentInstance.$destroy();
-      } else {
-        deactivateChildComponent(componentInstance, true /* direct */);
-      }
-    }
-  }
-};
-
-var hooksToMerge = Object.keys(componentVNodeHooks);
-
-function createComponent (
-  Ctor,
-  data,
-  context,
-  children,
-  tag
-) {
-  if (isUndef(Ctor)) {
-    return
-  }
-
-  var baseCtor = context.$options._base;
-
-  // plain options object: turn it into a constructor
-  if (isObject(Ctor)) {
-    Ctor = baseCtor.extend(Ctor);
-  }
-
-  // if at this stage it's not a constructor or an async component factory,
-  // reject.
-  if (typeof Ctor !== 'function') {
-    {
-      warn(("Invalid Component definition: " + (String(Ctor))), context);
-    }
-    return
-  }
-
-  // async component
-  var asyncFactory;
-  if (isUndef(Ctor.cid)) {
-    asyncFactory = Ctor;
-    Ctor = resolveAsyncComponent(asyncFactory, baseCtor);
-    if (Ctor === undefined) {
-      // return a placeholder node for async component, which is rendered
-      // as a comment node but preserves all the raw information for the node.
-      // the information will be used for async server-rendering and hydration.
-      return createAsyncPlaceholder(
-        asyncFactory,
-        data,
-        context,
-        children,
-        tag
-      )
-    }
-  }
-
-  data = data || {};
-
-  // resolve constructor options in case global mixins are applied after
-  // component constructor creation
-  resolveConstructorOptions(Ctor);
-
-  // transform component v-model data into props & events
-  if (isDef(data.model)) {
-    transformModel(Ctor.options, data);
-  }
-
-  // extract props
-  var propsData = extractPropsFromVNodeData(data, Ctor, tag);
-
-  // functional component
-  if (isTrue(Ctor.options.functional)) {
-    return createFunctionalComponent(Ctor, propsData, data, context, children)
-  }
-
-  // extract listeners, since these needs to be treated as
-  // child component listeners instead of DOM listeners
-  var listeners = data.on;
-  // replace with listeners with .native modifier
-  // so it gets processed during parent component patch.
-  data.on = data.nativeOn;
-
-  if (isTrue(Ctor.options.abstract)) {
-    // abstract components do not keep anything
-    // other than props & listeners & slot
-
-    // work around flow
-    var slot = data.slot;
-    data = {};
-    if (slot) {
-      data.slot = slot;
-    }
-  }
-
-  // install component management hooks onto the placeholder node
-  installComponentHooks(data);
-
-  // return a placeholder vnode
-  var name = Ctor.options.name || tag;
-  var vnode = new VNode(
-    ("vue-component-" + (Ctor.cid) + (name ? ("-" + name) : '')),
-    data, undefined, undefined, undefined, context,
-    { Ctor: Ctor, propsData: propsData, listeners: listeners, tag: tag, children: children },
-    asyncFactory
-  );
-
-  return vnode
-}
-
-function createComponentInstanceForVnode (
-  vnode, // we know it's MountedComponentVNode but flow doesn't
-  parent // activeInstance in lifecycle state
-) {
-  var options = {
-    _isComponent: true,
-    _parentVnode: vnode,
-    parent: parent
-  };
-  // check inline-template render functions
-  var inlineTemplate = vnode.data.inlineTemplate;
-  if (isDef(inlineTemplate)) {
-    options.render = inlineTemplate.render;
-    options.staticRenderFns = inlineTemplate.staticRenderFns;
-  }
-  return new vnode.componentOptions.Ctor(options)
-}
-
-function installComponentHooks (data) {
-  var hooks = data.hook || (data.hook = {});
-  for (var i = 0; i < hooksToMerge.length; i++) {
-    var key = hooksToMerge[i];
-    var existing = hooks[key];
-    var toMerge = componentVNodeHooks[key];
-    if (existing !== toMerge && !(existing && existing._merged)) {
-      hooks[key] = existing ? mergeHook$1(toMerge, existing) : toMerge;
-    }
-  }
-}
-
-function mergeHook$1 (f1, f2) {
-  var merged = function (a, b) {
-    // flow complains about extra args which is why we use any
-    f1(a, b);
-    f2(a, b);
-  };
-  merged._merged = true;
-  return merged
-}
-
-// transform component v-model info (value and callback) into
-// prop and event handler respectively.
-function transformModel (options, data) {
-  var prop = (options.model && options.model.prop) || 'value';
-  var event = (options.model && options.model.event) || 'input'
-  ;(data.attrs || (data.attrs = {}))[prop] = data.model.value;
-  var on = data.on || (data.on = {});
-  var existing = on[event];
-  var callback = data.model.callback;
-  if (isDef(existing)) {
-    if (
-      Array.isArray(existing)
-        ? existing.indexOf(callback) === -1
-        : existing !== callback
-    ) {
-      on[event] = [callback].concat(existing);
-    }
-  } else {
-    on[event] = callback;
-  }
-}
-
-/*  */
-
-var SIMPLE_NORMALIZE = 1;
-var ALWAYS_NORMALIZE = 2;
-
-// wrapper function for providing a more flexible interface
-// without getting yelled at by flow
-function createElement (
-  context,
-  tag,
-  data,
-  children,
-  normalizationType,
-  alwaysNormalize
-) {
-  if (Array.isArray(data) || isPrimitive(data)) {
-    normalizationType = children;
-    children = data;
-    data = undefined;
-  }
-  if (isTrue(alwaysNormalize)) {
-    normalizationType = ALWAYS_NORMALIZE;
-  }
-  return _createElement(context, tag, data, children, normalizationType)
-}
-
-function _createElement (
-  context,
-  tag,
-  data,
-  children,
-  normalizationType
-) {
-  if (isDef(data) && isDef((data).__ob__)) {
-    warn(
-      "Avoid using observed data object as vnode data: " + (JSON.stringify(data)) + "\n" +
-      'Always create fresh vnode data objects in each render!',
-      context
-    );
-    return createEmptyVNode()
-  }
-  // object syntax in v-bind
-  if (isDef(data) && isDef(data.is)) {
-    tag = data.is;
-  }
-  if (!tag) {
-    // in case of component :is set to falsy value
-    return createEmptyVNode()
-  }
-  // warn against non-primitive key
-  if (isDef(data) && isDef(data.key) && !isPrimitive(data.key)
-  ) {
-    {
-      warn(
-        'Avoid using non-primitive value as key, ' +
-        'use string/number value instead.',
-        context
-      );
-    }
-  }
-  // support single function children as default scoped slot
-  if (Array.isArray(children) &&
-    typeof children[0] === 'function'
-  ) {
-    data = data || {};
-    data.scopedSlots = { default: children[0] };
-    children.length = 0;
-  }
-  if (normalizationType === ALWAYS_NORMALIZE) {
-    children = normalizeChildren(children);
-  } else if (normalizationType === SIMPLE_NORMALIZE) {
-    children = simpleNormalizeChildren(children);
-  }
-  var vnode, ns;
-  if (typeof tag === 'string') {
-    var Ctor;
-    ns = (context.$vnode && context.$vnode.ns) || config.getTagNamespace(tag);
-    if (config.isReservedTag(tag)) {
-      // platform built-in elements
-      vnode = new VNode(
-        config.parsePlatformTagName(tag), data, children,
-        undefined, undefined, context
-      );
-    } else if ((!data || !data.pre) && isDef(Ctor = resolveAsset(context.$options, 'components', tag))) {
-      // component
-      vnode = createComponent(Ctor, data, context, children, tag);
-    } else {
-      // unknown or unlisted namespaced elements
-      // check at runtime because it may get assigned a namespace when its
-      // parent normalizes children
-      vnode = new VNode(
-        tag, data, children,
-        undefined, undefined, context
-      );
-    }
-  } else {
-    // direct component options / constructor
-    vnode = createComponent(tag, data, context, children);
-  }
-  if (Array.isArray(vnode)) {
-    return vnode
-  } else if (isDef(vnode)) {
-    if (isDef(ns)) { applyNS(vnode, ns); }
-    if (isDef(data)) { registerDeepBindings(data); }
-    return vnode
-  } else {
-    return createEmptyVNode()
-  }
-}
-
-function applyNS (vnode, ns, force) {
-  vnode.ns = ns;
-  if (vnode.tag === 'foreignObject') {
-    // use default namespace inside foreignObject
-    ns = undefined;
-    force = true;
-  }
-  if (isDef(vnode.children)) {
-    for (var i = 0, l = vnode.children.length; i < l; i++) {
-      var child = vnode.children[i];
-      if (isDef(child.tag) && (
-        isUndef(child.ns) || (isTrue(force) && child.tag !== 'svg'))) {
-        applyNS(child, ns, force);
-      }
-    }
-  }
-}
-
-// ref #5318
-// necessary to ensure parent re-render when deep bindings like :style and
-// :class are used on slot nodes
-function registerDeepBindings (data) {
-  if (isObject(data.style)) {
-    traverse(data.style);
-  }
-  if (isObject(data.class)) {
-    traverse(data.class);
-  }
-}
-
-/*  */
-
-function initRender (vm) {
-  vm._vnode = null; // the root of the child tree
-  vm._staticTrees = null; // v-once cached trees
-  var options = vm.$options;
-  var parentVnode = vm.$vnode = options._parentVnode; // the placeholder node in parent tree
-  var renderContext = parentVnode && parentVnode.context;
-  vm.$slots = resolveSlots(options._renderChildren, renderContext);
-  vm.$scopedSlots = emptyObject;
-  // bind the createElement fn to this instance
-  // so that we get proper render context inside it.
-  // args order: tag, data, children, normalizationType, alwaysNormalize
-  // internal version is used by render functions compiled from templates
-  vm._c = function (a, b, c, d) { return createElement(vm, a, b, c, d, false); };
-  // normalization is always applied for the public version, used in
-  // user-written render functions.
-  vm.$createElement = function (a, b, c, d) { return createElement(vm, a, b, c, d, true); };
-
-  // $attrs & $listeners are exposed for easier HOC creation.
-  // they need to be reactive so that HOCs using them are always updated
-  var parentData = parentVnode && parentVnode.data;
-
-  /* istanbul ignore else */
-  {
-    defineReactive$$1(vm, '$attrs', parentData && parentData.attrs || emptyObject, function () {
-      !isUpdatingChildComponent && warn("$attrs is readonly.", vm);
-    }, true);
-    defineReactive$$1(vm, '$listeners', options._parentListeners || emptyObject, function () {
-      !isUpdatingChildComponent && warn("$listeners is readonly.", vm);
-    }, true);
-  }
-}
-
-var currentRenderingInstance = null;
-
-function renderMixin (Vue) {
-  // install runtime convenience helpers
-  installRenderHelpers(Vue.prototype);
-
-  Vue.prototype.$nextTick = function (fn) {
-    return nextTick(fn, this)
-  };
-
-  Vue.prototype._render = function () {
-    var vm = this;
-    var ref = vm.$options;
-    var render = ref.render;
-    var _parentVnode = ref._parentVnode;
-
-    if (_parentVnode) {
-      vm.$scopedSlots = normalizeScopedSlots(
-        _parentVnode.data.scopedSlots,
-        vm.$slots,
-        vm.$scopedSlots
-      );
-    }
-
-    // set parent vnode. this allows render functions to have access
-    // to the data on the placeholder node.
-    vm.$vnode = _parentVnode;
-    // render self
-    var vnode;
-    try {
-      // There's no need to maintain a stack becaues all render fns are called
-      // separately from one another. Nested component's render fns are called
-      // when parent component is patched.
-      currentRenderingInstance = vm;
-      vnode = render.call(vm._renderProxy, vm.$createElement);
-    } catch (e) {
-      handleError(e, vm, "render");
-      // return error render result,
-      // or previous vnode to prevent render error causing blank component
-      /* istanbul ignore else */
-      if (vm.$options.renderError) {
-        try {
-          vnode = vm.$options.renderError.call(vm._renderProxy, vm.$createElement, e);
-        } catch (e) {
-          handleError(e, vm, "renderError");
-          vnode = vm._vnode;
-        }
-      } else {
-        vnode = vm._vnode;
-      }
-    } finally {
-      currentRenderingInstance = null;
-    }
-    // if the returned array contains only a single node, allow it
-    if (Array.isArray(vnode) && vnode.length === 1) {
-      vnode = vnode[0];
-    }
-    // return empty vnode in case the render function errored out
-    if (!(vnode instanceof VNode)) {
-      if (Array.isArray(vnode)) {
-        warn(
-          'Multiple root nodes returned from render function. Render function ' +
-          'should return a single root node.',
-          vm
-        );
-      }
-      vnode = createEmptyVNode();
-    }
-    // set parent
-    vnode.parent = _parentVnode;
-    return vnode
-  };
-}
-
-/*  */
-
 function ensureCtor (comp, base) {
   if (
     comp.__esModule ||
@@ -13993,7 +13005,8 @@ function createAsyncPlaceholder (
 
 function resolveAsyncComponent (
   factory,
-  baseCtor
+  baseCtor,
+  context
 ) {
   if (isTrue(factory.error) && isDef(factory.errorComp)) {
     return factory.errorComp
@@ -14003,39 +13016,24 @@ function resolveAsyncComponent (
     return factory.resolved
   }
 
-  var owner = currentRenderingInstance;
-  if (owner && isDef(factory.owners) && factory.owners.indexOf(owner) === -1) {
-    // already pending
-    factory.owners.push(owner);
-  }
-
   if (isTrue(factory.loading) && isDef(factory.loadingComp)) {
     return factory.loadingComp
   }
 
-  if (owner && !isDef(factory.owners)) {
-    var owners = factory.owners = [owner];
+  if (isDef(factory.contexts)) {
+    // already pending
+    factory.contexts.push(context);
+  } else {
+    var contexts = factory.contexts = [context];
     var sync = true;
-    var timerLoading = null;
-    var timerTimeout = null
-
-    ;(owner).$on('hook:destroyed', function () { return remove(owners, owner); });
 
     var forceRender = function (renderCompleted) {
-      for (var i = 0, l = owners.length; i < l; i++) {
-        (owners[i]).$forceUpdate();
+      for (var i = 0, l = contexts.length; i < l; i++) {
+        contexts[i].$forceUpdate();
       }
 
       if (renderCompleted) {
-        owners.length = 0;
-        if (timerLoading !== null) {
-          clearTimeout(timerLoading);
-          timerLoading = null;
-        }
-        if (timerTimeout !== null) {
-          clearTimeout(timerTimeout);
-          timerTimeout = null;
-        }
+        contexts.length = 0;
       }
     };
 
@@ -14046,13 +13044,11 @@ function resolveAsyncComponent (
       // (async resolves are shimmed as synchronous during SSR)
       if (!sync) {
         forceRender(true);
-      } else {
-        owners.length = 0;
       }
     });
 
     var reject = once(function (reason) {
-      warn(
+       true && warn(
         "Failed to resolve async component: " + (String(factory)) +
         (reason ? ("\nReason: " + reason) : '')
       );
@@ -14065,12 +13061,12 @@ function resolveAsyncComponent (
     var res = factory(resolve, reject);
 
     if (isObject(res)) {
-      if (isPromise(res)) {
+      if (typeof res.then === 'function') {
         // () => Promise
         if (isUndef(factory.resolved)) {
           res.then(resolve, reject);
         }
-      } else if (isPromise(res.component)) {
+      } else if (isDef(res.component) && typeof res.component.then === 'function') {
         res.component.then(resolve, reject);
 
         if (isDef(res.error)) {
@@ -14082,8 +13078,7 @@ function resolveAsyncComponent (
           if (res.delay === 0) {
             factory.loading = true;
           } else {
-            timerLoading = setTimeout(function () {
-              timerLoading = null;
+            setTimeout(function () {
               if (isUndef(factory.resolved) && isUndef(factory.error)) {
                 factory.loading = true;
                 forceRender(false);
@@ -14093,11 +13088,12 @@ function resolveAsyncComponent (
         }
 
         if (isDef(res.timeout)) {
-          timerTimeout = setTimeout(function () {
-            timerTimeout = null;
+          setTimeout(function () {
             if (isUndef(factory.resolved)) {
               reject(
-                "timeout (" + (res.timeout) + "ms)"
+                 true
+                  ? ("timeout (" + (res.timeout) + "ms)")
+                  : undefined
               );
             }
           }, res.timeout);
@@ -14215,8 +13211,8 @@ function eventsMixin (Vue) {
     }
     // array of events
     if (Array.isArray(event)) {
-      for (var i$1 = 0, l = event.length; i$1 < l; i$1++) {
-        vm.$off(event[i$1], fn);
+      for (var i = 0, l = event.length; i < l; i++) {
+        vm.$off(event[i], fn);
       }
       return vm
     }
@@ -14229,14 +13225,16 @@ function eventsMixin (Vue) {
       vm._events[event] = null;
       return vm
     }
-    // specific handler
-    var cb;
-    var i = cbs.length;
-    while (i--) {
-      cb = cbs[i];
-      if (cb === fn || cb.fn === fn) {
-        cbs.splice(i, 1);
-        break
+    if (fn) {
+      // specific handler
+      var cb;
+      var i$1 = cbs.length;
+      while (i$1--) {
+        cb = cbs[i$1];
+        if (cb === fn || cb.fn === fn) {
+          cbs.splice(i$1, 1);
+          break
+        }
       }
     }
     return vm
@@ -14244,7 +13242,7 @@ function eventsMixin (Vue) {
 
   Vue.prototype.$emit = function (event) {
     var vm = this;
-    {
+    if (true) {
       var lowerCaseEvent = event.toLowerCase();
       if (lowerCaseEvent !== event && vm._events[lowerCaseEvent]) {
         tip(
@@ -14260,13 +13258,82 @@ function eventsMixin (Vue) {
     if (cbs) {
       cbs = cbs.length > 1 ? toArray(cbs) : cbs;
       var args = toArray(arguments, 1);
-      var info = "event handler for \"" + event + "\"";
       for (var i = 0, l = cbs.length; i < l; i++) {
-        invokeWithErrorHandling(cbs[i], vm, args, vm, info);
+        try {
+          cbs[i].apply(vm, args);
+        } catch (e) {
+          handleError(e, vm, ("event handler for \"" + event + "\""));
+        }
       }
     }
     return vm
   };
+}
+
+/*  */
+
+
+
+/**
+ * Runtime helper for resolving raw children VNodes into a slot object.
+ */
+function resolveSlots (
+  children,
+  context
+) {
+  var slots = {};
+  if (!children) {
+    return slots
+  }
+  for (var i = 0, l = children.length; i < l; i++) {
+    var child = children[i];
+    var data = child.data;
+    // remove slot attribute if the node is resolved as a Vue slot node
+    if (data && data.attrs && data.attrs.slot) {
+      delete data.attrs.slot;
+    }
+    // named slots should only be respected if the vnode was rendered in the
+    // same context.
+    if ((child.context === context || child.fnContext === context) &&
+      data && data.slot != null
+    ) {
+      var name = data.slot;
+      var slot = (slots[name] || (slots[name] = []));
+      if (child.tag === 'template') {
+        slot.push.apply(slot, child.children || []);
+      } else {
+        slot.push(child);
+      }
+    } else {
+      (slots.default || (slots.default = [])).push(child);
+    }
+  }
+  // ignore slots that contains only whitespace
+  for (var name$1 in slots) {
+    if (slots[name$1].every(isWhitespace)) {
+      delete slots[name$1];
+    }
+  }
+  return slots
+}
+
+function isWhitespace (node) {
+  return (node.isComment && !node.asyncFactory) || node.text === ' '
+}
+
+function resolveScopedSlots (
+  fns, // see flow/vnode
+  res
+) {
+  res = res || {};
+  for (var i = 0; i < fns.length; i++) {
+    if (Array.isArray(fns[i])) {
+      resolveScopedSlots(fns[i], res);
+    } else {
+      res[fns[i].key] = fns[i].fn;
+    }
+  }
+  return res
 }
 
 /*  */
@@ -14399,7 +13466,7 @@ function mountComponent (
   vm.$el = el;
   if (!vm.$options.render) {
     vm.$options.render = createEmptyVNode;
-    {
+    if (true) {
       /* istanbul ignore if */
       if ((vm.$options.template && vm.$options.template.charAt(0) !== '#') ||
         vm.$options.el || el) {
@@ -14421,7 +13488,7 @@ function mountComponent (
 
   var updateComponent;
   /* istanbul ignore if */
-  if (config.performance && mark) {
+  if ( true && config.performance && mark) {
     updateComponent = function () {
       var name = vm._name;
       var id = vm._uid;
@@ -14472,31 +13539,17 @@ function updateChildComponent (
   parentVnode,
   renderChildren
 ) {
-  {
+  if (true) {
     isUpdatingChildComponent = true;
   }
 
   // determine whether component has slot children
-  // we need to do this before overwriting $options._renderChildren.
-
-  // check if there are dynamic scopedSlots (hand-written or compiled but with
-  // dynamic slot names). Static scoped slots compiled from template has the
-  // "$stable" marker.
-  var newScopedSlots = parentVnode.data.scopedSlots;
-  var oldScopedSlots = vm.$scopedSlots;
-  var hasDynamicScopedSlot = !!(
-    (newScopedSlots && !newScopedSlots.$stable) ||
-    (oldScopedSlots !== emptyObject && !oldScopedSlots.$stable) ||
-    (newScopedSlots && vm.$scopedSlots.$key !== newScopedSlots.$key)
-  );
-
-  // Any static slot children from the parent may have changed during parent's
-  // update. Dynamic scoped slots may also have changed. In such cases, a forced
-  // update is necessary to ensure correctness.
-  var needsForceUpdate = !!(
+  // we need to do this before overwriting $options._renderChildren
+  var hasChildren = !!(
     renderChildren ||               // has new static slots
     vm.$options._renderChildren ||  // has old static slots
-    hasDynamicScopedSlot
+    parentVnode.data.scopedSlots || // has new scoped slots
+    vm.$scopedSlots !== emptyObject // has old scoped slots
   );
 
   vm.$options._parentVnode = parentVnode;
@@ -14535,12 +13588,12 @@ function updateChildComponent (
   updateComponentListeners(vm, listeners, oldListeners);
 
   // resolve slots + force update if has children
-  if (needsForceUpdate) {
+  if (hasChildren) {
     vm.$slots = resolveSlots(renderChildren, parentVnode.context);
     vm.$forceUpdate();
   }
 
-  {
+  if (true) {
     isUpdatingChildComponent = false;
   }
 }
@@ -14590,10 +13643,13 @@ function callHook (vm, hook) {
   // #7573 disable dep collection when invoking lifecycle hooks
   pushTarget();
   var handlers = vm.$options[hook];
-  var info = hook + " hook";
   if (handlers) {
     for (var i = 0, j = handlers.length; i < j; i++) {
-      invokeWithErrorHandling(handlers[i], vm, null, vm, info);
+      try {
+        handlers[i].call(vm);
+      } catch (e) {
+        handleError(e, vm, (hook + " hook"));
+      }
     }
   }
   if (vm._hasHookEvent) {
@@ -14620,48 +13676,16 @@ var index = 0;
 function resetSchedulerState () {
   index = queue.length = activatedChildren.length = 0;
   has = {};
-  {
+  if (true) {
     circular = {};
   }
   waiting = flushing = false;
-}
-
-// Async edge case #6566 requires saving the timestamp when event listeners are
-// attached. However, calling performance.now() has a perf overhead especially
-// if the page has thousands of event listeners. Instead, we take a timestamp
-// every time the scheduler flushes and use that for all event listeners
-// attached during that flush.
-var currentFlushTimestamp = 0;
-
-// Async edge case fix requires storing an event listener's attach timestamp.
-var getNow = Date.now;
-
-// Determine what event timestamp the browser is using. Annoyingly, the
-// timestamp can either be hi-res (relative to page load) or low-res
-// (relative to UNIX epoch), so in order to compare time we have to use the
-// same timestamp type when saving the flush timestamp.
-// All IE versions use low-res event timestamps, and have problematic clock
-// implementations (#9632)
-if (inBrowser && !isIE) {
-  var performance = window.performance;
-  if (
-    performance &&
-    typeof performance.now === 'function' &&
-    getNow() > document.createEvent('Event').timeStamp
-  ) {
-    // if the event timestamp, although evaluated AFTER the Date.now(), is
-    // smaller than it, it means the event is using a hi-res timestamp,
-    // and we need to use the hi-res version for event listener timestamps as
-    // well.
-    getNow = function () { return performance.now(); };
-  }
 }
 
 /**
  * Flush both queues and run the watchers.
  */
 function flushSchedulerQueue () {
-  currentFlushTimestamp = getNow();
   flushing = true;
   var watcher, id;
 
@@ -14686,7 +13710,7 @@ function flushSchedulerQueue () {
     has[id] = null;
     watcher.run();
     // in dev build, check and stop circular updates.
-    if (has[id] != null) {
+    if ( true && has[id] != null) {
       circular[id] = (circular[id] || 0) + 1;
       if (circular[id] > MAX_UPDATE_COUNT) {
         warn(
@@ -14772,7 +13796,7 @@ function queueWatcher (watcher) {
     if (!waiting) {
       waiting = true;
 
-      if (!config.async) {
+      if ( true && !config.async) {
         flushSchedulerQueue();
         return
       }
@@ -14785,7 +13809,7 @@ function queueWatcher (watcher) {
 
 
 
-var uid$2 = 0;
+var uid$1 = 0;
 
 /**
  * A watcher parses an expression, collects dependencies,
@@ -14815,14 +13839,16 @@ var Watcher = function Watcher (
     this.deep = this.user = this.lazy = this.sync = false;
   }
   this.cb = cb;
-  this.id = ++uid$2; // uid for batching
+  this.id = ++uid$1; // uid for batching
   this.active = true;
   this.dirty = this.lazy; // for lazy watchers
   this.deps = [];
   this.newDeps = [];
   this.depIds = new _Set();
   this.newDepIds = new _Set();
-  this.expression = expOrFn.toString();
+  this.expression =  true
+    ? expOrFn.toString()
+    : undefined;
   // parse expression for getter
   if (typeof expOrFn === 'function') {
     this.getter = expOrFn;
@@ -14830,7 +13856,7 @@ var Watcher = function Watcher (
     this.getter = parsePath(expOrFn);
     if (!this.getter) {
       this.getter = noop;
-      warn(
+       true && warn(
         "Failed watching path: \"" + expOrFn + "\" " +
         'Watcher only accepts simple dot-delimited paths. ' +
         'For full control, use a function instead.',
@@ -15039,7 +14065,7 @@ function initProps (vm, propsOptions) {
     keys.push(key);
     var value = validateProp(key, propsOptions, propsData, vm);
     /* istanbul ignore else */
-    {
+    if (true) {
       var hyphenatedKey = hyphenate(key);
       if (isReservedAttribute(hyphenatedKey) ||
           config.isReservedAttr(hyphenatedKey)) {
@@ -15059,7 +14085,7 @@ function initProps (vm, propsOptions) {
           );
         }
       });
-    }
+    } else {}
     // static props are already proxied on the component's prototype
     // during Vue.extend(). We only need to proxy props defined at
     // instantiation here.
@@ -15079,7 +14105,7 @@ function initData (vm) {
     : data || {};
   if (!isPlainObject(data)) {
     data = {};
-    warn(
+     true && warn(
       'data functions should return an object:\n' +
       'https://vuejs.org/v2/guide/components.html#data-Must-Be-a-Function',
       vm
@@ -15092,7 +14118,7 @@ function initData (vm) {
   var i = keys.length;
   while (i--) {
     var key = keys[i];
-    {
+    if (true) {
       if (methods && hasOwn(methods, key)) {
         warn(
           ("Method \"" + key + "\" has already been defined as a data property."),
@@ -15101,7 +14127,7 @@ function initData (vm) {
       }
     }
     if (props && hasOwn(props, key)) {
-      warn(
+       true && warn(
         "The data property \"" + key + "\" is already declared as a prop. " +
         "Use prop default value instead.",
         vm
@@ -15138,7 +14164,7 @@ function initComputed (vm, computed) {
   for (var key in computed) {
     var userDef = computed[key];
     var getter = typeof userDef === 'function' ? userDef : userDef.get;
-    if (getter == null) {
+    if ( true && getter == null) {
       warn(
         ("Getter is missing for computed property \"" + key + "\"."),
         vm
@@ -15160,7 +14186,7 @@ function initComputed (vm, computed) {
     // at instantiation here.
     if (!(key in vm)) {
       defineComputed(vm, key, userDef);
-    } else {
+    } else if (true) {
       if (key in vm.$data) {
         warn(("The computed property \"" + key + "\" is already defined in data."), vm);
       } else if (vm.$options.props && key in vm.$options.props) {
@@ -15189,7 +14215,8 @@ function defineComputed (
       : noop;
     sharedPropertyDefinition.set = userDef.set || noop;
   }
-  if (sharedPropertyDefinition.set === noop) {
+  if ( true &&
+      sharedPropertyDefinition.set === noop) {
     sharedPropertyDefinition.set = function () {
       warn(
         ("Computed property \"" + key + "\" was assigned to but it has no setter."),
@@ -15224,7 +14251,7 @@ function createGetterInvoker(fn) {
 function initMethods (vm, methods) {
   var props = vm.$options.props;
   for (var key in methods) {
-    {
+    if (true) {
       if (typeof methods[key] !== 'function') {
         warn(
           "Method \"" + key + "\" has type \"" + (typeof methods[key]) + "\" in the component definition. " +
@@ -15286,7 +14313,7 @@ function stateMixin (Vue) {
   dataDef.get = function () { return this._data };
   var propsDef = {};
   propsDef.get = function () { return this._props };
-  {
+  if (true) {
     dataDef.set = function () {
       warn(
         'Avoid replacing instance root $data. ' +
@@ -15331,6 +14358,938 @@ function stateMixin (Vue) {
 
 /*  */
 
+function initProvide (vm) {
+  var provide = vm.$options.provide;
+  if (provide) {
+    vm._provided = typeof provide === 'function'
+      ? provide.call(vm)
+      : provide;
+  }
+}
+
+function initInjections (vm) {
+  var result = resolveInject(vm.$options.inject, vm);
+  if (result) {
+    toggleObserving(false);
+    Object.keys(result).forEach(function (key) {
+      /* istanbul ignore else */
+      if (true) {
+        defineReactive$$1(vm, key, result[key], function () {
+          warn(
+            "Avoid mutating an injected value directly since the changes will be " +
+            "overwritten whenever the provided component re-renders. " +
+            "injection being mutated: \"" + key + "\"",
+            vm
+          );
+        });
+      } else {}
+    });
+    toggleObserving(true);
+  }
+}
+
+function resolveInject (inject, vm) {
+  if (inject) {
+    // inject is :any because flow is not smart enough to figure out cached
+    var result = Object.create(null);
+    var keys = hasSymbol
+      ? Reflect.ownKeys(inject).filter(function (key) {
+        /* istanbul ignore next */
+        return Object.getOwnPropertyDescriptor(inject, key).enumerable
+      })
+      : Object.keys(inject);
+
+    for (var i = 0; i < keys.length; i++) {
+      var key = keys[i];
+      var provideKey = inject[key].from;
+      var source = vm;
+      while (source) {
+        if (source._provided && hasOwn(source._provided, provideKey)) {
+          result[key] = source._provided[provideKey];
+          break
+        }
+        source = source.$parent;
+      }
+      if (!source) {
+        if ('default' in inject[key]) {
+          var provideDefault = inject[key].default;
+          result[key] = typeof provideDefault === 'function'
+            ? provideDefault.call(vm)
+            : provideDefault;
+        } else if (true) {
+          warn(("Injection \"" + key + "\" not found"), vm);
+        }
+      }
+    }
+    return result
+  }
+}
+
+/*  */
+
+/**
+ * Runtime helper for rendering v-for lists.
+ */
+function renderList (
+  val,
+  render
+) {
+  var ret, i, l, keys, key;
+  if (Array.isArray(val) || typeof val === 'string') {
+    ret = new Array(val.length);
+    for (i = 0, l = val.length; i < l; i++) {
+      ret[i] = render(val[i], i);
+    }
+  } else if (typeof val === 'number') {
+    ret = new Array(val);
+    for (i = 0; i < val; i++) {
+      ret[i] = render(i + 1, i);
+    }
+  } else if (isObject(val)) {
+    keys = Object.keys(val);
+    ret = new Array(keys.length);
+    for (i = 0, l = keys.length; i < l; i++) {
+      key = keys[i];
+      ret[i] = render(val[key], key, i);
+    }
+  }
+  if (!isDef(ret)) {
+    ret = [];
+  }
+  (ret)._isVList = true;
+  return ret
+}
+
+/*  */
+
+/**
+ * Runtime helper for rendering <slot>
+ */
+function renderSlot (
+  name,
+  fallback,
+  props,
+  bindObject
+) {
+  var scopedSlotFn = this.$scopedSlots[name];
+  var nodes;
+  if (scopedSlotFn) { // scoped slot
+    props = props || {};
+    if (bindObject) {
+      if ( true && !isObject(bindObject)) {
+        warn(
+          'slot v-bind without argument expects an Object',
+          this
+        );
+      }
+      props = extend(extend({}, bindObject), props);
+    }
+    nodes = scopedSlotFn(props) || fallback;
+  } else {
+    nodes = this.$slots[name] || fallback;
+  }
+
+  var target = props && props.slot;
+  if (target) {
+    return this.$createElement('template', { slot: target }, nodes)
+  } else {
+    return nodes
+  }
+}
+
+/*  */
+
+/**
+ * Runtime helper for resolving filters
+ */
+function resolveFilter (id) {
+  return resolveAsset(this.$options, 'filters', id, true) || identity
+}
+
+/*  */
+
+function isKeyNotMatch (expect, actual) {
+  if (Array.isArray(expect)) {
+    return expect.indexOf(actual) === -1
+  } else {
+    return expect !== actual
+  }
+}
+
+/**
+ * Runtime helper for checking keyCodes from config.
+ * exposed as Vue.prototype._k
+ * passing in eventKeyName as last argument separately for backwards compat
+ */
+function checkKeyCodes (
+  eventKeyCode,
+  key,
+  builtInKeyCode,
+  eventKeyName,
+  builtInKeyName
+) {
+  var mappedKeyCode = config.keyCodes[key] || builtInKeyCode;
+  if (builtInKeyName && eventKeyName && !config.keyCodes[key]) {
+    return isKeyNotMatch(builtInKeyName, eventKeyName)
+  } else if (mappedKeyCode) {
+    return isKeyNotMatch(mappedKeyCode, eventKeyCode)
+  } else if (eventKeyName) {
+    return hyphenate(eventKeyName) !== key
+  }
+}
+
+/*  */
+
+/**
+ * Runtime helper for merging v-bind="object" into a VNode's data.
+ */
+function bindObjectProps (
+  data,
+  tag,
+  value,
+  asProp,
+  isSync
+) {
+  if (value) {
+    if (!isObject(value)) {
+       true && warn(
+        'v-bind without argument expects an Object or Array value',
+        this
+      );
+    } else {
+      if (Array.isArray(value)) {
+        value = toObject(value);
+      }
+      var hash;
+      var loop = function ( key ) {
+        if (
+          key === 'class' ||
+          key === 'style' ||
+          isReservedAttribute(key)
+        ) {
+          hash = data;
+        } else {
+          var type = data.attrs && data.attrs.type;
+          hash = asProp || config.mustUseProp(tag, type, key)
+            ? data.domProps || (data.domProps = {})
+            : data.attrs || (data.attrs = {});
+        }
+        var camelizedKey = camelize(key);
+        if (!(key in hash) && !(camelizedKey in hash)) {
+          hash[key] = value[key];
+
+          if (isSync) {
+            var on = data.on || (data.on = {});
+            on[("update:" + camelizedKey)] = function ($event) {
+              value[key] = $event;
+            };
+          }
+        }
+      };
+
+      for (var key in value) loop( key );
+    }
+  }
+  return data
+}
+
+/*  */
+
+/**
+ * Runtime helper for rendering static trees.
+ */
+function renderStatic (
+  index,
+  isInFor
+) {
+  var cached = this._staticTrees || (this._staticTrees = []);
+  var tree = cached[index];
+  // if has already-rendered static tree and not inside v-for,
+  // we can reuse the same tree.
+  if (tree && !isInFor) {
+    return tree
+  }
+  // otherwise, render a fresh tree.
+  tree = cached[index] = this.$options.staticRenderFns[index].call(
+    this._renderProxy,
+    null,
+    this // for render fns generated for functional component templates
+  );
+  markStatic(tree, ("__static__" + index), false);
+  return tree
+}
+
+/**
+ * Runtime helper for v-once.
+ * Effectively it means marking the node as static with a unique key.
+ */
+function markOnce (
+  tree,
+  index,
+  key
+) {
+  markStatic(tree, ("__once__" + index + (key ? ("_" + key) : "")), true);
+  return tree
+}
+
+function markStatic (
+  tree,
+  key,
+  isOnce
+) {
+  if (Array.isArray(tree)) {
+    for (var i = 0; i < tree.length; i++) {
+      if (tree[i] && typeof tree[i] !== 'string') {
+        markStaticNode(tree[i], (key + "_" + i), isOnce);
+      }
+    }
+  } else {
+    markStaticNode(tree, key, isOnce);
+  }
+}
+
+function markStaticNode (node, key, isOnce) {
+  node.isStatic = true;
+  node.key = key;
+  node.isOnce = isOnce;
+}
+
+/*  */
+
+function bindObjectListeners (data, value) {
+  if (value) {
+    if (!isPlainObject(value)) {
+       true && warn(
+        'v-on without argument expects an Object value',
+        this
+      );
+    } else {
+      var on = data.on = data.on ? extend({}, data.on) : {};
+      for (var key in value) {
+        var existing = on[key];
+        var ours = value[key];
+        on[key] = existing ? [].concat(existing, ours) : ours;
+      }
+    }
+  }
+  return data
+}
+
+/*  */
+
+function installRenderHelpers (target) {
+  target._o = markOnce;
+  target._n = toNumber;
+  target._s = toString;
+  target._l = renderList;
+  target._t = renderSlot;
+  target._q = looseEqual;
+  target._i = looseIndexOf;
+  target._m = renderStatic;
+  target._f = resolveFilter;
+  target._k = checkKeyCodes;
+  target._b = bindObjectProps;
+  target._v = createTextVNode;
+  target._e = createEmptyVNode;
+  target._u = resolveScopedSlots;
+  target._g = bindObjectListeners;
+}
+
+/*  */
+
+function FunctionalRenderContext (
+  data,
+  props,
+  children,
+  parent,
+  Ctor
+) {
+  var options = Ctor.options;
+  // ensure the createElement function in functional components
+  // gets a unique context - this is necessary for correct named slot check
+  var contextVm;
+  if (hasOwn(parent, '_uid')) {
+    contextVm = Object.create(parent);
+    // $flow-disable-line
+    contextVm._original = parent;
+  } else {
+    // the context vm passed in is a functional context as well.
+    // in this case we want to make sure we are able to get a hold to the
+    // real context instance.
+    contextVm = parent;
+    // $flow-disable-line
+    parent = parent._original;
+  }
+  var isCompiled = isTrue(options._compiled);
+  var needNormalization = !isCompiled;
+
+  this.data = data;
+  this.props = props;
+  this.children = children;
+  this.parent = parent;
+  this.listeners = data.on || emptyObject;
+  this.injections = resolveInject(options.inject, parent);
+  this.slots = function () { return resolveSlots(children, parent); };
+
+  // support for compiled functional template
+  if (isCompiled) {
+    // exposing $options for renderStatic()
+    this.$options = options;
+    // pre-resolve slots for renderSlot()
+    this.$slots = this.slots();
+    this.$scopedSlots = data.scopedSlots || emptyObject;
+  }
+
+  if (options._scopeId) {
+    this._c = function (a, b, c, d) {
+      var vnode = createElement(contextVm, a, b, c, d, needNormalization);
+      if (vnode && !Array.isArray(vnode)) {
+        vnode.fnScopeId = options._scopeId;
+        vnode.fnContext = parent;
+      }
+      return vnode
+    };
+  } else {
+    this._c = function (a, b, c, d) { return createElement(contextVm, a, b, c, d, needNormalization); };
+  }
+}
+
+installRenderHelpers(FunctionalRenderContext.prototype);
+
+function createFunctionalComponent (
+  Ctor,
+  propsData,
+  data,
+  contextVm,
+  children
+) {
+  var options = Ctor.options;
+  var props = {};
+  var propOptions = options.props;
+  if (isDef(propOptions)) {
+    for (var key in propOptions) {
+      props[key] = validateProp(key, propOptions, propsData || emptyObject);
+    }
+  } else {
+    if (isDef(data.attrs)) { mergeProps(props, data.attrs); }
+    if (isDef(data.props)) { mergeProps(props, data.props); }
+  }
+
+  var renderContext = new FunctionalRenderContext(
+    data,
+    props,
+    children,
+    contextVm,
+    Ctor
+  );
+
+  var vnode = options.render.call(null, renderContext._c, renderContext);
+
+  if (vnode instanceof VNode) {
+    return cloneAndMarkFunctionalResult(vnode, data, renderContext.parent, options, renderContext)
+  } else if (Array.isArray(vnode)) {
+    var vnodes = normalizeChildren(vnode) || [];
+    var res = new Array(vnodes.length);
+    for (var i = 0; i < vnodes.length; i++) {
+      res[i] = cloneAndMarkFunctionalResult(vnodes[i], data, renderContext.parent, options, renderContext);
+    }
+    return res
+  }
+}
+
+function cloneAndMarkFunctionalResult (vnode, data, contextVm, options, renderContext) {
+  // #7817 clone node before setting fnContext, otherwise if the node is reused
+  // (e.g. it was from a cached normal slot) the fnContext causes named slots
+  // that should not be matched to match.
+  var clone = cloneVNode(vnode);
+  clone.fnContext = contextVm;
+  clone.fnOptions = options;
+  if (true) {
+    (clone.devtoolsMeta = clone.devtoolsMeta || {}).renderContext = renderContext;
+  }
+  if (data.slot) {
+    (clone.data || (clone.data = {})).slot = data.slot;
+  }
+  return clone
+}
+
+function mergeProps (to, from) {
+  for (var key in from) {
+    to[camelize(key)] = from[key];
+  }
+}
+
+/*  */
+
+/*  */
+
+/*  */
+
+/*  */
+
+// inline hooks to be invoked on component VNodes during patch
+var componentVNodeHooks = {
+  init: function init (vnode, hydrating) {
+    if (
+      vnode.componentInstance &&
+      !vnode.componentInstance._isDestroyed &&
+      vnode.data.keepAlive
+    ) {
+      // kept-alive components, treat as a patch
+      var mountedNode = vnode; // work around flow
+      componentVNodeHooks.prepatch(mountedNode, mountedNode);
+    } else {
+      var child = vnode.componentInstance = createComponentInstanceForVnode(
+        vnode,
+        activeInstance
+      );
+      child.$mount(hydrating ? vnode.elm : undefined, hydrating);
+    }
+  },
+
+  prepatch: function prepatch (oldVnode, vnode) {
+    var options = vnode.componentOptions;
+    var child = vnode.componentInstance = oldVnode.componentInstance;
+    updateChildComponent(
+      child,
+      options.propsData, // updated props
+      options.listeners, // updated listeners
+      vnode, // new parent vnode
+      options.children // new children
+    );
+  },
+
+  insert: function insert (vnode) {
+    var context = vnode.context;
+    var componentInstance = vnode.componentInstance;
+    if (!componentInstance._isMounted) {
+      componentInstance._isMounted = true;
+      callHook(componentInstance, 'mounted');
+    }
+    if (vnode.data.keepAlive) {
+      if (context._isMounted) {
+        // vue-router#1212
+        // During updates, a kept-alive component's child components may
+        // change, so directly walking the tree here may call activated hooks
+        // on incorrect children. Instead we push them into a queue which will
+        // be processed after the whole patch process ended.
+        queueActivatedComponent(componentInstance);
+      } else {
+        activateChildComponent(componentInstance, true /* direct */);
+      }
+    }
+  },
+
+  destroy: function destroy (vnode) {
+    var componentInstance = vnode.componentInstance;
+    if (!componentInstance._isDestroyed) {
+      if (!vnode.data.keepAlive) {
+        componentInstance.$destroy();
+      } else {
+        deactivateChildComponent(componentInstance, true /* direct */);
+      }
+    }
+  }
+};
+
+var hooksToMerge = Object.keys(componentVNodeHooks);
+
+function createComponent (
+  Ctor,
+  data,
+  context,
+  children,
+  tag
+) {
+  if (isUndef(Ctor)) {
+    return
+  }
+
+  var baseCtor = context.$options._base;
+
+  // plain options object: turn it into a constructor
+  if (isObject(Ctor)) {
+    Ctor = baseCtor.extend(Ctor);
+  }
+
+  // if at this stage it's not a constructor or an async component factory,
+  // reject.
+  if (typeof Ctor !== 'function') {
+    if (true) {
+      warn(("Invalid Component definition: " + (String(Ctor))), context);
+    }
+    return
+  }
+
+  // async component
+  var asyncFactory;
+  if (isUndef(Ctor.cid)) {
+    asyncFactory = Ctor;
+    Ctor = resolveAsyncComponent(asyncFactory, baseCtor, context);
+    if (Ctor === undefined) {
+      // return a placeholder node for async component, which is rendered
+      // as a comment node but preserves all the raw information for the node.
+      // the information will be used for async server-rendering and hydration.
+      return createAsyncPlaceholder(
+        asyncFactory,
+        data,
+        context,
+        children,
+        tag
+      )
+    }
+  }
+
+  data = data || {};
+
+  // resolve constructor options in case global mixins are applied after
+  // component constructor creation
+  resolveConstructorOptions(Ctor);
+
+  // transform component v-model data into props & events
+  if (isDef(data.model)) {
+    transformModel(Ctor.options, data);
+  }
+
+  // extract props
+  var propsData = extractPropsFromVNodeData(data, Ctor, tag);
+
+  // functional component
+  if (isTrue(Ctor.options.functional)) {
+    return createFunctionalComponent(Ctor, propsData, data, context, children)
+  }
+
+  // extract listeners, since these needs to be treated as
+  // child component listeners instead of DOM listeners
+  var listeners = data.on;
+  // replace with listeners with .native modifier
+  // so it gets processed during parent component patch.
+  data.on = data.nativeOn;
+
+  if (isTrue(Ctor.options.abstract)) {
+    // abstract components do not keep anything
+    // other than props & listeners & slot
+
+    // work around flow
+    var slot = data.slot;
+    data = {};
+    if (slot) {
+      data.slot = slot;
+    }
+  }
+
+  // install component management hooks onto the placeholder node
+  installComponentHooks(data);
+
+  // return a placeholder vnode
+  var name = Ctor.options.name || tag;
+  var vnode = new VNode(
+    ("vue-component-" + (Ctor.cid) + (name ? ("-" + name) : '')),
+    data, undefined, undefined, undefined, context,
+    { Ctor: Ctor, propsData: propsData, listeners: listeners, tag: tag, children: children },
+    asyncFactory
+  );
+
+  return vnode
+}
+
+function createComponentInstanceForVnode (
+  vnode, // we know it's MountedComponentVNode but flow doesn't
+  parent // activeInstance in lifecycle state
+) {
+  var options = {
+    _isComponent: true,
+    _parentVnode: vnode,
+    parent: parent
+  };
+  // check inline-template render functions
+  var inlineTemplate = vnode.data.inlineTemplate;
+  if (isDef(inlineTemplate)) {
+    options.render = inlineTemplate.render;
+    options.staticRenderFns = inlineTemplate.staticRenderFns;
+  }
+  return new vnode.componentOptions.Ctor(options)
+}
+
+function installComponentHooks (data) {
+  var hooks = data.hook || (data.hook = {});
+  for (var i = 0; i < hooksToMerge.length; i++) {
+    var key = hooksToMerge[i];
+    var existing = hooks[key];
+    var toMerge = componentVNodeHooks[key];
+    if (existing !== toMerge && !(existing && existing._merged)) {
+      hooks[key] = existing ? mergeHook$1(toMerge, existing) : toMerge;
+    }
+  }
+}
+
+function mergeHook$1 (f1, f2) {
+  var merged = function (a, b) {
+    // flow complains about extra args which is why we use any
+    f1(a, b);
+    f2(a, b);
+  };
+  merged._merged = true;
+  return merged
+}
+
+// transform component v-model info (value and callback) into
+// prop and event handler respectively.
+function transformModel (options, data) {
+  var prop = (options.model && options.model.prop) || 'value';
+  var event = (options.model && options.model.event) || 'input'
+  ;(data.props || (data.props = {}))[prop] = data.model.value;
+  var on = data.on || (data.on = {});
+  var existing = on[event];
+  var callback = data.model.callback;
+  if (isDef(existing)) {
+    if (
+      Array.isArray(existing)
+        ? existing.indexOf(callback) === -1
+        : existing !== callback
+    ) {
+      on[event] = [callback].concat(existing);
+    }
+  } else {
+    on[event] = callback;
+  }
+}
+
+/*  */
+
+var SIMPLE_NORMALIZE = 1;
+var ALWAYS_NORMALIZE = 2;
+
+// wrapper function for providing a more flexible interface
+// without getting yelled at by flow
+function createElement (
+  context,
+  tag,
+  data,
+  children,
+  normalizationType,
+  alwaysNormalize
+) {
+  if (Array.isArray(data) || isPrimitive(data)) {
+    normalizationType = children;
+    children = data;
+    data = undefined;
+  }
+  if (isTrue(alwaysNormalize)) {
+    normalizationType = ALWAYS_NORMALIZE;
+  }
+  return _createElement(context, tag, data, children, normalizationType)
+}
+
+function _createElement (
+  context,
+  tag,
+  data,
+  children,
+  normalizationType
+) {
+  if (isDef(data) && isDef((data).__ob__)) {
+     true && warn(
+      "Avoid using observed data object as vnode data: " + (JSON.stringify(data)) + "\n" +
+      'Always create fresh vnode data objects in each render!',
+      context
+    );
+    return createEmptyVNode()
+  }
+  // object syntax in v-bind
+  if (isDef(data) && isDef(data.is)) {
+    tag = data.is;
+  }
+  if (!tag) {
+    // in case of component :is set to falsy value
+    return createEmptyVNode()
+  }
+  // warn against non-primitive key
+  if ( true &&
+    isDef(data) && isDef(data.key) && !isPrimitive(data.key)
+  ) {
+    {
+      warn(
+        'Avoid using non-primitive value as key, ' +
+        'use string/number value instead.',
+        context
+      );
+    }
+  }
+  // support single function children as default scoped slot
+  if (Array.isArray(children) &&
+    typeof children[0] === 'function'
+  ) {
+    data = data || {};
+    data.scopedSlots = { default: children[0] };
+    children.length = 0;
+  }
+  if (normalizationType === ALWAYS_NORMALIZE) {
+    children = normalizeChildren(children);
+  } else if (normalizationType === SIMPLE_NORMALIZE) {
+    children = simpleNormalizeChildren(children);
+  }
+  var vnode, ns;
+  if (typeof tag === 'string') {
+    var Ctor;
+    ns = (context.$vnode && context.$vnode.ns) || config.getTagNamespace(tag);
+    if (config.isReservedTag(tag)) {
+      // platform built-in elements
+      vnode = new VNode(
+        config.parsePlatformTagName(tag), data, children,
+        undefined, undefined, context
+      );
+    } else if ((!data || !data.pre) && isDef(Ctor = resolveAsset(context.$options, 'components', tag))) {
+      // component
+      vnode = createComponent(Ctor, data, context, children, tag);
+    } else {
+      // unknown or unlisted namespaced elements
+      // check at runtime because it may get assigned a namespace when its
+      // parent normalizes children
+      vnode = new VNode(
+        tag, data, children,
+        undefined, undefined, context
+      );
+    }
+  } else {
+    // direct component options / constructor
+    vnode = createComponent(tag, data, context, children);
+  }
+  if (Array.isArray(vnode)) {
+    return vnode
+  } else if (isDef(vnode)) {
+    if (isDef(ns)) { applyNS(vnode, ns); }
+    if (isDef(data)) { registerDeepBindings(data); }
+    return vnode
+  } else {
+    return createEmptyVNode()
+  }
+}
+
+function applyNS (vnode, ns, force) {
+  vnode.ns = ns;
+  if (vnode.tag === 'foreignObject') {
+    // use default namespace inside foreignObject
+    ns = undefined;
+    force = true;
+  }
+  if (isDef(vnode.children)) {
+    for (var i = 0, l = vnode.children.length; i < l; i++) {
+      var child = vnode.children[i];
+      if (isDef(child.tag) && (
+        isUndef(child.ns) || (isTrue(force) && child.tag !== 'svg'))) {
+        applyNS(child, ns, force);
+      }
+    }
+  }
+}
+
+// ref #5318
+// necessary to ensure parent re-render when deep bindings like :style and
+// :class are used on slot nodes
+function registerDeepBindings (data) {
+  if (isObject(data.style)) {
+    traverse(data.style);
+  }
+  if (isObject(data.class)) {
+    traverse(data.class);
+  }
+}
+
+/*  */
+
+function initRender (vm) {
+  vm._vnode = null; // the root of the child tree
+  vm._staticTrees = null; // v-once cached trees
+  var options = vm.$options;
+  var parentVnode = vm.$vnode = options._parentVnode; // the placeholder node in parent tree
+  var renderContext = parentVnode && parentVnode.context;
+  vm.$slots = resolveSlots(options._renderChildren, renderContext);
+  vm.$scopedSlots = emptyObject;
+  // bind the createElement fn to this instance
+  // so that we get proper render context inside it.
+  // args order: tag, data, children, normalizationType, alwaysNormalize
+  // internal version is used by render functions compiled from templates
+  vm._c = function (a, b, c, d) { return createElement(vm, a, b, c, d, false); };
+  // normalization is always applied for the public version, used in
+  // user-written render functions.
+  vm.$createElement = function (a, b, c, d) { return createElement(vm, a, b, c, d, true); };
+
+  // $attrs & $listeners are exposed for easier HOC creation.
+  // they need to be reactive so that HOCs using them are always updated
+  var parentData = parentVnode && parentVnode.data;
+
+  /* istanbul ignore else */
+  if (true) {
+    defineReactive$$1(vm, '$attrs', parentData && parentData.attrs || emptyObject, function () {
+      !isUpdatingChildComponent && warn("$attrs is readonly.", vm);
+    }, true);
+    defineReactive$$1(vm, '$listeners', options._parentListeners || emptyObject, function () {
+      !isUpdatingChildComponent && warn("$listeners is readonly.", vm);
+    }, true);
+  } else {}
+}
+
+function renderMixin (Vue) {
+  // install runtime convenience helpers
+  installRenderHelpers(Vue.prototype);
+
+  Vue.prototype.$nextTick = function (fn) {
+    return nextTick(fn, this)
+  };
+
+  Vue.prototype._render = function () {
+    var vm = this;
+    var ref = vm.$options;
+    var render = ref.render;
+    var _parentVnode = ref._parentVnode;
+
+    if (_parentVnode) {
+      vm.$scopedSlots = _parentVnode.data.scopedSlots || emptyObject;
+    }
+
+    // set parent vnode. this allows render functions to have access
+    // to the data on the placeholder node.
+    vm.$vnode = _parentVnode;
+    // render self
+    var vnode;
+    try {
+      vnode = render.call(vm._renderProxy, vm.$createElement);
+    } catch (e) {
+      handleError(e, vm, "render");
+      // return error render result,
+      // or previous vnode to prevent render error causing blank component
+      /* istanbul ignore else */
+      if ( true && vm.$options.renderError) {
+        try {
+          vnode = vm.$options.renderError.call(vm._renderProxy, vm.$createElement, e);
+        } catch (e) {
+          handleError(e, vm, "renderError");
+          vnode = vm._vnode;
+        }
+      } else {
+        vnode = vm._vnode;
+      }
+    }
+    // return empty vnode in case the render function errored out
+    if (!(vnode instanceof VNode)) {
+      if ( true && Array.isArray(vnode)) {
+        warn(
+          'Multiple root nodes returned from render function. Render function ' +
+          'should return a single root node.',
+          vm
+        );
+      }
+      vnode = createEmptyVNode();
+    }
+    // set parent
+    vnode.parent = _parentVnode;
+    return vnode
+  };
+}
+
+/*  */
+
 var uid$3 = 0;
 
 function initMixin (Vue) {
@@ -15341,7 +15300,7 @@ function initMixin (Vue) {
 
     var startTag, endTag;
     /* istanbul ignore if */
-    if (config.performance && mark) {
+    if ( true && config.performance && mark) {
       startTag = "vue-perf-start:" + (vm._uid);
       endTag = "vue-perf-end:" + (vm._uid);
       mark(startTag);
@@ -15363,9 +15322,9 @@ function initMixin (Vue) {
       );
     }
     /* istanbul ignore else */
-    {
+    if (true) {
       initProxy(vm);
-    }
+    } else {}
     // expose real self
     vm._self = vm;
     initLifecycle(vm);
@@ -15378,7 +15337,7 @@ function initMixin (Vue) {
     callHook(vm, 'created');
 
     /* istanbul ignore if */
-    if (config.performance && mark) {
+    if ( true && config.performance && mark) {
       vm._name = formatComponentName(vm, false);
       mark(endTag);
       measure(("vue " + (vm._name) + " init"), startTag, endTag);
@@ -15436,18 +15395,39 @@ function resolveConstructorOptions (Ctor) {
 function resolveModifiedOptions (Ctor) {
   var modified;
   var latest = Ctor.options;
+  var extended = Ctor.extendOptions;
   var sealed = Ctor.sealedOptions;
   for (var key in latest) {
     if (latest[key] !== sealed[key]) {
       if (!modified) { modified = {}; }
-      modified[key] = latest[key];
+      modified[key] = dedupe(latest[key], extended[key], sealed[key]);
     }
   }
   return modified
 }
 
+function dedupe (latest, extended, sealed) {
+  // compare latest and sealed to ensure lifecycle hooks won't be duplicated
+  // between merges
+  if (Array.isArray(latest)) {
+    var res = [];
+    sealed = Array.isArray(sealed) ? sealed : [sealed];
+    extended = Array.isArray(extended) ? extended : [extended];
+    for (var i = 0; i < latest.length; i++) {
+      // push original options and not sealed options to exclude duplicated options
+      if (extended.indexOf(latest[i]) >= 0 || sealed.indexOf(latest[i]) < 0) {
+        res.push(latest[i]);
+      }
+    }
+    return res
+  } else {
+    return latest
+  }
+}
+
 function Vue (options) {
-  if (!(this instanceof Vue)
+  if ( true &&
+    !(this instanceof Vue)
   ) {
     warn('Vue is a constructor and should be called with the `new` keyword');
   }
@@ -15515,7 +15495,7 @@ function initExtend (Vue) {
     }
 
     var name = extendOptions.name || Super.options.name;
-    if (name) {
+    if ( true && name) {
       validateComponentName(name);
     }
 
@@ -15598,7 +15578,7 @@ function initAssetRegisters (Vue) {
         return this.options[type + 's'][id]
       } else {
         /* istanbul ignore if */
-        if (type === 'component') {
+        if ( true && type === 'component') {
           validateComponentName(id);
         }
         if (type === 'component' && isPlainObject(definition)) {
@@ -15755,7 +15735,7 @@ function initGlobalAPI (Vue) {
   // config
   var configDef = {};
   configDef.get = function () { return config; };
-  {
+  if (true) {
     configDef.set = function () {
       warn(
         'Do not replace the Vue.config object, set individual fields instead.'
@@ -15777,12 +15757,6 @@ function initGlobalAPI (Vue) {
   Vue.set = set;
   Vue.delete = del;
   Vue.nextTick = nextTick;
-
-  // 2.6 explicit observable API
-  Vue.observable = function (obj) {
-    observe(obj);
-    return obj
-  };
 
   Vue.options = Object.create(null);
   ASSET_TYPES.forEach(function (type) {
@@ -15819,7 +15793,7 @@ Object.defineProperty(Vue, 'FunctionalRenderContext', {
   value: FunctionalRenderContext
 });
 
-Vue.version = '2.6.10';
+Vue.version = '2.5.21';
 
 /*  */
 
@@ -15839,17 +15813,6 @@ var mustUseProp = function (tag, type, attr) {
 };
 
 var isEnumeratedAttr = makeMap('contenteditable,draggable,spellcheck');
-
-var isValidContentEditableValue = makeMap('events,caret,typing,plaintext-only');
-
-var convertEnumeratedValue = function (key, value) {
-  return isFalsyAttrValue(value) || value === 'false'
-    ? 'false'
-    // allow arbitrary string value for contenteditable
-    : key === 'contenteditable' && isValidContentEditableValue(value)
-      ? value
-      : 'true'
-};
 
 var isBooleanAttr = makeMap(
   'allowfullscreen,async,autofocus,autoplay,checked,compact,controls,declare,' +
@@ -16039,7 +16002,7 @@ function query (el) {
   if (typeof el === 'string') {
     var selected = document.querySelector(el);
     if (!selected) {
-      warn(
+       true && warn(
         'Cannot find element: ' + el
       );
       return document.createElement('div')
@@ -16301,7 +16264,7 @@ function createPatchFunction (backend) {
     var children = vnode.children;
     var tag = vnode.tag;
     if (isDef(tag)) {
-      {
+      if (true) {
         if (data && data.pre) {
           creatingElmInVPre++;
         }
@@ -16329,7 +16292,7 @@ function createPatchFunction (backend) {
         insert(parentElm, vnode.elm, refElm);
       }
 
-      if (data && data.pre) {
+      if ( true && data && data.pre) {
         creatingElmInVPre--;
       }
     } else if (isTrue(vnode.isComment)) {
@@ -16417,7 +16380,7 @@ function createPatchFunction (backend) {
 
   function createChildren (vnode, children, insertedVnodeQueue) {
     if (Array.isArray(children)) {
-      {
+      if (true) {
         checkDuplicateKeys(children);
       }
       for (var i = 0; i < children.length; ++i) {
@@ -16551,7 +16514,7 @@ function createPatchFunction (backend) {
     // during leaving transitions
     var canMove = !removeOnly;
 
-    {
+    if (true) {
       checkDuplicateKeys(newCh);
     }
 
@@ -16689,7 +16652,7 @@ function createPatchFunction (backend) {
       if (isDef(oldCh) && isDef(ch)) {
         if (oldCh !== ch) { updateChildren(elm, oldCh, ch, insertedVnodeQueue, removeOnly); }
       } else if (isDef(ch)) {
-        {
+        if (true) {
           checkDuplicateKeys(ch);
         }
         if (isDef(oldVnode.text)) { nodeOps.setTextContent(elm, ''); }
@@ -16740,7 +16703,7 @@ function createPatchFunction (backend) {
       return true
     }
     // assert node match
-    {
+    if (true) {
       if (!assertNodeMatch(elm, vnode, inVPre)) {
         return false
       }
@@ -16763,7 +16726,8 @@ function createPatchFunction (backend) {
           if (isDef(i = data) && isDef(i = i.domProps) && isDef(i = i.innerHTML)) {
             if (i !== elm.innerHTML) {
               /* istanbul ignore if */
-              if (typeof console !== 'undefined' &&
+              if ( true &&
+                typeof console !== 'undefined' &&
                 !hydrationBailed
               ) {
                 hydrationBailed = true;
@@ -16788,7 +16752,8 @@ function createPatchFunction (backend) {
             // longer than the virtual children list.
             if (!childrenMatch || childNode) {
               /* istanbul ignore if */
-              if (typeof console !== 'undefined' &&
+              if ( true &&
+                typeof console !== 'undefined' &&
                 !hydrationBailed
               ) {
                 hydrationBailed = true;
@@ -16862,7 +16827,7 @@ function createPatchFunction (backend) {
             if (hydrate(oldVnode, vnode, insertedVnodeQueue)) {
               invokeInsertHook(vnode, insertedVnodeQueue, true);
               return oldVnode
-            } else {
+            } else if (true) {
               warn(
                 'The client-side rendered virtual DOM tree is not matching ' +
                 'server-rendered content. This is likely caused by incorrect ' +
@@ -16974,7 +16939,6 @@ function _update (oldVnode, vnode) {
     } else {
       // existing directive, update
       dir.oldValue = oldDir.value;
-      dir.oldArg = oldDir.arg;
       callHook$1(dir, 'update', vnode, oldVnode);
       if (dir.def && dir.def.componentUpdated) {
         dirsWithPostpatch.push(dir);
@@ -17118,7 +17082,7 @@ function setAttr (el, key, value) {
       el.setAttribute(key, value);
     }
   } else if (isEnumeratedAttr(key)) {
-    el.setAttribute(key, convertEnumeratedValue(key, value));
+    el.setAttribute(key, isFalsyAttrValue(value) || value === 'false' ? 'false' : 'true');
   } else if (isXlink(key)) {
     if (isFalsyAttrValue(value)) {
       el.removeAttributeNS(xlinkNS, getXlinkProp(key));
@@ -17140,8 +17104,8 @@ function baseSetAttr (el, key, value) {
     /* istanbul ignore if */
     if (
       isIE && !isIE9 &&
-      el.tagName === 'TEXTAREA' &&
-      key === 'placeholder' && value !== '' && !el.__ieph
+      (el.tagName === 'TEXTAREA' || el.tagName === 'INPUT') &&
+      key === 'placeholder' && !el.__ieph
     ) {
       var blocker = function (e) {
         e.stopImmediatePropagation();
@@ -17298,13 +17262,9 @@ function wrapFilter (exp, filter) {
 
 /*  */
 
-
-
-/* eslint-disable no-unused-vars */
-function baseWarn (msg, range) {
+function baseWarn (msg) {
   console.error(("[Vue compiler]: " + msg));
 }
-/* eslint-enable no-unused-vars */
 
 function pluckModuleFunction (
   modules,
@@ -17315,23 +17275,20 @@ function pluckModuleFunction (
     : []
 }
 
-function addProp (el, name, value, range, dynamic) {
-  (el.props || (el.props = [])).push(rangeSetItem({ name: name, value: value, dynamic: dynamic }, range));
+function addProp (el, name, value) {
+  (el.props || (el.props = [])).push({ name: name, value: value });
   el.plain = false;
 }
 
-function addAttr (el, name, value, range, dynamic) {
-  var attrs = dynamic
-    ? (el.dynamicAttrs || (el.dynamicAttrs = []))
-    : (el.attrs || (el.attrs = []));
-  attrs.push(rangeSetItem({ name: name, value: value, dynamic: dynamic }, range));
+function addAttr (el, name, value) {
+  (el.attrs || (el.attrs = [])).push({ name: name, value: value });
   el.plain = false;
 }
 
 // add a raw attr (use this in preTransforms)
-function addRawAttr (el, name, value, range) {
+function addRawAttr (el, name, value) {
   el.attrsMap[name] = value;
-  el.attrsList.push(rangeSetItem({ name: name, value: value }, range));
+  el.attrsList.push({ name: name, value: value });
 }
 
 function addDirective (
@@ -17340,25 +17297,10 @@ function addDirective (
   rawName,
   value,
   arg,
-  isDynamicArg,
-  modifiers,
-  range
+  modifiers
 ) {
-  (el.directives || (el.directives = [])).push(rangeSetItem({
-    name: name,
-    rawName: rawName,
-    value: value,
-    arg: arg,
-    isDynamicArg: isDynamicArg,
-    modifiers: modifiers
-  }, range));
+  (el.directives || (el.directives = [])).push({ name: name, rawName: rawName, value: value, arg: arg, modifiers: modifiers });
   el.plain = false;
-}
-
-function prependModifierMarker (symbol, name, dynamic) {
-  return dynamic
-    ? ("_p(" + name + ",\"" + symbol + "\")")
-    : symbol + name // mark the event as captured
 }
 
 function addHandler (
@@ -17367,38 +17309,29 @@ function addHandler (
   value,
   modifiers,
   important,
-  warn,
-  range,
-  dynamic
+  warn
 ) {
   modifiers = modifiers || emptyObject;
   // warn prevent and passive modifier
   /* istanbul ignore if */
   if (
-    warn &&
+     true && warn &&
     modifiers.prevent && modifiers.passive
   ) {
     warn(
       'passive and prevent can\'t be used together. ' +
-      'Passive handler can\'t prevent default event.',
-      range
+      'Passive handler can\'t prevent default event.'
     );
   }
 
   // normalize click.right and click.middle since they don't actually fire
   // this is technically browser-specific, but at least for now browsers are
   // the only target envs that have right/middle clicks.
-  if (modifiers.right) {
-    if (dynamic) {
-      name = "(" + name + ")==='click'?'contextmenu':(" + name + ")";
-    } else if (name === 'click') {
+  if (name === 'click') {
+    if (modifiers.right) {
       name = 'contextmenu';
       delete modifiers.right;
-    }
-  } else if (modifiers.middle) {
-    if (dynamic) {
-      name = "(" + name + ")==='click'?'mouseup':(" + name + ")";
-    } else if (name === 'click') {
+    } else if (modifiers.middle) {
       name = 'mouseup';
     }
   }
@@ -17406,16 +17339,16 @@ function addHandler (
   // check capture modifier
   if (modifiers.capture) {
     delete modifiers.capture;
-    name = prependModifierMarker('!', name, dynamic);
+    name = '!' + name; // mark the event as captured
   }
   if (modifiers.once) {
     delete modifiers.once;
-    name = prependModifierMarker('~', name, dynamic);
+    name = '~' + name; // mark the event as once
   }
   /* istanbul ignore if */
   if (modifiers.passive) {
     delete modifiers.passive;
-    name = prependModifierMarker('&', name, dynamic);
+    name = '&' + name; // mark the event as passive
   }
 
   var events;
@@ -17426,7 +17359,9 @@ function addHandler (
     events = el.events || (el.events = {});
   }
 
-  var newHandler = rangeSetItem({ value: value.trim(), dynamic: dynamic }, range);
+  var newHandler = {
+    value: value.trim()
+  };
   if (modifiers !== emptyObject) {
     newHandler.modifiers = modifiers;
   }
@@ -17442,15 +17377,6 @@ function addHandler (
   }
 
   el.plain = false;
-}
-
-function getRawBindingAttr (
-  el,
-  name
-) {
-  return el.rawAttrsMap[':' + name] ||
-    el.rawAttrsMap['v-bind:' + name] ||
-    el.rawAttrsMap[name]
 }
 
 function getBindingAttr (
@@ -17494,35 +17420,6 @@ function getAndRemoveAttr (
     delete el.attrsMap[name];
   }
   return val
-}
-
-function getAndRemoveAttrByRegex (
-  el,
-  name
-) {
-  var list = el.attrsList;
-  for (var i = 0, l = list.length; i < l; i++) {
-    var attr = list[i];
-    if (name.test(attr.name)) {
-      list.splice(i, 1);
-      return attr
-    }
-  }
-}
-
-function rangeSetItem (
-  item,
-  range
-) {
-  if (range) {
-    if (range.start != null) {
-      item.start = range.start;
-    }
-    if (range.end != null) {
-      item.end = range.end;
-    }
-  }
-  return item
 }
 
 /*  */
@@ -17693,14 +17590,13 @@ function model (
   var tag = el.tag;
   var type = el.attrsMap.type;
 
-  {
+  if (true) {
     // inputs with type="file" are read only and setting the input's
     // value will throw an error.
     if (tag === 'input' && type === 'file') {
       warn$1(
         "<" + (el.tag) + " v-model=\"" + value + "\" type=\"file\">:\n" +
-        "File inputs are read only. Use a v-on:change listener instead.",
-        el.rawAttrsMap['v-model']
+        "File inputs are read only. Use a v-on:change listener instead."
       );
     }
   }
@@ -17721,13 +17617,12 @@ function model (
     genComponentModel(el, value, modifiers);
     // component v-model doesn't need extra runtime
     return false
-  } else {
+  } else if (true) {
     warn$1(
       "<" + (el.tag) + " v-model=\"" + value + "\">: " +
       "v-model is not supported on this element type. " +
       'If you are working with contenteditable, it\'s recommended to ' +
-      'wrap a library dedicated for that purpose inside a custom component.',
-      el.rawAttrsMap['v-model']
+      'wrap a library dedicated for that purpose inside a custom component.'
     );
   }
 
@@ -17804,15 +17699,14 @@ function genDefaultModel (
 
   // warn if v-bind:value conflicts with v-model
   // except for inputs with v-bind:type
-  {
+  if (true) {
     var value$1 = el.attrsMap['v-bind:value'] || el.attrsMap[':value'];
     var typeBinding = el.attrsMap['v-bind:type'] || el.attrsMap[':type'];
     if (value$1 && !typeBinding) {
       var binding = el.attrsMap['v-bind:value'] ? 'v-bind:value' : ':value';
       warn$1(
         binding + "=\"" + value$1 + "\" conflicts with v-model on the same element " +
-        'because the latter already expands to a value binding internally',
-        el.rawAttrsMap[binding]
+        'because the latter already expands to a value binding internally'
       );
     }
   }
@@ -17883,49 +17777,15 @@ function createOnceHandler$1 (event, handler, capture) {
   }
 }
 
-// #9446: Firefox <= 53 (in particular, ESR 52) has incorrect Event.timeStamp
-// implementation and does not fire microtasks in between event propagation, so
-// safe to exclude.
-var useMicrotaskFix = isUsingMicroTask && !(isFF && Number(isFF[1]) <= 53);
-
 function add$1 (
-  name,
+  event,
   handler,
   capture,
   passive
 ) {
-  // async edge case #6566: inner click event triggers patch, event handler
-  // attached to outer element during patch, and triggered again. This
-  // happens because browsers fire microtask ticks between event propagation.
-  // the solution is simple: we save the timestamp when a handler is attached,
-  // and the handler would only fire if the event passed to it was fired
-  // AFTER it was attached.
-  if (useMicrotaskFix) {
-    var attachedTimestamp = currentFlushTimestamp;
-    var original = handler;
-    handler = original._wrapper = function (e) {
-      if (
-        // no bubbling, should always fire.
-        // this is just a safety net in case event.timeStamp is unreliable in
-        // certain weird environments...
-        e.target === e.currentTarget ||
-        // event is fired after handler attachment
-        e.timeStamp >= attachedTimestamp ||
-        // bail for environments that have buggy event.timeStamp implementations
-        // #9462 iOS 9 bug: event.timeStamp is 0 after history.pushState
-        // #9681 QtWebEngine event.timeStamp is negative value
-        e.timeStamp <= 0 ||
-        // #9448 bail if event is fired in another document in a multi-page
-        // electron/nw.js app, since event.timeStamp will be using a different
-        // starting reference
-        e.target.ownerDocument !== document
-      ) {
-        return original.apply(this, arguments)
-      }
-    };
-  }
+  handler = withMacroTask(handler);
   target$1.addEventListener(
-    name,
+    event,
     handler,
     supportsPassive
       ? { capture: capture, passive: passive }
@@ -17934,14 +17794,14 @@ function add$1 (
 }
 
 function remove$2 (
-  name,
+  event,
   handler,
   capture,
   _target
 ) {
   (_target || target$1).removeEventListener(
-    name,
-    handler._wrapper || handler,
+    event,
+    handler._withTask || handler,
     capture
   );
 }
@@ -17965,8 +17825,6 @@ var events = {
 
 /*  */
 
-var svgContainer;
-
 function updateDOMProps (oldVnode, vnode) {
   if (isUndef(oldVnode.data.domProps) && isUndef(vnode.data.domProps)) {
     return
@@ -17981,11 +17839,10 @@ function updateDOMProps (oldVnode, vnode) {
   }
 
   for (key in oldProps) {
-    if (!(key in props)) {
+    if (isUndef(props[key])) {
       elm[key] = '';
     }
   }
-
   for (key in props) {
     cur = props[key];
     // ignore children if the node has textContent or innerHTML,
@@ -18001,7 +17858,7 @@ function updateDOMProps (oldVnode, vnode) {
       }
     }
 
-    if (key === 'value' && elm.tagName !== 'PROGRESS') {
+    if (key === 'value') {
       // store value as _value as well since
       // non-string values will be stringified
       elm._value = cur;
@@ -18010,29 +17867,8 @@ function updateDOMProps (oldVnode, vnode) {
       if (shouldUpdateValue(elm, strCur)) {
         elm.value = strCur;
       }
-    } else if (key === 'innerHTML' && isSVG(elm.tagName) && isUndef(elm.innerHTML)) {
-      // IE doesn't support innerHTML for SVG elements
-      svgContainer = svgContainer || document.createElement('div');
-      svgContainer.innerHTML = "<svg>" + cur + "</svg>";
-      var svg = svgContainer.firstChild;
-      while (elm.firstChild) {
-        elm.removeChild(elm.firstChild);
-      }
-      while (svg.firstChild) {
-        elm.appendChild(svg.firstChild);
-      }
-    } else if (
-      // skip the update if old and new VDOM state is the same.
-      // `value` is handled separately because the DOM value may be temporarily
-      // out of sync with VDOM state due to focus, composition and modifiers.
-      // This  #4521 by skipping the unnecesarry `checked` update.
-      cur !== oldProps[key]
-    ) {
-      // some property updates can throw
-      // e.g. `value` on <progress> w/ non-finite value
-      try {
-        elm[key] = cur;
-      } catch (e) {}
+    } else {
+      elm[key] = cur;
     }
   }
 }
@@ -18062,6 +17898,10 @@ function isDirtyWithModifiers (elm, newVal) {
   var value = elm.value;
   var modifiers = elm._vModifiers; // injected by v-model runtime
   if (isDef(modifiers)) {
+    if (modifiers.lazy) {
+      // inputs with lazy should only be updated when not in focus
+      return false
+    }
     if (modifiers.number) {
       return toNumber(value) !== toNumber(newVal)
     }
@@ -18156,7 +17996,7 @@ var setProp = function (el, name, val) {
   if (cssVarRE.test(name)) {
     el.style.setProperty(name, val);
   } else if (importantRE.test(val)) {
-    el.style.setProperty(hyphenate(name), val.replace(importantRE, ''), 'important');
+    el.style.setProperty(name, val.replace(importantRE, ''), 'important');
   } else {
     var normalizedName = normalize(name);
     if (Array.isArray(val)) {
@@ -18533,8 +18373,8 @@ function enter (vnode, toggleDisplay) {
   var context = activeInstance;
   var transitionNode = activeInstance.$vnode;
   while (transitionNode && transitionNode.parent) {
-    context = transitionNode.context;
     transitionNode = transitionNode.parent;
+    context = transitionNode.context;
   }
 
   var isAppear = !context._isMounted || !vnode.isRootInsert;
@@ -18572,7 +18412,7 @@ function enter (vnode, toggleDisplay) {
       : duration
   );
 
-  if (explicitEnterDuration != null) {
+  if ( true && explicitEnterDuration != null) {
     checkDuration(explicitEnterDuration, 'enter', vnode);
   }
 
@@ -18680,7 +18520,7 @@ function leave (vnode, rm) {
       : duration
   );
 
-  if (isDef(explicitLeaveDuration)) {
+  if ( true && isDef(explicitLeaveDuration)) {
     checkDuration(explicitLeaveDuration, 'leave', vnode);
   }
 
@@ -18907,7 +18747,7 @@ function actuallySetSelected (el, binding, vm) {
   var value = binding.value;
   var isMultiple = el.multiple;
   if (isMultiple && !Array.isArray(value)) {
-    warn(
+     true && warn(
       "<select multiple v-model=\"" + (binding.expression) + "\"> " +
       "expects an Array value for its binding, but got " + (Object.prototype.toString.call(value).slice(8, -1)),
       vm
@@ -19124,7 +18964,7 @@ var Transition = {
     }
 
     // warn multiple elements
-    if (children.length > 1) {
+    if ( true && children.length > 1) {
       warn(
         '<transition> can only be used on a single element. Use ' +
         '<transition-group> for lists.',
@@ -19135,7 +18975,8 @@ var Transition = {
     var mode = this.mode;
 
     // warn invalid mode
-    if (mode && mode !== 'in-out' && mode !== 'out-in'
+    if ( true &&
+      mode && mode !== 'in-out' && mode !== 'out-in'
     ) {
       warn(
         'invalid <transition> mode: ' + mode,
@@ -19267,7 +19108,7 @@ var TransitionGroup = {
           children.push(c);
           map[c.key] = c
           ;(c.data || (c.data = {})).transition = transitionData;
-        } else {
+        } else if (true) {
           var opts = c.componentOptions;
           var name = opts ? (opts.Ctor.options.name || opts.tag || '') : c.tag;
           warn(("<transition-group> children must be keyed: <" + name + ">"));
@@ -19427,14 +19268,18 @@ if (inBrowser) {
     if (config.devtools) {
       if (devtools) {
         devtools.emit('init', Vue);
-      } else {
+      } else if (
+         true &&
+        isChrome
+      ) {
         console[console.info ? 'info' : 'log'](
           'Download the Vue Devtools extension for a better development experience:\n' +
           'https://github.com/vuejs/vue-devtools'
         );
       }
     }
-    if (config.productionTip !== false &&
+    if ( true &&
+      config.productionTip !== false &&
       typeof console !== 'undefined'
     ) {
       console[console.info ? 'info' : 'log'](
@@ -19499,15 +19344,14 @@ function parseText (
 function transformNode (el, options) {
   var warn = options.warn || baseWarn;
   var staticClass = getAndRemoveAttr(el, 'class');
-  if (staticClass) {
+  if ( true && staticClass) {
     var res = parseText(staticClass, options.delimiters);
     if (res) {
       warn(
         "class=\"" + staticClass + "\": " +
         'Interpolation inside attributes has been removed. ' +
         'Use v-bind or the colon shorthand instead. For example, ' +
-        'instead of <div class="{{ val }}">, use <div :class="val">.',
-        el.rawAttrsMap['class']
+        'instead of <div class="{{ val }}">, use <div :class="val">.'
       );
     }
   }
@@ -19544,15 +19388,14 @@ function transformNode$1 (el, options) {
   var staticStyle = getAndRemoveAttr(el, 'style');
   if (staticStyle) {
     /* istanbul ignore if */
-    {
+    if (true) {
       var res = parseText(staticStyle, options.delimiters);
       if (res) {
         warn(
           "style=\"" + staticStyle + "\": " +
           'Interpolation inside attributes has been removed. ' +
           'Use v-bind or the colon shorthand instead. For example, ' +
-          'instead of <div style="{{ val }}">, use <div :style="val">.',
-          el.rawAttrsMap['style']
+          'instead of <div style="{{ val }}">, use <div :style="val">.'
         );
       }
     }
@@ -19623,8 +19466,9 @@ var isNonPhrasingTag = makeMap(
 
 // Regular Expressions for parsing tags and attributes
 var attribute = /^\s*([^\s"'<>\/=]+)(?:\s*(=)\s*(?:"([^"]*)"+|'([^']*)'+|([^\s"'=<>`]+)))?/;
-var dynamicArgAttribute = /^\s*((?:v-[\w-]+:|@|:|#)\[[^=]+\][^\s"'<>\/=]*)(?:\s*(=)\s*(?:"([^"]*)"+|'([^']*)'+|([^\s"'=<>`]+)))?/;
-var ncname = "[a-zA-Z_][\\-\\.0-9_a-zA-Z" + (unicodeRegExp.source) + "]*";
+// could use https://www.w3.org/TR/1999/REC-xml-names-19990114/#NT-QName
+// but for Vue templates we can enforce a simple charset
+var ncname = '[a-zA-Z_][\\w\\-\\.]*';
 var qnameCapture = "((?:" + ncname + "\\:)?" + ncname + ")";
 var startTagOpen = new RegExp(("^<" + qnameCapture));
 var startTagClose = /^\s*(\/?)>/;
@@ -19644,11 +19488,10 @@ var decodingMap = {
   '&quot;': '"',
   '&amp;': '&',
   '&#10;': '\n',
-  '&#9;': '\t',
-  '&#39;': "'"
+  '&#9;': '\t'
 };
-var encodedAttr = /&(?:lt|gt|quot|amp|#39);/g;
-var encodedAttrWithNewLines = /&(?:lt|gt|quot|amp|#39|#10|#9);/g;
+var encodedAttr = /&(?:lt|gt|quot|amp);/g;
+var encodedAttrWithNewLines = /&(?:lt|gt|quot|amp|#10|#9);/g;
 
 // #5992
 var isIgnoreNewlineTag = makeMap('pre,textarea', true);
@@ -19678,7 +19521,7 @@ function parseHTML (html, options) {
 
           if (commentEnd >= 0) {
             if (options.shouldKeepComment) {
-              options.comment(html.substring(4, commentEnd), index, index + commentEnd + 3);
+              options.comment(html.substring(4, commentEnd));
             }
             advance(commentEnd + 3);
             continue
@@ -19738,18 +19581,16 @@ function parseHTML (html, options) {
           rest = html.slice(textEnd);
         }
         text = html.substring(0, textEnd);
+        advance(textEnd);
       }
 
       if (textEnd < 0) {
         text = html;
-      }
-
-      if (text) {
-        advance(text.length);
+        html = '';
       }
 
       if (options.chars && text) {
-        options.chars(text, index - text.length, index);
+        options.chars(text);
       }
     } else {
       var endTagLength = 0;
@@ -19777,8 +19618,8 @@ function parseHTML (html, options) {
 
     if (html === last) {
       options.chars && options.chars(html);
-      if (!stack.length && options.warn) {
-        options.warn(("Mal-formatted tag at end of template: \"" + html + "\""), { start: index + html.length });
+      if ( true && !stack.length && options.warn) {
+        options.warn(("Mal-formatted tag at end of template: \"" + html + "\""));
       }
       break
     }
@@ -19802,10 +19643,8 @@ function parseHTML (html, options) {
       };
       advance(start[0].length);
       var end, attr;
-      while (!(end = html.match(startTagClose)) && (attr = html.match(dynamicArgAttribute) || html.match(attribute))) {
-        attr.start = index;
+      while (!(end = html.match(startTagClose)) && (attr = html.match(attribute))) {
         advance(attr[0].length);
-        attr.end = index;
         match.attrs.push(attr);
       }
       if (end) {
@@ -19844,14 +19683,10 @@ function parseHTML (html, options) {
         name: args[1],
         value: decodeAttr(value, shouldDecodeNewlines)
       };
-      if (options.outputSourceRange) {
-        attrs[i].start = args.start + args[0].match(/^\s*/).length;
-        attrs[i].end = args.end;
-      }
     }
 
     if (!unary) {
-      stack.push({ tag: tagName, lowerCasedTag: tagName.toLowerCase(), attrs: attrs, start: match.start, end: match.end });
+      stack.push({ tag: tagName, lowerCasedTag: tagName.toLowerCase(), attrs: attrs });
       lastTag = tagName;
     }
 
@@ -19881,12 +19716,12 @@ function parseHTML (html, options) {
     if (pos >= 0) {
       // Close all the open elements, up the stack
       for (var i = stack.length - 1; i >= pos; i--) {
-        if (i > pos || !tagName &&
+        if ( true &&
+          (i > pos || !tagName) &&
           options.warn
         ) {
           options.warn(
-            ("tag <" + (stack[i].tag) + "> has no matching end tag."),
-            { start: stack[i].start, end: stack[i].end }
+            ("tag <" + (stack[i].tag) + "> has no matching end tag.")
           );
         }
         if (options.end) {
@@ -19919,22 +19754,12 @@ var dirRE = /^v-|^@|^:/;
 var forAliasRE = /([\s\S]*?)\s+(?:in|of)\s+([\s\S]*)/;
 var forIteratorRE = /,([^,\}\]]*)(?:,([^,\}\]]*))?$/;
 var stripParensRE = /^\(|\)$/g;
-var dynamicArgRE = /^\[.*\]$/;
 
 var argRE = /:(.*)$/;
-var bindRE = /^:|^\.|^v-bind:/;
-var modifierRE = /\.[^.\]]+(?=[^\]]*$)/g;
-
-var slotRE = /^v-slot(:|$)|^#/;
-
-var lineBreakRE = /[\r\n]/;
-var whitespaceRE$1 = /\s+/g;
-
-var invalidAttributeRE = /[\s"'<>\/=]/;
+var bindRE = /^:|^v-bind:/;
+var modifierRE = /\.[^.]+/g;
 
 var decodeHTMLCached = cached(he.decode);
-
-var emptySlotScopeToken = "_empty_";
 
 // configurable state
 var warn$2;
@@ -19945,7 +19770,8 @@ var postTransforms;
 var platformIsPreTag;
 var platformMustUseProp;
 var platformGetTagNamespace;
-var maybeComponent;
+
+
 
 function createASTElement (
   tag,
@@ -19957,7 +19783,6 @@ function createASTElement (
     tag: tag,
     attrsList: attrs,
     attrsMap: makeAttrsMap(attrs),
-    rawAttrsMap: {},
     parent: parent,
     children: []
   }
@@ -19975,8 +19800,6 @@ function parse (
   platformIsPreTag = options.isPreTag || no;
   platformMustUseProp = options.mustUseProp || no;
   platformGetTagNamespace = options.getTagNamespace || no;
-  var isReservedTag = options.isReservedTag || no;
-  maybeComponent = function (el) { return !!el.component || !isReservedTag(el.tag); };
 
   transforms = pluckModuleFunction(options.modules, 'transformNode');
   preTransforms = pluckModuleFunction(options.modules, 'preTransformNode');
@@ -19986,67 +19809,20 @@ function parse (
 
   var stack = [];
   var preserveWhitespace = options.preserveWhitespace !== false;
-  var whitespaceOption = options.whitespace;
   var root;
   var currentParent;
   var inVPre = false;
   var inPre = false;
   var warned = false;
 
-  function warnOnce (msg, range) {
+  function warnOnce (msg) {
     if (!warned) {
       warned = true;
-      warn$2(msg, range);
+      warn$2(msg);
     }
   }
 
   function closeElement (element) {
-    trimEndingWhitespace(element);
-    if (!inVPre && !element.processed) {
-      element = processElement(element, options);
-    }
-    // tree management
-    if (!stack.length && element !== root) {
-      // allow root elements with v-if, v-else-if and v-else
-      if (root.if && (element.elseif || element.else)) {
-        {
-          checkRootConstraints(element);
-        }
-        addIfCondition(root, {
-          exp: element.elseif,
-          block: element
-        });
-      } else {
-        warnOnce(
-          "Component template should contain exactly one root element. " +
-          "If you are using v-if on multiple elements, " +
-          "use v-else-if to chain them instead.",
-          { start: element.start }
-        );
-      }
-    }
-    if (currentParent && !element.forbidden) {
-      if (element.elseif || element.else) {
-        processIfConditions(element, currentParent);
-      } else {
-        if (element.slotScope) {
-          // scoped slot
-          // keep it in the children list so that v-else(-if) conditions can
-          // find it as the prev node.
-          var name = element.slotTarget || '"default"'
-          ;(currentParent.scopedSlots || (currentParent.scopedSlots = {}))[name] = element;
-        }
-        currentParent.children.push(element);
-        element.parent = currentParent;
-      }
-    }
-
-    // final children cleanup
-    // filter out scoped slots
-    element.children = element.children.filter(function (c) { return !(c).slotScope; });
-    // remove trailing whitespace node again
-    trimEndingWhitespace(element);
-
     // check pre state
     if (element.pre) {
       inVPre = false;
@@ -20060,37 +19836,6 @@ function parse (
     }
   }
 
-  function trimEndingWhitespace (el) {
-    // remove trailing whitespace node
-    if (!inPre) {
-      var lastNode;
-      while (
-        (lastNode = el.children[el.children.length - 1]) &&
-        lastNode.type === 3 &&
-        lastNode.text === ' '
-      ) {
-        el.children.pop();
-      }
-    }
-  }
-
-  function checkRootConstraints (el) {
-    if (el.tag === 'slot' || el.tag === 'template') {
-      warnOnce(
-        "Cannot use <" + (el.tag) + "> as component root element because it may " +
-        'contain multiple nodes.',
-        { start: el.start }
-      );
-    }
-    if (el.attrsMap.hasOwnProperty('v-for')) {
-      warnOnce(
-        'Cannot use v-for on stateful component root element because ' +
-        'it renders multiple elements.',
-        el.rawAttrsMap['v-for']
-      );
-    }
-  }
-
   parseHTML(template, {
     warn: warn$2,
     expectHTML: options.expectHTML,
@@ -20099,8 +19844,7 @@ function parse (
     shouldDecodeNewlines: options.shouldDecodeNewlines,
     shouldDecodeNewlinesForHref: options.shouldDecodeNewlinesForHref,
     shouldKeepComment: options.comments,
-    outputSourceRange: options.outputSourceRange,
-    start: function start (tag, attrs, unary, start$1, end) {
+    start: function start (tag, attrs, unary) {
       // check namespace.
       // inherit parent ns if there is one
       var ns = (currentParent && currentParent.ns) || platformGetTagNamespace(tag);
@@ -20116,36 +19860,12 @@ function parse (
         element.ns = ns;
       }
 
-      {
-        if (options.outputSourceRange) {
-          element.start = start$1;
-          element.end = end;
-          element.rawAttrsMap = element.attrsList.reduce(function (cumulated, attr) {
-            cumulated[attr.name] = attr;
-            return cumulated
-          }, {});
-        }
-        attrs.forEach(function (attr) {
-          if (invalidAttributeRE.test(attr.name)) {
-            warn$2(
-              "Invalid dynamic argument expression: attribute names cannot contain " +
-              "spaces, quotes, <, >, / or =.",
-              {
-                start: attr.start + attr.name.indexOf("["),
-                end: attr.start + attr.name.length
-              }
-            );
-          }
-        });
-      }
-
       if (isForbiddenTag(element) && !isServerRendering()) {
         element.forbidden = true;
-        warn$2(
+         true && warn$2(
           'Templates should only be responsible for mapping the state to the ' +
           'UI. Avoid placing tags with side-effects in your templates, such as ' +
-          "<" + tag + ">" + ', as they will not be parsed.',
-          { start: element.start }
+          "<" + tag + ">" + ', as they will not be parsed.'
         );
       }
 
@@ -20170,15 +19890,59 @@ function parse (
         processFor(element);
         processIf(element);
         processOnce(element);
+        // element-scope stuff
+        processElement(element, options);
       }
 
-      if (!root) {
-        root = element;
-        {
-          checkRootConstraints(root);
+      function checkRootConstraints (el) {
+        if (true) {
+          if (el.tag === 'slot' || el.tag === 'template') {
+            warnOnce(
+              "Cannot use <" + (el.tag) + "> as component root element because it may " +
+              'contain multiple nodes.'
+            );
+          }
+          if (el.attrsMap.hasOwnProperty('v-for')) {
+            warnOnce(
+              'Cannot use v-for on stateful component root element because ' +
+              'it renders multiple elements.'
+            );
+          }
         }
       }
 
+      // tree management
+      if (!root) {
+        root = element;
+        checkRootConstraints(root);
+      } else if (!stack.length) {
+        // allow root elements with v-if, v-else-if and v-else
+        if (root.if && (element.elseif || element.else)) {
+          checkRootConstraints(element);
+          addIfCondition(root, {
+            exp: element.elseif,
+            block: element
+          });
+        } else if (true) {
+          warnOnce(
+            "Component template should contain exactly one root element. " +
+            "If you are using v-if on multiple elements, " +
+            "use v-else-if to chain them instead."
+          );
+        }
+      }
+      if (currentParent && !element.forbidden) {
+        if (element.elseif || element.else) {
+          processIfConditions(element, currentParent);
+        } else if (element.slotScope) { // scoped slot
+          currentParent.plain = false;
+          var name = element.slotTarget || '"default"'
+          ;(currentParent.scopedSlots || (currentParent.scopedSlots = {}))[name] = element;
+        } else {
+          currentParent.children.push(element);
+          element.parent = currentParent;
+        }
+      }
       if (!unary) {
         currentParent = element;
         stack.push(element);
@@ -20187,29 +19951,29 @@ function parse (
       }
     },
 
-    end: function end (tag, start, end$1) {
+    end: function end () {
+      // remove trailing whitespace
       var element = stack[stack.length - 1];
+      var lastNode = element.children[element.children.length - 1];
+      if (lastNode && lastNode.type === 3 && lastNode.text === ' ' && !inPre) {
+        element.children.pop();
+      }
       // pop stack
       stack.length -= 1;
       currentParent = stack[stack.length - 1];
-      if (options.outputSourceRange) {
-        element.end = end$1;
-      }
       closeElement(element);
     },
 
-    chars: function chars (text, start, end) {
+    chars: function chars (text) {
       if (!currentParent) {
-        {
+        if (true) {
           if (text === template) {
             warnOnce(
-              'Component template requires a root element, rather than just text.',
-              { start: start }
+              'Component template requires a root element, rather than just text.'
             );
           } else if ((text = text.trim())) {
             warnOnce(
-              ("text \"" + text + "\" outside root element will be ignored."),
-              { start: start }
+              ("text \"" + text + "\" outside root element will be ignored.")
             );
           }
         }
@@ -20224,66 +19988,33 @@ function parse (
         return
       }
       var children = currentParent.children;
-      if (inPre || text.trim()) {
-        text = isTextTag(currentParent) ? text : decodeHTMLCached(text);
-      } else if (!children.length) {
-        // remove the whitespace-only node right after an opening tag
-        text = '';
-      } else if (whitespaceOption) {
-        if (whitespaceOption === 'condense') {
-          // in condense mode, remove the whitespace node if it contains
-          // line break, otherwise condense to a single space
-          text = lineBreakRE.test(text) ? '' : ' ';
-        } else {
-          text = ' ';
-        }
-      } else {
-        text = preserveWhitespace ? ' ' : '';
-      }
+      text = inPre || text.trim()
+        ? isTextTag(currentParent) ? text : decodeHTMLCached(text)
+        // only preserve whitespace if its not right after a starting tag
+        : preserveWhitespace && children.length ? ' ' : '';
       if (text) {
-        if (!inPre && whitespaceOption === 'condense') {
-          // condense consecutive whitespaces into single space
-          text = text.replace(whitespaceRE$1, ' ');
-        }
         var res;
-        var child;
         if (!inVPre && text !== ' ' && (res = parseText(text, delimiters))) {
-          child = {
+          children.push({
             type: 2,
             expression: res.expression,
             tokens: res.tokens,
             text: text
-          };
+          });
         } else if (text !== ' ' || !children.length || children[children.length - 1].text !== ' ') {
-          child = {
+          children.push({
             type: 3,
             text: text
-          };
-        }
-        if (child) {
-          if (options.outputSourceRange) {
-            child.start = start;
-            child.end = end;
-          }
-          children.push(child);
+          });
         }
       }
     },
-    comment: function comment (text, start, end) {
-      // adding anyting as a sibling to the root node is forbidden
-      // comments should still be allowed, but ignored
-      if (currentParent) {
-        var child = {
-          type: 3,
-          text: text,
-          isComment: true
-        };
-        if (options.outputSourceRange) {
-          child.start = start;
-          child.end = end;
-        }
-        currentParent.children.push(child);
-      }
+    comment: function comment (text) {
+      currentParent.children.push({
+        type: 3,
+        text: text,
+        isComment: true
+      });
     }
   });
   return root
@@ -20296,19 +20027,14 @@ function processPre (el) {
 }
 
 function processRawAttrs (el) {
-  var list = el.attrsList;
-  var len = list.length;
-  if (len) {
-    var attrs = el.attrs = new Array(len);
-    for (var i = 0; i < len; i++) {
+  var l = el.attrsList.length;
+  if (l) {
+    var attrs = el.attrs = new Array(l);
+    for (var i = 0; i < l; i++) {
       attrs[i] = {
-        name: list[i].name,
-        value: JSON.stringify(list[i].value)
+        name: el.attrsList[i].name,
+        value: JSON.stringify(el.attrsList[i].value)
       };
-      if (list[i].start != null) {
-        attrs[i].start = list[i].start;
-        attrs[i].end = list[i].end;
-      }
     }
   } else if (!el.pre) {
     // non root node in pre blocks with no attributes
@@ -20316,40 +20042,28 @@ function processRawAttrs (el) {
   }
 }
 
-function processElement (
-  element,
-  options
-) {
+function processElement (element, options) {
   processKey(element);
 
   // determine whether this is a plain element after
   // removing structural attributes
-  element.plain = (
-    !element.key &&
-    !element.scopedSlots &&
-    !element.attrsList.length
-  );
+  element.plain = !element.key && !element.attrsList.length;
 
   processRef(element);
-  processSlotContent(element);
-  processSlotOutlet(element);
+  processSlot(element);
   processComponent(element);
   for (var i = 0; i < transforms.length; i++) {
     element = transforms[i](element, options) || element;
   }
   processAttrs(element);
-  return element
 }
 
 function processKey (el) {
   var exp = getBindingAttr(el, 'key');
   if (exp) {
-    {
+    if (true) {
       if (el.tag === 'template') {
-        warn$2(
-          "<template> cannot be keyed. Place the key on real elements instead.",
-          getRawBindingAttr(el, 'key')
-        );
+        warn$2("<template> cannot be keyed. Place the key on real elements instead.");
       }
       if (el.for) {
         var iterator = el.iterator2 || el.iterator1;
@@ -20357,9 +20071,7 @@ function processKey (el) {
         if (iterator && iterator === exp && parent && parent.tag === 'transition-group') {
           warn$2(
             "Do not use v-for index as key on <transition-group> children, " +
-            "this is the same as not using keys.",
-            getRawBindingAttr(el, 'key'),
-            true /* tip */
+            "this is the same as not using keys."
           );
         }
       }
@@ -20382,10 +20094,9 @@ function processFor (el) {
     var res = parseFor(exp);
     if (res) {
       extend(el, res);
-    } else {
+    } else if (true) {
       warn$2(
-        ("Invalid v-for expression: " + exp),
-        el.rawAttrsMap['v-for']
+        ("Invalid v-for expression: " + exp)
       );
     }
   }
@@ -20438,11 +20149,10 @@ function processIfConditions (el, parent) {
       exp: el.elseif,
       block: el
     });
-  } else {
+  } else if (true) {
     warn$2(
       "v-" + (el.elseif ? ('else-if="' + el.elseif + '"') : 'else') + " " +
-      "used on element <" + (el.tag) + "> without corresponding v-if.",
-      el.rawAttrsMap[el.elseif ? 'v-else-if' : 'v-else']
+      "used on element <" + (el.tag) + "> without corresponding v-if."
     );
   }
 }
@@ -20453,11 +20163,10 @@ function findPrevElement (children) {
     if (children[i].type === 1) {
       return children[i]
     } else {
-      if (children[i].text !== ' ') {
+      if ( true && children[i].text !== ' ') {
         warn$2(
           "text \"" + (children[i].text.trim()) + "\" between v-if and v-else(-if) " +
-          "will be ignored.",
-          children[i]
+          "will be ignored."
         );
       }
       children.pop();
@@ -20479,157 +20188,51 @@ function processOnce (el) {
   }
 }
 
-// handle content being passed to a component as slot,
-// e.g. <template slot="xxx">, <div slot-scope="xxx">
-function processSlotContent (el) {
-  var slotScope;
-  if (el.tag === 'template') {
-    slotScope = getAndRemoveAttr(el, 'scope');
-    /* istanbul ignore if */
-    if (slotScope) {
-      warn$2(
-        "the \"scope\" attribute for scoped slots have been deprecated and " +
-        "replaced by \"slot-scope\" since 2.5. The new \"slot-scope\" attribute " +
-        "can also be used on plain elements in addition to <template> to " +
-        "denote scoped slots.",
-        el.rawAttrsMap['scope'],
-        true
-      );
-    }
-    el.slotScope = slotScope || getAndRemoveAttr(el, 'slot-scope');
-  } else if ((slotScope = getAndRemoveAttr(el, 'slot-scope'))) {
-    /* istanbul ignore if */
-    if (el.attrsMap['v-for']) {
-      warn$2(
-        "Ambiguous combined usage of slot-scope and v-for on <" + (el.tag) + "> " +
-        "(v-for takes higher priority). Use a wrapper <template> for the " +
-        "scoped slot to make it clearer.",
-        el.rawAttrsMap['slot-scope'],
-        true
-      );
-    }
-    el.slotScope = slotScope;
-  }
-
-  // slot="xxx"
-  var slotTarget = getBindingAttr(el, 'slot');
-  if (slotTarget) {
-    el.slotTarget = slotTarget === '""' ? '"default"' : slotTarget;
-    el.slotTargetDynamic = !!(el.attrsMap[':slot'] || el.attrsMap['v-bind:slot']);
-    // preserve slot as an attribute for native shadow DOM compat
-    // only for non-scoped slots.
-    if (el.tag !== 'template' && !el.slotScope) {
-      addAttr(el, 'slot', slotTarget, getRawBindingAttr(el, 'slot'));
-    }
-  }
-
-  // 2.6 v-slot syntax
-  {
-    if (el.tag === 'template') {
-      // v-slot on <template>
-      var slotBinding = getAndRemoveAttrByRegex(el, slotRE);
-      if (slotBinding) {
-        {
-          if (el.slotTarget || el.slotScope) {
-            warn$2(
-              "Unexpected mixed usage of different slot syntaxes.",
-              el
-            );
-          }
-          if (el.parent && !maybeComponent(el.parent)) {
-            warn$2(
-              "<template v-slot> can only appear at the root level inside " +
-              "the receiving the component",
-              el
-            );
-          }
-        }
-        var ref = getSlotName(slotBinding);
-        var name = ref.name;
-        var dynamic = ref.dynamic;
-        el.slotTarget = name;
-        el.slotTargetDynamic = dynamic;
-        el.slotScope = slotBinding.value || emptySlotScopeToken; // force it into a scoped slot for perf
-      }
-    } else {
-      // v-slot on component, denotes default slot
-      var slotBinding$1 = getAndRemoveAttrByRegex(el, slotRE);
-      if (slotBinding$1) {
-        {
-          if (!maybeComponent(el)) {
-            warn$2(
-              "v-slot can only be used on components or <template>.",
-              slotBinding$1
-            );
-          }
-          if (el.slotScope || el.slotTarget) {
-            warn$2(
-              "Unexpected mixed usage of different slot syntaxes.",
-              el
-            );
-          }
-          if (el.scopedSlots) {
-            warn$2(
-              "To avoid scope ambiguity, the default slot should also use " +
-              "<template> syntax when there are other named slots.",
-              slotBinding$1
-            );
-          }
-        }
-        // add the component's children to its default slot
-        var slots = el.scopedSlots || (el.scopedSlots = {});
-        var ref$1 = getSlotName(slotBinding$1);
-        var name$1 = ref$1.name;
-        var dynamic$1 = ref$1.dynamic;
-        var slotContainer = slots[name$1] = createASTElement('template', [], el);
-        slotContainer.slotTarget = name$1;
-        slotContainer.slotTargetDynamic = dynamic$1;
-        slotContainer.children = el.children.filter(function (c) {
-          if (!c.slotScope) {
-            c.parent = slotContainer;
-            return true
-          }
-        });
-        slotContainer.slotScope = slotBinding$1.value || emptySlotScopeToken;
-        // remove children as they are returned from scopedSlots now
-        el.children = [];
-        // mark el non-plain so data gets generated
-        el.plain = false;
-      }
-    }
-  }
-}
-
-function getSlotName (binding) {
-  var name = binding.name.replace(slotRE, '');
-  if (!name) {
-    if (binding.name[0] !== '#') {
-      name = 'default';
-    } else {
-      warn$2(
-        "v-slot shorthand syntax requires a slot name.",
-        binding
-      );
-    }
-  }
-  return dynamicArgRE.test(name)
-    // dynamic [name]
-    ? { name: name.slice(1, -1), dynamic: true }
-    // static name
-    : { name: ("\"" + name + "\""), dynamic: false }
-}
-
-// handle <slot/> outlets
-function processSlotOutlet (el) {
+function processSlot (el) {
   if (el.tag === 'slot') {
     el.slotName = getBindingAttr(el, 'name');
-    if (el.key) {
+    if ( true && el.key) {
       warn$2(
         "`key` does not work on <slot> because slots are abstract outlets " +
         "and can possibly expand into multiple elements. " +
-        "Use the key on a wrapping element instead.",
-        getRawBindingAttr(el, 'key')
+        "Use the key on a wrapping element instead."
       );
+    }
+  } else {
+    var slotScope;
+    if (el.tag === 'template') {
+      slotScope = getAndRemoveAttr(el, 'scope');
+      /* istanbul ignore if */
+      if ( true && slotScope) {
+        warn$2(
+          "the \"scope\" attribute for scoped slots have been deprecated and " +
+          "replaced by \"slot-scope\" since 2.5. The new \"slot-scope\" attribute " +
+          "can also be used on plain elements in addition to <template> to " +
+          "denote scoped slots.",
+          true
+        );
+      }
+      el.slotScope = slotScope || getAndRemoveAttr(el, 'slot-scope');
+    } else if ((slotScope = getAndRemoveAttr(el, 'slot-scope'))) {
+      /* istanbul ignore if */
+      if ( true && el.attrsMap['v-for']) {
+        warn$2(
+          "Ambiguous combined usage of slot-scope and v-for on <" + (el.tag) + "> " +
+          "(v-for takes higher priority). Use a wrapper <template> for the " +
+          "scoped slot to make it clearer.",
+          true
+        );
+      }
+      el.slotScope = slotScope;
+    }
+    var slotTarget = getBindingAttr(el, 'slot');
+    if (slotTarget) {
+      el.slotTarget = slotTarget === '""' ? '"default"' : slotTarget;
+      // preserve slot as an attribute for native shadow DOM compat
+      // only for non-scoped slots.
+      if (el.tag !== 'template' && !el.slotScope) {
+        addAttr(el, 'slot', slotTarget);
+      }
     }
   }
 }
@@ -20646,7 +20249,7 @@ function processComponent (el) {
 
 function processAttrs (el) {
   var list = el.attrsList;
-  var i, l, name, rawName, value, modifiers, syncGen, isDynamic;
+  var i, l, name, rawName, value, modifiers, isProp;
   for (i = 0, l = list.length; i < l; i++) {
     name = rawName = list[i].name;
     value = list[i].value;
@@ -20654,19 +20257,16 @@ function processAttrs (el) {
       // mark element as dynamic
       el.hasBindings = true;
       // modifiers
-      modifiers = parseModifiers(name.replace(dirRE, ''));
-      // support .foo shorthand syntax for the .prop modifier
+      modifiers = parseModifiers(name);
       if (modifiers) {
         name = name.replace(modifierRE, '');
       }
       if (bindRE.test(name)) { // v-bind
         name = name.replace(bindRE, '');
         value = parseFilters(value);
-        isDynamic = dynamicArgRE.test(name);
-        if (isDynamic) {
-          name = name.slice(1, -1);
-        }
+        isProp = false;
         if (
+           true &&
           value.trim().length === 0
         ) {
           warn$2(
@@ -20674,104 +20274,65 @@ function processAttrs (el) {
           );
         }
         if (modifiers) {
-          if (modifiers.prop && !isDynamic) {
+          if (modifiers.prop) {
+            isProp = true;
             name = camelize(name);
             if (name === 'innerHtml') { name = 'innerHTML'; }
           }
-          if (modifiers.camel && !isDynamic) {
+          if (modifiers.camel) {
             name = camelize(name);
           }
           if (modifiers.sync) {
-            syncGen = genAssignmentCode(value, "$event");
-            if (!isDynamic) {
-              addHandler(
-                el,
-                ("update:" + (camelize(name))),
-                syncGen,
-                null,
-                false,
-                warn$2,
-                list[i]
-              );
-              if (hyphenate(name) !== camelize(name)) {
-                addHandler(
-                  el,
-                  ("update:" + (hyphenate(name))),
-                  syncGen,
-                  null,
-                  false,
-                  warn$2,
-                  list[i]
-                );
-              }
-            } else {
-              // handler w/ dynamic event name
-              addHandler(
-                el,
-                ("\"update:\"+(" + name + ")"),
-                syncGen,
-                null,
-                false,
-                warn$2,
-                list[i],
-                true // dynamic
-              );
-            }
+            addHandler(
+              el,
+              ("update:" + (camelize(name))),
+              genAssignmentCode(value, "$event")
+            );
           }
         }
-        if ((modifiers && modifiers.prop) || (
+        if (isProp || (
           !el.component && platformMustUseProp(el.tag, el.attrsMap.type, name)
         )) {
-          addProp(el, name, value, list[i], isDynamic);
+          addProp(el, name, value);
         } else {
-          addAttr(el, name, value, list[i], isDynamic);
+          addAttr(el, name, value);
         }
       } else if (onRE.test(name)) { // v-on
         name = name.replace(onRE, '');
-        isDynamic = dynamicArgRE.test(name);
-        if (isDynamic) {
-          name = name.slice(1, -1);
-        }
-        addHandler(el, name, value, modifiers, false, warn$2, list[i], isDynamic);
+        addHandler(el, name, value, modifiers, false, warn$2);
       } else { // normal directives
         name = name.replace(dirRE, '');
         // parse arg
         var argMatch = name.match(argRE);
         var arg = argMatch && argMatch[1];
-        isDynamic = false;
         if (arg) {
           name = name.slice(0, -(arg.length + 1));
-          if (dynamicArgRE.test(arg)) {
-            arg = arg.slice(1, -1);
-            isDynamic = true;
-          }
         }
-        addDirective(el, name, rawName, value, arg, isDynamic, modifiers, list[i]);
-        if (name === 'model') {
+        addDirective(el, name, rawName, value, arg, modifiers);
+        if ( true && name === 'model') {
           checkForAliasModel(el, value);
         }
       }
     } else {
       // literal attribute
-      {
+      if (true) {
         var res = parseText(value, delimiters);
         if (res) {
           warn$2(
             name + "=\"" + value + "\": " +
             'Interpolation inside attributes has been removed. ' +
             'Use v-bind or the colon shorthand instead. For example, ' +
-            'instead of <div id="{{ val }}">, use <div :id="val">.',
-            list[i]
+            'instead of <div id="{{ val }}">, use <div :id="val">.'
           );
         }
       }
-      addAttr(el, name, JSON.stringify(value), list[i]);
+      addAttr(el, name, JSON.stringify(value));
       // #6887 firefox doesn't update muted state if set via attribute
       // even immediately after element creation
       if (!el.component &&
           name === 'muted' &&
           platformMustUseProp(el.tag, el.attrsMap.type, name)) {
-        addProp(el, name, 'true', list[i]);
+        addProp(el, name, 'true');
       }
     }
   }
@@ -20801,9 +20362,10 @@ function makeAttrsMap (attrs) {
   var map = {};
   for (var i = 0, l = attrs.length; i < l; i++) {
     if (
+       true &&
       map[attrs[i].name] && !isIE && !isEdge
     ) {
-      warn$2('duplicate attribute: ' + attrs[i].name, attrs[i]);
+      warn$2('duplicate attribute: ' + attrs[i].name);
     }
     map[attrs[i].name] = attrs[i].value;
   }
@@ -20850,8 +20412,7 @@ function checkForAliasModel (el, value) {
         "You are binding v-model directly to a v-for iteration alias. " +
         "This will not be able to modify the v-for source array because " +
         "writing to the alias is like modifying a function local variable. " +
-        "Consider using an array of objects and use v-model on an object property instead.",
-        el.rawAttrsMap['v-model']
+        "Consider using an array of objects and use v-model on an object property instead."
       );
     }
     _el = _el.parent;
@@ -20940,7 +20501,7 @@ var modules$1 = [
 
 function text (el, dir) {
   if (dir.value) {
-    addProp(el, 'textContent', ("_s(" + (dir.value) + ")"), dir);
+    addProp(el, 'textContent', ("_s(" + (dir.value) + ")"));
   }
 }
 
@@ -20948,7 +20509,7 @@ function text (el, dir) {
 
 function html (el, dir) {
   if (dir.value) {
-    addProp(el, 'innerHTML', ("_s(" + (dir.value) + ")"), dir);
+    addProp(el, 'innerHTML', ("_s(" + (dir.value) + ")"));
   }
 }
 
@@ -21003,7 +20564,7 @@ function optimize (root, options) {
 
 function genStaticKeys$1 (keys) {
   return makeMap(
-    'type,tag,attrsList,attrsMap,plain,parent,children,attrs,start,end,rawAttrsMap' +
+    'type,tag,attrsList,attrsMap,plain,parent,children,attrs' +
     (keys ? ',' + keys : '')
   )
 }
@@ -21102,8 +20663,7 @@ function isDirectChildOfTemplateFor (node) {
 
 /*  */
 
-var fnExpRE = /^([\w$_]+|\([^)]*?\))\s*=>|^function\s*(?:[\w$]+)?\s*\(/;
-var fnInvokeRE = /\([^)]*?\);*$/;
+var fnExpRE = /^([\w$_]+|\([^)]*?\))\s*=>|^function\s*\(/;
 var simplePathRE = /^[A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*|\['[^']*?']|\["[^"]*?"]|\[\d+]|\[[A-Za-z_$][\w$]*])*$/;
 
 // KeyboardEvent.keyCode aliases
@@ -21158,43 +20718,33 @@ function genHandlers (
   events,
   isNative
 ) {
-  var prefix = isNative ? 'nativeOn:' : 'on:';
-  var staticHandlers = "";
-  var dynamicHandlers = "";
+  var res = isNative ? 'nativeOn:{' : 'on:{';
   for (var name in events) {
-    var handlerCode = genHandler(events[name]);
-    if (events[name] && events[name].dynamic) {
-      dynamicHandlers += name + "," + handlerCode + ",";
-    } else {
-      staticHandlers += "\"" + name + "\":" + handlerCode + ",";
-    }
+    res += "\"" + name + "\":" + (genHandler(name, events[name])) + ",";
   }
-  staticHandlers = "{" + (staticHandlers.slice(0, -1)) + "}";
-  if (dynamicHandlers) {
-    return prefix + "_d(" + staticHandlers + ",[" + (dynamicHandlers.slice(0, -1)) + "])"
-  } else {
-    return prefix + staticHandlers
-  }
+  return res.slice(0, -1) + '}'
 }
 
-function genHandler (handler) {
+function genHandler (
+  name,
+  handler
+) {
   if (!handler) {
     return 'function(){}'
   }
 
   if (Array.isArray(handler)) {
-    return ("[" + (handler.map(function (handler) { return genHandler(handler); }).join(',')) + "]")
+    return ("[" + (handler.map(function (handler) { return genHandler(name, handler); }).join(',')) + "]")
   }
 
   var isMethodPath = simplePathRE.test(handler.value);
   var isFunctionExpression = fnExpRE.test(handler.value);
-  var isFunctionInvocation = simplePathRE.test(handler.value.replace(fnInvokeRE, ''));
 
   if (!handler.modifiers) {
     if (isMethodPath || isFunctionExpression) {
       return handler.value
     }
-    return ("function($event){" + (isFunctionInvocation ? ("return " + (handler.value)) : handler.value) + "}") // inline statement
+    return ("function($event){" + (handler.value) + "}") // inline statement
   } else {
     var code = '';
     var genModifierCode = '';
@@ -21229,21 +20779,13 @@ function genHandler (handler) {
       ? ("return " + (handler.value) + "($event)")
       : isFunctionExpression
         ? ("return (" + (handler.value) + ")($event)")
-        : isFunctionInvocation
-          ? ("return " + (handler.value))
-          : handler.value;
+        : handler.value;
     return ("function($event){" + code + handlerCode + "}")
   }
 }
 
 function genKeyFilter (keys) {
-  return (
-    // make sure the key filters only apply to KeyboardEvents
-    // #9441: can't use 'keyCode' in $event because Chrome autofill fires fake
-    // key events that do not have keyCode property...
-    "if(!$event.type.indexOf('key')&&" +
-    (keys.map(genFilterCode).join('&&')) + ")return null;"
-  )
+  return ("if(!('button' in $event)&&" + (keys.map(genFilterCode).join('&&')) + ")return null;")
 }
 
 function genFilterCode (key) {
@@ -21266,7 +20808,7 @@ function genFilterCode (key) {
 /*  */
 
 function on (el, dir) {
-  if (dir.modifiers) {
+  if ( true && dir.modifiers) {
     warn("v-on without argument does not support modifiers.");
   }
   el.wrapListeners = function (code) { return ("_g(" + code + "," + (dir.value) + ")"); };
@@ -21301,7 +20843,7 @@ var CodegenState = function CodegenState (options) {
   this.dataGenFns = pluckModuleFunction(options.modules, 'genData');
   this.directives = extend(extend({}, baseDirectives), options.directives);
   var isReservedTag = options.isReservedTag || no;
-  this.maybeComponent = function (el) { return !!el.component || !isReservedTag(el.tag); };
+  this.maybeComponent = function (el) { return !(isReservedTag(el.tag) && !el.component); };
   this.onceId = 0;
   this.staticRenderFns = [];
   this.pre = false;
@@ -21391,9 +20933,8 @@ function genOnce (el, state) {
       parent = parent.parent;
     }
     if (!key) {
-      state.warn(
-        "v-once can only be used inside v-for that is keyed. ",
-        el.rawAttrsMap['v-once']
+       true && state.warn(
+        "v-once can only be used inside v-for that is keyed. "
       );
       return genElement(el, state)
     }
@@ -21451,7 +20992,8 @@ function genFor (
   var iterator1 = el.iterator1 ? ("," + (el.iterator1)) : '';
   var iterator2 = el.iterator2 ? ("," + (el.iterator2)) : '';
 
-  if (state.maybeComponent(el) &&
+  if ( true &&
+    state.maybeComponent(el) &&
     el.tag !== 'slot' &&
     el.tag !== 'template' &&
     !el.key
@@ -21460,7 +21002,6 @@ function genFor (
       "<" + (el.tag) + " v-for=\"" + alias + " in " + exp + "\">: component lists rendered with " +
       "v-for should have explicit keys. " +
       "See https://vuejs.org/guide/list.html#key for more info.",
-      el.rawAttrsMap['v-for'],
       true /* tip */
     );
   }
@@ -21505,11 +21046,11 @@ function genData$2 (el, state) {
   }
   // attributes
   if (el.attrs) {
-    data += "attrs:" + (genProps(el.attrs)) + ",";
+    data += "attrs:{" + (genProps(el.attrs)) + "},";
   }
   // DOM props
   if (el.props) {
-    data += "domProps:" + (genProps(el.props)) + ",";
+    data += "domProps:{" + (genProps(el.props)) + "},";
   }
   // event handlers
   if (el.events) {
@@ -21525,7 +21066,7 @@ function genData$2 (el, state) {
   }
   // scoped slots
   if (el.scopedSlots) {
-    data += (genScopedSlots(el, el.scopedSlots, state)) + ",";
+    data += (genScopedSlots(el.scopedSlots, state)) + ",";
   }
   // component v-model
   if (el.model) {
@@ -21539,12 +21080,6 @@ function genData$2 (el, state) {
     }
   }
   data = data.replace(/,$/, '') + '}';
-  // v-bind dynamic argument wrap
-  // v-bind with dynamic arguments must be applied using the same v-bind object
-  // merge helper so that class/style/mustUseProp attrs are handled correctly.
-  if (el.dynamicAttrs) {
-    data = "_b(" + data + ",\"" + (el.tag) + "\"," + (genProps(el.dynamicAttrs)) + ")";
-  }
   // v-bind data wrap
   if (el.wrapData) {
     data = el.wrapData(data);
@@ -21573,7 +21108,7 @@ function genDirectives (el, state) {
     }
     if (needRuntime) {
       hasRuntime = true;
-      res += "{name:\"" + (dir.name) + "\",rawName:\"" + (dir.rawName) + "\"" + (dir.value ? (",value:(" + (dir.value) + "),expression:" + (JSON.stringify(dir.value))) : '') + (dir.arg ? (",arg:" + (dir.isDynamicArg ? dir.arg : ("\"" + (dir.arg) + "\""))) : '') + (dir.modifiers ? (",modifiers:" + (JSON.stringify(dir.modifiers))) : '') + "},";
+      res += "{name:\"" + (dir.name) + "\",rawName:\"" + (dir.rawName) + "\"" + (dir.value ? (",value:(" + (dir.value) + "),expression:" + (JSON.stringify(dir.value))) : '') + (dir.arg ? (",arg:\"" + (dir.arg) + "\"") : '') + (dir.modifiers ? (",modifiers:" + (JSON.stringify(dir.modifiers))) : '') + "},";
     }
   }
   if (hasRuntime) {
@@ -21583,114 +21118,57 @@ function genDirectives (el, state) {
 
 function genInlineTemplate (el, state) {
   var ast = el.children[0];
-  if (el.children.length !== 1 || ast.type !== 1) {
-    state.warn(
-      'Inline-template components must have exactly one child element.',
-      { start: el.start }
-    );
+  if ( true && (
+    el.children.length !== 1 || ast.type !== 1
+  )) {
+    state.warn('Inline-template components must have exactly one child element.');
   }
-  if (ast && ast.type === 1) {
+  if (ast.type === 1) {
     var inlineRenderFns = generate(ast, state.options);
     return ("inlineTemplate:{render:function(){" + (inlineRenderFns.render) + "},staticRenderFns:[" + (inlineRenderFns.staticRenderFns.map(function (code) { return ("function(){" + code + "}"); }).join(',')) + "]}")
   }
 }
 
 function genScopedSlots (
-  el,
   slots,
   state
 ) {
-  // by default scoped slots are considered "stable", this allows child
-  // components with only scoped slots to skip forced updates from parent.
-  // but in some cases we have to bail-out of this optimization
-  // for example if the slot contains dynamic names, has v-if or v-for on them...
-  var needsForceUpdate = el.for || Object.keys(slots).some(function (key) {
-    var slot = slots[key];
-    return (
-      slot.slotTargetDynamic ||
-      slot.if ||
-      slot.for ||
-      containsSlotChild(slot) // is passing down slot from parent which may be dynamic
-    )
-  });
-
-  // #9534: if a component with scoped slots is inside a conditional branch,
-  // it's possible for the same component to be reused but with different
-  // compiled slot content. To avoid that, we generate a unique key based on
-  // the generated code of all the slot contents.
-  var needsKey = !!el.if;
-
-  // OR when it is inside another scoped slot or v-for (the reactivity may be
-  // disconnected due to the intermediate scope variable)
-  // #9438, #9506
-  // TODO: this can be further optimized by properly analyzing in-scope bindings
-  // and skip force updating ones that do not actually use scope variables.
-  if (!needsForceUpdate) {
-    var parent = el.parent;
-    while (parent) {
-      if (
-        (parent.slotScope && parent.slotScope !== emptySlotScopeToken) ||
-        parent.for
-      ) {
-        needsForceUpdate = true;
-        break
-      }
-      if (parent.if) {
-        needsKey = true;
-      }
-      parent = parent.parent;
-    }
-  }
-
-  var generatedSlots = Object.keys(slots)
-    .map(function (key) { return genScopedSlot(slots[key], state); })
-    .join(',');
-
-  return ("scopedSlots:_u([" + generatedSlots + "]" + (needsForceUpdate ? ",null,true" : "") + (!needsForceUpdate && needsKey ? (",null,false," + (hash(generatedSlots))) : "") + ")")
-}
-
-function hash(str) {
-  var hash = 5381;
-  var i = str.length;
-  while(i) {
-    hash = (hash * 33) ^ str.charCodeAt(--i);
-  }
-  return hash >>> 0
-}
-
-function containsSlotChild (el) {
-  if (el.type === 1) {
-    if (el.tag === 'slot') {
-      return true
-    }
-    return el.children.some(containsSlotChild)
-  }
-  return false
+  return ("scopedSlots:_u([" + (Object.keys(slots).map(function (key) {
+      return genScopedSlot(key, slots[key], state)
+    }).join(',')) + "])")
 }
 
 function genScopedSlot (
+  key,
   el,
   state
 ) {
-  var isLegacySyntax = el.attrsMap['slot-scope'];
-  if (el.if && !el.ifProcessed && !isLegacySyntax) {
-    return genIf(el, state, genScopedSlot, "null")
-  }
   if (el.for && !el.forProcessed) {
-    return genFor(el, state, genScopedSlot)
+    return genForScopedSlot(key, el, state)
   }
-  var slotScope = el.slotScope === emptySlotScopeToken
-    ? ""
-    : String(el.slotScope);
-  var fn = "function(" + slotScope + "){" +
+  var fn = "function(" + (String(el.slotScope)) + "){" +
     "return " + (el.tag === 'template'
-      ? el.if && isLegacySyntax
+      ? el.if
         ? ("(" + (el.if) + ")?" + (genChildren(el, state) || 'undefined') + ":undefined")
         : genChildren(el, state) || 'undefined'
       : genElement(el, state)) + "}";
-  // reverse proxy v-slot without scope on this.$slots
-  var reverseProxy = slotScope ? "" : ",proxy:true";
-  return ("{key:" + (el.slotTarget || "\"default\"") + ",fn:" + fn + reverseProxy + "}")
+  return ("{key:" + key + ",fn:" + fn + "}")
+}
+
+function genForScopedSlot (
+  key,
+  el,
+  state
+) {
+  var exp = el.for;
+  var alias = el.alias;
+  var iterator1 = el.iterator1 ? ("," + (el.iterator1)) : '';
+  var iterator2 = el.iterator2 ? ("," + (el.iterator2)) : '';
+  el.forProcessed = true; // avoid recursion
+  return "_l((" + exp + ")," +
+    "function(" + alias + iterator1 + iterator2 + "){" +
+      "return " + (genScopedSlot(key, el, state)) +
+    '})'
 }
 
 function genChildren (
@@ -21777,14 +21255,7 @@ function genSlot (el, state) {
   var slotName = el.slotName || '"default"';
   var children = genChildren(el, state);
   var res = "_t(" + slotName + (children ? ("," + children) : '');
-  var attrs = el.attrs || el.dynamicAttrs
-    ? genProps((el.attrs || []).concat(el.dynamicAttrs || []).map(function (attr) { return ({
-        // slot props are camelized
-        name: camelize(attr.name),
-        value: attr.value,
-        dynamic: attr.dynamic
-      }); }))
-    : null;
+  var attrs = el.attrs && ("{" + (el.attrs.map(function (a) { return ((camelize(a.name)) + ":" + (a.value)); }).join(',')) + "}");
   var bind$$1 = el.attrsMap['v-bind'];
   if ((attrs || bind$$1) && !children) {
     res += ",null";
@@ -21809,23 +21280,15 @@ function genComponent (
 }
 
 function genProps (props) {
-  var staticProps = "";
-  var dynamicProps = "";
+  var res = '';
   for (var i = 0; i < props.length; i++) {
     var prop = props[i];
-    var value = transformSpecialNewlines(prop.value);
-    if (prop.dynamic) {
-      dynamicProps += (prop.name) + "," + value + ",";
-    } else {
-      staticProps += "\"" + (prop.name) + "\":" + value + ",";
+    /* istanbul ignore if */
+    {
+      res += "\"" + (prop.name) + "\":" + (transformSpecialNewlines(prop.value)) + ",";
     }
   }
-  staticProps = "{" + (staticProps.slice(0, -1)) + "}";
-  if (dynamicProps) {
-    return ("_d(" + staticProps + ",[" + (dynamicProps.slice(0, -1)) + "])")
-  } else {
-    return staticProps
-  }
+  return res.slice(0, -1)
 }
 
 // #3895, #4268
@@ -21836,8 +21299,6 @@ function transformSpecialNewlines (text) {
 }
 
 /*  */
-
-
 
 // these keywords should not appear inside expressions, but operators like
 // typeof, instanceof and in are allowed
@@ -21856,149 +21317,92 @@ var unaryOperatorsRE = new RegExp('\\b' + (
 var stripStringRE = /'(?:[^'\\]|\\.)*'|"(?:[^"\\]|\\.)*"|`(?:[^`\\]|\\.)*\$\{|\}(?:[^`\\]|\\.)*`|`(?:[^`\\]|\\.)*`/g;
 
 // detect problematic expressions in a template
-function detectErrors (ast, warn) {
+function detectErrors (ast) {
+  var errors = [];
   if (ast) {
-    checkNode(ast, warn);
+    checkNode(ast, errors);
   }
+  return errors
 }
 
-function checkNode (node, warn) {
+function checkNode (node, errors) {
   if (node.type === 1) {
     for (var name in node.attrsMap) {
       if (dirRE.test(name)) {
         var value = node.attrsMap[name];
         if (value) {
-          var range = node.rawAttrsMap[name];
           if (name === 'v-for') {
-            checkFor(node, ("v-for=\"" + value + "\""), warn, range);
+            checkFor(node, ("v-for=\"" + value + "\""), errors);
           } else if (onRE.test(name)) {
-            checkEvent(value, (name + "=\"" + value + "\""), warn, range);
+            checkEvent(value, (name + "=\"" + value + "\""), errors);
           } else {
-            checkExpression(value, (name + "=\"" + value + "\""), warn, range);
+            checkExpression(value, (name + "=\"" + value + "\""), errors);
           }
         }
       }
     }
     if (node.children) {
       for (var i = 0; i < node.children.length; i++) {
-        checkNode(node.children[i], warn);
+        checkNode(node.children[i], errors);
       }
     }
   } else if (node.type === 2) {
-    checkExpression(node.expression, node.text, warn, node);
+    checkExpression(node.expression, node.text, errors);
   }
 }
 
-function checkEvent (exp, text, warn, range) {
+function checkEvent (exp, text, errors) {
   var stipped = exp.replace(stripStringRE, '');
   var keywordMatch = stipped.match(unaryOperatorsRE);
   if (keywordMatch && stipped.charAt(keywordMatch.index - 1) !== '$') {
-    warn(
+    errors.push(
       "avoid using JavaScript unary operator as property name: " +
-      "\"" + (keywordMatch[0]) + "\" in expression " + (text.trim()),
-      range
+      "\"" + (keywordMatch[0]) + "\" in expression " + (text.trim())
     );
   }
-  checkExpression(exp, text, warn, range);
+  checkExpression(exp, text, errors);
 }
 
-function checkFor (node, text, warn, range) {
-  checkExpression(node.for || '', text, warn, range);
-  checkIdentifier(node.alias, 'v-for alias', text, warn, range);
-  checkIdentifier(node.iterator1, 'v-for iterator', text, warn, range);
-  checkIdentifier(node.iterator2, 'v-for iterator', text, warn, range);
+function checkFor (node, text, errors) {
+  checkExpression(node.for || '', text, errors);
+  checkIdentifier(node.alias, 'v-for alias', text, errors);
+  checkIdentifier(node.iterator1, 'v-for iterator', text, errors);
+  checkIdentifier(node.iterator2, 'v-for iterator', text, errors);
 }
 
 function checkIdentifier (
   ident,
   type,
   text,
-  warn,
-  range
+  errors
 ) {
   if (typeof ident === 'string') {
     try {
       new Function(("var " + ident + "=_"));
     } catch (e) {
-      warn(("invalid " + type + " \"" + ident + "\" in expression: " + (text.trim())), range);
+      errors.push(("invalid " + type + " \"" + ident + "\" in expression: " + (text.trim())));
     }
   }
 }
 
-function checkExpression (exp, text, warn, range) {
+function checkExpression (exp, text, errors) {
   try {
     new Function(("return " + exp));
   } catch (e) {
     var keywordMatch = exp.replace(stripStringRE, '').match(prohibitedKeywordRE);
     if (keywordMatch) {
-      warn(
+      errors.push(
         "avoid using JavaScript keyword as property name: " +
-        "\"" + (keywordMatch[0]) + "\"\n  Raw expression: " + (text.trim()),
-        range
+        "\"" + (keywordMatch[0]) + "\"\n  Raw expression: " + (text.trim())
       );
     } else {
-      warn(
+      errors.push(
         "invalid expression: " + (e.message) + " in\n\n" +
         "    " + exp + "\n\n" +
-        "  Raw expression: " + (text.trim()) + "\n",
-        range
+        "  Raw expression: " + (text.trim()) + "\n"
       );
     }
   }
-}
-
-/*  */
-
-var range = 2;
-
-function generateCodeFrame (
-  source,
-  start,
-  end
-) {
-  if ( start === void 0 ) start = 0;
-  if ( end === void 0 ) end = source.length;
-
-  var lines = source.split(/\r?\n/);
-  var count = 0;
-  var res = [];
-  for (var i = 0; i < lines.length; i++) {
-    count += lines[i].length + 1;
-    if (count >= start) {
-      for (var j = i - range; j <= i + range || end > count; j++) {
-        if (j < 0 || j >= lines.length) { continue }
-        res.push(("" + (j + 1) + (repeat$1(" ", 3 - String(j + 1).length)) + "|  " + (lines[j])));
-        var lineLength = lines[j].length;
-        if (j === i) {
-          // push underline
-          var pad = start - (count - lineLength) + 1;
-          var length = end > count ? lineLength - pad : end - start;
-          res.push("   |  " + repeat$1(" ", pad) + repeat$1("^", length));
-        } else if (j > i) {
-          if (end > count) {
-            var length$1 = Math.min(end - count, lineLength);
-            res.push("   |  " + repeat$1("^", length$1));
-          }
-          count += lineLength + 1;
-        }
-      }
-      break
-    }
-  }
-  return res.join('\n')
-}
-
-function repeat$1 (str, n) {
-  var result = '';
-  if (n > 0) {
-    while (true) { // eslint-disable-line
-      if (n & 1) { result += str; }
-      n >>>= 1;
-      if (n <= 0) { break }
-      str += str;
-    }
-  }
-  return result
 }
 
 /*  */
@@ -22027,7 +21431,7 @@ function createCompileToFunctionFn (compile) {
     delete options.warn;
 
     /* istanbul ignore if */
-    {
+    if (true) {
       // detect possible CSP restriction
       try {
         new Function('return 1');
@@ -22056,30 +21460,16 @@ function createCompileToFunctionFn (compile) {
     var compiled = compile(template, options);
 
     // check compilation errors/tips
-    {
+    if (true) {
       if (compiled.errors && compiled.errors.length) {
-        if (options.outputSourceRange) {
-          compiled.errors.forEach(function (e) {
-            warn$$1(
-              "Error compiling template:\n\n" + (e.msg) + "\n\n" +
-              generateCodeFrame(template, e.start, e.end),
-              vm
-            );
-          });
-        } else {
-          warn$$1(
-            "Error compiling template:\n\n" + template + "\n\n" +
-            compiled.errors.map(function (e) { return ("- " + e); }).join('\n') + '\n',
-            vm
-          );
-        }
+        warn$$1(
+          "Error compiling template:\n\n" + template + "\n\n" +
+          compiled.errors.map(function (e) { return ("- " + e); }).join('\n') + '\n',
+          vm
+        );
       }
       if (compiled.tips && compiled.tips.length) {
-        if (options.outputSourceRange) {
-          compiled.tips.forEach(function (e) { return tip(e.msg, vm); });
-        } else {
-          compiled.tips.forEach(function (msg) { return tip(msg, vm); });
-        }
+        compiled.tips.forEach(function (msg) { return tip(msg, vm); });
       }
     }
 
@@ -22095,7 +21485,7 @@ function createCompileToFunctionFn (compile) {
     // this should only happen if there is a bug in the compiler itself.
     // mostly for codegen development use
     /* istanbul ignore if */
-    {
+    if (true) {
       if ((!compiled.errors || !compiled.errors.length) && fnGenErrors.length) {
         warn$$1(
           "Failed to generate render function:\n\n" +
@@ -22125,29 +21515,11 @@ function createCompilerCreator (baseCompile) {
       var finalOptions = Object.create(baseOptions);
       var errors = [];
       var tips = [];
-
-      var warn = function (msg, range, tip) {
+      finalOptions.warn = function (msg, tip) {
         (tip ? tips : errors).push(msg);
       };
 
       if (options) {
-        if (options.outputSourceRange) {
-          // $flow-disable-line
-          var leadingSpaceLength = template.match(/^\s*/)[0].length;
-
-          warn = function (msg, range, tip) {
-            var data = { msg: msg };
-            if (range) {
-              if (range.start != null) {
-                data.start = range.start + leadingSpaceLength;
-              }
-              if (range.end != null) {
-                data.end = range.end + leadingSpaceLength;
-              }
-            }
-            (tip ? tips : errors).push(data);
-          };
-        }
         // merge custom modules
         if (options.modules) {
           finalOptions.modules =
@@ -22168,11 +21540,9 @@ function createCompilerCreator (baseCompile) {
         }
       }
 
-      finalOptions.warn = warn;
-
-      var compiled = baseCompile(template.trim(), finalOptions);
-      {
-        detectErrors(compiled.ast, warn);
+      var compiled = baseCompile(template, finalOptions);
+      if (true) {
+        errors.push.apply(errors, detectErrors(compiled.ast));
       }
       compiled.errors = errors;
       compiled.tips = tips;
@@ -22244,7 +21614,7 @@ Vue.prototype.$mount = function (
 
   /* istanbul ignore if */
   if (el === document.body || el === document.documentElement) {
-    warn(
+     true && warn(
       "Do not mount Vue to <html> or <body> - mount to normal elements instead."
     );
     return this
@@ -22259,7 +21629,7 @@ Vue.prototype.$mount = function (
         if (template.charAt(0) === '#') {
           template = idToTemplate(template);
           /* istanbul ignore if */
-          if (!template) {
+          if ( true && !template) {
             warn(
               ("Template element not found or is empty: " + (options.template)),
               this
@@ -22269,7 +21639,7 @@ Vue.prototype.$mount = function (
       } else if (template.nodeType) {
         template = template.innerHTML;
       } else {
-        {
+        if (true) {
           warn('invalid template option:' + template, this);
         }
         return this
@@ -22279,12 +21649,11 @@ Vue.prototype.$mount = function (
     }
     if (template) {
       /* istanbul ignore if */
-      if (config.performance && mark) {
+      if ( true && config.performance && mark) {
         mark('compile');
       }
 
       var ref = compileToFunctions(template, {
-        outputSourceRange: "development" !== 'production',
         shouldDecodeNewlines: shouldDecodeNewlines,
         shouldDecodeNewlinesForHref: shouldDecodeNewlinesForHref,
         delimiters: options.delimiters,
@@ -22296,7 +21665,7 @@ Vue.prototype.$mount = function (
       options.staticRenderFns = staticRenderFns;
 
       /* istanbul ignore if */
-      if (config.performance && mark) {
+      if ( true && config.performance && mark) {
         mark('compile end');
         measure(("vue " + (this._name) + " compile"), 'compile', 'compile end');
       }
@@ -22324,20 +21693,6 @@ Vue.compile = compileToFunctions;
 module.exports = Vue;
 
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js"), __webpack_require__(/*! ./../../timers-browserify/main.js */ "./node_modules/timers-browserify/main.js").setImmediate))
-
-/***/ }),
-
-/***/ "./node_modules/vue/dist/vue.common.js":
-/*!*********************************************!*\
-  !*** ./node_modules/vue/dist/vue.common.js ***!
-  \*********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-if (false) {} else {
-  module.exports = __webpack_require__(/*! ./vue.common.dev.js */ "./node_modules/vue/dist/vue.common.dev.js")
-}
-
 
 /***/ }),
 
@@ -22388,19 +21743,19 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 Vue.use(__webpack_require__(/*! vue-moment */ "./node_modules/vue-moment/dist/vue-moment.js"));
-Vue.component('course-time-component', __webpack_require__(/*! ./components/CourseTimeComponent.vue */ "./resources/js/components/CourseTimeComponent.vue")["default"]);
-Vue.component('cart-component', __webpack_require__(/*! ./components/CartComponent.vue */ "./resources/js/components/CartComponent.vue")["default"]);
-Vue.component('event-attendance-component', __webpack_require__(/*! ./components/EventAttendanceComponent.vue */ "./resources/js/components/EventAttendanceComponent.vue")["default"]);
-Vue.component('course-attendance-component', __webpack_require__(/*! ./components/CourseAttendanceComponent.vue */ "./resources/js/components/CourseAttendanceComponent.vue")["default"]);
-Vue.component('student-comments', __webpack_require__(/*! ./components/StudentCommentComponent.vue */ "./resources/js/components/StudentCommentComponent.vue")["default"]);
-Vue.component('student-skills-component', __webpack_require__(/*! ./components/StudentSkillEvaluationComponent.vue */ "./resources/js/components/StudentSkillEvaluationComponent.vue")["default"]);
-Vue.component('course-result-component', __webpack_require__(/*! ./components/CourseResultComponent.vue */ "./resources/js/components/CourseResultComponent.vue")["default"]);
-Vue.component('event-data-sync-component', __webpack_require__(/*! ./components/EventDataSyncComponent.vue */ "./resources/js/components/EventDataSyncComponent.vue")["default"]);
-Vue.component('lead-status-component', __webpack_require__(/*! ./components/LeadStatusComponent.vue */ "./resources/js/components/LeadStatusComponent.vue")["default"]);
-Vue.component('absence-buttons', __webpack_require__(/*! ./components/AbsenceButtonsComponent.vue */ "./resources/js/components/AbsenceButtonsComponent.vue")["default"]);
-Vue.component('skills-list', __webpack_require__(/*! ./components/SkillsListComponent.vue */ "./resources/js/components/SkillsListComponent.vue")["default"]);
-Vue.component('phone-number-update-component', __webpack_require__(/*! ./components/PhoneNumberUpdateComponent.vue */ "./resources/js/components/PhoneNumberUpdateComponent.vue")["default"]);
-Vue.component('contact-phone-number-update-component', __webpack_require__(/*! ./components/ContactPhoneNumberUpdateComponent.vue */ "./resources/js/components/ContactPhoneNumberUpdateComponent.vue")["default"]);
+Vue.component('course-time-component', __webpack_require__(/*! ./components/CourseTimeComponent.vue */ "./resources/js/components/CourseTimeComponent.vue").default);
+Vue.component('cart-component', __webpack_require__(/*! ./components/CartComponent.vue */ "./resources/js/components/CartComponent.vue").default);
+Vue.component('event-attendance-component', __webpack_require__(/*! ./components/EventAttendanceComponent.vue */ "./resources/js/components/EventAttendanceComponent.vue").default);
+Vue.component('course-attendance-component', __webpack_require__(/*! ./components/CourseAttendanceComponent.vue */ "./resources/js/components/CourseAttendanceComponent.vue").default);
+Vue.component('student-comments', __webpack_require__(/*! ./components/StudentCommentComponent.vue */ "./resources/js/components/StudentCommentComponent.vue").default);
+Vue.component('student-skills-component', __webpack_require__(/*! ./components/StudentSkillEvaluationComponent.vue */ "./resources/js/components/StudentSkillEvaluationComponent.vue").default);
+Vue.component('course-result-component', __webpack_require__(/*! ./components/CourseResultComponent.vue */ "./resources/js/components/CourseResultComponent.vue").default);
+Vue.component('event-data-sync-component', __webpack_require__(/*! ./components/EventDataSyncComponent.vue */ "./resources/js/components/EventDataSyncComponent.vue").default);
+Vue.component('lead-status-component', __webpack_require__(/*! ./components/LeadStatusComponent.vue */ "./resources/js/components/LeadStatusComponent.vue").default);
+Vue.component('absence-buttons', __webpack_require__(/*! ./components/AbsenceButtonsComponent.vue */ "./resources/js/components/AbsenceButtonsComponent.vue").default);
+Vue.component('skills-list', __webpack_require__(/*! ./components/SkillsListComponent.vue */ "./resources/js/components/SkillsListComponent.vue").default);
+Vue.component('phone-number-update-component', __webpack_require__(/*! ./components/PhoneNumberUpdateComponent.vue */ "./resources/js/components/PhoneNumberUpdateComponent.vue").default);
+Vue.component('contact-phone-number-update-component', __webpack_require__(/*! ./components/ContactPhoneNumberUpdateComponent.vue */ "./resources/js/components/ContactPhoneNumberUpdateComponent.vue").default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -23387,8 +22742,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/afc/academico/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/afc/academico/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\XTECH\code\academico\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\XTECH\code\academico\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
