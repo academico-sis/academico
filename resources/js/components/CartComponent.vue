@@ -1,5 +1,6 @@
 <template>
-    <div class="row">
+<div>
+    <div class="row" v-if="step == 1">
         <div class="col col-md-8">
 
             <div class="box">
@@ -8,7 +9,6 @@
                         Cart details
                     </div>
                     <div class="box-tools pull-right">
-                        <!-- <button class="btn btn-primary"><i class="fa fa-plus"></i></button> todo -->
                     </div>
                 </div>
                 
@@ -45,16 +45,17 @@
                                 </td>
                             </tr>
                         </tbody>
-                        <tfoot>
-                            <tr>
-                                <td>TOTAL</td>
-                                <td>$ {{ shoppingCartTotal }}</td>
-                                <td></td>
-                            </tr>
-                        </tfoot>
                     </table>
+
                 </div>
             </div>
+
+            <div class="box">
+                <div class="box-body text-center">
+                        <h4> PRECIO TOTAL: $ {{ shoppingCartTotal }} <button class="btn btn-success" @click="step = 2"><i class="fa fa-check"></i>Confirmar</button></h4>
+                </div>
+            </div>
+
         </div>
 
         <div class="col col-md-4">
@@ -135,13 +136,109 @@
 
         </div>
     </div>
+
+
+
+    <div class="row" v-if="step == 2">
+        <div class="col-md-4">
+            <div class="box">
+                <div class="box-header with-border">
+                    <div class="box-title">
+                        Estudiante
+                    </div>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-success" @click="step = 3"><i class="fa fa-check"></i>Selectionar</button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <p>{{enrollments[0].student.user.firstname}} {{enrollments[0].student.user.lastname}}</p>
+                    <p>{{enrollments[0].student.idnumber}}</p>
+                    <p>{{enrollments[0].student.address}}</p>
+                    <p>{{enrollments[0].student.user.email}}</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row" v-if="step == 3">
+
+        <div class="col col-md-6">
+
+            <div class="box">
+                <div class="box-header with-border">
+                    <div class="box-title">
+                        Cart details
+                    </div>
+                    <div class="box-tools pull-right">
+                    </div>
+                </div>
+                
+                <div class="box-body">
+
+                    <table class="table">
+                        <thead>
+                            <th>Nom</th>
+                            <th>Prix</th>
+                        </thead>
+                        <tbody>
+                            <tr v-bind:key="enrollment.id" v-for="(enrollment, index) in enrollments">
+                                <td>{{ enrollment.course.name }} para {{ enrollment.student.user.firstname }} {{ enrollment.student.user.lastname }}</td>
+                                <td>$ {{ enrollment.course.price }} <span class="label label-info" v-if="discount(enrollment.course.price) > 0">- ${{ discount(enrollment.course.price) }}</span></td>
+                            </tr>
+
+                            <tr v-bind:key="book.id" v-for="(book, index) in books">
+                                <td>{{ book.name }}</td>
+                                <td>$ {{ book.price }}</td>
+                            </tr>
+
+                            <tr v-bind:key="fee.id" v-for="(fee, index) in fees">
+                                <td>{{ fee.name }}</td>
+                                <td>$ {{ fee.price }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+            <div class="box">
+                <div class="box-body text-center">
+                        <h4> PRECIO TOTAL: $ {{ shoppingCartTotal }}</h4>
+                </div>
+            </div>
+
+        </div>        
+        <div class="col-md-4">
+            <div class="box box-solid box-primary">
+                <div class="box-header with-border">
+                    <div class="box-title">
+                        Forma de pago
+                    </div>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-success" @click="finish()"><i class="fa fa-check"></i>Facturar</button>
+
+                    </div>
+                </div>
+                <div class="box-body">
+                    <p>Valor recibida:</p>
+                    <p>Comentario:</p>          
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    </div>
 </template>
 
 <script>
 
     export default {
 
-        props: ['enrollmentslist', 'feeslist', 'bookslist', 'availablebooks', 'availablefees', 'availableenrollments', 'availablediscounts'],
+        props: ['enrollmentslist', 'feeslist', 'bookslist', 'availablebooks', 'availablefees', 'availableenrollments', 'availablediscounts', 'contactdata'],
 
         data () {
             return {
@@ -151,6 +248,7 @@
                 totalPrice: 0,
                 errors: [],
                 discounts: [],
+                step: 1,
             }
         },
 
@@ -206,7 +304,17 @@
             discount(price)
             {
                 return price * this.totalDiscount;
+            },
+
+            finish()
+            {
+                axios.post('/checkout', {
+                    enrollments: this.enrollments,
+                    
+
+                });
             }
+
         },
         computed: {
             shoppingCartTotal() {

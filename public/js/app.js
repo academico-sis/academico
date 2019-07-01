@@ -1900,8 +1900,105 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['enrollmentslist', 'feeslist', 'bookslist', 'availablebooks', 'availablefees', 'availableenrollments', 'availablediscounts'],
+  props: ['enrollmentslist', 'feeslist', 'bookslist', 'availablebooks', 'availablefees', 'availableenrollments', 'availablediscounts', 'contactdata'],
   data: function data() {
     return {
       enrollments: this.enrollmentslist || [],
@@ -1909,7 +2006,8 @@ __webpack_require__.r(__webpack_exports__);
       fees: this.feeslist || [],
       totalPrice: 0,
       errors: [],
-      discounts: []
+      discounts: [],
+      step: 1
     };
   },
   mounted: function mounted() {},
@@ -1940,6 +2038,11 @@ __webpack_require__.r(__webpack_exports__);
     },
     discount: function discount(price) {
       return price * this.totalDiscount;
+    },
+    finish: function finish() {
+      axios.post('/checkout', {
+        enrollments: this.enrollments
+      });
     }
   },
   computed: {
@@ -3537,282 +3640,477 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "row" }, [
-    _c("div", { staticClass: "col col-md-8" }, [
-      _c("div", { staticClass: "box" }, [
-        _vm._m(0),
-        _vm._v(" "),
-        _c("div", { staticClass: "box-body" }, [
-          _c("table", { staticClass: "table" }, [
-            _vm._m(1),
-            _vm._v(" "),
-            _c(
-              "tbody",
-              [
-                _vm._l(_vm.enrollments, function(enrollment, index) {
-                  return _c("tr", { key: enrollment.id }, [
-                    _c("td", [
-                      _vm._v(
-                        _vm._s(enrollment.course.name) +
-                          " para " +
-                          _vm._s(enrollment.student.user.firstname) +
-                          " " +
-                          _vm._s(enrollment.student.user.lastname)
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _vm._v("$ " + _vm._s(enrollment.course.price) + " "),
-                      _vm.discount(enrollment.course.price) > 0
-                        ? _c("span", { staticClass: "label label-info" }, [
+  return _c("div", [
+    _vm.step == 1
+      ? _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col col-md-8" }, [
+            _c("div", { staticClass: "box" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c("div", { staticClass: "box-body" }, [
+                _c("table", { staticClass: "table" }, [
+                  _vm._m(1),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    [
+                      _vm._l(_vm.enrollments, function(enrollment, index) {
+                        return _c("tr", { key: enrollment.id }, [
+                          _c("td", [
                             _vm._v(
-                              "- $" +
-                                _vm._s(_vm.discount(enrollment.course.price))
+                              _vm._s(enrollment.course.name) +
+                                " para " +
+                                _vm._s(enrollment.student.user.firstname) +
+                                " " +
+                                _vm._s(enrollment.student.user.lastname)
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _vm._v(
+                              "$ " + _vm._s(enrollment.course.price) + " "
+                            ),
+                            _vm.discount(enrollment.course.price) > 0
+                              ? _c(
+                                  "span",
+                                  { staticClass: "label label-info" },
+                                  [
+                                    _vm._v(
+                                      "- $" +
+                                        _vm._s(
+                                          _vm.discount(enrollment.course.price)
+                                        )
+                                    )
+                                  ]
+                                )
+                              : _vm._e()
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-xs btn-danger",
+                                on: {
+                                  click: function($event) {
+                                    return _vm.removeEnrollmentFromCart(index)
+                                  }
+                                }
+                              },
+                              [_c("i", { staticClass: "fa fa-trash" })]
                             )
                           ])
-                        : _vm._e()
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-xs btn-danger",
-                          on: {
-                            click: function($event) {
-                              return _vm.removeEnrollmentFromCart(index)
-                            }
-                          }
-                        },
-                        [_c("i", { staticClass: "fa fa-trash" })]
-                      )
-                    ])
-                  ])
-                }),
-                _vm._v(" "),
-                _vm._l(_vm.books, function(book, index) {
-                  return _c("tr", { key: book.id }, [
-                    _c("td", [_vm._v(_vm._s(book.name))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v("$ " + _vm._s(book.price))]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-xs btn-danger",
-                          on: {
-                            click: function($event) {
-                              return _vm.removeBookFromCart(index)
-                            }
-                          }
-                        },
-                        [_c("i", { staticClass: "fa fa-trash" })]
-                      )
-                    ])
-                  ])
-                }),
-                _vm._v(" "),
-                _vm._l(_vm.fees, function(fee, index) {
-                  return _c("tr", { key: fee.id }, [
-                    _c("td", [_vm._v(_vm._s(fee.name))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v("$ " + _vm._s(fee.price))]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-xs btn-danger",
-                          on: {
-                            click: function($event) {
-                              return _vm.removeFeeFromCart(index)
-                            }
-                          }
-                        },
-                        [_c("i", { staticClass: "fa fa-trash" })]
-                      )
-                    ])
-                  ])
-                })
-              ],
-              2
-            ),
-            _vm._v(" "),
-            _c("tfoot", [
-              _c("tr", [
-                _c("td", [_vm._v("TOTAL")]),
-                _vm._v(" "),
-                _c("td", [_vm._v("$ " + _vm._s(_vm.shoppingCartTotal))]),
-                _vm._v(" "),
-                _c("td")
+                        ])
+                      }),
+                      _vm._v(" "),
+                      _vm._l(_vm.books, function(book, index) {
+                        return _c("tr", { key: book.id }, [
+                          _c("td", [_vm._v(_vm._s(book.name))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("$ " + _vm._s(book.price))]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-xs btn-danger",
+                                on: {
+                                  click: function($event) {
+                                    return _vm.removeBookFromCart(index)
+                                  }
+                                }
+                              },
+                              [_c("i", { staticClass: "fa fa-trash" })]
+                            )
+                          ])
+                        ])
+                      }),
+                      _vm._v(" "),
+                      _vm._l(_vm.fees, function(fee, index) {
+                        return _c("tr", { key: fee.id }, [
+                          _c("td", [_vm._v(_vm._s(fee.name))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("$ " + _vm._s(fee.price))]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-xs btn-danger",
+                                on: {
+                                  click: function($event) {
+                                    return _vm.removeFeeFromCart(index)
+                                  }
+                                }
+                              },
+                              [_c("i", { staticClass: "fa fa-trash" })]
+                            )
+                          ])
+                        ])
+                      })
+                    ],
+                    2
+                  )
+                ])
               ])
-            ])
-          ])
-        ])
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "col col-md-4" }, [
-      _c("div", { staticClass: "box" }, [
-        _vm._m(2),
-        _vm._v(" "),
-        _c("div", { staticClass: "box-body" }, [
-          _c("div", { staticClass: "form-group" }, [
-            _c("div", { staticClass: "btn-group" }, [
-              _vm._m(3),
-              _vm._v(" "),
-              _c(
-                "ul",
-                { staticClass: "dropdown-menu" },
-                _vm._l(this.availablebooks, function(availableBook) {
-                  return _c("li", { key: availableBook.id }, [
-                    _c(
-                      "a",
-                      {
-                        attrs: { href: "#" },
-                        on: {
-                          click: function($event) {
-                            return _vm.addBook(availableBook)
-                          }
-                        }
-                      },
-                      [_vm._v(_vm._s(availableBook.name))]
-                    )
-                  ])
-                }),
-                0
-              )
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "btn-group" }, [
-              _vm._m(4),
-              _vm._v(" "),
-              _c(
-                "ul",
-                { staticClass: "dropdown-menu" },
-                _vm._l(this.availablefees, function(availableFee) {
-                  return _c("li", { key: availableFee.id }, [
-                    _c(
-                      "a",
-                      {
-                        attrs: { href: "#" },
-                        on: {
-                          click: function($event) {
-                            return _vm.addFee(availableFee)
-                          }
+            _c("div", { staticClass: "box" }, [
+              _c("div", { staticClass: "box-body text-center" }, [
+                _c("h4", [
+                  _vm._v(
+                    " PRECIO TOTAL: $ " + _vm._s(_vm.shoppingCartTotal) + " "
+                  ),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success",
+                      on: {
+                        click: function($event) {
+                          _vm.step = 2
                         }
-                      },
-                      [_vm._v(_vm._s(availableFee.name))]
-                    )
-                  ])
-                }),
-                0
-              )
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "btn-group" }, [
-              _vm._m(5),
-              _vm._v(" "),
-              _c(
-                "ul",
-                { staticClass: "dropdown-menu" },
-                _vm._l(this.availableenrollments, function(
-                  availableEnrollment
-                ) {
-                  return _c("li", { key: availableEnrollment.id }, [
-                    _c(
-                      "a",
-                      {
-                        attrs: { href: "#" },
-                        on: {
-                          click: function($event) {
-                            return _vm.addEnrollment(availableEnrollment)
-                          }
-                        }
-                      },
-                      [
-                        _vm._v(
-                          _vm._s(availableEnrollment.student.user.lastname) +
-                            " " +
-                            _vm._s(availableEnrollment.student.user.firstname) +
-                            " (" +
-                            _vm._s(availableEnrollment.course.name) +
-                            ")"
-                        )
-                      ]
-                    )
-                  ])
-                }),
-                0
-              )
-            ])
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "box" }, [
-        _vm._m(6),
-        _vm._v(" "),
-        _c("div", { staticClass: "box-body" }, [
-          _c(
-            "ul",
-            _vm._l(_vm.discounts, function(discount, index) {
-              return _c("li", { key: discount.id }, [
-                _vm._v(
-                  "\n                        " +
-                    _vm._s(discount.name) +
-                    " (" +
-                    _vm._s(discount.value) +
-                    "%)\n                        "
-                ),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-xs btn-warning",
-                    on: {
-                      click: function($event) {
-                        return _vm.removeDiscount(index)
                       }
-                    }
-                  },
-                  [_c("i", { staticClass: "fa fa-times" })]
-                )
+                    },
+                    [
+                      _c("i", { staticClass: "fa fa-check" }),
+                      _vm._v("Confirmar")
+                    ]
+                  )
+                ])
               ])
-            }),
-            0
-          ),
+            ])
+          ]),
           _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
-            _c("div", { staticClass: "btn-group" }, [
-              _vm._m(7),
+          _c("div", { staticClass: "col col-md-4" }, [
+            _c("div", { staticClass: "box" }, [
+              _vm._m(2),
               _vm._v(" "),
-              _c(
-                "ul",
-                { staticClass: "dropdown-menu" },
-                _vm._l(this.availablediscounts, function(availableDiscount) {
-                  return _c("li", { key: availableDiscount.id }, [
+              _c("div", { staticClass: "box-body" }, [
+                _c("div", { staticClass: "form-group" }, [
+                  _c("div", { staticClass: "btn-group" }, [
+                    _vm._m(3),
+                    _vm._v(" "),
                     _c(
-                      "a",
-                      {
-                        attrs: { href: "#" },
-                        on: {
-                          click: function($event) {
-                            return _vm.addDiscount(availableDiscount)
-                          }
-                        }
-                      },
-                      [_vm._v(_vm._s(availableDiscount.name))]
+                      "ul",
+                      { staticClass: "dropdown-menu" },
+                      _vm._l(this.availablebooks, function(availableBook) {
+                        return _c("li", { key: availableBook.id }, [
+                          _c(
+                            "a",
+                            {
+                              attrs: { href: "#" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.addBook(availableBook)
+                                }
+                              }
+                            },
+                            [_vm._v(_vm._s(availableBook.name))]
+                          )
+                        ])
+                      }),
+                      0
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "btn-group" }, [
+                    _vm._m(4),
+                    _vm._v(" "),
+                    _c(
+                      "ul",
+                      { staticClass: "dropdown-menu" },
+                      _vm._l(this.availablefees, function(availableFee) {
+                        return _c("li", { key: availableFee.id }, [
+                          _c(
+                            "a",
+                            {
+                              attrs: { href: "#" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.addFee(availableFee)
+                                }
+                              }
+                            },
+                            [_vm._v(_vm._s(availableFee.name))]
+                          )
+                        ])
+                      }),
+                      0
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "btn-group" }, [
+                    _vm._m(5),
+                    _vm._v(" "),
+                    _c(
+                      "ul",
+                      { staticClass: "dropdown-menu" },
+                      _vm._l(this.availableenrollments, function(
+                        availableEnrollment
+                      ) {
+                        return _c("li", { key: availableEnrollment.id }, [
+                          _c(
+                            "a",
+                            {
+                              attrs: { href: "#" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.addEnrollment(availableEnrollment)
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                _vm._s(
+                                  availableEnrollment.student.user.lastname
+                                ) +
+                                  " " +
+                                  _vm._s(
+                                    availableEnrollment.student.user.firstname
+                                  ) +
+                                  " (" +
+                                  _vm._s(availableEnrollment.course.name) +
+                                  ")"
+                              )
+                            ]
+                          )
+                        ])
+                      }),
+                      0
                     )
                   ])
-                }),
-                0
-              )
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "box" }, [
+              _vm._m(6),
+              _vm._v(" "),
+              _c("div", { staticClass: "box-body" }, [
+                _c(
+                  "ul",
+                  _vm._l(_vm.discounts, function(discount, index) {
+                    return _c("li", { key: discount.id }, [
+                      _vm._v(
+                        "\n                            " +
+                          _vm._s(discount.name) +
+                          " (" +
+                          _vm._s(discount.value) +
+                          "%)\n                            "
+                      ),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-xs btn-warning",
+                          on: {
+                            click: function($event) {
+                              return _vm.removeDiscount(index)
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "fa fa-times" })]
+                      )
+                    ])
+                  }),
+                  0
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("div", { staticClass: "btn-group" }, [
+                    _vm._m(7),
+                    _vm._v(" "),
+                    _c(
+                      "ul",
+                      { staticClass: "dropdown-menu" },
+                      _vm._l(this.availablediscounts, function(
+                        availableDiscount
+                      ) {
+                        return _c("li", { key: availableDiscount.id }, [
+                          _c(
+                            "a",
+                            {
+                              attrs: { href: "#" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.addDiscount(availableDiscount)
+                                }
+                              }
+                            },
+                            [_vm._v(_vm._s(availableDiscount.name))]
+                          )
+                        ])
+                      }),
+                      0
+                    )
+                  ])
+                ])
+              ])
             ])
           ])
         ])
-      ])
-    ])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.step == 2
+      ? _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-4" }, [
+            _c("div", { staticClass: "box" }, [
+              _c("div", { staticClass: "box-header with-border" }, [
+                _c("div", { staticClass: "box-title" }, [
+                  _vm._v(
+                    "\n                        Estudiante\n                    "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "box-tools pull-right" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success",
+                      on: {
+                        click: function($event) {
+                          _vm.step = 3
+                        }
+                      }
+                    },
+                    [
+                      _c("i", { staticClass: "fa fa-check" }),
+                      _vm._v("Selectionar")
+                    ]
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "box-body" }, [
+                _c("p", [
+                  _vm._v(
+                    _vm._s(_vm.enrollments[0].student.user.firstname) +
+                      " " +
+                      _vm._s(_vm.enrollments[0].student.user.lastname)
+                  )
+                ]),
+                _vm._v(" "),
+                _c("p", [_vm._v(_vm._s(_vm.enrollments[0].student.idnumber))]),
+                _vm._v(" "),
+                _c("p", [_vm._v(_vm._s(_vm.enrollments[0].student.address))]),
+                _vm._v(" "),
+                _c("p", [_vm._v(_vm._s(_vm.enrollments[0].student.user.email))])
+              ])
+            ])
+          ])
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.step == 3
+      ? _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col col-md-6" }, [
+            _c("div", { staticClass: "box" }, [
+              _vm._m(8),
+              _vm._v(" "),
+              _c("div", { staticClass: "box-body" }, [
+                _c("table", { staticClass: "table" }, [
+                  _vm._m(9),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    [
+                      _vm._l(_vm.enrollments, function(enrollment, index) {
+                        return _c("tr", { key: enrollment.id }, [
+                          _c("td", [
+                            _vm._v(
+                              _vm._s(enrollment.course.name) +
+                                " para " +
+                                _vm._s(enrollment.student.user.firstname) +
+                                " " +
+                                _vm._s(enrollment.student.user.lastname)
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _vm._v(
+                              "$ " + _vm._s(enrollment.course.price) + " "
+                            ),
+                            _vm.discount(enrollment.course.price) > 0
+                              ? _c(
+                                  "span",
+                                  { staticClass: "label label-info" },
+                                  [
+                                    _vm._v(
+                                      "- $" +
+                                        _vm._s(
+                                          _vm.discount(enrollment.course.price)
+                                        )
+                                    )
+                                  ]
+                                )
+                              : _vm._e()
+                          ])
+                        ])
+                      }),
+                      _vm._v(" "),
+                      _vm._l(_vm.books, function(book, index) {
+                        return _c("tr", { key: book.id }, [
+                          _c("td", [_vm._v(_vm._s(book.name))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("$ " + _vm._s(book.price))])
+                        ])
+                      }),
+                      _vm._v(" "),
+                      _vm._l(_vm.fees, function(fee, index) {
+                        return _c("tr", { key: fee.id }, [
+                          _c("td", [_vm._v(_vm._s(fee.name))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("$ " + _vm._s(fee.price))])
+                        ])
+                      })
+                    ],
+                    2
+                  )
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "box" }, [
+              _c("div", { staticClass: "box-body text-center" }, [
+                _c("h4", [
+                  _vm._v(" PRECIO TOTAL: $ " + _vm._s(_vm.shoppingCartTotal))
+                ])
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-4" }, [
+            _c("div", { staticClass: "box box-solid box-primary" }, [
+              _c("div", { staticClass: "box-header with-border" }, [
+                _c("div", { staticClass: "box-title" }, [
+                  _vm._v(
+                    "\n                        Forma de pago\n                    "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "box-tools pull-right" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success",
+                      on: {
+                        click: function($event) {
+                          return _vm.finish()
+                        }
+                      }
+                    },
+                    [
+                      _c("i", { staticClass: "fa fa-check" }),
+                      _vm._v("Facturar")
+                    ]
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _vm._m(10)
+            ])
+          ])
+        ])
+      : _vm._e()
   ])
 }
 var staticRenderFns = [
@@ -3822,7 +4120,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "box-header with-border" }, [
       _c("div", { staticClass: "box-title" }, [
-        _vm._v("\n                    Cart details\n                ")
+        _vm._v("\n                        Cart details\n                    ")
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "box-tools pull-right" })
@@ -3846,7 +4144,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "box-header with-border" }, [
       _c("div", { staticClass: "box-title" }, [
-        _vm._v("\n                    Add products\n                ")
+        _vm._v("\n                        Add products\n                    ")
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "box-tools pull-right" })
@@ -3864,7 +4162,7 @@ var staticRenderFns = [
       },
       [
         _c("span", { staticClass: "caret" }),
-        _vm._v(" Books\n                        ")
+        _vm._v(" Books\n                            ")
       ]
     )
   },
@@ -3880,7 +4178,7 @@ var staticRenderFns = [
       },
       [
         _c("span", { staticClass: "caret" }),
-        _vm._v(" Fees\n                        ")
+        _vm._v(" Fees\n                            ")
       ]
     )
   },
@@ -3896,7 +4194,7 @@ var staticRenderFns = [
       },
       [
         _c("span", { staticClass: "caret" }),
-        _vm._v(" Enrollment\n                        ")
+        _vm._v(" Enrollment\n                            ")
       ]
     )
   },
@@ -3906,7 +4204,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "box-header with-border" }, [
       _c("div", { staticClass: "box-title" }, [
-        _vm._v("\n                    Discounts\n                ")
+        _vm._v("\n                        Discounts\n                    ")
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "box-tools pull-right" })
@@ -3924,9 +4222,41 @@ var staticRenderFns = [
       },
       [
         _c("span", { staticClass: "caret" }),
-        _vm._v(" Add discount\n                        ")
+        _vm._v(" Add discount\n                            ")
       ]
     )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "box-header with-border" }, [
+      _c("div", { staticClass: "box-title" }, [
+        _vm._v("\n                        Cart details\n                    ")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "box-tools pull-right" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("th", [_vm._v("Nom")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Prix")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "box-body" }, [
+      _c("p", [_vm._v("Valor recibida:")]),
+      _vm._v(" "),
+      _c("p", [_vm._v("Comentario:")])
+    ])
   }
 ]
 render._withStripped = true
