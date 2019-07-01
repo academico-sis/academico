@@ -165,7 +165,7 @@
             </div>
         </div>
 
-        <div class="col-md-4" v-for="contact in this.contactdata">
+        <div class="col-md-4" v-for="contact in this.contactdata" v-bind:key="contact.id">
             <div class="box">
                 <div class="box-header with-border">
                     <div class="box-title">
@@ -227,38 +227,16 @@
                 </div>
             </div>
 
-            <div class="box">
-                <div class="box-body text-center">
-                        <h4> PRECIO TOTAL: $ {{ shoppingCartTotal }}</h4>
-                </div>
-            </div>
-
         </div>
         <div class="col-md-4">
-            <div class="box box-solid box-primary">
-                <div class="box-header with-border">
-                    <div class="box-title">
-                        Forma de pago
-                    </div>
-                    <div class="box-tools pull-right">
-                        <button class="btn btn-success" @click="finish()"><i class="fa fa-check"></i>Facturar</button>
 
-                    </div>
-                </div>
-                <div class="box-body">
-                    <p>Valor recibida:</p>
-                    <p>Comentario:</p>          
-                </div>
-            </div>
-
+            
             <div class="box box-solid box-primary">
                 <div class="box-header with-border">
                     <div class="box-title">
                         Datos de factura
                     </div>
                     <div class="box-tools pull-right">
-                        <button class="btn btn-success" @click="finish()"><i class="fa fa-check"></i>Facturar</button>
-
                     </div>
                 </div>
                 <div class="box-body">
@@ -272,6 +250,66 @@
                           
                 </div>
             </div>
+        </div>
+
+        <div class="col-md-12">
+
+            <div class="box">
+                <div class="box-body text-center">
+                        <h4> PRECIO TOTAL: $ {{ shoppingCartTotal }}</h4>
+                </div>
+            </div>
+
+            <div class="box box-solid box-primary">
+                <div class="box-header with-border">
+                    <div class="box-title">
+                        Forma de pago
+                    </div>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-success" @click="finish()"><i class="fa fa-check"></i>Facturar</button>
+
+                    </div>
+                </div>
+                <div class="box-body">
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Forma de pago</th>
+                                <th>Valor recibida</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr v-for="payment in payments">
+                                <td>
+                                    <select name="method">
+                                        <option value="">Tarjeta</option>
+                                        <option value="">Crédito</option>
+                                    </select>
+                                </td>
+                                <td><input type="number" step="0.01" /></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <button @click="addPayment()">Agregar</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="form-group">
+                        <label for="paidprice">Valor recibida:</label>
+                        
+                    </div>
+
+                    <div class="form-group">
+                        <label for="comment">Comentario:</label>
+                        <textarea name="comment" id="comment" cols="50" rows="2"></textarea>
+                    </div>
+
+                </div>
+            </div>
+
 
         </div>
 
@@ -302,6 +340,7 @@
                 clientaddress: '',
                 clientemail: '',
                 clientidnumber: '',
+                payments: [],
             }
         },
 
@@ -380,6 +419,16 @@
                 this.clientemail = contact.email
                 
                 this.step = 3;
+            },
+
+            addPayment()
+            {
+                let payment = {
+                    method: "Tarjeta",
+                    value: 1
+                };
+
+                this.payments.push(payment);
             },
 
             finish()

@@ -132,7 +132,7 @@ Route::group(
     Route::get('enrollments/{enrollment}/bill', 'EnrollmentController@bill'); // temporary
     Route::post('preinvoice', 'EnrollmentController@quickInvoice')->name('quickInvoice'); // temporary
 
-    Route::post('checkout', 'PreInvoiceController@store');
+    Route::get('checkout', 'PreInvoiceController@store');
  
 /*     Route::get('cart/{id}', 'CartController@show'); // todo
  */    Route::delete('cart', 'CartController@destroy');

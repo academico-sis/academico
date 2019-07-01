@@ -2067,6 +2067,44 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['enrollmentslist', 'feeslist', 'bookslist', 'availablebooks', 'availablefees', 'availableenrollments', 'availablediscounts', 'contactdata'],
   data: function data() {
@@ -2082,7 +2120,8 @@ __webpack_require__.r(__webpack_exports__);
       clientphone: '',
       clientaddress: '',
       clientemail: '',
-      clientidnumber: ''
+      clientidnumber: '',
+      payments: []
     };
   },
   mounted: function mounted() {},
@@ -2131,6 +2170,13 @@ __webpack_require__.r(__webpack_exports__);
       this.clientidnumber = contact.idnumber;
       this.clientemail = contact.email;
       this.step = 3;
+    },
+    addPayment: function addPayment() {
+      var payment = {
+        method: "Tarjeta",
+        value: 1
+      };
+      this.payments.push(payment);
     },
     finish: function finish() {
       axios.post('/checkout', {
@@ -4127,7 +4173,7 @@ var render = function() {
             ]),
             _vm._v(" "),
             _vm._l(this.contactdata, function(contact) {
-              return _c("div", { staticClass: "col-md-4" }, [
+              return _c("div", { key: contact.id, staticClass: "col-md-4" }, [
                 _c("div", { staticClass: "box" }, [
                   _c("div", { staticClass: "box-header with-border" }, [
                     _c("div", { staticClass: "box-title" }, [
@@ -4245,18 +4291,38 @@ var render = function() {
                   )
                 ])
               ])
-            ]),
-            _vm._v(" "),
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-4" }, [
+            _c("div", { staticClass: "box box-solid box-primary" }, [
+              _vm._m(10),
+              _vm._v(" "),
+              _c("div", { staticClass: "box-body" }, [
+                _c("ul", [
+                  _c("li", [_vm._v(_vm._s(_vm.clientname))]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v(_vm._s(_vm.clientphone))]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v(_vm._s(_vm.clientaddress))]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v(_vm._s(_vm.clientemail))]),
+                  _vm._v(" "),
+                  _c("li", [_vm._v(_vm._s(_vm.clientidnumber))])
+                ])
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-12" }, [
             _c("div", { staticClass: "box" }, [
               _c("div", { staticClass: "box-body text-center" }, [
                 _c("h4", [
                   _vm._v(" PRECIO TOTAL: $ " + _vm._s(_vm.shoppingCartTotal))
                 ])
               ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-4" }, [
+            ]),
+            _vm._v(" "),
             _c("div", { staticClass: "box box-solid box-primary" }, [
               _c("div", { staticClass: "box-header with-border" }, [
                 _c("div", { staticClass: "box-title" }, [
@@ -4284,48 +4350,44 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _vm._m(10)
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "box box-solid box-primary" }, [
-              _c("div", { staticClass: "box-header with-border" }, [
-                _c("div", { staticClass: "box-title" }, [
-                  _vm._v(
-                    "\r\n                        Datos de factura\r\n                    "
+              _c("div", { staticClass: "box-body" }, [
+                _c("table", [
+                  _vm._m(11),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    [
+                      _vm._l(_vm.payments, function(payment) {
+                        return _c("tr", [
+                          _vm._m(12, true),
+                          _vm._v(" "),
+                          _vm._m(13, true)
+                        ])
+                      }),
+                      _vm._v(" "),
+                      _c("tr", [
+                        _c("td", [
+                          _c(
+                            "button",
+                            {
+                              on: {
+                                click: function($event) {
+                                  _vm.addPayment()
+                                }
+                              }
+                            },
+                            [_vm._v("Agregar")]
+                          )
+                        ])
+                      ])
+                    ],
+                    2
                   )
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "box-tools pull-right" }, [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-success",
-                      on: {
-                        click: function($event) {
-                          _vm.finish()
-                        }
-                      }
-                    },
-                    [
-                      _c("i", { staticClass: "fa fa-check" }),
-                      _vm._v("Facturar")
-                    ]
-                  )
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "box-body" }, [
-                _c("ul", [
-                  _c("li", [_vm._v(_vm._s(_vm.clientname))]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v(_vm._s(_vm.clientphone))]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v(_vm._s(_vm.clientaddress))]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v(_vm._s(_vm.clientemail))]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v(_vm._s(_vm.clientidnumber))])
-                ])
+                _vm._m(14),
+                _vm._v(" "),
+                _vm._m(15)
               ])
             ])
           ])
@@ -4478,10 +4540,64 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "box-body" }, [
-      _c("p", [_vm._v("Valor recibida:")]),
+    return _c("div", { staticClass: "box-header with-border" }, [
+      _c("div", { staticClass: "box-title" }, [
+        _vm._v(
+          "\r\n                        Datos de factura\r\n                    "
+        )
+      ]),
       _vm._v(" "),
-      _c("p", [_vm._v("Comentario:")])
+      _c("div", { staticClass: "box-tools pull-right" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Forma de pago")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Valor recibida")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [
+      _c("select", { attrs: { name: "method" } }, [
+        _c("option", { attrs: { value: "" } }, [_vm._v("Tarjeta")]),
+        _vm._v(" "),
+        _c("option", { attrs: { value: "" } }, [_vm._v("Crédito")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [_c("input", { attrs: { type: "number", step: "0.01" } })])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group" }, [
+      _c("label", { attrs: { for: "paidprice" } }, [_vm._v("Valor recibida:")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group" }, [
+      _c("label", { attrs: { for: "comment" } }, [_vm._v("Comentario:")]),
+      _vm._v(" "),
+      _c("textarea", {
+        attrs: { name: "comment", id: "comment", cols: "50", rows: "2" }
+      })
     ])
   }
 ]

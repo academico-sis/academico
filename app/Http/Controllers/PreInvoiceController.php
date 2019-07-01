@@ -28,6 +28,12 @@ class PreInvoiceController extends Controller
     public function store(Request $request)
     {
         dump($request);
+
+        return response()->json([
+            'name' => 'Abigail',
+            'state' => 'CA'
+        ]);
+        
         // receive the client data and generate the preinvoice with status = pending
         // receive the list of products and generate the preinvoice details
         // send the details to Accounting
