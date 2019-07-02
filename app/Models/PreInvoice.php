@@ -14,6 +14,8 @@ class PreInvoice extends Model
     use SoftDeletes;
     use CrudTrait;
 
+    protected $guarded = ['id'];
+
     public function pre_invoice_details()
     {
         return $this->hasMany(PreInvoiceDetail::class);

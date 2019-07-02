@@ -266,7 +266,7 @@
                         Forma de pago
                     </div>
                     <div class="box-tools pull-right">
-                        <button class="btn btn-success" @click="finish()"><i class="fa fa-check"></i>Facturar</button>
+                        <button v-if="shoppingCartTotal == paidTotal" class="btn btn-success" @click="finish()"><i class="fa fa-check"></i>Facturar</button>
 
                     </div>
                 </div>
@@ -281,7 +281,7 @@
                         </thead>
 
                         <tbody>
-                            <tr v-for="payment in payments">
+                            <tr v-for="payment in payments" v-bind:key="payment.id">
                                 <td>
                                     <select name="method" v-model="payment.method">
                                         <option value="tarjeta">Tarjeta</option>
@@ -299,7 +299,7 @@
                     </table>
 
                     <div class="form-group">
-                        <h4>Valor total recibida: $ {{ paidTotal }}"</h4>
+                        <h4>Valor total recibida: $ {{ paidTotal }}</h4>
                     </div>
 
                     <div class="form-group">
@@ -435,8 +435,13 @@
             {
                 axios.post('/checkout', {
                     enrollments: this.enrollments,
-                    
-
+                    fees: this.fees,
+                    books: this.books,
+                    client_name: this.clientname,
+                    client_idnumber: this.clientidnumber,
+                    client_address: this.clientaddress,
+                    client_email: this.clientemail,
+                    total_price: this.shoppingCartTotal,
                 });
             }
 
@@ -473,7 +478,7 @@
                 let total = 0;
                 if(this.payments) {
                     this.payments.forEach(payment => {
-                        total += payment.value;
+                        total += parseFloat(payment.value);
                     });
                 }
                 return total;

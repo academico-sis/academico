@@ -132,20 +132,11 @@ Route::group(
     Route::get('enrollments/{enrollment}/bill', 'EnrollmentController@bill'); // temporary
     Route::post('preinvoice', 'EnrollmentController@quickInvoice')->name('quickInvoice'); // temporary
 
-    Route::get('checkout', 'PreInvoiceController@store');
+    Route::post('checkout', 'PreInvoiceController@store');
  
-/*     Route::get('cart/{id}', 'CartController@show'); // todo
- */    Route::delete('cart', 'CartController@destroy');
-/* 
+    Route::delete('cart', 'CartController@destroy');
 
-    // add an enrollment to the cart for checkout
-    Route::post('product', 'ProductController@store'); // todo
-
-    // remove something from the cart
-    Route::delete('product', 'ProductController@destroy'); // todo
-
-    // Preinvoices management
-    Route::patch('invoice/{preInvoice}', 'PreInvoiceController@update'); // todo */
+    Route::patch('invoice/{preInvoice}', 'PreInvoiceController@update'); // todo
 });
 
 
