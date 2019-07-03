@@ -341,6 +341,7 @@
                 clientemail: '',
                 clientidnumber: '',
                 payments: [],
+                products: [],
             }
         },
 
@@ -433,10 +434,57 @@
 
             finish()
             {
+
+                this.enrollments.forEach(element => {
+                    let enrollment = {
+                        codinventario: element.id, // todo
+                        codbodega: "PRIN",
+                        cantidad: 1,
+                        descuento: this.discount(element.course.price),
+                        iva: 0.12,
+                        preciototal: element.course.price / 1.12, // sin descuento (precio * cantidad) Y SIN IVA
+                        valoriva: -((element.course.price / 1.12) - element.course.price)
+                    };
+
+                    this.products.push(enrollment);
+                });
+
+
+                this.books.forEach(element => {
+                    let book = {
+                        codinventario: element.id, // todo
+                        codbodega: "BOOK",
+                        cantidad: 1,
+                        descuento: 0,
+                        iva: 0.12,
+                        preciototal: element.price / 1.12, // sin descuento (precio * cantidad) Y SIN IVA
+                        valoriva: -((element.price / 1.12) - element.price)
+                    };
+
+                    this.products.push(book);
+                });
+
+
+                this.fees.forEach(element => {
+                    let fee = {
+                        codinventario: element.id, // todo
+                        codbodega: "FEE",
+                        cantidad: 1,
+                        descuento: 0,
+                        iva: 0.12,
+                        preciototal: element.price / 1.12, // sin descuento (precio * cantidad) Y SIN IVA
+                        valoriva: -((element.price / 1.12) - element.price)
+                    };
+
+                    this.products.push(fee);
+                });
+
+
                 axios.post('/checkout', {
                     enrollments: this.enrollments,
                     fees: this.fees,
                     books: this.books,
+                    products: this.products,
                     client_name: this.clientname,
                     client_idnumber: this.clientidnumber,
                     client_address: this.clientaddress,

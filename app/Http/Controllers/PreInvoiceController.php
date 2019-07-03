@@ -29,13 +29,10 @@ class PreInvoiceController extends Controller
      */
     public function store(Request $request)
     {
-/*         dump($request);
-
-        return response()->json([
-            'name' => 'Abigail',
-            'state' => 'CA'
-        ]); */
         
+        $ivkardex = [];
+        $pckardex = [];
+
         // receive the client data and generate the preinvoice with status = pending
 
         $preinvoice = PreInvoice::create([
@@ -48,8 +45,10 @@ class PreInvoiceController extends Controller
 
         // receive the list of products and generate the preinvoice details
 
-        foreach($request->enrollments as $enrollment)
+        foreach($request->enrollments as $e => $enrollment)
         {
+            $enrollment = Enrollment::find($enrollment['id']);
+
             PreInvoiceDetail::create([
                 'pre_invoice_id' => $preinvoice->id,
                 'product_name' => $enrollment['course']['name'], // todo
@@ -58,9 +57,12 @@ class PreInvoiceController extends Controller
                 'product_type' => Enrollment::class,
                 'price' => $enrollment['course']['price']
             ]);
+
+            $preinvoice->enrollments()->attach($enrollment);
+
         }
 
-        foreach($request->fees as $fee)
+        foreach($request->fees as $f => $fee)
         {
             PreInvoiceDetail::create([
                 'pre_invoice_id' => $preinvoice->id,
@@ -72,7 +74,7 @@ class PreInvoiceController extends Controller
             ]);
         }
 
-        foreach($request->books as $book)
+        foreach($request->books as $b => $book)
         {
             PreInvoiceDetail::create([
                 'pre_invoice_id' => $preinvoice->id,
@@ -86,8 +88,53 @@ class PreInvoiceController extends Controller
 
 
         // send the details to Accounting
+
+
+        foreach($request->products as $p => $product)
+        {
+            
+            $ivkardex[$p] = [
+                "codinventario" => "580005",
+                "codbodega" => "PRIN",
+                "cantidad" => 1,
+                "descuento" => $product['descuento'],
+                "iva" => 0.12,
+                "preciototal" => $product['preciototal'],
+                "valoriva" => $product['preciototal'] * 0.12
+            ];
+
+        }
+
+
+
+        $response = [
+            "codtrans" => "OP", // ?
+            "numtrans" => $preinvoice->id,
+            "fechatrans" => $preinvoice->created_at,
+            "horatrans" => $preinvoice->created_at,
+            "descripcion" => "Factura generada desda la plataforma academica",
+            "codusuario" => backpack_user()->firstname . " " . backpack_user()->lastname, 
+            "codprovcli" => $preinvoice->client_idnumber, // si existe, se busca el cliente. Si no lo creamos.
+            "nombre" => $preinvoice->client_name,
+            "direccion" => $preinvoice->client_address,
+            "telefono" => "", // TODO
+            "email" => $preinvoice->client_email,
+            "codvendedor" => "", // cual es la diferencia con codusuario?
+            "ivkardex" => $ivkardex,
+            "pckardex" => $pckardex,
+        ];
+
+
+        return response()->json($response);
+
         // receive the confirmation
+
         // mark the preinvoice and associated enrollments as paid.
+        foreach($preinvoice->enrollments as $enrollment)
+        {
+            $enrollment->markAsPaid();
+        }
+
         // show a confirmation
     }
 

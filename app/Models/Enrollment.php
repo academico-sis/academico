@@ -123,6 +123,12 @@ class Enrollment extends Model
         $this->save();
     }
 
+    public function markAsPaid()
+    {
+        $this->status_id = 2;
+        $this->save();
+    }
+
 
     /** RELATIONS */
     public function student()

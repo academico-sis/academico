@@ -2099,7 +2099,8 @@ __webpack_require__.r(__webpack_exports__);
       clientaddress: '',
       clientemail: '',
       clientidnumber: '',
-      payments: []
+      payments: [],
+      products: []
     };
   },
   mounted: function mounted() {},
@@ -2157,10 +2158,58 @@ __webpack_require__.r(__webpack_exports__);
       this.payments.push(payment);
     },
     finish: function finish() {
+      var _this = this;
+
+      this.enrollments.forEach(function (element) {
+        var enrollment = {
+          codinventario: element.id,
+          // todo
+          codbodega: "PRIN",
+          cantidad: 1,
+          descuento: _this.discount(element.course.price),
+          iva: 0.12,
+          preciototal: element.course.price / 1.12,
+          // sin descuento (precio * cantidad) Y SIN IVA
+          valoriva: -(element.course.price / 1.12 - element.course.price)
+        };
+
+        _this.products.push(enrollment);
+      });
+      this.books.forEach(function (element) {
+        var book = {
+          codinventario: element.id,
+          // todo
+          codbodega: "BOOK",
+          cantidad: 1,
+          descuento: 0,
+          iva: 0.12,
+          preciototal: element.price / 1.12,
+          // sin descuento (precio * cantidad) Y SIN IVA
+          valoriva: -(element.price / 1.12 - element.price)
+        };
+
+        _this.products.push(book);
+      });
+      this.fees.forEach(function (element) {
+        var fee = {
+          codinventario: element.id,
+          // todo
+          codbodega: "FEE",
+          cantidad: 1,
+          descuento: 0,
+          iva: 0.12,
+          preciototal: element.price / 1.12,
+          // sin descuento (precio * cantidad) Y SIN IVA
+          valoriva: -(element.price / 1.12 - element.price)
+        };
+
+        _this.products.push(fee);
+      });
       axios.post('/checkout', {
         enrollments: this.enrollments,
         fees: this.fees,
         books: this.books,
+        products: this.products,
         client_name: this.clientname,
         client_idnumber: this.clientidnumber,
         client_address: this.clientaddress,
@@ -2171,7 +2220,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     shoppingCartTotal: function shoppingCartTotal() {
-      var _this = this;
+      var _this2 = this;
 
       var total = 0;
 
@@ -2189,7 +2238,7 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.enrollments) {
         this.enrollments.forEach(function (enrollment) {
-          total += parseFloat(enrollment.course.price) - _this.discount(parseFloat(enrollment.course.price));
+          total += parseFloat(enrollment.course.price) - _this2.discount(parseFloat(enrollment.course.price));
         });
       }
 

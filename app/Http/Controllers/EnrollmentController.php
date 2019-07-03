@@ -76,6 +76,8 @@ class EnrollmentController extends Controller
     public function bill(Enrollment $enrollment)
     {
 
+        Log::info(backpack_user()->firstname . ' is generating a preinvoice');
+
         $enrollments = Enrollment::where('id', $enrollment->id)->get();
         $books = $enrollment->course->books ?? [];
         $fees = Fee::first()->get();
@@ -100,7 +102,6 @@ class EnrollmentController extends Controller
     public function quickInvoice(Request $request)
     {
 
-        Log::info(backpack_user()->firstname . ' is (quick) invoicing enrollment ' . $request->input('enrollment_id'));
 
         // get the invoice number and the comment
         $invoice_number = $request->input('invoice_number');
