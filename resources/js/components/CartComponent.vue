@@ -485,6 +485,7 @@
                     fees: this.fees,
                     books: this.books,
                     products: this.products,
+                    payments: this.payments,
                     client_name: this.clientname,
                     client_idnumber: this.clientidnumber,
                     client_address: this.clientaddress,

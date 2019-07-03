@@ -90,6 +90,20 @@ class PreInvoiceController extends Controller
         // send the details to Accounting
 
 
+        foreach($request->payments as $p => $payment)
+        {
+            
+            $pckardex[$p] = [
+            "codforma" => $payment['method'],
+            "valor" => $payment['value'],
+            "fechaemision" => $preinvoice->created_at,
+            "fechavenci" => $preinvoice->created_at,
+            "observacion" => "",
+            "codprovcli" => "1790017478001"
+            ];
+
+        }
+
         foreach($request->products as $p => $product)
         {
             
