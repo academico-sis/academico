@@ -23,6 +23,7 @@
             :availableenrollments="{{ json_encode($availableEnrollments) }}"
             :availablediscounts="{{ json_encode($availableDiscounts) }}"
             :contactdata="{{ json_encode($contactData) }}"
+            :availablepaymentmethods="{{ json_encode($availablePaymentMethods) }}"
 
         >
         </cart-component>

@@ -98,8 +98,8 @@ class PreInvoiceController extends Controller
             "valor" => $payment['value'],
             "fechaemision" => $preinvoice->created_at,
             "fechavenci" => $preinvoice->created_at,
-            "observacion" => "",
-            "codprovcli" => "1790017478001"
+            "observacion" => $payment['comment'],
+            "codprovcli" => "1790017478001" // todo
             ];
 
         }

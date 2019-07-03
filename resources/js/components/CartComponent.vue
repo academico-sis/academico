@@ -277,22 +277,34 @@
                             <tr>
                                 <th>Forma de pago</th>
                                 <th>Valor recibida</th>
+                                <th>Observación</th>
                             </tr>
                         </thead>
 
                         <tbody>
                             <tr v-for="payment in payments" v-bind:key="payment.id">
                                 <td>
-                                    <select name="method" v-model="payment.method">
-                                        <option value="tarjeta">Tarjeta</option>
-                                        <option value="credito">Crédito</option>
+                                    <select class="form-control" name="method" v-model="payment.method">
+                                        <option v-for="paymentmethod in availablepaymentmethods" v-bind:key="paymentmethod.id" value="paymentmethod.name">{{paymentmethod.name}}</option>
                                     </select>
                                 </td>
-                                <td>$<input type="number" step="0.01" v-model="payment.value"/></td>
+
+                                <td>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">$</span>
+                                        <input type="number" step="0.01" v-model="payment.value" class="form-control">
+                                    </div>
+                                </td>
+                                
+                                <td>
+                                    <div class="input-group">
+                                        <input type="text" v-model="payment.comment" class="form-control">
+                                    </div>
+                                </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <button @click="addPayment()">Agregar</button>
+                                    <button class="btn btn-secondary" @click="addPayment()">Agregar</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -324,7 +336,7 @@
 
     export default {
 
-        props: ['enrollmentslist', 'feeslist', 'bookslist', 'availablebooks', 'availablefees', 'availableenrollments', 'availablediscounts', 'contactdata'],
+        props: ['enrollmentslist', 'feeslist', 'bookslist', 'availablebooks', 'availablefees', 'availableenrollments', 'availablediscounts', 'contactdata', 'availablepaymentmethods'],
 
         data () {
             return {
@@ -426,7 +438,8 @@
             {
                 let payment = {
                     method: "",
-                    value: this.shoppingCartTotal
+                    value: this.shoppingCartTotal,
+                    comment: ""
                 };
 
                 this.payments.push(payment);

@@ -2083,8 +2083,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['enrollmentslist', 'feeslist', 'bookslist', 'availablebooks', 'availablefees', 'availableenrollments', 'availablediscounts', 'contactdata'],
+  props: ['enrollmentslist', 'feeslist', 'bookslist', 'availablebooks', 'availablefees', 'availableenrollments', 'availablediscounts', 'contactdata', 'availablepaymentmethods'],
   data: function data() {
     return {
       enrollments: this.enrollmentslist || [],
@@ -2153,7 +2165,8 @@ __webpack_require__.r(__webpack_exports__);
     addPayment: function addPayment() {
       var payment = {
         method: "",
-        value: this.shoppingCartTotal
+        value: this.shoppingCartTotal,
+        comment: ""
       };
       this.payments.push(payment);
     },
@@ -4441,6 +4454,7 @@ var render = function() {
                                     expression: "payment.method"
                                   }
                                 ],
+                                staticClass: "form-control",
                                 attrs: { name: "method" },
                                 on: {
                                   change: function($event) {
@@ -4463,44 +4477,84 @@ var render = function() {
                                   }
                                 }
                               },
-                              [
-                                _c("option", { attrs: { value: "tarjeta" } }, [
-                                  _vm._v("Tarjeta")
-                                ]),
-                                _vm._v(" "),
-                                _c("option", { attrs: { value: "credito" } }, [
-                                  _vm._v("Crédito")
-                                ])
-                              ]
+                              _vm._l(_vm.availablepaymentmethods, function(
+                                paymentmethod
+                              ) {
+                                return _c(
+                                  "option",
+                                  {
+                                    key: paymentmethod.id,
+                                    attrs: { value: "paymentmethod.name" }
+                                  },
+                                  [_vm._v(_vm._s(paymentmethod.name))]
+                                )
+                              }),
+                              0
                             )
                           ]),
                           _vm._v(" "),
                           _c("td", [
-                            _vm._v("$"),
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: payment.value,
-                                  expression: "payment.value"
-                                }
-                              ],
-                              attrs: { type: "number", step: "0.01" },
-                              domProps: { value: payment.value },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
+                            _c("div", { staticClass: "input-group" }, [
+                              _c("span", { staticClass: "input-group-addon" }, [
+                                _vm._v("$")
+                              ]),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: payment.value,
+                                    expression: "payment.value"
                                   }
-                                  _vm.$set(
-                                    payment,
-                                    "value",
-                                    $event.target.value
-                                  )
+                                ],
+                                staticClass: "form-control",
+                                attrs: { type: "number", step: "0.01" },
+                                domProps: { value: payment.value },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      payment,
+                                      "value",
+                                      $event.target.value
+                                    )
+                                  }
                                 }
-                              }
-                            })
+                              })
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c("div", { staticClass: "input-group" }, [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: payment.comment,
+                                    expression: "payment.comment"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: { type: "text" },
+                                domProps: { value: payment.comment },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      payment,
+                                      "comment",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ])
                           ])
                         ])
                       }),
@@ -4510,6 +4564,7 @@ var render = function() {
                           _c(
                             "button",
                             {
+                              staticClass: "btn btn-secondary",
                               on: {
                                 click: function($event) {
                                   return _vm.addPayment()
@@ -4696,7 +4751,9 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", [_vm._v("Forma de pago")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Valor recibida")])
+        _c("th", [_vm._v("Valor recibida")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Observación")])
       ])
     ])
   },
