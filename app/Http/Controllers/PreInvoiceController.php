@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Client;
-
 use App\Models\Fee;
 use App\Models\Book;
+
 use App\Models\Cart;
 use App\Models\User;
+use App\Models\Config;
 use App\Models\Course;
+use GuzzleHttp\Client;
 use App\Models\Contact;
 
 use App\Models\Enrollment;
 use App\Models\PreInvoice;
 use Illuminate\Http\Request;
 use App\Models\PreInvoiceDetail;
+use GuzzleHttp\Exception\GuzzleException;
 
 class PreInvoiceController extends Controller
 {
@@ -142,12 +143,12 @@ class PreInvoiceController extends Controller
 
         $client = new Client();
         
-        $serverurl = env('ACCOUNTING_URL');
+        $serverurl = Config::where('name', 'ACCOUNTING_URL')->first()->value;
         
         $response = $client->post($serverurl, [
             'debug' => TRUE,
             'headers' => [
-                'authorization' => env('ACCOUNTING_TOKEN'),
+                'authorization' => Config::where('name', 'ACCOUNTING_TOKEN')->first()->value,
                 'Content-Type' => 'application/json'
             ],
             'json' => $response,
