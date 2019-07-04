@@ -285,7 +285,7 @@
                             <tr v-for="payment in payments" v-bind:key="payment.id">
                                 <td>
                                     <select class="form-control" name="method" v-model="payment.method">
-                                        <option v-for="paymentmethod in availablepaymentmethods" v-bind:key="paymentmethod.id" value="paymentmethod.name">{{paymentmethod.name}}</option>
+                                        <option v-for="paymentmethod in availablepaymentmethods" v-bind:key="paymentmethod.id" value="paymentmethod.code">{{paymentmethod.name}}</option>
                                     </select>
                                 </td>
 
@@ -451,7 +451,7 @@
                 this.enrollments.forEach(element => {
                     let enrollment = {
                         codinventario: element.course.rhythm.product_code,
-                        codbodega: "PRIN",
+                        codbodega: "MAT",
                         cantidad: 1,
                         descuento: this.totalDiscount,
                         iva: 0.12,
@@ -466,7 +466,7 @@
                 this.books.forEach(element => {
                     let book = {
                         codinventario: element.product_code,
-                        codbodega: "BOOK",
+                        codbodega: "MAT",
                         cantidad: 1,
                         descuento: 0,
                         iva: 0.12,
@@ -481,7 +481,7 @@
                 this.fees.forEach(element => {
                     let fee = {
                         codinventario: element.product_code,
-                        codbodega: "FEE",
+                        codbodega: "MAT",
                         cantidad: 1,
                         descuento: 0,
                         iva: 0.12,

@@ -129,7 +129,9 @@ Route::group(
     ['middleware' => ['web', 'permission:enrollments.create', 'language']],
     function () {
     
-    Route::get('enrollments/{enrollment}/bill', 'EnrollmentController@bill'); // temporary
+    //Route::get('enrollments/{enrollment}/bill', 'EnrollmentController@bill'); // new
+
+    Route::get('enrollments/{enrollment}/bill', 'EnrollmentController@quickbill'); // temporary
     Route::post('preinvoice', 'EnrollmentController@quickInvoice')->name('quickInvoice'); // temporary
 
     Route::post('checkout', 'PreInvoiceController@store');

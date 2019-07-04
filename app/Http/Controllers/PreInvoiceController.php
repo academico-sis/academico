@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Client;
+
 use App\Models\Fee;
 use App\Models\Book;
 use App\Models\Cart;
 use App\Models\User;
 use App\Models\Course;
 use App\Models\Contact;
-use App\Models\Enrollment;
 
+use App\Models\Enrollment;
 use App\Models\PreInvoice;
 use Illuminate\Http\Request;
 use App\Models\PreInvoiceDetail;
@@ -108,7 +111,7 @@ class PreInvoiceController extends Controller
         {
             $ivkardex[$p] = [
                 "codinventario" => $product['codinventario'],
-                "codbodega" => "PRIN",
+                "codbodega" => "MAT",
                 "cantidad" => 1,
                 "descuento" => $product['descuento'],
                 "iva" => 0.12,
@@ -137,15 +140,26 @@ class PreInvoiceController extends Controller
             "pckardex" => $pckardex,
         ];
 
-
-        return response()->json($response);
+        $client = new Client();
+        
+        $serverurl = 'http://192.168.100.12:81/api/v1/grabarpedido';
+        
+        $response = $client->post($serverurl, [
+            'debug' => TRUE,
+            'headers' => [
+                'authorization' => 'SmFSby4yMDE3',
+                'Content-Type' => 'application/json'
+            ],
+            'json' => $response,
+            
+          ]);
 
         // receive the confirmation
 
         // mark the preinvoice and associated enrollments as paid.
         foreach($preinvoice->enrollments as $enrollment)
         {
-            $enrollment->markAsPaid();
+            //$enrollment->markAsPaid();
         }
 
         // show a confirmation

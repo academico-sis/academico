@@ -15,6 +15,7 @@ class CreatePaymentmethodsTable extends Migration
         Schema::create('paymentmethods', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->unique();
+            $table->string('code')->unique();
             $table->timestamps();
         });
     }

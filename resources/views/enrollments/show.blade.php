@@ -151,7 +151,7 @@
 </div>
 
 @if ($enrollment->pre_invoice()->count() > 0)
-    @include('invoices.show')
+    {{-- @include('invoices.show') --}}
 @endif
 
 @endsection

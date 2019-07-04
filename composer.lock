@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "5a28245aeb08e2d0b28645b504fd91d2",
+    "content-hash": "8976fcee517cbe7c6721bc69fa22583a",
     "packages": [
         {
             "name": "akaunting/language",

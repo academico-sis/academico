@@ -19,7 +19,7 @@ class Paymentmethod extends Model
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     // protected $guarded = ['id'];
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'code'];
     // protected $hidden = [];
     // protected $dates = [];
 
