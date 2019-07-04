@@ -52,7 +52,7 @@ class PreInvoiceController extends Controller
             PreInvoiceDetail::create([
                 'pre_invoice_id' => $preinvoice->id,
                 'product_name' => $enrollment['course']['name'], // todo
-                'product_code' => $enrollment['course']['id'], // todo
+                'product_code' => $enrollment['course']['product_code'],
                 'product_id' => $enrollment['id'],
                 'product_type' => Enrollment::class,
                 'price' => $enrollment['course']['price']
@@ -67,7 +67,7 @@ class PreInvoiceController extends Controller
             PreInvoiceDetail::create([
                 'pre_invoice_id' => $preinvoice->id,
                 'product_name' => $fee['name'],
-                'product_code' => $fee['id'], // todo
+                'product_code' => $fee['product_code'],
                 'product_id' => $fee['id'],
                 'product_type' => Fee::class,
                 'price' => $fee['price']
@@ -79,7 +79,7 @@ class PreInvoiceController extends Controller
             PreInvoiceDetail::create([
                 'pre_invoice_id' => $preinvoice->id,
                 'product_name' => $book['name'],
-                'product_code' => $book['id'], // todo
+                'product_code' => $book['product_code'],
                 'product_id' => $book['id'],
                 'product_type' => Book::class,
                 'price' => $book['price']
@@ -106,9 +106,8 @@ class PreInvoiceController extends Controller
 
         foreach($request->products as $p => $product)
         {
-            
             $ivkardex[$p] = [
-                "codinventario" => "580005",
+                "codinventario" => $product['codinventario'],
                 "codbodega" => "PRIN",
                 "cantidad" => 1,
                 "descuento" => $product['descuento'],

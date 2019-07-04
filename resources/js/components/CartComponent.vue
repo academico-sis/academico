@@ -408,7 +408,7 @@
 
             discount(price)
             {
-                return price * this.totalDiscount;
+                return price * (this.totalDiscount/100);
             },
 
             selectStudentData()
@@ -450,10 +450,10 @@
 
                 this.enrollments.forEach(element => {
                     let enrollment = {
-                        codinventario: element.id, // todo
+                        codinventario: element.course.rhythm.product_code,
                         codbodega: "PRIN",
                         cantidad: 1,
-                        descuento: this.discount(element.course.price),
+                        descuento: this.totalDiscount,
                         iva: 0.12,
                         preciototal: element.course.price / 1.12, // sin descuento (precio * cantidad) Y SIN IVA
                         valoriva: -((element.course.price / 1.12) - element.course.price)
@@ -465,7 +465,7 @@
 
                 this.books.forEach(element => {
                     let book = {
-                        codinventario: element.id, // todo
+                        codinventario: element.product_code,
                         codbodega: "BOOK",
                         cantidad: 1,
                         descuento: 0,
@@ -480,7 +480,7 @@
 
                 this.fees.forEach(element => {
                     let fee = {
-                        codinventario: element.id, // todo
+                        codinventario: element.product_code,
                         codbodega: "FEE",
                         cantidad: 1,
                         descuento: 0,
@@ -530,9 +530,6 @@
                 }
                 return total;
 
-                /* this.books.map(item => parseFloat(item.price)).reduce((total, amount) => total + amount)
-                +this.fees.map(item => parseFloat(item.price)).reduce((total, amount) => total + amount)
-                +this.enrollments.map(item => parseFloat(item.course.price)).reduce((total, amount) => total + amount); */
             },
 
             paidTotal()
@@ -550,7 +547,7 @@
                 let total = 0;
                 if(this.discounts) {
                     this.discounts.forEach(discount => {
-                        total += parseFloat(discount.value)/100;
+                        total += parseFloat(discount.value);
                     });
                 }
                 

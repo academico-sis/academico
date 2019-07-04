@@ -2142,7 +2142,7 @@ __webpack_require__.r(__webpack_exports__);
       this.discounts.splice(index, 1);
     },
     discount: function discount(price) {
-      return price * this.totalDiscount;
+      return price * (this.totalDiscount / 100);
     },
     selectStudentData: function selectStudentData() {
       this.clientname = this.enrollments[0].student.user.firstname + ' ' + this.enrollments[0].student.user.lastname;
@@ -2175,11 +2175,10 @@ __webpack_require__.r(__webpack_exports__);
 
       this.enrollments.forEach(function (element) {
         var enrollment = {
-          codinventario: element.id,
-          // todo
+          codinventario: element.course.rhythm.product_code,
           codbodega: "PRIN",
           cantidad: 1,
-          descuento: _this.discount(element.course.price),
+          descuento: _this.totalDiscount,
           iva: 0.12,
           preciototal: element.course.price / 1.12,
           // sin descuento (precio * cantidad) Y SIN IVA
@@ -2190,8 +2189,7 @@ __webpack_require__.r(__webpack_exports__);
       });
       this.books.forEach(function (element) {
         var book = {
-          codinventario: element.id,
-          // todo
+          codinventario: element.product_code,
           codbodega: "BOOK",
           cantidad: 1,
           descuento: 0,
@@ -2205,8 +2203,7 @@ __webpack_require__.r(__webpack_exports__);
       });
       this.fees.forEach(function (element) {
         var fee = {
-          codinventario: element.id,
-          // todo
+          codinventario: element.product_code,
           codbodega: "FEE",
           cantidad: 1,
           descuento: 0,
@@ -2257,9 +2254,6 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       return total;
-      /* this.books.map(item => parseFloat(item.price)).reduce((total, amount) => total + amount)
-      +this.fees.map(item => parseFloat(item.price)).reduce((total, amount) => total + amount)
-      +this.enrollments.map(item => parseFloat(item.course.price)).reduce((total, amount) => total + amount); */
     },
     paidTotal: function paidTotal() {
       var total = 0;
@@ -2277,7 +2271,7 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.discounts) {
         this.discounts.forEach(function (discount) {
-          total += parseFloat(discount.value) / 100;
+          total += parseFloat(discount.value);
         });
       }
 

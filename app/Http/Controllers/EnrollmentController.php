@@ -79,7 +79,7 @@ class EnrollmentController extends Controller
 
         Log::info(backpack_user()->firstname . ' is generating a preinvoice');
 
-        $enrollments = Enrollment::where('id', $enrollment->id)->get();
+        $enrollments = Enrollment::where('id', $enrollment->id)->with('course.rhythm')->get();
         $books = $enrollment->course->books ?? [];
         $fees = Fee::first()->get();
 
