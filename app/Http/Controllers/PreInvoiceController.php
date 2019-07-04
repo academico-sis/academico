@@ -142,12 +142,12 @@ class PreInvoiceController extends Controller
 
         $client = new Client();
         
-        $serverurl = 'http://192.168.100.12:81/api/v1/grabarpedido';
+        $serverurl = env('ACCOUNTING_URL');
         
         $response = $client->post($serverurl, [
             'debug' => TRUE,
             'headers' => [
-                'authorization' => 'SmFSby4yMDE3',
+                'authorization' => env('ACCOUNTING_TOKEN'),
                 'Content-Type' => 'application/json'
             ],
             'json' => $response,
