@@ -55,7 +55,7 @@
     <a href="#"><i class="fa fa-link"></i> <span>@lang('Invoicing')</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
     <ul class="treeview-menu">
         <li><a href='{{ backpack_url('discount') }}'><i class='fa fa-percent'></i> <span>@lang('Discounts')</span></a></li>
-        <li><a href='{{ backpack_url('coupon') }}'><i class='fa fa-dollar'></i> <span>@lang('Coupons')</span></a></li>
+        <li><a href='{{ backpack_url('fee') }}'><i class='fa fa-dollar'></i> <span>@lang('Fees')</span></a></li>
         <li><a href='{{ backpack_url('paymentmethod') }}'><i class='fa fa-dollar'></i> <span>@lang('Payment methods')</span></a></li>
     </ul>
   </li>
