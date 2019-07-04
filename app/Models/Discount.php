@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\DiscountType;
 use Backpack\CRUD\CrudTrait;
+use Illuminate\Database\Eloquent\Model;
 
-class Book extends Model
+class Discount extends Model
 {
     use CrudTrait;
 
@@ -15,11 +16,11 @@ class Book extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'books';
+    protected $table = 'discounts';
     // protected $primaryKey = 'id';
-    public $timestamps = false;
+    // public $timestamps = false;
     protected $guarded = ['id'];
-    // protected $fillable = [];
+    //protected $fillable = [];
     // protected $hidden = [];
     // protected $dates = [];
 

@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\CrudTrait;
 
-class Book extends Model
+class Paymentmethod extends Model
 {
     use CrudTrait;
 
@@ -15,11 +15,11 @@ class Book extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'books';
+    protected $table = 'paymentmethods';
     // protected $primaryKey = 'id';
-    public $timestamps = false;
-    protected $guarded = ['id'];
-    // protected $fillable = [];
+    // public $timestamps = false;
+    // protected $guarded = ['id'];
+    protected $fillable = ['name', 'code'];
     // protected $hidden = [];
     // protected $dates = [];
 

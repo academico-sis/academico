@@ -129,22 +129,16 @@ Route::group(
     ['middleware' => ['web', 'permission:enrollments.create', 'language']],
     function () {
     
-    Route::get('enrollments/{enrollment}/bill', 'EnrollmentController@quickBill'); // temporary
+    //Route::get('enrollments/{enrollment}/bill', 'EnrollmentController@bill'); // new
+
+    Route::get('enrollments/{enrollment}/bill', 'EnrollmentController@quickbill'); // temporary
     Route::post('preinvoice', 'EnrollmentController@quickInvoice')->name('quickInvoice'); // temporary
-/* 
-    Route::get('cart/{id}', 'CartController@show'); // todo
-    Route::delete('cart/{id}', 'CartController@destroy'); // todo
 
-    Route::post('cart/{student}/checkout', 'PreInvoiceController@store'); // todo
+    Route::post('checkout', 'PreInvoiceController@store');
+ 
+    Route::delete('cart', 'CartController@destroy');
 
-    // add an enrollment to the cart for checkout
-    Route::post('product', 'ProductController@store'); // todo
-
-    // remove something from the cart
-    Route::delete('product', 'ProductController@destroy'); // todo
-
-    // Preinvoices management
-    Route::patch('invoice/{preInvoice}', 'PreInvoiceController@update'); // todo */
+    Route::patch('invoice/{preInvoice}', 'PreInvoiceController@update'); // todo
 });
 
 

@@ -24,7 +24,8 @@ class Enrollment extends Model
     use SoftDeletes;
 
     protected $fillable = ['student_id', 'course_id', 'parent_id', 'status_id'];
-    protected $append = ['childrenEnrollments'];
+    protected $append = ['childrenEnrollments', 'productCode'];
+    protected $with = ['student', 'course'];
 
     protected static function boot()
     {
@@ -119,6 +120,12 @@ class Enrollment extends Model
     public function changeCourse(Course $newCourse)
     {
         $this->course_id = $newCourse->id;
+        $this->save();
+    }
+
+    public function markAsPaid()
+    {
+        $this->status_id = 2;
         $this->save();
     }
 
@@ -228,6 +235,11 @@ class Enrollment extends Model
     public function getStatusAttribute()
     {
         return $this->enrollmentStatus->name;
+    }
+
+    public function getProductCodeAttribute()
+    {
+        return $this->course->rhythm->product_code;
     }
 
     

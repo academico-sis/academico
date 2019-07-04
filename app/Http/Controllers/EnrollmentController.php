@@ -1,18 +1,23 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Fee;
 
+use App\Models\Book;
 use App\Models\Cart;
 use App\Models\Course;
 use App\Models\Comment;
 use App\Models\Student;
+use App\Models\Discount;
 use App\Models\Enrollment;
 use App\Models\PreInvoice;
 use Illuminate\Http\Request;
+use App\Models\Paymentmethod;
 use App\Traits\PeriodSelection;
 use App\Models\PreInvoiceDetail;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Session;
 
 
 class EnrollmentController extends Controller
@@ -66,23 +71,26 @@ class EnrollmentController extends Controller
 
 
     /**
-     * Show the page for billing the specified enrollment
+     * Create a new cart with the specified enrollment
+     * and display the cart
      */
     public function bill(Enrollment $enrollment)
     {
 
-        // if the current enrollment is not part of the cart, add it
-        $enrollment->addToCart();
+        Log::info(backpack_user()->firstname . ' is generating a preinvoice');
 
-        // add default other products: enrollment fee + books associated to the course, if any (and if they do not already exist in the cart)
-        Cart::add_default_products($enrollment->student_id);
+        $enrollments = Enrollment::where('id', $enrollment->id)->with('course.rhythm')->get();
+        $books = $enrollment->course->books ?? [];
+        $fees = Fee::first()->get();
 
-        // the pending products (if any) will also be retrieved from the DB
-        $products = Cart::where('user_id', $enrollment->student->user->id)->get();
+        $availableBooks = Book::all();
+        $availableFees = Fee::all();
+        $availableEnrollments = Enrollment::where('status_id', 1)->with('student')->with('course')->get();
+        $availableDiscounts = Discount::all();
+        $contactData = $enrollment->student->contacts;
+        $availablePaymentMethods = Paymentmethod::all();
 
-        // show the cart for the user
-        $id = $enrollment->student->user->id;
-        return redirect("cart/$id");
+        return view('carts.show', compact('enrollments', 'fees', 'books', 'availableBooks', 'availableFees', 'availableEnrollments', 'availableDiscounts', 'contactData', 'availablePaymentMethods'));
     }
 
     /** this method is temporary. It serves as a shortcut until the invoicing system is in place */
@@ -96,7 +104,6 @@ class EnrollmentController extends Controller
     public function quickInvoice(Request $request)
     {
 
-        Log::info(backpack_user()->firstname . ' is (quick) invoicing enrollment ' . $request->input('enrollment_id'));
 
         // get the invoice number and the comment
         $invoice_number = $request->input('invoice_number');
@@ -110,7 +117,6 @@ class EnrollmentController extends Controller
 
         // create a preinvoice with this enrollment
         $preinvoice = new PreInvoice;
-        $preinvoice->user_id = $enrollment->student->id;
         $preinvoice->client_name = $enrollment->student->name;
         $preinvoice->client_idnumber =  $enrollment->student->idnumber;
         $preinvoice->client_address = $enrollment->student->address;

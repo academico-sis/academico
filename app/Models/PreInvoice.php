@@ -14,6 +14,8 @@ class PreInvoice extends Model
     use SoftDeletes;
     use CrudTrait;
 
+    protected $guarded = ['id'];
+
     public function pre_invoice_details()
     {
         return $this->hasMany(PreInvoiceDetail::class);
@@ -22,11 +24,6 @@ class PreInvoice extends Model
     public function enrollments()
     {
         return $this->belongsToMany(Enrollment::class, 'enrollment_pre_invoice', 'pre_invoice_id', 'enrollment_id');
-    }
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
     }
     
     public function comments()

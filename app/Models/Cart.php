@@ -2,44 +2,60 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Cart extends Model
+class CartProduct
 {
 
-    protected $fillable = ['user_id', 'product_id', 'product_type'];
+    public $items = null;
+    public $totalQty = 0;
+    public $totalPrice = 0;
 
-    /** This method allows to define "default" products that will need to be added to every cart
-     * For instance, in our case, an administrative Fee (seeded in the DB with the ID of 1)
-     */
-    public static function add_default_products($student)
-    {
-        $product = Cart::firstOrNew([
-            'user_id' => $student,
-            'product_id' => 1,
-            'product_type' => Fee::class
-        ]);
-
-        $product->save();
-        return $product->id;
+    public function __construct($oldcart) {
+        if ($oldcart) {
+            $this->items = $oldcart->items;
+            $this->totalQty = $oldcart->totalQty;
+            $this->totalPrice = $oldcart->totalPrice;
+        }
     }
 
-    /** returns the products added to the specified user's cart */
-    public static function get_user_cart($id)
-    {
-        return Cart::where('user_id', $id)->with('product')->get();
+    public function add($item) {
+        $storedItem = [
+          'code' => $item->code,
+          'price' => $item->price,
+          'item' => $item->name,
+          
+        ];
+
+        if ($this->items) {
+            if (array_key_exists($id, $this->items)) {
+                $storedItem = $this->items[$id];
+            }
+        }
+        $storedItem['qty']++;
+        $storedItem['price'] = $item->price * $storedItem['qty'];
+        $this->items[$id] = $storedItem;
+        $this->totalQty++;
+        $this->totalPrice += $item->price;
     }
 
-    /** we use a polymorphic relation because a Cart model can be linked to an enrollment, a book, a fee... */
-    public function product()
-    {
-        return $this->morphTo();
+
+    public function remove($id) {
+        $this->items[$id]['qty']--;
+        $this->items[$id]['price'] -= $this->items[$id]['item']['price'];
+        $this->totalQty--;
+        $this->totalPrice -= $this->items[$id]['item']['price'];
+        if ($this->items[$id]['qty'] <= 0) {
+          unset($this->items[$id]);
+          return;
+        }
     }
 
-    /** triggered when the billing process has been completed  */
-    public static function clear_cart_for_user($id)
-    {
-        Cart::where('user_id', $id)->delete();
-    }
+
+
+        public function destroy($id) {
+          $this->totalQty -= $this->items[$id]['qty'];
+          $this->totalPrice -= $this->items[$id]['price'];
+          unset($this->items[$id]);
+        }
+
 
 }

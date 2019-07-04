@@ -11,72 +11,51 @@
 
 @section('content')
 
-<div class="row">
 
-    <div class="col-md-4">
-            <div class="box">
-                <div class="box-header with-border">
-                    <div class="box-title">
-                        @lang('Student Info')
-                    </div>
-                    <div class="box-tools pull-right">
-
-                            <form action="/cart/{{$student->id}}/checkout" method="POST">
-                                @csrf
-                                <button type="submit" class="btn btn-success"><i class="fa fa-dollar"></i>@lang('Continue with this contact information')</button>
-                            </form>
-
-
-                    </div>
-                </div>
-                
-                <div class="box-body">
-                    @include('students.student_info')
-                </div>
-            </div>
-        </div>
-
-        @foreach ($student->contacts as $contact)
-        <div class="col-md-4">
-                <div class="box">
-                    <div class="box-header with-border">
-                        <div class="box-title">
-                            @lang('Additional Contact')
-                            {{ $contact->relationship }}
-                        </div>
-    
-                        <div class="box-tools pull-right">
-
-                            <form action="/cart/{{$student->id}}/checkout" method="POST">
-                                @csrf
-                                <input type="hidden" name="invoice_data" value="{{$contact->id}}">
-                                <button type="submit" class="btn btn-success"><i class="fa fa-dollar"></i>@lang('Continue with this contact information')</button>
-                            </form>
-
-
-                        </div>
-                    </div>
-                    
-                    <div class="box-body">
-                        @include('students.additional_info')
-                    </div>
-                </div>
-            </div>
-        @endforeach
-
-</div>
-
-<div class="row" id="app">
-    <div class="col-lg-8">
+<div id="app">
+        
         <cart-component
-            :products="{{ json_encode($products) }}">
+            :enrollmentslist="{{ json_encode($enrollments) }}"
+            :bookslist="{{ json_encode($books) }}"
+            :feeslist="{{ json_encode($fees) }}"
+            :availablebooks="{{ json_encode($availableBooks) }}"
+            :availablefees="{{ json_encode($availableFees) }}"
+            :availableenrollments="{{ json_encode($availableEnrollments) }}"
+            :availablediscounts="{{ json_encode($availableDiscounts) }}"
+            :contactdata="{{ json_encode($contactData) }}"
+            :availablepaymentmethods="{{ json_encode($availablePaymentMethods) }}"
+
+        >
         </cart-component>
-    </div>
+
 </div>
 
 @endsection
+
+    {{-- FIELD CSS - will be loaded in the after_styles section --}}
+    @push('crud_fields_styles')
+    <!-- include select2 css-->
+    <link href="{{ asset('vendor/adminlte/bower_components/select2/dist/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css" rel="stylesheet" type="text/css" />
+    @endpush
+
+    {{-- FIELD JS - will be loaded in the after_scripts section --}}
+    @push('crud_fields_scripts')
+    <!-- include select2 js-->
+    <script src="{{ asset('vendor/adminlte/bower_components/select2/dist/js/select2.min.js') }}"></script>
+    @endpush
 
 
 @section('after_scripts')
     <script src="/js/app.js"></script>
 @endsection
+
+
+<!-- include field specific select2 js-->
+@push('crud_fields_scripts')
+<script>
+    jQuery(document).ready(function($) {
+        $('.js-example-basic-single').select2();
+    });
+</script>
+@endpush

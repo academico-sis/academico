@@ -2,15 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PreInvoice;
-use App\Models\Contact;
-use App\Models\User;
-use App\Models\Cart;
-use App\Models\PreInvoiceDetail;
-use App\Models\Course;
-use App\Models\Enrollment;
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Client;
 
+use App\Models\Fee;
+use App\Models\Book;
+use App\Models\Cart;
+use App\Models\User;
+use App\Models\Course;
+use App\Models\Contact;
+
+use App\Models\Enrollment;
+use App\Models\PreInvoice;
 use Illuminate\Http\Request;
+use App\Models\PreInvoiceDetail;
 
 class PreInvoiceController extends Controller
 {
@@ -25,77 +30,139 @@ class PreInvoiceController extends Controller
      * Create a preinvoice based on the cart contents for the specified user
      * Receive in the request: the user ID + the invoice data.
      */
-    public function store($student, Request $request)
+    public function store(Request $request)
     {
+        
+        $ivkardex = [];
+        $pckardex = [];
 
-        // ensure that there are any products in the cart
-        if (Cart::where('user_id', $student)->count() == 0)
+        // receive the client data and generate the preinvoice with status = pending
+
+        $preinvoice = PreInvoice::create([
+            'client_name' => $request->client_name,
+            'client_idnumber' => $request->client_idnumber,
+            'client_address' => $request->client_address,
+            'client_email' => $request->client_email,
+            'total_price' => $request->total_price,
+        ]);
+
+        // receive the list of products and generate the preinvoice details
+
+        foreach($request->enrollments as $e => $enrollment)
         {
-            return "The cart has no item"; // todo translate this
+            $enrollment = Enrollment::find($enrollment['id']);
+
+            PreInvoiceDetail::create([
+                'pre_invoice_id' => $preinvoice->id,
+                'product_name' => $enrollment['course']['name'], // todo
+                'product_code' => $enrollment['course']['product_code'],
+                'product_id' => $enrollment['id'],
+                'product_type' => Enrollment::class,
+                'price' => $enrollment['course']['price']
+            ]);
+
+            $preinvoice->enrollments()->attach($enrollment);
+
         }
 
-        // retrieve which data to use for the invoice
-
-        if ($request->input('invoice_data') !== null)
+        foreach($request->fees as $f => $fee)
         {
-            $invoice_data = Contact::findOrFail($request->input('invoice_data'));
-        }
-        else
-        {
-            $invoice_data = User::findOrFail($student);
-        }
-
-
-        // generate a new preinvoice
-        $preinvoice = new PreInvoice;
-        $preinvoice->user_id = $student;
-        $preinvoice->client_name = $invoice_data->name;
-        $preinvoice->client_idnumber =  $invoice_data->idnumber;
-        $preinvoice->client_address = $invoice_data->address;
-        $preinvoice->client_email = $invoice_data->email;
-        $preinvoice->total_price = 0;
-        $preinvoice->save();
-
-        $cart = Cart::get_user_cart($student);
-
-        // for each product in the cart
-        foreach ($cart as $product)
-        {
-            // generate a preinvoice product (detail)
-            $detail = new PreInvoiceDetail;
-            $detail->pre_invoice_id = $preinvoice->id;
-            $detail->product_name = $product->product->name ?? 'product without name'; // todo fix this
-            $detail->price = $product->product->price ?? 0; // todo fix this
-
-            $detail->save();
-
-            // mark the enrollment(s) as paid.
-            // link the enrollment(s) to the newly ceated preinvoice
-            if($product->product_type == Enrollment::class)
-            {
-                $enrollment = Enrollment::find($product->product_id);
-                $enrollment->status_id = 2;
-                $enrollment->save();
-
-                if($enrollment->childrenEnrollments->count() > 0)
-                {
-                    foreach ($enrollment->childrenEnrollments as $child_enrollment)
-                    {
-                        $child_enrollment->status_id = 2;
-                        $child_enrollment->save();
-                    }
-                }
-
-                
-                $preinvoice->enrollments()->attach($enrollment);
-            }
+            PreInvoiceDetail::create([
+                'pre_invoice_id' => $preinvoice->id,
+                'product_name' => $fee['name'],
+                'product_code' => $fee['product_code'],
+                'product_id' => $fee['id'],
+                'product_type' => Fee::class,
+                'price' => $fee['price']
+            ]);
         }
 
-        // clear the cart
-        // TODO clear cart only if every preceding step has been completed (try-catch)
-        Cart::clear_cart_for_user($student);
+        foreach($request->books as $b => $book)
+        {
+            PreInvoiceDetail::create([
+                'pre_invoice_id' => $preinvoice->id,
+                'product_name' => $book['name'],
+                'product_code' => $book['product_code'],
+                'product_id' => $book['id'],
+                'product_type' => Book::class,
+                'price' => $book['price']
+            ]);
+        }
 
-        return redirect("/preinvoice/" . $preinvoice->id);
+
+        // send the details to Accounting
+
+
+        foreach($request->payments as $p => $payment)
+        {
+            
+            $pckardex[$p] = [
+            "codforma" => $payment['method'],
+            "valor" => $payment['value'],
+            "fechaemision" => $preinvoice->created_at,
+            "fechavenci" => $preinvoice->created_at,
+            "observacion" => $payment['comment'],
+            "codprovcli" => "1790017478001" // todo
+            ];
+
+        }
+
+        foreach($request->products as $p => $product)
+        {
+            $ivkardex[$p] = [
+                "codinventario" => $product['codinventario'],
+                "codbodega" => "MAT",
+                "cantidad" => 1,
+                "descuento" => $product['descuento'],
+                "iva" => 0.12,
+                "preciototal" => $product['preciototal'],
+                "valoriva" => $product['preciototal'] * 0.12
+            ];
+
+        }
+
+
+
+        $response = [
+            "codtrans" => "OP", // ?
+            "numtrans" => $preinvoice->id,
+            "fechatrans" => $preinvoice->created_at,
+            "horatrans" => $preinvoice->created_at,
+            "descripcion" => "Factura generada desda la plataforma academica",
+            "codusuario" => backpack_user()->firstname . " " . backpack_user()->lastname, 
+            "codprovcli" => $preinvoice->client_idnumber, // si existe, se busca el cliente. Si no lo creamos.
+            "nombre" => $preinvoice->client_name,
+            "direccion" => $preinvoice->client_address,
+            "telefono" => "", // TODO
+            "email" => $preinvoice->client_email,
+            "codvendedor" => "", // cual es la diferencia con codusuario?
+            "ivkardex" => $ivkardex,
+            "pckardex" => $pckardex,
+        ];
+
+        $client = new Client();
+        
+        $serverurl = env('ACCOUNTING_URL');
+        
+        $response = $client->post($serverurl, [
+            'debug' => TRUE,
+            'headers' => [
+                'authorization' => env('ACCOUNTING_TOKEN'),
+                'Content-Type' => 'application/json'
+            ],
+            'json' => $response,
+            
+          ]);
+
+        // receive the confirmation
+
+        // mark the preinvoice and associated enrollments as paid.
+        foreach($preinvoice->enrollments as $enrollment)
+        {
+            //$enrollment->markAsPaid();
+        }
+
+        // show a confirmation
     }
 
 
