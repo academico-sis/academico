@@ -454,9 +454,7 @@
                         codbodega: "MAT",
                         cantidad: 1,
                         descuento: this.totalDiscount,
-                        iva: 0.12,
-                        preciototal: element.course.price / 1.12, // sin descuento (precio * cantidad) Y SIN IVA
-                        valoriva: -((element.course.price / 1.12) - element.course.price)
+                        preciototal: element.course.price,
                     };
 
                     this.products.push(enrollment);
@@ -469,9 +467,7 @@
                         codbodega: "MAT",
                         cantidad: 1,
                         descuento: 0,
-                        iva: 0.12,
-                        preciototal: element.price / 1.12, // sin descuento (precio * cantidad) Y SIN IVA
-                        valoriva: -((element.price / 1.12) - element.price)
+                        preciototal: element.price, // sin descuento (precio * cantidad)
                     };
 
                     this.products.push(book);
@@ -484,9 +480,7 @@
                         codbodega: "MAT",
                         cantidad: 1,
                         descuento: 0,
-                        iva: 0.12,
-                        preciototal: element.price / 1.12, // sin descuento (precio * cantidad) Y SIN IVA
-                        valoriva: -((element.price / 1.12) - element.price)
+                        preciototal: element.price, // sin descuento (precio * cantidad)
                     };
 
                     this.products.push(fee);

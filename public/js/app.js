@@ -2176,13 +2176,10 @@ __webpack_require__.r(__webpack_exports__);
       this.enrollments.forEach(function (element) {
         var enrollment = {
           codinventario: element.course.rhythm.product_code,
-          codbodega: "PRIN",
+          codbodega: "MAT",
           cantidad: 1,
           descuento: _this.totalDiscount,
-          iva: 0.12,
-          preciototal: element.course.price / 1.12,
-          // sin descuento (precio * cantidad) Y SIN IVA
-          valoriva: -(element.course.price / 1.12 - element.course.price)
+          preciototal: element.course.price
         };
 
         _this.products.push(enrollment);
@@ -2190,13 +2187,11 @@ __webpack_require__.r(__webpack_exports__);
       this.books.forEach(function (element) {
         var book = {
           codinventario: element.product_code,
-          codbodega: "BOOK",
+          codbodega: "MAT",
           cantidad: 1,
           descuento: 0,
-          iva: 0.12,
-          preciototal: element.price / 1.12,
-          // sin descuento (precio * cantidad) Y SIN IVA
-          valoriva: -(element.price / 1.12 - element.price)
+          preciototal: element.price // sin descuento (precio * cantidad)
+
         };
 
         _this.products.push(book);
@@ -2204,13 +2199,11 @@ __webpack_require__.r(__webpack_exports__);
       this.fees.forEach(function (element) {
         var fee = {
           codinventario: element.product_code,
-          codbodega: "FEE",
+          codbodega: "MAT",
           cantidad: 1,
           descuento: 0,
-          iva: 0.12,
-          preciototal: element.price / 1.12,
-          // sin descuento (precio * cantidad) Y SIN IVA
-          valoriva: -(element.price / 1.12 - element.price)
+          preciototal: element.price // sin descuento (precio * cantidad)
+
         };
 
         _this.products.push(fee);
@@ -4478,7 +4471,7 @@ var render = function() {
                                   "option",
                                   {
                                     key: paymentmethod.id,
-                                    attrs: { value: "paymentmethod.name" }
+                                    attrs: { value: "paymentmethod.code" }
                                   },
                                   [_vm._v(_vm._s(paymentmethod.name))]
                                 )

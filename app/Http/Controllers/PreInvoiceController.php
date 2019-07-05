@@ -103,7 +103,7 @@ class PreInvoiceController extends Controller
             "fechaemision" => $preinvoice->created_at,
             "fechavenci" => $preinvoice->created_at,
             "observacion" => $payment['comment'],
-            "codprovcli" => "1790017478001" // todo
+            "codprovcli" => $request->client_idnumber,
             ];
 
         }
@@ -115,9 +115,9 @@ class PreInvoiceController extends Controller
                 "codbodega" => "MAT",
                 "cantidad" => 1,
                 "descuento" => $product['descuento'],
-                "iva" => 0.12,
+                "iva" => 0,
                 "preciototal" => $product['preciototal'],
-                "valoriva" => $product['preciototal'] * 0.12
+                "valoriva" => 0
             ];
 
         }
@@ -129,14 +129,14 @@ class PreInvoiceController extends Controller
             "numtrans" => $preinvoice->id,
             "fechatrans" => $preinvoice->created_at,
             "horatrans" => $preinvoice->created_at,
-            "descripcion" => "Factura generada desda la plataforma academica",
-            "codusuario" => backpack_user()->firstname . " " . backpack_user()->lastname, 
+            "descripcion" => "Facturado desde el academico por " . backpack_user()->firstname . " " . backpack_user()->lastname,
+            "codusuario" => "web", 
             "codprovcli" => $preinvoice->client_idnumber, // si existe, se busca el cliente. Si no lo creamos.
             "nombre" => $preinvoice->client_name,
             "direccion" => $preinvoice->client_address,
             "telefono" => "", // TODO
             "email" => $preinvoice->client_email,
-            "codvendedor" => "", // cual es la diferencia con codusuario?
+            "codvendedor" => "",
             "ivkardex" => $ivkardex,
             "pckardex" => $pckardex,
         ];
@@ -155,6 +155,7 @@ class PreInvoiceController extends Controller
             
           ]);
 
+        return $response;
         // receive the confirmation
 
         // mark the preinvoice and associated enrollments as paid.
