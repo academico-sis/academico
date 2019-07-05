@@ -2220,6 +2220,8 @@ __webpack_require__.r(__webpack_exports__);
         client_address: this.clientaddress,
         client_email: this.clientemail,
         total_price: this.shoppingCartTotal
+      }).then(window.location.href = '/')["catch"](function (e) {
+        _this.errors.push(e);
       });
     }
   },

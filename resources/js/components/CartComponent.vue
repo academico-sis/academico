@@ -500,7 +500,14 @@
                     client_address: this.clientaddress,
                     client_email: this.clientemail,
                     total_price: this.shoppingCartTotal,
-                });
+                })
+                .then(
+                    window.location.href = '/'
+                )
+                .catch(e => {
+                        this.errors.push(e)
+                    }
+                );
             }
 
         },
