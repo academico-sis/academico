@@ -448,6 +448,8 @@
             finish()
             {
 
+                this.products = [];
+
                 this.enrollments.forEach(element => {
                     let enrollment = {
                         codinventario: element.course.rhythm.product_code,

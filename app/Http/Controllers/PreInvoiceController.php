@@ -124,7 +124,7 @@ class PreInvoiceController extends Controller
 
 
 
-        $response = [
+        $body = [
             "codtrans" => "OP", // ?
             "numtrans" => $preinvoice->id,
             "fechatrans" => $preinvoice->created_at,
@@ -145,26 +145,33 @@ class PreInvoiceController extends Controller
         
         $serverurl = Config::where('name', 'ACCOUNTING_URL')->first()->value;
         
-        $response = $client->post($serverurl, [
-            'debug' => TRUE,
-            'headers' => [
-                'authorization' => Config::where('name', 'ACCOUNTING_TOKEN')->first()->value,
-                'Content-Type' => 'application/json'
-            ],
-            'json' => $response,
-            
-          ]);
+        try {
+            $response = $client->post($serverurl, [
+                'debug' => TRUE,
+                'headers' => [
+                    'authorization' => Config::where('name', 'ACCOUNTING_TOKEN')->first()->value,
+                    'Content-Type' => 'application/json'
+                ],
+                'json' => $body,
+              ]);
 
-        return $response;
+              dump($response);
+
+            } catch (Exception $exception) {
+                parent::report($exception);
+        }
+
+
         // receive the confirmation
 
         // mark the preinvoice and associated enrollments as paid.
         foreach($preinvoice->enrollments as $enrollment)
         {
-            //$enrollment->markAsPaid();
+            $enrollment->markAsPaid();
         }
 
         // show a confirmation
+        return redirect('/'); // FIXME
     }
 
 

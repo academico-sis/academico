@@ -2173,6 +2173,7 @@ __webpack_require__.r(__webpack_exports__);
     finish: function finish() {
       var _this = this;
 
+      this.products = [];
       this.enrollments.forEach(function (element) {
         var enrollment = {
           codinventario: element.course.rhythm.product_code,
