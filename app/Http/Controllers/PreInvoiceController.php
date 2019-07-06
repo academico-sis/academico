@@ -12,6 +12,7 @@ use App\Models\Course;
 use GuzzleHttp\Client;
 use App\Models\Contact;
 
+use App\Models\Payment;
 use App\Models\Enrollment;
 use App\Models\PreInvoice;
 use Illuminate\Http\Request;
@@ -98,13 +99,21 @@ class PreInvoiceController extends Controller
         {
             
             $pckardex[$p] = [
-            "codforma" => $payment['method'],
-            "valor" => $payment['value'],
-            "fechaemision" => $preinvoice->created_at,
-            "fechavenci" => $preinvoice->created_at,
-            "observacion" => $payment['comment'],
-            "codprovcli" => $request->client_idnumber,
+                "codforma" => $payment['method'],
+                "valor" => $payment['value'],
+                "fechaemision" => $preinvoice->created_at,
+                "fechavenci" => $preinvoice->created_at,
+                "observacion" => $payment['comment'],
+                "codprovcli" => $request->client_idnumber,
             ];
+
+            Payment::create([
+                'responsable_id' => backpack_user()->id,
+                'invoice_id' => $preinvoice->id,
+                'payment_method' => $payment['method'],
+                'value' => $payment['value'],
+                'comment' => $payment['comment'],
+            ]);
 
         }
 
