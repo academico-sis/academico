@@ -121,7 +121,7 @@
                     </div>
                     
 
-                @elseif($enrollment->status_id == 1)
+                @elseif($enrollment->status_id == 1 && backpack_user()->can('enrollments.edit'))
 
                 <div class="label label-warning">
                     {{ $enrollment->enrollmentStatus->name }}
@@ -129,16 +129,24 @@
                 
                 <div>
                     @if ($enrollment->parent_id == null)
+                    <div class="form-group">
                         <a href="/enrollments/{{ $enrollment->id }}/bill" class="btn btn-primary">@lang('Checkout')</a>
+                    </div>
+                    <div class="form-group">
+                        <a href="/enrollments/{{ $enrollment->id }}/quickbill" class="btn btn-xs">@lang('Mark as paid without generating an invoice')</a>
+                    </div>
                     @endif
                 </div>
 
-                @if(backpack_user()->can('enrollments.edit'))
                     {{-- todo translate and improve the confirmation message --}}
+                    <div class="form-group">
+
                     <button type="submit" class="btn btn-danger" onclick="if(confirm('Voulez-vous vraiment supprimer cette inscription ?')) cancel({{ $enrollment->id }})">
                         @lang('Delete Enrollment')
                     </button>
-                @endif
+                </div>
+
+
                 
             @else
                 {{ $enrollment->enrollmentStatus->name }}
@@ -151,7 +159,7 @@
 </div>
 
 @if ($enrollment->pre_invoice()->count() > 0)
-    {{-- @include('invoices.show') --}}
+    @include('invoices.show')
 @endif
 
 @endsection

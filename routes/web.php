@@ -130,6 +130,7 @@ Route::group(
     function () {
     
     Route::get('enrollments/{enrollment}/bill', 'EnrollmentController@bill'); // new
+    Route::get('enrollments/{enrollment}/quickbill', 'EnrollmentController@quickbill'); // temporary
 
     Route::post('preinvoice', 'EnrollmentController@quickInvoice')->name('quickInvoice'); // temporary
 
