@@ -13,12 +13,12 @@
     "axios": "^0.18.1",
     "bootstrap": "^4.3.1",
     "cross-env": "^5.1",
-    "jquery": "^3.4",
+    "jquery": "^3.4.1",
     "laravel-mix": "^4.0.16",
     "lodash": "^4.17.5",
     "popper.js": "^1.15.0",
     "resolve-url-loader": "^2.3.2",
-    "sass": "^1.21.0",
+    "sass": "^1.22.3",
     "sass-loader": "^7.1.0",
     "vue": "^2.6.10",
     "vue-template-compiler": "^2.6.10"
@@ -30,7 +30,7 @@
     "chart.js": "^2.8.0",
     "fullcalendar-scheduler": "^4.0.0-alpha.4",
     "moment": "^2.24.0",
-    "npm": "^6.9.0",
+    "npm": "^6.10.0",
     "vue-moment": "^4.0.0"
   }
 }

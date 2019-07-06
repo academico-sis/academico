@@ -119,7 +119,7 @@ class PreInvoiceController extends Controller
 
             Payment::create([
                 'responsable_id' => backpack_user()->id,
-                'invoice_id' => $preinvoice->id,
+                'pre_invoice_id' => $preinvoice->id,
                 'payment_method' => $payment['method'],
                 'value' => $payment['value'],
                 'comment' => $payment['comment'],

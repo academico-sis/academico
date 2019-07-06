@@ -329,6 +329,29 @@
 
 
 
+
+
+    <div class="row" v-if="step == 4">
+
+        <div class="col col-md-12">
+
+            <div class="box">
+                <div class="box-header with-border">
+                    <div class="box-title">
+                        Factura generada
+                    </div>
+                    <div class="box-tools pull-right">
+                    </div>
+                </div>
+                
+                <div class="box-body">
+                    <p>Redirecting to Enrollment {{ enrollments[0].id }}</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
     </div>
 </template>
 
@@ -503,9 +526,10 @@
                     total_price: this.shoppingCartTotal,
                     comment: this.comment,
                 })
-                .then(function (response) {
+                .then(response => {
                     // handle success
-                        window.location.href = '/';
+                        this.step = 4;
+                        window.location.href = '/enrollment/' + this.enrollments[0]. id;
                         new PNotify({
                             title: "Operation successful",
                             text: "The invoice has been sent to Accounting",
