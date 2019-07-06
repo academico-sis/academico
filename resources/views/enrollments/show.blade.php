@@ -130,7 +130,7 @@
                 <div>
                     @if ($enrollment->parent_id == null)
                     <div class="form-group">
-                        <a href="/enrollments/{{ $enrollment->id }}/bill" class="btn btn-primary">@lang('Checkout')</a>
+                        <a href="/enrollments/{{ $enrollment->id }}/quickbill" class="btn btn-primary">@lang('Checkout')</a>
                     </div>
                     <div class="form-group">
                         <a href="/enrollments/{{ $enrollment->id }}/quickbill" class="btn btn-xs">@lang('Mark as paid without generating an invoice')</a>
