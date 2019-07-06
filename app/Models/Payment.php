@@ -2,12 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\PreInvoice;
 use Backpack\CRUD\CrudTrait;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Payment extends Model
 {
     use CrudTrait;
+    use SoftDeletes;
+
 
     /*
     |--------------------------------------------------------------------------
@@ -18,8 +22,8 @@ class Payment extends Model
     protected $table = 'payments';
     // protected $primaryKey = 'id';
     // public $timestamps = false;
-    // protected $guarded = ['id'];
-    protected $fillable = [];
+    protected $guarded = ['id'];
+    //protected $fillable = [];
     // protected $hidden = [];
     // protected $dates = [];
 
@@ -34,7 +38,12 @@ class Payment extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
-
+    
+    public function pre_invoice()
+    {
+        return $this->belongsTo(PreInvoice::class);
+    }
+    
     /*
     |--------------------------------------------------------------------------
     | SCOPES

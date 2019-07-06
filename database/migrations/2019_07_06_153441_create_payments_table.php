@@ -16,10 +16,15 @@ class CreatePaymentsTable extends Migration
             $table->increments('id');
             $table->integer('responsable_id');
             $table->integer('invoice_id');
-            $table->integer('payment_method');
+            $table->string('payment_method');
             $table->decimal('value', 8, 2);
-            $table->string('comment');
+            $table->string('comment')->nullable();
             $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::table('pre_invoice_details', function (Blueprint $table) {
+            $table->softDeletes();
         });
     }
 

@@ -501,11 +501,23 @@
                     client_email: this.clientemail,
                     total_price: this.shoppingCartTotal,
                 })
-                .then(
-                    window.location.href = '/'
+                .then(function (response) {
+                    // handle success
+                        window.location.href = '/';
+                        new PNotify({
+                            title: "Operation successful",
+                            text: "The invoice has been sent to Accounting",
+                            type: "success"
+                            });
+                    }
                 )
                 .catch(e => {
                         this.errors.push(e)
+                        new PNotify({
+                            title: "Error",
+                            text: "The invoice has not been generated",
+                            type: "error"
+                            });
                     }
                 );
             }

@@ -168,6 +168,18 @@ class PreInvoiceController extends Controller
 
             } catch (Exception $exception) {
                 parent::report($exception);
+
+                foreach ($preinvoice->pre_invoice_details as $product)
+                {
+                    $product->destroy();
+                }
+
+                foreach ($preinvoice->payments as $payment)
+                {
+                    $payment->destroy();
+                }
+
+                $preinvoice->destroy();
         }
 
 

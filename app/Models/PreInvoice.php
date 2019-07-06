@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Payment;
 use App\Models\Enrollment;
 use Backpack\CRUD\CrudTrait;
 use App\Models\PreInvoiceDetail;
@@ -19,6 +20,11 @@ class PreInvoice extends Model
     public function pre_invoice_details()
     {
         return $this->hasMany(PreInvoiceDetail::class);
+    }
+
+    public function payment()
+    {
+        return $this->hasMany(Payment::class);
     }
 
     public function enrollments()
