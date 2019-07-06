@@ -354,6 +354,7 @@
                 clientidnumber: '',
                 payments: [],
                 products: [],
+                comment: '',
             }
         },
 
@@ -500,6 +501,7 @@
                     client_address: this.clientaddress,
                     client_email: this.clientemail,
                     total_price: this.shoppingCartTotal,
+                    comment: this.comment,
                 })
                 .then(function (response) {
                     // handle success

@@ -10,8 +10,9 @@ use App\Models\User;
 use App\Models\Config;
 use App\Models\Course;
 use GuzzleHttp\Client;
-use App\Models\Contact;
+use App\Models\Comment;
 
+use App\Models\Contact;
 use App\Models\Payment;
 use App\Models\Enrollment;
 use App\Models\PreInvoice;
@@ -64,6 +65,15 @@ class PreInvoiceController extends Controller
             ]);
 
             $preinvoice->enrollments()->attach($enrollment);
+
+            if(isset($request->comment)) {
+                Comment::create([
+                    'commentable_id' => $enrollment->id,
+                    'commentable_type' => Enrollment::class,
+                    'body' => $request->comment,
+                    'author_id' => backpack_user()->id,
+                ]);
+            }
 
         }
 

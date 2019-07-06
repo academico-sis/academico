@@ -2112,7 +2112,8 @@ __webpack_require__.r(__webpack_exports__);
       clientemail: '',
       clientidnumber: '',
       payments: [],
-      products: []
+      products: [],
+      comment: ''
     };
   },
   mounted: function mounted() {},
@@ -2219,7 +2220,8 @@ __webpack_require__.r(__webpack_exports__);
         client_idnumber: this.clientidnumber,
         client_address: this.clientaddress,
         client_email: this.clientemail,
-        total_price: this.shoppingCartTotal
+        total_price: this.shoppingCartTotal,
+        comment: this.comment
       }).then(function (response) {
         // handle success
         window.location.href = '/';

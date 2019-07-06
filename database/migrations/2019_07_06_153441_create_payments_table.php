@@ -14,8 +14,8 @@ class CreatePaymentsTable extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('responsable_id');
-            $table->integer('invoice_id');
+            $table->integer('responsable_id')->unsigned();
+            $table->integer('pre_invoice_id')->unsigned();
             $table->string('payment_method');
             $table->decimal('value', 8, 2);
             $table->string('comment')->nullable();
@@ -23,8 +23,14 @@ class CreatePaymentsTable extends Migration
             $table->softDeletes();
         });
 
-        Schema::table('pre_invoice_details', function (Blueprint $table) {
-            $table->softDeletes();
+        Schema::table('payments', function (Blueprint $table) {
+            $table->foreign('responsable_id')
+            ->references('id')->on('users')
+            ->onDelete('restrict');
+
+            $table->foreign('pre_invoice_id')
+            ->references('id')->on('pre_invoices')
+            ->onDelete('restrict');
         });
     }
 
