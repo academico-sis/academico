@@ -6,18 +6,22 @@ use \Curl\Curl;
 use App\Models\Config;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Gate;
 
 class MoodleController extends Controller
 {
     public function __construct()
     {
         parent::__construct();
-        //$this->middleware(['permission:moodle.login']);
     }
 
     /** Login to Moodle via token */
     public function moodlelogin()
     {
+
+        if (Gate::forUser(backpack_user())->denies('moodle-login')) {
+            abort(403);
+        }
 
         $token = Config::where('name', 'moodle_token')->first()->value;
         $domainname = Config::where('name', 'moodle_url')->first()->value;

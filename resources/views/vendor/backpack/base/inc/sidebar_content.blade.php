@@ -149,7 +149,7 @@
 
 @endif
 
-@if(backpack_user()->isTeacher() || backpack_user()->isStudent()) {{-- todo transform this --}}
+@if(backpack_user()->isTeacher() || (backpack_user()->isStudent()) && backpack_user()->student->enrollments()->exists()) {{-- todo transform this --}}
   <li><a href="{{ route('moodleLogin') }}"><i class="fa fa-clock-o"></i> <span>@lang('SPHERE')</span></a></li>
 
 @endif
