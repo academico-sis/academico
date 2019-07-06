@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Client;
-
 use App\Models\Fee;
 use App\Models\Book;
+
 use App\Models\Cart;
 use App\Models\User;
+use App\Models\Config;
 use App\Models\Course;
+use GuzzleHttp\Client;
 use App\Models\Contact;
 
 use App\Models\Enrollment;
 use App\Models\PreInvoice;
 use Illuminate\Http\Request;
 use App\Models\PreInvoiceDetail;
+use GuzzleHttp\Exception\GuzzleException;
 
 class PreInvoiceController extends Controller
 {
@@ -102,7 +103,7 @@ class PreInvoiceController extends Controller
             "fechaemision" => $preinvoice->created_at,
             "fechavenci" => $preinvoice->created_at,
             "observacion" => $payment['comment'],
-            "codprovcli" => "1790017478001" // todo
+            "codprovcli" => $request->client_idnumber,
             ];
 
         }
@@ -114,55 +115,63 @@ class PreInvoiceController extends Controller
                 "codbodega" => "MAT",
                 "cantidad" => 1,
                 "descuento" => $product['descuento'],
-                "iva" => 0.12,
+                "iva" => 0,
                 "preciototal" => $product['preciototal'],
-                "valoriva" => $product['preciototal'] * 0.12
+                "valoriva" => 0
             ];
 
         }
 
 
 
-        $response = [
+        $body = [
             "codtrans" => "OP", // ?
             "numtrans" => $preinvoice->id,
             "fechatrans" => $preinvoice->created_at,
             "horatrans" => $preinvoice->created_at,
-            "descripcion" => "Factura generada desda la plataforma academica",
-            "codusuario" => backpack_user()->firstname . " " . backpack_user()->lastname, 
+            "descripcion" => "Facturado desde el academico por " . backpack_user()->firstname . " " . backpack_user()->lastname,
+            "codusuario" => "web", 
             "codprovcli" => $preinvoice->client_idnumber, // si existe, se busca el cliente. Si no lo creamos.
             "nombre" => $preinvoice->client_name,
             "direccion" => $preinvoice->client_address,
             "telefono" => "", // TODO
             "email" => $preinvoice->client_email,
-            "codvendedor" => "", // cual es la diferencia con codusuario?
+            "codvendedor" => "",
             "ivkardex" => $ivkardex,
             "pckardex" => $pckardex,
         ];
 
         $client = new Client();
         
-        $serverurl = env('ACCOUNTING_URL');
+        $serverurl = Config::where('name', 'ACCOUNTING_URL')->first()->value;
         
-        $response = $client->post($serverurl, [
-            'debug' => TRUE,
-            'headers' => [
-                'authorization' => env('ACCOUNTING_TOKEN'),
-                'Content-Type' => 'application/json'
-            ],
-            'json' => $response,
-            
-          ]);
+        try {
+            $response = $client->post($serverurl, [
+                'debug' => TRUE,
+                'headers' => [
+                    'authorization' => Config::where('name', 'ACCOUNTING_TOKEN')->first()->value,
+                    'Content-Type' => 'application/json'
+                ],
+                'json' => $body,
+              ]);
+
+              dump($response);
+
+            } catch (Exception $exception) {
+                parent::report($exception);
+        }
+
 
         // receive the confirmation
 
         // mark the preinvoice and associated enrollments as paid.
         foreach($preinvoice->enrollments as $enrollment)
         {
-            //$enrollment->markAsPaid();
+            $enrollment->markAsPaid();
         }
 
         // show a confirmation
+        return redirect('/'); // FIXME
     }
 
 

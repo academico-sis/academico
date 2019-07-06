@@ -14,9 +14,6 @@
             <div class="box-body">        
                 <p>@lang('Invoice ID') : {{ $enrollment->pre_invoice()->first()->invoice_number }}</p>   
                 <p>@lang('Pre-invoice ID') : {{ $enrollment->pre_invoice()->first()->id }}</p>
-                {{--                         <button class="btn btn-warning" data-toggle="modal" data-target="#editInvoiceNumberModal">
-                            <i class="fa fa-pencil"></i>
-                        </button> --}}
                 <p>@lang('Date') : {{ $enrollment->pre_invoice()->first()->created_at }}</p>
                 <p>@lang('Client name') : {{ $enrollment->pre_invoice()->first()->client_name }}</p>
                 <p>@lang('Client email') : {{ $enrollment->pre_invoice()->first()->client_email }}</p>
@@ -79,7 +76,7 @@
                     @endforeach
                     <tr style="font-weight: bold">
                         <td>@lang('TOTAL')</td>
-                        <td>${{ $enrollment->pre_invoice->total_price }}</td>
+                        <td>${{ $enrollment->pre_invoice->first()->total_price }}</td>
                     </tr>
                 </tbody>
             </table>
