@@ -148,8 +148,8 @@ class EnrollmentController extends Controller
 
         if($comment !== null) {
             Comment::create([
-                'commentable_id' => $preinvoice->id,
-                'commentable_type' => Preinvoice::class,
+                'commentable_id' => $enrollment->id,
+                'commentable_type' => Enrollment::class,
                 'body' => $comment,
                 'author_id' => backpack_user()->id,
             ]);
