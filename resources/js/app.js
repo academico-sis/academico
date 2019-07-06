@@ -24,8 +24,6 @@ Vue.component('student-skills-component', require('./components/StudentSkillEval
 
 Vue.component('course-result-component', require('./components/CourseResultComponent.vue').default);
 
-Vue.component('event-data-sync-component', require('./components/EventDataSyncComponent.vue').default);
-
 Vue.component('lead-status-component', require('./components/LeadStatusComponent.vue').default);
 
 Vue.component('absence-buttons', require('./components/AbsenceButtonsComponent.vue').default);

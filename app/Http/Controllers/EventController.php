@@ -65,16 +65,4 @@ class EventController extends Controller
         $course->events()->update(['room_id' => $course->room_id]);
     }
 
-    /** Rewrite teacher for all events associated to a course */
-    public function syncEventsTeacher(Course $course)
-    {
-        Event::where('course_id', $course->id)->update(['teacher_id' => $course->teacher_id]);
-    }
-
-    /** Rewrite room for all events associated to a course */
-    public function syncEventsRoom(Course $course)
-    {
-        Event::where('course_id', $course->id)->update(['room_id' => $course->room_id]);
-    }
-
 }

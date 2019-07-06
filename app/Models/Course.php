@@ -27,20 +27,10 @@ protected static function boot()
     
     // when a course model is updated, offer to sync teacher through all events
     static::updated(function(Course $course) {
-        
-        // check whether the events for this course match the teacher from the request.
-        $outdated_events = $course->events->where('teacher_id', '!=', $course->teacher_id);
-        
-        // if a mismatch exists, offer to update the events
-        if($outdated_events->count() > 0)
-        {
-            return view('courses.update_events', [
-                'outdated_events' => $outdated_events,
-                'course' => $course,
-                ]);
-            }
-            
-            // todo idem for the room.
+
+        // update course events with new room and teacher
+        Event::where('course_id', $course->id)->update(['room_id' => $course->room_id]);
+        Event::where('course_id', $course->id)->update(['teacher_id' => $course->teacher_id]);
             
     });
         

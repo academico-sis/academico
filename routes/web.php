@@ -107,11 +107,9 @@ Route::group(
 
     // Course Events routes
     Route::get('course/{course}/events/get', 'EventController@getCourseEvents')->name('getCourseEvents'); // todo use route name
-    Route::patch('course/{course}/events/updateRoom', 'EventController@syncEventsRoom')->name('syncEventsRoom'); // resync events with course data
-    Route::patch('course/{course}/events/updateTeacher', 'EventController@syncEventsTeacher')->name('syncEventsTeacher');  // resync events with course data
-
-    Route::patch('calendar/teacher', 'EventController@update_course_teacher'); // todo use previous route if possible
-    Route::patch('calendar/room', 'EventController@update_course_room'); // todo use previous route if possible
+    
+    Route::patch('calendar/teacher', 'EventController@update_course_teacher');
+    Route::patch('calendar/room', 'EventController@update_course_room');
 });
 
 
