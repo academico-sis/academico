@@ -4,7 +4,8 @@
   <li class="header">@lang('COURSES')</li>
 
   <li><a href="{{ url('/') }}"><i class="fa fa-book"></i> <span>{{ trans('backpack::base.dashboard') }}</span></a></li>
-  <li><a href="{{ backpack_url('course') }}"><i class="fa fa-book"></i> <span>@lang('Courses')</span></a></li>
+  <li><a href="{{ backpack_url('course') }}"><i class="fa fa-book"></i> <span>@lang('Internal Courses')</span></a></li>
+  <li><a href="{{ backpack_url('externalcourse') }}"><i class="fa fa-bus"></i> <span>@lang('External Courses')</span></a></li>
   <li><a href="{{ backpack_url('student') }}"><i class="fa fa-user"></i> <span>@lang('Students')</span></a></li>
   <li><a href="{{ backpack_url('/enrollment?status_id=["1"%2C"6"]&hidechildren=true') }}"><i class="fa fa-credit-card"></i> <span>@lang('Pending')</span></a></li>
   <li><a href="{{ backpack_url('attendance') }}"><i class="fa fa-calendar"></i> <span>@lang('Attendance')</span></a></li>

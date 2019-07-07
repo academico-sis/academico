@@ -26,7 +26,9 @@ class RhythmRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:60|unique'
+            'name' => 'required|string|max:60|unique:rhythms',
+            'default_volume' => 'required',
+            'product_code' => 'required|string'
         ];
     }
 

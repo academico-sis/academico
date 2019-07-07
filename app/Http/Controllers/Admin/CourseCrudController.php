@@ -36,6 +36,8 @@ class CourseCrudController extends CrudController
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/course');
         $this->crud->setEntityNameStrings(__('course'), __('courses'));
 
+        $this->crud->addClause('where', 'campus_id', '1');
+        
         $permissions = backpack_user()->getAllPermissions();
         if(!$permissions->contains('name', 'courses.delete')) { $this->crud->denyAccess('delete'); }
         if(!$permissions->contains('name', 'courses.edit')) { $this->crud->denyAccess('update'); }
@@ -173,21 +175,6 @@ class CourseCrudController extends CrudController
             ],
              
         ]);
-
-
-        $this->crud->addFilter([ // select2 filter
-            'name' => 'campus_id',
-            'type' => 'select2',
-            'label'=> __('Campus')
-          ], function() {
-              return \App\Models\Campus::all()->pluck('name', 'id')->toArray();
-          }, function($value) { // if the filter is active
-                  $this->crud->addClause('where', 'campus_id', $value);
-          },
-          function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
-            $this->crud->addClause('where', 'campus_id', '1');
-            $this->crud->request->request->add(['campus_id' => 1]); // to make the filter look active
-        });
 
 
         $this->crud->addFilter([ // select2 filter
@@ -336,12 +323,9 @@ class CourseCrudController extends CrudController
              [
                 // RYTHM
                 'label' => __("Campus"), // Table column heading
-                'type' => "select",
+                'type' => "hidden",
                 'name' => 'campus_id', // the column that contains the ID of that connected entity;
-                'entity' => 'campus', // the method that defines the relationship in your Model
-                'attribute' => "name", // foreign key attribute that is shown to user
-                'model' => "App\Models\Campus", // foreign key model
-                'tab' => __('Resources')
+                'value' => 1,
              ],
 
 
