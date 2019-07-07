@@ -22,12 +22,14 @@
 
                     <table class="table">
                         <thead>
+                            <th>Cantidad</th>
                             <th>Nom</th>
                             <th>Prix</th>
                             <th>Actions</th>
                         </thead>
                         <tbody>
                             <tr v-bind:key="enrollment.id" v-for="(enrollment, index) in enrollments">
+                                <td>1</td>
                                 <td>{{ enrollment.course.name }} para {{ enrollment.student.user.firstname }} {{ enrollment.student.user.lastname }}</td>
                                 <td>$ {{ enrollment.course.price }} <span class="label label-info" v-if="discount(enrollment.course.price) > 0">- ${{ discount(enrollment.course.price) }}</span></td>
                                 <td>
@@ -36,6 +38,7 @@
                             </tr>
 
                             <tr v-bind:key="book.id" v-for="(book, index) in books">
+                                <td><button class="btn btn-xs">-</button>{{ book.quantity || 1 }} <button @click="book.quantity++" class="btn btn-xs">+</button></td>
                                 <td>{{ book.name }}</td>
                                 <td>$ {{ book.price }}</td>
                                 <td>
@@ -44,6 +47,7 @@
                             </tr>
 
                             <tr v-bind:key="fee.id" v-for="(fee, index) in fees">
+                                <td>{{ fee.quantity || 1 }}</td>
                                 <td>{{ fee.name }}</td>
                                 <td>$ {{ fee.price }}</td>
                                 <td>
@@ -396,23 +400,31 @@
 
             addBook(book)
             {
-                this.books.push(book);
+                if(!this.books.some(el => el.id == book.id)) {
+                    var addedbook = this.books.push(book) - 1;
+                    this.books[addedbook].quantity = 1;
+                }
             },
 
             addFee(fee)
             {
-                this.fees.push(fee);
+                if(!this.fees.some(el => el.id == fee.id)) {
+                    var addedfee = this.fees.push(fee) - 1;
+                    this.fees[addedfee].quantity = 1;
+                }
             },
             
             addEnrollment(enrollment)
             {
-                this.enrollments.push(enrollment);
-                for(var i in this.availableenrollmentsnotincart){
-                    if(this.availableenrollmentsnotincart[i].id == enrollment.id) {
-                        this.availableenrollmentsnotincart.splice(i,1);
-                        break;
+                if(!this.enrollments.some(el => el.id == enrollment.id)) {
+                    this.enrollments.push(enrollment);
+                    for(var i in this.availableenrollmentsnotincart){
+                        if(this.availableenrollmentsnotincart[i].id == enrollment.id) {
+                            this.availableenrollmentsnotincart.splice(i,1);
+                            break;
+                        }
                     }
-            }
+                }
 
             },
 

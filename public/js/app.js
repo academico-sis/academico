@@ -2119,6 +2119,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['enrollmentslist', 'feeslist', 'bookslist', 'availablebooks', 'availablefees', 'availableenrollments', 'availablediscounts', 'contactdata', 'availablepaymentmethods'],
   data: function data() {
@@ -2151,18 +2155,32 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     addBook: function addBook(book) {
-      this.books.push(book);
+      if (!this.books.some(function (el) {
+        return el.id == book.id;
+      })) {
+        var addedbook = this.books.push(book) - 1;
+        this.books[addedbook].quantity = 1;
+      }
     },
     addFee: function addFee(fee) {
-      this.fees.push(fee);
+      if (!this.fees.some(function (el) {
+        return el.id == fee.id;
+      })) {
+        var addedfee = this.fees.push(fee) - 1;
+        this.fees[addedfee].quantity = 1;
+      }
     },
     addEnrollment: function addEnrollment(enrollment) {
-      this.enrollments.push(enrollment);
+      if (!this.enrollments.some(function (el) {
+        return el.id == enrollment.id;
+      })) {
+        this.enrollments.push(enrollment);
 
-      for (var i in this.availableenrollmentsnotincart) {
-        if (this.availableenrollmentsnotincart[i].id == enrollment.id) {
-          this.availableenrollmentsnotincart.splice(i, 1);
-          break;
+        for (var i in this.availableenrollmentsnotincart) {
+          if (this.availableenrollmentsnotincart[i].id == enrollment.id) {
+            this.availableenrollmentsnotincart.splice(i, 1);
+            break;
+          }
         }
       }
     },
@@ -3889,6 +3907,8 @@ var render = function() {
                     [
                       _vm._l(_vm.enrollments, function(enrollment, index) {
                         return _c("tr", { key: enrollment.id }, [
+                          _c("td", [_vm._v("1")]),
+                          _vm._v(" "),
                           _c("td", [
                             _vm._v(
                               _vm._s(enrollment.course.name) +
@@ -3938,6 +3958,25 @@ var render = function() {
                       _vm._v(" "),
                       _vm._l(_vm.books, function(book, index) {
                         return _c("tr", { key: book.id }, [
+                          _c("td", [
+                            _c("button", { staticClass: "btn btn-xs" }, [
+                              _vm._v("-")
+                            ]),
+                            _vm._v(_vm._s(book.quantity || 1) + " "),
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-xs",
+                                on: {
+                                  click: function($event) {
+                                    book.quantity++
+                                  }
+                                }
+                              },
+                              [_vm._v("+")]
+                            )
+                          ]),
+                          _vm._v(" "),
                           _c("td", [_vm._v(_vm._s(book.name))]),
                           _vm._v(" "),
                           _c("td", [_vm._v("$ " + _vm._s(book.price))]),
@@ -3961,6 +4000,8 @@ var render = function() {
                       _vm._v(" "),
                       _vm._l(_vm.fees, function(fee, index) {
                         return _c("tr", { key: fee.id }, [
+                          _c("td", [_vm._v(_vm._s(fee.quantity || 1))]),
+                          _vm._v(" "),
                           _c("td", [_vm._v(_vm._s(fee.name))]),
                           _vm._v(" "),
                           _c("td", [_vm._v("$ " + _vm._s(fee.price))]),
@@ -4622,6 +4663,8 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("thead", [
+      _c("th", [_vm._v("Cantidad")]),
+      _vm._v(" "),
       _c("th", [_vm._v("Nom")]),
       _vm._v(" "),
       _c("th", [_vm._v("Prix")]),
