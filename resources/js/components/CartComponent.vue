@@ -58,7 +58,8 @@
 
             <div class="box">
                 <div class="box-body text-center">
-                        <h4> PRECIO TOTAL: $ {{ shoppingCartTotal }} <button class="btn btn-success" @click="step = 2"><i class="fa fa-check"></i>Confirmar</button></h4>
+                        <h4> PRECIO TOTAL: $ {{ shoppingCartTotal }}</h4>
+                        <button class="btn btn-success" v-if="enrollments[0]" @click="step = 2"><i class="fa fa-check"></i>Confirmar</button>
                 </div>
             </div>
 
@@ -101,7 +102,7 @@
                             <span class="caret"></span> Enrollment
                             </button>
                             <ul class="dropdown-menu">
-                            <li v-for="availableEnrollment in this.availableenrollments" v-bind:key="availableEnrollment.id"><a href="#" @click="addEnrollment(availableEnrollment)">{{ availableEnrollment.student.user.lastname }} {{ availableEnrollment.student.user.firstname }} ({{ availableEnrollment.course.name }})</a></li>
+                            <li v-for="availableEnrollment in availableenrollmentsnotincart" v-bind:key="availableEnrollment.id"><a href="#" @click="addEnrollment(availableEnrollment)">{{ availableEnrollment.student.user.lastname }} {{ availableEnrollment.student.user.firstname }} ({{ availableEnrollment.course.name }})</a></li>
                             </ul>
                         </div>
                     </div>
@@ -207,17 +208,17 @@
                             <th>Prix</th>
                         </thead>
                         <tbody>
-                            <tr v-bind:key="enrollment.id" v-for="enrollment in enrollments">
+                            <tr v-bind:key="enrollment.id + '-enrollment'" v-for="enrollment in enrollments">
                                 <td>{{ enrollment.course.name }} para {{ enrollment.student.user.firstname }} {{ enrollment.student.user.lastname }}</td>
                                 <td>$ {{ enrollment.course.price }} <span class="label label-info" v-if="discount(enrollment.course.price) > 0">- ${{ discount(enrollment.course.price) }}</span></td>
                             </tr>
 
-                            <tr v-bind:key="book.id" v-for="book in books">
+                            <tr v-bind:key="book.id + '-book'" v-for="book in books">
                                 <td>{{ book.name }}</td>
                                 <td>$ {{ book.price }}</td>
                             </tr>
 
-                            <tr v-bind:key="fee.id" v-for="fee in fees">
+                            <tr v-bind:key="fee.id + '-fee'" v-for="fee in fees">
                                 <td>{{ fee.name }}</td>
                                 <td>$ {{ fee.price }}</td>
                             </tr>
@@ -378,10 +379,17 @@
                 payments: [],
                 products: [],
                 comment: '',
+                availableenrollmentsnotincart: this.availableenrollments,
             }
         },
 
         mounted() {
+            for(var i in this.availableenrollmentsnotincart){
+                if(this.availableenrollmentsnotincart[i].id == this.enrollmentslist[0].id) {
+                    this.availableenrollmentsnotincart.splice(i,1);
+                    break;
+                }
+            }
         },
 
         methods: {
@@ -399,6 +407,13 @@
             addEnrollment(enrollment)
             {
                 this.enrollments.push(enrollment);
+                for(var i in this.availableenrollmentsnotincart){
+                    if(this.availableenrollmentsnotincart[i].id == enrollment.id) {
+                        this.availableenrollmentsnotincart.splice(i,1);
+                        break;
+                    }
+            }
+
             },
 
             removeEnrollmentFromCart(index)
