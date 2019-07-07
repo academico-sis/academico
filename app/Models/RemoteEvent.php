@@ -28,4 +28,10 @@ class RemoteEvent extends Model
     {
         return $value / 3600;
     }
+
+    /** we store the time volume in seconds */
+    public function setWorkedHoursAttribute($value)
+    {
+        $this->attributes['worked_hours'] = $value * 3600;
+    }
 }
