@@ -23,7 +23,7 @@ class Student extends Model implements HasMedia
 
     public $timestamps = true;
     protected $guarded = ['id'];
-    protected $with = ['user'];
+    protected $with = ['user', 'phone'];
     
     
     public function registerMediaConversions(Media $media = null)

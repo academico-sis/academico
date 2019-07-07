@@ -13,6 +13,7 @@ class Contact extends Model
 {
     protected $table = 'contacts';
     protected $fillable = ['firstname', 'lastname', 'idnumber', 'address', 'email', 'relationship_id', 'student_id'];
+    protected $with = ['phone'];
 
     use SoftDeletes;
     use CrudTrait;

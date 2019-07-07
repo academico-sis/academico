@@ -2204,7 +2204,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     selectStudentData: function selectStudentData() {
       this.clientname = this.enrollments[0].student.user.firstname + ' ' + this.enrollments[0].student.user.lastname;
-      this.clientphone = this.enrollments[0].student.user.email; //todo
+      this.clientphone = this.enrollments[0].student.phone[0].phone_number; // fixme allow select if several numbers
 
       this.clientaddress = this.enrollments[0].student.address;
       this.clientidnumber = this.enrollments[0].student.idnumber;
@@ -2213,7 +2213,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     selectInvoiceData: function selectInvoiceData(contact) {
       this.clientname = contact.firstname + ' ' + contact.lastname;
-      this.clientphone = contact.email; //todo
+      this.clientphone = contact.phone[0].phone_number; // fixme allow select if several numbers
 
       this.clientaddress = contact.address;
       this.clientidnumber = contact.idnumber;
@@ -2276,6 +2276,7 @@ __webpack_require__.r(__webpack_exports__);
         client_name: this.clientname,
         client_idnumber: this.clientidnumber,
         client_address: this.clientaddress,
+        client_phonenumber: this.clientaddress,
         client_email: this.clientemail,
         total_price: this.shoppingCartTotal,
         comment: this.comment
