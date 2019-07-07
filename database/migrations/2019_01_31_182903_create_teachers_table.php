@@ -15,9 +15,9 @@ class CreateTeachersTable extends Migration
     {
         Schema::create('teachers', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned(); // todo - check - or use polymorphism?
+            $table->integer('user_id')->unsigned();
             $table->timestamp('hired_at')->nullable();
-            $table->decimal('max_week_hours', 4, 2)->nullable();
+            $table->decimal('max_week_hours', 4, 2);
             $table->timestamps();
             $table->softDeletes();
         });

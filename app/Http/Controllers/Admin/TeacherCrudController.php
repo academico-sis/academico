@@ -98,26 +98,14 @@ class TeacherCrudController extends CrudController
         $this->crud->setRequiredFields(UpdateRequest::class, 'edit');
     }
 
+
     public function store(StoreRequest $request)
     {
-        $this->handlePasswordInput($request);
-
-        $user = new User();
-        $user->firstname = $request->input('firstname');
-        $user->lastname = $request->input('lastname');
-        $user->email = $request->input('email');
-        $user->password = $request->input('password');
-        $user->save();
-
-        $teacher = new Teacher();
-        $teacher->user_id = $user->id;
-        $teacher->save();
-
-        // link the teacher and the user models together
-        $teacher->user()->associate($user);
-
-        return $this->performSaveAction($teacher->id);
-
+        // your additional operations before save here
+        $redirect_location = parent::storeCrud($request);
+        // your additional operations after save here
+        // use $this->data['entry'] or $this->crud->entry
+        return $redirect_location;
     }
 
     public function update(UpdateRequest $request)
