@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Config;
 use App\Models\Period;
 use App\Models\Enrollment;
 use Illuminate\Http\Request;
