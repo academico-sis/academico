@@ -38,7 +38,7 @@
                             </tr>
 
                             <tr v-bind:key="book.id" v-for="(book, index) in books">
-                                <td><button class="btn btn-xs">-</button>{{ book.quantity || 1 }} <button @click="book.quantity++" class="btn btn-xs">+</button></td>
+                                <td>{{ book.quantity || 1 }}</td>
                                 <td>{{ book.name }}</td>
                                 <td>$ {{ book.price }}</td>
                                 <td>
