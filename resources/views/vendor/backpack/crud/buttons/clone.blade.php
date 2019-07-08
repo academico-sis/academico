@@ -1,4 +1,5 @@
-@if ($crud->hasAccess('clone'))
+@if ($crud->hasAccess('clone') && $entry->parent_course_id == null)
+
 	<a href="javascript:void(0)" onclick="cloneEntry(this)" data-route="{{ url($crud->route.'/'.$entry->getKey().'/clone') }}" class="btn btn-xs btn-default" data-button-type="clone"><i class="fa fa-clone"></i></a>
 @endif
 

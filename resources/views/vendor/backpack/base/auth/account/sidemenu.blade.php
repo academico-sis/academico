@@ -20,7 +20,7 @@
 	  	@endif
 	  	><a href="{{ route('backpack.account.info') }}">@lang('Account Data')</a></li>
 
-		@if(backpack_user()->getRoleNames()->count() == 0 || !backpack_user()->isTeacher())
+		@if(!(backpack_user()->getRoleNames()->count() > 0 || backpack_user()->isTeacher()))
 			<li role="presentation"
 			@if (Request::route()->getName() == 'backpack.student.info')
 				class="active"
