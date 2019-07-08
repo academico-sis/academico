@@ -53,7 +53,7 @@ class SyncStudentsMailingList extends Command
     {
         parent::__construct();
         
-        $this->api_key = env('mailerlite_api_key');
+        $this->api_key = Config::where('name', 'mailerlite_api_key')->first()->value;
     }
 
 
