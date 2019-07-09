@@ -85,12 +85,11 @@ class EnrollmentController extends Controller
 
         $availableBooks = Book::all();
         $availableFees = Fee::all();
-        $availableEnrollments = Enrollment::where('status_id', 1)->with('student')->with('course')->get();
         $availableDiscounts = Discount::all();
         $contactData = $enrollment->student->contacts;
         $availablePaymentMethods = Paymentmethod::all();
 
-        return view('carts.show', compact('enrollments', 'fees', 'books', 'availableBooks', 'availableFees', 'availableEnrollments', 'availableDiscounts', 'contactData', 'availablePaymentMethods'));
+        return view('carts.show', compact('enrollments', 'fees', 'books', 'availableBooks', 'availableFees', 'availableDiscounts', 'contactData', 'availablePaymentMethods'));
     }
 
     /** this method is temporary. It serves as a shortcut until the invoicing system is in place */

@@ -2148,21 +2148,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['enrollmentslist', 'feeslist', 'bookslist', 'availablebooks', 'availablefees', 'availableenrollments', 'availablediscounts', 'contactdata', 'availablepaymentmethods'],
+  props: ['enrollmentslist', 'feeslist', 'bookslist', 'availablebooks', 'availablefees', 'availablediscounts', 'contactdata', 'availablepaymentmethods'],
   data: function data() {
     return {
       enrollments: this.enrollmentslist || [],
@@ -2179,18 +2166,10 @@ __webpack_require__.r(__webpack_exports__);
       clientidnumber: '',
       payments: [],
       products: [],
-      comment: '',
-      availableenrollmentsnotincart: this.availableenrollments
+      comment: ''
     };
   },
-  mounted: function mounted() {
-    for (var i in this.availableenrollmentsnotincart) {
-      if (this.availableenrollmentsnotincart[i].id == this.enrollmentslist[0].id) {
-        this.availableenrollmentsnotincart.splice(i, 1);
-        break;
-      }
-    }
-  },
+  mounted: function mounted() {},
   methods: {
     addBook: function addBook(book) {
       if (!this.books.some(function (el) {
@@ -2207,23 +2186,6 @@ __webpack_require__.r(__webpack_exports__);
         var addedfee = this.fees.push(fee) - 1;
         this.fees[addedfee].quantity = 1;
       }
-    },
-    addEnrollment: function addEnrollment(enrollment) {
-      if (!this.enrollments.some(function (el) {
-        return el.id == enrollment.id;
-      })) {
-        this.enrollments.push(enrollment);
-
-        for (var i in this.availableenrollmentsnotincart) {
-          if (this.availableenrollmentsnotincart[i].id == enrollment.id) {
-            this.availableenrollmentsnotincart.splice(i, 1);
-            break;
-          }
-        }
-      }
-    },
-    removeEnrollmentFromCart: function removeEnrollmentFromCart(index) {
-      this.enrollments.splice(index, 1);
     },
     removeBookFromCart: function removeBookFromCart(index) {
       this.books.splice(index, 1);
@@ -3948,10 +3910,8 @@ var render = function() {
                   _c(
                     "tbody",
                     [
-                      _vm._l(_vm.enrollments, function(enrollment, index) {
+                      _vm._l(_vm.enrollments, function(enrollment) {
                         return _c("tr", { key: enrollment.id }, [
-                          _c("td", [_vm._v("1")]),
-                          _vm._v(" "),
                           _c("td", [
                             _vm._v(
                               _vm._s(enrollment.course.name) +
@@ -3982,27 +3942,12 @@ var render = function() {
                               : _vm._e()
                           ]),
                           _vm._v(" "),
-                          _c("td", [
-                            _c(
-                              "button",
-                              {
-                                staticClass: "btn btn-xs btn-danger",
-                                on: {
-                                  click: function($event) {
-                                    return _vm.removeEnrollmentFromCart(index)
-                                  }
-                                }
-                              },
-                              [_c("i", { staticClass: "fa fa-trash" })]
-                            )
-                          ])
+                          _c("td")
                         ])
                       }),
                       _vm._v(" "),
                       _vm._l(_vm.books, function(book, index) {
                         return _c("tr", { key: book.id }, [
-                          _c("td", [_vm._v(_vm._s(book.quantity || 1))]),
-                          _vm._v(" "),
                           _c("td", [_vm._v(_vm._s(book.name))]),
                           _vm._v(" "),
                           _c("td", [_vm._v("$ " + _vm._s(book.price))]),
@@ -4026,8 +3971,6 @@ var render = function() {
                       _vm._v(" "),
                       _vm._l(_vm.fees, function(fee, index) {
                         return _c("tr", { key: fee.id }, [
-                          _c("td", [_vm._v(_vm._s(fee.quantity || 1))]),
-                          _vm._v(" "),
                           _c("td", [_vm._v(_vm._s(fee.name))]),
                           _vm._v(" "),
                           _c("td", [_vm._v("$ " + _vm._s(fee.price))]),
@@ -4138,54 +4081,13 @@ var render = function() {
                       }),
                       0
                     )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "btn-group" }, [
-                    _vm._m(5),
-                    _vm._v(" "),
-                    _c(
-                      "ul",
-                      { staticClass: "dropdown-menu" },
-                      _vm._l(_vm.availableenrollmentsnotincart, function(
-                        availableEnrollment
-                      ) {
-                        return _c("li", { key: availableEnrollment.id }, [
-                          _c(
-                            "a",
-                            {
-                              attrs: { href: "#" },
-                              on: {
-                                click: function($event) {
-                                  return _vm.addEnrollment(availableEnrollment)
-                                }
-                              }
-                            },
-                            [
-                              _vm._v(
-                                _vm._s(
-                                  availableEnrollment.student.user.lastname
-                                ) +
-                                  " " +
-                                  _vm._s(
-                                    availableEnrollment.student.user.firstname
-                                  ) +
-                                  " (" +
-                                  _vm._s(availableEnrollment.course.name) +
-                                  ")"
-                              )
-                            ]
-                          )
-                        ])
-                      }),
-                      0
-                    )
                   ])
                 ])
               ])
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "box" }, [
-              _vm._m(6),
+              _vm._m(5),
               _vm._v(" "),
               _c("div", { staticClass: "box-body" }, [
                 _c(
@@ -4218,7 +4120,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group" }, [
                   _c("div", { staticClass: "btn-group" }, [
-                    _vm._m(7),
+                    _vm._m(6),
                     _vm._v(" "),
                     _c(
                       "ul",
@@ -4530,11 +4432,11 @@ var render = function() {
       ? _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col col-md-6" }, [
             _c("div", { staticClass: "box" }, [
-              _vm._m(8),
+              _vm._m(7),
               _vm._v(" "),
               _c("div", { staticClass: "box-body" }, [
                 _c("table", { staticClass: "table" }, [
-                  _vm._m(9),
+                  _vm._m(8),
                   _vm._v(" "),
                   _c(
                     "tbody",
@@ -4604,7 +4506,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4" }, [
             _c("div", { staticClass: "box box-solid box-primary" }, [
-              _vm._m(10),
+              _vm._m(9),
               _vm._v(" "),
               _c("div", { staticClass: "box-body" }, [
                 _c("ul", [
@@ -4662,7 +4564,7 @@ var render = function() {
               _vm._v(" "),
               _c("div", { staticClass: "box-body" }, [
                 _c("table", { staticClass: "table" }, [
-                  _vm._m(11),
+                  _vm._m(10),
                   _vm._v(" "),
                   _c(
                     "tbody",
@@ -4808,7 +4710,7 @@ var render = function() {
                   ])
                 ]),
                 _vm._v(" "),
-                _vm._m(12)
+                _vm._m(11)
               ])
             ])
           ])
@@ -4819,7 +4721,7 @@ var render = function() {
       ? _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col col-md-12" }, [
             _c("div", { staticClass: "box" }, [
-              _vm._m(13),
+              _vm._m(12),
               _vm._v(" "),
               _c("div", { staticClass: "box-body" }, [
                 _c("p", [
@@ -4852,8 +4754,6 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("thead", [
-      _c("th", [_vm._v("Cantidad")]),
-      _vm._v(" "),
       _c("th", [_vm._v("Nom")]),
       _vm._v(" "),
       _c("th", [_vm._v("Prix")]),
@@ -4902,22 +4802,6 @@ var staticRenderFns = [
       [
         _c("span", { staticClass: "caret" }),
         _vm._v(" Fees\n                            ")
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      {
-        staticClass: "btn btn-default dropdown-toggle",
-        attrs: { type: "button", "data-toggle": "dropdown" }
-      },
-      [
-        _c("span", { staticClass: "caret" }),
-        _vm._v(" Enrollment\n                            ")
       ]
     )
   },

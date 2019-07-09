@@ -22,23 +22,19 @@
 
                     <table class="table">
                         <thead>
-                            <th>Cantidad</th>
                             <th>Nom</th>
                             <th>Prix</th>
                             <th>Actions</th>
                         </thead>
                         <tbody>
-                            <tr v-bind:key="enrollment.id" v-for="(enrollment, index) in enrollments">
-                                <td>1</td>
+                            <tr v-bind:key="enrollment.id" v-for="enrollment in enrollments">
                                 <td>{{ enrollment.course.name }} para {{ enrollment.student.user.firstname }} {{ enrollment.student.user.lastname }}</td>
                                 <td>$ {{ enrollment.course.price }} <span class="label label-info" v-if="discount(enrollment.course.price) > 0">- ${{ discount(enrollment.course.price) }}</span></td>
                                 <td>
-                                    <button class="btn btn-xs btn-danger" v-on:click="removeEnrollmentFromCart(index)"><i class="fa fa-trash"></i></button>
                                 </td>
                             </tr>
 
                             <tr v-bind:key="book.id" v-for="(book, index) in books">
-                                <td>{{ book.quantity || 1 }}</td>
                                 <td>{{ book.name }}</td>
                                 <td>$ {{ book.price }}</td>
                                 <td>
@@ -47,7 +43,6 @@
                             </tr>
 
                             <tr v-bind:key="fee.id" v-for="(fee, index) in fees">
-                                <td>{{ fee.quantity || 1 }}</td>
                                 <td>{{ fee.name }}</td>
                                 <td>$ {{ fee.price }}</td>
                                 <td>
@@ -101,14 +96,6 @@
                             </ul>
                         </div>
                     
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                            <span class="caret"></span> Enrollment
-                            </button>
-                            <ul class="dropdown-menu">
-                            <li v-for="availableEnrollment in availableenrollmentsnotincart" v-bind:key="availableEnrollment.id"><a href="#" @click="addEnrollment(availableEnrollment)">{{ availableEnrollment.student.user.lastname }} {{ availableEnrollment.student.user.firstname }} ({{ availableEnrollment.course.name }})</a></li>
-                            </ul>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -402,7 +389,7 @@
 
     export default {
 
-        props: ['enrollmentslist', 'feeslist', 'bookslist', 'availablebooks', 'availablefees', 'availableenrollments', 'availablediscounts', 'contactdata', 'availablepaymentmethods'],
+        props: ['enrollmentslist', 'feeslist', 'bookslist', 'availablebooks', 'availablefees', 'availablediscounts', 'contactdata', 'availablepaymentmethods'],
 
         data () {
             return {
@@ -421,17 +408,11 @@
                 payments: [],
                 products: [],
                 comment: '',
-                availableenrollmentsnotincart: this.availableenrollments,
             }
         },
 
         mounted() {
-            for(var i in this.availableenrollmentsnotincart){
-                if(this.availableenrollmentsnotincart[i].id == this.enrollmentslist[0].id) {
-                    this.availableenrollmentsnotincart.splice(i,1);
-                    break;
-                }
-            }
+
         },
 
         methods: {
@@ -450,25 +431,6 @@
                     var addedfee = this.fees.push(fee) - 1;
                     this.fees[addedfee].quantity = 1;
                 }
-            },
-            
-            addEnrollment(enrollment)
-            {
-                if(!this.enrollments.some(el => el.id == enrollment.id)) {
-                    this.enrollments.push(enrollment);
-                    for(var i in this.availableenrollmentsnotincart){
-                        if(this.availableenrollmentsnotincart[i].id == enrollment.id) {
-                            this.availableenrollmentsnotincart.splice(i,1);
-                            break;
-                        }
-                    }
-                }
-
-            },
-
-            removeEnrollmentFromCart(index)
-            {
-                this.enrollments.splice(index, 1);
             },
  
             removeBookFromCart(index)
