@@ -58,15 +58,38 @@ class EnrollmentController extends Controller
     {
         $course = Course::findOrFail($request->input('course_id'));
         
+        // if enrollment has children, delete them
+        Enrollment::where('parent_id', $enrollment->id)->delete();
+
         // update enrollment with new course
         $enrollment->update([
             'course_id' => $course->id,
         ]);
 
+        // if the new course has children, create an enrollment as well
+        foreach($course->children as $children_course)
+        {
+            $child_enrollment = Enrollment::firstOrNew([
+                'student_id' =>  $enrollment->student_id,
+                'course_id' => $children_course->id,
+                'parent_id' => $enrollment->id
+            ]);
+            $child_enrollment->responsible_id = backpack_user()->id ?? null;
+            $child_enrollment->save();
+        }
+
         // delete attendance
         foreach($enrollment->course->events as $event)
         {
             Attendance::where('event_id', $event->id)->where('student_id', $enrollment->student_id)->delete();
+        }
+
+        foreach($enrollment->course->children as $child)
+        {
+            foreach($child->events as $event)
+            {
+                Attendance::where('event_id', $event->id)->where('student_id', $enrollment->student_id)->delete();
+            }
         }
 
         // TODO delete grades and/or skills

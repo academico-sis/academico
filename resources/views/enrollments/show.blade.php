@@ -146,15 +146,16 @@
                         @lang('Delete Enrollment')
                     </button>
                 </div>
-
-            <div class="form-group">
-                <button class="btn btn-xs btn-danger" data-toggle="modal" data-target="#changeCourseModal">@lang('Change Course')</button>
-            </div>
-
                 
             @else
                 {{ $enrollment->enrollmentStatus->name }}
             @endif
+
+
+            <div class="form-group">
+                    <button class="btn btn-xs btn-danger" data-toggle="modal" data-target="#changeCourseModal">@lang('Change Course')</button>
+            </div>
+
             </div>
         </div>
     </div>
