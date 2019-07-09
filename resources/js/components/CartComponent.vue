@@ -1,9 +1,9 @@
 <template>
 <div>
     <ol class="breadcrumb">
-        <li v-if="step >= 1"><a @click="step = 1">Products</a></li>
-        <li v-if="step >= 2" class="active"><a @click="step = 2">Invoice Data</a></li>
-        <li v-if="step >= 3" class="active"><a @click="step = 3">Payment</a></li>
+        <li v-if="step >= 1"><a @click="step = 1">Productos</a></li>
+        <li v-if="step >= 2" class="active"><a @click="step = 2">Datos de Factura</a></li>
+        <li v-if="step >= 3" class="active"><a @click="step = 3">Pago</a></li>
       </ol>
 
     <div class="row" v-if="step == 1">
@@ -12,7 +12,7 @@
             <div class="box">
                 <div class="box-header with-border">
                     <div class="box-title">
-                        Cart details
+                        Productos
                     </div>
                     <div class="box-tools pull-right">
                     </div>
@@ -22,23 +22,19 @@
 
                     <table class="table">
                         <thead>
-                            <th>Cantidad</th>
-                            <th>Nom</th>
-                            <th>Prix</th>
-                            <th>Actions</th>
+                            <th>Producto</th>
+                            <th>Precio</th>
+                            <th>Acciones</th>
                         </thead>
                         <tbody>
-                            <tr v-bind:key="enrollment.id" v-for="(enrollment, index) in enrollments">
-                                <td>1</td>
+                            <tr v-bind:key="enrollment.id" v-for="enrollment in enrollments">
                                 <td>{{ enrollment.course.name }} para {{ enrollment.student.user.firstname }} {{ enrollment.student.user.lastname }}</td>
                                 <td>$ {{ enrollment.course.price }} <span class="label label-info" v-if="discount(enrollment.course.price) > 0">- ${{ discount(enrollment.course.price) }}</span></td>
                                 <td>
-                                    <button class="btn btn-xs btn-danger" v-on:click="removeEnrollmentFromCart(index)"><i class="fa fa-trash"></i></button>
                                 </td>
                             </tr>
 
                             <tr v-bind:key="book.id" v-for="(book, index) in books">
-                                <td>{{ book.quantity || 1 }}</td>
                                 <td>{{ book.name }}</td>
                                 <td>$ {{ book.price }}</td>
                                 <td>
@@ -47,7 +43,6 @@
                             </tr>
 
                             <tr v-bind:key="fee.id" v-for="(fee, index) in fees">
-                                <td>{{ fee.quantity || 1 }}</td>
                                 <td>{{ fee.name }}</td>
                                 <td>$ {{ fee.price }}</td>
                                 <td>
@@ -74,7 +69,7 @@
             <div class="box">
                 <div class="box-header with-border">
                     <div class="box-title">
-                        Add products
+                        Agregar productos
                     </div>
                     <div class="box-tools pull-right">
                     </div>
@@ -85,7 +80,7 @@
                     <div class="form-group">
                         <div class="btn-group">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                            <span class="caret"></span> Books
+                            <span class="caret"></span> Libros
                             </button>
                             <ul class="dropdown-menu">
                             <li v-for="availableBook in this.availablebooks" v-bind:key="availableBook.id"><a href="#" @click="addBook(availableBook)">{{ availableBook.name }}</a></li>
@@ -94,21 +89,13 @@
                     
                         <div class="btn-group">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                            <span class="caret"></span> Fees
+                            <span class="caret"></span> Gastos adm.
                             </button>
                             <ul class="dropdown-menu">
                             <li v-for="availableFee in this.availablefees" v-bind:key="availableFee.id"><a href="#" @click="addFee(availableFee)">{{ availableFee.name }}</a></li>
                             </ul>
                         </div>
                     
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                            <span class="caret"></span> Enrollment
-                            </button>
-                            <ul class="dropdown-menu">
-                            <li v-for="availableEnrollment in availableenrollmentsnotincart" v-bind:key="availableEnrollment.id"><a href="#" @click="addEnrollment(availableEnrollment)">{{ availableEnrollment.student.user.lastname }} {{ availableEnrollment.student.user.firstname }} ({{ availableEnrollment.course.name }})</a></li>
-                            </ul>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -117,7 +104,7 @@
             <div class="box">
                 <div class="box-header with-border">
                     <div class="box-title">
-                        Discounts
+                        Descuentos
                     </div>
                     <div class="box-tools pull-right">
                     </div>
@@ -135,7 +122,7 @@
                     <div class="form-group">
                         <div class="btn-group">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                            <span class="caret"></span> Add discount
+                            <span class="caret"></span> Agregar descuento
                             </button>
                             <ul class="dropdown-menu">
                             <li v-for="availableDiscount in this.availablediscounts" v-bind:key="availableDiscount.id"><a href="#" @click="addDiscount(availableDiscount)">{{ availableDiscount.name }}</a></li>
@@ -158,33 +145,71 @@
                         Estudiante
                     </div>
                     <div class="box-tools pull-right">
-                        <button class="btn btn-success" @click="selectStudentData()"><i class="fa fa-check"></i>Selectionar</button>
+                        <button class="btn btn-info" @click="selectStudentData()"><i class="fa fa-check"></i>Seleccionar</button>
                     </div>
                 </div>
                 <div class="box-body">
                     <p>{{enrollments[0].student.user.firstname}} {{enrollments[0].student.user.lastname}}</p>
                     <p>{{enrollments[0].student.idnumber}}</p>
-                    <p>{{enrollments[0].student.address}}</p>
                     <p>{{enrollments[0].student.user.email}}</p>
                 </div>
             </div>
-        </div>
 
-        <div class="col-md-4" v-for="contact in this.contactdata" v-bind:key="contact.id">
-            <div class="box">
+            <div class="box" v-for="contact in this.contactdata" v-bind:key="contact.id">
                 <div class="box-header with-border">
                     <div class="box-title">
                         Contact
                     </div>
                     <div class="box-tools pull-right">
-                        <button class="btn btn-success" @click="selectInvoiceData(contact)"><i class="fa fa-check"></i>Selectionar</button>
+                        <button class="btn btn-info" @click="selectInvoiceData(contact)"><i class="fa fa-check"></i>Selectionar</button>
                     </div>
                 </div>
                 <div class="box-body">
                     <p>{{contact.firstname}} {{contact.lastname}}</p>
                     <p>{{contact.idnumber}}</p>
-                    <p>{{contact.address}}</p>
                     <p>{{contact.email}}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="box">
+                <div class="box-header with-border">
+                    <div class="box-title">
+                        Datos de facturación
+                    </div>
+                    <div class="box-tools pull-right">
+                        <button v-if="checkForm()" class="btn btn-success" @click="confirmInvoiceData()"><i class="fa fa-check"></i>Seleccionar</button>
+                    </div>
+                </div>
+                <div class="box-body">
+
+                    <div class="form-group">
+                        <label for="clientname">Nombre completo: </label>
+                        <input required id="clientname" type="text" v-model="clientname" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="clientphone">Teléfono: </label>
+                        <input required id="clientphone" type="text" v-model="clientphone" class="form-control">
+                    </div>
+
+                    
+                    <div class="form-group">
+                        <label for="clientaddress">Dirección: </label>
+                        <input required type="text" v-model="clientaddress" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="clientidnumber">Número de cédula/RUC: </label>
+                        <input required type="text" v-model="clientidnumber" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="clientemail">Correo electrónico: </label>
+                        <input required type="text" v-model="clientemail" class="form-control">
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -198,7 +223,7 @@
             <div class="box">
                 <div class="box-header with-border">
                     <div class="box-title">
-                        Cart details
+                        Productos
                     </div>
                     <div class="box-tools pull-right">
                     </div>
@@ -208,8 +233,8 @@
 
                     <table class="table">
                         <thead>
-                            <th>Nom</th>
-                            <th>Prix</th>
+                            <th>Producto</th>
+                            <th>Precio</th>
                         </thead>
                         <tbody>
                             <tr v-bind:key="enrollment.id + '-enrollment'" v-for="enrollment in enrollments">
@@ -290,7 +315,7 @@
                             <tr v-for="payment in payments" v-bind:key="payment.id">
                                 <td>
                                     <select class="form-control" name="method" v-model="payment.method">
-                                        <option v-for="paymentmethod in availablepaymentmethods" v-bind:key="paymentmethod.id" value="paymentmethod.code">{{paymentmethod.name}}</option>
+                                        <option v-for="paymentmethod in availablepaymentmethods" v-bind:key="paymentmethod.id" v-bind:value="paymentmethod.code">{{paymentmethod.name}}</option>
                                     </select>
                                 </td>
 
@@ -320,8 +345,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="comment">Comentario:</label>
-                        <textarea name="comment" id="comment" cols="50" rows="2"></textarea>
+                        <label for="comment">Comentario general:</label>
+                        <textarea name="comment" id="comment" cols="50" rows="2" v-model="comment"></textarea>
                     </div>
 
                 </div>
@@ -364,7 +389,7 @@
 
     export default {
 
-        props: ['enrollmentslist', 'feeslist', 'bookslist', 'availablebooks', 'availablefees', 'availableenrollments', 'availablediscounts', 'contactdata', 'availablepaymentmethods'],
+        props: ['enrollmentslist', 'feeslist', 'bookslist', 'availablebooks', 'availablefees', 'availablediscounts', 'contactdata', 'availablepaymentmethods'],
 
         data () {
             return {
@@ -383,17 +408,11 @@
                 payments: [],
                 products: [],
                 comment: '',
-                availableenrollmentsnotincart: this.availableenrollments,
             }
         },
 
         mounted() {
-            for(var i in this.availableenrollmentsnotincart){
-                if(this.availableenrollmentsnotincart[i].id == this.enrollmentslist[0].id) {
-                    this.availableenrollmentsnotincart.splice(i,1);
-                    break;
-                }
-            }
+
         },
 
         methods: {
@@ -412,25 +431,6 @@
                     var addedfee = this.fees.push(fee) - 1;
                     this.fees[addedfee].quantity = 1;
                 }
-            },
-            
-            addEnrollment(enrollment)
-            {
-                if(!this.enrollments.some(el => el.id == enrollment.id)) {
-                    this.enrollments.push(enrollment);
-                    for(var i in this.availableenrollmentsnotincart){
-                        if(this.availableenrollmentsnotincart[i].id == enrollment.id) {
-                            this.availableenrollmentsnotincart.splice(i,1);
-                            break;
-                        }
-                    }
-                }
-
-            },
-
-            removeEnrollmentFromCart(index)
-            {
-                this.enrollments.splice(index, 1);
             },
  
             removeBookFromCart(index)
@@ -465,23 +465,29 @@
             selectStudentData()
             {
                 this.clientname = this.enrollments[0].student.user.firstname + ' ' + this.enrollments[0].student.user.lastname
-                this.clientphone = this.enrollments[0].student.phone[0].phone_number // fixme allow select if several numbers
+                this.clientphone = (typeof this.enrollments[0].student.phone[0] === 'undefined') ? '' : this.enrollments[0].student.phone[0].phone_number;
                 this.clientaddress = this.enrollments[0].student.address
                 this.clientidnumber = this.enrollments[0].student.idnumber
                 this.clientemail = this.enrollments[0].student.user.email
-                
-                this.step = 3;
-
             },
 
             selectInvoiceData(contact)
             {
                 this.clientname = contact.firstname + ' ' + contact.lastname
-                this.clientphone = contact.phone[0].phone_number // fixme allow select if several numbers
+                this.clientphone = (typeof contact.phone[0] === 'undefined') ? '' : contact.phone[0].phone_number;
                 this.clientaddress = contact.address
                 this.clientidnumber = contact.idnumber
                 this.clientemail = contact.email
-                
+            },
+
+            checkForm: function (e) {
+                if (this.clientname && this.clientphone && this.clientaddress && this.clientidnumber && this.clientemail) {
+                    return true;
+                }
+            },
+
+            confirmInvoiceData()
+            {
                 this.step = 3;
             },
 

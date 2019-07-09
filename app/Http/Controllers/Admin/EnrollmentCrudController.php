@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Period;
+use App\Models\Course;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
+use App\Models\Period;
 use App\Models\Enrollment;
 use App\Models\EnrollmentStatus;
 use Illuminate\Support\Facades\Log;
@@ -184,9 +185,11 @@ class EnrollmentCrudController extends CrudController
         // get related comments
         // todo also get the comments related to children / parent enrollments
         $comments = $enrollment->comments;
+        
+        $availableCourses = Course::where('period_id', $enrollment->course->period_id)->get();
 
         // then load the page
-        return view('enrollments.show', compact('enrollment', 'products', 'comments'));
+        return view('enrollments.show', compact('enrollment', 'products', 'comments', 'availableCourses'));
     }
 
         /**

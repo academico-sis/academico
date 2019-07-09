@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Course;
+use App\Models\Event;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
+use App\Models\Course;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\CourseRequest as StoreRequest;
@@ -496,6 +497,7 @@ class CourseCrudController extends CrudController
     public function destroy($id)
    {
       $this->crud->hasAccessOrFail('delete');
+      Event::where('course_id', $id)->delete();
       return $this->crud->delete($id);
    }
 

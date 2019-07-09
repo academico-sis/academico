@@ -9,6 +9,7 @@ use App\Models\Course;
 use App\Models\Comment;
 use App\Models\Student;
 use App\Models\Discount;
+use App\Models\Attendance;
 use App\Models\Enrollment;
 use App\Models\PreInvoice;
 use Illuminate\Http\Request;
@@ -53,20 +54,51 @@ class EnrollmentController extends Controller
         }
     }
 
-    public function change(Request $request)
+    public function update(Enrollment $enrollment, Request $request)
     {
-        $enrollment = Enrollment::findOrFail($request->input('enrollment_id'));
         $course = Course::findOrFail($request->input('course_id'));
+        
+        // if enrollment has children, delete them
+        Enrollment::where('parent_id', $enrollment->id)->delete();
 
-        // display a confirmation message
+        // update enrollment with new course
+        $enrollment->update([
+            'course_id' => $course->id,
+        ]);
 
-        // first mark the original enrollment as cancelled
-        $enrollment->delete();
+        // if the new course has children, create an enrollment as well
+        foreach($course->children as $children_course)
+        {
+            $child_enrollment = Enrollment::firstOrNew([
+                'student_id' =>  $enrollment->student_id,
+                'course_id' => $children_course->id,
+                'parent_id' => $enrollment->id
+            ]);
+            $child_enrollment->responsible_id = backpack_user()->id ?? null;
+            $child_enrollment->save();
+        }
 
-        // then create a whole new enrollment
-        $enrollment->student->enroll($course);
+        // delete attendance
+        foreach($enrollment->course->events as $event)
+        {
+            Attendance::where('event_id', $event->id)->where('student_id', $enrollment->student_id)->delete();
+        }
 
-        // todo migrate comments, attendance, grades, skills...
+        foreach($enrollment->course->children as $child)
+        {
+            foreach($child->events as $event)
+            {
+                Attendance::where('event_id', $event->id)->where('student_id', $enrollment->student_id)->delete();
+            }
+        }
+
+        // TODO delete grades and/or skills
+
+        // display a confirmation message and redirect to enrollment details
+        \Alert::success(__('The enrollment has been updated'))->flash();
+
+        return redirect("enrollment/$enrollment->id");
+
     }
 
 
@@ -85,12 +117,11 @@ class EnrollmentController extends Controller
 
         $availableBooks = Book::all();
         $availableFees = Fee::all();
-        $availableEnrollments = Enrollment::where('status_id', 1)->with('student')->with('course')->get();
         $availableDiscounts = Discount::all();
         $contactData = $enrollment->student->contacts;
         $availablePaymentMethods = Paymentmethod::all();
 
-        return view('carts.show', compact('enrollments', 'fees', 'books', 'availableBooks', 'availableFees', 'availableEnrollments', 'availableDiscounts', 'contactData', 'availablePaymentMethods'));
+        return view('carts.show', compact('enrollments', 'fees', 'books', 'availableBooks', 'availableFees', 'availableDiscounts', 'contactData', 'availablePaymentMethods'));
     }
 
     /** this method is temporary. It serves as a shortcut until the invoicing system is in place */

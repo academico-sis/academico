@@ -114,6 +114,7 @@
             </div>
             
             <div class="box-body">
+
                 @if($enrollment->status_id == 2)
                 
                     <div class="label label-primary">
@@ -145,12 +146,16 @@
                         @lang('Delete Enrollment')
                     </button>
                 </div>
-
-
                 
             @else
                 {{ $enrollment->enrollmentStatus->name }}
             @endif
+
+
+            <div class="form-group">
+                    <button class="btn btn-xs btn-danger" data-toggle="modal" data-target="#changeCourseModal">@lang('Change Course')</button>
+            </div>
+
             </div>
         </div>
     </div>
@@ -161,6 +166,42 @@
 @if ($enrollment->pre_invoice()->count() > 0)
     @include('invoices.show')
 @endif
+
+
+
+    <!-- Change Course Modal-->
+    <div class="modal fade" id="changeCourseModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">@lang('Change course')</h4>
+            </div>
+            <div class="modal-body">
+              
+                <form action="{{ route('changeCourse', ['enrollment'=> $enrollment->id]) }}" method="post">
+                @csrf
+                
+                <div class="form-group">
+                    <label for="course_id">@lang('New Course')</label>
+                    <select id="course_id" name="course_id">
+                        @foreach ($availableCourses as $course)
+                            <option value="{{ $course->id }}">{{ $course->name }} ({{ $course->id }})</option>
+                        @endforeach
+                    </select>
+                </div>
+
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">@lang('Close')</button>
+              <button type="submit" class="btn btn-success">@lang('Change course')</button>
+            </div>
+        </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
 
 @endsection
 
