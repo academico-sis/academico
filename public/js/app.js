@@ -3859,7 +3859,7 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("Products")]
+              [_vm._v("Productos")]
             )
           ])
         : _vm._e(),
@@ -3875,7 +3875,7 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("Invoice Data")]
+              [_vm._v("Datos de Factura")]
             )
           ])
         : _vm._e(),
@@ -3891,7 +3891,7 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("Payment")]
+              [_vm._v("Pago")]
             )
           ])
         : _vm._e()
@@ -4180,7 +4180,7 @@ var render = function() {
                       },
                       [
                         _c("i", { staticClass: "fa fa-check" }),
-                        _vm._v("Selectionar")
+                        _vm._v("Seleccionar")
                       ]
                     )
                   ])
@@ -4275,7 +4275,7 @@ var render = function() {
                         },
                         [
                           _c("i", { staticClass: "fa fa-check" }),
-                          _vm._v("Selectionar")
+                          _vm._v("Seleccionar")
                         ]
                       )
                     : _vm._e()
@@ -4717,7 +4717,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group" }, [
                   _c("label", { attrs: { for: "comment" } }, [
-                    _vm._v("Comentario:")
+                    _vm._v("Comentario general:")
                   ]),
                   _vm._v(" "),
                   _c("textarea", {
@@ -4778,7 +4778,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "box-header with-border" }, [
       _c("div", { staticClass: "box-title" }, [
-        _vm._v("\n                        Cart details\n                    ")
+        _vm._v("\n                        Productos\n                    ")
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "box-tools pull-right" })
@@ -4789,11 +4789,11 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("thead", [
-      _c("th", [_vm._v("Nom")]),
+      _c("th", [_vm._v("Producto")]),
       _vm._v(" "),
-      _c("th", [_vm._v("Prix")]),
+      _c("th", [_vm._v("Precio")]),
       _vm._v(" "),
-      _c("th", [_vm._v("Actions")])
+      _c("th", [_vm._v("Acciones")])
     ])
   },
   function() {
@@ -4802,7 +4802,9 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "box-header with-border" }, [
       _c("div", { staticClass: "box-title" }, [
-        _vm._v("\n                        Add products\n                    ")
+        _vm._v(
+          "\n                        Agregar productos\n                    "
+        )
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "box-tools pull-right" })
@@ -4820,7 +4822,7 @@ var staticRenderFns = [
       },
       [
         _c("span", { staticClass: "caret" }),
-        _vm._v(" Books\n                            ")
+        _vm._v(" Libros\n                            ")
       ]
     )
   },
@@ -4836,7 +4838,7 @@ var staticRenderFns = [
       },
       [
         _c("span", { staticClass: "caret" }),
-        _vm._v(" Fees\n                            ")
+        _vm._v(" Gastos adm.\n                            ")
       ]
     )
   },
@@ -4846,7 +4848,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "box-header with-border" }, [
       _c("div", { staticClass: "box-title" }, [
-        _vm._v("\n                        Discounts\n                    ")
+        _vm._v("\n                        Descuentos\n                    ")
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "box-tools pull-right" })
@@ -4864,7 +4866,7 @@ var staticRenderFns = [
       },
       [
         _c("span", { staticClass: "caret" }),
-        _vm._v(" Add discount\n                            ")
+        _vm._v(" Agregar descuento\n                            ")
       ]
     )
   },
@@ -4874,7 +4876,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "box-header with-border" }, [
       _c("div", { staticClass: "box-title" }, [
-        _vm._v("\n                        Cart details\n                    ")
+        _vm._v("\n                        Productos\n                    ")
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "box-tools pull-right" })
@@ -4885,9 +4887,9 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("thead", [
-      _c("th", [_vm._v("Nom")]),
+      _c("th", [_vm._v("Producto")]),
       _vm._v(" "),
-      _c("th", [_vm._v("Prix")])
+      _c("th", [_vm._v("Precio")])
     ])
   },
   function() {

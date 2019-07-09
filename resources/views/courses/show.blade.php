@@ -30,7 +30,7 @@
             <div class="info-box">
                 <span class="info-box-icon bg-aqua"><i class="fa fa-building-o"></i></span>
                 <div class="info-box-content">
-                    <span class="info-box-text">@lang('Rhythm')/@lang('level')</span>
+                    <span class="info-box-text">{{ $course->name ?? '' }}</span>
                     <span class="info-box-number">{{ $course->rhythm->name ?? '-' . ' ' . $course->level->name ?? '-' }}</span>
                 </div>
             </div>

@@ -1,9 +1,9 @@
 <template>
 <div>
     <ol class="breadcrumb">
-        <li v-if="step >= 1"><a @click="step = 1">Products</a></li>
-        <li v-if="step >= 2" class="active"><a @click="step = 2">Invoice Data</a></li>
-        <li v-if="step >= 3" class="active"><a @click="step = 3">Payment</a></li>
+        <li v-if="step >= 1"><a @click="step = 1">Productos</a></li>
+        <li v-if="step >= 2" class="active"><a @click="step = 2">Datos de Factura</a></li>
+        <li v-if="step >= 3" class="active"><a @click="step = 3">Pago</a></li>
       </ol>
 
     <div class="row" v-if="step == 1">
@@ -12,7 +12,7 @@
             <div class="box">
                 <div class="box-header with-border">
                     <div class="box-title">
-                        Cart details
+                        Productos
                     </div>
                     <div class="box-tools pull-right">
                     </div>
@@ -22,9 +22,9 @@
 
                     <table class="table">
                         <thead>
-                            <th>Nom</th>
-                            <th>Prix</th>
-                            <th>Actions</th>
+                            <th>Producto</th>
+                            <th>Precio</th>
+                            <th>Acciones</th>
                         </thead>
                         <tbody>
                             <tr v-bind:key="enrollment.id" v-for="enrollment in enrollments">
@@ -69,7 +69,7 @@
             <div class="box">
                 <div class="box-header with-border">
                     <div class="box-title">
-                        Add products
+                        Agregar productos
                     </div>
                     <div class="box-tools pull-right">
                     </div>
@@ -80,7 +80,7 @@
                     <div class="form-group">
                         <div class="btn-group">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                            <span class="caret"></span> Books
+                            <span class="caret"></span> Libros
                             </button>
                             <ul class="dropdown-menu">
                             <li v-for="availableBook in this.availablebooks" v-bind:key="availableBook.id"><a href="#" @click="addBook(availableBook)">{{ availableBook.name }}</a></li>
@@ -89,7 +89,7 @@
                     
                         <div class="btn-group">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                            <span class="caret"></span> Fees
+                            <span class="caret"></span> Gastos adm.
                             </button>
                             <ul class="dropdown-menu">
                             <li v-for="availableFee in this.availablefees" v-bind:key="availableFee.id"><a href="#" @click="addFee(availableFee)">{{ availableFee.name }}</a></li>
@@ -104,7 +104,7 @@
             <div class="box">
                 <div class="box-header with-border">
                     <div class="box-title">
-                        Discounts
+                        Descuentos
                     </div>
                     <div class="box-tools pull-right">
                     </div>
@@ -122,7 +122,7 @@
                     <div class="form-group">
                         <div class="btn-group">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                            <span class="caret"></span> Add discount
+                            <span class="caret"></span> Agregar descuento
                             </button>
                             <ul class="dropdown-menu">
                             <li v-for="availableDiscount in this.availablediscounts" v-bind:key="availableDiscount.id"><a href="#" @click="addDiscount(availableDiscount)">{{ availableDiscount.name }}</a></li>
@@ -145,7 +145,7 @@
                         Estudiante
                     </div>
                     <div class="box-tools pull-right">
-                        <button class="btn btn-info" @click="selectStudentData()"><i class="fa fa-check"></i>Selectionar</button>
+                        <button class="btn btn-info" @click="selectStudentData()"><i class="fa fa-check"></i>Seleccionar</button>
                     </div>
                 </div>
                 <div class="box-body">
@@ -179,7 +179,7 @@
                         Datos de facturación
                     </div>
                     <div class="box-tools pull-right">
-                        <button v-if="checkForm()" class="btn btn-success" @click="confirmInvoiceData()"><i class="fa fa-check"></i>Selectionar</button>
+                        <button v-if="checkForm()" class="btn btn-success" @click="confirmInvoiceData()"><i class="fa fa-check"></i>Seleccionar</button>
                     </div>
                 </div>
                 <div class="box-body">
@@ -223,7 +223,7 @@
             <div class="box">
                 <div class="box-header with-border">
                     <div class="box-title">
-                        Cart details
+                        Productos
                     </div>
                     <div class="box-tools pull-right">
                     </div>
@@ -233,8 +233,8 @@
 
                     <table class="table">
                         <thead>
-                            <th>Nom</th>
-                            <th>Prix</th>
+                            <th>Producto</th>
+                            <th>Precio</th>
                         </thead>
                         <tbody>
                             <tr v-bind:key="enrollment.id + '-enrollment'" v-for="enrollment in enrollments">
@@ -345,7 +345,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="comment">Comentario:</label>
+                        <label for="comment">Comentario general:</label>
                         <textarea name="comment" id="comment" cols="50" rows="2" v-model="comment"></textarea>
                     </div>
 

@@ -9,6 +9,7 @@ use App\Models\Course;
 use App\Models\Comment;
 use App\Models\Student;
 use App\Models\Discount;
+use App\Models\Attendance;
 use App\Models\Enrollment;
 use App\Models\PreInvoice;
 use Illuminate\Http\Request;
@@ -53,20 +54,28 @@ class EnrollmentController extends Controller
         }
     }
 
-    public function change(Request $request)
+    public function update(Enrollment $enrollment, Request $request)
     {
-        $enrollment = Enrollment::findOrFail($request->input('enrollment_id'));
         $course = Course::findOrFail($request->input('course_id'));
+        
+        // update enrollment with new course
+        $enrollment->update([
+            'course_id' => $course->id,
+        ]);
 
-        // display a confirmation message
+        // delete attendance
+        foreach($enrollment->course->events as $event)
+        {
+            Attendance::where('event_id', $event->id)->where('student_id', $enrollment->student_id)->delete();
+        }
 
-        // first mark the original enrollment as cancelled
-        $enrollment->delete();
+        // TODO delete grades and/or skills
 
-        // then create a whole new enrollment
-        $enrollment->student->enroll($course);
+        // display a confirmation message and redirect to enrollment details
+        \Alert::success(__('The enrollment has been updated'))->flash();
 
-        // todo migrate comments, attendance, grades, skills...
+        return redirect("enrollment/$enrollment->id");
+
     }
 
 
