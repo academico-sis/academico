@@ -2123,6 +2123,44 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['enrollmentslist', 'feeslist', 'bookslist', 'availablebooks', 'availablefees', 'availableenrollments', 'availablediscounts', 'contactdata', 'availablepaymentmethods'],
   data: function data() {
@@ -2204,20 +2242,24 @@ __webpack_require__.r(__webpack_exports__);
     },
     selectStudentData: function selectStudentData() {
       this.clientname = this.enrollments[0].student.user.firstname + ' ' + this.enrollments[0].student.user.lastname;
-      this.clientphone = this.enrollments[0].student.phone[0].phone_number; // fixme allow select if several numbers
-
+      this.clientphone = typeof this.enrollments[0].student.phone[0] === 'undefined' ? '' : this.enrollments[0].student.phone[0].phone_number;
       this.clientaddress = this.enrollments[0].student.address;
       this.clientidnumber = this.enrollments[0].student.idnumber;
       this.clientemail = this.enrollments[0].student.user.email;
-      this.step = 3;
     },
     selectInvoiceData: function selectInvoiceData(contact) {
       this.clientname = contact.firstname + ' ' + contact.lastname;
-      this.clientphone = contact.phone[0].phone_number; // fixme allow select if several numbers
-
+      this.clientphone = typeof this.contact.phone[0] === 'undefined' ? '' : this.contact.phone[0].phone_number;
       this.clientaddress = contact.address;
       this.clientidnumber = contact.idnumber;
       this.clientemail = contact.email;
+    },
+    checkForm: function checkForm(e) {
+      if (this.clientname && this.clientphone && this.clientaddress && this.clientidnumber && this.clientemail) {
+        return true;
+      }
+    },
+    confirmInvoiceData: function confirmInvoiceData() {
       this.step = 3;
     },
     addPayment: function addPayment() {
@@ -4210,11 +4252,11 @@ var render = function() {
       : _vm._e(),
     _vm._v(" "),
     _vm.step == 2
-      ? _c(
-          "div",
-          { staticClass: "row" },
-          [
-            _c("div", { staticClass: "col-md-4" }, [
+      ? _c("div", { staticClass: "row" }, [
+          _c(
+            "div",
+            { staticClass: "col-md-4" },
+            [
               _c("div", { staticClass: "box" }, [
                 _c("div", { staticClass: "box-header with-border" }, [
                   _c("div", { staticClass: "box-title" }, [
@@ -4227,7 +4269,7 @@ var render = function() {
                     _c(
                       "button",
                       {
-                        staticClass: "btn btn-success",
+                        staticClass: "btn btn-info",
                         on: {
                           click: function($event) {
                             return _vm.selectStudentData()
@@ -4255,18 +4297,14 @@ var render = function() {
                     _vm._v(_vm._s(_vm.enrollments[0].student.idnumber))
                   ]),
                   _vm._v(" "),
-                  _c("p", [_vm._v(_vm._s(_vm.enrollments[0].student.address))]),
-                  _vm._v(" "),
                   _c("p", [
                     _vm._v(_vm._s(_vm.enrollments[0].student.user.email))
                   ])
                 ])
-              ])
-            ]),
-            _vm._v(" "),
-            _vm._l(this.contactdata, function(contact) {
-              return _c("div", { key: contact.id, staticClass: "col-md-4" }, [
-                _c("div", { staticClass: "box" }, [
+              ]),
+              _vm._v(" "),
+              _vm._l(this.contactdata, function(contact) {
+                return _c("div", { key: contact.id, staticClass: "box" }, [
                   _c("div", { staticClass: "box-header with-border" }, [
                     _c("div", { staticClass: "box-title" }, [
                       _vm._v(
@@ -4278,7 +4316,7 @@ var render = function() {
                       _c(
                         "button",
                         {
-                          staticClass: "btn btn-success",
+                          staticClass: "btn btn-info",
                           on: {
                             click: function($event) {
                               return _vm.selectInvoiceData(contact)
@@ -4304,16 +4342,188 @@ var render = function() {
                     _vm._v(" "),
                     _c("p", [_vm._v(_vm._s(contact.idnumber))]),
                     _vm._v(" "),
-                    _c("p", [_vm._v(_vm._s(contact.address))]),
-                    _vm._v(" "),
                     _c("p", [_vm._v(_vm._s(contact.email))])
                   ])
                 ])
+              })
+            ],
+            2
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-8" }, [
+            _c("div", { staticClass: "box" }, [
+              _c("div", { staticClass: "box-header with-border" }, [
+                _c("div", { staticClass: "box-title" }, [
+                  _vm._v(
+                    "\n                        Datos de facturación\n                    "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "box-tools pull-right" }, [
+                  _vm.checkForm()
+                    ? _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-success",
+                          on: {
+                            click: function($event) {
+                              return _vm.confirmInvoiceData()
+                            }
+                          }
+                        },
+                        [
+                          _c("i", { staticClass: "fa fa-check" }),
+                          _vm._v("Selectionar")
+                        ]
+                      )
+                    : _vm._e()
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "box-body" }, [
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "clientname" } }, [
+                    _vm._v("Nombre completo: ")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.clientname,
+                        expression: "clientname"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { required: "", id: "clientname", type: "text" },
+                    domProps: { value: _vm.clientname },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.clientname = $event.target.value
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "clientphone" } }, [
+                    _vm._v("Teléfono: ")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.clientphone,
+                        expression: "clientphone"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { required: "", id: "clientphone", type: "text" },
+                    domProps: { value: _vm.clientphone },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.clientphone = $event.target.value
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "clientaddress" } }, [
+                    _vm._v("Dirección: ")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.clientaddress,
+                        expression: "clientaddress"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { required: "", type: "text" },
+                    domProps: { value: _vm.clientaddress },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.clientaddress = $event.target.value
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "clientidnumber" } }, [
+                    _vm._v("Número de cédula/RUC: ")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.clientidnumber,
+                        expression: "clientidnumber"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { required: "", type: "text" },
+                    domProps: { value: _vm.clientidnumber },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.clientidnumber = $event.target.value
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "clientemail" } }, [
+                    _vm._v("Correo electrónico: ")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.clientemail,
+                        expression: "clientemail"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { required: "", type: "text" },
+                    domProps: { value: _vm.clientemail },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.clientemail = $event.target.value
+                      }
+                    }
+                  })
+                ])
               ])
-            })
-          ],
-          2
-        )
+            ])
+          ])
+        ])
       : _vm._e(),
     _vm._v(" "),
     _vm.step == 3
@@ -4497,14 +4707,9 @@ var render = function() {
                               _vm._l(_vm.availablepaymentmethods, function(
                                 paymentmethod
                               ) {
-                                return _c(
-                                  "option",
-                                  {
-                                    key: paymentmethod.id,
-                                    attrs: { value: "paymentmethod.code" }
-                                  },
-                                  [_vm._v(_vm._s(paymentmethod.name))]
-                                )
+                                return _c("option", { key: paymentmethod.id }, [
+                                  _vm._v(_vm._s(paymentmethod.name))
+                                ])
                               }),
                               0
                             )

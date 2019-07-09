@@ -144,7 +144,7 @@ class PreInvoiceController extends Controller
 
 
         $body = [
-            "codtrans" => "FE", // ?
+            "codtrans" => "FE", // was 'OP'
             "numtrans" => $preinvoice->id,
             "fechatrans" => $preinvoice->created_at,
             "horatrans" => $preinvoice->created_at,
@@ -153,13 +153,14 @@ class PreInvoiceController extends Controller
             "codprovcli" => $preinvoice->client_idnumber, // si existe, se busca el cliente. Si no lo creamos.
             "nombre" => $preinvoice->client_name,
             "direccion" => $preinvoice->client_address,
-            "telefono" => "", // TODO
+            "telefono" => $preinvoice->client_phone,
             "email" => $preinvoice->client_email,
             "codvendedor" => "",
             "ivkardex" => $ivkardex,
             "pckardex" => $pckardex,
         ];
 
+        return $body;
         $client = new Client();
         
         $serverurl = Config::where('name', 'ACCOUNTING_URL')->first()->value;

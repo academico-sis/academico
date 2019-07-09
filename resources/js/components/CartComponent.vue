@@ -158,33 +158,71 @@
                         Estudiante
                     </div>
                     <div class="box-tools pull-right">
-                        <button class="btn btn-success" @click="selectStudentData()"><i class="fa fa-check"></i>Selectionar</button>
+                        <button class="btn btn-info" @click="selectStudentData()"><i class="fa fa-check"></i>Selectionar</button>
                     </div>
                 </div>
                 <div class="box-body">
                     <p>{{enrollments[0].student.user.firstname}} {{enrollments[0].student.user.lastname}}</p>
                     <p>{{enrollments[0].student.idnumber}}</p>
-                    <p>{{enrollments[0].student.address}}</p>
                     <p>{{enrollments[0].student.user.email}}</p>
                 </div>
             </div>
-        </div>
 
-        <div class="col-md-4" v-for="contact in this.contactdata" v-bind:key="contact.id">
-            <div class="box">
+            <div class="box" v-for="contact in this.contactdata" v-bind:key="contact.id">
                 <div class="box-header with-border">
                     <div class="box-title">
                         Contact
                     </div>
                     <div class="box-tools pull-right">
-                        <button class="btn btn-success" @click="selectInvoiceData(contact)"><i class="fa fa-check"></i>Selectionar</button>
+                        <button class="btn btn-info" @click="selectInvoiceData(contact)"><i class="fa fa-check"></i>Selectionar</button>
                     </div>
                 </div>
                 <div class="box-body">
                     <p>{{contact.firstname}} {{contact.lastname}}</p>
                     <p>{{contact.idnumber}}</p>
-                    <p>{{contact.address}}</p>
                     <p>{{contact.email}}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="box">
+                <div class="box-header with-border">
+                    <div class="box-title">
+                        Datos de facturación
+                    </div>
+                    <div class="box-tools pull-right">
+                        <button v-if="checkForm()" class="btn btn-success" @click="confirmInvoiceData()"><i class="fa fa-check"></i>Selectionar</button>
+                    </div>
+                </div>
+                <div class="box-body">
+
+                    <div class="form-group">
+                        <label for="clientname">Nombre completo: </label>
+                        <input required id="clientname" type="text" v-model="clientname" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="clientphone">Teléfono: </label>
+                        <input required id="clientphone" type="text" v-model="clientphone" class="form-control">
+                    </div>
+
+                    
+                    <div class="form-group">
+                        <label for="clientaddress">Dirección: </label>
+                        <input required type="text" v-model="clientaddress" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="clientidnumber">Número de cédula/RUC: </label>
+                        <input required type="text" v-model="clientidnumber" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="clientemail">Correo electrónico: </label>
+                        <input required type="text" v-model="clientemail" class="form-control">
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -465,23 +503,29 @@
             selectStudentData()
             {
                 this.clientname = this.enrollments[0].student.user.firstname + ' ' + this.enrollments[0].student.user.lastname
-                this.clientphone = this.enrollments[0].student.phone[0].phone_number // fixme allow select if several numbers
+                this.clientphone = (typeof this.enrollments[0].student.phone[0] === 'undefined') ? '' : this.enrollments[0].student.phone[0].phone_number;
                 this.clientaddress = this.enrollments[0].student.address
                 this.clientidnumber = this.enrollments[0].student.idnumber
                 this.clientemail = this.enrollments[0].student.user.email
-                
-                this.step = 3;
-
             },
 
             selectInvoiceData(contact)
             {
                 this.clientname = contact.firstname + ' ' + contact.lastname
-                this.clientphone = contact.phone[0].phone_number // fixme allow select if several numbers
+                this.clientphone = (typeof this.contact.phone[0] === 'undefined') ? '' : this.contact.phone[0].phone_number;
                 this.clientaddress = contact.address
                 this.clientidnumber = contact.idnumber
                 this.clientemail = contact.email
-                
+            },
+
+            checkForm: function (e) {
+                if (this.clientname && this.clientphone && this.clientaddress && this.clientidnumber && this.clientemail) {
+                    return true;
+                }
+            },
+
+            confirmInvoiceData()
+            {
                 this.step = 3;
             },
 
