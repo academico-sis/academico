@@ -245,9 +245,6 @@ class Enrollment extends Model
     
     public function cancel()
     {
-        $this->status_id = 3; // cancelled
-        $this->save();
-
         // if the enrollment had children, delete them entirely
          if ($this->childrenEnrollments && $this->childrenEnrollments->count() > 0)
         {
@@ -262,5 +259,7 @@ class Enrollment extends Model
         Attendance::destroy($attendances->map(function ($item, $key) {
             return $item->id;
         }));
+
+        $this->delete();
     }
 }
