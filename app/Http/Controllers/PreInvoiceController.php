@@ -144,7 +144,7 @@ class PreInvoiceController extends Controller
 
 
         $body = [
-            "codtrans" => "OP", // ?
+            "codtrans" => "FE", // ?
             "numtrans" => $preinvoice->id,
             "fechatrans" => $preinvoice->created_at,
             "horatrans" => $preinvoice->created_at,

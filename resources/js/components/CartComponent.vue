@@ -290,7 +290,7 @@
                             <tr v-for="payment in payments" v-bind:key="payment.id">
                                 <td>
                                     <select class="form-control" name="method" v-model="payment.method">
-                                        <option v-for="paymentmethod in availablepaymentmethods" v-bind:key="paymentmethod.id" value="paymentmethod.code">{{paymentmethod.name}}</option>
+                                        <option v-for="paymentmethod in availablepaymentmethods" v-bind:key="paymentmethod.id">{{paymentmethod.name}}</option>
                                     </select>
                                 </td>
 
