@@ -46,6 +46,7 @@ class PreInvoiceController extends Controller
             'client_idnumber' => $request->client_idnumber,
             'client_address' => $request->client_address,
             'client_email' => $request->client_email,
+            'client_phone' => $request->client_phone,
             'total_price' => $request->total_price,
         ]);
 

@@ -315,7 +315,7 @@
                             <tr v-for="payment in payments" v-bind:key="payment.id">
                                 <td>
                                     <select class="form-control" name="method" v-model="payment.method">
-                                        <option v-for="paymentmethod in availablepaymentmethods" v-bind:key="paymentmethod.id">{{paymentmethod.name}}</option>
+                                        <option v-for="paymentmethod in availablepaymentmethods" v-bind:key="paymentmethod.id" v-bind:value="paymentmethod.code">{{paymentmethod.name}}</option>
                                     </select>
                                 </td>
 
@@ -346,7 +346,7 @@
 
                     <div class="form-group">
                         <label for="comment">Comentario:</label>
-                        <textarea name="comment" id="comment" cols="50" rows="2"></textarea>
+                        <textarea name="comment" id="comment" cols="50" rows="2" v-model="comment"></textarea>
                     </div>
 
                 </div>
@@ -474,7 +474,7 @@
             selectInvoiceData(contact)
             {
                 this.clientname = contact.firstname + ' ' + contact.lastname
-                this.clientphone = (typeof this.contact.phone[0] === 'undefined') ? '' : this.contact.phone[0].phone_number;
+                this.clientphone = (typeof contact.phone[0] === 'undefined') ? '' : contact.phone[0].phone_number;
                 this.clientaddress = contact.address
                 this.clientidnumber = contact.idnumber
                 this.clientemail = contact.email

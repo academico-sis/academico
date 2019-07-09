@@ -2211,7 +2211,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     selectInvoiceData: function selectInvoiceData(contact) {
       this.clientname = contact.firstname + ' ' + contact.lastname;
-      this.clientphone = typeof this.contact.phone[0] === 'undefined' ? '' : this.contact.phone[0].phone_number;
+      this.clientphone = typeof contact.phone[0] === 'undefined' ? '' : contact.phone[0].phone_number;
       this.clientaddress = contact.address;
       this.clientidnumber = contact.idnumber;
       this.clientemail = contact.email;
@@ -4609,9 +4609,14 @@ var render = function() {
                               _vm._l(_vm.availablepaymentmethods, function(
                                 paymentmethod
                               ) {
-                                return _c("option", { key: paymentmethod.id }, [
-                                  _vm._v(_vm._s(paymentmethod.name))
-                                ])
+                                return _c(
+                                  "option",
+                                  {
+                                    key: paymentmethod.id,
+                                    domProps: { value: paymentmethod.code }
+                                  },
+                                  [_vm._v(_vm._s(paymentmethod.name))]
+                                )
                               }),
                               0
                             )
@@ -4710,7 +4715,37 @@ var render = function() {
                   ])
                 ]),
                 _vm._v(" "),
-                _vm._m(11)
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "comment" } }, [
+                    _vm._v("Comentario:")
+                  ]),
+                  _vm._v(" "),
+                  _c("textarea", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.comment,
+                        expression: "comment"
+                      }
+                    ],
+                    attrs: {
+                      name: "comment",
+                      id: "comment",
+                      cols: "50",
+                      rows: "2"
+                    },
+                    domProps: { value: _vm.comment },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.comment = $event.target.value
+                      }
+                    }
+                  })
+                ])
               ])
             ])
           ])
@@ -4721,7 +4756,7 @@ var render = function() {
       ? _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col col-md-12" }, [
             _c("div", { staticClass: "box" }, [
-              _vm._m(12),
+              _vm._m(11),
               _vm._v(" "),
               _c("div", { staticClass: "box-body" }, [
                 _c("p", [
@@ -4881,18 +4916,6 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Observación")])
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c("label", { attrs: { for: "comment" } }, [_vm._v("Comentario:")]),
-      _vm._v(" "),
-      _c("textarea", {
-        attrs: { name: "comment", id: "comment", cols: "50", rows: "2" }
-      })
     ])
   },
   function() {

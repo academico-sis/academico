@@ -19,7 +19,7 @@
                 <p>@lang('Client email') : {{ $enrollment->pre_invoice()->first()->client_email }}</p>
                 <p>@lang('Client address') : {{ $enrollment->pre_invoice()->first()->client_address }}</p>
                 <p>@lang('Client ID Number') : {{ $enrollment->pre_invoice()->first()->client_idnumber }}</p>
-                <p>@lang('Client Phone Number') : todo</p>
+                <p>@lang('Client Phone Number') : {{ $enrollment->pre_invoice()->first()->client_phone }}</p>
 
             </div>
         </div>
