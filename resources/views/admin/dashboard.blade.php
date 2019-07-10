@@ -55,61 +55,56 @@
         </div>
         @endif
 
-        @if(backpack_user()->can('hr.manage'))
+
+
         <div class="col-md-3">
-                <div class="box">
-                    <div class="box-header with-border">
-                        <div class="box-title">                          
-                            <strong>@lang('Human Resources')</strong>
-                        </div>
-                        <div class="box-tools pull-right">
-    
-                        </div>
-                    </div>
-    
-                    <div class="box-body">
-                        <p>@lang('Teachers') : {{ count($teachers) }}</p>
-{{--                         <p>@lang('Upcoming Leaves') : <ul>
-                            @foreach ($upcoming_leaves as $leave)
-                                {{ $leave }}
-                            @endforeach
-                        </ul> --}}
-
-                        {{-- nombre d'heures de cours aujourd'hui, cette semaine, ce mois, ce cycle --}}
-                        {{-- comparaison par rapport au cycle dernier --}}
+            <a href='student?lead_status_is=["4"]'>
+                <div class="info-box">
+                    <span class="info-box-icon bg-green"><i class="fa fa-question"></i></span>
+                    <div class="info-box-content">
+                            <span class="info-box-text">@lang('Pending leads')</span>
+                            <span class="info-box-number">{{ $pending_leads }}</span>
                     </div>
                 </div>
-            </div>
-            @endif
+            </a>
+        </div>
 
-            <div class="col-md-3">
-                <div class="box">
-                    <div class="box-header with-border">
-                        <div class="box-title">                          
-                            <strong>@lang('Leads')</strong>
-                        </div>
-                        <div class="box-tools pull-right">
-    
-                        </div>
-                    </div>
-    
-                    <div class="box-body">
-                        <p>@lang('Pending leads') : <a href='student?lead_status_is=["4"]'>{{ $pending_leads }}</a></p>
-                        <p>@lang('Leads to call') : <a href='student?lead_status_is=["5"]'>{{ $call_leads }}</a></p>
-                        <p>@lang('Actionnable Comments') : <a href='/comment?action=true'>{{ $action_comments }}</a></p>
-                        <p>@lang('Pending Attendance') : <a href="/attendance">{{ $pending_attendance }}</a></p>
-
-{{--                         <p>@lang('Upcoming Leaves') : <ul>
-                            @foreach ($upcoming_leaves as $leave)
-                                {{ $leave }}
-                            @endforeach
-                        </ul> --}}
-
-                        {{-- nombre d'heures de cours aujourd'hui, cette semaine, ce mois, ce cycle --}}
-                        {{-- comparaison par rapport au cycle dernier --}}
+        <div class="col-md-3">
+            <a href='student?lead_status_is=["5"]'>
+                <div class="info-box">
+                    <span class="info-box-icon bg-green"><i class="fa fa-phone"></i></span>
+                    <div class="info-box-content">
+                            <span class="info-box-text">@lang('Leads to call')</span>
+                            <span class="info-box-number">{{ $call_leads }}</span>
                     </div>
                 </div>
-            </div>
+            </a>
+        </div>
+
+        <div class="col-md-3">
+            <a href='student?lead_status_is=["5"]'>
+                <div class="info-box">
+                    <span class="info-box-icon bg-green"><i class="fa fa-check-square"></i></span>
+                    <div class="info-box-content">
+                            <span class="info-box-text">@lang('Actionnable Comments')</span>
+                            <span class="info-box-number">{{ $pending_leads }}</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-3">
+            <a href="/attendance">
+                <div class="info-box">
+                    <span class="info-box-icon bg-green"><i class="fa fa-calendar"></i></span>
+                    <div class="info-box-content">
+                            <span class="info-box-text">@lang('Pending Attendance')</span>
+                            <span class="info-box-number">{{ $pending_attendance }}</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+
 
     </div>
 
