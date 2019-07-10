@@ -72,7 +72,7 @@
                         </thead>
 
                         @php
-                            $current_year = \App\Models\Period::first()->year_id;
+                            $current_year = $startperiod->year_id;
                             $i = 0;
                             $year_enrollments = 0;
                             $year_taught_hours = 0;
@@ -165,6 +165,37 @@
                                     $i ++;
                                 @endphp
                             @endforeach
+
+                            <tr style="font-weight: bold">
+                                    <td>
+                                        {{ \App\Models\Year::find($current_year)->name ?? '-' }}
+                                    </td>
+
+                                    <td>
+                                        {{ $year_enrollments ?? '-' }}
+                                    </td>
+
+                                    <td>
+                                        {{ \App\Models\Year::find($current_year)->year_distinct_students_count ?? '-' }}
+                                    </td>
+
+                                    <td>
+                                        {{ $data_period['acquisition_rate'] ?? '-' }}
+                                    </td>
+
+                                    <td>
+                                        {{ $data_period['new_students'] ?? '-' }}
+                                    </td>
+                                    
+                                    <td>
+                                        {{ number_format($year_taught_hours ?? '0') }}
+                                    </td>
+                                    
+                                    <td>
+                                        {{ number_format($year_sold_hours ?? '0') }}
+                                    </td>
+                                </tr>
+                                
                         </tbody>
                     </table>
                     <p>(*) = @lang('share of students from previous period who were re-enrolled')</p>
