@@ -31,9 +31,6 @@ class Kernel extends ConsoleKernel
             Log::info('Sending attendance reminders');
             (new Attendance)->remindPendingAttendance();
         })->dailyAt('08:15');
-
-        $schedule->command('syncmailing:students')->dailyAt('01:33');
-
     }
 
     /**
