@@ -27,7 +27,7 @@
                 </div>
                 
                 <div class="box-body">
-                    <!-- <canvas id="myChart"></canvas> -->
+                    <canvas id="myChart"></canvas>
                 </div>
             </div>
         </div>
@@ -200,5 +200,89 @@
 
 
 @section('after_scripts')
+
+<script src="/js/Chart.min.js"></script>
+
+<script>
+$(document).ready(function()
+{
+    var data = <?php echo json_encode($year_data) ?>;
+
+    var chartData = {
+        labels: [],
+        datasets: [
+        {
+            label: "Apprenants différents",
+            data: [],
+            borderColor: '#5b76d8',
+            yAxisID: "y-axis-0",
+        },
+        {
+            label: "Inscriptions",
+            data: [],
+            borderColor: '#dd4b39',
+            yAxisID: "y-axis-0",
+        },
+        {
+            label: "Heures-prof",
+            data: [],
+            borderColor: '#00A500',
+            yAxisID: "y-axis-1",
+        },
+        {
+            label: "Heures-élève",
+            data: [],
+            borderColor: '#916B36',
+            yAxisID: "y-axis-1",
+        },
+        ]
+    };
+
+    for (s in data) {
+        chartData.labels.push(data[s]["year_name"]);
+        chartData.datasets[0].data.push(data[s].students);
+        chartData.datasets[1].data.push(data[s].enrollments);
+        chartData.datasets[2].data.push(data[s].taught_hours);
+        chartData.datasets[3].data.push(data[s].sold_hours);
+    }
+
+    console.log(Math.max.apply(Math, chartData.datasets[1].data.map(function(o) { return o; })));
+
+    var ctx = document.getElementById("myChart");
+
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: chartData,
+        options: {
+            legend: {
+                display: true
+            },
+            aspectRatio: '4',
+            scales: {
+                xAxes: [{
+                    stacked: true
+                }],
+                yAxes: [{
+                    position: "left",
+                    id: "y-axis-0",
+                    type: 'linear',
+                    ticks: {
+                        min: 0,
+                        max: Math.max.apply(Math, chartData.datasets[1].data.map(function(o) { return o; }))
+                    }
+                }, {
+                    position: "right",
+                    id: "y-axis-1",
+                    type: 'linear',
+                    ticks: {
+                        min: 0,
+                        max: Math.max.apply(Math, chartData.datasets[2].data.map(function(o) { return o; }))
+                    }
+                }]
+            }
+        }
+    });
+});
+</script>
 
 @endsection

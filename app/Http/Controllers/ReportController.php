@@ -34,6 +34,7 @@ class ReportController extends Controller
         $period = Period::get_default_period();
 
         $data = [];
+        $year_data = [];
 
         if (!isset($request->startperiod))
         {
@@ -46,6 +47,13 @@ class ReportController extends Controller
 
         $periods = Period::where('id', '>=', $startperiod->id)->get();
 
+        $current_year_id = $startperiod->year_id;
+        $year_data[$current_year_id] = [];
+        $year_data[$current_year_id]['year_name'] = Year::find($current_year_id)->name;
+        $year_data[$current_year_id]['students'] = 0;
+        $year_data[$current_year_id]['enrollments'] = 0;
+        $year_data[$current_year_id]['taught_hours'] = 0;
+        $year_data[$current_year_id]['sold_hours'] = 0;
 
         foreach($periods as $i => $data_period)
         {
@@ -56,12 +64,31 @@ class ReportController extends Controller
             $data[$data_period->id]['students'] = $data_period->external_students_count;
             $data[$data_period->id]['taught_hours'] = $data_period->external_taught_hours_count;
             $data[$data_period->id]['sold_hours'] = $data_period->external_sold_hours_count;
+
+            // if we are starting a new year, push the year data to the array
+            if ($current_year_id != $data_period->year_id)
+            {
+                $current_year_id = $data_period->year_id;
+
+                $year_data[$current_year_id] = [];
+                $year_data[$current_year_id]['year_name'] = Year::find($current_year_id)->name;
+                $year_data[$current_year_id]['students'] = 0;
+                $year_data[$current_year_id]['enrollments'] = 0;
+                $year_data[$current_year_id]['taught_hours'] = 0;
+                $year_data[$current_year_id]['sold_hours'] = 0;
+            }
+
+            $year_data[$current_year_id]['students'] += $data_period->external_students_count;
+            $year_data[$current_year_id]['enrollments'] += $data_period->external_enrollments_count;
+            $year_data[$current_year_id]['taught_hours'] += $data_period->external_taught_hours_count;
+            $year_data[$current_year_id]['sold_hours'] += $data_period->external_sold_hours_count;
         }
         
         Log::info('Reports viewed by ' . backpack_user()->firstname);
         return view('reports.external', [
             'startperiod' => $startperiod,
             'data' => $data,
+            'year_data' => $year_data,
         ]);
     }
 
