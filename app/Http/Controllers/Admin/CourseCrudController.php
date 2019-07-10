@@ -411,23 +411,6 @@ class CourseCrudController extends CrudController
         $redirect_location = parent::updateCrud($request);
         // your additional operations after save here
         // use $this->data['entry'] or $this->crud->entry
-        
-        // check whether the course events match the teacher or room now assigned to the course
-        $outdated_teacher_events = $this->crud->entry->events
-            ->where('teacher_id', '!=', $this->crud->entry->teacher_id);
-
-        $outdated_room_events = $this->crud->entry->events
-            ->Where('room_id', '!=', $this->crud->entry->room_id);
-
-        // if a mismatch exists, offer to update the events
-        if($outdated_teacher_events->count() > 0 || $outdated_room_events->count() > 0)
-        {
-            return view('courses.update_events', [
-                'outdated_teacher_events' => $outdated_teacher_events,
-                'outdated_room_events' => $outdated_room_events,
-                'course' => $this->crud->entry,
-                ]);
-        }
 
         return $redirect_location;
     }
