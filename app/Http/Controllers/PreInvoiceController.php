@@ -161,7 +161,6 @@ class PreInvoiceController extends Controller
             "pckardex" => $pckardex,
         ];
 
-        return $body;
         $client = new Client();
         
         $serverurl = Config::where('name', 'ACCOUNTING_URL')->first()->value;
