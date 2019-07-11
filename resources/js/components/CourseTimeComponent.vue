@@ -4,7 +4,7 @@
         <div class="box">
             <div class="box-header with-border">
                 <div class="box-title">
-                    TODO - new time
+                    New time
                 </div>
 
                 <div class="box-tools pull-right">
@@ -73,28 +73,14 @@
             <div class="box-body">
                 <table class="table">
                     <thead>
-                        <th>
-                            Date
-                        </th>
-
-                        <th>
-                            Start
-                        </th>
-
-                        <th>
-                            End
-                        </th>
-
-                        <th>
-
-                        </th>
+                        <th>Start</th>
+                        <th>End</th>
                     </thead>
 
                     <tbody>
                         <tr v-for="event in events" v-bind:key="event.id">
                             <td>{{ event.start }}</td>
                             <td>{{ event.end }}</td>
-                            <td></td>
                         </tr>
                     </tbody>
                 </table>
