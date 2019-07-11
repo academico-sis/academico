@@ -167,7 +167,6 @@ class PreInvoiceController extends Controller
         
         try {
             $response = $client->post($serverurl, [
-                'debug' => TRUE,
                 'headers' => [
                     'authorization' => Config::where('name', 'ACCOUNTING_TOKEN')->first()->value,
                     'Content-Type' => 'application/json'
@@ -175,7 +174,13 @@ class PreInvoiceController extends Controller
                 'json' => $body,
               ]);
 
-              dump($response);
+              if ($response->getBody())
+              {
+                  $code = json_decode( preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $response->getBody()), true );
+              }
+
+              $preinvoice->invoice_number = $code['mensaje'];
+              $preinvoice->save();
 
             } catch (Exception $exception) {
                 parent::report($exception);
@@ -202,10 +207,7 @@ class PreInvoiceController extends Controller
             $enrollment->markAsPaid();
         }
 
-        // show a confirmation
-        return redirect('/'); // FIXME
     }
-
 
 
 
