@@ -247,6 +247,11 @@ class ExternalCourseCrudController extends CrudController
                 'value' => 2,
              ],
 
+             [
+                'name' => 'price', // The db column name
+                'type' => "hidden",
+                'value' => 0,
+             ],
 
 
              [
