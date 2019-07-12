@@ -51,6 +51,11 @@ class StudentCrudController extends CrudController
         if($permissions->contains('name', 'enrollments.create')) {
             $this->crud->addButtonFromView('line', 'selectCourse', 'selectCourse', 'beginning');
         }
+
+        if(backpack_user()->hasRole('admin'))
+        {
+            $this->crud->enableExportButtons();
+        }
         
 
         $this->crud->orderBy('created_at', 'desc');
