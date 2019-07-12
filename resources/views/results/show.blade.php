@@ -46,7 +46,7 @@
                 
                 <div class="box-body">                      
                         <p>
-                            {{ $result->result_name->name }}
+                            {{ $result->result_name->name ?? "-" }}
                         </p>
                 </div>
             </div>
