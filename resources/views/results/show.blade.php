@@ -52,7 +52,7 @@
             </div>
         </div>
 
-   
+   @if(isset($result))
         <div class="col-md-4">
                 <div class="box">
                     <div class="box-header with-border">
@@ -77,6 +77,7 @@
                     </div>
                 </div>
             </div>
+    @endif
 
 
 
