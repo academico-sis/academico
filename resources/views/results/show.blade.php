@@ -69,9 +69,9 @@
                     </div>
                     
                     <div class="box-body">                      
-                            @foreach ($result->comments as $comment)
+                            @forelse ($result->comments as $comment)
                                 <p>{{ $comment->body }}</p>
-                           @endforeach
+                            @endforelse
                     </div>
                 </div>
             </div>
