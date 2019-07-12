@@ -222,7 +222,7 @@ class CourseCrudController extends CrudController
             'type' => 'select2',
             'label'=> __('Period')
           ], function() {
-              return \App\Models\Period::all()->pluck('name', 'id')->toArray();
+              return \App\Models\Period::all()->sortByDesc("id")->pluck('name', 'id')->toArray();
           }, function($value) { // if the filter is active
                   $this->crud->addClause('where', 'period_id', $value);
           },
