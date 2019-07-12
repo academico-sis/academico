@@ -71,6 +71,8 @@
                     <div class="box-body">                      
                             @forelse ($result->comments as $comment)
                                 <p>{{ $comment->body }}</p>
+                            @empty
+                            <p></p>
                             @endforelse
                     </div>
                 </div>
