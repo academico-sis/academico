@@ -124,17 +124,21 @@
 
                 @elseif($enrollment->status_id == 1 && backpack_user()->can('enrollments.edit'))
 
+                <div class="form-group">
+
                 <div class="label label-warning">
                     {{ $enrollment->enrollmentStatus->name }}
                 </div>
-                
+
+                </div>
+
                 <div>
                     @if ($enrollment->parent_id == null)
                     <div class="form-group">
-                        <a href="/enrollments/{{ $enrollment->id }}/quickbill" class="btn btn-primary">@lang('Checkout')</a>
+                        <a href="/enrollments/{{ $enrollment->id }}/bill" class="btn btn-primary">Facturar y generar factura</a>
                     </div>
                     <div class="form-group">
-                        <a href="/enrollments/{{ $enrollment->id }}/quickbill" class="btn btn-xs">@lang('Mark as paid without generating an invoice')</a>
+                        <a href="/enrollments/{{ $enrollment->id }}/quickbill" class="btn btn-info btn-xs">@lang('Mark as paid without generating an invoice')</a>
                     </div>
                     @endif
                 </div>
@@ -146,15 +150,14 @@
                         @lang('Delete Enrollment')
                     </button>
                 </div>
+
+                <div class="form-group">
+                    <button class="btn btn-xs btn-warning" data-toggle="modal" data-target="#changeCourseModal">@lang('Change Course')</button>
+                </div>
                 
             @else
                 {{ $enrollment->enrollmentStatus->name }}
             @endif
-
-
-            <div class="form-group">
-                    <button class="btn btn-xs btn-danger" data-toggle="modal" data-target="#changeCourseModal">@lang('Change Course')</button>
-            </div>
 
             </div>
         </div>
