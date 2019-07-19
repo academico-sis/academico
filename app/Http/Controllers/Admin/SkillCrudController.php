@@ -71,11 +71,6 @@ class SkillCrudController extends CrudController
                'model'     => 'level', // foreign key model
             ],
 
-            [
-                'label' => "Weight", // skill description
-                'type' => "text",
-                'name' => 'weight'
-            ],
 
         ]);
 
@@ -107,12 +102,6 @@ class SkillCrudController extends CrudController
                'model' => "App\Models\Level",
             ],
 
-            [
-                'label' => "Weight", // skill description
-                'type' => 'number',
-                'attributes' => ["step" => "1"], // allow decimals
-                'name' => 'weight'
-            ],
 
         ]);
 
