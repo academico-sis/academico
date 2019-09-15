@@ -87,7 +87,7 @@
                     <span class="info-box-icon bg-green"><i class="fa fa-check-square"></i></span>
                     <div class="info-box-content">
                             <span class="info-box-text">@lang('Actionnable Comments')</span>
-                            <span class="info-box-number">{{ $pending_leads }}</span>
+                            <span class="info-box-number">{{ $action_comments }}</span>
                     </div>
                 </div>
             </a>
