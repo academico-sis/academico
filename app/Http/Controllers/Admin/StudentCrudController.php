@@ -240,11 +240,11 @@ class StudentCrudController extends CrudController
 
             $search = $request->q;
 
-            $data = DB::table("users")
-            		->select("id","firstname", "lastname")
-                    ->where('firstname','LIKE',"%$search%")
-                    ->orWhere('lastname','LIKE',"%$search%")
-
+            $data = DB::table("students")
+                    ->select("students.id","users.firstname", "users.lastname")
+                    ->join('users', 'students.user_id', '=', 'users.id')
+                    ->where('users.firstname','LIKE',"%$search%")
+                    ->orWhere('users.lastname','LIKE',"%$search%")
             		->get();
         }
 
