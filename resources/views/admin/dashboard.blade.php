@@ -82,7 +82,7 @@
         </div>
 
         <div class="col-md-3">
-            <a href='student?lead_status_is=["5"]'>
+            <a href='comment?action=true'>
                 <div class="info-box">
                     <span class="info-box-icon bg-green"><i class="fa fa-check-square"></i></span>
                     <div class="info-box-content">
