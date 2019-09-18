@@ -26,6 +26,7 @@ class EnrollmentCrudController extends CrudController
     {
         parent::__construct();
         $this->middleware(['permission:enrollments.view']);
+        $this->middleware('permission:enrollments.delete', ['only' => ['destroy']]);
     }
 
 
@@ -202,10 +203,8 @@ class EnrollmentCrudController extends CrudController
     public function destroy($enrollment)
     {
         $enrollment = Enrollment::findOrFail($enrollment);
-        if ($enrollment->status_id == 1) {
-            $enrollment->cancel();
-        }
-        
+        $enrollment->cancel();
+    
         Log::notice('Enrollment canceled by user ' . backpack_user()->id);
     }
 }
