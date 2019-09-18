@@ -26,6 +26,20 @@ class Student extends Model implements HasMedia
     protected $with = ['user', 'phone'];
     
     
+    protected static function boot()
+    {
+        parent::boot();
+
+        // when deleting a student, also delete any enrollments, grades and attendance related to this student
+        static::deleting(function(Student $student) {
+
+            Attendance::where('student_id', $student->id)->delete();
+            Enrollment::where('student_id', $student->id)->delete();
+
+        });
+
+    }
+
     public function registerMediaConversions(Media $media = null)
     {
         $this->addMediaConversion('thumb')

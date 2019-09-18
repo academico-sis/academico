@@ -33,6 +33,26 @@ class User extends Authenticatable
     protected $hidden = ['password', 'remember_token'];
 
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        // when deleting a user, also delete any teacher and students accounts associated to this user.
+        static::deleting(function(User $user) {
+
+                Attendance::where('student_id', $user->student->id)->delete();
+                Enrollment::where('student_id', $user->student->id)->delete();
+
+            Student::where('user_id', $user->id)->delete();
+            Teacher::where('user_id', $user->id)->delete();
+
+            
+
+        });
+
+    }
+
+
     /**
      * Send the password reset notification.
      *
