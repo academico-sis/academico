@@ -34,6 +34,10 @@ class ExternalCourseCrudController extends CrudController
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/externalcourse');
         $this->crud->setEntityNameStrings('externalcourse', 'external_courses');
 
+        if($permissions->contains('name', 'courses.edit')) {
+            $this->crud->addButtonFromView('line', 'schedule', 'schedule', 'end');
+        }
+
         $this->crud->enableExportButtons();
 
         /*
