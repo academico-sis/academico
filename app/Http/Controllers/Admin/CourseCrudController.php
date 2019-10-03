@@ -6,6 +6,7 @@ use App\Models\Event;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
 use App\Models\Course;
+use App\Models\Enrollment;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\CourseRequest as StoreRequest;
@@ -481,6 +482,7 @@ class CourseCrudController extends CrudController
    {
       $this->crud->hasAccessOrFail('delete');
       Event::where('course_id', $id)->delete();
+      Enrollment::where('course_id', $id)->delete();
       return $this->crud->delete($id);
    }
 
