@@ -1,9 +1,9 @@
+import Vue from 'vue'
+import Buefy from 'buefy'
+import 'buefy/dist/buefy.css'
 
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
+Vue.use(Buefy)
+
 
 require('./bootstrap');
 
@@ -33,12 +33,13 @@ Vue.component('skills-list', require('./components/SkillsListComponent.vue').def
 Vue.component('phone-number-update-component', require('./components/PhoneNumberUpdateComponent.vue').default);
 Vue.component('contact-phone-number-update-component', require('./components/ContactPhoneNumberUpdateComponent.vue').default);
 
-  
+
 /**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
+ * Automatically register Vue components
  */
+
+const files = require.context('./', true, /\.vue$/i)
+files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 const app = new Vue({
     el: '#app',

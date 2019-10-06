@@ -48,9 +48,9 @@ class RegisterController extends \Backpack\Base\app\Http\Controllers\Auth\Regist
      */
     protected function create(array $data)
     {
-        $user_model_fqn = config('backpack.base.user_model_fqn');
-        $user = new $user_model_fqn();
+        Log::info('Starting student registration process');
 
+        // create the user
         $user = User::create([
             'firstname'                            => $data['firstname'],
             'lastname'                             => $data['lastname'],
@@ -58,15 +58,29 @@ class RegisterController extends \Backpack\Base\app\Http\Controllers\Auth\Regist
             'password'                             => bcrypt($data['password'])
         ]);
 
-        return $user;
+        Log::info('New user created with ID ' . $user->id);
 
+        // create the student
+        
+        Log::info('New student created with ID ' . $student->id);
+
+        // add phone number(s)
+
+        Log::info('Phone numbers added to the student profile');
+
+        // add profession and institution
+
+        Log::info('Profession and institution added to the student profile');
+
+        // add photo
+
+        Log::info('Profile picture added to the student profile');
+
+        // add contact(s)
+
+        Log::info('Aditional contacts associated to the student profile');
     }
     
-    public function register_rules_acceptation(Student $student)
-    {
-        $student->terms_accepted_at = Carbon::now()->toDateTimeString();
-        $student->save();
-    }
 
 
     /**
@@ -89,11 +103,8 @@ class RegisterController extends \Backpack\Base\app\Http\Controllers\Auth\Regist
 
         // flash a confirmation message
         \Alert::success(__('The user has successfully been registered'))->flash();
-        Log::info('New user registered with ID ' . $user->id);
 
-        // log the user in to continue the registration process
-        backpack_auth()->login(User::find($user->id), false); // do not remember the user
-        return redirect(route('backpack.student.info'));
+        return redirect('/login');
 
     }
 
