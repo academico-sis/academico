@@ -1,7 +1,7 @@
 <template>
 <div>
     <b-field label="First Name">
-        <b-input v-model="firstname" placeholder="Nombres" v-validate="{ required: true, is: password }" /></b-input>
+        <b-input v-model="firstname" placeholder="Nombres"></b-input>
     </b-field>
 
     <b-field label="Last Name">
@@ -14,13 +14,17 @@
 
     <b-field label="Documento de identificacion">
         <div class="block">
-            <b-radio v-model="idnumber_type" native-value="cédula">Cédula</b-radio>
-            <b-radio v-model="idnumber_type" native-value="pasaporte">Pasaporte</b-radio>
+            <b-radio v-model="idnumber_type" native-value="cedula">Cédula</b-radio>
+            <b-radio v-model="idnumber_type" native-value="passport">Pasaporte</b-radio>
         </div>
     </b-field>
 
-    <b-field :label="'Numero de '+idnumber_type" type="is-danger" message="Cedula incorrecta">
-        <b-input v-model="idnumber" maxlength="40" @input="checkCedula()"></b-input>
+    <b-field v-if="idnumber_type == 'cedula'" label="Numero de cédula" :type="{ 'is-success': cedula_check == 1, 'is-danger': cedula_check == 0}">
+        <b-input v-model="idnumber" minlength="10" maxlength="10" @input="checkCedula()"></b-input>
+    </b-field>
+
+    <b-field v-if="idnumber_type == 'passport'" label="Numero de pasaporte">
+        <b-input v-model="idnumber" maxlength="40"></b-input>
     </b-field>
 
     <b-field label="Password">
@@ -55,7 +59,8 @@ export default {
             lastname: null,
             email: null,
             password: null,
-            idnumber_type: 'cédula',
+            idnumber_type: 'cedula',
+            cedula_check: null,
             idnumber: null,
             address: null,
             phonenumber: null,
@@ -64,25 +69,24 @@ export default {
     },
 
     mounted() {
-        this.checkCedula()
+        
     },
 
     methods: {
 
         checkCedula() {
             const ced = this.idnumber;
-
-            let [suma, mul, chars] = [0, 1, ced.length];
-            for (let index = 0; index < chars; index += 1) {
+            let [suma, mul, index] = [0, 1, ced.length];
+            while (index--) {
             let num = ced[index] * mul;
             suma += num - (num > 9) * 9;
             mul = 1 << index % 2;
             }
 
-            if ((suma % 10 === 0) && (suma > 0)) {
-                console.log('Cedula valida');
+            if ((suma % 10 === 0) && (suma > 0) && (ced.length == 10)) {
+                this.cedula_check = 1
             } else {
-                console.error('Cedula invalida');
+                this.cedula_check = 0
             }
         }
 

@@ -4,9 +4,7 @@
     size="is-small"
     v-model="activeStep"
     :animated="isAnimated"
-    :has-navigation="hasNavigation"
-    :icon-prev="prevIcon"
-    :icon-next="nextIcon">
+    :has-navigation="hasNavigation">
 
     <b-step-item label="Datos del estudiante" :clickable="activeStep > 0">
         <register-user-data-component></register-user-data-component>

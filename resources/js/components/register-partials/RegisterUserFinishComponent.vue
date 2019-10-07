@@ -2,7 +2,7 @@
 <div>
     Please check your data one last time and click submit when everything is correct.
 
-        <b-button class="is-large is-rounded is-success" @click="clickMe">Confirmar la creacion del estudiante</b-button>
+        <b-button class="is-large is-rounded is-success" @click="">Confirmar la creacion del estudiante</b-button>
 
 </div>
 </template>
