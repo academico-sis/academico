@@ -11,7 +11,8 @@
 
 {{-- Encrypted CSRF token for Laravel, in order for Ajax requests to work --}}
 <meta name="csrf-token" content="{{ csrf_token() }}" />
-
+<link rel="stylesheet" href="https://cdn.materialdesignicons.com/2.5.94/css/materialdesignicons.min.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
 <title>
   {{ isset($title) ? $title.' :: '.config('backpack.base.project_name').' Admin' : config('backpack.base.project_name').' Admin' }}
 </title>

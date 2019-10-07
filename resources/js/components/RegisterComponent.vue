@@ -7,8 +7,6 @@
 
 
 <script>
-import { StepsComponent } from "./register-partials/StepsComponent";
-import { RegisterUserDataComponent } from "./register-partials/RegisterUserDataComponent";
 
 export default {
 
