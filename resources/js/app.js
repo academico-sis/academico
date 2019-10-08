@@ -1,14 +1,63 @@
+require('./bootstrap');
+
 import Vue from 'vue'
+
+window.Vue = require('vue');
+Vue.use(require('vue-moment'));
+
+import { ValidationProvider } from 'vee-validate';
+
+import { extend } from 'vee-validate';
+import { required, email, min, length } from 'vee-validate/dist/rules';
+
+import { configure } from 'vee-validate';
+
+configure({
+  classes: {
+    valid: 'is-success', // one class
+    invalid: 'is-danger' // multiple classes
+  }
+});
+
+
+// Add the required rule
+extend('required', required);
+
+// Add the email rule
+extend('email', email);
+extend('min', min);
+
+extend('length', length);
+
+
+extend('cedula', {
+    validate: function(ced) {
+    let [suma, mul, index] = [0, 1, ced.length];
+        while (index--) {
+        let num = ced[index] * mul;
+        suma += num - (num > 9) * 9;
+        mul = 1 << index % 2;
+        }
+
+        if ((suma % 10 === 0) && (suma > 0) && (ced.length == 10)) {
+            return true
+        } else {
+            return false
+        }
+    }
+});
+
+// Register vee-validate globally
+Vue.component('ValidationProvider', ValidationProvider);
+
 import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
 
 Vue.use(Buefy)
 
 
-require('./bootstrap');
 
-window.Vue = require('vue');
-Vue.use(require('vue-moment'));
+
 
 Vue.component('course-time-component', require('./components/CourseTimeComponent.vue').default);
 

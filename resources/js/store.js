@@ -5,7 +5,6 @@ export const store = {
         email: null,
         password: null,
         idnumber_type: 'cedula',
-        cedula_check: null,
         idnumber: null,
         address: null,
         phonenumber: null,
@@ -23,7 +22,6 @@ export const store = {
         this.state.email = data.email
         this.state.password = data.password
         this.state.idnumber_type = data.idnumber_type
-        this.state.cedula_check = data.cedula_check
         this.state.idnumber = data.idnumber
         this.state.address = data.address
         this.state.phonenumber = data.phonenumber

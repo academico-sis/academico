@@ -39,9 +39,10 @@ class User extends Authenticatable
 
         // when deleting a user, also delete any teacher and students accounts associated to this user.
         static::deleting(function(User $user) {
-
+            if($user->student()->exists()) {
                 Attendance::where('student_id', $user->student->id)->delete();
                 Enrollment::where('student_id', $user->student->id)->delete();
+            }
 
             Student::where('user_id', $user->id)->delete();
             Teacher::where('user_id', $user->id)->delete();

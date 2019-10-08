@@ -38,7 +38,6 @@ class RegisterController extends \Backpack\Base\app\Http\Controllers\Auth\Regist
             'password'                             => 'required|min:6',
             'rules'                                => 'required',
             'idnumber_type'                        => 'required',
-            'cedula_check'                         => 'required|1',
             'idnumber'                             => 'required',
             'address'                              => 'required',
             'phonenumber'                          => 'required',

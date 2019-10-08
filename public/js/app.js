@@ -86,6 +86,18 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./node_modules/@babel/runtime/regenerator/index.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/@babel/runtime/regenerator/index.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! regenerator-runtime */ "./node_modules/regenerator-runtime/runtime.js");
+
+
+/***/ }),
+
 /***/ "./node_modules/axios/index.js":
 /*!*************************************!*\
   !*** ./node_modules/axios/index.js ***!
@@ -3344,8 +3356,17 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _eventBus_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../eventBus.js */ "./resources/js/eventBus.js");
-/* harmony import */ var _store_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../store.js */ "./resources/js/store.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _eventBus_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../eventBus.js */ "./resources/js/eventBus.js");
+/* harmony import */ var _store_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../store.js */ "./resources/js/store.js");
+/* harmony import */ var vee_validate__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vee-validate */ "./node_modules/vee-validate/dist/vee-validate.esm.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -3400,6 +3421,45 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3411,6 +3471,9 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {},
+  components: {
+    ValidationObserver: vee_validate__WEBPACK_IMPORTED_MODULE_3__["ValidationObserver"]
+  },
   methods: {
     addContact: function addContact() {
       this.contacts.push({
@@ -3421,18 +3484,64 @@ __webpack_require__.r(__webpack_exports__);
         cedula_check: null,
         idnumber: null,
         address: null,
-        phonenumber: null
+        phonenumbers: [{
+          number: null
+        }]
       });
     },
     dropContact: function dropContact(index) {
       this.contacts.splice(index, 1);
     },
-    updateData: function updateData() {
-      _store_js__WEBPACK_IMPORTED_MODULE_1__["store"].updateContactsData(this.contacts);
-      _eventBus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit("moveToNextStep");
+    addPhoneNumber: function addPhoneNumber(index) {
+      this.contacts[index].phonenumbers.push({
+        number: null
+      });
     },
-    checkCedula: function checkCedula(contact) {
-      contact.cedula_check = _store_js__WEBPACK_IMPORTED_MODULE_1__["store"].checkCedula(contact.idnumber);
+    dropPhoneNumber: function dropPhoneNumber(contact, index) {
+      this.contacts[contact].phonenumbers.splice(index, 1);
+    },
+    validateBeforeSubmit: function () {
+      var _validateBeforeSubmit = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var isValid;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return this.$refs.observer.validate();
+
+              case 2:
+                isValid = _context.sent;
+
+                if (isValid) {
+                  this.updateData();
+                } else {
+                  this.$buefy.toast.open({
+                    message: 'Form is not valid! Please check the fields.',
+                    type: 'is-danger',
+                    position: 'is-bottom'
+                  });
+                }
+
+              case 4:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function validateBeforeSubmit() {
+        return _validateBeforeSubmit.apply(this, arguments);
+      }
+
+      return validateBeforeSubmit;
+    }(),
+    updateData: function updateData() {
+      _store_js__WEBPACK_IMPORTED_MODULE_2__["store"].updateContactsData(this.contacts);
+      _eventBus_js__WEBPACK_IMPORTED_MODULE_1__["EventBus"].$emit("moveToNextStep");
     }
   }
 });
@@ -3448,8 +3557,17 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _store_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../store.js */ "./resources/js/store.js");
-/* harmony import */ var _eventBus_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../eventBus.js */ "./resources/js/eventBus.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _store_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../store.js */ "./resources/js/store.js");
+/* harmony import */ var _eventBus_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../eventBus.js */ "./resources/js/eventBus.js");
+/* harmony import */ var vee_validate__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vee-validate */ "./node_modules/vee-validate/dist/vee-validate.esm.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -3496,6 +3614,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3509,7 +3643,6 @@ __webpack_require__.r(__webpack_exports__);
         email: null,
         password: null,
         idnumber_type: 'cedula',
-        cedula_check: null,
         idnumber: null,
         address: null,
         phonenumber: null,
@@ -3518,13 +3651,52 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {},
+  components: {
+    ValidationObserver: vee_validate__WEBPACK_IMPORTED_MODULE_3__["ValidationObserver"]
+  },
   methods: {
-    checkCedula: function checkCedula() {
-      this.formdata.cedula_check = _store_js__WEBPACK_IMPORTED_MODULE_0__["store"].checkCedula(this.formdata.idnumber);
-    },
+    validateBeforeSubmit: function () {
+      var _validateBeforeSubmit = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var isValid;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return this.$refs.observer.validate();
+
+              case 2:
+                isValid = _context.sent;
+
+                if (isValid) {
+                  this.updateData();
+                } else {
+                  this.$buefy.toast.open({
+                    message: 'Form is not valid! Please check the fields.',
+                    type: 'is-danger',
+                    position: 'is-bottom'
+                  });
+                }
+
+              case 4:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function validateBeforeSubmit() {
+        return _validateBeforeSubmit.apply(this, arguments);
+      }
+
+      return validateBeforeSubmit;
+    }(),
     updateData: function updateData() {
-      _store_js__WEBPACK_IMPORTED_MODULE_0__["store"].updateUserData(this.formdata);
-      _eventBus_js__WEBPACK_IMPORTED_MODULE_1__["EventBus"].$emit("moveToNextStep");
+      _store_js__WEBPACK_IMPORTED_MODULE_1__["store"].updateUserData(this.formdata);
+      _eventBus_js__WEBPACK_IMPORTED_MODULE_2__["EventBus"].$emit("moveToNextStep");
     }
   }
 });
@@ -3578,7 +3750,9 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.post('/register', {
         data: this.storeState
-      }).then(function (response) {})["catch"](function (e) {
+      }).then(function (response) {
+        windows.location.href = "/";
+      })["catch"](function (e) {
         _this.errors.push(e);
       });
     }
@@ -3596,8 +3770,17 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _store_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../store.js */ "./resources/js/store.js");
-/* harmony import */ var _eventBus_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../eventBus.js */ "./resources/js/eventBus.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _store_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../store.js */ "./resources/js/store.js");
+/* harmony import */ var _eventBus_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../eventBus.js */ "./resources/js/eventBus.js");
+/* harmony import */ var vee_validate__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vee-validate */ "./node_modules/vee-validate/dist/vee-validate.esm.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -3636,6 +3819,42 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3647,15 +3866,68 @@ __webpack_require__.r(__webpack_exports__);
         address: null,
         birthdate: null,
         profession: null,
-        institution: null
+        institution: null,
+        phonenumbers: []
       }
     };
   },
-  mounted: function mounted() {},
+  mounted: function mounted() {
+    this.addPhoneNumber();
+  },
+  components: {
+    ValidationObserver: vee_validate__WEBPACK_IMPORTED_MODULE_3__["ValidationObserver"]
+  },
   methods: {
+    addPhoneNumber: function addPhoneNumber() {
+      this.formdata.phonenumbers.push({
+        number: null
+      });
+    },
+    dropPhoneNumber: function dropPhoneNumber(index) {
+      this.formdata.phonenumbers.splice(index, 1);
+    },
+    validateBeforeSubmit: function () {
+      var _validateBeforeSubmit = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var isValid;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return this.$refs.observer.validate();
+
+              case 2:
+                isValid = _context.sent;
+
+                if (isValid) {
+                  this.updateData();
+                } else {
+                  this.$buefy.toast.open({
+                    message: 'Form is not valid! Please check the fields.',
+                    type: 'is-danger',
+                    position: 'is-bottom'
+                  });
+                }
+
+              case 4:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function validateBeforeSubmit() {
+        return _validateBeforeSubmit.apply(this, arguments);
+      }
+
+      return validateBeforeSubmit;
+    }(),
     updateData: function updateData() {
-      _store_js__WEBPACK_IMPORTED_MODULE_0__["store"].updateInfoData(this.formdata);
-      _eventBus_js__WEBPACK_IMPORTED_MODULE_1__["EventBus"].$emit("moveToNextStep");
+      _store_js__WEBPACK_IMPORTED_MODULE_1__["store"].updateInfoData(this.formdata);
+      _eventBus_js__WEBPACK_IMPORTED_MODULE_2__["EventBus"].$emit("moveToNextStep");
     }
   }
 });
@@ -16551,6 +16823,743 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
+/***/ "./node_modules/regenerator-runtime/runtime.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/regenerator-runtime/runtime.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * Copyright (c) 2014-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+var runtime = (function (exports) {
+  "use strict";
+
+  var Op = Object.prototype;
+  var hasOwn = Op.hasOwnProperty;
+  var undefined; // More compressible than void 0.
+  var $Symbol = typeof Symbol === "function" ? Symbol : {};
+  var iteratorSymbol = $Symbol.iterator || "@@iterator";
+  var asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator";
+  var toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
+
+  function wrap(innerFn, outerFn, self, tryLocsList) {
+    // If outerFn provided and outerFn.prototype is a Generator, then outerFn.prototype instanceof Generator.
+    var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator;
+    var generator = Object.create(protoGenerator.prototype);
+    var context = new Context(tryLocsList || []);
+
+    // The ._invoke method unifies the implementations of the .next,
+    // .throw, and .return methods.
+    generator._invoke = makeInvokeMethod(innerFn, self, context);
+
+    return generator;
+  }
+  exports.wrap = wrap;
+
+  // Try/catch helper to minimize deoptimizations. Returns a completion
+  // record like context.tryEntries[i].completion. This interface could
+  // have been (and was previously) designed to take a closure to be
+  // invoked without arguments, but in all the cases we care about we
+  // already have an existing method we want to call, so there's no need
+  // to create a new function object. We can even get away with assuming
+  // the method takes exactly one argument, since that happens to be true
+  // in every case, so we don't have to touch the arguments object. The
+  // only additional allocation required is the completion record, which
+  // has a stable shape and so hopefully should be cheap to allocate.
+  function tryCatch(fn, obj, arg) {
+    try {
+      return { type: "normal", arg: fn.call(obj, arg) };
+    } catch (err) {
+      return { type: "throw", arg: err };
+    }
+  }
+
+  var GenStateSuspendedStart = "suspendedStart";
+  var GenStateSuspendedYield = "suspendedYield";
+  var GenStateExecuting = "executing";
+  var GenStateCompleted = "completed";
+
+  // Returning this object from the innerFn has the same effect as
+  // breaking out of the dispatch switch statement.
+  var ContinueSentinel = {};
+
+  // Dummy constructor functions that we use as the .constructor and
+  // .constructor.prototype properties for functions that return Generator
+  // objects. For full spec compliance, you may wish to configure your
+  // minifier not to mangle the names of these two functions.
+  function Generator() {}
+  function GeneratorFunction() {}
+  function GeneratorFunctionPrototype() {}
+
+  // This is a polyfill for %IteratorPrototype% for environments that
+  // don't natively support it.
+  var IteratorPrototype = {};
+  IteratorPrototype[iteratorSymbol] = function () {
+    return this;
+  };
+
+  var getProto = Object.getPrototypeOf;
+  var NativeIteratorPrototype = getProto && getProto(getProto(values([])));
+  if (NativeIteratorPrototype &&
+      NativeIteratorPrototype !== Op &&
+      hasOwn.call(NativeIteratorPrototype, iteratorSymbol)) {
+    // This environment has a native %IteratorPrototype%; use it instead
+    // of the polyfill.
+    IteratorPrototype = NativeIteratorPrototype;
+  }
+
+  var Gp = GeneratorFunctionPrototype.prototype =
+    Generator.prototype = Object.create(IteratorPrototype);
+  GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype;
+  GeneratorFunctionPrototype.constructor = GeneratorFunction;
+  GeneratorFunctionPrototype[toStringTagSymbol] =
+    GeneratorFunction.displayName = "GeneratorFunction";
+
+  // Helper for defining the .next, .throw, and .return methods of the
+  // Iterator interface in terms of a single ._invoke method.
+  function defineIteratorMethods(prototype) {
+    ["next", "throw", "return"].forEach(function(method) {
+      prototype[method] = function(arg) {
+        return this._invoke(method, arg);
+      };
+    });
+  }
+
+  exports.isGeneratorFunction = function(genFun) {
+    var ctor = typeof genFun === "function" && genFun.constructor;
+    return ctor
+      ? ctor === GeneratorFunction ||
+        // For the native GeneratorFunction constructor, the best we can
+        // do is to check its .name property.
+        (ctor.displayName || ctor.name) === "GeneratorFunction"
+      : false;
+  };
+
+  exports.mark = function(genFun) {
+    if (Object.setPrototypeOf) {
+      Object.setPrototypeOf(genFun, GeneratorFunctionPrototype);
+    } else {
+      genFun.__proto__ = GeneratorFunctionPrototype;
+      if (!(toStringTagSymbol in genFun)) {
+        genFun[toStringTagSymbol] = "GeneratorFunction";
+      }
+    }
+    genFun.prototype = Object.create(Gp);
+    return genFun;
+  };
+
+  // Within the body of any async function, `await x` is transformed to
+  // `yield regeneratorRuntime.awrap(x)`, so that the runtime can test
+  // `hasOwn.call(value, "__await")` to determine if the yielded value is
+  // meant to be awaited.
+  exports.awrap = function(arg) {
+    return { __await: arg };
+  };
+
+  function AsyncIterator(generator) {
+    function invoke(method, arg, resolve, reject) {
+      var record = tryCatch(generator[method], generator, arg);
+      if (record.type === "throw") {
+        reject(record.arg);
+      } else {
+        var result = record.arg;
+        var value = result.value;
+        if (value &&
+            typeof value === "object" &&
+            hasOwn.call(value, "__await")) {
+          return Promise.resolve(value.__await).then(function(value) {
+            invoke("next", value, resolve, reject);
+          }, function(err) {
+            invoke("throw", err, resolve, reject);
+          });
+        }
+
+        return Promise.resolve(value).then(function(unwrapped) {
+          // When a yielded Promise is resolved, its final value becomes
+          // the .value of the Promise<{value,done}> result for the
+          // current iteration.
+          result.value = unwrapped;
+          resolve(result);
+        }, function(error) {
+          // If a rejected Promise was yielded, throw the rejection back
+          // into the async generator function so it can be handled there.
+          return invoke("throw", error, resolve, reject);
+        });
+      }
+    }
+
+    var previousPromise;
+
+    function enqueue(method, arg) {
+      function callInvokeWithMethodAndArg() {
+        return new Promise(function(resolve, reject) {
+          invoke(method, arg, resolve, reject);
+        });
+      }
+
+      return previousPromise =
+        // If enqueue has been called before, then we want to wait until
+        // all previous Promises have been resolved before calling invoke,
+        // so that results are always delivered in the correct order. If
+        // enqueue has not been called before, then it is important to
+        // call invoke immediately, without waiting on a callback to fire,
+        // so that the async generator function has the opportunity to do
+        // any necessary setup in a predictable way. This predictability
+        // is why the Promise constructor synchronously invokes its
+        // executor callback, and why async functions synchronously
+        // execute code before the first await. Since we implement simple
+        // async functions in terms of async generators, it is especially
+        // important to get this right, even though it requires care.
+        previousPromise ? previousPromise.then(
+          callInvokeWithMethodAndArg,
+          // Avoid propagating failures to Promises returned by later
+          // invocations of the iterator.
+          callInvokeWithMethodAndArg
+        ) : callInvokeWithMethodAndArg();
+    }
+
+    // Define the unified helper method that is used to implement .next,
+    // .throw, and .return (see defineIteratorMethods).
+    this._invoke = enqueue;
+  }
+
+  defineIteratorMethods(AsyncIterator.prototype);
+  AsyncIterator.prototype[asyncIteratorSymbol] = function () {
+    return this;
+  };
+  exports.AsyncIterator = AsyncIterator;
+
+  // Note that simple async functions are implemented on top of
+  // AsyncIterator objects; they just return a Promise for the value of
+  // the final result produced by the iterator.
+  exports.async = function(innerFn, outerFn, self, tryLocsList) {
+    var iter = new AsyncIterator(
+      wrap(innerFn, outerFn, self, tryLocsList)
+    );
+
+    return exports.isGeneratorFunction(outerFn)
+      ? iter // If outerFn is a generator, return the full iterator.
+      : iter.next().then(function(result) {
+          return result.done ? result.value : iter.next();
+        });
+  };
+
+  function makeInvokeMethod(innerFn, self, context) {
+    var state = GenStateSuspendedStart;
+
+    return function invoke(method, arg) {
+      if (state === GenStateExecuting) {
+        throw new Error("Generator is already running");
+      }
+
+      if (state === GenStateCompleted) {
+        if (method === "throw") {
+          throw arg;
+        }
+
+        // Be forgiving, per 25.3.3.3.3 of the spec:
+        // https://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorresume
+        return doneResult();
+      }
+
+      context.method = method;
+      context.arg = arg;
+
+      while (true) {
+        var delegate = context.delegate;
+        if (delegate) {
+          var delegateResult = maybeInvokeDelegate(delegate, context);
+          if (delegateResult) {
+            if (delegateResult === ContinueSentinel) continue;
+            return delegateResult;
+          }
+        }
+
+        if (context.method === "next") {
+          // Setting context._sent for legacy support of Babel's
+          // function.sent implementation.
+          context.sent = context._sent = context.arg;
+
+        } else if (context.method === "throw") {
+          if (state === GenStateSuspendedStart) {
+            state = GenStateCompleted;
+            throw context.arg;
+          }
+
+          context.dispatchException(context.arg);
+
+        } else if (context.method === "return") {
+          context.abrupt("return", context.arg);
+        }
+
+        state = GenStateExecuting;
+
+        var record = tryCatch(innerFn, self, context);
+        if (record.type === "normal") {
+          // If an exception is thrown from innerFn, we leave state ===
+          // GenStateExecuting and loop back for another invocation.
+          state = context.done
+            ? GenStateCompleted
+            : GenStateSuspendedYield;
+
+          if (record.arg === ContinueSentinel) {
+            continue;
+          }
+
+          return {
+            value: record.arg,
+            done: context.done
+          };
+
+        } else if (record.type === "throw") {
+          state = GenStateCompleted;
+          // Dispatch the exception by looping back around to the
+          // context.dispatchException(context.arg) call above.
+          context.method = "throw";
+          context.arg = record.arg;
+        }
+      }
+    };
+  }
+
+  // Call delegate.iterator[context.method](context.arg) and handle the
+  // result, either by returning a { value, done } result from the
+  // delegate iterator, or by modifying context.method and context.arg,
+  // setting context.delegate to null, and returning the ContinueSentinel.
+  function maybeInvokeDelegate(delegate, context) {
+    var method = delegate.iterator[context.method];
+    if (method === undefined) {
+      // A .throw or .return when the delegate iterator has no .throw
+      // method always terminates the yield* loop.
+      context.delegate = null;
+
+      if (context.method === "throw") {
+        // Note: ["return"] must be used for ES3 parsing compatibility.
+        if (delegate.iterator["return"]) {
+          // If the delegate iterator has a return method, give it a
+          // chance to clean up.
+          context.method = "return";
+          context.arg = undefined;
+          maybeInvokeDelegate(delegate, context);
+
+          if (context.method === "throw") {
+            // If maybeInvokeDelegate(context) changed context.method from
+            // "return" to "throw", let that override the TypeError below.
+            return ContinueSentinel;
+          }
+        }
+
+        context.method = "throw";
+        context.arg = new TypeError(
+          "The iterator does not provide a 'throw' method");
+      }
+
+      return ContinueSentinel;
+    }
+
+    var record = tryCatch(method, delegate.iterator, context.arg);
+
+    if (record.type === "throw") {
+      context.method = "throw";
+      context.arg = record.arg;
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+
+    var info = record.arg;
+
+    if (! info) {
+      context.method = "throw";
+      context.arg = new TypeError("iterator result is not an object");
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+
+    if (info.done) {
+      // Assign the result of the finished delegate to the temporary
+      // variable specified by delegate.resultName (see delegateYield).
+      context[delegate.resultName] = info.value;
+
+      // Resume execution at the desired location (see delegateYield).
+      context.next = delegate.nextLoc;
+
+      // If context.method was "throw" but the delegate handled the
+      // exception, let the outer generator proceed normally. If
+      // context.method was "next", forget context.arg since it has been
+      // "consumed" by the delegate iterator. If context.method was
+      // "return", allow the original .return call to continue in the
+      // outer generator.
+      if (context.method !== "return") {
+        context.method = "next";
+        context.arg = undefined;
+      }
+
+    } else {
+      // Re-yield the result returned by the delegate method.
+      return info;
+    }
+
+    // The delegate iterator is finished, so forget it and continue with
+    // the outer generator.
+    context.delegate = null;
+    return ContinueSentinel;
+  }
+
+  // Define Generator.prototype.{next,throw,return} in terms of the
+  // unified ._invoke helper method.
+  defineIteratorMethods(Gp);
+
+  Gp[toStringTagSymbol] = "Generator";
+
+  // A Generator should always return itself as the iterator object when the
+  // @@iterator function is called on it. Some browsers' implementations of the
+  // iterator prototype chain incorrectly implement this, causing the Generator
+  // object to not be returned from this call. This ensures that doesn't happen.
+  // See https://github.com/facebook/regenerator/issues/274 for more details.
+  Gp[iteratorSymbol] = function() {
+    return this;
+  };
+
+  Gp.toString = function() {
+    return "[object Generator]";
+  };
+
+  function pushTryEntry(locs) {
+    var entry = { tryLoc: locs[0] };
+
+    if (1 in locs) {
+      entry.catchLoc = locs[1];
+    }
+
+    if (2 in locs) {
+      entry.finallyLoc = locs[2];
+      entry.afterLoc = locs[3];
+    }
+
+    this.tryEntries.push(entry);
+  }
+
+  function resetTryEntry(entry) {
+    var record = entry.completion || {};
+    record.type = "normal";
+    delete record.arg;
+    entry.completion = record;
+  }
+
+  function Context(tryLocsList) {
+    // The root entry object (effectively a try statement without a catch
+    // or a finally block) gives us a place to store values thrown from
+    // locations where there is no enclosing try statement.
+    this.tryEntries = [{ tryLoc: "root" }];
+    tryLocsList.forEach(pushTryEntry, this);
+    this.reset(true);
+  }
+
+  exports.keys = function(object) {
+    var keys = [];
+    for (var key in object) {
+      keys.push(key);
+    }
+    keys.reverse();
+
+    // Rather than returning an object with a next method, we keep
+    // things simple and return the next function itself.
+    return function next() {
+      while (keys.length) {
+        var key = keys.pop();
+        if (key in object) {
+          next.value = key;
+          next.done = false;
+          return next;
+        }
+      }
+
+      // To avoid creating an additional object, we just hang the .value
+      // and .done properties off the next function object itself. This
+      // also ensures that the minifier will not anonymize the function.
+      next.done = true;
+      return next;
+    };
+  };
+
+  function values(iterable) {
+    if (iterable) {
+      var iteratorMethod = iterable[iteratorSymbol];
+      if (iteratorMethod) {
+        return iteratorMethod.call(iterable);
+      }
+
+      if (typeof iterable.next === "function") {
+        return iterable;
+      }
+
+      if (!isNaN(iterable.length)) {
+        var i = -1, next = function next() {
+          while (++i < iterable.length) {
+            if (hasOwn.call(iterable, i)) {
+              next.value = iterable[i];
+              next.done = false;
+              return next;
+            }
+          }
+
+          next.value = undefined;
+          next.done = true;
+
+          return next;
+        };
+
+        return next.next = next;
+      }
+    }
+
+    // Return an iterator with no values.
+    return { next: doneResult };
+  }
+  exports.values = values;
+
+  function doneResult() {
+    return { value: undefined, done: true };
+  }
+
+  Context.prototype = {
+    constructor: Context,
+
+    reset: function(skipTempReset) {
+      this.prev = 0;
+      this.next = 0;
+      // Resetting context._sent for legacy support of Babel's
+      // function.sent implementation.
+      this.sent = this._sent = undefined;
+      this.done = false;
+      this.delegate = null;
+
+      this.method = "next";
+      this.arg = undefined;
+
+      this.tryEntries.forEach(resetTryEntry);
+
+      if (!skipTempReset) {
+        for (var name in this) {
+          // Not sure about the optimal order of these conditions:
+          if (name.charAt(0) === "t" &&
+              hasOwn.call(this, name) &&
+              !isNaN(+name.slice(1))) {
+            this[name] = undefined;
+          }
+        }
+      }
+    },
+
+    stop: function() {
+      this.done = true;
+
+      var rootEntry = this.tryEntries[0];
+      var rootRecord = rootEntry.completion;
+      if (rootRecord.type === "throw") {
+        throw rootRecord.arg;
+      }
+
+      return this.rval;
+    },
+
+    dispatchException: function(exception) {
+      if (this.done) {
+        throw exception;
+      }
+
+      var context = this;
+      function handle(loc, caught) {
+        record.type = "throw";
+        record.arg = exception;
+        context.next = loc;
+
+        if (caught) {
+          // If the dispatched exception was caught by a catch block,
+          // then let that catch block handle the exception normally.
+          context.method = "next";
+          context.arg = undefined;
+        }
+
+        return !! caught;
+      }
+
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        var record = entry.completion;
+
+        if (entry.tryLoc === "root") {
+          // Exception thrown outside of any try block that could handle
+          // it, so set the completion value of the entire function to
+          // throw the exception.
+          return handle("end");
+        }
+
+        if (entry.tryLoc <= this.prev) {
+          var hasCatch = hasOwn.call(entry, "catchLoc");
+          var hasFinally = hasOwn.call(entry, "finallyLoc");
+
+          if (hasCatch && hasFinally) {
+            if (this.prev < entry.catchLoc) {
+              return handle(entry.catchLoc, true);
+            } else if (this.prev < entry.finallyLoc) {
+              return handle(entry.finallyLoc);
+            }
+
+          } else if (hasCatch) {
+            if (this.prev < entry.catchLoc) {
+              return handle(entry.catchLoc, true);
+            }
+
+          } else if (hasFinally) {
+            if (this.prev < entry.finallyLoc) {
+              return handle(entry.finallyLoc);
+            }
+
+          } else {
+            throw new Error("try statement without catch or finally");
+          }
+        }
+      }
+    },
+
+    abrupt: function(type, arg) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc <= this.prev &&
+            hasOwn.call(entry, "finallyLoc") &&
+            this.prev < entry.finallyLoc) {
+          var finallyEntry = entry;
+          break;
+        }
+      }
+
+      if (finallyEntry &&
+          (type === "break" ||
+           type === "continue") &&
+          finallyEntry.tryLoc <= arg &&
+          arg <= finallyEntry.finallyLoc) {
+        // Ignore the finally entry if control is not jumping to a
+        // location outside the try/catch block.
+        finallyEntry = null;
+      }
+
+      var record = finallyEntry ? finallyEntry.completion : {};
+      record.type = type;
+      record.arg = arg;
+
+      if (finallyEntry) {
+        this.method = "next";
+        this.next = finallyEntry.finallyLoc;
+        return ContinueSentinel;
+      }
+
+      return this.complete(record);
+    },
+
+    complete: function(record, afterLoc) {
+      if (record.type === "throw") {
+        throw record.arg;
+      }
+
+      if (record.type === "break" ||
+          record.type === "continue") {
+        this.next = record.arg;
+      } else if (record.type === "return") {
+        this.rval = this.arg = record.arg;
+        this.method = "return";
+        this.next = "end";
+      } else if (record.type === "normal" && afterLoc) {
+        this.next = afterLoc;
+      }
+
+      return ContinueSentinel;
+    },
+
+    finish: function(finallyLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.finallyLoc === finallyLoc) {
+          this.complete(entry.completion, entry.afterLoc);
+          resetTryEntry(entry);
+          return ContinueSentinel;
+        }
+      }
+    },
+
+    "catch": function(tryLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc === tryLoc) {
+          var record = entry.completion;
+          if (record.type === "throw") {
+            var thrown = record.arg;
+            resetTryEntry(entry);
+          }
+          return thrown;
+        }
+      }
+
+      // The context.catch method must only be called with a location
+      // argument that corresponds to a known catch block.
+      throw new Error("illegal catch attempt");
+    },
+
+    delegateYield: function(iterable, resultName, nextLoc) {
+      this.delegate = {
+        iterator: values(iterable),
+        resultName: resultName,
+        nextLoc: nextLoc
+      };
+
+      if (this.method === "next") {
+        // Deliberately forget the last sent value so that we don't
+        // accidentally pass it on to the delegate.
+        this.arg = undefined;
+      }
+
+      return ContinueSentinel;
+    }
+  };
+
+  // Regardless of whether this script is executing as a CommonJS module
+  // or not, return the runtime object so that we can declare the variable
+  // regeneratorRuntime in the outer scope, which allows this module to be
+  // injected easily by `bin/regenerator --include-runtime script.js`.
+  return exports;
+
+}(
+  // If this script is executing as a CommonJS module, use module.exports
+  // as the regeneratorRuntime namespace. Otherwise create a new empty
+  // object. Either way, the resulting object will be used to initialize
+  // the regeneratorRuntime variable at the top of this file.
+   true ? module.exports : undefined
+));
+
+try {
+  regeneratorRuntime = runtime;
+} catch (accidentalStrictMode) {
+  // This module should not be running in strict mode, so the above
+  // assignment should always work unless something is misconfigured. Just
+  // in case runtime.js accidentally runs in strict mode, we can escape
+  // strict mode using a global Function call. This could conceivably fail
+  // if a Content Security Policy forbids using Function, but in that case
+  // the proper solution is to fix the accidental strict mode problem. If
+  // you've misconfigured your bundler to force strict mode and applied a
+  // CSP to forbid Function, and you're not willing to fix either of those
+  // problems, please detail your unique predicament in a GitHub issue.
+  Function("r", "regeneratorRuntime = r")(runtime);
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/setimmediate/setImmediate.js":
 /*!***************************************************!*\
   !*** ./node_modules/setimmediate/setImmediate.js ***!
@@ -17330,6 +18339,2657 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
                          (this && this.clearImmediate);
 
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
+
+/***/ }),
+
+/***/ "./node_modules/vee-validate/dist/rules.js":
+/*!*************************************************!*\
+  !*** ./node_modules/vee-validate/dist/rules.js ***!
+  \*************************************************/
+/*! exports provided: alpha, alpha_dash, alpha_num, alpha_spaces, between, confirmed, digits, dimensions, email, excluded, ext, image, integer, is, is_not, length, max, max_value, mimes, min, min_value, numeric, oneOf, regex, required, required_if, size */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "alpha", function() { return alpha$1; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "alpha_dash", function() { return alpha_dash; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "alpha_num", function() { return alpha_num; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "alpha_spaces", function() { return alpha_spaces; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "between", function() { return between; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "confirmed", function() { return confirmed; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "digits", function() { return digits; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dimensions", function() { return dimensions; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "email", function() { return email; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "excluded", function() { return excluded; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ext", function() { return ext; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "image", function() { return image; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "integer", function() { return integer; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "is", function() { return is; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "is_not", function() { return is_not; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "length", function() { return length; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "max", function() { return max; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "max_value", function() { return max_value; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mimes", function() { return mimes; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "min", function() { return min; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "min_value", function() { return min_value; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "numeric", function() { return numeric; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "oneOf", function() { return oneOf; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "regex", function() { return regex; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "required", function() { return required; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "required_if", function() { return required_if; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "size", function() { return size; });
+/**
+  * vee-validate v3.0.11
+  * (c) 2019 Abdelrahman Awad
+  * @license MIT
+  */
+/**
+ * Some Alpha Regex helpers.
+ * https://github.com/chriso/validator.js/blob/master/src/lib/alpha.js
+ */
+var alpha = {
+    en: /^[A-Z]*$/i,
+    cs: /^[A-ZÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ]*$/i,
+    da: /^[A-ZÆØÅ]*$/i,
+    de: /^[A-ZÄÖÜß]*$/i,
+    es: /^[A-ZÁÉÍÑÓÚÜ]*$/i,
+    fr: /^[A-ZÀÂÆÇÉÈÊËÏÎÔŒÙÛÜŸ]*$/i,
+    it: /^[A-Z\xC0-\xFF]*$/i,
+    lt: /^[A-ZĄČĘĖĮŠŲŪŽ]*$/i,
+    nl: /^[A-ZÉËÏÓÖÜ]*$/i,
+    hu: /^[A-ZÁÉÍÓÖŐÚÜŰ]*$/i,
+    pl: /^[A-ZĄĆĘŚŁŃÓŻŹ]*$/i,
+    pt: /^[A-ZÃÁÀÂÇÉÊÍÕÓÔÚÜ]*$/i,
+    ru: /^[А-ЯЁ]*$/i,
+    sk: /^[A-ZÁÄČĎÉÍĹĽŇÓŔŠŤÚÝŽ]*$/i,
+    sr: /^[A-ZČĆŽŠĐ]*$/i,
+    sv: /^[A-ZÅÄÖ]*$/i,
+    tr: /^[A-ZÇĞİıÖŞÜ]*$/i,
+    uk: /^[А-ЩЬЮЯЄІЇҐ]*$/i,
+    ar: /^[ءآأؤإئابةتثجحخدذرزسشصضطظعغفقكلمنهوىيًٌٍَُِّْٰ]*$/,
+    az: /^[A-ZÇƏĞİıÖŞÜ]*$/i
+};
+var alphaSpaces = {
+    en: /^[A-Z\s]*$/i,
+    cs: /^[A-ZÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ\s]*$/i,
+    da: /^[A-ZÆØÅ\s]*$/i,
+    de: /^[A-ZÄÖÜß\s]*$/i,
+    es: /^[A-ZÁÉÍÑÓÚÜ\s]*$/i,
+    fr: /^[A-ZÀÂÆÇÉÈÊËÏÎÔŒÙÛÜŸ\s]*$/i,
+    it: /^[A-Z\xC0-\xFF\s]*$/i,
+    lt: /^[A-ZĄČĘĖĮŠŲŪŽ\s]*$/i,
+    nl: /^[A-ZÉËÏÓÖÜ\s]*$/i,
+    hu: /^[A-ZÁÉÍÓÖŐÚÜŰ\s]*$/i,
+    pl: /^[A-ZĄĆĘŚŁŃÓŻŹ\s]*$/i,
+    pt: /^[A-ZÃÁÀÂÇÉÊÍÕÓÔÚÜ\s]*$/i,
+    ru: /^[А-ЯЁ\s]*$/i,
+    sk: /^[A-ZÁÄČĎÉÍĹĽŇÓŔŠŤÚÝŽ\s]*$/i,
+    sr: /^[A-ZČĆŽŠĐ\s]*$/i,
+    sv: /^[A-ZÅÄÖ\s]*$/i,
+    tr: /^[A-ZÇĞİıÖŞÜ\s]*$/i,
+    uk: /^[А-ЩЬЮЯЄІЇҐ\s]*$/i,
+    ar: /^[ءآأؤإئابةتثجحخدذرزسشصضطظعغفقكلمنهوىيًٌٍَُِّْٰ\s]*$/,
+    az: /^[A-ZÇƏĞİıÖŞÜ\s]*$/i
+};
+var alphanumeric = {
+    en: /^[0-9A-Z]*$/i,
+    cs: /^[0-9A-ZÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ]*$/i,
+    da: /^[0-9A-ZÆØÅ]$/i,
+    de: /^[0-9A-ZÄÖÜß]*$/i,
+    es: /^[0-9A-ZÁÉÍÑÓÚÜ]*$/i,
+    fr: /^[0-9A-ZÀÂÆÇÉÈÊËÏÎÔŒÙÛÜŸ]*$/i,
+    it: /^[0-9A-Z\xC0-\xFF]*$/i,
+    lt: /^[0-9A-ZĄČĘĖĮŠŲŪŽ]*$/i,
+    hu: /^[0-9A-ZÁÉÍÓÖŐÚÜŰ]*$/i,
+    nl: /^[0-9A-ZÉËÏÓÖÜ]*$/i,
+    pl: /^[0-9A-ZĄĆĘŚŁŃÓŻŹ]*$/i,
+    pt: /^[0-9A-ZÃÁÀÂÇÉÊÍÕÓÔÚÜ]*$/i,
+    ru: /^[0-9А-ЯЁ]*$/i,
+    sk: /^[0-9A-ZÁÄČĎÉÍĹĽŇÓŔŠŤÚÝŽ]*$/i,
+    sr: /^[0-9A-ZČĆŽŠĐ]*$/i,
+    sv: /^[0-9A-ZÅÄÖ]*$/i,
+    tr: /^[0-9A-ZÇĞİıÖŞÜ]*$/i,
+    uk: /^[0-9А-ЩЬЮЯЄІЇҐ]*$/i,
+    ar: /^[٠١٢٣٤٥٦٧٨٩0-9ءآأؤإئابةتثجحخدذرزسشصضطظعغفقكلمنهوىيًٌٍَُِّْٰ]*$/,
+    az: /^[0-9A-ZÇƏĞİıÖŞÜ]*$/i
+};
+var alphaDash = {
+    en: /^[0-9A-Z_-]*$/i,
+    cs: /^[0-9A-ZÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ_-]*$/i,
+    da: /^[0-9A-ZÆØÅ_-]*$/i,
+    de: /^[0-9A-ZÄÖÜß_-]*$/i,
+    es: /^[0-9A-ZÁÉÍÑÓÚÜ_-]*$/i,
+    fr: /^[0-9A-ZÀÂÆÇÉÈÊËÏÎÔŒÙÛÜŸ_-]*$/i,
+    it: /^[0-9A-Z\xC0-\xFF_-]*$/i,
+    lt: /^[0-9A-ZĄČĘĖĮŠŲŪŽ_-]*$/i,
+    nl: /^[0-9A-ZÉËÏÓÖÜ_-]*$/i,
+    hu: /^[0-9A-ZÁÉÍÓÖŐÚÜŰ_-]*$/i,
+    pl: /^[0-9A-ZĄĆĘŚŁŃÓŻŹ_-]*$/i,
+    pt: /^[0-9A-ZÃÁÀÂÇÉÊÍÕÓÔÚÜ_-]*$/i,
+    ru: /^[0-9А-ЯЁ_-]*$/i,
+    sk: /^[0-9A-ZÁÄČĎÉÍĹĽŇÓŔŠŤÚÝŽ_-]*$/i,
+    sr: /^[0-9A-ZČĆŽŠĐ_-]*$/i,
+    sv: /^[0-9A-ZÅÄÖ_-]*$/i,
+    tr: /^[0-9A-ZÇĞİıÖŞÜ_-]*$/i,
+    uk: /^[0-9А-ЩЬЮЯЄІЇҐ_-]*$/i,
+    ar: /^[٠١٢٣٤٥٦٧٨٩0-9ءآأؤإئابةتثجحخدذرزسشصضطظعغفقكلمنهوىيًٌٍَُِّْٰ_-]*$/,
+    az: /^[0-9A-ZÇƏĞİıÖŞÜ_-]*$/i
+};
+
+var validate = function (value, _a) {
+    var _b = (_a === void 0 ? {} : _a).locale, locale = _b === void 0 ? '' : _b;
+    if (Array.isArray(value)) {
+        return value.every(function (val) { return validate(val, { locale: locale }); });
+    }
+    // Match at least one locale.
+    if (!locale) {
+        return Object.keys(alpha).some(function (loc) { return alpha[loc].test(value); });
+    }
+    return (alpha[locale] || alpha.en).test(value);
+};
+var params = [
+    {
+        name: 'locale'
+    }
+];
+var alpha$1 = {
+    validate: validate,
+    params: params
+};
+
+var validate$1 = function (value, _a) {
+    var _b = (_a === void 0 ? {} : _a).locale, locale = _b === void 0 ? '' : _b;
+    if (Array.isArray(value)) {
+        return value.every(function (val) { return validate$1(val, { locale: locale }); });
+    }
+    // Match at least one locale.
+    if (!locale) {
+        return Object.keys(alphaDash).some(function (loc) { return alphaDash[loc].test(value); });
+    }
+    return (alphaDash[locale] || alphaDash.en).test(value);
+};
+var params$1 = [
+    {
+        name: 'locale'
+    }
+];
+var alpha_dash = {
+    validate: validate$1,
+    params: params$1
+};
+
+var validate$2 = function (value, _a) {
+    var _b = (_a === void 0 ? {} : _a).locale, locale = _b === void 0 ? '' : _b;
+    if (Array.isArray(value)) {
+        return value.every(function (val) { return validate$2(val, { locale: locale }); });
+    }
+    // Match at least one locale.
+    if (!locale) {
+        return Object.keys(alphanumeric).some(function (loc) { return alphanumeric[loc].test(value); });
+    }
+    return (alphanumeric[locale] || alphanumeric.en).test(value);
+};
+var params$2 = [
+    {
+        name: 'locale'
+    }
+];
+var alpha_num = {
+    validate: validate$2,
+    params: params$2
+};
+
+var validate$3 = function (value, _a) {
+    var _b = (_a === void 0 ? {} : _a).locale, locale = _b === void 0 ? '' : _b;
+    if (Array.isArray(value)) {
+        return value.every(function (val) { return validate$3(val, { locale: locale }); });
+    }
+    // Match at least one locale.
+    if (!locale) {
+        return Object.keys(alphaSpaces).some(function (loc) { return alphaSpaces[loc].test(value); });
+    }
+    return (alphaSpaces[locale] || alphaSpaces.en).test(value);
+};
+var params$3 = [
+    {
+        name: 'locale'
+    }
+];
+var alpha_spaces = {
+    validate: validate$3,
+    params: params$3
+};
+
+var validate$4 = function (value, _a) {
+    var _b = _a === void 0 ? {} : _a, min = _b.min, max = _b.max;
+    if (Array.isArray(value)) {
+        return value.every(function (val) { return !!validate$4(val, { min: min, max: max }); });
+    }
+    return Number(min) <= value && Number(max) >= value;
+};
+var params$4 = [
+    {
+        name: 'min'
+    },
+    {
+        name: 'max'
+    }
+];
+var between = {
+    validate: validate$4,
+    params: params$4
+};
+
+var validate$5 = function (value, _a) {
+    var target = _a.target;
+    return String(value) === String(target);
+};
+var params$5 = [
+    {
+        name: 'target',
+        isTarget: true
+    }
+];
+var confirmed = {
+    validate: validate$5,
+    params: params$5
+};
+
+var validate$6 = function (value, _a) {
+    var length = _a.length;
+    if (Array.isArray(value)) {
+        return value.every(function (val) { return validate$6(val, { length: length }); });
+    }
+    var strVal = String(value);
+    return /^[0-9]*$/.test(strVal) && strVal.length === length;
+};
+var params$6 = [
+    {
+        name: 'length',
+        cast: function (value) {
+            return Number(value);
+        }
+    }
+];
+var digits = {
+    validate: validate$6,
+    params: params$6
+};
+
+var validateImage = function (file, width, height) {
+    var URL = window.URL || window.webkitURL;
+    return new Promise(function (resolve) {
+        var image = new Image();
+        image.onerror = function () { return resolve(false); };
+        image.onload = function () { return resolve(image.width === width && image.height === height); };
+        image.src = URL.createObjectURL(file);
+    });
+};
+var validate$7 = function (files, _a) {
+    var width = _a.width, height = _a.height;
+    var list = [];
+    files = Array.isArray(files) ? files : [files];
+    for (var i = 0; i < files.length; i++) {
+        // if file is not an image, reject.
+        if (!/\.(jpg|svg|jpeg|png|bmp|gif)$/i.test(files[i].name)) {
+            return Promise.resolve(false);
+        }
+        list.push(files[i]);
+    }
+    return Promise.all(list.map(function (file) { return validateImage(file, width, height); })).then(function (values) {
+        return values.every(function (v) { return v; });
+    });
+};
+var params$7 = [
+    {
+        name: 'width',
+        cast: function (value) {
+            return Number(value);
+        }
+    },
+    {
+        name: 'height',
+        cast: function (value) {
+            return Number(value);
+        }
+    }
+];
+var dimensions = {
+    validate: validate$7,
+    params: params$7
+};
+
+var validate$8 = function (value, _a) {
+    var multiple = (_a === void 0 ? {} : _a).multiple;
+    // eslint-disable-next-line
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (multiple && !Array.isArray(value)) {
+        value = String(value)
+            .split(',')
+            .map(function (emailStr) { return emailStr.trim(); });
+    }
+    if (Array.isArray(value)) {
+        return value.every(function (val) { return re.test(String(val)); });
+    }
+    return re.test(String(value));
+};
+var params$8 = [
+    {
+        name: 'multiple',
+        default: false
+    }
+];
+var email = {
+    validate: validate$8,
+    params: params$8
+};
+
+/**
+ * Checks if the values are either null or undefined.
+ */
+var isNullOrUndefined = function (value) {
+    return value === null || value === undefined;
+};
+var includes = function (collection, item) {
+    return collection.indexOf(item) !== -1;
+};
+/**
+ * Checks if a function is callable.
+ */
+var isCallable = function (func) { return typeof func === 'function'; };
+/* istanbul ignore next */
+function _copyArray(arrayLike) {
+    var array = [];
+    var length = arrayLike.length;
+    for (var i = 0; i < length; i++) {
+        array.push(arrayLike[i]);
+    }
+    return array;
+}
+/**
+ * Converts an array-like object to array, provides a simple polyfill for Array.from
+ */
+function toArray(arrayLike) {
+    if (isCallable(Array.from)) {
+        return Array.from(arrayLike);
+    }
+    /* istanbul ignore next */
+    return _copyArray(arrayLike);
+}
+var isEmptyArray = function (arr) {
+    return Array.isArray(arr) && arr.length === 0;
+};
+
+var validate$9 = function (value, options) {
+    if (Array.isArray(value)) {
+        return value.every(function (val) { return validate$9(val, options); });
+    }
+    return toArray(options).some(function (item) {
+        // eslint-disable-next-line
+        return item == value;
+    });
+};
+var oneOf = {
+    validate: validate$9
+};
+
+var validate$a = function (value, args) {
+    return !validate$9(value, args);
+};
+var excluded = {
+    validate: validate$a
+};
+
+var validate$b = function (files, extensions) {
+    var regex = new RegExp(".(" + extensions.join('|') + ")$", 'i');
+    if (Array.isArray(files)) {
+        return files.every(function (file) { return regex.test(file.name); });
+    }
+    return regex.test(files.name);
+};
+var ext = {
+    validate: validate$b
+};
+
+var validate$c = function (files) {
+    var regex = /\.(jpg|svg|jpeg|png|bmp|gif)$/i;
+    if (Array.isArray(files)) {
+        return files.every(function (file) { return regex.test(file.name); });
+    }
+    return regex.test(files.name);
+};
+var image = {
+    validate: validate$c
+};
+
+var validate$d = function (value) {
+    if (Array.isArray(value)) {
+        return value.every(function (val) { return /^-?[0-9]+$/.test(String(val)); });
+    }
+    return /^-?[0-9]+$/.test(String(value));
+};
+var integer = {
+    validate: validate$d
+};
+
+var validate$e = function (value, _a) {
+    var other = _a.other;
+    return value === other;
+};
+var params$9 = [
+    {
+        name: 'other'
+    }
+];
+var is = {
+    validate: validate$e,
+    params: params$9
+};
+
+var validate$f = function (value, _a) {
+    var other = _a.other;
+    return value !== other;
+};
+var params$a = [
+    {
+        name: 'other'
+    }
+];
+var is_not = {
+    validate: validate$f,
+    params: params$a
+};
+
+var validate$g = function (value, _a) {
+    var length = _a.length;
+    if (isNullOrUndefined(value)) {
+        return false;
+    }
+    if (typeof value === 'number') {
+        value = String(value);
+    }
+    if (!value.length) {
+        value = toArray(value);
+    }
+    return value.length === length;
+};
+var params$b = [
+    {
+        name: 'length',
+        cast: function (value) { return Number(value); }
+    }
+];
+var length = {
+    validate: validate$g,
+    params: params$b
+};
+
+var validate$h = function (value, _a) {
+    var length = _a.length;
+    if (isNullOrUndefined(value)) {
+        return length >= 0;
+    }
+    if (Array.isArray(value)) {
+        return value.every(function (val) { return validate$h(val, { length: length }); });
+    }
+    return String(value).length <= length;
+};
+var params$c = [
+    {
+        name: 'length',
+        cast: function (value) {
+            return Number(value);
+        }
+    }
+];
+var max = {
+    validate: validate$h,
+    params: params$c
+};
+
+var validate$i = function (value, _a) {
+    var max = _a.max;
+    if (isNullOrUndefined(value) || value === '') {
+        return false;
+    }
+    if (Array.isArray(value)) {
+        return value.length > 0 && value.every(function (val) { return validate$i(val, { max: max }); });
+    }
+    return Number(value) <= max;
+};
+var params$d = [
+    {
+        name: 'max',
+        cast: function (value) {
+            return Number(value);
+        }
+    }
+];
+var max_value = {
+    validate: validate$i,
+    params: params$d
+};
+
+var validate$j = function (files, mimes) {
+    var regex = new RegExp(mimes.join('|').replace('*', '.+') + "$", 'i');
+    if (Array.isArray(files)) {
+        return files.every(function (file) { return regex.test(file.type); });
+    }
+    return regex.test(files.type);
+};
+var mimes = {
+    validate: validate$j
+};
+
+var validate$k = function (value, _a) {
+    var length = _a.length;
+    if (isNullOrUndefined(value)) {
+        return false;
+    }
+    if (Array.isArray(value)) {
+        return value.every(function (val) { return validate$k(val, { length: length }); });
+    }
+    return String(value).length >= length;
+};
+var params$e = [
+    {
+        name: 'length',
+        cast: function (value) {
+            return Number(value);
+        }
+    }
+];
+var min = {
+    validate: validate$k,
+    params: params$e
+};
+
+var validate$l = function (value, _a) {
+    var min = _a.min;
+    if (isNullOrUndefined(value) || value === '') {
+        return false;
+    }
+    if (Array.isArray(value)) {
+        return value.length > 0 && value.every(function (val) { return validate$l(val, { min: min }); });
+    }
+    return Number(value) >= min;
+};
+var params$f = [
+    {
+        name: 'min',
+        cast: function (value) {
+            return Number(value);
+        }
+    }
+];
+var min_value = {
+    validate: validate$l,
+    params: params$f
+};
+
+var ar = /^[٠١٢٣٤٥٦٧٨٩]+$/;
+var en = /^[0-9]+$/;
+var validate$m = function (value) {
+    var testValue = function (val) {
+        var strValue = String(val);
+        return en.test(strValue) || ar.test(strValue);
+    };
+    if (Array.isArray(value)) {
+        return value.every(testValue);
+    }
+    return testValue(value);
+};
+var numeric = {
+    validate: validate$m
+};
+
+var validate$n = function (value, _a) {
+    var regex = _a.regex;
+    if (Array.isArray(value)) {
+        return value.every(function (val) { return validate$n(val, { regex: regex }); });
+    }
+    return regex.test(String(value));
+};
+var params$g = [
+    {
+        name: 'regex',
+        cast: function (value) {
+            if (typeof value === 'string') {
+                return new RegExp(value);
+            }
+            return value;
+        }
+    }
+];
+var regex = {
+    validate: validate$n,
+    params: params$g
+};
+
+var validate$o = function (value, _a) {
+    var allowFalse = (_a === void 0 ? { allowFalse: true } : _a).allowFalse;
+    var result = {
+        valid: false,
+        required: true
+    };
+    if (isNullOrUndefined(value) || isEmptyArray(value)) {
+        return result;
+    }
+    // incase a field considers `false` as an empty value like checkboxes.
+    if (value === false && !allowFalse) {
+        return result;
+    }
+    result.valid = !!String(value).trim().length;
+    return result;
+};
+var computesRequired = true;
+var params$h = [
+    {
+        name: 'allowFalse',
+        default: true
+    }
+];
+var required = {
+    validate: validate$o,
+    params: params$h,
+    computesRequired: computesRequired
+};
+
+var testEmpty = function (value) {
+    return isEmptyArray(value) || includes([false, null, undefined], value) || !String(value).trim().length;
+};
+var validate$p = function (value, _a) {
+    var target = _a.target, values = _a.values;
+    var required;
+    if (values && values.length) {
+        if (!Array.isArray(values) && typeof values === 'string') {
+            values = [values];
+        }
+        // eslint-disable-next-line
+        required = values.some(function (val) { return val == String(target).trim(); });
+    }
+    else {
+        required = !testEmpty(target);
+    }
+    if (!required) {
+        return {
+            valid: true,
+            required: required
+        };
+    }
+    return {
+        valid: !testEmpty(value),
+        required: required
+    };
+};
+var params$i = [
+    {
+        name: 'target',
+        isTarget: true
+    },
+    {
+        name: 'values'
+    }
+];
+var computesRequired$1 = true;
+var required_if = {
+    validate: validate$p,
+    params: params$i,
+    computesRequired: computesRequired$1
+};
+
+var validate$q = function (files, _a) {
+    var size = _a.size;
+    if (isNaN(size)) {
+        return false;
+    }
+    var nSize = size * 1024;
+    if (!Array.isArray(files)) {
+        return files.size <= nSize;
+    }
+    for (var i = 0; i < files.length; i++) {
+        if (files[i].size > nSize) {
+            return false;
+        }
+    }
+    return true;
+};
+var params$j = [
+    {
+        name: 'size',
+        cast: function (value) {
+            return Number(value);
+        }
+    }
+];
+var size = {
+    validate: validate$q,
+    params: params$j
+};
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vee-validate/dist/vee-validate.esm.js":
+/*!************************************************************!*\
+  !*** ./node_modules/vee-validate/dist/vee-validate.esm.js ***!
+  \************************************************************/
+/*! exports provided: ValidationObserver, ValidationProvider, configure, extend, install, localize, setInteractionMode, validate, version, withValidation */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ValidationObserver", function() { return ValidationObserver; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ValidationProvider", function() { return ValidationProvider; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "configure", function() { return configure; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "extend", function() { return extend; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "install", function() { return install; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "localize", function() { return localize; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setInteractionMode", function() { return setInteractionMode; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "validate", function() { return validate; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "version", function() { return version; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "withValidation", function() { return withValidation; });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/**
+  * vee-validate v3.0.11
+  * (c) 2019 Abdelrahman Awad
+  * @license MIT
+  */
+
+
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+this file except in compliance with the License. You may obtain a copy of the
+License at http://www.apache.org/licenses/LICENSE-2.0
+
+THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
+WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
+MERCHANTABLITY OR NON-INFRINGEMENT.
+
+See the Apache Version 2.0 License for specific language governing permissions
+and limitations under the License.
+***************************************************************************** */
+
+var __assign = function() {
+    __assign = Object.assign || function __assign(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+
+function __awaiter(thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+}
+
+function __generator(thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+}
+
+function __spreadArrays() {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+}
+
+var isNaN = function (value) {
+    // NaN is the one value that does not equal itself.
+    // eslint-disable-next-line
+    return value !== value;
+};
+/**
+ * Checks if the values are either null or undefined.
+ */
+var isNullOrUndefined = function (value) {
+    return value === null || value === undefined;
+};
+/**
+ * Creates the default flags object.
+ */
+var createFlags = function () { return ({
+    untouched: true,
+    touched: false,
+    dirty: false,
+    pristine: true,
+    valid: false,
+    invalid: false,
+    validated: false,
+    pending: false,
+    required: false,
+    changed: false
+}); };
+/**
+ * Checks if the value is an object.
+ */
+var isObject = function (obj) {
+    return obj !== null && obj && typeof obj === 'object' && !Array.isArray(obj);
+};
+function identity(x) {
+    return x;
+}
+/**
+ * Shallow object comparison.
+ */
+var isEqual = function (lhs, rhs) {
+    if (lhs instanceof RegExp && rhs instanceof RegExp) {
+        return isEqual(lhs.source, rhs.source) && isEqual(lhs.flags, rhs.flags);
+    }
+    if (Array.isArray(lhs) && Array.isArray(rhs)) {
+        if (lhs.length !== rhs.length)
+            return false;
+        for (var i = 0; i < lhs.length; i++) {
+            if (!isEqual(lhs[i], rhs[i])) {
+                return false;
+            }
+        }
+        return true;
+    }
+    // if both are objects, compare each key recursively.
+    if (isObject(lhs) && isObject(rhs)) {
+        return (Object.keys(lhs).every(function (key) {
+            return isEqual(lhs[key], rhs[key]);
+        }) &&
+            Object.keys(rhs).every(function (key) {
+                return isEqual(lhs[key], rhs[key]);
+            }));
+    }
+    if (isNaN(lhs) && isNaN(rhs)) {
+        return true;
+    }
+    return lhs === rhs;
+};
+var includes = function (collection, item) {
+    return collection.indexOf(item) !== -1;
+};
+/**
+ * Parses a rule string expression.
+ */
+var parseRule = function (rule) {
+    var params = [];
+    var name = rule.split(':')[0];
+    if (includes(rule, ':')) {
+        params = rule
+            .split(':')
+            .slice(1)
+            .join(':')
+            .split(',');
+    }
+    return { name: name, params: params };
+};
+/**
+ * Debounces a function.
+ */
+var debounce = function (fn, wait, token) {
+    if (wait === void 0) { wait = 0; }
+    if (token === void 0) { token = { cancelled: false }; }
+    if (wait === 0) {
+        return fn;
+    }
+    var timeout;
+    return function () {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i] = arguments[_i];
+        }
+        var later = function () {
+            timeout = undefined;
+            // check if the fn call was cancelled.
+            if (!token.cancelled)
+                fn.apply(void 0, args);
+        };
+        // because we might want to use Node.js setTimout for SSR.
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+};
+/**
+ * Emits a warning to the console.
+ */
+var warn = function (message) {
+    console.warn("[vee-validate] " + message);
+};
+/**
+ * Normalizes the given rules expression.
+ */
+var normalizeRules = function (rules) {
+    // if falsy value return an empty object.
+    var acc = {};
+    Object.defineProperty(acc, '_$$isNormalized', {
+        value: true,
+        writable: false,
+        enumerable: false,
+        configurable: false
+    });
+    if (!rules) {
+        return acc;
+    }
+    // Object is already normalized, skip.
+    if (isObject(rules) && rules._$$isNormalized) {
+        return rules;
+    }
+    if (isObject(rules)) {
+        return Object.keys(rules).reduce(function (prev, curr) {
+            var params = [];
+            if (rules[curr] === true) {
+                params = [];
+            }
+            else if (Array.isArray(rules[curr])) {
+                params = rules[curr];
+            }
+            else if (isObject(rules[curr])) {
+                params = rules[curr];
+            }
+            else {
+                params = [rules[curr]];
+            }
+            if (rules[curr] !== false) {
+                prev[curr] = params;
+            }
+            return prev;
+        }, acc);
+    }
+    /* istanbul ignore if */
+    if (typeof rules !== 'string') {
+        warn('rules must be either a string or an object.');
+        return acc;
+    }
+    return rules.split('|').reduce(function (prev, rule) {
+        var parsedRule = parseRule(rule);
+        if (!parsedRule.name) {
+            return prev;
+        }
+        prev[parsedRule.name] = parsedRule.params;
+        return prev;
+    }, acc);
+};
+/**
+ * Checks if a function is callable.
+ */
+var isCallable = function (func) { return typeof func === 'function'; };
+function computeClassObj(names, flags) {
+    var acc = {};
+    var keys = Object.keys(flags);
+    var length = keys.length;
+    var _loop_1 = function (i) {
+        var flag = keys[i];
+        var className = (names && names[flag]) || flag;
+        var value = flags[flag];
+        if (isNullOrUndefined(value)) {
+            return "continue";
+        }
+        if ((flag === 'valid' || flag === 'invalid') && !flags.validated) {
+            return "continue";
+        }
+        if (typeof className === 'string') {
+            acc[className] = value;
+        }
+        else if (Array.isArray(className)) {
+            className.forEach(function (cls) {
+                acc[cls] = value;
+            });
+        }
+    };
+    for (var i = 0; i < length; i++) {
+        _loop_1(i);
+    }
+    return acc;
+}
+/* istanbul ignore next */
+function _copyArray(arrayLike) {
+    var array = [];
+    var length = arrayLike.length;
+    for (var i = 0; i < length; i++) {
+        array.push(arrayLike[i]);
+    }
+    return array;
+}
+/**
+ * Converts an array-like object to array, provides a simple polyfill for Array.from
+ */
+function toArray(arrayLike) {
+    if (isCallable(Array.from)) {
+        return Array.from(arrayLike);
+    }
+    /* istanbul ignore next */
+    return _copyArray(arrayLike);
+}
+function findIndex(arrayLike, predicate) {
+    var array = Array.isArray(arrayLike) ? arrayLike : toArray(arrayLike);
+    if (isCallable(array.findIndex)) {
+        return array.findIndex(predicate);
+    }
+    /* istanbul ignore next */
+    for (var i = 0; i < array.length; i++) {
+        if (predicate(array[i], i)) {
+            return i;
+        }
+    }
+    /* istanbul ignore next */
+    return -1;
+}
+/**
+ * finds the first element that satisfies the predicate callback, polyfills array.find
+ */
+function find(arrayLike, predicate) {
+    var array = Array.isArray(arrayLike) ? arrayLike : toArray(arrayLike);
+    var idx = findIndex(array, predicate);
+    return idx === -1 ? undefined : array[idx];
+}
+function merge(target, source) {
+    Object.keys(source).forEach(function (key) {
+        if (isObject(source[key])) {
+            if (!target[key]) {
+                target[key] = {};
+            }
+            merge(target[key], source[key]);
+            return;
+        }
+        target[key] = source[key];
+    });
+    return target;
+}
+function values(obj) {
+    if (isCallable(Object.values)) {
+        return Object.values(obj);
+    }
+    // fallback to keys()
+    /* istanbul ignore next */
+    return Object.keys(obj).map(function (k) { return obj[k]; });
+}
+var isEmptyArray = function (arr) {
+    return Array.isArray(arr) && arr.length === 0;
+};
+var interpolate = function (template, values) {
+    return template.replace(/\{([^}]+)\}/g, function (_, p) {
+        return p in values ? values[p] : "{" + p + "}";
+    });
+};
+// Checks if a given value is not an empty string or null or undefined.
+var isSpecified = function (val) {
+    if (val === '') {
+        return false;
+    }
+    return !isNullOrUndefined(val);
+};
+
+var RULES = {};
+function normalizeSchema(schema) {
+    if (schema.params && schema.params.length) {
+        schema.params = schema.params.map(function (param) {
+            if (typeof param === 'string') {
+                return { name: param };
+            }
+            return param;
+        });
+    }
+    return schema;
+}
+var RuleContainer = /** @class */ (function () {
+    function RuleContainer() {
+    }
+    RuleContainer.extend = function (name, schema) {
+        // if rule already exists, overwrite it.
+        var rule = normalizeSchema(schema);
+        if (RULES[name]) {
+            RULES[name] = merge(RULES[name], schema);
+            return;
+        }
+        RULES[name] = __assign({ lazy: false, computesRequired: false }, rule);
+    };
+    RuleContainer.iterate = function (fn) {
+        var keys = Object.keys(RULES);
+        var length = keys.length;
+        for (var i = 0; i < length; i++) {
+            fn(keys[i], RULES[keys[i]]);
+        }
+    };
+    RuleContainer.isLazy = function (name) {
+        return !!(RULES[name] && RULES[name].lazy);
+    };
+    RuleContainer.isRequireRule = function (name) {
+        return !!(RULES[name] && RULES[name].computesRequired);
+    };
+    RuleContainer.isTargetRule = function (name) {
+        var definition = RuleContainer.getRuleDefinition(name);
+        if (!definition || !definition.params) {
+            return false;
+        }
+        return definition.params.some(function (param) { return !!param.isTarget; });
+    };
+    RuleContainer.getTargetParamNames = function (rule, params) {
+        var definition = RuleContainer.getRuleDefinition(rule);
+        if (Array.isArray(params)) {
+            return params.filter(function (_, idx) {
+                return definition.params && find(definition.params, function (p, i) { return !!p.isTarget && i === idx; });
+            });
+        }
+        return Object.keys(params)
+            .filter(function (key) {
+            return definition.params && find(definition.params, function (p) { return !!p.isTarget && p.name === key; });
+        })
+            .map(function (key) { return params[key]; });
+    };
+    RuleContainer.getRuleDefinition = function (ruleName) {
+        return RULES[ruleName];
+    };
+    return RuleContainer;
+}());
+/**
+ * Adds a custom validator to the list of validation rules.
+ */
+function extend(name, schema) {
+    // makes sure new rules are properly formatted.
+    guardExtend(name, schema);
+    // Full schema object.
+    if (typeof schema === 'object') {
+        RuleContainer.extend(name, schema);
+        return;
+    }
+    RuleContainer.extend(name, {
+        validate: schema
+    });
+}
+/**
+ * Guards from extension violations.
+ */
+function guardExtend(name, validator) {
+    if (isCallable(validator)) {
+        return;
+    }
+    if (isCallable(validator.validate)) {
+        return;
+    }
+    if (RuleContainer.getRuleDefinition(name)) {
+        return;
+    }
+    throw new Error("Extension Error: The validator '" + name + "' must be a function or have a 'validate' method.");
+}
+
+var DEFAULT_CONFIG = {
+    defaultMessage: "{_field_} is not valid.",
+    skipOptional: true,
+    classes: {
+        touched: 'touched',
+        untouched: 'untouched',
+        valid: 'valid',
+        invalid: 'invalid',
+        pristine: 'pristine',
+        dirty: 'dirty' // control has been interacted with
+    },
+    bails: true,
+    mode: 'aggressive',
+    useConstraintAttrs: true
+};
+var currentConfig = __assign({}, DEFAULT_CONFIG);
+var getConfig = function () { return currentConfig; };
+var setConfig = function (newConf) {
+    currentConfig = __assign(__assign({}, currentConfig), newConf);
+};
+var configure = function (cfg) {
+    setConfig(cfg);
+};
+
+/**
+ * Validates a value against the rules.
+ */
+function validate(value, rules, options) {
+    if (options === void 0) { options = {}; }
+    return __awaiter(this, void 0, void 0, function () {
+        var shouldBail, skipIfEmpty, field, result, errors, ruleMap;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    shouldBail = options && options.bails;
+                    skipIfEmpty = options && options.skipIfEmpty;
+                    field = {
+                        name: (options && options.name) || '{field}',
+                        rules: normalizeRules(rules),
+                        bails: isNullOrUndefined(shouldBail) ? true : shouldBail,
+                        skipIfEmpty: isNullOrUndefined(skipIfEmpty) ? true : skipIfEmpty,
+                        forceRequired: false,
+                        crossTable: (options && options.values) || {},
+                        names: (options && options.names) || {},
+                        customMessages: (options && options.customMessages) || {}
+                    };
+                    return [4 /*yield*/, _validate(field, value, options)];
+                case 1:
+                    result = _a.sent();
+                    errors = [];
+                    ruleMap = {};
+                    result.errors.forEach(function (e) {
+                        errors.push(e.msg);
+                        ruleMap[e.rule] = e.msg;
+                    });
+                    return [2 /*return*/, {
+                            valid: result.valid,
+                            errors: errors,
+                            failedRules: ruleMap
+                        }];
+            }
+        });
+    });
+}
+/**
+ * Starts the validation process.
+ */
+function _validate(field, value, _a) {
+    var _b = (_a === void 0 ? {} : _a).isInitial, isInitial = _b === void 0 ? false : _b;
+    return __awaiter(this, void 0, void 0, function () {
+        var _c, shouldSkip, errors, rules, length, i, rule, result;
+        return __generator(this, function (_d) {
+            switch (_d.label) {
+                case 0: return [4 /*yield*/, _shouldSkip(field, value)];
+                case 1:
+                    _c = _d.sent(), shouldSkip = _c.shouldSkip, errors = _c.errors;
+                    if (shouldSkip) {
+                        return [2 /*return*/, {
+                                valid: !errors.length,
+                                errors: errors
+                            }];
+                    }
+                    rules = Object.keys(field.rules).filter(function (rule) { return !RuleContainer.isRequireRule(rule); });
+                    length = rules.length;
+                    i = 0;
+                    _d.label = 2;
+                case 2:
+                    if (!(i < length)) return [3 /*break*/, 5];
+                    if (isInitial && RuleContainer.isLazy(rules[i])) {
+                        return [3 /*break*/, 4];
+                    }
+                    rule = rules[i];
+                    return [4 /*yield*/, _test(field, value, {
+                            name: rule,
+                            params: field.rules[rule]
+                        })];
+                case 3:
+                    result = _d.sent();
+                    if (!result.valid && result.error) {
+                        errors.push(result.error);
+                        if (field.bails) {
+                            return [2 /*return*/, {
+                                    valid: false,
+                                    errors: errors
+                                }];
+                        }
+                    }
+                    _d.label = 4;
+                case 4:
+                    i++;
+                    return [3 /*break*/, 2];
+                case 5: return [2 /*return*/, {
+                        valid: !errors.length,
+                        errors: errors
+                    }];
+            }
+        });
+    });
+}
+function _shouldSkip(field, value) {
+    return __awaiter(this, void 0, void 0, function () {
+        var requireRules, length, errors, isEmpty, isEmptyAndOptional, isRequired, i, rule, result;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    requireRules = Object.keys(field.rules).filter(RuleContainer.isRequireRule);
+                    length = requireRules.length;
+                    errors = [];
+                    isEmpty = isNullOrUndefined(value) || value === '' || isEmptyArray(value);
+                    isEmptyAndOptional = isEmpty && field.skipIfEmpty;
+                    isRequired = false;
+                    i = 0;
+                    _a.label = 1;
+                case 1:
+                    if (!(i < length)) return [3 /*break*/, 4];
+                    rule = requireRules[i];
+                    return [4 /*yield*/, _test(field, value, {
+                            name: rule,
+                            params: field.rules[rule]
+                        })];
+                case 2:
+                    result = _a.sent();
+                    if (!isObject(result)) {
+                        throw new Error('Require rules has to return an object (see docs)');
+                    }
+                    if (result.required) {
+                        isRequired = true;
+                    }
+                    if (!result.valid && result.error) {
+                        errors.push(result.error);
+                        // Exit early as the field is required and failed validation.
+                        if (field.bails) {
+                            return [2 /*return*/, {
+                                    shouldSkip: true,
+                                    errors: errors
+                                }];
+                        }
+                    }
+                    _a.label = 3;
+                case 3:
+                    i++;
+                    return [3 /*break*/, 1];
+                case 4:
+                    if (isEmpty && !isRequired && !field.skipIfEmpty) {
+                        return [2 /*return*/, {
+                                shouldSkip: false,
+                                errors: errors
+                            }];
+                    }
+                    // field is configured to run through the pipeline regardless
+                    if (!field.bails && !isEmptyAndOptional) {
+                        return [2 /*return*/, {
+                                shouldSkip: false,
+                                errors: errors
+                            }];
+                    }
+                    // skip if the field is not required and has an empty value.
+                    return [2 /*return*/, {
+                            shouldSkip: !isRequired && isEmpty,
+                            errors: errors
+                        }];
+            }
+        });
+    });
+}
+/**
+ * Tests a single input value against a rule.
+ */
+function _test(field, value, rule) {
+    return __awaiter(this, void 0, void 0, function () {
+        var ruleSchema, params, normalizedValue, result, values;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    ruleSchema = RuleContainer.getRuleDefinition(rule.name);
+                    if (!ruleSchema || !ruleSchema.validate) {
+                        throw new Error("No such validator '" + rule.name + "' exists.");
+                    }
+                    params = _buildParams(rule.params, ruleSchema.params, field.crossTable);
+                    normalizedValue = ruleSchema.castValue ? ruleSchema.castValue(value) : value;
+                    return [4 /*yield*/, ruleSchema.validate(normalizedValue, params)];
+                case 1:
+                    result = _a.sent();
+                    if (typeof result === 'string') {
+                        values = __assign(__assign({}, (params || {})), { _field_: field.name, _value_: value, _rule_: rule.name });
+                        return [2 /*return*/, {
+                                valid: false,
+                                error: { rule: rule.name, msg: interpolate(result, values) }
+                            }];
+                    }
+                    if (!isObject(result)) {
+                        result = { valid: result, data: {} };
+                    }
+                    return [2 /*return*/, {
+                            valid: result.valid,
+                            required: result.required,
+                            data: result.data || {},
+                            error: result.valid ? undefined : _generateFieldError(field, value, ruleSchema, rule.name, params, result.data)
+                        }];
+            }
+        });
+    });
+}
+/**
+ * Generates error messages.
+ */
+function _generateFieldError(field, value, ruleSchema, ruleName, params, data) {
+    var values = __assign(__assign(__assign(__assign({}, (params || {})), (data || {})), { _field_: field.name, _value_: value, _rule_: ruleName }), _getTargetNames(field, ruleSchema, ruleName));
+    if (Object.prototype.hasOwnProperty.call(field.customMessages, ruleName) &&
+        typeof field.customMessages[ruleName] === 'string') {
+        return {
+            msg: _normalizeMessage(field.customMessages[ruleName], field.name, values),
+            rule: ruleName
+        };
+    }
+    if (ruleSchema.message) {
+        return {
+            msg: _normalizeMessage(ruleSchema.message, field.name, values),
+            rule: ruleName
+        };
+    }
+    return {
+        msg: _normalizeMessage(getConfig().defaultMessage, field.name, values),
+        rule: ruleName
+    };
+}
+function _getTargetNames(field, ruleSchema, ruleName) {
+    if (ruleSchema.params) {
+        var numTargets = ruleSchema.params.filter(function (param) { return param.isTarget; }).length;
+        if (numTargets > 0) {
+            var names = {};
+            for (var index = 0; index < ruleSchema.params.length; index++) {
+                var param = ruleSchema.params[index];
+                if (param.isTarget) {
+                    var key = field.rules[ruleName][index];
+                    var name_1 = field.names[key] || key;
+                    if (numTargets === 1) {
+                        names._target_ = name_1;
+                        break;
+                    }
+                    else {
+                        names["_" + param.name + "Target_"] = name_1;
+                    }
+                }
+            }
+            return names;
+        }
+    }
+    return {};
+}
+function _normalizeMessage(template, field, values) {
+    if (typeof template === 'function') {
+        return template(field, values);
+    }
+    return interpolate(template, __assign(__assign({}, values), { _field_: field }));
+}
+function _buildParams(provided, defined, crossTable) {
+    var params = {};
+    if (!defined && !Array.isArray(provided)) {
+        throw new Error('You provided an object params to a rule that has no defined schema.');
+    }
+    // Rule probably uses an array for their args, keep it as is.
+    if (Array.isArray(provided) && !defined) {
+        return provided;
+    }
+    var definedRules;
+    // collect the params schema.
+    if (!defined || (defined.length < provided.length && Array.isArray(provided))) {
+        var lastDefinedParam_1;
+        // collect any additional parameters in the last item.
+        definedRules = provided.map(function (_, idx) {
+            var param = defined && defined[idx];
+            lastDefinedParam_1 = param || lastDefinedParam_1;
+            if (!param) {
+                param = lastDefinedParam_1;
+            }
+            return param;
+        });
+    }
+    else {
+        definedRules = defined;
+    }
+    // Match the provided array length with a temporary schema.
+    for (var i = 0; i < definedRules.length; i++) {
+        var options = definedRules[i];
+        var value = options.default;
+        // if the provided is an array, map element value.
+        if (Array.isArray(provided)) {
+            if (i in provided) {
+                value = provided[i];
+            }
+        }
+        else {
+            // If the param exists in the provided object.
+            if (options.name in provided) {
+                value = provided[options.name];
+                // if the provided is the first param value.
+            }
+            else if (definedRules.length === 1) {
+                value = provided;
+            }
+        }
+        // if the param is a target, resolve the target value.
+        if (options.isTarget) {
+            value = crossTable[value];
+        }
+        // If there is a transformer defined.
+        if (options.cast) {
+            value = options.cast(value);
+        }
+        // already been set, probably multiple values.
+        if (params[options.name]) {
+            params[options.name] = Array.isArray(params[options.name]) ? params[options.name] : [params[options.name]];
+            params[options.name].push(value);
+        }
+        else {
+            // set the value.
+            params[options.name] = value;
+        }
+    }
+    return params;
+}
+
+function install(_, config) {
+    setConfig(config);
+}
+
+var aggressive = function () { return ({
+    on: ['input', 'blur']
+}); };
+var lazy = function () { return ({
+    on: ['change']
+}); };
+var eager = function (_a) {
+    var errors = _a.errors;
+    if (errors.length) {
+        return {
+            on: ['input', 'change']
+        };
+    }
+    return {
+        on: ['change', 'blur']
+    };
+};
+var passive = function () { return ({
+    on: []
+}); };
+var modes = {
+    aggressive: aggressive,
+    eager: eager,
+    passive: passive,
+    lazy: lazy
+};
+var setInteractionMode = function (mode, implementation) {
+    setConfig({ mode: mode });
+    if (!implementation) {
+        return;
+    }
+    if (!isCallable(implementation)) {
+        throw new Error('A mode implementation must be a function');
+    }
+    modes[mode] = implementation;
+};
+
+var Dictionary = /** @class */ (function () {
+    function Dictionary(locale, dictionary) {
+        this.container = {};
+        this.locale = locale;
+        this.merge(dictionary);
+    }
+    Dictionary.prototype.resolve = function (field, rule, values) {
+        return this.format(this.locale, field, rule, values);
+    };
+    Dictionary.prototype._hasLocale = function (locale) {
+        return !!this.container[locale];
+    };
+    Dictionary.prototype.format = function (locale, field, rule, values) {
+        var message;
+        // find if specific message for that field was specified.
+        var dict = this.container[locale] && this.container[locale].fields && this.container[locale].fields[field];
+        if (dict && dict[rule]) {
+            message = dict[rule];
+        }
+        if (!message && this._hasLocale(locale) && this._hasMessage(locale, rule)) {
+            message = this.container[locale].messages[rule];
+        }
+        if (!message) {
+            message = getConfig().defaultMessage;
+        }
+        if (this._hasName(locale, field)) {
+            field = this.getName(locale, field);
+        }
+        return isCallable(message) ? message(field, values) : interpolate(message, __assign(__assign({}, values), { _field_: field }));
+    };
+    Dictionary.prototype.merge = function (dictionary) {
+        merge(this.container, dictionary);
+    };
+    Dictionary.prototype.hasRule = function (name) {
+        var locale = this.container[this.locale];
+        if (!locale)
+            return false;
+        return !!(locale.messages && locale.messages[name]);
+    };
+    Dictionary.prototype.getName = function (locale, key) {
+        return this.container[locale].names[key];
+    };
+    Dictionary.prototype._hasMessage = function (locale, key) {
+        return !!(this._hasLocale(locale) && this.container[locale].messages && this.container[locale].messages[key]);
+    };
+    Dictionary.prototype._hasName = function (locale, key) {
+        return !!(this._hasLocale(locale) && this.container[locale].names && this.container[locale].names[key]);
+    };
+    return Dictionary;
+}());
+var DICTIONARY;
+var INSTALLED = false;
+function updateRules() {
+    if (INSTALLED) {
+        return;
+    }
+    RuleContainer.iterate(function (name, schema) {
+        var _a, _b;
+        if (schema.message && !DICTIONARY.hasRule(name)) {
+            DICTIONARY.merge((_a = {},
+                _a[DICTIONARY.locale] = {
+                    messages: (_b = {},
+                        _b[name] = schema.message,
+                        _b)
+                },
+                _a));
+        }
+        extend(name, {
+            message: function (field, values) {
+                return DICTIONARY.resolve(field, name, values || {});
+            }
+        });
+    });
+    INSTALLED = true;
+}
+function localize(locale, dictionary) {
+    var _a;
+    if (!DICTIONARY) {
+        DICTIONARY = new Dictionary('en', {});
+    }
+    if (typeof locale === 'string') {
+        DICTIONARY.locale = locale;
+        if (dictionary) {
+            DICTIONARY.merge((_a = {}, _a[locale] = dictionary, _a));
+        }
+        updateRules();
+        return;
+    }
+    DICTIONARY.merge(locale);
+    updateRules();
+}
+
+var isEvent = function (evt) {
+    if (!evt) {
+        return false;
+    }
+    if (typeof Event !== 'undefined' && isCallable(Event) && evt instanceof Event) {
+        return true;
+    }
+    // this is for IE
+    /* istanbul ignore next */
+    if (evt && evt.srcElement) {
+        return true;
+    }
+    return false;
+};
+function normalizeEventValue(value) {
+    if (!isEvent(value)) {
+        return value;
+    }
+    var input = value.target;
+    if (input.type === 'file' && input.files) {
+        return toArray(input.files);
+    }
+    // If the input has a `v-model.number` modifier applied.
+    if (input._vModifiers && input._vModifiers.number) {
+        // as per the spec the v-model.number uses parseFloat
+        var valueAsNumber = parseFloat(input.value);
+        if (isNaN(valueAsNumber)) {
+            return input.value;
+        }
+        return valueAsNumber;
+    }
+    if (input._vModifiers && input._vModifiers.trim) {
+        var trimmedValue = typeof input.value === 'string' ? input.value.trim() : input.value;
+        return trimmedValue;
+    }
+    return input.value;
+}
+
+var isTextInput = function (vnode) {
+    var attrs = (vnode.data && vnode.data.attrs) || vnode.elm;
+    // it will fallback to being a text input per browsers spec.
+    if (vnode.tag === 'input' && (!attrs || !attrs.type)) {
+        return true;
+    }
+    if (vnode.tag === 'textarea') {
+        return true;
+    }
+    return includes(['text', 'password', 'search', 'email', 'tel', 'url', 'number'], attrs && attrs.type);
+};
+// export const isCheckboxOrRadioInput = (vnode: VNode): boolean => {
+//   const attrs = (vnode.data && vnode.data.attrs) || vnode.elm;
+//   return includes(['radio', 'checkbox'], attrs && attrs.type);
+// };
+// Gets the model object on the vnode.
+function findModel(vnode) {
+    if (!vnode.data) {
+        return undefined;
+    }
+    // Component Model
+    // THIS IS NOT TYPED IN OFFICIAL VUE TYPINGS
+    // eslint-disable-next-line
+    var nonStandardVNodeData = vnode.data;
+    if ('model' in nonStandardVNodeData) {
+        return nonStandardVNodeData.model;
+    }
+    if (!vnode.data.directives) {
+        return undefined;
+    }
+    return find(vnode.data.directives, function (d) { return d.name === 'model'; });
+}
+function findValue(vnode) {
+    var model = findModel(vnode);
+    if (model) {
+        return { value: model.value };
+    }
+    var config = findModelConfig(vnode);
+    var prop = (config && config.prop) || 'value';
+    if (vnode.componentOptions && vnode.componentOptions.propsData && prop in vnode.componentOptions.propsData) {
+        var propsDataWithValue = vnode.componentOptions.propsData;
+        return { value: propsDataWithValue[prop] };
+    }
+    if (vnode.data && vnode.data.domProps && 'value' in vnode.data.domProps) {
+        return { value: vnode.data.domProps.value };
+    }
+    return undefined;
+}
+function extractChildren(vnode) {
+    if (Array.isArray(vnode)) {
+        return vnode;
+    }
+    if (Array.isArray(vnode.children)) {
+        return vnode.children;
+    }
+    /* istanbul ignore next */
+    if (vnode.componentOptions && Array.isArray(vnode.componentOptions.children)) {
+        return vnode.componentOptions.children;
+    }
+    return [];
+}
+function extractVNodes(vnode) {
+    if (!Array.isArray(vnode) && findValue(vnode) !== undefined) {
+        return [vnode];
+    }
+    var children = extractChildren(vnode);
+    return children.reduce(function (nodes, node) {
+        var candidates = extractVNodes(node);
+        if (candidates.length) {
+            nodes.push.apply(nodes, candidates);
+        }
+        return nodes;
+    }, []);
+}
+// Resolves v-model config if exists.
+function findModelConfig(vnode) {
+    /* istanbul ignore next */
+    if (!vnode.componentOptions)
+        return null;
+    // This is also not typed in the standard Vue TS.
+    return vnode.componentOptions.Ctor.options.model;
+}
+// Adds a listener to vnode listener object.
+function mergeVNodeListeners(obj, eventName, handler) {
+    // no listener at all.
+    if (isNullOrUndefined(obj[eventName])) {
+        obj[eventName] = [handler];
+        return;
+    }
+    // Is an invoker.
+    if (isCallable(obj[eventName]) && obj[eventName].fns) {
+        var invoker = obj[eventName];
+        invoker.fns = Array.isArray(invoker.fns) ? invoker.fns : [invoker.fns];
+        if (!includes(invoker.fns, handler)) {
+            invoker.fns.push(handler);
+        }
+        return;
+    }
+    if (isCallable(obj[eventName])) {
+        var prev = obj[eventName];
+        obj[eventName] = [prev];
+    }
+    if (Array.isArray(obj[eventName]) && !includes(obj[eventName], handler)) {
+        obj[eventName].push(handler);
+    }
+}
+// Adds a listener to a native HTML vnode.
+function addNativeNodeListener(node, eventName, handler) {
+    /* istanbul ignore next */
+    if (!node.data) {
+        node.data = {};
+    }
+    if (isNullOrUndefined(node.data.on)) {
+        node.data.on = {};
+    }
+    mergeVNodeListeners(node.data.on, eventName, handler);
+}
+// Adds a listener to a Vue component vnode.
+function addComponentNodeListener(node, eventName, handler) {
+    /* istanbul ignore next */
+    if (!node.componentOptions) {
+        return;
+    }
+    /* istanbul ignore next */
+    if (!node.componentOptions.listeners) {
+        node.componentOptions.listeners = {};
+    }
+    mergeVNodeListeners(node.componentOptions.listeners, eventName, handler);
+}
+function addVNodeListener(vnode, eventName, handler) {
+    if (vnode.componentOptions) {
+        addComponentNodeListener(vnode, eventName, handler);
+        return;
+    }
+    addNativeNodeListener(vnode, eventName, handler);
+}
+// Determines if `change` should be used over `input` for listeners.
+function getInputEventName(vnode, model) {
+    // Is a component.
+    if (vnode.componentOptions) {
+        var event_1 = (findModelConfig(vnode) || { event: 'input' }).event;
+        return event_1;
+    }
+    // Lazy Models typically use change event
+    if (model && model.modifiers && model.modifiers.lazy) {
+        return 'change';
+    }
+    // is a textual-type input.
+    if (isTextInput(vnode)) {
+        return 'input';
+    }
+    return 'change';
+}
+// TODO: Type this one properly.
+function normalizeSlots(slots, ctx) {
+    var acc = [];
+    return Object.keys(slots).reduce(function (arr, key) {
+        slots[key].forEach(function (vnode) {
+            if (!vnode.context) {
+                slots[key].context = ctx;
+                if (!vnode.data) {
+                    vnode.data = {};
+                }
+                vnode.data.slot = key;
+            }
+        });
+        return arr.concat(slots[key]);
+    }, acc);
+}
+function resolveTextualRules(vnode) {
+    var attrs = vnode.data && vnode.data.attrs;
+    var rules = {};
+    if (!attrs)
+        return rules;
+    if (attrs.type === 'email') {
+        rules.email = ['multiple' in attrs];
+    }
+    if (attrs.pattern) {
+        rules.regex = attrs.pattern;
+    }
+    if (attrs.maxlength >= 0) {
+        rules.max = attrs.maxlength;
+    }
+    if (attrs.minlength >= 0) {
+        rules.min = attrs.minlength;
+    }
+    if (attrs.type === 'number') {
+        if (isSpecified(attrs.min)) {
+            rules.min_value = Number(attrs.min);
+        }
+        if (isSpecified(attrs.max)) {
+            rules.max_value = Number(attrs.max);
+        }
+    }
+    return rules;
+}
+function resolveRules(vnode) {
+    var htmlTags = ['input', 'select'];
+    var attrs = vnode.data && vnode.data.attrs;
+    if (!includes(htmlTags, vnode.tag) || !attrs) {
+        return {};
+    }
+    var rules = {};
+    if ('required' in attrs && attrs.required !== false) {
+        rules.required = attrs.type === 'checkbox' ? [true] : true;
+    }
+    if (isTextInput(vnode)) {
+        return normalizeRules(__assign(__assign({}, rules), resolveTextualRules(vnode)));
+    }
+    return normalizeRules(rules);
+}
+function normalizeChildren(context, slotProps) {
+    if (context.$scopedSlots.default) {
+        return context.$scopedSlots.default(slotProps) || [];
+    }
+    return context.$slots.default || [];
+}
+
+/**
+ * Determines if a provider needs to run validation.
+ */
+function shouldValidate(ctx, value) {
+    // when an immediate/initial validation is needed and wasn't done before.
+    if (!ctx._ignoreImmediate && ctx.immediate) {
+        return true;
+    }
+    // when the value changes for whatever reason.
+    if (ctx.value !== value && ctx.normalizedEvents.length) {
+        return true;
+    }
+    // when it needs validation due to props/cross-fields changes.
+    if (ctx._needsValidation) {
+        return true;
+    }
+    // when the initial value is undefined and the field wasn't rendered yet.
+    if (!ctx.initialized && value === undefined) {
+        return true;
+    }
+    return false;
+}
+function createValidationCtx(ctx) {
+    return __assign(__assign({}, ctx.flags), { errors: ctx.messages, classes: ctx.classes, failedRules: ctx.failedRules, reset: function () { return ctx.reset(); }, validate: function () {
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i] = arguments[_i];
+            }
+            return ctx.validate.apply(ctx, args);
+        }, ariaInput: {
+            'aria-invalid': ctx.flags.invalid ? 'true' : 'false',
+            'aria-required': ctx.isRequired ? 'true' : 'false',
+            'aria-errormessage': "vee_" + ctx.id
+        }, ariaMsg: {
+            id: "vee_" + ctx.id,
+            'aria-live': ctx.messages.length ? 'assertive' : 'off'
+        } });
+}
+function onRenderUpdate(vm, value) {
+    if (!vm.initialized) {
+        vm.initialValue = value;
+    }
+    var validateNow = shouldValidate(vm, value);
+    vm._needsValidation = false;
+    vm.value = value;
+    vm._ignoreImmediate = true;
+    if (!validateNow) {
+        return;
+    }
+    vm.validateSilent().then(vm.immediate || vm.flags.validated ? vm.applyResult : identity);
+}
+function computeModeSetting(ctx) {
+    var compute = (isCallable(ctx.mode) ? ctx.mode : modes[ctx.mode]);
+    return compute({
+        errors: ctx.messages,
+        value: ctx.value,
+        flags: ctx.flags
+    });
+}
+// Creates the common handlers for a validatable context.
+function createCommonHandlers(vm) {
+    if (!vm.$veeOnInput) {
+        vm.$veeOnInput = function (e) {
+            vm.syncValue(e); // track and keep the value updated.
+            vm.setFlags({ dirty: true, pristine: false });
+        };
+    }
+    var onInput = vm.$veeOnInput;
+    if (!vm.$veeOnBlur) {
+        vm.$veeOnBlur = function () {
+            vm.setFlags({ touched: true, untouched: false });
+        };
+    }
+    // Blur event listener.
+    var onBlur = vm.$veeOnBlur;
+    var onValidate = vm.$veeHandler;
+    var mode = computeModeSetting(vm);
+    // Handle debounce changes.
+    if (!onValidate || vm.$veeDebounce !== vm.debounce) {
+        onValidate = debounce(function () {
+            vm.$nextTick(function () {
+                var pendingPromise = vm.validateSilent();
+                // avoids race conditions between successive validations.
+                vm._pendingValidation = pendingPromise;
+                pendingPromise.then(function (result) {
+                    if (pendingPromise === vm._pendingValidation) {
+                        vm.applyResult(result);
+                        vm._pendingValidation = undefined;
+                    }
+                });
+            });
+        }, mode.debounce || vm.debounce);
+        // Cache the handler so we don't create it each time.
+        vm.$veeHandler = onValidate;
+        // cache the debounce value so we detect if it was changed.
+        vm.$veeDebounce = vm.debounce;
+    }
+    return { onInput: onInput, onBlur: onBlur, onValidate: onValidate };
+}
+// Adds all plugin listeners to the vnode.
+function addListeners(vm, node) {
+    var value = findValue(node);
+    // cache the input eventName.
+    vm._inputEventName = vm._inputEventName || getInputEventName(node, findModel(node));
+    onRenderUpdate(vm, value && value.value);
+    var _a = createCommonHandlers(vm), onInput = _a.onInput, onBlur = _a.onBlur, onValidate = _a.onValidate;
+    addVNodeListener(node, vm._inputEventName, onInput);
+    addVNodeListener(node, 'blur', onBlur);
+    // add the validation listeners.
+    vm.normalizedEvents.forEach(function (evt) {
+        addVNodeListener(node, evt, onValidate);
+    });
+    vm.initialized = true;
+}
+
+var PROVIDER_COUNTER = 0;
+function data() {
+    var messages = [];
+    var defaultValues = {
+        messages: messages,
+        value: undefined,
+        initialized: false,
+        initialValue: undefined,
+        flags: createFlags(),
+        failedRules: {},
+        isDeactivated: false,
+        id: ''
+    };
+    return defaultValues;
+}
+var ValidationProvider = vue__WEBPACK_IMPORTED_MODULE_0___default.a.extend({
+    inject: {
+        $_veeObserver: {
+            from: '$_veeObserver',
+            default: function () {
+                if (!this.$vnode.context.$_veeObserver) {
+                    this.$vnode.context.$_veeObserver = createObserver();
+                }
+                return this.$vnode.context.$_veeObserver;
+            }
+        }
+    },
+    props: {
+        vid: {
+            type: String,
+            default: ''
+        },
+        name: {
+            type: String,
+            default: null
+        },
+        mode: {
+            type: [String, Function],
+            default: function () {
+                return getConfig().mode;
+            }
+        },
+        rules: {
+            type: [Object, String],
+            default: null
+        },
+        immediate: {
+            type: Boolean,
+            default: false
+        },
+        persist: {
+            type: Boolean,
+            default: false
+        },
+        bails: {
+            type: Boolean,
+            default: function () { return getConfig().bails; }
+        },
+        skipIfEmpty: {
+            type: Boolean,
+            default: function () { return getConfig().skipOptional; }
+        },
+        debounce: {
+            type: Number,
+            default: 0
+        },
+        tag: {
+            type: String,
+            default: 'span'
+        },
+        slim: {
+            type: Boolean,
+            default: false
+        },
+        disabled: {
+            type: Boolean,
+            default: false
+        },
+        customMessages: {
+            type: Object,
+            default: function () {
+                return {};
+            }
+        }
+    },
+    watch: {
+        rules: {
+            deep: true,
+            handler: function (val, oldVal) {
+                this._needsValidation = !isEqual(val, oldVal);
+            }
+        }
+    },
+    data: data,
+    computed: {
+        fieldDeps: function () {
+            var _this = this;
+            return Object.keys(this.normalizedRules)
+                .filter(RuleContainer.isTargetRule)
+                .reduce(function (acc, rule) {
+                var deps = RuleContainer.getTargetParamNames(rule, _this.normalizedRules[rule]);
+                acc.push.apply(acc, deps);
+                deps.forEach(function (depName) {
+                    watchCrossFieldDep(_this, depName);
+                });
+                return acc;
+            }, []);
+        },
+        normalizedEvents: function () {
+            var _this = this;
+            var on = computeModeSetting(this).on;
+            return (on || []).map(function (e) {
+                if (e === 'input') {
+                    return _this._inputEventName;
+                }
+                return e;
+            });
+        },
+        isRequired: function () {
+            var rules = __assign(__assign({}, this._resolvedRules), this.normalizedRules);
+            var isRequired = Object.keys(rules).some(RuleContainer.isRequireRule);
+            this.flags.required = !!isRequired;
+            return isRequired;
+        },
+        classes: function () {
+            var names = getConfig().classes;
+            return computeClassObj(names, this.flags);
+        },
+        normalizedRules: function () {
+            return normalizeRules(this.rules);
+        }
+    },
+    render: function (h) {
+        var _this = this;
+        this.registerField();
+        var ctx = createValidationCtx(this);
+        var children = normalizeChildren(this, ctx);
+        // Handle single-root slot.
+        extractVNodes(children).forEach(function (input) {
+            _this._resolvedRules = getConfig().useConstraintAttrs ? resolveRules(input) : {};
+            addListeners(_this, input);
+        });
+        return this.slim && children.length <= 1 ? children[0] : h(this.tag, children);
+    },
+    beforeDestroy: function () {
+        // cleanup reference.
+        this.$_veeObserver.unsubscribe(this.id);
+    },
+    activated: function () {
+        this.$_veeObserver.subscribe(this);
+        this.isDeactivated = false;
+    },
+    deactivated: function () {
+        this.$_veeObserver.unsubscribe(this.id);
+        this.isDeactivated = true;
+    },
+    methods: {
+        setFlags: function (flags) {
+            var _this = this;
+            Object.keys(flags).forEach(function (flag) {
+                _this.flags[flag] = flags[flag];
+            });
+        },
+        syncValue: function (v) {
+            var value = normalizeEventValue(v);
+            this.value = value;
+            this.flags.changed = this.initialValue !== value;
+        },
+        reset: function () {
+            this.messages = [];
+            this.initialValue = this.value;
+            var flags = createFlags();
+            flags.required = this.isRequired;
+            this.setFlags(flags);
+            this.validateSilent();
+        },
+        validate: function () {
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i] = arguments[_i];
+            }
+            return __awaiter(this, void 0, void 0, function () {
+                var result;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            if (args.length > 0) {
+                                this.syncValue(args[0]);
+                            }
+                            return [4 /*yield*/, this.validateSilent()];
+                        case 1:
+                            result = _a.sent();
+                            this.applyResult(result);
+                            return [2 /*return*/, result];
+                    }
+                });
+            });
+        },
+        validateSilent: function () {
+            return __awaiter(this, void 0, void 0, function () {
+                var rules, result;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            this.setFlags({ pending: true });
+                            rules = __assign(__assign({}, this._resolvedRules), this.normalizedRules);
+                            Object.defineProperty(rules, '_$$isNormalized', {
+                                value: true,
+                                writable: false,
+                                enumerable: false,
+                                configurable: false
+                            });
+                            return [4 /*yield*/, validate(this.value, rules, {
+                                    name: this.name,
+                                    values: createValuesLookup(this),
+                                    bails: this.bails,
+                                    skipIfEmpty: this.skipIfEmpty,
+                                    isInitial: !this.initialized,
+                                    customMessages: this.customMessages
+                                })];
+                        case 1:
+                            result = _a.sent();
+                            this.setFlags({ pending: false });
+                            this.setFlags({ valid: result.valid, invalid: !result.valid });
+                            return [2 /*return*/, result];
+                    }
+                });
+            });
+        },
+        setErrors: function (errors) {
+            this.applyResult({ errors: errors, failedRules: {} });
+        },
+        applyResult: function (_a) {
+            var errors = _a.errors, failedRules = _a.failedRules;
+            this.messages = errors;
+            this.failedRules = __assign({}, (failedRules || {}));
+            this.setFlags({
+                valid: !errors.length,
+                changed: this.value !== this.initialValue,
+                invalid: !!errors.length,
+                validated: true
+            });
+        },
+        registerField: function () {
+            updateRenderingContextRefs(this);
+        }
+    }
+});
+function createValuesLookup(vm) {
+    var providers = vm.$_veeObserver.refs;
+    var reduced = {};
+    return vm.fieldDeps.reduce(function (acc, depName) {
+        if (!providers[depName]) {
+            return acc;
+        }
+        acc[depName] = providers[depName].value;
+        return acc;
+    }, reduced);
+}
+function extractId(vm) {
+    if (vm.vid) {
+        return vm.vid;
+    }
+    if (vm.name) {
+        return vm.name;
+    }
+    if (vm.id) {
+        return vm.id;
+    }
+    PROVIDER_COUNTER++;
+    return "_vee_" + PROVIDER_COUNTER;
+}
+function updateRenderingContextRefs(vm) {
+    var providedId = extractId(vm);
+    var id = vm.id;
+    // Nothing has changed.
+    if (vm.isDeactivated || (id === providedId && vm.$_veeObserver.refs[id])) {
+        return;
+    }
+    // vid was changed.
+    if (id !== providedId && vm.$_veeObserver.refs[id] === vm) {
+        vm.$_veeObserver.unsubscribe(id);
+    }
+    vm.id = providedId;
+    vm.$_veeObserver.subscribe(vm);
+}
+function createObserver() {
+    return {
+        refs: {},
+        subscribe: function (vm) {
+            this.refs[vm.id] = vm;
+        },
+        unsubscribe: function (id) {
+            delete this.refs[id];
+        }
+    };
+}
+function watchCrossFieldDep(ctx, depName, withHooks) {
+    if (withHooks === void 0) { withHooks = true; }
+    var providers = ctx.$_veeObserver.refs;
+    if (!ctx._veeWatchers) {
+        ctx._veeWatchers = {};
+    }
+    if (!providers[depName] && withHooks) {
+        return ctx.$once('hook:mounted', function () {
+            watchCrossFieldDep(ctx, depName, false);
+        });
+    }
+    if (!isCallable(ctx._veeWatchers[depName]) && providers[depName]) {
+        ctx._veeWatchers[depName] = providers[depName].$watch('value', function () {
+            if (ctx.flags.validated) {
+                ctx._needsValidation = true;
+                ctx.validate();
+            }
+        });
+    }
+}
+
+var flagMergingStrategy = {
+    pristine: 'every',
+    dirty: 'some',
+    touched: 'some',
+    untouched: 'every',
+    valid: 'every',
+    invalid: 'some',
+    pending: 'some',
+    validated: 'every',
+    changed: 'some'
+};
+function mergeFlags(lhs, rhs, strategy) {
+    var stratName = flagMergingStrategy[strategy];
+    return [lhs, rhs][stratName](function (f) { return f; });
+}
+var OBSERVER_COUNTER = 0;
+function data$1() {
+    var refs = {};
+    var refsByName = {};
+    var inactiveRefs = {};
+    // FIXME: Not sure of this one can be typed, circular type reference.
+    var observers = [];
+    return {
+        id: '',
+        refs: refs,
+        refsByName: refsByName,
+        observers: observers,
+        inactiveRefs: inactiveRefs
+    };
+}
+var ValidationObserver = vue__WEBPACK_IMPORTED_MODULE_0___default.a.extend({
+    name: 'ValidationObserver',
+    provide: function () {
+        return {
+            $_veeObserver: this
+        };
+    },
+    inject: {
+        $_veeObserver: {
+            from: '$_veeObserver',
+            default: function () {
+                if (!this.$vnode.context.$_veeObserver) {
+                    return null;
+                }
+                return this.$vnode.context.$_veeObserver;
+            }
+        }
+    },
+    props: {
+        tag: {
+            type: String,
+            default: 'span'
+        },
+        vid: {
+            type: String,
+            default: function () {
+                return "obs_" + OBSERVER_COUNTER++;
+            }
+        },
+        slim: {
+            type: Boolean,
+            default: false
+        },
+        disabled: {
+            type: Boolean,
+            default: false
+        }
+    },
+    data: data$1,
+    computed: {
+        ctx: function () {
+            var _this = this;
+            var ctx = {
+                errors: {},
+                passes: function (cb) {
+                    return _this.validate().then(function (result) {
+                        if (result) {
+                            return cb();
+                        }
+                    });
+                },
+                validate: function () {
+                    var args = [];
+                    for (var _i = 0; _i < arguments.length; _i++) {
+                        args[_i] = arguments[_i];
+                    }
+                    return _this.validate.apply(_this, args);
+                },
+                reset: function () { return _this.reset(); }
+            };
+            return __spreadArrays(values(this.refs), Object.keys(this.inactiveRefs).map(function (key) {
+                return {
+                    vid: key,
+                    flags: _this.inactiveRefs[key].flags,
+                    messages: _this.inactiveRefs[key].errors
+                };
+            }), this.observers).reduce(function (acc, provider) {
+                Object.keys(flagMergingStrategy).forEach(function (flag) {
+                    var flags = provider.flags || provider.ctx;
+                    if (!(flag in acc)) {
+                        acc[flag] = flags[flag];
+                        return;
+                    }
+                    acc[flag] = mergeFlags(acc[flag], flags[flag], flag);
+                });
+                acc.errors[provider.id] =
+                    provider.messages ||
+                        values(provider.ctx.errors).reduce(function (errs, obsErrors) {
+                            return errs.concat(obsErrors);
+                        }, []);
+                return acc;
+            }, ctx);
+        }
+    },
+    created: function () {
+        this.id = this.vid;
+        if (this.$_veeObserver) {
+            this.$_veeObserver.subscribe(this, 'observer');
+        }
+    },
+    activated: function () {
+        if (this.$_veeObserver) {
+            this.$_veeObserver.subscribe(this, 'observer');
+        }
+    },
+    deactivated: function () {
+        if (this.$_veeObserver) {
+            this.$_veeObserver.unsubscribe(this.id, 'observer');
+        }
+    },
+    beforeDestroy: function () {
+        if (this.$_veeObserver) {
+            this.$_veeObserver.unsubscribe(this.id, 'observer');
+        }
+    },
+    render: function (h) {
+        var children = normalizeChildren(this, this.ctx);
+        return this.slim && children.length <= 1 ? children[0] : h(this.tag, { on: this.$listeners }, children);
+    },
+    methods: {
+        subscribe: function (subscriber, kind) {
+            var _a, _b;
+            if (kind === void 0) { kind = 'provider'; }
+            if (kind === 'observer') {
+                this.observers.push(subscriber);
+                return;
+            }
+            this.refs = __assign(__assign({}, this.refs), (_a = {}, _a[subscriber.id] = subscriber, _a));
+            this.refsByName = __assign(__assign({}, this.refsByName), (_b = {}, _b[subscriber.name] = subscriber, _b));
+            if (subscriber.persist) {
+                this.restoreProviderState(subscriber);
+            }
+        },
+        unsubscribe: function (id, kind) {
+            if (kind === void 0) { kind = 'provider'; }
+            if (kind === 'provider') {
+                this.removeProvider(id);
+                return;
+            }
+            var idx = findIndex(this.observers, function (o) { return o.id === id; });
+            if (idx !== -1) {
+                this.observers.splice(idx, 1);
+            }
+        },
+        validate: function (_a) {
+            var _b = (_a === void 0 ? {} : _a).silent, silent = _b === void 0 ? false : _b;
+            return __awaiter(this, void 0, void 0, function () {
+                var results;
+                return __generator(this, function (_c) {
+                    switch (_c.label) {
+                        case 0: return [4 /*yield*/, Promise.all(__spreadArrays(values(this.refs)
+                                .filter(function (r) { return !r.disabled; })
+                                .map(function (ref) { return ref[silent ? 'validateSilent' : 'validate']().then(function (r) { return r.valid; }); }), this.observers.filter(function (o) { return !o.disabled; }).map(function (obs) { return obs.validate({ silent: silent }); })))];
+                        case 1:
+                            results = _c.sent();
+                            return [2 /*return*/, results.every(function (r) { return r; })];
+                    }
+                });
+            });
+        },
+        reset: function () {
+            var _this = this;
+            Object.keys(this.inactiveRefs).forEach(function (key) {
+                _this.$delete(_this.inactiveRefs, key);
+            });
+            return __spreadArrays(values(this.refs), this.observers).forEach(function (ref) { return ref.reset(); });
+        },
+        restoreProviderState: function (provider) {
+            var id = provider.id;
+            var state = this.inactiveRefs[id];
+            if (!state) {
+                return;
+            }
+            provider.setFlags(state.flags);
+            provider.applyResult(state);
+            this.$delete(this.inactiveRefs, provider.id);
+        },
+        removeProvider: function (id) {
+            var provider = this.refs[id];
+            if (!provider) {
+                // FIXME: inactive refs are not being cleaned up.
+                return;
+            }
+            if (provider.persist) {
+                /* istanbul ignore next */
+                if (true) {
+                    if (id.indexOf('_vee_') === 0) {
+                        warn('Please provide a `vid` or a `name` prop when using `persist`, there might be unexpected issues otherwise.');
+                    }
+                }
+                // save it for the next time.
+                this.inactiveRefs[id] = {
+                    flags: provider.flags,
+                    errors: provider.messages,
+                    failedRules: provider.failedRules
+                };
+            }
+            this.$delete(this.refs, id);
+            this.$delete(this.refsByName, provider.name);
+        },
+        setErrors: function (errors) {
+            var _this = this;
+            Object.keys(errors).forEach(function (key) {
+                var provider = _this.refs[key] || _this.refsByName[key];
+                if (!provider)
+                    return;
+                provider.setErrors(errors[key] || []);
+            });
+            this.observers.forEach(function (observer) {
+                observer.setErrors(errors);
+            });
+        }
+    }
+});
+
+function withValidation(component, mapProps) {
+    if (mapProps === void 0) { mapProps = identity; }
+    var options = 'options' in component ? component.options : component;
+    var providerOpts = ValidationProvider.options;
+    var hoc = {
+        name: (options.name || 'AnonymousHoc') + "WithValidation",
+        props: __assign({}, providerOpts.props),
+        data: providerOpts.data,
+        computed: __assign({}, providerOpts.computed),
+        methods: __assign({}, providerOpts.methods),
+        beforeDestroy: providerOpts.beforeDestroy,
+        inject: providerOpts.inject
+    };
+    var eventName = (options.model && options.model.event) || 'input';
+    hoc.render = function (h) {
+        var _a;
+        this.registerField();
+        var vctx = createValidationCtx(this);
+        var listeners = __assign({}, this.$listeners);
+        var model = findModel(this.$vnode);
+        this._inputEventName = this._inputEventName || getInputEventName(this.$vnode, model);
+        var value = findValue(this.$vnode);
+        onRenderUpdate(this, value && value.value);
+        var _b = createCommonHandlers(this), onInput = _b.onInput, onBlur = _b.onBlur, onValidate = _b.onValidate;
+        mergeVNodeListeners(listeners, eventName, onInput);
+        mergeVNodeListeners(listeners, 'blur', onBlur);
+        this.normalizedEvents.forEach(function (evt) {
+            mergeVNodeListeners(listeners, evt, onValidate);
+        });
+        // Props are any attrs not associated with ValidationProvider Plus the model prop.
+        // WARNING: Accidental prop overwrite will probably happen.
+        var prop = (findModelConfig(this.$vnode) || { prop: 'value' }).prop;
+        var props = __assign(__assign(__assign({}, this.$attrs), (_a = {}, _a[prop] = model && model.value, _a)), mapProps(vctx));
+        return h(options, {
+            attrs: this.$attrs,
+            props: props,
+            on: listeners
+        }, normalizeSlots(this.$slots, this.$vnode.context));
+    };
+    return hoc;
+}
+
+var version = '3.0.11';
+
+
+
 
 /***/ }),
 
@@ -19859,226 +23519,492 @@ var render = function() {
   return _c(
     "div",
     [
-      _vm._l(_vm.contacts, function(contact, index) {
-        return _c("article", { key: index, staticClass: "message" }, [
-          _c("div", { staticClass: "message-header" }, [
-            _vm._v(
-              "\n    Contacto addicional #" + _vm._s(index + 1) + "\n    "
-            ),
-            _c("button", {
-              staticClass: "delete",
-              on: {
-                click: function($event) {
-                  return _vm.dropContact(index)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "message-body" },
-            [
-              _c(
-                "b-field",
-                { attrs: { label: "First Name" } },
-                [
-                  _c("b-input", {
-                    attrs: { placeholder: "Nombres" },
-                    model: {
-                      value: contact.firstname,
-                      callback: function($$v) {
-                        _vm.$set(contact, "firstname", $$v)
-                      },
-                      expression: "contact.firstname"
-                    }
-                  })
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "b-field",
-                { attrs: { label: "Last Name" } },
-                [
-                  _c("b-input", {
-                    attrs: { placeholder: "Apellidos" },
-                    model: {
-                      value: contact.lastname,
-                      callback: function($$v) {
-                        _vm.$set(contact, "lastname", $$v)
-                      },
-                      expression: "contact.lastname"
-                    }
-                  })
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "b-field",
-                { attrs: { label: "Email" } },
-                [
-                  _c("b-input", {
-                    attrs: { type: "email", placeholder: "Correo electronico" },
-                    model: {
-                      value: contact.email,
-                      callback: function($$v) {
-                        _vm.$set(contact, "email", $$v)
-                      },
-                      expression: "contact.email"
-                    }
-                  })
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "b-field",
-                { attrs: { label: "Documento de identificacion" } },
-                [
-                  _c(
-                    "div",
-                    { staticClass: "block" },
-                    [
-                      _c(
-                        "b-radio",
-                        {
-                          attrs: { "native-value": "cedula" },
-                          model: {
-                            value: contact.idnumber_type,
-                            callback: function($$v) {
-                              _vm.$set(contact, "idnumber_type", $$v)
-                            },
-                            expression: "contact.idnumber_type"
-                          }
-                        },
-                        [_vm._v("Cédula")]
+      _c("ValidationObserver", {
+        ref: "observer",
+        scopedSlots: _vm._u([
+          {
+            key: "default",
+            fn: function(ref) {
+              var valid = ref.valid
+              return [
+                _vm._l(_vm.contacts, function(contact, index) {
+                  return _c("article", { key: index, staticClass: "message" }, [
+                    _c("div", { staticClass: "message-header" }, [
+                      _vm._v(
+                        "\n    Contacto addicional #" +
+                          _vm._s(index + 1) +
+                          "\n    "
                       ),
-                      _vm._v(" "),
-                      _c(
-                        "b-radio",
-                        {
-                          attrs: { "native-value": "passport" },
-                          model: {
-                            value: contact.idnumber_type,
-                            callback: function($$v) {
-                              _vm.$set(contact, "idnumber_type", $$v)
-                            },
-                            expression: "contact.idnumber_type"
-                          }
-                        },
-                        [_vm._v("Pasaporte")]
-                      )
-                    ],
-                    1
-                  )
-                ]
-              ),
-              _vm._v(" "),
-              contact.idnumber_type == "cedula"
-                ? _c(
-                    "b-field",
-                    {
-                      attrs: {
-                        label: "Numero de cédula",
-                        type: {
-                          "is-success": contact.cedula_check == 1,
-                          "is-danger": contact.cedula_check == 0
-                        }
-                      }
-                    },
-                    [
-                      _c("b-input", {
-                        attrs: { minlength: "10", maxlength: "10" },
+                      _c("button", {
+                        staticClass: "delete",
                         on: {
-                          input: function($event) {
-                            return _vm.checkCedula(contact)
+                          click: function($event) {
+                            return _vm.dropContact(index)
                           }
-                        },
-                        model: {
-                          value: contact.idnumber,
-                          callback: function($$v) {
-                            _vm.$set(contact, "idnumber", $$v)
-                          },
-                          expression: "contact.idnumber"
                         }
                       })
-                    ],
-                    1
-                  )
-                : _vm._e(),
-              _vm._v(" "),
-              contact.idnumber_type == "passport"
-                ? _c(
-                    "b-field",
-                    { attrs: { label: "Numero de pasaporte" } },
-                    [
-                      _c("b-input", {
-                        attrs: { maxlength: "12" },
-                        model: {
-                          value: contact.idnumber,
-                          callback: function($$v) {
-                            _vm.$set(contact, "idnumber", $$v)
-                          },
-                          expression: "contact.idnumber"
-                        }
-                      })
-                    ],
-                    1
-                  )
-                : _vm._e(),
-              _vm._v(" "),
-              _c(
-                "b-field",
-                { attrs: { label: "Address" } },
-                [
-                  _c("b-input", {
-                    attrs: { placeholder: "Direccion" },
-                    model: {
-                      value: contact.address,
-                      callback: function($$v) {
-                        _vm.$set(contact, "address", $$v)
-                      },
-                      expression: "contact.address"
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "message-body" },
+                      [
+                        _c(
+                          "b-field",
+                          { attrs: { label: "First Name" } },
+                          [
+                            _c("ValidationProvider", {
+                              attrs: { name: "nombres", rules: "required" },
+                              scopedSlots: _vm._u(
+                                [
+                                  {
+                                    key: "default",
+                                    fn: function(ref) {
+                                      var errors = ref.errors
+                                      return [
+                                        _c("b-input", {
+                                          attrs: { placeholder: "Nombres" },
+                                          model: {
+                                            value: contact.firstname,
+                                            callback: function($$v) {
+                                              _vm.$set(
+                                                contact,
+                                                "firstname",
+                                                $$v
+                                              )
+                                            },
+                                            expression: "contact.firstname"
+                                          }
+                                        }),
+                                        _vm._v(" "),
+                                        _c(
+                                          "p",
+                                          { staticClass: "help is-danger" },
+                                          [_vm._v(_vm._s(errors[0]))]
+                                        )
+                                      ]
+                                    }
+                                  }
+                                ],
+                                null,
+                                true
+                              )
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "b-field",
+                          { attrs: { label: "Last Name" } },
+                          [
+                            _c("ValidationProvider", {
+                              attrs: { name: "appellidos", rules: "required" },
+                              scopedSlots: _vm._u(
+                                [
+                                  {
+                                    key: "default",
+                                    fn: function(ref) {
+                                      var errors = ref.errors
+                                      return [
+                                        _c("b-input", {
+                                          attrs: { placeholder: "Apellidos" },
+                                          model: {
+                                            value: contact.lastname,
+                                            callback: function($$v) {
+                                              _vm.$set(contact, "lastname", $$v)
+                                            },
+                                            expression: "contact.lastname"
+                                          }
+                                        }),
+                                        _vm._v(" "),
+                                        _c(
+                                          "p",
+                                          { staticClass: "help is-danger" },
+                                          [_vm._v(_vm._s(errors[0]))]
+                                        )
+                                      ]
+                                    }
+                                  }
+                                ],
+                                null,
+                                true
+                              )
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "b-field",
+                          { attrs: { label: "Email" } },
+                          [
+                            _c("ValidationProvider", {
+                              attrs: {
+                                name: "correo electronico",
+                                rules: "required|email"
+                              },
+                              scopedSlots: _vm._u(
+                                [
+                                  {
+                                    key: "default",
+                                    fn: function(ref) {
+                                      var errors = ref.errors
+                                      return [
+                                        _c("b-input", {
+                                          attrs: {
+                                            type: "email",
+                                            placeholder: "Correo electronico"
+                                          },
+                                          model: {
+                                            value: contact.email,
+                                            callback: function($$v) {
+                                              _vm.$set(contact, "email", $$v)
+                                            },
+                                            expression: "contact.email"
+                                          }
+                                        }),
+                                        _vm._v(" "),
+                                        _c(
+                                          "p",
+                                          { staticClass: "help is-danger" },
+                                          [_vm._v(_vm._s(errors[0]))]
+                                        )
+                                      ]
+                                    }
+                                  }
+                                ],
+                                null,
+                                true
+                              )
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "b-field",
+                          { attrs: { label: "Documento de identificacion" } },
+                          [
+                            _c(
+                              "div",
+                              { staticClass: "block" },
+                              [
+                                _c(
+                                  "b-radio",
+                                  {
+                                    attrs: { "native-value": "cedula" },
+                                    model: {
+                                      value: contact.idnumber_type,
+                                      callback: function($$v) {
+                                        _vm.$set(contact, "idnumber_type", $$v)
+                                      },
+                                      expression: "contact.idnumber_type"
+                                    }
+                                  },
+                                  [_vm._v("Cédula")]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "b-radio",
+                                  {
+                                    attrs: { "native-value": "passport" },
+                                    model: {
+                                      value: contact.idnumber_type,
+                                      callback: function($$v) {
+                                        _vm.$set(contact, "idnumber_type", $$v)
+                                      },
+                                      expression: "contact.idnumber_type"
+                                    }
+                                  },
+                                  [_vm._v("Pasaporte")]
+                                )
+                              ],
+                              1
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        contact.idnumber_type == "cedula"
+                          ? _c(
+                              "b-field",
+                              { attrs: { label: "Numero de cédula" } },
+                              [
+                                _c("ValidationProvider", {
+                                  attrs: {
+                                    name: "cédula",
+                                    rules: "required|cedula|length:10"
+                                  },
+                                  scopedSlots: _vm._u(
+                                    [
+                                      {
+                                        key: "default",
+                                        fn: function(ref) {
+                                          var errors = ref.errors
+                                          return [
+                                            _c("b-input", {
+                                              model: {
+                                                value: contact.idnumber,
+                                                callback: function($$v) {
+                                                  _vm.$set(
+                                                    contact,
+                                                    "idnumber",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression: "contact.idnumber"
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "p",
+                                              { staticClass: "help is-danger" },
+                                              [_vm._v(_vm._s(errors[0]))]
+                                            )
+                                          ]
+                                        }
+                                      }
+                                    ],
+                                    null,
+                                    true
+                                  )
+                                })
+                              ],
+                              1
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        contact.idnumber_type == "passport"
+                          ? _c(
+                              "b-field",
+                              { attrs: { label: "Numero de pasaporte" } },
+                              [
+                                _c("ValidationProvider", {
+                                  attrs: {
+                                    name: "pasaporte",
+                                    rules: "required"
+                                  },
+                                  scopedSlots: _vm._u(
+                                    [
+                                      {
+                                        key: "default",
+                                        fn: function(ref) {
+                                          var errors = ref.errors
+                                          return [
+                                            _c("b-input", {
+                                              model: {
+                                                value: contact.idnumber,
+                                                callback: function($$v) {
+                                                  _vm.$set(
+                                                    contact,
+                                                    "idnumber",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression: "contact.idnumber"
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "p",
+                                              { staticClass: "help is-danger" },
+                                              [_vm._v(_vm._s(errors[0]))]
+                                            )
+                                          ]
+                                        }
+                                      }
+                                    ],
+                                    null,
+                                    true
+                                  )
+                                })
+                              ],
+                              1
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _c(
+                          "b-field",
+                          { attrs: { label: "Address" } },
+                          [
+                            _c("ValidationProvider", {
+                              attrs: { name: "direccion", rules: "required" },
+                              scopedSlots: _vm._u(
+                                [
+                                  {
+                                    key: "default",
+                                    fn: function(ref) {
+                                      var errors = ref.errors
+                                      return [
+                                        _c("b-input", {
+                                          attrs: { placeholder: "Direccion" },
+                                          model: {
+                                            value: contact.address,
+                                            callback: function($$v) {
+                                              _vm.$set(contact, "address", $$v)
+                                            },
+                                            expression: "contact.address"
+                                          }
+                                        }),
+                                        _vm._v(" "),
+                                        _c(
+                                          "p",
+                                          { staticClass: "help is-danger" },
+                                          [_vm._v(_vm._s(errors[0]))]
+                                        )
+                                      ]
+                                    }
+                                  }
+                                ],
+                                null,
+                                true
+                              )
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c("p", { staticClass: "label" }, [
+                          _vm._v("Phone Numbers")
+                        ]),
+                        _vm._v(" "),
+                        _vm._l(contact.phonenumbers, function(
+                          number,
+                          numberindex
+                        ) {
+                          return _c(
+                            "b-field",
+                            {
+                              key: numberindex,
+                              attrs: {
+                                label: "Phone Number #" + (numberindex + 1),
+                                grouped: "",
+                                "label-position": "on-border"
+                              }
+                            },
+                            [
+                              _c("ValidationProvider", {
+                                attrs: { name: "telefono", rules: "required" },
+                                scopedSlots: _vm._u(
+                                  [
+                                    {
+                                      key: "default",
+                                      fn: function(ref) {
+                                        var errors = ref.errors
+                                        return [
+                                          _c("b-input", {
+                                            attrs: { placeholder: "Number" },
+                                            model: {
+                                              value: number.number,
+                                              callback: function($$v) {
+                                                _vm.$set(number, "number", $$v)
+                                              },
+                                              expression: "number.number"
+                                            }
+                                          }),
+                                          _vm._v(" "),
+                                          _c(
+                                            "p",
+                                            { staticClass: "control" },
+                                            [
+                                              numberindex > 0
+                                                ? _c(
+                                                    "b-button",
+                                                    {
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          return _vm.dropPhoneNumber(
+                                                            index,
+                                                            numberindex
+                                                          )
+                                                        }
+                                                      }
+                                                    },
+                                                    [_vm._v("Delete")]
+                                                  )
+                                                : _vm._e()
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "p",
+                                            { staticClass: "help is-danger" },
+                                            [_vm._v(_vm._s(errors[0]))]
+                                          )
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  null,
+                                  true
+                                )
+                              })
+                            ],
+                            1
+                          )
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "p",
+                          [
+                            _c(
+                              "b-button",
+                              {
+                                on: {
+                                  click: function($event) {
+                                    return _vm.addPhoneNumber(index)
+                                  }
+                                }
+                              },
+                              [_vm._v("Add")]
+                            ),
+                            _vm._v(
+                              "\n            You may add several phone numbers to ensure we can reach you\n        "
+                            )
+                          ],
+                          1
+                        )
+                      ],
+                      2
+                    )
+                  ])
+                }),
+                _vm._v(" "),
+                _c(
+                  "b-button",
+                  {
+                    attrs: { type: "is-info" },
+                    on: {
+                      click: function($event) {
+                        return _vm.addContact()
+                      }
                     }
-                  })
-                ],
-                1
-              )
-            ],
-            1
-          )
+                  },
+                  [_vm._v("Add contact")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "b-button",
+                  {
+                    attrs: { type: "is-primary" },
+                    on: {
+                      click: function($event) {
+                        return _vm.validateBeforeSubmit()
+                      }
+                    }
+                  },
+                  [_vm._v("Siguiente")]
+                )
+              ]
+            }
+          }
         ])
-      }),
-      _vm._v(" "),
-      _c(
-        "b-button",
-        {
-          attrs: { type: "is-primary" },
-          on: {
-            click: function($event) {
-              return _vm.addContact()
-            }
-          }
-        },
-        [_vm._v("Add contact")]
-      ),
-      _vm._v(" "),
-      _c(
-        "b-button",
-        {
-          attrs: { type: "is-primary" },
-          on: {
-            click: function($event) {
-              return _vm.updateData()
-            }
-          }
-        },
-        [_vm._v("Siguiente")]
-      )
+      })
     ],
-    2
+    1
   )
 }
 var staticRenderFns = []
@@ -20106,203 +24032,343 @@ var render = function() {
   return _c(
     "div",
     [
-      _c(
-        "b-field",
-        { attrs: { label: "First Name" } },
-        [
-          _c("b-input", {
-            attrs: { placeholder: "Nombres" },
-            model: {
-              value: _vm.formdata.firstname,
-              callback: function($$v) {
-                _vm.$set(_vm.formdata, "firstname", $$v)
-              },
-              expression: "formdata.firstname"
-            }
-          })
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "b-field",
-        { attrs: { label: "Last Name" } },
-        [
-          _c("b-input", {
-            attrs: { placeholder: "Apellidos" },
-            model: {
-              value: _vm.formdata.lastname,
-              callback: function($$v) {
-                _vm.$set(_vm.formdata, "lastname", $$v)
-              },
-              expression: "formdata.lastname"
-            }
-          })
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "b-field",
-        { attrs: { label: "Email" } },
-        [
-          _c("b-input", {
-            attrs: { type: "email", placeholder: "Correo electronico" },
-            model: {
-              value: _vm.formdata.email,
-              callback: function($$v) {
-                _vm.$set(_vm.formdata, "email", $$v)
-              },
-              expression: "formdata.email"
-            }
-          })
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c("b-field", { attrs: { label: "Documento de identificacion" } }, [
-        _c(
-          "div",
-          { staticClass: "block" },
-          [
-            _c(
-              "b-radio",
-              {
-                attrs: { "native-value": "cedula" },
-                model: {
-                  value: _vm.formdata.idnumber_type,
-                  callback: function($$v) {
-                    _vm.$set(_vm.formdata, "idnumber_type", $$v)
+      _c("ValidationObserver", {
+        ref: "observer",
+        scopedSlots: _vm._u([
+          {
+            key: "default",
+            fn: function(ref) {
+              var valid = ref.valid
+              return [
+                _c(
+                  "b-field",
+                  { attrs: { label: "First Name" } },
+                  [
+                    _c("ValidationProvider", {
+                      attrs: { name: "nombres", rules: "required" },
+                      scopedSlots: _vm._u(
+                        [
+                          {
+                            key: "default",
+                            fn: function(ref) {
+                              var errors = ref.errors
+                              return [
+                                _c("b-input", {
+                                  attrs: {
+                                    placeholder: "Nombres",
+                                    required: ""
+                                  },
+                                  model: {
+                                    value: _vm.formdata.firstname,
+                                    callback: function($$v) {
+                                      _vm.$set(_vm.formdata, "firstname", $$v)
+                                    },
+                                    expression: "formdata.firstname"
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("p", { staticClass: "help is-danger" }, [
+                                  _vm._v(_vm._s(errors[0]))
+                                ])
+                              ]
+                            }
+                          }
+                        ],
+                        null,
+                        true
+                      )
+                    })
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "b-field",
+                  { attrs: { label: "Last Name" } },
+                  [
+                    _c("ValidationProvider", {
+                      attrs: { name: "appellidos", rules: "required" },
+                      scopedSlots: _vm._u(
+                        [
+                          {
+                            key: "default",
+                            fn: function(ref) {
+                              var errors = ref.errors
+                              return [
+                                _c("b-input", {
+                                  attrs: {
+                                    placeholder: "Apellidos",
+                                    required: ""
+                                  },
+                                  model: {
+                                    value: _vm.formdata.lastname,
+                                    callback: function($$v) {
+                                      _vm.$set(_vm.formdata, "lastname", $$v)
+                                    },
+                                    expression: "formdata.lastname"
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("p", { staticClass: "help is-danger" }, [
+                                  _vm._v(_vm._s(errors[0]))
+                                ])
+                              ]
+                            }
+                          }
+                        ],
+                        null,
+                        true
+                      )
+                    })
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "b-field",
+                  { attrs: { label: "Email" } },
+                  [
+                    _c("ValidationProvider", {
+                      attrs: {
+                        name: "correo electronico",
+                        rules: "required|email"
+                      },
+                      scopedSlots: _vm._u(
+                        [
+                          {
+                            key: "default",
+                            fn: function(ref) {
+                              var errors = ref.errors
+                              return [
+                                _c("b-input", {
+                                  attrs: {
+                                    type: "email",
+                                    placeholder: "Correo electronico",
+                                    required: ""
+                                  },
+                                  model: {
+                                    value: _vm.formdata.email,
+                                    callback: function($$v) {
+                                      _vm.$set(_vm.formdata, "email", $$v)
+                                    },
+                                    expression: "formdata.email"
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("p", { staticClass: "help is-danger" }, [
+                                  _vm._v(_vm._s(errors[0]))
+                                ])
+                              ]
+                            }
+                          }
+                        ],
+                        null,
+                        true
+                      )
+                    })
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "b-field",
+                  { attrs: { label: "Documento de identificacion" } },
+                  [
+                    _c(
+                      "div",
+                      { staticClass: "block" },
+                      [
+                        _c(
+                          "b-radio",
+                          {
+                            attrs: { "native-value": "cedula" },
+                            model: {
+                              value: _vm.formdata.idnumber_type,
+                              callback: function($$v) {
+                                _vm.$set(_vm.formdata, "idnumber_type", $$v)
+                              },
+                              expression: "formdata.idnumber_type"
+                            }
+                          },
+                          [_vm._v("Cédula")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "b-radio",
+                          {
+                            attrs: { "native-value": "passport" },
+                            model: {
+                              value: _vm.formdata.idnumber_type,
+                              callback: function($$v) {
+                                _vm.$set(_vm.formdata, "idnumber_type", $$v)
+                              },
+                              expression: "formdata.idnumber_type"
+                            }
+                          },
+                          [_vm._v("Pasaporte")]
+                        )
+                      ],
+                      1
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _vm.formdata.idnumber_type == "cedula"
+                  ? _c(
+                      "b-field",
+                      { attrs: { label: "Numero de cédula" } },
+                      [
+                        _c("ValidationProvider", {
+                          attrs: {
+                            name: "cédula",
+                            rules: "required|cedula|length:10"
+                          },
+                          scopedSlots: _vm._u(
+                            [
+                              {
+                                key: "default",
+                                fn: function(ref) {
+                                  var errors = ref.errors
+                                  return [
+                                    _c("b-input", {
+                                      model: {
+                                        value: _vm.formdata.idnumber,
+                                        callback: function($$v) {
+                                          _vm.$set(
+                                            _vm.formdata,
+                                            "idnumber",
+                                            $$v
+                                          )
+                                        },
+                                        expression: "formdata.idnumber"
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("p", { staticClass: "help is-danger" }, [
+                                      _vm._v(_vm._s(errors[0]))
+                                    ])
+                                  ]
+                                }
+                              }
+                            ],
+                            null,
+                            true
+                          )
+                        })
+                      ],
+                      1
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.formdata.idnumber_type == "passport"
+                  ? _c(
+                      "b-field",
+                      {
+                        attrs: {
+                          rules: "required",
+                          label: "Numero de pasaporte"
+                        }
+                      },
+                      [
+                        _c("ValidationProvider", {
+                          attrs: { name: "pasaporte", rules: "required" },
+                          scopedSlots: _vm._u(
+                            [
+                              {
+                                key: "default",
+                                fn: function(ref) {
+                                  var errors = ref.errors
+                                  return [
+                                    _c("b-input", {
+                                      attrs: { maxlength: "12" },
+                                      model: {
+                                        value: _vm.formdata.idnumber,
+                                        callback: function($$v) {
+                                          _vm.$set(
+                                            _vm.formdata,
+                                            "idnumber",
+                                            $$v
+                                          )
+                                        },
+                                        expression: "formdata.idnumber"
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("p", { staticClass: "help is-danger" }, [
+                                      _vm._v(_vm._s(errors[0]))
+                                    ])
+                                  ]
+                                }
+                              }
+                            ],
+                            null,
+                            true
+                          )
+                        })
+                      ],
+                      1
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _c(
+                  "b-field",
+                  { attrs: { label: "Password" } },
+                  [
+                    _c("ValidationProvider", {
+                      attrs: { name: "contraseña", rules: "required|min:6" },
+                      scopedSlots: _vm._u(
+                        [
+                          {
+                            key: "default",
+                            fn: function(ref) {
+                              var errors = ref.errors
+                              return [
+                                _c("b-input", {
+                                  attrs: {
+                                    type: "password",
+                                    "password-reveal": ""
+                                  },
+                                  model: {
+                                    value: _vm.formdata.password,
+                                    callback: function($$v) {
+                                      _vm.$set(_vm.formdata, "password", $$v)
+                                    },
+                                    expression: "formdata.password"
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("p", { staticClass: "help is-danger" }, [
+                                  _vm._v(_vm._s(errors[0]))
+                                ])
+                              ]
+                            }
+                          }
+                        ],
+                        null,
+                        true
+                      )
+                    })
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "b-button",
+                  {
+                    attrs: { type: "is-primary" },
+                    on: {
+                      click: function($event) {
+                        return _vm.validateBeforeSubmit()
+                      }
+                    }
                   },
-                  expression: "formdata.idnumber_type"
-                }
-              },
-              [_vm._v("Cédula")]
-            ),
-            _vm._v(" "),
-            _c(
-              "b-radio",
-              {
-                attrs: { "native-value": "passport" },
-                model: {
-                  value: _vm.formdata.idnumber_type,
-                  callback: function($$v) {
-                    _vm.$set(_vm.formdata, "idnumber_type", $$v)
-                  },
-                  expression: "formdata.idnumber_type"
-                }
-              },
-              [_vm._v("Pasaporte")]
-            )
-          ],
-          1
-        )
-      ]),
-      _vm._v(" "),
-      _vm.formdata.idnumber_type == "cedula"
-        ? _c(
-            "b-field",
-            {
-              attrs: {
-                label: "Numero de cédula",
-                type: {
-                  "is-success": _vm.formdata.cedula_check == 1,
-                  "is-danger": _vm.formdata.cedula_check == 0
-                }
-              }
-            },
-            [
-              _c("b-input", {
-                attrs: { minlength: "10", maxlength: "10" },
-                on: {
-                  input: function($event) {
-                    return _vm.checkCedula()
-                  }
-                },
-                model: {
-                  value: _vm.formdata.idnumber,
-                  callback: function($$v) {
-                    _vm.$set(_vm.formdata, "idnumber", $$v)
-                  },
-                  expression: "formdata.idnumber"
-                }
-              })
-            ],
-            1
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.formdata.idnumber_type == "passport"
-        ? _c(
-            "b-field",
-            { attrs: { label: "Numero de pasaporte" } },
-            [
-              _c("b-input", {
-                attrs: { maxlength: "12" },
-                model: {
-                  value: _vm.formdata.idnumber,
-                  callback: function($$v) {
-                    _vm.$set(_vm.formdata, "idnumber", $$v)
-                  },
-                  expression: "formdata.idnumber"
-                }
-              })
-            ],
-            1
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      _c(
-        "b-field",
-        { attrs: { label: "Password" } },
-        [
-          _c("b-input", {
-            attrs: { type: "password", "password-reveal": "", minlength: "6" },
-            model: {
-              value: _vm.formdata.password,
-              callback: function($$v) {
-                _vm.$set(_vm.formdata, "password", $$v)
-              },
-              expression: "formdata.password"
-            }
-          })
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "field" },
-        [
-          _c(
-            "b-checkbox",
-            {
-              model: {
-                value: _vm.formdata.tc_consent,
-                callback: function($$v) {
-                  _vm.$set(_vm.formdata, "tc_consent", $$v)
-                },
-                expression: "formdata.tc_consent"
-              }
-            },
-            [_vm._v("\n            I accept the TandCs\n        ")]
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "b-button",
-        {
-          attrs: { type: "is-primary" },
-          on: {
-            click: function($event) {
-              return _vm.updateData()
+                  [_vm._v("Siguiente")]
+                )
+              ]
             }
           }
-        },
-        [_vm._v("Siguiente")]
-      )
+        ])
+      })
     ],
     1
   )
@@ -20388,94 +24454,291 @@ var render = function() {
   return _c(
     "div",
     [
-      _c(
-        "b-field",
-        { attrs: { label: "Address" } },
-        [
-          _c("b-input", {
-            attrs: { placeholder: "Direccion" },
-            model: {
-              value: _vm.formdata.address,
-              callback: function($$v) {
-                _vm.$set(_vm.formdata, "address", $$v)
-              },
-              expression: "formdata.address"
-            }
-          })
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "b-field",
-        { attrs: { label: "Select a date" } },
-        [
-          _c("b-datepicker", {
-            attrs: {
-              "show-week-number": false,
-              placeholder: "Click to select...",
-              icon: "calendar-today"
-            },
-            model: {
-              value: _vm.formdata.birthdate,
-              callback: function($$v) {
-                _vm.$set(_vm.formdata, "birthdate", $$v)
-              },
-              expression: "formdata.birthdate"
-            }
-          })
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "b-field",
-        { attrs: { label: "Profesion" } },
-        [
-          _c("b-autocomplete", {
-            attrs: { data: _vm.filteredDataArray, placeholder: "e.g. jQuery" },
-            model: {
-              value: _vm.formdata.profession,
-              callback: function($$v) {
-                _vm.$set(_vm.formdata, "profession", $$v)
-              },
-              expression: "formdata.profession"
-            }
-          })
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "b-field",
-        { attrs: { label: "Institucion" } },
-        [
-          _c("b-autocomplete", {
-            attrs: { data: _vm.filteredDataArray, placeholder: "e.g. jQuery" },
-            model: {
-              value: _vm.formdata.institution,
-              callback: function($$v) {
-                _vm.$set(_vm.formdata, "institution", $$v)
-              },
-              expression: "formdata.institution"
-            }
-          })
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "b-button",
-        {
-          attrs: { type: "is-primary" },
-          on: {
-            click: function($event) {
-              return _vm.updateData()
+      _c("ValidationObserver", {
+        ref: "observer",
+        scopedSlots: _vm._u([
+          {
+            key: "default",
+            fn: function(ref) {
+              var valid = ref.valid
+              return [
+                _c(
+                  "b-field",
+                  { attrs: { label: "Select a date" } },
+                  [
+                    _c("ValidationProvider", {
+                      attrs: { name: "fecha de nacimiento", rules: "required" },
+                      scopedSlots: _vm._u(
+                        [
+                          {
+                            key: "default",
+                            fn: function(ref) {
+                              var errors = ref.errors
+                              return [
+                                _c("b-datepicker", {
+                                  attrs: {
+                                    "show-week-number": false,
+                                    placeholder: "Click to select...",
+                                    icon: "calendar-today"
+                                  },
+                                  model: {
+                                    value: _vm.formdata.birthdate,
+                                    callback: function($$v) {
+                                      _vm.$set(_vm.formdata, "birthdate", $$v)
+                                    },
+                                    expression: "formdata.birthdate"
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("p", { staticClass: "help is-danger" }, [
+                                  _vm._v(_vm._s(errors[0]))
+                                ])
+                              ]
+                            }
+                          }
+                        ],
+                        null,
+                        true
+                      )
+                    })
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "b-field",
+                  { attrs: { label: "Address" } },
+                  [
+                    _c("ValidationProvider", {
+                      attrs: { name: "direccion", rules: "required" },
+                      scopedSlots: _vm._u(
+                        [
+                          {
+                            key: "default",
+                            fn: function(ref) {
+                              var errors = ref.errors
+                              return [
+                                _c("b-input", {
+                                  attrs: { placeholder: "Direccion" },
+                                  model: {
+                                    value: _vm.formdata.address,
+                                    callback: function($$v) {
+                                      _vm.$set(_vm.formdata, "address", $$v)
+                                    },
+                                    expression: "formdata.address"
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("p", { staticClass: "help is-danger" }, [
+                                  _vm._v(_vm._s(errors[0]))
+                                ])
+                              ]
+                            }
+                          }
+                        ],
+                        null,
+                        true
+                      )
+                    })
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c("p", { staticClass: "label" }, [_vm._v("Phone Numbers")]),
+                _vm._v(" "),
+                _vm._l(_vm.formdata.phonenumbers, function(number, index) {
+                  return _c(
+                    "b-field",
+                    {
+                      key: index,
+                      attrs: {
+                        label: "Phone Number #" + (index + 1),
+                        grouped: "",
+                        "label-position": "on-border"
+                      }
+                    },
+                    [
+                      _c("ValidationProvider", {
+                        attrs: { name: "telefono", rules: "required" },
+                        scopedSlots: _vm._u(
+                          [
+                            {
+                              key: "default",
+                              fn: function(ref) {
+                                var errors = ref.errors
+                                return [
+                                  _c("b-input", {
+                                    attrs: { placeholder: "Number" },
+                                    model: {
+                                      value: number.number,
+                                      callback: function($$v) {
+                                        _vm.$set(number, "number", $$v)
+                                      },
+                                      expression: "number.number"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "p",
+                                    { staticClass: "control" },
+                                    [
+                                      index > 0
+                                        ? _c(
+                                            "b-button",
+                                            {
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.dropPhoneNumber(
+                                                    index
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [_vm._v("Delete")]
+                                          )
+                                        : _vm._e()
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c("p", { staticClass: "help is-danger" }, [
+                                    _vm._v(_vm._s(errors[0]))
+                                  ])
+                                ]
+                              }
+                            }
+                          ],
+                          null,
+                          true
+                        )
+                      })
+                    ],
+                    1
+                  )
+                }),
+                _vm._v(" "),
+                _c(
+                  "p",
+                  [
+                    _c(
+                      "b-button",
+                      {
+                        on: {
+                          click: function($event) {
+                            return _vm.addPhoneNumber()
+                          }
+                        }
+                      },
+                      [_vm._v("Add")]
+                    ),
+                    _vm._v(
+                      "\n        You may add several phone numbers to ensure we can reach you\n    "
+                    )
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "b-field",
+                  { attrs: { label: "Profesion" } },
+                  [
+                    _c("ValidationProvider", {
+                      attrs: { name: "profesion", rules: "required" },
+                      scopedSlots: _vm._u(
+                        [
+                          {
+                            key: "default",
+                            fn: function(ref) {
+                              var errors = ref.errors
+                              return [
+                                _c("b-autocomplete", {
+                                  attrs: {
+                                    data: _vm.filteredDataArray,
+                                    placeholder: "e.g. jQuery"
+                                  },
+                                  model: {
+                                    value: _vm.formdata.profession,
+                                    callback: function($$v) {
+                                      _vm.$set(_vm.formdata, "profession", $$v)
+                                    },
+                                    expression: "formdata.profession"
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("p", { staticClass: "help is-danger" }, [
+                                  _vm._v(_vm._s(errors[0]))
+                                ])
+                              ]
+                            }
+                          }
+                        ],
+                        null,
+                        true
+                      )
+                    })
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "b-field",
+                  { attrs: { label: "Institucion" } },
+                  [
+                    _c("ValidationProvider", {
+                      attrs: { name: "institucion", rules: "required" },
+                      scopedSlots: _vm._u(
+                        [
+                          {
+                            key: "default",
+                            fn: function(ref) {
+                              var errors = ref.errors
+                              return [
+                                _c("b-autocomplete", {
+                                  attrs: {
+                                    data: _vm.filteredDataArray,
+                                    placeholder: "e.g. jQuery"
+                                  },
+                                  model: {
+                                    value: _vm.formdata.institution,
+                                    callback: function($$v) {
+                                      _vm.$set(_vm.formdata, "institution", $$v)
+                                    },
+                                    expression: "formdata.institution"
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("p", { staticClass: "help is-danger" }, [
+                                  _vm._v(_vm._s(errors[0]))
+                                ])
+                              ]
+                            }
+                          }
+                        ],
+                        null,
+                        true
+                      )
+                    })
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "b-button",
+                  {
+                    attrs: { type: "is-primary" },
+                    on: {
+                      click: function($event) {
+                        return _vm.validateBeforeSubmit()
+                      }
+                    }
+                  },
+                  [_vm._v("Siguiente")]
+                )
+              ]
             }
           }
-        },
-        [_vm._v("Siguiente")]
-      )
+        ])
+      })
     ],
     1
   )
@@ -37365,18 +41628,59 @@ webpackContext.id = "./resources/js sync recursive \\.vue$/";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var buefy__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! buefy */ "./node_modules/buefy/dist/esm/index.js");
-/* harmony import */ var buefy_dist_buefy_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! buefy/dist/buefy.css */ "./node_modules/buefy/dist/buefy.css");
-/* harmony import */ var buefy_dist_buefy_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(buefy_dist_buefy_css__WEBPACK_IMPORTED_MODULE_2__);
-
-
-
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(buefy__WEBPACK_IMPORTED_MODULE_1__["default"]);
-
+/* harmony import */ var vee_validate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vee-validate */ "./node_modules/vee-validate/dist/vee-validate.esm.js");
+/* harmony import */ var vee_validate_dist_rules__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vee-validate/dist/rules */ "./node_modules/vee-validate/dist/rules.js");
+/* harmony import */ var buefy__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! buefy */ "./node_modules/buefy/dist/esm/index.js");
+/* harmony import */ var buefy_dist_buefy_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! buefy/dist/buefy.css */ "./node_modules/buefy/dist/buefy.css");
+/* harmony import */ var buefy_dist_buefy_css__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(buefy_dist_buefy_css__WEBPACK_IMPORTED_MODULE_4__);
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
+
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(__webpack_require__(/*! vue-moment */ "./node_modules/vue-moment/dist/vue-moment.js"));
+
+
+
+
+Object(vee_validate__WEBPACK_IMPORTED_MODULE_1__["configure"])({
+  classes: {
+    valid: 'is-success',
+    // one class
+    invalid: 'is-danger' // multiple classes
+
+  }
+}); // Add the required rule
+
+Object(vee_validate__WEBPACK_IMPORTED_MODULE_1__["extend"])('required', vee_validate_dist_rules__WEBPACK_IMPORTED_MODULE_2__["required"]); // Add the email rule
+
+Object(vee_validate__WEBPACK_IMPORTED_MODULE_1__["extend"])('email', vee_validate_dist_rules__WEBPACK_IMPORTED_MODULE_2__["email"]);
+Object(vee_validate__WEBPACK_IMPORTED_MODULE_1__["extend"])('min', vee_validate_dist_rules__WEBPACK_IMPORTED_MODULE_2__["min"]);
+Object(vee_validate__WEBPACK_IMPORTED_MODULE_1__["extend"])('length', vee_validate_dist_rules__WEBPACK_IMPORTED_MODULE_2__["length"]);
+Object(vee_validate__WEBPACK_IMPORTED_MODULE_1__["extend"])('cedula', {
+  validate: function validate(ced) {
+    var _ref = [0, 1, ced.length],
+        suma = _ref[0],
+        mul = _ref[1],
+        index = _ref[2];
+
+    while (index--) {
+      var num = ced[index] * mul;
+      suma += num - (num > 9) * 9;
+      mul = 1 << index % 2;
+    }
+
+    if (suma % 10 === 0 && suma > 0 && ced.length == 10) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+}); // Register vee-validate globally
+
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('ValidationProvider', vee_validate__WEBPACK_IMPORTED_MODULE_1__["ValidationProvider"]);
+
+
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(buefy__WEBPACK_IMPORTED_MODULE_3__["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('course-time-component', __webpack_require__(/*! ./components/CourseTimeComponent.vue */ "./resources/js/components/CourseTimeComponent.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('cart-component', __webpack_require__(/*! ./components/CartComponent.vue */ "./resources/js/components/CartComponent.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('event-attendance-component', __webpack_require__(/*! ./components/EventAttendanceComponent.vue */ "./resources/js/components/EventAttendanceComponent.vue")["default"]);
@@ -38634,7 +42938,6 @@ var store = {
     email: null,
     password: null,
     idnumber_type: 'cedula',
-    cedula_check: null,
     idnumber: null,
     address: null,
     phonenumber: null,
@@ -38646,7 +42949,6 @@ var store = {
     this.state.email = data.email;
     this.state.password = data.password;
     this.state.idnumber_type = data.idnumber_type;
-    this.state.cedula_check = data.cedula_check;
     this.state.idnumber = data.idnumber;
     this.state.address = data.address;
     this.state.phonenumber = data.phonenumber;
@@ -38654,6 +42956,7 @@ var store = {
   },
   updateInfoData: function updateInfoData(data) {
     this.state.address = data.address, this.state.birthdate = data.birthdate, this.state.profession = data.profession, this.state.institution = data.institution;
+    this.state.phonenumbers = data.phonenumbers;
   },
   updateContactsData: function updateContactsData(data) {
     this.state.contacts = data;
