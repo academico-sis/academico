@@ -8,6 +8,8 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Contact;
 use App\Models\Student;
+use App\Models\Profession;
+use App\Models\Institution;
 use App\Models\PhoneNumber;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -122,12 +124,28 @@ class RegisterController extends \Backpack\Base\app\Http\Controllers\Auth\Regist
 
 
         // add profession and institution
+        $profession = Profession::firstOrCreate([
+            'name' => $request->data['profession'],
+        ]);
+
+        $student->update([
+            'profession_id' => $profession->id
+        ]);
+
+
+        $institution = Institution::firstOrCreate([
+            'name' => $request->data['institution'],
+        ]);
+
+        $student->update([
+            'institution_id' => $institution->id
+        ]);
 
         Log::info('Profession and institution added to the student profile');
 
         // add photo
 
-        Log::info('Profile picture added to the student profile');
+        //Log::info('Profile picture added to the student profile');
 
         // add contact(s)
         foreach ($request->data['contacts'] as $contact) {

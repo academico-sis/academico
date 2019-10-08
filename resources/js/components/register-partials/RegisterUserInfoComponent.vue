@@ -42,22 +42,20 @@
 
     <b-field label="Profesion">
         <ValidationProvider name="profesion" rules="required" v-slot="{ errors }">
-        <b-autocomplete
+        <b-input
             v-model="formdata.profession"
-            :data="filteredDataArray"
-            placeholder="e.g. jQuery">
-        </b-autocomplete>
+            placeholder="e.g. estudiante, médico...">
+        </b-input>
         <p class="help is-danger">{{ errors[0] }}</p>
         </ValidationProvider>
     </b-field>
 
     <b-field label="Institucion">
     <ValidationProvider name="institucion" rules="required" v-slot="{ errors }">
-        <b-autocomplete
+        <b-input
             v-model="formdata.institution"
-            :data="filteredDataArray"
-            placeholder="e.g. jQuery">
-        </b-autocomplete>
+            placeholder="e.g. Universidad de Cuenca">
+        </b-input>
         <p class="help is-danger">{{ errors[0] }}</p>
         </ValidationProvider>
     </b-field>

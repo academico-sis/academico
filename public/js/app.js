@@ -3459,6 +3459,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3832,8 +3838,6 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//
-//
 //
 //
 //
@@ -24025,29 +24029,47 @@ var render = function() {
                 }),
                 _vm._v(" "),
                 _c(
-                  "b-button",
+                  "div",
                   {
-                    attrs: { type: "is-info" },
-                    on: {
-                      click: function($event) {
-                        return _vm.addContact()
-                      }
+                    staticStyle: {
+                      "text-align": "center",
+                      "padding-top": "2em"
                     }
                   },
-                  [_vm._v("Add contact")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "b-button",
-                  {
-                    attrs: { type: "is-primary" },
-                    on: {
-                      click: function($event) {
-                        return _vm.validateBeforeSubmit()
-                      }
-                    }
-                  },
-                  [_vm._v("Siguiente")]
+                  [
+                    _c("p", { staticStyle: { "padding-bottom": "2em" } }, [
+                      _vm._v(
+                        "Puede agregar contactos vinculados con el estudiante. Estos "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "b-button",
+                      {
+                        attrs: { type: "is-info" },
+                        on: {
+                          click: function($event) {
+                            return _vm.addContact()
+                          }
+                        }
+                      },
+                      [_vm._v("Add contact")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "b-button",
+                      {
+                        attrs: { type: "is-primary" },
+                        on: {
+                          click: function($event) {
+                            return _vm.validateBeforeSubmit()
+                          }
+                        }
+                      },
+                      [_vm._v("Siguiente")]
+                    )
+                  ],
+                  1
                 )
               ]
             }
@@ -24702,10 +24724,9 @@ var render = function() {
                             fn: function(ref) {
                               var errors = ref.errors
                               return [
-                                _c("b-autocomplete", {
+                                _c("b-input", {
                                   attrs: {
-                                    data: _vm.filteredDataArray,
-                                    placeholder: "e.g. jQuery"
+                                    placeholder: "e.g. estudiante, médico..."
                                   },
                                   model: {
                                     value: _vm.formdata.profession,
@@ -24744,10 +24765,9 @@ var render = function() {
                             fn: function(ref) {
                               var errors = ref.errors
                               return [
-                                _c("b-autocomplete", {
+                                _c("b-input", {
                                   attrs: {
-                                    data: _vm.filteredDataArray,
-                                    placeholder: "e.g. jQuery"
+                                    placeholder: "e.g. Universidad de Cuenca"
                                   },
                                   model: {
                                     value: _vm.formdata.institution,

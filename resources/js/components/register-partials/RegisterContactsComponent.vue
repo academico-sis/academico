@@ -79,10 +79,16 @@
   </div>
 </article>
 
+<div style="text-align:center; padding-top: 2em;">
+    
+    <p style="padding-bottom: 2em;">Puede agregar contactos vinculados con el estudiante. Estos </p>
 
     <b-button type="is-info" @click="addContact()">Add contact</b-button>
 
     <b-button type="is-primary" @click="validateBeforeSubmit()">Siguiente</b-button>
+</div>
+
+
 </ValidationObserver>
 
 </div>
