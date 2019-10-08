@@ -15,7 +15,11 @@ use Illuminate\Support\Facades\Log;
 class RegisterController extends \Backpack\Base\app\Http\Controllers\Auth\RegisterController
 {
 
-
+    public function checkEmailUnicity(Request $request)
+    {
+        if (User::where('email', $request->email)->count() == 0) { return response('OK', 204); }
+        else { abort(409); }
+    }
 
     /**
      * Get a validator for an incoming registration request.

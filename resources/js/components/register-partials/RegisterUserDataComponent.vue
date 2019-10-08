@@ -99,7 +99,8 @@ export default {
             const isValid = await this.$refs.observer.validate();
 
             if (isValid) {
-                this.updateData()
+                this.checkEmailUnicity()
+                //this.updateData()
             } else {
                 this.$buefy.toast.open({
                     message: 'Form is not valid! Please check the fields.',
@@ -109,6 +110,33 @@ export default {
             }
         },
 
+        async checkEmailUnicity() {
+
+            const isValid = await axios.post('/api/checkemail', {
+                email: this.formdata.email
+            })
+            .then(response => {
+                if (response.status == 204) {
+                    return true
+                }
+            })
+            .catch((err) => {
+                if(err.status == 409) {
+                    return false
+                };
+            });
+
+            if (isValid) {
+                this.updateData()
+            } else {
+                this.$buefy.toast.open({
+                    message: 'Ya existe una cuenta registrada con este correo electronico',
+                    type: 'is-danger',
+                    position: 'is-bottom'
+                })
+            }
+
+        },
 
         updateData() {
             store.updateUserData(this.formdata)

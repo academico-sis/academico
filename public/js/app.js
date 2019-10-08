@@ -3671,7 +3671,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 isValid = _context.sent;
 
                 if (isValid) {
-                  this.updateData();
+                  this.checkEmailUnicity(); //this.updateData()
                 } else {
                   this.$buefy.toast.open({
                     message: 'Form is not valid! Please check the fields.',
@@ -3693,6 +3693,57 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
 
       return validateBeforeSubmit;
+    }(),
+    checkEmailUnicity: function () {
+      var _checkEmailUnicity = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var isValid;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return axios.post('/api/checkemail', {
+                  email: this.formdata.email
+                }).then(function (response) {
+                  if (response.status == 204) {
+                    return true;
+                  }
+                })["catch"](function (err) {
+                  if (err.status == 409) {
+                    return false;
+                  }
+
+                  ;
+                });
+
+              case 2:
+                isValid = _context2.sent;
+
+                if (isValid) {
+                  this.updateData();
+                } else {
+                  this.$buefy.toast.open({
+                    message: 'Ya existe una cuenta registrada con este correo electronico',
+                    type: 'is-danger',
+                    position: 'is-bottom'
+                  });
+                }
+
+              case 4:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function checkEmailUnicity() {
+        return _checkEmailUnicity.apply(this, arguments);
+      }
+
+      return checkEmailUnicity;
     }(),
     updateData: function updateData() {
       _store_js__WEBPACK_IMPORTED_MODULE_1__["store"].updateUserData(this.formdata);
@@ -42960,24 +43011,6 @@ var store = {
   },
   updateContactsData: function updateContactsData(data) {
     this.state.contacts = data;
-  },
-  checkCedula: function checkCedula(ced) {
-    var _ref = [0, 1, ced.length],
-        suma = _ref[0],
-        mul = _ref[1],
-        index = _ref[2];
-
-    while (index--) {
-      var num = ced[index] * mul;
-      suma += num - (num > 9) * 9;
-      mul = 1 << index % 2;
-    }
-
-    if (suma % 10 === 0 && suma > 0 && ced.length == 10) {
-      return 1;
-    } else {
-      return 0;
-    }
   }
 };
 
