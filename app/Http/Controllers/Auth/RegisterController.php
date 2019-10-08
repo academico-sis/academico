@@ -107,7 +107,16 @@ class RegisterController extends \Backpack\Base\app\Http\Controllers\Auth\Regist
         
         // add phone number(s)
 
+        foreach ($request->data['phonenumbers'] as $number) {
+            PhoneNumber::create([
+                'phoneable_id' => $student->id,
+                'phoneable_type' => Student::class,
+                'phone_number' => $number['number']
+            ]);
+        }
+
         Log::info('Phone numbers added to the student profile');
+
 
         // add profession and institution
 
@@ -133,9 +142,7 @@ class RegisterController extends \Backpack\Base\app\Http\Controllers\Auth\Regist
 
         // flash a confirmation message
         \Alert::success(__('The user has successfully been registered'))->flash();
-
-        return redirect('/login');
-
+        
     }
 
 }

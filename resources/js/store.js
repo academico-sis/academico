@@ -35,6 +35,7 @@ export const store = {
         this.state.birthdate = data.birthdate,
         this.state.profession = data.profession,
         this.state.institution = data.institution
+        this.state.phonenumbers = data.phonenumbers
     },
 
     updateContactsData(data) {

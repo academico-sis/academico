@@ -43,7 +43,7 @@ export default {
                     data: this.storeState
                 })
                 .then(response => {
-                    
+                    windows.location.href="/"
                 })
                 .catch(e => {
                     this.errors.push(e)
