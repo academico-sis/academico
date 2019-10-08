@@ -128,7 +128,7 @@ class RegisterController extends \Backpack\Base\app\Http\Controllers\Auth\Regist
 
         // add contact(s)
         foreach ($request->data['contacts'] as $contact) {
-            Contact::create([
+            $newContact = Contact::create([
                 'student_id' => $student->id,
                 'firstname' => $contact['firstname'],
                 'lastname' => $contact['lastname'],
@@ -136,6 +136,14 @@ class RegisterController extends \Backpack\Base\app\Http\Controllers\Auth\Regist
                 'address' => $contact['address'],
                 'email' => $contact['email'],
             ]);
+
+            foreach ($contact['phonenumbers'] as $number) {
+                PhoneNumber::create([
+                    'phoneable_id' => $newContact->id,
+                    'phoneable_type' => Contact::class,
+                    'phone_number' => $number['number']
+                ]);
+            }
         }
         
         Log::info('Aditional contacts associated to the student profile');

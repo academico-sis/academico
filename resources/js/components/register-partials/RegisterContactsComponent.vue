@@ -39,6 +39,21 @@
             <b-input v-model="contact.address" placeholder="Direccion"></b-input>
         </b-field>
 
+
+        <p class="label">Phone Numbers</p>
+
+            <b-field :label="'Phone Number #'+(numberindex + 1)" grouped label-position="on-border" v-for="(number, numberindex) in contact.phonenumbers" v-bind:key="numberindex">
+                <b-input v-model="number.number" placeholder="Number"></b-input>
+                <p class="control">
+                    <b-button v-if="numberindex > 0" @click="dropPhoneNumber(index, numberindex)">Delete</b-button>
+                </p>
+            </b-field>
+    
+        <p>
+            <b-button @click="addPhoneNumber(index)">Add</b-button>
+            You may add several phone numbers to ensure we can reach you
+        </p>
+
   </div>
 </article>
 
@@ -68,7 +83,7 @@ export default {
     },
 
     mounted() {
-
+        this.addPhoneNumber()
     },
 
     methods: {
@@ -81,11 +96,19 @@ export default {
                 cedula_check: null,
                 idnumber: null,
                 address: null,
-                phonenumber: null,
+                phonenumbers: [],
             })
         },
         dropContact(index) {
             this.contacts.splice(index, 1); 
+        },
+        addPhoneNumber(index) {
+            this.contacts[index].phonenumbers.push({
+                number: null,
+            })
+        },
+        dropPhoneNumber(contact, index) {
+            this.contacts[contact].phonenumbers.splice(index, 1); 
         },
         updateData() {
             store.updateContactsData(this.contacts)
