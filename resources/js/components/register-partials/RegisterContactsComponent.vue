@@ -1,43 +1,51 @@
 <template>
 <div>
-    <b-field label="Address">
-        <b-input v-model="address" placeholder="Direccion"></b-input>
-    </b-field>
 
-    <b-field label="Fecha de nacimiento">
-        <b-input v-model="lastname" placeholder="Apellidos"></b-input>
-    </b-field>
 
-    <b-field label="Profesion">
-        <b-taginput
-            v-model="tags"
-            :data="filteredTags"
-            autocomplete
-            maxtags="1"
-            :allow-new=true
-            :open-on-focus="openOnFocus"
-            field="user.first_name"
-            icon="label"
-            placeholder="Add a tag"
-            @typing="getFilteredTags">
-        </b-taginput>
-    </b-field>
+<article class="message" v-for="(contact, index) in contacts" v-bind:key="index">
+  <div class="message-header">
+    Contacto addicional #{{ index + 1}}
+    <button class="delete" @click="dropContact(index)"></button>
+  </div>
+  <div class="message-body">
+      <b-field label="First Name">
+            <b-input v-model="contact.firstname" placeholder="Nombres"></b-input>
+        </b-field>
 
-    <b-field label="Institucion">
-        <b-taginput
-            v-model="tags"
-            :data="filteredTags"
-            autocomplete
-            maxtags="1"
-            :allow-new=true
-            :open-on-focus="openOnFocus"
-            field="user.first_name"
-            icon="label"
-            placeholder="Add a tag"
-            @typing="getFilteredTags">
-        </b-taginput>
-    </b-field>
+        <b-field label="Last Name">
+            <b-input v-model="contact.lastname" placeholder="Apellidos"></b-input>
+        </b-field>
 
+        <b-field label="Email">
+            <b-input type="email" v-model="contact.email" placeholder="Correo electronico"></b-input>
+        </b-field>
+
+        <b-field label="Documento de identificacion">
+            <div class="block">
+                <b-radio v-model="contact.idnumber_type" native-value="cedula">Cédula</b-radio>
+                <b-radio v-model="contact.idnumber_type" native-value="passport">Pasaporte</b-radio>
+            </div>
+        </b-field>
+
+        <b-field v-if="contact.idnumber_type == 'cedula'" label="Numero de cédula" :type="{ 'is-success': contact.cedula_check == 1, 'is-danger': contact.cedula_check == 0}">
+            <b-input v-model="contact.idnumber" minlength="10" maxlength="10" @input="checkCedula(contact)"></b-input>
+        </b-field>
+
+        <b-field v-if="contact.idnumber_type == 'passport'" label="Numero de pasaporte">
+            <b-input v-model="contact.idnumber" maxlength="12"></b-input>
+        </b-field>
+
+        <b-field label="Address">
+            <b-input v-model="contact.address" placeholder="Direccion"></b-input>
+        </b-field>
+
+  </div>
+</article>
+
+
+    <b-button type="is-primary" @click="addContact()">Add contact</b-button>
+
+    <b-button type="is-primary" @click="updateData()">Siguiente</b-button>
 
 </div>
 </template>
@@ -45,6 +53,8 @@
 
 
 <script>
+import { EventBus } from '../../eventBus.js';
+import { store } from '../../store.js';
 
 export default {
 
@@ -53,15 +63,7 @@ export default {
     data () {
         return {
             errors: [],
-            firstname: null,
-            lastname: null,
-            email: null,
-            password: null,
-            idnumber_type: 'cédula',
-            idnumber: null,
-            address: null,
-            phonenumber: null,
-            tc_consent: false
+            contacts: [],
         }
     },
 
@@ -70,18 +72,29 @@ export default {
     },
 
     methods: {
-        submitRegisterForm() {
-            axios
-                .post('/register', {
-                    
-                })
-                .then(response => {
-                    
-                })
-                .catch(e => {
-                    this.errors.push(e)
-                })
+        addContact() {
+            this.contacts.push({
+                firstname: null,
+                lastname: null,
+                email: null,
+                idnumber_type: 'cedula',
+                cedula_check: null,
+                idnumber: null,
+                address: null,
+                phonenumber: null,
+            })
         },
+        dropContact(index) {
+            this.contacts.splice(index, 1); 
+        },
+        updateData() {
+            store.updateContactsData(this.contacts)
+            EventBus.$emit("moveToNextStep");
+        },
+        checkCedula(contact)
+        {
+            contact.cedula_check = store.checkCedula(contact.idnumber)
+        }
     }
 }
 </script>

@@ -1,45 +1,43 @@
 <template>
 <div>
     <b-field label="First Name">
-        <b-input v-model="firstname" placeholder="Nombres"></b-input>
+        <b-input v-model="formdata.firstname" placeholder="Nombres"></b-input>
     </b-field>
 
     <b-field label="Last Name">
-        <b-input v-model="lastname" placeholder="Apellidos"></b-input>
+        <b-input v-model="formdata.lastname" placeholder="Apellidos"></b-input>
     </b-field>
 
     <b-field label="Email">
-        <b-input type="email" v-model="email" placeholder="Correo electronico" maxlength="40"></b-input>
+        <b-input type="email" v-model="formdata.email" placeholder="Correo electronico"></b-input>
     </b-field>
 
     <b-field label="Documento de identificacion">
         <div class="block">
-            <b-radio v-model="idnumber_type" native-value="cedula">Cédula</b-radio>
-            <b-radio v-model="idnumber_type" native-value="passport">Pasaporte</b-radio>
+            <b-radio v-model="formdata.idnumber_type" native-value="cedula">Cédula</b-radio>
+            <b-radio v-model="formdata.idnumber_type" native-value="passport">Pasaporte</b-radio>
         </div>
     </b-field>
 
-    <b-field v-if="idnumber_type == 'cedula'" label="Numero de cédula" :type="{ 'is-success': cedula_check == 1, 'is-danger': cedula_check == 0}">
-        <b-input v-model="idnumber" minlength="10" maxlength="10" @input="checkCedula()"></b-input>
+    <b-field v-if="formdata.idnumber_type == 'cedula'" label="Numero de cédula" :type="{ 'is-success': formdata.cedula_check == 1, 'is-danger': formdata.cedula_check == 0}">
+        <b-input v-model="formdata.idnumber" minlength="10" maxlength="10" @input="checkCedula()"></b-input>
     </b-field>
 
-    <b-field v-if="idnumber_type == 'passport'" label="Numero de pasaporte">
-        <b-input v-model="idnumber" maxlength="40"></b-input>
-    </b-field>
-
-    <b-field label="Password">
-        <b-input v-model="password" type="password" maxlength="30"></b-input>
+    <b-field v-if="formdata.idnumber_type == 'passport'" label="Numero de pasaporte">
+        <b-input v-model="formdata.idnumber" maxlength="12"></b-input>
     </b-field>
 
     <b-field label="Password">
-        <b-input v-model="password" type="password" maxlength="30"></b-input>
+        <b-input v-model="formdata.password" type="password" password-reveal minlength="6"></b-input>
     </b-field>
 
     <div class="field">
-        <b-checkbox v-model="tc_consent">
+        <b-checkbox v-model="formdata.tc_consent">
             I accept the TandCs
         </b-checkbox>
     </div>
+
+    <b-button type="is-primary" @click="updateData()">Siguiente</b-button>
 
 </div>
 </template>
@@ -47,6 +45,8 @@
 
 
 <script>
+import { store } from '../../store.js';
+import { EventBus } from '../../eventBus.js';
 
 export default {
 
@@ -55,16 +55,18 @@ export default {
     data () {
         return {
             errors: [],
-            firstname: null,
-            lastname: null,
-            email: null,
-            password: null,
-            idnumber_type: 'cedula',
-            cedula_check: null,
-            idnumber: null,
-            address: null,
-            phonenumber: null,
-            tc_consent: false
+            formdata: {
+                firstname: null,
+                lastname: null,
+                email: null,
+                password: null,
+                idnumber_type: 'cedula',
+                cedula_check: null,
+                idnumber: null,
+                address: null,
+                phonenumber: null,
+                tc_consent: false
+            }
         }
     },
 
@@ -73,21 +75,14 @@ export default {
     },
 
     methods: {
+        checkCedula()
+        {
+            this.formdata.cedula_check = store.checkCedula(this.formdata.idnumber)
+        },
 
-        checkCedula() {
-            const ced = this.idnumber;
-            let [suma, mul, index] = [0, 1, ced.length];
-            while (index--) {
-            let num = ced[index] * mul;
-            suma += num - (num > 9) * 9;
-            mul = 1 << index % 2;
-            }
-
-            if ((suma % 10 === 0) && (suma > 0) && (ced.length == 10)) {
-                this.cedula_check = 1
-            } else {
-                this.cedula_check = 0
-            }
+        updateData() {
+            store.updateUserData(this.formdata)
+            EventBus.$emit("moveToNextStep");
         }
 
     }
