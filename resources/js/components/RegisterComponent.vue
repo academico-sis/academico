@@ -48,10 +48,6 @@ export default {
     },
         
     created() {
-        window.addEventListener('beforeunload', (event) => {
-            event.returnValue = `Los datos no seran guardados al salir de esta pagina`;
-        });
-
         EventBus.$on("moveToNextStep", () => {
             this.activeStep += 1
         });

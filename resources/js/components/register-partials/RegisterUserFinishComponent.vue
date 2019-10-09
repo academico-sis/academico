@@ -5,7 +5,7 @@
 
         <h2 class="subtitle">Comprobe sus datos una última vez. Cuando todo esta correcto, haz click en "confirmar la creación de la cuenta"</h2>
         
-        <b-button class="is-large is-rounded is-success is-centered" @click="submitRegisterForm()">Confirmar la creación de la cuenta</b-button>
+        <b-button class="is-large is-rounded is-success is-centered" v-bind:class="{ 'is-loading': formSubmitted == true }" @click="submitRegisterForm()">Confirmar la creación de la cuenta</b-button>
         
         </div>
     </div>
@@ -102,7 +102,7 @@
     </nav>
 
 <div class="container has-text-centered">
-    <b-button class="is-large is-rounded is-success is-centered" @click="submitRegisterForm()">Confirmar la creación de la cuenta</b-button>
+    <b-button class="is-large is-rounded is-success is-centered" v-bind:class="{ 'is-loading': formSubmitted == true }" @click="submitRegisterForm()">Confirmar la creación de la cuenta</b-button>
 </div>
 </div>
 </template>
@@ -120,6 +120,7 @@ export default {
     data () {
         return {
             errors: [],
+            formSubmitted: false,
             storeState: store.state
         }
     },
@@ -136,25 +137,41 @@ export default {
         },
 
         submitRegisterForm() {
+            this.formSubmitted = true
+
+            const sleep = (milliseconds) => {
+                return new Promise(resolve => setTimeout(resolve, milliseconds))
+                }
+                
             axios
                 .post('/register', {
                     data: this.storeState
                 })
                 .then(response => {
+
                     this.$buefy.toast.open({
+                        duration: 5000,
                         message: 'La cuenta ha sido creada con éxito',
                         type: 'is-success',
                         position: 'is-bottom'
                     })
-                    windows.location.href="/"
+
+                    sleep(2500).then(() => {
+                        window.location.href="/"
+                    })
+                   
                 })
                 .catch(e => {
+
                     this.errors.push(e)
                     this.$buefy.toast.open({
                         message: 'Error al crear la cuenta',
                         type: 'is-danger',
                         position: 'is-bottom'
                     })
+
+                    this.formSubmitted = false
+
                 })
         },
     }
