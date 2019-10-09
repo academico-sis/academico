@@ -169,8 +169,7 @@ class RegisterController extends \Backpack\Base\app\Http\Controllers\Auth\Regist
         
         Log::info('Aditional contacts associated to the student profile');
 
-        // flash a confirmation message
-        \Alert::success(__('The user has successfully been registered'))->flash();
+        return response(204);
         
     }
 

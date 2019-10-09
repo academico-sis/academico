@@ -1,3 +1,5 @@
+import moment from 'moment'
+
 export const store = {
     state: {
         firstname: null,
@@ -30,7 +32,7 @@ export const store = {
 
     updateInfoData(data) {
         this.state.address = data.address,
-        this.state.birthdate = data.birthdate,
+        this.state.birthdate = moment(data.birthdate).format(),
         this.state.profession = data.profession,
         this.state.institution = data.institution
         this.state.phonenumbers = data.phonenumbers

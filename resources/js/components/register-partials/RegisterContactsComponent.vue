@@ -9,71 +9,71 @@
     <button class="delete" @click="dropContact(index)"></button>
   </div>
   <div class="message-body">
-      <b-field label="First Name">
+      <b-field label="Nombres">
             <ValidationProvider name="nombres" rules="required" v-slot="{ errors }">
             <b-input v-model="contact.firstname" placeholder="Nombres"></b-input>
             <p class="help is-danger">{{ errors[0] }}</p>
             </ValidationProvider>
         </b-field>
 
-        <b-field label="Last Name">
-            <ValidationProvider name="appellidos" rules="required" v-slot="{ errors }">
+        <b-field label="Apellidos">
+            <ValidationProvider name="apellidos" rules="required" v-slot="{ errors }">
             <b-input v-model="contact.lastname" placeholder="Apellidos"></b-input>
             <p class="help is-danger">{{ errors[0] }}</p>
             </ValidationProvider>
         </b-field>
 
-        <b-field label="Email">
-            <ValidationProvider name="correo electronico" rules="required|email" v-slot="{ errors }">
-            <b-input type="email" v-model="contact.email" placeholder="Correo electronico"></b-input>
+        <b-field label="Correo electrónico">
+            <ValidationProvider name="correo electrónico" rules="required|email" v-slot="{ errors }">
+            <b-input type="email" v-model="contact.email" placeholder="Correo electrónico"></b-input>
             <p class="help is-danger">{{ errors[0] }}</p>
             </ValidationProvider>
         </b-field>
 
-        <b-field label="Documento de identificacion">
+        <b-field label="Documento de identificación">
             <div class="block">
-                <b-radio v-model="contact.idnumber_type" native-value="cedula">Cédula</b-radio>
-                <b-radio v-model="contact.idnumber_type" native-value="passport">Pasaporte</b-radio>
+                <b-radio v-model="contact.idnumber_type" native-value="cédula">Cédula</b-radio>
+                <b-radio v-model="contact.idnumber_type" native-value="pasaporte">Pasaporte</b-radio>
             </div>
         </b-field>
 
-        <b-field v-if="contact.idnumber_type == 'cedula'" label="Numero de cédula">
-            <ValidationProvider name="cédula" rules="required|cedula|length:10" v-slot="{ errors }">
+        <b-field v-if="contact.idnumber_type == 'cédula'" label="Número de cédula">
+            <ValidationProvider name="número de cédula" rules="required|cedula|length:10" v-slot="{ errors }">
             <b-input v-model="contact.idnumber"></b-input>
             <p class="help is-danger">{{ errors[0] }}</p>
             </ValidationProvider>
         </b-field>
 
-        <b-field v-if="contact.idnumber_type == 'passport'" label="Numero de pasaporte">
-            <ValidationProvider name="pasaporte" rules="required" v-slot="{ errors }">
+        <b-field v-if="contact.idnumber_type == 'pasaporte'" label="Número de pasaporte">
+            <ValidationProvider name="número de pasaporte" rules="required" v-slot="{ errors }">
             <b-input v-model="contact.idnumber"></b-input>
             <p class="help is-danger">{{ errors[0] }}</p>
             </ValidationProvider>
         </b-field>
 
-        <b-field label="Address">
-            <ValidationProvider name="direccion" rules="required" v-slot="{ errors }">
-            <b-input v-model="contact.address" placeholder="Direccion"></b-input>
+        <b-field label="Dirección">
+            <ValidationProvider name="dirección" rules="required" v-slot="{ errors }">
+            <b-input v-model="contact.address" placeholder="Dirección"></b-input>
             <p class="help is-danger">{{ errors[0] }}</p>
             </ValidationProvider>
         </b-field>
 
 
-        <p class="label">Phone Numbers</p>
+        <p class="label">Número de teléfono</p>
 
-            <b-field :label="'Phone Number #'+(numberindex + 1)" grouped label-position="on-border" v-for="(number, numberindex) in contact.phonenumbers" v-bind:key="numberindex">
-                <ValidationProvider name="telefono" rules="required" v-slot="{ errors }">
-                <b-input v-model="number.number" placeholder="Number"></b-input>
+            <b-field :label="'Teléfono #'+(numberindex + 1)" grouped label-position="on-border" v-for="(number, numberindex) in contact.phonenumbers" v-bind:key="numberindex">
+                <ValidationProvider name="número de teléfono" rules="required" v-slot="{ errors }">
+                <b-input v-model="number.number" placeholder="Número de teléfono"></b-input>
                 <p class="control">
-                    <b-button v-if="numberindex > 0" @click="dropPhoneNumber(index, numberindex)">Delete</b-button>
+                    <b-button v-if="numberindex > 0" @click="dropPhoneNumber(index, numberindex)">Eliminar</b-button>
                 </p>
                 <p class="help is-danger">{{ errors[0] }}</p>
                 </ValidationProvider>
             </b-field>
     
         <p>
-            <b-button @click="addPhoneNumber(index)">Add</b-button>
-            You may add several phone numbers to ensure we can reach you
+            <b-button @click="addPhoneNumber(index)">Agregar otro</b-button>
+            Puede agregar otros número, si tiene.
         </p>
 
   </div>
@@ -81,9 +81,13 @@
 
 <div style="text-align:center; padding-top: 2em;">
     
-    <p style="padding-bottom: 2em;">Puede agregar contactos vinculados con el estudiante. Estos </p>
+    <p style="padding-bottom: 2em;">Los estudiantes menores de edad tienen que agregar el contacto de su representante. Puede agregar varios contactos aqui (por ejemplo, padre y madre).</p>
 
-    <b-button type="is-info" @click="addContact()">Add contact</b-button>
+    <p style="padding-bottom: 2em;">Si desea, puede agregar los datos de una persona que podemos contactar en caso de emergencia.</p>
+
+    <p style="padding-bottom: 2em;">Si desea la factura con otros datos, por favor agregar un contacto en este espacio también.</p>
+
+    <b-button type="is-info" @click="addContact()">Agregar contacto</b-button>
 
     <b-button type="is-primary" @click="validateBeforeSubmit()">Siguiente</b-button>
 </div>
@@ -126,7 +130,7 @@ export default {
                 firstname: null,
                 lastname: null,
                 email: null,
-                idnumber_type: 'cedula',
+                idnumber_type: 'cédula',
                 cedula_check: null,
                 idnumber: null,
                 address: null,
@@ -152,7 +156,7 @@ export default {
                 this.updateData()
             } else {
                 this.$buefy.toast.open({
-                    message: 'Form is not valid! Please check the fields.',
+                    message: 'El formulario no esta completo! Por favor verifique los campos en rojo.',
                     type: 'is-danger',
                     position: 'is-bottom'
                 })

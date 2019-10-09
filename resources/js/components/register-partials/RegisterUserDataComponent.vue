@@ -2,49 +2,49 @@
 <div>
 
 <ValidationObserver ref="observer" v-slot="{ valid }">
-    <b-field label="First Name">
+    <b-field label="Nombres">
     <ValidationProvider name="nombres" rules="required" v-slot="{ errors }">
     <b-input v-model="formdata.firstname" placeholder="Nombres" required></b-input>
     <p class="help is-danger">{{ errors[0] }}</p>
     </ValidationProvider>
     </b-field>
 
-    <b-field label="Last Name">
-        <ValidationProvider name="appellidos" rules="required" v-slot="{ errors }">
+    <b-field label="Apellidos">
+        <ValidationProvider name="apellidos" rules="required" v-slot="{ errors }">
         <b-input v-model="formdata.lastname" placeholder="Apellidos" required></b-input>
         <p class="help is-danger">{{ errors[0] }}</p>
         </ValidationProvider>
     </b-field>
 
-    <b-field label="Email">
-        <ValidationProvider name="correo electronico" rules="required|email" v-slot="{ errors }">
-        <b-input type="email" v-model="formdata.email" placeholder="Correo electronico" required></b-input>
+    <b-field label="Correo electrónico">
+        <ValidationProvider name="correo electrónico" rules="required|email" v-slot="{ errors }">
+        <b-input type="email" v-model="formdata.email" placeholder="Correo electrónico" required></b-input>
         <p class="help is-danger">{{ errors[0] }}</p>
         </ValidationProvider>
     </b-field>
 
-    <b-field label="Documento de identificacion">
+    <b-field label="Documento de identificación">
         <div class="block">
             <b-radio v-model="formdata.idnumber_type" native-value="cedula">Cédula</b-radio>
             <b-radio v-model="formdata.idnumber_type" native-value="passport">Pasaporte</b-radio>
         </div>
     </b-field>
 
-    <b-field v-if="formdata.idnumber_type == 'cedula'" label="Numero de cédula">
-        <ValidationProvider name="cédula" rules="required|cedula|length:10" v-slot="{ errors }">
+    <b-field v-if="formdata.idnumber_type == 'cedula'" label="Número de cédula">
+        <ValidationProvider name="número de cédula" rules="required|cedula|length:10" v-slot="{ errors }">
         <b-input v-model="formdata.idnumber"></b-input>
         <p class="help is-danger">{{ errors[0] }}</p>
         </ValidationProvider>
     </b-field>
 
-    <b-field v-if="formdata.idnumber_type == 'passport'" rules="required" label="Numero de pasaporte">
-        <ValidationProvider name="pasaporte" rules="required" v-slot="{ errors }">
+    <b-field v-if="formdata.idnumber_type == 'passport'" rules="required" label="Número de pasaporte">
+        <ValidationProvider name="número de pasaporte" rules="required" v-slot="{ errors }">
         <b-input v-model="formdata.idnumber" maxlength="12"></b-input>
         <p class="help is-danger">{{ errors[0] }}</p>
         </ValidationProvider>
     </b-field>
 
-    <b-field label="Password">
+    <b-field label="Contraseña">
         <ValidationProvider name="contraseña" rules="required|min:6" v-slot="{ errors }">
         <b-input v-model="formdata.password" type="password" password-reveal></b-input>
         <p class="help is-danger">{{ errors[0] }}</p>
@@ -103,7 +103,7 @@ export default {
                 //this.updateData()
             } else {
                 this.$buefy.toast.open({
-                    message: 'Form is not valid! Please check the fields.',
+                    message: 'El formulario no esta completo! Por favor verifique los campos en rojo.',
                     type: 'is-danger',
                     position: 'is-bottom'
                 })
@@ -130,7 +130,7 @@ export default {
                 this.updateData()
             } else {
                 this.$buefy.toast.open({
-                    message: 'Ya existe una cuenta registrada con este correo electronico',
+                    message: 'Ya existe una cuenta registrada con este correo electrónico',
                     type: 'is-danger',
                     position: 'is-bottom'
                 })

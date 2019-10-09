@@ -2,11 +2,11 @@
 <div>
 <ValidationObserver ref="observer" v-slot="{ valid }">
 
-    <b-field label="Select a date">
+    <b-field label="Fecha de nacimiento">
         <ValidationProvider name="fecha de nacimiento" rules="required" v-slot="{ errors }">
         <b-datepicker
             :show-week-number=false
-            placeholder="Click to select..."
+            placeholder="Haz click para seleccionar"
             icon="calendar-today"
             v-model="formdata.birthdate">
         </b-datepicker>
@@ -15,33 +15,33 @@
     </b-field>
  
     
-    <b-field label="Address">
-        <ValidationProvider name="direccion" rules="required" v-slot="{ errors }">
-        <b-input v-model="formdata.address" placeholder="Direccion"></b-input>
+    <b-field label="Dirección">
+        <ValidationProvider name="dirección" rules="required" v-slot="{ errors }">
+        <b-input v-model="formdata.address" placeholder="Dirección"></b-input>
         <p class="help is-danger">{{ errors[0] }}</p>
         </ValidationProvider>
     </b-field>
 
-    <p class="label">Phone Numbers</p>
+    <p class="label">Número de teléfono</p>
 
-        <b-field :label="'Phone Number #'+(index + 1)" grouped label-position="on-border" v-for="(number, index) in formdata.phonenumbers" v-bind:key="index">
-            <ValidationProvider name="telefono" rules="required" v-slot="{ errors }">
+        <b-field :label="'Teléfono #'+(index + 1)" grouped label-position="on-border" v-for="(number, index) in formdata.phonenumbers" v-bind:key="index">
+            <ValidationProvider name="número de teléfono" rules="required" v-slot="{ errors }">
             <b-input v-model="number.number" placeholder="Number"></b-input>
             <p class="control">
-                <b-button v-if="index > 0" @click="dropPhoneNumber(index)">Delete</b-button>
+                <b-button v-if="index > 0" @click="dropPhoneNumber(index)">Eliminar</b-button>
             </p>
              <p class="help is-danger">{{ errors[0] }}</p>
             </ValidationProvider>
         </b-field>
    
     <p>
-        <b-button @click="addPhoneNumber()">Add</b-button>
-        You may add several phone numbers to ensure we can reach you
+        <b-button @click="addPhoneNumber()">Agregar otro</b-button>
+        Si tiene otros números, los puede agregar también.
     </p>
 
 
-    <b-field label="Profesion">
-        <ValidationProvider name="profesion" rules="required" v-slot="{ errors }">
+    <b-field label="Profesión">
+        <ValidationProvider name="profesión" rules="required" v-slot="{ errors }">
         <b-input
             v-model="formdata.profession"
             placeholder="e.g. estudiante, médico...">
@@ -50,8 +50,8 @@
         </ValidationProvider>
     </b-field>
 
-    <b-field label="Institucion">
-    <ValidationProvider name="institucion" rules="required" v-slot="{ errors }">
+    <b-field label="Institución">
+    <ValidationProvider name="institución" rules="required" v-slot="{ errors }">
         <b-input
             v-model="formdata.institution"
             placeholder="e.g. Universidad de Cuenca">
@@ -116,7 +116,7 @@ export default {
                 this.updateData()
             } else {
                 this.$buefy.toast.open({
-                    message: 'Form is not valid! Please check the fields.',
+                    message: 'El formulario no esta completo! Por favor verifique los campos en rojo.',
                     type: 'is-danger',
                     position: 'is-bottom'
                 })

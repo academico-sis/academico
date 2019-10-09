@@ -49,11 +49,15 @@ export default {
         
     created() {
         window.addEventListener('beforeunload', (event) => {
-            event.returnValue = `Are you sure you want to leave?`;
+            event.returnValue = `Los datos no seran guardados al salir de esta pagina`;
         });
 
         EventBus.$on("moveToNextStep", () => {
             this.activeStep += 1
+        });
+
+        EventBus.$on("goBackToStep", (step) => {
+            this.activeStep = step
         });
     },
     
