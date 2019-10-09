@@ -27,10 +27,12 @@
     "@fullcalendar/core": "^4.2.0",
     "@fullcalendar/daygrid": "^4.2.0",
     "@fullcalendar/resource-timegrid": "^4.2.0",
+    "buefy": "^0.8.5",
     "chart.js": "^2.8.0",
     "fullcalendar-scheduler": "^4.0.0-alpha.4",
     "moment": "^2.24.0",
     "npm": "^6.10.0",
+    "vee-validate": "^3.0.11",
     "vue-moment": "^4.0.0"
   }
 }
