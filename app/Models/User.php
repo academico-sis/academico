@@ -46,9 +46,9 @@ class User extends Authenticatable
 
             Student::where('user_id', $user->id)->delete();
             Teacher::where('user_id', $user->id)->delete();
-
+            $user->email = "deleted_id_".$user->id."_".$user->email;
+            $user->save();
             
-
         });
 
     }
