@@ -33,6 +33,14 @@
 </template>
 
 <script>
+
+import Vue from 'vue'
+import Buefy from 'buefy'
+import 'buefy/dist/buefy.css'
+
+Vue.use(Buefy)
+
+
 import { store } from '../store.js';
 import { EventBus } from '../eventBus.js';
 

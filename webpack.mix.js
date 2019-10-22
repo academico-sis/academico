@@ -12,8 +12,6 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
-   .sass('resources/sass/app.scss', 'public/css');
-mix.copy('node_modules/fullcalendar/dist/fullcalendar.min.css', 'public/css/fullcalendar.min.css');
-mix.copy('node_modules/fullcalendar/dist/fullcalendar.min.js', 'public/js/fullcalendar.min.js');
-mix.copy('node_modules/fullcalendar-scheduler/dist/scheduler.min.js', 'public/js/scheduler.min.js');
-mix.copy('node_modules/fullcalendar-scheduler/dist/scheduler.min.css', 'public/css/scheduler.min.css');
+   .sass('resources/sass/app.scss', 'public/css')
+   .copy('node_modules/fullcalendar', 'public/fullcalendar')
+   .copy('node_modules/fullcalendar-scheduler', 'public/fullcalendar-scheduler');
