@@ -1,8 +1,7 @@
 require('./bootstrap');
 
-import Vue from 'vue'
-
 window.Vue = require('vue');
+
 Vue.use(require('vue-moment'));
 
 import { ValidationProvider } from 'vee-validate';

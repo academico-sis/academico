@@ -1,11 +1,15 @@
 @extends('backpack::layout')
 
 @section('after_styles')
-<link rel='stylesheet' href='/css/fullcalendar.min.css' />
-<link rel='stylesheet' href='/css/scheduler.min.css' />
+<link href='/fullcalendar/core/main.css' rel='stylesheet' />
+<link href='/fullcalendar/timeline/main.css' rel='stylesheet' />
+<link href='/fullcalendar/resource-timeline/main.css' rel='stylesheet' />
 
-<script src='/js/fullcalendar.min.js'></script>
-<script src='/js/scheduler.min.js'></script>
+<script src='/fullcalendar/core/main.js'></script>
+<script src='/fullcalendar/timeline/main.js'></script>
+<script src='/fullcalendar/resource-common/main.js'></script>
+<script src='/fullcalendar/resource-timeline/main.js'></script>
+<script src='/fullcalendar/interaction/main.js'></script>
 
 @endsection
 
@@ -23,7 +27,7 @@
 
 
 @section('content')
-    <div class="row">
+    <div class="row" id="app">
 
         <div class="col-md-12">
             <div class="box">
@@ -55,7 +59,8 @@ document.addEventListener('DOMContentLoaded', function() { // page is now ready.
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
         schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
-        defaultView: 'timelineWeek',
+        plugins: [ 'resourceTimeline', 'interaction' ],
+        defaultView: 'resourceTimelineWeek',
         resources: <?php echo json_encode($resources) ?>,
         height: "auto",
         minTime: "06:00:00",
@@ -78,6 +83,8 @@ document.addEventListener('DOMContentLoaded', function() { // page is now ready.
                 textColor: 'white',
             },
         ],
+
+        editable:true,
         
         eventDrop: function(info) {
             axios.patch(window.location.href, {
@@ -103,5 +110,6 @@ document.addEventListener('DOMContentLoaded', function() { // page is now ready.
 });
 
 </script>
-    <script src="/js/app.js"></script>
+
+<script src="/js/app.js"></script>
 @endsection

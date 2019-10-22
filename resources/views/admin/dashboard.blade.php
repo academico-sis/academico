@@ -2,11 +2,18 @@
 
 
 @section('after_styles')
-<link rel='stylesheet' href='/css/fullcalendar.min.css' />
-<link rel='stylesheet' href='/css/scheduler.min.css' />
+<link href='/fullcalendar/core/main.css' rel='stylesheet' />
+<link href='/fullcalendar/timegrid/main.css' rel='stylesheet' />
+<link href='/fullcalendar/daygrid/main.css' rel='stylesheet' />
 
-<script src='/js/fullcalendar.min.js'></script>
-<script src='/js/scheduler.min.js'></script>
+<script src='/fullcalendar/core/main.js'></script>
+<script src='/fullcalendar/daygrid/main.js'></script>
+<script src='/fullcalendar/timegrid/main.js'></script>
+<script src='/fullcalendar/resource-common/main.js'></script>
+<script src='/fullcalendar/resource-daygrid/main.js'></script>
+<script src='/fullcalendar/resource-timegrid/main.js'></script>
+
+
 
 @endsection
 
@@ -29,7 +36,7 @@
 @include('reports.insights')
 
 
-    <div class="row">
+    <div class="row" id="app">
 
 
         @if($unassigned_teacher->count() > 0 && backpack_user()->can('hr.manage'))
@@ -143,7 +150,8 @@ document.addEventListener('DOMContentLoaded', function() { // page is now ready.
     var calendarEl = document.getElementById('calendar'); // grab element reference
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
-        defaultView: 'agendaDay',
+        plugins: [ 'dayGrid', 'resourceTimeGrid' ],
+        defaultView: 'resourceTimeGridDay',
         schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
         resources: <?php echo json_encode($resources) ?>,
         height: "auto",
@@ -159,5 +167,4 @@ document.addEventListener('DOMContentLoaded', function() { // page is now ready.
 });
 
 </script>
-    <script src="/js/app.js"></script>
 @endsection
