@@ -1,4 +1,6 @@
 /node_modules
+/public/js
+/public/css
 /public/hot
 /public/storage
 /storage
