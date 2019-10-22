@@ -1,8 +1,13 @@
 @extends('backpack::layout')
 
 @section('after_styles')
-<link rel='stylesheet' href='/css/fullcalendar.min.css' />
-<script src='/js/fullcalendar.min.js'></script>
+<link href='/fullcalendar/core/main.css' rel='stylesheet' />
+<link href='/fullcalendar/daygrid/main.css' rel='stylesheet' />
+<link href='/fullcalendar/timegrid/main.css' rel='stylesheet' />
+
+<script src='/fullcalendar/core/main.js'></script>
+<script src='/fullcalendar/daygrid/main.js'></script>
+<script src='/fullcalendar/timegrid/main.js'></script>
 
 @endsection
 
@@ -52,7 +57,8 @@ document.addEventListener('DOMContentLoaded', function() { // page is now ready.
 var calendarEl = document.getElementById('calendar'); // grab element reference
 
 var calendar = new FullCalendar.Calendar(calendarEl, {
-    defaultView: 'agendaWeek',
+    plugins: [ 'timeGrid' ],
+    defaultView: 'timeGridWeek',
     minTime: "06:00:00",
     maxTime: "23:00:00",
     nowIndicator: true,
