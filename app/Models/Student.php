@@ -137,7 +137,6 @@ class Student extends Model implements HasMedia
     public function getFirstnameAttribute()
     {
         if ($this->user) {
-        
             return $this->user->firstname;
         }
     }
@@ -209,5 +208,24 @@ class Student extends Model implements HasMedia
         $this->lead_type_id = 1; // converted
         $this->save();
         return $enrollment->id;
+    }
+
+    /** SETTERS */
+    public function setFirstnameAttribute($value)
+    {   
+        $this->user->firstname = $value;
+        $this->user->save();
+    }
+
+    public function setLastnameAttribute($value)
+    {
+        $this->user->lastname = $value;
+        $this->user->save();
+    }
+
+    public function setEmailAttribute($value)
+    {
+        $this->user->email = $value;
+        $this->user->save();
     }
 }

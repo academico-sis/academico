@@ -42,7 +42,7 @@ class StudentCrudController extends CrudController
         $this->crud->allowAccess('show');
         $this->crud->denyAccess('create');
         $this->crud->denyAccess('store');
-        $this->crud->denyAccess('update');
+        //$this->crud->denyAccess('update');
 
         //$this->crud->addClause('student');
 
@@ -77,11 +77,6 @@ class StudentCrudController extends CrudController
                           ->orWhere('lastname', 'like', '%'.$searchTerm.'%');
                     });
                 }
-            ],
-            [
-                'name'  => 'email',
-                'label' => trans('backpack::permissionmanager.email'),
-                'type'  => 'text',
             ],
 
             [
@@ -166,12 +161,12 @@ class StudentCrudController extends CrudController
 
         // Fields
         $this->crud->addFields([
-            [  // Select2
+            [
                 'label' => trans('firstname'),
                 'type' => 'text',
                 'name' => 'firstname'
             ],
-            [  // Select2
+            [
                 'label' => trans('lastname'),
                 'type' => 'text',
                 'name' => 'lastname'
@@ -209,6 +204,15 @@ class StudentCrudController extends CrudController
             'lead_types' => LeadType::all(),
             'attendances' => $student->periodAttendance()->get()
         ]);
+    }
+
+    public function update(Request $request)
+    {
+        // your additional operations before save here
+        $redirect_location = parent::updateCrud($request);
+        // your additional operations after save here
+        // use $this->data['entry'] or $this->crud->entry
+        return $redirect_location;
     }
 
 

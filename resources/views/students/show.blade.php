@@ -30,12 +30,11 @@
                 </div>
                 <div class="box-tools pull-right">
 
-                    {{-- todo allow edition of student data by secretary --}}
-{{--                     @if(backpack_user()->can('enrollments.edit'))
+                    @if(backpack_user()->can('enrollments.edit'))
                         <a class="btn btn-xs btn-warning" href="/student/{{$student->id}}/edit">
                             <i class="fa fa-edit"></i>
                         </a>
-                    @endif --}}
+                    @endif
 
                     @if(backpack_user()->can('enrollments.edit'))
                         <a class="btn btn-xs btn-primary" data-toggle="modal" data-target="#userDataModal">
