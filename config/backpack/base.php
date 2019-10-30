@@ -19,13 +19,13 @@ return [
     'logo_mini' => '<b>AF</b>C',
 
     // Developer or company name. Shown in footer.
-    //'developer_name' => 'Laxsmi Apps',
+    'developer_name' => 'AFC Academico',
 
     // Developer website. Link in footer.
-    //'developer_link' => 'https://laxsmi.github.io/',
+    'developer_link' => 'https://academico.afcuenca.org.ec/',
 
     // Show powered by Laravel Backpack in the footer?
-    'show_powered_by' => false,
+    'show_powered_by' => true,
 
     // The AdminLTE skin. Affects menu color and primary/secondary colors used throughout the application.
     'skin' => env('APP_COLOR', 'skin-red'),
