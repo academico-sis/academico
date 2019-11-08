@@ -1,4 +1,4 @@
-@extends('backpack::layout')
+@extends('backpack::blank')
 
 @section('after_styles')
 <link href='/fullcalendar/core/main.css' rel='stylesheet' />

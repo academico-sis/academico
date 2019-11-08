@@ -1,4 +1,4 @@
-@extends('backpack::layout')
+@extends('backpack::blank')
 
 @section('header')
 <section class="content-header">
@@ -42,6 +42,7 @@
     @push('crud_fields_scripts')
     <!-- include select2 js-->
     <script src="{{ asset('vendor/adminlte/bower_components/select2/dist/js/select2.min.js') }}"></script>
+    <!-- TODO FIXME BP4 NEED TO GET RID OF THIS -->
     @endpush
 
 

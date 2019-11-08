@@ -1,4 +1,4 @@
-@extends('backpack::layout')
+@extends('backpack::blank')
 
 @section('header')
     <section class="container-fluid">

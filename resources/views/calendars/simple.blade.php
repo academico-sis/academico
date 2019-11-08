@@ -1,4 +1,4 @@
-@extends('backpack::layout')
+@extends('backpack::blank')
 
 @section('after_styles')
 <link href='/fullcalendar/core/main.css' rel='stylesheet' />
@@ -16,10 +16,6 @@
 	  <h2>
         {{ trans('backpack::base.dashboard') }}
       </h2>
-      <ol class="breadcrumb">
-        <li><a href="{{ backpack_url() }}">{{ config('backpack.base.project_name') }}</a></li>
-        <li class="active">{{ trans('backpack::base.dashboard') }}</li>
-      </ol>
     </section>
 @endsection
 
