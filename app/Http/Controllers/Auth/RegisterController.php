@@ -14,7 +14,7 @@ use App\Models\PhoneNumber;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-class RegisterController extends \Backpack\Base\app\Http\Controllers\Auth\RegisterController
+class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\RegisterController
 {
 
     public function checkEmailUnicity(Request $request)
