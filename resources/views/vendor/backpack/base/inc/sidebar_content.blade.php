@@ -69,7 +69,6 @@
         <li class='nav-item'><a class='nav-link' href="{{ backpack_url('teacher') }}"><i class="nav-icon fa fa-user"></i> <span>@lang('Teachers')</span></a></li>
         <li class='nav-item'><a class='nav-link' href="{{ backpack_url('role') }}"><i class="nav-icon fa fa-group"></i> <span>@lang('Roles')</span></a></li>
         <li class='nav-item'><a class='nav-link' href="{{ backpack_url('permission') }}"><i class="nav-icon fa fa-key"></i> <span>@lang('Permissions')</span></a></li>
-        <li class='nav-item'><a class='nav-link' href='{{ route("log-viewer::logs.list")}}'><i class='fa fa-history'></i> <span>Logs</span></a></li>
       </ul>
     </li>
 
