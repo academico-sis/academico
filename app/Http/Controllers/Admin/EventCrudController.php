@@ -121,11 +121,17 @@ class EventCrudController extends CrudController
           false,
           function($value) { // if the filter is active, apply these constraints
             $dates = json_decode($value);
-            CRUD::addClause('where', 'start', '>=', $dates->from);
-            CRUD::addClause('where', 'start', '<=', $dates->to . ' 23:59:59');
+
+            if ($dates->from) {
+                CRUD::addClause('where', 'start', '>=', $dates->from);
+            }
+            if ($dates->to) {
+                CRUD::addClause('where', 'start', '<=', $dates->to . ' 23:59:59');
+            }
+
           });
 
-          CRUD::addFilter([ // daterange filter
+          CRUD::addFilter([
             'type' => 'simple',
             'name' => 'orphan',
             'label'=> __('Events with no course')
@@ -133,6 +139,16 @@ class EventCrudController extends CrudController
           false,
           function($value) { // if the filter is active, apply these constraints
             $this->crud->query->where('course_id', null);
+          });
+
+          CRUD::addFilter([
+            'type' => 'simple',
+            'name' => 'unassigned',
+            'label'=> __('Events with no teacher')
+          ],
+          false,
+          function($value) { // if the filter is active, apply these constraints
+            $this->crud->query->where('teacher_id', null);
           });
 
           CRUD::addFilter([ // select2 filter

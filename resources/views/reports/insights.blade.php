@@ -1,6 +1,6 @@
 <div class="row">
 
-<div class="col-sm-6 col-md-2">
+<div class="col-sm-6 col-md-3">
     <div class="card">
         <div class="card-body">
             <div class="h1 text-muted text-right mb-4"><i class="fa fa-calendar"></i></div>
@@ -9,7 +9,7 @@
     </div>
 </div>
 
-<div class="col-sm-6 col-md-2">
+<div class="col-sm-6 col-md-3">
     <div class="card">
         <div class="card-body">
             <div class="h1 text-muted text-right mb-4"><i class="fa fa-star-o"></i></div>
@@ -18,7 +18,7 @@
     </div>
 </div>
 
-<div class="col-sm-6 col-md-2">
+<div class="col-sm-6 col-md-3">
     <div class="card">
         <div class="card-body">
             <div class="h1 text-muted text-right mb-4"><i class="fa fa-star-o"></i></div>
@@ -30,7 +30,7 @@
     </div>
 </div>
 
-<div class="col-sm-6 col-md-2">
+<div class="col-sm-6 col-md-3">
     <div class="card">
         <div class="card-body">
             <div class="h1 text-muted text-right mb-4"><i class="fa fa-user"></i></div>

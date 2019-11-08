@@ -32,31 +32,21 @@
     <div class="row" id="app">
 
 
-        @if($unassigned_teacher->count() > 0 && backpack_user()->can('hr.manage'))
-        <div class="col-md-3">
+        @if($unassigned_events > 0 && backpack_user()->can('hr.manage'))
+        <div class="col-lg-2 col-md-3 col-sm-6">
             <div class="card">
-                <div class="card-header with-border">
-                    <div class="card-title">                          
-                        <strong>@lang('Upcoming classes with no teacher assigned')</strong>
-                    </div>
-                    <div class="card-tools pull-right">
-
+                <div class="card-body p-3 d-flex align-items-center"><i class="fa fa-warning bg-primary p-3 font-2xl mr-3"></i>
+                    <div>
+                        <div class="text-value-sm text-primary">{{ $unassigned_events }}</div>
+                        <div class="text-muted text-uppercase font-weight-bold small">@lang('Upcoming classes with no teacher assigned')</div>
                     </div>
                 </div>
-
-                <div class="card-body">
-                    <ul>
-                        @foreach ($unassigned_teacher as $event)
-                            <li>{{ $event->name }} ({{ $event->start }})</li>
-                        @endforeach
-                    </ul>
-                </div>
+                <div class="card-footer px-3 py-2"><a class="btn-block text-muted d-flex justify-content-between align-items-center" href='event?unassigned=true&from_to={"from"%3A"@php echo date("Y-m-d") @endphp"%2C"to"%3A"@php echo date("Y-m-d", strToTime("+3 day")); @endphp"}'><span class="small font-weight-bold">@lang('View')</span><i class="fa fa-angle-right"></i></a></div>
             </div>
         </div>
         @endif
 
-
-        <div class="col-md-3">
+        <div class="col-lg-2 col-md-3 col-sm-6">
             <div class="card">
                 <div class="card-body p-3 d-flex align-items-center"><i class="fa fa-user bg-primary p-3 font-2xl mr-3"></i>
                     <div>
@@ -68,7 +58,7 @@
             </div>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-lg-2 col-md-3 col-sm-6">
             <div class="card">
                 <div class="card-body p-3 d-flex align-items-center"><i class="fa fa-phone bg-primary p-3 font-2xl mr-3"></i>
                     <div>
@@ -80,7 +70,7 @@
             </div>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-lg-2 col-md-3 col-sm-6">
             <div class="card">
                 <div class="card-body p-3 d-flex align-items-center"><i class="fa fa-check-square bg-primary p-3 font-2xl mr-3"></i>
                     <div>
@@ -92,7 +82,7 @@
             </div>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-lg-2 col-md-3 col-sm-6">
             <div class="card">
                 <div class="card-body p-3 d-flex align-items-center"><i class="fa fa-calendar bg-primary p-3 font-2xl mr-3"></i>
                     <div>
@@ -107,23 +97,17 @@
     </div>
 
     <div class="row">
+    <div class="col-md-12">
 
-        <div class="col-md-12">
-            <div class="box">
-                <div class="box-header with-border">
-                    <div class="box-title">                          
-                        <strong>@lang('resource Calendars')</strong>
-                    </div>
-                    <div class="box-tools pull-right">
-
-                    </div>
-                </div>
-
-                <div class="box-body">
-                    <div id="calendar"></div>
+        <div class="card">
+            <div class="box-body">
+                <div class="chart-wrapper" style="padding: 10px;">
+                        <div id="calendar"></div>
                 </div>
             </div>
         </div>
+    </div>
+    </div>
 
     </div>
 @endsection
