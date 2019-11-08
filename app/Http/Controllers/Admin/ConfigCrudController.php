@@ -20,7 +20,6 @@ class ConfigCrudController extends CrudController
 {
     
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     
     
@@ -34,8 +33,6 @@ class ConfigCrudController extends CrudController
         CRUD::setModel('App\Models\Config');
         CRUD::setRoute(config('backpack.base.route_prefix') . '/config');
         CRUD::setEntityNameStrings('config', 'configs');
-
-        CRUD::denyAccess('delete'); // BP4 remove this
         
         /*
         |--------------------------------------------------------------------------
@@ -49,11 +46,6 @@ class ConfigCrudController extends CrudController
         // add asterisk for fields that are required in ConfigRequest
         CRUD::setRequiredFields(StoreRequest::class, 'create');
         CRUD::setRequiredFields(UpdateRequest::class, 'edit');
-    }
-
-    protected function setupCreateOperation()
-    {
-        CRUD::setValidation(StoreRequest::class);
     }
 
     protected function setupUpdateOperation()

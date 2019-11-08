@@ -50,11 +50,7 @@ class EnrollmentCrudController extends CrudController
 
         CRUD::allowAccess('show');
 
-        CRUD::denyAccess('update'); // BP4 remove
         CRUD::removeButton('delete'); // BP4 check if that works.
-        CRUD::denyAccess('create');  // BP4 remove
-        //CRUD::addClause('parent');
-
 
         if(backpack_user()->hasRole('admin'))
         {

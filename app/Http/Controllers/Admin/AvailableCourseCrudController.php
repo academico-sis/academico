@@ -45,13 +45,8 @@ class AvailableCourseCrudController extends CrudController
         CRUD::setModel('App\Models\Course');
         CRUD::setRoute(config('backpack.base.route_prefix') . '/availablecourse');
         CRUD::setEntityNameStrings(__('available course'), __('available courses'));
-        CRUD::denyAccess('delete'); // BP4 clean these?
-        CRUD::denyAccess('update');
-        CRUD::denyAccess('create');
-        CRUD::denyAccess('show');
         CRUD::addButtonFromView('line', 'enroll', 'enroll', 'end');
         CRUD::addButtonFromView('line', 'children_badge', 'children_badge', 'beginning');
-        
 
         CRUD::setListView('courses.available');
 

@@ -40,7 +40,7 @@ class CommentCrudController extends CrudController
         CRUD::setModel('App\Models\Comment');
         CRUD::setRoute(config('backpack.base.route_prefix') . '/comment');
         CRUD::setEntityNameStrings('comment', 'comments');
-        CRUD::denyAccess('create'); // BP4 not needed anymore
+
         /*
         |--------------------------------------------------------------------------
         | CrudPanel Configuration

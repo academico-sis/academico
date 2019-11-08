@@ -49,8 +49,6 @@ class ResultCrudController extends CrudController
         CRUD::setEntityNameStrings('result', 'results');
 
         //CRUD::denyAccess('update');
-        CRUD::denyAccess('delete'); // BP4 remove
-        CRUD::denyAccess('create');  // BP4 remove
         CRUD::allowAccess('show');  // BP4 use operations
         //CRUD::removeAllButtons();
 
