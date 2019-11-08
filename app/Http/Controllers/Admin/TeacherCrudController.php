@@ -10,6 +10,7 @@ use Backpack\CRUD\CrudPanel;
 use App\Http\Requests\TeacherRequest as StoreRequest;
 use App\Http\Requests\TeacherRequest as UpdateRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
  * Class TeacherCrudController
@@ -24,7 +25,6 @@ class TeacherCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 
-    use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
     
     public function setup()
     {

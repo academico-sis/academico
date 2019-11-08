@@ -8,94 +8,127 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    /*
-    |------------
-    | CREATE & UPDATE
-    |------------
-    */
-    // Where do you want to redirect the user by default, after a CRUD entry is saved in the Add or Edit forms?
-    'default_save_action' => 'save_and_back', //options: save_and_back, save_and_edit, save_and_new
+    // --------------------------
+    // Default operation settings
+    // --------------------------
+    'operations' => [
 
-    // When the user chooses "save and back" or "save and new", show a bubble
-    // for the fact that the default save action has been changed?
-    'show_save_action_change' => false, //options: true, false
+        /*
+         * List Operation
+         */
+        'list' => [
+            // Define the size/looks of the content div for all CRUDs
+            // To override per view use $this->crud->setListContentClass('class-string')
+            'contentClass' => 'col-md-12',
 
-    // When using tabbed forms (create & update), what kind of tabs would you like?
-    'tabs_type' => 'horizontal', //options: horizontal, vertical
+            // enable the datatables-responsive plugin, which hides columns if they don't fit?
+            // if not, a horizontal scrollbar will be shown instead
+            'responsiveTable' => true,
 
-    // How would you like the validation errors to be shown?
-    'show_grouped_errors' => true,
-    'show_inline_errors' => true,
+            // stores pagination and filters in localStorage for two hours
+            // whenever the user tries to see that page, backpack loads the previous pagination and filtration
+            'persistentTable' => true,
 
-    // Here you may override the css-classes for the content section of the create view globally
-    // To override per view use $this->crud->setCreateContentClass('class-string')
-    'create_content_class' => 'col-md-8 col-md-offset-2',
+            // How many items should be shown by default by the Datatable?
+            // This value can be overwritten on a specific CRUD by calling
+            // $this->crud->setDefaultPageLength(50);
+            'defaultPageLength' => 10,
 
-    // Here you may override the css-classes for the content section of the edit view globally
-    // To override per view use $this->crud->setEditContentClass('class-string')
-    'edit_content_class'   => 'col-md-8 col-md-offset-2',
+            // A 1D array of options which will be used for both the displayed option and the value, or
+            // A 2D array in which the first array is used to define the value options and the second array the displayed options
+            // If a 2D array is used, strings in the right hand array will be automatically run through trans()
+            'pageLengthMenu' => [[10, 25, 50, 100, -1], [10, 25, 50, 100, 'backpack::crud.all']],
 
-    // Here you may override the css-classes for the content section of the revisions timeline view globally
-    // To override per view use $this->crud->setRevisionsTimelineContentClass('class-string')
-    'revisions_timeline_content_class'   => 'col-md-10 col-md-offset-1',
+            // How important is it for the action buttons to be visible?
+            // - 0 - most important
+            // - 1 - as important as bulk buttons
+            // - 2-3 - more important than the rest of the columns
+            // - 4 - less important than most columns
+            'actionsColumnPriority' => 1,
+        ],
 
-    /*
-    |------------
-    | READ
-    |------------
-    */
+        /*
+         * Create Operation
+         */
+        'create' => [
+            // Define the size/looks of the content div for all CRUDs
+            // To override per view use $this->crud->setCreateContentClass('class-string')
+            'contentClass' => 'col-md-8 bold-labels',
 
-    // LIST VIEW (table view)
+            // When using tabbed forms (create & update), what kind of tabs would you like?
+            'tabsType' => 'horizontal', //options: horizontal, vertical
 
-    // enable the datatables-responsive plugin, which hides columns if they don't fit?
-    // if not, a horizontal scrollbar will be shown instead
-    'responsive_table' => true,
+            // How would you like the validation errors to be shown?
+            'groupedErrors' => true,
+            'inlineErrors'  => true,
 
-    // stores pagination and filters in localStorage for two hours
-    // whenever the user tries to see that page, backpack loads the previous pagination and filtration
-    'persistent_table' => false,
+            // when the page loads, put the cursor on the first input?
+            'autoFocusOnFirstField' => true,
 
-    // How many items should be shown by default by the Datatable?
-    // This value can be overwritten on a specific CRUD by calling
-    // $this->crud->setDefaultPageLength(50);
-    'default_page_length' => 50,
+            // Where do you want to redirect the user by default, save?
+            // options: save_and_back, save_and_edit, save_and_new
+            'defaultSaveAction' => 'save_and_back',
 
-    // A 1D array of options which will be used for both the displayed option and the value, or
-    // A 2D array in which the first array is used to define the value options and the second array the displayed options
-    // If a 2D array is used, strings in the right hand array will be automatically run through trans()
-    'page_length_menu' => [[25, 50, 100, -1], [25, 50, 100, 'backpack::crud.all']],
+            // When the user chooses "save and back" or "save and new", show a bubble
+            // for the fact that the default save action has been changed?
+            'showSaveActionChange' => true, //options: true, false
+        ],
 
-    // Here you may override the css-class for the content section of the list view globally
-    // To override per view use $this->crud->setListContentClass('class-string')
-    'list_content_class' => 'col-md-12',
+        /*
+         * Update Operation
+         */
+        'update' => [
+            // Define the size/looks of the content div for all CRUDs
+            // To override per view use $this->crud->setEditContentClass('class-string')
+            'contentClass'   => 'col-md-8 bold-labels',
 
-    // SHOW (PREVIEW)
+            // When using tabbed forms (create & update), what kind of tabs would you like?
+            'tabsType' => 'horizontal', //options: horizontal, vertical
 
-    // Here you may override the css-classes for the content section of the show view globally
-    // To override per view use $this->crud->setShowContentClass('class-string')
-    'show_content_class'   => 'col-md-8 col-md-offset-2',
+            // How would you like the validation errors to be shown?
+            'groupedErrors' => true,
+            'inlineErrors'  => true,
 
-    /*
-    |------------
-    | DELETE
-    |------------
-    */
+            // when the page loads, put the cursor on the first input?
+            'autoFocusOnFirstField' => true,
 
-    /*
-    |------------
-    | REORDER
-    |------------
-    */
+            // Where do you want to redirect the user by default, save?
+            // options: save_and_back, save_and_edit, save_and_new
+            'defaultSaveAction' => 'save_and_back',
 
-    // Here you may override the css-classes for the content section of the reorder view globally
-    // To override per view use $this->crud->setReorderContentClass('class-string')
-    'reorder_content_class'   => 'col-md-8 col-md-offset-2',
+            // When the user chooses "save and back" or "save and new", show a bubble
+            // for the fact that the default save action has been changed?
+            'showSaveActionChange' => true, //options: true, false
+        ],
 
-    /*
-    |------------
-    | DETAILS ROW
-    |------------
-    */
+        /*
+         * Show Operation
+         */
+        'show' => [
+            // Define the size/looks of the content div for all CRUDs
+            // To override per Controller use $this->crud->setShowContentClass('class-string')
+            'contentClass' => 'col-md-8',
+        ],
+
+        /*
+         * Reorder Operation
+         */
+        'reorder' => [
+            // Define the size/looks of the content div for all CRUDs
+            // To override per Controller use $this->crud->setReorderContentClass('class-string')
+            'contentClass'   => 'col-md-8 col-md-offset-2',
+        ],
+
+        /*
+         * Revisions Operation
+         */
+        'revisions' => [
+            // Define the size/looks of the content div for all CRUDs
+            // To override per view use $this->crud->setRevisionsTimelineContentClass('class-string')
+            'timelineContentClass' => 'col-md-12',
+        ],
+
+    ],
 
     /*
     |-------------------
@@ -103,7 +136,7 @@ return [
     |-------------------
     */
 
-    'show_translatable_field_icon' => true,
+    'show_translatable_field_icon'     => true,
     'translatable_field_icon_position' => 'right', // left or right
 
     'locales' => [
@@ -313,7 +346,7 @@ return [
         // "ga" => "Irish",
         // "it_IT" => "Italian (Italy)",
         // "it_CH" => "Italian (Switzerland)",
-        'it' => 'Italian',
+        // 'it' => 'Italian',
         // "ja_JP" => "Japanese (Japan)",
         // "ja" => "Japanese",
         // "kea_CV" => "Kabuverdianu (Cape Verde)",
@@ -418,7 +451,7 @@ return [
         // "pa" => "Punjabi",
         // "ro_MD" => "Romanian (Moldova)",
         // "ro_RO" => "Romanian (Romania)",
-        'ro' => 'Romanian',
+        // 'ro' => 'Romanian',
         // "rm_CH" => "Romansh (Switzerland)",
         // "rm" => "Romansh",
         // "rof_TZ" => "Rombo (Tanzania)",
@@ -467,7 +500,7 @@ return [
         // "es_CO" => "Spanish (Colombia)",
         // "es_CR" => "Spanish (Costa Rica)",
         // "es_DO" => "Spanish (Dominican Republic)",
-        // "es_EC" => "Spanish (Ecuador)",
+        "es_EC" => "Spanish (Ecuador)",
         // "es_SV" => "Spanish (El Salvador)",
         // "es_GQ" => "Spanish (Equatorial Guinea)",
         // "es_GT" => "Spanish (Guatemala)",
@@ -483,7 +516,7 @@ return [
         // "es_US" => "Spanish (United States)",
         // "es_UY" => "Spanish (Uruguay)",
         // "es_VE" => "Spanish (Venezuela)",
-        // "es" => "Spanish",
+        "es" => "Spanish",
         // "sw_KE" => "Swahili (Kenya)",
         // "sw_TZ" => "Swahili (Tanzania)",
         // "sw" => "Swahili",

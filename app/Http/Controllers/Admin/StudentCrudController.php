@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use App\Http\Requests\UserStoreCrudRequest as StoreRequest;
 use App\Http\Requests\UserUpdateCrudRequest as UpdateRequest;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 class StudentCrudController extends CrudController
 {
@@ -18,7 +19,6 @@ class StudentCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 
-    use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
     public function __construct()
     {
@@ -112,7 +112,7 @@ class StudentCrudController extends CrudController
               return Period::all()->pluck('name', 'id')->toArray();
           }, function($values) { // if the filter is active
               foreach (json_decode($values) as $key => $value) {
-                  CRUD::query = CRUD::query->whereHas('enrollments', function ($query) use ($value) {
+                $this->crud->query = $this->crud->query->whereHas('enrollments', function ($query) use ($value) {
                     return $query->whereHas('course', function ($q) use ($value) {
                         $q->where('period_id', $value);
                     });
@@ -130,7 +130,7 @@ class StudentCrudController extends CrudController
               return Period::all()->pluck('name', 'id')->toArray();
           }, function($values) { // if the filter is active
               foreach (json_decode($values) as $key => $value) {
-                  CRUD::query = CRUD::query->whereDoesntHave('enrollments', function ($query) use ($value) {
+                $this->crud->query = $this->crud->query->whereDoesntHave('enrollments', function ($query) use ($value) {
                     return $query->whereHas('course', function ($q) use ($value) {
                         $q->where('period_id', $value);
                     });

@@ -7,6 +7,7 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 // VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\SkillTypeRequest as StoreRequest;
 use App\Http\Requests\SkillTypeRequest as UpdateRequest;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
  * Class SkillTypeCrudController
@@ -21,7 +22,6 @@ class SkillTypeCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 
-    use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
     
     public function setup()
     {

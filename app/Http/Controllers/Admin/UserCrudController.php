@@ -7,6 +7,7 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 use App\Http\Requests\UserStoreCrudRequest as StoreRequest;
 use App\Http\Requests\UserUpdateCrudRequest as UpdateRequest;
 use Illuminate\Http\Request;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 class UserCrudController extends CrudController
 {
@@ -16,7 +17,6 @@ class UserCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 
-    use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
     
     public function setup()
     {

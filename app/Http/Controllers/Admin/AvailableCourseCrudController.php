@@ -10,6 +10,7 @@ use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
  * Class CourseCrudController
@@ -21,13 +22,13 @@ class AvailableCourseCrudController extends CrudController
 {
 
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD; // BP4 is this needed?
 
-    public function __construct(Request $request)
+    public function __construct()
     {
         parent::__construct();
         $this->middleware(['permission:enrollments.create']);
-        $this->student = Student::find($request->query('student')); // TODO find a better way
+        //$this->student = Student::find($request->query('student')); // TODO find a better way
+        // BP4 removing the previous will break the views
     }
 
     public function setup()
@@ -37,7 +38,7 @@ class AvailableCourseCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        CRUD::student = $this->student;
+        $this->crud->student = $this->student;
         if($this->student == null) {
             abort(404); // todo transform into custom exception
         }
@@ -155,7 +156,7 @@ class AvailableCourseCrudController extends CrudController
           },
           function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
             CRUD::addClause('where', 'campus_id', '1');
-            CRUD::request->request->add(['campus_id' => 1]); // to make the filter look active
+            $this->crud->request->request->add(['campus_id' => 1]); // to make the filter look active
         });
 
         CRUD::addFilter([ // select2 filter
@@ -170,7 +171,7 @@ class AvailableCourseCrudController extends CrudController
           function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
             $period = \App\Models\Period::get_default_period()->id;
             CRUD::addClause('where', 'period_id', $period);
-            CRUD::request->request->add(['period_id' => $period]); // to make the filter look active
+            $this->crud->request->request->add(['period_id' => $period]); // to make the filter look active
         });
 
         CRUD::addFilter([ // select2 filter

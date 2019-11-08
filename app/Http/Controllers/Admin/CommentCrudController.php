@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\CommentRequest as UpdateRequest;
@@ -22,7 +23,6 @@ class CommentCrudController extends CrudController
   use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
   use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 
-  use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
     public function __construct()
     {
@@ -118,7 +118,7 @@ class CommentCrudController extends CrudController
           },
           function() { // if the filter is not active
             CRUD::addClause('where', 'commentable_type', '=', 'App\Models\Student');
-            CRUD::request->request->add(['commentable_type' => 'App\Models\Student']); // to make the filter look active
+            $this->crud->request->request->add(['commentable_type' => 'App\Models\Student']); // to make the filter look active
 
         });
 

@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\CourseRequest as StoreRequest;
 use App\Http\Requests\CourseRequest as UpdateRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
  * Class CourseCrudController
@@ -28,7 +29,6 @@ class CourseCrudController extends CrudController
 
     // BP4 clone operation should be added here.
 
-    use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
     public function __construct()
     {
@@ -240,7 +240,7 @@ class CourseCrudController extends CrudController
           function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
             $period = \App\Models\Period::get_default_period()->id;
             CRUD::addClause('where', 'period_id', $period);
-            CRUD::request->request->add(['period_id' => $period]); // to make the filter look active
+            $this->crud->request->request->add(['period_id' => $period]); // to make the filter look active
         });
 
 

@@ -1,5 +1,5 @@
 @if ($crud->hasAccess('delete') && $entry->enrollments_count == 0)
-	<a href="javascript:void(0)" onclick="deleteEntry(this)" data-route="{{ url($crud->route.'/'.$entry->getKey()) }}" class="btn btn-xs btn-danger" data-button-type="delete"><i class="fa fa-trash"></i></a>
+	<a href="javascript:void(0)" onclick="deleteEntry(this)" data-route="{{ url($crud->route.'/'.$entry->getKey()) }}" class="btn btn-sm btn-link btn-danger" data-button-type="delete"><i class="fa fa-trash"></i></a>
 @endif
 
 <script>

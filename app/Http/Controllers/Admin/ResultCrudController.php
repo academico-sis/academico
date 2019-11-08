@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\ResultRequest as StoreRequest;
 use App\Http\Requests\ResultRequest as UpdateRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
  * Class ResultCrudController
@@ -25,12 +26,9 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 class ResultCrudController extends CrudController
 {
 
-
+    // BP4 check if the store method works or not, and when it is needed
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-    // BP4 check if the store method works or not, and when it is needed
-
-    use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
     
     public function __construct()
     {
@@ -155,7 +153,7 @@ class ResultCrudController extends CrudController
               return ResultType::all()->pluck('name', 'id')->toArray();
           }, function($values) { // if the filter is active
               foreach (json_decode($values) as $key => $value) {
-                  CRUD::query = CRUD::query->whereHas('result', function ($query) use ($value) {
+                $this->crud->query = $this->crud->query->whereHas('result', function ($query) use ($value) {
                       $query->where('result_type_id', $value);
                   });
               }

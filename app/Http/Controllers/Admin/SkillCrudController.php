@@ -9,6 +9,7 @@ use App\Models\Skills\Skill;
 use App\Http\Requests\SkillRequest as StoreRequest;
 use App\Http\Requests\SkillRequest as UpdateRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
  * Class SkillCrudController
@@ -24,7 +25,6 @@ class SkillCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 
-    use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
     public function __construct()
     {

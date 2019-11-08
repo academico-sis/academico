@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\LeaveRequest as StoreRequest;
@@ -21,7 +22,6 @@ class LeaveCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 
-    use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
     
     public function setup()
     {

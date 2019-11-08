@@ -29,7 +29,7 @@ class MyAccountController extends Controller
         $this->data['title'] = trans('backpack::base.my_account');
         $this->data['user'] = $this->guard()->user();
 
-        return view('backpack::auth.account.update_info', $this->data);
+        return view('student.account.update_info', $this->data);
     }
 
 
@@ -63,7 +63,7 @@ class MyAccountController extends Controller
         $this->data['title'] = trans('backpack::base.my_account');
         $this->data['user'] = $this->guard()->user();
 
-        return view('backpack::auth.account.update_student_info', $this->data);
+        return view('student.account.update_student_info', $this->data);
     }
 
     /**
@@ -99,7 +99,7 @@ class MyAccountController extends Controller
         $this->data['title'] = trans('backpack::base.my_account');
         $this->data['user'] = $this->guard()->user();
 
-        return view('backpack::auth.account.update_phone', $this->data);
+        return view('student.account.update_phone', $this->data);
     }
 
     /**
@@ -125,7 +125,7 @@ class MyAccountController extends Controller
         $this->data['title'] = trans('backpack::base.my_account');
         $this->data['user'] = $this->guard()->user();
 
-        return view('backpack::auth.account.update_profession', $this->data);
+        return view('student.account.update_profession', $this->data);
     }
 
     public function postAccountProfessionForm(Request $request)
@@ -167,7 +167,7 @@ class MyAccountController extends Controller
         $this->data['title'] = trans('backpack::base.my_account');
         $this->data['user'] = $this->guard()->user();
 
-        return view('backpack::auth.account.update_photo', $this->data);
+        return view('student.account.update_photo', $this->data);
     }
 
     public function postPhotoForm(Request $request)
@@ -200,7 +200,7 @@ class MyAccountController extends Controller
         $this->data['title'] = trans('backpack::base.my_account');
         $this->data['user'] = $this->guard()->user();
 
-        return view('backpack::auth.account.additional_contacts', $this->data);
+        return view('student.account.additional_contacts', $this->data);
     }
 
     public function postContactsForm()

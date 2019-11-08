@@ -13,6 +13,7 @@ use App\Models\EnrollmentStatusType;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use App\Http\Requests\EnrollmentRequest as StoreRequest;
 use App\Http\Requests\EnrollmentRequest as UpdateRequest;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
  * Class EnrollmentCrudController
@@ -27,7 +28,6 @@ class EnrollmentCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 
-    use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
     public function __construct()
     {
