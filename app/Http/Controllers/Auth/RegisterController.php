@@ -1,8 +1,6 @@
 <?php
 namespace App\Http\Controllers\Auth;
 
-namespace App\Http\Controllers\Auth;
-
 use Validator;
 use Carbon\Carbon;
 use App\Models\User;

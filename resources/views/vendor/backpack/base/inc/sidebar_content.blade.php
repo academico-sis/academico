@@ -1,7 +1,7 @@
 <!-- This file is used to store sidebar items, starting with Backpack\Base 0.9.0 -->
 
 @if(backpack_user()->hasRole(['admin', 'secretary']))
-  <li class="header">@lang('COURSES')</li>
+  <li class="nav-title">@lang('COURSES')</li>
 
   <li class='nav-item'><a class='nav-link' href="{{ url('/') }}"><i class="nav-icon fa fa-book"></i> <span>{{ trans('backpack::base.dashboard') }}</span></a></li>
   <li class='nav-item'><a class='nav-link' href="{{ backpack_url('course') }}"><i class="nav-icon fa fa-book"></i> <span>@lang('Internal Courses')</span></a></li>
@@ -14,14 +14,14 @@
 
 @if(backpack_user()->hasRole(['admin']))
   <li class='nav-item'><a class='nav-link' href="{{ backpack_url('comment') }}"><i class="nav-icon fa fa-pencil"></i> <span>@lang('Comments')</span></a></li>
-  <li class='nav-item'><a class='nav-link' href="{{ backpack_url('/result?hideparents=true') }}"><i class="nav-icon fa fa-percent"></i> <span>@lang('Results')</span></a></li>
+  <li class='nav-item'><a class='nav-link' href="{{ backpack_url('/result?hideparents=true') }}"><i class="nav-icon fa fa-graduation-cap"></i> <span>@lang('Results')</span></a></li>
 
 
 @endif
 
 
 @if(backpack_user()->hasRole(['admin', 'manager']))
-  <li class="header">@lang('HR')</li>
+  <li class="nav-title">@lang('HR')</li>
   <li class='nav-item'><a class='nav-link' href="{{ route('hrDashboard') }}"><i class="nav-icon fa fa-calendar"></i> <span>@lang('HR')</span></a></li>
 
 @endif
@@ -36,11 +36,9 @@
 
 
 @if(backpack_user()->hasRole('admin'))
-  <li class="header">@lang('SETTINGS')</li>
-
-  <li class="treeview">
-    <a class='nav-link' href="#"><i class="nav-icon fa fa-link"></i> <span>@lang('Settings')</span><span class="pull-right-container"><i class="nav-icon fa fa-angle-left pull-right"></i></span></a>
-    <ul class="treeview-menu">
+  <li class="nav-title">@lang('SETTINGS')</li>
+  <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon fa fa-link"></i> <span>@lang('Settings')</span></a>
+    <ul class="nav-dropdown-items">
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('period') }}'><i class='fa fa-calendar'></i> <span>@lang('periods')</span></a></li>
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('level') }}'><i class='fa fa-star'></i> <span>@lang('levels')</span></a></li>
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('room') }}'><i class='fa fa-star'></i> <span>@lang('rooms')</span></a></li>
@@ -52,9 +50,8 @@
     </ul>
   </li>
 
-  <li class="treeview">
-    <a class='nav-link' href="#"><i class="nav-icon fa fa-link"></i> <span>@lang('Invoicing')</span><span class="pull-right-container"><i class="nav-icon fa fa-angle-left pull-right"></i></span></a>
-    <ul class="treeview-menu">
+  <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon fa fa-link"></i> <span>@lang('Invoicing')</span></a>
+    <ul class="nav-dropdown-items">
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('discount') }}'><i class='fa fa-percent'></i> <span>@lang('Discounts')</span></a></li>
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('fee') }}'><i class='fa fa-dollar'></i> <span>@lang('Fees')</span></a></li>
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('paymentmethod') }}'><i class='fa fa-dollar'></i> <span>@lang('Payment methods')</span></a></li>
@@ -62,9 +59,8 @@
   </li>
 
   <!-- Users, Roles Permissions -->
-  <li class="treeview">
-      <a class='nav-link' href="#"><i class="nav-icon fa fa-group"></i> <span>@lang('Users')</span> <i class="nav-icon fa fa-angle-left pull-right"></i></a>
-      <ul class="treeview-menu">
+  <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon fa fa-group"></i> <span>@lang('Users')</span></a>
+      <ul class="nav-dropdown-items">
         <li class='nav-item'><a class='nav-link' href="{{ backpack_url('user') }}"><i class="nav-icon fa fa-user"></i> <span>@lang('Users')</span></a></li>
         <li class='nav-item'><a class='nav-link' href="{{ backpack_url('teacher') }}"><i class="nav-icon fa fa-user"></i> <span>@lang('Teachers')</span></a></li>
         <li class='nav-item'><a class='nav-link' href="{{ backpack_url('role') }}"><i class="nav-icon fa fa-group"></i> <span>@lang('Roles')</span></a></li>
@@ -75,12 +71,11 @@
     <li class='nav-item'><a class='nav-link' href='{{ route('setupHome') }}'><i class='fa fa-gears'></i> <span>@lang('Setup Dashboard')</span></a></li>
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('config') }}'><i class='fa fa-gears'></i> <span>@lang('Internal Settings')</span></a></li>
 
-    <li class="header">@lang('EVALUATION')</li>
+    <li class="nav-title">@lang('EVALUATION')</li>
 
     {{-- EVALUATION METHODS --}}
-    <li class="treeview">
-      <a class='nav-link' href="#"><i class="nav-icon fa fa-link"></i> <span>@lang('Evaluation')</span><span class="pull-right-container"><i class="nav-icon fa fa-angle-left pull-right"></i></span></a>
-      <ul class="treeview-menu">
+    <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon fa fa-link"></i> <span>@lang('Evaluation')</span></a>
+      <ul class="nav-dropdown-items">
           <li class='nav-item'><a class='nav-link' href='{{ backpack_url('evaluationtype') }}'><span>@lang('Evaluation Types')</span></a></li>
           <li class='nav-item'><a class='nav-link' href='{{ backpack_url('gradetype') }}'><span>@lang('Grade Types')</span></a></li>
           <li class='nav-item'><a class='nav-link' href='{{ backpack_url('skill') }}'><span>@lang('Skills')</span></a></li>
@@ -96,10 +91,9 @@
 
 
 @if(backpack_user()->hasRole(['admin', 'secretary']))
-  <li class="header">@lang('CALENDARS')</li>
-  <li class="treeview">
-      <a class='nav-link' href="#"><i class="nav-icon fa fa-group"></i> <span>@lang('teachers')</span> <i class="nav-icon fa fa-angle-left pull-right"></i></a>
-      <ul class="treeview-menu">
+  <li class="nav-title">@lang('CALENDARS')</li>
+  <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon fa fa-group"></i> <span>@lang('teachers')</span></a>
+      <ul class="nav-dropdown-items">
         <li class='nav-item'><a class='nav-link' href="{{ route('teachersCalendar') }}"><i class="nav-icon fa fa-binoculars"></i><span>@lang('Overview')</span></a></li>
         @foreach ($teachers as $teacher)
           <li class='nav-item'><a class='nav-link' href="{{ route('teacherCalendar', ['teacher' => $teacher->id]) }}"><span>{{ $teacher->name }}</span></a></li>
@@ -108,9 +102,8 @@
   </li>
 
 
-  <li class="treeview">
-      <a class='nav-link' href="#"><i class="nav-icon fa fa-building"></i> <span>@lang('rooms')</span> <i class="nav-icon fa fa-angle-left pull-right"></i></a>
-      <ul class="treeview-menu">
+  <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon fa fa-building"></i> <span>@lang('rooms')</span></a>
+      <ul class="nav-dropdown-items">
         <li class='nav-item'><a class='nav-link' href="{{ route('roomsCalendar') }}"><i class="nav-icon fa fa-binoculars"></i><span>@lang('Overview')</span></a></li>
         @foreach ($rooms as $room)
           <li class='nav-item'><a class='nav-link' href="{{ route('roomCalendar', ['room' => $room->id]) }}"><span>{{ $room->name }}</span></a></li>
@@ -122,13 +115,12 @@
 
 @if(backpack_user()->hasRole(['admin', 'manager']))
 
-  <li class="header">@lang('REPORTS')</li>
+  <li class="nav-title">@lang('REPORTS')</li>
 
   <li class='nav-item'><a class='nav-link' href="{{ route('allReports') }}"><i class="nav-icon fa fa-bar-chart"></i> <span>@lang('Overview')</span></a></li>
 
-  <li class="treeview">
-      <a class='nav-link' href="#"><i class="nav-icon fa fa-home"></i> <span>@lang('Internal')</span> <i class="nav-icon fa fa-angle-left pull-right"></i></a>
-      <ul class="treeview-menu">
+  <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon fa fa-home"></i> <span>@lang('Internal')</span></a>
+      <ul class="nav-dropdown-items">
         <li class='nav-item'><a class='nav-link' href="{{ route('homeReport') }}"><i class="nav-icon fa fa-users"></i> <span>@lang('Students')</span></a></li>
         <li class='nav-item'><a class='nav-link' href="{{ route('rhythmReport') }}"><i class="nav-icon fa fa-pie-chart"></i><span>@lang('Per rhythm')</span></a></li>
         <li class='nav-item'><a class='nav-link' href="{{ route('courseReport') }}"><i class="nav-icon fa fa-graduation-cap"></i><span>@lang('Per course')</span></a></li>
@@ -141,7 +133,7 @@
 @endif
 
 @if(backpack_user()->isTeacher()) {{-- todo transform this --}}
-  <li class="header">@lang('TEACHER')</li>
+  <li class="nav-title">@lang('TEACHER')</li>
 
   <li class='nav-item'><a class='nav-link' href="{{ route('teacherDashboard') }}"><i class="nav-icon fa fa-home"></i> <span>@lang('Teacher Dashboard')</span></a></li>
   <li class='nav-item'><a class='nav-link' href="{{ route('teacherCalendar', ['teacher' => backpack_user()->teacher_id]) }}"><i class="nav-icon fa fa-calendar"></i> <span>@lang('My Schedule')</span></a></li>

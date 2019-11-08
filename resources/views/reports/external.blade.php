@@ -1,8 +1,8 @@
 @extends('backpack::layout')
 
 @section('header')
-    <section class="content-header">
-      <h1>@lang('External Courses Report')</h1>
+    <section class="container-fluid">
+	  <h2>@lang('External Courses Report')</h1>
       <ol class="breadcrumb">
         <li><a href="{{ backpack_url() }}">{{ config('backpack.base.project_name') }}</a></li>
         <li class="active">@lang('External Courses Report')</li>

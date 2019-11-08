@@ -38,7 +38,7 @@
 @section('content')
 <div class="row">
     <div class="col-md-3">
-        @include('backpack::auth.account.sidemenu')
+        @include('student.account.sidemenu')
     </div>
     <div class="col-md-6">
 

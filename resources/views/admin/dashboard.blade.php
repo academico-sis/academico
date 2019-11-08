@@ -1,5 +1,4 @@
-@extends('backpack::layout')
-
+@extends(backpack_view('blank'))
 
 @section('after_styles')
 <link href='/fullcalendar/core/main.css' rel='stylesheet' />
@@ -13,20 +12,14 @@
 <script src='/fullcalendar/resource-daygrid/main.js'></script>
 <script src='/fullcalendar/resource-timegrid/main.js'></script>
 
-
-
 @endsection
 
 
 @section('header')
-    <section class="content-header">
-      <h1>
+    <section class="container-fluid">
+	  <h2>
         {{ trans('backpack::base.dashboard') }}
-      </h1>
-      <ol class="breadcrumb">
-        <li><a href="{{ backpack_url() }}">{{ config('backpack.base.project_name') }}</a></li>
-        <li class="active">{{ trans('backpack::base.dashboard') }}</li>
-      </ol>
+      </h2>
     </section>
 @endsection
 
@@ -41,17 +34,17 @@
 
         @if($unassigned_teacher->count() > 0 && backpack_user()->can('hr.manage'))
         <div class="col-md-3">
-            <div class="box">
-                <div class="box-header with-border">
-                    <div class="box-title">                          
+            <div class="card">
+                <div class="card-header with-border">
+                    <div class="card-title">                          
                         <strong>@lang('Upcoming classes with no teacher assigned')</strong>
                     </div>
-                    <div class="box-tools pull-right">
+                    <div class="card-tools pull-right">
 
                     </div>
                 </div>
 
-                <div class="box-body">
+                <div class="card-body">
                     <ul>
                         @foreach ($unassigned_teacher as $event)
                             <li>{{ $event->name }} ({{ $event->start }})</li>
@@ -63,55 +56,53 @@
         @endif
 
 
-
         <div class="col-md-3">
-            <a href='student?lead_status_is=["4"]'>
-                <div class="info-box">
-                    <span class="info-box-icon bg-green"><i class="fa fa-question"></i></span>
-                    <div class="info-box-content">
-                            <span class="info-box-text">@lang('Pending leads')</span>
-                            <span class="info-box-number">{{ $pending_leads }}</span>
+            <div class="card">
+                <div class="card-body p-3 d-flex align-items-center"><i class="fa fa-user bg-primary p-3 font-2xl mr-3"></i>
+                    <div>
+                        <div class="text-value-sm text-primary">{{ $pending_leads }}</div>
+                        <div class="text-muted text-uppercase font-weight-bold small">@lang('Pending leads')</div>
                     </div>
                 </div>
-            </a>
+                <div class="card-footer px-3 py-2"><a class="btn-block text-muted d-flex justify-content-between align-items-center" href='student?lead_status_is=["4"]'><span class="small font-weight-bold">@lang('View')</span><i class="fa fa-angle-right"></i></a></div>
+            </div>
         </div>
 
         <div class="col-md-3">
-            <a href='student?lead_status_is=["5"]'>
-                <div class="info-box">
-                    <span class="info-box-icon bg-green"><i class="fa fa-phone"></i></span>
-                    <div class="info-box-content">
-                            <span class="info-box-text">@lang('Leads to call')</span>
-                            <span class="info-box-number">{{ $call_leads }}</span>
+            <div class="card">
+                <div class="card-body p-3 d-flex align-items-center"><i class="fa fa-phone bg-primary p-3 font-2xl mr-3"></i>
+                    <div>
+                        <div class="text-value-sm text-primary">{{ $call_leads }}</div>
+                        <div class="text-muted text-uppercase font-weight-bold small">@lang('Leads to call')</div>
                     </div>
                 </div>
-            </a>
+                <div class="card-footer px-3 py-2"><a class="btn-block text-muted d-flex justify-content-between align-items-center" href='student?lead_status_is=["5"]'><span class="small font-weight-bold">@lang('View')</span><i class="fa fa-angle-right"></i></a></div>
+            </div>
         </div>
 
         <div class="col-md-3">
-            <a href='comment?action=true'>
-                <div class="info-box">
-                    <span class="info-box-icon bg-green"><i class="fa fa-check-square"></i></span>
-                    <div class="info-box-content">
-                            <span class="info-box-text">@lang('Actionnable Comments')</span>
-                            <span class="info-box-number">{{ $action_comments }}</span>
+            <div class="card">
+                <div class="card-body p-3 d-flex align-items-center"><i class="fa fa-check-square bg-primary p-3 font-2xl mr-3"></i>
+                    <div>
+                        <div class="text-value-sm text-primary">{{ $action_comments }}</div>
+                        <div class="text-muted text-uppercase font-weight-bold small">@lang('Actionnable Comments')</div>
                     </div>
                 </div>
-            </a>
+                <div class="card-footer px-3 py-2"><a class="btn-block text-muted d-flex justify-content-between align-items-center" href='comment?action=true'><span class="small font-weight-bold">@lang('View')</span><i class="fa fa-angle-right"></i></a></div>
+            </div>
         </div>
 
         <div class="col-md-3">
-            <a href="/attendance">
-                <div class="info-box">
-                    <span class="info-box-icon bg-green"><i class="fa fa-calendar"></i></span>
-                    <div class="info-box-content">
-                            <span class="info-box-text">@lang('Pending Attendance')</span>
-                            <span class="info-box-number">{{ $pending_attendance }}</span>
+            <div class="card">
+                <div class="card-body p-3 d-flex align-items-center"><i class="fa fa-calendar bg-primary p-3 font-2xl mr-3"></i>
+                    <div>
+                        <div class="text-value-sm text-primary">{{ $pending_attendance }}</div>
+                        <div class="text-muted text-uppercase font-weight-bold small">@lang('Pending Attendance')</div>
                     </div>
                 </div>
-            </a>
+                <div class="card-footer px-3 py-2"><a class="btn-block text-muted d-flex justify-content-between align-items-center" href="/attendance"><span class="small font-weight-bold">@lang('View')</span><i class="fa fa-angle-right"></i></a></div>
+            </div>
         </div>
-
 
     </div>
 

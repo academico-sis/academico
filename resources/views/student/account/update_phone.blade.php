@@ -39,7 +39,7 @@
 <div class="row" id="app">
 
     <div class="col-md-3">
-        @include('backpack::auth.account.sidemenu')
+        @include('student.account.sidemenu')
     </div>
 
     <div class="col-md-6">

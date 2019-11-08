@@ -9,10 +9,8 @@ use App\Models\Institution;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
-use Backpack\Base\app\Http\Controllers\Controller;
-use Backpack\Base\app\Http\Requests\ChangePasswordRequest;
 
-class MyAccountController extends Controller
+class MyAccountController extends \App\Http\Controllers\Controller
 {
     protected $data = [];
 
