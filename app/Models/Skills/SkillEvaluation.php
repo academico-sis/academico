@@ -5,7 +5,7 @@ namespace App\Models\Skills;
 use App\Models\Course;
 use App\Models\Student;
 use App\Models\Skills\Skill;
-use Backpack\CRUD\CrudTrait;
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use App\Models\Skills\SkillScale;
 use Illuminate\Database\Eloquent\Model;
 

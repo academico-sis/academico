@@ -11,7 +11,7 @@ use App\Models\Comment;
 use App\Models\Student;
 use App\Models\Attendance;
 use App\Models\PreInvoice;
-use Backpack\CRUD\CrudTrait;
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use App\Models\EnrollmentStatusType;
 use App\Models\Skills\SkillEvaluation;
 use Illuminate\Database\Eloquent\Model;

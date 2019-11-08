@@ -8,7 +8,7 @@ use App\Models\Event;
 use App\Models\Course;
 use App\Models\Period;
 use App\Models\Enrollment;
-use Backpack\CRUD\CrudTrait;
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;

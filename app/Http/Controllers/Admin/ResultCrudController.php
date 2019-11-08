@@ -17,12 +17,21 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 
 /**
  * Class ResultCrudController
+ * Controller to monitor student results. No result can be added from here
+ * BP4 check if the update operation should be allowed.
  * @package App\Http\Controllers\Admin
  * @property-read CrudPanel $crud
  */
 class ResultCrudController extends CrudController
 {
 
+
+    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    // BP4 check if the store method works or not, and when it is needed
+
+    use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+    
     public function __construct()
     {
         parent::__construct();
@@ -37,22 +46,22 @@ class ResultCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        $this->crud->setModel('App\Models\Enrollment');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/result');
-        $this->crud->setEntityNameStrings('result', 'results');
+        CRUD::setModel('App\Models\Enrollment');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/result');
+        CRUD::setEntityNameStrings('result', 'results');
 
-        //$this->crud->denyAccess('update');
-        $this->crud->denyAccess('delete');
-        $this->crud->denyAccess('create');
-        $this->crud->allowAccess('show');
-        //$this->crud->removeAllButtons();
+        //CRUD::denyAccess('update');
+        CRUD::denyAccess('delete'); // BP4 remove
+        CRUD::denyAccess('create');  // BP4 remove
+        CRUD::allowAccess('show');  // BP4 use operations
+        //CRUD::removeAllButtons();
 
         /*
         |--------------------------------------------------------------------------
         | CrudPanel Configuration
         |--------------------------------------------------------------------------
         */
-        $this->crud->setColumns([
+        CRUD::setColumns([
 
             [
                 'name' => 'id',
@@ -105,40 +114,40 @@ class ResultCrudController extends CrudController
         
 
         // add asterisk for fields that are required in EnrollmentRequest
-        $this->crud->setRequiredFields(UpdateRequest::class, 'edit');
+        CRUD::setRequiredFields(UpdateRequest::class, 'edit');
 
 
-          $this->crud->addFilter([
+          CRUD::addFilter([
             'type' => 'simple',
             'name' => 'noresult',
             'label'=> __('No Result')
           ],
           false,
           function() {
-              $this->crud->addClause('noResult'); 
+              CRUD::addClause('noResult'); 
           });
 
-          $this->crud->addFilter([
+          CRUD::addFilter([
             'type' => 'simple',
             'name' => 'hideparents',
             'label'=> __('Hide Parents')
           ],
           false,
           function() {
-              $this->crud->addClause('real'); 
+              CRUD::addClause('real'); 
           });
 
-        $this->crud->addFilter([
+        CRUD::addFilter([
             'name' => 'period_id',
             'type' => 'select2',
             'label'=> __('Period')
           ], function() {
               return Period::all()->pluck('name', 'id')->toArray();
           }, function($value) { // if the filter is active
-            $this->crud->addClause('period', $value); 
+            CRUD::addClause('period', $value); 
           });
 
-          $this->crud->addFilter([ // select2_multiple filter
+          CRUD::addFilter([ // select2_multiple filter
             'name' => 'result',
             'type' => 'select2_multiple',
             'label'=> __('Result')
@@ -146,7 +155,7 @@ class ResultCrudController extends CrudController
               return ResultType::all()->pluck('name', 'id')->toArray();
           }, function($values) { // if the filter is active
               foreach (json_decode($values) as $key => $value) {
-                  $this->crud->query = $this->crud->query->whereHas('result', function ($query) use ($value) {
+                  CRUD::query = CRUD::query->whereHas('result', function ($query) use ($value) {
                       $query->where('result_type_id', $value);
                   });
               }
@@ -211,13 +220,8 @@ class ResultCrudController extends CrudController
 
     }
 
-    public function update(UpdateRequest $request)
+    protected function setupUpdateOperation()
     {
-        // todo protect this method
-        // your additional operations before save here
-        $redirect_location = parent::updateCrud($request);
-        // your additional operations after save here
-        // use $this->data['entry'] or $this->crud->entry
-        return $redirect_location;
+        CRUD::setValidation(UpdateRequest::class);
     }
 }

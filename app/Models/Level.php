@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Models\Skills\Skill;
-use Backpack\CRUD\CrudTrait;
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 

@@ -10,11 +10,19 @@ use App\Models\User;
 
 /**
  * Class CommentCrudController
+ * Monitor comments. This controller is NOT used to add comments, only to view, edit or delete them.
+ * A comment may be attached to various models (polymorphism).
  * @package App\Http\Controllers\Admin
  * @property-read CrudPanel $crud
  */
 class CommentCrudController extends CrudController
 {
+
+  use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+  use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+  use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+
+  use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
     public function __construct()
     {
@@ -29,10 +37,10 @@ class CommentCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        $this->crud->setModel('App\Models\Comment');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/comment');
-        $this->crud->setEntityNameStrings('comment', 'comments');
-        $this->crud->denyAccess('create');
+        CRUD::setModel('App\Models\Comment');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/comment');
+        CRUD::setEntityNameStrings('comment', 'comments');
+        CRUD::denyAccess('create'); // BP4 not needed anymore
         /*
         |--------------------------------------------------------------------------
         | CrudPanel Configuration
@@ -40,7 +48,7 @@ class CommentCrudController extends CrudController
         */
 
 
-        $this->crud->setColumns([
+        CRUD::setColumns([
             [
                 // Commentable entity
                 'label' => "Commentable", // Table column heading
@@ -75,7 +83,7 @@ class CommentCrudController extends CrudController
         ]);
 
 
-        $this->crud->addFields([
+        CRUD::addFields([
 
              ['label' => "Comment", 'type' => "text", 'name' => 'body'],
 
@@ -84,18 +92,18 @@ class CommentCrudController extends CrudController
         ]);
 
 
-        $this->crud->addFilter([ // simple filter
+        CRUD::addFilter([ // simple filter
             'type' => 'simple',
             'name' => 'action',
             'label'=> 'Action'
           ], 
           false, 
           function() { // if the filter is active
-            $this->crud->addClause('where', 'action', true);
+            CRUD::addClause('where', 'action', true);
           } );
 
 
-          $this->crud->addFilter([ // dropdown filter
+          CRUD::addFilter([ // dropdown filter
             'name' => 'type',
             'type' => 'dropdown',
             'label'=> 'Type'
@@ -106,25 +114,23 @@ class CommentCrudController extends CrudController
             'App\Models\Result' => 'Result',
 
           ], function($value) { // if the filter is active
-              $this->crud->addClause('where', 'commentable_type', '=', $value);
+              CRUD::addClause('where', 'commentable_type', '=', $value);
           },
           function() { // if the filter is not active
-            $this->crud->addClause('where', 'commentable_type', '=', 'App\Models\Student');
-            $this->crud->request->request->add(['commentable_type' => 'App\Models\Student']); // to make the filter look active
+            CRUD::addClause('where', 'commentable_type', '=', 'App\Models\Student');
+            CRUD::request->request->add(['commentable_type' => 'App\Models\Student']); // to make the filter look active
 
         });
 
         
         // add asterisk for fields that are required in CommentRequest
-        $this->crud->setRequiredFields(UpdateRequest::class, 'edit');
+        CRUD::setRequiredFields(UpdateRequest::class, 'edit');
     }
 
-    public function update(UpdateRequest $request)
+
+    protected function setupUpdateOperation()
     {
-        // your additional operations before save here
-        $redirect_location = parent::updateCrud($request);
-        // your additional operations after save here
-        // use $this->data['entry'] or $this->crud->entry
-        return $redirect_location;
+        CRUD::setValidation(UpdateRequest::class);
     }
+
 }

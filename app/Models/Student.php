@@ -5,7 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use App\Models\Profession;
 use App\Models\Institution;
-use Backpack\CRUD\CrudTrait;
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 

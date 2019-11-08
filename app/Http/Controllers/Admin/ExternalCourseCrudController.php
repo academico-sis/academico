@@ -17,6 +17,13 @@ use Backpack\CRUD\CrudPanel;
 class ExternalCourseCrudController extends CrudController
 {
 
+    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+
+    use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+
     public function __construct()
     {
         parent::__construct();
@@ -30,15 +37,15 @@ class ExternalCourseCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        $this->crud->setModel('App\Models\ExternalCourse');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/externalcourse');
-        $this->crud->setEntityNameStrings('externalcourse', 'external_courses');
+        CRUD::setModel('App\Models\ExternalCourse');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/externalcourse');
+        CRUD::setEntityNameStrings('externalcourse', 'external_courses');
         $permissions = backpack_user()->getAllPermissions();
         if($permissions->contains('name', 'courses.edit')) {
-            $this->crud->addButtonFromView('line', 'schedule', 'schedule', 'end');
+            CRUD::addButtonFromView('line', 'schedule', 'schedule', 'end');
         }
 
-        $this->crud->enableExportButtons();
+        CRUD::enableExportButtons();
 
         /*
         |--------------------------------------------------------------------------
@@ -48,7 +55,7 @@ class ExternalCourseCrudController extends CrudController
 
 
 
-        $this->crud->setColumns([
+        CRUD::setColumns([
             [
             // RYTHM
             'label' => __('Rhythm'), // Table column heading
@@ -136,62 +143,62 @@ class ExternalCourseCrudController extends CrudController
         ]);
 
 
-        $this->crud->addFilter([ // select2 filter
+        CRUD::addFilter([ // select2 filter
             'name' => 'rhythm_id',
             'type' => 'select2',
             'label'=> __('Rhythm')
           ], function() {
               return \App\Models\Rhythm::all()->pluck('name', 'id')->toArray();
           }, function($value) { // if the filter is active
-                  $this->crud->addClause('where', 'rhythm_id', $value);
+                  CRUD::addClause('where', 'rhythm_id', $value);
           },
           function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
             
         });
 
 
-        $this->crud->addFilter([ // select2 filter
+        CRUD::addFilter([ // select2 filter
             'name' => 'teacher_id',
             'type' => 'select2',
             'label'=> __('Teacher')
           ], function() {
               return \App\Models\Teacher::all()->pluck('name', 'id')->toArray();
           }, function($value) { // if the filter is active
-                  $this->crud->addClause('where', 'teacher_id', $value);
+                  CRUD::addClause('where', 'teacher_id', $value);
           },
           function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
             
         });
 
-        $this->crud->addFilter([ // select2 filter
+        CRUD::addFilter([ // select2 filter
             'name' => 'level_id',
             'type' => 'select2',
             'label'=> __('Level')
           ], function() {
               return \App\Models\Level::all()->pluck('name', 'id')->toArray();
           }, function($value) { // if the filter is active
-                  $this->crud->addClause('where', 'level_id', $value);
+                  CRUD::addClause('where', 'level_id', $value);
           },
           function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
         });
 
-        $this->crud->addFilter([ // select2 filter
+        CRUD::addFilter([ // select2 filter
             'name' => 'period_id',
             'type' => 'select2',
             'label'=> __('Period')
           ], function() {
               return \App\Models\Period::all()->pluck('name', 'id')->toArray();
           }, function($value) { // if the filter is active
-                  $this->crud->addClause('where', 'period_id', $value);
+                  CRUD::addClause('where', 'period_id', $value);
           },
           function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
             $period = \App\Models\Period::get_default_period()->id;
-            $this->crud->addClause('where', 'period_id', $period);
-            $this->crud->request->request->add(['period_id' => $period]); // to make the filter look active
+            CRUD::addClause('where', 'period_id', $period);
+            CRUD::request->request->add(['period_id' => $period]); // to make the filter look active
         });
 
 
-        $this->crud->addFields([
+        CRUD::addFields([
             [
                 // RYTHM
                 'label' => __("Rhythm"), // Table column heading
@@ -296,25 +303,17 @@ class ExternalCourseCrudController extends CrudController
         ]);
 
         // add asterisk for fields that are required in ExternalCourseRequest
-        $this->crud->setRequiredFields(StoreRequest::class, 'create');
-        $this->crud->setRequiredFields(UpdateRequest::class, 'edit');
+        CRUD::setRequiredFields(StoreRequest::class, 'create');
+        CRUD::setRequiredFields(UpdateRequest::class, 'edit');
     }
 
-    public function store(StoreRequest $request)
+    protected function setupCreateOperation()
     {
-        // your additional operations before save here
-        $redirect_location = parent::storeCrud($request);
-        // your additional operations after save here
-        // use $this->data['entry'] or $this->crud->entry
-        return $redirect_location;
+        CRUD::setValidation(StoreRequest::class);
     }
 
-    public function update(UpdateRequest $request)
+    protected function setupUpdateOperation()
     {
-        // your additional operations before save here
-        $redirect_location = parent::updateCrud($request);
-        // your additional operations after save here
-        // use $this->data['entry'] or $this->crud->entry
-        return $redirect_location;
+        CRUD::setValidation(UpdateRequest::class);
     }
 }

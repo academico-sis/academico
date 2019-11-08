@@ -16,11 +16,18 @@ use App\Http\Requests\EnrollmentRequest as UpdateRequest;
 
 /**
  * Class EnrollmentCrudController
+ * This controller is used to view enrollments only.
+ * No enrollments may be created or updated from here
  * @package App\Http\Controllers\Admin
  * @property-read CrudPanel $crud
  */
 class EnrollmentCrudController extends CrudController
 {
+
+    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+
+    use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
     public function __construct()
     {
@@ -37,21 +44,21 @@ class EnrollmentCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        $this->crud->setModel('App\Models\Enrollment');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/enrollment');
-        $this->crud->setEntityNameStrings('enrollment', 'enrollments');
+        CRUD::setModel('App\Models\Enrollment');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/enrollment');
+        CRUD::setEntityNameStrings('enrollment', 'enrollments');
 
-        $this->crud->allowAccess('show');
+        CRUD::allowAccess('show');
 
-        $this->crud->denyAccess('update');
-        $this->crud->removeButton('delete');
-        $this->crud->denyAccess('create');
-        //$this->crud->addClause('parent');
+        CRUD::denyAccess('update'); // BP4 remove
+        CRUD::removeButton('delete'); // BP4 check if that works.
+        CRUD::denyAccess('create');  // BP4 remove
+        //CRUD::addClause('parent');
 
 
         if(backpack_user()->hasRole('admin'))
         {
-            $this->crud->enableExportButtons();
+            CRUD::enableExportButtons();
         }
         
         /*
@@ -60,7 +67,7 @@ class EnrollmentCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
 
-        $this->crud->setColumns([
+        CRUD::setColumns([
 
             [
                 'name' => 'id',
@@ -114,12 +121,8 @@ class EnrollmentCrudController extends CrudController
         ]);
         
 
-        // add asterisk for fields that are required in EnrollmentRequest
-        $this->crud->setRequiredFields(StoreRequest::class, 'create');
-        $this->crud->setRequiredFields(UpdateRequest::class, 'edit');
 
-
-          $this->crud->addFilter([
+          CRUD::addFilter([
             'name' => 'status_id',
             'type' => 'select2_multiple',
             'label'=> __('Status')
@@ -128,51 +131,34 @@ class EnrollmentCrudController extends CrudController
           },
           function($values) { // if the filter is active
              foreach (json_decode($values) as $key => $value) {
-                 $this->crud->addClause('orWhere', 'status_id', $value);
+                 CRUD::addClause('orWhere', 'status_id', $value);
              }
              });
 
-          $this->crud->addFilter([
+          CRUD::addFilter([
             'type' => 'simple',
             'name' => 'hidechildren',
             'label'=> __('Hide Children')
           ],
           false,
           function() {
-              $this->crud->addClause('parent'); 
+              CRUD::addClause('parent'); 
           });
 
-        $this->crud->addFilter([
+        CRUD::addFilter([
             'name' => 'period_id',
             'type' => 'select2',
             'label'=> __('Period')
           ], function() {
               return Period::all()->pluck('name', 'id')->toArray();
           }, function($value) { // if the filter is active
-            $this->crud->addClause('period', $value); 
+            CRUD::addClause('period', $value); 
           });
 
 
 
     }
 
-    public function store(StoreRequest $request)
-    {
-        // your additional operations before save here
-        $redirect_location = parent::storeCrud($request);
-        // your additional operations after save here
-        // use $this->data['entry'] or $this->crud->entry
-        return $redirect_location;
-    }
-
-    public function update(UpdateRequest $request)
-    {
-        // your additional operations before save here
-        $redirect_location = parent::updateCrud($request);
-        // your additional operations after save here
-        // use $this->data['entry'] or $this->crud->entry
-        return $redirect_location;
-    }
 
     public function show($enrollment)
     {

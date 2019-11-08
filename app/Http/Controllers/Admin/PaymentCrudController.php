@@ -16,6 +16,14 @@ use Backpack\CRUD\CrudPanel;
  */
 class PaymentCrudController extends CrudController
 {
+
+    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+
+    use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+    
     public function setup()
     {
         /*
@@ -23,9 +31,9 @@ class PaymentCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        $this->crud->setModel('App\Models\Payment');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/payment');
-        $this->crud->setEntityNameStrings('payment', 'payments');
+        CRUD::setModel('App\Models\Payment');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/payment');
+        CRUD::setEntityNameStrings('payment', 'payments');
 
         /*
         |--------------------------------------------------------------------------
@@ -34,28 +42,20 @@ class PaymentCrudController extends CrudController
         */
 
         // TODO: remove setFromDb() and manually define Fields and Columns
-        $this->crud->setFromDb();
+        CRUD::setFromDb();
 
         // add asterisk for fields that are required in PaymentRequest
-        $this->crud->setRequiredFields(StoreRequest::class, 'create');
-        $this->crud->setRequiredFields(UpdateRequest::class, 'edit');
+        CRUD::setRequiredFields(StoreRequest::class, 'create');
+        CRUD::setRequiredFields(UpdateRequest::class, 'edit');
     }
 
-    public function store(StoreRequest $request)
+    protected function setupCreateOperation()
     {
-        // your additional operations before save here
-        $redirect_location = parent::storeCrud($request);
-        // your additional operations after save here
-        // use $this->data['entry'] or $this->crud->entry
-        return $redirect_location;
+        $this->crud->setValidation(StoreRequest::class);
     }
 
-    public function update(UpdateRequest $request)
+    protected function setupUpdateOperation()
     {
-        // your additional operations before save here
-        $redirect_location = parent::updateCrud($request);
-        // your additional operations after save here
-        // use $this->data['entry'] or $this->crud->entry
-        return $redirect_location;
+        $this->crud->setValidation(UpdateRequest::class);
     }
 }

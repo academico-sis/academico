@@ -16,11 +16,12 @@ use App\Http\Requests\SkillScaleRequest as UpdateRequest;
 class SkillScaleCrudController extends CrudController
 {
 
-    public function __construct()
-    {
-        parent::__construct();
-        $this->middleware(['role:admin']);
-    }
+    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+    
+    use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
     
     public function setup()
     {
@@ -29,9 +30,9 @@ class SkillScaleCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        $this->crud->setModel('App\Models\Skills\SkillScale');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/skillscale');
-        $this->crud->setEntityNameStrings('skillscale', 'skill_scales');
+        CRUD::setModel('App\Models\Skills\SkillScale');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/skillscale');
+        CRUD::setEntityNameStrings('skillscale', 'skill_scales');
 
         /*
         |--------------------------------------------------------------------------
@@ -40,28 +41,20 @@ class SkillScaleCrudController extends CrudController
         */
 
         // TODO: remove setFromDb() and manually define Fields and Columns
-        $this->crud->setFromDb();
+        CRUD::setFromDb();
 
         // add asterisk for fields that are required in SkillScaleRequest
-        $this->crud->setRequiredFields(StoreRequest::class, 'create');
-        $this->crud->setRequiredFields(UpdateRequest::class, 'edit');
+        CRUD::setRequiredFields(StoreRequest::class, 'create');
+        CRUD::setRequiredFields(UpdateRequest::class, 'edit');
     }
 
-    public function store(StoreRequest $request)
+    protected function setupCreateOperation()
     {
-        // your additional operations before save here
-        $redirect_location = parent::storeCrud($request);
-        // your additional operations after save here
-        // use $this->data['entry'] or $this->crud->entry
-        return $redirect_location;
+        CRUD::setValidation(StoreRequest::class);
     }
 
-    public function update(UpdateRequest $request)
+    protected function setupUpdateOperation()
     {
-        // your additional operations before save here
-        $redirect_location = parent::updateCrud($request);
-        // your additional operations after save here
-        // use $this->data['entry'] or $this->crud->entry
-        return $redirect_location;
+        CRUD::setValidation(UpdateRequest::class);
     }
 }

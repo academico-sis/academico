@@ -10,11 +10,13 @@ use Illuminate\Http\Request;
 
 class UserCrudController extends CrudController
 {
-    public function __construct()
-    {
-        parent::__construct();
-        $this->middleware(['role:admin']);
-    }
+
+    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+
+    use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
     
     public function setup()
     {
@@ -23,12 +25,12 @@ class UserCrudController extends CrudController
         | BASIC CRUD INFORMATION
         |--------------------------------------------------------------------------
         */
-        $this->crud->setModel(config('backpack.permissionmanager.models.user'));
-        $this->crud->setEntityNameStrings(trans('backpack::permissionmanager.user'), trans('backpack::permissionmanager.users'));
-        $this->crud->setRoute(backpack_url('user'));
+        CRUD::setModel(config('backpack.permissionmanager.models.user'));
+        CRUD::setEntityNameStrings(trans('backpack::permissionmanager.user'), trans('backpack::permissionmanager.users'));
+        CRUD::setRoute(backpack_url('user'));
 
         // Columns.
-        $this->crud->setColumns([
+        CRUD::setColumns([
             [
                 'label' => "First Name", // Table column heading
                 'type' => "text",
@@ -63,7 +65,7 @@ class UserCrudController extends CrudController
         ]);
 
         // Fields
-        $this->crud->addFields([
+        CRUD::addFields([
             [  // Select2
                 'label' => trans('firstname'),
                 'type' => 'text',
@@ -135,7 +137,7 @@ class UserCrudController extends CrudController
     {
         $this->handlePasswordInput($request);
 
-        return parent::storeCrud($request);
+        return $this->store($request); //BP4 double check this
     }
 
     /**
@@ -149,7 +151,7 @@ class UserCrudController extends CrudController
     {
         $this->handlePasswordInput($request);
 
-        return parent::updateCrud($request);
+        return $this->update($request); //BP4 double check this
     }
 
     /**

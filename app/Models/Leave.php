@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Models\Teacher;
 use App\Models\Leave;
 use App\Models\LeaveType;
-use Backpack\CRUD\CrudTrait;
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class Leave extends Model

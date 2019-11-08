@@ -13,16 +13,21 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 
 /**
  * Class CourseCrudController
+ * Used to pick a course to enrol a user
  * @package App\Http\Controllers\Admin
  * @property-read CrudPanel $crud
  */
 class AvailableCourseCrudController extends CrudController
 {
+
+    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+    use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD; // BP4 is this needed?
+
     public function __construct(Request $request)
     {
         parent::__construct();
         $this->middleware(['permission:enrollments.create']);
-        $this->student = Student::find($request->query('student'));
+        $this->student = Student::find($request->query('student')); // TODO find a better way
     }
 
     public function setup()
@@ -32,22 +37,22 @@ class AvailableCourseCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        $this->crud->student = $this->student;
+        CRUD::student = $this->student;
         if($this->student == null) {
             abort(404); // todo transform into custom exception
         }
-        $this->crud->setModel('App\Models\Course');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/availablecourse');
-        $this->crud->setEntityNameStrings(__('available course'), __('available courses'));
-        $this->crud->denyAccess('delete');
-        $this->crud->denyAccess('update');
-        $this->crud->denyAccess('create');
-        $this->crud->denyAccess('show');
-        $this->crud->addButtonFromView('line', 'enroll', 'enroll', 'end');
-        $this->crud->addButtonFromView('line', 'children_badge', 'children_badge', 'beginning');
+        CRUD::setModel('App\Models\Course');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/availablecourse');
+        CRUD::setEntityNameStrings(__('available course'), __('available courses'));
+        CRUD::denyAccess('delete'); // BP4 clean these?
+        CRUD::denyAccess('update');
+        CRUD::denyAccess('create');
+        CRUD::denyAccess('show');
+        CRUD::addButtonFromView('line', 'enroll', 'enroll', 'end');
+        CRUD::addButtonFromView('line', 'children_badge', 'children_badge', 'beginning');
         
 
-        $this->crud->setListView('courses.available');
+        CRUD::setListView('courses.available');
 
         /*
         |--------------------------------------------------------------------------
@@ -55,7 +60,7 @@ class AvailableCourseCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
 
-        $this->crud->setColumns([
+        CRUD::setColumns([
             [
             // RYTHM
             'label' => __("Rhythm"),
@@ -139,73 +144,73 @@ class AvailableCourseCrudController extends CrudController
         ]);
 
 
-        $this->crud->addFilter([ // select2 filter
+        CRUD::addFilter([ // select2 filter
             'name' => 'campus_id',
             'type' => 'select2',
             'label'=> __('Campus')
           ], function() {
               return \App\Models\Campus::all()->pluck('name', 'id')->toArray();
           }, function($value) { // if the filter is active
-                  $this->crud->addClause('where', 'campus_id', $value);
+                  CRUD::addClause('where', 'campus_id', $value);
           },
           function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
-            $this->crud->addClause('where', 'campus_id', '1');
-            $this->crud->request->request->add(['campus_id' => 1]); // to make the filter look active
+            CRUD::addClause('where', 'campus_id', '1');
+            CRUD::request->request->add(['campus_id' => 1]); // to make the filter look active
         });
 
-        $this->crud->addFilter([ // select2 filter
+        CRUD::addFilter([ // select2 filter
             'name' => 'period_id',
             'type' => 'select2',
             'label'=> __('Period')
           ], function() {
               return \App\Models\Period::all()->pluck('name', 'id')->toArray();
           }, function($value) { // if the filter is active
-                  $this->crud->addClause('where', 'period_id', $value);
+                  CRUD::addClause('where', 'period_id', $value);
           },
           function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
             $period = \App\Models\Period::get_default_period()->id;
-            $this->crud->addClause('where', 'period_id', $period);
-            $this->crud->request->request->add(['period_id' => $period]); // to make the filter look active
+            CRUD::addClause('where', 'period_id', $period);
+            CRUD::request->request->add(['period_id' => $period]); // to make the filter look active
         });
 
-        $this->crud->addFilter([ // select2 filter
+        CRUD::addFilter([ // select2 filter
             'name' => 'rhythm_id',
             'type' => 'select2',
             'label'=> __('Rhythm')
           ], function() {
               return \App\Models\Rhythm::all()->pluck('name', 'id')->toArray();
           }, function($value) { // if the filter is active
-                  $this->crud->addClause('where', 'rhythm_id', $value);
+                  CRUD::addClause('where', 'rhythm_id', $value);
           },
           function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
             
         });
 
-        $this->crud->addFilter([ // select2 filter
+        CRUD::addFilter([ // select2 filter
             'name' => 'level_id',
             'type' => 'select2',
             'label'=> __('Level')
           ], function() {
               return \App\Models\Level::all()->pluck('name', 'id')->toArray();
           }, function($value) { // if the filter is active
-                  $this->crud->addClause('where', 'level_id', $value);
+                  CRUD::addClause('where', 'level_id', $value);
           },
           function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
             
         });
 
 
-        $this->crud->addFilter([
+        CRUD::addFilter([
             'type' => 'simple',
             'name' => 'parent',
             'label'=> __('Show Children Courses')
           ],
           false,
           function() {
-              $this->crud->addClause('children'); 
+              CRUD::addClause('children'); 
             },
             function() {
-                $this->crud->addClause('parent'); 
+                CRUD::addClause('parent'); 
         });
 
 

@@ -14,12 +14,17 @@ use App\Http\Requests\UserUpdateCrudRequest as UpdateRequest;
 class StudentCrudController extends CrudController
 {
 
+    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+
+    use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+
     public function __construct()
     {
         parent::__construct();
         $this->middleware('permission:enrollments.view', ['except' => ['dataAjax', 'show']]);
         $this->middleware('permission:student.edit', ['except' => ['index', 'show', 'search', 'dataAjax']]);
-
     }
     
     
@@ -30,38 +35,38 @@ class StudentCrudController extends CrudController
         | BASIC CRUD INFORMATION
         |--------------------------------------------------------------------------
         */
-        $this->crud->setModel('App\Models\Student');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/student');
-        $this->crud->setEntityNameStrings(__('student'), __('students'));
-        //$this->crud->removeAllButtons();
+        CRUD::setModel('App\Models\Student');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/student');
+        CRUD::setEntityNameStrings(__('student'), __('students'));
+        //CRUD::removeAllButtons();
 
-        $this->crud->removeButton('delete');
-        $this->crud->removeButton('create');
-        $this->crud->removeButton('update');
+        CRUD::removeButton('delete');
+        CRUD::removeButton('create');
+        CRUD::removeButton('update');
 
-        $this->crud->allowAccess('show');
-        $this->crud->denyAccess('create');
-        $this->crud->denyAccess('store');
-        //$this->crud->denyAccess('update');
+        CRUD::allowAccess('show');
+        CRUD::denyAccess('create');
+        CRUD::denyAccess('store');
+        //CRUD::denyAccess('update');
 
-        //$this->crud->addClause('student');
+        //CRUD::addClause('student');
 
         $permissions = backpack_user()->getAllPermissions();
         
         if($permissions->contains('name', 'enrollments.create')) {
-            $this->crud->addButtonFromView('line', 'selectCourse', 'selectCourse', 'beginning');
+            CRUD::addButtonFromView('line', 'selectCourse', 'selectCourse', 'beginning');
         }
 
         if(backpack_user()->hasRole('admin'))
         {
-            $this->crud->enableExportButtons();
+            CRUD::enableExportButtons();
         }
         
 
-        $this->crud->orderBy('created_at', 'desc');
+        CRUD::orderBy('created_at', 'desc');
 
         // Columns.
-        $this->crud->setColumns([
+        CRUD::setColumns([
             [
                 'label' => "ID number",
                 'type' => "text",
@@ -99,7 +104,7 @@ class StudentCrudController extends CrudController
         ]);
 
 
-        $this->crud->addFilter([ // select2_multiple filter
+        CRUD::addFilter([ // select2_multiple filter
             'name' => 'enrolled',
             'type' => 'select2_multiple',
             'label'=> __('Is Enrolled in')
@@ -107,7 +112,7 @@ class StudentCrudController extends CrudController
               return Period::all()->pluck('name', 'id')->toArray();
           }, function($values) { // if the filter is active
               foreach (json_decode($values) as $key => $value) {
-                  $this->crud->query = $this->crud->query->whereHas('enrollments', function ($query) use ($value) {
+                  CRUD::query = CRUD::query->whereHas('enrollments', function ($query) use ($value) {
                     return $query->whereHas('course', function ($q) use ($value) {
                         $q->where('period_id', $value);
                     });
@@ -117,7 +122,7 @@ class StudentCrudController extends CrudController
 
 
 
-        $this->crud->addFilter([ // select2_multiple filter
+        CRUD::addFilter([ // select2_multiple filter
             'name' => 'notenrolled',
             'type' => 'select2_multiple',
             'label'=> __('Is Not Enrolled in')
@@ -125,7 +130,7 @@ class StudentCrudController extends CrudController
               return Period::all()->pluck('name', 'id')->toArray();
           }, function($values) { // if the filter is active
               foreach (json_decode($values) as $key => $value) {
-                  $this->crud->query = $this->crud->query->whereDoesntHave('enrollments', function ($query) use ($value) {
+                  CRUD::query = CRUD::query->whereDoesntHave('enrollments', function ($query) use ($value) {
                     return $query->whereHas('course', function ($q) use ($value) {
                         $q->where('period_id', $value);
                     });
@@ -133,7 +138,7 @@ class StudentCrudController extends CrudController
               }
           });
 
-          $this->crud->addFilter([ // select2 filter
+          CRUD::addFilter([ // select2 filter
             'name' => 'lead_status_is',
             'type' => 'select2_multiple',
             'label'=> __('Status is')
@@ -141,12 +146,12 @@ class StudentCrudController extends CrudController
               return LeadType::all()->pluck('name', 'id')->toArray();
           }, function($values) { // if the filter is active
             foreach (json_decode($values) as $key => $value) {
-                 $this->crud->addClause('orWhere', 'lead_type_id', $value);
+                 CRUD::addClause('orWhere', 'lead_type_id', $value);
              }
             });
 
 
-            $this->crud->addFilter([ // select2 filter
+            CRUD::addFilter([ // select2 filter
                 'name' => 'lead_status_isnot',
                 'type' => 'select2_multiple',
                 'label'=> __('Status is not')
@@ -154,13 +159,13 @@ class StudentCrudController extends CrudController
                   return LeadType::all()->pluck('name', 'id')->toArray();
               }, function($values) { // if the filter is active
                 foreach (json_decode($values) as $key => $value) {
-                     $this->crud->addClause('where', 'lead_type_id', '!=', $value);
+                     CRUD::addClause('where', 'lead_type_id', '!=', $value);
                  }
                 });
 
 
         // Fields
-        $this->crud->addFields([
+        CRUD::addFields([
             [
                 'label' => trans('firstname'),
                 'type' => 'text',
@@ -206,18 +211,16 @@ class StudentCrudController extends CrudController
         ]);
     }
 
-    public function update(Request $request)
+
+    protected function setupUpdateOperation()
     {
-        // your additional operations before save here
-        $redirect_location = parent::updateCrud($request);
-        // your additional operations after save here
-        // use $this->data['entry'] or $this->crud->entry
-        return $redirect_location;
+        CRUD::setValidation(UpdateRequest::class);
     }
 
 
     /**
      * Handle password input fields.
+     * TODO REMOVE THIS, NOT NEEDED?
      *
      * @param Request $request
      */

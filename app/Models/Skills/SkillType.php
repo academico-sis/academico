@@ -3,7 +3,7 @@
 namespace App\Models\Skills;
 
 use Illuminate\Database\Eloquent\Model;
-use Backpack\CRUD\CrudTrait;
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 
 class SkillType extends Model
 {

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Models\Payment;
 use App\Models\Enrollment;
-use Backpack\CRUD\CrudTrait;
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use App\Models\PreInvoiceDetail;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;

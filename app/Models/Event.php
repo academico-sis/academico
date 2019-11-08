@@ -8,7 +8,7 @@ use App\Models\Course;
 use App\Models\Teacher;
 use App\Models\Attendance;
 use App\Models\CourseTime;
-use Backpack\CRUD\CrudTrait;
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Prologue\Alerts\Facades\Alert;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;

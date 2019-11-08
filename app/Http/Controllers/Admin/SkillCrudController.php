@@ -18,6 +18,14 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 class SkillCrudController extends CrudController
 {
 
+    
+    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+
+    use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+
     public function __construct()
     {
         parent::__construct();
@@ -32,11 +40,11 @@ class SkillCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        $this->crud->setModel('App\Models\Skills\Skill');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/skill');
-        $this->crud->setEntityNameStrings('skill', 'skills');
+        CRUD::setModel('App\Models\Skills\Skill');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/skill');
+        CRUD::setEntityNameStrings('skill', 'skills');
 
-        $this->crud->addButtonFromView('top', 'bulk_attach', 'bulk_attach', 'end');
+        CRUD::addButtonFromView('top', 'bulk_attach', 'bulk_attach', 'end');
 
 
         /*
@@ -44,8 +52,8 @@ class SkillCrudController extends CrudController
         | CrudPanel Configuration
         |--------------------------------------------------------------------------
         */
-        //$this->crud->setFromDb();
-        $this->crud->setColumns([
+        //CRUD::setFromDb();
+        CRUD::setColumns([
 
             [ // skill type
                 'label'     => 'Type', // Table column heading
@@ -74,9 +82,9 @@ class SkillCrudController extends CrudController
 
         ]);
 
-        $this->crud->enableBulkActions();
+        CRUD::enableBulkActions();
 
-        $this->crud->addFields([
+        CRUD::addFields([
 
             [ // skill type
                 'label'     => 'Type', // Table column heading
@@ -106,48 +114,40 @@ class SkillCrudController extends CrudController
         ]);
 
         // add asterisk for fields that are required in SkillRequest
-        $this->crud->setRequiredFields(StoreRequest::class, 'create');
-        $this->crud->setRequiredFields(UpdateRequest::class, 'edit');
+        CRUD::setRequiredFields(StoreRequest::class, 'create');
+        CRUD::setRequiredFields(UpdateRequest::class, 'edit');
 
 
-        $this->crud->addFilter([ // select2 filter
+        CRUD::addFilter([ // select2 filter
             'name' => 'level_id',
             'type' => 'select2',
             'label'=> 'Level'
           ], function() {
               return \App\Models\Level::all()->pluck('name', 'id')->toArray();
           }, function($value) { // if the filter is active
-                  $this->crud->addClause('where', 'level_id', $value);
+                  CRUD::addClause('where', 'level_id', $value);
           });
 
-          $this->crud->addFilter([ // select2 filter
+          CRUD::addFilter([ // select2 filter
             'name' => 'skill_type_id',
             'type' => 'select2',
             'label'=> 'Type'
           ], function() {
               return \App\Models\Skills\SkillType::all()->pluck('name', 'id')->toArray();
           }, function($value) { // if the filter is active
-                  $this->crud->addClause('where', 'skill_type_id', $value);
+                  CRUD::addClause('where', 'skill_type_id', $value);
           });
 
     }
 
-    public function store(StoreRequest $request)
+    protected function setupCreateOperation()
     {
-        // your additional operations before save here
-        $redirect_location = parent::storeCrud($request);
-        // your additional operations after save here
-        // use $this->data['entry'] or $this->crud->entry
-        return $redirect_location;
+        CRUD::setValidation(StoreRequest::class);
     }
 
-    public function update(UpdateRequest $request)
+    protected function setupUpdateOperation()
     {
-        // your additional operations before save here
-        $redirect_location = parent::updateCrud($request);
-        // your additional operations after save here
-        // use $this->data['entry'] or $this->crud->entry
-        return $redirect_location;
+        CRUD::setValidation(UpdateRequest::class);
     }
 
     public function bulkAttachToCourse()

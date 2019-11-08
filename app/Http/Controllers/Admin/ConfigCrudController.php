@@ -11,16 +11,18 @@ use Backpack\CRUD\CrudPanel;
 
 /**
  * Class ConfigCrudController
+ * Various settings that are more easily stored here than in the env file.
  * @package App\Http\Controllers\Admin
  * @property-read CrudPanel $crud
  */
 class ConfigCrudController extends CrudController
 {
-    public function __construct()
-    {
-        parent::__construct();
-        $this->middleware(['role:admin']);
-    }
+    
+    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    
+    use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
     
     public function setup()
     {
@@ -29,11 +31,11 @@ class ConfigCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        $this->crud->setModel('App\Models\Config');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/config');
-        $this->crud->setEntityNameStrings('config', 'configs');
+        CRUD::setModel('App\Models\Config');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/config');
+        CRUD::setEntityNameStrings('config', 'configs');
 
-        $this->crud->denyAccess('delete');
+        CRUD::denyAccess('delete'); // BP4 remove this
         
         /*
         |--------------------------------------------------------------------------
@@ -42,28 +44,21 @@ class ConfigCrudController extends CrudController
         */
 
         // TODO: remove setFromDb() and manually define Fields and Columns
-        $this->crud->setFromDb();
+        CRUD::setFromDb();
 
         // add asterisk for fields that are required in ConfigRequest
-        $this->crud->setRequiredFields(StoreRequest::class, 'create');
-        $this->crud->setRequiredFields(UpdateRequest::class, 'edit');
+        CRUD::setRequiredFields(StoreRequest::class, 'create');
+        CRUD::setRequiredFields(UpdateRequest::class, 'edit');
     }
 
-    public function store(StoreRequest $request)
+    protected function setupCreateOperation()
     {
-        // your additional operations before save here
-        $redirect_location = parent::storeCrud($request);
-        // your additional operations after save here
-        // use $this->data['entry'] or $this->crud->entry
-        return $redirect_location;
+        CRUD::setValidation(StoreRequest::class);
     }
 
-    public function update(UpdateRequest $request)
+    protected function setupUpdateOperation()
     {
-        // your additional operations before save here
-        $redirect_location = parent::updateCrud($request);
-        // your additional operations after save here
-        // use $this->data['entry'] or $this->crud->entry
-        return $redirect_location;
+        CRUD::setValidation(UpdateRequest::class);
     }
+
 }

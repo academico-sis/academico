@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Backpack\CRUD\CrudTrait;
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use App\Models\ContactRelationship;
 use App\Models\Student;
 use Illuminate\Database\Eloquent\Model;

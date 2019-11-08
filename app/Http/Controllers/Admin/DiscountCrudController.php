@@ -16,6 +16,14 @@ use Backpack\CRUD\CrudPanel;
  */
 class DiscountCrudController extends CrudController
 {
+
+    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+    
+    use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+    
     public function setup()
     {
         /*
@@ -23,9 +31,9 @@ class DiscountCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        $this->crud->setModel('App\Models\Discount');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/discount');
-        $this->crud->setEntityNameStrings('discount', 'discounts');
+        CRUD::setModel('App\Models\Discount');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/discount');
+        CRUD::setEntityNameStrings('discount', 'discounts');
 
         /*
         |--------------------------------------------------------------------------
@@ -33,7 +41,7 @@ class DiscountCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
 
-        $this->crud->setColumns([
+        CRUD::setColumns([
 
             [
                 'name' => 'id',
@@ -58,7 +66,7 @@ class DiscountCrudController extends CrudController
         ]);
 
 
-        $this->crud->addFields([
+        CRUD::addFields([
            
             [
                 // Discount name
@@ -78,25 +86,18 @@ class DiscountCrudController extends CrudController
         ]);
 
         // add asterisk for fields that are required in DiscountRequest
-        $this->crud->setRequiredFields(StoreRequest::class, 'create');
-        $this->crud->setRequiredFields(UpdateRequest::class, 'edit');
+        CRUD::setRequiredFields(StoreRequest::class, 'create');
+        CRUD::setRequiredFields(UpdateRequest::class, 'edit');
     }
 
-    public function store(StoreRequest $request)
+    protected function setupCreateOperation()
     {
-        // your additional operations before save here
-        $redirect_location = parent::storeCrud($request);
-        // your additional operations after save here
-        // use $this->data['entry'] or $this->crud->entry
-        return $redirect_location;
+        CRUD::setValidation(StoreRequest::class);
     }
 
-    public function update(UpdateRequest $request)
+    protected function setupUpdateOperation()
     {
-        // your additional operations before save here
-        $redirect_location = parent::updateCrud($request);
-        // your additional operations after save here
-        // use $this->data['entry'] or $this->crud->entry
-        return $redirect_location;
+        CRUD::setValidation(UpdateRequest::class);
     }
+    
 }

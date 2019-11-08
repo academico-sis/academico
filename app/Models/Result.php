@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Models\Comment;
 use App\Models\Enrollment;
 use App\Models\ResultType;
-use Backpack\CRUD\CrudTrait;
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use App\Mail\ResultNotification;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Database\Eloquent\Model;

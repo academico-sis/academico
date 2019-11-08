@@ -16,11 +16,12 @@ use App\Http\Requests\RoomRequest as UpdateRequest;
 class RoomCrudController extends CrudController
 {
 
-    public function __construct()
-    {
-        parent::__construct();
-        $this->middleware(['role:admin']);
-    }
+    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+
+    use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 
     public function setup()
@@ -30,9 +31,9 @@ class RoomCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        $this->crud->setModel('App\Models\Room');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/room');
-        $this->crud->setEntityNameStrings('room', 'rooms');
+        CRUD::setModel('App\Models\Room');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/room');
+        CRUD::setEntityNameStrings('room', 'rooms');
 
         /*
         |--------------------------------------------------------------------------
@@ -40,7 +41,7 @@ class RoomCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
 
-        $this->crud->setColumns([
+        CRUD::setColumns([
             [
                 // 1-n relationship
                 'label' => "Campus",
@@ -63,25 +64,17 @@ class RoomCrudController extends CrudController
         ]);
 
         // add asterisk for fields that are required in RoomRequest
-        $this->crud->setRequiredFields(StoreRequest::class, 'create');
-        $this->crud->setRequiredFields(UpdateRequest::class, 'edit');
+        CRUD::setRequiredFields(StoreRequest::class, 'create');
+        CRUD::setRequiredFields(UpdateRequest::class, 'edit');
     }
 
-    public function store(StoreRequest $request)
+    protected function setupCreateOperation()
     {
-        // your additional operations before save here
-        $redirect_location = parent::storeCrud($request);
-        // your additional operations after save here
-        // use $this->data['entry'] or $this->crud->entry
-        return $redirect_location;
+        CRUD::setValidation(StoreRequest::class);
     }
 
-    public function update(UpdateRequest $request)
+    protected function setupUpdateOperation()
     {
-        // your additional operations before save here
-        $redirect_location = parent::updateCrud($request);
-        // your additional operations after save here
-        // use $this->data['entry'] or $this->crud->entry
-        return $redirect_location;
+        CRUD::setValidation(UpdateRequest::class);
     }
 }

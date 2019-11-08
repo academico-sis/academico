@@ -18,11 +18,11 @@ Route::group(
         Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('backpack.auth.register');
         Route::post('register', 'Auth\RegisterController@register');
 
-        CRUD::resource('result', 'Admin\ResultCrudController');
-        CRUD::resource('student', 'Admin\StudentCrudController');
-        CRUD::resource('course', 'Admin\CourseCrudController');
-        CRUD::resource('externalcourse', 'Admin\ExternalCourseCrudController');
-        CRUD::resource('comment', 'Admin\CommentCrudController');
+        Route::crud('result', 'Admin\ResultCrudController');
+        Route::crud('student', 'Admin\StudentCrudController');
+        Route::crud('course', 'Admin\CourseCrudController');
+        Route::crud('externalcourse', 'Admin\ExternalCourseCrudController');
+        Route::crud('comment', 'Admin\CommentCrudController');
         
         Route::post('edit-account-info', 'Auth\MyAccountController@postAccountInfoForm');
         Route::post('edit-student-info', 'Auth\MyAccountController@postStudentInfoForm');
@@ -59,8 +59,8 @@ Route::group([
     'middleware' => ['web', 'permission:enrollments.view', 'language'],
     'namespace'  => 'App\Http\Controllers\Admin',
     ], function () {
-        CRUD::resource('enrollment', 'EnrollmentCrudController');
-        CRUD::resource('availablecourse', 'AvailableCourseCrudController');
+        Route::crud('enrollment', 'EnrollmentCrudController');
+        Route::crud('availablecourse', 'AvailableCourseCrudController');
     }
 );
 
@@ -71,32 +71,31 @@ Route::group([
     'middleware' => ['web', 'role:admin', 'language'],
     'namespace'  => 'App\Http\Controllers\Admin',
     ], function () {
-        CRUD::resource('period', 'PeriodCrudController');
-        CRUD::resource('event', 'EventCrudController');
-        CRUD::resource('level', 'LevelCrudController');
-        CRUD::resource('room', 'RoomCrudController');
-        CRUD::resource('rhythm', 'RhythmCrudController');
-        CRUD::resource('year', 'YearCrudController');
-        CRUD::resource('campus', 'CampusCrudController');
-        CRUD::resource('user', 'UserCrudController');
-        CRUD::resource('teacher', 'TeacherCrudController');
-        CRUD::resource('evaluationtype', 'EvaluationTypeCrudController');
-        CRUD::resource('gradetype', 'GradeTypeCrudController');
-        CRUD::resource('skill', 'SkillCrudController')->with(function() {
-            Route::post('skill/bulk-attach', 'SkillCrudController@bulkAttachToCourse');
-      });
-        CRUD::resource('skilltype', 'SkillTypeCrudController');
-        CRUD::resource('skillscale', 'SkillScaleCrudController');
-        CRUD::resource('resulttype', 'ResultTypeCrudController');
-        CRUD::resource('remoteevent', 'RemoteEventCrudController');
-        CRUD::resource('leave', 'LeaveCrudController');
-        CRUD::resource('leadtype', 'LeadTypeCrudController');
-        CRUD::resource('config', 'ConfigCrudController');
+        Route::crud('period', 'PeriodCrudController');
+        Route::crud('event', 'EventCrudController');
+        Route::crud('level', 'LevelCrudController');
+        Route::crud('room', 'RoomCrudController');
+        Route::crud('rhythm', 'RhythmCrudController');
+        Route::crud('year', 'YearCrudController');
+        Route::crud('campus', 'CampusCrudController');
+        Route::crud('user', 'UserCrudController');
+        Route::crud('teacher', 'TeacherCrudController');
+        Route::crud('evaluationtype', 'EvaluationTypeCrudController');
+        Route::crud('gradetype', 'GradeTypeCrudController');
+        Route::crud('skill', 'SkillCrudController');
+        Route::post('skill/bulk-attach', 'SkillCrudController@bulkAttachToCourse');
+        Route::crud('skilltype', 'SkillTypeCrudController');
+        Route::crud('skillscale', 'SkillScaleCrudController');
+        Route::crud('resulttype', 'ResultTypeCrudController');
+        Route::crud('remoteevent', 'RemoteEventCrudController');
+        Route::crud('leave', 'LeaveCrudController');
+        Route::crud('leadtype', 'LeadTypeCrudController');
+        Route::crud('config', 'ConfigCrudController');
 
-        CRUD::resource('book', 'BookCrudController');
-        CRUD::resource('fee', 'FeeCrudController');
-        CRUD::resource('discount', 'DiscountCrudController');
-        CRUD::resource('coupon', 'CouponCrudController');
-        CRUD::resource('paymentmethod', 'PaymentmethodCrudController');
+        Route::crud('book', 'BookCrudController');
+        Route::crud('fee', 'FeeCrudController');
+        Route::crud('discount', 'DiscountCrudController');
+        Route::crud('coupon', 'CouponCrudController');
+        Route::crud('paymentmethod', 'PaymentmethodCrudController');
 
 }); // this should be the absolute last line of this file

@@ -10,11 +10,21 @@ use App\Http\Requests\EventRequest as UpdateRequest;
 
 /**
  * Class EventCrudController
+ * An event corresponds to a class. This controller is used to monitor events automatically created
+ * but also to add or update events manually.
  * @package App\Http\Controllers\Admin
  * @property-read CrudPanel $crud
  */
 class EventCrudController extends CrudController
 {
+
+    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+
+    use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+    
     public function __construct()
     {
         parent::__construct();
@@ -28,9 +38,9 @@ class EventCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        $this->crud->setModel('App\Models\Event');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/event');
-        $this->crud->setEntityNameStrings('event', 'events');
+        CRUD::setModel('App\Models\Event');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/event');
+        CRUD::setEntityNameStrings('event', 'events');
 
         /*
         |--------------------------------------------------------------------------
@@ -38,7 +48,7 @@ class EventCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
 
-        $this->crud->setColumns([
+        CRUD::setColumns([
             
             [
             'name' => 'name', // The db column name
@@ -102,7 +112,8 @@ class EventCrudController extends CrudController
         ]);
 
 
-        $this->crud->addFilter([ // daterange filter
+        // BP4 check if this works. The field has changed, perhaps the filter has changed too?
+        CRUD::addFilter([ // daterange filter
             'type' => 'date_range',
             'name' => 'from_to',
             'label'=> __('Date range')
@@ -110,28 +121,28 @@ class EventCrudController extends CrudController
           false,
           function($value) { // if the filter is active, apply these constraints
             $dates = json_decode($value);
-            $this->crud->addClause('where', 'start', '>=', $dates->from);
-            $this->crud->addClause('where', 'start', '<=', $dates->to . ' 23:59:59');
+            CRUD::addClause('where', 'start', '>=', $dates->from);
+            CRUD::addClause('where', 'start', '<=', $dates->to . ' 23:59:59');
           });
 
-          $this->crud->addFilter([ // daterange filter
+          CRUD::addFilter([ // daterange filter
             'type' => 'simple',
             'name' => 'orphan',
             'label'=> __('Events with no course')
           ],
           false,
           function($value) { // if the filter is active, apply these constraints
-            $this->crud->query->where('course_id', null);
+            CRUD::query->where('course_id', null);
           });
 
-          $this->crud->addFilter([ // select2 filter
+          CRUD::addFilter([ // select2 filter
             'name' => 'teacher_id',
             'type' => 'select2',
             'label'=> __('Teacher')
           ], function() {
               return \App\Models\Teacher::all()->pluck('name', 'id')->toArray();
           }, function($value) { // if the filter is active
-                  $this->crud->addClause('where', 'teacher_id', $value);
+                  CRUD::addClause('where', 'teacher_id', $value);
           },
           function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
             
@@ -139,7 +150,7 @@ class EventCrudController extends CrudController
           
 
 
-        $this->crud->addFields([
+        CRUD::addFields([
             
             [
             'name' => 'name', // The db column name
@@ -184,25 +195,17 @@ class EventCrudController extends CrudController
         ]);
 
         // add asterisk for fields that are required in EventRequest
-        $this->crud->setRequiredFields(StoreRequest::class, 'create');
-        $this->crud->setRequiredFields(UpdateRequest::class, 'edit');
+        CRUD::setRequiredFields(StoreRequest::class, 'create');
+        CRUD::setRequiredFields(UpdateRequest::class, 'edit');
     }
 
-    public function store(StoreRequest $request)
+    protected function setupCreateOperation()
     {
-        // your additional operations before save here
-        $redirect_location = parent::storeCrud($request);
-        // your additional operations after save here
-        // use $this->data['entry'] or $this->crud->entry
-        return $redirect_location;
+        CRUD::setValidation(StoreRequest::class);
     }
 
-    public function update(UpdateRequest $request)
+    protected function setupUpdateOperation()
     {
-        // your additional operations before save here
-        $redirect_location = parent::updateCrud($request);
-        // your additional operations after save here
-        // use $this->data['entry'] or $this->crud->entry
-        return $redirect_location;
+        CRUD::setValidation(UpdateRequest::class);
     }
 }

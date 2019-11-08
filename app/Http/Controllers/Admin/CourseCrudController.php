@@ -20,6 +20,16 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
  */
 class CourseCrudController extends CrudController
 {
+
+    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+
+    // BP4 clone operation should be added here.
+
+    use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+
     public function __construct()
     {
         parent::__construct();
@@ -34,44 +44,44 @@ class CourseCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        $this->crud->setModel('App\Models\Course');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/course');
-        $this->crud->setEntityNameStrings(__('course'), __('courses'));
+        CRUD::setModel('App\Models\Course');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/course');
+        CRUD::setEntityNameStrings(__('course'), __('courses'));
 
-        $this->crud->addClause('where', 'campus_id', '1');
+        CRUD::addClause('where', 'campus_id', '1');
         
         $permissions = backpack_user()->getAllPermissions();
-        if(!$permissions->contains('name', 'courses.delete')) { $this->crud->denyAccess('delete'); }
-        if(!$permissions->contains('name', 'courses.edit')) { $this->crud->denyAccess('update'); }
-        if($permissions->contains('name', 'courses.edit')) { $this->crud->allowAccess('clone'); }
-        if(!$permissions->contains('name', 'courses.edit')) { $this->crud->denyAccess('create'); }
+        if(!$permissions->contains('name', 'courses.delete')) { CRUD::denyAccess('delete'); }
+        if(!$permissions->contains('name', 'courses.edit')) { CRUD::denyAccess('update'); }
+        if($permissions->contains('name', 'courses.edit')) { CRUD::allowAccess('clone'); }
+        if(!$permissions->contains('name', 'courses.edit')) { CRUD::denyAccess('create'); }
 
-        if($permissions->contains('name', 'courses.view')) {$this->crud->allowAccess('show'); }
+        if($permissions->contains('name', 'courses.view')) {CRUD::allowAccess('show'); }
         if($permissions->contains('name', 'attendance.view')) {
-            $this->crud->addButtonFromView('line', 'attendance', 'attendance', 'end');
+            CRUD::addButtonFromView('line', 'attendance', 'attendance', 'end');
         }
 
         if($permissions->contains('name', 'evaluation.edit')) {
-            $this->crud->addButtonFromView('line', 'skills', 'skills', 'end');
+            CRUD::addButtonFromView('line', 'skills', 'skills', 'end');
         }
 
         if($permissions->contains('name', 'evaluation.edit')) {
-            $this->crud->addButtonFromView('line', 'skillsevaluation', 'skillsevaluation', 'end');
+            CRUD::addButtonFromView('line', 'skillsevaluation', 'skillsevaluation', 'end');
         }
 
         if($permissions->contains('name', 'evaluation.edit')) {
-            $this->crud->addButtonFromView('line', 'grades', 'grades', 'end');
+            CRUD::addButtonFromView('line', 'grades', 'grades', 'end');
         }
 
         if($permissions->contains('name', 'courses.edit')) {
-            $this->crud->addButtonFromView('line', 'schedule', 'schedule', 'end');
+            CRUD::addButtonFromView('line', 'schedule', 'schedule', 'end');
         }
 
-        $this->crud->addButtonFromView('line', 'children_badge', 'children_badge', 'beginning');
+        CRUD::addButtonFromView('line', 'children_badge', 'children_badge', 'beginning');
         
         if(backpack_user()->hasRole('admin'))
         {
-            $this->crud->enableExportButtons();
+            CRUD::enableExportButtons();
         }
 
         /*
@@ -80,7 +90,7 @@ class CourseCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
 
-        $this->crud->setColumns([
+        CRUD::setColumns([
             [
             // RYTHM
             'label' => __('Rhythm'), // Table column heading
@@ -179,73 +189,73 @@ class CourseCrudController extends CrudController
         ]);
 
 
-        $this->crud->addFilter([ // select2 filter
+        CRUD::addFilter([ // select2 filter
             'name' => 'rhythm_id',
             'type' => 'select2',
             'label'=> __('Rhythm')
           ], function() {
               return \App\Models\Rhythm::all()->pluck('name', 'id')->toArray();
           }, function($value) { // if the filter is active
-                  $this->crud->addClause('where', 'rhythm_id', $value);
+                  CRUD::addClause('where', 'rhythm_id', $value);
           },
           function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
             
         });
 
 
-        $this->crud->addFilter([ // select2 filter
+        CRUD::addFilter([ // select2 filter
             'name' => 'teacher_id',
             'type' => 'select2',
             'label'=> __('Teacher')
           ], function() {
               return \App\Models\Teacher::all()->pluck('name', 'id')->toArray();
           }, function($value) { // if the filter is active
-                  $this->crud->addClause('where', 'teacher_id', $value);
+                  CRUD::addClause('where', 'teacher_id', $value);
           },
           function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
             
         });
 
-        $this->crud->addFilter([ // select2 filter
+        CRUD::addFilter([ // select2 filter
             'name' => 'level_id',
             'type' => 'select2',
             'label'=> __('Level')
           ], function() {
               return \App\Models\Level::all()->pluck('name', 'id')->toArray();
           }, function($value) { // if the filter is active
-                  $this->crud->addClause('where', 'level_id', $value);
+                  CRUD::addClause('where', 'level_id', $value);
           },
           function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
         });
 
-        $this->crud->addFilter([ // select2 filter
+        CRUD::addFilter([ // select2 filter
             'name' => 'period_id',
             'type' => 'select2',
             'label'=> __('Period')
           ], function() {
               return \App\Models\Period::all()->sortByDesc("id")->pluck('name', 'id')->toArray();
           }, function($value) { // if the filter is active
-                  $this->crud->addClause('where', 'period_id', $value);
+                  CRUD::addClause('where', 'period_id', $value);
           },
           function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
             $period = \App\Models\Period::get_default_period()->id;
-            $this->crud->addClause('where', 'period_id', $period);
-            $this->crud->request->request->add(['period_id' => $period]); // to make the filter look active
+            CRUD::addClause('where', 'period_id', $period);
+            CRUD::request->request->add(['period_id' => $period]); // to make the filter look active
         });
 
 
-        $this->crud->addFilter([ // add a "simple" filter called Draft 
+        CRUD::addFilter([ // add a "simple" filter called Draft 
             'type' => 'simple',
             'name' => 'parent',
             'label'=> __('Hide Children Courses')
           ],
           false,
           function() {
-              $this->crud->addClause('parent'); 
+              CRUD::addClause('parent'); 
           });
 
 
-        $this->crud->addFields([
+        CRUD::addFields([
             [
                 // RYTHM
                 'label' => __("Rhythm"), // Table column heading
@@ -393,32 +403,25 @@ class CourseCrudController extends CrudController
 
 
         // add asterisk for fields that are required in CourseRequest
-        $this->crud->setRequiredFields(StoreRequest::class, 'create');
-        $this->crud->setRequiredFields(UpdateRequest::class, 'edit');
+        CRUD::setRequiredFields(StoreRequest::class, 'create');
+        CRUD::setRequiredFields(UpdateRequest::class, 'edit');
     }
 
-    public function store(StoreRequest $request)
+
+    protected function setupCreateOperation()
     {
-        // your additional operations before save here
-        $redirect_location = parent::storeCrud($request);
-        // your additional operations after save here
-        // use $this->data['entry'] or $this->crud->entry
-        return $redirect_location;
+        CRUD::setValidation(StoreRequest::class);
     }
 
-    public function update(UpdateRequest $request)
+    protected function setupUpdateOperation()
     {
-        // your additional operations before save here
-        $redirect_location = parent::updateCrud($request);
-        // your additional operations after save here
-        // use $this->data['entry'] or $this->crud->entry
-
-        return $redirect_location;
+        CRUD::setValidation(UpdateRequest::class);
     }
 
 
     /**
      * Display the specified resource.
+     * BP4 TODO move this to ShowOperation.
      *
      * @param  \App\Models\Course  $course
      * @return \Illuminate\Http\Response
@@ -436,10 +439,11 @@ class CourseCrudController extends CrudController
         return view('courses/show', compact('course', 'enrollments'));   
     }
 
+    /* BP4 TODO move this to CloneOperation. */
     public function clone($id)
 {
-    $this->crud->hasAccessOrFail('clone');
-    $this->crud->setOperation('clone');
+    CRUD::hasAccessOrFail('clone');
+    CRUD::setOperation('clone');
 
     $course = Course::findOrFail($id);
 
@@ -480,10 +484,10 @@ class CourseCrudController extends CrudController
 
     public function destroy($id)
    {
-      $this->crud->hasAccessOrFail('delete');
+      CRUD::hasAccessOrFail('delete');
       Event::where('course_id', $id)->delete();
       Enrollment::where('course_id', $id)->delete();
-      return $this->crud->delete($id);
+      return CRUD::delete($id);
    }
 
 }

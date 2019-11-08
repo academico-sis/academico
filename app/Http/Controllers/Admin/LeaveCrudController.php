@@ -15,6 +15,14 @@ use App\Http\Requests\LeaveRequest as UpdateRequest;
  */
 class LeaveCrudController extends CrudController
 {
+
+    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+
+    use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+    
     public function setup()
     {
         /*
@@ -22,9 +30,9 @@ class LeaveCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        $this->crud->setModel('App\Models\Leave');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/leave');
-        $this->crud->setEntityNameStrings('leave', 'leaves');
+        CRUD::setModel('App\Models\Leave');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/leave');
+        CRUD::setEntityNameStrings('leave', 'leaves');
 
         /*
         |--------------------------------------------------------------------------
@@ -32,7 +40,7 @@ class LeaveCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
 
-        $this->crud->setColumns([
+        CRUD::setColumns([
             [
                 // 1-n relationship
                 'label' => "Teacher", // Table column heading
@@ -61,21 +69,21 @@ class LeaveCrudController extends CrudController
         ]);
 
 
-        $this->crud->addFilter([ // select2 filter
+        CRUD::addFilter([ // select2 filter
             'name' => 'teacher_id',
             'type' => 'select2',
             'label'=> __('Teacher')
           ], function() {
               return \App\Models\Teacher::all()->pluck('name', 'id')->toArray();
           }, function($value) { // if the filter is active
-                  $this->crud->addClause('where', 'teacher_id', $value);
+                  CRUD::addClause('where', 'teacher_id', $value);
           },
           function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
             
         });
 
-
-        $this->crud->addFilter([ // daterange filter
+/* BP4 check if this is working */
+        CRUD::addFilter([ // daterange filter
             'type' => 'date_range',
             'name' => 'from_to',
             'label'=> __('Date range')
@@ -83,13 +91,13 @@ class LeaveCrudController extends CrudController
           false,
           function($value) { // if the filter is active, apply these constraints
             $dates = json_decode($value);
-            $this->crud->addClause('where', 'date', '>=', $dates->from);
-            $this->crud->addClause('where', 'date', '<=', $dates->to . ' 23:59:59');
+            CRUD::addClause('where', 'date', '>=', $dates->from);
+            CRUD::addClause('where', 'date', '<=', $dates->to . ' 23:59:59');
           });
 
 
 
-        $this->crud->addFields([
+        CRUD::addFields([
             [
                 // 1-n relationship
                 'label' => "Teacher", // Table column heading
@@ -113,30 +121,22 @@ class LeaveCrudController extends CrudController
              [
                 'name' => "date", // The db column name
                 'label' => "Date", // Table column heading
-                'type' => "date",
+                'type' => "date",  // TODO MOVE TO DATERANGE!!!
              ],
         ]);
 
         // add asterisk for fields that are required in LeaveRequest
-        $this->crud->setRequiredFields(StoreRequest::class, 'create');
-        $this->crud->setRequiredFields(UpdateRequest::class, 'edit');
+        CRUD::setRequiredFields(StoreRequest::class, 'create');
+        CRUD::setRequiredFields(UpdateRequest::class, 'edit');
     }
 
-    public function store(StoreRequest $request)
+    protected function setupCreateOperation()
     {
-        // your additional operations before save here
-        $redirect_location = parent::storeCrud($request);
-        // your additional operations after save here
-        // use $this->data['entry'] or $this->crud->entry
-        return $redirect_location;
+        CRUD::setValidation(StoreRequest::class);
     }
 
-    public function update(UpdateRequest $request)
+    protected function setupUpdateOperation()
     {
-        // your additional operations before save here
-        $redirect_location = parent::updateCrud($request);
-        // your additional operations after save here
-        // use $this->data['entry'] or $this->crud->entry
-        return $redirect_location;
+        CRUD::setValidation(UpdateRequest::class);
     }
 }
