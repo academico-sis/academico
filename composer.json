@@ -17,16 +17,14 @@
         "guzzlehttp/guzzle": "^6.3",
         "laravel/framework": "^6.0",
         "laravel/helpers": "^1.1",
-        "laravel/telescope": "^2.0",
         "laravel/tinker": "^1.0",
         "maatwebsite/excel": "^3.1",
         "mailerlite/mailerlite-api-v2-php-sdk": "^0.2.3",
         "phpoffice/phpword": "^0.16.0",
         "pragmarx/version": "^0.2.9",
         "sentry/sentry-laravel": "^1.0",
-        "simplesoftwareio/simple-qrcode": "^2.0",
         "spatie/laravel-medialibrary": "^7.0.0",
-        "spatie/laravel-translatable": "^4.0",
+        "spatie/laravel-translatable": "^4.2",
         "symfony/psr-http-message-bridge": "^1.1"
     },
     "require-dev": {
@@ -35,6 +33,7 @@
         "filp/whoops": "^2.0",
         "fzaninotto/faker": "^1.4",
         "laracasts/generators": "dev-master",
+        "laravel/telescope": "^2.1",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^2.0",
         "phpunit/phpunit": "^7.0"
