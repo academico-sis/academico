@@ -16,7 +16,7 @@
 @section('header')
     <section class="container-fluid">
 	  <h2>
-        {{ trans('backpack::base.dashboard') }}
+        @lang('resource Calendars')
       </h2>
     </section>
 @endsection
@@ -26,17 +26,9 @@
     <div class="row" id="app">
 
         <div class="col-md-12">
-            <div class="box">
-                <div class="box-header with-border">
-                    <div class="box-title">                          
-                        <strong>@lang('resource Calendars')</strong>
-                    </div>
-                    <div class="box-tools pull-right">
-
-                    </div>
-                </div>
-
-                <div class="box-body">
+            <div class="card">
+                <div class="card-body">               
+                <div class="row">
                     <div id="calendar"></div>
                 </div>
             </div>
