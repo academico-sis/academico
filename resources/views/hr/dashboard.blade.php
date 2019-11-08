@@ -1,10 +1,8 @@
 @extends('backpack::blank')
 
 @section('header')
-<section class="content-header">
-    <h1>
-        @lang('Human Resources')
-    </h1>
+<section class="container-fluid">
+    <h2>@lang('Human Resources')</h2>
 </section>
 @endsection
 
@@ -13,28 +11,26 @@
 
 <div class="row">
     <div class="col-md-12">
-        <div class="box">
-            <div class="box-header with-border">
-                <div class="box-title">
-                        @lang('Human Resources')
-                </div>
-                <div class="box-tools pull-right">
+        <div class="card">
+            <div class="card-header">@lang('Human Resources')
+                <div class="card-header-actions">
                     <!-- Period selection dropdown -->
                     <div class="btn-group">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{ $selected_period->name }} <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            @foreach ($periods as $period)
-                                <li><a href="{{ url()->current() }}/?period={{ $period->id }}">{{ $period->name }}</a></li>
-                            @endforeach
-                        </ul>
+                          <div class="dropdown show">
+                            <a class="btn btn-secondary dropdown-toggle" id="dropdownMenuLink" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ $selected_period->name }}</a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    @foreach ($periods as $period)
+                                        <li><a class="dropdown-item" href="{{ url()->current() }}/?period={{ $period->id }}">{{ $period->name }}</a></li>
+                                    @endforeach
+                                </div>
+                          </div>
                     </div>
+
                 </div>
                 
-            </div>
+            </div><!-- /.card-header -->
             
-            <div class="box-body">           
+            <div class="card-body">           
                 
                 <table class="table table-striped responsive" id="crudTable">
                     <thead>
@@ -88,19 +84,12 @@
 
 
 @section('after_styles')
-  <!-- DATA TABLES -->
-  <link href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css" rel="stylesheet" type="text/css" />
-  <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.1.5/css/fixedHeader.dataTables.min.css">
-  <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.1/css/responsive.bootstrap.min.css">
-
+<!-- DATA TABLES -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.20/fh-3.1.6/datatables.min.css"/>
 @endsection
 
 @section('after_scripts')
-<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js" type="text/javascript"></script>
-  <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js" type="text/javascript"></script>
-  <script src="https://cdn.datatables.net/responsive/2.2.1/js/dataTables.responsive.min.js"></script>
-  <script src="https://cdn.datatables.net/responsive/2.2.1/js/responsive.bootstrap.min.js"></script>
-  <script src="https://cdn.datatables.net/fixedheader/3.1.5/js/dataTables.fixedHeader.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.20/fh-3.1.6/datatables.min.js"></script>
 
 <script>
   $(document).ready( function () {
