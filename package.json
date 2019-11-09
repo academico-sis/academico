@@ -10,17 +10,12 @@
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
   },
   "devDependencies": {
-    "axios": "^0.18.1",
-    "bootstrap": "^4.3.1",
     "cross-env": "^5.2.1",
-    "jquery": "^3.4.1",
     "laravel-mix": "^4.1.4",
     "lodash": "^4.17.15",
-    "popper.js": "^1.16.0",
     "resolve-url-loader": "^2.3.2",
-    "sass": "^1.23.0",
+    "sass": "^1.23.3",
     "sass-loader": "^7.3.1",
-    "vue": "^2.6.10",
     "vue-template-compiler": "^2.6.10"
   },
   "dependencies": {
@@ -31,11 +26,12 @@
     "@fullcalendar/resource-daygrid": "^4.3.0",
     "@fullcalendar/resource-timegrid": "^4.3.0",
     "@fullcalendar/resource-timeline": "^4.3.0",
-    "buefy": "^0.8.5",
-    "chart.js": "^2.8.0",
+    "axios": "^0.18.1",
+    "buefy": "^0.8.6",
+    "chart.js": "^2.9.2",
     "moment": "^2.24.0",
-    "npm": "^6.12.0",
     "vee-validate": "^3.0.11",
+    "vue": "^2.6.10",
     "vue-moment": "^4.0.0"
   }
 }
