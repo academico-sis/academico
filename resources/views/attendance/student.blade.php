@@ -1,10 +1,10 @@
 @extends('backpack::blank')
 
 @section('header')
-<section class="content-header">
-    <h1>
-        @lang('Attendance')
-    </h1>
+<section class="container-fluid">
+    <h2>
+    @lang('Attendance for') {{ $student->name }}
+    </h2>
 </section>
 @endsection
 
@@ -14,27 +14,15 @@
 <div class="row">
     
     <div class="col-md-12">
-        <div class="box">
-            <div class="box-header with-border">
-                <div class="box-title">
-                    @lang('Attendance for') {{ $student->name }}
-                </div>
-                <div class="box-tools pull-right">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-header-actions">
                     <!-- Period selection dropdown -->
-                    <div class="btn-group">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {{ $selected_period->name }} <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                @foreach ($periods as $period)
-                                    <li><a href="{{ url()->current() }}?period={{ $period->id }}">{{ $period->name }}</a></li>
-                                @endforeach
-                            </ul>
-                        </div>
+                    @include('partials.period_selection')
                 </div>
-            </div>
+            </div><!-- /.card-header -->
             
-            <div class="box-body" id="app">
+            <div class="card-body" id="app">
                 <table class="table">
                     @foreach($absences as $absence)
                     <tr>

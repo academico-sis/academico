@@ -1,10 +1,10 @@
 @extends('backpack::blank')
 
 @section('header')
-<section class="content-header">
-    <h1>
+<section class="container-fluid">
+	  <h2>
         @lang('Attendance')
-    </h1>
+    </h2>
 </section>
 @endsection
 
@@ -14,16 +14,12 @@
 <div class="row">
     
     <div class="col-md-6">
-        <div class="box">
-            <div class="box-header with-border">
-                <div class="box-title">
-                    @lang('Classes without attendance')
-                </div>
-                <div class="box-tools pull-right">
-                </div>
+        <div class="card">
+            <div class="card-header">
+                @lang('Classes without attendance')
             </div>
             
-            <div class="box-body">
+            <div class="card-body">
                 <table class="table">
                 <thead>
                     <tr>
@@ -41,9 +37,9 @@
                         <td>{{ $event['teacher'] }}</td>
                         <td>{{ $event['pending'] }}</td>
                         <td>
-                            <a class="btn btn-primary btn-xs" href="{{ route('eventAttendance', ['event' => $event['event_id']]) }}" title="@lang('View attendance sheet for event')"><i class="fa fa-eye"></i></a>
-                            <a class="btn btn-warning btn-xs" href="{{ route('exemptEventAttendance', ['event' => $event['event_id']]) }}" title="@lang('Exempt event from attendance sheet')" onclick="return confirm('Are you sure? The attendance sheet for this event will be deleted')"><i class="fa fa-times"></i></a>
-                            <a class="btn btn-warning btn-xs" href="{{ route('exemptCourseAttendance', ['course' => $event['course_id']]) }}" title="@lang('Exempt all course events from attendance sheet')" onclick="return confirm('Are you sure? The attendance sheet for all course events will be deleted')"><i class="fa fa-times"></i><i class="fa fa-times"></i></a>
+                            <a class="btn btn-primary btn-sm" href="{{ route('eventAttendance', ['event' => $event['event_id']]) }}" title="@lang('View attendance sheet for event')"><i class="fa fa-eye"></i></a>
+                            <a class="btn btn-warning btn-sm" href="{{ route('exemptEventAttendance', ['event' => $event['event_id']]) }}" title="@lang('Exempt event from attendance sheet')" onclick="return confirm('Are you sure? The attendance sheet for this event will be deleted')"><i class="fa fa-times"></i></a>
+                            <a class="btn btn-warning btn-sm" href="{{ route('exemptCourseAttendance', ['course' => $event['course_id']]) }}" title="@lang('Exempt all course events from attendance sheet')" onclick="return confirm('Are you sure? The attendance sheet for all course events will be deleted')"><i class="fa fa-times"></i><i class="fa fa-times"></i></a>
 
                         </td>
                     </tr>
@@ -54,16 +50,12 @@
     </div>
 
     <div class="col-md-6">
-        <div class="box">
-            <div class="box-header with-border">
-                <div class="box-title">
-                    @lang('Unjustified Absences')
-                </div>
-                <div class="box-tools pull-right">
-                </div>
+        <div class="card">
+            <div class="card-header">
+                @lang('Unjustified Absences')
             </div>
             
-            <div class="box-body">
+            <div class="card-body">
                 <table class="table">
                     <thead>
                         <tr>
@@ -87,16 +79,12 @@
             </div>
         </div>
 
-        <div class="box">
-            <div class="box-header with-border">
-                <div class="box-title">
-                    @lang('Justified Absences')
-                </div>
-                <div class="box-tools pull-right">
-                </div>
+        <div class="card">
+            <div class="card-header">
+                @lang('Justified Absences')
             </div>
             
-            <div class="box-body">
+            <div class="card-body">
                 <table class="table">
                     <thead>
                         <tr>

@@ -1,38 +1,20 @@
 @extends('backpack::blank')
 
-@section('header')
-<section class="content-header">
-    <h1>
-        @lang('Attendance')
-    </h1>
-</section>
-@endsection
-
 
 @section('content')
 
-
 <div class="row">
     
     <div class="col-lg-8 col-lg-offset-2">
-        <h2>Classe du {{ Carbon\Carbon::parse($event->start)->day }} / {{ Carbon\Carbon::parse($event->start)->month }}</h2>
-    </div>
-</div>
-
-<div class="row">
-    
-    <div class="col-lg-8 col-lg-offset-2">
-        <div class="box">
-            <div class="box-header with-border">
-                <div class="box-title">
-                    @lang('Attendance')
+        <div class="card">
+            <div class="card-header">
+                Présences pour la classe du {{ Carbon\Carbon::parse($event->start)->day }} / {{ Carbon\Carbon::parse($event->start)->month }}
+                <div class="card-header-actions">
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#myModal">@lang('Enroll new student')</button>
                 </div>
-                <div class="box-tools pull-right">
-                        <button class="btn btn-primary" data-toggle="modal" data-target="#myModal">@lang('Enroll new student')</button>
-                </div>
-            </div>
+            </div><!-- /.card-header -->
             
-            <div class="box-body">
+            <div class="card-body">
                 <div id="app">
                 <table class="table table-striped">
                     <thead>
