@@ -209,9 +209,9 @@
 
 
 @section('after_scripts')
-    <script src="/js/Chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.2/dist/Chart.min.js"></script>
 
-    <script>
+<script>
 $(document).ready(function(){
 var data = <?php echo json_encode($data) ?>;
 

@@ -1,8 +1,8 @@
 @extends('backpack::blank')
 
 @section('header')
-	<section class="content-header">
-		<h1>@lang('Edit contact')</h1>
+	<section class="container-fluid">
+		<h>@lang('Edit contact')</h1>
 	</section>
 @endsection
 
@@ -12,13 +12,9 @@
 <div class="row m-t-20">
 	<div class="col-md-12">
 
-			<div class="box">
+			<div class="card">
 				
-				<div class="box-header with-border">
-
-				</div>
-				
-				<div class="box-body">
+				<div class="card-body">
 
 					<form method="post" action="{{ route('updateContact', ['contact' => $contact->id]) }}">
 						{!! csrf_field() !!}

@@ -2,11 +2,7 @@
 
 @section('header')
     <section class="container-fluid">
-	  <h2>@lang('External Courses Report')</h1>
-      <ol class="breadcrumb">
-        <li><a href="{{ backpack_url() }}">{{ config('backpack.base.project_name') }}</a></li>
-        <li class="active">@lang('External Courses Report')</li>
-      </ol>
+	  <h2>@lang('External Courses Report')</h2>
     </section>
 @endsection
 
@@ -14,19 +10,10 @@
 @section('content')
     <div class="row">
 
-
-
     <div class="col-md-12">
-            <div class="box">
-                <div class="box-header with-border">
-                    <div class="box-title">
-                    </div>
-                    <div class="box-tools pull-right">
-
-                    </div>
-                </div>
+            <div class="card">
                 
-                <div class="box-body">
+                <div class="card-body">
                     <canvas id="myChart"></canvas>
                 </div>
             </div>
@@ -34,27 +21,16 @@
 
 
         <div class="col-md-12">
-            <div class="box">
-                <div class="box-header with-border">
-                    <div class="box-title">
-                    </div>
-                    <div class="box-tools pull-right">
-                    <span>@lang('Start from period:')</span>
-                    <!-- Period selection dropdown -->
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{ $startperiod->name }} <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            @foreach ($periods as $period)
-                            <li><a href="{{ url()->current() }}/?startperiod={{ $period->id }}">{{ $period->name }}</a></li>
-                            @endforeach
-                        </ul>
-                    </div> 
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-header-actions">
+                        <span>@lang('Start from period:')</span>
+                        <!-- Period selection dropdown -->
+                        @include('partials.period_selection')
                     </div>
                 </div>
                 
-                <div class="box-body">
+                <div class="card-body">
                     <table class="table table-striped">
                         <thead>
                             <th>@lang('Period')</th>
@@ -66,7 +42,7 @@
                         </thead>
 
                         @php
-                            $current_year = $startperiod->year_id;
+                            $current_year = $selected_period->year_id;
                             $i = 0;
                             $year_enrollments = 0;
                             $year_taught_hours = 0;
@@ -201,7 +177,7 @@
 
 @section('after_scripts')
 
-<script src="/js/Chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.2/dist/Chart.min.js"></script>
 
 <script>
 $(document).ready(function()

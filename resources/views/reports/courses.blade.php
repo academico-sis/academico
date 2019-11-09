@@ -1,60 +1,29 @@
 @extends('backpack::blank')
 
-@section('header')
-    <section class="container-fluid">
-	  <h2>
-        {{ trans('backpack::base.dashboard') }}
-      </h2>
-    </section>
-@endsection
-
-
 @section('content')
-
 
     <div class="row">
 
-
-
         <div class="col-md-12">
-            <div class="box">
-                <div class="box-header with-border">
-                    <div class="box-title">
-                    </div>
-                    <div class="box-tools pull-right">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-header-actions">
                         <!-- Period selection dropdown -->
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {{ $period->name }} <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                @foreach ($periods as $period)
-                                <li><a href="{{ url()->current() }}/?period={{ $period->id }}">{{ $period->name }}</a></li>
-                                @endforeach
-                            </ul>
-                        </div> 
-
+                        @include('partials.period_selection')
                     </div>
                 </div>
                 
-                <div class="box-body">
+                <div class="card-body">
                         <canvas id="myChart"></canvas>
                 </div>
             </div>
         </div>
 
         <div class="col-md-12">
-            <div class="box">
-                <div class="box-header with-border">
-                    <div class="box-title">
-                        @lang('Enrollments per Course')
-                    </div>
-                    <div class="box-tools pull-right">
-
-                    </div>
-                </div>
+            <div class="card">
+                <div class="card-header">@lang('Enrollments per Course')</div>
                 
-                <div class="box-body">
+                <div class="card-body">
                     <table class="table table-striped">
                         <thead>
                             <th>@lang('Course')</th>
@@ -89,9 +58,9 @@
 
 @section('after_scripts')
 
-    <script src="/js/Chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.2/dist/Chart.min.js"></script>
 
-    <script>
+<script>
 
 $(document).ready(function(){
 

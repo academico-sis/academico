@@ -1,45 +1,20 @@
 @extends('backpack::blank')
 
-@section('header')
-<section class="content-header">
-    <h1>
-        {{ trans('backpack::base.dashboard') }}
-    </h1>
-    <ol class="breadcrumb">
-        <li><a href="{{ backpack_url() }}">{{ config('backpack.base.project_name') }}</a></li>
-        <li class="active">{{ trans('backpack::base.dashboard') }}</li>
-    </ol>
-</section>
-@endsection
-
-
 @section('content')
-
 
 <div class="row">
     
     <div class="col-md-6">
-        <div class="box">
-            <div class="box-header with-border">
-                <div class="box-title">
+        <div class="card">
+            <div class="card-header">
                     @lang('Enrollments per Rhythm')
-                </div>
-                <div class="box-tools pull-right">
+                <div class="card-header-actions">
                     <!-- Period selection dropdown -->
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{ $period->name }} <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            @foreach ($periods as $period)
-                            <li><a href="{{ url()->current() }}/?period={{ $period->id }}">{{ $period->name }}</a></li>
-                            @endforeach
-                        </ul>
-                    </div> 
+                    @include('partials.period_selection')
                 </div>
             </div>
             
-            <div class="box-body">
+            <div class="card-body">
                 <table class="table table-striped">
                     <thead>
                         <th>@lang('Rhythm')</th>
@@ -66,16 +41,8 @@
     
     
     <div class="col-md-6">
-        <div class="box">
-            <div class="box-header with-border">
-                <div class="box-title">
-                </div>
-                <div class="box-tools pull-right">
-                    
-                </div>
-            </div>
-            
-            <div class="box-body">
+        <div class="card">            
+            <div class="card-body">
                 <canvas id="myChart"></canvas>
             </div>
         </div>
@@ -85,14 +52,10 @@
 @endsection
 
 
-@section('before_scripts')
-
-@endsection
-
 
 @section('after_scripts')
 
-<script src="/js/Chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.2/dist/Chart.min.js"></script>
 
 <script>
     String.prototype.toHex = function() {

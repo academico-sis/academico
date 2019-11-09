@@ -36,13 +36,13 @@ class ReportController extends Controller
         $data = [];
         $year_data = [];
 
-        if (!isset($request->startperiod))
+        if (!isset($request->period))
         {
             $startperiod = Period::find(Config::where('name', 'first_period')->first()->value);
         }
         else
         {
-            $startperiod = Period::find($request->startperiod);
+            $startperiod = Period::find($request->period);
         }
 
         $periods = Period::where('id', '>=', $startperiod->id)->get();
@@ -86,7 +86,7 @@ class ReportController extends Controller
         
         Log::info('Reports viewed by ' . backpack_user()->firstname);
         return view('reports.external', [
-            'startperiod' => $startperiod,
+            'selected_period' => $startperiod,
             'data' => $data,
             'year_data' => $year_data,
         ]);
@@ -105,13 +105,13 @@ class ReportController extends Controller
         $period = Period::get_default_period();
 
 
-        if (!isset($request->startperiod))
+        if (!isset($request->period))
         {
             $startperiod = Period::find(Config::where('name', 'first_period')->first()->value);
         }
         else
         {
-            $startperiod = Period::find($request->startperiod);
+            $startperiod = Period::find($request->period);
         }
 
         $periods = Period::where('id', '>=', $startperiod->id)->get();
@@ -140,7 +140,7 @@ class ReportController extends Controller
             'total_enrollment_count' => $period->internal_enrollments_count,
             'students_count' => $period->students_count,
             'data' => $data,
-            'startperiod' => $startperiod,
+            'selected_period' => $startperiod,
         ]);
     }
 
@@ -163,7 +163,7 @@ class ReportController extends Controller
             }
 
         return view('reports.rhythms', [
-            'period' => $period,
+            'selected_period' => $period,
             'data' => $data,
         ]);
     }
@@ -176,7 +176,7 @@ class ReportController extends Controller
         $courses = $period->courses()->where('parent_course_id', null)->withCount('enrollments')->orderBy('enrollments_count')->get()->where('enrollments_count', '>', 0);
 
         return view('reports.courses', [
-            'period' => $period,
+            'selected_period' => $period,
             'courses' => $courses,
         ]);
     }
