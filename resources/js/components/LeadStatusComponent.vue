@@ -1,22 +1,16 @@
 <template>
 
   <div class="col-md-4">
-        <div class="box">
-            <div class="box-header with-border">
-                <div class="box-title">
-                    État client<!-- todo translate -->
-                </div>
-
-                <div class="box-tools pull-right">
-                </div>  
+        <div class="card">
+            <div class="card-header with-border">État client<!-- todo translate -->
             </div>
             
-            <div class="box-body">
+            <div class="card-body">
 
                 <div class="btn-group" role="group"
                 v-for="leadtype in leadtypes" v-bind:key="leadtype.id">
                     <button
-                    class="btn btn-secondary"
+                    class="btn btn-sm btn-secondary"
                     v-bind:class="{ 'btn-info': status && status == leadtype.id }"
                     @click="saveStatus(leadtype.id)"
                     >

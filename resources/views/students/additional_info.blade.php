@@ -1,13 +1,13 @@
-<p>@lang('name'): {{ $contact->firstname }} {{ $contact->lastname }}</p>
-<p>@lang('idnumber'): {{ $contact->idnumber }}</p>
-<p>@lang('address'): {{ $contact->address }}</p>
+<div><strong>@lang('name'):</strong> {{ $contact->firstname }} {{ $contact->lastname }}</div>
+<div><strong>@lang('idnumber'):</strong> {{ $contact->idnumber }}</div>
+<div><strong>@lang('address'):</strong> {{ $contact->address }}</div>
 @if (count($contact->phone) > 0)
-    <p>@lang('Phone Number'):
+    <div><strong>@lang('Phone Number'):</strong>
         <ul>
             @foreach($contact->phone as $phone)
             <li>{{ $phone->phone_number }}</li>
             @endforeach
         </ul>
-    </p>
+    </div>
 @endif
-<p>@lang('email'): {{ $contact->email }}</p>
+<div><strong>@lang('email'):</strong> {{ $contact->email }}</div>

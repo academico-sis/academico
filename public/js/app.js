@@ -2900,12 +2900,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['student', 'route', 'leadtypes'],
   data: function data() {
@@ -3077,9 +3071,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
 //
 //
 //
@@ -5601,12 +5592,14 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "col-md-4" }, [
-    _c("div", { staticClass: "box" }, [
-      _vm._m(0),
+    _c("div", { staticClass: "card" }, [
+      _c("div", { staticClass: "card-header with-border" }, [
+        _vm._v("État client")
+      ]),
       _vm._v(" "),
       _c(
         "div",
-        { staticClass: "box-body" },
+        { staticClass: "card-body" },
         _vm._l(_vm.leadtypes, function(leadtype) {
           return _c(
             "div",
@@ -5619,7 +5612,7 @@ var render = function() {
               _c(
                 "button",
                 {
-                  staticClass: "btn btn-secondary",
+                  staticClass: "btn btn-sm btn-secondary",
                   class: {
                     "btn-info": _vm.status && _vm.status == leadtype.id
                   },
@@ -5645,20 +5638,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "box-header with-border" }, [
-      _c("div", { staticClass: "box-title" }, [
-        _vm._v("\n                  État client")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "box-tools pull-right" })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -5831,10 +5811,10 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "box" }, [
+  return _c("div", { staticClass: "card" }, [
     _vm._m(0),
     _vm._v(" "),
-    _c("div", { staticClass: "box-body" }, [
+    _c("div", { staticClass: "card-body" }, [
       _c(
         "ul",
         _vm._l(_vm.commentlist, function(comment, index) {
@@ -5849,7 +5829,7 @@ var render = function() {
             _c(
               "button",
               {
-                staticClass: "btn btn-danger btn-xs",
+                staticClass: "btn btn-danger btn-sm",
                 attrs: { type: "button" },
                 on: {
                   click: function($event) {
@@ -5986,16 +5966,13 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "box-header with-border" }, [
-      _c("div", { staticClass: "box-title" }, [
-        _vm._v("\n            Commentaires\n        ")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "box-tools pull-right" }, [
+    return _c("div", { staticClass: "card-header" }, [
+      _vm._v("Commentaires\n        "),
+      _c("div", { staticClass: "card-header-actions" }, [
         _c(
           "button",
           {
-            staticClass: "btn btn-xs btn-primary",
+            staticClass: "btn btn-sm btn-primary",
             attrs: {
               type: "button",
               "data-toggle": "modal",

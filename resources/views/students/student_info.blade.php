@@ -1,16 +1,16 @@
-<p>@lang('name'): {{ $student->firstname }} {{ $student->lastname }}</p>
-<p>@lang('idnumber'): {{ $student->idnumber }}</p>
-<p>@lang('address'): {{ $student->address }}</p>
+<div><strong>@lang('name'):</strong> {{ $student->firstname }} {{ $student->lastname }}</div>
+<div><strong>@lang('idnumber'):</strong> {{ $student->idnumber }}</div>
+<div><strong>@lang('address'):</strong> {{ $student->address }}</div>
 
 @if (count($student->phone) > 0)
-    <p>@lang('Phone Number'):
+    <div><strong>@lang('Phone Number'):</strong>
         <ul>
             @foreach($student->phone as $phone)
             <li>{{ $phone->phone_number }}</li>
             @endforeach
         </ul>
-    </p>
+    </div>
 @endif
-<p>@lang('email'): {{ $student->email }}</p>
-<p>@lang('birthdate'): {{ $student->student_birthdate }}</p>
-<p>@lang('age'): {{ $student->student_age }} @lang('years old')</p>
+<div><strong>@lang('email'):</strong> {{ $student->email }}</div>
+<div><strong>@lang('birthdate'):</strong> {{ $student->student_birthdate }}</div>
+<div><strong>@lang('age'):</strong> {{ $student->student_age }} @lang('years old')</div>

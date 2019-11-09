@@ -1,7 +1,7 @@
 @extends('backpack::blank')
 
 @section('header')
-<section class="content-header">
+<section class="container-fluid">
     <h1>
         @lang('Student details for') {{ $student->name }}
     </h1>
@@ -16,35 +16,33 @@
 
     @if ($student->getFirstMediaUrl() != null)
     <div class="col-md-2">
-        <div class="box">
+        <div class="card">
             <img src="{{$student->getMedia()->last()->getUrl('thumb')}}" style="width: 100%" />
         </div>
     </div>
     @endif
 
     <div class="col-md-4">
-        <div class="box">
-            <div class="box-header with-border">
-                <div class="box-title">
+        <div class="card">
+            <div class="card-header">
                     @lang('Student Info')
-                </div>
-                <div class="box-tools pull-right">
+                <div class="card-header-actions">
 
                     @if(backpack_user()->can('enrollments.edit'))
-                        <a class="btn btn-xs btn-warning" href="/student/{{$student->id}}/edit">
+                        <a class="btn btn-sm btn-warning" href="/student/{{$student->id}}/edit">
                             <i class="fa fa-edit"></i>
                         </a>
                     @endif
 
                     @if(backpack_user()->can('enrollments.edit'))
-                        <a class="btn btn-xs btn-primary" data-toggle="modal" data-target="#userDataModal">
+                        <a class="btn btn-sm btn-primary" data-toggle="modal" data-target="#userDataModal">
                             <i class="fa fa-plus"></i>
                         </a>
                     @endif
 
                 </div>
             </div>
-            <div class="box-body">
+            <div class="card-body">
                 @include('students.student_info')
             </div>
         </div>
@@ -54,18 +52,16 @@
 
     @foreach ($student->contacts as $contact)
     <div class="col-md-4">
-            <div class="box">
-                <div class="box-header with-border">
-                    <div class="box-title">
-                        @lang('Additional Contact')
-                        @if(isset($contact->relationship))
-                        ({{ $contact->relationship->name }})
-                        @endif
-                    </div>
+            <div class="card">
+                <div class="card-header">
+                    @lang('Additional Contact')
+                    @if(isset($contact->relationship))
+                    ({{ $contact->relationship->name }})
+                    @endif
 
-                    <div class="box-tools pull-right">
+                    <div class="card-header-actions">
                         @if(backpack_user()->can('enrollments.edit'))
-                            <a class="btn btn-xs btn-warning" href="/contact/{{$contact->id}}/edit">
+                            <a class="btn btn-sm btn-warning" href="/contact/{{$contact->id}}/edit">
                                 <i class="fa fa-edit"></i>
                             </a>
                         @endif
@@ -73,31 +69,27 @@
                     </div>
                 </div>
                 
-                <div class="box-body">
+                <div class="card-body">
                     @include('students.additional_info')
                 </div>
             </div>
         </div>
     @endforeach
 
-{{-- </div>
+</div>
 
 
 <div class="row">
- --}}
+
 
 @if ($attendances->count() > 0)
  <div class="col-md-4">
-        <div class="box">
-            <div class="box-header with-border">
-                <div class="box-title">
-                    @lang('Attendance')
-                </div>
-                <div class="box-tools pull-right">
-                </div>
+        <div class="card">
+            <div class="card-header">
+                @lang('Attendance')
             </div>
-            
-            <div class="box-body" id="app">
+                
+            <div class="card-body" id="app">
                 <table class="table">
                     @foreach($attendances as $attendance)
                         @if ($attendance->attendance_type_id == 4)
@@ -141,15 +133,14 @@
 
     @if (count($student->enrollments) > 0)
         <div class="col-md-8">
-                <div class="box">
-                    <div class="box-header with-border">
-                        <div class="box-title">
+                <div class="card">
+                    <div class="card-header">
                             @lang('Enrollments')
-                        </div>
-                        <div class="box-tools pull-right">
+
+                        <div class="card-header-actions">
                                 @if(backpack_user()->can('enrollments.edit'))
 
-                            <a href="/availablecourse?student={{ $student->id }}" class="btn btn-xs btn-primary">
+                            <a href="/availablecourse?student={{ $student->id }}" class="btn btn-sm btn-primary">
                                 <i class="fa fa-user-plus"></i>
                             </a>
                             @endif
@@ -157,7 +148,7 @@
                         </div>
                     </div>
                     
-                    <div class="box-body">
+                    <div class="card-body">
                         <table class="table table-striped">
                             <thead>
                                 <th>@lang('Date')</th>
@@ -188,7 +179,7 @@
                                         <td>
                                             @if(isset($enrollment->result))
                                             {{ $enrollment->result['result_name']['name'] }}
-                                            <a href="/result/{{ $enrollment->id }}" class="btn btn-xs btn-info">
+                                            <a href="/result/{{ $enrollment->id }}" class="btn btn-sm btn-info">
                                                 <i class="fa fa-eye"></i>
                                             </a>
                                             @endif
@@ -265,6 +256,7 @@
         </div>
       </div>
     </div>
+    
     
 @endsection
 

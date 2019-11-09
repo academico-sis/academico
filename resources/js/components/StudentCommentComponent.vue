@@ -1,23 +1,20 @@
 <template>
 
-<div class="box">
-    <div class="box-header with-border">
-        <div class="box-title">
-            Commentaires
-        </div>
-        <div class="box-tools pull-right">
-            <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#myModal">
+<div class="card">
+    <div class="card-header">Commentaires
+        <div class="card-header-actions">
+            <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#myModal">
                 <i class="fa fa-plus"></i>
             </button>
         </div>
     </div>
     
-    <div class="box-body">
+    <div class="card-body">
         <ul>
             <li v-for="(comment, index) in commentlist" v-bind:key="comment.id">
                 {{ comment.body }} ({{comment.created_at | moment("D MMM YY") }})
-                <button type="button" @click="deleteComment(comment.id, index)" class="btn btn-danger btn-xs">X</button>
-                <!-- <button type="button" @click="editComment(comment.id)" class="btn btn-info btn-xs">Edit</button> -->
+                <button type="button" @click="deleteComment(comment.id, index)" class="btn btn-danger btn-sm">X</button>
+                <!-- <button type="button" @click="editComment(comment.id)" class="btn btn-info btn-sm">Edit</button> -->
             </li>
         </ul>
     </div>
