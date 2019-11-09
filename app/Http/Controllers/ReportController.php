@@ -134,7 +134,7 @@ class ReportController extends Controller
         
         Log::info('Reports viewed by ' . backpack_user()->firstname);
         return view('reports.internal', [
-            'period' => $period,
+            'selected_period' => $period,
             'pending_enrollment_count' => $period->pending_enrollments_count,
             'paid_enrollment_count' => $period->paid_enrollments_count,
             'total_enrollment_count' => $period->internal_enrollments_count,

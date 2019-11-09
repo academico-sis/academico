@@ -11,51 +11,31 @@
 
 @section('content')
 
-@include('reports.insights')
 
     <div class="row">
 
 
 
         <div class="col-md-12">
-            <div class="box">
-                <div class="box-header with-border">
-                    <div class="box-title">
-                    </div>
-                    <div class="box-tools pull-right">
-
-                    </div>
-                </div>
-                
-                <div class="box-body">
-                        <canvas id="myChart"></canvas>
+            <div class="card">
+                <div class="card-body">
+                    <canvas id="myChart"></canvas>
                 </div>
             </div>
         </div>
 
 
         <div class="col-md-12">
-            <div class="box">
-                <div class="box-header with-border">
-                    <div class="box-title">
-                    </div>
-                    <div class="box-tools pull-right">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-header-actions">
                         <span>@lang('Start from period:')</span>
                         <!-- Period selection dropdown -->
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {{ $startperiod->name }} <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                @foreach ($periods as $period)
-                                <li><a href="{{ url()->current() }}/?startperiod={{ $period->id }}">{{ $period->name }}</a></li>
-                                @endforeach
-                            </ul>
-                        </div> 
+                        @include('partials.period_selection')
                     </div>
                 </div>
                 
-                <div class="box-body">
+                <div class="card-body">
                     <table class="table table-striped">
                         <thead>
                             <th>@lang('Period')</th>
@@ -68,7 +48,7 @@
                         </thead>
 
                         @php
-                            $current_year = $startperiod->year_id;
+                            $current_year = $selected_period->year_id;
                             $i = 0;
                             $year_enrollments = 0;
                             $year_taught_hours = 0;
