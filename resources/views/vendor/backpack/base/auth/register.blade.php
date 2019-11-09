@@ -29,6 +29,6 @@
         </div>
     </section>
 
-<script src="{{ mix('js/app.js') }}"></script>
+<script src="{{ mix('js/register.js') }}"></script>
 </body>
 </html>

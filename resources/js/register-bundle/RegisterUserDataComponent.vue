@@ -60,8 +60,8 @@
 
 
 <script>
-import { store } from '../../store.js';
-import { EventBus } from '../../eventBus.js';
+import { store } from './store.js';
+import { EventBus } from './eventBus.js';
 import { ValidationObserver } from 'vee-validate';
 
 export default {
