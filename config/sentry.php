@@ -9,4 +9,6 @@ return array(
     // Capture bindings on SQL queries
     'breadcrumbs.sql_bindings' => true,
 
+    'send_default_pii' => true
+
 );

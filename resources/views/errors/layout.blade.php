@@ -58,4 +58,14 @@
     </div>
   </div>
 </div>
+@if(app()->bound('sentry') && app('sentry')->getLastEventId())
+        <script src="https://browser.sentry-cdn.com/5.7.1/bundle.min.js" integrity="sha384-KMv6bBTABABhv0NI+rVWly6PIRvdippFEgjpKyxUcpEmDWZTkDOiueL5xW+cztZZ" crossorigin="anonymous"></script>
+        <script>
+            Sentry.init({ dsn: 'https://5ab055b8100145968e5b2993527cfa29@sentry.io/1355049' });
+            Sentry.showReportDialog({
+				eventId: '{{ Sentry::getLastEventID() }}',
+				lang: 'es',
+			});
+        </script>
+    @endif
 @endsection
