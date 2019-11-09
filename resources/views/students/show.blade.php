@@ -205,6 +205,12 @@
 </div>
 </div>
 
+
+@endsection
+
+@section('before_scripts')
+
+
     <!-- Add additional user data Modal-->
     <div class="modal fade" id="userDataModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
@@ -259,7 +265,7 @@
         </div>
       </div>
     </div>
-
+    
 @endsection
 
 @section('after_scripts')
