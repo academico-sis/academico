@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "6f963a417386f4fc6e52d22d6fb30cc3",
+    "content-hash": "472b58fdaed9cbba54c533e08944bb7a",
     "packages": [
         {
             "name": "akaunting/language",
@@ -1499,6 +1499,63 @@
             "time": "2018-06-13T13:22:40+00:00"
         },
         {
+            "name": "kkomelin/laravel-translatable-string-exporter",
+            "version": "1.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kkomelin/laravel-translatable-string-exporter.git",
+                "reference": "a2924d087c410a8cd2bdb9d5a3423cdf4a2bc78b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kkomelin/laravel-translatable-string-exporter/zipball/a2924d087c410a8cd2bdb9d5a3423cdf4a2bc78b",
+                "reference": "a2924d087c410a8cd2bdb9d5a3423cdf4a2bc78b",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "illuminate/support": "5.4.*|5.5.*|5.6.*|5.7.*|5.8.*|6.0.*|6.1.*|6.2.*|6.3.*|6.4.*",
+                "illuminate/translation": "5.4.*|5.5.*|5.6.*|5.7.*|5.8.*|6.0.*|6.1.*|6.2.*|6.3.*|6.4.*",
+                "php": ">=5.4.0",
+                "symfony/finder": "^3.2|^4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.0",
+                "orchestra/testbench": "~3.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "KKomelin\\TranslatableStringExporter\\Providers\\ExporterServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "KKomelin\\TranslatableStringExporter\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Konstantin Komelin",
+                    "email": "konstantin.komelin@gmail.com"
+                }
+            ],
+            "description": "Translatable String Exporter for Laravel >= 5.4",
+            "keywords": [
+                "export",
+                "exporter",
+                "laravel",
+                "translations"
+            ],
+            "time": "2019-10-24T20:18:30+00:00"
+        },
+        {
             "name": "laravel/framework",
             "version": "v6.5.0",
             "source": {
@@ -2439,16 +2496,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v4.2.5",
+            "version": "v4.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "b76bbc3c51f22c570648de48e8c2d941ed5e2cf2"
+                "reference": "9a9981c347c5c49d6dfe5cf826bb882b824080dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/b76bbc3c51f22c570648de48e8c2d941ed5e2cf2",
-                "reference": "b76bbc3c51f22c570648de48e8c2d941ed5e2cf2",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/9a9981c347c5c49d6dfe5cf826bb882b824080dc",
+                "reference": "9a9981c347c5c49d6dfe5cf826bb882b824080dc",
                 "shasum": ""
             },
             "require": {
@@ -2456,7 +2513,7 @@
                 "php": ">=7.0"
             },
             "require-dev": {
-                "ircmaxell/php-yacc": "0.0.4",
+                "ircmaxell/php-yacc": "0.0.5",
                 "phpunit/phpunit": "^6.5 || ^7.0 || ^8.0"
             },
             "bin": [
@@ -2465,7 +2522,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.2-dev"
+                    "dev-master": "4.3-dev"
                 }
             },
             "autoload": {
@@ -2487,7 +2544,7 @@
                 "parser",
                 "php"
             ],
-            "time": "2019-10-25T18:33:07+00:00"
+            "time": "2019-11-08T13:50:10+00:00"
         },
         {
             "name": "ocramius/package-versions",
@@ -8502,7 +8559,26 @@
             "time": "2019-08-24T08:43:50+00:00"
         }
     ],
-    "aliases": [],
+    "aliases": [
+        {
+            "alias": "6.4",
+            "alias_normalized": "6.4.0.0",
+            "version": "6.5.0.0",
+            "package": "illuminate/support"
+        },
+        {
+            "alias": "6.4",
+            "alias_normalized": "6.4.0.0",
+            "version": "6.5.0.0",
+            "package": "illuminate/translation"
+        },
+        {
+            "alias": "6.4",
+            "alias_normalized": "6.4.0.0",
+            "version": "6.5.0.0",
+            "package": "laravel/framework"
+        }
+    ],
     "minimum-stability": "dev",
     "stability-flags": {
         "laracasts/generators": 20
