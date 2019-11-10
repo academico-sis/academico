@@ -10,23 +10,23 @@
 @endsection
 
 @section('header')
-<section class="content-header">
+<section class="container-fluid">
 
-    <h1>
+    <h2>
         {{ trans('backpack::base.my_account') }}
-    </h1>
+    </h2>
 
     <ol class="breadcrumb">
 
-        <li>
+        <li class="breadcrumb-item">
             <a href="{{ backpack_url() }}">{{ config('backpack.base.project_name') }}</a>
         </li>
 
-        <li>
+        <li class="breadcrumb-item">
             <a href="{{ route('backpack.account.info') }}">{{ trans('backpack::base.my_account') }}</a>
         </li>
 
-        <li class="active">
+        <li class="breadcrumb-item active">
             {{ trans('backpack::base.update_account_info') }}
         </li>
 
@@ -36,14 +36,16 @@
 @endsection
 
 @section('content')
-<div class="row" id="app">
+<div id="app">
+<div class="row">
     <div class="col-md-3">
         @include('student.account.sidemenu')
     </div>
 
     <div class="col-md-9">
-        <div class="box">
-            <div class="box-body text-center">
+    <div class="row">
+        <div class="card">
+            <div class="card-body text-center">
 
                 <h4>@lang('Please check the additional contact data associated to your account')</h4>
 
@@ -57,59 +59,63 @@
 
             </div>
         </div>
-    </div>
+    </div><!-- /.row -->
 
+    <div class="row">
 
         @foreach ($user->student->contacts as $contact)
 
         <div class="col-md-4">
-                <div class="box">
-                    <div class="box-header with-border">
-                        <div class="box-title">
-                            @lang('Additional Contact')
-                            @if(isset($contact->relationship))
-                            ({{ $contact->relationship->name }})
-                            @endif
-                        </div>
+        <div class="card">
+            <div class="card-header">
+                @lang('Additional Contact')
+                @if(isset($contact->relationship))
+                ({{ $contact->relationship->name }})
+                @endif
 
-                        <div class="box-tools pull-right">
-                                <a class="btn btn btn-warning" href="/contact/{{$contact->id}}/edit">
-                                    <i class="fa fa-pencil"></i>
-                                </a>
-                                
-                        </div>
-                    </div>
-                    
-                    <div class="box-body">
-
-                            <p>@lang('Firstname') : 
-                            <span class="input-lg" id="firstname">{{ $contact->firstname }}</span></p>
-
-                            <p>@lang('Lastname') :
-                            <span class="input-lg" id="lastname">{{ $contact->lastname }}</span></p>
-                    
-
-                            <p>@lang('ID Number') :
-                            <span class="input-lg" id="idnumber">{{ $contact->idnumber }}</span></p>
-                    
-
-                            <p>@lang('Address') :
-                            <span class="input-lg" id="address">{{ $contact->address }}</span></p>
-                    
-
-                            <p>@lang('Email') :
-                            <span class="input-lg" id="email">{{ $contact->email }}</span></p>
-                
-                        <contact-phone-number-update-component :contact="{{ $contact->id }}"></contact-phone-number-update-component>
-
-                    </div>
+                <div class="card-header-actions">
+                    <a class="btn btn btn-warning" href="/contact/{{$contact->id}}/edit">
+                        <i class="fa fa-pencil"></i>
+                    </a>  
                 </div>
             </div>
+                    
+            <div class="card-body">
+
+                <p>@lang('Firstname') : 
+                <span class="input-lg" id="firstname">{{ $contact->firstname }}</span></p>
+
+                <p>@lang('Lastname') :
+                <span class="input-lg" id="lastname">{{ $contact->lastname }}</span></p>
+        
+
+                <p>@lang('ID Number') :
+                <span class="input-lg" id="idnumber">{{ $contact->idnumber }}</span></p>
+        
+
+                <p>@lang('Address') :
+                <span class="input-lg" id="address">{{ $contact->address }}</span></p>
+        
+
+                <p>@lang('Email') :
+                <span class="input-lg" id="email">{{ $contact->email }}</span></p>
+        
+                <contact-phone-number-update-component :contact="{{ $contact->id }}"></contact-phone-number-update-component>
+
+            </div><!-- /.card-body -->
+        </div><!-- /.card -->
+        </div><!-- /.col -->
         @endforeach
 
-        <div class="col-md-3">
-                <div class="box">
-                    <div class="box-body text-center">
+    </div><!-- /.row -->
+
+</div><!-- /.col md-9 -->
+</div><!-- row -->
+
+<div class="row">
+        <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body text-center">
                         <h4>@lang('When everything is ready, please confirm that your data is up-to-date')</h4>
         
                         <form action="/edit-contacts" method="post">
@@ -119,9 +125,12 @@
                     </div>
                 </div>
             </div>
-
+            </div>
         </div>
+</div>
+@endsection
 
+@section('after_scripts')
     <!-- Add additional user data Modal-->
     <div class="modal fade" id="userDataModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
@@ -177,9 +186,5 @@
       </div>
     </div>
 
-
-@endsection
-
-@section('after_scripts')
     <script src="/js/app.js"></script>   
 @endsection

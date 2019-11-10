@@ -12,25 +12,18 @@
 @section('content')
     <div class="row">
 
-        <div class="col-md-12">
-
         @foreach ($enrollments as $enrollment)
         <div class="col-md-4">
-            <div class="box">
-                <div class="box-header with-border">
-                    <div class="box-title">                          
-                        <strong>{{ $enrollment->course->name }}</strong>
-                    </div>
-                    <div class="box-tools pull-right">
-                        
-                    </div>
+            <div class="card">
+                <div class="card-header">                          
+                    <strong>{{ $enrollment->course->name }}</strong>
                 </div>
 
-                <div class="box-body">
+                <div class="card-body">
                     <p>@lang('Period') : {{ $enrollment->course->period->name }}</p>
                    
                     @if(isset($enrollment->result_name))
-                        <p>@lang('Result') : <a href="/result/{{ $enrollment->id }}">{{ $enrollment->result_name }}</a></p>
+                        <p>@lang('Result') : <a href="/result/{{ $enrollment->id }}/show">{{ $enrollment->result_name }}</a></p>
                     @endif
 
                     <p>@lang('Status') : {{ $enrollment->status }}</p>
@@ -42,7 +35,6 @@
             </div>
         </div>
         @endforeach
-    </div>
 
     </div>
 @endsection

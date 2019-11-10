@@ -10,23 +10,23 @@
 @endsection
 
 @section('header')
-<section class="content-header">
+<section class="container-fluid">
 
-    <h1>
+    <h2>
         {{ trans('backpack::base.my_account') }}
-    </h1>
+    </h2>
 
     <ol class="breadcrumb">
 
-        <li>
+        <li class="breadcrumb-item">
             <a href="{{ backpack_url() }}">{{ config('backpack.base.project_name') }}</a>
         </li>
 
-        <li>
+        <li class="breadcrumb-item">
             <a href="{{ route('backpack.account.info') }}">{{ trans('backpack::base.my_account') }}</a>
         </li>
 
-        <li class="active">
+        <li class="breadcrumb-item active">
             {{ trans('backpack::base.update_account_info') }}
         </li>
 
@@ -46,9 +46,9 @@
 
             @csrf
 
-            <div class="box padding-10">
+            <div class="card padding-10">
 
-                <div class="box-body backpack-profile-form">
+                <div class="card-body backpack-profile-form">
 
                     @if (session('success'))
                         <div class="alert alert-success">
@@ -66,8 +66,8 @@
                         </div>
                     @endif
 
-                    <div class="box">
-                        <div class="box-body">
+                    <div class="card">
+                        <div class="card-body">
 
                             <h4>@lang('Please chose an image on your computer to update your profile picture')</h4>
         
