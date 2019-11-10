@@ -1,10 +1,10 @@
 @extends('backpack::blank')
 
 @section('header')
-<section class="content-header">
-    <h1>
+<section class="container-fluid">
+    <h2>
         @lang('Course Details')
-    </h1>
+    </h2>
 </section>
 @endsection
 
@@ -14,69 +14,69 @@
 <div class="row">
 
     @if(isset($course->teacher))
-        <div class="col-md-3">
-            <div class="info-box">
-                <span class="info-box-icon bg-aqua"><i class="fa fa-users"></i></span>
-                <div class="info-box-content">
-                    <span class="info-box-text">@lang('Teacher')</span>
-                    <span class="info-box-number">{{ $course->teacher->name }}</span>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body p-3 d-flex align-items-center"><i class="fa fa-user bg-primary p-3 font-2xl mr-3"></i>
+                <div>
+                    <div class="text-value-sm text-primary">{{ $course->teacher->name }}</div>
+                    <div class="text-muted text-uppercase font-weight-bold small">@lang('Teacher')</div>
                 </div>
             </div>
         </div>
+    </div>
     @endif
     
     @if(isset($course->rhythm) || isset($course->level))
-        <div class="col-md-3">
-            <div class="info-box">
-                <span class="info-box-icon bg-aqua"><i class="fa fa-building-o"></i></span>
-                <div class="info-box-content">
-                    <span class="info-box-text">{{ $course->name ?? '' }}</span>
-                    <span class="info-box-number">{{ $course->rhythm->name ?? '-' . ' ' . $course->level->name ?? '-' }}</span>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body p-3 d-flex align-items-center"><i class="fa fa-building-o bg-primary p-3 font-2xl mr-3"></i>
+                <div>
+                    <div class="text-value-sm text-primary">{{ $course->name ?? '' }}</div>
+                    <div class="text-muted text-uppercase font-weight-bold small">{{ $course->rhythm->name ?? '-' . ' ' . $course->level->name ?? '-' }}</div>
                 </div>
             </div>
         </div>
+    </div>
     @endif
     
     @if(isset($course->course_times))
-        <div class="col-md-3">
-            <div class="info-box">
-                <span class="info-box-icon bg-aqua"><i class="fa fa-clock-o"></i></span>
-                <div class="info-box-content">
-                    <span class="info-box-text">@lang('Schedule')</span>
-                    <span class="info-box-number">{{ $course->course_times }}</span>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body p-3 d-flex align-items-center"><i class="fa fa-clock-o bg-primary p-3 font-2xl mr-3"></i>
+                <div>
+                    <div class="text-value-sm text-primary">{{ $course->course_times }}</div>
+                    <div class="text-muted text-uppercase font-weight-bold small">@lang('Schedule')</div>
                 </div>
             </div>
         </div>
+    </div>
     @endif
 
     @if(isset($course->room))
-        <div class="col-md-3">
-            <div class="info-box">
-                <span class="info-box-icon bg-aqua"><i class="fa fa-clock-o"></i></span>
-                <div class="info-box-content">
-                    <span class="info-box-text">@lang('Room')</span>
-                    <span class="info-box-number">{{ $course->room->name }}</span>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body p-3 d-flex align-items-center"><i class="fa fa-clock-o bg-primary p-3 font-2xl mr-3"></i>
+                <div>
+                    <div class="text-value-sm text-primary">{{ $course->room->name }}</div>
+                    <div class="text-muted text-uppercase font-weight-bold small">@lang('Room')</div>
                 </div>
             </div>
         </div>
+    </div>
     @endif
         
 </div>
 
 <div class="row">
     <div class="col-md-12">
-        <div class="box">
-            <div class="box-header with-border">
-                <div class="box-title">
-                    @lang('courses')
-                </div>
-                <div class="box-tools pull-right">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-header-actions">
                     <button class="btn btn-primary" data-toggle="modal" data-target="#myModal">@lang('Enroll new student')</button>
                 </div>
-                
             </div>
             
-            <div class="box-body">           
+            <div class="card-body">           
                 
                 <table id="studentsTable" class="table table-striped responsive" style="width:100%">
                     <thead>
@@ -98,7 +98,7 @@
                             <td>{{ $enrollment->student->email }}</td>
 
                             <td><!-- available actions -->
-                                <a href="{{ url('student', $enrollment->student_id) }}" class='btn btn-secondary'>
+                                <a href="/student/{{ $enrollment->student_id }}/show" class='btn btn-sm btn-secondary'>
                                     <i class='fa fa-briefcase'></i>
                                 </a>
    
@@ -141,12 +141,13 @@
 
 @section('after_scripts')
 
- <!-- DATA TABLES -->
- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/jszip-2.5.0/dt-1.10.18/b-1.5.4/b-html5-1.5.4/b-print-1.5.4/fh-3.1.4/r-2.2.2/datatables.min.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.20/b-1.6.1/b-html5-1.6.1/b-print-1.6.1/fh-3.1.6/datatables.min.css"/>
  
- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
- <script type="text/javascript" src="https://cdn.datatables.net/v/bs/jszip-2.5.0/dt-1.10.18/b-1.5.4/b-html5-1.5.4/b-print-1.5.4/fh-3.1.4/r-2.2.2/datatables.min.js"></script>
+<!-- DATA TABLES -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.20/b-1.6.1/b-html5-1.6.1/b-print-1.6.1/fh-3.1.6/datatables.min.js"></script>
+
 <script>
     $(document).ready( function () {
         $('#studentsTable').DataTable(

@@ -1,10 +1,10 @@
 @extends('backpack::blank')
 
 @section('header')
-<section class="content-header">
-    <h1>
+<section class="container-fluid">
+    <h2>
         @lang('Enrollment Details')
-    </h1>
+    </h2>
 </section>
 @endsection
 
@@ -14,19 +14,16 @@
 <div class="row" id="app">
     
     <div class="col-md-4">
-        <div class="box">
-            <div class="box-header with-border">
-                <div class="box-title">
-                    @lang('Student Info')
-                </div>
-                <div class="box-tools pull-right">
-                    <button class="btn btn-warning"><i class="fa fa-pencil"></i></button>
+        <div class="card">
+            <div class="card-header">@lang('Student Info')
+                <div class="card-header-actions">
+                    <button class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i></button>
                 </div>
             </div>
             
-            <div class="box-body">
+            <div class="card-body">
                 <p>@lang('name'): 
-                    <a href="{{ url('student') }}/{{$enrollment->student->id }}">{{ $enrollment->student->firstname }} {{ $enrollment->student->lastname }}</a>
+                    <a href="{{ url('student') }}/{{$enrollment->student->id }}/show">{{ $enrollment->student->firstname }} {{ $enrollment->student->lastname }}</a>
                 </p>
                 <p>@lang('idnumber'): {{ $enrollment->student->idnumber }}</p>
                 <p>@lang('address'): {{ $enrollment->student->address }}</p>
@@ -50,41 +47,35 @@
     
 
     <div class="col-md-4">
-            <div class="box">
-                <div class="box-header with-border">
-                    <div class="box-title">
-                        @lang('Course info')
-                    </div>
-                    <div class="box-tools pull-right">
-                    </div>
-                </div>
+            <div class="card">
+                <div class="card-header">@lang('Course info')</div>
                 
-                <div class="box-body">
-                        <p>@lang('Enrollment date'): {{ $enrollment->date }}</p>
-                        <p>@lang('Enrollment ID'): {{ $enrollment->id }}</p>
-                        <p>@lang('Course'): {{ $enrollment->course->name }}</p>
-                        <p>@lang('Period'): {{ $enrollment->course->period->name }}</p>
-                        
-                        @if ($enrollment->children_count > 0)
-                            <p>@lang('Children enrollments'):</p>
-                            <ul>
-                            @foreach ($enrollment->children as $children)
-                                <li>
-                                    <a href="{{ url('enrollment', $children->id) }}">{{ $children->course->name }}</a> ({{ $children->course->period->name }})
-                                </li>
-                            @endforeach
-                            </ul>
-                        @elseif ($enrollment->parent_id !== null)
-                            @lang('This enrollment belongs to') <a href="{{ url('enrollment', $enrollment->parent_id) }}">{{ $enrollment->parent_id }}</a>
-                        @endif
-                        
-                        @if(isset($enrollment->result))
-                            <p>
-                                <a href="/result/{{ $enrollment->id }}" class="btn btn-xs btn-info">
-                                    <i class="fa fa-eye"></i> {{ $enrollment->result['result_name']['name'] }}
-                                </a>
-                            </p>
-                        @endif
+                <div class="card-body">
+                    <p>@lang('Enrollment date'): {{ $enrollment->date }}</p>
+                    <p>@lang('Enrollment ID'): {{ $enrollment->id }}</p>
+                    <p>@lang('Course'): {{ $enrollment->course->name }}</p>
+                    <p>@lang('Period'): {{ $enrollment->course->period->name }}</p>
+                    
+                    @if ($enrollment->children_count > 0)
+                        <p>@lang('Children enrollments'):</p>
+                        <ul>
+                        @foreach ($enrollment->children as $children)
+                            <li>
+                                <a href="/enrollment/{{ $children->id }}/show">{{ $children->course->name }}</a> ({{ $children->course->period->name }})
+                            </li>
+                        @endforeach
+                        </ul>
+                    @elseif ($enrollment->parent_id !== null)
+                        @lang('This enrollment belongs to') <a href="/enrollment/{{ $enrollment->parent_id }}/show">{{ $enrollment->parent_id }}</a>
+                    @endif
+                    
+                    @if(isset($enrollment->result))
+                        <p>
+                            <a href="/result/{{ $enrollment->id }}/show" class="btn btn-sm btn-info">
+                                <i class="fa fa-eye"></i> {{ $enrollment->result['result_name']['name'] }}
+                            </a>
+                        </p>
+                    @endif
                 </div>
             </div>
         </div>
@@ -104,16 +95,11 @@
 
     
 <div class="col-md-4">
-        <div class="box">
-            <div class="box-header with-border">
-                <div class="box-title">
-                    @lang('Status')
-                </div>
-                <div class="box-tools pull-right">
-                </div>
-            </div>
+        <div class="card">
+            <div class="card-header">@lang('Status')</div>
             
-            <div class="box-body">
+            <div class="card-body">
+
             <div class="form-group">
 
                 @if($enrollment->status_id == 2)
@@ -134,7 +120,7 @@
                         </div>
 
                         <div class="form-group">
-                            <a href="/enrollments/{{ $enrollment->id }}/quickbill" class="btn btn-info btn-xs">@lang('Mark as paid without generating an invoice')</a>
+                            <a href="/enrollments/{{ $enrollment->id }}/quickbill" class="btn btn-info btn-sm">@lang('Mark as paid without generating an invoice')</a>
                         </div>
 
                     @endif
@@ -154,7 +140,7 @@
                 </div>
 
                 <div class="form-group">
-                    <button class="btn btn-xs btn-warning" data-toggle="modal" data-target="#changeCourseModal">@lang('Change Course')</button>
+                    <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#changeCourseModal">@lang('Change Course')</button>
                 </div>
                 
             @else
@@ -172,6 +158,13 @@
     @include('invoices.show')
 @endif
 
+
+
+
+@endsection
+
+
+@section('before_scripts')
 
 
     <!-- Change Course Modal-->
@@ -207,11 +200,6 @@
       </div>
     </div>
 
-
-@endsection
-
-
-@section('before_scripts')
 <script>
         function cancel(enrollment)
             {

@@ -19,7 +19,6 @@
         "illuminate/translation": "6.5 as 6.4",
         "kkomelin/laravel-translatable-string-exporter": "^1.6",
         "laravel/framework": "6.5 as 6.4",
-        "laravel/helpers": "^1.1",
         "laravel/tinker": "^1.0",
         "maatwebsite/excel": "^3.1",
         "mailerlite/mailerlite-api-v2-php-sdk": "^0.2.3",

@@ -28,7 +28,7 @@ class ResultCrudController extends CrudController
 
     // BP4 check if the store method works or not, and when it is needed
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
     
     public function __construct()
     {
