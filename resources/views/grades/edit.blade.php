@@ -1,32 +1,45 @@
 @extends('backpack::blank')
 
 @section('header')
-<section class="content-header">
-    <h1>
+<section class="container-fluid">
+    <h2>
         @lang('Edit Grades')
-    </h1>
+    </h2>
 </section>
 @endsection
 
-
+@section('after_styles')
+<style>
+            .glyphicon-ok::before {
+                content: "\f00c";
+            }
+            .glyphicon-remove::before {
+                content: "\f00d";
+            }
+            .glyphicon {
+                font-family: 'Font Awesome 5 Free';
+                font-weight: 900;
+                font-style: normal;
+            }
+</style>
+<script src="https://kit.fontawesome.com/cedee4c07c.js" crossorigin="anonymous"></script>
+@endsection
 @section('content')
 
 <div class="row">
     <div class="col-md-12">
-        <div class="box">
-            <div class="box-header with-border">
-                <div class="box-title">
-                    @lang('Edit Grades')
-                </div>
+        <div class="card">
+            <div class="card-header">
+                @lang('Edit Grades')
                 
-                <div class="box-tools pull-right">
+                <div class="card-header-actions">
                     <a class="btn btn-primary" data-toggle="modal" data-target="#gradeTypeModal">
                         <i class="fa fa-plus"></i> @lang('Add Grade Type to Course')
                     </a>
                 </div>
             </div>
             
-            <div class="box-body">           
+            <div class="card-body">           
                 <table class="table">
                     <tr>
                         <td></td>
@@ -55,7 +68,7 @@
                                         href="#"
                                         id="{{ $grade->id }}"
                                         class="grade"
-                                        data-type="text"
+                                        data-type="number"
                                         data-pk="{{ $grade->id }}"
                                         data-url="/grades"
                                         data-title="Enter new grade"
@@ -161,7 +174,12 @@
 
 <script>
 $(document).ready(function() {
-    $('.grade').editable();
+    $('.grade').editable({mode: 'inline'});
+    
+    //make username required
+    $('.grade').editable('option', 'validate', function(v) {
+    if(!v) return 'Required field!';
+});
 
     $.ajaxSetup({
   headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
