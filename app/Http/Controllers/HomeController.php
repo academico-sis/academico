@@ -66,7 +66,7 @@ class HomeController extends Controller
             'teacher' => $teacher,
             'courses' => $teacher->period_courses($period),
             'pending_attendance' => $teacher->events_with_pending_attendance,
-            'period' => $period
+            'selected_period' => $period
         ]);
     }
 
