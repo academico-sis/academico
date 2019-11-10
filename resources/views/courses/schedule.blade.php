@@ -1,10 +1,10 @@
 @extends('backpack::blank')
 
 @section('header')
-<section class="content-header">
-    <h1>
+<section class="container-fluid">
+    <h2>
         @lang('Course Schedule')
-    </h1>
+    </h2>
 </section>
 @endsection
 

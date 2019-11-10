@@ -27,8 +27,7 @@ class AvailableCourseCrudController extends CrudController
     {
         parent::__construct();
         $this->middleware(['permission:enrollments.create']);
-        //$this->student = Student::find($request->query('student')); // TODO find a better way
-        // BP4 removing the previous will break the views
+        $this->student = Student::find(request()->query('student')); // TODO find a better way
     }
 
     public function setup()

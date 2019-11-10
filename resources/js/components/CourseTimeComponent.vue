@@ -1,17 +1,12 @@
 <template>
 <div id="parent">
     <div class="col-md-6">
-        <div class="box">
-            <div class="box-header with-border">
-                <div class="box-title">
-                    New time
-                </div>
-
-                <div class="box-tools pull-right">
-                </div>
+        <div class="card">
+            <div class="card-header">
+                Ajouter un horaire
             </div>
                     
-            <div class="box-body">
+            <div class="card-body">
                 <table class="table">
                     <thead>
                         <th>
@@ -60,17 +55,12 @@
 
 
 <div class="col-md-6">
-        <div class="box">
-            <div class="box-header with-border">
-                <div class="box-title">
-                    Events
-                </div>
-
-                <div class="box-tools pull-right">
-                </div>
+        <div class="card">
+            <div class="card-header">
+                Classes
             </div>
                     
-            <div class="box-body">
+            <div class="card-body">
                 <table class="table">
                     <thead>
                         <th>Start</th>

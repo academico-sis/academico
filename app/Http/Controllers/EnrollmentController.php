@@ -50,7 +50,7 @@ class EnrollmentController extends Controller
         Log::info(backpack_user()->firstname . ' generated a new enrollment for student ' . $student->name);
 
         if(backpack_user()->can('enrollments.edit')) {
-            return redirect()->to("/enrollment/$enrollment_id");
+            return redirect()->to("/enrollment/$enrollment_id/show");
         }
     }
 
@@ -97,7 +97,7 @@ class EnrollmentController extends Controller
         // display a confirmation message and redirect to enrollment details
         \Alert::success(__('The enrollment has been updated'))->flash();
 
-        return redirect("enrollment/$enrollment->id");
+        return redirect("enrollment/$enrollment->id/show");
 
     }
 

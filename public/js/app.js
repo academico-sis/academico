@@ -2683,16 +2683,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['course'],
   data: function data() {
@@ -5236,10 +5226,12 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { attrs: { id: "parent" } }, [
     _c("div", { staticClass: "col-md-6" }, [
-      _c("div", { staticClass: "box" }, [
-        _vm._m(0),
+      _c("div", { staticClass: "card" }, [
+        _c("div", { staticClass: "card-header" }, [
+          _vm._v("\n                Ajouter un horaire\n            ")
+        ]),
         _vm._v(" "),
-        _c("div", { staticClass: "box-body" }, [
+        _c("div", { staticClass: "card-body" }, [
           _c("table", { staticClass: "table" }, [
             _c("thead", [
               _c("th", [
@@ -5391,12 +5383,14 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "col-md-6" }, [
-      _c("div", { staticClass: "box" }, [
-        _vm._m(1),
+      _c("div", { staticClass: "card" }, [
+        _c("div", { staticClass: "card-header" }, [
+          _vm._v("\n                Classes\n            ")
+        ]),
         _vm._v(" "),
-        _c("div", { staticClass: "box-body" }, [
+        _c("div", { staticClass: "card-body" }, [
           _c("table", { staticClass: "table" }, [
-            _vm._m(2),
+            _vm._m(0),
             _vm._v(" "),
             _c(
               "tbody",
@@ -5416,30 +5410,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "box-header with-border" }, [
-      _c("div", { staticClass: "box-title" }, [
-        _vm._v("\n                    New time\n                ")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "box-tools pull-right" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "box-header with-border" }, [
-      _c("div", { staticClass: "box-title" }, [
-        _vm._v("\n                    Events\n                ")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "box-tools pull-right" })
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
