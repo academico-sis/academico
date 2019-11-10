@@ -1,10 +1,10 @@
 @extends('backpack::blank')
 
 @section('header')
-<section class="content-header">
-    <h1>
+<section class="container-fluid">
+    <h2>
         @lang('New pre-invoice')
-    </h1>
+    </h2>
 </section>
 @endsection
 
@@ -13,14 +13,10 @@
 
 <div class="row">
     <div class="col-md-12">
-        <div class="box">
-            <div class="box-header with-border">
-                <div class="box-tools pull-right">
-                </div>
-                
-            </div>
+        <div class="card">
+            <div class="card-header">
             
-            <div class="box-body">           
+            <div class="card-body">           
 
                 <form action="{{ route('quickInvoice') }}" method="post">
                     

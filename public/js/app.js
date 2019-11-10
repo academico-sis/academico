@@ -2118,36 +2118,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['enrollmentslist', 'feeslist', 'bookslist', 'availablebooks', 'availablefees', 'availablediscounts', 'contactdata', 'availablepaymentmethods'],
   data: function data() {
@@ -3814,9 +3784,9 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("ol", { staticClass: "breadcrumb" }, [
+    _c("ol", { staticClass: "breadcrumb bg-transparent" }, [
       _vm.step >= 1
-        ? _c("li", [
+        ? _c("li", { staticClass: "breadcrumb-item" }, [
             _c(
               "a",
               {
@@ -3832,7 +3802,7 @@ var render = function() {
         : _vm._e(),
       _vm._v(" "),
       _vm.step >= 2
-        ? _c("li", { staticClass: "active" }, [
+        ? _c("li", { staticClass: "breadcrumb-item" }, [
             _c(
               "a",
               {
@@ -3848,7 +3818,7 @@ var render = function() {
         : _vm._e(),
       _vm._v(" "),
       _vm.step >= 3
-        ? _c("li", { staticClass: "active" }, [
+        ? _c("li", { staticClass: "breadcrumb-item" }, [
             _c(
               "a",
               {
@@ -3867,12 +3837,14 @@ var render = function() {
     _vm.step == 1
       ? _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col col-md-8" }, [
-            _c("div", { staticClass: "box" }, [
-              _vm._m(0),
+            _c("div", { staticClass: "card" }, [
+              _c("div", { staticClass: "card-header" }, [
+                _vm._v("\n                    Productos\n                ")
+              ]),
               _vm._v(" "),
-              _c("div", { staticClass: "box-body" }, [
+              _c("div", { staticClass: "card-body" }, [
                 _c("table", { staticClass: "table" }, [
-                  _vm._m(1),
+                  _vm._m(0),
                   _vm._v(" "),
                   _c(
                     "tbody",
@@ -3965,8 +3937,8 @@ var render = function() {
               ])
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "box" }, [
-              _c("div", { staticClass: "box-body text-center" }, [
+            _c("div", { staticClass: "card" }, [
+              _c("div", { staticClass: "card-body text-center" }, [
                 _c("h4", [
                   _vm._v(" PRECIO TOTAL: $ " + _vm._s(_vm.shoppingCartTotal))
                 ]),
@@ -3993,58 +3965,60 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "col col-md-4" }, [
-            _c("div", { staticClass: "box" }, [
-              _vm._m(2),
+            _c("div", { staticClass: "card" }, [
+              _c("div", { staticClass: "card-header" }, [
+                _vm._v(
+                  "\n                    Agregar productos\n                "
+                )
+              ]),
               _vm._v(" "),
-              _c("div", { staticClass: "box-body" }, [
+              _c("div", { staticClass: "card-body" }, [
                 _c("div", { staticClass: "form-group" }, [
-                  _c("div", { staticClass: "btn-group" }, [
-                    _vm._m(3),
+                  _c("div", { staticClass: "dropdown" }, [
+                    _vm._m(1),
                     _vm._v(" "),
                     _c(
-                      "ul",
+                      "div",
                       { staticClass: "dropdown-menu" },
                       _vm._l(this.availablebooks, function(availableBook) {
-                        return _c("li", { key: availableBook.id }, [
-                          _c(
-                            "a",
-                            {
-                              attrs: { href: "#" },
-                              on: {
-                                click: function($event) {
-                                  return _vm.addBook(availableBook)
-                                }
+                        return _c(
+                          "button",
+                          {
+                            key: availableBook.id,
+                            staticClass: "dropdown-item",
+                            on: {
+                              click: function($event) {
+                                return _vm.addBook(availableBook)
                               }
-                            },
-                            [_vm._v(_vm._s(availableBook.name))]
-                          )
-                        ])
+                            }
+                          },
+                          [_vm._v(_vm._s(availableBook.name))]
+                        )
                       }),
                       0
                     )
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "btn-group" }, [
-                    _vm._m(4),
+                  _c("div", { staticClass: "dropdown" }, [
+                    _vm._m(2),
                     _vm._v(" "),
                     _c(
-                      "ul",
+                      "div",
                       { staticClass: "dropdown-menu" },
                       _vm._l(this.availablefees, function(availableFee) {
-                        return _c("li", { key: availableFee.id }, [
-                          _c(
-                            "a",
-                            {
-                              attrs: { href: "#" },
-                              on: {
-                                click: function($event) {
-                                  return _vm.addFee(availableFee)
-                                }
+                        return _c(
+                          "button",
+                          {
+                            key: availableFee.id,
+                            staticClass: "dropdown-item",
+                            on: {
+                              click: function($event) {
+                                return _vm.addFee(availableFee)
                               }
-                            },
-                            [_vm._v(_vm._s(availableFee.name))]
-                          )
-                        ])
+                            }
+                          },
+                          [_vm._v(_vm._s(availableFee.name))]
+                        )
                       }),
                       0
                     )
@@ -4053,10 +4027,12 @@ var render = function() {
               ])
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "box" }, [
-              _vm._m(5),
+            _c("div", { staticClass: "card" }, [
+              _c("div", { staticClass: "card-header" }, [
+                _vm._v("\n                    Descuentos\n                ")
+              ]),
               _vm._v(" "),
-              _c("div", { staticClass: "box-body" }, [
+              _c("div", { staticClass: "card-body" }, [
                 _c(
                   "ul",
                   _vm._l(_vm.discounts, function(discount, index) {
@@ -4086,29 +4062,28 @@ var render = function() {
                 ),
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group" }, [
-                  _c("div", { staticClass: "btn-group" }, [
-                    _vm._m(6),
+                  _c("div", { staticClass: "dropdown" }, [
+                    _vm._m(3),
                     _vm._v(" "),
                     _c(
-                      "ul",
+                      "div",
                       { staticClass: "dropdown-menu" },
                       _vm._l(this.availablediscounts, function(
                         availableDiscount
                       ) {
-                        return _c("li", { key: availableDiscount.id }, [
-                          _c(
-                            "a",
-                            {
-                              attrs: { href: "#" },
-                              on: {
-                                click: function($event) {
-                                  return _vm.addDiscount(availableDiscount)
-                                }
+                        return _c(
+                          "button",
+                          {
+                            key: availableDiscount.id,
+                            staticClass: "dropdown-item",
+                            on: {
+                              click: function($event) {
+                                return _vm.addDiscount(availableDiscount)
                               }
-                            },
-                            [_vm._v(_vm._s(availableDiscount.name))]
-                          )
-                        ])
+                            }
+                          },
+                          [_vm._v(_vm._s(availableDiscount.name))]
+                        )
                       }),
                       0
                     )
@@ -4126,15 +4101,12 @@ var render = function() {
             "div",
             { staticClass: "col-md-4" },
             [
-              _c("div", { staticClass: "box" }, [
-                _c("div", { staticClass: "box-header with-border" }, [
-                  _c("div", { staticClass: "box-title" }, [
-                    _vm._v(
-                      "\n                        Estudiante\n                    "
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "box-tools pull-right" }, [
+              _c("div", { staticClass: "card" }, [
+                _c("div", { staticClass: "card-header" }, [
+                  _vm._v(
+                    "\n                    Estudiante\n\n                    "
+                  ),
+                  _c("div", { staticClass: "card-header-actions" }, [
                     _c(
                       "button",
                       {
@@ -4153,7 +4125,7 @@ var render = function() {
                   ])
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "box-body" }, [
+                _c("div", { staticClass: "card-body" }, [
                   _c("p", [
                     _vm._v(
                       _vm._s(_vm.enrollments[0].student.user.firstname) +
@@ -4173,15 +4145,12 @@ var render = function() {
               ]),
               _vm._v(" "),
               _vm._l(this.contactdata, function(contact) {
-                return _c("div", { key: contact.id, staticClass: "box" }, [
-                  _c("div", { staticClass: "box-header with-border" }, [
-                    _c("div", { staticClass: "box-title" }, [
-                      _vm._v(
-                        "\n                        Contact\n                    "
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "box-tools pull-right" }, [
+                return _c("div", { key: contact.id, staticClass: "card" }, [
+                  _c("div", { staticClass: "card-header" }, [
+                    _vm._v(
+                      "\n                    Contact\n\n                    "
+                    ),
+                    _c("div", { staticClass: "card-header-actions" }, [
                       _c(
                         "button",
                         {
@@ -4200,7 +4169,7 @@ var render = function() {
                     ])
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "box-body" }, [
+                  _c("div", { staticClass: "card-body" }, [
                     _c("p", [
                       _vm._v(
                         _vm._s(contact.firstname) +
@@ -4220,15 +4189,12 @@ var render = function() {
           ),
           _vm._v(" "),
           _c("div", { staticClass: "col-md-8" }, [
-            _c("div", { staticClass: "box" }, [
-              _c("div", { staticClass: "box-header with-border" }, [
-                _c("div", { staticClass: "box-title" }, [
-                  _vm._v(
-                    "\n                        Datos de facturación\n                    "
-                  )
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "box-tools pull-right" }, [
+            _c("div", { staticClass: "card" }, [
+              _c("div", { staticClass: "card-header" }, [
+                _vm._v(
+                  "\n                    Datos de facturación\n                    "
+                ),
+                _c("div", { staticClass: "card-header-actions" }, [
                   _vm.checkForm()
                     ? _c(
                         "button",
@@ -4249,7 +4215,7 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "box-body" }, [
+              _c("div", { staticClass: "card-body" }, [
                 _c("div", { staticClass: "form-group" }, [
                   _c("label", { attrs: { for: "clientname" } }, [
                     _vm._v("Nombre completo: ")
@@ -4398,12 +4364,14 @@ var render = function() {
     _vm.step == 3
       ? _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col col-md-6" }, [
-            _c("div", { staticClass: "box" }, [
-              _vm._m(7),
+            _c("div", { staticClass: "card" }, [
+              _c("div", { staticClass: "card-header" }, [
+                _vm._v("\n                    Productos\n                ")
+              ]),
               _vm._v(" "),
-              _c("div", { staticClass: "box-body" }, [
+              _c("div", { staticClass: "card-body" }, [
                 _c("table", { staticClass: "table" }, [
-                  _vm._m(8),
+                  _vm._m(4),
                   _vm._v(" "),
                   _c(
                     "tbody",
@@ -4472,10 +4440,14 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4" }, [
-            _c("div", { staticClass: "box box-solid box-primary" }, [
-              _vm._m(9),
+            _c("div", { staticClass: "card card-solid card-primary" }, [
+              _c("div", { staticClass: "card-header" }, [
+                _vm._v(
+                  "\n                    Datos de factura\n                "
+                )
+              ]),
               _vm._v(" "),
-              _c("div", { staticClass: "box-body" }, [
+              _c("div", { staticClass: "card-body" }, [
                 _c("ul", [
                   _c("li", [_vm._v(_vm._s(_vm.clientname))]),
                   _vm._v(" "),
@@ -4492,23 +4464,20 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "col-md-12" }, [
-            _c("div", { staticClass: "box" }, [
-              _c("div", { staticClass: "box-body text-center" }, [
+            _c("div", { staticClass: "card" }, [
+              _c("div", { staticClass: "card-body text-center" }, [
                 _c("h4", [
                   _vm._v(" PRECIO TOTAL: $ " + _vm._s(_vm.shoppingCartTotal))
                 ])
               ])
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "box box-solid box-primary" }, [
-              _c("div", { staticClass: "box-header with-border" }, [
-                _c("div", { staticClass: "box-title" }, [
-                  _vm._v(
-                    "\n                        Forma de pago\n                    "
-                  )
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "box-tools pull-right" }, [
+            _c("div", { staticClass: "card card-solid card-primary" }, [
+              _c("div", { staticClass: "card-header" }, [
+                _vm._v(
+                  "\n                        Forma de pago\n                    "
+                ),
+                _c("div", { staticClass: "card-header-actions" }, [
                   _vm.shoppingCartTotal == _vm.paidTotal
                     ? _c(
                         "button",
@@ -4529,9 +4498,9 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "box-body" }, [
+              _c("div", { staticClass: "card-body" }, [
                 _c("table", { staticClass: "table" }, [
-                  _vm._m(10),
+                  _vm._m(5),
                   _vm._v(" "),
                   _c(
                     "tbody",
@@ -4722,10 +4691,14 @@ var render = function() {
     _vm.step == 4
       ? _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col col-md-12" }, [
-            _c("div", { staticClass: "box" }, [
-              _vm._m(11),
+            _c("div", { staticClass: "card" }, [
+              _c("div", { staticClass: "card-header" }, [
+                _vm._v(
+                  "\n                    Factura generada\n                "
+                )
+              ]),
               _vm._v(" "),
-              _c("div", { staticClass: "box-body" }, [
+              _c("div", { staticClass: "card-body" }, [
                 _c("p", [
                   _vm._v(
                     "Redirecting to Enrollment " + _vm._s(_vm.enrollments[0].id)
@@ -4743,18 +4716,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "box-header with-border" }, [
-      _c("div", { staticClass: "box-title" }, [
-        _vm._v("\n                        Productos\n                    ")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "box-tools pull-right" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("thead", [
       _c("th", [_vm._v("Producto")]),
       _vm._v(" "),
@@ -4767,24 +4728,10 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "box-header with-border" }, [
-      _c("div", { staticClass: "box-title" }, [
-        _vm._v(
-          "\n                        Agregar productos\n                    "
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "box-tools pull-right" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c(
       "button",
       {
-        staticClass: "btn btn-default dropdown-toggle",
+        staticClass: "btn btn-secondary dropdown-toggle",
         attrs: { type: "button", "data-toggle": "dropdown" }
       },
       [
@@ -4800,7 +4747,7 @@ var staticRenderFns = [
     return _c(
       "button",
       {
-        staticClass: "btn btn-default dropdown-toggle",
+        staticClass: "btn btn-secondary dropdown-toggle",
         attrs: { type: "button", "data-toggle": "dropdown" }
       },
       [
@@ -4813,22 +4760,10 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "box-header with-border" }, [
-      _c("div", { staticClass: "box-title" }, [
-        _vm._v("\n                        Descuentos\n                    ")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "box-tools pull-right" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c(
       "button",
       {
-        staticClass: "btn btn-default dropdown-toggle",
+        staticClass: "btn btn-secondary dropdown-toggle",
         attrs: { type: "button", "data-toggle": "dropdown" }
       },
       [
@@ -4836,18 +4771,6 @@ var staticRenderFns = [
         _vm._v(" Agregar descuento\n                            ")
       ]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "box-header with-border" }, [
-      _c("div", { staticClass: "box-title" }, [
-        _vm._v("\n                        Productos\n                    ")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "box-tools pull-right" })
-    ])
   },
   function() {
     var _vm = this
@@ -4863,20 +4786,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "box-header with-border" }, [
-      _c("div", { staticClass: "box-title" }, [
-        _vm._v(
-          "\n                        Datos de factura\n                    "
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "box-tools pull-right" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
         _c("th", [_vm._v("Forma de pago")]),
@@ -4885,20 +4794,6 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Observación")])
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "box-header with-border" }, [
-      _c("div", { staticClass: "box-title" }, [
-        _vm._v(
-          "\n                        Factura generada\n                    "
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "box-tools pull-right" })
     ])
   }
 ]

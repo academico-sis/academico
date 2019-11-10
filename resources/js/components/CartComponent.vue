@@ -1,24 +1,20 @@
 <template>
 <div>
-    <ol class="breadcrumb">
-        <li v-if="step >= 1"><a @click="step = 1">Productos</a></li>
-        <li v-if="step >= 2" class="active"><a @click="step = 2">Datos de Factura</a></li>
-        <li v-if="step >= 3" class="active"><a @click="step = 3">Pago</a></li>
+    <ol class="breadcrumb bg-transparent">
+        <li class="breadcrumb-item" v-if="step >= 1"><a @click="step = 1">Productos</a></li>
+        <li class="breadcrumb-item" v-if="step >= 2"><a @click="step = 2">Datos de Factura</a></li>
+        <li class="breadcrumb-item" v-if="step >= 3"><a @click="step = 3">Pago</a></li>
       </ol>
 
     <div class="row" v-if="step == 1">
         <div class="col col-md-8">
 
-            <div class="box">
-                <div class="box-header with-border">
-                    <div class="box-title">
-                        Productos
-                    </div>
-                    <div class="box-tools pull-right">
-                    </div>
+            <div class="card">
+                <div class="card-header">
+                    Productos
                 </div>
                 
-                <div class="box-body">
+                <div class="card-body">
 
                     <table class="table">
                         <thead>
@@ -55,8 +51,8 @@
                 </div>
             </div>
 
-            <div class="box">
-                <div class="box-body text-center">
+            <div class="card">
+                <div class="card-body text-center">
                         <h4> PRECIO TOTAL: $ {{ shoppingCartTotal }}</h4>
                         <button class="btn btn-success" v-if="enrollments[0]" @click="step = 2"><i class="fa fa-check"></i>Confirmar</button>
                 </div>
@@ -66,34 +62,30 @@
 
         <div class="col col-md-4">
 
-            <div class="box">
-                <div class="box-header with-border">
-                    <div class="box-title">
-                        Agregar productos
-                    </div>
-                    <div class="box-tools pull-right">
-                    </div>
+            <div class="card">
+                <div class="card-header">
+                    Agregar productos
                 </div>
                 
-                <div class="box-body">
+                <div class="card-body">
 
                     <div class="form-group">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        <div class="dropdown">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
                             <span class="caret"></span> Libros
                             </button>
-                            <ul class="dropdown-menu">
-                            <li v-for="availableBook in this.availablebooks" v-bind:key="availableBook.id"><a href="#" @click="addBook(availableBook)">{{ availableBook.name }}</a></li>
-                            </ul>
+                            <div class="dropdown-menu">
+                                <button class="dropdown-item" v-for="availableBook in this.availablebooks" v-bind:key="availableBook.id" @click="addBook(availableBook)">{{ availableBook.name }}</button>
+                            </div>
                         </div>
                     
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        <div class="dropdown">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
                             <span class="caret"></span> Gastos adm.
                             </button>
-                            <ul class="dropdown-menu">
-                            <li v-for="availableFee in this.availablefees" v-bind:key="availableFee.id"><a href="#" @click="addFee(availableFee)">{{ availableFee.name }}</a></li>
-                            </ul>
+                            <div class="dropdown-menu">
+                                <button class="dropdown-item" v-for="availableFee in this.availablefees" v-bind:key="availableFee.id" @click="addFee(availableFee)">{{ availableFee.name }}</button>
+                            </div>
                         </div>
                     
                     </div>
@@ -101,16 +93,12 @@
             </div>
 
 
-            <div class="box">
-                <div class="box-header with-border">
-                    <div class="box-title">
-                        Descuentos
-                    </div>
-                    <div class="box-tools pull-right">
-                    </div>
+            <div class="card">
+                <div class="card-header">
+                    Descuentos
                 </div>
                 
-                <div class="box-body">
+                <div class="card-body">
 
                     <ul>
                         <li v-bind:key="discount.id" v-for="(discount, index) in discounts">
@@ -120,13 +108,13 @@
                     </ul>
 
                     <div class="form-group">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                            <span class="caret"></span> Agregar descuento
+                        <div class="dropdown">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span> Agregar descuento
                             </button>
-                            <ul class="dropdown-menu">
-                            <li v-for="availableDiscount in this.availablediscounts" v-bind:key="availableDiscount.id"><a href="#" @click="addDiscount(availableDiscount)">{{ availableDiscount.name }}</a></li>
-                            </ul>
+                            <div class="dropdown-menu">
+                                <button class="dropdown-item" v-for="availableDiscount in this.availablediscounts" v-bind:key="availableDiscount.id" @click="addDiscount(availableDiscount)">{{ availableDiscount.name }}</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -139,32 +127,30 @@
 
     <div class="row" v-if="step == 2">
         <div class="col-md-4">
-            <div class="box">
-                <div class="box-header with-border">
-                    <div class="box-title">
-                        Estudiante
-                    </div>
-                    <div class="box-tools pull-right">
+            <div class="card">
+                <div class="card-header">
+                    Estudiante
+
+                    <div class="card-header-actions">
                         <button class="btn btn-info" @click="selectStudentData()"><i class="fa fa-check"></i>Seleccionar</button>
                     </div>
                 </div>
-                <div class="box-body">
+                <div class="card-body">
                     <p>{{enrollments[0].student.user.firstname}} {{enrollments[0].student.user.lastname}}</p>
                     <p>{{enrollments[0].student.idnumber}}</p>
                     <p>{{enrollments[0].student.user.email}}</p>
                 </div>
             </div>
 
-            <div class="box" v-for="contact in this.contactdata" v-bind:key="contact.id">
-                <div class="box-header with-border">
-                    <div class="box-title">
-                        Contact
-                    </div>
-                    <div class="box-tools pull-right">
+            <div class="card" v-for="contact in this.contactdata" v-bind:key="contact.id">
+                <div class="card-header">
+                    Contact
+
+                    <div class="card-header-actions">
                         <button class="btn btn-info" @click="selectInvoiceData(contact)"><i class="fa fa-check"></i>Selectionar</button>
                     </div>
                 </div>
-                <div class="box-body">
+                <div class="card-body">
                     <p>{{contact.firstname}} {{contact.lastname}}</p>
                     <p>{{contact.idnumber}}</p>
                     <p>{{contact.email}}</p>
@@ -173,16 +159,14 @@
         </div>
 
         <div class="col-md-8">
-            <div class="box">
-                <div class="box-header with-border">
-                    <div class="box-title">
-                        Datos de facturación
-                    </div>
-                    <div class="box-tools pull-right">
+            <div class="card">
+                <div class="card-header">
+                    Datos de facturación
+                    <div class="card-header-actions">
                         <button v-if="checkForm()" class="btn btn-success" @click="confirmInvoiceData()"><i class="fa fa-check"></i>Seleccionar</button>
                     </div>
                 </div>
-                <div class="box-body">
+                <div class="card-body">
 
                     <div class="form-group">
                         <label for="clientname">Nombre completo: </label>
@@ -220,16 +204,12 @@
 
         <div class="col col-md-6">
 
-            <div class="box">
-                <div class="box-header with-border">
-                    <div class="box-title">
-                        Productos
-                    </div>
-                    <div class="box-tools pull-right">
-                    </div>
+            <div class="card">
+                <div class="card-header">
+                    Productos
                 </div>
                 
-                <div class="box-body">
+                <div class="card-body">
 
                     <table class="table">
                         <thead>
@@ -261,15 +241,11 @@
         <div class="col-md-4">
 
             
-            <div class="box box-solid box-primary">
-                <div class="box-header with-border">
-                    <div class="box-title">
-                        Datos de factura
-                    </div>
-                    <div class="box-tools pull-right">
-                    </div>
+            <div class="card card-solid card-primary">
+                <div class="card-header">
+                    Datos de factura
                 </div>
-                <div class="box-body">
+                <div class="card-body">
                     <ul>
                         <li>{{clientname}}</li>
                         <li>{{clientphone}}</li>
@@ -284,23 +260,21 @@
 
         <div class="col-md-12">
 
-            <div class="box">
-                <div class="box-body text-center">
+            <div class="card">
+                <div class="card-body text-center">
                         <h4> PRECIO TOTAL: $ {{ shoppingCartTotal }}</h4>
                 </div>
             </div>
 
-            <div class="box box-solid box-primary">
-                <div class="box-header with-border">
-                    <div class="box-title">
+            <div class="card card-solid card-primary">
+                <div class="card-header">
                         Forma de pago
-                    </div>
-                    <div class="box-tools pull-right">
+                    <div class="card-header-actions">
                         <button v-if="shoppingCartTotal == paidTotal" class="btn btn-success" @click="finish()"><i class="fa fa-check"></i>Facturar</button>
 
                     </div>
                 </div>
-                <div class="box-body">
+                <div class="card-body">
 
                     <table class="table">
                         <thead>
@@ -365,16 +339,12 @@
 
         <div class="col col-md-12">
 
-            <div class="box">
-                <div class="box-header with-border">
-                    <div class="box-title">
-                        Factura generada
-                    </div>
-                    <div class="box-tools pull-right">
-                    </div>
+            <div class="card">
+                <div class="card-header">
+                    Factura generada
                 </div>
                 
-                <div class="box-body">
+                <div class="card-body">
                     <p>Redirecting to Enrollment {{ enrollments[0].id }}</p>
                 </div>
             </div>

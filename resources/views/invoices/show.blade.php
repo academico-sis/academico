@@ -1,17 +1,12 @@
 
 <div class="row">
     <div class="col-md-4">
-        <div class="box">
-            <div class="box-header with-border">
-                <div class="box-title">
-                    @lang('Invoices')
-                </div>
-                <div class="box-tools pull-right">
-                </div>
-                
+        <div class="card">
+            <div class="card-header">
+                @lang('Invoices')
             </div>
             
-            <div class="box-body">        
+            <div class="card-body">        
                 <p>@lang('Invoice ID') : {{ $enrollment->pre_invoice()->first()->invoice_number }}</p>   
                 <p>@lang('Pre-invoice ID') : {{ $enrollment->pre_invoice()->first()->id }}</p>
                 <p>@lang('Date') : {{ $enrollment->pre_invoice()->first()->created_at }}</p>
@@ -25,42 +20,14 @@
         </div>
     </div>
 
-<!-- todo remove this, since there are no longer preinvoice comments -->
-@if($enrollment->pre_invoice()->first()->comments->count() > 0)
-        <div class="col-md-4">
-                <div class="box">
-                    <div class="box-header with-border">
-                        <div class="box-title">
-                            @lang('Comment')
-                        </div>
-                        <div class="box-tools pull-right">
-                        </div>
-                        
-                    </div>
-                    
-                    <div class="box-body">           
-                        <ul>
-                            @foreach ($enrollment->pre_invoice()->first()->comments as $comment)
-                                <li>{{ $comment->body }} ({{ $comment->date }})</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                </div>
-            </div>
-@endif
-
 
 <div class="col-md-8">
-    <div class="box">
-        <div class="box-header with-border">
-            <div class="box-title">
-                @lang('Products')
-            </div>
-            <div class="box-tools pull-right">
-            </div>
+    <div class="card">
+        <div class="card-header">
+            @lang('Products')
         </div>
         
-        <div class="box-body">
+        <div class="card-body">
             
             <table class="table">
                 <thead>
