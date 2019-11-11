@@ -25,11 +25,9 @@ class CourseCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\CloneOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-
-    // BP4 clone operation should be added here.
-
 
     public function __construct()
     {
@@ -471,20 +469,17 @@ class CourseCrudController extends CrudController
             'spots' => $course->spots,
         ]);
 
-        // also clone the coursetime events
-
-/*         CourseTime::create([
-
-        ]); */
+        // TODO migrate the coursetime events
         
-        // the evaluation methods
+        // TODO the evaluation methods
 
-        // and generate the events
+        // TODO and generate the events
 
-        // delete relations linked to the parent course (evaluation, etc)
+        // TODO delete relations linked to the parent course (evaluation, etc)
 
-        // open edit form for review
-        return redirect("/course/$child_course->id/edit");
+        // TODO return the id of the newly created course. The front-end will redirect to the edit screen for this course
+        
+        return $child_course->id;
     }
 
     public function destroy($id)
