@@ -82,7 +82,6 @@ class LeaveCrudController extends CrudController
             
         });
 
-/* BP4 check if this is working */
         CRUD::addFilter([ // daterange filter
             'type' => 'date_range',
             'name' => 'from_to',

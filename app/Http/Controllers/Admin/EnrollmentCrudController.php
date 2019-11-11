@@ -51,7 +51,7 @@ class EnrollmentCrudController extends CrudController
 
         CRUD::allowAccess('show');
 
-        CRUD::removeButton('delete'); // BP4 check if that works.
+        CRUD::denyAccess('delete'); // hide the button from the list view
 
         if(backpack_user()->hasRole('admin'))
         {

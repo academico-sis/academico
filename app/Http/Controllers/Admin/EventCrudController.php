@@ -112,7 +112,6 @@ class EventCrudController extends CrudController
         ]);
 
 
-        // BP4 check if this works. The field has changed, perhaps the filter has changed too?
         CRUD::addFilter([ // daterange filter
             'type' => 'date_range',
             'name' => 'from_to',

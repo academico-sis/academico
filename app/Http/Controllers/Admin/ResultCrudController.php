@@ -19,14 +19,12 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 /**
  * Class ResultCrudController
  * Controller to monitor student results. No result can be added from here
- * BP4 check if the update operation should be allowed.
  * @package App\Http\Controllers\Admin
  * @property-read CrudPanel $crud
  */
 class ResultCrudController extends CrudController
 {
 
-    // BP4 check if the store method works or not, and when it is needed
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
     
@@ -47,10 +45,6 @@ class ResultCrudController extends CrudController
         CRUD::setModel('App\Models\Enrollment');
         CRUD::setRoute(config('backpack.base.route_prefix') . '/result');
         CRUD::setEntityNameStrings('result', 'results');
-
-        //CRUD::denyAccess('update');
-        CRUD::allowAccess('show');  // BP4 use operations
-        //CRUD::removeAllButtons();
 
         /*
         |--------------------------------------------------------------------------

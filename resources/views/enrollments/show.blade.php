@@ -205,7 +205,7 @@
             {
                 axios.delete('/enrollment/'+enrollment)
                     .then(function (response) {
-                        document.location.reload(true);
+                        window.location.href="/enrollment"
                     })
                     .catch(function (error) {
                         console.log(error);

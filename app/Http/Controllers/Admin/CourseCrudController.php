@@ -424,7 +424,6 @@ class CourseCrudController extends CrudController
 
     /**
      * Display the specified resource.
-     * BP4 TODO move this to ShowOperation.
      *
      * @param  \App\Models\Course  $course
      * @return \Illuminate\Http\Response
@@ -442,7 +441,10 @@ class CourseCrudController extends CrudController
         return view('courses/show', compact('course', 'enrollments'));   
     }
 
-    /* BP4 TODO move this to CloneOperation. */
+    /*
+    * Allow to create a child course for the selected parent
+    * TODO this will be improved in the future
+    */
     public function clone($id)
 {
     CRUD::hasAccessOrFail('clone');
