@@ -11,6 +11,7 @@
                 Présences pour la classe du {{ Carbon\Carbon::parse($event->start)->day }} / {{ Carbon\Carbon::parse($event->start)->month }}
                 <div class="card-header-actions">
                     <button class="btn btn-primary" data-toggle="modal" data-target="#myModal">@lang('Enroll new student')</button>
+                    <a href="/attendance/course/{{ $event->course_id }}">@lang('Revenir au cours')</a>
                 </div>
             </div><!-- /.card-header -->
             
@@ -42,6 +43,14 @@
 </div>
 
 
+
+
+
+@endsection
+
+
+
+@section('after_scripts')
 <!-- Modal -->
 <div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
@@ -63,13 +72,6 @@
       </div>
     </div>
   </div>
-
-
-@endsection
-
-
-
-@section('after_scripts')
     <script src="/js/app.js"></script>
 
     <script>

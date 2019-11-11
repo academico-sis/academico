@@ -113,6 +113,10 @@
 </div>
 
 
+@endsection
+
+
+@section('after_scripts')
 <!-- Modal -->
 <div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
@@ -134,13 +138,7 @@
       </div>
     </div>
   </div>
-
-
-@endsection
-
-
-@section('after_scripts')
-
+  
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.20/b-1.6.1/b-html5-1.6.1/b-print-1.6.1/fh-3.1.6/datatables.min.css"/>
  
 <!-- DATA TABLES -->

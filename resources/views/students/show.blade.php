@@ -94,12 +94,12 @@
                     @foreach($attendances as $attendance)
                         @if ($attendance->attendance_type_id == 4)
                         <a href="{{ route('studentAttendance', ['student' => $student->id]) }}">
-                            <label class="label-danger">{{ $attendance->event->shortDate }}</label>
+                            <span class="badge badge-danger">{{ $attendance->event->shortDate }}</span>
                         </a>
                         @elseif($attendance->attendance_type_id == 1)
-                            <label class="label-success">{{ $attendance->event->shortDate }}</label>
+                            <span class="badge badge-success">{{ $attendance->event->shortDate }}</span>
                         @else
-                            <label class="label-warning">{{ $attendance->event->shortDate }}</label>
+                            <span class="badge badge-warning">{{ $attendance->event->shortDate }}</span>
                         @endif
                         -
                     @endforeach
