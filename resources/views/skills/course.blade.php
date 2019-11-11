@@ -1,10 +1,10 @@
 @extends('backpack::blank')
 
 @section('header')
-<section class="content-header">
-    <h1>
+<section class="container-fluid">
+    <h2>
         @lang('Edit Course Skills')
-    </h1>
+    </h2>
 </section>
 @endsection
 
@@ -13,18 +13,16 @@
 
 <div class="row">
     <div class="col-md-12">
-        <div class="box">
-            <div class="box-header with-border">
-                <div class="box-title">
+        <div class="card">
+            <div class="card-header">
                     @lang('View Course Skills')
-                </div>
                 
-                <div class="box-tools pull-right">
+                <div class="card-header-actions">
                     <a class="btn btn-primary" href="{{ backpack_url('skill') }}?course={{$course->id}}">
                         @lang('Edit skills for course')
                     </a>
 
-                    <a class="btn btn-primary" href="{{ route('course-skills-export', ['course_id' => $course->id]) }}">
+                    <a class="btn btn-primary" href="{{ route('course-skills-export', ['course' => $course->id]) }}">
                         @lang('Export skills')
                     </a>
 
@@ -32,13 +30,13 @@
                         @lang('Import skills')
                     </a>
 
-                    <a class="btn btn-primary" href="{{ route('exportCourseSyllabus', ['course_id' => $course->id]) }}">
+                    <a class="btn btn-primary" href="{{ route('exportCourseSyllabus', ['course' => $course->id]) }}">
                         @lang('Export Course syllabus')
                     </a>
                 </div>  
             </div>
             
-            <div class="box-body" id="app">
+            <div class="card-body" id="app">
                 
                     <skills-list :course={!! json_encode($course->id) !!}></skills-list>
                 
@@ -48,8 +46,9 @@
 </div>
 </div>
 
+@endsection
 
-
+@section('after_scripts')
     <!-- Skillset upload Modal-->
     <div class="modal fade" id="skillsUploadModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
@@ -78,9 +77,7 @@
         </div>
       </div>
     </div>
-@endsection
 
-@section('after_scripts')
     <script src="/js/app.js"></script>
 
     

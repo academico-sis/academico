@@ -2514,11 +2514,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['student', 'enrollment', 'results', 'result', 'stored_comments', 'resultPostRoute', 'commentPostRoute'],
   data: function data() {
@@ -3128,11 +3123,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
 //
 //
 //
@@ -4916,28 +4906,28 @@ var render = function() {
       _vm._l(_vm.student, function(event) {
         return _c("td", { key: event.id }, [
           event.attendance && event.attendance.attendance_type_id == 1
-            ? _c("label", { staticClass: "label-success" }, [
+            ? _c("label", { staticClass: "badge badge-success" }, [
                 _vm._v("\n            P "),
                 _c("i", { staticClass: "fa fa-user" })
               ])
             : _vm._e(),
           _vm._v(" "),
           event.attendance && event.attendance.attendance_type_id == 2
-            ? _c("label", { staticClass: "label-warning" }, [
+            ? _c("label", { staticClass: "badge badge-warning" }, [
                 _vm._v("\n            PP "),
                 _c("i", { staticClass: "fa fa-clock-o" })
               ])
             : _vm._e(),
           _vm._v(" "),
           event.attendance && event.attendance.attendance_type_id == 3
-            ? _c("label", { staticClass: "label-info" }, [
+            ? _c("label", { staticClass: "badge badge-info" }, [
                 _vm._v("\n            AJ "),
                 _c("i", { staticClass: "fa fa-exclamation" })
               ])
             : _vm._e(),
           _vm._v(" "),
           event.attendance && event.attendance.attendance_type_id == 4
-            ? _c("label", { staticClass: "label-danger" }, [
+            ? _c("label", { staticClass: "badge badge-danger" }, [
                 _vm._v("\n            A "),
                 _c("i", { staticClass: "fa fa-user-times" })
               ])
@@ -4971,10 +4961,12 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "col-md-12" }, [
-    _c("div", { staticClass: "box" }, [
-      _vm._m(0),
+    _c("div", { staticClass: "card" }, [
+      _c("div", { staticClass: "card-header" }, [
+        _vm._v("\n              Résultat final\n          ")
+      ]),
       _vm._v(" "),
-      _c("div", { staticClass: "box-body" }, [
+      _c("div", { staticClass: "card-body" }, [
         _c(
           "div",
           {
@@ -5084,20 +5076,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "box-header with-border" }, [
-      _c("div", { staticClass: "box-title" }, [
-        _vm._v("\n                  Résultat final ")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "box-tools pull-right" })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -5895,15 +5874,17 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "col-md-12" }, [
-    _c("div", { staticClass: "box" }, [
-      _vm._m(0),
+    _c("div", { staticClass: "card" }, [
+      _c("div", { staticClass: "card-header" }, [
+        _vm._v("\n            Compétences\n        ")
+      ]),
       _vm._v(" "),
-      _c("div", { staticClass: "box-body" }, [
+      _c("div", { staticClass: "card-body" }, [
         _c(
           "table",
           { staticClass: "table table-striped", attrs: { id: "skillsTable" } },
           [
-            _vm._m(1),
+            _vm._m(0),
             _vm._v(" "),
             _c(
               "tbody",
@@ -5979,18 +5960,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "box-header with-border" }, [
-      _c("div", { staticClass: "box-title" }, [
-        _vm._v("\n                Compétences ")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "box-tools pull-right" })
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

@@ -1,10 +1,10 @@
 @extends('backpack::blank')
 
 @section('header')
-<section class="content-header">
-    <h1>
+<section class="container-fluid">
+    <h2>
         @lang('View Skills for Group')
-    </h1>
+    </h2>
 </section>
 @endsection
 
@@ -15,17 +15,12 @@
     <div class="col-md-12">
 
         @if($skills->count() > 0)
-        <div class="box">
-            <div class="box-header with-border">
-                <div class="box-title">
-                    @lang('View Skills for Group')
-                </div>
-
-                <div class="box-tools pull-right">
-                </div>  
+        <div class="card">
+            <div class="card-header">
+                @lang('View Skills for Group')
             </div>
             
-            <div class="box-body" id="app">
+            <div class="card-body" id="app">
                     <div class="table-responsive" style="overflow: auto">
                         <table class="table">
                             <tr>

@@ -1,16 +1,11 @@
 <template>
     <div class="col-md-12">
-        <div class="box">
-            <div class="box-header with-border">
-                <div class="box-title">
-                    Compétences <!-- todo TRANSLATE -->
-                </div>
-
-                <div class="box-tools pull-right">
-                </div>  
+        <div class="card">
+            <div class="card-header">
+                Compétences
             </div>
             
-            <div class="box-body">
+            <div class="card-body">
 
             <table class="table table-striped" id="skillsTable">
                 <thead>

@@ -1,17 +1,12 @@
 <template>
 
   <div class="col-md-12">
-        <div class="box">
-            <div class="box-header with-border">
-                <div class="box-title">
-                    Résultat final <!-- todo translate -->
-                </div>
-
-                <div class="box-tools pull-right">
-                </div>  
+        <div class="card">
+            <div class="card-header">
+                Résultat final
             </div>
             
-            <div class="box-body">
+            <div class="card-body">
             <div class="btn-group btn-group-justified" role="group" aria-label="">
                 <!-- todo get styling from the model -->
                 <div class="btn-group" role="group"
