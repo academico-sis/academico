@@ -168,7 +168,7 @@
                                     <tr>
                                         <td>{{ $enrollment->date }}</td>
                                         <td>
-                                            <a href="/enrollment/{{ $enrollment->id }}">{{ $enrollment->id }}</a>
+                                            <a href="/enrollment/{{ $enrollment->id }}/show">{{ $enrollment->id }}</a>
                                         </td>
                                         <td>{{ $enrollment->course->name }}</td>
                                         <td>{{ $enrollment->course->teacher->name ?? '-'}}</td>
@@ -179,7 +179,7 @@
                                         <td>
                                             @if(isset($enrollment->result))
                                             {{ $enrollment->result['result_name']['name'] }}
-                                            <a href="/result/{{ $enrollment->id }}" class="btn btn-sm btn-info">
+                                            <a href="/result/{{ $enrollment->id }}/show" class="btn btn-sm btn-info">
                                                 <i class="fa fa-eye"></i>
                                             </a>
                                             @endif
