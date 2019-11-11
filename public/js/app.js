@@ -3061,23 +3061,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['comments', 'id', 'type', 'route'],
   data: function data() {
     return {
       comment_body: null,
       action: false,
+      showEditField: false,
       errors: [],
       commentlist: this.comments
     };
@@ -3095,7 +3085,8 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         _this.commentlist.push(response.data);
 
-        $('#myModal').modal('hide');
+        _this.comment_body = null;
+        _this.showEditField = false;
       })["catch"](function (e) {
         _this.errors.push(e);
       });
@@ -5657,7 +5648,24 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card" }, [
-    _vm._m(0),
+    _c("div", { staticClass: "card-header" }, [
+      _vm._v("Commentaires\n        "),
+      _c("div", { staticClass: "card-header-actions" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-sm btn-primary",
+            attrs: { type: "button" },
+            on: {
+              click: function($event) {
+                _vm.showEditField = true
+              }
+            }
+          },
+          [_c("i", { staticClass: "fa fa-plus" })]
+        )
+      ])
+    ]),
     _vm._v(" "),
     _c("div", { staticClass: "card-body" }, [
       _c(
@@ -5690,169 +5698,108 @@ var render = function() {
       )
     ]),
     _vm._v(" "),
-    _c(
-      "div",
-      {
-        staticClass: "modal fade",
-        attrs: {
-          id: "myModal",
-          tabindex: "-1",
-          role: "dialog",
-          "aria-labelledby": "myModalLabel"
-        }
-      },
-      [
-        _c(
-          "div",
-          { staticClass: "modal-dialog", attrs: { role: "document" } },
-          [
-            _c("div", { staticClass: "modal-content" }, [
-              _vm._m(1),
-              _vm._v(" "),
-              _c("div", { staticClass: "modal-body" }, [
-                _c("textarea", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.comment_body,
-                      expression: "comment_body"
+    _vm.showEditField
+      ? _c("div", { staticClass: "card-footer" }, [
+          _c("textarea", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.comment_body,
+                expression: "comment_body"
+              }
+            ],
+            staticStyle: { width: "100%" },
+            attrs: { name: "comment", id: "comment", rows: "3" },
+            domProps: { value: _vm.comment_body },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.comment_body = $event.target.value
+              }
+            }
+          }),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "action" } }, [
+              _vm._v("Ce commentaire demande une action")
+            ]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.action,
+                  expression: "action"
+                }
+              ],
+              attrs: { name: "action", id: "action", type: "checkbox" },
+              domProps: {
+                checked: Array.isArray(_vm.action)
+                  ? _vm._i(_vm.action, null) > -1
+                  : _vm.action
+              },
+              on: {
+                change: function($event) {
+                  var $$a = _vm.action,
+                    $$el = $event.target,
+                    $$c = $$el.checked ? true : false
+                  if (Array.isArray($$a)) {
+                    var $$v = null,
+                      $$i = _vm._i($$a, $$v)
+                    if ($$el.checked) {
+                      $$i < 0 && (_vm.action = $$a.concat([$$v]))
+                    } else {
+                      $$i > -1 &&
+                        (_vm.action = $$a
+                          .slice(0, $$i)
+                          .concat($$a.slice($$i + 1)))
                     }
-                  ],
-                  staticStyle: { width: "100%" },
-                  attrs: { name: "comment", id: "comment", rows: "5" },
-                  domProps: { value: _vm.comment_body },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.comment_body = $event.target.value
-                    }
+                  } else {
+                    _vm.action = $$c
                   }
-                }),
-                _vm._v(" "),
-                _c("label", { attrs: { for: "action" } }, [
-                  _vm._v('@lang("This comment requires an action")')
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.action,
-                      expression: "action"
-                    }
-                  ],
-                  attrs: { name: "action", id: "action", type: "checkbox" },
-                  domProps: {
-                    checked: Array.isArray(_vm.action)
-                      ? _vm._i(_vm.action, null) > -1
-                      : _vm.action
-                  },
-                  on: {
-                    change: function($event) {
-                      var $$a = _vm.action,
-                        $$el = $event.target,
-                        $$c = $$el.checked ? true : false
-                      if (Array.isArray($$a)) {
-                        var $$v = null,
-                          $$i = _vm._i($$a, $$v)
-                        if ($$el.checked) {
-                          $$i < 0 && (_vm.action = $$a.concat([$$v]))
-                        } else {
-                          $$i > -1 &&
-                            (_vm.action = $$a
-                              .slice(0, $$i)
-                              .concat($$a.slice($$i + 1)))
-                        }
-                      } else {
-                        _vm.action = $$c
-                      }
-                    }
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "btn-group" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-default",
+                attrs: { type: "button" },
+                on: {
+                  click: function($event) {
+                    _vm.showEditField = false
                   }
-                })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "modal-footer" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-default",
-                    attrs: { type: "button", "data-dismiss": "modal" }
-                  },
-                  [_vm._v("Fermer")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-primary",
-                    attrs: { type: "button" },
-                    on: {
-                      click: function($event) {
-                        return _vm.addComment()
-                      }
-                    }
-                  },
-                  [_vm._v("Enregister")]
-                )
-              ])
-            ])
-          ]
-        )
-      ]
-    )
+                }
+              },
+              [_vm._v("Annuler")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-primary",
+                attrs: { type: "button" },
+                on: {
+                  click: function($event) {
+                    return _vm.addComment()
+                  }
+                }
+              },
+              [_vm._v("Enregister")]
+            )
+          ])
+        ])
+      : _vm._e()
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _vm._v("Commentaires\n        "),
-      _c("div", { staticClass: "card-header-actions" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-sm btn-primary",
-            attrs: {
-              type: "button",
-              "data-toggle": "modal",
-              "data-target": "#myModal"
-            }
-          },
-          [_c("i", { staticClass: "fa fa-plus" })]
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-header" }, [
-      _c(
-        "button",
-        {
-          staticClass: "close",
-          attrs: {
-            type: "button",
-            "data-dismiss": "modal",
-            "aria-label": "Close"
-          }
-        },
-        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-      ),
-      _vm._v(" "),
-      _c("h4", { staticClass: "modal-title", attrs: { id: "myModalLabel" } }, [
-        _vm._v("Nouveau commentaire")
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
