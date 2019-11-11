@@ -41,12 +41,14 @@ class MyAccountController extends \App\Http\Controllers\Controller
             Alert::success(trans('backpack::base.account_updated'))->flash();
 
             // if the user has been selected for a forced update, move to the next step
-            if($this->guard()->user()->student->force_update == 1) {
-                $this->guard()->user()->student->update(['force_update' => 2]);
+            if($this->guard()->user()->isStudent()) {
+                if($this->guard()->user()->student->force_update == 1) {
+                    $this->guard()->user()->student->update(['force_update' => 2]);
+                }
             }
-        } else {
-            Alert::error(trans('backpack::base.error_saving'))->flash();
-        }
+            } else {
+                Alert::error(trans('backpack::base.error_saving'))->flash();
+            }
 
         return redirect()->back();
     }

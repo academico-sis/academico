@@ -50,11 +50,6 @@
 				@endif
 				><a href="{{ route('backpack.account.contacts') }}">@lang('Additional Contacts')</a></li>
 						
-			<li class="list-group-item" role="presentation"
-			@if (Request::route()->getName() == 'backpack.account.password')
-				class="active"
-				@endif
-				><a href="{{ route('backpack.account.password') }}">{{ trans('backpack::base.change_password') }}</a></li>
 		@endif
 		</ul>
 	</div>
