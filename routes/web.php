@@ -36,7 +36,6 @@ Route::group(
 
     // moodle token login
     Route::get('moodlelogin', 'MoodleController@moodlelogin')->name('moodleLogin');
-    //Route::resource('result', 'ResultController');
 
     // creates a new enrollment
     Route::post('student/enroll', 'EnrollmentController@store')->name('storeEnrollment');
@@ -86,6 +85,8 @@ Route::group(
     Route::delete('grades', 'GradeController@destroy');
     Route::post('course/gradetype', 'GradeController@add_grade_type_to_course');
     Route::delete('course/{course}/gradetype/{gradetype}', 'GradeController@remove_grade_type_from_course');
+
+    Route::post('store-result', 'ResultController@store')->name('storeResult');
 
 });
 

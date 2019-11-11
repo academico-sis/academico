@@ -29,7 +29,7 @@
                                 v-bind:class="{
                                     'btn-success': skillScale.value > 0.75 && skill.status == skillScale.id,
                                     'btn-warning': 0.4 <= skillScale.value && 0.75 >= skillScale.value && skill.status == skillScale.id,
-                                    'btn-danger': skillScale.value < 0.5 && skill.status == skillScale.id
+                                    'btn-danger': skillScale.value < 0.4 && skill.status == skillScale.id
                                 }"
                                 v-on:click="saveSkillStatus(skill, skillScale.id)"
                                 >

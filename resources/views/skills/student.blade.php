@@ -22,7 +22,7 @@
 
     <course-result-component
         comment-post-route="{{ route('storeResultComment') }}"
-        result-post-route="{{ url('result') }}"
+        result-post-route="{{ route('storeResult') }}"
         :student="{{ json_encode($student) }}"
         :enrollment="{{ json_encode($enrollment) }}"
         :results="{{ json_encode($results) }}"

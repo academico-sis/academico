@@ -5060,6 +5060,7 @@ var render = function() {
                 ? _c(
                     "button",
                     {
+                      staticClass: "btn btn-primary",
                       attrs: { type: "button" },
                       on: {
                         click: function($event) {
@@ -5923,7 +5924,7 @@ var render = function() {
                                     0.75 >= skillScale.value &&
                                     skill.status == skillScale.id,
                                   "btn-danger":
-                                    skillScale.value < 0.5 &&
+                                    skillScale.value < 0.4 &&
                                     skill.status == skillScale.id
                                 },
                                 on: {

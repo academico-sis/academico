@@ -10,6 +10,7 @@ use App\Models\Enrollment;
 use App\Models\Skills\Skill;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Gate;
 
 class ResultController extends Controller
 {
@@ -20,32 +21,41 @@ class ResultController extends Controller
         $this->middleware('permission:evaluation.edit', ['only' => ['store']]);
     }
 
+
     /**
      * Store a newly created result in storage.
      *
      */
-    public function store(Request $request)
-    {
+     public function store(Request $request)
+     {
+ 
+         $enrollment = Enrollment::findOrFail($request->input('enrollment'));
+ 
+         if (Gate::forUser(backpack_user())->denies('edit-result', $enrollment)) {
+             abort(403);
+         }
+ 
+         $result = Result::firstOrNew([
+             'enrollment_id' => $enrollment->id
+         ]);
+ 
+ /* Comments are added separately */
+ /*         if($request->input('comment') !== null) {
+             Comment::create([
+                 'commentable_id' => $result->id,
+                 'commentable_type' => Result::class,
+                 'body' => $request->input('comment'),
+                 'author_id' => \backpack_user()->id,
+             ]);
+         } */
+ 
+         $result->result_type_id = $request->input('result');
+ 
+         $result->save();
+         Log::info('Enrollment result saved by user ' . backpack_user()->id);
+         return $result;
+     }
 
-        $result = Result::firstOrNew([
-            'enrollment_id' => $request->input('enrollment')
-        ]);
-
-        if($request->input('comment') !== null) {
-            Comment::create([
-                'commentable_id' => $result->id,
-                'commentable_type' => Result::class,
-                'body' => $request->input('comment'),
-                'author_id' => \backpack_user()->id,
-            ]);
-        }
-
-        $result->result_type_id = $request->input('result');
-
-        $result->save();
-
-        Log::info('Enrollment result saved by user ' . backpack_user()->id);
-    }
 
     /**
      * Display the specified resource (result for a specific enrollment)

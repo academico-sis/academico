@@ -159,39 +159,7 @@ class ResultCrudController extends CrudController
 
 
     }
-    /**
-     * Store a newly created result in storage.
-     *
-     */
-    public function store(Request $request)
-    {
 
-        $enrollment = Enrollment::findOrFail($request->input('enrollment'));
-
-        if (Gate::forUser(backpack_user())->denies('edit-result', $enrollment)) {
-            abort(403);
-        }
-
-        $result = Result::firstOrNew([
-            'enrollment_id' => $enrollment->id
-        ]);
-
-
-/*         if($request->input('comment') !== null) {
-            Comment::create([
-                'commentable_id' => $result->id,
-                'commentable_type' => Result::class,
-                'body' => $request->input('comment'),
-                'author_id' => \backpack_user()->id,
-            ]);
-        } */
-
-        $result->result_type_id = $request->input('result');
-
-        $result->save();
-
-        return $result;
-    }
 
     /**
      * Display the specified resource (result for a specific enrollment)
