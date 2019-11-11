@@ -46,7 +46,8 @@ class HomeController extends Controller
             // this should never happen
             Log::warning(backpack_user()->id . ' accessed the generic dashboard (no role identified)');
 
-            return view('welcome');
+            throw new Exception("User with no role", 403);
+                return redirect('/');
         }
     }
 

@@ -52,7 +52,7 @@ class CourseCrudController extends CrudController
         CRUD::addClause('where', 'campus_id', '1');
         
         $permissions = backpack_user()->getAllPermissions();
-        if(!$permissions->contains('name', 'courses.delete')) { CRUD::denyAccess('delete'); }
+        CRUD::denyAccess('delete');
         if(!$permissions->contains('name', 'courses.edit')) { CRUD::denyAccess('update'); }
         if($permissions->contains('name', 'courses.edit')) { CRUD::allowAccess('clone'); }
         if(!$permissions->contains('name', 'courses.edit')) { CRUD::denyAccess('create'); }
@@ -79,6 +79,10 @@ class CourseCrudController extends CrudController
         }
 
         CRUD::addButtonFromView('line', 'children_badge', 'children_badge', 'beginning');
+        
+        if($permissions->contains('name', 'courses.delete')) {
+            CRUD::addButtonFromView('line', 'deleteCourse', 'deleteCourse', 'end');
+        }
         
         if(backpack_user()->hasRole('admin'))
         {
@@ -485,10 +489,18 @@ class CourseCrudController extends CrudController
 
     public function destroy($id)
    {
-      CRUD::hasAccessOrFail('delete');
-      Event::where('course_id', $id)->delete();
-      Enrollment::where('course_id', $id)->delete();
-      return CRUD::delete($id);
+    CRUD::hasAccessOrFail('delete');
+    $course = Course::find($id);
+    if ($course->enrollments()->count() > 0)
+    {
+        \Alert::add('error', 'The course has enrollments, impossible to delete');
+    }
+    else {
+
+    Event::where('course_id', $id)->delete();
+    Enrollment::where('course_id', $id)->delete();
+    return CRUD::delete($id);
+    }
    }
 
 }
