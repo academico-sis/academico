@@ -27,7 +27,7 @@ class ExternalCourseCrudController extends CrudController
     public function __construct()
     {
         parent::__construct();
-        $this->middleware(['auth', 'permission:courses.edit']);
+        $this->middleware('permission:courses.edit');
     }
 
     public function setup()
