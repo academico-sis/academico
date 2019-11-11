@@ -166,5 +166,7 @@ class SkillCrudController extends CrudController
         }
         \Alert::success(__('Skills set was saved for the course'))->flash();
 
+        return $course->id;
+
     }
 }

@@ -1,4 +1,4 @@
-@if ($crud->hasAccess('create') && $crud->bulk_actions && isset(request()->course))
+@if ($crud->hasAccess('create') && isset(request()->course))
   <a href="javascript:void(0)" onclick="bulkAttachEntries(this)" class="btn btn-success">
     <i class="fa fa-clone"></i> @lang('Attach to course')
   </a>
@@ -11,11 +11,10 @@
 
         if (typeof crud.checkedItems === 'undefined' || crud.checkedItems.length == 0)
         {
-          new PNotify({
-                title: "{{ trans('backpack::crud.bulk_no_entries_selected_title') }}",
+          new Noty({
                 text: "{{ trans('backpack::crud.bulk_no_entries_selected_message') }}",
                 type: "warning"
-            });
+            }).show();
 
           return;
         }
@@ -38,22 +37,19 @@
            },
           success: function(result) {
             // Show an alert with the result
-            new PNotify({
-                title: "Skills set saved",
+            new Noty({
                 text: "Skills have been attached to course",
                 type: "success"
-            });
-
-            crud.checkedItems = [];
-            crud.table.ajax.reload();
+            }).show();
+            
+            window.location.href = '/course/' + result + '/skill'
           },
           error: function(result) {
             // Show an alert with the result
-            new PNotify({
-                title: "Attaching failed",
+            new Noty({
                 text: "One or more entries could not be attached. Please try again.",
                 type: "warning"
-            });
+            }).show();
           }
         });
         }
