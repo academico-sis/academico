@@ -78,7 +78,7 @@ class AuthServiceProvider extends ServiceProvider
          * of if they have explicit permission to view any result
          */
         Gate::define('view-enrollment', function ($user, $enrollment) {
-            return $user->id == $enrollment->student_id || $user->teacher_id == $enrollment->course->teacher_id || $user->can('evaluation.view');
+            return $user->student_id == $enrollment->student_id || $user->teacher_id == $enrollment->course->teacher_id || $user->can('evaluation.view');
         });
 
         /**

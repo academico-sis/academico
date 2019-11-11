@@ -130,6 +130,11 @@ class User extends Authenticatable
         return $this->teacher->id ?? null;
     }
 
+    public function getStudentIdAttribute()
+    {
+        return $this->student->id ?? null;
+    }
+
     public function getForceUpdateAttribute()
     {
         return $this->force_update ?? null;
