@@ -140,7 +140,7 @@
                 </div>
 
                 <div class="form-group">
-                    <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#changeCourseModal">@lang('Change Course')</button>
+                    <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#changeCourseModal">@lang('Change course')</button>
                 </div>
                 
             @else
