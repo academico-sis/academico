@@ -43,7 +43,7 @@ class EnrollmentController extends Controller
             abort(403);
         }
 
-        $student = Student::where('user_id', $request->input('student_id'))->firstOrFail(); // todo refactor this
+        $student = Student::findOrFail($request->input('student_id'));
         $enrollment_id = $student->enroll($course);
         \Alert::success(__('Enrollment successfully created'))->flash();
         
