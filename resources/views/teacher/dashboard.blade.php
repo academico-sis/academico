@@ -59,7 +59,7 @@
                         <strong>{{ $course->name }}</strong>
                         <div class="card-header-actions">
                             @if($course->campus_id == 1)
-                                <a href="/course/{{$course->id}}" class="btn btn-default btn-xs"><i class="fa fa-users"></i></a>
+                                <a href="/course/{{$course->id}}/show" class="btn btn-default btn-xs"><i class="fa fa-users"></i></a>
                             @endif
 
                             @if($course->enrollments->count() > 0 && $course->events->count() > 0 && $course->exempt_attendance !== 1)
