@@ -197,7 +197,7 @@ class EnrollmentController extends Controller
 
         // return the preinvoice id for redirect
         // todo allow comments on that page.
-        return redirect("/enrollment/$enrollment->id");
+        return redirect("/enrollment/$enrollment->id/show");
         //return $preinvoice->id;
     }
 }
