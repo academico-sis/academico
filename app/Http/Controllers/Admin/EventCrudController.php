@@ -138,7 +138,10 @@ class EventCrudController extends CrudController
           false,
           function($value) { // if the filter is active, apply these constraints
             $this->crud->query->where('course_id', null);
-          });
+          },
+          function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
+            
+        });
 
           CRUD::addFilter([
             'type' => 'simple',
