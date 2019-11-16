@@ -25,7 +25,7 @@ class Handler extends ExceptionHandler
      */
      protected $internalDontReport = [
         AuthenticationException::class,
-        //AuthorizationException::class,
+        AuthorizationException::class,
         //HttpException::class,
         //HttpResponseException::class,
         //ModelNotFoundException::class,
