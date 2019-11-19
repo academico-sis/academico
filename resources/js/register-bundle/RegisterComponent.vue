@@ -1,29 +1,40 @@
 <template>
 <div>
+<div class="is-pulled-right">
+<b-dropdown hoverable aria-role="list" v-model="$i18n.locale">
+    <button class="button is-info" slot="trigger">
+        <span>{{$t('language')}}</span>
+        <b-icon icon="menu-down"></b-icon>
+    </button>
+
+    <b-dropdown-item v-for="(lang, i) in langs" :key="`Lang${i}`" :value="lang" aria-role="listitem">{{ lang }}</b-dropdown-item>
+</b-dropdown>
+</div>
+
 <b-steps
     size="is-small"
     v-model="activeStep"
     :animated="isAnimated"
     :has-navigation="hasNavigation">
 
-    <b-step-item label="Datos del estudiante" :clickable="activeStep > 0">
+    <b-step-item :label="$t('step1')" :clickable="activeStep > 0">
         <register-user-data-component></register-user-data-component>
     </b-step-item>
 
-    <b-step-item label="Informacion addicional" :clickable="activeStep > 1">
+    <b-step-item :label="$t('step2')" :clickable="activeStep > 1">
         <register-user-info-component></register-user-info-component>
     </b-step-item>
 
-<!--     <b-step-item label="Photo" :clickable="activeStep > 2">
+<!--     <b-step-item :label="$t('')Photo" :clickable="activeStep > 2">
         <h1 class="title has-text-centered">Profile picture</h1>
         Lorem ipsum dolor sit amet.
     </b-step-item> -->
 
-    <b-step-item label="Contactos addicionales" :clickable="activeStep > 2">
+    <b-step-item :label="$t('step4')" :clickable="activeStep > 2">
         <register-contacts-component></register-contacts-component>
     </b-step-item>
 
-    <b-step-item label="Finalizacion" :clickable="activeStep > 3">
+    <b-step-item :label="$t('step5')" :clickable="activeStep > 3">
         <register-user-finish-component></register-user-finish-component>
     </b-step-item>
 
@@ -52,6 +63,7 @@ export default {
             isAnimated: true,
             hasNavigation: false,
             isStepsClickable: false,
+            langs: ['fr', 'en', 'es']
         }
     },
         

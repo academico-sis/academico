@@ -5,27 +5,27 @@
 
 <article class="message" v-for="(contact, index) in contacts" v-bind:key="index">
   <div class="message-header">
-    Contacto addicional #{{ index + 1}}
+    {{ $t('contact') }} #{{ index + 1}}
     <button class="delete" @click="dropContact(index)"></button>
   </div>
   <div class="message-body">
-      <b-field label="Nombres">
+      <b-field :label="$t('firstname')">
             <ValidationProvider name="nombres" rules="required" v-slot="{ errors }">
-            <b-input v-model="contact.firstname" placeholder="Nombres"></b-input>
+            <b-input v-model="contact.firstname" :placeholder="$t('firstname')"></b-input>
             <p class="help is-danger">{{ errors[0] }}</p>
             </ValidationProvider>
         </b-field>
 
-        <b-field label="Apellidos">
+        <b-field :label="$t('lastname')">
             <ValidationProvider name="apellidos" rules="required" v-slot="{ errors }">
-            <b-input v-model="contact.lastname" placeholder="Apellidos"></b-input>
+            <b-input v-model="contact.lastname" :placeholder="$t('lastname')"></b-input>
             <p class="help is-danger">{{ errors[0] }}</p>
             </ValidationProvider>
         </b-field>
 
-        <b-field label="Correo electrónico">
+        <b-field :label="$t('email')">
             <ValidationProvider name="correo electrónico" rules="required|email" v-slot="{ errors }">
-            <b-input type="email" v-model="contact.email" placeholder="Correo electrónico"></b-input>
+            <b-input type="email" v-model="contact.email" :placeholder="$t('email')"></b-input>
             <p class="help is-danger">{{ errors[0] }}</p>
             </ValidationProvider>
         </b-field>
@@ -51,29 +51,29 @@
             </ValidationProvider>
         </b-field>
 
-        <b-field label="Dirección">
+        <b-field :label="$t('address')">
             <ValidationProvider name="dirección" rules="required" v-slot="{ errors }">
-            <b-input v-model="contact.address" placeholder="Dirección"></b-input>
+            <b-input v-model="contact.address" :placeholder="$t('address')"></b-input>
             <p class="help is-danger">{{ errors[0] }}</p>
             </ValidationProvider>
         </b-field>
 
 
-        <p class="label">Número de teléfono</p>
+        <p class="label">{{ $t('phonenumber') }}</p>
 
             <b-field :label="'Teléfono #'+(numberindex + 1)" grouped label-position="on-border" v-for="(number, numberindex) in contact.phonenumbers" v-bind:key="numberindex">
                 <ValidationProvider name="número de teléfono" rules="required" v-slot="{ errors }">
-                <b-input v-model="number.number" placeholder="Número de teléfono"></b-input>
+                <b-input v-model="number.number" :placeholder="$t('phonenumber')"></b-input>
                 <p class="control">
-                    <b-button v-if="numberindex > 0" @click="dropPhoneNumber(index, numberindex)">Eliminar</b-button>
+                    <b-button v-if="numberindex > 0" @click="dropPhoneNumber(index, numberindex)">{{ $t('delete') }}</b-button>
                 </p>
                 <p class="help is-danger">{{ errors[0] }}</p>
                 </ValidationProvider>
             </b-field>
     
         <p>
-            <b-button @click="addPhoneNumber(index)">Agregar otro</b-button>
-            Puede agregar otros número, si tiene.
+            <b-button @click="addPhoneNumber(index)">{{ $t('add') }}</b-button>
+            {{ $t('phonenumber_explainer') }}
         </p>
 
   </div>
@@ -81,15 +81,15 @@
 
 <div style="text-align:center; padding-top: 2em;">
     
-    <p style="padding-bottom: 2em;">Los estudiantes menores de edad tienen que agregar el contacto de su representante. Puede agregar varios contactos aqui (por ejemplo, padre y madre).</p>
+    <p style="padding-bottom: 2em;">{{ $t('contact_explainer1') }}</p>
 
-    <p style="padding-bottom: 2em;">Si desea, puede agregar los datos de una persona que podemos contactar en caso de emergencia.</p>
+    <p style="padding-bottom: 2em;">{{ $t('contact_explainer2') }}</p>
 
-    <p style="padding-bottom: 2em;">Si desea la factura con otros datos, por favor agregar un contacto en este espacio también.</p>
+    <p style="padding-bottom: 2em;">{{ $t('contact_explainer3') }}</p>
 
-    <b-button type="is-info" @click="addContact()">Agregar contacto</b-button>
+    <b-button type="is-info" @click="addContact()">{{ $t('add') }}</b-button>
 
-    <b-button type="is-primary" @click="validateBeforeSubmit()">Siguiente</b-button>
+    <b-button type="is-primary" @click="validateBeforeSubmit()">{{ $t('next') }}</b-button>
 </div>
 
 

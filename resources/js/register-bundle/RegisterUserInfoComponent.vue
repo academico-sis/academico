@@ -2,7 +2,7 @@
 <div>
 <ValidationObserver ref="observer" v-slot="{ valid }">
 
-    <b-field label="Fecha de nacimiento">
+    <b-field :label="$t('birthdate')">
         <ValidationProvider name="fecha de nacimiento" rules="required" v-slot="{ errors }">
         <b-datepicker
             :show-week-number=false
@@ -15,52 +15,52 @@
     </b-field>
  
     
-    <b-field label="Dirección">
+    <b-field :label="$t('address')">
         <ValidationProvider name="dirección" rules="required" v-slot="{ errors }">
-        <b-input v-model="formdata.address" placeholder="Dirección"></b-input>
+        <b-input v-model="formdata.address" :placeholder="$t('address')"></b-input>
         <p class="help is-danger">{{ errors[0] }}</p>
         </ValidationProvider>
     </b-field>
 
-    <p class="label">Número de teléfono</p>
+    <p class="label">{{ $t('phonenumber') }}</p>
 
-        <b-field :label="'Teléfono #'+(index + 1)" grouped label-position="on-border" v-for="(number, index) in formdata.phonenumbers" v-bind:key="index">
+        <b-field :label="$t('phonenumber')+' #'+(index + 1)" grouped label-position="on-border" v-for="(number, index) in formdata.phonenumbers" v-bind:key="index">
             <ValidationProvider name="número de teléfono" rules="required" v-slot="{ errors }">
-            <b-input v-model="number.number" placeholder="Number"></b-input>
+            <b-input v-model="number.number" :placeholder="$t('phonenumber')"></b-input>
             <p class="control">
-                <b-button v-if="index > 0" @click="dropPhoneNumber(index)">Eliminar</b-button>
+                <b-button v-if="index > 0" @click="dropPhoneNumber(index)">{{ $t('delete') }}</b-button>
             </p>
              <p class="help is-danger">{{ errors[0] }}</p>
             </ValidationProvider>
         </b-field>
    
     <p>
-        <b-button @click="addPhoneNumber()">Agregar otro</b-button>
-        Si tiene otros números, los puede agregar también.
+        <b-button @click="addPhoneNumber()">{{ $t('add') }}</b-button>
+        {{ $t('phonenumber_explainer') }}
     </p>
 
 
-    <b-field label="Profesión">
+    <b-field :label="$t('profesion')">
         <ValidationProvider name="profesión" rules="required" v-slot="{ errors }">
         <b-input
             v-model="formdata.profession"
-            placeholder="e.g. estudiante, médico...">
+            :placeholder="$t('profesion_example')">
         </b-input>
         <p class="help is-danger">{{ errors[0] }}</p>
         </ValidationProvider>
     </b-field>
 
-    <b-field label="Institución">
+    <b-field :label="$t('institution')">
     <ValidationProvider name="institución" rules="required" v-slot="{ errors }">
         <b-input
             v-model="formdata.institution"
-            placeholder="e.g. Universidad de Cuenca">
+            :placeholder="$t('institution_example')">
         </b-input>
         <p class="help is-danger">{{ errors[0] }}</p>
         </ValidationProvider>
     </b-field>
 
-    <b-button type="is-primary" @click="validateBeforeSubmit()">Siguiente</b-button>
+    <b-button type="is-primary" @click="validateBeforeSubmit()">{{ $t('next') }}</b-button>
 
 </ValidationObserver>
 

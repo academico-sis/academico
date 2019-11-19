@@ -4,6 +4,19 @@ window.Vue = require('vue');
 
 Vue.use(require('vue-moment'));
 
+import VueInternationalization from 'vue-i18n';
+import Locale from './vue-i18n-locales';
+
+Vue.use(VueInternationalization);
+
+const lang = document.documentElement.lang.substr(0, 2);
+// or however you determine your current app locale
+
+const i18n = new VueInternationalization({
+    locale: lang,
+    messages: Locale
+});
+
 import { ValidationProvider } from 'vee-validate';
 
 import { extend } from 'vee-validate';
@@ -59,5 +72,6 @@ files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(
 
 const app = new Vue({
     el: '#app',
+    i18n,
 });
 

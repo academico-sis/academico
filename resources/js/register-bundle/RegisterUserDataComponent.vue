@@ -2,56 +2,56 @@
 <div>
 
 <ValidationObserver ref="observer" v-slot="{ valid }">
-    <b-field label="Nombres">
+    <b-field :label="$t('firstname')">
     <ValidationProvider name="nombres" rules="required" v-slot="{ errors }">
-    <b-input v-model="formdata.firstname" placeholder="Nombres" required></b-input>
+    <b-input v-model="formdata.firstname" :placeholder="$t('firstname')" required></b-input>
     <p class="help is-danger">{{ errors[0] }}</p>
     </ValidationProvider>
     </b-field>
 
-    <b-field label="Apellidos">
+    <b-field :label="$t('lastname')">
         <ValidationProvider name="apellidos" rules="required" v-slot="{ errors }">
-        <b-input v-model="formdata.lastname" placeholder="Apellidos" required></b-input>
+        <b-input v-model="formdata.lastname" :placeholder="$t('lastname')" required></b-input>
         <p class="help is-danger">{{ errors[0] }}</p>
         </ValidationProvider>
     </b-field>
 
-    <b-field label="Correo electrónico">
+    <b-field :label="$t('email')">
         <ValidationProvider name="correo electrónico" rules="required|email" v-slot="{ errors }">
-        <b-input type="email" v-model="formdata.email" placeholder="Correo electrónico" required></b-input>
+        <b-input type="email" v-model="formdata.email" :placeholder="$t('email')" required></b-input>
         <p class="help is-danger">{{ errors[0] }}</p>
         </ValidationProvider>
     </b-field>
 
-    <b-field label="Documento de identificación">
+    <b-field :label="$t('iddocument')">
         <div class="block">
-            <b-radio v-model="formdata.idnumber_type" native-value="cedula">Cédula</b-radio>
-            <b-radio v-model="formdata.idnumber_type" native-value="passport">Pasaporte</b-radio>
+            <b-radio v-model="formdata.idnumber_type" native-value="cedula">{{ $t('cedula') }}</b-radio>
+            <b-radio v-model="formdata.idnumber_type" native-value="passport">{{ $t('passport') }}</b-radio>
         </div>
     </b-field>
 
-    <b-field v-if="formdata.idnumber_type == 'cedula'" label="Número de cédula">
+    <b-field v-if="formdata.idnumber_type == 'cedula'" :label="$t('cedula_number')">
         <ValidationProvider name="número de cédula" rules="required|cedula|length:10" v-slot="{ errors }">
         <b-input v-model="formdata.idnumber"></b-input>
         <p class="help is-danger">{{ errors[0] }}</p>
         </ValidationProvider>
     </b-field>
 
-    <b-field v-if="formdata.idnumber_type == 'passport'" rules="required" label="Número de pasaporte">
+    <b-field v-if="formdata.idnumber_type == 'passport'" rules="required" :label="$t('passport_number')">
         <ValidationProvider name="número de pasaporte" rules="required" v-slot="{ errors }">
         <b-input v-model="formdata.idnumber" maxlength="12"></b-input>
         <p class="help is-danger">{{ errors[0] }}</p>
         </ValidationProvider>
     </b-field>
 
-    <b-field label="Contraseña">
+    <b-field :label="$t('password')">
         <ValidationProvider name="contraseña" rules="required|min:6" v-slot="{ errors }">
         <b-input v-model="formdata.password" type="password" password-reveal></b-input>
         <p class="help is-danger">{{ errors[0] }}</p>
         </ValidationProvider>
     </b-field>
 
-    <b-button type="is-primary" @click="validateBeforeSubmit()">Siguiente</b-button>
+    <b-button type="is-primary" @click="validateBeforeSubmit()">{{ $t('next') }}</b-button>
 
 </ValidationObserver>
 </div>
