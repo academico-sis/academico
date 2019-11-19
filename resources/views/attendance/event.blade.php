@@ -11,7 +11,7 @@
                 Présences pour la classe du {{ Carbon\Carbon::parse($event->start)->day }} / {{ Carbon\Carbon::parse($event->start)->month }}
                 <div class="card-header-actions">
                     <button class="btn btn-primary" data-toggle="modal" data-target="#myModal">@lang('Enroll new student')</button>
-                    <a href="/attendance/course/{{ $event->course_id }}">@lang('Revenir au cours')</a>
+                    <a href="/attendance/course/{{ $event->course_id }}">@lang('Back to course')</a>
                 </div>
             </div><!-- /.card-header -->
             

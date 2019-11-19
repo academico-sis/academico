@@ -1,9 +1,9 @@
 <template>
 <div>
     <ol class="breadcrumb bg-transparent">
-        <li class="breadcrumb-item" v-if="step >= 1"><a @click="step = 1">Productos</a></li>
-        <li class="breadcrumb-item" v-if="step >= 2"><a @click="step = 2">Datos de Factura</a></li>
-        <li class="breadcrumb-item" v-if="step >= 3"><a @click="step = 3">Pago</a></li>
+        <li class="breadcrumb-item" v-if="step >= 1"><a @click="step = 1">{{ $t('Products') }}</a></li>
+        <li class="breadcrumb-item" v-if="step >= 2"><a @click="step = 2">{{ $t('front.Invoice Data') }}</a></li>
+        <li class="breadcrumb-item" v-if="step >= 3"><a @click="step = 3">{{ $t('front.Payment') }}</a></li>
       </ol>
 
     <div class="row" v-if="step == 1">
@@ -11,20 +11,20 @@
 
             <div class="card">
                 <div class="card-header">
-                    Productos
+                    {{ $t('Products') }}
                 </div>
                 
                 <div class="card-body">
 
                     <table class="table">
                         <thead>
-                            <th>Producto</th>
-                            <th>Precio</th>
-                            <th>Acciones</th>
+                            <th>{{ $t('Product') }}</th>
+                            <th>{{ $t('Price') }}</th>
+                            <th>{{ $t('Actions') }}</th>
                         </thead>
                         <tbody>
                             <tr v-bind:key="enrollment.id" v-for="enrollment in enrollments">
-                                <td>{{ enrollment.course.name }} para {{ enrollment.student.user.firstname }} {{ enrollment.student.user.lastname }}</td>
+                                <td>{{ enrollment.course.name }} {{ $t('front.for') }} {{ enrollment.student.user.firstname }} {{ enrollment.student.user.lastname }}</td>
                                 <td>$ {{ enrollment.course.price }} <span class="label label-info" v-if="discount(enrollment.course.price) > 0">- ${{ discount(enrollment.course.price) }}</span></td>
                                 <td>
                                 </td>
@@ -53,8 +53,8 @@
 
             <div class="card">
                 <div class="card-body text-center">
-                        <h4> PRECIO TOTAL: $ {{ shoppingCartTotal }}</h4>
-                        <button class="btn btn-success" v-if="enrollments[0]" @click="step = 2"><i class="fa fa-check"></i>Confirmar</button>
+                        <h4>{{ $t('front.Total price') }}: $ {{ shoppingCartTotal }}</h4>
+                        <button class="btn btn-success" v-if="enrollments[0]" @click="step = 2"><i class="fa fa-check"></i>{{ $t('front.Confirm') }}</button>
                 </div>
             </div>
 
@@ -64,7 +64,7 @@
 
             <div class="card">
                 <div class="card-header">
-                    Agregar productos
+                    {{ $t('front.Add products') }}
                 </div>
                 
                 <div class="card-body">
@@ -72,7 +72,7 @@
                     <div class="form-group">
                         <div class="dropdown">
                             <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
-                            <span class="caret"></span> Libros
+                            <span class="caret"></span> {{ $t('Books') }}
                             </button>
                             <div class="dropdown-menu">
                                 <button class="dropdown-item" v-for="availableBook in this.availablebooks" v-bind:key="availableBook.id" @click="addBook(availableBook)">{{ availableBook.name }}</button>
@@ -81,7 +81,7 @@
                     
                         <div class="dropdown">
                             <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
-                            <span class="caret"></span> Gastos adm.
+                            <span class="caret"></span> {{ $t('Fees') }}
                             </button>
                             <div class="dropdown-menu">
                                 <button class="dropdown-item" v-for="availableFee in this.availablefees" v-bind:key="availableFee.id" @click="addFee(availableFee)">{{ availableFee.name }}</button>
@@ -95,7 +95,7 @@
 
             <div class="card">
                 <div class="card-header">
-                    Descuentos
+                    {{ $t('Discounts') }}
                 </div>
                 
                 <div class="card-body">
@@ -110,7 +110,7 @@
                     <div class="form-group">
                         <div class="dropdown">
                             <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
-                                <span class="caret"></span> Agregar descuento
+                                <span class="caret"></span> {{ $t('front.Add discount') }}
                             </button>
                             <div class="dropdown-menu">
                                 <button class="dropdown-item" v-for="availableDiscount in this.availablediscounts" v-bind:key="availableDiscount.id" @click="addDiscount(availableDiscount)">{{ availableDiscount.name }}</button>
@@ -129,10 +129,10 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="card-header">
-                    Estudiante
+                    {{ $t('Student') }}
 
                     <div class="card-header-actions">
-                        <button class="btn btn-info" @click="selectStudentData()"><i class="fa fa-check"></i>Seleccionar</button>
+                        <button class="btn btn-info" @click="selectStudentData()"><i class="fa fa-check"></i>{{ $t('front.Select') }}</button>
                     </div>
                 </div>
                 <div class="card-body">
@@ -147,7 +147,7 @@
                     Contact
 
                     <div class="card-header-actions">
-                        <button class="btn btn-info" @click="selectInvoiceData(contact)"><i class="fa fa-check"></i>Selectionar</button>
+                        <button class="btn btn-info" @click="selectInvoiceData(contact)"><i class="fa fa-check"></i>{{ $t('front.Select') }}</button>
                     </div>
                 </div>
                 <div class="card-body">
@@ -161,36 +161,36 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    Datos de facturación
+                    {{ $t('front.Invoice Data') }}
                     <div class="card-header-actions">
-                        <button v-if="checkForm()" class="btn btn-success" @click="confirmInvoiceData()"><i class="fa fa-check"></i>Seleccionar</button>
+                        <button v-if="checkForm()" class="btn btn-success" @click="confirmInvoiceData()"><i class="fa fa-check"></i>{{ $t('front.Select') }}</button>
                     </div>
                 </div>
                 <div class="card-body">
 
                     <div class="form-group">
-                        <label for="clientname">Nombre completo: </label>
+                        <label for="clientname">{{ $t('Client name') }}</label>
                         <input required id="clientname" type="text" v-model="clientname" class="form-control">
                     </div>
 
                     <div class="form-group">
-                        <label for="clientphone">Teléfono: </label>
+                        <label for="clientphone">{{ $t('Client Phone Number') }}</label>
                         <input required id="clientphone" type="text" v-model="clientphone" class="form-control">
                     </div>
 
                     
                     <div class="form-group">
-                        <label for="clientaddress">Dirección: </label>
+                        <label for="clientaddress">{{ $t('Client address') }}</label>
                         <input required type="text" v-model="clientaddress" class="form-control">
                     </div>
 
                     <div class="form-group">
-                        <label for="clientidnumber">Número de cédula/RUC: </label>
+                        <label for="clientidnumber">{{ $t('Client ID Number') }}</label>
                         <input required type="text" v-model="clientidnumber" class="form-control">
                     </div>
 
                     <div class="form-group">
-                        <label for="clientemail">Correo electrónico: </label>
+                        <label for="clientemail">{{ $t('Client email') }}</label>
                         <input required type="text" v-model="clientemail" class="form-control">
                     </div>
 
@@ -206,19 +206,19 @@
 
             <div class="card">
                 <div class="card-header">
-                    Productos
+                    {{ $t('Products') }}
                 </div>
                 
                 <div class="card-body">
 
                     <table class="table">
                         <thead>
-                            <th>Producto</th>
-                            <th>Precio</th>
+                            <th>{{ $t('Product') }}</th>
+                            <th>{{ $t('Price') }}</th>
                         </thead>
                         <tbody>
                             <tr v-bind:key="enrollment.id + '-enrollment'" v-for="enrollment in enrollments">
-                                <td>{{ enrollment.course.name }} para {{ enrollment.student.user.firstname }} {{ enrollment.student.user.lastname }}</td>
+                                <td>{{ enrollment.course.name }} {{ $t('front.for') }} {{ enrollment.student.user.firstname }} {{ enrollment.student.user.lastname }}</td>
                                 <td>$ {{ enrollment.course.price }} <span class="label label-info" v-if="discount(enrollment.course.price) > 0">- ${{ discount(enrollment.course.price) }}</span></td>
                             </tr>
 
@@ -243,7 +243,7 @@
             
             <div class="card card-solid card-primary">
                 <div class="card-header">
-                    Datos de factura
+                    {{ $t('front.Invoice Data') }}
                 </div>
                 <div class="card-body">
                     <ul>
@@ -262,13 +262,13 @@
 
             <div class="card">
                 <div class="card-body text-center">
-                        <h4> PRECIO TOTAL: $ {{ shoppingCartTotal }}</h4>
+                        <h4>{{ $t('front.Total price') }}: $ {{ shoppingCartTotal }}</h4>
                 </div>
             </div>
 
             <div class="card card-solid card-primary">
                 <div class="card-header">
-                        Forma de pago
+                        {{ $t('front.Payment method') }}
                     <div class="card-header-actions">
                         <button v-if="shoppingCartTotal == paidTotal" class="btn btn-success" @click="finish()"><i class="fa fa-check"></i>Facturar</button>
 
@@ -279,9 +279,9 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Forma de pago</th>
-                                <th>Valor recibida</th>
-                                <th>Observación</th>
+                                <th>{{ $t('front.Payment method') }}</th>
+                                <th>{{ $t('front.Amount received') }}</th>
+                                <th>{{ $t('Comment') }}</th>
                             </tr>
                         </thead>
 
@@ -308,18 +308,18 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <button class="btn btn-secondary" @click="addPayment()">Agregar</button>
+                                    <button class="btn btn-secondary" @click="addPayment()">{{ $t('front.Add') }}</button>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
 
                     <div class="form-group">
-                        <h4>Valor total recibida: $ {{ paidTotal }}</h4>
+                        <h4>{{ $t('front.Total received amount') }}: $ {{ paidTotal }}</h4>
                     </div>
 
                     <div class="form-group">
-                        <label for="comment">Comentario general:</label>
+                        <label for="comment">{{ $t('Comment') }}</label>
                         <textarea name="comment" id="comment" cols="50" rows="2" v-model="comment"></textarea>
                     </div>
 
@@ -341,11 +341,11 @@
 
             <div class="card">
                 <div class="card-header">
-                    Factura generada
+                    {{ $t('front.The invoice has been generated') }}
                 </div>
                 
                 <div class="card-body">
-                    <p>Redirecting to Enrollment {{ enrollments[0].id }}</p>
+                    <p>{{ $t('front.Enrollment number') }} {{ enrollments[0].id }}</p>
                 </div>
             </div>
 

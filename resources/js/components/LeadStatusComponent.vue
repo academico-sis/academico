@@ -2,7 +2,8 @@
 
   <div class="col-md-4">
         <div class="card">
-            <div class="card-header with-border">État client<!-- todo translate -->
+            <div class="card-header">
+                {{ $t('front.Lead Status') }}
             </div>
             
             <div class="card-body">

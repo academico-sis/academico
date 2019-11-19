@@ -3,7 +3,7 @@
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
-                Ajouter un horaire
+                {{ $t('front.Add a new course time') }}
             </div>
                     
             <div class="card-body">
@@ -11,12 +11,13 @@
                     <thead>
                         <th>
                             <select name="day" id="day" v-model="day">
-                                <option value="1">Lundi</option>
-                                <option value="2">Mardi</option>
-                                <option value="3">Mercredi</option>
-                                <option value="4">Jeudi</option>
-                                <option value="5">Vendredi</option>
-                                <option value="6">Samedi</option>
+                                <option value="1">{{ $t('front.Monday') }}</option>
+                                <option value="2">{{ $t('front.Tuesday') }}</option>
+                                <option value="3">{{ $t('front.Wednesday') }}</option>
+                                <option value="4">{{ $t('front.Thursday') }}</option>
+                                <option value="5">{{ $t('front.Friday') }}</option>
+                                <option value="6">{{ $t('front.Saturday') }}</option>
+                                <option value="0">{{ $t('front.Sunday') }}</option>
                             </select>
                         </th>
 
@@ -57,14 +58,14 @@
 <div class="col-md-6">
         <div class="card">
             <div class="card-header">
-                Classes
+                {{ $t('Events') }}
             </div>
                     
             <div class="card-body">
                 <table class="table">
                     <thead>
-                        <th>Start</th>
-                        <th>End</th>
+                        <th>{{ $t('Start') }}</th>
+                        <th>{{ $t('End') }}</th>
                     </thead>
 
                     <tbody>

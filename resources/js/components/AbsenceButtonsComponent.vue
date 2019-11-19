@@ -6,7 +6,7 @@
                 @click="saveAttendance(3)"
                 class="btn btn-secondary"
                 v-bind:class="{ 'btn-info': studentAttendance == 3 }">
-                Absence justifiée <i class="fa fa-check"></i>
+                {{ $t('front.Justified Absence') }} <i class="fa fa-check"></i>
             </button>
         </div>
         
@@ -16,7 +16,7 @@
                 @click="saveAttendance(4)"
                 class="btn btn-secondary"
                 v-bind:class="{ 'btn-danger': studentAttendance == 4 }">
-                Absence non justifiée <i class="fa fa-user-times"></i>
+                {{ $t('front.Unjustified Absence') }} <i class="fa fa-user-times"></i>
             </button>
         </div>
         

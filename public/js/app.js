@@ -2648,6 +2648,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['course'],
   data: function data() {
@@ -2855,6 +2856,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['student', 'route', 'leadtypes'],
   data: function data() {
@@ -2962,8 +2964,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
 //
 //
 //
@@ -3685,6 +3685,1960 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
+/***/ "./node_modules/vue-i18n/dist/vue-i18n.esm.js":
+/*!****************************************************!*\
+  !*** ./node_modules/vue-i18n/dist/vue-i18n.esm.js ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/*!
+ * vue-i18n v8.15.0 
+ * (c) 2019 kazuya kawaguchi
+ * Released under the MIT License.
+ */
+/*  */
+
+/**
+ * constants
+ */
+
+var numberFormatKeys = [
+  'style',
+  'currency',
+  'currencyDisplay',
+  'useGrouping',
+  'minimumIntegerDigits',
+  'minimumFractionDigits',
+  'maximumFractionDigits',
+  'minimumSignificantDigits',
+  'maximumSignificantDigits',
+  'localeMatcher',
+  'formatMatcher'
+];
+
+/**
+ * utilities
+ */
+
+function warn (msg, err) {
+  if (typeof console !== 'undefined') {
+    console.warn('[vue-i18n] ' + msg);
+    /* istanbul ignore if */
+    if (err) {
+      console.warn(err.stack);
+    }
+  }
+}
+
+function error (msg, err) {
+  if (typeof console !== 'undefined') {
+    console.error('[vue-i18n] ' + msg);
+    /* istanbul ignore if */
+    if (err) {
+      console.error(err.stack);
+    }
+  }
+}
+
+function isObject (obj) {
+  return obj !== null && typeof obj === 'object'
+}
+
+var toString = Object.prototype.toString;
+var OBJECT_STRING = '[object Object]';
+function isPlainObject (obj) {
+  return toString.call(obj) === OBJECT_STRING
+}
+
+function isNull (val) {
+  return val === null || val === undefined
+}
+
+function parseArgs () {
+  var args = [], len = arguments.length;
+  while ( len-- ) args[ len ] = arguments[ len ];
+
+  var locale = null;
+  var params = null;
+  if (args.length === 1) {
+    if (isObject(args[0]) || Array.isArray(args[0])) {
+      params = args[0];
+    } else if (typeof args[0] === 'string') {
+      locale = args[0];
+    }
+  } else if (args.length === 2) {
+    if (typeof args[0] === 'string') {
+      locale = args[0];
+    }
+    /* istanbul ignore if */
+    if (isObject(args[1]) || Array.isArray(args[1])) {
+      params = args[1];
+    }
+  }
+
+  return { locale: locale, params: params }
+}
+
+function looseClone (obj) {
+  return JSON.parse(JSON.stringify(obj))
+}
+
+function remove (arr, item) {
+  if (arr.length) {
+    var index = arr.indexOf(item);
+    if (index > -1) {
+      return arr.splice(index, 1)
+    }
+  }
+}
+
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+function hasOwn (obj, key) {
+  return hasOwnProperty.call(obj, key)
+}
+
+function merge (target) {
+  var arguments$1 = arguments;
+
+  var output = Object(target);
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments$1[i];
+    if (source !== undefined && source !== null) {
+      var key = (void 0);
+      for (key in source) {
+        if (hasOwn(source, key)) {
+          if (isObject(source[key])) {
+            output[key] = merge(output[key], source[key]);
+          } else {
+            output[key] = source[key];
+          }
+        }
+      }
+    }
+  }
+  return output
+}
+
+function looseEqual (a, b) {
+  if (a === b) { return true }
+  var isObjectA = isObject(a);
+  var isObjectB = isObject(b);
+  if (isObjectA && isObjectB) {
+    try {
+      var isArrayA = Array.isArray(a);
+      var isArrayB = Array.isArray(b);
+      if (isArrayA && isArrayB) {
+        return a.length === b.length && a.every(function (e, i) {
+          return looseEqual(e, b[i])
+        })
+      } else if (!isArrayA && !isArrayB) {
+        var keysA = Object.keys(a);
+        var keysB = Object.keys(b);
+        return keysA.length === keysB.length && keysA.every(function (key) {
+          return looseEqual(a[key], b[key])
+        })
+      } else {
+        /* istanbul ignore next */
+        return false
+      }
+    } catch (e) {
+      /* istanbul ignore next */
+      return false
+    }
+  } else if (!isObjectA && !isObjectB) {
+    return String(a) === String(b)
+  } else {
+    return false
+  }
+}
+
+/*  */
+
+function extend (Vue) {
+  if (!Vue.prototype.hasOwnProperty('$i18n')) {
+    // $FlowFixMe
+    Object.defineProperty(Vue.prototype, '$i18n', {
+      get: function get () { return this._i18n }
+    });
+  }
+
+  Vue.prototype.$t = function (key) {
+    var values = [], len = arguments.length - 1;
+    while ( len-- > 0 ) values[ len ] = arguments[ len + 1 ];
+
+    var i18n = this.$i18n;
+    return i18n._t.apply(i18n, [ key, i18n.locale, i18n._getMessages(), this ].concat( values ))
+  };
+
+  Vue.prototype.$tc = function (key, choice) {
+    var values = [], len = arguments.length - 2;
+    while ( len-- > 0 ) values[ len ] = arguments[ len + 2 ];
+
+    var i18n = this.$i18n;
+    return i18n._tc.apply(i18n, [ key, i18n.locale, i18n._getMessages(), this, choice ].concat( values ))
+  };
+
+  Vue.prototype.$te = function (key, locale) {
+    var i18n = this.$i18n;
+    return i18n._te(key, i18n.locale, i18n._getMessages(), locale)
+  };
+
+  Vue.prototype.$d = function (value) {
+    var ref;
+
+    var args = [], len = arguments.length - 1;
+    while ( len-- > 0 ) args[ len ] = arguments[ len + 1 ];
+    return (ref = this.$i18n).d.apply(ref, [ value ].concat( args ))
+  };
+
+  Vue.prototype.$n = function (value) {
+    var ref;
+
+    var args = [], len = arguments.length - 1;
+    while ( len-- > 0 ) args[ len ] = arguments[ len + 1 ];
+    return (ref = this.$i18n).n.apply(ref, [ value ].concat( args ))
+  };
+}
+
+/*  */
+
+var mixin = {
+  beforeCreate: function beforeCreate () {
+    var options = this.$options;
+    options.i18n = options.i18n || (options.__i18n ? {} : null);
+
+    if (options.i18n) {
+      if (options.i18n instanceof VueI18n) {
+        // init locale messages via custom blocks
+        if (options.__i18n) {
+          try {
+            var localeMessages = {};
+            options.__i18n.forEach(function (resource) {
+              localeMessages = merge(localeMessages, JSON.parse(resource));
+            });
+            Object.keys(localeMessages).forEach(function (locale) {
+              options.i18n.mergeLocaleMessage(locale, localeMessages[locale]);
+            });
+          } catch (e) {
+            if (true) {
+              warn("Cannot parse locale messages via custom blocks.", e);
+            }
+          }
+        }
+        this._i18n = options.i18n;
+        this._i18nWatcher = this._i18n.watchI18nData();
+      } else if (isPlainObject(options.i18n)) {
+        // component local i18n
+        if (this.$root && this.$root.$i18n && this.$root.$i18n instanceof VueI18n) {
+          options.i18n.root = this.$root;
+          options.i18n.formatter = this.$root.$i18n.formatter;
+          options.i18n.fallbackLocale = this.$root.$i18n.fallbackLocale;
+          options.i18n.formatFallbackMessages = this.$root.$i18n.formatFallbackMessages;
+          options.i18n.silentTranslationWarn = this.$root.$i18n.silentTranslationWarn;
+          options.i18n.silentFallbackWarn = this.$root.$i18n.silentFallbackWarn;
+          options.i18n.pluralizationRules = this.$root.$i18n.pluralizationRules;
+          options.i18n.preserveDirectiveContent = this.$root.$i18n.preserveDirectiveContent;
+        }
+
+        // init locale messages via custom blocks
+        if (options.__i18n) {
+          try {
+            var localeMessages$1 = {};
+            options.__i18n.forEach(function (resource) {
+              localeMessages$1 = merge(localeMessages$1, JSON.parse(resource));
+            });
+            options.i18n.messages = localeMessages$1;
+          } catch (e) {
+            if (true) {
+              warn("Cannot parse locale messages via custom blocks.", e);
+            }
+          }
+        }
+
+        var ref = options.i18n;
+        var sharedMessages = ref.sharedMessages;
+        if (sharedMessages && isPlainObject(sharedMessages)) {
+          options.i18n.messages = merge(options.i18n.messages, sharedMessages);
+        }
+
+        this._i18n = new VueI18n(options.i18n);
+        this._i18nWatcher = this._i18n.watchI18nData();
+
+        if (options.i18n.sync === undefined || !!options.i18n.sync) {
+          this._localeWatcher = this.$i18n.watchLocale();
+        }
+      } else {
+        if (true) {
+          warn("Cannot be interpreted 'i18n' option.");
+        }
+      }
+    } else if (this.$root && this.$root.$i18n && this.$root.$i18n instanceof VueI18n) {
+      // root i18n
+      this._i18n = this.$root.$i18n;
+    } else if (options.parent && options.parent.$i18n && options.parent.$i18n instanceof VueI18n) {
+      // parent i18n
+      this._i18n = options.parent.$i18n;
+    }
+  },
+
+  beforeMount: function beforeMount () {
+    var options = this.$options;
+    options.i18n = options.i18n || (options.__i18n ? {} : null);
+
+    if (options.i18n) {
+      if (options.i18n instanceof VueI18n) {
+        // init locale messages via custom blocks
+        this._i18n.subscribeDataChanging(this);
+        this._subscribing = true;
+      } else if (isPlainObject(options.i18n)) {
+        this._i18n.subscribeDataChanging(this);
+        this._subscribing = true;
+      } else {
+        if (true) {
+          warn("Cannot be interpreted 'i18n' option.");
+        }
+      }
+    } else if (this.$root && this.$root.$i18n && this.$root.$i18n instanceof VueI18n) {
+      this._i18n.subscribeDataChanging(this);
+      this._subscribing = true;
+    } else if (options.parent && options.parent.$i18n && options.parent.$i18n instanceof VueI18n) {
+      this._i18n.subscribeDataChanging(this);
+      this._subscribing = true;
+    }
+  },
+
+  beforeDestroy: function beforeDestroy () {
+    if (!this._i18n) { return }
+
+    var self = this;
+    this.$nextTick(function () {
+      if (self._subscribing) {
+        self._i18n.unsubscribeDataChanging(self);
+        delete self._subscribing;
+      }
+
+      if (self._i18nWatcher) {
+        self._i18nWatcher();
+        self._i18n.destroyVM();
+        delete self._i18nWatcher;
+      }
+
+      if (self._localeWatcher) {
+        self._localeWatcher();
+        delete self._localeWatcher;
+      }
+
+      self._i18n = null;
+    });
+  }
+};
+
+/*  */
+
+var interpolationComponent = {
+  name: 'i18n',
+  functional: true,
+  props: {
+    tag: {
+      type: String
+    },
+    path: {
+      type: String,
+      required: true
+    },
+    locale: {
+      type: String
+    },
+    places: {
+      type: [Array, Object]
+    }
+  },
+  render: function render (h, ref) {
+    var data = ref.data;
+    var parent = ref.parent;
+    var props = ref.props;
+    var slots = ref.slots;
+
+    var $i18n = parent.$i18n;
+    if (!$i18n) {
+      if (true) {
+        warn('Cannot find VueI18n instance!');
+      }
+      return
+    }
+
+    var path = props.path;
+    var locale = props.locale;
+    var places = props.places;
+    var params = slots();
+    var children = $i18n.i(
+      path,
+      locale,
+      onlyHasDefaultPlace(params) || places
+        ? useLegacyPlaces(params.default, places)
+        : params
+    );
+
+    var tag = props.tag || 'span';
+    return tag ? h(tag, data, children) : children
+  }
+};
+
+function onlyHasDefaultPlace (params) {
+  var prop;
+  for (prop in params) {
+    if (prop !== 'default') { return false }
+  }
+  return Boolean(prop)
+}
+
+function useLegacyPlaces (children, places) {
+  var params = places ? createParamsFromPlaces(places) : {};
+
+  if (!children) { return params }
+
+  // Filter empty text nodes
+  children = children.filter(function (child) {
+    return child.tag || child.text.trim() !== ''
+  });
+
+  var everyPlace = children.every(vnodeHasPlaceAttribute);
+  if ( true && everyPlace) {
+    warn('`place` attribute is deprecated in next major version. Please switch to Vue slots.');
+  }
+
+  return children.reduce(
+    everyPlace ? assignChildPlace : assignChildIndex,
+    params
+  )
+}
+
+function createParamsFromPlaces (places) {
+  if (true) {
+    warn('`places` prop is deprecated in next major version. Please switch to Vue slots.');
+  }
+
+  return Array.isArray(places)
+    ? places.reduce(assignChildIndex, {})
+    : Object.assign({}, places)
+}
+
+function assignChildPlace (params, child) {
+  if (child.data && child.data.attrs && child.data.attrs.place) {
+    params[child.data.attrs.place] = child;
+  }
+  return params
+}
+
+function assignChildIndex (params, child, index) {
+  params[index] = child;
+  return params
+}
+
+function vnodeHasPlaceAttribute (vnode) {
+  return Boolean(vnode.data && vnode.data.attrs && vnode.data.attrs.place)
+}
+
+/*  */
+
+var numberComponent = {
+  name: 'i18n-n',
+  functional: true,
+  props: {
+    tag: {
+      type: String,
+      default: 'span'
+    },
+    value: {
+      type: Number,
+      required: true
+    },
+    format: {
+      type: [String, Object]
+    },
+    locale: {
+      type: String
+    }
+  },
+  render: function render (h, ref) {
+    var props = ref.props;
+    var parent = ref.parent;
+    var data = ref.data;
+
+    var i18n = parent.$i18n;
+
+    if (!i18n) {
+      if (true) {
+        warn('Cannot find VueI18n instance!');
+      }
+      return null
+    }
+
+    var key = null;
+    var options = null;
+
+    if (typeof props.format === 'string') {
+      key = props.format;
+    } else if (isObject(props.format)) {
+      if (props.format.key) {
+        key = props.format.key;
+      }
+
+      // Filter out number format options only
+      options = Object.keys(props.format).reduce(function (acc, prop) {
+        var obj;
+
+        if (numberFormatKeys.includes(prop)) {
+          return Object.assign({}, acc, ( obj = {}, obj[prop] = props.format[prop], obj ))
+        }
+        return acc
+      }, null);
+    }
+
+    var locale = props.locale || i18n.locale;
+    var parts = i18n._ntp(props.value, locale, key, options);
+
+    var values = parts.map(function (part, index) {
+      var obj;
+
+      var slot = data.scopedSlots && data.scopedSlots[part.type];
+      return slot ? slot(( obj = {}, obj[part.type] = part.value, obj.index = index, obj.parts = parts, obj )) : part.value
+    });
+
+    return h(props.tag, {
+      attrs: data.attrs,
+      'class': data['class'],
+      staticClass: data.staticClass
+    }, values)
+  }
+};
+
+/*  */
+
+function bind (el, binding, vnode) {
+  if (!assert(el, vnode)) { return }
+
+  t(el, binding, vnode);
+}
+
+function update (el, binding, vnode, oldVNode) {
+  if (!assert(el, vnode)) { return }
+
+  var i18n = vnode.context.$i18n;
+  if (localeEqual(el, vnode) &&
+    (looseEqual(binding.value, binding.oldValue) &&
+     looseEqual(el._localeMessage, i18n.getLocaleMessage(i18n.locale)))) { return }
+
+  t(el, binding, vnode);
+}
+
+function unbind (el, binding, vnode, oldVNode) {
+  var vm = vnode.context;
+  if (!vm) {
+    warn('Vue instance does not exists in VNode context');
+    return
+  }
+
+  var i18n = vnode.context.$i18n || {};
+  if (!binding.modifiers.preserve && !i18n.preserveDirectiveContent) {
+    el.textContent = '';
+  }
+  el._vt = undefined;
+  delete el['_vt'];
+  el._locale = undefined;
+  delete el['_locale'];
+  el._localeMessage = undefined;
+  delete el['_localeMessage'];
+}
+
+function assert (el, vnode) {
+  var vm = vnode.context;
+  if (!vm) {
+    warn('Vue instance does not exists in VNode context');
+    return false
+  }
+
+  if (!vm.$i18n) {
+    warn('VueI18n instance does not exists in Vue instance');
+    return false
+  }
+
+  return true
+}
+
+function localeEqual (el, vnode) {
+  var vm = vnode.context;
+  return el._locale === vm.$i18n.locale
+}
+
+function t (el, binding, vnode) {
+  var ref$1, ref$2;
+
+  var value = binding.value;
+
+  var ref = parseValue(value);
+  var path = ref.path;
+  var locale = ref.locale;
+  var args = ref.args;
+  var choice = ref.choice;
+  if (!path && !locale && !args) {
+    warn('value type not supported');
+    return
+  }
+
+  if (!path) {
+    warn('`path` is required in v-t directive');
+    return
+  }
+
+  var vm = vnode.context;
+  if (choice) {
+    el._vt = el.textContent = (ref$1 = vm.$i18n).tc.apply(ref$1, [ path, choice ].concat( makeParams(locale, args) ));
+  } else {
+    el._vt = el.textContent = (ref$2 = vm.$i18n).t.apply(ref$2, [ path ].concat( makeParams(locale, args) ));
+  }
+  el._locale = vm.$i18n.locale;
+  el._localeMessage = vm.$i18n.getLocaleMessage(vm.$i18n.locale);
+}
+
+function parseValue (value) {
+  var path;
+  var locale;
+  var args;
+  var choice;
+
+  if (typeof value === 'string') {
+    path = value;
+  } else if (isPlainObject(value)) {
+    path = value.path;
+    locale = value.locale;
+    args = value.args;
+    choice = value.choice;
+  }
+
+  return { path: path, locale: locale, args: args, choice: choice }
+}
+
+function makeParams (locale, args) {
+  var params = [];
+
+  locale && params.push(locale);
+  if (args && (Array.isArray(args) || isPlainObject(args))) {
+    params.push(args);
+  }
+
+  return params
+}
+
+var Vue;
+
+function install (_Vue) {
+  /* istanbul ignore if */
+  if ( true && install.installed && _Vue === Vue) {
+    warn('already installed.');
+    return
+  }
+  install.installed = true;
+
+  Vue = _Vue;
+
+  var version = (Vue.version && Number(Vue.version.split('.')[0])) || -1;
+  /* istanbul ignore if */
+  if ( true && version < 2) {
+    warn(("vue-i18n (" + (install.version) + ") need to use Vue 2.0 or later (Vue: " + (Vue.version) + ")."));
+    return
+  }
+
+  extend(Vue);
+  Vue.mixin(mixin);
+  Vue.directive('t', { bind: bind, update: update, unbind: unbind });
+  Vue.component(interpolationComponent.name, interpolationComponent);
+  Vue.component(numberComponent.name, numberComponent);
+
+  // use simple mergeStrategies to prevent i18n instance lose '__proto__'
+  var strats = Vue.config.optionMergeStrategies;
+  strats.i18n = function (parentVal, childVal) {
+    return childVal === undefined
+      ? parentVal
+      : childVal
+  };
+}
+
+/*  */
+
+var BaseFormatter = function BaseFormatter () {
+  this._caches = Object.create(null);
+};
+
+BaseFormatter.prototype.interpolate = function interpolate (message, values) {
+  if (!values) {
+    return [message]
+  }
+  var tokens = this._caches[message];
+  if (!tokens) {
+    tokens = parse(message);
+    this._caches[message] = tokens;
+  }
+  return compile(tokens, values)
+};
+
+
+
+var RE_TOKEN_LIST_VALUE = /^(?:\d)+/;
+var RE_TOKEN_NAMED_VALUE = /^(?:\w)+/;
+
+function parse (format) {
+  var tokens = [];
+  var position = 0;
+
+  var text = '';
+  while (position < format.length) {
+    var char = format[position++];
+    if (char === '{') {
+      if (text) {
+        tokens.push({ type: 'text', value: text });
+      }
+
+      text = '';
+      var sub = '';
+      char = format[position++];
+      while (char !== undefined && char !== '}') {
+        sub += char;
+        char = format[position++];
+      }
+      var isClosed = char === '}';
+
+      var type = RE_TOKEN_LIST_VALUE.test(sub)
+        ? 'list'
+        : isClosed && RE_TOKEN_NAMED_VALUE.test(sub)
+          ? 'named'
+          : 'unknown';
+      tokens.push({ value: sub, type: type });
+    } else if (char === '%') {
+      // when found rails i18n syntax, skip text capture
+      if (format[(position)] !== '{') {
+        text += char;
+      }
+    } else {
+      text += char;
+    }
+  }
+
+  text && tokens.push({ type: 'text', value: text });
+
+  return tokens
+}
+
+function compile (tokens, values) {
+  var compiled = [];
+  var index = 0;
+
+  var mode = Array.isArray(values)
+    ? 'list'
+    : isObject(values)
+      ? 'named'
+      : 'unknown';
+  if (mode === 'unknown') { return compiled }
+
+  while (index < tokens.length) {
+    var token = tokens[index];
+    switch (token.type) {
+      case 'text':
+        compiled.push(token.value);
+        break
+      case 'list':
+        compiled.push(values[parseInt(token.value, 10)]);
+        break
+      case 'named':
+        if (mode === 'named') {
+          compiled.push((values)[token.value]);
+        } else {
+          if (true) {
+            warn(("Type of token '" + (token.type) + "' and format of value '" + mode + "' don't match!"));
+          }
+        }
+        break
+      case 'unknown':
+        if (true) {
+          warn("Detect 'unknown' type of token!");
+        }
+        break
+    }
+    index++;
+  }
+
+  return compiled
+}
+
+/*  */
+
+/**
+ *  Path parser
+ *  - Inspired:
+ *    Vue.js Path parser
+ */
+
+// actions
+var APPEND = 0;
+var PUSH = 1;
+var INC_SUB_PATH_DEPTH = 2;
+var PUSH_SUB_PATH = 3;
+
+// states
+var BEFORE_PATH = 0;
+var IN_PATH = 1;
+var BEFORE_IDENT = 2;
+var IN_IDENT = 3;
+var IN_SUB_PATH = 4;
+var IN_SINGLE_QUOTE = 5;
+var IN_DOUBLE_QUOTE = 6;
+var AFTER_PATH = 7;
+var ERROR = 8;
+
+var pathStateMachine = [];
+
+pathStateMachine[BEFORE_PATH] = {
+  'ws': [BEFORE_PATH],
+  'ident': [IN_IDENT, APPEND],
+  '[': [IN_SUB_PATH],
+  'eof': [AFTER_PATH]
+};
+
+pathStateMachine[IN_PATH] = {
+  'ws': [IN_PATH],
+  '.': [BEFORE_IDENT],
+  '[': [IN_SUB_PATH],
+  'eof': [AFTER_PATH]
+};
+
+pathStateMachine[BEFORE_IDENT] = {
+  'ws': [BEFORE_IDENT],
+  'ident': [IN_IDENT, APPEND],
+  '0': [IN_IDENT, APPEND],
+  'number': [IN_IDENT, APPEND]
+};
+
+pathStateMachine[IN_IDENT] = {
+  'ident': [IN_IDENT, APPEND],
+  '0': [IN_IDENT, APPEND],
+  'number': [IN_IDENT, APPEND],
+  'ws': [IN_PATH, PUSH],
+  '.': [BEFORE_IDENT, PUSH],
+  '[': [IN_SUB_PATH, PUSH],
+  'eof': [AFTER_PATH, PUSH]
+};
+
+pathStateMachine[IN_SUB_PATH] = {
+  "'": [IN_SINGLE_QUOTE, APPEND],
+  '"': [IN_DOUBLE_QUOTE, APPEND],
+  '[': [IN_SUB_PATH, INC_SUB_PATH_DEPTH],
+  ']': [IN_PATH, PUSH_SUB_PATH],
+  'eof': ERROR,
+  'else': [IN_SUB_PATH, APPEND]
+};
+
+pathStateMachine[IN_SINGLE_QUOTE] = {
+  "'": [IN_SUB_PATH, APPEND],
+  'eof': ERROR,
+  'else': [IN_SINGLE_QUOTE, APPEND]
+};
+
+pathStateMachine[IN_DOUBLE_QUOTE] = {
+  '"': [IN_SUB_PATH, APPEND],
+  'eof': ERROR,
+  'else': [IN_DOUBLE_QUOTE, APPEND]
+};
+
+/**
+ * Check if an expression is a literal value.
+ */
+
+var literalValueRE = /^\s?(?:true|false|-?[\d.]+|'[^']*'|"[^"]*")\s?$/;
+function isLiteral (exp) {
+  return literalValueRE.test(exp)
+}
+
+/**
+ * Strip quotes from a string
+ */
+
+function stripQuotes (str) {
+  var a = str.charCodeAt(0);
+  var b = str.charCodeAt(str.length - 1);
+  return a === b && (a === 0x22 || a === 0x27)
+    ? str.slice(1, -1)
+    : str
+}
+
+/**
+ * Determine the type of a character in a keypath.
+ */
+
+function getPathCharType (ch) {
+  if (ch === undefined || ch === null) { return 'eof' }
+
+  var code = ch.charCodeAt(0);
+
+  switch (code) {
+    case 0x5B: // [
+    case 0x5D: // ]
+    case 0x2E: // .
+    case 0x22: // "
+    case 0x27: // '
+      return ch
+
+    case 0x5F: // _
+    case 0x24: // $
+    case 0x2D: // -
+      return 'ident'
+
+    case 0x09: // Tab
+    case 0x0A: // Newline
+    case 0x0D: // Return
+    case 0xA0:  // No-break space
+    case 0xFEFF:  // Byte Order Mark
+    case 0x2028:  // Line Separator
+    case 0x2029:  // Paragraph Separator
+      return 'ws'
+  }
+
+  return 'ident'
+}
+
+/**
+ * Format a subPath, return its plain form if it is
+ * a literal string or number. Otherwise prepend the
+ * dynamic indicator (*).
+ */
+
+function formatSubPath (path) {
+  var trimmed = path.trim();
+  // invalid leading 0
+  if (path.charAt(0) === '0' && isNaN(path)) { return false }
+
+  return isLiteral(trimmed) ? stripQuotes(trimmed) : '*' + trimmed
+}
+
+/**
+ * Parse a string path into an array of segments
+ */
+
+function parse$1 (path) {
+  var keys = [];
+  var index = -1;
+  var mode = BEFORE_PATH;
+  var subPathDepth = 0;
+  var c;
+  var key;
+  var newChar;
+  var type;
+  var transition;
+  var action;
+  var typeMap;
+  var actions = [];
+
+  actions[PUSH] = function () {
+    if (key !== undefined) {
+      keys.push(key);
+      key = undefined;
+    }
+  };
+
+  actions[APPEND] = function () {
+    if (key === undefined) {
+      key = newChar;
+    } else {
+      key += newChar;
+    }
+  };
+
+  actions[INC_SUB_PATH_DEPTH] = function () {
+    actions[APPEND]();
+    subPathDepth++;
+  };
+
+  actions[PUSH_SUB_PATH] = function () {
+    if (subPathDepth > 0) {
+      subPathDepth--;
+      mode = IN_SUB_PATH;
+      actions[APPEND]();
+    } else {
+      subPathDepth = 0;
+      if (key === undefined) { return false }
+      key = formatSubPath(key);
+      if (key === false) {
+        return false
+      } else {
+        actions[PUSH]();
+      }
+    }
+  };
+
+  function maybeUnescapeQuote () {
+    var nextChar = path[index + 1];
+    if ((mode === IN_SINGLE_QUOTE && nextChar === "'") ||
+      (mode === IN_DOUBLE_QUOTE && nextChar === '"')) {
+      index++;
+      newChar = '\\' + nextChar;
+      actions[APPEND]();
+      return true
+    }
+  }
+
+  while (mode !== null) {
+    index++;
+    c = path[index];
+
+    if (c === '\\' && maybeUnescapeQuote()) {
+      continue
+    }
+
+    type = getPathCharType(c);
+    typeMap = pathStateMachine[mode];
+    transition = typeMap[type] || typeMap['else'] || ERROR;
+
+    if (transition === ERROR) {
+      return // parse error
+    }
+
+    mode = transition[0];
+    action = actions[transition[1]];
+    if (action) {
+      newChar = transition[2];
+      newChar = newChar === undefined
+        ? c
+        : newChar;
+      if (action() === false) {
+        return
+      }
+    }
+
+    if (mode === AFTER_PATH) {
+      return keys
+    }
+  }
+}
+
+
+
+
+
+var I18nPath = function I18nPath () {
+  this._cache = Object.create(null);
+};
+
+/**
+ * External parse that check for a cache hit first
+ */
+I18nPath.prototype.parsePath = function parsePath (path) {
+  var hit = this._cache[path];
+  if (!hit) {
+    hit = parse$1(path);
+    if (hit) {
+      this._cache[path] = hit;
+    }
+  }
+  return hit || []
+};
+
+/**
+ * Get path value from path string
+ */
+I18nPath.prototype.getPathValue = function getPathValue (obj, path) {
+  if (!isObject(obj)) { return null }
+
+  var paths = this.parsePath(path);
+  if (paths.length === 0) {
+    return null
+  } else {
+    var length = paths.length;
+    var last = obj;
+    var i = 0;
+    while (i < length) {
+      var value = last[paths[i]];
+      if (value === undefined) {
+        return null
+      }
+      last = value;
+      i++;
+    }
+
+    return last
+  }
+};
+
+/*  */
+
+
+
+var htmlTagMatcher = /<\/?[\w\s="/.':;#-\/]+>/;
+var linkKeyMatcher = /(?:@(?:\.[a-z]+)?:(?:[\w\-_|.]+|\([\w\-_|.]+\)))/g;
+var linkKeyPrefixMatcher = /^@(?:\.([a-z]+))?:/;
+var bracketsMatcher = /[()]/g;
+var defaultModifiers = {
+  'upper': function (str) { return str.toLocaleUpperCase(); },
+  'lower': function (str) { return str.toLocaleLowerCase(); }
+};
+
+var defaultFormatter = new BaseFormatter();
+
+var VueI18n = function VueI18n (options) {
+  var this$1 = this;
+  if ( options === void 0 ) options = {};
+
+  // Auto install if it is not done yet and `window` has `Vue`.
+  // To allow users to avoid auto-installation in some cases,
+  // this code should be placed here. See #290
+  /* istanbul ignore if */
+  if (!Vue && typeof window !== 'undefined' && window.Vue) {
+    install(window.Vue);
+  }
+
+  var locale = options.locale || 'en-US';
+  var fallbackLocale = options.fallbackLocale || 'en-US';
+  var messages = options.messages || {};
+  var dateTimeFormats = options.dateTimeFormats || {};
+  var numberFormats = options.numberFormats || {};
+
+  this._vm = null;
+  this._formatter = options.formatter || defaultFormatter;
+  this._modifiers = options.modifiers || {};
+  this._missing = options.missing || null;
+  this._root = options.root || null;
+  this._sync = options.sync === undefined ? true : !!options.sync;
+  this._fallbackRoot = options.fallbackRoot === undefined
+    ? true
+    : !!options.fallbackRoot;
+  this._formatFallbackMessages = options.formatFallbackMessages === undefined
+    ? false
+    : !!options.formatFallbackMessages;
+  this._silentTranslationWarn = options.silentTranslationWarn === undefined
+    ? false
+    : options.silentTranslationWarn;
+  this._silentFallbackWarn = options.silentFallbackWarn === undefined
+    ? false
+    : !!options.silentFallbackWarn;
+  this._dateTimeFormatters = {};
+  this._numberFormatters = {};
+  this._path = new I18nPath();
+  this._dataListeners = [];
+  this._preserveDirectiveContent = options.preserveDirectiveContent === undefined
+    ? false
+    : !!options.preserveDirectiveContent;
+  this.pluralizationRules = options.pluralizationRules || {};
+  this._warnHtmlInMessage = options.warnHtmlInMessage || 'off';
+
+  this._exist = function (message, key) {
+    if (!message || !key) { return false }
+    if (!isNull(this$1._path.getPathValue(message, key))) { return true }
+    // fallback for flat key
+    if (message[key]) { return true }
+    return false
+  };
+
+  if (this._warnHtmlInMessage === 'warn' || this._warnHtmlInMessage === 'error') {
+    Object.keys(messages).forEach(function (locale) {
+      this$1._checkLocaleMessage(locale, this$1._warnHtmlInMessage, messages[locale]);
+    });
+  }
+
+  this._initVM({
+    locale: locale,
+    fallbackLocale: fallbackLocale,
+    messages: messages,
+    dateTimeFormats: dateTimeFormats,
+    numberFormats: numberFormats
+  });
+};
+
+var prototypeAccessors = { vm: { configurable: true },messages: { configurable: true },dateTimeFormats: { configurable: true },numberFormats: { configurable: true },availableLocales: { configurable: true },locale: { configurable: true },fallbackLocale: { configurable: true },formatFallbackMessages: { configurable: true },missing: { configurable: true },formatter: { configurable: true },silentTranslationWarn: { configurable: true },silentFallbackWarn: { configurable: true },preserveDirectiveContent: { configurable: true },warnHtmlInMessage: { configurable: true } };
+
+VueI18n.prototype._checkLocaleMessage = function _checkLocaleMessage (locale, level, message) {
+  var paths = [];
+
+  var fn = function (level, locale, message, paths) {
+    if (isPlainObject(message)) {
+      Object.keys(message).forEach(function (key) {
+        var val = message[key];
+        if (isPlainObject(val)) {
+          paths.push(key);
+          paths.push('.');
+          fn(level, locale, val, paths);
+          paths.pop();
+          paths.pop();
+        } else {
+          paths.push(key);
+          fn(level, locale, val, paths);
+          paths.pop();
+        }
+      });
+    } else if (Array.isArray(message)) {
+      message.forEach(function (item, index) {
+        if (isPlainObject(item)) {
+          paths.push(("[" + index + "]"));
+          paths.push('.');
+          fn(level, locale, item, paths);
+          paths.pop();
+          paths.pop();
+        } else {
+          paths.push(("[" + index + "]"));
+          fn(level, locale, item, paths);
+          paths.pop();
+        }
+      });
+    } else if (typeof message === 'string') {
+      var ret = htmlTagMatcher.test(message);
+      if (ret) {
+        var msg = "Detected HTML in message '" + message + "' of keypath '" + (paths.join('')) + "' at '" + locale + "'. Consider component interpolation with '<i18n>' to avoid XSS. See https://bit.ly/2ZqJzkp";
+        if (level === 'warn') {
+          warn(msg);
+        } else if (level === 'error') {
+          error(msg);
+        }
+      }
+    }
+  };
+
+  fn(level, locale, message, paths);
+};
+
+VueI18n.prototype._initVM = function _initVM (data) {
+  var silent = Vue.config.silent;
+  Vue.config.silent = true;
+  this._vm = new Vue({ data: data });
+  Vue.config.silent = silent;
+};
+
+VueI18n.prototype.destroyVM = function destroyVM () {
+  this._vm.$destroy();
+};
+
+VueI18n.prototype.subscribeDataChanging = function subscribeDataChanging (vm) {
+  this._dataListeners.push(vm);
+};
+
+VueI18n.prototype.unsubscribeDataChanging = function unsubscribeDataChanging (vm) {
+  remove(this._dataListeners, vm);
+};
+
+VueI18n.prototype.watchI18nData = function watchI18nData () {
+  var self = this;
+  return this._vm.$watch('$data', function () {
+    var i = self._dataListeners.length;
+    while (i--) {
+      Vue.nextTick(function () {
+        self._dataListeners[i] && self._dataListeners[i].$forceUpdate();
+      });
+    }
+  }, { deep: true })
+};
+
+VueI18n.prototype.watchLocale = function watchLocale () {
+  /* istanbul ignore if */
+  if (!this._sync || !this._root) { return null }
+  var target = this._vm;
+  return this._root.$i18n.vm.$watch('locale', function (val) {
+    target.$set(target, 'locale', val);
+    target.$forceUpdate();
+  }, { immediate: true })
+};
+
+prototypeAccessors.vm.get = function () { return this._vm };
+
+prototypeAccessors.messages.get = function () { return looseClone(this._getMessages()) };
+prototypeAccessors.dateTimeFormats.get = function () { return looseClone(this._getDateTimeFormats()) };
+prototypeAccessors.numberFormats.get = function () { return looseClone(this._getNumberFormats()) };
+prototypeAccessors.availableLocales.get = function () { return Object.keys(this.messages).sort() };
+
+prototypeAccessors.locale.get = function () { return this._vm.locale };
+prototypeAccessors.locale.set = function (locale) {
+  this._vm.$set(this._vm, 'locale', locale);
+};
+
+prototypeAccessors.fallbackLocale.get = function () { return this._vm.fallbackLocale };
+prototypeAccessors.fallbackLocale.set = function (locale) {
+  this._vm.$set(this._vm, 'fallbackLocale', locale);
+};
+
+prototypeAccessors.formatFallbackMessages.get = function () { return this._formatFallbackMessages };
+prototypeAccessors.formatFallbackMessages.set = function (fallback) { this._formatFallbackMessages = fallback; };
+
+prototypeAccessors.missing.get = function () { return this._missing };
+prototypeAccessors.missing.set = function (handler) { this._missing = handler; };
+
+prototypeAccessors.formatter.get = function () { return this._formatter };
+prototypeAccessors.formatter.set = function (formatter) { this._formatter = formatter; };
+
+prototypeAccessors.silentTranslationWarn.get = function () { return this._silentTranslationWarn };
+prototypeAccessors.silentTranslationWarn.set = function (silent) { this._silentTranslationWarn = silent; };
+
+prototypeAccessors.silentFallbackWarn.get = function () { return this._silentFallbackWarn };
+prototypeAccessors.silentFallbackWarn.set = function (silent) { this._silentFallbackWarn = silent; };
+
+prototypeAccessors.preserveDirectiveContent.get = function () { return this._preserveDirectiveContent };
+prototypeAccessors.preserveDirectiveContent.set = function (preserve) { this._preserveDirectiveContent = preserve; };
+
+prototypeAccessors.warnHtmlInMessage.get = function () { return this._warnHtmlInMessage };
+prototypeAccessors.warnHtmlInMessage.set = function (level) {
+    var this$1 = this;
+
+  var orgLevel = this._warnHtmlInMessage;
+  this._warnHtmlInMessage = level;
+  if (orgLevel !== level && (level === 'warn' || level === 'error')) {
+    var messages = this._getMessages();
+    Object.keys(messages).forEach(function (locale) {
+      this$1._checkLocaleMessage(locale, this$1._warnHtmlInMessage, messages[locale]);
+    });
+  }
+};
+
+VueI18n.prototype._getMessages = function _getMessages () { return this._vm.messages };
+VueI18n.prototype._getDateTimeFormats = function _getDateTimeFormats () { return this._vm.dateTimeFormats };
+VueI18n.prototype._getNumberFormats = function _getNumberFormats () { return this._vm.numberFormats };
+
+VueI18n.prototype._warnDefault = function _warnDefault (locale, key, result, vm, values) {
+  if (!isNull(result)) { return result }
+  if (this._missing) {
+    var missingRet = this._missing.apply(null, [locale, key, vm, values]);
+    if (typeof missingRet === 'string') {
+      return missingRet
+    }
+  } else {
+    if ( true && !this._isSilentTranslationWarn(key)) {
+      warn(
+        "Cannot translate the value of keypath '" + key + "'. " +
+        'Use the value of keypath as default.'
+      );
+    }
+  }
+
+  if (this._formatFallbackMessages) {
+    var parsedArgs = parseArgs.apply(void 0, values);
+    return this._render(key, 'string', parsedArgs.params, key)
+  } else {
+    return key
+  }
+};
+
+VueI18n.prototype._isFallbackRoot = function _isFallbackRoot (val) {
+  return !val && !isNull(this._root) && this._fallbackRoot
+};
+
+VueI18n.prototype._isSilentFallbackWarn = function _isSilentFallbackWarn (key) {
+  return this._silentFallbackWarn instanceof RegExp
+    ? this._silentFallbackWarn.test(key)
+    : this._silentFallbackWarn
+};
+
+VueI18n.prototype._isSilentFallback = function _isSilentFallback (locale, key) {
+  return this._isSilentFallbackWarn(key) && (this._isFallbackRoot() || locale !== this.fallbackLocale)
+};
+
+VueI18n.prototype._isSilentTranslationWarn = function _isSilentTranslationWarn (key) {
+  return this._silentTranslationWarn instanceof RegExp
+    ? this._silentTranslationWarn.test(key)
+    : this._silentTranslationWarn
+};
+
+VueI18n.prototype._interpolate = function _interpolate (
+  locale,
+  message,
+  key,
+  host,
+  interpolateMode,
+  values,
+  visitedLinkStack
+) {
+  if (!message) { return null }
+
+  var pathRet = this._path.getPathValue(message, key);
+  if (Array.isArray(pathRet) || isPlainObject(pathRet)) { return pathRet }
+
+  var ret;
+  if (isNull(pathRet)) {
+    /* istanbul ignore else */
+    if (isPlainObject(message)) {
+      ret = message[key];
+      if (typeof ret !== 'string') {
+        if ( true && !this._isSilentTranslationWarn(key) && !this._isSilentFallback(locale, key)) {
+          warn(("Value of key '" + key + "' is not a string!"));
+        }
+        return null
+      }
+    } else {
+      return null
+    }
+  } else {
+    /* istanbul ignore else */
+    if (typeof pathRet === 'string') {
+      ret = pathRet;
+    } else {
+      if ( true && !this._isSilentTranslationWarn(key) && !this._isSilentFallback(locale, key)) {
+        warn(("Value of key '" + key + "' is not a string!"));
+      }
+      return null
+    }
+  }
+
+  // Check for the existence of links within the translated string
+  if (ret.indexOf('@:') >= 0 || ret.indexOf('@.') >= 0) {
+    ret = this._link(locale, message, ret, host, 'raw', values, visitedLinkStack);
+  }
+
+  return this._render(ret, interpolateMode, values, key)
+};
+
+VueI18n.prototype._link = function _link (
+  locale,
+  message,
+  str,
+  host,
+  interpolateMode,
+  values,
+  visitedLinkStack
+) {
+  var ret = str;
+
+  // Match all the links within the local
+  // We are going to replace each of
+  // them with its translation
+  var matches = ret.match(linkKeyMatcher);
+  for (var idx in matches) {
+    // ie compatible: filter custom array
+    // prototype method
+    if (!matches.hasOwnProperty(idx)) {
+      continue
+    }
+    var link = matches[idx];
+    var linkKeyPrefixMatches = link.match(linkKeyPrefixMatcher);
+    var linkPrefix = linkKeyPrefixMatches[0];
+      var formatterName = linkKeyPrefixMatches[1];
+
+    // Remove the leading @:, @.case: and the brackets
+    var linkPlaceholder = link.replace(linkPrefix, '').replace(bracketsMatcher, '');
+
+    if (visitedLinkStack.includes(linkPlaceholder)) {
+      if (true) {
+        warn(("Circular reference found. \"" + link + "\" is already visited in the chain of " + (visitedLinkStack.reverse().join(' <- '))));
+      }
+      return ret
+    }
+    visitedLinkStack.push(linkPlaceholder);
+
+    // Translate the link
+    var translated = this._interpolate(
+      locale, message, linkPlaceholder, host,
+      interpolateMode === 'raw' ? 'string' : interpolateMode,
+      interpolateMode === 'raw' ? undefined : values,
+      visitedLinkStack
+    );
+
+    if (this._isFallbackRoot(translated)) {
+      if ( true && !this._isSilentTranslationWarn(linkPlaceholder)) {
+        warn(("Fall back to translate the link placeholder '" + linkPlaceholder + "' with root locale."));
+      }
+      /* istanbul ignore if */
+      if (!this._root) { throw Error('unexpected error') }
+      var root = this._root.$i18n;
+      translated = root._translate(
+        root._getMessages(), root.locale, root.fallbackLocale,
+        linkPlaceholder, host, interpolateMode, values
+      );
+    }
+    translated = this._warnDefault(
+      locale, linkPlaceholder, translated, host,
+      Array.isArray(values) ? values : [values]
+    );
+
+    if (this._modifiers.hasOwnProperty(formatterName)) {
+      translated = this._modifiers[formatterName](translated);
+    } else if (defaultModifiers.hasOwnProperty(formatterName)) {
+      translated = defaultModifiers[formatterName](translated);
+    }
+
+    visitedLinkStack.pop();
+
+    // Replace the link with the translated
+    ret = !translated ? ret : ret.replace(link, translated);
+  }
+
+  return ret
+};
+
+VueI18n.prototype._render = function _render (message, interpolateMode, values, path) {
+  var ret = this._formatter.interpolate(message, values, path);
+
+  // If the custom formatter refuses to work - apply the default one
+  if (!ret) {
+    ret = defaultFormatter.interpolate(message, values, path);
+  }
+
+  // if interpolateMode is **not** 'string' ('row'),
+  // return the compiled data (e.g. ['foo', VNode, 'bar']) with formatter
+  return interpolateMode === 'string' ? ret.join('') : ret
+};
+
+VueI18n.prototype._translate = function _translate (
+  messages,
+  locale,
+  fallback,
+  key,
+  host,
+  interpolateMode,
+  args
+) {
+  var res =
+    this._interpolate(locale, messages[locale], key, host, interpolateMode, args, [key]);
+  if (!isNull(res)) { return res }
+
+  res = this._interpolate(fallback, messages[fallback], key, host, interpolateMode, args, [key]);
+  if (!isNull(res)) {
+    if ( true && !this._isSilentTranslationWarn(key) && !this._isSilentFallbackWarn(key)) {
+      warn(("Fall back to translate the keypath '" + key + "' with '" + fallback + "' locale."));
+    }
+    return res
+  } else {
+    return null
+  }
+};
+
+VueI18n.prototype._t = function _t (key, _locale, messages, host) {
+    var ref;
+
+    var values = [], len = arguments.length - 4;
+    while ( len-- > 0 ) values[ len ] = arguments[ len + 4 ];
+  if (!key) { return '' }
+
+  var parsedArgs = parseArgs.apply(void 0, values);
+  var locale = parsedArgs.locale || _locale;
+
+  var ret = this._translate(
+    messages, locale, this.fallbackLocale, key,
+    host, 'string', parsedArgs.params
+  );
+  if (this._isFallbackRoot(ret)) {
+    if ( true && !this._isSilentTranslationWarn(key) && !this._isSilentFallbackWarn(key)) {
+      warn(("Fall back to translate the keypath '" + key + "' with root locale."));
+    }
+    /* istanbul ignore if */
+    if (!this._root) { throw Error('unexpected error') }
+    return (ref = this._root).$t.apply(ref, [ key ].concat( values ))
+  } else {
+    return this._warnDefault(locale, key, ret, host, values)
+  }
+};
+
+VueI18n.prototype.t = function t (key) {
+    var ref;
+
+    var values = [], len = arguments.length - 1;
+    while ( len-- > 0 ) values[ len ] = arguments[ len + 1 ];
+  return (ref = this)._t.apply(ref, [ key, this.locale, this._getMessages(), null ].concat( values ))
+};
+
+VueI18n.prototype._i = function _i (key, locale, messages, host, values) {
+  var ret =
+    this._translate(messages, locale, this.fallbackLocale, key, host, 'raw', values);
+  if (this._isFallbackRoot(ret)) {
+    if ( true && !this._isSilentTranslationWarn(key)) {
+      warn(("Fall back to interpolate the keypath '" + key + "' with root locale."));
+    }
+    if (!this._root) { throw Error('unexpected error') }
+    return this._root.$i18n.i(key, locale, values)
+  } else {
+    return this._warnDefault(locale, key, ret, host, [values])
+  }
+};
+
+VueI18n.prototype.i = function i (key, locale, values) {
+  /* istanbul ignore if */
+  if (!key) { return '' }
+
+  if (typeof locale !== 'string') {
+    locale = this.locale;
+  }
+
+  return this._i(key, locale, this._getMessages(), null, values)
+};
+
+VueI18n.prototype._tc = function _tc (
+  key,
+  _locale,
+  messages,
+  host,
+  choice
+) {
+    var ref;
+
+    var values = [], len = arguments.length - 5;
+    while ( len-- > 0 ) values[ len ] = arguments[ len + 5 ];
+  if (!key) { return '' }
+  if (choice === undefined) {
+    choice = 1;
+  }
+
+  var predefined = { 'count': choice, 'n': choice };
+  var parsedArgs = parseArgs.apply(void 0, values);
+  parsedArgs.params = Object.assign(predefined, parsedArgs.params);
+  values = parsedArgs.locale === null ? [parsedArgs.params] : [parsedArgs.locale, parsedArgs.params];
+  return this.fetchChoice((ref = this)._t.apply(ref, [ key, _locale, messages, host ].concat( values )), choice)
+};
+
+VueI18n.prototype.fetchChoice = function fetchChoice (message, choice) {
+  /* istanbul ignore if */
+  if (!message && typeof message !== 'string') { return null }
+  var choices = message.split('|');
+
+  choice = this.getChoiceIndex(choice, choices.length);
+  if (!choices[choice]) { return message }
+  return choices[choice].trim()
+};
+
+/**
+ * @param choice {number} a choice index given by the input to $tc: `$tc('path.to.rule', choiceIndex)`
+ * @param choicesLength {number} an overall amount of available choices
+ * @returns a final choice index
+*/
+VueI18n.prototype.getChoiceIndex = function getChoiceIndex (choice, choicesLength) {
+  // Default (old) getChoiceIndex implementation - english-compatible
+  var defaultImpl = function (_choice, _choicesLength) {
+    _choice = Math.abs(_choice);
+
+    if (_choicesLength === 2) {
+      return _choice
+        ? _choice > 1
+          ? 1
+          : 0
+        : 1
+    }
+
+    return _choice ? Math.min(_choice, 2) : 0
+  };
+
+  if (this.locale in this.pluralizationRules) {
+    return this.pluralizationRules[this.locale].apply(this, [choice, choicesLength])
+  } else {
+    return defaultImpl(choice, choicesLength)
+  }
+};
+
+VueI18n.prototype.tc = function tc (key, choice) {
+    var ref;
+
+    var values = [], len = arguments.length - 2;
+    while ( len-- > 0 ) values[ len ] = arguments[ len + 2 ];
+  return (ref = this)._tc.apply(ref, [ key, this.locale, this._getMessages(), null, choice ].concat( values ))
+};
+
+VueI18n.prototype._te = function _te (key, locale, messages) {
+    var args = [], len = arguments.length - 3;
+    while ( len-- > 0 ) args[ len ] = arguments[ len + 3 ];
+
+  var _locale = parseArgs.apply(void 0, args).locale || locale;
+  return this._exist(messages[_locale], key)
+};
+
+VueI18n.prototype.te = function te (key, locale) {
+  return this._te(key, this.locale, this._getMessages(), locale)
+};
+
+VueI18n.prototype.getLocaleMessage = function getLocaleMessage (locale) {
+  return looseClone(this._vm.messages[locale] || {})
+};
+
+VueI18n.prototype.setLocaleMessage = function setLocaleMessage (locale, message) {
+  if (this._warnHtmlInMessage === 'warn' || this._warnHtmlInMessage === 'error') {
+    this._checkLocaleMessage(locale, this._warnHtmlInMessage, message);
+    if (this._warnHtmlInMessage === 'error') { return }
+  }
+  this._vm.$set(this._vm.messages, locale, message);
+};
+
+VueI18n.prototype.mergeLocaleMessage = function mergeLocaleMessage (locale, message) {
+  if (this._warnHtmlInMessage === 'warn' || this._warnHtmlInMessage === 'error') {
+    this._checkLocaleMessage(locale, this._warnHtmlInMessage, message);
+    if (this._warnHtmlInMessage === 'error') { return }
+  }
+  this._vm.$set(this._vm.messages, locale, merge(this._vm.messages[locale] || {}, message));
+};
+
+VueI18n.prototype.getDateTimeFormat = function getDateTimeFormat (locale) {
+  return looseClone(this._vm.dateTimeFormats[locale] || {})
+};
+
+VueI18n.prototype.setDateTimeFormat = function setDateTimeFormat (locale, format) {
+  this._vm.$set(this._vm.dateTimeFormats, locale, format);
+};
+
+VueI18n.prototype.mergeDateTimeFormat = function mergeDateTimeFormat (locale, format) {
+  this._vm.$set(this._vm.dateTimeFormats, locale, merge(this._vm.dateTimeFormats[locale] || {}, format));
+};
+
+VueI18n.prototype._localizeDateTime = function _localizeDateTime (
+  value,
+  locale,
+  fallback,
+  dateTimeFormats,
+  key
+) {
+  var _locale = locale;
+  var formats = dateTimeFormats[_locale];
+
+  // fallback locale
+  if (isNull(formats) || isNull(formats[key])) {
+    if ( true && !this._isSilentTranslationWarn(key) && !this._isSilentFallbackWarn(key)) {
+      warn(("Fall back to '" + fallback + "' datetime formats from '" + locale + "' datetime formats."));
+    }
+    _locale = fallback;
+    formats = dateTimeFormats[_locale];
+  }
+
+  if (isNull(formats) || isNull(formats[key])) {
+    return null
+  } else {
+    var format = formats[key];
+    var id = _locale + "__" + key;
+    var formatter = this._dateTimeFormatters[id];
+    if (!formatter) {
+      formatter = this._dateTimeFormatters[id] = new Intl.DateTimeFormat(_locale, format);
+    }
+    return formatter.format(value)
+  }
+};
+
+VueI18n.prototype._d = function _d (value, locale, key) {
+  /* istanbul ignore if */
+  if ( true && !VueI18n.availabilities.dateTimeFormat) {
+    warn('Cannot format a Date value due to not supported Intl.DateTimeFormat.');
+    return ''
+  }
+
+  if (!key) {
+    return new Intl.DateTimeFormat(locale).format(value)
+  }
+
+  var ret =
+    this._localizeDateTime(value, locale, this.fallbackLocale, this._getDateTimeFormats(), key);
+  if (this._isFallbackRoot(ret)) {
+    if ( true && !this._isSilentTranslationWarn(key) && !this._isSilentFallbackWarn(key)) {
+      warn(("Fall back to datetime localization of root: key '" + key + "'."));
+    }
+    /* istanbul ignore if */
+    if (!this._root) { throw Error('unexpected error') }
+    return this._root.$i18n.d(value, key, locale)
+  } else {
+    return ret || ''
+  }
+};
+
+VueI18n.prototype.d = function d (value) {
+    var args = [], len = arguments.length - 1;
+    while ( len-- > 0 ) args[ len ] = arguments[ len + 1 ];
+
+  var locale = this.locale;
+  var key = null;
+
+  if (args.length === 1) {
+    if (typeof args[0] === 'string') {
+      key = args[0];
+    } else if (isObject(args[0])) {
+      if (args[0].locale) {
+        locale = args[0].locale;
+      }
+      if (args[0].key) {
+        key = args[0].key;
+      }
+    }
+  } else if (args.length === 2) {
+    if (typeof args[0] === 'string') {
+      key = args[0];
+    }
+    if (typeof args[1] === 'string') {
+      locale = args[1];
+    }
+  }
+
+  return this._d(value, locale, key)
+};
+
+VueI18n.prototype.getNumberFormat = function getNumberFormat (locale) {
+  return looseClone(this._vm.numberFormats[locale] || {})
+};
+
+VueI18n.prototype.setNumberFormat = function setNumberFormat (locale, format) {
+  this._vm.$set(this._vm.numberFormats, locale, format);
+};
+
+VueI18n.prototype.mergeNumberFormat = function mergeNumberFormat (locale, format) {
+  this._vm.$set(this._vm.numberFormats, locale, merge(this._vm.numberFormats[locale] || {}, format));
+};
+
+VueI18n.prototype._getNumberFormatter = function _getNumberFormatter (
+  value,
+  locale,
+  fallback,
+  numberFormats,
+  key,
+  options
+) {
+  var _locale = locale;
+  var formats = numberFormats[_locale];
+
+  // fallback locale
+  if (isNull(formats) || isNull(formats[key])) {
+    if ( true && !this._isSilentTranslationWarn(key) && !this._isSilentFallbackWarn(key)) {
+      warn(("Fall back to '" + fallback + "' number formats from '" + locale + "' number formats."));
+    }
+    _locale = fallback;
+    formats = numberFormats[_locale];
+  }
+
+  if (isNull(formats) || isNull(formats[key])) {
+    return null
+  } else {
+    var format = formats[key];
+
+    var formatter;
+    if (options) {
+      // If options specified - create one time number formatter
+      formatter = new Intl.NumberFormat(_locale, Object.assign({}, format, options));
+    } else {
+      var id = _locale + "__" + key;
+      formatter = this._numberFormatters[id];
+      if (!formatter) {
+        formatter = this._numberFormatters[id] = new Intl.NumberFormat(_locale, format);
+      }
+    }
+    return formatter
+  }
+};
+
+VueI18n.prototype._n = function _n (value, locale, key, options) {
+  /* istanbul ignore if */
+  if (!VueI18n.availabilities.numberFormat) {
+    if (true) {
+      warn('Cannot format a Number value due to not supported Intl.NumberFormat.');
+    }
+    return ''
+  }
+
+  if (!key) {
+    var nf = !options ? new Intl.NumberFormat(locale) : new Intl.NumberFormat(locale, options);
+    return nf.format(value)
+  }
+
+  var formatter = this._getNumberFormatter(value, locale, this.fallbackLocale, this._getNumberFormats(), key, options);
+  var ret = formatter && formatter.format(value);
+  if (this._isFallbackRoot(ret)) {
+    if ( true && !this._isSilentTranslationWarn(key) && !this._isSilentFallbackWarn(key)) {
+      warn(("Fall back to number localization of root: key '" + key + "'."));
+    }
+    /* istanbul ignore if */
+    if (!this._root) { throw Error('unexpected error') }
+    return this._root.$i18n.n(value, Object.assign({}, { key: key, locale: locale }, options))
+  } else {
+    return ret || ''
+  }
+};
+
+VueI18n.prototype.n = function n (value) {
+    var args = [], len = arguments.length - 1;
+    while ( len-- > 0 ) args[ len ] = arguments[ len + 1 ];
+
+  var locale = this.locale;
+  var key = null;
+  var options = null;
+
+  if (args.length === 1) {
+    if (typeof args[0] === 'string') {
+      key = args[0];
+    } else if (isObject(args[0])) {
+      if (args[0].locale) {
+        locale = args[0].locale;
+      }
+      if (args[0].key) {
+        key = args[0].key;
+      }
+
+      // Filter out number format options only
+      options = Object.keys(args[0]).reduce(function (acc, key) {
+          var obj;
+
+        if (numberFormatKeys.includes(key)) {
+          return Object.assign({}, acc, ( obj = {}, obj[key] = args[0][key], obj ))
+        }
+        return acc
+      }, null);
+    }
+  } else if (args.length === 2) {
+    if (typeof args[0] === 'string') {
+      key = args[0];
+    }
+    if (typeof args[1] === 'string') {
+      locale = args[1];
+    }
+  }
+
+  return this._n(value, locale, key, options)
+};
+
+VueI18n.prototype._ntp = function _ntp (value, locale, key, options) {
+  /* istanbul ignore if */
+  if (!VueI18n.availabilities.numberFormat) {
+    if (true) {
+      warn('Cannot format to parts a Number value due to not supported Intl.NumberFormat.');
+    }
+    return []
+  }
+
+  if (!key) {
+    var nf = !options ? new Intl.NumberFormat(locale) : new Intl.NumberFormat(locale, options);
+    return nf.formatToParts(value)
+  }
+
+  var formatter = this._getNumberFormatter(value, locale, this.fallbackLocale, this._getNumberFormats(), key, options);
+  var ret = formatter && formatter.formatToParts(value);
+  if (this._isFallbackRoot(ret)) {
+    if ( true && !this._isSilentTranslationWarn(key)) {
+      warn(("Fall back to format number to parts of root: key '" + key + "' ."));
+    }
+    /* istanbul ignore if */
+    if (!this._root) { throw Error('unexpected error') }
+    return this._root.$i18n._ntp(value, locale, key, options)
+  } else {
+    return ret || []
+  }
+};
+
+Object.defineProperties( VueI18n.prototype, prototypeAccessors );
+
+var availabilities;
+// $FlowFixMe
+Object.defineProperty(VueI18n, 'availabilities', {
+  get: function get () {
+    if (!availabilities) {
+      var intlDefined = typeof Intl !== 'undefined';
+      availabilities = {
+        dateTimeFormat: intlDefined && typeof Intl.DateTimeFormat !== 'undefined',
+        numberFormat: intlDefined && typeof Intl.NumberFormat !== 'undefined'
+      };
+    }
+
+    return availabilities
+  }
+});
+
+VueI18n.install = install;
+VueI18n.version = '8.15.0';
+
+/* harmony default export */ __webpack_exports__["default"] = (VueI18n);
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AbsenceButtonsComponent.vue?vue&type=template&id=72cc3484&":
 /*!**************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/AbsenceButtonsComponent.vue?vue&type=template&id=72cc3484& ***!
@@ -3715,7 +5669,11 @@ var render = function() {
           }
         },
         [
-          _vm._v("\n                Absence justifiée "),
+          _vm._v(
+            "\n                " +
+              _vm._s(_vm.$t("front.Justified Absence")) +
+              " "
+          ),
           _c("i", { staticClass: "fa fa-check" })
         ]
       )
@@ -3735,7 +5693,11 @@ var render = function() {
           }
         },
         [
-          _vm._v("\n                Absence non justifiée "),
+          _vm._v(
+            "\n                " +
+              _vm._s(_vm.$t("front.Unjustified Absence")) +
+              " "
+          ),
           _c("i", { staticClass: "fa fa-user-times" })
         ]
       )
@@ -3777,7 +5739,7 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("Productos")]
+              [_vm._v(_vm._s(_vm.$t("Products")))]
             )
           ])
         : _vm._e(),
@@ -3793,7 +5755,7 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("Datos de Factura")]
+              [_vm._v(_vm._s(_vm.$t("front.Invoice Data")))]
             )
           ])
         : _vm._e(),
@@ -3809,7 +5771,7 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("Pago")]
+              [_vm._v(_vm._s(_vm.$t("front.Payment")))]
             )
           ])
         : _vm._e()
@@ -3820,12 +5782,22 @@ var render = function() {
           _c("div", { staticClass: "col col-md-8" }, [
             _c("div", { staticClass: "card" }, [
               _c("div", { staticClass: "card-header" }, [
-                _vm._v("\n                    Productos\n                ")
+                _vm._v(
+                  "\n                    " +
+                    _vm._s(_vm.$t("Products")) +
+                    "\n                "
+                )
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "card-body" }, [
                 _c("table", { staticClass: "table" }, [
-                  _vm._m(0),
+                  _c("thead", [
+                    _c("th", [_vm._v(_vm._s(_vm.$t("Product")))]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v(_vm._s(_vm.$t("Price")))]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v(_vm._s(_vm.$t("Actions")))])
+                  ]),
                   _vm._v(" "),
                   _c(
                     "tbody",
@@ -3835,7 +5807,9 @@ var render = function() {
                           _c("td", [
                             _vm._v(
                               _vm._s(enrollment.course.name) +
-                                " para " +
+                                " " +
+                                _vm._s(_vm.$t("front.for")) +
+                                " " +
                                 _vm._s(enrollment.student.user.firstname) +
                                 " " +
                                 _vm._s(enrollment.student.user.lastname)
@@ -3921,7 +5895,11 @@ var render = function() {
             _c("div", { staticClass: "card" }, [
               _c("div", { staticClass: "card-body text-center" }, [
                 _c("h4", [
-                  _vm._v(" PRECIO TOTAL: $ " + _vm._s(_vm.shoppingCartTotal))
+                  _vm._v(
+                    _vm._s(_vm.$t("front.Total price")) +
+                      ": $ " +
+                      _vm._s(_vm.shoppingCartTotal)
+                  )
                 ]),
                 _vm._v(" "),
                 _vm.enrollments[0]
@@ -3937,7 +5915,7 @@ var render = function() {
                       },
                       [
                         _c("i", { staticClass: "fa fa-check" }),
-                        _vm._v("Confirmar")
+                        _vm._v(_vm._s(_vm.$t("front.Confirm")))
                       ]
                     )
                   : _vm._e()
@@ -3949,14 +5927,30 @@ var render = function() {
             _c("div", { staticClass: "card" }, [
               _c("div", { staticClass: "card-header" }, [
                 _vm._v(
-                  "\n                    Agregar productos\n                "
+                  "\n                    " +
+                    _vm._s(_vm.$t("front.Add products")) +
+                    "\n                "
                 )
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "card-body" }, [
                 _c("div", { staticClass: "form-group" }, [
                   _c("div", { staticClass: "dropdown" }, [
-                    _vm._m(1),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-secondary dropdown-toggle",
+                        attrs: { type: "button", "data-toggle": "dropdown" }
+                      },
+                      [
+                        _c("span", { staticClass: "caret" }),
+                        _vm._v(
+                          " " +
+                            _vm._s(_vm.$t("Books")) +
+                            "\n                            "
+                        )
+                      ]
+                    ),
                     _vm._v(" "),
                     _c(
                       "div",
@@ -3981,7 +5975,21 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "dropdown" }, [
-                    _vm._m(2),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-secondary dropdown-toggle",
+                        attrs: { type: "button", "data-toggle": "dropdown" }
+                      },
+                      [
+                        _c("span", { staticClass: "caret" }),
+                        _vm._v(
+                          " " +
+                            _vm._s(_vm.$t("Fees")) +
+                            "\n                            "
+                        )
+                      ]
+                    ),
                     _vm._v(" "),
                     _c(
                       "div",
@@ -4010,7 +6018,11 @@ var render = function() {
             _vm._v(" "),
             _c("div", { staticClass: "card" }, [
               _c("div", { staticClass: "card-header" }, [
-                _vm._v("\n                    Descuentos\n                ")
+                _vm._v(
+                  "\n                    " +
+                    _vm._s(_vm.$t("Discounts")) +
+                    "\n                "
+                )
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "card-body" }, [
@@ -4044,7 +6056,21 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group" }, [
                   _c("div", { staticClass: "dropdown" }, [
-                    _vm._m(3),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-secondary dropdown-toggle",
+                        attrs: { type: "button", "data-toggle": "dropdown" }
+                      },
+                      [
+                        _c("span", { staticClass: "caret" }),
+                        _vm._v(
+                          " " +
+                            _vm._s(_vm.$t("front.Add discount")) +
+                            "\n                            "
+                        )
+                      ]
+                    ),
                     _vm._v(" "),
                     _c(
                       "div",
@@ -4085,7 +6111,9 @@ var render = function() {
               _c("div", { staticClass: "card" }, [
                 _c("div", { staticClass: "card-header" }, [
                   _vm._v(
-                    "\n                    Estudiante\n\n                    "
+                    "\n                    " +
+                      _vm._s(_vm.$t("Student")) +
+                      "\n\n                    "
                   ),
                   _c("div", { staticClass: "card-header-actions" }, [
                     _c(
@@ -4100,7 +6128,7 @@ var render = function() {
                       },
                       [
                         _c("i", { staticClass: "fa fa-check" }),
-                        _vm._v("Seleccionar")
+                        _vm._v(_vm._s(_vm.$t("front.Select")))
                       ]
                     )
                   ])
@@ -4144,7 +6172,7 @@ var render = function() {
                         },
                         [
                           _c("i", { staticClass: "fa fa-check" }),
-                          _vm._v("Selectionar")
+                          _vm._v(_vm._s(_vm.$t("front.Select")))
                         ]
                       )
                     ])
@@ -4173,7 +6201,9 @@ var render = function() {
             _c("div", { staticClass: "card" }, [
               _c("div", { staticClass: "card-header" }, [
                 _vm._v(
-                  "\n                    Datos de facturación\n                    "
+                  "\n                    " +
+                    _vm._s(_vm.$t("front.Invoice Data")) +
+                    "\n                    "
                 ),
                 _c("div", { staticClass: "card-header-actions" }, [
                   _vm.checkForm()
@@ -4189,7 +6219,7 @@ var render = function() {
                         },
                         [
                           _c("i", { staticClass: "fa fa-check" }),
-                          _vm._v("Seleccionar")
+                          _vm._v(_vm._s(_vm.$t("front.Select")))
                         ]
                       )
                     : _vm._e()
@@ -4199,7 +6229,7 @@ var render = function() {
               _c("div", { staticClass: "card-body" }, [
                 _c("div", { staticClass: "form-group" }, [
                   _c("label", { attrs: { for: "clientname" } }, [
-                    _vm._v("Nombre completo: ")
+                    _vm._v(_vm._s(_vm.$t("Client name")))
                   ]),
                   _vm._v(" "),
                   _c("input", {
@@ -4227,7 +6257,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group" }, [
                   _c("label", { attrs: { for: "clientphone" } }, [
-                    _vm._v("Teléfono: ")
+                    _vm._v(_vm._s(_vm.$t("Client Phone Number")))
                   ]),
                   _vm._v(" "),
                   _c("input", {
@@ -4255,7 +6285,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group" }, [
                   _c("label", { attrs: { for: "clientaddress" } }, [
-                    _vm._v("Dirección: ")
+                    _vm._v(_vm._s(_vm.$t("Client address")))
                   ]),
                   _vm._v(" "),
                   _c("input", {
@@ -4283,7 +6313,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group" }, [
                   _c("label", { attrs: { for: "clientidnumber" } }, [
-                    _vm._v("Número de cédula/RUC: ")
+                    _vm._v(_vm._s(_vm.$t("Client ID Number")))
                   ]),
                   _vm._v(" "),
                   _c("input", {
@@ -4311,7 +6341,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group" }, [
                   _c("label", { attrs: { for: "clientemail" } }, [
-                    _vm._v("Correo electrónico: ")
+                    _vm._v(_vm._s(_vm.$t("Client email")))
                   ]),
                   _vm._v(" "),
                   _c("input", {
@@ -4347,12 +6377,20 @@ var render = function() {
           _c("div", { staticClass: "col col-md-6" }, [
             _c("div", { staticClass: "card" }, [
               _c("div", { staticClass: "card-header" }, [
-                _vm._v("\n                    Productos\n                ")
+                _vm._v(
+                  "\n                    " +
+                    _vm._s(_vm.$t("Products")) +
+                    "\n                "
+                )
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "card-body" }, [
                 _c("table", { staticClass: "table" }, [
-                  _vm._m(4),
+                  _c("thead", [
+                    _c("th", [_vm._v(_vm._s(_vm.$t("Product")))]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v(_vm._s(_vm.$t("Price")))])
+                  ]),
                   _vm._v(" "),
                   _c(
                     "tbody",
@@ -4365,7 +6403,9 @@ var render = function() {
                             _c("td", [
                               _vm._v(
                                 _vm._s(enrollment.course.name) +
-                                  " para " +
+                                  " " +
+                                  _vm._s(_vm.$t("front.for")) +
+                                  " " +
                                   _vm._s(enrollment.student.user.firstname) +
                                   " " +
                                   _vm._s(enrollment.student.user.lastname)
@@ -4424,7 +6464,9 @@ var render = function() {
             _c("div", { staticClass: "card card-solid card-primary" }, [
               _c("div", { staticClass: "card-header" }, [
                 _vm._v(
-                  "\n                    Datos de factura\n                "
+                  "\n                    " +
+                    _vm._s(_vm.$t("front.Invoice Data")) +
+                    "\n                "
                 )
               ]),
               _vm._v(" "),
@@ -4448,7 +6490,11 @@ var render = function() {
             _c("div", { staticClass: "card" }, [
               _c("div", { staticClass: "card-body text-center" }, [
                 _c("h4", [
-                  _vm._v(" PRECIO TOTAL: $ " + _vm._s(_vm.shoppingCartTotal))
+                  _vm._v(
+                    _vm._s(_vm.$t("front.Total price")) +
+                      ": $ " +
+                      _vm._s(_vm.shoppingCartTotal)
+                  )
                 ])
               ])
             ]),
@@ -4456,7 +6502,9 @@ var render = function() {
             _c("div", { staticClass: "card card-solid card-primary" }, [
               _c("div", { staticClass: "card-header" }, [
                 _vm._v(
-                  "\n                        Forma de pago\n                    "
+                  "\n                        " +
+                    _vm._s(_vm.$t("front.Payment method")) +
+                    "\n                    "
                 ),
                 _c("div", { staticClass: "card-header-actions" }, [
                   _vm.shoppingCartTotal == _vm.paidTotal
@@ -4481,7 +6529,19 @@ var render = function() {
               _vm._v(" "),
               _c("div", { staticClass: "card-body" }, [
                 _c("table", { staticClass: "table" }, [
-                  _vm._m(5),
+                  _c("thead", [
+                    _c("tr", [
+                      _c("th", [
+                        _vm._v(_vm._s(_vm.$t("front.Payment method")))
+                      ]),
+                      _vm._v(" "),
+                      _c("th", [
+                        _vm._v(_vm._s(_vm.$t("front.Amount received")))
+                      ]),
+                      _vm._v(" "),
+                      _c("th", [_vm._v(_vm._s(_vm.$t("Comment")))])
+                    ])
+                  ]),
                   _vm._v(" "),
                   _c(
                     "tbody",
@@ -4617,7 +6677,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._v("Agregar")]
+                            [_vm._v(_vm._s(_vm.$t("front.Add")))]
                           )
                         ])
                       ])
@@ -4628,13 +6688,17 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group" }, [
                   _c("h4", [
-                    _vm._v("Valor total recibida: $ " + _vm._s(_vm.paidTotal))
+                    _vm._v(
+                      _vm._s(_vm.$t("front.Total received amount")) +
+                        ": $ " +
+                        _vm._s(_vm.paidTotal)
+                    )
                   ])
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group" }, [
                   _c("label", { attrs: { for: "comment" } }, [
-                    _vm._v("Comentario general:")
+                    _vm._v(_vm._s(_vm.$t("Comment")))
                   ]),
                   _vm._v(" "),
                   _c("textarea", {
@@ -4675,14 +6739,18 @@ var render = function() {
             _c("div", { staticClass: "card" }, [
               _c("div", { staticClass: "card-header" }, [
                 _vm._v(
-                  "\n                    Factura generada\n                "
+                  "\n                    " +
+                    _vm._s(_vm.$t("front.The invoice has been generated")) +
+                    "\n                "
                 )
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "card-body" }, [
                 _c("p", [
                   _vm._v(
-                    "Redirecting to Enrollment " + _vm._s(_vm.enrollments[0].id)
+                    _vm._s(_vm.$t("front.Enrollment number")) +
+                      " " +
+                      _vm._s(_vm.enrollments[0].id)
                   )
                 ])
               ])
@@ -4692,92 +6760,7 @@ var render = function() {
       : _vm._e()
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("th", [_vm._v("Producto")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Precio")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Acciones")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      {
-        staticClass: "btn btn-secondary dropdown-toggle",
-        attrs: { type: "button", "data-toggle": "dropdown" }
-      },
-      [
-        _c("span", { staticClass: "caret" }),
-        _vm._v(" Libros\n                            ")
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      {
-        staticClass: "btn btn-secondary dropdown-toggle",
-        attrs: { type: "button", "data-toggle": "dropdown" }
-      },
-      [
-        _c("span", { staticClass: "caret" }),
-        _vm._v(" Gastos adm.\n                            ")
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      {
-        staticClass: "btn btn-secondary dropdown-toggle",
-        attrs: { type: "button", "data-toggle": "dropdown" }
-      },
-      [
-        _c("span", { staticClass: "caret" }),
-        _vm._v(" Agregar descuento\n                            ")
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("th", [_vm._v("Producto")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Precio")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", [_vm._v("Forma de pago")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Valor recibida")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Observación")])
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -5013,7 +6996,7 @@ var render = function() {
         _vm._v(" "),
         this.course_result
           ? _c("div", [
-              _c("h4", [_vm._v("Commentaires")]),
+              _c("h4", [_vm._v(_vm._s(_vm.$t("Comments")))]),
               _vm._v(" "),
               _c(
                 "ul",
@@ -5094,7 +7077,11 @@ var render = function() {
     _c("div", { staticClass: "col-md-6" }, [
       _c("div", { staticClass: "card" }, [
         _c("div", { staticClass: "card-header" }, [
-          _vm._v("\n                Ajouter un horaire\n            ")
+          _vm._v(
+            "\n                " +
+              _vm._s(_vm.$t("front.Add a new course time")) +
+              "\n            "
+          )
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "card-body" }, [
@@ -5130,21 +7117,33 @@ var render = function() {
                     }
                   },
                   [
-                    _c("option", { attrs: { value: "1" } }, [_vm._v("Lundi")]),
+                    _c("option", { attrs: { value: "1" } }, [
+                      _vm._v(_vm._s(_vm.$t("front.Monday")))
+                    ]),
                     _vm._v(" "),
-                    _c("option", { attrs: { value: "2" } }, [_vm._v("Mardi")]),
+                    _c("option", { attrs: { value: "2" } }, [
+                      _vm._v(_vm._s(_vm.$t("front.Tuesday")))
+                    ]),
                     _vm._v(" "),
                     _c("option", { attrs: { value: "3" } }, [
-                      _vm._v("Mercredi")
+                      _vm._v(_vm._s(_vm.$t("front.Wednesday")))
                     ]),
                     _vm._v(" "),
-                    _c("option", { attrs: { value: "4" } }, [_vm._v("Jeudi")]),
+                    _c("option", { attrs: { value: "4" } }, [
+                      _vm._v(_vm._s(_vm.$t("front.Thursday")))
+                    ]),
                     _vm._v(" "),
                     _c("option", { attrs: { value: "5" } }, [
-                      _vm._v("Vendredi")
+                      _vm._v(_vm._s(_vm.$t("front.Friday")))
                     ]),
                     _vm._v(" "),
-                    _c("option", { attrs: { value: "6" } }, [_vm._v("Samedi")])
+                    _c("option", { attrs: { value: "6" } }, [
+                      _vm._v(_vm._s(_vm.$t("front.Saturday")))
+                    ]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "0" } }, [
+                      _vm._v(_vm._s(_vm.$t("front.Sunday")))
+                    ])
                   ]
                 )
               ]),
@@ -5251,12 +7250,18 @@ var render = function() {
     _c("div", { staticClass: "col-md-6" }, [
       _c("div", { staticClass: "card" }, [
         _c("div", { staticClass: "card-header" }, [
-          _vm._v("\n                Classes\n            ")
+          _vm._v(
+            "\n                " + _vm._s(_vm.$t("Events")) + "\n            "
+          )
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "card-body" }, [
           _c("table", { staticClass: "table" }, [
-            _vm._m(0),
+            _c("thead", [
+              _c("th", [_vm._v(_vm._s(_vm.$t("Start")))]),
+              _vm._v(" "),
+              _c("th", [_vm._v(_vm._s(_vm.$t("End")))])
+            ]),
             _vm._v(" "),
             _c(
               "tbody",
@@ -5275,18 +7280,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("th", [_vm._v("Start")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("End")])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -5429,8 +7423,12 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "col-md-4" }, [
     _c("div", { staticClass: "card" }, [
-      _c("div", { staticClass: "card-header with-border" }, [
-        _vm._v("État client")
+      _c("div", { staticClass: "card-header" }, [
+        _vm._v(
+          "\n              " +
+            _vm._s(_vm.$t("front.Lead Status")) +
+            "\n          "
+        )
       ]),
       _vm._v(" "),
       _c(
@@ -5590,7 +7588,13 @@ var render = function() {
     "table",
     { staticClass: "table table-striped", attrs: { id: "skillsTable" } },
     [
-      _vm._m(0),
+      _c("thead", [
+        _c("td", [_vm._v(_vm._s(_vm.$t("front.Skill Type")))]),
+        _vm._v(" "),
+        _c("td", [_vm._v(_vm._s(_vm.$t("front.Level")))]),
+        _vm._v(" "),
+        _c("td", [_vm._v(_vm._s(_vm.$t("front.Skill")))])
+      ]),
       _vm._v(" "),
       _c(
         "tbody",
@@ -5600,9 +7604,7 @@ var render = function() {
             _vm._v(" "),
             _c("td", [_vm._v(_vm._s(skill.level.name))]),
             _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(skill.name))]),
-            _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(skill.order))])
+            _c("td", [_vm._v(_vm._s(skill.name))])
           ])
         }),
         0
@@ -5610,22 +7612,7 @@ var render = function() {
     ]
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("td", [_vm._v("Skill Type")]),
-      _vm._v(" "),
-      _c("td", [_vm._v("Level")]),
-      _vm._v(" "),
-      _c("td", [_vm._v("Skill")]),
-      _vm._v(" "),
-      _c("td", [_vm._v("Order")])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -5649,7 +7636,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card" }, [
     _c("div", { staticClass: "card-header" }, [
-      _vm._v("Commentaires\n        "),
+      _vm._v(_vm._s(_vm.$t("Comments")) + "\n        "),
       _c("div", { staticClass: "card-header-actions" }, [
         _c(
           "button",
@@ -5724,7 +7711,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "form-group" }, [
             _c("label", { attrs: { for: "action" } }, [
-              _vm._v("Ce commentaire demande une action")
+              _vm._v(_vm._s(_vm.$t("front.This comment requires an action")))
             ]),
             _vm._v(" "),
             _c("input", {
@@ -5778,7 +7765,7 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("Annuler")]
+              [_vm._v(_vm._s(_vm.$t("front.Cancel")))]
             ),
             _vm._v(" "),
             _c(
@@ -5792,7 +7779,7 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("Enregister")]
+              [_vm._v(_vm._s(_vm.$t("Save")))]
             )
           ])
         ])
@@ -5824,7 +7811,7 @@ var render = function() {
   return _c("div", { staticClass: "col-md-12" }, [
     _c("div", { staticClass: "card" }, [
       _c("div", { staticClass: "card-header" }, [
-        _vm._v("\n            Compétences\n        ")
+        _vm._v("\n            " + _vm._s(_vm.$t("Skills")) + "\n        ")
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "card-body" }, [
@@ -5832,7 +7819,15 @@ var render = function() {
           "table",
           { staticClass: "table table-striped", attrs: { id: "skillsTable" } },
           [
-            _vm._m(0),
+            _c("thead", [
+              _c("th", [_vm._v(_vm._s(_vm.$t("front.Skill")))]),
+              _vm._v(" "),
+              _c("th"),
+              _vm._v(" "),
+              _c("th"),
+              _vm._v(" "),
+              _c("th")
+            ]),
             _vm._v(" "),
             _c(
               "tbody",
@@ -5907,22 +7902,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("th", [_vm._v("Skill")]),
-      _vm._v(" "),
-      _c("th"),
-      _vm._v(" "),
-      _c("th"),
-      _vm._v(" "),
-      _c("th")
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -22751,13 +24731,26 @@ module.exports = g;
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
   \*****************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue_i18n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-i18n */ "./node_modules/vue-i18n/dist/vue-i18n.esm.js");
+/* harmony import */ var _vue_i18n_locales_generated__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./vue-i18n-locales.generated */ "./resources/js/vue-i18n-locales.generated.js");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 Vue.use(__webpack_require__(/*! vue-moment */ "./node_modules/vue-moment/dist/vue-moment.js"));
+
+
+Vue.use(vue_i18n__WEBPACK_IMPORTED_MODULE_0__["default"]);
+var lang = document.documentElement.lang.substr(0, 2); // or however you determine your current app locale
+
+var i18n = new vue_i18n__WEBPACK_IMPORTED_MODULE_0__["default"]({
+  locale: lang,
+  messages: _vue_i18n_locales_generated__WEBPACK_IMPORTED_MODULE_1__["default"]
+});
 Vue.component('course-time-component', __webpack_require__(/*! ./components/CourseTimeComponent.vue */ "./resources/js/components/CourseTimeComponent.vue")["default"]);
 Vue.component('cart-component', __webpack_require__(/*! ./components/CartComponent.vue */ "./resources/js/components/CartComponent.vue")["default"]);
 Vue.component('event-attendance-component', __webpack_require__(/*! ./components/EventAttendanceComponent.vue */ "./resources/js/components/EventAttendanceComponent.vue")["default"]);
@@ -22771,7 +24764,8 @@ Vue.component('skills-list', __webpack_require__(/*! ./components/SkillsListComp
 Vue.component('phone-number-update-component', __webpack_require__(/*! ./components/PhoneNumberUpdateComponent.vue */ "./resources/js/components/PhoneNumberUpdateComponent.vue")["default"]);
 Vue.component('contact-phone-number-update-component', __webpack_require__(/*! ./components/ContactPhoneNumberUpdateComponent.vue */ "./resources/js/components/ContactPhoneNumberUpdateComponent.vue")["default"]);
 var app = new Vue({
-  el: '#app'
+  el: '#app',
+  i18n: i18n
 });
 
 /***/ }),
@@ -23620,6 +25614,1051 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_StudentSkillEvaluationComponent_vue_vue_type_template_id_0de23550___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
+
+/***/ }),
+
+/***/ "./resources/js/vue-i18n-locales.generated.js":
+/*!****************************************************!*\
+  !*** ./resources/js/vue-i18n-locales.generated.js ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  "en": {
+    "% of period max": "% of period max",
+    "Absence Notification": "Absence Notification",
+    "Account Data": "Account Data",
+    "Acquisition Rate": "Acquisition Rate",
+    "Actionnable Comments": "Actionnable Comments",
+    "actions": "actions",
+    "Actions": "Actions",
+    "Add a new contact": "Add a new contact",
+    "Add a new grade type to course": "Add a new grade type to course",
+    "Add Grade Type to Course": "Add Grade Type to Course",
+    "Additional Contact": "Additional Contact",
+    "Additional Contacts": "Additional Contacts",
+    "Additional Data": "Additional Data",
+    "Address": "Address",
+    "address": "address",
+    "age": "age",
+    "Attach skills to course": "Attach skills to course",
+    "Attach to course": "Attach to course",
+    "Attendance": "Attendance",
+    "Attendance for": "Attendance for",
+    "available course": "available course",
+    "available courses": "available courses",
+    "Best regards,": "Best regards,",
+    "birthdate": "birthdate",
+    "Birthdate": "Birthdate",
+    "Books": "Books",
+    "Calendar for": "Calendar for",
+    "CALENDARS": "CALENDARS",
+    "Campus": "Campus",
+    "campuses": "campuses",
+    "Cart Details": "Cart Details",
+    "Change all Converted to Pending": "Change all Converted to Pending",
+    "Change course": "Change course",
+    "Children enrollments": "Children enrollments",
+    "Classes without attendance": "Classes without attendance",
+    "Client address": "Client address",
+    "Client email": "Client email",
+    "Client ID Number": "Client ID Number",
+    "Client name": "Client name",
+    "Client Phone Number": "Client Phone Number",
+    "Close": "Close",
+    "Comment": "Comment",
+    "Comments": "Comments",
+    "Continue without uploading a profile picture": "Continue without uploading a profile picture",
+    "course": "course",
+    "Course": "Course",
+    "Course Details": "Course Details",
+    "Course info": "Course info",
+    "Course result": "Course result",
+    "Course Result Details": "Course Result Details",
+    "Course Schedule": "Course Schedule",
+    "COURSES": "COURSES",
+    "courses": "courses",
+    "Create another Contact": "Create another Contact",
+    "Current Period": "Current Period",
+    "Date": "Date",
+    "Date range": "Date range",
+    "Default Period": "Default Period",
+    "Delete Enrollment": "Delete Enrollment",
+    "Discount Value": "Discount Value",
+    "Discount Value (0-100%)": "Discount Value (0-100%)",
+    "Discounts": "Discounts",
+    "Edit contact": "Edit contact",
+    "Edit Course Skills": "Edit Course Skills",
+    "Edit Grades": "Edit Grades",
+    "Edit skills for course": "Edit skills for course",
+    "Edit Student Skills": "Edit Student Skills",
+    "email": "email",
+    "Email": "Email",
+    "End": "End",
+    "End Date": "End Date",
+    "Enroll": "Enroll",
+    "Enroll new student": "Enroll new student",
+    "Enrollment date": "Enrollment date",
+    "Enrollment Details": "Enrollment Details",
+    "Enrollment ID": "Enrollment ID",
+    "Enrollment successfully created": "Enrollment successfully created",
+    "Enrollments": "Enrollments",
+    "Enrollments per Course": "Enrollments per Course",
+    "Enrollments per Rhythm": "Enrollments per Rhythm",
+    "Evaluation": "Evaluation",
+    "EVALUATION": "EVALUATION",
+    "Evaluation method": "Evaluation method",
+    "Evaluation Types": "Evaluation Types",
+    "Events": "Events",
+    "Events with no course": "Events with no course",
+    "Events with no teacher": "Events with no teacher",
+    "Exempt all course events from attendance sheet": "Exempt all course events from attendance sheet",
+    "Exempt Attendance": "Exempt Attendance",
+    "Exempt event from attendance sheet": "Exempt event from attendance sheet",
+    "Export Course syllabus": "Export Course syllabus",
+    "Export skills": "Export skills",
+    "External": "External",
+    "External Courses": "External Courses",
+    "External Courses Report": "External Courses Report",
+    "Fees": "Fees",
+    "Finish update": "Finish update",
+    "First Name": "First Name",
+    "Firstname": "Firstname",
+    "Go Home": "Go Home",
+    "Grade Types": "Grade Types",
+    "Grades": "Grades",
+    "Head Count": "Head Count",
+    "Hi": "Hi",
+    "Hide Children": "Hide Children",
+    "Hide Children Courses": "Hide Children Courses",
+    "Hide Parents": "Hide Parents",
+    "Hire Date": "Hire Date",
+    "hours": "hours",
+    "Hours Sold": "Hours Sold",
+    "Hours Taught": "Hours Taught",
+    "HR": "HR",
+    "Human Resources": "Human Resources",
+    "ID Number": "ID Number",
+    "idnumber": "idnumber",
+    "Import skills": "Import skills",
+    "Incomplete Attendance": "Incomplete Attendance",
+    "Internal": "Internal",
+    "Internal Courses": "Internal Courses",
+    "Internal Settings": "Internal Settings",
+    "Invoice": "Invoice",
+    "Invoice ID": "Invoice ID",
+    "Invoice Number": "Invoice Number",
+    "Invoices": "Invoices",
+    "Invoicing": "Invoicing",
+    "Is Enrolled in": "Is Enrolled in",
+    "Is Not Enrolled in": "Is Not Enrolled in",
+    "Jobs Queue": "Jobs Queue",
+    "Justified Absences": "Justified Absences",
+    "Last Enrollment": "Last Enrollment",
+    "Last Name": "Last Name",
+    "Lastname": "Lastname",
+    "Leads Status": "Leads Status",
+    "Leads to call": "Leads to call",
+    "Leave": "Leave",
+    "Length": "Length",
+    "Level": "Level",
+    "levels": "levels",
+    "Mark as paid without generating an invoice": "Mark as paid without generating an invoice",
+    "Missing students": "Missing students",
+    "Moodle": "Moodle",
+    "My Hours": "My Hours",
+    "My Schedule": "My Schedule",
+    "Name": "Name",
+    "name": "name",
+    "New Course": "New Course",
+    "New pre-invoice": "New pre-invoice",
+    "New Students": "New Students",
+    "No Result": "No Result",
+    "Number of absences": "Number of absences",
+    "Number of Courses": "Number of Courses",
+    "Oh no": "Oh no",
+    "on": "on",
+    "or": "or",
+    "Overview": "Overview",
+    "paid": "paid",
+    "Payment methods": "Payment methods",
+    "Pedagogy": "Pedagogy",
+    "Pending": "Pending",
+    "Pending Attendance": "Pending Attendance",
+    "Pending leads": "Pending leads",
+    "Per course": "Per course",
+    "Per rhythm": "Per rhythm",
+    "Period": "Period",
+    "Period Classes": "Period Classes",
+    "Period Max": "Period Max",
+    "Period Total": "Period Total",
+    "periods": "periods",
+    "Phone Number": "Phone Number",
+    "Phone Numbers": "Phone Numbers",
+    "Planned Hours": "Planned Hours",
+    "Please check the additional contact data associated to your account": "Please check the additional contact data associated to your account",
+    "Please check your personal phone number(s)": "Please check your personal phone number(s)",
+    "Please chose an image on your computer to update your profile picture": "Please chose an image on your computer to update your profile picture",
+    "Please fill in your profession and your institution (school, workplace).": "Please fill in your profession and your institution (school, workplace).",
+    "Pre-invoice ID": "Pre-invoice ID",
+    "Presencial": "Presencial",
+    "Price": "Price",
+    "Product": "Product",
+    "Products": "Products",
+    "Profession": "Profession",
+    "Profile Picture": "Profile Picture",
+    "Project": "Project",
+    "Remote": "Remote",
+    "Remote Events": "Remote Events",
+    "Remote Work": "Remote Work",
+    "REPORTS": "REPORTS",
+    "resource Calendars": "resource Calendars",
+    "Resources": "Resources",
+    "Result": "Result",
+    "Result Notification": "Result Notification",
+    "Result Types": "Result Types",
+    "Results": "Results",
+    "Back to course": "Back to course",
+    "Rhythm": "Rhythm",
+    "rhythms": "rhythms",
+    "Roles": "Roles",
+    "Room": "Room",
+    "rooms": "rooms",
+    "Save": "Save",
+    "Save new Contact": "Save new Contact",
+    "Schedule": "Schedule",
+    "Scheduled Tasks": "Scheduled Tasks",
+    "Selected Period": "Selected Period",
+    "Settings": "Settings",
+    "SETTINGS": "SETTINGS",
+    "Setup Dashboard": "Setup Dashboard",
+    "share of students from previous period who were re-enrolled": "share of students from previous period who were re-enrolled",
+    "Show Children Courses": "Show Children Courses",
+    "Skill Scales": "Skill Scales",
+    "Skill Types": "Skill Types",
+    "Skills": "Skills",
+    "Skills set was saved for the course": "Skills set was saved for the course",
+    "Skillset File": "Skillset File",
+    "Spots": "Spots",
+    "Start": "Start",
+    "Start Date": "Start Date",
+    "Start from period:": "Start from period:",
+    "Status": "Status",
+    "Status is": "Status is",
+    "Status is not": "Status is not",
+    "Student": "Student",
+    "student": "student",
+    "Student details for": "Student details for",
+    "Student Info": "Student Info",
+    "students": "students",
+    "Students": "Students",
+    "Students to count in year total": "Students to count in year total",
+    "Students under 18, please add contact data from your legal representatives": "Students under 18, please add contact data from your legal representatives",
+    "Students with no leadStatus": "Students with no leadStatus",
+    "Teacher": "Teacher",
+    "TEACHER": "TEACHER",
+    "Teacher Dashboard": "Teacher Dashboard",
+    "Teachers": "Teachers",
+    "teachers": "teachers",
+    "Thank you for justificating this absence by replying to this email": "Thank you for justificating this absence by replying to this email",
+    "The attendance record is incomplete for the following classes:": "The attendance record is incomplete for the following classes:",
+    "The enrollment has been updated": "The enrollment has been updated",
+    "The information has successfully been saved": "The information has successfully been saved",
+    "The invoice number has been saved": "The invoice number has been saved",
+    "The selected teacher is not available on this date": "The selected teacher is not available on this date",
+    "This course has no skills yet": "This course has no skills yet",
+    "This enrollment belongs to": "This enrollment belongs to",
+    "This is an absence notification for": "This is an absence notification for",
+    "This is important, so that we can reach you in case of an emergency": "This is important, so that we can reach you in case of an emergency",
+    "This will erase all skills currently associated to the course": "This will erase all skills currently associated to the course",
+    "TOTAL": "TOTAL",
+    "Unjustified Absences": "Unjustified Absences",
+    "Upcoming classes with no teacher assigned": "Upcoming classes with no teacher assigned",
+    "Upload skillset file": "Upload skillset file",
+    "Users": "Users",
+    "View": "View",
+    "View attendance sheet for event": "View attendance sheet for event",
+    "View Course Skills": "View Course Skills",
+    "View Skills for Group": "View Skills for Group",
+    "Volume": "Volume",
+    "Weekly workable hours": "Weekly workable hours",
+    "When everything is ready, please confirm that your data is up-to-date": "When everything is ready, please confirm that your data is up-to-date",
+    "Worked Hours": "Worked Hours",
+    "Year": "Year",
+    "Year Students": "Year Students",
+    "Years": "Years",
+    "years old": "years old",
+    "You also need to add the invoice information here": "You also need to add the invoice information here",
+    "You may log in to view your results, and the comments from your teacher, if any": "You may log in to view your results, and the comments from your teacher, if any",
+    "Your course result is available for": "Your course result is available for",
+    "Your data has been saved": "Your data has been saved",
+    "Your picture has been saved": "Your picture has been saved",
+    "passwords": {
+      "password": "Passwords must be at least six characters and match the confirmation.",
+      "reset": "Your password has been reset!",
+      "sent": "We have e-mailed your password reset link!",
+      "token": "This password reset token is invalid.",
+      "user": "We can't find a user with that e-mail address."
+    },
+    "validation": {
+      "accepted": "The {attribute} must be accepted.",
+      "active_url": "The {attribute} is not a valid URL.",
+      "after": "The {attribute} must be a date after {date}.",
+      "after_or_equal": "The {attribute} must be a date after or equal to {date}.",
+      "alpha": "The {attribute} may only contain letters.",
+      "alpha_dash": "The {attribute} may only contain letters, numbers, dashes and underscores.",
+      "alpha_num": "The {attribute} may only contain letters and numbers.",
+      "array": "The {attribute} must be an array.",
+      "before": "The {attribute} must be a date before {date}.",
+      "before_or_equal": "The {attribute} must be a date before or equal to {date}.",
+      "between": {
+        "numeric": "The {attribute} must be between {min} and {max}.",
+        "file": "The {attribute} must be between {min} and {max} kilobytes.",
+        "string": "The {attribute} must be between {min} and {max} characters.",
+        "array": "The {attribute} must have between {min} and {max} items."
+      },
+      "boolean": "The {attribute} field must be true or false.",
+      "confirmed": "The {attribute} confirmation does not match.",
+      "date": "The {attribute} is not a valid date.",
+      "date_equals": "The {attribute} must be a date equal to {date}.",
+      "date_format": "The {attribute} does not match the format {format}.",
+      "different": "The {attribute} and {other} must be different.",
+      "digits": "The {attribute} must be {digits} digits.",
+      "digits_between": "The {attribute} must be between {min} and {max} digits.",
+      "dimensions": "The {attribute} has invalid image dimensions.",
+      "distinct": "The {attribute} field has a duplicate value.",
+      "email": "The {attribute} must be a valid email address.",
+      "exists": "The selected {attribute} is invalid.",
+      "file": "The {attribute} must be a file.",
+      "filled": "The {attribute} field must have a value.",
+      "gt": {
+        "numeric": "The {attribute} must be greater than {value}.",
+        "file": "The {attribute} must be greater than {value} kilobytes.",
+        "string": "The {attribute} must be greater than {value} characters.",
+        "array": "The {attribute} must have more than {value} items."
+      },
+      "gte": {
+        "numeric": "The {attribute} must be greater than or equal {value}.",
+        "file": "The {attribute} must be greater than or equal {value} kilobytes.",
+        "string": "The {attribute} must be greater than or equal {value} characters.",
+        "array": "The {attribute} must have {value} items or more."
+      },
+      "image": "The {attribute} must be an image.",
+      "in": "The selected {attribute} is invalid.",
+      "in_array": "The {attribute} field does not exist in {other}.",
+      "integer": "The {attribute} must be an integer.",
+      "ip": "The {attribute} must be a valid IP address.",
+      "ipv4": "The {attribute} must be a valid IPv4 address.",
+      "ipv6": "The {attribute} must be a valid IPv6 address.",
+      "json": "The {attribute} must be a valid JSON string.",
+      "lt": {
+        "numeric": "The {attribute} must be less than {value}.",
+        "file": "The {attribute} must be less than {value} kilobytes.",
+        "string": "The {attribute} must be less than {value} characters.",
+        "array": "The {attribute} must have less than {value} items."
+      },
+      "lte": {
+        "numeric": "The {attribute} must be less than or equal {value}.",
+        "file": "The {attribute} must be less than or equal {value} kilobytes.",
+        "string": "The {attribute} must be less than or equal {value} characters.",
+        "array": "The {attribute} must not have more than {value} items."
+      },
+      "max": {
+        "numeric": "The {attribute} may not be greater than {max}.",
+        "file": "The {attribute} may not be greater than {max} kilobytes.",
+        "string": "The {attribute} may not be greater than {max} characters.",
+        "array": "The {attribute} may not have more than {max} items."
+      },
+      "mimes": "The {attribute} must be a file of type: {values}.",
+      "mimetypes": "The {attribute} must be a file of type: {values}.",
+      "min": {
+        "numeric": "The {attribute} must be at least {min}.",
+        "file": "The {attribute} must be at least {min} kilobytes.",
+        "string": "The {attribute} must be at least {min} characters.",
+        "array": "The {attribute} must have at least {min} items."
+      },
+      "not_in": "The selected {attribute} is invalid.",
+      "not_regex": "The {attribute} format is invalid.",
+      "numeric": "The {attribute} must be a number.",
+      "present": "The {attribute} field must be present.",
+      "regex": "The {attribute} format is invalid.",
+      "required": "The {attribute} field is required.",
+      "required_if": "The {attribute} field is required when {other} is {value}.",
+      "required_unless": "The {attribute} field is required unless {other} is in {values}.",
+      "required_with": "The {attribute} field is required when {values} is present.",
+      "required_with_all": "The {attribute} field is required when {values} are present.",
+      "required_without": "The {attribute} field is required when {values} is not present.",
+      "required_without_all": "The {attribute} field is required when none of {values} are present.",
+      "same": "The {attribute} and {other} must match.",
+      "size": {
+        "numeric": "The {attribute} must be {size}.",
+        "file": "The {attribute} must be {size} kilobytes.",
+        "string": "The {attribute} must be {size} characters.",
+        "array": "The {attribute} must contain {size} items."
+      },
+      "starts_with": "The {attribute} must start with one of the following: {values}",
+      "string": "The {attribute} must be a string.",
+      "timezone": "The {attribute} must be a valid zone.",
+      "unique": "The {attribute} has already been taken.",
+      "uploaded": "The {attribute} failed to upload.",
+      "url": "The {attribute} format is invalid.",
+      "uuid": "The {attribute} must be a valid UUID.",
+      "custom": {
+        "attribute-name": {
+          "rule-name": "custom-message"
+        }
+      },
+      "attributes": []
+    },
+    "pagination": {
+      "previous": "&laquo; Previous",
+      "next": "Next &raquo;"
+    },
+    "front": {
+      "Add a new course time": "Add a new course time",
+      "Monday": "Monday",
+      "Tuesday": "Tuesday",
+      "Wednesday": "Wednesday",
+      "Thursday": "Thursday",
+      "Friday": "Friday",
+      "Saturday": "Saturday",
+      "Sunday": "Sunday",
+      "Justified Absence": "Justified Absence",
+      "Unjustified Absence": "Unjustified Absence",
+      "Invoice Data": "Invoice Data",
+      "Payment": "Payment",
+      "for": "for",
+      "Total price": "Total price",
+      "Confirm": "Confirm",
+      "Add products": "Add products",
+      "Add discount": "Add discount",
+      "Select": "Select",
+      "Payment method": "Payment method",
+      "Amount received": "Amount received",
+      "Add": "Add",
+      "Total received amount": "Total received amount",
+      "The invoice has been generated": "The invoice has been generated",
+      "Enrollment number": "Enrollment number",
+      "Lead Status": "Lead Status",
+      "Skill Type": "Skill Type",
+      "Level": "Level",
+      "Skill": "Skill",
+      "This comment requires an action": "This comment requires an action",
+      "Cancel": "Cancel"
+    },
+    "auth": {
+      "failed": "These credentials do not match our records.",
+      "throttle": "Too many login attempts. Please try again in {seconds} seconds."
+    }
+  },
+  "es": {
+    "% of period max": "% del máx. para la sesión",
+    "Absence Notification": "Notificacion de ausencia",
+    "Account Data": "Datos de la cuenta",
+    "Acquisition Rate": "Tasa de conservación de alumnos",
+    "Actionnable Comments": "Requiere acción",
+    "actions": "acciones",
+    "Actions": "Acciones",
+    "Add a new contact": "Añadir un contacto",
+    "Add a new grade type to course": "Añadir un criterio de evaluación al curso",
+    "Add Grade Type to Course": "Añadir un criterio de evaluación al curso",
+    "Additional Contact": "Contacto addicional",
+    "Additional Contacts": "Contactos",
+    "Additional Data": "Datos del estudiante",
+    "Address": "Dirección",
+    "address": "dirección",
+    "age": "edad",
+    "Attach skills to course": "Agregar competencias al curso",
+    "Attach to course": "Asociar al curso",
+    "Attendance": "Asistencia",
+    "Attendance for": "Asistencia para",
+    "available course": "curso disponible",
+    "available courses": "cursos disponibles",
+    "Best regards,": "Saludos cordiales,",
+    "birthdate": "fecha de nacimiento",
+    "Birthdate": "Fecha de nacimiento",
+    "Books": "Libros",
+    "Calendar for": "Calendario de",
+    "CALENDARS": "CALENDARIOS",
+    "Campus": "Campus",
+    "campuses": "campus",
+    "Cart Details": "Detalles del carrito",
+    "Change all Converted to Pending": "Cambiar todos los Converted a Pending",
+    "Change course": "Cambiar curso",
+    "Children enrollments": "Matriculas hijas",
+    "Classes without attendance": "Clases sin asistencia",
+    "Client address": "Dirección del cliente",
+    "Client email": "Correo electrónico del cliente",
+    "Client ID Number": "Cédula del cliente",
+    "Client name": "Nombre del cliente",
+    "Client Phone Number": "Teléfono del cliente",
+    "Close": "Cerrar",
+    "Comment": "Commentario",
+    "Comments": "Commentarios",
+    "Continue without uploading a profile picture": "Seguir sin subir una foto",
+    "course": "curso",
+    "Course": "Curso",
+    "Course Details": "Detalles del curso",
+    "Course info": "Información del curso",
+    "Course result": "Resultado del curso",
+    "Course Result Details": "Detalles del resultado",
+    "Course Schedule": "Horarios del curso",
+    "COURSES": "CURSOS",
+    "courses": "cursos",
+    "Create another Contact": "Agregar otro contacto",
+    "Current Period": "Periodo actual",
+    "Date": "Fecha",
+    "Date range": "Fechas",
+    "Default Period": "Periodo por defecto",
+    "Delete Enrollment": "Eliminar la matricula",
+    "Discount Value": "Valor del descuento",
+    "Discount Value (0-100%)": "Valor del descuento (0-100%)",
+    "Discounts": "Descuentos",
+    "Edit contact": "Editar contacto",
+    "Edit Course Skills": "Modificar las competencias del curso",
+    "Edit Grades": "Modificar notas",
+    "Edit skills for course": "Modificar las competencias del curso",
+    "Edit Student Skills": "Evaluar las competencias del estudiante",
+    "email": "correo electrónico",
+    "Email": "Correo electrónico",
+    "End": "Fin",
+    "End Date": "Fecha de fin",
+    "Enroll": "Matricular",
+    "Enroll new student": "Matricular nuevo estudiante",
+    "Enrollment date": "Fecha de matricula",
+    "Enrollment Details": "Detalles de la matricula",
+    "Enrollment ID": "Número de la matricula",
+    "Enrollment successfully created": "La matricula ha sido creada con éxito",
+    "Enrollments": "Matriculas",
+    "Enrollments per Course": "Matriculas per curso",
+    "Enrollments per Rhythm": "Matriculas per modalidad",
+    "Evaluation": "Evaluacióon",
+    "EVALUATION": "EVALUACIÓN",
+    "Evaluation method": "Tipo de evaluación",
+    "Evaluation Types": "Tipos de evaluación",
+    "Events": "Clases",
+    "Events with no course": "Clases sin curso",
+    "Events with no teacher": "Clases sin profesor",
+    "Exempt all course events from attendance sheet": "Exentar todas las clases de asistencia",
+    "Exempt Attendance": "Exentar Asistencia",
+    "Exempt event from attendance sheet": "Exentar esta clase",
+    "Export Course syllabus": "Exportar el silabo",
+    "Export skills": "Exportar las competencias",
+    "External": "Externos",
+    "External Courses": "Cursos externos",
+    "External Courses Report": "Reporte de cursos externos",
+    "Fees": "Gastos administrativos",
+    "Finish update": "Finalizar actualización",
+    "First Name": "Nombres",
+    "Firstname": "Nombres",
+    "Go Home": "Pagina principal",
+    "Grade Types": "Tipos de notas",
+    "Grades": "Notas",
+    "Head Count": "Número de inscripciones",
+    "Hi": "Hola",
+    "Hide Children": "Ocultar cursos hijos",
+    "Hide Children Courses": "Ocultar los cursos hijos",
+    "Hide Parents": "Ocultar los cursos padres",
+    "Hire Date": "Fecha de contratación",
+    "hours": "horas",
+    "Hours Sold": "Horas-estudiantes",
+    "Hours Taught": "Horas-profesores",
+    "HR": "RRHH",
+    "Human Resources": "Recursos Humanos",
+    "ID Number": "Cédula",
+    "idnumber": "cédula",
+    "Import skills": "Importar competencias",
+    "Incomplete Attendance": "Asistencia pendiente",
+    "Internal": "Internos",
+    "Internal Courses": "Cursos internos",
+    "Internal Settings": "Opciones del sistema",
+    "Invoice": "Factura",
+    "Invoice ID": "ID de factura",
+    "Invoice Number": "Número de factura",
+    "Invoices": "Factura(s)",
+    "Invoicing": "Facturación",
+    "Is Enrolled in": "Matriculado en",
+    "Is Not Enrolled in": "No matriculado en",
+    "Jobs Queue": "Cola de trabajo",
+    "Justified Absences": "Ausencias justificadas",
+    "Last Enrollment": "Última matricula",
+    "Last Name": "Apellidos",
+    "Lastname": "Apellidos",
+    "Leads Status": "Estado de client",
+    "Leads to call": "Clientes por llamar",
+    "Leave": "Vacaciones",
+    "Length": "Tiempo",
+    "Level": "Nivel",
+    "levels": "niveles",
+    "Mark as paid without generating an invoice": "Marcar como facturada sin generar factura",
+    "Missing students": "Estudiantes que faltan",
+    "Moodle": "Moodle",
+    "My Hours": "Mis horas",
+    "My Schedule": "Mi calendario",
+    "Name": "Nombre",
+    "name": "Nombre",
+    "New Course": "Nuevo curso",
+    "New pre-invoice": "Nueva prefactura",
+    "New Students": "Nuevos estudiantes",
+    "No Result": "No hay resultado",
+    "Number of absences": "Número de ausencias",
+    "Number of Courses": "Número de cursos",
+    "Oh no": "Oh no",
+    "on": "el",
+    "or": "o",
+    "Overview": "Vista general",
+    "paid": "pagado",
+    "Payment methods": "Formas de pago",
+    "Pedagogy": "Pedagogía",
+    "Pending": "Pendientes",
+    "Pending Attendance": "Asistencia pendiente",
+    "Pending leads": "Clientes potenciales por confirmar",
+    "Per course": "Per curso",
+    "Per rhythm": "Per modalidad",
+    "Period": "Sessión",
+    "Period Classes": "Clases del periodo",
+    "Period Max": "Máximo por periodo",
+    "Period Total": "Total por periodo",
+    "periods": "sessiones",
+    "Phone Number": "Número de teléfono",
+    "Phone Numbers": "Números de télefono",
+    "Planned Hours": "Horas previstas",
+    "Please check the additional contact data associated to your account": "Por favor, verifique los datos de contacto addicional vinculados a su cuenta",
+    "Please check your personal phone number(s)": "Por favor verifique su(s) numero(s) de teléfono",
+    "Please chose an image on your computer to update your profile picture": "Por favor sube una foto para su perfil",
+    "Please fill in your profession and your institution (school, workplace).": "Por favor indique su profesión y institución (escuela, trabajo)",
+    "Pre-invoice ID": "Número de prefactura",
+    "Presencial": "Presencial",
+    "Price": "Precio",
+    "Product": "Producto",
+    "Products": "Productos",
+    "Profession": "Profesión",
+    "Profile Picture": "Foto de perfil",
+    "Project": "Proyecto",
+    "Remote": "A distancia",
+    "Remote Events": "Eventos a distancia",
+    "Remote Work": "Trabajo a distancia",
+    "REPORTS": "REPORTES",
+    "resource Calendars": "Calendarios de recursos",
+    "Resources": "Recursos",
+    "Result": "Resultado",
+    "Result Notification": "Notificación de resultado",
+    "Result Types": "Tipos de resultados",
+    "Results": "Resultados",
+    "Back to course": "Volver al curso",
+    "Rhythm": "Modalidad",
+    "rhythms": "modalidades",
+    "Roles": "Papeles",
+    "Room": "Aula",
+    "rooms": "aulas",
+    "Save": "Guardar",
+    "Save new Contact": "Guardar el contacto",
+    "Schedule": "Horarios",
+    "Scheduled Tasks": "Tareas programadas",
+    "Selected Period": "Sesión",
+    "Settings": "Opciones",
+    "SETTINGS": "OPCIONES",
+    "Setup Dashboard": "Monitoreo del sistema",
+    "share of students from previous period who were re-enrolled": "porcentaje de los estudiantes del periodo anterior matriculados en este periodo",
+    "Show Children Courses": "Mostrar los cursos hijos",
+    "Skill Scales": "Niveles de competencia",
+    "Skill Types": "Tipos de competencias",
+    "Skills": "Competencias",
+    "Skills set was saved for the course": "Las competencias del curso han sido guardadas.",
+    "Skillset File": "Archivo de competencias",
+    "Spots": "Cupos",
+    "Start": "Inicio",
+    "Start Date": "Fecha de inicio",
+    "Start from period:": "Inicar con periodo:",
+    "Status": "Estado",
+    "Status is": "Estado es",
+    "Status is not": "Estado no es",
+    "Student": "Estudiante",
+    "student": "estudiante",
+    "Student details for": "Detalles del estudiante",
+    "Student Info": "Información del estudiante",
+    "students": "estudiantes",
+    "Students": "Estudiantes",
+    "Students to count in year total": "Estudiantes contabilizados en total del año",
+    "Students under 18, please add contact data from your legal representatives": "Estudiantes menores de edad, por favor agregar los datos de sus representates legales",
+    "Students with no leadStatus": "Estudiantes sin estado cliente",
+    "Teacher": "Profesor",
+    "TEACHER": "PROFESOR",
+    "Teacher Dashboard": "Panel del Profesor",
+    "Teachers": "Profesores",
+    "teachers": "profesores",
+    "Thank you for justificating this absence by replying to this email": "Gracias por justificar esta ausencia contestando a este correo",
+    "The attendance record is incomplete for the following classes:": "La asistancia esta incompleta para las clases siguientes:",
+    "The enrollment has been updated": "La matricula ha sido guardada",
+    "The information has successfully been saved": "La información ha sido guardada",
+    "The invoice number has been saved": "El número de factura ha sido guardado",
+    "The selected teacher is not available on this date": "Este profesor no está disponibles para estas fechas",
+    "This course has no skills yet": "Este curso no tiene competencias",
+    "This enrollment belongs to": "Esta matricula esta relacionada con",
+    "This is an absence notification for": "Este es una notifiación de ausencia para",
+    "This is important, so that we can reach you in case of an emergency": "Eso es importante para poder recibir mensajes importantes en caso de emergencia",
+    "This will erase all skills currently associated to the course": "Las competencias asociadas al curso serán elimidadas",
+    "TOTAL": "TOTAL",
+    "Unjustified Absences": "Ausencias no justificadas",
+    "Upcoming classes with no teacher assigned": "Próximas clases sin profesor",
+    "Upload skillset file": "Cargar archivo de competencias",
+    "Users": "Usuarios",
+    "View": "Ver",
+    "View attendance sheet for event": "Ver ficha de asistencia para la clase",
+    "View Course Skills": "Ver las competencias del curso",
+    "View Skills for Group": "Ver las competencias del grupo",
+    "Volume": "Volumen",
+    "Weekly workable hours": "Horas por semana",
+    "When everything is ready, please confirm that your data is up-to-date": "Cuando todos los datos estan correctos, confirme y finalize el tramite",
+    "Worked Hours": "Horas enseñadas",
+    "Year": "Año",
+    "Year Students": "Estudiantes del año",
+    "Years": "Años",
+    "years old": "años",
+    "You also need to add the invoice information here": "También tiene que agregar los datos de facturación que quiere",
+    "You may log in to view your results, and the comments from your teacher, if any": "Puede conectarse a la plataforma para ver su resultado y el comentario de su profesor",
+    "Your course result is available for": "El resultado es disponible para su curso",
+    "Your data has been saved": "Los datos han sido guardados",
+    "Your picture has been saved": "Su foto ha sido guardada",
+    "front": {
+      "Add a new course time": "Agregar un horario",
+      "Monday": "Lunes",
+      "Tuesday": "Martes",
+      "Wednesday": "Miércoles",
+      "Thursday": "Jueves",
+      "Friday": "Viernes",
+      "Saturday": "Sábado",
+      "Sunday": "Domingo",
+      "Justified Absence": "Ausencia justificada",
+      "Unjustified Absence": "Ausencia no justificada",
+      "Invoice Data": "Datos de la factura",
+      "Payment": "Pago",
+      "for": "para",
+      "Total price": "Precio total",
+      "Confirm": "Confirmar",
+      "Add products": "Agregar productos",
+      "Add discount": "Agregar descuento",
+      "Select": "Seleccionar",
+      "Payment method": "Forma de pago",
+      "Amount received": "Valor recibida",
+      "Add": "Agregar",
+      "Total received amount": "Valor total recibida",
+      "The invoice has been generated": "La factura ha sido generada",
+      "Enrollment number": "Matricula #",
+      "Lead Status": "Estado del cliente",
+      "Skill Type": "Categoria",
+      "Level": "Nivel",
+      "Skill": "Competencia",
+      "This comment requires an action": "Este comentario necesita accion",
+      "Cancel": "Cancelar"
+    }
+  },
+  "fr": {
+    "% of period max": "% du maximum",
+    "Absence Notification": "Notification d'absence",
+    "Account Data": "Informations du compte",
+    "Acquisition Rate": "Taux de fidélisation",
+    "Actionnable Comments": "Action requise",
+    "actions": "actions",
+    "Actions": "Actions",
+    "Add a new contact": "Ajouter un contact",
+    "Add a new grade type to course": "Ajouter un critère",
+    "Add Grade Type to Course": "Ajouter un critère",
+    "Additional Contact": "Autre contact",
+    "Additional Contacts": "Contacts",
+    "Additional Data": "Informations de l'étudiant(e)",
+    "Address": "Addresse",
+    "address": "addresse",
+    "age": "âge",
+    "Attach skills to course": "Ajouter des compétences au cours",
+    "Attach to course": "Associer au cours",
+    "Attendance": "Présences",
+    "Attendance for": "Présences pour",
+    "available course": "cours disponible",
+    "available courses": "cours disponibles",
+    "Best regards,": "Cordialement,",
+    "birthdate": "date de naissance",
+    "Birthdate": "Date de naissance",
+    "Books": "Livres",
+    "Calendar for": "Calendrier de",
+    "CALENDARS": "CALENDRIERS",
+    "Campus": "Campus",
+    "campuses": "campus",
+    "Cart Details": "Détails du panier",
+    "Change all Converted to Pending": "Changer tous les Converted à Pending",
+    "Change course": "Changer de cours",
+    "Children enrollments": "Inscriptions liées",
+    "Classes without attendance": "Classes sans fiche de présence",
+    "Client address": "Adresse du Client",
+    "Client email": "Email du client",
+    "Client ID Number": "Numéro d'identité du client",
+    "Client name": "Nom du client",
+    "Client Phone Number": "Numéro de téléphone du client",
+    "Close": "Fermer",
+    "Comment": "Commentaire",
+    "Comments": "Commentaires",
+    "Continue without uploading a profile picture": "Continuer sans photo de profil",
+    "course": "cours",
+    "Course": "Cours",
+    "Course Details": "Détails du cours",
+    "Course info": "Informations du cours",
+    "Course result": "Résultat du cours",
+    "Course Result Details": "Résultat du cours",
+    "Course Schedule": "Horaires du cours",
+    "COURSES": "COURS",
+    "courses": "cours",
+    "Create another Contact": "Créer un autre contact",
+    "Current Period": "Cycle en cours",
+    "Date": "Date",
+    "Date range": "Dates",
+    "Default Period": "Période par défaut",
+    "Delete Enrollment": "Annuler l'inscription",
+    "Discount Value": "Valeur de la réduction",
+    "Discount Value (0-100%)": "Valeur de la réduction (0-100%)",
+    "Discounts": "Réductions",
+    "Edit contact": "Modifier le contact",
+    "Edit Course Skills": "Modifier les compétences du cours",
+    "Edit Grades": "Modifier les notes",
+    "Edit skills for course": "Modifier les compétences du cours",
+    "Edit Student Skills": "Modifier les compétences de l'étudiant",
+    "email": "email",
+    "Email": "Email",
+    "End": "Fin",
+    "End Date": "Date de fin",
+    "Enroll": "Inscrire",
+    "Enroll new student": "Inscrire un étudiant",
+    "Enrollment date": "Date d'inscription",
+    "Enrollment Details": "Détails de l'inscription",
+    "Enrollment ID": "Numéro d'inscription",
+    "Enrollment successfully created": "Inscription enregistrée",
+    "Enrollments": "Inscriptions",
+    "Enrollments per Course": "Inscriptions par cours",
+    "Enrollments per Rhythm": "Inscriptions par rythme",
+    "Evaluation": "Evaluation",
+    "EVALUATION": "ÉVALUATION",
+    "Evaluation method": "Type d'évaluation",
+    "Evaluation Types": "Types d'évaluation",
+    "Events": "Classes",
+    "Events with no course": "Classes sans cours",
+    "Events with no teacher": "Classes sans professeur",
+    "Exempt all course events from attendance sheet": "Dispenser toutes les classes",
+    "Exempt Attendance": "Dispenser de fiche de présence",
+    "Exempt event from attendance sheet": "Dispenser la classe",
+    "Export Course syllabus": "Exporter le syllabus",
+    "Export skills": "Exporter les compétences",
+    "External": "Externe",
+    "External Courses": "Cours externes",
+    "External Courses Report": "Rapport des cours externes",
+    "Fees": "Frais administratifs",
+    "Finish update": "Terminer la mise à jour",
+    "First Name": "Prénom",
+    "Firstname": "Prénom",
+    "Go Home": "Page d'accueil",
+    "Grade Types": "Critères",
+    "Grades": "Notes",
+    "Head Count": "Inscriptions",
+    "Hi": "Bonjour",
+    "Hide Children": "Cacher les enfants",
+    "Hide Children Courses": "Cacher les cours enfants",
+    "Hide Parents": "Cacher les cours parents",
+    "Hire Date": "Date d'embauche",
+    "hours": "heures",
+    "Hours Sold": "Heures vendues",
+    "Hours Taught": "Henres enseignées",
+    "HR": "RH",
+    "Human Resources": "Ressources Humaines",
+    "ID Number": "Numéro d'identité",
+    "idnumber": "numéro d'identité",
+    "Import skills": "Importer les compétences",
+    "Incomplete Attendance": "Fiches de présence incomplètes",
+    "Internal": "Interne",
+    "Internal Courses": "Cours internes",
+    "Internal Settings": "Paramètres du système",
+    "Invoice": "Facture",
+    "Invoice ID": "ID de facture",
+    "Invoice Number": "Numéro de facture",
+    "Invoices": "Factures",
+    "Invoicing": "Facturation",
+    "Is Enrolled in": "Inscrit en",
+    "Is Not Enrolled in": "Non-inscrit en",
+    "Jobs Queue": "File de travaux",
+    "Justified Absences": "Absences justifiées",
+    "Last Enrollment": "Dernière inscription",
+    "Last Name": "Nom",
+    "Lastname": "Nom",
+    "Leads Status": "Statuts client",
+    "Leads to call": "Clients à appeler",
+    "Leave": "Vacances",
+    "Length": "Durée",
+    "Level": "Niveau",
+    "levels": "niveaux",
+    "Mark as paid without generating an invoice": "Marquer comme facturé sans générer de facture",
+    "Missing students": "Étudiants manquants",
+    "Moodle": "Moodle",
+    "My Hours": "Mes heures",
+    "My Schedule": "Mon emploi du temps",
+    "Name": "Nom",
+    "name": "nom",
+    "New Course": "Nouveau cours",
+    "New pre-invoice": "Nouvelle facture",
+    "New Students": "Nouveaux étudiants",
+    "No Result": "Pas de résultat",
+    "Number of absences": "Nombre d'absences",
+    "Number of Courses": "Nombre de cours",
+    "Oh no": "Oh no",
+    "on": "le",
+    "or": "ou",
+    "Overview": "Vue générale",
+    "paid": "payé",
+    "Payment methods": "Moyens de paiement",
+    "Pedagogy": "Pedagogie",
+    "Pending": "Impayés",
+    "Pending Attendance": "Présences en attente",
+    "Pending leads": "Clients potentiels",
+    "Per course": "Par cours",
+    "Per rhythm": "Par rythme",
+    "Period": "Session",
+    "Period Classes": "Cours de la session",
+    "Period Max": "Max. pour la session",
+    "Period Total": "Total pour la session",
+    "periods": "sessions",
+    "Phone Number": "Téléphone",
+    "Phone Numbers": "Numéros de téléphone",
+    "Planned Hours": "Heures prévues",
+    "Please check the additional contact data associated to your account": "Vérifiez les contacts associés à votre compte",
+    "Please check your personal phone number(s)": "Merci de vérifier vos numéros de téléphone",
+    "Please chose an image on your computer to update your profile picture": "Veuillez choisir une photo de profil",
+    "Please fill in your profession and your institution (school, workplace).": "Merci d'indiquer votre profession et votre institution (école, travail)",
+    "Pre-invoice ID": "Numéro de pré-facture",
+    "Presencial": "Presentiel",
+    "Price": "Prix",
+    "Product": "Produit",
+    "Products": "Produits",
+    "Profession": "Profession",
+    "Profile Picture": "Photo de profil",
+    "Project": "Projet",
+    "Remote": "À distance",
+    "Remote Events": "Événements à distance",
+    "Remote Work": "Travail à distance",
+    "REPORTS": "RAPPORTS",
+    "resource Calendars": "Calendriers des ressources",
+    "Resources": "Ressources",
+    "Result": "Résultat",
+    "Result Notification": "Notification de résultat",
+    "Result Types": "Échelles de résultat",
+    "Results": "Résultats",
+    "Back to course": "Revenir au cours",
+    "Rhythm": "Rythme",
+    "rhythms": "rythmes",
+    "Roles": "Rôles",
+    "Room": "Salle",
+    "rooms": "salles",
+    "Save": "Enregistrer",
+    "Save new Contact": "Enregistrer le contact",
+    "Schedule": "Horaires",
+    "Scheduled Tasks": "Tâches programmées",
+    "Selected Period": "Période sélectionnée",
+    "Settings": "Paramètres",
+    "SETTINGS": "PARAMÈTRES",
+    "Setup Dashboard": "Panel système",
+    "share of students from previous period who were re-enrolled": "part des étudiants du cycle précédent qui se sont réinscrits",
+    "Show Children Courses": "Montrer les cours enfants",
+    "Skill Scales": "Échelles de compétences",
+    "Skill Types": "Types de compétences",
+    "Skills": "Compétences",
+    "Skills set was saved for the course": "Les compétences du cours ont été enregistrées",
+    "Skillset File": "Fichier de compétences",
+    "Spots": "Places",
+    "Start": "Début",
+    "Start Date": "Date de début",
+    "Start from period:": "Commencer à la période :",
+    "Status": "État",
+    "Status is": "Statut client est",
+    "Status is not": "Statut client n'est pas",
+    "Student": "Étudiant",
+    "student": "Étudiant",
+    "Student details for": "Informations de l'étudiant",
+    "Student Info": "Informations de l'étudiant",
+    "students": "étudiants",
+    "Students": "Étudiants",
+    "Students to count in year total": "Étudiants à compter dans le total de l'année",
+    "Students under 18, please add contact data from your legal representatives": "Les étudiants mineurs doivent ajouter le contact de leurs représentants légaux",
+    "Students with no leadStatus": "Étudiants sans statut client",
+    "Teacher": "Enseignant(e)",
+    "TEACHER": "ENSEIGNANT(E)",
+    "Teacher Dashboard": "Tableau de bord enseignant",
+    "Teachers": "Enseignants",
+    "teachers": "enseignants",
+    "Thank you for justificating this absence by replying to this email": "Nous vous remercions de bien vouloir justifier cette absence en répondant à cet email",
+    "The attendance record is incomplete for the following classes:": "La fiche de présence est incomplète pour les classes suivantes :",
+    "The enrollment has been updated": "L'inscription a été mise à jour",
+    "The information has successfully been saved": "L'information a été enregistrée",
+    "The invoice number has been saved": "Le numéro de facture a été enregistré",
+    "The selected teacher is not available on this date": "Cet enseigant n'est pas disponible à ces dates",
+    "This course has no skills yet": "Ce cours ne comporte aucune compétence",
+    "This enrollment belongs to": "Cette inscription est liée à",
+    "This is an absence notification for": "Ce message est une notification d'absence pour",
+    "This is important, so that we can reach you in case of an emergency": "Ceci est important car cela nous permet de vous contacter en cas d'urgence",
+    "This will erase all skills currently associated to the course": "Vous allez écraser les compétences associées au cours",
+    "TOTAL": "TOTAL",
+    "Unjustified Absences": "Absences non justifiées",
+    "Upcoming classes with no teacher assigned": "Prochaines classes sans enseignant",
+    "Upload skillset file": "Charger un fichier de compétences",
+    "Users": "Utilisateurs",
+    "View": "Voir",
+    "View attendance sheet for event": "Voir la fiche de présence",
+    "View Course Skills": "Voir les compétences du cours",
+    "View Skills for Group": "Voir les compétences du groupe",
+    "Volume": "Volume",
+    "Weekly workable hours": "Volume de travail hebdomadaire",
+    "When everything is ready, please confirm that your data is up-to-date": "Lorsque toutes les données sont à jour, vous pouvez valider et terminer le processus",
+    "Worked Hours": "Heures travaillées",
+    "Year": "Année",
+    "Year Students": "Étudiants sur l'année",
+    "Years": "Années",
+    "years old": "ans",
+    "You also need to add the invoice information here": "Vous devez aussi créer un contact pour la facture",
+    "You may log in to view your results, and the comments from your teacher, if any": "Pour voir votre résultat et le commentaire de votre professeur, connectez-vous à la plateforme",
+    "Your course result is available for": "Le résultat est disponible pour votre cours",
+    "Your data has been saved": "Les informations ont été enregistrées",
+    "Your picture has been saved": "Votre photo a été enregistrée",
+    "front": {
+      "Add a new course time": "Ajouter un horaire de cours",
+      "Monday": "Lundi",
+      "Tuesday": "Mardi",
+      "Wednesday": "Mercredi",
+      "Thursday": "Jeudi",
+      "Friday": "Vendredi",
+      "Saturday": "Samedi",
+      "Sunday": "Dimanche",
+      "Justified Absence": "Absence justifiée",
+      "Unjustified Absence": "Absence non justifiée",
+      "Invoice Data": "Coordonnées de facturation",
+      "Payment": "Paiement",
+      "for": "pour",
+      "Total price": "Prix total",
+      "Confirm": "Confirmer",
+      "Add products": "Ajouter un produit",
+      "Add discount": "Ajouter une réduction",
+      "Select": "Sélectionner",
+      "Payment method": "Moyen de paiement",
+      "Amount received": "Valeur perçue",
+      "Add": "Ajouter",
+      "Total received amount": "Valeur totale perçue",
+      "The invoice has been generated": "La facture a été générée avec succès",
+      "Enrollment number": "Inscription #",
+      "Lead Status": "État client",
+      "Skill Type": "Categoria",
+      "Level": "Nivel",
+      "Skill": "Competencia",
+      "This comment requires an action": "Ce commentaire demande une action",
+      "Cancel": "Annuler"
+    }
+  }
+});
 
 /***/ }),
 

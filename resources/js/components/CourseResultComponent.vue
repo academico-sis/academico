@@ -26,7 +26,7 @@
             </div>
 
             <div v-if="this.course_result">
-                <h4>Commentaires</h4><!-- todo translate -->
+                <h4>{{ $t('Comments') }}</h4>
                 <ul>
                     <li v-for="comment in this.comments" v-bind:key="comment.id">{{ comment.body }}</li>
                 </ul>

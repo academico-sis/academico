@@ -2,17 +2,15 @@
 
 <table class="table table-striped" id="skillsTable">
     <thead>
-        <td>Skill Type</td>
-        <td>Level</td>
-        <td>Skill</td>
-        <td>Order</td>
+        <td>{{ $t('front.Skill Type') }}</td>
+        <td>{{ $t('front.Level') }}</td>
+        <td>{{ $t('front.Skill') }}</td>
     </thead>
     <tbody>
         <tr v-for="skill in skills" :key="skill.id">
             <td>{{ skill.skill_type.shortname }}</td>
             <td>{{ skill.level.name }}</td>
             <td>{{ skill.name }}</td>
-            <td>{{ skill.order }}</td>
         </tr>
     </tbody>
 </table>

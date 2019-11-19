@@ -4,7 +4,18 @@ window.Vue = require('vue');
 
 Vue.use(require('vue-moment'));
 
+import VueInternationalization from 'vue-i18n';
+import Locale from './vue-i18n-locales.generated';
 
+Vue.use(VueInternationalization);
+
+const lang = document.documentElement.lang.substr(0, 2);
+// or however you determine your current app locale
+
+const i18n = new VueInternationalization({
+    locale: lang,
+    messages: Locale
+});
 
 Vue.component('course-time-component', require('./components/CourseTimeComponent.vue').default);
 
@@ -31,5 +42,6 @@ Vue.component('contact-phone-number-update-component', require('./components/Con
 
 const app = new Vue({
     el: '#app',
+    i18n,
 });
 

@@ -2,14 +2,14 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                Compétences
+                {{ $t('Skills') }}
             </div>
             
             <div class="card-body">
 
             <table class="table table-striped" id="skillsTable">
                 <thead>
-                    <th>Skill</th>
+                    <th>{{ $t('front.Skill') }}</th>
                     <th></th>
                     <th></th>
                     <th></th>

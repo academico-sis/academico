@@ -1,7 +1,7 @@
 <template>
 
 <div class="card">
-    <div class="card-header">Commentaires
+    <div class="card-header">{{ $t('Comments') }}
         <div class="card-header-actions">
             <button type="button" class="btn btn-sm btn-primary" @click="showEditField = true">
                 <i class="fa fa-plus"></i>
@@ -21,12 +21,12 @@
     <div class="card-footer" v-if="showEditField">
         <textarea name="comment" id="comment" style="width: 100%" rows="3" v-model="comment_body"></textarea>
         <div class="form-group">
-            <label for="action">Ce commentaire demande une action</label>
+            <label for="action">{{ $t('front.This comment requires an action') }}</label>
             <input name="action" id="action" type="checkbox" v-model="action"/>
         </div>
         <div class="btn-group">
-            <button type="button" class="btn btn-default" @click="showEditField = false">Annuler</button>
-            <button type="button" @click="addComment()" class="btn btn-primary">Enregister</button>
+            <button type="button" class="btn btn-default" @click="showEditField = false">{{ $t('front.Cancel') }}</button>
+            <button type="button" @click="addComment()" class="btn btn-primary">{{ $t('Save') }}</button>
         </div>
     </div>
 
