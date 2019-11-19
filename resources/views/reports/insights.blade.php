@@ -1,30 +1,12 @@
 <div class="row">
 
 <div class="col-sm-6 col-md-3">
-    <div class="card">
-        <div class="card-body">
-            <div class="h1 text-muted text-right mb-4"><i class="fa fa-calendar"></i></div>
-            <div class="text-value">{{ $period->name }}</div><small class="text-muted text-uppercase font-weight-bold">@lang('Current Period')</small>
-        </div>
-    </div>
-</div>
 
-<div class="col-sm-6 col-md-3">
     <div class="card">
-        <div class="card-body">
-            <div class="h1 text-muted text-right mb-4"><i class="fa fa-star-o"></i></div>
-            <div class="text-value">{{ $total_enrollment_count }}</div><small class="text-muted text-uppercase font-weight-bold">@lang('Enrollments')</small>
-        </div>
-    </div>
-</div>
-
-<div class="col-sm-6 col-md-3">
-    <div class="card">
-        <div class="card-body">
-            <div class="h1 text-muted text-right mb-4"><i class="fa fa-star-o"></i></div>
-            <div class="text-value">{{ $paid_enrollment_count }}</div><small class="text-muted text-uppercase font-weight-bold">@lang('paid')</small>
-            <div class="progress progress-xs mt-3 mb-0">
-                <div class="progress-bar bg-info" role="progressbar" style="width: {{ 100*$paid_enrollment_count/max($total_enrollment_count, 1) }}%" aria-valuenow="{{ 100*$paid_enrollment_count/max($total_enrollment_count, 1) }}" aria-valuemin="0" aria-valuemax="100"></div>
+        <div class="card-body p-3 d-flex align-items-center"><i class="fa fa-calendar bg-primary p-3 font-2xl mr-3"></i>
+            <div>
+                <div class="text-value-sm text-primary">{{ $period->name }}</div>
+                <div class="text-muted text-uppercase font-weight-bold small">@lang('Current Period')</div>
             </div>
         </div>
     </div>
@@ -32,9 +14,33 @@
 
 <div class="col-sm-6 col-md-3">
     <div class="card">
-        <div class="card-body">
-            <div class="h1 text-muted text-right mb-4"><i class="fa fa-user"></i></div>
-            <div class="text-value">{{ $students_count }}</div><small class="text-muted text-uppercase font-weight-bold">@lang('students')</small>
+        <div class="card-body p-3 d-flex align-items-center"><i class="fa fa-star-o bg-primary p-3 font-2xl mr-3"></i>
+            <div>
+                <div class="text-value-sm text-primary">{{ $total_enrollment_count }}</div>
+                <div class="text-muted text-uppercase font-weight-bold small">@lang('Enrollments')</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-sm-6 col-md-3">
+    <div class="card">
+        <div class="card-body p-3 d-flex align-items-center"><i class="fa fa-credit-card bg-primary p-3 font-2xl mr-3"></i>
+            <div>
+                <div class="text-value-sm text-primary">{{ $paid_enrollment_count }}</div>
+                <div class="text-muted text-uppercase font-weight-bold small">@lang('Paid Enrollments')</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-sm-6 col-md-3">
+    <div class="card">
+        <div class="card-body p-3 d-flex align-items-center"><i class="fa fa-user bg-primary p-3 font-2xl mr-3"></i>
+            <div>
+                <div class="text-value-sm text-primary">{{ $students_count }}</div>
+                <div class="text-muted text-uppercase font-weight-bold small">@lang('students')</div>
+            </div>
         </div>
     </div>
 </div>

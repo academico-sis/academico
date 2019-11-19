@@ -31,14 +31,13 @@
 
     <div class="row" id="app">
 
-
         @if($unassigned_events > 0 && backpack_user()->can('hr.manage'))
         <div class="col-lg-2 col-md-3 col-sm-6">
             <div class="card">
-                <div class="card-body p-3 d-flex align-items-center"><i class="fa fa-warning bg-primary p-3 font-2xl mr-3"></i>
+                <div class="card-body p-3 d-flex align-items-center"><i class="fa fa-warning bg-danger p-3 font-2xl mr-3"></i>
                     <div>
-                        <div class="text-value-sm text-primary">{{ $unassigned_events }}</div>
-                        <div class="text-muted text-uppercase font-weight-bold small">@lang('Upcoming classes with no teacher assigned')</div>
+                        <div class="text-value-sm text-danger">{{ $unassigned_events }}</div>
+                        <div class="text-muted text-uppercase font-weight-bold small">@lang('Classes without teacher')</div>
                     </div>
                 </div>
                 <div class="card-footer px-3 py-2"><a class="btn-block text-muted d-flex justify-content-between align-items-center" href='event?unassigned=true&from_to={"from"%3A"@php echo date("Y-m-d") @endphp"%2C"to"%3A"@php echo date("Y-m-d", strToTime("+3 day")); @endphp"}'><span class="small font-weight-bold">@lang('View')</span><i class="fa fa-angle-right"></i></a></div>
@@ -48,9 +47,9 @@
 
         <div class="col-lg-2 col-md-3 col-sm-6">
             <div class="card">
-                <div class="card-body p-3 d-flex align-items-center"><i class="fa fa-user bg-primary p-3 font-2xl mr-3"></i>
+                <div class="card-body p-3 d-flex align-items-center"><i class="fa fa-user bg-danger p-3 font-2xl mr-3"></i>
                     <div>
-                        <div class="text-value-sm text-primary">{{ $pending_leads }}</div>
+                        <div class="text-value-sm text-danger">{{ $pending_leads }}</div>
                         <div class="text-muted text-uppercase font-weight-bold small">@lang('Pending leads')</div>
                     </div>
                 </div>
@@ -60,9 +59,9 @@
 
         <div class="col-lg-2 col-md-3 col-sm-6">
             <div class="card">
-                <div class="card-body p-3 d-flex align-items-center"><i class="fa fa-phone bg-primary p-3 font-2xl mr-3"></i>
+                <div class="card-body p-3 d-flex align-items-center"><i class="fa fa-phone bg-danger p-3 font-2xl mr-3"></i>
                     <div>
-                        <div class="text-value-sm text-primary">{{ $call_leads }}</div>
+                        <div class="text-value-sm text-danger">{{ $call_leads }}</div>
                         <div class="text-muted text-uppercase font-weight-bold small">@lang('Leads to call')</div>
                     </div>
                 </div>
@@ -72,9 +71,9 @@
 
         <div class="col-lg-2 col-md-3 col-sm-6">
             <div class="card">
-                <div class="card-body p-3 d-flex align-items-center"><i class="fa fa-check-square bg-primary p-3 font-2xl mr-3"></i>
+                <div class="card-body p-3 d-flex align-items-center"><i class="fa fa-check-square bg-danger p-3 font-2xl mr-3"></i>
                     <div>
-                        <div class="text-value-sm text-primary">{{ $action_comments }}</div>
+                        <div class="text-value-sm text-danger">{{ $action_comments }}</div>
                         <div class="text-muted text-uppercase font-weight-bold small">@lang('Actionnable Comments')</div>
                     </div>
                 </div>
@@ -84,9 +83,9 @@
 
         <div class="col-lg-2 col-md-3 col-sm-6">
             <div class="card">
-                <div class="card-body p-3 d-flex align-items-center"><i class="fa fa-calendar bg-primary p-3 font-2xl mr-3"></i>
+                <div class="card-body p-3 d-flex align-items-center"><i class="fa fa-calendar bg-danger p-3 font-2xl mr-3"></i>
                     <div>
-                        <div class="text-value-sm text-primary">{{ $pending_attendance }}</div>
+                        <div class="text-value-sm text-danger">{{ $pending_attendance }}</div>
                         <div class="text-muted text-uppercase font-weight-bold small">@lang('Pending Attendance')</div>
                     </div>
                 </div>
