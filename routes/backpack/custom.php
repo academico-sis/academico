@@ -10,13 +10,11 @@
 Route::group(
     [
         'namespace'  => '\App\Http\Controllers',
-        'middleware' => ['web', 'language'],
+        'middleware' => ['web', 'loggedin', 'language'],
         'prefix'     => config('backpack.base.route_prefix'),
     ],
     function () {
         // Registration Routes...
-        Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('backpack.auth.register');
-        Route::post('register', 'Auth\RegisterController@register');
 
         Route::crud('result', 'Admin\ResultCrudController');
         Route::crud('student', 'Admin\StudentCrudController');
@@ -33,11 +31,11 @@ Route::group(
         }
 );
 
-
+// move to routes/web.php
 Route::group(
     [
         'namespace'  => '\App\Http\Controllers',
-        'middleware' => ['web', 'language', 'forceupdate'],
+        'middleware' => ['web', 'loggedin', 'language', 'forceupdate'],
         'prefix'     => config('backpack.base.route_prefix'),
     ],
     function () {

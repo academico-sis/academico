@@ -6,23 +6,23 @@ Route::permanentRedirect('/dashboard', '/');
 // save an additional contact for a student
 Route::post('user/addcontact', 'ContactController@store')->name('addContact');
 
-
+Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('backpack.auth.register');
+Route::post('register', 'Auth\RegisterController@register');
+Route::get('searchstudents', 'Admin\StudentCrudController@dataAjax');
 
 /* All routes should be protected by Backpack */
 Route::group(
     ['middleware' => ['web', 'language']],
     function () {
-
-    Route::get('searchstudents', 'Admin\StudentCrudController@dataAjax');
-        
+      
     // dashboard and home routes
     Route::get('/home', 'HomeController@index')->name('home')->middleware('forceupdate');
     Route::get('/', 'HomeController@index')->name('home')->middleware('forceupdate');
     Route::get('/admin', 'HomeController@admin')->name('admin');
-    Route::get('dashboard/teacher', 'HomeController@teacher')->name('teacherDashboard'); // todo protect
+    Route::get('dashboard/teacher', 'HomeController@teacher')->name('teacherDashboard');
     Route::get('dashboard/teacher/{teacher}/hours', 'HRController@teacher')->name('teacherHours'); // todo protect
 
-    Route::get('dashboard/student', 'HomeController@student')->name('studentDashboard')->middleware('forceupdate'); // todo protect
+    Route::get('dashboard/student', 'HomeController@student')->name('studentDashboard')->middleware('forceupdate');
 
     Route::get('student/{student}/phonenumbers', 'PhoneNumberController@get');
     Route::get('contact/{contact}/phonenumbers', 'ContactController@getPhoneNumber');
