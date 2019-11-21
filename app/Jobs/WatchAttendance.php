@@ -31,21 +31,27 @@ class WatchAttendance implements ShouldQueue
      */
     public function handle()
     {
-        
         if ($this->attendance->attendance_type_id == 4) {
             // if so, send an email
             $student = $this->attendance->student;
 
-            Mail::to($student->user->email)
-            ->locale($student->locale)
-            ->queue(new AbsenceNotification($this->attendance->event, $student->user));
+            // CC to the teacher and the administration
+            $otherRecipients = [
+                ['email' => $this->attendance->event->teacher->email ?? ""], 
+                ['email' => env('MANAGER_EMAIL')]
+            ];
 
+            // also send to the student's contacts
             foreach ($this->attendance->student->contacts as $contact)
             {
-                Mail::to($contact->email)
-                ->locale($contact->locale)
-                ->queue(new AbsenceNotification($this->attendance->event, $student->user));
+                $otherRecipients[] = array('email' => $contact->email);
             }
+
+            Mail::to($student->user->email)
+            ->locale($student->locale)
+            ->cc($otherRecipients)
+            ->queue(new AbsenceNotification($this->attendance->event, $student->user));
+
         };
     }
 }
