@@ -58,91 +58,29 @@ class SyncStudentsMailingList extends Command
     }
 
 
-
-    private function createStudentSubscriber($student)
+    private function subscribeUsersToList($users, $list_id)
     {
-
         $groupsApi = (new \MailerLiteApi\MailerLite($this->api_key))->groups();
 
-        $student_group_id = 8868042; // ETUDIANTS ACTUELS
-
-        $subscriber = [
-            'email' => $student->email,
-            'name' => ucwords($student->firstname),
-            'fields' => [
-                'last_name' => ucwords($student->lastname),
-                'birthdate' => $student->birthdate ?? ''
-            ]
+        $options = [
+            'resubscribe' => true,
+            'autoresponders' => false // send autoresponders for successfully imported subscribers 
         ];
 
-        $addedSubscriber = $groupsApi->addSubscriber($student_group_id, $subscriber); // returns added subscriber
-
-        return $addedSubscriber;
-
+        $groupsApi->importSubscribers($list_id, $users, $options); // returns added subscriber
     }
 
-    private function createOldStudentSubscriber($student)
+    private function removeSubscriberFromAllGroups($email)
     {
-
+        $subscribersApi = (new \MailerLiteApi\MailerLite($this->api_key))->subscribers();
+        $subscriberGroups = $subscribersApi->getGroups($email); // returns array of group objects subscriber belongs to
         $groupsApi = (new \MailerLiteApi\MailerLite($this->api_key))->groups();
-
-        $student_group_id = 10862804; // ANCIENS ETUDIANTS
-
-        $subscriber = [
-            'email' => $student->email,
-            'name' => ucwords($student->firstname),
-            'fields' => [
-                'last_name' => ucwords($student->lastname),
-                'birthdate' => $student->birthdate ?? ''
-            ]
-        ];
-
-        $addedSubscriber = $groupsApi->addSubscriber($student_group_id, $subscriber); // returns added subscriber
-
-        return $addedSubscriber;
-
-    }
-
-
-    private function createParentSubscriber($contact)
-    {
-
-        $groupsApi = (new \MailerLiteApi\MailerLite($this->api_key))->groups();
-
-        $parent_group_id = 10862650; // PARENTS ACTUELS
-
-        $subscriber = [
-            'email' => $contact->email,
-            'name' => ucwords($contact->firstname),
-            'fields' => [
-                'last_name' => ucwords($contact->lastname),
-            ]
-        ];
-
-        $addedSubscriber = $groupsApi->addSubscriber($parent_group_id, $subscriber); // returns added subscriber
-
-        return $addedSubscriber;
-
-    }
-
-
-    private function createAlumniSubscriber($contact)
-    {
-
-        $groupsApi = (new \MailerLiteApi\MailerLite($this->api_key))->groups();
-
-        $alumni_group_id = 10862806; // ALUMNI
-
-        $subscriber = [
-            'email' => $contact->email,
-            'name' => ucwords($contact->firstname),
-            'fields' => [
-                'last_name' => ucwords($contact->lastname),
-            ]
-        ];
-
-        $groupsApi->addSubscriber($alumni_group_id, $subscriber); // returns added subscriber
-
+        
+        foreach ($subscriberGroups as $group)
+        {
+            $groupsApi->removeSubscriber($group->id, $email); // returns empty response
+            dump('removed from group');
+        }
     }
 
 
@@ -177,18 +115,13 @@ class SyncStudentsMailingList extends Command
 
         // create subscribers from all students and associated contact in period
 
+        $students = [];
+        $parents = [];
+        $oldStudents = [];
+        $alumni = [];
+        
         foreach ($enrollments as $enrollment)
         {
-            if ($enrollment->student->lead_type_id == 1) // converted
-            {
-                dump($this->createStudentSubscriber($enrollment->student));
-
-                foreach ($enrollment->student->contacts as $contact)
-                {
-                    dump($this->createParentSubscriber($contact));
-                }
-            }
-
             if($enrollment->student->lead_type_id == 3) // dead
             {
                 // unsubscribe
@@ -200,28 +133,95 @@ class SyncStudentsMailingList extends Command
                 }
             }
 
-            if($enrollment->student->lead_type_id == 6) // exAlumno
+
+            if ($enrollment->student->lead_type_id == 1) // converted
             {
-                $this->createAlumniSubscriber($enrollment->student);
+                $this->removeSubscriberFromAllGroups($enrollment->student->email);
+
+                array_push($students, [
+                    'email' => $enrollment->student->email,
+                    'name' => ucwords($enrollment->student->firstname),
+                    'fields' => [
+                        'last_name' => ucwords($enrollment->student->lastname),
+                        'birthdate' => $enrollment->student->birthdate ?? ''
+                ]]);
 
                 foreach ($enrollment->student->contacts as $contact)
                 {
-                    dump($this->createAlumniSubscriber($contact));
+                    $this->removeSubscriberFromAllGroups($contact->email);
+
+                    array_push($parents,
+                    [
+                        'email' => $contact->email,
+                        'name' => ucwords($contact->firstname),
+                        'fields' => [
+                            'last_name' => ucwords($contact->lastname),
+                    ]]);
+                }
+            }
+
+
+            if($enrollment->student->lead_type_id == 6) // exAlumno
+            {
+                $this->removeSubscriberFromAllGroups($enrollment->student->email);
+
+                array_push($alumni, [
+                    'email' => $enrollment->student->email,
+                    'name' => ucwords($enrollment->student->firstname),
+                    'fields' => [
+                        'last_name' => ucwords($enrollment->student->lastname),
+                        'birthdate' => $enrollment->student->birthdate ?? ''
+                    ]
+                ]);
+
+                foreach ($enrollment->student->contacts as $contact)
+                {
+                    $this->removeSubscriberFromAllGroups($contact->email);
+
+                    array_push($alumni, [
+                        'email' => $contact->email,
+                        'name' => ucwords($contact->firstname),
+                        'fields' => [
+                            'last_name' => ucwords($contact->lastname),
+                        ]
+                    ]);
                 }
             }
 
             if($enrollment->student->lead_type_id == 7) // oldStudent
             {
-                $this->createOldStudentSubscriber($enrollment->student);
+                $this->removeSubscriberFromAllGroups($enrollment->student->email);
+
+                array_push($oldStudents, [
+                    'email' => $enrollment->student->email,
+                    'name' => ucwords($enrollment->student->firstname),
+                    'fields' => [
+                        'last_name' => ucwords($enrollment->student->lastname),
+                        'birthdate' => $enrollment->student->birthdate ?? ''
+                    ]
+                ]);
 
                 foreach ($enrollment->student->contacts as $contact)
                 {
-                    dump($this->createOldStudentSubscriber($contact));
+                    $this->removeSubscriberFromAllGroups($contact->email);
+
+                    array_push($oldStudents, [
+                        'email' => $contact->email,
+                        'name' => ucwords($contact->firstname),
+                        'fields' => [
+                            'last_name' => ucwords($contact->lastname),
+                        ]
+                    ]);
                 }
             }
 
-            sleep(1);
         }
+
+
+        dump($this->subscribeUsersToList($students, 8868042));
+        dump($this->subscribeUsersToList($oldStudents, 10862804));
+        dump($this->subscribeUsersToList($alumni, 10862806));
+        dump($this->subscribeUsersToList($parents, 10862650));
 
     }
 }
