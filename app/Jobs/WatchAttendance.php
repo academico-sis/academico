@@ -36,15 +36,20 @@ class WatchAttendance implements ShouldQueue
             $student = $this->attendance->student;
 
             // CC to the teacher and the administration
-            $otherRecipients = [
-                ['email' => $this->attendance->event->teacher->email ?? ""], 
-                ['email' => env('MANAGER_EMAIL')]
-            ];
+            $otherRecipients = [];
+
+            if ($this->attendance->event->teacher->email !== null) {
+                array_push($otherRecipients, ['email' => $this->attendance->event->teacher->email]);
+            }
+
+            if (env('MANAGER_EMAIL') !== null) {
+                array_push($otherRecipients, ['email' => env('MANAGER_EMAIL')]);
+            }
 
             // also send to the student's contacts
             foreach ($this->attendance->student->contacts as $contact)
             {
-                $otherRecipients[] = array('email' => $contact->email);
+                array_push($otherRecipients, ['email' => $contact->email]);
             }
 
             Mail::to($student->user->email)
