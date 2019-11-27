@@ -8,7 +8,8 @@ use App\Models\Event;
 use App\Models\Course;
 use App\Models\Period;
 use App\Models\Enrollment;
-use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Backpack\CRUD\CrudTrait;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -30,11 +31,12 @@ protected static function boot()
 
         // if course dates have changed, sync all events
         if($course->isDirty('start_date') || $course->isDirty('end_date')) {
+            Log::info('cleaning the events after course date change');
             // delete events before course start date
-            Event::where('start', '<', $course->start_date)->delete();
+            Event::where('course_id', $course->id)->where('start', '<', $course->start_date)->delete();
 
             // delete events after course end date
-            Event::where('end', '>', $course->end_date)->delete();
+            Event::where('course_id', $course->id)->where('end', '>', $course->end_date)->delete();
 
             // create events before first existing event and after course start
             $firstEvent = $course->events()->orderBy('start')->first();
