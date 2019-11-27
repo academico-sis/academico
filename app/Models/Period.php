@@ -100,6 +100,7 @@ class Period extends Model
         return DB::table('enrollments')
             ->join('courses', 'enrollments.course_id', 'courses.id')
             ->where('courses.period_id', $this->id)
+            ->where('enrollments.deleted_at', null)
             ->where('courses.parent_course_id', null)
             ->whereIn('enrollments.status_id', ['1', '2']) // filter out cancelled enrollments, todo make this configurable.
             ->distinct('student_id')
