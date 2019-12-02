@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Backpack\CRUD\app\Http\Controllers\CrudController;
-use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Carbon\Carbon;
+use App\Models\Leave;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\LeaveRequest as StoreRequest;
 use App\Http\Requests\LeaveRequest as UpdateRequest;
+use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
  * Class LeaveCrudController
@@ -95,12 +97,18 @@ class LeaveCrudController extends CrudController
           });
 
 
+    }
+
+    protected function setupCreateOperation()
+    {
+        CRUD::setValidation(StoreRequest::class);
+
 
         CRUD::addFields([
             [
                 // 1-n relationship
                 'label' => "Teacher", // Table column heading
-                'type' => "select",
+                'type' => "select_multiple",
                 'name' => 'teacher_id', // the column that contains the ID of that connected entity;
                 'entity' => 'teacher', // the method that defines the relationship in your Model
                 'attribute' => "name", // foreign key attribute that is shown to user
@@ -117,25 +125,61 @@ class LeaveCrudController extends CrudController
                 'model' => "App\Models\LeaveType", // foreign key model
              ],
 
-             [
-                'name' => "date", // The db column name
-                'label' => "Date", // Table column heading
-                'type' => "date",  // TODO MOVE TO DATERANGE!!!
-             ],
+             [   // date_range
+                'name' => ['start_date', 'end_date'], // db columns for start_date & end_date
+                'label' => 'Event Date Range',
+                'type' => 'date_range',
+                'default' => [Carbon::now()->format('Y-m-d 00:00'), Carbon::now()->addDays(2)->format('Y-m-d 00:00')], // default value for start_date and end_date
+            ],
         ]);
 
-        // add asterisk for fields that are required in LeaveRequest
-        CRUD::setRequiredFields(StoreRequest::class, 'create');
-        CRUD::setRequiredFields(UpdateRequest::class, 'edit');
     }
 
-    protected function setupCreateOperation()
+    public function store()
     {
-        CRUD::setValidation(StoreRequest::class);
+        // todo validate input
+
+        foreach($this->crud->request->teacher_id as $teacher_id) {
+            $start = Carbon::parse($this->crud->request->start_date);
+            $end = Carbon::parse($this->crud->request->end_date);
+    
+            while ($start <= $end) {
+                Leave::create([
+                    'teacher_id' => $teacher_id,
+                    'date' => $start,
+                    'leave_type_id' => $this->crud->request->leave_type_id
+                ]);
+    
+                $start->addDay();
+            }
+        }
+        
+
+        return redirect('/leave/teachers');
+        
     }
 
     protected function setupUpdateOperation()
     {
         CRUD::setValidation(UpdateRequest::class);
+
+        CRUD::addFields([
+             [
+                // 1-n relationship
+                'label' => "Type", // Table column heading
+                'type' => "select",
+                'name' => 'leave_type_id', // the column that contains the ID of that connected entity;
+                'entity' => 'leaveType', // the method that defines the relationship in your Model
+                'attribute' => "name", // foreign key attribute that is shown to user
+                'model' => "App\Models\LeaveType", // foreign key model
+             ],
+
+             [   // date_range
+                'name' => 'date',
+                'label' => 'Event Date',
+                'type' => 'date',
+            ],
+        ]);
+
     }
 }

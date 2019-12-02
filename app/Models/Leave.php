@@ -18,6 +18,13 @@ class Leave extends Model
     {
         parent::boot();
 
+        // do not save already existing leaves
+        static::saving(function (Leave $leave) {
+            if (Leave::where('teacher_id', $leave->teacher_id)->where('date', $leave->date)->count() > 0) {
+                return false;
+            }
+        });
+
         // when a leave is, we detach the events from the teacher
         static::saved(function(Leave $leave) {
             $events = Event::where('teacher_id', $leave->teacher_id)->whereDate('start', $leave->date)->get();

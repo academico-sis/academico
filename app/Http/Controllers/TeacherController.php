@@ -115,4 +115,9 @@ class TeacherController extends Controller
         ]);
     }
 
+    public function leaves() {
+        $teachers = Teacher::all();
+        return view('leaves.index', compact('teachers'));
+    }
+
 }

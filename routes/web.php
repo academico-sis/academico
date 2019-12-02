@@ -147,6 +147,7 @@ Route::group(
     function () {
         Route::get('/calendar/room/{room}', 'RoomController@show')->name('roomCalendar');
         Route::get('/calendar/room', 'RoomController@index')->name('roomsCalendar');
+        Route::get('/leave/teachers', 'TeacherController@leaves')->name('teachersLeaves');
 
         Route::get('/calendar/teacher/{teacher}', 'TeacherController@show')->name('teacherCalendar');
         Route::get('/calendar/teacher', 'TeacherController@index')->name('teachersCalendar');

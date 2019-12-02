@@ -27,8 +27,11 @@
 @endif
 
 @if(backpack_user()->hasRole(['admin']))
-  
-  <li class='nav-item'><a class='nav-link' href="{{ backpack_url('leave') }}"><i class="nav-icon fa fa-calendar"></i> <span>@lang('Leave')</span></a></li>
+<li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon fa fa-calendar"></i> <span>@lang('Leave')</span></a>
+    <ul class="nav-dropdown-items">
+      <li class='nav-item'><a class='nav-link' href="{{ backpack_url('leave/teachers') }}"><i class="nav-icon fa fa-calendar"></i> <span>@lang('Overview')</span></a></li>
+      <li class='nav-item'><a class='nav-link' href="{{ backpack_url('leave') }}"><i class="nav-icon fa fa-calendar"></i> <span>@lang('Manage leaves')</span></a></li>
+    </ul>
   <li class='nav-item'><a class='nav-link' href="{{ backpack_url('remoteevent') }}"><i class="nav-icon fa fa-calendar"></i> <span>@lang('Remote Events')</span></a></li>
   <li class='nav-item'><a class='nav-link' href="{{ backpack_url('event') }}"><i class="nav-icon fa fa-calendar"></i> <span>@lang('Events')</span></a></li>
 

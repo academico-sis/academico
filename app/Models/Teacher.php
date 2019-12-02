@@ -85,6 +85,47 @@ class Teacher extends Model
         return $this->hasMany(Leave::class)->with('leaveType');
     }
 
+    public function getUpcomingLeavesAttribute()
+    {
+        $dates = $this->leaves->where('date', '>=', Carbon::now()->format('Y-m-d'))->sortBy('date')->values()->all();
+        if (sizeof($dates) == 0) { return array(); }
+        $formatted_leaves = array();
+        $range_start = Carbon::parse($dates[0]['date']);
+        $range_end = Carbon::parse($dates[0]['date']);
+
+        // loop through all leave dates
+        for ($i=0; $i < sizeof($dates); $i++) {
+
+            // if the next date does not touch current range
+            if (isset($dates[$i+1])) {                    
+                if (Carbon::parse($dates[$i]['date'])->addDay() != Carbon::parse($dates[$i+1]['date'])) {
+                    // push the range to result array
+                    $range_end = Carbon::parse($dates[$i]['date']);
+                    if($range_start == $range_end) {
+                        array_push($formatted_leaves, $range_start->format('d/m/Y'));
+                    } else {
+                        array_push($formatted_leaves, $range_start->format('d/m/Y') . " - " . $range_end->format('d/m/Y'));
+                    }
+                    
+                    $range_start = Carbon::parse($dates[$i+1]['date']);
+                }
+            } else {
+                // if there is no further date
+                $range_end = Carbon::parse($dates[$i]['date']);
+                if($range_start == $range_end) {
+                    array_push($formatted_leaves, $range_start->format('d/m/Y'));
+                } else {
+                    array_push($formatted_leaves, $range_start->format('d/m/Y') . " - " . $range_end->format('d/m/Y'));
+                }
+            }
+
+        
+        }
+
+        return $formatted_leaves;
+
+    }
+
     public function courses()
     {
         return $this->hasMany(Course::class);
