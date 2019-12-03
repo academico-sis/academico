@@ -260,6 +260,13 @@ class Enrollment extends Model
             return $item->id;
         }));
 
+        foreach ($this->course->children as $child) {
+            $attendances = $child->attendance->where('student_id', $this->student->id);
+            Attendance::destroy($attendances->map(function ($item, $key) {
+                return $item->id;
+            }));
+        }
+
         $this->delete();
     }
 }
