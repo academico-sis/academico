@@ -60,7 +60,7 @@
             <div class="modal-body">
                 <h4 class="danger">@lang('This will erase all skills currently associated to the course')</h4>
 
-                <form action="{{ route('course-skills-import', ['course_id' => $course->id]) }}" method="post" enctype="multipart/form-data">
+                <form action="/course/{{$course->id}}/skills/import" method="post" enctype="multipart/form-data">
                 @csrf
                 
                 <div class="form-group">
