@@ -86,9 +86,10 @@ Route::group(
     Route::post('course/gradetype', 'GradeController@add_grade_type_to_course');
     Route::delete('course/{course}/gradetype/{gradetype}', 'GradeController@remove_grade_type_from_course');
 
-    Route::post('store-result', 'ResultController@store')->name('storeResult');
 
 });
+
+Route::post('store-result', 'ResultController@store')->name('storeResult');
 
 
 
@@ -116,10 +117,12 @@ Route::group(
 Route::group(
     ['middleware' => ['web', 'permission:comments.edit', 'language']],
     function () {
-        Route::post('comment', 'CommentController@store')->name('storeComment');
         Route::delete('comment/{comment}', 'CommentController@destroy');
     }
 );
+
+Route::post('comment', 'CommentController@store')->name('storeComment');
+
 
 // Enrollments, Billing and Invoicing routes
 Route::group(
