@@ -533,7 +533,7 @@
                 .then(response => {
                     // handle success
                         this.step = 4;
-                        window.location.href = '/enrollment/' + this.enrollments[0]. id . '/show';
+                        window.location.href = '/enrollment/' + this.enrollments[0]. id + '/show';
                         new PNotify({
                             title: "Operation successful",
                             text: "The invoice has been sent to Accounting",
