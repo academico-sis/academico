@@ -85,6 +85,7 @@
                             <th>@lang('age')</th>
                             <th>@lang('birthdate')</th>
                             <th>@lang('email')</th>
+                            <th>@lang('Phone Number')</th>
                             <th>@lang('actions')</th>
                         </tr>
                     </thead>
@@ -96,6 +97,7 @@
                             <td>{{ $enrollment->student->student_age }}</td>
                             <td>{{ $enrollment->student->student_birthdate }}</td>
                             <td>{{ $enrollment->student->email }}</td>
+                            <td>@foreach ($enrollment->student->phone as $phone) {{ $phone->phone_number }} - @endforeach</td>
 
                             <td><!-- available actions -->
                                 <a href="/student/{{ $enrollment->student_id }}/show" class='btn btn-sm btn-secondary'>
