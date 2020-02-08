@@ -50,7 +50,7 @@ class CourseCrudController extends CrudController
         CRUD::addClause('where', 'campus_id', '1');
         
         $permissions = backpack_user()->getAllPermissions();
-        CRUD::denyAccess('delete');
+        
         if(!$permissions->contains('name', 'courses.edit')) { CRUD::denyAccess('update'); }
         if($permissions->contains('name', 'courses.edit')) { CRUD::allowAccess('clone'); }
         if(!$permissions->contains('name', 'courses.edit')) { CRUD::denyAccess('create'); }
@@ -80,6 +80,8 @@ class CourseCrudController extends CrudController
         
         if($permissions->contains('name', 'courses.delete')) {
             CRUD::addButtonFromView('line', 'deleteCourse', 'deleteCourse', 'end');
+        } else {
+            CRUD::denyAccess('delete');
         }
         
         if(backpack_user()->hasRole('admin'))
