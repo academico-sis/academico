@@ -152,17 +152,6 @@
             {
                 "scrollX": true,
                 paging: false,
-                responsive: {
-                details: {
-                    display: $.fn.dataTable.Responsive.display.childRow,
-                    type: 'inline'
-                }
-                },
-                columnDefs: [
-
-                    { responsivePriority: 1, targets: 0 }
-                ],
-
                 dom: 'Bfrtip',
                 buttons: ['copy', 'excel', 'pdf', 'print']
             }
