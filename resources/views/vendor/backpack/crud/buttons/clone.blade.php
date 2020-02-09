@@ -13,6 +13,28 @@
 	      var button = $(button);
 	      var route = button.attr('data-route');
 
+        swal({
+		  title: "{!! trans('backpack::base.warning') !!}",
+		  text: "Realmente quiere crear un curso hijo para este curso?",
+		  icon: "warning",
+		  buttons: {
+		  	cancel: {
+			  text: "No",
+			  value: null,
+			  visible: true,
+			  className: "bg-secondary",
+			  closeModal: true,
+			},
+		  	delete: {
+			  text: "Si",
+			  value: true,
+			  visible: true,
+			  className: "bg-danger",
+			}
+		  },
+		}).then((value) => {
+			if (value) {
+
           $.ajax({
               url: route,
               type: 'POST',
@@ -37,6 +59,10 @@
                   }).show();
               }
           });
+
+        }
+		});
+
       }
 	}
 
