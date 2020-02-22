@@ -127,6 +127,12 @@ class Enrollment extends Model
     {
         $this->status_id = 2;
         $this->save();
+
+        // also mark children as paid
+        foreach ($this->childrenEnrollments as $child) {
+            $child->status_id = 2;
+            $child->save();
+        }
     }
 
 
