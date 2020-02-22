@@ -85,6 +85,16 @@ class StudentCrudController extends CrudController
             ],
 
             [
+                // n-n relationship (with pivot table)
+                'label' => "Phone", // Table column heading
+                'type' => "select_multiple",
+                'name' => 'phone', // the method that defines the relationship in your Model
+                'entity' => 'phone', // the method that defines the relationship in your Model
+                'attribute' => "phone_number", // foreign key attribute that is shown to user
+                'model' => "App\Models\PhoneNumber", // foreign key model
+             ],
+
+            [
                 // 1-n relationship
                 'label' => __("Status"), // Table column heading
                 'type' => "select",

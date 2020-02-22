@@ -115,6 +115,18 @@ class EnrollmentCrudController extends CrudController
                 'model' => "App\Models\EnrollmentStatusType", // foreign key model
             ],
 
+
+            [
+                // n-n relationship (with pivot table)
+                'label' => "Phone", // Table column heading
+                'type' => "select_multiple",
+                'name' => 'student.phone', // the method that defines the relationship in your Model
+                'entity' => 'student.phone', // the method that defines the relationship in your Model
+                'attribute' => "phone_number", // foreign key attribute that is shown to user
+                'model' => "App\Models\PhoneNumber", // foreign key model
+             ],
+
+
         ]);
         
 
