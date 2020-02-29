@@ -22,11 +22,6 @@ class CreateLeadTypesTable extends Migration
             $table->unsignedInteger('lead_type_id')->nullable();
         });
 
-        Schema::table('students', function (Blueprint $table) {
-            $table->foreign('lead_type_id')
-            ->references('id')->on('lead_types')
-            ->onDelete('restrict');
-        });
     }
 
     /**
@@ -36,9 +31,7 @@ class CreateLeadTypesTable extends Migration
      */
     public function down()
     {
-        Schema::table('students', function (Blueprint $table) {
-            $table->dropForeign(['lead_type_id']);
-        });
+        Schema::disableForeignKeyConstraints();
         
         Schema::dropIfExists('lead_types');
 

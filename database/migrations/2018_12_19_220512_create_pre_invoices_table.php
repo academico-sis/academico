@@ -40,11 +40,6 @@ class CreatePreInvoicesTable extends Migration
             $table->softDeletes();
         });
 
-        Schema::table('pre_invoices', function (Blueprint $table) {
-            $table->foreign('user_id') // todo rename this field to student_id
-            ->references('id')->on('students')
-            ->onDelete('cascade');
-        });
 
         Schema::table('pre_invoice_details', function (Blueprint $table) {
             $table->foreign('pre_invoice_id')
