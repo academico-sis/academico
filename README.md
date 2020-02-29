@@ -14,7 +14,7 @@ See https://laravel.com/docs/installation#server-requirements
 The following instructions assume that you are somehow familiar with Laravel.
 
 ## Download and install the code
-* `git clone` and checkout the `master` branch.
+* `git clone`
 * Copy `.env.example` to `.env` and  edit the file with your database settings
 * `php artisan key:generate`
 * `composer install`
