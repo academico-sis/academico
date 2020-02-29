@@ -23,7 +23,13 @@ class CreateCampusesTable extends Migration
             $table->foreign('campus_id')
             ->references('id')->on('campuses')
             ->onDelete('restrict');
-        }); 
+        });
+
+        Schema::table('rooms', function (Blueprint $table) {
+            $table->foreign('campus_id')
+            ->references('id')->on('campuses')
+            ->onDelete('restrict');
+        });
     }
 
     /**

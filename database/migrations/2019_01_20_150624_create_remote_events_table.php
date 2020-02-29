@@ -21,6 +21,12 @@ class CreateRemoteEventsTable extends Migration
             $table->integer('period_id')->unsigned();
             $table->timestamps();
         });
+
+        Schema::table('remote_events', function (Blueprint $table) {
+            $table->foreign('period_id')
+            ->references('id')->on('periods')
+            ->onDelete('cascade');
+        });
     }
 
     /**

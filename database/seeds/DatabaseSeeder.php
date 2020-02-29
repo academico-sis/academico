@@ -359,6 +359,8 @@ class DatabaseSeeder extends Seeder
 
         factory(Teacher::class)->create();
         factory(Teacher::class)->create();
+        factory(Teacher::class)->create();
+
 
         $period = Period::first();
 
