@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function() { // page is now ready.
         height: "auto",
         slotLabelInterval: {hours:4},
         nowIndicator: true,
-        hiddenDays: [ 0 ],
+        hiddenDays: [ 0 ], // TODO make this customizable
         firstDay: 1,
         slotWidth: 20,
         resourceAreaWidth: 150,

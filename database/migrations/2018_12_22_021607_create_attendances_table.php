@@ -54,5 +54,6 @@ class CreateAttendancesTable extends Migration
     {
         Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('attendances');
+        Schema::dropIfExists('attendance_types');
     }
 }

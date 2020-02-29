@@ -31,6 +31,9 @@ class AddStudentsCountOverride extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('courses', function (Blueprint $table) {
+            $table->dropColumn('head_count');
+            $table->dropColumn('new_students');
+        });
     }
 }

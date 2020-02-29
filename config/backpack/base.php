@@ -78,7 +78,7 @@ return [
     'developer_name' => 'AFC Academico',
 
     // Developer website. Link in footer. Type false if you want to hide it.
-    'developer_link' => 'https://academico.afcuenca.org.ec/',
+    'developer_link' => 'https://github.com/laxsmi/academico',
 
     // Show powered by Laravel Backpack in the footer? true/false
     'show_powered_by' => true,

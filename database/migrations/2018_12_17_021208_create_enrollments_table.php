@@ -61,5 +61,7 @@ class CreateEnrollmentsTable extends Migration
     {
         Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('enrollments');
+        Schema::dropIfExists('enrollment_status_types');
+
     }
 }

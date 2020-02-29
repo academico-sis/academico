@@ -24,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
     {        
         Schema::defaultStringLength(191);
         
-        if (\Schema::hasTable('periods')) {
+        if (\Schema::hasTable('periods') && \Schema::hasTable('config')) {
             $periods = Period::orderBy('id','desc')->get();
             $current_period = Period::get_default_period();
             View::share('periods', $periods);

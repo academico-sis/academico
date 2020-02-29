@@ -40,8 +40,6 @@ class Newpreinvoices extends Migration
      */
     public function down()
     {
-        Schema::table('pre_invoices', function (Blueprint $table) {
-            $table->dropColumn('enrollment_id');
-        });
+
     }
 }

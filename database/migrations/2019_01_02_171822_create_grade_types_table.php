@@ -59,5 +59,6 @@ class CreateGradeTypesTable extends Migration
 
         Schema::dropIfExists('grade_types');
         Schema::dropIfExists('grade_type_id');
+        Schema::dropIfExists('course_grade_type');
     }
 }

@@ -1,13 +1,23 @@
 <?php
 
+use App\Models\Room;
+use App\Models\User;
+use App\Models\Level;
 use App\Models\Campus;
+use App\Models\Course;
 use App\Models\Period;
+use App\Models\Rhythm;
+use App\Models\Student;
+use App\Models\Teacher;
+use App\Models\LeadType;
 use App\Models\LeaveType;
 use App\Models\ResultType;
+use App\Models\Paymentmethod;
 use App\Models\AttendanceType;
 use App\Models\EvaluationType;
 use Illuminate\Database\Seeder;
 use App\Models\Skills\SkillScale;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use App\Models\ContactRelationship;
 use App\Models\EnrollmentStatusType;
@@ -22,9 +32,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        //factory(App\Models\User::class, 20)->create();
-        factory(Period::class, 1)->create();
-        //factory(App\Models\Course::class, 5)->create();
         
         Campus::create([
             'id' => 1,
@@ -244,6 +251,21 @@ class DatabaseSeeder extends Seeder
         ]);
 
 
+        LeadType::create(['id' => '1', 'name' => 'Converted']);
+        LeadType::create(['id' => '2', 'name' => 'BadTiming']);
+        LeadType::create(['id' => '3', 'name' => 'Dead']);
+        LeadType::create(['id' => '4', 'name' => 'Pending']);
+        LeadType::create(['id' => '5', 'name' => 'Call']);
+        LeadType::create(['id' => '6', 'name' => 'exAlumno']);
+        LeadType::create(['id' => '7', 'name' => 'oldStudent']);
+
+        Paymentmethod::create(['id' => '1', 'name' => 'Tarjeta de Crédito', 'code' => 'TC']);
+        Paymentmethod::create(['id' => '2', 'name' => 'Crédito', 'code' => 'CRC']);
+        Paymentmethod::create(['id' => '3', 'name' => 'Efectivo', 'code' => 'EFECT']);
+        Paymentmethod::create(['id' => '4', 'name' => 'Cheque', 'code' => 'CHR']);
+
+
+
         // create required permissions
         
         // courses permissions
@@ -314,5 +336,308 @@ class DatabaseSeeder extends Seeder
 
         Permission::create(['name' => 'moodle.login']);
 
+        $admin = factory(User::class)->create([
+            'email' => 'admin@academico.site',
+            'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
+        ]);
+
+        $admin->assignRole('admin');
+
+        factory(Rhythm::class)->create(['name' => 'Intensive']);
+        factory(Rhythm::class)->create(['name' => 'Remote']);
+        factory(Rhythm::class)->create(['name' => 'Evening']);
+        factory(Rhythm::class)->create(['name' => 'Weekend']);
+
+        factory(Room::class)->create(['name' => 'Room 1A']);
+        factory(Room::class)->create(['name' => 'Room 1B']);
+        factory(Room::class)->create(['name' => 'Computer lab']);
+        factory(Room::class)->create(['name' => 'Library']);
+
+        factory(Level::class)->create(['name' => 'Beginner']);
+        factory(Level::class)->create(['name' => 'Intermediate']);
+        factory(Level::class)->create(['name' => 'Advanced']);
+
+        factory(Teacher::class)->create();
+        factory(Teacher::class)->create();
+
+        $period = Period::first();
+
+        $p1course1 = factory(Course::class)->create([
+            'campus_id' => 1,
+            'rhythm_id' => 1,
+            'level_id' => 1,
+            'volume' => 10,
+            'price' => 100,
+            'start_date' => $period->start,
+            'end_date' => $period->end,
+            'room_id' => 1,
+            'teacher_id' => 3,
+            'period_id' => 1,
+        ]);
+
+        $p1course1->times()->create(['day' => 1, 'start' => '09:00:00', 'end' => '17:00:00']);
+        $p1course1->times()->create(['day' => 2, 'start' => '09:00:00', 'end' => '17:00:00']);
+        $p1course1->times()->create(['day' => 3, 'start' => '09:00:00', 'end' => '17:00:00']);
+        $p1course1->times()->create(['day' => 4, 'start' => '09:00:00', 'end' => '17:00:00']);
+        $p1course1->times()->create(['day' => 5, 'start' => '09:00:00', 'end' => '17:00:00']);
+
+        $p1course2 = factory(Course::class)->create([
+            'campus_id' => 1,
+            'rhythm_id' => 1,
+            'level_id' => 2,
+            'volume' => 10,
+            'price' => 100,
+            'start_date' => $period->start,
+            'end_date' => $period->end,
+            'room_id' => 2,
+            'teacher_id' => 2,
+            'period_id' => 1,
+        ]);
+
+        $p1course2->times()->create(['day' => 1, 'start' => '09:00:00', 'end' => '17:00:00']);
+        $p1course2->times()->create(['day' => 2, 'start' => '09:00:00', 'end' => '17:00:00']);
+        $p1course2->times()->create(['day' => 3, 'start' => '09:00:00', 'end' => '17:00:00']);
+        $p1course2->times()->create(['day' => 4, 'start' => '09:00:00', 'end' => '17:00:00']);
+        $p1course2->times()->create(['day' => 5, 'start' => '09:00:00', 'end' => '17:00:00']);
+
+        $p1course3 = factory(Course::class)->create([
+            'campus_id' => 1,
+            'rhythm_id' => 4,
+            'level_id' => 3,
+            'volume' => 20,
+            'price' => 100,
+            'start_date' => $period->start,
+            'end_date' => $period->end,
+            'room_id' => 3,
+            'teacher_id' => 3,
+            'period_id' => 1,
+        ]);
+
+        $p1course3->times()->create(['day' => 6, 'start' => '09:00:00', 'end' => '13:00:00']);
+        $p1course3->times()->create(['day' => 0, 'start' => '09:00:00', 'end' => '13:00:00']);
+
+
+        // again for period 2
+
+        DB::table('periods')->insert([
+            'id' => 2,
+            'name' => 'Period 2',
+            'start' => date('Y-m-d', strtotime('first day of april this year')),
+            'end' => date('Y-m-d', strtotime('last day of june this year')),
+            'year_id' => 1
+        ]);
+
+        $period = Period::find(2);
+        $p2course1 = factory(Course::class)->create([
+            'campus_id' => 1,
+            'rhythm_id' => 1,
+            'level_id' => 1,
+            'volume' => 10,
+            'price' => 100,
+            'start_date' => $period->start,
+            'end_date' => $period->end,
+            'room_id' => 1,
+            'teacher_id' => 3,
+            'period_id' => 2,
+        ]);
+
+        $p2course1->times()->create(['day' => 1, 'start' => '09:00:00', 'end' => '17:00:00']);
+        $p2course1->times()->create(['day' => 2, 'start' => '09:00:00', 'end' => '17:00:00']);
+        $p2course1->times()->create(['day' => 3, 'start' => '09:00:00', 'end' => '17:00:00']);
+        $p2course1->times()->create(['day' => 4, 'start' => '09:00:00', 'end' => '17:00:00']);
+        $p2course1->times()->create(['day' => 5, 'start' => '09:00:00', 'end' => '17:00:00']);
+
+        $p2course2 = factory(Course::class)->create([
+            'campus_id' => 1,
+            'rhythm_id' => 1,
+            'level_id' => 2,
+            'volume' => 10,
+            'price' => 100,
+            'start_date' => $period->start,
+            'end_date' => $period->end,
+            'room_id' => 2,
+            'teacher_id' => 2,
+            'period_id' => 2,
+        ]);
+
+        $p2course2->times()->create(['day' => 1, 'start' => '09:00:00', 'end' => '17:00:00']);
+        $p2course2->times()->create(['day' => 2, 'start' => '09:00:00', 'end' => '17:00:00']);
+        $p2course2->times()->create(['day' => 3, 'start' => '09:00:00', 'end' => '17:00:00']);
+        $p2course2->times()->create(['day' => 4, 'start' => '09:00:00', 'end' => '17:00:00']);
+        $p2course2->times()->create(['day' => 5, 'start' => '09:00:00', 'end' => '17:00:00']);
+
+        $p2course3 = factory(Course::class)->create([
+            'campus_id' => 1,
+            'rhythm_id' => 4,
+            'level_id' => 3,
+            'volume' => 20,
+            'price' => 100,
+            'start_date' => $period->start,
+            'end_date' => $period->end,
+            'room_id' => 3,
+            'teacher_id' => 3,
+            'period_id' => 2,
+        ]);
+
+        $p2course3->times()->create(['day' => 6, 'start' => '09:00:00', 'end' => '13:00:00']);
+        $p2course3->times()->create(['day' => 0, 'start' => '09:00:00', 'end' => '13:00:00']);
+
+        // again for period 3
+
+        DB::table('periods')->insert([
+            'id' => 3,
+            'name' => 'Period 3',
+            'start' => date('Y-m-d', strtotime('first day of july this year')),
+            'end' => date('Y-m-d', strtotime('last day of august this year')),
+            'year_id' => 1
+        ]);
+        $period = Period::find(3);
+        $p3course1 = factory(Course::class)->create([
+            'campus_id' => 1,
+            'rhythm_id' => 1,
+            'level_id' => 1,
+            'volume' => 10,
+            'price' => 100,
+            'start_date' => $period->start,
+            'end_date' => $period->end,
+            'room_id' => 1,
+            'teacher_id' => 3,
+            'period_id' => 3,
+        ]);
+
+        $p3course1->times()->create(['day' => 1, 'start' => '09:00:00', 'end' => '17:00:00']);
+        $p3course1->times()->create(['day' => 2, 'start' => '09:00:00', 'end' => '17:00:00']);
+        $p3course1->times()->create(['day' => 3, 'start' => '09:00:00', 'end' => '17:00:00']);
+        $p3course1->times()->create(['day' => 4, 'start' => '09:00:00', 'end' => '17:00:00']);
+        $p3course1->times()->create(['day' => 5, 'start' => '09:00:00', 'end' => '17:00:00']);
+
+        $p3course2 = factory(Course::class)->create([
+            'campus_id' => 1,
+            'rhythm_id' => 1,
+            'level_id' => 2,
+            'volume' => 10,
+            'price' => 100,
+            'start_date' => $period->start,
+            'end_date' => $period->end,
+            'room_id' => 2,
+            'teacher_id' => 2,
+            'period_id' => 3,
+        ]);
+
+        $p3course2->times()->create(['day' => 1, 'start' => '09:00:00', 'end' => '17:00:00']);
+        $p3course2->times()->create(['day' => 2, 'start' => '09:00:00', 'end' => '17:00:00']);
+        $p3course2->times()->create(['day' => 3, 'start' => '09:00:00', 'end' => '17:00:00']);
+        $p3course2->times()->create(['day' => 4, 'start' => '09:00:00', 'end' => '17:00:00']);
+        $p3course2->times()->create(['day' => 5, 'start' => '09:00:00', 'end' => '17:00:00']);
+
+        $p3course3 = factory(Course::class)->create([
+            'campus_id' => 1,
+            'rhythm_id' => 4,
+            'level_id' => 3,
+            'volume' => 20,
+            'price' => 100,
+            'start_date' => $period->start,
+            'end_date' => $period->end,
+            'room_id' => 3,
+            'teacher_id' => 3,
+            'period_id' => 3,
+        ]);
+
+        $p3course3->times()->create(['day' => 6, 'start' => '09:00:00', 'end' => '13:00:00']);
+        $p3course3->times()->create(['day' => 0, 'start' => '09:00:00', 'end' => '13:00:00']);
+
+        // again for period 4
+
+        DB::table('periods')->insert([
+            'id' => 4,
+            'name' => 'Period 4',
+            'start' => date('Y-m-d', strtotime('first day of september this year')),
+            'end' => date('Y-m-d', strtotime('last day of december this year')),
+            'year_id' => 1
+        ]);
+        $period = Period::find(4);
+        $p4course1 = factory(Course::class)->create([
+            'campus_id' => 1,
+            'rhythm_id' => 1,
+            'level_id' => 1,
+            'volume' => 10,
+            'price' => 100,
+            'start_date' => $period->start,
+            'end_date' => $period->end,
+            'room_id' => 1,
+            'teacher_id' => 3,
+            'period_id' => 4,
+        ]);
+
+        $p4course1->times()->create(['day' => 1, 'start' => '09:00:00', 'end' => '17:00:00']);
+        $p4course1->times()->create(['day' => 2, 'start' => '09:00:00', 'end' => '17:00:00']);
+        $p4course1->times()->create(['day' => 3, 'start' => '09:00:00', 'end' => '17:00:00']);
+        $p4course1->times()->create(['day' => 4, 'start' => '09:00:00', 'end' => '17:00:00']);
+        $p4course1->times()->create(['day' => 5, 'start' => '09:00:00', 'end' => '17:00:00']);
+
+        $p4course2 = factory(Course::class)->create([
+            'campus_id' => 1,
+            'rhythm_id' => 1,
+            'level_id' => 2,
+            'volume' => 10,
+            'price' => 100,
+            'start_date' => $period->start,
+            'end_date' => $period->end,
+            'room_id' => 2,
+            'teacher_id' => 2,
+            'period_id' => 4,
+        ]);
+
+        $p4course2->times()->create(['day' => 1, 'start' => '09:00:00', 'end' => '17:00:00']);
+        $p4course2->times()->create(['day' => 2, 'start' => '09:00:00', 'end' => '17:00:00']);
+        $p4course2->times()->create(['day' => 3, 'start' => '09:00:00', 'end' => '17:00:00']);
+        $p4course2->times()->create(['day' => 4, 'start' => '09:00:00', 'end' => '17:00:00']);
+        $p4course2->times()->create(['day' => 5, 'start' => '09:00:00', 'end' => '17:00:00']);
+
+        $p4course3 = factory(Course::class)->create([
+            'campus_id' => 1,
+            'rhythm_id' => 4,
+            'level_id' => 3,
+            'volume' => 20,
+            'price' => 100,
+            'start_date' => $period->start,
+            'end_date' => $period->end,
+            'room_id' => 3,
+            'teacher_id' => 3,
+            'period_id' => 4,
+        ]);
+
+        $p4course3->times()->create(['day' => 6, 'start' => '09:00:00', 'end' => '13:00:00']);
+        $p4course3->times()->create(['day' => 0, 'start' => '09:00:00', 'end' => '13:00:00']);
+        
+
+
+        // create some "random" enrollments so that reports apear to have real data
+
+        for ($i=0; $i < 13; $i++) { 
+            $student = factory(Student::class)->create();
+            $student->enroll($p1course1);
+            $student->enroll($p2course1);
+            $student->enroll($p3course2);
+        }
+
+        for ($i=0; $i < 5; $i++) { 
+            $student = factory(Student::class)->create();
+            $student->enroll($p1course2);
+            $student->enroll($p2course2);
+            $student->enroll($p4course3);
+        }
+
+        for ($i=0; $i < 5; $i++) { 
+            $student = factory(Student::class)->create();
+            $student->enroll($p2course2);
+            $student->enroll($p4course2);
+        }
+
+        for ($i=0; $i < 8; $i++) { 
+            $student = factory(Student::class)->create();
+            $student->enroll($p3course3);
+            $student->enroll($p4course1);
+        }
     }
 }

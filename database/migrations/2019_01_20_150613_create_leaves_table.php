@@ -42,6 +42,7 @@ class CreateLeavesTable extends Migration
     {
         Schema::disableForeignKeyConstraints();
 
+        Schema::dropIfExists('leave_types');
         Schema::dropIfExists('leaves');
     }
 }

@@ -36,6 +36,10 @@ class CreateLeadTypesTable extends Migration
      */
     public function down()
     {
+        Schema::table('students', function (Blueprint $table) {
+            $table->dropForeign(['lead_type_id']);
+        });
+        
         Schema::dropIfExists('lead_types');
 
         Schema::table('students', function ($table) {

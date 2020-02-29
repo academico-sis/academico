@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
@@ -18,6 +19,15 @@ class CreateConfigTable extends Migration
             $table->string('value')->nullable();
             $table->timestamps();
         });
+
+        DB::table('config')->insert([
+            ['name' => 'default_enrollment_period', 'value' => null],
+            ['name' => 'current_period', 'value' => null],
+            ['name' => 'institution_rules_url', 'value' => null],
+            ['name' => 'moodle_url', 'value' => null],
+            ['name' => 'moodle_token', 'value' => null],
+            ['name' => 'first_period', 'value' => 1]
+        ]);
     }
 
     /**

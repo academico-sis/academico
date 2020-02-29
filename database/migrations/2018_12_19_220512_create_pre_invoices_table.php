@@ -62,5 +62,6 @@ class CreatePreInvoicesTable extends Migration
     {
         Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('pre_invoices');
+        Schema::dropIfExists('pre_invoice_details');
     }
 }

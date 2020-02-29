@@ -48,7 +48,7 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
     minTime: "06:00:00",
     maxTime: "23:00:00",
     nowIndicator: true,
-    hiddenDays: [ 0 ],
+    hiddenDays: [ 0 ], // TODO make this customizable
     firstDay: 1,
     eventSources: [
             {

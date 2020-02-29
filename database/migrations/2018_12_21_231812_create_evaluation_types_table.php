@@ -50,5 +50,6 @@ class CreateEvaluationTypesTable extends Migration
     {
         Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('evaluation_types');
+        Schema::dropIfExists('course_evaluation_type');
     }
 }

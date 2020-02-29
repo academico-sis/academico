@@ -15,31 +15,7 @@ class CreateCartsTable extends Migration
      */
     public function up()
     {
-        Schema::create('carts', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('student_id')->unsigned();
-            $table->timestamps();
-        });
-
-        Schema::create('cart_product', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('cart_id')->unsigned();
-            $table->integer('product_id');
-            $table->string('product_type');
-        });
-
-        Schema::table('carts', function (Blueprint $table) {
-            $table->foreign('student_id')
-            ->references('id')->on('students')
-            ->onDelete('cascade');
-        });
-
-        Schema::table('cart_product', function (Blueprint $table) {
-            $table->foreign('cart_id')
-            ->references('id')->on('carts')
-            ->onDelete('cascade');
-        });
-
+        // this migration has been removed but the file is kept to prevent errors in production sites where the migration has already been ran
     }
 
 
@@ -50,9 +26,6 @@ class CreateCartsTable extends Migration
      */
     public function down()
     {
-        Schema::disableForeignKeyConstraints();
 
-        Schema::dropIfExists('carts');
-        Schema::dropIfExists('cart_product');
     }
 }

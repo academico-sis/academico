@@ -27,7 +27,9 @@ class AvailableCourseCrudController extends CrudController
     {
         parent::__construct();
         $this->middleware(['permission:enrollments.create']);
-        $this->student = Student::find(request()->query('student')); // TODO find a better way
+        if (\Schema::hasTable('students')) {
+            $this->student = Student::find(request()->query('student')); // TODO find a better way
+        }
     }
 
     public function setup()

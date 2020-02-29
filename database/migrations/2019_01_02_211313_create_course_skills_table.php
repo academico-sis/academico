@@ -44,6 +44,6 @@ class CreateCourseSkillsTable extends Migration
     {
         Schema::disableForeignKeyConstraints();
 
-        Schema::dropIfExists('course_skills');
+        Schema::dropIfExists('course_skill');
     }
 }

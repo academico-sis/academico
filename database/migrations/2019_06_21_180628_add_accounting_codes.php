@@ -34,6 +34,16 @@ class AddAccountingCodes extends Migration
      */
     public function down()
     {
+        Schema::table('fees', function (Blueprint $table) {
+            $table->dropColumn('product_code');
+        });
 
+        Schema::table('books', function (Blueprint $table) {
+            $table->dropColumn('product_code');
+        });
+
+        Schema::table('rhythms', function (Blueprint $table) {
+            $table->dropColumn('product_code');
+        });
     }
 }
