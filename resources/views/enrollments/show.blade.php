@@ -16,9 +16,6 @@
     <div class="col-md-4">
         <div class="card">
             <div class="card-header">@lang('Student Info')
-                <div class="card-header-actions">
-                    <button class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i></button>
-                </div>
             </div>
             
             <div class="card-body">
