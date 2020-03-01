@@ -3221,8 +3221,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['exempted', 'count', 'toggleroute'],
+  props: ['exempted', 'count', 'toggleroute', 'course', 'courseattendanceroute'],
   data: function data() {
     return {
       errors: [],
@@ -3259,10 +3269,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/attendance/courseAttendanceStatusComponent.vue?vue&type=style&index=0&lang=css&":
-/*!************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader??ref--5-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--5-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/attendance/courseAttendanceStatusComponent.vue?vue&type=style&index=0&lang=css& ***!
-  \************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/attendance/eventAttendanceStatusComponent.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/attendance/eventAttendanceStatusComponent.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['exempted', 'toggleroute', 'eventattendanceroute', 'eventdate'],
+  data: function data() {
+    return {
+      errors: [],
+      attendanceEnabled: true
+    };
+  },
+  mounted: function mounted() {
+    this.attendanceEnabled = !this.exempted;
+  },
+  methods: {
+    toggleAttendanceStatus: function toggleAttendanceStatus(status) {
+      var _this = this;
+
+      axios.post(this.toggleroute, {
+        status: status
+      }).then(function (response) {
+        _this.attendanceEnabled = !response.data;
+        new Noty({
+          type: "success",
+          text: 'Attendance status has been saved for this event'
+        }).show();
+      })["catch"](function (e) {
+        _this.errors.push(e);
+
+        _this.attendanceEnabled = status;
+        new Noty({
+          type: "error",
+          text: 'Unable to change attendance status. The event has not been modified'
+        }).show();
+      });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/attendance/eventAttendanceStatusComponent.vue?vue&type=style&index=0&lang=css&":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--5-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--5-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/attendance/eventAttendanceStatusComponent.vue?vue&type=style&index=0&lang=css& ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3780,15 +3855,15 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
-/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/attendance/courseAttendanceStatusComponent.vue?vue&type=style&index=0&lang=css&":
-/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--5-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--5-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/attendance/courseAttendanceStatusComponent.vue?vue&type=style&index=0&lang=css& ***!
-  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/attendance/eventAttendanceStatusComponent.vue?vue&type=style&index=0&lang=css&":
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--5-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--5-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/attendance/eventAttendanceStatusComponent.vue?vue&type=style&index=0&lang=css& ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(/*! !../../../../node_modules/css-loader??ref--5-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--5-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./courseAttendanceStatusComponent.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/attendance/courseAttendanceStatusComponent.vue?vue&type=style&index=0&lang=css&");
+var content = __webpack_require__(/*! !../../../../node_modules/css-loader??ref--5-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--5-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./eventAttendanceStatusComponent.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/attendance/eventAttendanceStatusComponent.vue?vue&type=style&index=0&lang=css&");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -8634,77 +8709,181 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "attendance-toolbox" }, [
-    _vm.attendanceEnabled
-      ? _c(
-          "span",
-          {
-            staticClass: "badge badge-pill attendance-count",
-            class: {
-              "badge-success": _vm.count == 0,
-              "badge-warning": _vm.count > 0,
-              "badge-danger": _vm.count > 4
-            }
-          },
-          [_vm._v(_vm._s(_vm.count))]
-        )
-      : _vm._e(),
-    _vm._v("\n \n"),
-    _c(
-      "label",
-      {
-        staticClass:
-          "switch switch-label switch-pill switch-outline-primary-alt attendance-switch"
-      },
-      [
-        _c("input", {
-          directives: [
+  return _c("tr", [
+    _c("td", [
+      this.attendanceEnabled
+        ? _c("a", { attrs: { href: _vm.courseattendanceroute } }, [
+            _vm._v(_vm._s(_vm.course.name))
+          ])
+        : _c("span", [_vm._v(_vm._s(_vm.course.name))])
+    ]),
+    _vm._v(" "),
+    _c("td", [_vm._v(_vm._s(_vm.course.course_teacher_name))]),
+    _vm._v(" "),
+    _c("td", [
+      _vm.attendanceEnabled
+        ? _c(
+            "span",
             {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.attendanceEnabled,
-              expression: "attendanceEnabled"
-            }
-          ],
-          staticClass: "switch-input",
-          attrs: { type: "checkbox" },
-          domProps: {
-            checked: Array.isArray(_vm.attendanceEnabled)
-              ? _vm._i(_vm.attendanceEnabled, null) > -1
-              : _vm.attendanceEnabled
-          },
-          on: {
-            click: function($event) {
-              return _vm.toggleAttendanceStatus(_vm.attendanceEnabled)
+              staticClass: "badge badge-pill",
+              class: {
+                "badge-success": _vm.count == 0,
+                "badge-warning": _vm.count > 0,
+                "badge-danger": _vm.count > 4
+              }
             },
-            change: function($event) {
-              var $$a = _vm.attendanceEnabled,
-                $$el = $event.target,
-                $$c = $$el.checked ? true : false
-              if (Array.isArray($$a)) {
-                var $$v = null,
-                  $$i = _vm._i($$a, $$v)
-                if ($$el.checked) {
-                  $$i < 0 && (_vm.attendanceEnabled = $$a.concat([$$v]))
+            [_vm._v(_vm._s(_vm.count))]
+          )
+        : _vm._e()
+    ]),
+    _vm._v(" "),
+    _c("td", [
+      _c(
+        "label",
+        {
+          staticClass:
+            "switch switch-label switch-pill switch-outline-primary-alt"
+        },
+        [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.attendanceEnabled,
+                expression: "attendanceEnabled"
+              }
+            ],
+            staticClass: "switch-input",
+            attrs: { type: "checkbox" },
+            domProps: {
+              checked: Array.isArray(_vm.attendanceEnabled)
+                ? _vm._i(_vm.attendanceEnabled, null) > -1
+                : _vm.attendanceEnabled
+            },
+            on: {
+              click: function($event) {
+                return _vm.toggleAttendanceStatus(_vm.attendanceEnabled)
+              },
+              change: function($event) {
+                var $$a = _vm.attendanceEnabled,
+                  $$el = $event.target,
+                  $$c = $$el.checked ? true : false
+                if (Array.isArray($$a)) {
+                  var $$v = null,
+                    $$i = _vm._i($$a, $$v)
+                  if ($$el.checked) {
+                    $$i < 0 && (_vm.attendanceEnabled = $$a.concat([$$v]))
+                  } else {
+                    $$i > -1 &&
+                      (_vm.attendanceEnabled = $$a
+                        .slice(0, $$i)
+                        .concat($$a.slice($$i + 1)))
+                  }
                 } else {
-                  $$i > -1 &&
-                    (_vm.attendanceEnabled = $$a
-                      .slice(0, $$i)
-                      .concat($$a.slice($$i + 1)))
+                  _vm.attendanceEnabled = $$c
                 }
-              } else {
-                _vm.attendanceEnabled = $$c
               }
             }
-          }
-        }),
-        _vm._v(" "),
-        _c("span", {
-          staticClass: "switch-slider",
-          attrs: { "data-checked": "On", "data-unchecked": "Off" }
-        })
-      ]
-    )
+          }),
+          _vm._v(" "),
+          _c("span", {
+            staticClass: "switch-slider",
+            attrs: { "data-checked": "On", "data-unchecked": "Off" }
+          })
+        ]
+      )
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/attendance/eventAttendanceStatusComponent.vue?vue&type=template&id=0c16d4b3&":
+/*!********************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/attendance/eventAttendanceStatusComponent.vue?vue&type=template&id=0c16d4b3& ***!
+  \********************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "attendance-toolbox" }, [
+    _c("p", [
+      this.attendanceEnabled
+        ? _c("a", { attrs: { href: _vm.eventattendanceroute } }, [
+            _vm._v("\n    " + _vm._s(_vm.eventdate) + "\n")
+          ])
+        : _c("span", [_vm._v(_vm._s(_vm.eventdate))])
+    ]),
+    _vm._v(" "),
+    _c("p", [
+      _c(
+        "label",
+        {
+          staticClass:
+            "switch switch-label switch-pill switch-outline-primary-alt attendance-switch"
+        },
+        [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.attendanceEnabled,
+                expression: "attendanceEnabled"
+              }
+            ],
+            staticClass: "switch-input",
+            attrs: { type: "checkbox" },
+            domProps: {
+              checked: Array.isArray(_vm.attendanceEnabled)
+                ? _vm._i(_vm.attendanceEnabled, null) > -1
+                : _vm.attendanceEnabled
+            },
+            on: {
+              click: function($event) {
+                return _vm.toggleAttendanceStatus(_vm.attendanceEnabled)
+              },
+              change: function($event) {
+                var $$a = _vm.attendanceEnabled,
+                  $$el = $event.target,
+                  $$c = $$el.checked ? true : false
+                if (Array.isArray($$a)) {
+                  var $$v = null,
+                    $$i = _vm._i($$a, $$v)
+                  if ($$el.checked) {
+                    $$i < 0 && (_vm.attendanceEnabled = $$a.concat([$$v]))
+                  } else {
+                    $$i > -1 &&
+                      (_vm.attendanceEnabled = $$a
+                        .slice(0, $$i)
+                        .concat($$a.slice($$i + 1)))
+                  }
+                } else {
+                  _vm.attendanceEnabled = $$c
+                }
+              }
+            }
+          }),
+          _vm._v(" "),
+          _c("span", {
+            staticClass: "switch-slider",
+            attrs: { "data-checked": "On", "data-unchecked": "Off" }
+          })
+        ]
+      )
+    ])
   ])
 }
 var staticRenderFns = []
@@ -25682,6 +25861,7 @@ Vue.component('skills-list', __webpack_require__(/*! ./components/SkillsListComp
 Vue.component('phone-number-update-component', __webpack_require__(/*! ./components/PhoneNumberUpdateComponent.vue */ "./resources/js/components/PhoneNumberUpdateComponent.vue")["default"]);
 Vue.component('contact-phone-number-update-component', __webpack_require__(/*! ./components/ContactPhoneNumberUpdateComponent.vue */ "./resources/js/components/ContactPhoneNumberUpdateComponent.vue")["default"]);
 Vue.component('course-attendance-status-component', __webpack_require__(/*! ./components/attendance/courseAttendanceStatusComponent.vue */ "./resources/js/components/attendance/courseAttendanceStatusComponent.vue")["default"]);
+Vue.component('event-attendance-status-component', __webpack_require__(/*! ./components/attendance/eventAttendanceStatusComponent.vue */ "./resources/js/components/attendance/eventAttendanceStatusComponent.vue")["default"]);
 var app = new Vue({
   el: '#app',
   i18n: i18n
@@ -26547,9 +26727,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _courseAttendanceStatusComponent_vue_vue_type_template_id_425c2c0c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./courseAttendanceStatusComponent.vue?vue&type=template&id=425c2c0c& */ "./resources/js/components/attendance/courseAttendanceStatusComponent.vue?vue&type=template&id=425c2c0c&");
 /* harmony import */ var _courseAttendanceStatusComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./courseAttendanceStatusComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/attendance/courseAttendanceStatusComponent.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _courseAttendanceStatusComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./courseAttendanceStatusComponent.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/attendance/courseAttendanceStatusComponent.vue?vue&type=style&index=0&lang=css&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -26557,7 +26735,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
   _courseAttendanceStatusComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _courseAttendanceStatusComponent_vue_vue_type_template_id_425c2c0c___WEBPACK_IMPORTED_MODULE_0__["render"],
   _courseAttendanceStatusComponent_vue_vue_type_template_id_425c2c0c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
@@ -26589,22 +26767,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/attendance/courseAttendanceStatusComponent.vue?vue&type=style&index=0&lang=css&":
-/*!*****************************************************************************************************************!*\
-  !*** ./resources/js/components/attendance/courseAttendanceStatusComponent.vue?vue&type=style&index=0&lang=css& ***!
-  \*****************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_courseAttendanceStatusComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader!../../../../node_modules/css-loader??ref--5-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--5-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./courseAttendanceStatusComponent.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/attendance/courseAttendanceStatusComponent.vue?vue&type=style&index=0&lang=css&");
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_courseAttendanceStatusComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_courseAttendanceStatusComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_courseAttendanceStatusComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_courseAttendanceStatusComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
- /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_courseAttendanceStatusComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
-
-/***/ }),
-
 /***/ "./resources/js/components/attendance/courseAttendanceStatusComponent.vue?vue&type=template&id=425c2c0c&":
 /*!***************************************************************************************************************!*\
   !*** ./resources/js/components/attendance/courseAttendanceStatusComponent.vue?vue&type=template&id=425c2c0c& ***!
@@ -26618,6 +26780,93 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_courseAttendanceStatusComponent_vue_vue_type_template_id_425c2c0c___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_courseAttendanceStatusComponent_vue_vue_type_template_id_425c2c0c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/attendance/eventAttendanceStatusComponent.vue":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/components/attendance/eventAttendanceStatusComponent.vue ***!
+  \*******************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _eventAttendanceStatusComponent_vue_vue_type_template_id_0c16d4b3___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./eventAttendanceStatusComponent.vue?vue&type=template&id=0c16d4b3& */ "./resources/js/components/attendance/eventAttendanceStatusComponent.vue?vue&type=template&id=0c16d4b3&");
+/* harmony import */ var _eventAttendanceStatusComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./eventAttendanceStatusComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/attendance/eventAttendanceStatusComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _eventAttendanceStatusComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./eventAttendanceStatusComponent.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/attendance/eventAttendanceStatusComponent.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _eventAttendanceStatusComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _eventAttendanceStatusComponent_vue_vue_type_template_id_0c16d4b3___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _eventAttendanceStatusComponent_vue_vue_type_template_id_0c16d4b3___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/attendance/eventAttendanceStatusComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/attendance/eventAttendanceStatusComponent.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************************!*\
+  !*** ./resources/js/components/attendance/eventAttendanceStatusComponent.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_eventAttendanceStatusComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./eventAttendanceStatusComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/attendance/eventAttendanceStatusComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_eventAttendanceStatusComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/attendance/eventAttendanceStatusComponent.vue?vue&type=style&index=0&lang=css&":
+/*!****************************************************************************************************************!*\
+  !*** ./resources/js/components/attendance/eventAttendanceStatusComponent.vue?vue&type=style&index=0&lang=css& ***!
+  \****************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_eventAttendanceStatusComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader!../../../../node_modules/css-loader??ref--5-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--5-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./eventAttendanceStatusComponent.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/attendance/eventAttendanceStatusComponent.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_eventAttendanceStatusComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_eventAttendanceStatusComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_eventAttendanceStatusComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_eventAttendanceStatusComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_eventAttendanceStatusComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/js/components/attendance/eventAttendanceStatusComponent.vue?vue&type=template&id=0c16d4b3&":
+/*!**************************************************************************************************************!*\
+  !*** ./resources/js/components/attendance/eventAttendanceStatusComponent.vue?vue&type=template&id=0c16d4b3& ***!
+  \**************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_eventAttendanceStatusComponent_vue_vue_type_template_id_0c16d4b3___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./eventAttendanceStatusComponent.vue?vue&type=template&id=0c16d4b3& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/attendance/eventAttendanceStatusComponent.vue?vue&type=template&id=0c16d4b3&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_eventAttendanceStatusComponent_vue_vue_type_template_id_0c16d4b3___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_eventAttendanceStatusComponent_vue_vue_type_template_id_0c16d4b3___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

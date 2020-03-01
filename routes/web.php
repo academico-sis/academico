@@ -47,7 +47,7 @@ Route::group(
     Route::get('attendance/event/{event}', 'AttendanceController@showEvent')->name('eventAttendance');
     Route::post('attendance', 'AttendanceController@store')->name('storeAttendance');
 
-    Route::get('attendance/event/{event}/exempt', 'AttendanceController@exemptEvent')->name('exemptEventAttendance');
+    Route::post('attendance/event/{event}/toggle', 'AttendanceController@toggleEventAttendanceStatus')->name('toggleEventAttendance');
     Route::post('attendance/course/{course}/toggle', 'AttendanceController@toggleCourseAttendanceStatus')->name('toggleCourseAttendance');
 
 

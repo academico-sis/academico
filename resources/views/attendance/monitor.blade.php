@@ -17,6 +17,12 @@
         <div class="card">
             <div class="card-header">
                 @lang('Courses')
+
+                <div class="card-header-actions">
+                    <!-- Period selection dropdown -->
+                    @include('partials.period_selection')
+                </div>
+
             </div>
             
             <div class="card-body">
@@ -28,18 +34,17 @@
                         <th>@lang('Attendance')</th>
                     </tr>
                     </thead>
+                    <tbody>
                     @foreach($courses as $course)
-                    <tr>
-                        <td><a href="{{ route('monitorCourseAttendance', ['course' => $course->id ]) }}">{{ $course->name }}</a></td>
-                        <td>{{ $course->course_teacher_name }}</td>
-                        <td>
-                            <course-attendance-status-component
-                                :count="{{ $course->missing_attendance }}"
-                                :exempted="{{ $course->exempt_attendance }}"
-                                toggleroute="{{ route('toggleCourseAttendance', ['course' => $course->id ]) }}"></course-attendance-status-component>
-                        </td>
-                    </tr>
+                    <tr is="course-attendance-status-component"
+                        :count="{{ $course->missing_attendance ?? 0 }}"
+                        :exempted="{{ $course->exempt_attendance ?? 0 }}"
+                        toggleroute="{{ route('toggleCourseAttendance', ['course' => $course->id ]) }}"
+                        :course="{{ $course }}"
+                        courseattendanceroute="{{ route('monitorCourseAttendance', ['course' => $course->id ]) }}"
+                        ></tr>
                     @endforeach
+                    </tbody>
                 </table>
             </div>
         </div>
