@@ -41,10 +41,9 @@ class AttendanceController extends Controller
         $justified_absences = (new Attendance)->get_justified_absence_count($period);
         $unjustified_absences = (new Attendance)->get_unjustified_absence_count($period);
 
+        $courses = $period->courses->sortByDesc('missing_attendance');
 
-        $pending_attendance = (new Attendance)->get_pending_attendance();
-
-        return view('attendance.monitor', compact('justified_absences', 'unjustified_absences', 'pending_attendance'));
+        return view('attendance.monitor', compact('justified_absences', 'unjustified_absences', 'courses'));
     }
 
     public function student(Request $request, Student $student)
@@ -156,31 +155,13 @@ class AttendanceController extends Controller
         $event->exempt_attendance = 1;
         $event->attendance()->delete();
         $event->save();
-        return back();
     }
 
-    public function exemptCourse(Course $course)
+    public function toggleCourseAttendanceStatus(Course $course, Request $request)
     {
-
-        $course->exempt_attendance = 1;
+        $course->exempt_attendance = (int)$request->status;
         $course->save();
-
-        foreach($course->events as $event)
-        {
-            $this->exemptEvent($event);
-        }
-
-        foreach($course->children as $child)
-        {
-            $child->exempt_attendance = 1;
-            $child->save();
-            foreach($child->events as $event)
-                {
-                    $this->exemptEvent($event);
-                }
-        }
-
-        return back();
+        return (int)$course->exempt_attendance;
     }
 
 }

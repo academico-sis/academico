@@ -40,6 +40,8 @@ Vue.component('skills-list', require('./components/SkillsListComponent.vue').def
 Vue.component('phone-number-update-component', require('./components/PhoneNumberUpdateComponent.vue').default);
 Vue.component('contact-phone-number-update-component', require('./components/ContactPhoneNumberUpdateComponent.vue').default);
 
+Vue.component('course-attendance-status-component', require('./components/attendance/courseAttendanceStatusComponent.vue').default);
+
 const app = new Vue({
     el: '#app',
     i18n,

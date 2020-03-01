@@ -7,12 +7,13 @@ use App\Models\Book;
 use App\Models\Event;
 use App\Models\Course;
 use App\Models\Period;
+use App\Models\Attendance;
 use App\Models\Enrollment;
-use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 
 class Course extends Model
 {
@@ -114,7 +115,7 @@ protected static function boot()
     // protected $hidden = [];
     protected $dates = ['start_date', 'end_date'];
     //protected $with = ['enrollments'];
-    protected $appends = ['course_times'];
+    protected $appends = ['course_times', 'course_teacher_name'];
 
     /*
     |--------------------------------------------------------------------------
@@ -448,6 +449,37 @@ protected static function boot()
         else {
             return $this->id;
         }
+    }
+
+    public function getEventsWithExpectedAttendanceAttribute()
+    {
+        return $this->events()->where(function($query) {
+            $query->where('exempt_attendance', '!=', true);
+            $query->where('exempt_attendance', '!=', 1);
+            $query->orWhereNull('exempt_attendance');
+        })->where('start', '<', Carbon::now(env('COURSES_TIMEZONE'))->toDateTimeString())->get();
+    }
+
+    public function getMissingAttendanceAttribute()
+    {
+        $eventsWithMissingAttendanceCount = 0;
+
+        // loop through every event supposed to have attendance
+        foreach ($this->events_with_expected_attendance as $event)
+        {
+            // loop through every student
+            foreach ($this->enrollments as $enrollment)
+            {
+                // if the student has a lesser number of attendance records than the expected total
+                if (Attendance::where('student_id', $enrollment->student_id)->where('event_id', $event->id)->count() == 0)
+                {
+                    $eventsWithMissingAttendanceCount++;
+                break;
+                }
+            }
+        }
+        // we count one
+        return $eventsWithMissingAttendanceCount;
     }
 
     /*

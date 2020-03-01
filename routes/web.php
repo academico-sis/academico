@@ -48,7 +48,7 @@ Route::group(
     Route::post('attendance', 'AttendanceController@store')->name('storeAttendance');
 
     Route::get('attendance/event/{event}/exempt', 'AttendanceController@exemptEvent')->name('exemptEventAttendance');
-    Route::get('attendance/course/{course}/exempt', 'AttendanceController@exemptCourse')->name('exemptCourseAttendance');
+    Route::post('attendance/course/{course}/toggle', 'AttendanceController@toggleCourseAttendanceStatus')->name('toggleCourseAttendance');
 
 
     // Skills Evaluation

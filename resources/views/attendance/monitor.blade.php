@@ -11,12 +11,12 @@
 
 @section('content')
 
-<div class="row">
+<div class="row" id="app">
     
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
-                @lang('Classes without attendance')
+                @lang('Courses')
             </div>
             
             <div class="card-body">
@@ -24,23 +24,19 @@
                 <thead>
                     <tr>
                         <th>@lang('Course')</th>
-                        <th>@lang('Date')</th>
                         <th>@lang('Teacher')</th>
-                        <th>@lang('Missing students')</th>
-                        <th>@lang('Actions')</th>
+                        <th>@lang('Attendance')</th>
                     </tr>
                     </thead>
-                    @foreach($pending_attendance as $event)
+                    @foreach($courses as $course)
                     <tr>
-                        <td>{{ $event['event'] }}</td>
-                        <td>{{ $event['event_date'] }}</td>
-                        <td>{{ $event['teacher'] }}</td>
-                        <td>{{ $event['pending'] }}</td>
+                        <td><a href="{{ route('monitorCourseAttendance', ['course' => $course->id ]) }}">{{ $course->name }}</a></td>
+                        <td>{{ $course->course_teacher_name }}</td>
                         <td>
-                            <a class="btn btn-primary btn-sm" href="{{ route('eventAttendance', ['event' => $event['event_id']]) }}" title="@lang('View attendance sheet for event')"><i class="fa fa-eye"></i></a>
-                            <a class="btn btn-warning btn-sm" href="{{ route('exemptEventAttendance', ['event' => $event['event_id']]) }}" title="@lang('Exempt event from attendance sheet')" onclick="return confirm('Are you sure? The attendance sheet for this event will be deleted')"><i class="fa fa-times"></i></a>
-                            <a class="btn btn-warning btn-sm" href="{{ route('exemptCourseAttendance', ['course' => $event['course_id']]) }}" title="@lang('Exempt all course events from attendance sheet')" onclick="return confirm('Are you sure? The attendance sheet for all course events will be deleted')"><i class="fa fa-times"></i><i class="fa fa-times"></i></a>
-
+                            <course-attendance-status-component
+                                :count="{{ $course->missing_attendance }}"
+                                :exempted="{{ $course->exempt_attendance }}"
+                                toggleroute="{{ route('toggleCourseAttendance', ['course' => $course->id ]) }}"></course-attendance-status-component>
                         </td>
                     </tr>
                     @endforeach
@@ -113,4 +109,6 @@
 @endsection
 
 @section('after_scripts')
+<script src="/js/app.js"></script>
+
 @endsection
