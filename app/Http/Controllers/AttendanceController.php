@@ -38,12 +38,11 @@ class AttendanceController extends Controller
         Log::info('Attendance dashboard viewed by ' . \backpack_user()->id);
         $selected_period = $this->selectPeriod($request);
 
-        $justified_absences = (new Attendance)->get_justified_absence_count($selected_period);
-        $unjustified_absences = (new Attendance)->get_unjustified_absence_count($selected_period);
-
+        $absences = (new Attendance)->get_absence_count_per_student($selected_period);
+        
         $courses = $selected_period->courses->sortByDesc('missing_attendance');
         
-        return view('attendance.monitor', compact('justified_absences', 'unjustified_absences', 'courses', 'selected_period'));
+        return view('attendance.monitor', compact('absences', 'courses', 'selected_period'));
     }
 
     public function student(Request $request, Student $student)
