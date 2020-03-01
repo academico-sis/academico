@@ -32,9 +32,11 @@
                     </thead>
 
                     <tbody>
-                        @foreach ($attendances as $attendance)
+                        @foreach ($attendances as $a => $attendance)
                             <tr is="course-attendance-component"
-                                :student="{{ json_encode($attendance) }}">
+                                :student="{{ json_encode($attendance) }}"
+                                studentdetailsroute="{{ route('student.show', ['id' => $a]) }}"
+                            >
                             </tr>
                         @endforeach
                     </tbody>

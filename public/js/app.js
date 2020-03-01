@@ -2451,7 +2451,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['student'],
+  props: ['student', 'studentdetailsroute'],
   data: function data() {
     return {};
   },
@@ -7660,7 +7660,11 @@ var render = function() {
   return _c(
     "tr",
     [
-      _c("td", [_vm._v("\n        " + _vm._s(_vm.student.student) + "\n    ")]),
+      _c("td", [
+        _c("a", { attrs: { href: _vm.studentdetailsroute } }, [
+          _vm._v(_vm._s(_vm.student.student))
+        ])
+      ]),
       _vm._v(" "),
       _vm._l(_vm.student, function(event) {
         return _c("td", { key: event.id }, [

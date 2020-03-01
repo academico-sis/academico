@@ -3,7 +3,7 @@
 
     <tr>
         <td>
-            {{ student.student }}
+            <a :href="studentdetailsroute">{{ student.student }}</a>
         </td>
                                 
         <td v-bind:key="event.id" v-for="event in student"> <!-- todo clean -->
@@ -45,7 +45,7 @@
 
     export default {
 
-        props: ['student'],
+        props: ['student', 'studentdetailsroute'],
         
         data () {
             return {
