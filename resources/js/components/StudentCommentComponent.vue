@@ -20,7 +20,7 @@
     </div>
     <div class="card-footer" v-if="showEditField">
         <textarea name="comment" id="comment" style="width: 100%" rows="3" v-model="comment_body"></textarea>
-        <div class="form-group">
+        <div class="form-group" v-if="this.type == 'App\\Models\\Student'">
             <label for="action">{{ $t('front.This comment requires an action') }}</label>
             <input name="action" id="action" type="checkbox" v-model="action"/>
         </div>
