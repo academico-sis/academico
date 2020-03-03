@@ -464,21 +464,32 @@ protected static function boot()
     {
         $eventsWithMissingAttendanceCount = 0;
 
+        $eventsIDs = $this->events_with_expected_attendance->pluck('id');
+        $studentIDs = $this->enrollments->pluck('student_id');
+
+        // Collection of attendances
+        $attendances = Attendance::whereIn('student_id', $studentIDs)
+            ->whereIn('event_id', $eventsIDs)
+            ->get();
+
+
         // loop through every event supposed to have attendance
         foreach ($this->events_with_expected_attendance as $event)
         {
             // loop through every student
             foreach ($this->enrollments as $enrollment)
             {
-                // if the student has a lesser number of attendance records than the expected total
-                if (Attendance::where('student_id', $enrollment->student_id)->where('event_id', $event->id)->count() == 0)
-                {
+                $hasNotAttended = $attendances->where('student_id', $enrollment->student_id)
+                ->where('event_id', $event->id)
+                ->isEmpty();
+
+                if ($hasNotAttended) {
                     $eventsWithMissingAttendanceCount++;
-                break;
+                    break;
                 }
             }
         }
-        // we count one
+
         return $eventsWithMissingAttendanceCount;
     }
 
