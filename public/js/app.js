@@ -2854,9 +2854,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['student', 'route', 'leadtypes'],
   data: function data() {
@@ -3329,6 +3326,96 @@ __webpack_require__.r(__webpack_exports__);
         }).show();
       });
     }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/student/studentContactsComponent.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/student/studentContactsComponent.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['student', 'contacts', 'writeaccess'],
+  data: function data() {
+    return {
+      selectedTab: 0
+    };
   }
 });
 
@@ -8210,55 +8297,47 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "col-md-4" }, [
-    _c("div", { staticClass: "card" }, [
-      _c("div", { staticClass: "card-header" }, [
-        _vm._v(
-          "\n              " +
-            _vm._s(_vm.$t("front.Lead Status")) +
-            "\n          "
-        )
-      ]),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "card-body" },
-        _vm._l(_vm.leadtypes, function(leadtype) {
-          return _c(
-            "div",
-            {
-              key: leadtype.id,
-              staticClass: "btn-group",
-              attrs: { role: "group" }
-            },
-            [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-sm btn-secondary",
-                  class: {
-                    "btn-info": _vm.status && _vm.status == leadtype.id
-                  },
-                  on: {
-                    click: function($event) {
-                      return _vm.saveStatus(leadtype.id)
-                    }
+  return _c("div", { staticClass: "card" }, [
+    _c("div", { staticClass: "card-header" }, [
+      _vm._v("\n        " + _vm._s(_vm.$t("front.Lead Status")) + "\n    ")
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "card-body" },
+      _vm._l(_vm.leadtypes, function(leadtype) {
+        return _c(
+          "div",
+          {
+            key: leadtype.id,
+            staticClass: "btn-group",
+            attrs: { role: "group" }
+          },
+          [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-sm btn-secondary",
+                class: { "btn-info": _vm.status && _vm.status == leadtype.id },
+                on: {
+                  click: function($event) {
+                    return _vm.saveStatus(leadtype.id)
                   }
-                },
-                [
-                  _vm._v(
-                    "\n                      " +
-                      _vm._s(leadtype.name) +
-                      "\n                  "
-                  )
-                ]
-              )
-            ]
-          )
-        }),
-        0
-      )
-    ])
+                }
+              },
+              [
+                _vm._v(
+                  "\n                    " +
+                    _vm._s(leadtype.name) +
+                    "\n            "
+                )
+              ]
+            )
+          ]
+        )
+      }),
+      0
+    )
   ])
 }
 var staticRenderFns = []
@@ -8891,6 +8970,299 @@ var render = function() {
   ])
 }
 var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/student/studentContactsComponent.vue?vue&type=template&id=78c56d0e&":
+/*!***********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/student/studentContactsComponent.vue?vue&type=template&id=78c56d0e& ***!
+  \***********************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "card" }, [
+    _c("div", { staticClass: "card-body" }, [
+      _c(
+        "ul",
+        {
+          staticClass: "nav nav-tabs",
+          attrs: { id: "myTab1", role: "tablist" }
+        },
+        [
+          _vm._m(0),
+          _vm._v(" "),
+          _vm._l(_vm.contacts, function(contact) {
+            return _c("li", { key: contact.id, staticClass: "nav-item" }, [
+              _c(
+                "a",
+                {
+                  staticClass: "nav-link",
+                  attrs: {
+                    id: contact.id + "-tab",
+                    "data-toggle": "tab",
+                    href: "#contact-" + contact.id + "-pane",
+                    role: "tab",
+                    "aria-controls": contact.id + "-tab",
+                    "aria-selected": "false"
+                  }
+                },
+                [_vm._v(_vm._s(_vm.$t("Additional Contact")))]
+              )
+            ])
+          })
+        ],
+        2
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "tab-content", attrs: { id: "myTab1Content" } },
+        [
+          _c(
+            "div",
+            {
+              staticClass: "tab-pane fade show active",
+              attrs: {
+                id: "student-pane",
+                role: "tabpanel",
+                "aria-labelledby": "student-tab"
+              }
+            },
+            [
+              _c("div", [
+                _c("strong", [_vm._v(_vm._s(_vm.$t("name")) + ":")]),
+                _vm._v(
+                  " " +
+                    _vm._s(_vm.student.firstname) +
+                    " " +
+                    _vm._s(_vm.student.lastname)
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", [
+                _c("strong", [_vm._v(_vm._s(_vm.$t("idnumber")) + ":")]),
+                _vm._v(" " + _vm._s(_vm.student.idnumber))
+              ]),
+              _vm._v(" "),
+              _c("div", [
+                _c("strong", [_vm._v(_vm._s(_vm.$t("address")) + ":")]),
+                _vm._v(" " + _vm._s(_vm.student.address))
+              ]),
+              _vm._v(" "),
+              _vm.student.phone.length > 0
+                ? _c("div", [
+                    _c("strong", [
+                      _vm._v(_vm._s(_vm.$t("Phone Number")) + ":")
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "ul",
+                      _vm._l(_vm.student.phone, function(phone) {
+                        return _c("li", { key: phone.id }, [
+                          _vm._v(_vm._s(phone.phone_number))
+                        ])
+                      }),
+                      0
+                    )
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _c("div", [
+                _c("strong", [_vm._v(_vm._s(_vm.$t("email")) + ":")]),
+                _vm._v(" " + _vm._s(_vm.student.email))
+              ]),
+              _vm._v(" "),
+              _c("div", [
+                _c("strong", [_vm._v(_vm._s(_vm.$t("birthdate")) + ":")]),
+                _vm._v(" " + _vm._s(_vm.student.student_birthdate))
+              ]),
+              _vm._v(" "),
+              _c("div", [
+                _c("strong", [_vm._v(_vm._s(_vm.$t("age")) + ":")]),
+                _vm._v(
+                  " " +
+                    _vm._s(_vm.student.student_age) +
+                    " " +
+                    _vm._s(_vm.$t("years old"))
+                )
+              ]),
+              _vm._v(" "),
+              _vm.writeaccess
+                ? _c("div", {}, [
+                    _c(
+                      "a",
+                      {
+                        staticClass: "btn btn-sm btn-warning",
+                        attrs: { href: "/student/" + _vm.student.id + "/edit" }
+                      },
+                      [_c("i", { staticClass: "fa fa-edit" })]
+                    ),
+                    _vm._v(" "),
+                    _vm._m(1)
+                  ])
+                : _vm._e()
+            ]
+          ),
+          _vm._v(" "),
+          _vm._l(_vm.contacts, function(contact) {
+            return _c(
+              "div",
+              {
+                key: contact.id,
+                staticClass: "tab-pane fade",
+                attrs: {
+                  id: "contact-" + contact.id + "-pane",
+                  role: "tabpanel",
+                  "aria-labelledby": contact.id + "-tab"
+                }
+              },
+              [
+                contact.relationship
+                  ? _c("h4", [_vm._v(_vm._s(contact.relationship.name))])
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("div", [
+                  _c("strong", [_vm._v(_vm._s(_vm.$t("name")) + ":")]),
+                  _vm._v(
+                    " " +
+                      _vm._s(contact.firstname) +
+                      " " +
+                      _vm._s(contact.lastname)
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", [
+                  _c("strong", [_vm._v(_vm._s(_vm.$t("idnumber")) + ":")]),
+                  _vm._v(" " + _vm._s(contact.idnumber))
+                ]),
+                _vm._v(" "),
+                _c("div", [
+                  _c("strong", [_vm._v(_vm._s(_vm.$t("address")) + ":")]),
+                  _vm._v(" " + _vm._s(contact.address))
+                ]),
+                _vm._v(" "),
+                contact.phone.length > 0
+                  ? _c("div", [
+                      _c("strong", [
+                        _vm._v(_vm._s(_vm.$t("Phone Number")) + ":")
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "ul",
+                        _vm._l(contact.phone, function(phone) {
+                          return _c("li", { key: phone.id }, [
+                            _vm._v(_vm._s(phone.phone_number))
+                          ])
+                        }),
+                        0
+                      )
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("div", [
+                  _c("strong", [_vm._v(_vm._s(_vm.$t("email")) + ":")]),
+                  _vm._v(" " + _vm._s(contact.email))
+                ]),
+                _vm._v(" "),
+                _vm.writeaccess
+                  ? _c("div", {}, [
+                      _c(
+                        "a",
+                        {
+                          staticClass: "btn btn-sm btn-warning",
+                          attrs: { href: "/contact/" + contact.id + "/edit" }
+                        },
+                        [_c("i", { staticClass: "fa fa-edit" })]
+                      ),
+                      _vm._v(" "),
+                      _vm._m(2, true),
+                      _vm._v(" "),
+                      _vm._m(3, true)
+                    ])
+                  : _vm._e()
+              ]
+            )
+          })
+        ],
+        2
+      )
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", { staticClass: "nav-item" }, [
+      _c(
+        "a",
+        {
+          staticClass: "nav-link active",
+          attrs: {
+            id: "student-tab",
+            "data-toggle": "tab",
+            href: "#student-pane",
+            role: "tab",
+            "aria-controls": "student-tab",
+            "aria-selected": "true"
+          }
+        },
+        [_vm._v("Student Info")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "btn btn-sm btn-primary",
+        attrs: { "data-toggle": "modal", "data-target": "#userDataModal" }
+      },
+      [_c("i", { staticClass: "fa fa-plus" })]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "btn btn-sm btn-primary",
+        attrs: { "data-toggle": "modal", "data-target": "#userDataModal" }
+      },
+      [_c("i", { staticClass: "fa fa-plus" })]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "btn btn-sm btn-danger",
+        attrs: { "data-toggle": "modal", "data-target": "#userDataModal" }
+      },
+      [_c("i", { staticClass: "fa fa-trash" })]
+    )
+  }
+]
 render._withStripped = true
 
 
@@ -25866,6 +26238,7 @@ Vue.component('phone-number-update-component', __webpack_require__(/*! ./compone
 Vue.component('contact-phone-number-update-component', __webpack_require__(/*! ./components/ContactPhoneNumberUpdateComponent.vue */ "./resources/js/components/ContactPhoneNumberUpdateComponent.vue")["default"]);
 Vue.component('course-attendance-status-component', __webpack_require__(/*! ./components/attendance/courseAttendanceStatusComponent.vue */ "./resources/js/components/attendance/courseAttendanceStatusComponent.vue")["default"]);
 Vue.component('event-attendance-status-component', __webpack_require__(/*! ./components/attendance/eventAttendanceStatusComponent.vue */ "./resources/js/components/attendance/eventAttendanceStatusComponent.vue")["default"]);
+Vue.component('student-contacts-component', __webpack_require__(/*! ./components/student/studentContactsComponent.vue */ "./resources/js/components/student/studentContactsComponent.vue")["default"]);
 var app = new Vue({
   el: '#app',
   i18n: i18n
@@ -26871,6 +27244,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_eventAttendanceStatusComponent_vue_vue_type_template_id_0c16d4b3___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_eventAttendanceStatusComponent_vue_vue_type_template_id_0c16d4b3___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/student/studentContactsComponent.vue":
+/*!**********************************************************************!*\
+  !*** ./resources/js/components/student/studentContactsComponent.vue ***!
+  \**********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _studentContactsComponent_vue_vue_type_template_id_78c56d0e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./studentContactsComponent.vue?vue&type=template&id=78c56d0e& */ "./resources/js/components/student/studentContactsComponent.vue?vue&type=template&id=78c56d0e&");
+/* harmony import */ var _studentContactsComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./studentContactsComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/student/studentContactsComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _studentContactsComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _studentContactsComponent_vue_vue_type_template_id_78c56d0e___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _studentContactsComponent_vue_vue_type_template_id_78c56d0e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/student/studentContactsComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/student/studentContactsComponent.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************!*\
+  !*** ./resources/js/components/student/studentContactsComponent.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_studentContactsComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./studentContactsComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/student/studentContactsComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_studentContactsComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/student/studentContactsComponent.vue?vue&type=template&id=78c56d0e&":
+/*!*****************************************************************************************************!*\
+  !*** ./resources/js/components/student/studentContactsComponent.vue?vue&type=template&id=78c56d0e& ***!
+  \*****************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_studentContactsComponent_vue_vue_type_template_id_78c56d0e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./studentContactsComponent.vue?vue&type=template&id=78c56d0e& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/student/studentContactsComponent.vue?vue&type=template&id=78c56d0e&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_studentContactsComponent_vue_vue_type_template_id_78c56d0e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_studentContactsComponent_vue_vue_type_template_id_78c56d0e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

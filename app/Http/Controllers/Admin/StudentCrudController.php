@@ -206,12 +206,12 @@ class StudentCrudController extends CrudController
         }
 
         $comments = $student->comments;
-
         return view('students/show', [
             'student' => $student,
             'comments' => $comments,
             'lead_types' => LeadType::all(),
-            'attendances' => $student->periodAttendance()->get()
+            'attendances' => $student->periodAttendance()->get(),
+            'writeaccess' => backpack_user()->can('enrollments.edit') ?? 0
         ]);
     }
 

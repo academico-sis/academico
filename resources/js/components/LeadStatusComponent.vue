@@ -1,26 +1,23 @@
 <template>
+<div class="card">
+    <div class="card-header">
+        {{ $t('front.Lead Status') }}
+    </div>
+        
+    <div class="card-body">
 
-  <div class="col-md-4">
-        <div class="card">
-            <div class="card-header">
-                {{ $t('front.Lead Status') }}
-            </div>
-            
-            <div class="card-body">
-
-                <div class="btn-group" role="group"
-                v-for="leadtype in leadtypes" v-bind:key="leadtype.id">
-                    <button
-                    class="btn btn-sm btn-secondary"
-                    v-bind:class="{ 'btn-info': status && status == leadtype.id }"
-                    @click="saveStatus(leadtype.id)"
-                    >
-                        {{ leadtype.name }}
-                    </button>
-            </div>
+        <div class="btn-group" role="group"
+            v-for="leadtype in leadtypes" v-bind:key="leadtype.id">
+                <button
+                class="btn btn-sm btn-secondary"
+                v-bind:class="{ 'btn-info': status && status == leadtype.id }"
+                @click="saveStatus(leadtype.id)"
+                >
+                    {{ leadtype.name }}
+            </button>
         </div>
     </div>
-  </div>
+</div>
 </template>
 
 

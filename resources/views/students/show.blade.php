@@ -22,117 +22,46 @@
     </div>
     @endif
 
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-header">
-                    @lang('Student Info')
-                <div class="card-header-actions">
-
-                    @if(backpack_user()->can('enrollments.edit'))
-                        <a class="btn btn-sm btn-warning" href="/student/{{$student->id}}/edit">
-                            <i class="fa fa-edit"></i>
-                        </a>
-                    @endif
-
-                    @if(backpack_user()->can('enrollments.edit'))
-                        <a class="btn btn-sm btn-primary" data-toggle="modal" data-target="#userDataModal">
-                            <i class="fa fa-plus"></i>
-                        </a>
-                    @endif
-
-                </div>
-            </div>
-            <div class="card-body">
-                @include('students.student_info')
-            </div>
-        </div>
+    <div class="col-md-6">
+        <student-contacts-component :student="{{ $student }}" :contacts="{{ $student->contacts }}" writeaccess="{{ $writeaccess }}"></student-contacts-component>
     </div>
 
 
-
-    @foreach ($student->contacts as $contact)
     <div class="col-md-4">
-            <div class="card">
-                <div class="card-header">
-                    @lang('Additional Contact')
-                    @if(isset($contact->relationship))
-                    ({{ $contact->relationship->name }})
-                    @endif
 
-                    <div class="card-header-actions">
-                        @if(backpack_user()->can('enrollments.edit'))
-                            <a class="btn btn-sm btn-warning" href="/contact/{{$contact->id}}/edit">
-                                <i class="fa fa-edit"></i>
-                            </a>
-                        @endif
-
-                    </div>
-                </div>
-                
-                <div class="card-body">
-                    @include('students.additional_info')
-                </div>
+    @if(backpack_user()->can('comments.edit'))
+        <div class="row">
+        <div class="col-md-12">
+            <student-comments
+            :comments="{{ json_encode($comments) }}"
+            :id="{{ json_encode($student->id) }}"
+            :type="'App\\Models\\Student'"
+            route="{{ route('storeComment') }}">
+            </student-comments>
             </div>
         </div>
-    @endforeach
+    @endif
 
+    @if(backpack_user()->can('leads.manage'))
+        <div class="row">
+        <div class="col-md-12">
+            <lead-status-component
+            :student="{{ json_encode($student) }}"
+            :leadtypes="{{ json_encode($lead_types) }}"
+            route="{{ route('postLeadStatus') }}"
+            >
+            </lead-status-component>
+            </div>
+        </div>
+    @endif
 </div>
+</div><!-- end of first row -->
 
 
 <div class="row">
 
-
-@if ($attendances->count() > 0)
- <div class="col-md-4">
-        <div class="card">
-            <div class="card-header">
-                @lang('Attendance')
-            </div>
-                
-            <div class="card-body" id="app">
-                <table class="table">
-                    @foreach($attendances as $attendance)
-                        @if ($attendance->attendance_type_id == 4)
-                        <a href="{{ route('studentAttendance', ['student' => $student->id]) }}">
-                            <span class="badge badge-danger">{{ $attendance->event->shortDate }}</span>
-                        </a>
-                        @elseif($attendance->attendance_type_id == 1)
-                            <span class="badge badge-success">{{ $attendance->event->shortDate }}</span>
-                        @else
-                            <span class="badge badge-warning">{{ $attendance->event->shortDate }}</span>
-                        @endif
-                        -
-                    @endforeach
-                </table>
-            </div>
-        </div>
-    </div>
-@endif
-
- @if(backpack_user()->can('comments.edit'))
-    <div class="col-md-4">
-        <student-comments
-        :comments="{{ json_encode($comments) }}"
-        :id="{{ json_encode($student->id) }}"
-        :type="'App\\Models\\Student'"
-        route="{{ route('storeComment') }}">
-        </student-comments>
-    </div>
-@endif
-
-@if(backpack_user()->can('leads.manage'))
-
-    <lead-status-component
-    :student="{{ json_encode($student) }}"
-    :leadtypes="{{ json_encode($lead_types) }}"
-    route="{{ route('postLeadStatus') }}"
-    >
-    </lead-status-component>
-
-@endif
-
     @if (count($student->enrollments) > 0)
-        <div class="col-md-8">
+        <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
                             @lang('Enrollments')
@@ -161,6 +90,7 @@
                                 @endif
 
                                 <th>@lang('Result')</th>
+                                <th>@lang('Attendance')</th>
                             </thead>
 
                             <tbody>
@@ -183,6 +113,9 @@
                                                 <i class="fa fa-eye"></i>
                                             </a>
                                             @endif
+                                        </td>
+                                        <td>
+                                            100%
                                         </td>
                                     </tr>
                                 @endforeach

@@ -42,6 +42,7 @@ Vue.component('contact-phone-number-update-component', require('./components/Con
 
 Vue.component('course-attendance-status-component', require('./components/attendance/courseAttendanceStatusComponent.vue').default);
 Vue.component('event-attendance-status-component', require('./components/attendance/eventAttendanceStatusComponent.vue').default);
+Vue.component('student-contacts-component', require('./components/student/studentContactsComponent.vue').default);
 
 const app = new Vue({
     el: '#app',
