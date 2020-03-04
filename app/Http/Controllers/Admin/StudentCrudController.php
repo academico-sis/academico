@@ -45,6 +45,8 @@ class StudentCrudController extends CrudController
         CRUD::removeButton('create');
         CRUD::removeButton('update');
 
+        CRUD::setListView('students.list');
+
         $permissions = backpack_user()->getAllPermissions();
         
         if($permissions->contains('name', 'enrollments.create')) {
