@@ -40,13 +40,14 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($courses as $course)
+                    @foreach($courses as $c => $course)
                     <tr is="course-attendance-status-component"
-                        :count="{{ $course->missing_attendance ?? 0 }}"
-                        :exempted="{{ $course->exempt_attendance ?? 0 }}"
-                        toggleroute="{{ route('toggleCourseAttendance', ['course' => $course->id ]) }}"
-                        :course="{{ $course }}"
-                        courseattendanceroute="{{ route('monitorCourseAttendance', ['course' => $course->id ]) }}"
+                        :count="{{ $courses[$c]['missing'] ?? 0 }}"
+                        :exempted="{{ $courses[$c]['exempt_attendance'] ?? 0 }}"
+                        toggleroute="{{ route('toggleCourseAttendance', ['course' => $courses[$c]['id'] ]) }}"
+                        coursename="{{ $courses[$c]['name'] }}"
+                        teachername="{{ $courses[$c]['teachername'] }}"
+                        courseattendanceroute="{{ route('monitorCourseAttendance', ['course' => $courses[$c]['id'] ]) }}"
                         ></tr>
                     @endforeach
                     </tbody>

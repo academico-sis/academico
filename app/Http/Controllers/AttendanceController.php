@@ -38,9 +38,43 @@ class AttendanceController extends Controller
         Log::info('Attendance dashboard viewed by ' . \backpack_user()->id);
         $selected_period = $this->selectPeriod($request);
 
+        // student attendance overview
         $absences = (new Attendance)->get_absence_count_per_student($selected_period);
         
-        $courses = $selected_period->courses->sortByDesc('missing_attendance');
+        // get all courses for period and preload relations
+        $courses = $selected_period->courses()->withCount('events')->with('attendance')->with('events')->get();
+
+        // loop through all courses and get the number of events with incomplete attendance
+        foreach ($courses as $course)
+        {
+            $eventsWithMissingAttendanceCount = 0;
+            $coursesdata[$course->id]['name'] = $course->name;
+            $coursesdata[$course->id]['id'] = $course->id;
+            $coursesdata[$course->id]['exempt_attendance'] = $course->exempt_attendance;
+            $coursesdata[$course->id]['teachername'] = $course->course_teacher_name;
+
+            foreach ($course->eventsWithExpectedAttendance as $event)
+            {
+                foreach ($course->enrollments as $enrollment)
+                {
+                    // if a student has no attendance record for the class (event)
+                    $hasNotAttended = $course->attendance->where('student_id', $enrollment->student_id)
+                    ->where('event_id', $event->id)
+                    ->isEmpty();
+                    
+                    // count one and break loop
+                    if ($hasNotAttended) {
+                        $eventsWithMissingAttendanceCount++;
+                    break;
+                    }
+                }
+            }
+
+            $coursesdata[$course->id]['missing'] = $eventsWithMissingAttendanceCount;
+        }
+        
+        // sort by number of events with missing attendance
+        $courses = collect($coursesdata)->sortByDesc('missing')->toArray();
         
         return view('attendance.monitor', compact('absences', 'courses', 'selected_period'));
     }

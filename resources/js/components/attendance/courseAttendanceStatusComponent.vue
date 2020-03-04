@@ -1,11 +1,11 @@
 <template>
 <tr>
     <td>
-            <a v-if="this.attendanceEnabled" :href="courseattendanceroute">{{ course.name }}</a>
-            <span v-else>{{ course.name }}</span>
+            <a v-if="this.attendanceEnabled" :href="courseattendanceroute">{{ coursename }}</a>
+            <span v-else>{{ coursename }}</span>
     </td>
 
-    <td>{{ course.course_teacher_name }}</td>
+    <td>{{ teachername }}</td>
 
     <td>
         <span
@@ -27,7 +27,7 @@
 
 <script>
 export default {
-    props: ['exempted', 'count', 'toggleroute', 'course', 'courseattendanceroute'],
+    props: ['exempted', 'count', 'toggleroute', 'coursename', 'teachername', 'courseattendanceroute'],
     data () {
         return {
             errors: [],

@@ -451,47 +451,15 @@ protected static function boot()
         }
     }
 
-    public function getEventsWithExpectedAttendanceAttribute()
+    public function eventsWithExpectedAttendance()
     {
         return $this->events()->where(function($query) {
             $query->where('exempt_attendance', '!=', true);
             $query->where('exempt_attendance', '!=', 1);
             $query->orWhereNull('exempt_attendance');
-        })->where('start', '<', Carbon::now(env('COURSES_TIMEZONE'))->toDateTimeString())->get();
+        })->where('start', '<', Carbon::now(env('COURSES_TIMEZONE'))->toDateTimeString());
     }
 
-    public function getMissingAttendanceAttribute()
-    {
-        $eventsWithMissingAttendanceCount = 0;
-
-        $eventsIDs = $this->events_with_expected_attendance->pluck('id');
-        $studentIDs = $this->enrollments->pluck('student_id');
-
-        // Collection of attendances
-        $attendances = Attendance::whereIn('student_id', $studentIDs)
-            ->whereIn('event_id', $eventsIDs)
-            ->get();
-
-
-        // loop through every event supposed to have attendance
-        foreach ($this->events_with_expected_attendance as $event)
-        {
-            // loop through every student
-            foreach ($this->enrollments as $enrollment)
-            {
-                $hasNotAttended = $attendances->where('student_id', $enrollment->student_id)
-                ->where('event_id', $event->id)
-                ->isEmpty();
-
-                if ($hasNotAttended) {
-                    $eventsWithMissingAttendanceCount++;
-                    break;
-                }
-            }
-        }
-
-        return $eventsWithMissingAttendanceCount;
-    }
 
     /*
     |--------------------------------------------------------------------------

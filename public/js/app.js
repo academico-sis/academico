@@ -3232,7 +3232,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['exempted', 'count', 'toggleroute', 'course', 'courseattendanceroute'],
+  props: ['exempted', 'count', 'toggleroute', 'coursename', 'teachername', 'courseattendanceroute'],
   data: function data() {
     return {
       errors: [],
@@ -8717,12 +8717,12 @@ var render = function() {
     _c("td", [
       this.attendanceEnabled
         ? _c("a", { attrs: { href: _vm.courseattendanceroute } }, [
-            _vm._v(_vm._s(_vm.course.name))
+            _vm._v(_vm._s(_vm.coursename))
           ])
-        : _c("span", [_vm._v(_vm._s(_vm.course.name))])
+        : _c("span", [_vm._v(_vm._s(_vm.coursename))])
     ]),
     _vm._v(" "),
-    _c("td", [_vm._v(_vm._s(_vm.course.course_teacher_name))]),
+    _c("td", [_vm._v(_vm._s(_vm.teachername))]),
     _vm._v(" "),
     _c("td", [
       _vm.attendanceEnabled
