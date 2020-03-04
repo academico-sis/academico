@@ -82,13 +82,12 @@
                             <thead>
                                 <th>@lang('Date')</th>
                                 <th>@lang('Enrollment ID')</th>
-                                <th>@lang('Course')</th>
-                                <th>@lang('Teacher')</th>
-                                <th>@lang('Period')</th>
                                 @if(backpack_user()->can('enrollments.edit'))
                                     <th>@lang('Status')</th>
                                 @endif
-
+                                <th>@lang('Course')</th>
+                                <th>@lang('Teacher')</th>
+                                <th>@lang('Period')</th>
                                 <th>@lang('Result')</th>
                                 <th>@lang('Attendance')</th>
                             </thead>
@@ -100,12 +99,12 @@
                                         <td>
                                             <a href="/enrollment/{{ $enrollment->id }}/show">{{ $enrollment->id }}</a>
                                         </td>
-                                        <td>{{ $enrollment->course->name }}</td>
-                                        <td>{{ $enrollment->course->teacher->name ?? '-'}}</td>
-                                        <td>{{ $enrollment->course->period->name }}</td>
                                         @if(backpack_user()->can('enrollments.edit'))
                                             <td>{{ $enrollment->status }}</td>
                                         @endif
+                                        <td>{{ $enrollment->course->name }}</td>
+                                        <td>{{ $enrollment->course->teacher->name ?? '-'}}</td>
+                                        <td>{{ $enrollment->course->period->name }}</td>
                                         <td>
                                             @if(isset($enrollment->result))
                                             {{ $enrollment->result['result_name']['name'] }}
