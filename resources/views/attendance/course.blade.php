@@ -26,6 +26,7 @@
                                     toggleroute="{{ route('toggleEventAttendance', ['event' => $event->id ]) }}"
                                     eventattendanceroute="{{ route('eventAttendance', ['event' => $event->id]) }}"
                                     eventdate="{{ Carbon\Carbon::parse($event->start)->toFormattedDateString() }}"
+                                    :isadmin="{{ json_encode($isadmin) }}"
                                 ></event-attendance-status-component>
                             </td>
                         @endforeach

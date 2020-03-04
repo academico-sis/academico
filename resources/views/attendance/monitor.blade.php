@@ -48,6 +48,7 @@
                         coursename="{{ $courses[$c]['name'] }}"
                         teachername="{{ $courses[$c]['teachername'] }}"
                         courseattendanceroute="{{ route('monitorCourseAttendance', ['course' => $courses[$c]['id'] ]) }}"
+                        :isadmin="{{ json_encode($isadmin) }}"
                         ></tr>
                     @endforeach
                     </tbody>

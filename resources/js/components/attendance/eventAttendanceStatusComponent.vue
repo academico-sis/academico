@@ -8,7 +8,7 @@
 </p>
 <p>
 <label class="switch switch-label switch-pill switch-outline-primary-alt attendance-switch">
-    <input class="switch-input" type="checkbox" v-model="attendanceEnabled" @click="toggleAttendanceStatus(attendanceEnabled)">
+    <input class="switch-input" :disabled="!isadmin" type="checkbox" v-model="attendanceEnabled" @click="toggleAttendanceStatus(attendanceEnabled)">
     <span class="switch-slider" data-checked="On" data-unchecked="Off"></span>
 </label>
 </p>
@@ -18,7 +18,7 @@
 
 <script>
 export default {
-    props: ['exempted', 'toggleroute', 'eventattendanceroute', 'eventdate'],
+    props: ['exempted', 'toggleroute', 'eventattendanceroute', 'eventdate', 'isadmin'],
     data () {
         return {
             errors: [],

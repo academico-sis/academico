@@ -75,8 +75,9 @@ class AttendanceController extends Controller
         
         // sort by number of events with missing attendance
         $courses = collect($coursesdata)->sortByDesc('missing')->toArray();
-        
-        return view('attendance.monitor', compact('absences', 'courses', 'selected_period'));
+        $isadmin = backpack_user()->hasPermissionTo('courses.edit');
+
+        return view('attendance.monitor', compact('absences', 'courses', 'selected_period', 'isadmin'));
     }
 
     public function student(Request $request, Student $student)
@@ -157,7 +158,9 @@ class AttendanceController extends Controller
             }
             Log::info('Attendance for course viewed by ' . \backpack_user()->id);
 
-            return view('attendance/course', compact('attendances', 'course', 'events'));
+            $isadmin = backpack_user()->hasPermissionTo('courses.edit');
+
+            return view('attendance/course', compact('attendances', 'isadmin', 'course', 'events'));
 
     }
 

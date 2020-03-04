@@ -3297,7 +3297,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['exempted', 'toggleroute', 'eventattendanceroute', 'eventdate'],
+  props: ['exempted', 'toggleroute', 'eventattendanceroute', 'eventdate', 'isadmin'],
   data: function data() {
     return {
       errors: [],
@@ -8759,7 +8759,7 @@ var render = function() {
               }
             ],
             staticClass: "switch-input",
-            attrs: { type: "checkbox" },
+            attrs: { disabled: !_vm.isadmin, type: "checkbox" },
             domProps: {
               checked: Array.isArray(_vm.attendanceEnabled)
                 ? _vm._i(_vm.attendanceEnabled, null) > -1
@@ -8849,7 +8849,7 @@ var render = function() {
               }
             ],
             staticClass: "switch-input",
-            attrs: { type: "checkbox" },
+            attrs: { disabled: !_vm.isadmin, type: "checkbox" },
             domProps: {
               checked: Array.isArray(_vm.attendanceEnabled)
                 ? _vm._i(_vm.attendanceEnabled, null) > -1
