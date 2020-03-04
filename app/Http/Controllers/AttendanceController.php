@@ -80,18 +80,6 @@ class AttendanceController extends Controller
         return view('attendance.monitor', compact('absences', 'courses', 'selected_period', 'isadmin'));
     }
 
-    public function student(Request $request, Student $student)
-    {
-        $period = $this->selectPeriod($request);
-
-        return view('attendance.student', [
-            'student' => $student,
-            'selected_period' => $period,
-            'absences'=> $student->periodAbsences($period)->get()
-        ]);
-
-    }
-
     /**
      * Store a newly created attendance record.
      */
@@ -190,6 +178,20 @@ class AttendanceController extends Controller
         Log::info('Attendance for event viewed by ' . \backpack_user()->id);
 
         return view('attendance/event', compact('attendances', 'event'));
+    }
+
+    public function showStudentAttendanceForCourse(Student $student, Request $request)
+    {
+        if ($request->query('course_id', null) == null) { $selectedCourse = $student->enrollments->last()->course; }
+        else { $selectedCourse = Course::find($request->query('course_id', null)); }
+
+        $studentEnrollments = $student->enrollments()->with('course')->get();
+        $courseEventIds = $selectedCourse->events->pluck('id');
+
+        $attendances = $student->attendance()->with('event')->get()->whereIn('event_id', $courseEventIds);
+        $attendanceratio = 100*(($attendances->where('attendance_type_id', 1)->count() + ($attendances->where('attendance_type_id', 2)->count() * 0.75)) / $attendances->count());
+
+        return view('attendance.student', compact('student', 'selectedCourse', 'studentEnrollments', 'attendances', 'attendanceratio'));
     }
 
     public function toggleEventAttendanceStatus(Event $event, Request $request)
