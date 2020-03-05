@@ -51,7 +51,7 @@ class StudentCrudController extends CrudController
             CRUD::addButtonFromView('line', 'selectCourse', 'selectCourse', 'beginning');
         }
 
-        if(backpack_user()->hasRole('admin'))
+        if(backpack_user()->hasPermissionTo('enrollments.view'))
         {
             CRUD::enableExportButtons();
         }
