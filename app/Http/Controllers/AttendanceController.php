@@ -189,7 +189,7 @@ class AttendanceController extends Controller
         $courseEventIds = $selectedCourse->events->pluck('id');
 
         $attendances = $student->attendance()->with('event')->get()->whereIn('event_id', $courseEventIds);
-        $attendanceratio = 100*(($attendances->where('attendance_type_id', 1)->count() + ($attendances->where('attendance_type_id', 2)->count() * 0.75)) / $attendances->count());
+        $attendanceratio = round(100*(($attendances->where('attendance_type_id', 1)->count() + ($attendances->where('attendance_type_id', 2)->count() * 0.75)) / $attendances->count()));
 
         return view('attendance.student', compact('student', 'selectedCourse', 'studentEnrollments', 'attendances', 'attendanceratio'));
     }

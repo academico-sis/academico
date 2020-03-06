@@ -99,13 +99,14 @@ class Attendance extends Model
             student_id,
             users.firstname as firstname,
             users.lastname as lastname,
+            courses.id as course_id,
             courses.name as course_name')
         ->join('events', 'events.id', '=', 'attendances.event_id')
         ->join('courses', 'courses.id', '=', 'events.course_id')
         ->join('students', 'attendances.student_id', '=', 'students.id')
         ->join('users', 'users.id', '=', 'students.user_id')
         ->where('courses.period_id', $period->id)
-        ->groupBy('course_name', 'student_id', 'firstname', 'lastname')
+        ->groupBy('course_name', 'course_id', 'student_id', 'firstname', 'lastname')
         ->orderBy('total_absence_count', 'DESC')
         ->get();
     }

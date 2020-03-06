@@ -27,7 +27,7 @@
 
 <script>
 export default {
-    props: ['exempted', 'count', 'toggleroute', 'coursename', 'teachername', 'courseattendanceroute'],
+    props: ['exempted', 'count', 'toggleroute', 'coursename', 'teachername', 'courseattendanceroute', 'isadmin'],
     data () {
         return {
             errors: [],
