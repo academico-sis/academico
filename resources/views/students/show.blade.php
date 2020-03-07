@@ -114,7 +114,12 @@
                                             @endif
                                         </td>
                                         <td>
-                                            100%
+                                            @if(isset($enrollment->attendance_ratio))
+                                                {{ $enrollment->attendance_ratio }}%
+                                                <a href="{{ route('studentAttendance', ['student' => $enrollment->student_id]) }}?course_id={{ $enrollment->course_id }}" class="btn btn-sm btn-info">
+                                                    <i class="fa fa-eye"></i>
+                                                </a>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach

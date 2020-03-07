@@ -42,7 +42,7 @@ class AttendanceController extends Controller
         $absences = (new Attendance)->get_absence_count_per_student($selected_period);
         
         // get all courses for period and preload relations
-        $courses = $selected_period->courses()->withCount('events')->with('attendance')->with('events')->get();
+        $courses = $selected_period->courses()->whereHas('events')->with('attendance')->with('events')->get();
 
         // loop through all courses and get the number of events with incomplete attendance
         foreach ($courses as $course)
@@ -189,7 +189,8 @@ class AttendanceController extends Controller
         $courseEventIds = $selectedCourse->events->pluck('id');
 
         $attendances = $student->attendance()->with('event')->get()->whereIn('event_id', $courseEventIds);
-        $attendanceratio = round(100*(($attendances->where('attendance_type_id', 1)->count() + ($attendances->where('attendance_type_id', 2)->count() * 0.75)) / $attendances->count()));
+        $enrollment = $studentEnrollments->where('course_id', $selectedCourse->id)->first();
+        $attendanceratio = $enrollment->attendance_ratio;
 
         return view('attendance.student', compact('student', 'selectedCourse', 'studentEnrollments', 'attendances', 'attendanceratio'));
     }
