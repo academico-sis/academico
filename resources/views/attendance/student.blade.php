@@ -66,6 +66,8 @@
 
                 <div class="row">
                     <div class="col-md-12">
+                    <div class="card">
+                    <div class="card-body">
                     <table class="table" id="attendanceTable">
                         <thead>
                             <th>@lang('Event')</th>
@@ -110,6 +112,26 @@
                         @endforeach
                     </tbody>
                     </table>
+                    </div>
+                    <div class="card-footer">
+            <label class="badge badge-success">
+                P <i class="fa fa-user"></i>
+            </label> : @lang('Present')
+            - 
+            <label class="badge badge-warning">
+                PP <i class="fa fa-clock-o"></i>
+            </label> : @lang('Partial presence (arrived late or left early)')
+            - 
+            <label class="badge badge-info">
+                AJ <i class="fa fa-exclamation"></i>
+            </label> : @lang('justified absence')
+            - 
+            <label class="badge badge-danger">
+                A <i class="fa fa-user-times"></i>
+            </label> : @lang('unjustified absence')
+            </div>
+            </div>
+                    
                     </div>
                 </div>
                 </div>
