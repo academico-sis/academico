@@ -259,7 +259,14 @@ class Enrollment extends Model
         {
             return null;
         }
-        
+    }
+
+    public function getAbsenceCountAttribute()
+    {
+        $courseEventIds = $this->course->events->pluck('id');
+        $attendances = $this->student->attendance()->with('event')->get()->whereIn('event_id', $courseEventIds);
+        $absenceCount = $attendances->where('attendance_type_id', 3)->count() + $attendances->where('attendance_type_id', 4)->count();
+        return $absenceCount;
     }
 
     

@@ -32,7 +32,7 @@ class Attendance extends Model
                 Log::info('Absence marked for student ' . $attendance->student->name);
                 // will check the record again and send a notification if it hasn't changed
                 WatchAttendance::dispatch($attendance)
-                ->delay(now()->addMinutes(30)); // todo move to configurable settings
+                ->delay(now()); // todo move to configurable settings
             }
         });
 
