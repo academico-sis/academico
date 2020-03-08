@@ -132,8 +132,7 @@ class HomeController extends Controller
             'upcoming_leaves' => Leave::upcoming_leaves(),
             'resources' => $teachers,
             'events' => $events,
-            'call_leads' => Student::where('lead_type_id', 5)->count(),
-            'pending_leads' => Student::where('lead_type_id', 4)->count(),
+            'pending_leads' => (new Student)->potential_clients_count,
             'action_comments' => Comment::where('action', 1)->count(),
         ]);
     }

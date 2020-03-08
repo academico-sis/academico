@@ -246,13 +246,10 @@ class TestSeeder extends Seeder
         ]);
 
 
-        LeadType::create(['id' => '1', 'name' => 'Converted']);
-        LeadType::create(['id' => '2', 'name' => 'BadTiming']);
-        LeadType::create(['id' => '3', 'name' => 'Dead']);
-        LeadType::create(['id' => '4', 'name' => 'Pending']);
-        LeadType::create(['id' => '5', 'name' => 'Call']);
-        LeadType::create(['id' => '6', 'name' => 'exAlumno']);
-        LeadType::create(['id' => '7', 'name' => 'oldStudent']);
+        LeadType::create(['id' => '1', 'name' => 'Active']);
+        LeadType::create(['id' => '2', 'name' => 'Inactive']);
+        LeadType::create(['id' => '3', 'name' => 'FormerClient']);
+        LeadType::create(['id' => '4', 'name' => 'Potential']);
 
         Paymentmethod::create(['id' => '1', 'name' => 'Tarjeta de Crédito', 'code' => 'TC']);
         Paymentmethod::create(['id' => '2', 'name' => 'Crédito', 'code' => 'CRC']);

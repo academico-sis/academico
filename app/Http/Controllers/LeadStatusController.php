@@ -31,7 +31,7 @@ class LeadStatusController extends Controller
         $student->lead_type_id = $request->input('status');
         $student->save();
 
-        // converted
+        // converted, active clients
         if ($request->input('status') == 1)
         {
             $groupId = Config::where('name', 'mailerlite_students_group_id')->first()->value;
@@ -49,7 +49,7 @@ class LeadStatusController extends Controller
 
             
         // oldstudent
-        if ($request->input('status') == 7 || $request->input('status') == 2 || $request->input('status') == 4 || $request->input('status') == 5)
+        if ($request->input('status') == 2 || $request->input('status') == 3 || $request->input('status') == 4)
         {
             $groupId = Config::where('name', 'mailerlite_oldstudents_group_id')->first()->value;
             $parents_groupId = Config::where('name', 'mailerlite_oldstudents_group_id')->first()->value;
@@ -65,22 +65,6 @@ class LeadStatusController extends Controller
         }
 
 
-        // alumni
-        if ($request->input('status') == 6)
-        {
-            $groupId = Config::where('name', 'mailerlite_alumni_group_id')->first()->value;
-            $parents_groupId = Config::where('name', 'mailerlite_alumni_group_id')->first()->value;
-
-            $subscriber = [
-                'email' => $student->email,
-                'name' => $student->firstname,
-                'fields' => [
-                  'lastname' => $student->lastname
-                ]
-            ];
-            $this->subscribeToList($subscriber, $groupId);
-        }
-
         // contacts
         foreach($student->contacts as $contact)
         {
@@ -94,21 +78,6 @@ class LeadStatusController extends Controller
             $this->subscribeToList($subscriber, $parents_groupId);
         }
 
-        // dead
-        if ($request->input('status') == 3)
-        {
-            $api_key = Config::where('name', 'mailerlite_api_key')->first()->value;
-            $subscribersApi = (new \MailerLiteApi\MailerLite($this->api_key))->subscribers();
-            $subscriberData = ['type' => 'unsubscribed'];
-
-            $subscribersApi->update($student->email, $subscriberData); // returns object of updated subscriber
-
-            foreach($student->contacts as $contact)
-            {
-                $subscribersApi->update($contact->email, $subscriberData);
-            }
-
-        }
 
         return $student->lead_type_id;
     }
