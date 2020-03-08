@@ -91,7 +91,7 @@ class Period extends Model
         return $this
             ->enrollments
             ->where('status_id', 1) // pending
-            ->where('course.parent_course_id', null)
+            ->where('parent_id', null)
             ->count();
     }
 
@@ -117,7 +117,7 @@ class Period extends Model
         return $this
             ->enrollments
             ->where('status_id', 2) // pending
-            ->where('course.parent_course_id', null)
+            ->where('parent_id', null)
             ->count();
     }
 
@@ -220,4 +220,5 @@ class Period extends Model
         }
         return $total;
     }
+
 }

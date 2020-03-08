@@ -45,6 +45,8 @@ class StudentCrudController extends CrudController
         CRUD::removeButton('create');
         CRUD::removeButton('update');
 
+        CRUD::setListView('students.list');
+
         $permissions = backpack_user()->getAllPermissions();
         
         if($permissions->contains('name', 'enrollments.create')) {
@@ -108,21 +110,23 @@ class StudentCrudController extends CrudController
         ]);
 
 
-        CRUD::addFilter([ // select2_multiple filter
-            'name' => 'enrolled',
-            'type' => 'select2_multiple',
-            'label'=> __('Is Enrolled in')
-          ], function() { // the options that show up in the select2
-              return Period::all()->pluck('name', 'id')->toArray();
-          }, function($values) { // if the filter is active
-              foreach (json_decode($values) as $key => $value) {
+
+          CRUD::addFilter([ // select2 filter
+                'name' => 'enrolled',
+                'type' => 'select2',
+                'label'=> __('Is Enrolled in')
+            ], function() {
+                return Period::all()->pluck('name', 'id')->toArray();
+            }, function($value) { // if the filter is active
                 $this->crud->query = $this->crud->query->whereHas('enrollments', function ($query) use ($value) {
                     return $query->whereHas('course', function ($q) use ($value) {
                         $q->where('period_id', $value);
                     });
                   });
-              }
-          });
+          },
+          function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
+            
+        });
 
 
 
@@ -144,27 +148,23 @@ class StudentCrudController extends CrudController
 
           CRUD::addFilter([ // select2 filter
             'name' => 'lead_status_is',
-            'type' => 'select2_multiple',
+            'type' => 'select2',
             'label'=> __('Status is')
           ], function() {
               return LeadType::all()->pluck('name', 'id')->toArray();
-          }, function($values) { // if the filter is active
-            foreach (json_decode($values) as $key => $value) {
-                 CRUD::addClause('orWhere', 'lead_type_id', $value);
-             }
+          }, function($value) { // if the filter is active
+                 CRUD::addClause('where', 'lead_type_id', $value);
             });
 
 
             CRUD::addFilter([ // select2 filter
                 'name' => 'lead_status_isnot',
-                'type' => 'select2_multiple',
+                'type' => 'select2',
                 'label'=> __('Status is not')
               ], function() {
                   return LeadType::all()->pluck('name', 'id')->toArray();
-              }, function($values) { // if the filter is active
-                foreach (json_decode($values) as $key => $value) {
+              }, function($value) { // if the filter is active
                      CRUD::addClause('where', 'lead_type_id', '!=', $value);
-                 }
                 });
 
 
