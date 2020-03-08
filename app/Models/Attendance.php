@@ -88,27 +88,15 @@ class Attendance extends Model
     /**
      * get absences count per student
      * this is useful for monitoring the absences
-     * TODO REFACTOR 
      */
     public function get_absence_count_per_student(Period $period)
     {
-        return Attendance::selectRaw('
-            SUM(case when attendance_type_id = 4 then 1 else 0 end) as unjustified_absence_count,
-            SUM(case when attendance_type_id = 3 then 1 else 0 end) as justified_absence_count,
-            SUM(case when attendance_type_id in (3,4) then 1 else 0 end) as total_absence_count,
-            student_id,
-            users.firstname as firstname,
-            users.lastname as lastname,
-            courses.id as course_id,
-            courses.name as course_name')
-        ->join('events', 'events.id', '=', 'attendances.event_id')
-        ->join('courses', 'courses.id', '=', 'events.course_id')
-        ->join('students', 'attendances.student_id', '=', 'students.id')
-        ->join('users', 'users.id', '=', 'students.user_id')
-        ->where('courses.period_id', $period->id)
-        ->groupBy('course_name', 'course_id', 'student_id', 'firstname', 'lastname')
-        ->orderBy('total_absence_count', 'DESC')
-        ->get();
+        // return attendance records for period
+        $coursesIds = $period->courses->pluck('id');
+        $eventsIds = Event::whereIn('course_id', $coursesIds)->pluck('id');
+        $attendances = Attendance::with('event.course')->with('student')->whereIn('event_id', $eventsIds)->whereIn('attendance_type_id', [3,4])->get()->groupBy('student_id');
+
+        return $attendances;
     }
 
 

@@ -74,36 +74,32 @@
             </div>
             
             <div class="card-body">
-                <table class="table">
+                <table class="table" id="studentAttendanceTable">
                     <thead>
                         <tr>
                             <th>@lang('Student')</th>
                             <th>@lang('Course')</th>
-                            <th>@lang('Number of non-justified absences')</th>
-                            <th>@lang('Number of justified absences')</th>
+                            <th>@lang('Teacher')</th>
                             <th>@lang('Total')</th>
 
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($absences as $absence)
-                            @if($absence->unjustified_absence_count > 0 || $absence->justified_absence_count > 0 )
                             <tr>
-                                <td><a href="{{ route('studentAttendance', ['student' => $absence->student_id]) }}?course_id={{ $absence->course_id }}">{{ $absence->firstname }} {{ $absence->lastname }}</a></td>
-                                <td>{{ $absence->course_name }}</td>
-                                <td>{{ $absence->unjustified_absence_count }}</td>
-                                <td>{{ $absence->justified_absence_count }}</td>
+                                <td><a href="{{ route('studentAttendance', ['student' => $absence->first()->student_id]) }}?course_id={{ $absence->first()->event->course_id }}">{{ $absence->first()->student->name }}</a></td>
+                                <td>{{ $absence->first()->event->course->name }}</td>
+                                <td>{{ $absence->first()->event->course->course_teacher_name }}</td>
                                 <td>
-                                    @if ($absence->total_absence_count > 3)
-                                        <span class="badge badge-pill badge-danger">{{ $absence->total_absence_count }}</span>
-                                    @elseif ($absence->total_absence_count > 1)
-                                        <span class="badge badge-pill badge-warning">{{ $absence->total_absence_count }}</span>
+                                    @if ($absence->count() > 3)
+                                        <span class="badge badge-pill badge-danger">{{ $absence->count() }}</span>
+                                    @elseif ($absence->count() > 1)
+                                        <span class="badge badge-pill badge-warning">{{ $absence->count() }}</span>
                                     @else
-                                        <span class="badge badge-pill badge-info">{{ $absence->total_absence_count }}</span>
+                                        <span class="badge badge-pill badge-info">{{ $absence->count() }}</span>
                                     @endif
                                 </td>
                             </tr>
-                            @endif
                         @endforeach
                     </tbody>
                 </table>
@@ -118,4 +114,17 @@
 @section('after_scripts')
 <script src="/js/app.js"></script>
 
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.20/b-1.6.1/b-html5-1.6.1/b-print-1.6.1/datatables.min.css"/>
+ 
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.20/b-1.6.1/b-html5-1.6.1/b-print-1.6.1/datatables.min.js"></script>
+<script>
+    $(document).ready(function() {
+    $('#studentAttendanceTable').DataTable( {
+    "paging": false,
+    "order": [[ 3, "desc" ]]
+} );
+} );
+</script>
 @endsection

@@ -40,7 +40,7 @@ class AttendanceController extends Controller
 
         // student attendance overview
         $absences = (new Attendance)->get_absence_count_per_student($selected_period);
-        
+
         // get all courses for period and preload relations
         $courses = $selected_period->courses()->whereHas('events')->with('attendance')->with('events')->get();
 

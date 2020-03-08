@@ -148,8 +148,7 @@ class AttendanceTest extends TestCase
 
         // the absence count for this student should be two
         $absences = (new Attendance)->get_absence_count_per_student(Period::get_default_period());
-        $this->assertEquals(1, $absences[0]['unjustified_absence_count']);
-        $this->assertEquals(1, $absences[0]['justified_absence_count']);
+        $this->assertEquals(2, $absences->first()->count());
     }
 
     /**
