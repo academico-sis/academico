@@ -125,7 +125,8 @@ class AttendanceController extends Controller
 
         // if the course has any past events
         if($events->count() == 0 || $course->enrollments()->count() == 0) {
-            abort(404, 'The course has no attendance record');
+            \Alert::add('error', 'This course has no events.')->flash();
+            return back();
         }
 
             $enrollments = $course->enrollments()->with('student')->get();
