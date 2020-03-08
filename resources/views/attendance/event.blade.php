@@ -8,7 +8,7 @@
     <div class="col-lg-8 col-lg-offset-2">
         <div class="card">
             <div class="card-header">
-                Présences pour la classe du {{ Carbon\Carbon::parse($event->start)->day }} / {{ Carbon\Carbon::parse($event->start)->month }}
+                Présences pour la classe du {{ Carbon\Carbon::parse($event->start)->locale(app()->getLocale())->isoFormat('Do MMM YYYY') }}
                 <div class="card-header-actions">
                     <button class="btn btn-primary" data-toggle="modal" data-target="#myModal">@lang('Enroll new student')</button>
                     <a href="/attendance/course/{{ $event->course_id }}">@lang('Back to course')</a>

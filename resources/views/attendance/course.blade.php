@@ -25,7 +25,7 @@
                                     :exempted="{{ $event->exempt_attendance }}"
                                     toggleroute="{{ route('toggleEventAttendance', ['event' => $event->id ]) }}"
                                     eventattendanceroute="{{ route('eventAttendance', ['event' => $event->id]) }}"
-                                    eventdate="{{ Carbon\Carbon::parse($event->start)->toFormattedDateString() }}"
+                                    eventdate="{{ Carbon\Carbon::parse($event->start)->locale(app()->getLocale())->isoFormat('Do MMM YYYY') }}"
                                     :isadmin="{{ json_encode($isadmin) }}"
                                 ></event-attendance-status-component>
                             </td>

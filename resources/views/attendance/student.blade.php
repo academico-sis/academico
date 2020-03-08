@@ -78,7 +78,7 @@
                         @foreach ($attendances as $attendance)
                             <tr>
                             <td>{{ $attendance->event->name }}</td>
-                            <td>{{ $attendance->event->start }}</td>
+                            <td>{{ Carbon\Carbon::parse($attendance->event->start)->locale(app()->getLocale())->isoFormat('Do MMM YYYY') }}</td>
                             <td>
                                 @if ($attendance->attendance_type_id == 1)
                                 <label
