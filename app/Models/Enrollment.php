@@ -104,19 +104,6 @@ class Enrollment extends Model
     
     /** FUNCTIONS */
 
-    /** adds the enrollment to the user cart */
-    public function addToCart()
-    {
-        $product = Cart::firstOrNew([
-            'user_id' => $this->student->id,
-            'product_id' => $this->id,
-            'product_type' => Enrollment::class
-        ]);
-
-        $product->save();
-        return $product->id;
-    }
-
     public function changeCourse(Course $newCourse)
     {
         $this->course_id = $newCourse->id;
@@ -246,6 +233,27 @@ class Enrollment extends Model
     public function getProductCodeAttribute()
     {
         return $this->course->rhythm->product_code;
+    }
+
+    public function getAttendanceRatioAttribute()
+    {
+        $courseEventIds = $this->course->events->pluck('id');
+        $attendances = $this->student->attendance()->with('event')->get()->whereIn('event_id', $courseEventIds);
+        if ($attendances->count() > 0)
+        {
+            return round(100*(($attendances->where('attendance_type_id', 1)->count() + ($attendances->where('attendance_type_id', 2)->count() * 0.75)) / $attendances->count()));
+        } else
+        {
+            return null;
+        }
+    }
+
+    public function getAbsenceCountAttribute()
+    {
+        $courseEventIds = $this->course->events->pluck('id');
+        $attendances = $this->student->attendance()->with('event')->get()->whereIn('event_id', $courseEventIds);
+        $absenceCount = $attendances->where('attendance_type_id', 3)->count() + $attendances->where('attendance_type_id', 4)->count();
+        return $absenceCount;
     }
 
     

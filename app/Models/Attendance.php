@@ -32,7 +32,7 @@ class Attendance extends Model
                 Log::info('Absence marked for student ' . $attendance->student->name);
                 // will check the record again and send a notification if it hasn't changed
                 WatchAttendance::dispatch($attendance)
-                ->delay(now()->addMinutes(30)); // todo move to configurable settings
+                ->delay(now()); // todo move to configurable settings
             }
         });
 
@@ -69,7 +69,7 @@ class Attendance extends Model
     /** Send email reminders to all teachers who have classes with incomplete attendance records */
     public function remindPendingAttendance()
     {
-        $period = $period = Period::get_default_period();
+        $period = Period::get_default_period();
         foreach (Teacher::all() as $teacher)
         {
             $events = $teacher->events_with_pending_attendance
@@ -90,43 +90,26 @@ class Attendance extends Model
      * this is useful for monitoring the absences
      * TODO REFACTOR 
      */
-    public function get_unjustified_absence_count(Period $period)
+    public function get_absence_count_per_student(Period $period)
     {
         return Attendance::selectRaw('
-            SUM(case when attendance_type_id = 4 then 1 else 0 end) as absence_count,
+            SUM(case when attendance_type_id = 4 then 1 else 0 end) as unjustified_absence_count,
+            SUM(case when attendance_type_id = 3 then 1 else 0 end) as justified_absence_count,
+            SUM(case when attendance_type_id in (3,4) then 1 else 0 end) as total_absence_count,
             student_id,
             users.firstname as firstname,
             users.lastname as lastname,
+            courses.id as course_id,
             courses.name as course_name')
         ->join('events', 'events.id', '=', 'attendances.event_id')
         ->join('courses', 'courses.id', '=', 'events.course_id')
         ->join('students', 'attendances.student_id', '=', 'students.id')
         ->join('users', 'users.id', '=', 'students.user_id')
         ->where('courses.period_id', $period->id)
-        ->groupBy('course_name', 'student_id', 'firstname', 'lastname')
-        ->orderBy('absence_count', 'DESC')
+        ->groupBy('course_name', 'course_id', 'student_id', 'firstname', 'lastname')
+        ->orderBy('total_absence_count', 'DESC')
         ->get();
     }
-
-    public function get_justified_absence_count(Period $period)
-    {
-        return Attendance::selectRaw('
-            SUM(case when attendance_type_id = 3 then 1 else 0 end) as absence_count,
-            student_id,
-            users.firstname as firstname,
-            users.lastname as lastname,
-            courses.name as course_name')
-        ->join('events', 'events.id', '=', 'attendances.event_id')
-        ->join('courses', 'courses.id', '=', 'events.course_id')
-        ->join('students', 'attendances.student_id', '=', 'students.id')
-        ->join('users', 'users.id', '=', 'students.user_id')
-        ->where('courses.period_id', $period->id)
-        ->groupBy('course_name', 'student_id', 'firstname', 'lastname')
-        ->orderBy('absence_count', 'DESC')
-        ->get();
-    }
-
-
 
 
 

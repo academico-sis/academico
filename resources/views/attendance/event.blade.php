@@ -8,7 +8,7 @@
     <div class="col-lg-8 col-lg-offset-2">
         <div class="card">
             <div class="card-header">
-                Présences pour la classe du {{ Carbon\Carbon::parse($event->start)->day }} / {{ Carbon\Carbon::parse($event->start)->month }}
+                Présences pour la classe du {{ Carbon\Carbon::parse($event->start)->locale(app()->getLocale())->isoFormat('Do MMM YYYY') }}
                 <div class="card-header-actions">
                     <button class="btn btn-primary" data-toggle="modal" data-target="#myModal">@lang('Enroll new student')</button>
                     <a href="/attendance/course/{{ $event->course_id }}">@lang('Back to course')</a>
@@ -34,8 +34,26 @@
                         
                     </tbody>
                 </table>
+                </div>
             </div>
+            <div class="card-footer">
+            <label class="badge badge-success">
+                P <i class="fa fa-user"></i>
+            </label> : @lang('Present')
+            - 
+            <label class="badge badge-warning">
+                PP <i class="fa fa-clock-o"></i>
+            </label> : @lang('Partial presence (arrived late or left early)')
+            - 
+            <label class="badge badge-info">
+                AJ <i class="fa fa-exclamation"></i>
+            </label> : @lang('justified absence')
+            - 
+            <label class="badge badge-danger">
+                A <i class="fa fa-user-times"></i>
+            </label> : @lang('unjustified absence')
             </div>
+            
         </div>
     </div>
 

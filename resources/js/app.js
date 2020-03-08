@@ -33,12 +33,14 @@ Vue.component('course-result-component', require('./components/CourseResultCompo
 
 Vue.component('lead-status-component', require('./components/LeadStatusComponent.vue').default);
 
-Vue.component('absence-buttons', require('./components/AbsenceButtonsComponent.vue').default);
-
 Vue.component('skills-list', require('./components/SkillsListComponent.vue').default);
 
 Vue.component('phone-number-update-component', require('./components/PhoneNumberUpdateComponent.vue').default);
 Vue.component('contact-phone-number-update-component', require('./components/ContactPhoneNumberUpdateComponent.vue').default);
+
+Vue.component('course-attendance-status-component', require('./components/attendance/courseAttendanceStatusComponent.vue').default);
+Vue.component('event-attendance-status-component', require('./components/attendance/eventAttendanceStatusComponent.vue').default);
+Vue.component('student-contacts-component', require('./components/student/studentContactsComponent.vue').default);
 
 const app = new Vue({
     el: '#app',

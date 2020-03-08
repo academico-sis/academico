@@ -7,12 +7,13 @@ use App\Models\Book;
 use App\Models\Event;
 use App\Models\Course;
 use App\Models\Period;
+use App\Models\Attendance;
 use App\Models\Enrollment;
-use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 
 class Course extends Model
 {
@@ -114,7 +115,7 @@ protected static function boot()
     // protected $hidden = [];
     protected $dates = ['start_date', 'end_date'];
     //protected $with = ['enrollments'];
-    protected $appends = ['course_times'];
+    protected $appends = ['course_times', 'course_teacher_name'];
 
     /*
     |--------------------------------------------------------------------------
@@ -449,6 +450,16 @@ protected static function boot()
             return $this->id;
         }
     }
+
+    public function eventsWithExpectedAttendance()
+    {
+        return $this->events()->where(function($query) {
+            $query->where('exempt_attendance', '!=', true);
+            $query->where('exempt_attendance', '!=', 1);
+            $query->orWhereNull('exempt_attendance');
+        })->where('start', '<', Carbon::now(env('COURSES_TIMEZONE'))->toDateTimeString());
+    }
+
 
     /*
     |--------------------------------------------------------------------------

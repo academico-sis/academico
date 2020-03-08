@@ -36,27 +36,48 @@ class AttendanceController extends Controller
     {
 
         Log::info('Attendance dashboard viewed by ' . \backpack_user()->id);
-        $period = $this->selectPeriod($request);
+        $selected_period = $this->selectPeriod($request);
 
-        $justified_absences = (new Attendance)->get_justified_absence_count($period);
-        $unjustified_absences = (new Attendance)->get_unjustified_absence_count($period);
+        // student attendance overview
+        $absences = (new Attendance)->get_absence_count_per_student($selected_period);
+        
+        // get all courses for period and preload relations
+        $courses = $selected_period->courses()->whereHas('events')->with('attendance')->with('events')->get();
 
+        // loop through all courses and get the number of events with incomplete attendance
+        foreach ($courses as $course)
+        {
+            $eventsWithMissingAttendanceCount = 0;
+            $coursesdata[$course->id]['name'] = $course->name;
+            $coursesdata[$course->id]['id'] = $course->id;
+            $coursesdata[$course->id]['exempt_attendance'] = $course->exempt_attendance;
+            $coursesdata[$course->id]['teachername'] = $course->course_teacher_name;
 
-        $pending_attendance = (new Attendance)->get_pending_attendance();
+            foreach ($course->eventsWithExpectedAttendance as $event)
+            {
+                foreach ($course->enrollments as $enrollment)
+                {
+                    // if a student has no attendance record for the class (event)
+                    $hasNotAttended = $course->attendance->where('student_id', $enrollment->student_id)
+                    ->where('event_id', $event->id)
+                    ->isEmpty();
+                    
+                    // count one and break loop
+                    if ($hasNotAttended) {
+                        $eventsWithMissingAttendanceCount++;
+                    break;
+                    }
+                }
+            }
 
-        return view('attendance.monitor', compact('justified_absences', 'unjustified_absences', 'pending_attendance'));
-    }
+            $coursesdata[$course->id]['missing'] = $eventsWithMissingAttendanceCount;
+        }
+        
+        // sort by number of events with missing attendance
+        $courses = collect($coursesdata)->sortByDesc('missing')->toArray();
+        $isadmin = backpack_user()->hasPermissionTo('courses.edit');
 
-    public function student(Request $request, Student $student)
-    {
-        $period = $this->selectPeriod($request);
-
-        return view('attendance.student', [
-            'student' => $student,
-            'selected_period' => $period,
-            'absences'=> $student->periodAbsences($period)->get()
-        ]);
-
+        return view('attendance.monitor', compact('absences', 'courses', 'selected_period', 'isadmin'));
     }
 
     /**
@@ -104,7 +125,8 @@ class AttendanceController extends Controller
 
         // if the course has any past events
         if($events->count() == 0 || $course->enrollments()->count() == 0) {
-            abort(404, 'The course has no attendance record');
+            \Alert::add('error', 'This course has no events.')->flash();
+            return back();
         }
 
             $enrollments = $course->enrollments()->with('student')->get();
@@ -113,13 +135,21 @@ class AttendanceController extends Controller
             {
                 foreach ($events as $event)
                 {
-                    $attendances[$enrollment->student->id]['student'] = $enrollment->student->firstname . ' ' . $enrollment->student->lastname;
-                    $attendances[$enrollment->student->id][]['attendance'] = $event->attendance->where('student_id', $enrollment->student->id)->first();
+                    if( $event->exempt_attendance == 1) {
+                        $attendances[$enrollment->student->id][]['attendance'] = "";
+                    }
+                    else {
+                        $attendances[$enrollment->student->id]['student'] = $enrollment->student->firstname . ' ' . $enrollment->student->lastname;
+                        $attendances[$enrollment->student->id][]['attendance'] = $event->attendance->where('student_id', $enrollment->student->id)->first();
+                    }
+                    
                 }
             }
             Log::info('Attendance for course viewed by ' . \backpack_user()->id);
 
-            return view('attendance/course', compact('attendances', 'course', 'events'));
+            $isadmin = backpack_user()->hasPermissionTo('courses.edit');
+
+            return view('attendance/course', compact('attendances', 'isadmin', 'course', 'events'));
 
     }
 
@@ -151,36 +181,33 @@ class AttendanceController extends Controller
         return view('attendance/event', compact('attendances', 'event'));
     }
 
-    public function exemptEvent(Event $event)
+    public function showStudentAttendanceForCourse(Student $student, Request $request)
     {
-        $event->exempt_attendance = 1;
-        $event->attendance()->delete();
-        $event->save();
-        return back();
+        if ($request->query('course_id', null) == null) { $selectedCourse = $student->enrollments->last()->course; }
+        else { $selectedCourse = Course::find($request->query('course_id', null)); }
+
+        $studentEnrollments = $student->enrollments()->with('course')->get();
+        $courseEventIds = $selectedCourse->events->pluck('id');
+
+        $attendances = $student->attendance()->with('event')->get()->whereIn('event_id', $courseEventIds);
+        $enrollment = $studentEnrollments->where('course_id', $selectedCourse->id)->first();
+        $attendanceratio = $enrollment->attendance_ratio;
+
+        return view('attendance.student', compact('student', 'selectedCourse', 'studentEnrollments', 'attendances', 'attendanceratio'));
     }
 
-    public function exemptCourse(Course $course)
+    public function toggleEventAttendanceStatus(Event $event, Request $request)
     {
+        $event->exempt_attendance = (int)$request->status;
+        $event->save();
+        return (int)$event->exempt_attendance;
+    }
 
-        $course->exempt_attendance = 1;
+    public function toggleCourseAttendanceStatus(Course $course, Request $request)
+    {
+        $course->exempt_attendance = (int)$request->status;
         $course->save();
-
-        foreach($course->events as $event)
-        {
-            $this->exemptEvent($event);
-        }
-
-        foreach($course->children as $child)
-        {
-            $child->exempt_attendance = 1;
-            $child->save();
-            foreach($child->events as $event)
-                {
-                    $this->exemptEvent($event);
-                }
-        }
-
-        return back();
+        return (int)$course->exempt_attendance;
     }
 
 }
