@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class ChildCoursesTest extends TestCase
 {
-    use DatabaseMigrations;
+    use RefreshDatabase;
 
     public function test_that_an_enrollment_in_a_course_with_children_also_create_child_enrollments()
     {

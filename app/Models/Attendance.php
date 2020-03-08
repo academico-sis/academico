@@ -69,7 +69,7 @@ class Attendance extends Model
     /** Send email reminders to all teachers who have classes with incomplete attendance records */
     public function remindPendingAttendance()
     {
-        $period = $period = Period::get_default_period();
+        $period = Period::get_default_period();
         foreach (Teacher::all() as $teacher)
         {
             $events = $teacher->events_with_pending_attendance

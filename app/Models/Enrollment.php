@@ -104,19 +104,6 @@ class Enrollment extends Model
     
     /** FUNCTIONS */
 
-    /** adds the enrollment to the user cart */
-    public function addToCart()
-    {
-        $product = Cart::firstOrNew([
-            'user_id' => $this->student->id,
-            'product_id' => $this->id,
-            'product_type' => Enrollment::class
-        ]);
-
-        $product->save();
-        return $product->id;
-    }
-
     public function changeCourse(Course $newCourse)
     {
         $this->course_id = $newCourse->id;
