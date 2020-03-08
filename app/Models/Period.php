@@ -117,7 +117,7 @@ class Period extends Model
         return $this
             ->enrollments
             ->where('status_id', 2) // pending
-            ->where('course.parent_course_id', null)
+            ->where('parent_id', null)
             ->count();
     }
 
@@ -219,5 +219,10 @@ class Period extends Model
             $total += $course->volume * $course->head_count;
         }
         return $total;
+    }
+
+    public function getActiveClientsAttribute()
+    {
+        return $this->enrollments()->with('student')->get()->where('course.period_id', $this->id)->where('student.lead_type_id', 1)->count();
     }
 }

@@ -30,7 +30,8 @@
         <div class="card-body p-3 d-flex align-items-center"><i class="fa fa-calendar bg-primary p-3 font-2xl mr-3"></i>
             <div>
                 <div class="text-value-sm text-primary">HELLO</div>
-                <div class="text-muted text-uppercase font-weight-bold small">@lang('Current Period')</div>
+                <div class="text-muted text-uppercase font-weight-bold small">@lang('Active clients')</div>
+                <small class="text-muted">@lang('Currently enrolled')</small>
             </div>
         </div>
     </div>
@@ -41,7 +42,8 @@
         <div class="card-body p-3 d-flex align-items-center"><i class="fa fa-star-o bg-primary p-3 font-2xl mr-3"></i>
             <div>
                 <div class="text-value-sm text-primary">HELLO</div>
-                <div class="text-muted text-uppercase font-weight-bold small">@lang('Enrollments')</div>
+                <div class="text-muted text-uppercase font-weight-bold small">@lang('Potential clients')</div>
+                <small class="text-muted">@lang('Not yet enrolled: call them and update status!')</small>
             </div>
         </div>
     </div>
@@ -52,7 +54,8 @@
         <div class="card-body p-3 d-flex align-items-center"><i class="fa fa-credit-card bg-primary p-3 font-2xl mr-3"></i>
             <div>
                 <div class="text-value-sm text-primary">HELLO</div>
-                <div class="text-muted text-uppercase font-weight-bold small">@lang('Paid Enrollments')</div>
+                <div class="text-muted text-uppercase font-weight-bold small">@lang('Former clients')</div>
+                <small class="text-muted">@lang('Permanently ended their learning')</small>
             </div>
         </div>
     </div>
@@ -63,7 +66,8 @@
         <div class="card-body p-3 d-flex align-items-center"><i class="fa fa-user bg-primary p-3 font-2xl mr-3"></i>
             <div>
                 <div class="text-value-sm text-primary">HELLO</div>
-                <div class="text-muted text-uppercase font-weight-bold small">@lang('students')</div>
+                <div class="text-muted text-uppercase font-weight-bold small">@lang('Inactive clients')</div>
+                <small class="text-muted">@lang('Unavailable now, call for next session!')</small>
             </div>
         </div>
     </div>
