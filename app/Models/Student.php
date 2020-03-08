@@ -172,6 +172,26 @@ class Student extends Model implements HasMedia
         return Carbon::parse($this->birthdate)->toFormattedDateString();
     }
 
+    public function getActiveClientsCountAttribute()
+    {
+        return $this->where('lead_type_id', 1)->count();
+    }
+
+    public function getInactiveClientsCountAttribute()
+    {
+        return $this->where('lead_type_id', 2)->count();
+    }
+
+    public function getPotentialClientsCountAttribute()
+    {
+        return $this->where('lead_type_id', 4)->count();
+    }
+
+    public function getFormerClientsCountAttribute()
+    {
+        return $this->where('lead_type_id', 3)->count();
+    }
+
 
     /** functions */
 
