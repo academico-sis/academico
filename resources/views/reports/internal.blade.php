@@ -36,7 +36,7 @@
                 </div>
                 
                 <div class="card-body">
-                    <table class="table table-striped">
+                    <table id ="reportsTable" class="table table-striped">
                         <thead>
                             <th>@lang('Period')</th>
                             <th>@lang('Enrollments')</th>
@@ -234,4 +234,24 @@ for (s in data) {
 });
             </script>
 
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.20/b-1.6.1/b-html5-1.6.1/b-print-1.6.1/datatables.min.css"/>
+ 
+ <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+ <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+ <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.20/b-1.6.1/b-html5-1.6.1/b-print-1.6.1/datatables.min.js"></script>
+<script>
+ $(document).ready(function() {
+ $('#reportsTable').DataTable( {
+ dom: 'Bfrtip',
+ "paging": false,
+ "searching": false,
+    "ordering":  false,
+ buttons: [
+     'excel',
+     'pdf',
+     'print'
+ ]
+} );
+} );
+</script>
 @endsection
