@@ -73,6 +73,11 @@ class Period extends Model
         return $this->hasMany(Course::class)->external();
     }
 
+    public function year()
+    {
+        return $this->belongsTo(Year::class);
+    }
+
     /** returns only pending or paid enrollments, without the child enrollments */
     public function real_enrollments()
     {
@@ -83,7 +88,7 @@ class Period extends Model
     
     /**
      * getPendingEnrollmentsCountAttribute
-     * Do not count enrollments in children courses (todo why filter on course parent when we have a prent field on the enrollment record?)
+     * Do not count children enrollments
      *
      */
     public function getPendingEnrollmentsCountAttribute()
@@ -91,6 +96,20 @@ class Period extends Model
         return $this
             ->enrollments
             ->where('status_id', 1) // pending
+            ->where('parent_id', null)
+            ->count();
+    }
+
+    /**
+     * getPaidEnrollmentsCountAttribute
+     * Do not count enrollments in children courses
+     *
+     */
+    public function getPaidEnrollmentsCountAttribute()
+    {
+        return $this
+            ->enrollments
+            ->where('status_id', 2) // paid
             ->where('parent_id', null)
             ->count();
     }
@@ -105,20 +124,6 @@ class Period extends Model
             ->whereIn('enrollments.status_id', ['1', '2']) // filter out cancelled enrollments, todo make this configurable.
             ->distinct('student_id')
             ->count('enrollments.student_id');
-    }
-
-    /**
-     * getPaidEnrollmentsCountAttribute
-     * Do not count enrollments in children courses
-     *
-     */
-    public function getPaidEnrollmentsCountAttribute()
-    {
-        return $this
-            ->enrollments
-            ->where('status_id', 2) // pending
-            ->where('parent_id', null)
-            ->count();
     }
 
     public function getInternalEnrollmentsCountAttribute()
@@ -139,11 +144,6 @@ class Period extends Model
     public function getExternalCoursesCountAttribute()
     {
         return $this->external_courses->count();
-    }
-
-    public function year()
-    {
-        return $this->belongsTo(Year::class);
     }
 
     public function getPreviousPeriodAttribute()
