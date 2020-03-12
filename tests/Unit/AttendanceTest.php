@@ -36,7 +36,10 @@ class AttendanceTest extends TestCase
     public function testCourseIncompleteAttendanceCount()
     {
         // given a course with some past classes
-        $course = factory(Course::class)->create();
+        $course = factory(Course::class)->create([
+            'start_date' => date('Y-m-d', strtotime("-7 days")),
+            'end_date' => date('Y-m-d')
+        ]);
         $course->times()->create(['day' => 1, 'start' => '09:00:00', 'end' => '17:00:00']);
         $course->times()->create(['day' => 2, 'start' => '09:00:00', 'end' => '17:00:00']);
 
@@ -51,6 +54,7 @@ class AttendanceTest extends TestCase
 
         // the course attendance should miss 2 attendance records for this student
         $this->assertEquals(2, count($course->pending_attendance));
+        $this->assertEquals(2, $course->eventsWithExpectedAttendance->count());
     }
 
     /**

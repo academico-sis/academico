@@ -181,5 +181,53 @@ class PeriodReportsDataTest extends TestCase
 
         // the acquisition rate for period P should be the ratio between period 1 and 2
         $this->assertEquals("25.0%", $period2->acquisition_rate);
-     }
+    }
+
+    /** getNewStudentsCountAttribute
+     * Number of students in period P who have never been enrolled before
+     */
+    public function testNewStudentsCountAttribute()
+    {
+        $period1 = factory(Period::class)->create();
+        $courseForPeriod1 = factory(Course::class)->create(['period_id' => $period1->id]);
+        
+        $period2 = factory(Period::class)->create();
+        $courseForPeriod2 = factory(Course::class)->create(['period_id' => $period2->id]);
+        
+        $period3 = factory(Period::class)->create();
+        $courseForPeriod3 = factory(Course::class)->create(['period_id' => $period3->id]);
+        
+        $student1 = factory(Student::class)->create();
+        $student2 = factory(Student::class)->create();
+        $student3 = factory(Student::class)->create();
+        $student4 = factory(Student::class)->create();
+        $student5 = factory(Student::class)->create();
+        $student6 = factory(Student::class)->create();
+        
+        // this student should not be counted
+        $student1->enroll($courseForPeriod1);
+        $student1->enroll($courseForPeriod2);
+        $student1->enroll($courseForPeriod3);
+
+        // this student should not be counted
+        $student2->enroll($courseForPeriod2);
+        $student2->enroll($courseForPeriod3);
+
+        // this student should not be counted
+        $student3->enroll($courseForPeriod1);
+        $student3->enroll($courseForPeriod3);
+
+        // this student should not be counted
+        $student4->enroll($courseForPeriod1);
+
+        // this student should not be counted
+        $student5->enroll($courseForPeriod2);
+
+        $student6->enroll($courseForPeriod3);
+
+        // this stuent should be counted
+        $this->assertEquals(1, $period3->new_students_count);
+    }
+
+
 }

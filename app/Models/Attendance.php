@@ -106,6 +106,7 @@ class Attendance extends Model
      * 
      * todo - optimize this method (reduce the number of queries and avoid the foreach loop)
      * but filtering the collection increases the number of DB queries... (why ?)
+     * TODO update this method to the new way of counting events with missing attendance
      * 
      */
     public function get_pending_attendance()
