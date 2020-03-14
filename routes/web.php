@@ -34,8 +34,6 @@ Route::group(
     Route::post('phonenumber', 'PhoneNumberController@store');
     Route::post('contactphonenumber', 'ContactController@storePhoneNumber');
 
-    // moodle token login
-    Route::get('moodlelogin', 'MoodleController@moodlelogin')->name('moodleLogin');
 
     // creates a new enrollment
     Route::post('student/enroll', 'EnrollmentController@store')->name('storeEnrollment');

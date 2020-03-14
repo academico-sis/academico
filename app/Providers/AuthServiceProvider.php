@@ -108,14 +108,5 @@ class AuthServiceProvider extends ServiceProvider
         });
 
 
-        /**
-         * users are allowed to login to Moodle if they are teachers or students with at least one enrollment
-         * as well as users with explicit permission to login to moodle
-         */
-        Gate::define('moodle-login', function ($user) {
-            return ($user->isTeacher() || ($user->isStudent()) && $user->student->enrollments()->exists()) || $user->can('moodle.login');
-        });
-
-
     }
 }

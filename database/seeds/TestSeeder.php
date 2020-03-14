@@ -325,9 +325,6 @@ class TestSeeder extends Seeder
         $role->givePermissionTo('leads.manage');
 
 
-
-        Permission::create(['name' => 'moodle.login']);
-
         $admin = factory(User::class)->create([
             'email' => 'admin@academico.site',
             'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
