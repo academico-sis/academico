@@ -144,7 +144,7 @@
 @endif
 
 @if(backpack_user()->isTeacher() || (backpack_user()->isStudent()) && backpack_user()->student->enrollments()->exists()) {{-- todo transform this --}}
-  <li class='nav-item'><a class='nav-link' href="{{ route('moodleLogin') }}"><i class="nav-icon fa fa-clock-o"></i> <span>@lang('SPHERE')</span></a></li>
+  <li class='nav-item'><a class='nav-link' href="https://moodle.afcuenca.org.ec"><i class="nav-icon fa fa-clock-o"></i> <span>@lang('SPHERE')</span></a></li>
 
 @endif
 
