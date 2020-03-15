@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use App\Models\Cart;
 use App\Models\Grade;
 use App\Models\Course;
 use App\Models\Result;

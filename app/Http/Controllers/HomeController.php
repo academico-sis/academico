@@ -90,7 +90,8 @@ class HomeController extends Controller
 
     public function admin()
     {
-        $period = Period::get_default_period();
+        $currentPeriod = Period::get_default_period();
+        $enrollmentsPeriod = Period::get_enrollments_period();
 
         if(!backpack_user()->hasRole(['admin', 'secretary', 'manager']))
         {
@@ -122,11 +123,12 @@ class HomeController extends Controller
         }, $events);
 
         return view('admin.dashboard', [
-            'pending_enrollment_count' => $period->pending_enrollments_count,
-            'paid_enrollment_count' => $period->paid_enrollments_count,
-            'students_count' => $period->students_count,
-            'period' => $period,
-            'total_enrollment_count' => $period->internal_enrollments_count,
+            'pending_enrollment_count' => $currentPeriod->pending_enrollments_count,
+            'paid_enrollment_count' => $currentPeriod->paid_enrollments_count,
+            'students_count' => $currentPeriod->students_count,
+            'currentPeriod' => $currentPeriod,
+            'enrollmentsPeriod' => $enrollmentsPeriod,
+            'total_enrollment_count' => $currentPeriod->internal_enrollments_count,
             'pending_attendance' => count((new Attendance)->get_pending_attendance()),
             'unassigned_events' => (new Event)->unassigned_teacher->count(),
             'upcoming_leaves' => Leave::upcoming_leaves(),

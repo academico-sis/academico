@@ -136,8 +136,6 @@ Route::group(
 
     Route::post('checkout', 'PreInvoiceController@store');
  
-    Route::delete('cart', 'CartController@destroy');
-
     Route::patch('invoice/{preInvoice}', 'PreInvoiceController@update'); // todo
 });
 

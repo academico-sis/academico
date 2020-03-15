@@ -1,18 +1,28 @@
 <div class="row">
 
-<div class="col-sm-6 col-md-3">
-
+<div class="col-sm-6 col-md-2">
     <div class="card">
         <div class="card-body p-3 d-flex align-items-center"><i class="fa fa-calendar bg-primary p-3 font-2xl mr-3"></i>
             <div>
-                <div class="text-value-sm text-primary">{{ $period->name }}</div>
+                <div class="text-value-sm text-primary">{{ $currentPeriod->name }}</div>
                 <div class="text-muted text-uppercase font-weight-bold small">@lang('Current Period')</div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="col-sm-6 col-md-3">
+<div class="col-sm-6 col-md-2">
+    <div class="card">
+        <div class="card-body p-3 d-flex align-items-center"><i class="fa fa-calendar bg-primary p-3 font-2xl mr-3"></i>
+            <div>
+                <div class="text-value-sm text-primary">{{ $enrollmentsPeriod->name }}</div>
+                <div class="text-muted text-uppercase font-weight-bold small">@lang('Enrollments Period')</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-sm-6 col-md-2">
     <div class="card">
         <div class="card-body p-3 d-flex align-items-center"><i class="fa fa-star-o bg-primary p-3 font-2xl mr-3"></i>
             <div>
@@ -23,7 +33,7 @@
     </div>
 </div>
 
-<div class="col-sm-6 col-md-3">
+<div class="col-sm-6 col-md-2">
     <div class="card">
         <div class="card-body p-3 d-flex align-items-center"><i class="fa fa-credit-card bg-primary p-3 font-2xl mr-3"></i>
             <div>
@@ -34,7 +44,7 @@
     </div>
 </div>
 
-<div class="col-sm-6 col-md-3">
+<div class="col-sm-6 col-md-2">
     <div class="card">
         <div class="card-body p-3 d-flex align-items-center"><i class="fa fa-user bg-primary p-3 font-2xl mr-3"></i>
             <div>

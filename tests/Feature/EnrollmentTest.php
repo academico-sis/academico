@@ -6,8 +6,6 @@ use Tests\TestCase;
 
 use App\Models\Attendance;
 use App\Models\Event;
-
-use App\Models\Cart;
 use App\Models\User;
 use App\Models\Course;
 use App\Models\Student;

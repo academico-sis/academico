@@ -16,14 +16,16 @@ class ReportController extends Controller
 
     public function index()
     {
-        $period = Period::get_default_period();
+        $currentPeriod = Period::get_default_period();
+        $enrollmentsPeriod = Period::get_enrollments_period();
 
         return view('reports.index', [
-            'period' => $period,
-            'pending_enrollment_count' => $period->pending_enrollments_count,
-            'paid_enrollment_count' => $period->paid_enrollments_count,
-            'total_enrollment_count' => $period->internal_enrollments_count,
-            'students_count' => $period->students_count,
+            'currentPeriod' => $currentPeriod,
+            'enrollmentsPeriod' => $enrollmentsPeriod,
+            'pending_enrollment_count' => $currentPeriod->pending_enrollments_count,
+            'paid_enrollment_count' => $currentPeriod->paid_enrollments_count,
+            'total_enrollment_count' => $currentPeriod->internal_enrollments_count,
+            'students_count' => $currentPeriod->students_count,
         ]);
     }
 
