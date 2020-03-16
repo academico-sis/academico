@@ -129,7 +129,7 @@ class HomeController extends Controller
             'currentPeriod' => $currentPeriod,
             'enrollmentsPeriod' => $enrollmentsPeriod,
             'total_enrollment_count' => $currentPeriod->internal_enrollments_count,
-            'pending_attendance' => count((new Attendance)->get_pending_attendance()),  // optimize
+            'pending_attendance' => $currentPeriod->courses_with_pending_attendance,  // optimize
             'unassigned_events' => (new Event)->unassigned_teacher->count(),
             'upcoming_leaves' => Leave::upcoming_leaves(),
             'resources' => $teachers,

@@ -221,4 +221,35 @@ class Period extends Model
         return $total;
     }
 
+    /** TODO this method can be furthered optimized and refactored */
+    public function getCoursesWithPendingAttendanceAttribute()
+    {
+         // get all courses for period and preload relations
+         $courses = $this->courses()->whereHas('events')->with('attendance')->with('events')->whereNotNull('exempt_attendance')->get();
+         $coursesWithMissingAttendanceCount = 0;
+
+         // loop through all courses and get the number of events with incomplete attendance
+         foreach ($courses as $course)
+         {
+             foreach ($course->eventsWithExpectedAttendance as $event)
+             {
+                 foreach ($course->enrollments as $enrollment)
+                 {
+                     // if a student has no attendance record for the class (event)
+                     $hasNotAttended = $course->attendance->where('student_id', $enrollment->student_id)
+                     ->where('event_id', $event->id)
+                     ->isEmpty();
+                     
+                     // count one and break loop
+                     if ($hasNotAttended) {
+                         $coursesWithMissingAttendanceCount++;
+                     break 2;
+                     }
+                 }
+             }
+          }
+         
+         // sort by number of events with missing attendance
+         return $coursesWithMissingAttendanceCount;
+    }
 }
