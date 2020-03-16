@@ -137,6 +137,9 @@ Route::group(
     Route::post('checkout', 'PreInvoiceController@store');
  
     Route::patch('invoice/{preInvoice}', 'PreInvoiceController@update'); // todo
+
+    Route::get('config/default-periods', 'ConfigController@get')->name('get-default-periods-screen');
+    Route::post('config/default-periods', 'ConfigController@update')->name('set-default-periods');
 });
 
 

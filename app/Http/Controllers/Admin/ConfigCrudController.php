@@ -40,17 +40,44 @@ class ConfigCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
 
-        // TODO: remove setFromDb() and manually define Fields and Columns
-        CRUD::setFromDb();
-
         // add asterisk for fields that are required in ConfigRequest
         CRUD::setRequiredFields(StoreRequest::class, 'create');
         CRUD::setRequiredFields(UpdateRequest::class, 'edit');
     }
 
+    protected function setupListOperation()
+    {
+        $this->crud->addColumn([
+            'name' => 'name', // The db column name
+            'label' => "Config Field Name", // Table column heading
+            'type' => 'Text'
+        ]);
+
+        $this->crud->addColumn([
+            'name' => 'value', // The db column name
+            'label' => "Config Field Value", // Table column heading
+            'type' => 'Text'
+        ]);
+    }
+
     protected function setupUpdateOperation()
     {
         CRUD::setValidation(UpdateRequest::class);
+
+        $this->crud->addField([
+            'name' => 'name', // The db column name
+            'label' => "Config Field Name", // Table column heading
+            'type' => 'text',
+            'attributes' => [
+                'disabled'=>'disabled'
+            ]
+        ]);
+
+        $this->crud->addField([
+            'name' => 'value', // The db column name
+            'label' => "Config Field Value", // Table column heading
+            'type' => 'text'
+        ]);
     }
 
 }

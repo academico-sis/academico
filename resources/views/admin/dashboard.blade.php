@@ -15,16 +15,17 @@
 @endsection
 
 
-@section('header')
-    <section class="container-fluid">
-	  <h2>
-        {{ trans('backpack::base.dashboard') }}
-      </h2>
-    </section>
-@endsection
-
 
 @section('content')
+
+<div class="row" style="align-items: center; text-align: center;">
+    <div class="col-sm-6">
+        <h2>Bonjour {{ backpack_user()->firstname }}</h2>
+    </div>
+    <div class="col-sm-6">
+        @include('partials.default_periods_info')
+    </div>
+</div>
 
 @include('reports.insights')
 
@@ -32,7 +33,7 @@
     <div class="row" id="app">
 
         @if($unassigned_events > 0 && backpack_user()->can('hr.manage'))
-        <div class="col-lg-2 col-md-3 col-sm-6">
+        <div class="col-md-3 col-sm-6">
             <div class="card">
                 <div class="card-body p-3 d-flex align-items-center"><i class="fa fa-warning bg-danger p-3 font-2xl mr-3"></i>
                     <div>
@@ -45,7 +46,7 @@
         </div>
         @endif
 
-        <div class="col-lg-2 col-md-3 col-sm-6">
+        <div class="col-md-3 col-sm-6">
             <div class="card">
                 <div class="card-body p-3 d-flex align-items-center"><i class="fa fa-user bg-danger p-3 font-2xl mr-3"></i>
                     <div>
@@ -58,7 +59,7 @@
         </div>
 
 
-        <div class="col-lg-2 col-md-3 col-sm-6">
+        <div class="col-md-3 col-sm-6">
             <div class="card">
                 <div class="card-body p-3 d-flex align-items-center"><i class="fa fa-check-square bg-danger p-3 font-2xl mr-3"></i>
                     <div>
@@ -70,7 +71,7 @@
             </div>
         </div>
 
-        <div class="col-lg-2 col-md-3 col-sm-6">
+        <div class="col-md-3 col-sm-6">
             <div class="card">
                 <div class="card-body p-3 d-flex align-items-center"><i class="fa fa-calendar bg-danger p-3 font-2xl mr-3"></i>
                     <div>
