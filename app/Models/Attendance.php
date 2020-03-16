@@ -99,49 +99,4 @@ class Attendance extends Model
         return $attendances;
     }
 
-
-
-    /**
-     * Return events for which the attendance records do not match the course student count
-     * 
-     * todo - optimize this method (reduce the number of queries and avoid the foreach loop)
-     * but filtering the collection increases the number of DB queries... (why ?)
-     * TODO update this method to the new way of counting events with missing attendance
-     * 
-     */
-    public function get_pending_attendance()
-    {
-
-        $events = Event::where(function($query) {
-            $query->where('exempt_attendance', '!=', true);
-            $query->where('exempt_attendance', '!=', 1);
-            $query->orWhereNull('exempt_attendance');
-        })
-        ->where('course_id', '!=', null)
-        ->with('attendance')
-        ->with('teacher')
-        ->with('course.enrollments')
-        ->where('start', '<', Carbon::now(env('COURSES_TIMEZONE'))->toDateTimeString())
-        ->get();
-        
-        $pending_events = [];
-
-        foreach ($events as $event)
-        {
-            // if the attendance record count do not match the enrollment count, push the event to array
-            $pending_attendance = $event->course->enrollments->count() - $event->attendance->count();
-
-            if ($pending_attendance != 0)
-            {
-                $pending_events[$event->id]['event'] = $event->name ?? "";
-                $pending_events[$event->id]['event_id'] = $event->id;
-                $pending_events[$event->id]['course_id'] = $event->course_id;
-                $pending_events[$event->id]['event_date'] = Carbon::parse($event->start)->toDateString();
-                $pending_events[$event->id]['teacher'] = $event->teacher->name ?? "";
-                $pending_events[$event->id]['pending'] = $pending_attendance ?? "";
-            }
-    }
-
-    return $pending_events;
-}
 }

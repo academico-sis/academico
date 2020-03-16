@@ -187,13 +187,9 @@ class AttendanceTest extends TestCase
             'teacher_id' => $teacher->id
         ]);
 
-        $absences = (new Attendance)->get_pending_attendance();
+        $coursesWithPendingAttendanceCount = Period::get_default_period()->courses_with_pending_attendance;
 
-        $this->assertEquals(2, count($absences));
-        $this->assertEquals(1, $absences[$event1->id]['pending']);
-        $this->assertEquals($teacher->name, $absences[$event1->id]['teacher']);
-        $this->assertEquals(1, $absences[$event2->id]['pending']);
-        $this->assertEquals($teacher->name, $absences[$event2->id]['teacher']);
+        $this->assertEquals(1, $coursesWithPendingAttendanceCount);
 
         Attendance::create([
             'student_id' => $student->id,
@@ -201,10 +197,14 @@ class AttendanceTest extends TestCase
             'attendance_type_id' => 2
         ]);
 
-        $absences = (new Attendance)->get_pending_attendance();
+        Attendance::create([
+            'student_id' => $student->id,
+            'event_id' => $event1->id,
+            'attendance_type_id' => 3
+        ]);
 
-        $this->assertEquals(1, count($absences));
-        $this->assertEquals(1, $absences[$event1->id]['pending']);
-        $this->assertEquals($teacher->name, $absences[$event1->id]['teacher']);
+        $coursesWithPendingAttendanceCount = Period::get_default_period()->courses_with_pending_attendance;
+
+        $this->assertEquals(0, $coursesWithPendingAttendanceCount);
     }
 }
