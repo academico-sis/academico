@@ -23,7 +23,7 @@ class AttendanceController extends Controller
 
     public function __construct()
     {
-        $this->middleware('permission:attendance.view', ['except' => ['showCourse', 'showEvent', 'store']]);
+        $this->middleware('permission:attendance.view', ['except' => ['showCourse', 'showEvent', 'showStudentAttendanceForCourse', 'store']]);
     }
 
 
@@ -183,8 +183,14 @@ class AttendanceController extends Controller
 
     public function showStudentAttendanceForCourse(Student $student, Request $request)
     {
+        
         if ($request->query('course_id', null) == null) { $selectedCourse = $student->enrollments->last()->course; }
         else { $selectedCourse = Course::find($request->query('course_id', null)); }
+
+        // If the current is not allowed to view the page
+        if (Gate::forUser(backpack_user())->denies('view-course-attendance', $selectedCourse)) {
+            abort(403);
+        }
 
         $studentEnrollments = $student->enrollments()->with('course')->get();
         $courseEventIds = $selectedCourse->events->pluck('id');
@@ -198,6 +204,9 @@ class AttendanceController extends Controller
 
     public function toggleEventAttendanceStatus(Event $event, Request $request)
     {
+        if (!backpack_user()->hasPermissionTo('courses.edit')) {
+            abort(403);
+        }
         $event->exempt_attendance = (int)$request->status;
         $event->save();
         return (int)$event->exempt_attendance;
@@ -205,6 +214,9 @@ class AttendanceController extends Controller
 
     public function toggleCourseAttendanceStatus(Course $course, Request $request)
     {
+        if (!backpack_user()->hasPermissionTo('courses.edit')) {
+            abort(403);
+        }
         $course->exempt_attendance = (int)$request->status;
         $course->save();
         return (int)$course->exempt_attendance;
