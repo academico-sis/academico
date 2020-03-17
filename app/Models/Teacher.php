@@ -174,6 +174,7 @@ class Teacher extends Model
     }
 
 
+    /** TODO This method should be updated to use a better way of checking missing attendance records */
     public function getEventsWithPendingAttendanceAttribute()
     {
         return $this->events()
