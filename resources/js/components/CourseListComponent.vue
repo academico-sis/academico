@@ -86,14 +86,32 @@
     <div class="col-md-8">
         <div class="row">
         <div class="col-md-4" v-for="course in sortedCourses" :key="course.id">
-        <div class="card" @mouseover="highlightedSortableId = course.sortable_id" @mouseleave="highlightedSortableId = null" v-bind:class="{ ' border-danger': course.spots > 0 && course.course_enrollments_count == 0, 'bg-secondary': highlightedSortableId == course.sortable_id }">
+        <div class="card"
+            @mouseover="highlightedSortableId = course.sortable_id"
+            @mouseleave="highlightedSortableId = null"
+            v-bind:class="{
+                'border-danger': course.spots > 0 && course.course_enrollments_count == 0,
+                'bg-secondary': highlightedSortableId == course.sortable_id,
+                'border-warning': course.teacher_id == null || course.room_id == null,
+            }">
             <div class="card-body">
+                <div class="btn-group float-right">
+                    <a class="btn" :href="'course/'+course.id+'/show'"><i class="fa fa-eye"></i></a>
+                    <button class="btn dropdown-toggle p-0" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-gear"></i></button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="#"><i class="fa fa-calendar"></i> Attendance</a>
+                        <a class="dropdown-item" href="#"><i class="fa fa-edit"></i>Edit</a>
+                        <a class="dropdown-item" href="#"><i class="fa fa-clock-o"></i>Edit times</a>
+                        <a class="dropdown-item" href="#"><i class="fa fa-clone"></i>Create sub-course</a>
+                        <a class="dropdown-item text-danger" href="#"><i class="fa fa-trash"></i>Delete</a>
+                    </div>
+                </div>
                 <h5 class="coursename">{{ course.name }}</h5>
                 <div v-if="course.teacher"><i class="fa fa-user"></i> {{ course.course_teacher_name }}</div>
                 <div v-if="course.room"><i class="fa fa-home"></i> {{ course.room.name }}</div>
                 <div><i class="fa fa-clock-o"></i> {{ course.course_times }}</div>
-                <div><i class="fa fa-calendar"></i> {{ course.start_date | moment("D MMM") }} - {{ course.end_date | moment("D MMM") }}</div>
-                <div v-bind:class="{ ' text-danger': course.spots > 0 && course.course_enrollments_count == 0 }"><i class="fa fa-users"></i> {{ course.course_enrollments_count }} ({{ Math.max(0, course.spots - course.course_enrollments_count) }} available)</div>
+                <div><i class="fa fa-calendar"></i> {{ course.start_date | moment("D MMM") }} - {{ course.end_date | moment("D MMM") }} ({{ course.volume }}h)</div>
+                <div v-bind:class="{ ' text-danger': course.spots > 0 && course.course_enrollments_count == 0 }"><i class="fa fa-users"></i> {{ course.course_enrollments_count }} students, {{ Math.max(0, course.spots - course.course_enrollments_count) }} spots left</div>
             </div>
         </div>
         </div>
@@ -139,7 +157,7 @@ export default {
             .get('/courselist/search', {
                 params: {
                     "filter[period_id]": this.selectedPeriod,
-                    "filter[level_id]": this.selectedLevels.join(),
+                    "filter[searchable_levels]": this.selectedLevels.join(),
                     "filter[rhythm_id]": this.selectedRhythms.join(),
                     "filter[teacher_id]": this.selectedTeacher
                 }

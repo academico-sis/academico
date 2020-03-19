@@ -8,6 +8,24 @@ use App\Models\Period;
 use App\Models\Rhythm;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\Filters\Filter;
+use Illuminate\Database\Eloquent\Builder;
+
+
+class FiltersSearchableLevels implements Filter
+{
+    public function __invoke(Builder $query, $value, string $property)
+    {
+        $value = collect($value)->toArray();
+        $query->where(function (Builder $query) use ($value) {
+            $query->whereIn('level_id', $value)
+                    ->orWhereHas('children', function (Builder $query) use ($value) {
+                        $query->whereIn('level_id', $value);
+                    });
+        });
+    }
+}
 
 class CourseController extends Controller
 {
@@ -35,7 +53,12 @@ class CourseController extends Controller
     {
         return QueryBuilder::for(Course::class)
         ->with('room')
-        ->allowedFilters(['name', 'period_id', 'rhythm_id', 'level_id', 'teacher_id'])
+        ->allowedFilters([
+            'name',
+            'period_id',
+            'rhythm_id',
+            AllowedFilter::custom('searchable_levels', new FiltersSearchableLevels),
+            'teacher_id'])
         ->get();
     }
 

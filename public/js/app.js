@@ -2515,6 +2515,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['periods', 'defaultperiod', 'teachers', 'rhythms', 'levels'],
@@ -2543,7 +2561,7 @@ __webpack_require__.r(__webpack_exports__);
       axios.get('/courselist/search', {
         params: {
           "filter[period_id]": this.selectedPeriod,
-          "filter[level_id]": this.selectedLevels.join(),
+          "filter[searchable_levels]": this.selectedLevels.join(),
           "filter[rhythm_id]": this.selectedRhythms.join(),
           "filter[teacher_id]": this.selectedTeacher
         }
@@ -25389,10 +25407,12 @@ var render = function() {
                 {
                   staticClass: "card",
                   class: {
-                    " border-danger":
+                    "border-danger":
                       course.spots > 0 && course.course_enrollments_count == 0,
                     "bg-secondary":
-                      _vm.highlightedSortableId == course.sortable_id
+                      _vm.highlightedSortableId == course.sortable_id,
+                    "border-warning":
+                      course.teacher_id == null || course.room_id == null
                   },
                   on: {
                     mouseover: function($event) {
@@ -25405,6 +25425,21 @@ var render = function() {
                 },
                 [
                   _c("div", { staticClass: "card-body" }, [
+                    _c("div", { staticClass: "btn-group float-right" }, [
+                      _c(
+                        "a",
+                        {
+                          staticClass: "btn",
+                          attrs: { href: "course/" + course.id + "/show" }
+                        },
+                        [_c("i", { staticClass: "fa fa-eye" })]
+                      ),
+                      _vm._v(" "),
+                      _vm._m(1, true),
+                      _vm._v(" "),
+                      _vm._m(2, true)
+                    ]),
+                    _vm._v(" "),
                     _c("h5", { staticClass: "coursename" }, [
                       _vm._v(_vm._s(course.name))
                     ]),
@@ -25434,7 +25469,10 @@ var render = function() {
                         " " +
                           _vm._s(_vm._f("moment")(course.start_date, "D MMM")) +
                           " - " +
-                          _vm._s(_vm._f("moment")(course.end_date, "D MMM"))
+                          _vm._s(_vm._f("moment")(course.end_date, "D MMM")) +
+                          " (" +
+                          _vm._s(course.volume) +
+                          "h)"
                       )
                     ]),
                     _vm._v(" "),
@@ -25452,14 +25490,14 @@ var render = function() {
                         _vm._v(
                           " " +
                             _vm._s(course.course_enrollments_count) +
-                            " (" +
+                            " students, " +
                             _vm._s(
                               Math.max(
                                 0,
                                 course.spots - course.course_enrollments_count
                               )
                             ) +
-                            " available)"
+                            " spots left"
                         )
                       ]
                     )
@@ -25488,6 +25526,56 @@ var staticRenderFns = [
         _c("span", { staticClass: "switch-slider" })
       ]),
       _vm._v("\n            Show children\n        ")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "btn dropdown-toggle p-0",
+        attrs: {
+          type: "button",
+          "data-toggle": "dropdown",
+          "aria-haspopup": "true",
+          "aria-expanded": "false"
+        }
+      },
+      [_c("i", { staticClass: "fa fa-gear" })]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "dropdown-menu dropdown-menu-right" }, [
+      _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+        _c("i", { staticClass: "fa fa-calendar" }),
+        _vm._v(" Attendance")
+      ]),
+      _vm._v(" "),
+      _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+        _c("i", { staticClass: "fa fa-edit" }),
+        _vm._v("Edit")
+      ]),
+      _vm._v(" "),
+      _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+        _c("i", { staticClass: "fa fa-clock-o" }),
+        _vm._v("Edit times")
+      ]),
+      _vm._v(" "),
+      _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+        _c("i", { staticClass: "fa fa-clone" }),
+        _vm._v("Create sub-course")
+      ]),
+      _vm._v(" "),
+      _c(
+        "a",
+        { staticClass: "dropdown-item text-danger", attrs: { href: "#" } },
+        [_c("i", { staticClass: "fa fa-trash" }), _vm._v("Delete")]
+      )
     ])
   }
 ]
