@@ -85,14 +85,18 @@
 
     <div class="col-md-8">
         <div class="row">
-        <div class="col-md-4" v-for="course in courses" :key="course.id">
-        <div class="card">
-            {{ course.name }}
-            <span v-if="course.level">Level: {{ course.level.name }}</span>
-            <span v-if="course.rhythm">Rhythm: {{ course.rhythm.name }}</span>
-            <span v-if="course.teacher">Teacher: {{ course.course_teacher_name }}</span>
-            <span v-if="course.room">Room: {{ course.room.name }}</span>
-            <span>{{ course.course_times }}</span>
+        <div class="col-md-4" v-for="course in sortedCourses" :key="course.id">
+        <div class="card" v-bind:class="{ ' border-danger': course.spots > 0 && course.course_enrollments_count == 0 }">
+            <div class="card-body">
+                <h5 class="coursename">{{ course.name }} {{ course.sortable_id }}</h5>
+                <!-- <span v-if="course.level">Level: {{ course.level.name }}</span>
+                <span v-if="course.rhythm">Rhythm: {{ course.rhythm.name }}</span> -->
+                <div v-if="course.teacher"><i class="fa fa-user"></i> {{ course.course_teacher_name }}</div>
+                <div v-if="course.room"><i class="fa fa-home"></i> {{ course.room.name }}</div>
+                <div><i class="fa fa-clock-o"></i> {{ course.course_times }}</div>
+                <div><i class="fa fa-calendar"></i> {{ course.start_date | moment("D MMM") }} - {{ course.end_date | moment("D MMM") }}</div>
+                <div v-bind:class="{ ' text-danger': course.spots > 0 && course.course_enrollments_count == 0 }"><i class="fa fa-users"></i> {{ course.course_enrollments_count }} ({{ Math.max(0, course.spots - course.course_enrollments_count) }} available)</div>
+            </div>
         </div>
         </div>
         </div>
@@ -104,6 +108,8 @@
 </template>
 
 <script>
+import _ from 'lodash';
+
 export default {
     props: ['periods', 'defaultperiod', 'teachers', 'rhythms', 'levels'],
 
@@ -119,6 +125,12 @@ export default {
 
     mounted() {
         this.getCoursesResults();
+    },
+
+    computed: {
+        sortedCourses() {
+            return _.orderBy(this.courses, ['sortable_id', 'id'], 'asc');
+        }
     },
 
     methods: {
@@ -157,6 +169,9 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.coursename {
+    text-transform: uppercase;
+    font-weight: bold;
+}
 </style>
