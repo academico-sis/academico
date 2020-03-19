@@ -181,3 +181,11 @@ Route::group(
 
 Route::post('leadstatus', 'LeadStatusController@update')->name('postLeadStatus');
 
+// New COURSES module
+Route::group(
+    ['middleware' => ['web', 'language']],
+    function () {
+        Route::get('courselist', 'CourseController@index')->name('get-courses-list');
+        Route::get('courselist/search', 'CourseController@search')->name('search-courses');
+    }
+);
