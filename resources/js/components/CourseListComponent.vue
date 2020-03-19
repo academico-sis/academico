@@ -86,11 +86,9 @@
     <div class="col-md-8">
         <div class="row">
         <div class="col-md-4" v-for="course in sortedCourses" :key="course.id">
-        <div class="card" v-bind:class="{ ' border-danger': course.spots > 0 && course.course_enrollments_count == 0 }">
+        <div class="card" @mouseover="highlightedSortableId = course.sortable_id" @mouseleave="highlightedSortableId = null" v-bind:class="{ ' border-danger': course.spots > 0 && course.course_enrollments_count == 0, 'bg-secondary': highlightedSortableId == course.sortable_id }">
             <div class="card-body">
-                <h5 class="coursename">{{ course.name }} {{ course.sortable_id }}</h5>
-                <!-- <span v-if="course.level">Level: {{ course.level.name }}</span>
-                <span v-if="course.rhythm">Rhythm: {{ course.rhythm.name }}</span> -->
+                <h5 class="coursename">{{ course.name }}</h5>
                 <div v-if="course.teacher"><i class="fa fa-user"></i> {{ course.course_teacher_name }}</div>
                 <div v-if="course.room"><i class="fa fa-home"></i> {{ course.room.name }}</div>
                 <div><i class="fa fa-clock-o"></i> {{ course.course_times }}</div>
@@ -119,7 +117,8 @@ export default {
             selectedTeacher: '',
             courses: [],
             selectedRhythms: [],
-            selectedLevels: []
+            selectedLevels: [],
+            highlightedSortableId: null
         }
     },
 

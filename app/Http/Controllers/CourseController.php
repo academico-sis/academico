@@ -34,7 +34,7 @@ class CourseController extends Controller
     public function search()
     {
         return QueryBuilder::for(Course::class)
-        ->with('rhythm')->with('level')->with('room')
+        ->with('room')
         ->allowedFilters(['name', 'period_id', 'rhythm_id', 'level_id', 'teacher_id'])
         ->get();
     }

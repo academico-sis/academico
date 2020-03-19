@@ -2515,8 +2515,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['periods', 'defaultperiod', 'teachers', 'rhythms', 'levels'],
@@ -2526,7 +2524,8 @@ __webpack_require__.r(__webpack_exports__);
       selectedTeacher: '',
       courses: [],
       selectedRhythms: [],
-      selectedLevels: []
+      selectedLevels: [],
+      highlightedSortableId: null
     };
   },
   mounted: function mounted() {
@@ -25391,15 +25390,23 @@ var render = function() {
                   staticClass: "card",
                   class: {
                     " border-danger":
-                      course.spots > 0 && course.course_enrollments_count == 0
+                      course.spots > 0 && course.course_enrollments_count == 0,
+                    "bg-secondary":
+                      _vm.highlightedSortableId == course.sortable_id
+                  },
+                  on: {
+                    mouseover: function($event) {
+                      _vm.highlightedSortableId = course.sortable_id
+                    },
+                    mouseleave: function($event) {
+                      _vm.highlightedSortableId = null
+                    }
                   }
                 },
                 [
                   _c("div", { staticClass: "card-body" }, [
                     _c("h5", { staticClass: "coursename" }, [
-                      _vm._v(
-                        _vm._s(course.name) + " " + _vm._s(course.sortable_id)
-                      )
+                      _vm._v(_vm._s(course.name))
                     ]),
                     _vm._v(" "),
                     course.teacher
