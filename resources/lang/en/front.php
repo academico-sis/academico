@@ -42,6 +42,14 @@ return [
     'Skill' => 'Skill',
     'This comment requires an action' => 'This comment requires an action',
     'Cancel' => 'Cancel',
-
+    'Results are loading' => 'Results are loading',
+    'errorfetchingcourses' => 'Unable to fetch courses. Try to refresh the page!',
+    'All teachers' => 'All teachers',
+    'Edit schedule' => 'Edit schedule',
+    'Create subcourse' => 'Create subcourse',
+    'noresults' => 'No courses with the selected filers',
+    'all' => 'all',
+    'Delete' => 'Delete',
+    'spots left' => 'spots left'
 
 ];

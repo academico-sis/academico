@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-md-6">
             <div class="card">
-                <div class="card-header">Period</div>
+                <div class="card-header">{{ $t('Period') }}</div>
                 <div class="card-body">
                     <select class="form-control" name="period" id="period" v-model="selectedPeriod" @change="getCoursesResults()">
                         <option :value=period.id v-for="period in this.periods" :key="period.id">{{ period.name }}</option>
@@ -18,12 +18,12 @@
             <div class="col-md-6">
             <div class="card" v-bind:class="{ ' border-primary': selectedTeacher !== '' }">
                 <div class="card-header">
-                    Teacher
-                    <button v-if="selectedTeacher !== ''" class="btn btn-sm btn-pill btn-secondary float-right" @click="clearSelectedTeacher()">Remove filter</button>
+                    {{ $t('Teacher') }}
+                    <button v-if="selectedTeacher !== ''" class="btn btn-sm btn-pill btn-secondary float-right" @click="clearSelectedTeacher()">{{ $t('front.all') }}</button>
                     </div>
                 <div class="card-body">
                     <select class="form-control" name="teacher" id="teacher" v-model="selectedTeacher" @change="getCoursesResults()">
-                        <option value=''>All teachers</option>
+                        <option value=''>{{ $t('front.All teachers') }}</option>
                         <option :value=teacher.id v-for="teacher in this.teachers" :key="teacher.id">{{ teacher.user.firstname }} {{ teacher.user.lastname }}</option>
                     </select>
                 </div>
@@ -35,8 +35,8 @@
     <div class="col-md-6">
         <div class="card" v-bind:class="{ ' border-primary': selectedRhythms.length > 0 }">
             <div class="card-header">
-                Rhythm
-                <button v-if="selectedRhythms.length > 0" class="btn btn-sm btn-pill btn-secondary float-right" @click="clearSelectedRhythms()">Remove filter</button>
+                {{ $t('Rhythm') }}
+                <button v-if="selectedRhythms.length > 0" class="btn btn-sm btn-pill btn-secondary float-right" @click="clearSelectedRhythms()">{{ $t('front.all') }}</button>
             </div>
             <div class="card-body">
                 <div class="form-group">
@@ -53,8 +53,8 @@
     <div class="col-md-6">
         <div class="card" v-bind:class="{ ' border-primary': selectedLevels.length > 0 }">
             <div class="card-header">
-                Level
-                <button v-if="selectedLevels.length > 0" class="btn btn-sm btn-pill btn-secondary float-right" @click="clearSelectedLevels()">Remove filter</button>
+                {{ $t('Level') }}
+                <button v-if="selectedLevels.length > 0" class="btn btn-sm btn-pill btn-secondary float-right" @click="clearSelectedLevels()">{{ $t('front.all') }}</button>
             </div>
             <div class="card-body">
                 <div class="form-group">
@@ -70,12 +70,12 @@
     </div><!-- filters col -->
         
 
-<div class="col-md-8" v-if="isLoading == true && hasErrors == false">Results are loading</div>
-<div class="col-md-8" v-if="isLoading == false && hasErrors == true">Unable to fetch courses. Try to refresh the page!</div>
+<div class="col-md-8" v-if="isLoading == true && hasErrors == false">{{$t('front.Results are loading')}}</div>
+<div class="col-md-8" v-if="isLoading == false && hasErrors == true">{{$t('front.errorfetchingcourses')}}</div>
 
     <div class="col-md-8" v-if="isLoading == false && hasErrors == false">
         <div class="row">
-            <p v-if="sortedCourses.length == 0">No courses with the selected filers</p>
+            <p v-if="sortedCourses.length == 0">{{$t('front.noresults')}}</p>
         <div class="col-md-4" v-for="course in sortedCourses" :key="course.id">
         <div class="card"
             @mouseover="highlightedSortableId = course.sortable_id"
@@ -90,11 +90,11 @@
                     <a class="btn" :href="'course/'+course.id+'/show'"><i class="fa fa-eye"></i></a>
                     <button class="btn dropdown-toggle p-0" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-gear"></i></button>
                     <div class="dropdown-menu dropdown-menu-right">
-                        <a v-if="course.events_count > 0 && course.exempt_attendance !== 1 && course.course_enrollments_count > 0" class="dropdown-item" :href="`attendance/course/${course.id}`"><i class="fa fa-calendar"></i> Attendance</a>
-                        <a v-if="editable" class="dropdown-item" :href="`course/${course.id}/edit`"><i class="fa fa-edit"></i>Edit</a>
-                        <a v-if="editable && course.children_count == 0" class="dropdown-item" :href="`coursetime/${course.id}/edit`"><i class="fa fa-clock-o"></i>Edit times</a>
-                        <button v-if="editable" class="dropdown-item" @click="createChildCourse(course.id)"><i class="fa fa-clone"></i>Create sub-course</button>
-                        <button v-if="editable && course.course_enrollments_count == 0" class="dropdown-item text-danger" @click="deleteCourse(course.id)"><i class="fa fa-trash"></i>Delete</button>
+                        <a v-if="course.events_count > 0 && course.exempt_attendance !== 1 && course.course_enrollments_count > 0" class="dropdown-item" :href="`attendance/course/${course.id}`"><i class="fa fa-calendar"></i> {{$t('Attendance')}}</a>
+                        <a v-if="editable" class="dropdown-item" :href="`course/${course.id}/edit`"><i class="fa fa-edit"></i> {{$t('Edit')}}</a>
+                        <a v-if="editable && course.children_count == 0" class="dropdown-item" :href="`coursetime/${course.id}/edit`"><i class="fa fa-clock-o"></i> {{ $t('front.Edit schedule') }}</a>
+                        <button v-if="editable" class="dropdown-item" @click="createChildCourse(course.id)"><i class="fa fa-clone"></i> {{$t('front.Create subcourse') }}</button>
+                        <button v-if="editable && course.course_enrollments_count == 0" class="dropdown-item text-danger" @click="deleteCourse(course.id)"><i class="fa fa-trash"></i> {{ $t('front.Delete') }}</button>
                     </div>
                 </div>
                 <h5 class="coursename">{{ course.name }}</h5>
@@ -102,7 +102,7 @@
                 <div v-if="course.room"><i class="fa fa-home"></i> {{ course.room.name }}</div>
                 <div><i class="fa fa-clock-o"></i> {{ course.course_times }}</div>
                 <div><i class="fa fa-calendar"></i> {{ course.start_date | moment("D MMM") }} - {{ course.end_date | moment("D MMM") }} ({{ course.volume }}h)</div>
-                <div v-bind:class="{ ' text-danger': course.spots > 0 && course.course_enrollments_count == 0 }"><i class="fa fa-users"></i> {{ course.course_enrollments_count }} students, {{ Math.max(0, course.spots - course.course_enrollments_count) }} spots left</div>
+                <div v-bind:class="{ ' text-danger': course.spots > 0 && course.course_enrollments_count == 0 }"><i class="fa fa-users"></i> {{ course.course_enrollments_count }} {{$t('students')}}, {{ Math.max(0, course.spots - course.course_enrollments_count) }} {{$t('front.spots left')}}</div>
             </div>
         </div>
         </div>

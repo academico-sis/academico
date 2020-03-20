@@ -25141,7 +25141,9 @@ var render = function() {
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-md-6" }, [
             _c("div", { staticClass: "card" }, [
-              _c("div", { staticClass: "card-header" }, [_vm._v("Period")]),
+              _c("div", { staticClass: "card-header" }, [
+                _vm._v(_vm._s(_vm.$t("Period")))
+              ]),
               _vm._v(" "),
               _c("div", { staticClass: "card-body" }, [
                 _c(
@@ -25200,7 +25202,11 @@ var render = function() {
               },
               [
                 _c("div", { staticClass: "card-header" }, [
-                  _vm._v("\n                    Teacher\n                    "),
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm.$t("Teacher")) +
+                      "\n                    "
+                  ),
                   _vm.selectedTeacher !== ""
                     ? _c(
                         "button",
@@ -25213,7 +25219,7 @@ var render = function() {
                             }
                           }
                         },
-                        [_vm._v("Remove filter")]
+                        [_vm._v(_vm._s(_vm.$t("front.all")))]
                       )
                     : _vm._e()
                 ]),
@@ -25255,7 +25261,7 @@ var render = function() {
                     },
                     [
                       _c("option", { attrs: { value: "" } }, [
-                        _vm._v("All teachers")
+                        _vm._v(_vm._s(_vm.$t("front.All teachers")))
                       ]),
                       _vm._v(" "),
                       _vm._l(this.teachers, function(teacher) {
@@ -25290,7 +25296,11 @@ var render = function() {
               },
               [
                 _c("div", { staticClass: "card-header" }, [
-                  _vm._v("\n                Rhythm\n                "),
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(_vm.$t("Rhythm")) +
+                      "\n                "
+                  ),
                   _vm.selectedRhythms.length > 0
                     ? _c(
                         "button",
@@ -25303,7 +25313,7 @@ var render = function() {
                             }
                           }
                         },
-                        [_vm._v("Remove filter")]
+                        [_vm._v(_vm._s(_vm.$t("front.all")))]
                       )
                     : _vm._e()
                 ]),
@@ -25392,7 +25402,11 @@ var render = function() {
               },
               [
                 _c("div", { staticClass: "card-header" }, [
-                  _vm._v("\n                Level\n                "),
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(_vm.$t("Level")) +
+                      "\n                "
+                  ),
                   _vm.selectedLevels.length > 0
                     ? _c(
                         "button",
@@ -25405,7 +25419,7 @@ var render = function() {
                             }
                           }
                         },
-                        [_vm._v("Remove filter")]
+                        [_vm._v(_vm._s(_vm.$t("front.all")))]
                       )
                     : _vm._e()
                 ]),
@@ -25487,13 +25501,13 @@ var render = function() {
       _vm._v(" "),
       _vm.isLoading == true && _vm.hasErrors == false
         ? _c("div", { staticClass: "col-md-8" }, [
-            _vm._v("Results are loading")
+            _vm._v(_vm._s(_vm.$t("front.Results are loading")))
           ])
         : _vm._e(),
       _vm._v(" "),
       _vm.isLoading == false && _vm.hasErrors == true
         ? _c("div", { staticClass: "col-md-8" }, [
-            _vm._v("Unable to fetch courses. Try to refresh the page!")
+            _vm._v(_vm._s(_vm.$t("front.errorfetchingcourses")))
           ])
         : _vm._e(),
       _vm._v(" "),
@@ -25504,7 +25518,7 @@ var render = function() {
               { staticClass: "row" },
               [
                 _vm.sortedCourses.length == 0
-                  ? _c("p", [_vm._v("No courses with the selected filers")])
+                  ? _c("p", [_vm._v(_vm._s(_vm.$t("front.noresults")))])
                   : _vm._e(),
                 _vm._v(" "),
                 _vm._l(_vm.sortedCourses, function(course) {
@@ -25577,7 +25591,9 @@ var render = function() {
                                             _c("i", {
                                               staticClass: "fa fa-calendar"
                                             }),
-                                            _vm._v(" Attendance")
+                                            _vm._v(
+                                              " " + _vm._s(_vm.$t("Attendance"))
+                                            )
                                           ]
                                         )
                                       : _vm._e(),
@@ -25596,7 +25612,7 @@ var render = function() {
                                             _c("i", {
                                               staticClass: "fa fa-edit"
                                             }),
-                                            _vm._v("Edit")
+                                            _vm._v(" " + _vm._s(_vm.$t("Edit")))
                                           ]
                                         )
                                       : _vm._e(),
@@ -25617,7 +25633,12 @@ var render = function() {
                                             _c("i", {
                                               staticClass: "fa fa-clock-o"
                                             }),
-                                            _vm._v("Edit times")
+                                            _vm._v(
+                                              " " +
+                                                _vm._s(
+                                                  _vm.$t("front.Edit schedule")
+                                                )
+                                            )
                                           ]
                                         )
                                       : _vm._e(),
@@ -25639,7 +25660,14 @@ var render = function() {
                                             _c("i", {
                                               staticClass: "fa fa-clone"
                                             }),
-                                            _vm._v("Create sub-course")
+                                            _vm._v(
+                                              " " +
+                                                _vm._s(
+                                                  _vm.$t(
+                                                    "front.Create subcourse"
+                                                  )
+                                                )
+                                            )
                                           ]
                                         )
                                       : _vm._e(),
@@ -25663,7 +25691,10 @@ var render = function() {
                                             _c("i", {
                                               staticClass: "fa fa-trash"
                                             }),
-                                            _vm._v("Delete")
+                                            _vm._v(
+                                              " " +
+                                                _vm._s(_vm.$t("front.Delete"))
+                                            )
                                           ]
                                         )
                                       : _vm._e()
@@ -25728,7 +25759,9 @@ var render = function() {
                                 _vm._v(
                                   " " +
                                     _vm._s(course.course_enrollments_count) +
-                                    " students, " +
+                                    " " +
+                                    _vm._s(_vm.$t("students")) +
+                                    ", " +
                                     _vm._s(
                                       Math.max(
                                         0,
@@ -25736,7 +25769,8 @@ var render = function() {
                                           course.course_enrollments_count
                                       )
                                     ) +
-                                    " spots left"
+                                    " " +
+                                    _vm._s(_vm.$t("front.spots left"))
                                 )
                               ]
                             )
@@ -45371,26 +45405,31 @@ __webpack_require__.r(__webpack_exports__);
   "en": {
     "% of period max": "% of period max",
     "Absence Notification": "Absence Notification",
+    "absences": "absences",
     "Account Data": "Account Data",
     "Acquisition Rate": "Acquisition Rate",
     "Actionnable Comments": "Actionnable Comments",
-    "actions": "actions",
     "Actions": "Actions",
+    "actions": "actions",
+    "Active clients": "Active clients",
     "Add a new contact": "Add a new contact",
     "Add a new grade type to course": "Add a new grade type to course",
     "Add Grade Type to Course": "Add Grade Type to Course",
     "Additional Contact": "Additional Contact",
     "Additional Contacts": "Additional Contacts",
     "Additional Data": "Additional Data",
-    "Address": "Address",
     "address": "address",
+    "Address": "Address",
     "age": "age",
     "Attach skills to course": "Attach skills to course",
     "Attach to course": "Attach to course",
     "Attendance": "Attendance",
-    "Attendance for": "Attendance for",
+    "Attendance Ratio": "Attendance Ratio",
+    "Attendance Status": "Attendance Status",
+    "Attendance status": "Attendance status",
     "available course": "available course",
     "available courses": "available courses",
+    "Back to course": "Back to course",
     "Best regards,": "Best regards,",
     "birthdate": "birthdate",
     "Birthdate": "Birthdate",
@@ -45399,11 +45438,12 @@ __webpack_require__.r(__webpack_exports__);
     "CALENDARS": "CALENDARS",
     "Campus": "Campus",
     "campuses": "campuses",
+    "Cancel": "Cancel",
     "Cart Details": "Cart Details",
     "Change all Converted to Pending": "Change all Converted to Pending",
     "Change course": "Change course",
     "Children enrollments": "Children enrollments",
-    "Classes without attendance": "Classes without attendance",
+    "Classes without teacher": "Classes without teacher",
     "Client address": "Client address",
     "Client email": "Client email",
     "Client ID Number": "Client ID Number",
@@ -45415,22 +45455,29 @@ __webpack_require__.r(__webpack_exports__);
     "Continue without uploading a profile picture": "Continue without uploading a profile picture",
     "course": "course",
     "Course": "Course",
+    "Course :": "Course :",
     "Course Details": "Course Details",
+    "Course Evaluation": "Course Evaluation",
     "Course info": "Course info",
     "Course result": "Course result",
     "Course Result Details": "Course Result Details",
     "Course Schedule": "Course Schedule",
-    "COURSES": "COURSES",
     "courses": "courses",
+    "COURSES": "COURSES",
+    "Courses": "Courses",
+    "Courses (list)": "Courses (list)",
     "Create another Contact": "Create another Contact",
     "Current Period": "Current Period",
+    "Currently enrolled": "Currently enrolled",
     "Date": "Date",
     "Date range": "Date range",
     "Default Period": "Default Period",
+    "Default Periods Selection": "Default Periods Selection",
     "Delete Enrollment": "Delete Enrollment",
     "Discount Value": "Discount Value",
     "Discount Value (0-100%)": "Discount Value (0-100%)",
     "Discounts": "Discounts",
+    "Edit": "Edit",
     "Edit contact": "Edit contact",
     "Edit Course Skills": "Edit Course Skills",
     "Edit Grades": "Edit Grades",
@@ -45449,16 +45496,15 @@ __webpack_require__.r(__webpack_exports__);
     "Enrollments": "Enrollments",
     "Enrollments per Course": "Enrollments per Course",
     "Enrollments per Rhythm": "Enrollments per Rhythm",
-    "Evaluation": "Evaluation",
+    "Enrollments Period": "Enrollments Period",
     "EVALUATION": "EVALUATION",
     "Evaluation method": "Evaluation method",
     "Evaluation Types": "Evaluation Types",
+    "Event": "Event",
     "Events": "Events",
     "Events with no course": "Events with no course",
     "Events with no teacher": "Events with no teacher",
-    "Exempt all course events from attendance sheet": "Exempt all course events from attendance sheet",
     "Exempt Attendance": "Exempt Attendance",
-    "Exempt event from attendance sheet": "Exempt event from attendance sheet",
     "Export Course syllabus": "Export Course syllabus",
     "Export skills": "Export skills",
     "External": "External",
@@ -45468,6 +45514,7 @@ __webpack_require__.r(__webpack_exports__);
     "Finish update": "Finish update",
     "First Name": "First Name",
     "Firstname": "Firstname",
+    "Former clients": "Former clients",
     "Go Home": "Go Home",
     "Grade Types": "Grade Types",
     "Grades": "Grades",
@@ -45485,6 +45532,7 @@ __webpack_require__.r(__webpack_exports__);
     "ID Number": "ID Number",
     "idnumber": "idnumber",
     "Import skills": "Import skills",
+    "Inactive clients": "Inactive clients",
     "Incomplete Attendance": "Incomplete Attendance",
     "Internal": "Internal",
     "Internal Courses": "Internal Courses",
@@ -45497,34 +45545,35 @@ __webpack_require__.r(__webpack_exports__);
     "Is Enrolled in": "Is Enrolled in",
     "Is Not Enrolled in": "Is Not Enrolled in",
     "Jobs Queue": "Jobs Queue",
-    "Justified Absences": "Justified Absences",
+    "justified absence": "justified absence",
     "Last Enrollment": "Last Enrollment",
     "Last Name": "Last Name",
     "Lastname": "Lastname",
     "Leads Status": "Leads Status",
-    "Leads to call": "Leads to call",
     "Leave": "Leave",
     "Length": "Length",
     "Level": "Level",
     "levels": "levels",
+    "Manage leaves": "Manage leaves",
     "Mark as paid without generating an invoice": "Mark as paid without generating an invoice",
-    "Missing students": "Missing students",
-    "Moodle": "Moodle",
+    "Missing attendance": "Missing attendance",
     "My Hours": "My Hours",
     "My Schedule": "My Schedule",
-    "Name": "Name",
     "name": "name",
+    "Name": "Name",
     "New Course": "New Course",
     "New pre-invoice": "New pre-invoice",
     "New Students": "New Students",
     "No Result": "No Result",
-    "Number of absences": "Number of absences",
+    "Not yet enrolled: call them and update status!": "Not yet enrolled: call them and update status!",
+    "Number of Absences": "Number of Absences",
     "Number of Courses": "Number of Courses",
     "Oh no": "Oh no",
     "on": "on",
     "or": "or",
     "Overview": "Overview",
-    "paid": "paid",
+    "Paid Enrollments": "Paid Enrollments",
+    "Partial presence (arrived late or left early)": "Partial presence (arrived late or left early)",
     "Payment methods": "Payment methods",
     "Pedagogy": "Pedagogy",
     "Pending": "Pending",
@@ -45537,6 +45586,7 @@ __webpack_require__.r(__webpack_exports__);
     "Period Max": "Period Max",
     "Period Total": "Period Total",
     "periods": "periods",
+    "Permanently ended their learning": "Permanently ended their learning",
     "Phone Number": "Phone Number",
     "Phone Numbers": "Phone Numbers",
     "Planned Hours": "Planned Hours",
@@ -45544,8 +45594,10 @@ __webpack_require__.r(__webpack_exports__);
     "Please check your personal phone number(s)": "Please check your personal phone number(s)",
     "Please chose an image on your computer to update your profile picture": "Please chose an image on your computer to update your profile picture",
     "Please fill in your profession and your institution (school, workplace).": "Please fill in your profession and your institution (school, workplace).",
+    "Potential clients": "Potential clients",
     "Pre-invoice ID": "Pre-invoice ID",
     "Presencial": "Presencial",
+    "Present": "Present",
     "Price": "Price",
     "Product": "Product",
     "Products": "Products",
@@ -45562,7 +45614,6 @@ __webpack_require__.r(__webpack_exports__);
     "Result Notification": "Result Notification",
     "Result Types": "Result Types",
     "Results": "Results",
-    "Back to course": "Back to course",
     "Rhythm": "Rhythm",
     "rhythms": "rhythms",
     "Roles": "Roles",
@@ -45578,11 +45629,13 @@ __webpack_require__.r(__webpack_exports__);
     "Setup Dashboard": "Setup Dashboard",
     "share of students from previous period who were re-enrolled": "share of students from previous period who were re-enrolled",
     "Show Children Courses": "Show Children Courses",
+    "Since the beginning of this course, you have:": "Since the beginning of this course, you have:",
     "Skill Scales": "Skill Scales",
     "Skill Types": "Skill Types",
     "Skills": "Skills",
     "Skills set was saved for the course": "Skills set was saved for the course",
     "Skillset File": "Skillset File",
+    "SPHERE": "SPHERE",
     "Spots": "Spots",
     "Start": "Start",
     "Start Date": "Start Date",
@@ -45592,19 +45645,22 @@ __webpack_require__.r(__webpack_exports__);
     "Status is not": "Status is not",
     "Student": "Student",
     "student": "student",
+    "Student :": "Student :",
+    "Student Attendance Overview": "Student Attendance Overview",
+    "Student Attendance Report": "Student Attendance Report",
     "Student details for": "Student details for",
     "Student Info": "Student Info",
-    "students": "students",
     "Students": "Students",
+    "students": "students",
     "Students to count in year total": "Students to count in year total",
     "Students under 18, please add contact data from your legal representatives": "Students under 18, please add contact data from your legal representatives",
     "Students with no leadStatus": "Students with no leadStatus",
     "Teacher": "Teacher",
     "TEACHER": "TEACHER",
     "Teacher Dashboard": "Teacher Dashboard",
-    "Teachers": "Teachers",
+    "Teacher Leaves": "Teacher Leaves",
     "teachers": "teachers",
-    "Thank you for justificating this absence by replying to this email": "Thank you for justificating this absence by replying to this email",
+    "Teachers": "Teachers",
     "The attendance record is incomplete for the following classes:": "The attendance record is incomplete for the following classes:",
     "The enrollment has been updated": "The enrollment has been updated",
     "The information has successfully been saved": "The information has successfully been saved",
@@ -45616,12 +45672,13 @@ __webpack_require__.r(__webpack_exports__);
     "This is important, so that we can reach you in case of an emergency": "This is important, so that we can reach you in case of an emergency",
     "This will erase all skills currently associated to the course": "This will erase all skills currently associated to the course",
     "TOTAL": "TOTAL",
-    "Unjustified Absences": "Unjustified Absences",
-    "Upcoming classes with no teacher assigned": "Upcoming classes with no teacher assigned",
+    "Total": "Total",
+    "Unavailable now, call for next session!": "Unavailable now, call for next session!",
+    "unjustified absence": "unjustified absence",
+    "Upcoming Leaves": "Upcoming Leaves",
     "Upload skillset file": "Upload skillset file",
     "Users": "Users",
     "View": "View",
-    "View attendance sheet for event": "View attendance sheet for event",
     "View Course Skills": "View Course Skills",
     "View Skills for Group": "View Skills for Group",
     "Volume": "Volume",
@@ -45637,12 +45694,61 @@ __webpack_require__.r(__webpack_exports__);
     "Your course result is available for": "Your course result is available for",
     "Your data has been saved": "Your data has been saved",
     "Your picture has been saved": "Your picture has been saved",
+    "pagination": {
+      "previous": "&laquo; Previous",
+      "next": "Next &raquo;"
+    },
+    "auth": {
+      "failed": "These credentials do not match our records.",
+      "throttle": "Too many login attempts. Please try again in {seconds} seconds."
+    },
     "passwords": {
       "password": "Passwords must be at least six characters and match the confirmation.",
       "reset": "Your password has been reset!",
       "sent": "We have e-mailed your password reset link!",
       "token": "This password reset token is invalid.",
       "user": "We can't find a user with that e-mail address."
+    },
+    "front": {
+      "Add a new course time": "Add a new course time",
+      "Monday": "Monday",
+      "Tuesday": "Tuesday",
+      "Wednesday": "Wednesday",
+      "Thursday": "Thursday",
+      "Friday": "Friday",
+      "Saturday": "Saturday",
+      "Sunday": "Sunday",
+      "Justified Absence": "Justified Absence",
+      "Unjustified Absence": "Unjustified Absence",
+      "Invoice Data": "Invoice Data",
+      "Payment": "Payment",
+      "for": "for",
+      "Total price": "Total price",
+      "Confirm": "Confirm",
+      "Add products": "Add products",
+      "Add discount": "Add discount",
+      "Select": "Select",
+      "Payment method": "Payment method",
+      "Amount received": "Amount received",
+      "Add": "Add",
+      "Total received amount": "Total received amount",
+      "The invoice has been generated": "The invoice has been generated",
+      "Enrollment number": "Enrollment number",
+      "Lead Status": "Lead Status",
+      "Skill Type": "Skill Type",
+      "Level": "Level",
+      "Skill": "Skill",
+      "This comment requires an action": "This comment requires an action",
+      "Cancel": "Cancel",
+      "Results are loading": "Results are loading",
+      "errorfetchingcourses": "Unable to fetch courses. Try to refresh the page!",
+      "All teachers": "All teachers",
+      "Edit schedule": "Edit schedule",
+      "Create subcourse": "Create subcourse",
+      "noresults": "No courses with the selected filers",
+      "all": "all",
+      "Delete": "Delete",
+      "spots left": "spots left"
     },
     "validation": {
       "accepted": "The {attribute} must be accepted.",
@@ -45753,71 +45859,36 @@ __webpack_require__.r(__webpack_exports__);
         }
       },
       "attributes": []
-    },
-    "pagination": {
-      "previous": "&laquo; Previous",
-      "next": "Next &raquo;"
-    },
-    "front": {
-      "Add a new course time": "Add a new course time",
-      "Monday": "Monday",
-      "Tuesday": "Tuesday",
-      "Wednesday": "Wednesday",
-      "Thursday": "Thursday",
-      "Friday": "Friday",
-      "Saturday": "Saturday",
-      "Sunday": "Sunday",
-      "Justified Absence": "Justified Absence",
-      "Unjustified Absence": "Unjustified Absence",
-      "Invoice Data": "Invoice Data",
-      "Payment": "Payment",
-      "for": "for",
-      "Total price": "Total price",
-      "Confirm": "Confirm",
-      "Add products": "Add products",
-      "Add discount": "Add discount",
-      "Select": "Select",
-      "Payment method": "Payment method",
-      "Amount received": "Amount received",
-      "Add": "Add",
-      "Total received amount": "Total received amount",
-      "The invoice has been generated": "The invoice has been generated",
-      "Enrollment number": "Enrollment number",
-      "Lead Status": "Lead Status",
-      "Skill Type": "Skill Type",
-      "Level": "Level",
-      "Skill": "Skill",
-      "This comment requires an action": "This comment requires an action",
-      "Cancel": "Cancel"
-    },
-    "auth": {
-      "failed": "These credentials do not match our records.",
-      "throttle": "Too many login attempts. Please try again in {seconds} seconds."
     }
   },
   "es": {
     "% of period max": "% del máx. para la sesión",
     "Absence Notification": "Notificacion de ausencia",
+    "absences": "ausencias",
     "Account Data": "Datos de la cuenta",
     "Acquisition Rate": "Tasa de conservación de alumnos",
     "Actionnable Comments": "Requiere acción",
-    "actions": "acciones",
     "Actions": "Acciones",
+    "actions": "acciones",
+    "Active clients": "activos",
     "Add a new contact": "Añadir un contacto",
     "Add a new grade type to course": "Añadir un criterio de evaluación al curso",
     "Add Grade Type to Course": "Añadir un criterio de evaluación al curso",
     "Additional Contact": "Contacto addicional",
     "Additional Contacts": "Contactos",
     "Additional Data": "Datos del estudiante",
-    "Address": "Dirección",
     "address": "dirección",
+    "Address": "Dirección",
     "age": "edad",
     "Attach skills to course": "Agregar competencias al curso",
     "Attach to course": "Asociar al curso",
     "Attendance": "Asistencia",
-    "Attendance for": "Asistencia para",
+    "Attendance Ratio": "Percentaje de asistencia",
+    "Attendance Status": "Asistencia",
+    "Attendance status": "Asistencia",
     "available course": "curso disponible",
     "available courses": "cursos disponibles",
+    "Back to course": "Volver al curso",
     "Best regards,": "Saludos cordiales,",
     "birthdate": "fecha de nacimiento",
     "Birthdate": "Fecha de nacimiento",
@@ -45826,11 +45897,12 @@ __webpack_require__.r(__webpack_exports__);
     "CALENDARS": "CALENDARIOS",
     "Campus": "Campus",
     "campuses": "campus",
+    "Cancel": "Cancelar",
     "Cart Details": "Detalles del carrito",
     "Change all Converted to Pending": "Cambiar todos los Converted a Pending",
     "Change course": "Cambiar curso",
     "Children enrollments": "Matriculas hijas",
-    "Classes without attendance": "Clases sin asistencia",
+    "Classes without teacher": "Classes sin profesor",
     "Client address": "Dirección del cliente",
     "Client email": "Correo electrónico del cliente",
     "Client ID Number": "Cédula del cliente",
@@ -45842,22 +45914,29 @@ __webpack_require__.r(__webpack_exports__);
     "Continue without uploading a profile picture": "Seguir sin subir una foto",
     "course": "curso",
     "Course": "Curso",
+    "Course :": "Curso :",
     "Course Details": "Detalles del curso",
+    "Course Evaluation": "Evaluacón de los cursos",
     "Course info": "Información del curso",
     "Course result": "Resultado del curso",
     "Course Result Details": "Detalles del resultado",
     "Course Schedule": "Horarios del curso",
-    "COURSES": "CURSOS",
     "courses": "cursos",
+    "COURSES": "CURSOS",
+    "Courses": "Cursos",
+    "Courses (list)": "Cursos (listado)",
     "Create another Contact": "Agregar otro contacto",
     "Current Period": "Periodo actual",
+    "Currently enrolled": "Estan matriculados ahora",
     "Date": "Fecha",
     "Date range": "Fechas",
     "Default Period": "Periodo por defecto",
+    "Default Periods Selection": "Seleccionar los periodo por defecto",
     "Delete Enrollment": "Eliminar la matricula",
     "Discount Value": "Valor del descuento",
     "Discount Value (0-100%)": "Valor del descuento (0-100%)",
     "Discounts": "Descuentos",
+    "Edit": "Editar",
     "Edit contact": "Editar contacto",
     "Edit Course Skills": "Modificar las competencias del curso",
     "Edit Grades": "Modificar notas",
@@ -45876,16 +45955,15 @@ __webpack_require__.r(__webpack_exports__);
     "Enrollments": "Matriculas",
     "Enrollments per Course": "Matriculas per curso",
     "Enrollments per Rhythm": "Matriculas per modalidad",
-    "Evaluation": "Evaluacióon",
+    "Enrollments Period": "Periodo de matriculas",
     "EVALUATION": "EVALUACIÓN",
     "Evaluation method": "Tipo de evaluación",
     "Evaluation Types": "Tipos de evaluación",
+    "Event": "Clase",
     "Events": "Clases",
     "Events with no course": "Clases sin curso",
     "Events with no teacher": "Clases sin profesor",
-    "Exempt all course events from attendance sheet": "Exentar todas las clases de asistencia",
     "Exempt Attendance": "Exentar Asistencia",
-    "Exempt event from attendance sheet": "Exentar esta clase",
     "Export Course syllabus": "Exportar el silabo",
     "Export skills": "Exportar las competencias",
     "External": "Externos",
@@ -45895,6 +45973,7 @@ __webpack_require__.r(__webpack_exports__);
     "Finish update": "Finalizar actualización",
     "First Name": "Nombres",
     "Firstname": "Nombres",
+    "Former clients": "Clientes antiguos",
     "Go Home": "Pagina principal",
     "Grade Types": "Tipos de notas",
     "Grades": "Notas",
@@ -45912,6 +45991,7 @@ __webpack_require__.r(__webpack_exports__);
     "ID Number": "Cédula",
     "idnumber": "cédula",
     "Import skills": "Importar competencias",
+    "Inactive clients": "Inactivos",
     "Incomplete Attendance": "Asistencia pendiente",
     "Internal": "Internos",
     "Internal Courses": "Cursos internos",
@@ -45924,39 +46004,40 @@ __webpack_require__.r(__webpack_exports__);
     "Is Enrolled in": "Matriculado en",
     "Is Not Enrolled in": "No matriculado en",
     "Jobs Queue": "Cola de trabajo",
-    "Justified Absences": "Ausencias justificadas",
+    "justified absence": "ausencia justificada",
     "Last Enrollment": "Última matricula",
     "Last Name": "Apellidos",
     "Lastname": "Apellidos",
     "Leads Status": "Estado de client",
-    "Leads to call": "Clientes por llamar",
     "Leave": "Vacaciones",
     "Length": "Tiempo",
     "Level": "Nivel",
     "levels": "niveles",
+    "Manage leaves": "Gestion de vacaciones",
     "Mark as paid without generating an invoice": "Marcar como facturada sin generar factura",
-    "Missing students": "Estudiantes que faltan",
-    "Moodle": "Moodle",
+    "Missing attendance": "Asistencia incompleta",
     "My Hours": "Mis horas",
     "My Schedule": "Mi calendario",
-    "Name": "Nombre",
     "name": "Nombre",
+    "Name": "Nombre",
     "New Course": "Nuevo curso",
     "New pre-invoice": "Nueva prefactura",
     "New Students": "Nuevos estudiantes",
     "No Result": "No hay resultado",
-    "Number of absences": "Número de ausencias",
+    "Not yet enrolled: call them and update status!": "Todavia no estan matriculados. Llamar y cambiar estado!",
+    "Number of Absences": "Número de ausencias",
     "Number of Courses": "Número de cursos",
     "Oh no": "Oh no",
     "on": "el",
     "or": "o",
     "Overview": "Vista general",
-    "paid": "pagado",
+    "Paid Enrollments": "Matriculas pagadas",
+    "Partial presence (arrived late or left early)": "Presencia parcial (llegó tarde o salió temprano)",
     "Payment methods": "Formas de pago",
     "Pedagogy": "Pedagogía",
     "Pending": "Pendientes",
     "Pending Attendance": "Asistencia pendiente",
-    "Pending leads": "Clientes potenciales por confirmar",
+    "Pending leads": "Clientes potenciales",
     "Per course": "Per curso",
     "Per rhythm": "Per modalidad",
     "Period": "Sessión",
@@ -45964,6 +46045,7 @@ __webpack_require__.r(__webpack_exports__);
     "Period Max": "Máximo por periodo",
     "Period Total": "Total por periodo",
     "periods": "sessiones",
+    "Permanently ended their learning": "Acabó su aprendizaje",
     "Phone Number": "Número de teléfono",
     "Phone Numbers": "Números de télefono",
     "Planned Hours": "Horas previstas",
@@ -45971,8 +46053,10 @@ __webpack_require__.r(__webpack_exports__);
     "Please check your personal phone number(s)": "Por favor verifique su(s) numero(s) de teléfono",
     "Please chose an image on your computer to update your profile picture": "Por favor sube una foto para su perfil",
     "Please fill in your profession and your institution (school, workplace).": "Por favor indique su profesión y institución (escuela, trabajo)",
+    "Potential clients": "Clientes potenciales",
     "Pre-invoice ID": "Número de prefactura",
     "Presencial": "Presencial",
+    "Present": "Presente",
     "Price": "Precio",
     "Product": "Producto",
     "Products": "Productos",
@@ -45989,7 +46073,6 @@ __webpack_require__.r(__webpack_exports__);
     "Result Notification": "Notificación de resultado",
     "Result Types": "Tipos de resultados",
     "Results": "Resultados",
-    "Back to course": "Volver al curso",
     "Rhythm": "Modalidad",
     "rhythms": "modalidades",
     "Roles": "Papeles",
@@ -46005,11 +46088,13 @@ __webpack_require__.r(__webpack_exports__);
     "Setup Dashboard": "Monitoreo del sistema",
     "share of students from previous period who were re-enrolled": "porcentaje de los estudiantes del periodo anterior matriculados en este periodo",
     "Show Children Courses": "Mostrar los cursos hijos",
+    "Since the beginning of this course, you have:": "Desde el inicio del curso, tiene:",
     "Skill Scales": "Niveles de competencia",
     "Skill Types": "Tipos de competencias",
     "Skills": "Competencias",
     "Skills set was saved for the course": "Las competencias del curso han sido guardadas.",
     "Skillset File": "Archivo de competencias",
+    "SPHERE": "SPHERE",
     "Spots": "Cupos",
     "Start": "Inicio",
     "Start Date": "Fecha de inicio",
@@ -46019,19 +46104,22 @@ __webpack_require__.r(__webpack_exports__);
     "Status is not": "Estado no es",
     "Student": "Estudiante",
     "student": "estudiante",
+    "Student :": "Estudiante :",
+    "Student Attendance Overview": "Reporte de asistencia del estudiante",
+    "Student Attendance Report": "Reporte de asistencia del estudiante",
     "Student details for": "Detalles del estudiante",
     "Student Info": "Información del estudiante",
-    "students": "estudiantes",
     "Students": "Estudiantes",
+    "students": "estudiantes",
     "Students to count in year total": "Estudiantes contabilizados en total del año",
     "Students under 18, please add contact data from your legal representatives": "Estudiantes menores de edad, por favor agregar los datos de sus representates legales",
     "Students with no leadStatus": "Estudiantes sin estado cliente",
     "Teacher": "Profesor",
     "TEACHER": "PROFESOR",
     "Teacher Dashboard": "Panel del Profesor",
-    "Teachers": "Profesores",
+    "Teacher Leaves": "Vacaciones",
     "teachers": "profesores",
-    "Thank you for justificating this absence by replying to this email": "Gracias por justificar esta ausencia contestando a este correo",
+    "Teachers": "Profesores",
     "The attendance record is incomplete for the following classes:": "La asistancia esta incompleta para las clases siguientes:",
     "The enrollment has been updated": "La matricula ha sido guardada",
     "The information has successfully been saved": "La información ha sido guardada",
@@ -46043,12 +46131,13 @@ __webpack_require__.r(__webpack_exports__);
     "This is important, so that we can reach you in case of an emergency": "Eso es importante para poder recibir mensajes importantes en caso de emergencia",
     "This will erase all skills currently associated to the course": "Las competencias asociadas al curso serán elimidadas",
     "TOTAL": "TOTAL",
-    "Unjustified Absences": "Ausencias no justificadas",
-    "Upcoming classes with no teacher assigned": "Próximas clases sin profesor",
+    "Total": "Total",
+    "Unavailable now, call for next session!": "No esta disponible ahora, llamar para la proxima sesión!",
+    "unjustified absence": "ausencia no justificada",
+    "Upcoming Leaves": "Proximas vacaciones",
     "Upload skillset file": "Cargar archivo de competencias",
     "Users": "Usuarios",
     "View": "Ver",
-    "View attendance sheet for event": "Ver ficha de asistencia para la clase",
     "View Course Skills": "Ver las competencias del curso",
     "View Skills for Group": "Ver las competencias del grupo",
     "Volume": "Volumen",
@@ -46094,32 +46183,46 @@ __webpack_require__.r(__webpack_exports__);
       "Level": "Nivel",
       "Skill": "Competencia",
       "This comment requires an action": "Este comentario necesita accion",
-      "Cancel": "Cancelar"
+      "Cancel": "Cancelar",
+      "Results are loading": "Cargando los resultados...",
+      "errorfetchingcourses": "Error al cargar los cursos. Por favor actualizar la pagina",
+      "All teachers": "Todos los profesores",
+      "Edit schedule": "Editar horarios",
+      "Create subcourse": "Crear curso hijo",
+      "noresults": "No hay cursos con los criterios seleccionados",
+      "all": "todos",
+      "Delete": "Eliminar",
+      "spots left": "cupos disponibles"
     }
   },
   "fr": {
     "% of period max": "% du maximum",
     "Absence Notification": "Notification d'absence",
+    "absences": "absences",
     "Account Data": "Informations du compte",
     "Acquisition Rate": "Taux de fidélisation",
     "Actionnable Comments": "Action requise",
-    "actions": "actions",
     "Actions": "Actions",
+    "actions": "actions",
+    "Active clients": "Clients actifs",
     "Add a new contact": "Ajouter un contact",
     "Add a new grade type to course": "Ajouter un critère",
     "Add Grade Type to Course": "Ajouter un critère",
     "Additional Contact": "Autre contact",
     "Additional Contacts": "Contacts",
     "Additional Data": "Informations de l'étudiant(e)",
-    "Address": "Addresse",
     "address": "addresse",
+    "Address": "Addresse",
     "age": "âge",
     "Attach skills to course": "Ajouter des compétences au cours",
     "Attach to course": "Associer au cours",
     "Attendance": "Présences",
-    "Attendance for": "Présences pour",
+    "Attendance Ratio": "Pourcentage de présence",
+    "Attendance Status": "Présence",
+    "Attendance status": "Présence",
     "available course": "cours disponible",
     "available courses": "cours disponibles",
+    "Back to course": "Revenir au cours",
     "Best regards,": "Cordialement,",
     "birthdate": "date de naissance",
     "Birthdate": "Date de naissance",
@@ -46128,11 +46231,12 @@ __webpack_require__.r(__webpack_exports__);
     "CALENDARS": "CALENDRIERS",
     "Campus": "Campus",
     "campuses": "campus",
+    "Cancel": "Annuler",
     "Cart Details": "Détails du panier",
     "Change all Converted to Pending": "Changer tous les Converted à Pending",
     "Change course": "Changer de cours",
     "Children enrollments": "Inscriptions liées",
-    "Classes without attendance": "Classes sans fiche de présence",
+    "Classes without teacher": "Classes sans enseignant",
     "Client address": "Adresse du Client",
     "Client email": "Email du client",
     "Client ID Number": "Numéro d'identité du client",
@@ -46144,22 +46248,29 @@ __webpack_require__.r(__webpack_exports__);
     "Continue without uploading a profile picture": "Continuer sans photo de profil",
     "course": "cours",
     "Course": "Cours",
+    "Course :": "Cours :",
     "Course Details": "Détails du cours",
+    "Course Evaluation": "Gérer l'évaluation",
     "Course info": "Informations du cours",
     "Course result": "Résultat du cours",
     "Course Result Details": "Résultat du cours",
     "Course Schedule": "Horaires du cours",
-    "COURSES": "COURS",
     "courses": "cours",
+    "COURSES": "COURS",
+    "Courses": "Cours",
+    "Courses (list)": "Cours (liste)",
     "Create another Contact": "Créer un autre contact",
     "Current Period": "Cycle en cours",
+    "Currently enrolled": "Inscrits maintenant",
     "Date": "Date",
     "Date range": "Dates",
     "Default Period": "Période par défaut",
+    "Default Periods Selection": "Sélection des cycles par défaut",
     "Delete Enrollment": "Annuler l'inscription",
     "Discount Value": "Valeur de la réduction",
     "Discount Value (0-100%)": "Valeur de la réduction (0-100%)",
     "Discounts": "Réductions",
+    "Edit": "Editer",
     "Edit contact": "Modifier le contact",
     "Edit Course Skills": "Modifier les compétences du cours",
     "Edit Grades": "Modifier les notes",
@@ -46178,16 +46289,15 @@ __webpack_require__.r(__webpack_exports__);
     "Enrollments": "Inscriptions",
     "Enrollments per Course": "Inscriptions par cours",
     "Enrollments per Rhythm": "Inscriptions par rythme",
-    "Evaluation": "Evaluation",
+    "Enrollments Period": "Cycle d'inscription",
     "EVALUATION": "ÉVALUATION",
     "Evaluation method": "Type d'évaluation",
     "Evaluation Types": "Types d'évaluation",
+    "Event": "Classe",
     "Events": "Classes",
     "Events with no course": "Classes sans cours",
     "Events with no teacher": "Classes sans professeur",
-    "Exempt all course events from attendance sheet": "Dispenser toutes les classes",
     "Exempt Attendance": "Dispenser de fiche de présence",
-    "Exempt event from attendance sheet": "Dispenser la classe",
     "Export Course syllabus": "Exporter le syllabus",
     "Export skills": "Exporter les compétences",
     "External": "Externe",
@@ -46197,6 +46307,7 @@ __webpack_require__.r(__webpack_exports__);
     "Finish update": "Terminer la mise à jour",
     "First Name": "Prénom",
     "Firstname": "Prénom",
+    "Former clients": "Anciens clients",
     "Go Home": "Page d'accueil",
     "Grade Types": "Critères",
     "Grades": "Notes",
@@ -46214,6 +46325,7 @@ __webpack_require__.r(__webpack_exports__);
     "ID Number": "Numéro d'identité",
     "idnumber": "numéro d'identité",
     "Import skills": "Importer les compétences",
+    "Inactive clients": "Clients inactifs",
     "Incomplete Attendance": "Fiches de présence incomplètes",
     "Internal": "Interne",
     "Internal Courses": "Cours internes",
@@ -46226,34 +46338,35 @@ __webpack_require__.r(__webpack_exports__);
     "Is Enrolled in": "Inscrit en",
     "Is Not Enrolled in": "Non-inscrit en",
     "Jobs Queue": "File de travaux",
-    "Justified Absences": "Absences justifiées",
+    "justified absence": "absence justifée",
     "Last Enrollment": "Dernière inscription",
     "Last Name": "Nom",
     "Lastname": "Nom",
     "Leads Status": "Statuts client",
-    "Leads to call": "Clients à appeler",
     "Leave": "Vacances",
     "Length": "Durée",
     "Level": "Niveau",
     "levels": "niveaux",
+    "Manage leaves": "Gestion des vacances",
     "Mark as paid without generating an invoice": "Marquer comme facturé sans générer de facture",
-    "Missing students": "Étudiants manquants",
-    "Moodle": "Moodle",
+    "Missing attendance": "Présences incomplètes",
     "My Hours": "Mes heures",
     "My Schedule": "Mon emploi du temps",
-    "Name": "Nom",
     "name": "nom",
+    "Name": "Nom",
     "New Course": "Nouveau cours",
     "New pre-invoice": "Nouvelle facture",
     "New Students": "Nouveaux étudiants",
     "No Result": "Pas de résultat",
-    "Number of absences": "Nombre d'absences",
+    "Not yet enrolled: call them and update status!": "Pas encore inscrits. Les appeler et mettre à jour le statut !",
+    "Number of Absences": "Nombre d'absences",
     "Number of Courses": "Nombre de cours",
     "Oh no": "Oh no",
     "on": "le",
     "or": "ou",
     "Overview": "Vue générale",
-    "paid": "payé",
+    "Paid Enrollments": "Inscriptions payées",
+    "Partial presence (arrived late or left early)": "Présence partielle (retard ou départ anticipé)",
     "Payment methods": "Moyens de paiement",
     "Pedagogy": "Pedagogie",
     "Pending": "Impayés",
@@ -46266,6 +46379,7 @@ __webpack_require__.r(__webpack_exports__);
     "Period Max": "Max. pour la session",
     "Period Total": "Total pour la session",
     "periods": "sessions",
+    "Permanently ended their learning": "Ont terminé leur apprentissage",
     "Phone Number": "Téléphone",
     "Phone Numbers": "Numéros de téléphone",
     "Planned Hours": "Heures prévues",
@@ -46273,8 +46387,10 @@ __webpack_require__.r(__webpack_exports__);
     "Please check your personal phone number(s)": "Merci de vérifier vos numéros de téléphone",
     "Please chose an image on your computer to update your profile picture": "Veuillez choisir une photo de profil",
     "Please fill in your profession and your institution (school, workplace).": "Merci d'indiquer votre profession et votre institution (école, travail)",
+    "Potential clients": "Clients potentiels",
     "Pre-invoice ID": "Numéro de pré-facture",
     "Presencial": "Presentiel",
+    "Present": "Présent",
     "Price": "Prix",
     "Product": "Produit",
     "Products": "Produits",
@@ -46291,7 +46407,6 @@ __webpack_require__.r(__webpack_exports__);
     "Result Notification": "Notification de résultat",
     "Result Types": "Échelles de résultat",
     "Results": "Résultats",
-    "Back to course": "Revenir au cours",
     "Rhythm": "Rythme",
     "rhythms": "rythmes",
     "Roles": "Rôles",
@@ -46307,11 +46422,13 @@ __webpack_require__.r(__webpack_exports__);
     "Setup Dashboard": "Panel système",
     "share of students from previous period who were re-enrolled": "part des étudiants du cycle précédent qui se sont réinscrits",
     "Show Children Courses": "Montrer les cours enfants",
+    "Since the beginning of this course, you have:": "Depuis le début du cours, vous avez",
     "Skill Scales": "Échelles de compétences",
     "Skill Types": "Types de compétences",
     "Skills": "Compétences",
     "Skills set was saved for the course": "Les compétences du cours ont été enregistrées",
     "Skillset File": "Fichier de compétences",
+    "SPHERE": "SPHERE",
     "Spots": "Places",
     "Start": "Début",
     "Start Date": "Date de début",
@@ -46321,19 +46438,22 @@ __webpack_require__.r(__webpack_exports__);
     "Status is not": "Statut client n'est pas",
     "Student": "Étudiant",
     "student": "Étudiant",
+    "Student :": "Étudiant :",
+    "Student Attendance Overview": "Présences de l'étudiant",
+    "Student Attendance Report": "Présences de l'étudiant",
     "Student details for": "Informations de l'étudiant",
     "Student Info": "Informations de l'étudiant",
-    "students": "étudiants",
     "Students": "Étudiants",
+    "students": "étudiants",
     "Students to count in year total": "Étudiants à compter dans le total de l'année",
     "Students under 18, please add contact data from your legal representatives": "Les étudiants mineurs doivent ajouter le contact de leurs représentants légaux",
     "Students with no leadStatus": "Étudiants sans statut client",
     "Teacher": "Enseignant(e)",
     "TEACHER": "ENSEIGNANT(E)",
     "Teacher Dashboard": "Tableau de bord enseignant",
-    "Teachers": "Enseignants",
+    "Teacher Leaves": "Congés",
     "teachers": "enseignants",
-    "Thank you for justificating this absence by replying to this email": "Nous vous remercions de bien vouloir justifier cette absence en répondant à cet email",
+    "Teachers": "Enseignants",
     "The attendance record is incomplete for the following classes:": "La fiche de présence est incomplète pour les classes suivantes :",
     "The enrollment has been updated": "L'inscription a été mise à jour",
     "The information has successfully been saved": "L'information a été enregistrée",
@@ -46345,12 +46465,13 @@ __webpack_require__.r(__webpack_exports__);
     "This is important, so that we can reach you in case of an emergency": "Ceci est important car cela nous permet de vous contacter en cas d'urgence",
     "This will erase all skills currently associated to the course": "Vous allez écraser les compétences associées au cours",
     "TOTAL": "TOTAL",
-    "Unjustified Absences": "Absences non justifiées",
-    "Upcoming classes with no teacher assigned": "Prochaines classes sans enseignant",
+    "Total": "Total",
+    "Unavailable now, call for next session!": "Non disponible maintenant ; les appeler pour la prochaine session!",
+    "unjustified absence": "absence non-justifiée",
+    "Upcoming Leaves": "Prochaines vacances",
     "Upload skillset file": "Charger un fichier de compétences",
     "Users": "Utilisateurs",
     "View": "Voir",
-    "View attendance sheet for event": "Voir la fiche de présence",
     "View Course Skills": "Voir les compétences du cours",
     "View Skills for Group": "Voir les compétences du groupe",
     "Volume": "Volume",
@@ -46396,7 +46517,16 @@ __webpack_require__.r(__webpack_exports__);
       "Level": "Nivel",
       "Skill": "Competencia",
       "This comment requires an action": "Ce commentaire demande une action",
-      "Cancel": "Annuler"
+      "Cancel": "Annuler",
+      "Results are loading": "Résultats en cours de chargement...",
+      "errorfetchingcourses": "Erreur lors du chargement. Veuillez actualiser la page",
+      "All teachers": "Tous les enseignants",
+      "Edit schedule": "Editer les horaires",
+      "Create subcourse": "Créer un sous-cours",
+      "noresults": "Pas de cours avec les filtres sélectionnés",
+      "all": "tous",
+      "Delete": "Supprimer",
+      "spots left": "places disponibles"
     }
   }
 });

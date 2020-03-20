@@ -42,5 +42,14 @@ return [
     'Skill' => 'Competencia',
     'This comment requires an action' => 'Ce commentaire demande une action',
     'Cancel' => 'Annuler',
+    'Results are loading' => 'Résultats en cours de chargement...',
+    'errorfetchingcourses' => 'Erreur lors du chargement. Veuillez actualiser la page',
+    'All teachers' => 'Tous les enseignants',
+    'Edit schedule' => 'Editer les horaires',
+    'Create subcourse' => 'Créer un sous-cours',
+    'noresults' => 'Pas de cours avec les filtres sélectionnés',
+    'all' => 'tous',
+    'Delete' => 'Supprimer',
+    'spots left' => 'places disponibles'
 
 ];

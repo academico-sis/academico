@@ -14,7 +14,6 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 class CourseEvaluationCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 
     public function setup()
@@ -143,6 +142,11 @@ class CourseEvaluationCrudController extends CrudController
     {
         //$this->crud->setValidation(CourseEvaluationRequest::class);
 
+
+    }
+
+    protected function setupUpdateOperation()
+    {
         CRUD::addField(
             // EVALUATION METHODS
             [
@@ -156,10 +160,5 @@ class CourseEvaluationCrudController extends CrudController
                'pivot' => true
             ]
             );
-    }
-
-    protected function setupUpdateOperation()
-    {
-        $this->setupCreateOperation();
     }
 }
