@@ -51,7 +51,7 @@ class CourseController extends Controller
 
     public function search()
     {
-        return QueryBuilder::for(Course::class)
+        return QueryBuilder::for(Course::class)->where('campus_id', 1)
         ->with('room')
         ->allowedFilters([
             'name',

@@ -48,18 +48,6 @@
             </div>
         </div>
 
-        <div class="card">
-            <label class="switch switch-pill switch-primary">
-                <input class="switch-input" type="checkbox" checked=""><span class="switch-slider"></span>
-            </label>
-            Show children
-        </div>
-
-        <div class="card">
-            Search by name
-        </div>
-
-        <button @click="getCoursesResults()">Filter</button>
     </div>
 
     <div class="col-md-6">
@@ -82,9 +70,12 @@
     </div><!-- filters col -->
         
 
+<div class="col-md-8" v-if="isLoading == true && hasErrors == false">Results are loading</div>
+<div class="col-md-8" v-if="isLoading == false && hasErrors == true">Unable to fetch courses. Try to refresh the page!</div>
 
-    <div class="col-md-8">
+    <div class="col-md-8" v-if="isLoading == false && hasErrors == false">
         <div class="row">
+            <p v-if="sortedCourses.length == 0">No courses with the selected filers</p>
         <div class="col-md-4" v-for="course in sortedCourses" :key="course.id">
         <div class="card"
             @mouseover="highlightedSortableId = course.sortable_id"
@@ -136,7 +127,9 @@ export default {
             courses: [],
             selectedRhythms: [],
             selectedLevels: [],
-            highlightedSortableId: null
+            highlightedSortableId: null,
+            isLoading: true,
+            hasErrors: false,
         }
     },
 
@@ -153,6 +146,7 @@ export default {
     methods: {
         getCoursesResults()
         {
+            this.isLoading = true;
             axios
             .get('/courselist/search', {
                 params: {
@@ -162,7 +156,15 @@ export default {
                     "filter[teacher_id]": this.selectedTeacher
                 }
             })
-            .then(response => { this.courses = response.data });
+            .then(response => {
+                this.courses = response.data
+                this.isLoading = false
+                this.hasErrors = false
+            })
+            .catch(errors => {
+                this.isLoading = false
+                this.hasErrors = true
+            });
         },
 
         clearSelectedRhythms()

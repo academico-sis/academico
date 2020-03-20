@@ -4,7 +4,8 @@
   <li class="nav-title">@lang('COURSES')</li>
 
   <li class='nav-item'><a class='nav-link' href="{{ url('/') }}"><i class="nav-icon fa fa-book"></i> <span>{{ trans('backpack::base.dashboard') }}</span></a></li>
-  <li class='nav-item'><a class='nav-link' href="{{ backpack_url('course') }}"><i class="nav-icon fa fa-book"></i> <span>@lang('Internal Courses')</span></a></li>
+  <li class='nav-item'><a class='nav-link' href="{{ backpack_url('course') }}"><i class="nav-icon fa fa-book"></i> <span>@lang('Courses (list)')</span></a></li>
+  <li class='nav-item'><a class='nav-link' href="{{ route('get-courses-list') }}"><i class="nav-icon fa fa-book"></i> <span>@lang('Internal Courses')</span></a></li>
   <li class='nav-item'><a class='nav-link' href="{{ backpack_url('externalcourse') }}"><i class="nav-icon fa fa-bus"></i> <span>@lang('External Courses')</span></a></li>
   <li class='nav-item'><a class='nav-link' href="{{ backpack_url('student') }}"><i class="nav-icon fa fa-user"></i> <span>@lang('Students')</span></a></li>
   <li class='nav-item'><a class='nav-link' href="{{ backpack_url('/enrollment?status_id=["1"]&hidechildren=true') }}"><i class="nav-icon fa fa-credit-card"></i> <span>@lang('Pending')</span></a></li>

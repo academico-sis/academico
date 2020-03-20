@@ -2524,15 +2524,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['periods', 'defaultperiod', 'teachers', 'rhythms', 'levels'],
@@ -2543,7 +2534,9 @@ __webpack_require__.r(__webpack_exports__);
       courses: [],
       selectedRhythms: [],
       selectedLevels: [],
-      highlightedSortableId: null
+      highlightedSortableId: null,
+      isLoading: true,
+      hasErrors: false
     };
   },
   mounted: function mounted() {
@@ -2558,6 +2551,7 @@ __webpack_require__.r(__webpack_exports__);
     getCoursesResults: function getCoursesResults() {
       var _this = this;
 
+      this.isLoading = true;
       axios.get('/courselist/search', {
         params: {
           "filter[period_id]": this.selectedPeriod,
@@ -2567,6 +2561,11 @@ __webpack_require__.r(__webpack_exports__);
         }
       }).then(function (response) {
         _this.courses = response.data;
+        _this.isLoading = false;
+        _this.hasErrors = false;
+      })["catch"](function (errors) {
+        _this.isLoading = false;
+        _this.hasErrors = true;
       });
     },
     clearSelectedRhythms: function clearSelectedRhythms() {
@@ -25273,24 +25272,6 @@ var render = function() {
                   )
                 ])
               ]
-            ),
-            _vm._v(" "),
-            _vm._m(0),
-            _vm._v(" "),
-            _c("div", { staticClass: "card" }, [
-              _vm._v("\n            Search by name\n        ")
-            ]),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                on: {
-                  click: function($event) {
-                    return _vm.getCoursesResults()
-                  }
-                }
-              },
-              [_vm._v("Filter")]
             )
           ]),
           _vm._v(" "),
@@ -25396,138 +25377,162 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "col-md-8" }, [
-        _c(
-          "div",
-          { staticClass: "row" },
-          _vm._l(_vm.sortedCourses, function(course) {
-            return _c("div", { key: course.id, staticClass: "col-md-4" }, [
-              _c(
-                "div",
-                {
-                  staticClass: "card",
-                  class: {
-                    "border-danger":
-                      course.spots > 0 && course.course_enrollments_count == 0,
-                    "bg-secondary":
-                      _vm.highlightedSortableId == course.sortable_id,
-                    "border-warning":
-                      course.teacher_id == null || course.room_id == null
-                  },
-                  on: {
-                    mouseover: function($event) {
-                      _vm.highlightedSortableId = course.sortable_id
-                    },
-                    mouseleave: function($event) {
-                      _vm.highlightedSortableId = null
-                    }
-                  }
-                },
-                [
-                  _c("div", { staticClass: "card-body" }, [
-                    _c("div", { staticClass: "btn-group float-right" }, [
+      _vm.isLoading == true && _vm.hasErrors == false
+        ? _c("div", { staticClass: "col-md-8" }, [
+            _vm._v("Results are loading")
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.isLoading == false && _vm.hasErrors == true
+        ? _c("div", { staticClass: "col-md-8" }, [
+            _vm._v("Unable to fetch courses. Try to refresh the page!")
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.isLoading == false && _vm.hasErrors == false
+        ? _c("div", { staticClass: "col-md-8" }, [
+            _c(
+              "div",
+              { staticClass: "row" },
+              [
+                _vm.sortedCourses.length == 0
+                  ? _c("p", [_vm._v("No courses with the selected filers")])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm._l(_vm.sortedCourses, function(course) {
+                  return _c(
+                    "div",
+                    { key: course.id, staticClass: "col-md-4" },
+                    [
                       _c(
-                        "a",
+                        "div",
                         {
-                          staticClass: "btn",
-                          attrs: { href: "course/" + course.id + "/show" }
+                          staticClass: "card",
+                          class: {
+                            "border-danger":
+                              course.spots > 0 &&
+                              course.course_enrollments_count == 0,
+                            "bg-secondary":
+                              _vm.highlightedSortableId == course.sortable_id,
+                            "border-warning":
+                              course.teacher_id == null ||
+                              course.room_id == null
+                          },
+                          on: {
+                            mouseover: function($event) {
+                              _vm.highlightedSortableId = course.sortable_id
+                            },
+                            mouseleave: function($event) {
+                              _vm.highlightedSortableId = null
+                            }
+                          }
                         },
-                        [_c("i", { staticClass: "fa fa-eye" })]
-                      ),
-                      _vm._v(" "),
-                      _vm._m(1, true),
-                      _vm._v(" "),
-                      _vm._m(2, true)
-                    ]),
-                    _vm._v(" "),
-                    _c("h5", { staticClass: "coursename" }, [
-                      _vm._v(_vm._s(course.name))
-                    ]),
-                    _vm._v(" "),
-                    course.teacher
-                      ? _c("div", [
-                          _c("i", { staticClass: "fa fa-user" }),
-                          _vm._v(" " + _vm._s(course.course_teacher_name))
-                        ])
-                      : _vm._e(),
-                    _vm._v(" "),
-                    course.room
-                      ? _c("div", [
-                          _c("i", { staticClass: "fa fa-home" }),
-                          _vm._v(" " + _vm._s(course.room.name))
-                        ])
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _c("div", [
-                      _c("i", { staticClass: "fa fa-clock-o" }),
-                      _vm._v(" " + _vm._s(course.course_times))
-                    ]),
-                    _vm._v(" "),
-                    _c("div", [
-                      _c("i", { staticClass: "fa fa-calendar" }),
-                      _vm._v(
-                        " " +
-                          _vm._s(_vm._f("moment")(course.start_date, "D MMM")) +
-                          " - " +
-                          _vm._s(_vm._f("moment")(course.end_date, "D MMM")) +
-                          " (" +
-                          _vm._s(course.volume) +
-                          "h)"
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        class: {
-                          " text-danger":
-                            course.spots > 0 &&
-                            course.course_enrollments_count == 0
-                        }
-                      },
-                      [
-                        _c("i", { staticClass: "fa fa-users" }),
-                        _vm._v(
-                          " " +
-                            _vm._s(course.course_enrollments_count) +
-                            " students, " +
-                            _vm._s(
-                              Math.max(
-                                0,
-                                course.spots - course.course_enrollments_count
+                        [
+                          _c("div", { staticClass: "card-body" }, [
+                            _c(
+                              "div",
+                              { staticClass: "btn-group float-right" },
+                              [
+                                _c(
+                                  "a",
+                                  {
+                                    staticClass: "btn",
+                                    attrs: {
+                                      href: "course/" + course.id + "/show"
+                                    }
+                                  },
+                                  [_c("i", { staticClass: "fa fa-eye" })]
+                                ),
+                                _vm._v(" "),
+                                _vm._m(0, true),
+                                _vm._v(" "),
+                                _vm._m(1, true)
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c("h5", { staticClass: "coursename" }, [
+                              _vm._v(_vm._s(course.name))
+                            ]),
+                            _vm._v(" "),
+                            course.teacher
+                              ? _c("div", [
+                                  _c("i", { staticClass: "fa fa-user" }),
+                                  _vm._v(
+                                    " " + _vm._s(course.course_teacher_name)
+                                  )
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            course.room
+                              ? _c("div", [
+                                  _c("i", { staticClass: "fa fa-home" }),
+                                  _vm._v(" " + _vm._s(course.room.name))
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _c("div", [
+                              _c("i", { staticClass: "fa fa-clock-o" }),
+                              _vm._v(" " + _vm._s(course.course_times))
+                            ]),
+                            _vm._v(" "),
+                            _c("div", [
+                              _c("i", { staticClass: "fa fa-calendar" }),
+                              _vm._v(
+                                " " +
+                                  _vm._s(
+                                    _vm._f("moment")(course.start_date, "D MMM")
+                                  ) +
+                                  " - " +
+                                  _vm._s(
+                                    _vm._f("moment")(course.end_date, "D MMM")
+                                  ) +
+                                  " (" +
+                                  _vm._s(course.volume) +
+                                  "h)"
                               )
-                            ) +
-                            " spots left"
-                        )
-                      ]
-                    )
-                  ])
-                ]
-              )
-            ])
-          }),
-          0
-        )
-      ])
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                class: {
+                                  " text-danger":
+                                    course.spots > 0 &&
+                                    course.course_enrollments_count == 0
+                                }
+                              },
+                              [
+                                _c("i", { staticClass: "fa fa-users" }),
+                                _vm._v(
+                                  " " +
+                                    _vm._s(course.course_enrollments_count) +
+                                    " students, " +
+                                    _vm._s(
+                                      Math.max(
+                                        0,
+                                        course.spots -
+                                          course.course_enrollments_count
+                                      )
+                                    ) +
+                                    " spots left"
+                                )
+                              ]
+                            )
+                          ])
+                        ]
+                      )
+                    ]
+                  )
+                })
+              ],
+              2
+            )
+          ])
+        : _vm._e()
     ])
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card" }, [
-      _c("label", { staticClass: "switch switch-pill switch-primary" }, [
-        _c("input", {
-          staticClass: "switch-input",
-          attrs: { type: "checkbox", checked: "" }
-        }),
-        _c("span", { staticClass: "switch-slider" })
-      ]),
-      _vm._v("\n            Show children\n        ")
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
