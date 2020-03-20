@@ -144,6 +144,11 @@ protected static function boot()
         return $query->where('campus_id', 2);
     }
 
+    public function scopeRealcourses($query)
+    {
+        return $query->doesntHave('children');
+    }
+
     /*
     |--------------------------------------------------------------------------
     | FUNCTIONS
@@ -165,17 +170,6 @@ protected static function boot()
     }
 
 
-    public static function get_courses_offer(Period $period)
-    {
-        return Course::where('parent_course_id', null)
-        ->where('period_id', $period->id)
-        ->where('campus_id', 1)
-        ->with('room')
-        ->with('rhythm')
-        ->with('level')
-        ->withCount('enrollments')
-        ->get();
-    }
 
     /*
     |--------------------------------------------------------------------------

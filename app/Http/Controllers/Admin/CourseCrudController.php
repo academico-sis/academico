@@ -47,7 +47,7 @@ class CourseCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix') . '/course');
         CRUD::setEntityNameStrings(__('course'), __('courses'));
 
-        CRUD::addClause('where', 'campus_id', '1');
+        CRUD::addClause('internal');
         
         $permissions = backpack_user()->getAllPermissions();
         
@@ -56,21 +56,6 @@ class CourseCrudController extends CrudController
         if(!$permissions->contains('name', 'courses.edit')) { CRUD::denyAccess('create'); }
 
         if($permissions->contains('name', 'courses.view')) {CRUD::allowAccess('show'); }
-        if($permissions->contains('name', 'attendance.view')) {
-            CRUD::addButtonFromView('line', 'attendance', 'attendance', 'end');
-        }
-
-        if($permissions->contains('name', 'evaluation.edit')) {
-            CRUD::addButtonFromView('line', 'skills', 'skills', 'end');
-        }
-
-        if($permissions->contains('name', 'evaluation.edit')) {
-            CRUD::addButtonFromView('line', 'skillsevaluation', 'skillsevaluation', 'end');
-        }
-
-        if($permissions->contains('name', 'evaluation.edit')) {
-            CRUD::addButtonFromView('line', 'grades', 'grades', 'end');
-        }
 
         if($permissions->contains('name', 'courses.edit')) {
             CRUD::addButtonFromView('line', 'schedule', 'schedule', 'end');
@@ -155,18 +140,6 @@ class CourseCrudController extends CrudController
             'function_name' => 'getCourseTimesAttribute', // the method in your Model
             'limit' => 150, // Limit the number of characters shown
             ],
-
-            // EVALUATION METHODS
-            [
-            // n-n relationship (with pivot table)
-            'label' => __("Evaluation method"), // Table column heading
-            'type' => "select_multiple",
-            'name' => 'evaluation_type', // the method that defines the relationship in your Model
-            'entity' => 'evaluation_type', // the method that defines the relationship in your Model
-            'attribute' => "name", // foreign key attribute that is shown to user
-            'model' => "App\Models\EvaluationType", // foreign key model
-            ],
-
 
             // ENROLLMENTS COUNT
             [
@@ -343,21 +316,6 @@ class CourseCrudController extends CrudController
                 'type' => "hidden",
                 'name' => 'campus_id', // the column that contains the ID of that connected entity;
                 'value' => 1,
-             ],
-
-
-             // EVALUATION METHODS
-             [
-                // n-n relationship (with pivot table)
-                'label' => __("Evaluation method"), // Table column heading
-                'type' => "select_multiple",
-                'name' => 'evaluation_type', // the method that defines the relationship in your Model
-                'entity' => 'evaluation_type', // the method that defines the relationship in your Model
-                'attribute' => "name", // foreign key attribute that is shown to user
-                'model' => "App\Models\EvaluationType", // foreign key model
-                'pivot' => true, // on create&update, do you need to add/delete pivot table entries?
-                'tab' => __('Pedagogy')
-
              ],
 
              [
