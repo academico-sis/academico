@@ -2,21 +2,19 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
-use App\Models\Profession;
 use App\Models\Institution;
+use App\Models\Profession;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
-use Spatie\MediaLibrary\Models\Media;
+use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
-use Spatie\Image\Manipulations;
+use Spatie\MediaLibrary\Models\Media;
 
 class Student extends Model implements HasMedia
 {
-
     use CrudTrait;
     use SoftDeletes;
     use HasMediaTrait;
@@ -25,19 +23,16 @@ class Student extends Model implements HasMedia
     protected $guarded = ['id'];
     protected $with = ['user', 'phone'];
     protected $appends = ['email', 'name', 'firstname', 'lastname', 'student_age', 'student_birthdate'];
-    
+
     protected static function boot()
     {
         parent::boot();
 
         // when deleting a student, also delete any enrollments, grades and attendance related to this student
-        static::deleting(function(Student $student) {
-
+        static::deleting(function (self $student) {
             Attendance::where('student_id', $student->id)->delete();
             Enrollment::where('student_id', $student->id)->delete();
-
         });
-
     }
 
     public function registerMediaConversions(Media $media = null)
@@ -66,8 +61,8 @@ class Student extends Model implements HasMedia
 
         return $this->hasMany(Attendance::class)
         ->where('attendance_type_id', 4) // absence
-        ->whereHas('event', function($q) use ($period) {
-            return $q->whereHas('course', function($c) use ($period) {
+        ->whereHas('event', function ($q) use ($period) {
+            return $q->whereHas('course', function ($c) use ($period) {
                 return $c->where('period_id', $period->id);
             });
         });
@@ -80,8 +75,8 @@ class Student extends Model implements HasMedia
         }
 
         return $this->hasMany(Attendance::class)
-        ->whereHas('event', function($q) use ($period) {
-            return $q->whereHas('course', function($c) use ($period) {
+        ->whereHas('event', function ($q) use ($period) {
+            return $q->whereHas('course', function ($c) use ($period) {
                 return $c->where('period_id', $period->id);
             });
         });
@@ -96,7 +91,7 @@ class Student extends Model implements HasMedia
     {
         return $this->morphMany(Comment::class, 'commentable');
     }
-    
+
     public function phone()
     {
         return $this->morphMany(PhoneNumber::class, 'phoneable');
@@ -131,9 +126,7 @@ class Student extends Model implements HasMedia
         return $this->belongsTo(Profession::class);
     }
 
-
     /** attributes */
-
     public function getFirstnameAttribute()
     {
         if ($this->user) {
@@ -158,7 +151,7 @@ class Student extends Model implements HasMedia
     public function getNameAttribute()
     {
         if ($this->user) {
-            return $this->user->firstname . ' ' . $this->user->lastname;
+            return $this->user->firstname.' '.$this->user->lastname;
         }
     }
 
@@ -192,7 +185,6 @@ class Student extends Model implements HasMedia
         return $this->where('lead_type_id', 3)->count();
     }
 
-
     /** functions */
 
     /**
@@ -204,21 +196,19 @@ class Student extends Model implements HasMedia
         // avoid duplicates by retrieving an potential existing enrollment for the same course
         $enrollment = Enrollment::firstOrNew([
             'student_id' =>  $this->id,
-            'course_id' => $course->id
+            'course_id' => $course->id,
         ]);
 
         $enrollment->responsible_id = backpack_user()->id ?? 1;
         $enrollment->save();
-        
+
         // if the course has children, enroll in children as well.
-        if($course->children_count > 0)
-        {
-            foreach($course->children as $children_course)
-            {
+        if ($course->children_count > 0) {
+            foreach ($course->children as $children_course) {
                 $child_enrollment = Enrollment::firstOrNew([
                     'student_id' =>  $this->id,
                     'course_id' => $children_course->id,
-                    'parent_id' => $enrollment->id
+                    'parent_id' => $enrollment->id,
                 ]);
                 $child_enrollment->responsible_id = backpack_user()->id ?? null;
                 $child_enrollment->save();
@@ -227,12 +217,13 @@ class Student extends Model implements HasMedia
 
         $this->lead_type_id = 1; // converted
         $this->save();
+
         return $enrollment->id;
     }
 
     /** SETTERS */
     public function setFirstnameAttribute($value)
-    {   
+    {
         $this->user->firstname = $value;
         $this->user->save();
     }

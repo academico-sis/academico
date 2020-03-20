@@ -26,7 +26,7 @@ class GradeTypeRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique|max:60'
+            'name' => 'required|unique|max:60',
         ];
     }
 

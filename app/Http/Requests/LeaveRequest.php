@@ -28,7 +28,7 @@ class LeaveRequest extends FormRequest
         return [
             'teacher_id' => 'required',
             'leave_type_id_id' => 'required',
-            'date' => 'required'
+            'date' => 'required',
         ];
     }
 

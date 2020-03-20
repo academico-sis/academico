@@ -9,15 +9,15 @@ use Illuminate\Support\Facades\DB;
 
 class LeadStatusController extends Controller
 {
-    private function subscribeToList($subscriber, $list) {
+    private function subscribeToList($subscriber, $list)
+    {
         $api_key = Config::where('name', 'mailerlite_api_key')->first()->value;
         $groupsApi = (new \MailerLiteApi\MailerLite($api_key))->groups();
 
         $subscribersApi = (new \MailerLiteApi\MailerLite($api_key))->subscribers();
 
         $subscriberGroups = $subscribersApi->getGroups($subscriber['email']); // returns array of group objects subscriber belongs to
-        foreach ($subscriberGroups as $group)
-        {
+        foreach ($subscriberGroups as $group) {
             $groupsApi->removeSubscriber($group->id, $subscriber['email']); // returns empty response
         }
 
@@ -35,54 +35,48 @@ class LeadStatusController extends Controller
         $student->save();
 
         // converted, active clients
-        if ($request->input('status') == 1)
-        {
-
+        if ($request->input('status') == 1) {
             $subscriber = [
                 'email' => $student->email,
                 'name' => $student->firstname,
                 'fields' => [
-                  'lastname' => $student->lastname
-                ]
+                  'lastname' => $student->lastname,
+                ],
             ];
             $this->subscribeToList($subscriber, $activeStudentsGroupId);
 
             // contacts
-            foreach($student->contacts as $contact)
-            {
+            foreach ($student->contacts as $contact) {
                 $subscriber = [
                     'email' => $contact->email,
                     'name' => $contact->firstname,
                     'fields' => [
-                    'lastname' => $contact->lastname
-                    ]
+                    'lastname' => $contact->lastname,
+                    ],
                 ];
                 $this->subscribeToList($subscriber, $activeStudentsGroupId);
             }
         }
 
-            
         // inactive or formerClient
-        if ($request->input('status') == 2 || $request->input('status') == 3)
-        {
+        if ($request->input('status') == 2 || $request->input('status') == 3) {
             $subscriber = [
                 'email' => $student->email,
                 'name' => $student->firstname,
                 'fields' => [
-                  'lastname' => $student->lastname
-                ]
+                  'lastname' => $student->lastname,
+                ],
             ];
             $this->subscribeToList($subscriber, $inactiveStudentsGroupId);
 
             // contacts
-            foreach($student->contacts as $contact)
-            {
+            foreach ($student->contacts as $contact) {
                 $subscriber = [
                     'email' => $contact->email,
                     'name' => $contact->firstname,
                     'fields' => [
-                    'lastname' => $contact->lastname
-                    ]
+                    'lastname' => $contact->lastname,
+                    ],
                 ];
                 $this->subscribeToList($subscriber, $inactiveStudentsGroupId);
             }

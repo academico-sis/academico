@@ -2,29 +2,24 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Course;
-
-// VALIDATION: change the requests to match your own file names if you need form validation
-use App\Models\Skills\Skill;
 use App\Http\Requests\SkillRequest as StoreRequest;
+// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\SkillRequest as UpdateRequest;
+use App\Models\Course;
+use App\Models\Skills\Skill;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class SkillCrudController
- * @package App\Http\Controllers\Admin
+ * Class SkillCrudController.
  * @property-read CrudPanel $crud
  */
 class SkillCrudController extends CrudController
 {
-
-    
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-
 
     public function __construct()
     {
@@ -32,7 +27,6 @@ class SkillCrudController extends CrudController
         $this->middleware(['permission:evaluation.edit']);
     }
 
-    
     public function setup()
     {
         /*
@@ -41,11 +35,10 @@ class SkillCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
         CRUD::setModel('App\Models\Skills\Skill');
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/skill');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/skill');
         CRUD::setEntityNameStrings('skill', 'skills');
 
         CRUD::addButtonFromView('top', 'bulk_attach', 'bulk_attach', 'end');
-
 
         /*
         |--------------------------------------------------------------------------
@@ -65,9 +58,9 @@ class SkillCrudController extends CrudController
              ],
 
             [
-                'label' => "Name", // skill description
-                'type' => "text",
-                'name' => 'name'
+                'label' => 'Name', // skill description
+                'type' => 'text',
+                'name' => 'name',
             ],
 
             [ // skill level
@@ -78,7 +71,6 @@ class SkillCrudController extends CrudController
                'attribute' => 'name', // foreign key attribute that is shown to user
                'model'     => 'level', // foreign key model
             ],
-
 
         ]);
 
@@ -96,9 +88,9 @@ class SkillCrudController extends CrudController
              ],
 
             [
-                'label' => "Name", // skill description
-                'type' => "text",
-                'name' => 'name'
+                'label' => 'Name', // skill description
+                'type' => 'text',
+                'name' => 'name',
             ],
 
             [ // skill level
@@ -110,34 +102,31 @@ class SkillCrudController extends CrudController
                'model' => "App\Models\Level",
             ],
 
-
         ]);
 
         // add asterisk for fields that are required in SkillRequest
         CRUD::setRequiredFields(StoreRequest::class, 'create');
         CRUD::setRequiredFields(UpdateRequest::class, 'edit');
 
-
         CRUD::addFilter([ // select2 filter
             'name' => 'level_id',
             'type' => 'select2',
-            'label'=> 'Level'
-          ], function() {
+            'label'=> 'Level',
+          ], function () {
               return \App\Models\Level::all()->pluck('name', 'id')->toArray();
-          }, function($value) { // if the filter is active
-                  CRUD::addClause('where', 'level_id', $value);
+          }, function ($value) { // if the filter is active
+              CRUD::addClause('where', 'level_id', $value);
           });
 
-          CRUD::addFilter([ // select2 filter
+        CRUD::addFilter([ // select2 filter
             'name' => 'skill_type_id',
             'type' => 'select2',
-            'label'=> 'Type'
-          ], function() {
+            'label'=> 'Type',
+          ], function () {
               return \App\Models\Skills\SkillType::all()->pluck('name', 'id')->toArray();
-          }, function($value) { // if the filter is active
-                  CRUD::addClause('where', 'skill_type_id', $value);
+          }, function ($value) { // if the filter is active
+              CRUD::addClause('where', 'skill_type_id', $value);
           });
-
     }
 
     protected function setupCreateOperation()
@@ -159,14 +148,12 @@ class SkillCrudController extends CrudController
 
         $course->skills()->detach();
 
-        foreach ($entries as $skill)
-        {
+        foreach ($entries as $skill) {
             $course->skills()->attach(Skill::find($skill),
             ['weight' => 1]); // todo allow edition of this parameter
         }
         \Alert::success(__('Skills set was saved for the course'))->flash();
 
         return $course->id;
-
     }
 }

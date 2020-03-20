@@ -2,27 +2,23 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Backpack\CRUD\app\Http\Controllers\CrudController;
-
-// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\SkillScaleRequest as StoreRequest;
+// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\SkillScaleRequest as UpdateRequest;
+use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class SkillScaleCrudController
- * @package App\Http\Controllers\Admin
+ * Class SkillScaleCrudController.
  * @property-read CrudPanel $crud
  */
 class SkillScaleCrudController extends CrudController
 {
-
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-    
-    
+
     public function setup()
     {
         /*
@@ -31,7 +27,7 @@ class SkillScaleCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
         CRUD::setModel('App\Models\Skills\SkillScale');
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/skillscale');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/skillscale');
         CRUD::setEntityNameStrings('skillscale', 'skill_scales');
 
         /*

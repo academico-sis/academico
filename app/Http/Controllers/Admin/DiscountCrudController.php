@@ -2,28 +2,24 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Backpack\CRUD\app\Http\Controllers\CrudController;
-use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-
-// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\DiscountRequest as StoreRequest;
 use App\Http\Requests\DiscountRequest as UpdateRequest;
+// VALIDATION: change the requests to match your own file names if you need form validation
+use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\CRUD\CrudPanel;
 
 /**
- * Class DiscountCrudController
- * @package App\Http\Controllers\Admin
+ * Class DiscountCrudController.
  * @property-read CrudPanel $crud
  */
 class DiscountCrudController extends CrudController
 {
-
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-    
-    
+
     public function setup()
     {
         /*
@@ -32,7 +28,7 @@ class DiscountCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
         CRUD::setModel('App\Models\Discount');
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/discount');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/discount');
         CRUD::setEntityNameStrings('discount', 'discounts');
 
         /*
@@ -45,42 +41,41 @@ class DiscountCrudController extends CrudController
 
             [
                 'name' => 'id',
-                'label' => "ID",
+                'label' => 'ID',
             ],
 
             [
                 // Discount name
-                'label' => __("Name"), // Table column heading
-                'type' => "text",
-                'name' => 'name'
+                'label' => __('Name'), // Table column heading
+                'type' => 'text',
+                'name' => 'name',
             ],
 
             [
                 // Value
-                'label' => __("Discount Value"), // Table column heading
-                'type' => "decimal",
+                'label' => __('Discount Value'), // Table column heading
+                'type' => 'decimal',
                 'name' => 'value',
-                'suffix' => '%'
+                'suffix' => '%',
             ],
 
         ]);
 
-
         CRUD::addFields([
-           
+
             [
                 // Discount name
-                'label' => __("Name"), // Table column heading
-                'type' => "text",
-                'name' => 'name'
+                'label' => __('Name'), // Table column heading
+                'type' => 'text',
+                'name' => 'name',
             ],
 
             [
                 // Value
-                'label' => __("Discount Value (0-100%)"), // Table column heading
+                'label' => __('Discount Value (0-100%)'), // Table column heading
                 'type' => 'number',
-                'attributes' => ["step" => "1"],
-                'name' => 'value'
+                'attributes' => ['step' => '1'],
+                'name' => 'value',
             ],
 
         ]);
@@ -99,5 +94,4 @@ class DiscountCrudController extends CrudController
     {
         CRUD::setValidation(UpdateRequest::class);
     }
-    
 }

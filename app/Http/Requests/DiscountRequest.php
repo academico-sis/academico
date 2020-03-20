@@ -27,7 +27,7 @@ class DiscountRequest extends FormRequest
     {
         return [
             'name' => 'required|min:2|max:255',
-            'value' => 'required'
+            'value' => 'required',
         ];
     }
 

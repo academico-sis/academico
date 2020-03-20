@@ -3,8 +3,8 @@
 namespace App\Exceptions;
 
 use Exception;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Log;
 
 class Handler extends ExceptionHandler
 {
@@ -19,11 +19,11 @@ class Handler extends ExceptionHandler
 
     /**
      * A list of the internal exception types that should not be reported.
-     * (overwrite vendor file)
+     * (overwrite vendor file).
      *
      * @var array
      */
-     protected $internalDontReport = [
+    protected $internalDontReport = [
         AuthenticationException::class,
         AuthorizationException::class,
         //HttpException::class,
@@ -55,7 +55,7 @@ class Handler extends ExceptionHandler
         if (app()->bound('sentry') && $this->shouldReport($exception)) {
             app('sentry')->captureException($exception);
         }
-    
+
         parent::report($exception);
     }
 

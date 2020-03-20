@@ -50,6 +50,6 @@ return [
     'noresults' => 'No hay cursos con los criterios seleccionados',
     'all' => 'todos',
     'Delete' => 'Eliminar',
-    'spots left' => 'cupos disponibles'
+    'spots left' => 'cupos disponibles',
 
 ];

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Student;
 use App\Models\LeadType;
-use Illuminate\Http\Request;
+use App\Models\Student;
 use App\Traits\PeriodSelection;
+use Illuminate\Http\Request;
 
 class SetupController extends Controller
 {
@@ -24,7 +24,7 @@ class SetupController extends Controller
         $failed = \DB::table('failed_jobs')->count();
         $lead_types = LeadType::withCount('students')->get();
         $orphan_students = Student::where('lead_type_id', null)->count();
+
         return view('setup.dashboard', compact('queue', 'failed', 'lead_types', 'orphan_students'));
     }
-
 }

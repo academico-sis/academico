@@ -26,7 +26,7 @@ class EvaluationTypeRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique|max:55'
+            'name' => 'required|unique|max:55',
         ];
     }
 

@@ -2,27 +2,23 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\RhythmRequest as StoreRequest;
+use App\Http\Requests\RhythmRequest as UpdateRequest;
+// VALIDATION: change the requests to match your own file names if you need form validation
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
-// VALIDATION: change the requests to match your own file names if you need form validation
-use App\Http\Requests\RhythmRequest as StoreRequest;
-use App\Http\Requests\RhythmRequest as UpdateRequest;
-
 /**
- * Class RhythmCrudController
- * @package App\Http\Controllers\Admin
+ * Class RhythmCrudController.
  * @property-read CrudPanel $crud
  */
 class RhythmCrudController extends CrudController
 {
-
-
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-    
+
     public function setup()
     {
         /*
@@ -31,7 +27,7 @@ class RhythmCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
         CRUD::setModel('App\Models\Rhythm');
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/rhythm');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/rhythm');
         CRUD::setEntityNameStrings('rhythm', 'rhythms');
 
         /*

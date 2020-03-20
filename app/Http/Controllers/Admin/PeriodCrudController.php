@@ -2,27 +2,23 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\PeriodRequest as StoreRequest;
+use App\Http\Requests\PeriodRequest as UpdateRequest;
+// VALIDATION: change the requests to match your own file names if you need form validation
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
-// VALIDATION: change the requests to match your own file names if you need form validation
-use App\Http\Requests\PeriodRequest as StoreRequest;
-use App\Http\Requests\PeriodRequest as UpdateRequest;
-
 /**
- * Class PeriodCrudController
- * @package App\Http\Controllers\Admin
+ * Class PeriodCrudController.
  * @property-read CrudPanel $crud
  */
 class PeriodCrudController extends CrudController
 {
-
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-    
-    
+
     public function setup()
     {
         /*
@@ -31,7 +27,7 @@ class PeriodCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
         CRUD::setModel('App\Models\Period');
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/period');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/period');
         CRUD::setEntityNameStrings('period', 'periods');
 
         /*
@@ -45,25 +41,25 @@ class PeriodCrudController extends CrudController
                 'label'     => __('Year'),
                 'type'      => 'select',
                 'entity'    => 'year',
-                'attribute' => 'name', 
+                'attribute' => 'name',
             ],
 
             [
-                'label' => __("Name"), 
-                'type' => "text",
-                'name' => 'name'
+                'label' => __('Name'),
+                'type' => 'text',
+                'name' => 'name',
             ],
 
             [
-                'label' => __("Start"),
-                'type' => "date",
-                'name' => 'start'
+                'label' => __('Start'),
+                'type' => 'date',
+                'name' => 'start',
             ],
 
             [
-                'label' => __("End"), 
-                'type' => "date",
-                'name' => 'end'
+                'label' => __('End'),
+                'type' => 'date',
+                'name' => 'end',
             ],
         ]);
 
@@ -73,26 +69,26 @@ class PeriodCrudController extends CrudController
                 'type'      => 'select',
                 'name'      => 'year_id',
                 'entity'    => 'year',
-                'attribute' => 'name', 
-                'model'     => 'App\Models\Year', 
+                'attribute' => 'name',
+                'model'     => 'App\Models\Year',
             ],
 
             [
-                'label' => __("Name"),
-                'type' => "text",
-                'name' => 'name'
+                'label' => __('Name'),
+                'type' => 'text',
+                'name' => 'name',
             ],
 
             [
-                'label' => __("Start"),
-                'type' => "date",
-                'name' => 'start'
+                'label' => __('Start'),
+                'type' => 'date',
+                'name' => 'start',
             ],
 
             [
-                'label' => __("End"), 
-                'type' => "date",
-                'name' => 'end'
+                'label' => __('End'),
+                'type' => 'date',
+                'name' => 'end',
             ],
         ]);
 

@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateYearsTable extends Migration
 {
@@ -19,9 +19,9 @@ class CreateYearsTable extends Migration
         });
 
         DB::table('years')->insert([
-            'name' => date("Y")
+            'name' => date('Y'),
         ]);
-        
+
         Schema::table('periods', function (Blueprint $table) {
             $table->foreign('year_id')
             ->references('id')->on('years')

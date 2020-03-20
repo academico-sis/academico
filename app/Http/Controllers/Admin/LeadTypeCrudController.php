@@ -2,27 +2,23 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Backpack\CRUD\app\Http\Controllers\CrudController;
-use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-
-// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\LeadTypeRequest as StoreRequest;
 use App\Http\Requests\LeadTypeRequest as UpdateRequest;
+// VALIDATION: change the requests to match your own file names if you need form validation
+use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\CRUD\CrudPanel;
 
 /**
- * Class LeadTypeCrudController
- * @package App\Http\Controllers\Admin
+ * Class LeadTypeCrudController.
  * @property-read CrudPanel $crud
  */
 class LeadTypeCrudController extends CrudController
 {
-
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-
 
     public function setup()
     {
@@ -32,7 +28,7 @@ class LeadTypeCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
         CRUD::setModel('App\Models\LeadType');
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/leadtype');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/leadtype');
         CRUD::setEntityNameStrings('leadtype', 'lead_types');
 
         /*

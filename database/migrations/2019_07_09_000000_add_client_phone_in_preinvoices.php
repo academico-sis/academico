@@ -14,7 +14,6 @@ class AddClientPhoneInPreinvoices extends Migration
         Schema::table('pre_invoices', function ($table) {
             $table->string('client_phone')->after('client_email')->nullable();
         });
-
     }
 
     /**
@@ -27,6 +26,5 @@ class AddClientPhoneInPreinvoices extends Migration
         Schema::table('pre_invoices', function ($table) {
             $table->dropColumn('client_phone');
         });
-
     }
 }

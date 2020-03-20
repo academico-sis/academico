@@ -18,7 +18,7 @@ class Language extends Controller
     {
 
         // Check if is allowed and set default locale if not
-        if (!language()->allowed($locale)) {
+        if (! language()->allowed($locale)) {
             $locale = config('app.locale');
         }
 
@@ -41,7 +41,7 @@ class Language extends Controller
     {
         $this->setLocale($locale, $request);
 
-        $url = config('language.url') ? url('/' . $locale) : url('/');
+        $url = config('language.url') ? url('/'.$locale) : url('/');
 
         return redirect($url);
     }
@@ -62,14 +62,14 @@ class Language extends Controller
 
         if (config('language.url')) {
             $previous_url = substr(str_replace(env('APP_URL'), '', $session->previousUrl()), 7);
-            
+
             if (strlen($previous_url) == 3) {
                 $previous_url = substr($previous_url, 3);
             } else {
                 $previous_url = substr($previous_url, strrpos($previous_url, '/') + 1);
             }
 
-            $url = rtrim(env('APP_URL'), '/') . '/' . $locale . '/' . ltrim($previous_url, '/');
+            $url = rtrim(env('APP_URL'), '/').'/'.$locale.'/'.ltrim($previous_url, '/');
 
             $session->setPreviousUrl($url);
         }

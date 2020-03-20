@@ -2,18 +2,18 @@
 
 namespace Tests\Unit;
 
-use Carbon\Carbon;
-use Tests\TestCase;
-use App\Models\User;
 use App\Models\Course;
-use App\Models\Student;
 use App\Models\Enrollment;
+use App\Models\Student;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class UserTest extends TestCase
 {
     use RefreshDatabase;
-   
+
     /** @test */
     public function access_student_birthdate()
     {
@@ -22,7 +22,7 @@ class UserTest extends TestCase
             'birthdate' => '2000-03-25',
         ]);
 
-        $this->assertEquals("Mar 25, 2000", $student->student_birthdate);
+        $this->assertEquals('Mar 25, 2000', $student->student_birthdate);
     }
 
     /** @test */
@@ -30,7 +30,7 @@ class UserTest extends TestCase
     {
         // create a student
         $student = factory(Student::class)->create([
-            'birthdate' => Carbon::parse("128 months ago"),
+            'birthdate' => Carbon::parse('128 months ago'),
         ]);
 
         $this->assertEquals('10', $student->student_age);
@@ -44,14 +44,12 @@ class UserTest extends TestCase
 
         // create a student corresponding to this User
         $student = factory(Student::class)->create([
-            'user_id' => $user->id
+            'user_id' => $user->id,
         ]);
 
         $this->assertEquals($user->firstname, $student->firstname);
         $this->assertEquals($user->lastname, $student->lastname);
-        $this->assertEquals($user->firstname . ' ' . $user->lastname, $student->name);
+        $this->assertEquals($user->firstname.' '.$user->lastname, $student->name);
         $this->assertEquals($user->email, $student->email);
-
     }
-
 }

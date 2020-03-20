@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use App\Models\Result;
-
+use App\Http\Requests\CommentRequest as StoreRequest;
 use App\Models\Comment;
+use App\Models\Result;
 use App\Models\Student;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use App\Http\Requests\CommentRequest as StoreRequest;
 
 class CommentController extends Controller
 {
-     public function __construct()
+    public function __construct()
     {
         $this->middleware('permission:comments.edit', ['only' => 'delete']);
     }
@@ -21,9 +20,7 @@ class CommentController extends Controller
     // todo use CommentRequest instead
     public function store(StoreRequest $request)
     {
-
-
-        Log::info('Comment created by ' . backpack_user()->firstname);
+        Log::info('Comment created by '.backpack_user()->firstname);
 
         return Comment::create([
             'commentable_id' => $request->input('commentable_id'),
@@ -37,7 +34,7 @@ class CommentController extends Controller
     public function storeresult(Request $request)
     {
         $result = Result::where('enrollment_id', $request->input('enrollment'))->firstOrCreate([
-            'enrollment_id' => $request->input('enrollment')
+            'enrollment_id' => $request->input('enrollment'),
         ]);
 
         return Comment::create([
@@ -47,8 +44,6 @@ class CommentController extends Controller
             'author_id' => \backpack_user()->id,
         ]);
     }
-
-    
 
     // todo deduplicate from commentCrudController
     public function destroy(Comment $comment)

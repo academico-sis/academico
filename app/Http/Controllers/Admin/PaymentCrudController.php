@@ -2,28 +2,24 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Backpack\CRUD\app\Http\Controllers\CrudController;
-use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-
-// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\PaymentRequest as StoreRequest;
 use App\Http\Requests\PaymentRequest as UpdateRequest;
+// VALIDATION: change the requests to match your own file names if you need form validation
+use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\CRUD\CrudPanel;
 
 /**
- * Class PaymentCrudController
- * @package App\Http\Controllers\Admin
+ * Class PaymentCrudController.
  * @property-read CrudPanel $crud
  */
 class PaymentCrudController extends CrudController
 {
-
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 
-    
     public function setup()
     {
         /*
@@ -32,7 +28,7 @@ class PaymentCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
         CRUD::setModel('App\Models\Payment');
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/payment');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/payment');
         CRUD::setEntityNameStrings('payment', 'payments');
 
         /*

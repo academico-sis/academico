@@ -50,6 +50,6 @@ return [
     'noresults' => 'No courses with the selected filers',
     'all' => 'all',
     'Delete' => 'Delete',
-    'spots left' => 'spots left'
+    'spots left' => 'spots left',
 
 ];
