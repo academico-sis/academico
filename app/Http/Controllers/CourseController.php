@@ -46,13 +46,14 @@ class CourseController extends Controller
         $defaultPeriod = Period::get_default_period();
         $rhythms = Rhythm::all();
         $levels = Level::all();
-        return view('courses.list', compact('defaultPeriod', 'rhythms', 'levels'));
+        $isAllowedToEdit = backpack_user()->hasPermissionTo('courses.edit');
+        return view('courses.list', compact('defaultPeriod', 'isAllowedToEdit', 'rhythms', 'levels'));
     }
 
     public function search()
     {
         return QueryBuilder::for(Course::class)->where('campus_id', 1)
-        ->with('room')
+        ->with('room')->withCount('events')->withCount('children')
         ->allowedFilters([
             'name',
             'period_id',

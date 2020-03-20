@@ -13,7 +13,7 @@
 
 <div id="app" class="row">
 <div class="col-md-12">
-    <course-list-component :defaultperiod="{{ $defaultPeriod }}" :periods="{{ $periods }}" :teachers="{{ $teachers }}" :rhythms="{{ $rhythms }}" :levels="{{ $levels }}"></course-list-component>
+    <course-list-component :defaultperiod="{{ $defaultPeriod }}" :periods="{{ $periods }}" :teachers="{{ $teachers }}" :rhythms="{{ $rhythms }}" :levels="{{ $levels }}" :editable="{{ $isAllowedToEdit }}"></course-list-component>
 </div>
 </div>
 

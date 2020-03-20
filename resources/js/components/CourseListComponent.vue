@@ -90,11 +90,11 @@
                     <a class="btn" :href="'course/'+course.id+'/show'"><i class="fa fa-eye"></i></a>
                     <button class="btn dropdown-toggle p-0" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-gear"></i></button>
                     <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href="#"><i class="fa fa-calendar"></i> Attendance</a>
-                        <a class="dropdown-item" href="#"><i class="fa fa-edit"></i>Edit</a>
-                        <a class="dropdown-item" href="#"><i class="fa fa-clock-o"></i>Edit times</a>
-                        <a class="dropdown-item" href="#"><i class="fa fa-clone"></i>Create sub-course</a>
-                        <a class="dropdown-item text-danger" href="#"><i class="fa fa-trash"></i>Delete</a>
+                        <a v-if="course.events_count > 0 && course.exempt_attendance !== 1 && course.course_enrollments_count > 0" class="dropdown-item" :href="`attendance/course/${course.id}`"><i class="fa fa-calendar"></i> Attendance</a>
+                        <a v-if="editable" class="dropdown-item" :href="`course/${course.id}/edit`"><i class="fa fa-edit"></i>Edit</a>
+                        <a v-if="editable && course.children_count == 0" class="dropdown-item" :href="`coursetime/${course.id}/edit`"><i class="fa fa-clock-o"></i>Edit times</a>
+                        <button v-if="editable" class="dropdown-item" @click="createChildCourse(course.id)"><i class="fa fa-clone"></i>Create sub-course</button>
+                        <button v-if="editable && course.course_enrollments_count == 0" class="dropdown-item text-danger" @click="deleteCourse(course.id)"><i class="fa fa-trash"></i>Delete</button>
                     </div>
                 </div>
                 <h5 class="coursename">{{ course.name }}</h5>
@@ -118,7 +118,7 @@
 import _ from 'lodash';
 
 export default {
-    props: ['periods', 'defaultperiod', 'teachers', 'rhythms', 'levels'],
+    props: ['periods', 'defaultperiod', 'teachers', 'rhythms', 'levels', 'editable'],
 
     data() {
         return {
@@ -183,7 +183,122 @@ export default {
         {
             this.selectedTeacher = '';
             this.getCoursesResults();
+        },
+
+        createChildCourse(id)
+        {
+        swal({
+		  title: "Warning",
+		  text: "Realmente quiere crear un curso hijo para este curso?",
+		  icon: "warning",
+		  buttons: {
+		  	cancel: {
+			  text: "No",
+			  value: null,
+			  visible: true,
+			  className: "bg-secondary",
+			  closeModal: true,
+			},
+		  	delete: {
+			  text: "Si",
+			  value: true,
+			  visible: true,
+			  className: "bg-danger",
+			}
+		  },
+		}).then((value) => {
+			if (value) {
+            $.ajax({
+              url: `course/${id}/clone`,
+              type: 'POST',
+              success: function(result) {
+                  // Show an alert with the result
+                  new Noty({
+                    type: "success",
+                    text: "<strong>Course cloned</strong><br>A new course has been created as a sub-course of this one."
+                  }).show();
+
+                  // Hide the modal, if any
+                  $('.modal').modal('hide');
+
+                  // open new course edit page
+                  window.location.href = '/course/'+result+'/edit'
+              },
+              error: function(result) {
+                  // Show an alert with the result
+                  new Noty({
+                    type: "warning",
+                    text: "<strong>Cloning failed</strong><br>The new course could not be created. Please try again."
+                  }).show();
+              }
+          });
+            }
+        });
+        },
+
+        deleteCourse(id)
+        {
+                    swal({
+		  title: "DANGER",
+		  text: "Realmente quiere eliminar este curso?",
+		  icon: "danger",
+		  buttons: {
+		  	cancel: {
+			  text: "No",
+			  value: null,
+			  visible: true,
+			  className: "bg-secondary",
+			  closeModal: true,
+			},
+		  	delete: {
+			  text: "Si",
+			  value: true,
+			  visible: true,
+			  className: "bg-danger",
+			}
+		  },
+		}).then((value) => {
+			if (value) {
+				$.ajax({
+			      url: 'course/'+id,
+			      type: 'DELETE',
+			      success: function(result) {
+			          if (result != 1) {
+			          	// Show an error alert
+			              swal({
+			              	title: "Error",
+			              	text: "Impossible to delete this course",
+			              	icon: "error",
+			              	timer: 2000,
+			              	buttons: false,
+			              });
+			          } else {
+			          	  // Show a success message
+			              swal({
+			              	title: "Success",
+			              	text: "The course has been deleted",
+			              	icon: "success",
+			              	timer: 4000,
+			              	buttons: false,
+                          });
+                          location.reload();
+			          }
+			      },
+			      error: function(result) {
+			          // Show an alert with the result
+			          swal({
+                        title: "Error",
+                        text: "Impossible to delete this course",
+		              	icon: "error",
+		              	timer: 4000,
+		              	buttons: false,
+		              });
+                  }
+                });
+            }
+            });
         }
+
     }
 }
 </script>

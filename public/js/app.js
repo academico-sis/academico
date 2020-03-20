@@ -2526,7 +2526,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['periods', 'defaultperiod', 'teachers', 'rhythms', 'levels'],
+  props: ['periods', 'defaultperiod', 'teachers', 'rhythms', 'levels', 'editable'],
   data: function data() {
     return {
       selectedPeriod: this.defaultperiod.id,
@@ -2579,6 +2579,114 @@ __webpack_require__.r(__webpack_exports__);
     clearSelectedTeacher: function clearSelectedTeacher() {
       this.selectedTeacher = '';
       this.getCoursesResults();
+    },
+    createChildCourse: function createChildCourse(id) {
+      swal({
+        title: "Warning",
+        text: "Realmente quiere crear un curso hijo para este curso?",
+        icon: "warning",
+        buttons: {
+          cancel: {
+            text: "No",
+            value: null,
+            visible: true,
+            className: "bg-secondary",
+            closeModal: true
+          },
+          "delete": {
+            text: "Si",
+            value: true,
+            visible: true,
+            className: "bg-danger"
+          }
+        }
+      }).then(function (value) {
+        if (value) {
+          $.ajax({
+            url: "course/".concat(id, "/clone"),
+            type: 'POST',
+            success: function success(result) {
+              // Show an alert with the result
+              new Noty({
+                type: "success",
+                text: "<strong>Course cloned</strong><br>A new course has been created as a sub-course of this one."
+              }).show(); // Hide the modal, if any
+
+              $('.modal').modal('hide'); // open new course edit page
+
+              window.location.href = '/course/' + result + '/edit';
+            },
+            error: function error(result) {
+              // Show an alert with the result
+              new Noty({
+                type: "warning",
+                text: "<strong>Cloning failed</strong><br>The new course could not be created. Please try again."
+              }).show();
+            }
+          });
+        }
+      });
+    },
+    deleteCourse: function deleteCourse(id) {
+      swal({
+        title: "DANGER",
+        text: "Realmente quiere eliminar este curso?",
+        icon: "danger",
+        buttons: {
+          cancel: {
+            text: "No",
+            value: null,
+            visible: true,
+            className: "bg-secondary",
+            closeModal: true
+          },
+          "delete": {
+            text: "Si",
+            value: true,
+            visible: true,
+            className: "bg-danger"
+          }
+        }
+      }).then(function (value) {
+        if (value) {
+          $.ajax({
+            url: 'course/' + id,
+            type: 'DELETE',
+            success: function success(result) {
+              if (result != 1) {
+                // Show an error alert
+                swal({
+                  title: "Error",
+                  text: "Impossible to delete this course",
+                  icon: "error",
+                  timer: 2000,
+                  buttons: false
+                });
+              } else {
+                // Show a success message
+                swal({
+                  title: "Success",
+                  text: "The course has been deleted",
+                  icon: "success",
+                  timer: 4000,
+                  buttons: false
+                });
+                location.reload();
+              }
+            },
+            error: function error(result) {
+              // Show an alert with the result
+              swal({
+                title: "Error",
+                text: "Impossible to delete this course",
+                icon: "error",
+                timer: 4000,
+                buttons: false
+              });
+            }
+          });
+        }
+      });
     }
   }
 });
@@ -25446,7 +25554,121 @@ var render = function() {
                                 _vm._v(" "),
                                 _vm._m(0, true),
                                 _vm._v(" "),
-                                _vm._m(1, true)
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "dropdown-menu dropdown-menu-right"
+                                  },
+                                  [
+                                    course.events_count > 0 &&
+                                    course.exempt_attendance !== 1 &&
+                                    course.course_enrollments_count > 0
+                                      ? _c(
+                                          "a",
+                                          {
+                                            staticClass: "dropdown-item",
+                                            attrs: {
+                                              href:
+                                                "attendance/course/" + course.id
+                                            }
+                                          },
+                                          [
+                                            _c("i", {
+                                              staticClass: "fa fa-calendar"
+                                            }),
+                                            _vm._v(" Attendance")
+                                          ]
+                                        )
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    _vm.editable
+                                      ? _c(
+                                          "a",
+                                          {
+                                            staticClass: "dropdown-item",
+                                            attrs: {
+                                              href:
+                                                "course/" + course.id + "/edit"
+                                            }
+                                          },
+                                          [
+                                            _c("i", {
+                                              staticClass: "fa fa-edit"
+                                            }),
+                                            _vm._v("Edit")
+                                          ]
+                                        )
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    _vm.editable && course.children_count == 0
+                                      ? _c(
+                                          "a",
+                                          {
+                                            staticClass: "dropdown-item",
+                                            attrs: {
+                                              href:
+                                                "coursetime/" +
+                                                course.id +
+                                                "/edit"
+                                            }
+                                          },
+                                          [
+                                            _c("i", {
+                                              staticClass: "fa fa-clock-o"
+                                            }),
+                                            _vm._v("Edit times")
+                                          ]
+                                        )
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    _vm.editable
+                                      ? _c(
+                                          "button",
+                                          {
+                                            staticClass: "dropdown-item",
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.createChildCourse(
+                                                  course.id
+                                                )
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _c("i", {
+                                              staticClass: "fa fa-clone"
+                                            }),
+                                            _vm._v("Create sub-course")
+                                          ]
+                                        )
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    _vm.editable &&
+                                    course.course_enrollments_count == 0
+                                      ? _c(
+                                          "button",
+                                          {
+                                            staticClass:
+                                              "dropdown-item text-danger",
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.deleteCourse(
+                                                  course.id
+                                                )
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _c("i", {
+                                              staticClass: "fa fa-trash"
+                                            }),
+                                            _vm._v("Delete")
+                                          ]
+                                        )
+                                      : _vm._e()
+                                  ]
+                                )
                               ]
                             ),
                             _vm._v(" "),
@@ -25550,38 +25772,6 @@ var staticRenderFns = [
       },
       [_c("i", { staticClass: "fa fa-gear" })]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "dropdown-menu dropdown-menu-right" }, [
-      _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-        _c("i", { staticClass: "fa fa-calendar" }),
-        _vm._v(" Attendance")
-      ]),
-      _vm._v(" "),
-      _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-        _c("i", { staticClass: "fa fa-edit" }),
-        _vm._v("Edit")
-      ]),
-      _vm._v(" "),
-      _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-        _c("i", { staticClass: "fa fa-clock-o" }),
-        _vm._v("Edit times")
-      ]),
-      _vm._v(" "),
-      _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-        _c("i", { staticClass: "fa fa-clone" }),
-        _vm._v("Create sub-course")
-      ]),
-      _vm._v(" "),
-      _c(
-        "a",
-        { staticClass: "dropdown-item text-danger", attrs: { href: "#" } },
-        [_c("i", { staticClass: "fa fa-trash" }), _vm._v("Delete")]
-      )
-    ])
   }
 ]
 render._withStripped = true
