@@ -26,7 +26,7 @@ class RhythmCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        CRUD::setModel('App\Models\Rhythm');
+        CRUD::setModel(\App\Models\Rhythm::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/rhythm');
         CRUD::setEntityNameStrings('rhythm', 'rhythms');
 

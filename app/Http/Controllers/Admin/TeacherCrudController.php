@@ -29,7 +29,7 @@ class TeacherCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        CRUD::setModel('App\Models\Teacher');
+        CRUD::setModel(\App\Models\Teacher::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/teacher');
         CRUD::setEntityNameStrings('teacher', 'teachers');
 
@@ -78,7 +78,7 @@ class TeacherCrudController extends CrudController
                 'name' => 'user_id', // the db column for the foreign key
                 'entity' => 'user', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => "App\Models\User", // foreign key model
+                'model' => \App\Models\User::class, // foreign key model
             ],
 
             [
