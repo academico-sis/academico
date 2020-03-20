@@ -42,6 +42,8 @@ Vue.component('course-attendance-status-component', require('./components/attend
 Vue.component('event-attendance-status-component', require('./components/attendance/eventAttendanceStatusComponent.vue').default);
 Vue.component('student-contacts-component', require('./components/student/studentContactsComponent.vue').default);
 
+Vue.component('course-list-component', require('./components/CourseListComponent.vue').default);
+
 const app = new Vue({
     el: '#app',
     i18n,

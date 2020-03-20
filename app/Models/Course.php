@@ -115,7 +115,7 @@ protected static function boot()
     // protected $hidden = [];
     protected $dates = ['start_date', 'end_date'];
     //protected $with = ['enrollments'];
-    protected $appends = ['course_times', 'course_teacher_name'];
+    protected $appends = ['course_times', 'course_teacher_name', 'course_enrollments_count', 'sortable_id'];
 
     /*
     |--------------------------------------------------------------------------
@@ -421,7 +421,7 @@ protected static function boot()
     
     public function getCourseTeacherNameAttribute()
     {
-        return strtoupper($this->teacher['firstname'] . " " . $this->teacher['lastname']);
+        return ($this->teacher['firstname'] . " " . $this->teacher['lastname']);
     }
 
 
@@ -458,6 +458,12 @@ protected static function boot()
             $query->where('exempt_attendance', '!=', 1);
             $query->orWhereNull('exempt_attendance');
         })->where('start', '<', Carbon::now(env('COURSES_TIMEZONE'))->toDateTimeString());
+    }
+
+    public function getSortableIdAttribute()
+    {
+        if ($this->parent_course_id !== null) { return $this->parent_course_id; }
+        else { return $this->id; }
     }
 
 

@@ -26,6 +26,7 @@
         "pragmarx/version": "^0.2.9",
         "sentry/sentry-laravel": "^1.0",
         "spatie/laravel-medialibrary": "^7.0.0",
+        "spatie/laravel-query-builder": "^2.8",
         "spatie/laravel-translatable": "^4.2",
         "symfony/psr-http-message-bridge": "^1.1"
     },
