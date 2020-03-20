@@ -42,7 +42,7 @@ class AttendanceController extends Controller
         $absences = (new Attendance)->get_absence_count_per_student($selected_period);
 
         // get all courses for period and preload relations
-        $courses = $selected_period->courses()->whereHas('events')->with('attendance')->with('events')->get();
+        $courses = $selected_period->courses()->whereHas('events')->whereHas('enrollments')->with('attendance')->with('events')->get();
 
         // loop through all courses and get the number of events with incomplete attendance
         foreach ($courses as $course)

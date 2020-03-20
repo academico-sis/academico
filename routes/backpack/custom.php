@@ -95,5 +95,5 @@ Route::group([
         Route::crud('discount', 'DiscountCrudController');
         Route::crud('coupon', 'CouponCrudController');
         Route::crud('paymentmethod', 'PaymentmethodCrudController');
-
+        Route::crud('courseevaluation', 'CourseEvaluationCrudController');
 }); // this should be the absolute last line of this file
