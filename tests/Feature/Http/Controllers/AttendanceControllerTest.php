@@ -2,12 +2,12 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use Tests\TestCase;
-use App\Models\User;
 use App\Models\Course;
 use App\Models\Student;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
 class AttendanceControllerTest extends TestCase
 {
@@ -30,7 +30,7 @@ class AttendanceControllerTest extends TestCase
         $user->assignRole('admin');
 
         \Auth::guard(backpack_guard_name())->login($user);
-        
+
         // given a course with some past classes
         $course = factory(Course::class)->create();
         $course->times()->create(['day' => 1, 'start' => '09:00:00', 'end' => '17:00:00']);

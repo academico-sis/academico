@@ -2,28 +2,23 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\ResultTypeRequest as StoreRequest;
+use App\Http\Requests\ResultTypeRequest as UpdateRequest;
+// VALIDATION: change the requests to match your own file names if you need form validation
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
-// VALIDATION: change the requests to match your own file names if you need form validation
-use App\Http\Requests\ResultTypeRequest as StoreRequest;
-use App\Http\Requests\ResultTypeRequest as UpdateRequest;
-
 /**
- * Class ResultTypeCrudController
- * @package App\Http\Controllers\Admin
+ * Class ResultTypeCrudController.
  * @property-read CrudPanel $crud
  */
 class ResultTypeCrudController extends CrudController
 {
-
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-    
 
-    
     public function setup()
     {
         /*
@@ -32,7 +27,7 @@ class ResultTypeCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
         CRUD::setModel('App\Models\ResultType');
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/resulttype');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/resulttype');
         CRUD::setEntityNameStrings('resulttype', 'result_types');
 
         /*

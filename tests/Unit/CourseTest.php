@@ -2,24 +2,25 @@
 
 namespace Tests\Unit;
 
-use Carbon\Carbon;
-use Tests\TestCase;
-use App\Models\Event;
 use App\Models\Course;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Models\Event;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
 class CourseTest extends TestCase
 {
     use RefreshDatabase;
+
     /**
-     * if course dates have changed, sync all events
+     * if course dates have changed, sync all events.
      */
     public function testEventsCreationUponCourseDateChange()
     {
         // given a course and events
-        $initialStartDate = "2020-03-16"; // todo randomize
-        $initialEndDate = "2020-03-28"; // todo randomize
+        $initialStartDate = '2020-03-16'; // todo randomize
+        $initialEndDate = '2020-03-28'; // todo randomize
 
         $course = factory(Course::class)->create([
             'start_date' => $initialStartDate,
@@ -29,16 +30,16 @@ class CourseTest extends TestCase
         $course->times()->create([
             'course_id' => $course->id,
             'day' => 2, // todo randomize
-            'start' => "15:00",
-            'end' => "17:00",
+            'start' => '15:00',
+            'end' => '17:00',
             ]);
-        
+
         // the course should have 2 events
         $this->assertEquals(2, $course->events->count());
 
         // and no event should exist outside the course date range
-        $extendedStartDate = "2020-03-09";
-        $extendedEndDate = "2020-04-04";
+        $extendedStartDate = '2020-03-09';
+        $extendedEndDate = '2020-04-04';
 
         $this->assertEquals(0, Event::where('start', '<', $initialStartDate)->where('start', '>', $extendedStartDate)->count());
         $this->assertEquals(0, Event::where('end', '>', $initialEndDate)->where('end', '<', $extendedEndDate)->count());
@@ -60,8 +61,6 @@ class CourseTest extends TestCase
         $course2 = Course::find($course->id);
         $this->assertEquals(4, $course2->events->count());
         $this->assertEquals(1, Event::where('end', '>', $initialEndDate)->where('end', '<', $extendedEndDate)->count());
-
-
     }
 
     public function testEventsDeletionUponCourseDateChange()

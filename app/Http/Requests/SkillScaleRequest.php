@@ -28,7 +28,7 @@ class SkillScaleRequest extends FormRequest
         return [
             'name' => 'required|max:255|unique',
             'shortname' => 'required|max:8|unique',
-            'value' => 'numeric|between:0,1'
+            'value' => 'numeric|between:0,1',
         ];
     }
 

@@ -5,8 +5,7 @@
 // --------------------------
 // This route file is loaded automatically by Backpack\Base.
 // Routes you generate using Backpack\Generators will be placed here.
-    
-     
+
 Route::group(
     [
         'namespace'  => '\App\Http\Controllers',
@@ -21,14 +20,14 @@ Route::group(
         Route::crud('course', 'Admin\CourseCrudController');
         Route::crud('externalcourse', 'Admin\ExternalCourseCrudController');
         Route::crud('comment', 'Admin\CommentCrudController');
-        
+
         Route::post('edit-account-info', 'Auth\MyAccountController@postAccountInfoForm');
         Route::post('edit-student-info', 'Auth\MyAccountController@postStudentInfoForm');
         Route::post('edit-profession', 'Auth\MyAccountController@postAccountProfessionForm');
         Route::post('edit-phone', 'Auth\MyAccountController@postPhoneForm');
         Route::post('edit-photo', 'Auth\MyAccountController@postPhotoForm');
         Route::post('edit-contacts', 'Auth\MyAccountController@postContactsForm');
-        }
+    }
 );
 
 // move to routes/web.php
@@ -49,7 +48,6 @@ Route::group(
     }
 );
 
-
 // enrollments and invoicing
 
 Route::group([
@@ -61,7 +59,6 @@ Route::group([
         Route::crud('availablecourse', 'AvailableCourseCrudController');
     }
 );
-
 
 /* Admin routes */
 Route::group([
@@ -96,4 +93,4 @@ Route::group([
         Route::crud('coupon', 'CouponCrudController');
         Route::crud('paymentmethod', 'PaymentmethodCrudController');
         Route::crud('courseevaluation', 'CourseEvaluationCrudController');
-}); // this should be the absolute last line of this file
+    }); // this should be the absolute last line of this file

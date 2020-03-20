@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 class UserUpdateCrudRequest extends \Backpack\PermissionManager\app\Http\Requests\UserUpdateCrudRequest
 {
-       /**
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array

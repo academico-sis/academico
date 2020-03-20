@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateSkillTypesTable extends Migration
 {
@@ -18,8 +18,7 @@ class CreateSkillTypesTable extends Migration
             $table->string('shortname');
             $table->string('name')->nullable();
             $table->timestamps();
-            $table->softDeletes(); 
-
+            $table->softDeletes();
         });
 
         Schema::table('skills', function (Blueprint $table) {

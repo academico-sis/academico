@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
+use App\Mail\ResultNotification;
 use App\Models\Comment;
 use App\Models\Enrollment;
 use App\Models\ResultType;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
-use App\Mail\ResultNotification;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Mail;
 
 class Result extends Model
 {
@@ -20,12 +20,11 @@ class Result extends Model
         parent::boot();
 
         // when a result is added, send a notification
-        static::saved(function(Result $result) {
+        static::saved(function (self $result) {
             Mail::to($result->enrollment->student->user->email)
             ->locale($result->enrollment->student->locale)
             ->queue(new ResultNotification($result->enrollment->course, $result->enrollment->student->user));
         });
-
     }
 
     public function comments()
@@ -42,9 +41,9 @@ class Result extends Model
     {
         return $this->result_name->name;
     }
+
     /**
-     * A Result is linked to an Enrollment
-     * 
+     * A Result is linked to an Enrollment.
      */
     public function enrollment()
     {
@@ -53,7 +52,7 @@ class Result extends Model
 
     public function getStudentNameAttribute()
     {
-        return $this->enrollment['student']['firstname'] . ' '. $this->enrollment['student']['lastname'];
+        return $this->enrollment['student']['firstname'].' '.$this->enrollment['student']['lastname'];
     }
 
     public function getCourseNameAttribute()
@@ -65,5 +64,4 @@ class Result extends Model
     {
         return $this->enrollment['course']['period']['name'];
     }
-    
 }

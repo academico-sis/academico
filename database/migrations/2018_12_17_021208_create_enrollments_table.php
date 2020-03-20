@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateEnrollmentsTable extends Migration
 {
@@ -13,13 +13,10 @@ class CreateEnrollmentsTable extends Migration
      */
     public function up()
     {
-
         Schema::create('enrollment_status_types', function (Blueprint $table) {
             $table->increments('id');
             $table->text('name');
         });
-
-        
 
         Schema::create('enrollments', function (Blueprint $table) {
             $table->increments('id');
@@ -49,7 +46,6 @@ class CreateEnrollmentsTable extends Migration
             ->references('id')->on('enrollments')
             ->onDelete('cascade');
         });
-
     }
 
     /**
@@ -62,6 +58,5 @@ class CreateEnrollmentsTable extends Migration
         Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('enrollments');
         Schema::dropIfExists('enrollment_status_types');
-
     }
 }

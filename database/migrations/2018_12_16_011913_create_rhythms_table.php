@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateRhythmsTable extends Migration
 {
@@ -21,7 +21,6 @@ class CreateRhythmsTable extends Migration
         });
 
         Schema::table('courses', function (Blueprint $table) {
-
             $table->foreign('rhythm_id')
             ->references('id')->on('rhythms')
             ->onDelete('restrict');

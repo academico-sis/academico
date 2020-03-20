@@ -3,19 +3,18 @@
 namespace App\Models\Skills;
 
 use App\Models\Course;
-use App\Models\Student;
 use App\Models\Skills\Skill;
-use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use App\Models\Skills\SkillScale;
+use App\Models\Student;
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class SkillEvaluation extends Model
 {
-    protected $table = "skill_evaluations";
+    protected $table = 'skill_evaluations';
     protected $guarded = ['id'];
 
     use CrudTrait;
-
 
     public function skill()
     {
@@ -26,7 +25,7 @@ class SkillEvaluation extends Model
     {
         return $this->belongsTo(Student::class);
     }
-    
+
     public function course()
     {
         return $this->belongsTo(Course::class);

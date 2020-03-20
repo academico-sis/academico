@@ -1,23 +1,23 @@
 <?php
 
-use App\Models\Room;
-use App\Models\User;
-use App\Models\Level;
-use App\Models\Campus;
-use App\Models\Rhythm;
-use App\Models\LeadType;
-use App\Models\LeaveType;
-use App\Models\ResultType;
-use App\Models\Paymentmethod;
 use App\Models\AttendanceType;
-use App\Models\EvaluationType;
-use Illuminate\Database\Seeder;
-use App\Models\Skills\SkillScale;
-use Illuminate\Support\Facades\DB;
-use Spatie\Permission\Models\Role;
+use App\Models\Campus;
 use App\Models\ContactRelationship;
 use App\Models\EnrollmentStatusType;
+use App\Models\EvaluationType;
+use App\Models\LeadType;
+use App\Models\LeaveType;
+use App\Models\Level;
+use App\Models\Paymentmethod;
+use App\Models\ResultType;
+use App\Models\Rhythm;
+use App\Models\Room;
+use App\Models\Skills\SkillScale;
+use App\Models\User;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class TestSeeder extends Seeder
 {
@@ -37,7 +37,6 @@ class TestSeeder extends Seeder
             ],
          ]);
 
-                 
         Campus::create([
             'id' => 2,
             'name' => [
@@ -47,54 +46,52 @@ class TestSeeder extends Seeder
             ],
          ]);
 
-         EnrollmentStatusType::create([
+        EnrollmentStatusType::create([
             'id' => 1,
             'name' => [
                 'es' => 'PENDIENTE',
                 'en' => 'PENDING',
                 'fr' => 'NON-PAYÉ',
-                ]
+                ],
          ]);
 
-         EnrollmentStatusType::create([
+        EnrollmentStatusType::create([
             'id' => 2,
             'name' => [
                 'es' => 'PAGADA',
                 'en' => 'PAID',
                 'fr' => 'PAYÉ',
-                ]
+                ],
          ]);
 
-         EnrollmentStatusType::create([
+        EnrollmentStatusType::create([
             'id' => 3,
             'name' => [
                 'es' => 'ANULADA',
                 'en' => 'CANCELED',
                 'fr' => 'ANNULÉ',
-                ]
+                ],
          ]);
 
-         EnrollmentStatusType::create([
+        EnrollmentStatusType::create([
             'id' => 4,
             'name' => [
                 'es' => 'TRASPASO',
                 'en' => 'TRANSFERED',
                 'fr' => 'TRANSFÉRÉ',
-                ]
+                ],
          ]);
 
-         EnrollmentStatusType::create([
+        EnrollmentStatusType::create([
             'id' => 5,
             'name' => [
                 'es' => 'DEVOLUCION',
                 'en' => 'REFUND',
                 'fr' => 'REMBOURSÉ',
-                ]
+                ],
          ]);
 
-
-
-         ResultType::create([
+        ResultType::create([
             'id' => 1,
             'name' => [
                 'fr' => 'VALIDÉ',
@@ -106,10 +103,10 @@ class TestSeeder extends Seeder
                 'fr' => 'Peut passer au niveau suivant',
                 'es' => 'Puede pasar al nivel siguiente',
                 'en' => 'May go to the next level',
-                ]
+                ],
          ]);
 
-         ResultType::create([
+        ResultType::create([
             'id' => 2,
             'name' => [
                 'fr' => 'NON-VALIDÉ',
@@ -121,10 +118,10 @@ class TestSeeder extends Seeder
                 'fr' => 'Ne peut pas passer au niveau suivant',
                 'es' => 'No puede pasar al nivel siguiente',
                 'en' => 'Cannot go to the next level',
-                ]
+                ],
          ]);
 
-         ResultType::create([
+        ResultType::create([
             'id' => 3,
             'name' => [
                 'fr' => 'VOIR COORD. PEDA',
@@ -136,88 +133,84 @@ class TestSeeder extends Seeder
                 'fr' => 'Vérifier le résultat avec la direction pédagogique',
                 'es' => 'Ver con la dirección pedagógica',
                 'en' => 'Check results with the Pedagogy department',
-                ]
+                ],
          ]);
 
-
-         EvaluationType::create([
+        EvaluationType::create([
             'id' => 1,
             'name' => [
                 'fr' => 'NOTES',
                 'es' => 'NOTAS',
                 'en' => 'GRADES',
-                ]
+                ],
          ]);
 
-         EvaluationType::create([
+        EvaluationType::create([
             'id' => 2,
             'name' => [
                 'fr' => 'COMPÉTENCES',
                 'es' => 'COMPETENCIAS',
                 'en' => 'SKILLS',
-                ]
+                ],
          ]);
 
-
-         AttendanceType::create([
+        AttendanceType::create([
             'id' => 1,
-            'name' => ['fr' => 'PRÉSENT(E)', 'es' => 'PRESENTE', 'en' => 'PRESENT']
+            'name' => ['fr' => 'PRÉSENT(E)', 'es' => 'PRESENTE', 'en' => 'PRESENT'],
          ]);
 
-         AttendanceType::create([
+        AttendanceType::create([
             'id' => 2,
-            'name' => ['fr' => 'PRÉSENCE PARTIELLE', 'es' => 'PRESENCIA PARCIAL', 'en' => 'PARTIAL PRESENCE']
+            'name' => ['fr' => 'PRÉSENCE PARTIELLE', 'es' => 'PRESENCIA PARCIAL', 'en' => 'PARTIAL PRESENCE'],
          ]);
 
-         AttendanceType::create([
+        AttendanceType::create([
             'id' => 3,
-            'name' => ['fr' => 'EXCUSÉ(E)', 'es' => 'JUSTIFICADO', 'en' => 'EXCUSED']
+            'name' => ['fr' => 'EXCUSÉ(E)', 'es' => 'JUSTIFICADO', 'en' => 'EXCUSED'],
          ]);
 
-         AttendanceType::create([
+        AttendanceType::create([
             'id' => 4,
-            'name' => ['fr' => 'ABSENT(E)', 'es' => 'AUSENTE', 'en' => 'ABSENT']
+            'name' => ['fr' => 'ABSENT(E)', 'es' => 'AUSENTE', 'en' => 'ABSENT'],
          ]);
 
-
-         ContactRelationship::create([
+        ContactRelationship::create([
             'id' => 1,
-            'name' => ['fr' => 'FAMILLE', 'es' => 'FAMILIA', 'en' => 'FAMILY']
+            'name' => ['fr' => 'FAMILLE', 'es' => 'FAMILIA', 'en' => 'FAMILY'],
          ]);
 
-         ContactRelationship::create([
+        ContactRelationship::create([
             'id' => 2,
-            'name' => ['fr' => 'TRAVAIL', 'es' => 'TRABAJO', 'en' => 'WORK']
+            'name' => ['fr' => 'TRAVAIL', 'es' => 'TRABAJO', 'en' => 'WORK'],
          ]);
 
-
-         DB::table('fees')->insert(
-            array(
+        DB::table('fees')->insert(
+            [
                 'id' => 1,
                 'name' => 'Matricula',
-                'price' => '20'
-            )
+                'price' => '20',
+            ]
         );
 
         SkillScale::create([
             'id' => 1,
             'shortname' => ['fr' => 'NON', 'es' => 'NO', 'en' => 'NO'],
             'name' => ['fr' => 'NON-ACQUIS', 'es' => 'NO ADQUIRIDO', 'en' => 'NOT ACQUIRED'],
-            'value' => 0
+            'value' => 0,
         ]);
 
         SkillScale::create([
             'id' => 2,
             'shortname' => ['fr' => 'EC', 'es' => 'EC', 'en' => 'WIP'],
             'name' => ['fr' => 'EN COURS', 'es' => 'EN CURSO DE ADQUISICIÓN', 'en' => 'IN PROGRESS'],
-            'value' => 0.4
+            'value' => 0.4,
         ]);
 
         SkillScale::create([
             'id' => 3,
             'shortname' => ['fr' => 'OUI', 'es' => 'SI', 'en' => 'YES'],
             'name' => ['fr' => 'ACQUIS', 'es' => 'ADQUIRIDO', 'en' => 'ACQUIRED'],
-            'value' => 1
+            'value' => 1,
         ]);
 
         LeaveType::create([
@@ -245,7 +238,6 @@ class TestSeeder extends Seeder
             'name' => ['fr' => 'MALADIE', 'es' => 'ENFERMEDAD', 'en' => 'SICK LEAVE'],
         ]);
 
-
         LeadType::create(['id' => '1', 'name' => 'Active']);
         LeadType::create(['id' => '2', 'name' => 'Inactive']);
         LeadType::create(['id' => '3', 'name' => 'FormerClient']);
@@ -256,15 +248,13 @@ class TestSeeder extends Seeder
         Paymentmethod::create(['id' => '3', 'name' => 'Efectivo', 'code' => 'EFECT']);
         Paymentmethod::create(['id' => '4', 'name' => 'Cheque', 'code' => 'CHR']);
 
-
-
         // create required permissions
-        
+
         // courses permissions
         Permission::create(['name' => 'courses.view']);
         Permission::create(['name' => 'courses.edit']);
         Permission::create(['name' => 'courses.delete']);
-        
+
         // enrollments
         Permission::create(['name' => 'enrollments.view']);
         Permission::create(['name' => 'enrollments.create']);
@@ -300,15 +290,13 @@ class TestSeeder extends Seeder
 
         // admins have all permissions
         $role = Role::create(['name' => 'admin']);
-        foreach (Permission::all() as $permission)
-        {
+        foreach (Permission::all() as $permission) {
             $role->givePermissionTo($permission->name);
         }
-        
+
         // managers have all permissions but are NOT admins
         $role = Role::create(['name' => 'manager']);
-        foreach (Permission::all() as $permission)
-        {
+        foreach (Permission::all() as $permission) {
             $role->givePermissionTo($permission->name);
         }
 
@@ -323,7 +311,6 @@ class TestSeeder extends Seeder
         $role->givePermissionTo('enrollments.create');
         $role->givePermissionTo('courses.view');
         $role->givePermissionTo('leads.manage');
-
 
         $admin = factory(User::class)->create([
             'email' => 'admin@academico.site',
@@ -345,7 +332,5 @@ class TestSeeder extends Seeder
         factory(Level::class)->create(['name' => 'Beginner']);
         factory(Level::class)->create(['name' => 'Intermediate']);
         factory(Level::class)->create(['name' => 'Advanced']);
-
     }
-
 }

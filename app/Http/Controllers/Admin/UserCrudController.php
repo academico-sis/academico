@@ -2,22 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
-
-use Backpack\CRUD\app\Http\Controllers\CrudController;
 use App\Http\Requests\UserStoreCrudRequest as StoreRequest;
 use App\Http\Requests\UserUpdateCrudRequest as UpdateRequest;
-use Illuminate\Http\Request;
+use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Http\Request;
 
 class UserCrudController extends CrudController
 {
-
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 
-    
     public function setup()
     {
         /*
@@ -32,14 +29,14 @@ class UserCrudController extends CrudController
         // Columns.
         CRUD::setColumns([
             [
-                'label' => "First Name", // Table column heading
-                'type' => "text",
-                'name' => 'firstname'
+                'label' => 'First Name', // Table column heading
+                'type' => 'text',
+                'name' => 'firstname',
             ],
             [
-                'label' => "Last Name", // Table column heading
-                'type' => "text",
-                'name' => 'lastname'
+                'label' => 'Last Name', // Table column heading
+                'type' => 'text',
+                'name' => 'lastname',
             ],
             [
                 'name'  => 'email',
@@ -62,12 +59,12 @@ class UserCrudController extends CrudController
             [  // Select2
                 'label' => trans('firstname'),
                 'type' => 'text',
-                'name' => 'firstname'
+                'name' => 'firstname',
             ],
             [  // Select2
                 'label' => trans('lastname'),
                 'type' => 'text',
-                'name' => 'lastname'
+                'name' => 'lastname',
             ],
             [
                 'name'  => 'email',

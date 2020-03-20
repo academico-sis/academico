@@ -2,8 +2,8 @@
 
 namespace App\Http\Middleware;
 
-use Closure;
 use Auth;
+use Closure;
 
 class RoleMiddleware
 {
@@ -16,13 +16,12 @@ class RoleMiddleware
      */
     public function handle($request, Closure $next, $role)
     {
-
         if (backpack_auth()->guest()) {
             return redirect('/login');
         }
 
         if (! backpack_auth()->user()->hasRole($role)) {
-           abort(403);
+            abort(403);
         }
 
         return $next($request);

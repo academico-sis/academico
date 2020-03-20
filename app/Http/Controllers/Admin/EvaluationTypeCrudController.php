@@ -2,26 +2,22 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\EvaluationTypeRequest as StoreRequest;
+use App\Http\Requests\EvaluationTypeRequest as UpdateRequest;
+// VALIDATION: change the requests to match your own file names if you need form validation
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
-// VALIDATION: change the requests to match your own file names if you need form validation
-use App\Http\Requests\EvaluationTypeRequest as StoreRequest;
-use App\Http\Requests\EvaluationTypeRequest as UpdateRequest;
-
 /**
- * Class EvaluationTypeCrudController
- * @package App\Http\Controllers\Admin
+ * Class EvaluationTypeCrudController.
  * @property-read CrudPanel $crud
  */
 class EvaluationTypeCrudController extends CrudController
 {
-
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-
 
     public function __construct()
     {
@@ -36,7 +32,7 @@ class EvaluationTypeCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
         CRUD::setModel('App\Models\EvaluationType');
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/evaluationtype');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/evaluationtype');
         CRUD::setEntityNameStrings('evaluationtype', 'evaluation_types');
 
         /*

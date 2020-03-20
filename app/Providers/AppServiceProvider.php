@@ -2,16 +2,15 @@
 
 namespace App\Providers;
 
-use App\Models\Room;
-use App\Models\User;
 use App\Models\Period;
-
+use App\Models\Room;
 use App\Models\Teacher;
-use Spatie\Permission\Models\Role;
-use Illuminate\Support\Facades\View;
+use App\Models\User;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Spatie\Permission\Models\Role;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,11 +20,11 @@ class AppServiceProvider extends ServiceProvider
      * @return void
      */
     public function boot()
-    {        
+    {
         Schema::defaultStringLength(191);
-        
+
         if (\Schema::hasTable('periods') && \Schema::hasTable('config')) {
-            $periods = Period::orderBy('id','desc')->get();
+            $periods = Period::orderBy('id', 'desc')->get();
             $current_period = Period::get_default_period();
             View::share('periods', $periods);
             View::share('current_period', $current_period);

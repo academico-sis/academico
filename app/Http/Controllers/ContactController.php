@@ -2,21 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ContactRequest as StoreRequest;
 use App\Models\Contact;
 use App\Models\PhoneNumber;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Requests\ContactRequest as StoreRequest;
 
 class ContactController extends Controller
 {
-
     public function __construct()
     {
         $this->middleware(backpack_middleware());
     }
-
 
     /**
      * Store a newly created resource in storage.
@@ -34,8 +31,7 @@ class ContactController extends Controller
         $contact->save();
 
         // register the phone number
-        if(($request->input('phone_number')) !== null)
-        {
+        if (($request->input('phone_number')) !== null) {
             $phone = new PhoneNumber;
             $phone->phoneable_id = $contact->id;
             $phone->phoneable_type = Contact::class;
@@ -45,12 +41,12 @@ class ContactController extends Controller
 
         \Alert::success(__('The information has successfully been saved'))->flash();
 
-        if($request->input('destination') == 'logout')
-        {
+        if ($request->input('destination') == 'logout') {
             backpack_auth()->logout();
+
             return redirect('/');
         }
-        
+
         return back();
     }
 
@@ -61,8 +57,7 @@ class ContactController extends Controller
 
     public function storePhoneNumber(Request $request)
     {
-        if ($request->number != null)
-        {
+        if ($request->number != null) {
             $number = PhoneNumber::create([
                 'phoneable_type' => Contact::class,
                 'phoneable_id' => $request->contact,
@@ -75,8 +70,7 @@ class ContactController extends Controller
     {
 
         // check if the user is allowed to edit the contact
-        if (!backpack_user()->can('update', $contact))
-        {
+        if (! backpack_user()->can('update', $contact)) {
             abort(403);
         }
 
@@ -97,8 +91,7 @@ class ContactController extends Controller
     public function edit(Contact $contact)
     {
         // check if the user is allowed to edit the contact
-        if (!backpack_user()->can('update', $contact))
-        {
+        if (! backpack_user()->can('update', $contact)) {
             abort(403);
         }
 

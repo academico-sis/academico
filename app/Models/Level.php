@@ -42,6 +42,7 @@ class Level extends Model
     {
         return $this->hasMany(Skill::class);
     }
+
     /*
     |--------------------------------------------------------------------------
     | SCOPES

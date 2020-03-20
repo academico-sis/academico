@@ -8,14 +8,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PreInvoiceDetail extends Model
 {
-
     use SoftDeletes;
-
 
     protected $guarded = ['id'];
 
-    
-    public function pre_invoice() {
+    public function pre_invoice()
+    {
         return $this->belongsTo(PreInvoice::class);
     }
 }

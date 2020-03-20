@@ -27,7 +27,7 @@ class ResultTypeRequest extends FormRequest
     {
         return [
             'name' => 'required|max:55|unique',
-            'description' => 'max:255|nullable'
+            'description' => 'max:255|nullable',
         ];
     }
 

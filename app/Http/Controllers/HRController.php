@@ -5,14 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\Period;
 use App\Models\Teacher;
-use Illuminate\Http\Request;
 use App\Traits\PeriodSelection;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 
 class HRController extends Controller
 {
-
     use PeriodSelection;
 
     public function __construct()
@@ -21,7 +20,6 @@ class HRController extends Controller
         $this->middleware('permission:hr.view', ['except' => 'teacher']);
     }
 
-    
     /**
      * Display a listing of the resource.
      */
@@ -31,7 +29,8 @@ class HRController extends Controller
 
         $period = $this->selectPeriod($request);
 
-        Log::info('HR Dahsboard viewed by '. backpack_user()->firstname);
+        Log::info('HR Dahsboard viewed by '.backpack_user()->firstname);
+
         return view('hr.dashboard', [
             'selected_period' => $period,
             'teachers' => $teachers,
@@ -55,5 +54,4 @@ class HRController extends Controller
 
         ]);
     }
-
 }

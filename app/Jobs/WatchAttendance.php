@@ -2,14 +2,14 @@
 
 namespace App\Jobs;
 
+use App\Mail\AbsenceNotification;
 use App\Models\Attendance;
 use Illuminate\Bus\Queueable;
-use App\Mail\AbsenceNotification;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Mail;
 
 class WatchAttendance implements ShouldQueue
 {
@@ -17,7 +17,6 @@ class WatchAttendance implements ShouldQueue
 
     protected $attendance;
     public $tries = 5;
-
 
     public function __construct(Attendance $attendance)
     {
@@ -47,8 +46,7 @@ class WatchAttendance implements ShouldQueue
             }
 
             // also send to the student's contacts
-            foreach ($this->attendance->student->contacts as $contact)
-            {
+            foreach ($this->attendance->student->contacts as $contact) {
                 array_push($otherRecipients, ['email' => $contact->email]);
             }
 
@@ -56,7 +54,6 @@ class WatchAttendance implements ShouldQueue
             ->locale($student->locale)
             ->cc($otherRecipients)
             ->queue(new AbsenceNotification($this->attendance->event, $student->user));
-
-        };
+        }
     }
 }

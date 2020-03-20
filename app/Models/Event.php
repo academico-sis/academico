@@ -2,16 +2,16 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
-use App\Models\Room;
-use App\Models\Course;
-use App\Models\Teacher;
 use App\Models\Attendance;
+use App\Models\Course;
 use App\Models\CourseTime;
+use App\Models\Room;
+use App\Models\Teacher;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
-use Prologue\Alerts\Facades\Alert;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Prologue\Alerts\Facades\Alert;
 
 class Event extends Model
 {
@@ -23,18 +23,15 @@ class Event extends Model
         parent::boot();
 
         // before adding an event, we check that the teacher is available
-        static::saving(function($event) {
+        static::saving(function ($event) {
             $teacher = Teacher::find($event->teacher_id);
             // if the teacher is on leave on the day of the event
-            if($event->teacher_id !== null && $teacher->leaves->contains('date', Carbon::parse($event->start)->toDateString()))
-            {
+            if ($event->teacher_id !== null && $teacher->leaves->contains('date', Carbon::parse($event->start)->toDateString())) {
                 // detach the teacher from the event
                 $event->teacher_id = null;
                 \Alert::warning(__('The selected teacher is not available on this date'))->flash();
             }
-            
         });
-
     }
 
     /*
@@ -59,7 +56,6 @@ class Event extends Model
     |--------------------------------------------------------------------------
     */
 
-
     /*
     |--------------------------------------------------------------------------
     | RELATIONS
@@ -70,7 +66,7 @@ class Event extends Model
     {
         return $this->belongsTo(CourseTime::class);
     }
-    
+
     public function course()
     {
         return $this->belongsTo(Course::class)->withCount('enrollments');
@@ -85,7 +81,6 @@ class Event extends Model
     {
         return $this->hasMany(Attendance::class);
     }
-    
 
     public function teacher()
     {
@@ -101,7 +96,6 @@ class Event extends Model
     {
         return $this->course->period_id;
     }
-
 
     /*
     |--------------------------------------------------------------------------
@@ -161,9 +155,9 @@ class Event extends Model
 
     public function getShortDateAttribute()
     {
-        return Carbon::parse($this->start)->day . '/' . Carbon::parse($this->start)->month;
+        return Carbon::parse($this->start)->day.'/'.Carbon::parse($this->start)->month;
     }
-    
+
     /*
     |--------------------------------------------------------------------------
     | MUTATORS

@@ -2,26 +2,22 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\LevelRequest as StoreRequest;
+use App\Http\Requests\LevelRequest as UpdateRequest;
+// VALIDATION: change the requests to match your own file names if you need form validation
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
-// VALIDATION: change the requests to match your own file names if you need form validation
-use App\Http\Requests\LevelRequest as StoreRequest;
-use App\Http\Requests\LevelRequest as UpdateRequest;
-
 /**
- * Class LevelCrudController
- * @package App\Http\Controllers\Admin
+ * Class LevelCrudController.
  * @property-read CrudPanel $crud
  */
 class LevelCrudController extends CrudController
 {
-
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-
 
     public function setup()
     {
@@ -31,7 +27,7 @@ class LevelCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
         CRUD::setModel('App\Models\Level');
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/level');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/level');
         CRUD::setEntityNameStrings('level', 'levels');
 
         /*

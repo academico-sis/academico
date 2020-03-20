@@ -2,14 +2,13 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
-use App\Models\User;
 use App\Models\Student;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
 /** You need to set BACKPACK_REGISTRATION_OPEN=true in your .env file for this test to work */
-
 class RegisterTest extends TestCase
 {
     use RefreshDatabase;
@@ -18,12 +17,12 @@ class RegisterTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        
+
         $this->seed('DatabaseSeeder');
     }
 
     /**
-     * Check that the registration form is available
+     * Check that the registration form is available.
      *
      * @test
      */
@@ -33,9 +32,8 @@ class RegisterTest extends TestCase
         $response->assertStatus(200);
     }
 
-
     /**
-     * Check that a user is created with the form action endpoint
+     * Check that a user is created with the form action endpoint.
      * @test
      */
     public function testIfUserIsCreated()
@@ -69,12 +67,10 @@ class RegisterTest extends TestCase
 
     public function test_that_a_student_is_created()
     {
-
     }
 
-
     /**
-     * Check that validation rules prevent incomplete data to be submitted to the DB
+     * Check that validation rules prevent incomplete data to be submitted to the DB.
      * @test
      */
     public function testUserCreationValidationRules()
@@ -91,6 +87,5 @@ class RegisterTest extends TestCase
 
         // Assert that the errors are returned
         $response->assertJsonValidationErrors(['firstname', 'lastname', 'email', 'rules']);
-
     }
 }

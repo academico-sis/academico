@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
-
 
 class ResultType extends Model
 {
@@ -15,5 +14,4 @@ class ResultType extends Model
     protected $guarded = ['id'];
 
     public $translatable = ['name', 'description'];
-    
 }

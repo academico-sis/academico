@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateResultsTable extends Migration
 {
@@ -36,7 +36,6 @@ class CreateResultsTable extends Migration
             ->references('id')->on('enrollments')
             ->onDelete('cascade');
         });
-
     }
 
     /**
@@ -49,6 +48,5 @@ class CreateResultsTable extends Migration
         Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('results');
         Schema::dropIfExists('result_types');
-
     }
 }

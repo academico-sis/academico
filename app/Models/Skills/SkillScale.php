@@ -2,8 +2,8 @@
 
 namespace App\Models\Skills;
 
-use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
 
 class SkillScale extends Model
@@ -22,8 +22,12 @@ class SkillScale extends Model
 
     public function getStyleAttribute()
     {
-        if($this->value > 0.75) { return "success"; }
-        elseif(0.4 <= $this->value && 0.75 >= $this->value) { return "warning"; }
-        else { return "danger"; }
+        if ($this->value > 0.75) {
+            return 'success';
+        } elseif (0.4 <= $this->value && 0.75 >= $this->value) {
+            return 'warning';
+        } else {
+            return 'danger';
+        }
     }
 }

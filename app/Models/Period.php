@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
 class Period extends Model
@@ -17,39 +17,31 @@ class Period extends Model
     protected $fillable = ['name', 'year_id', 'start', 'end'];
     // protected $hidden = [];
     // protected $dates = [];
-  
+
     /** todo allow admin to override this */
     public static function get_default_period()
     {
         $selected_period = Config::where('name', 'current_period')->first()->value;
 
-        if (Period::where('id', $selected_period)->count() > 0)
-        {
-            return Period::find($selected_period);
+        if (self::where('id', $selected_period)->count() > 0) {
+            return self::find($selected_period);
+        } else {
+            return self::where('end', '>=', date('Y-m-d'))->first();
         }
-        else
-        {
-            return Period::where('end', '>=', date('Y-m-d'))->first();
-        }
-        
     }
 
     /**
-     * Return the period to preselect for all enrollment-related methods
+     * Return the period to preselect for all enrollment-related methods.
      */
     public static function get_enrollments_period()
     {
         $selected_period = Config::where('name', 'default_enrollment_period')->first()->value;
 
-        if (Period::where('id', $selected_period)->count() > 0)
-        {
-            return Period::find($selected_period);
+        if (self::where('id', $selected_period)->count() > 0) {
+            return self::find($selected_period);
+        } else {
+            return self::get_default_period();
         }
-        else
-        {
-            return Period::get_default_period();
-        }
-
     }
 
     public function enrollments()
@@ -85,11 +77,10 @@ class Period extends Model
         ->whereIn('status_id', ['1', '2']) // pending or paid
         ->where('parent_id', null);
     }
-    
+
     /**
      * getPendingEnrollmentsCountAttribute
-     * Do not count children enrollments
-     *
+     * Do not count children enrollments.
      */
     public function getPendingEnrollmentsCountAttribute()
     {
@@ -102,8 +93,7 @@ class Period extends Model
 
     /**
      * getPaidEnrollmentsCountAttribute
-     * Do not count enrollments in children courses
-     *
+     * Do not count enrollments in children courses.
      */
     public function getPaidEnrollmentsCountAttribute()
     {
@@ -148,15 +138,18 @@ class Period extends Model
 
     public function getPreviousPeriodAttribute()
     {
-        $period = Period::where('id', '<', $this->id)->orderBy('id', 'desc')->first();
+        $period = self::where('id', '<', $this->id)->orderBy('id', 'desc')->first();
 
-        if(!$period == null) { return $period; }
-        else {  return Period::first(); }
+        if (! $period == null) {
+            return $period;
+        } else {
+            return self::first();
+        }
     }
 
     public function getNextPeriodAttribute()
     {
-        return Period::where('id', '<', $this->id)->orderBy('id')->first();
+        return self::where('id', '<', $this->id)->orderBy('id')->first();
     }
 
     /** Compute the acquisition rate = the part of students from period P-1 who have been kept in period P */
@@ -173,7 +166,7 @@ class Period extends Model
         // students both in period p-1 and period p
         $acquired_students = $previous_period_student_ids->intersect($current_students_ids);
 
-        return number_format(100 * $acquired_students->count() / max($previous_period_student_ids->count(), 1), 1) . '%';
+        return number_format(100 * $acquired_students->count() / max($previous_period_student_ids->count(), 1), 1).'%';
     }
 
     public function getNewStudentsCountAttribute()
@@ -197,13 +190,12 @@ class Period extends Model
     public function getPeriodSoldHoursCountAttribute()
     {
         $total = 0;
-        foreach ($this->courses()->internal()->withCount('real_enrollments')->get() as $course)
-        {
+        foreach ($this->courses()->internal()->withCount('real_enrollments')->get() as $course) {
             $total += $course->volume * $course->real_enrollments_count;
         }
+
         return $total;
     }
-
 
     public function getExternalTaughtHoursCountAttribute()
     {
@@ -214,42 +206,39 @@ class Period extends Model
     public function getExternalSoldHoursCountAttribute()
     {
         $total = 0;
-        foreach ($this->external_courses as $course)
-        {
+        foreach ($this->external_courses as $course) {
             $total += $course->volume * $course->head_count;
         }
+
         return $total;
     }
 
     /** TODO this method can be furthered optimized and refactored */
     public function getCoursesWithPendingAttendanceAttribute()
     {
-         // get all courses for period and preload relations
-         $courses = $this->courses()->whereHas('events')->with('attendance')->with('events')->whereNotNull('exempt_attendance')->get();
-         $coursesWithMissingAttendanceCount = 0;
+        // get all courses for period and preload relations
+        $courses = $this->courses()->whereHas('events')->with('attendance')->with('events')->whereNotNull('exempt_attendance')->get();
+        $coursesWithMissingAttendanceCount = 0;
 
-         // loop through all courses and get the number of events with incomplete attendance
-         foreach ($courses as $course)
-         {
-             foreach ($course->eventsWithExpectedAttendance as $event)
-             {
-                 foreach ($course->enrollments as $enrollment)
-                 {
-                     // if a student has no attendance record for the class (event)
-                     $hasNotAttended = $course->attendance->where('student_id', $enrollment->student_id)
+        // loop through all courses and get the number of events with incomplete attendance
+        foreach ($courses as $course) {
+            foreach ($course->eventsWithExpectedAttendance as $event) {
+                foreach ($course->enrollments as $enrollment) {
+                    // if a student has no attendance record for the class (event)
+                    $hasNotAttended = $course->attendance->where('student_id', $enrollment->student_id)
                      ->where('event_id', $event->id)
                      ->isEmpty();
-                     
-                     // count one and break loop
-                     if ($hasNotAttended) {
-                         $coursesWithMissingAttendanceCount++;
-                     break 2;
-                     }
-                 }
-             }
-          }
-         
-         // sort by number of events with missing attendance
-         return $coursesWithMissingAttendanceCount;
+
+                    // count one and break loop
+                    if ($hasNotAttended) {
+                        $coursesWithMissingAttendanceCount++;
+                        break 2;
+                    }
+                }
+            }
+        }
+
+        // sort by number of events with missing attendance
+        return $coursesWithMissingAttendanceCount;
     }
 }

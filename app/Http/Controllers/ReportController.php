@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Year;
 use App\Models\Config;
 use App\Models\Period;
-use Illuminate\Http\Request;
+use App\Models\Year;
 use App\Traits\PeriodSelection;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class ReportController extends Controller
 {
     use PeriodSelection;
-    
 
     public function index()
     {
@@ -29,8 +28,6 @@ class ReportController extends Controller
         ]);
     }
 
-
-    
     public function external(Request $request)
     {
         $period = Period::get_default_period();
@@ -38,12 +35,9 @@ class ReportController extends Controller
         $data = [];
         $year_data = [];
 
-        if (!isset($request->period))
-        {
+        if (! isset($request->period)) {
             $startperiod = Period::find(Config::where('name', 'first_period')->first()->value);
-        }
-        else
-        {
+        } else {
             $startperiod = Period::find($request->period);
         }
 
@@ -57,8 +51,7 @@ class ReportController extends Controller
         $year_data[$current_year_id]['taught_hours'] = 0;
         $year_data[$current_year_id]['sold_hours'] = 0;
 
-        foreach($periods as $i => $data_period)
-        {
+        foreach ($periods as $i => $data_period) {
             $data[$data_period->id]['period'] = $data_period->name;
             $data[$data_period->id]['year_id'] = $data_period->year_id;
             $data[$data_period->id]['courses'] = $data_period->external_courses_count;
@@ -68,8 +61,7 @@ class ReportController extends Controller
             $data[$data_period->id]['sold_hours'] = $data_period->external_sold_hours_count;
 
             // if we are starting a new year, push the year data to the array
-            if ($current_year_id != $data_period->year_id)
-            {
+            if ($current_year_id != $data_period->year_id) {
                 $current_year_id = $data_period->year_id;
 
                 $year_data[$current_year_id] = [];
@@ -85,8 +77,9 @@ class ReportController extends Controller
             $year_data[$current_year_id]['taught_hours'] += $data_period->external_taught_hours_count;
             $year_data[$current_year_id]['sold_hours'] += $data_period->external_sold_hours_count;
         }
-        
-        Log::info('Reports viewed by ' . backpack_user()->firstname);
+
+        Log::info('Reports viewed by '.backpack_user()->firstname);
+
         return view('reports.external', [
             'selected_period' => $startperiod,
             'data' => $data,
@@ -94,11 +87,10 @@ class ReportController extends Controller
         ]);
     }
 
-
     /**
      * The reports dashboard
-     * Displays last insights on enrollments; along with comparison to previous periods
-     * 
+     * Displays last insights on enrollments; along with comparison to previous periods.
+     *
      * Todo - optimize this method: is there another way than using an array? How to reduce the number of queries?
      * Todo - Limit to the three last years to keep the figures readable
      */
@@ -106,23 +98,17 @@ class ReportController extends Controller
     {
         $period = Period::get_default_period();
 
-
-        if (!isset($request->period))
-        {
+        if (! isset($request->period)) {
             $startperiod = Period::find(Config::where('name', 'first_period')->first()->value);
-        }
-        else
-        {
+        } else {
             $startperiod = Period::find($request->period);
         }
 
         $periods = Period::where('id', '>=', $startperiod->id)->get();
 
-
         $data = [];
 
-        foreach($periods as $i => $data_period)
-        {
+        foreach ($periods as $i => $data_period) {
             $data[$data_period->id]['period'] = $data_period->name;
             $data[$data_period->id]['year_id'] = $data_period->year_id;
 
@@ -133,8 +119,9 @@ class ReportController extends Controller
             $data[$data_period->id]['taught_hours'] = $data_period->period_taught_hours_count;
             $data[$data_period->id]['sold_hours'] = $data_period->period_sold_hours_count;
         }
-        
-        Log::info('Reports viewed by ' . backpack_user()->firstname);
+
+        Log::info('Reports viewed by '.backpack_user()->firstname);
+
         return view('reports.internal', [
             'selected_period' => $period,
             'pending_enrollment_count' => $period->pending_enrollments_count,
@@ -147,22 +134,21 @@ class ReportController extends Controller
     }
 
     /**
-     * Show the enrollment numbers per rhythm
+     * Show the enrollment numbers per rhythm.
      */
     public function rhythms(Request $request)
-    {        
+    {
         $period = $this->selectPeriod($request);
-        
+
         $count = $period->courses()->where('parent_course_id', null)->with('rhythm')->withCount('enrollments')
             ->get()
             ->where('enrollments_count', '>', 0)
             ->groupBy('rhythm_id');
 
-            foreach($count as $i => $course)
-            {
-                $data[$i]['rhythm'] = $course[0]->rhythm->name;
-                $data[$i]['enrollment_count'] = $course->sum('enrollments_count');
-            }
+        foreach ($count as $i => $course) {
+            $data[$i]['rhythm'] = $course[0]->rhythm->name;
+            $data[$i]['enrollment_count'] = $course->sum('enrollments_count');
+        }
 
         return view('reports.rhythms', [
             'selected_period' => $period,
@@ -174,7 +160,7 @@ class ReportController extends Controller
     public function courses(Request $request)
     {
         $period = $this->selectPeriod($request);
-        
+
         $courses = $period->courses()->where('parent_course_id', null)->withCount('enrollments')->orderBy('enrollments_count')->get()->where('enrollments_count', '>', 0);
 
         return view('reports.courses', [
@@ -182,5 +168,4 @@ class ReportController extends Controller
             'courses' => $courses,
         ]);
     }
-
 }
