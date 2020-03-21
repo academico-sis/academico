@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Student;
 use App\Models\PhoneNumber;
+use App\Models\Student;
 use Illuminate\Http\Request;
 
 class PhoneNumberController extends Controller
 {
-
-
     public function get(Student $student)
     {
         return $student->phone;
@@ -28,7 +26,6 @@ class PhoneNumberController extends Controller
             'phoneable_id' => $request->student,
             'phone_number' => $request->number,
         ]);
-        
     }
 
     /**

@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
 class Year extends Model
@@ -30,13 +30,11 @@ class Year extends Model
     |--------------------------------------------------------------------------
     */
 
-
     /*
     |--------------------------------------------------------------------------
     | RELATIONS
     |--------------------------------------------------------------------------
     */
-
 
     /*
     |--------------------------------------------------------------------------
@@ -62,6 +60,7 @@ class Year extends Model
             ->distinct('student_id')
             ->count('enrollments.student_id');
     }
+
     /*
     |--------------------------------------------------------------------------
     | MUTATORS

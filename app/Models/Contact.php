@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use App\Models\ContactRelationship;
 use App\Models\Student;
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Contracts\Translation\HasLocalePreference;
 
 class Contact extends Model
 {
@@ -18,12 +18,11 @@ class Contact extends Model
     use SoftDeletes;
     use CrudTrait;
 
+    /*     public function preferredLocale()
+        {
+            return $this->locale;
+        } */
 
-/*     public function preferredLocale()
-    {
-        return $this->locale;
-    } */
-    
     public function phone()
     {
         return $this->morphMany(PhoneNumber::class, 'phoneable');
@@ -31,7 +30,7 @@ class Contact extends Model
 
     public function getNameAttribute()
     {
-        return $this->firstname . ' ' . $this->lastname;
+        return $this->firstname.' '.$this->lastname;
     }
 
     public function student()

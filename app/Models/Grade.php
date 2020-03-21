@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
-use App\Models\Student;
 use App\Models\GradeType;
+use App\Models\Student;
 use Illuminate\Database\Eloquent\Model;
 
 class Grade extends Model
 {
-
     protected $fillable = ['student_id', 'grade_type_id', 'grade', 'course_id'];
 
     public function grade_type()

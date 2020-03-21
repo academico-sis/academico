@@ -50,6 +50,6 @@ return [
     'noresults' => 'Pas de cours avec les filtres sélectionnés',
     'all' => 'tous',
     'Delete' => 'Supprimer',
-    'spots left' => 'places disponibles'
+    'spots left' => 'places disponibles',
 
 ];

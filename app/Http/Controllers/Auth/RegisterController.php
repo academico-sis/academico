@@ -1,24 +1,27 @@
 <?php
+
 namespace App\Http\Controllers\Auth;
 
-use Validator;
-use Carbon\Carbon;
-use App\Models\User;
 use App\Models\Contact;
-use App\Models\Student;
-use App\Models\Profession;
 use App\Models\Institution;
 use App\Models\PhoneNumber;
+use App\Models\Profession;
+use App\Models\Student;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Validator;
 
 class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\RegisterController
 {
-
     public function checkEmailUnicity(Request $request)
     {
-        if (User::where('email', $request->email)->count() == 0) { return response('OK', 204); }
-        else { abort(409); }
+        if (User::where('email', $request->email)->count() == 0) {
+            return response('OK', 204);
+        } else {
+            abort(409);
+        }
     }
 
     /**
@@ -49,7 +52,7 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
             'address'                              => 'required',
             'birthdate'                            => 'required',
             'profession'                           => 'required',
-            'institution'                          => 'required'
+            'institution'                          => 'required',
         ]);
     }
 
@@ -69,13 +72,13 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
             'firstname'                            => $data['firstname'],
             'lastname'                             => $data['lastname'],
             backpack_authentication_column()       => $data[backpack_authentication_column()],
-            'password'                             => bcrypt($data['password'])
+            'password'                             => bcrypt($data['password']),
         ]);
 
-        Log::info('New user created with ID ' . $user->id);
+        Log::info('New user created with ID '.$user->id);
 
         // create the student
-        
+
         $student = Student::create([
             'user_id' => $user->id,
             'idnumber'                             => $data['idnumber'],
@@ -83,13 +86,10 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
             'address'                              => $data['address'],
         ]);
 
-        Log::info('New student created with ID ' . $student->id);
-        
+        Log::info('New student created with ID '.$student->id);
+
         return $student;
-
     }
-    
-
 
     /**
      * Handle a registration request for the application.
@@ -101,25 +101,24 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
     public function register(Request $request)
     {
         // if registration is closed, deny access
-        if (!config('backpack.base.registration_open')) {
+        if (! config('backpack.base.registration_open')) {
             abort(403, trans('backpack::base.registration_closed'));
         }
-        
+
         $this->validator($request->data);
         $student = $this->create($request->data);
-        
+
         // add phone number(s)
 
         foreach ($request->data['phonenumbers'] as $number) {
             PhoneNumber::create([
                 'phoneable_id' => $student->id,
                 'phoneable_type' => Student::class,
-                'phone_number' => $number['number']
+                'phone_number' => $number['number'],
             ]);
         }
 
         Log::info('Phone numbers added to the student profile');
-
 
         // add profession and institution
         $profession = Profession::firstOrCreate([
@@ -127,16 +126,15 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
         ]);
 
         $student->update([
-            'profession_id' => $profession->id
+            'profession_id' => $profession->id,
         ]);
-
 
         $institution = Institution::firstOrCreate([
             'name' => $request->data['institution'],
         ]);
 
         $student->update([
-            'institution_id' => $institution->id
+            'institution_id' => $institution->id,
         ]);
 
         Log::info('Profession and institution added to the student profile');
@@ -160,15 +158,13 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
                 PhoneNumber::create([
                     'phoneable_id' => $newContact->id,
                     'phoneable_type' => Contact::class,
-                    'phone_number' => $number['number']
+                    'phone_number' => $number['number'],
                 ]);
             }
         }
-        
+
         Log::info('Aditional contacts associated to the student profile');
 
         return response(204);
-        
     }
-
 }

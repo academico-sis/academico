@@ -10,10 +10,10 @@ class ConfigController extends Controller
 {
     public function get()
     {
-        if (!backpack_user()->hasPermissionTo('enrollments.edit')) {
+        if (! backpack_user()->hasPermissionTo('enrollments.edit')) {
             abort(403);
         }
-        
+
         $currentPeriod = Period::get_default_period();
         $enrollmentsPeriod = Period::get_enrollments_period();
         $availablePeriods = Period::all();
@@ -23,21 +23,21 @@ class ConfigController extends Controller
 
     public function update(Request $request)
     {
-        if (!backpack_user()->hasPermissionTo('courses.edit')) {
+        if (! backpack_user()->hasPermissionTo('courses.edit')) {
             abort(403);
         }
 
         $request->validate([
             'currentPeriod' => 'required',
-            'enrollmentsPeriod' => 'required'
+            'enrollmentsPeriod' => 'required',
         ]);
 
         Config::where('name', 'current_period')->first()->update([
-            'value' => $request->currentPeriod
+            'value' => $request->currentPeriod,
         ]);
 
         Config::where('name', 'default_enrollment_period')->first()->update([
-            'value' => $request->enrollmentsPeriod
+            'value' => $request->enrollmentsPeriod,
         ]);
 
         return redirect('/');

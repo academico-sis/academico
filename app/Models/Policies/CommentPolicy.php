@@ -2,8 +2,8 @@
 
 namespace App\Models\Policies;
 
-use App\Models\User;
 use App\Models\Contact;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class CommentPolicy
@@ -22,14 +22,12 @@ class CommentPolicy
 
     /**
      * the user may add a comment for students who are enrolled in one of their courses,
-     * or to any student if they have explicit permission to do so
-     * 
+     * or to any student if they have explicit permission to do so.
      */
     public function store_student_comment(User $user, Student $student)
-    {     
+    {
         return ($student->enrollments()->whereHas('course', function ($q) use ($user) {
             return $q->where('teacher_id', $user->teacher_id);
         })->count() > 0) || $user->can('comments.edit');
-        
     }
 }

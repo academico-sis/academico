@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreatePeriodsTable extends Migration
 {
@@ -25,9 +25,9 @@ class CreatePeriodsTable extends Migration
             'name' => 'Period 1',
             'start' => date('Y-m-d', strtotime('first day of january this year')),
             'end' => date('Y-m-d', strtotime('last day of march this year')),
-            'year_id' => 1
+            'year_id' => 1,
         ]);
-        
+
         Schema::table('courses', function (Blueprint $table) {
             $table->foreign('period_id')
             ->references('id')->on('periods')

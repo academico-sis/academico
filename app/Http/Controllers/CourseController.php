@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Level;
 use App\Models\Course;
+use App\Models\Level;
 use App\Models\Period;
 use App\Models\Rhythm;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\Filters\Filter;
-use Illuminate\Database\Eloquent\Builder;
-
+use Spatie\QueryBuilder\QueryBuilder;
 
 class FiltersSearchableLevels implements Filter
 {
@@ -47,6 +46,7 @@ class CourseController extends Controller
         $rhythms = Rhythm::all();
         $levels = Level::all();
         $isAllowedToEdit = backpack_user()->hasPermissionTo('courses.edit');
+
         return view('courses.list', compact('defaultPeriod', 'isAllowedToEdit', 'rhythms', 'levels'));
     }
 
@@ -59,7 +59,7 @@ class CourseController extends Controller
             'period_id',
             'rhythm_id',
             AllowedFilter::custom('searchable_levels', new FiltersSearchableLevels),
-            'teacher_id'])
+            'teacher_id', ])
         ->get();
     }
 

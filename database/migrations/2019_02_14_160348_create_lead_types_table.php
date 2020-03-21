@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateLeadTypesTable extends Migration
 {
@@ -21,7 +21,6 @@ class CreateLeadTypesTable extends Migration
         Schema::table('students', function ($table) {
             $table->unsignedInteger('lead_type_id')->nullable();
         });
-
     }
 
     /**
@@ -32,7 +31,7 @@ class CreateLeadTypesTable extends Migration
     public function down()
     {
         Schema::disableForeignKeyConstraints();
-        
+
         Schema::dropIfExists('lead_types');
 
         Schema::table('students', function ($table) {

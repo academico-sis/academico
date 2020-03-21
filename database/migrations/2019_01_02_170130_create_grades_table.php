@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateGradesTable extends Migration
 {
@@ -17,7 +17,7 @@ class CreateGradesTable extends Migration
             $table->increments('id');
             $table->integer('grade_type_id')->unsigned();
             $table->integer('student_id')->unsigned(); // student
-            $table->integer('course_id')->unsigned();; // relates the grade to the corresponding course
+            $table->integer('course_id')->unsigned(); // relates the grade to the corresponding course
             $table->decimal('grade', 4, 2);
             $table->timestamps();
             $table->softDeletes();

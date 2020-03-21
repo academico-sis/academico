@@ -2,19 +2,19 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
-use App\Models\Grade;
-use App\Models\Course;
-use App\Models\Result;
-use App\Models\Comment;
-use App\Models\Student;
 use App\Models\Attendance;
-use App\Models\PreInvoice;
-use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use App\Models\Comment;
+use App\Models\Course;
 use App\Models\EnrollmentStatusType;
+use App\Models\Grade;
+use App\Models\PreInvoice;
+use App\Models\Result;
 use App\Models\Skills\SkillEvaluation;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Student;
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Enrollment extends Model
@@ -31,31 +31,25 @@ class Enrollment extends Model
         parent::boot();
 
         // when creating a new enrollment, also add past attendance
-        static::created(function(Enrollment $enrollment) {
+        static::created(function (self $enrollment) {
             $events = $enrollment->course->events->where('start', '<', (new Carbon)->toDateString());
-            foreach ($events as $event)
-            {
+            foreach ($events as $event) {
                 $event->attendance()->create([
                     'student_id' => $enrollment->student_id,
                     'attendance_type_id' => 3,
                 ]);
             }
-            
-            
         });
-
     }
 
     /**
-     * return all pending enrollments, without the child enrollments
+     * return all pending enrollments, without the child enrollments.
      */
-
     public function scopeParent($query)
     {
         return $query
         ->where('parent_id', null)
         ->get();
-
     }
 
     public function scopeReal($query)
@@ -67,7 +61,6 @@ class Enrollment extends Model
 
     public function scopeWithoutChildren($query)
     {
-        
         return $query
             ->where(function ($query) {
                 $query->whereDoesntHave('childrenEnrollments')
@@ -93,16 +86,14 @@ class Enrollment extends Model
         return $query->doesntHave('result');
     }
 
-
-    public function scopePeriod(Builder $query, $period) {
+    public function scopePeriod(Builder $query, $period)
+    {
         return $query->whereHas('course', function ($q) use ($period) {
             $q->where('period_id', $period);
         });
     }
 
-    
     /** FUNCTIONS */
-
     public function changeCourse(Course $newCourse)
     {
         $this->course_id = $newCourse->id;
@@ -121,7 +112,6 @@ class Enrollment extends Model
         }
     }
 
-
     /** RELATIONS */
     public function student()
     {
@@ -132,7 +122,7 @@ class Enrollment extends Model
     {
         return $this->belongsTo(Course::class, 'course_id');
     }
-    
+
     public function pre_invoice()
     {
         return $this->belongsToMany(PreInvoice::class, 'enrollment_pre_invoice', 'enrollment_id', 'pre_invoice_id');
@@ -152,15 +142,13 @@ class Enrollment extends Model
 
     public function childrenEnrollments()
     {
-        return $this->hasMany(Enrollment::class, 'parent_id');
+        return $this->hasMany(self::class, 'parent_id');
     }
-
 
     public function enrollmentStatus()
     {
         return $this->belongsTo(EnrollmentStatusType::class, 'status_id');
     }
-
 
     /* Accessors */
     public function getGradesAttribute()
@@ -170,10 +158,10 @@ class Enrollment extends Model
             ->with('grade_type')
             ->get();
     }
-    
+
     public function getResultNameAttribute()
     {
-        return $this->result->result_name->name ?? "-";
+        return $this->result->result_name->name ?? '-';
     }
 
     public function getSkillsAttribute()
@@ -189,10 +177,10 @@ class Enrollment extends Model
         return $this->student['name'];
     }
 
-/*     public function getStudentIdAttribute()
-    {
-        return $this->student['id'];
-    } */
+    /*     public function getStudentIdAttribute()
+        {
+            return $this->student['id'];
+        } */
 
     public function getStudentAgeAttribute()
     {
@@ -216,12 +204,12 @@ class Enrollment extends Model
 
     public function getChildrenCountAttribute()
     {
-        return Enrollment::where('parent_id', $this->id)->count();
+        return self::where('parent_id', $this->id)->count();
     }
 
     public function getChildrenAttribute()
     {
-        return Enrollment::where('parent_id', $this->id)->with('course')->get();
+        return self::where('parent_id', $this->id)->with('course')->get();
     }
 
     public function getStatusAttribute()
@@ -238,12 +226,10 @@ class Enrollment extends Model
     {
         $courseEventIds = $this->course->events->pluck('id');
         $attendances = $this->student->attendance()->with('event')->get()->whereIn('event_id', $courseEventIds);
-        if ($attendances->count() > 0)
-        {
-            return round(100*(($attendances->where('attendance_type_id', 1)->count() + ($attendances->where('attendance_type_id', 2)->count() * 0.75)) / $attendances->count()));
-        } else
-        {
-            return null;
+        if ($attendances->count() > 0) {
+            return round(100 * (($attendances->where('attendance_type_id', 1)->count() + ($attendances->where('attendance_type_id', 2)->count() * 0.75)) / $attendances->count()));
+        } else {
+            return;
         }
     }
 
@@ -252,17 +238,15 @@ class Enrollment extends Model
         $courseEventIds = $this->course->events->pluck('id');
         $attendances = $this->student->attendance()->with('event')->get()->whereIn('event_id', $courseEventIds);
         $absenceCount = $attendances->where('attendance_type_id', 3)->count() + $attendances->where('attendance_type_id', 4)->count();
+
         return $absenceCount;
     }
 
-    
     public function cancel()
     {
         // if the enrollment had children, delete them entirely
-         if ($this->childrenEnrollments && $this->childrenEnrollments->count() > 0)
-        {
-            foreach ($this->childrenEnrollments as $child)
-            {
+        if ($this->childrenEnrollments && $this->childrenEnrollments->count() > 0) {
+            foreach ($this->childrenEnrollments as $child) {
                 $child->delete();
             }
         }

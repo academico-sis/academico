@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateContactRelationships extends Migration
 {
@@ -17,7 +17,6 @@ class CreateContactRelationships extends Migration
             $table->increments('id');
             $table->text('name');
         });
-
 
         Schema::table('contacts', function (Blueprint $table) {
             $table->foreign('relationship_id')

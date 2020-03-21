@@ -2,27 +2,23 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Backpack\CRUD\app\Http\Controllers\CrudController;
-use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-
-// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\BookRequest as StoreRequest;
 use App\Http\Requests\BookRequest as UpdateRequest;
+// VALIDATION: change the requests to match your own file names if you need form validation
+use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\CRUD\CrudPanel;
 
 /**
- * Class BookCrudController
- * @package App\Http\Controllers\Admin
+ * Class BookCrudController.
  * @property-read CrudPanel $crud
  */
 class BookCrudController extends CrudController
 {
-
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-
 
     public function setup()
     {
@@ -32,7 +28,7 @@ class BookCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
         CRUD::setModel('App\Models\Book');
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/book');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/book');
         CRUD::setEntityNameStrings('book', 'books');
 
         /*
@@ -58,5 +54,4 @@ class BookCrudController extends CrudController
     {
         CRUD::setValidation(UpdateRequest::class);
     }
-
 }

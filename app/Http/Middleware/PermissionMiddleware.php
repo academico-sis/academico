@@ -2,8 +2,8 @@
 
 namespace App\Http\Middleware;
 
-use Closure;
 use Auth;
+use Closure;
 
 class PermissionMiddleware
 {
@@ -21,7 +21,7 @@ class PermissionMiddleware
         }
 
         if (! backpack_user()->can($permission)) {
-           abort(403);
+            abort(403);
         }
 
         return $next($request);

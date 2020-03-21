@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 
 class CreateConfigTable extends Migration
 {
@@ -26,7 +26,7 @@ class CreateConfigTable extends Migration
             ['name' => 'institution_rules_url', 'value' => null],
             ['name' => 'moodle_url', 'value' => null],
             ['name' => 'moodle_token', 'value' => null],
-            ['name' => 'first_period', 'value' => 1]
+            ['name' => 'first_period', 'value' => 1],
         ]);
     }
 

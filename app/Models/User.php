@@ -5,14 +5,14 @@ namespace App\Models;
 use App\Models\Student;
 use App\Models\Teacher;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
-use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Notifications\Notifiable;
+use Backpack\CRUD\app\Notifications\ResetPasswordNotification as ResetPasswordNotification;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Contracts\Translation\HasLocalePreference;
-use Backpack\CRUD\app\Notifications\ResetPasswordNotification as ResetPasswordNotification;
+use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
@@ -26,33 +26,28 @@ class User extends Authenticatable
      */
     protected $fillable = ['firstname', 'lastname', 'email', 'password', 'locale'];
 
-
     /**
      * The attributes that should be hidden for arrays.
      */
     protected $hidden = ['password', 'remember_token'];
-
 
     protected static function boot()
     {
         parent::boot();
 
         // when deleting a user, also delete any teacher and students accounts associated to this user.
-        static::deleting(function(User $user) {
-            if($user->student()->exists()) {
+        static::deleting(function (self $user) {
+            if ($user->student()->exists()) {
                 Attendance::where('student_id', $user->student->id)->delete();
                 Enrollment::where('student_id', $user->student->id)->delete();
             }
 
             Student::where('user_id', $user->id)->delete();
             Teacher::where('user_id', $user->id)->delete();
-            $user->email = "deleted_id_".$user->id."_".$user->email;
+            $user->email = 'deleted_id_'.$user->id.'_'.$user->email;
             $user->save();
-            
         });
-
     }
-
 
     /**
      * Send the password reset notification.
@@ -75,15 +70,15 @@ class User extends Authenticatable
     {
         return $this->email;
     }
-    
+
     public function isTeacher()
     {
-        return (Teacher::where('user_id', backpack_user()->id)->count() > 0);
+        return Teacher::where('user_id', backpack_user()->id)->count() > 0;
     }
 
     public function isStudent()
     {
-        return (Student::where('user_id', backpack_user()->id)->count() > 0);
+        return Student::where('user_id', backpack_user()->id)->count() > 0;
     }
 
     public function student()
@@ -98,30 +93,27 @@ class User extends Authenticatable
 
     public function getNameAttribute()
     {
-        return $this->firstname . ' ' . $this->lastname;   
+        return $this->firstname.' '.$this->lastname;
     }
-    
+
     public function getIdnumberAttribute()
     {
-        if ($this->isStudent())
-        {
+        if ($this->isStudent()) {
             return $this->student->idnumber;
         }
     }
 
     public function getAddressAttribute()
     {
-        if ($this->isStudent())
-        {
-        return $this->student->address;
+        if ($this->isStudent()) {
+            return $this->student->address;
         }
     }
 
     public function getBirthdateAttribute()
     {
-        if ($this->isStudent())
-        {
-        return $this->student->birthdate;
+        if ($this->isStudent()) {
+            return $this->student->birthdate;
         }
     }
 

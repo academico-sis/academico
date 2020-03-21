@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddAccountingCodes extends Migration
 {
@@ -24,7 +24,6 @@ class AddAccountingCodes extends Migration
         Schema::table('rhythms', function (Blueprint $table) {
             $table->string('product_code')->after('default_volume')->nullable();
         });
-
     }
 
     /**

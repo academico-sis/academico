@@ -2,27 +2,23 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Backpack\CRUD\app\Http\Controllers\CrudController;
-
-// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\SkillTypeRequest as StoreRequest;
+// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\SkillTypeRequest as UpdateRequest;
+use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class SkillTypeCrudController
- * @package App\Http\Controllers\Admin
+ * Class SkillTypeCrudController.
  * @property-read CrudPanel $crud
  */
 class SkillTypeCrudController extends CrudController
 {
-
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 
-    
     public function setup()
     {
         /*
@@ -31,7 +27,7 @@ class SkillTypeCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
         CRUD::setModel('App\Models\Skills\SkillType');
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/skilltype');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/skilltype');
         CRUD::setEntityNameStrings('skilltype', 'skill_types');
 
         /*

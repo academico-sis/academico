@@ -2,54 +2,51 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
-use App\Models\Book;
-use App\Models\Event;
-use App\Models\Course;
-use App\Models\Period;
 use App\Models\Attendance;
+use App\Models\Book;
+use App\Models\Course;
 use App\Models\Enrollment;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Event;
+use App\Models\Period;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Log;
 
 class Course extends Model
 {
     use CrudTrait;
     use SoftDeletes;
 
+    /** model events */
+    protected static function boot()
+    {
+        parent::boot();
 
-/** model events */
-
-protected static function boot()
-{
-    parent::boot();
-    
-    // when a course model is updated
-    static::updated(function(Course $course) {
+        // when a course model is updated
+        static::updated(function (self $course) {
 
         // if course dates have changed, sync all events
-        if($course->isDirty('start_date') || $course->isDirty('end_date')) {
-            Log::info('cleaning the events after course date change');
-            // delete events before course start date
-            Event::where('course_id', $course->id)->where('start', '<', $course->start_date)->delete();
+            if ($course->isDirty('start_date') || $course->isDirty('end_date')) {
+                Log::info('cleaning the events after course date change');
+                // delete events before course start date
+                Event::where('course_id', $course->id)->where('start', '<', $course->start_date)->delete();
 
-            // delete events after course end date
-            Event::where('course_id', $course->id)->where('end', '>', $course->end_date)->delete();
+                // delete events after course end date
+                Event::where('course_id', $course->id)->where('end', '>', $course->end_date)->delete();
 
-            // create events before first existing event and after course start
-            $firstEvent = $course->events()->orderBy('start')->first();
+                // create events before first existing event and after course start
+                $firstEvent = $course->events()->orderBy('start')->first();
 
-            $start = Carbon::parse($course->start_date)->startOfDay();
-            $end = Carbon::parse($firstEvent->start)->startOfDay();
-            
-            // for each day before the first event
-            while ($start < $end) {
+                $start = Carbon::parse($course->start_date)->startOfDay();
+                $end = Carbon::parse($firstEvent->start)->startOfDay();
+
+                // for each day before the first event
+                while ($start < $end) {
                     // if there is a coursetime for today, create the event
-                    if ($course->times->contains('day', $start->format('w')))
-                    {
+                    if ($course->times->contains('day', $start->format('w'))) {
                         Event::create([
                             'course_id' => $course->id,
                             'teacher_id' => $course->teacher_id,
@@ -58,23 +55,22 @@ protected static function boot()
                             'end' => $start->setTimeFromTimeString($course->times->where('day', $start->format('w'))->first()->end)->toDateTimeString(),
                             'name' => $course->name,
                             'course_time_id' => $course->times->where('day', $start->format('w'))->first()->id,
-                            'exempt_attendance' => $course->exempt_attendance
+                            'exempt_attendance' => $course->exempt_attendance,
                         ]);
                     }
                     $start->addDay();
-            }
+                }
 
-            // create events after last existing event and before course end
-            $lastEvent = $course->events()->orderBy('start', 'desc')->first();
+                // create events after last existing event and before course end
+                $lastEvent = $course->events()->orderBy('start', 'desc')->first();
 
-            $start = Carbon::parse($lastEvent->end)->endOfDay();
-            $end = Carbon::parse($course->end_date)->endOfDay();
-            
-            // for each day after the last event
-            while ($start < $end) {
+                $start = Carbon::parse($lastEvent->end)->endOfDay();
+                $end = Carbon::parse($course->end_date)->endOfDay();
+
+                // for each day after the last event
+                while ($start < $end) {
                     // if there is a coursetime for today, create the event
-                    if ($course->times->contains('day', $start->format('w')))
-                    {
+                    if ($course->times->contains('day', $start->format('w'))) {
                         Event::create([
                             'course_id' => $course->id,
                             'teacher_id' => $course->teacher_id,
@@ -83,23 +79,18 @@ protected static function boot()
                             'end' => $start->setTimeFromTimeString($course->times->where('day', $start->format('w'))->first()->end)->toDateTimeString(),
                             'name' => $course->name,
                             'course_time_id' => $course->times->where('day', $start->format('w'))->first()->id,
-                            'exempt_attendance' => $course->exempt_attendance
+                            'exempt_attendance' => $course->exempt_attendance,
                         ]);
                     }
                     $start->addDay();
+                }
             }
-        }
 
-        // update course events with new room and teacher
-        Event::where('course_id', $course->id)->update(['room_id' => $course->room_id]);
-        Event::where('course_id', $course->id)->update(['teacher_id' => $course->teacher_id]);
-            
-    });
-        
-}
-
-
-
+            // update course events with new room and teacher
+            Event::where('course_id', $course->id)->update(['room_id' => $course->room_id]);
+            Event::where('course_id', $course->id)->update(['teacher_id' => $course->teacher_id]);
+        });
+    }
 
     /*
     |--------------------------------------------------------------------------
@@ -158,7 +149,7 @@ protected static function boot()
     /** returns all courses that are open for enrollments */
     public static function get_available_courses(Period $period)
     {
-        return Course::where('period_id', $period->id)
+        return self::where('period_id', $period->id)
         ->where('campus_id', 1)
         ->with('times')
         ->with('teacher')
@@ -168,8 +159,6 @@ protected static function boot()
         ->withCount('enrollments')
         ->get();
     }
-
-
 
     /*
     |--------------------------------------------------------------------------
@@ -235,7 +224,6 @@ protected static function boot()
         return $this->belongsTo('App\Models\Course', 'parent_course_id');
     }
 
-
     /** evaluation methods associated to the course - grades, skill-based evaluation... */
     public function evaluation_type()
     {
@@ -270,7 +258,7 @@ protected static function boot()
     {
         return $this->belongsToMany(Book::class);
     }
-    
+
     /**
      * return attendance records associated to the course
      * Since the attendance records are linked to the event, we use a hasManyThrough relation.
@@ -281,16 +269,14 @@ protected static function boot()
     }
 
     /**
-     * Return events for which the attendance records do not match the course student count
-     * 
+     * Return events for which the attendance records do not match the course student count.
+     *
      * todo - optimize this method (reduce the number of queries and avoid the foreach loop)
      * but filtering the collection increases the number of DB queries... (why ?)
-     * 
      */
     public function getPendingAttendanceAttribute()
     {
-
-        $events = Event::where(function($query) {
+        $events = Event::where(function ($query) {
             $query->where('course_id', $this->id);
             $query->where('exempt_attendance', '!=', true);
             $query->where('exempt_attendance', '!=', 1);
@@ -302,28 +288,25 @@ protected static function boot()
         ->with('course.enrollments')
         ->where('start', '<', Carbon::now(env('COURSES_TIMEZONE'))->toDateTimeString())
         ->get();
-        
+
         $pending_events = [];
 
-        foreach ($events as $event)
-        {
+        foreach ($events as $event) {
             // if the attendance record count do not match the enrollment count, push the event to array
             $pending_attendance = $event->course->enrollments->count() - $event->attendance->count();
 
-            if ($pending_attendance != 0)
-            {
-                $pending_events[$event->id]['event'] = $event->name ?? "";
+            if ($pending_attendance != 0) {
+                $pending_events[$event->id]['event'] = $event->name ?? '';
                 $pending_events[$event->id]['event_id'] = $event->id;
                 $pending_events[$event->id]['course_id'] = $event->course_id;
                 $pending_events[$event->id]['event_date'] = Carbon::parse($event->start)->toDateString();
-                $pending_events[$event->id]['teacher'] = $event->teacher->name ?? "";
-                $pending_events[$event->id]['pending'] = $pending_attendance ?? "";
+                $pending_events[$event->id]['teacher'] = $event->teacher->name ?? '';
+                $pending_events[$event->id]['pending'] = $pending_attendance ?? '';
             }
+        }
+
+        return $pending_events;
     }
-
-    return $pending_events;
-}
-
 
     public function enrollments()
     {
@@ -341,7 +324,6 @@ protected static function boot()
         ->where('parent_id', null);
     }
 
-
     /*
     |--------------------------------------------------------------------------
     | ACCESORS
@@ -350,52 +332,72 @@ protected static function boot()
 
     /**
      * returns the course repeating schedule
-     * todo improve this method
+     * todo improve this method.
      */
     public function getCourseTimesAttribute()
     {
-        $days = "";
-        $times = "";
+        $days = '';
+        $times = '';
 
-        if ($this->times->count() > 0)
-        {
-            foreach ($this->times->unique('day') as $time)
-            {
-                 if ($time->day == '1') { $days .= "L"; }
-                 if ($time->day == '2') { $days .= "M"; }
-                 if ($time->day == '3') { $days .= "X"; }
-                 if ($time->day == '4') { $days .= "J"; }
-                 if ($time->day == '5') { $days .= "V"; }
-                 if ($time->day == '6') { $days .= "S"; }
-                 if ($time->day == '0') { $days .= "D"; }
+        if ($this->times->count() > 0) {
+            foreach ($this->times->unique('day') as $time) {
+                if ($time->day == '1') {
+                    $days .= 'L';
+                }
+                if ($time->day == '2') {
+                    $days .= 'M';
+                }
+                if ($time->day == '3') {
+                    $days .= 'X';
+                }
+                if ($time->day == '4') {
+                    $days .= 'J';
+                }
+                if ($time->day == '5') {
+                    $days .= 'V';
+                }
+                if ($time->day == '6') {
+                    $days .= 'S';
+                }
+                if ($time->day == '0') {
+                    $days .= 'D';
+                }
             }
 
-            foreach ($this->times->unique('start') as $time)
-            {
-                $times .= Carbon::parse($time->start)->format('g:i') . ' - ' . Carbon::parse($time->end)->format('g:i');
+            foreach ($this->times->unique('start') as $time) {
+                $times .= Carbon::parse($time->start)->format('g:i').' - '.Carbon::parse($time->end)->format('g:i');
+            }
+        } elseif ($this->children->count() > 0) {
+            foreach ($this->children->first()->times->unique('day') as $time) {
+                if ($time->day == '1') {
+                    $days .= 'L';
+                }
+                if ($time->day == '2') {
+                    $days .= 'M';
+                }
+                if ($time->day == '3') {
+                    $days .= 'X';
+                }
+                if ($time->day == '4') {
+                    $days .= 'J';
+                }
+                if ($time->day == '5') {
+                    $days .= 'V';
+                }
+                if ($time->day == '6') {
+                    $days .= 'S';
+                }
+                if ($time->day == '0') {
+                    $days .= 'D';
+                }
             }
 
-        } elseif($this->children->count() > 0) {
-            foreach ($this->children->first()->times->unique('day') as $time)
-            {
-                 if ($time->day == '1') { $days .= "L"; }
-                 if ($time->day == '2') { $days .= "M"; }
-                 if ($time->day == '3') { $days .= "X"; }
-                 if ($time->day == '4') { $days .= "J"; }
-                 if ($time->day == '5') { $days .= "V"; }
-                 if ($time->day == '6') { $days .= "S"; }
-                 if ($time->day == '0') { $days .= "D"; }
-            }
-
-
-            foreach ($this->children->first()->times->unique('start') as $time)
-            {
-                $times .= Carbon::parse($time->start)->format('g:i') . ' - ' . Carbon::parse($time->end)->format('g:i');
+            foreach ($this->children->first()->times->unique('start') as $time) {
+                $times .= Carbon::parse($time->start)->format('g:i').' - '.Carbon::parse($time->end)->format('g:i');
             }
         }
 
-  
-       return $days . " - " . $times;
+        return $days.' - '.$times;
     }
 
     public function getCourseRoomNameAttribute()
@@ -412,21 +414,20 @@ protected static function boot()
     {
         return strtoupper($this->rhythm['name']);
     }
-    
+
     public function getCourseTeacherNameAttribute()
     {
-        return ($this->teacher['firstname'] . " " . $this->teacher['lastname']);
+        return $this->teacher['firstname'].' '.$this->teacher['lastname'];
     }
-
 
     public function getChildrenCountAttribute()
     {
-        return Course::where('parent_course_id', $this->id)->count();
+        return self::where('parent_course_id', $this->id)->count();
     }
 
     public function getChildrenAttribute()
     {
-        return Course::where('parent_course_id', $this->id)->get();
+        return self::where('parent_course_id', $this->id)->get();
     }
 
     public function getCourseEnrollmentsCountAttribute()
@@ -436,18 +437,16 @@ protected static function boot()
 
     public function getParentAttribute()
     {
-        if ($this->parent_course_id !== null)
-        {
+        if ($this->parent_course_id !== null) {
             return $this->parent_course_id;
-        }
-        else {
+        } else {
             return $this->id;
         }
     }
 
     public function eventsWithExpectedAttendance()
     {
-        return $this->events()->where(function($query) {
+        return $this->events()->where(function ($query) {
             $query->where('exempt_attendance', '!=', true);
             $query->where('exempt_attendance', '!=', 1);
             $query->orWhereNull('exempt_attendance');
@@ -456,10 +455,12 @@ protected static function boot()
 
     public function getSortableIdAttribute()
     {
-        if ($this->parent_course_id !== null) { return $this->parent_course_id; }
-        else { return $this->id; }
+        if ($this->parent_course_id !== null) {
+            return $this->parent_course_id;
+        } else {
+            return $this->id;
+        }
     }
-
 
     /*
     |--------------------------------------------------------------------------

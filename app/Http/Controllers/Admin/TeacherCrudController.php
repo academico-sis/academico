@@ -2,30 +2,26 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\User;
-
-// VALIDATION: change the requests to match your own file names if you need form validation
-use App\Models\Teacher;
-use Backpack\CRUD\CrudPanel;
 use App\Http\Requests\TeacherRequest as StoreRequest;
+// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\TeacherRequest as UpdateRequest;
+use App\Models\Teacher;
+use App\Models\User;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Backpack\CRUD\CrudPanel;
 
 /**
- * Class TeacherCrudController
- * @package App\Http\Controllers\Admin
+ * Class TeacherCrudController.
  * @property-read CrudPanel $crud
  */
 class TeacherCrudController extends CrudController
 {
-
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 
-    
     public function setup()
     {
         /*
@@ -34,7 +30,7 @@ class TeacherCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
         CRUD::setModel('App\Models\Teacher');
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/teacher');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/teacher');
         CRUD::setEntityNameStrings('teacher', 'teachers');
 
         /*
@@ -46,13 +42,13 @@ class TeacherCrudController extends CrudController
         CRUD::setColumns([
             [
                 'label' => __('First Name'),
-                'type' => "text",
-                'name' => 'firstname'
+                'type' => 'text',
+                'name' => 'firstname',
             ],
             [
                 'label' => __('Last Name'),
-                'type' => "text",
-                'name' => 'lastname'
+                'type' => 'text',
+                'name' => 'lastname',
             ],
             [
                 'name'  => 'email',
@@ -74,11 +70,10 @@ class TeacherCrudController extends CrudController
 
         ]);
 
-
         CRUD::addFields([
 
             [  // Select2
-                'label' => "User",
+                'label' => 'User',
                 'type' => 'select2',
                 'name' => 'user_id', // the db column for the foreign key
                 'entity' => 'user', // the method that defines the relationship in your Model
@@ -98,14 +93,12 @@ class TeacherCrudController extends CrudController
                 'type'  => 'date',
             ],
 
-
         ]);
 
         // add asterisk for fields that are required in TeacherRequest
         CRUD::setRequiredFields(StoreRequest::class, 'create');
         CRUD::setRequiredFields(UpdateRequest::class, 'edit');
     }
-
 
     protected function setupCreateOperation()
     {

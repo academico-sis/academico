@@ -1,8 +1,8 @@
 <?php
 
-use Carbon\Carbon;
-use App\Models\User;
 use App\Models\Teacher;
+use App\Models\User;
+use Carbon\Carbon;
 use Faker\Generator as Faker;
 
 /*
@@ -16,10 +16,9 @@ use Faker\Generator as Faker;
 |
 */
 
-
 $factory->define(Teacher::class, function (Faker $faker) {
     return [
         'user_id' => factory(User::class)->create()->id,
-        'max_week_hours' => 25
+        'max_week_hours' => 25,
     ];
 });

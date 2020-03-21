@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
-use App\Models\Payment;
 use App\Models\Enrollment;
-use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use App\Models\Payment;
 use App\Models\PreInvoiceDetail;
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
 
 class PreInvoice extends Model
 {
@@ -31,10 +30,9 @@ class PreInvoice extends Model
     {
         return $this->belongsToMany(Enrollment::class, 'enrollment_pre_invoice', 'pre_invoice_id', 'enrollment_id');
     }
-    
+
     public function comments()
     {
         return $this->morphMany(Comment::class, 'commentable');
     }
-    
 }

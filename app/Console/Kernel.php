@@ -2,11 +2,11 @@
 
 namespace App\Console;
 
-use App\Models\User;
 use App\Models\Attendance;
-use Illuminate\Support\Facades\Log;
+use App\Models\User;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Log;
 
 class Kernel extends ConsoleKernel
 {

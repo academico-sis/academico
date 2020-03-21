@@ -10,8 +10,11 @@ trait PeriodSelection
     protected function selectPeriod(Request $request)
     {
         $period_id = $request->query('period', null);
-        if ($period_id == null) { $period = Period::get_default_period(); }
-        else { $period = Period::find($period_id); }
+        if ($period_id == null) {
+            $period = Period::get_default_period();
+        } else {
+            $period = Period::find($period_id);
+        }
 
         return $period;
     }

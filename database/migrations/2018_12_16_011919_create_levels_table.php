@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateLevelsTable extends Migration
 {
@@ -19,7 +19,7 @@ class CreateLevelsTable extends Migration
             $table->softDeletes();
         });
 
-        Schema::table('courses', function (Blueprint $table) {           
+        Schema::table('courses', function (Blueprint $table) {
             $table->foreign('level_id')
             ->references('id')->on('levels')
             ->onDelete('restrict');

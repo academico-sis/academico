@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateSkillScalesTable extends Migration
 {
@@ -19,9 +19,8 @@ class CreateSkillScalesTable extends Migration
             $table->text('name');
             $table->decimal('value', 2, 1); // decimal number between 0 and 1
             $table->timestamps();
-            $table->softDeletes(); 
+            $table->softDeletes();
         });
-
     }
 
     /**

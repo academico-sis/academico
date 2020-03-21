@@ -11,5 +11,4 @@ class AttendanceType extends Model
 
     public $translatable = ['name'];
     public $timestamps = false;
-
 }

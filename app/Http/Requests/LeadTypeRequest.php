@@ -26,7 +26,7 @@ class LeadTypeRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:2|max:55'
+            'name' => 'required|min:2|max:55',
         ];
     }
 

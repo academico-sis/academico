@@ -9,7 +9,7 @@ $factory->define(Contact::class, function (Faker $faker) {
         'firstname' => $faker->name,
         'lastname' => $faker->name,
         'email' => $faker->unique()->safeEmail,
-        'idnumber' => "121212SS",
-        'address' => "Example Street 54",
+        'idnumber' => '121212SS',
+        'address' => 'Example Street 54',
     ];
 });

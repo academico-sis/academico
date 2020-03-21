@@ -12,7 +12,6 @@ class Payment extends Model
     use CrudTrait;
     use SoftDeletes;
 
-
     /*
     |--------------------------------------------------------------------------
     | GLOBAL VARIABLES
@@ -38,12 +37,12 @@ class Payment extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
-    
+
     public function pre_invoice()
     {
         return $this->belongsTo(PreInvoice::class);
     }
-    
+
     /*
     |--------------------------------------------------------------------------
     | SCOPES

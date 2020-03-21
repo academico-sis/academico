@@ -18,7 +18,6 @@ class EvaluationType extends Model
 
     public $translatable = ['name'];
 
-
     public function courses()
     {
         return $this->belongsToMany(Course::class);

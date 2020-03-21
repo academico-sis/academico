@@ -30,7 +30,6 @@ class RemoteEventRequest extends FormRequest
             'worked_hours' => 'required|numeric',
             'teacher_id' => 'required',
 
-
         ];
     }
 
