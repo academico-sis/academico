@@ -85,7 +85,7 @@ class SetLocale
      */
     public function handle($request, Closure $next)
     {
-        if (backpack_auth()->check()) {
+        if (backpack_$request->user()) {
             $this->setUserLocale();
         } else {
             $this->setSystemLocale($request);
