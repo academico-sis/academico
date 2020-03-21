@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreEnrollmentRequest;
 use App\Models\Attendance;
 use App\Models\Book;
 use App\Models\Comment;
@@ -32,12 +33,8 @@ class EnrollmentController extends Controller
     /**
      * Store the newly created enrollment.
      */
-    public function store(Request $request)
+    public function store(StoreEnrollmentRequest $request)
     {
-        $request->validate([
-            'course_id' => 'required',
-            'student_id' => 'required',
-        ]);
 
         $course = Course::findOrFail($request->input('course_id'));
 
