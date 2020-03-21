@@ -27,7 +27,7 @@ class FeeCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        CRUD::setModel('App\Models\Fee');
+        CRUD::setModel(\App\Models\Fee::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/fee');
         CRUD::setEntityNameStrings('fee', 'fees');
 

@@ -40,7 +40,7 @@ class CourseCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        CRUD::setModel('App\Models\Course');
+        CRUD::setModel(\App\Models\Course::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/course');
         CRUD::setEntityNameStrings(__('course'), __('courses'));
 
@@ -92,7 +92,7 @@ class CourseCrudController extends CrudController
             'name' => 'rhythm_id', // the column that contains the ID of that connected entity;
             'entity' => 'rhythm', // the method that defines the relationship in your Model
             'attribute' => 'name', // foreign key attribute that is shown to user
-            'model' => "App\Models\Rhythm", // foreign key model
+            'model' => \App\Models\Rhythm::class, // foreign key model
             ],
 
             [
@@ -102,7 +102,7 @@ class CourseCrudController extends CrudController
             'name' => 'level_id', // the column that contains the ID of that connected entity;
             'entity' => 'level', // the method that defines the relationship in your Model
             'attribute' => 'name', // foreign key attribute that is shown to user
-            'model' => "App\Models\Level", // foreign key model
+            'model' => \App\Models\Level::class, // foreign key model
             ],
 
             [
@@ -123,7 +123,7 @@ class CourseCrudController extends CrudController
             'name' => 'teacher_id', // the column that contains the ID of that connected entity;
             'entity' => 'teacher', // the method that defines the relationship in your Model
             'attribute' => 'name', // foreign key attribute that is shown to user
-            'model' => "App\Models\Teacher", // foreign key model
+            'model' => \App\Models\Teacher::class, // foreign key model
             ],
 
             [
@@ -133,7 +133,7 @@ class CourseCrudController extends CrudController
             'name' => 'room_id', // the column that contains the ID of that connected entity;
             'entity' => 'room', // the method that defines the relationship in your Model
             'attribute' => 'name', // foreign key attribute that is shown to user
-            'model' => "App\Models\Room", // foreign key model
+            'model' => \App\Models\Room::class, // foreign key model
             ],
 
             // COURSE SCHEDULED TIMES
@@ -239,7 +239,7 @@ class CourseCrudController extends CrudController
                 'name' => 'rhythm_id', // the column that contains the ID of that connected entity;
                 'entity' => 'rhythm', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => "App\Models\Rhythm", // foreign key model
+                'model' => \App\Models\Rhythm::class, // foreign key model
                 'tab' => __('Course info'),
              ],
 
@@ -250,7 +250,7 @@ class CourseCrudController extends CrudController
                 'name' => 'level_id', // the column that contains the ID of that connected entity;
                 'entity' => 'level', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => "App\Models\Level", // foreign key model
+                'model' => \App\Models\Level::class, // foreign key model
                 'tab' => __('Course info'),
              ],
 
@@ -293,7 +293,7 @@ class CourseCrudController extends CrudController
                 'name' => 'teacher_id', // the column that contains the ID of that connected entity;
                 'entity' => 'teacher', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => "App\Models\Teacher", // foreign key model
+                'model' => \App\Models\Teacher::class, // foreign key model
                 'tab' => __('Resources'),
              ],
 
@@ -304,7 +304,7 @@ class CourseCrudController extends CrudController
                 'name' => 'room_id', // the column that contains the ID of that connected entity;
                 'entity' => 'room', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => "App\Models\Room", // foreign key model
+                'model' => \App\Models\Room::class, // foreign key model
                 'tab' => __('Resources'),
              ],
 
@@ -323,7 +323,7 @@ class CourseCrudController extends CrudController
                 'name' => 'books', // the method that defines the relationship in your Model
                 'entity' => 'books', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => "App\Models\Book", // foreign key model
+                'model' => \App\Models\Book::class, // foreign key model
                 'pivot' => true, // on create&update, do you need to add/delete pivot table entries?
                 'tab' => __('Pedagogy'),
 
@@ -336,7 +336,7 @@ class CourseCrudController extends CrudController
                 'name' => 'period_id', // the column that contains the ID of that connected entity;
                 'entity' => 'period', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => "App\Models\Period", // foreign key model
+                'model' => \App\Models\Period::class, // foreign key model
                 'tab' => __('Schedule'),
              ],
 

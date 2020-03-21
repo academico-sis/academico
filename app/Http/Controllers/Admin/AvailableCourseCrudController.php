@@ -40,7 +40,7 @@ class AvailableCourseCrudController extends CrudController
         if ($this->student == null) {
             abort(404); // todo transform into custom exception
         }
-        CRUD::setModel('App\Models\Course');
+        CRUD::setModel(\App\Models\Course::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/availablecourse');
         CRUD::setEntityNameStrings(__('available course'), __('available courses'));
         CRUD::addButtonFromView('line', 'enroll', 'enroll', 'end');
@@ -62,7 +62,7 @@ class AvailableCourseCrudController extends CrudController
             'name' => 'rhythm_id', // the column that contains the ID of that connected entity;
             'entity' => 'rhythm', // the method that defines the relationship in your Model
             'attribute' => 'name', // foreign key attribute that is shown to user
-            'model' => "App\Models\Rhythm", // foreign key model
+            'model' => \App\Models\Rhythm::class, // foreign key model
             ],
 
             [
@@ -72,7 +72,7 @@ class AvailableCourseCrudController extends CrudController
             'name' => 'level_id', // the column that contains the ID of that connected entity;
             'entity' => 'level', // the method that defines the relationship in your Model
             'attribute' => 'name', // foreign key attribute that is shown to user
-            'model' => "App\Models\Level", // foreign key model
+            'model' => \App\Models\Level::class, // foreign key model
             ],
 
             [
@@ -93,7 +93,7 @@ class AvailableCourseCrudController extends CrudController
             'name' => 'teacher_id', // the column that contains the ID of that connected entity;
             'entity' => 'teacher', // the method that defines the relationship in your Model
             'attribute' => 'name', // foreign key attribute that is shown to user
-            'model' => "App\Models\Teacher", // foreign key model
+            'model' => \App\Models\Teacher::class, // foreign key model
             ],
 
             [
@@ -103,7 +103,7 @@ class AvailableCourseCrudController extends CrudController
             'name' => 'room_id', // the column that contains the ID of that connected entity;
             'entity' => 'room', // the method that defines the relationship in your Model
             'attribute' => 'name', // foreign key attribute that is shown to user
-            'model' => "App\Models\Room", // foreign key model
+            'model' => \App\Models\Room::class, // foreign key model
             ],
 
             // COURSE SCHEDULED TIMES
