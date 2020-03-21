@@ -25598,7 +25598,7 @@ var render = function() {
                                         )
                                       : _vm._e(),
                                     _vm._v(" "),
-                                    _vm.editable
+                                    _vm.editable == 1
                                       ? _c(
                                           "a",
                                           {
@@ -25617,7 +25617,8 @@ var render = function() {
                                         )
                                       : _vm._e(),
                                     _vm._v(" "),
-                                    _vm.editable && course.children_count == 0
+                                    _vm.editable == 1 &&
+                                    course.children_count == 0
                                       ? _c(
                                           "a",
                                           {
@@ -25643,7 +25644,7 @@ var render = function() {
                                         )
                                       : _vm._e(),
                                     _vm._v(" "),
-                                    _vm.editable
+                                    _vm.editable == 1
                                       ? _c(
                                           "button",
                                           {
@@ -25672,7 +25673,7 @@ var render = function() {
                                         )
                                       : _vm._e(),
                                     _vm._v(" "),
-                                    _vm.editable &&
+                                    _vm.editable == 1 &&
                                     course.course_enrollments_count == 0
                                       ? _c(
                                           "button",

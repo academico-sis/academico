@@ -45,7 +45,7 @@ class CourseController extends Controller
         $defaultPeriod = Period::get_default_period();
         $rhythms = Rhythm::all();
         $levels = Level::all();
-        $isAllowedToEdit = backpack_user()->hasPermissionTo('courses.edit');
+        $isAllowedToEdit = backpack_user()->hasPermissionTo('courses.edit') ? 1 : 0;
 
         return view('courses.list', compact('defaultPeriod', 'isAllowedToEdit', 'rhythms', 'levels'));
     }

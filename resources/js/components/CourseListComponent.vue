@@ -91,10 +91,10 @@
                     <button class="btn dropdown-toggle p-0" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-gear"></i></button>
                     <div class="dropdown-menu dropdown-menu-right">
                         <a v-if="course.events_count > 0 && course.exempt_attendance !== 1 && course.course_enrollments_count > 0" class="dropdown-item" :href="`attendance/course/${course.id}`"><i class="fa fa-calendar"></i> {{$t('Attendance')}}</a>
-                        <a v-if="editable" class="dropdown-item" :href="`course/${course.id}/edit`"><i class="fa fa-edit"></i> {{$t('Edit')}}</a>
-                        <a v-if="editable && course.children_count == 0" class="dropdown-item" :href="`coursetime/${course.id}/edit`"><i class="fa fa-clock-o"></i> {{ $t('front.Edit schedule') }}</a>
-                        <button v-if="editable" class="dropdown-item" @click="createChildCourse(course.id)"><i class="fa fa-clone"></i> {{$t('front.Create subcourse') }}</button>
-                        <button v-if="editable && course.course_enrollments_count == 0" class="dropdown-item text-danger" @click="deleteCourse(course.id)"><i class="fa fa-trash"></i> {{ $t('front.Delete') }}</button>
+                        <a v-if="editable == 1" class="dropdown-item" :href="`course/${course.id}/edit`"><i class="fa fa-edit"></i> {{$t('Edit')}}</a>
+                        <a v-if="editable == 1 && course.children_count == 0" class="dropdown-item" :href="`coursetime/${course.id}/edit`"><i class="fa fa-clock-o"></i> {{ $t('front.Edit schedule') }}</a>
+                        <button v-if="editable == 1" class="dropdown-item" @click="createChildCourse(course.id)"><i class="fa fa-clone"></i> {{$t('front.Create subcourse') }}</button>
+                        <button v-if="editable == 1 && course.course_enrollments_count == 0" class="dropdown-item text-danger" @click="deleteCourse(course.id)"><i class="fa fa-trash"></i> {{ $t('front.Delete') }}</button>
                     </div>
                 </div>
                 <h5 class="coursename">{{ course.name }}</h5>

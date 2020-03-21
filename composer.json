@@ -28,7 +28,8 @@
         "spatie/laravel-medialibrary": "^7.0.0",
         "spatie/laravel-query-builder": "^2.8",
         "spatie/laravel-translatable": "^4.2",
-        "symfony/psr-http-message-bridge": "^1.1"
+        "symfony/psr-http-message-bridge": "^1.1",
+        "venturecraft/revisionable": "1.*"
     },
     "require-dev": {
         "backpack/generators": "^2.0",
