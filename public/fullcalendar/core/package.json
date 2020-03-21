@@ -1,0 +1,90 @@
+{
+  "_args": [
+    [
+      "@fullcalendar/core@^4.3.1",
+      "/home/thomas/academico/academico"
+    ]
+  ],
+  "_from": "@fullcalendar/core@>=4.3.1 <5.0.0",
+  "_hasShrinkwrap": false,
+  "_id": "@fullcalendar/core@4.3.1",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/@fullcalendar/core",
+  "_nodeVersion": "11.6.0",
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/core_4.3.1_1565474813670_0.7501258258552916"
+  },
+  "_npmUser": {
+    "email": "arshaw@arshaw.com",
+    "name": "arshaw"
+  },
+  "_npmVersion": "6.5.0",
+  "_phantomChildren": {},
+  "_requested": {
+    "name": "@fullcalendar/core",
+    "raw": "@fullcalendar/core@^4.3.1",
+    "rawSpec": "^4.3.1",
+    "scope": "@fullcalendar",
+    "spec": ">=4.3.1 <5.0.0",
+    "type": "range"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/@fullcalendar/core/-/core-4.3.1.tgz",
+  "_shasum": "a061c6d2e998d4155439dbc8aefdfe01cdf648d8",
+  "_shrinkwrap": null,
+  "_spec": "@fullcalendar/core@^4.3.1",
+  "_where": "/home/thomas/academico/academico",
+  "author": {
+    "email": "arshaw@arshaw.com",
+    "name": "Adam Shaw",
+    "url": "http://arshaw.com/"
+  },
+  "bugs": {
+    "url": "https://fullcalendar.io/reporting-bugs"
+  },
+  "copyright": "2019 Adam Shaw",
+  "dependencies": {},
+  "description": "Provides core functionality, including the Calendar class",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "fileCount": 75,
+    "integrity": "sha512-Eh+p/wpMkWGu26f8NpfQK9ecQMoZxX/aopv+0+4/CH+Ip0paP6iEc40JYgTz7RFl0bFqV1dvwyGyUZ4+9ZeySA==",
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJdTz/+CRA9TVsSAnZWagAAGrsQAKM7kxX8Sf0jAYbaT4b7\n0K9YbXPyJRN8eowoXhjwcu6gW2PtE7ZRik6fKTF+kvnZEXWhN9Nog23wDJwo\njU/XlPSAH+o1AlOdrR3jEKNP19OiC5UNN24Rt6mSn696RQH4bEWo1Sw7n2FF\nCBAQa51eOIbfsp0KmVneGwLvxmKOl9pnIb7kmHqHQv6s7QL47XcmAntmEvjX\nU/huVDP+F2GwRgMK/UhFcMMbSQ23ZZhS8PlFC0V9bzA95dp8I6lswKHTCZHl\nHogK/276PHZI2FZI/bujB0DHspnTZz3dlsuUcgarhccdZNsfMnjdWEBeGuqD\nqh/ZMPYU9OjbpGR1ukLyzuLJ7bU8dG6niNKxUMryt5n2h5zeCE8l0LHRzfmc\nA0k1G4FwZqc9NgTeDrELWpgDLZLxH63yEfuWOnCiwdRTVUPzQzjTHcxYiidx\nhHskHq1RUHDV/S4C4eljfDmd/EYM4vPi8XA8g5Lmx5ykchuq2ptAlP4mSQc6\nJZ27AdpgbBqPRMQROX/qEv3n2xAgkcIsvFYA9qpBegkWQpJrX2i6MkicM4bD\nuZk7DmXpK5mXo/8tk2IuFDJ8zwADdvjPWMEEjo4+MODpQP/zIonaw7GgE+3C\nhNC8uLqR7gf0/aGSr296eFHjY11iiJW7Y+lc1FUct3znOUeMwu8mPP25RNQA\nolv7\r\n=liNG\r\n-----END PGP SIGNATURE-----\r\n",
+    "shasum": "a061c6d2e998d4155439dbc8aefdfe01cdf648d8",
+    "tarball": "https://registry.npmjs.org/@fullcalendar/core/-/core-4.3.1.tgz",
+    "unpackedSize": 1112618
+  },
+  "docs": "https://fullcalendar.io/docs/initialize-es6",
+  "homepage": "https://fullcalendar.io/",
+  "keywords": [
+    "calendar",
+    "event",
+    "full-sized"
+  ],
+  "license": "MIT",
+  "main": "main.js",
+  "maintainers": [
+    {
+      "name": "arshaw",
+      "email": "arshaw@arshaw.com"
+    }
+  ],
+  "module": "main.esm.js",
+  "name": "@fullcalendar/core",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "homepage": "https://github.com/fullcalendar/fullcalendar",
+    "type": "git",
+    "url": "git+https://github.com/fullcalendar/fullcalendar.git"
+  },
+  "title": "FullCalendar Core Package",
+  "types": "main.d.ts",
+  "unpkg": "main.min.js",
+  "version": "4.3.1"
+}

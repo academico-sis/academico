@@ -1,0 +1,95 @@
+{
+  "_args": [
+    [
+      "@fullcalendar/daygrid@^4.3.0",
+      "/home/thomas/academico/academico"
+    ]
+  ],
+  "_from": "@fullcalendar/daygrid@>=4.3.0 <5.0.0",
+  "_hasShrinkwrap": false,
+  "_id": "@fullcalendar/daygrid@4.3.0",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/@fullcalendar/daygrid",
+  "_nodeVersion": "11.6.0",
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/daygrid_4.3.0_1565407478210_0.5529947489812754"
+  },
+  "_npmUser": {
+    "email": "arshaw@arshaw.com",
+    "name": "arshaw"
+  },
+  "_npmVersion": "6.5.0",
+  "_phantomChildren": {},
+  "_requested": {
+    "name": "@fullcalendar/daygrid",
+    "raw": "@fullcalendar/daygrid@^4.3.0",
+    "rawSpec": "^4.3.0",
+    "scope": "@fullcalendar",
+    "spec": ">=4.3.0 <5.0.0",
+    "type": "range"
+  },
+  "_requiredBy": [
+    "/",
+    "/@fullcalendar/resource-daygrid",
+    "/@fullcalendar/timegrid"
+  ],
+  "_resolved": "https://registry.npmjs.org/@fullcalendar/daygrid/-/daygrid-4.3.0.tgz",
+  "_shasum": "1b4ab9fdc238dba77921cb7c5bd2d813c834e905",
+  "_shrinkwrap": null,
+  "_spec": "@fullcalendar/daygrid@^4.3.0",
+  "_where": "/home/thomas/academico/academico",
+  "author": {
+    "email": "arshaw@arshaw.com",
+    "name": "Adam Shaw",
+    "url": "http://arshaw.com/"
+  },
+  "bugs": {
+    "url": "https://fullcalendar.io/reporting-bugs"
+  },
+  "copyright": "2019 Adam Shaw",
+  "dependencies": {},
+  "description": "Display events on Month view or DayGrid view",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "fileCount": 9,
+    "integrity": "sha512-OrGaRIGbELESOXOCXtoQVY4cOxnxmN7OrjDGbMoVITdoXWuIZ6sFNO84WcBQoRaIbkmqVM0SAU2MENwy+eEwqQ==",
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJdTjj9CRA9TVsSAnZWagAAFkMP/RZaSYkEwoTldT1aMsvV\nx/nWdWCnfK2DFWSsUGQObGh6E4RUzSTXNVDoye4PenpkWonxhcNVEiycxpp4\nEdbCi4uPrL/nqG1kOgLOy4b5PmZUTWButqtOd9RaZExrFf+O6cZZSlgFiPrW\nsNb/Uc8Ars7cpl/2naqMGFAPo2XxmgevGR0Z2OsSyIDjhO/b9UJnL6u0NB+2\nOFww1bvlEiXInkwhS9gxqGWctnu1y7vzrad7nSpvOh/O6llw9ysrdERn5wej\nicBc3S/OtcwPz3DisWb91w1hvZDTlZQQce5ON7ZJvfeogEFIDgFn/xFRZIAw\nsy9owbSYdonvAAwnnRbLxBVFgluT6+sL+GM5wbHUkbcowwzMRgQsCb4pRAHB\nZWhc5tl9p1jea39+/33j1O6CjwkDGoI5Hy7aXFsJp5mLW/DuFgT89n6MJahd\nvkKH/0uL25HotKLn6UN4xTENbzO7/TwTYeqND+VXfqCdBRgPWEwVuESSfSuM\n5SQUtlx1hFz5ro5yuc3326UHUbz1+HZOlgWx86ESoMsKglLoyyTbCjDxnMIP\n8nTrOW4wBYualBM3TwnV+XkjBbRv5xZt0poVJqRFke36WbqpsHdOCg0Inrs7\nx9VC7/MzAyXe3o3nkgblpNvVHPx1GCe6TbncDF7BZbTJlYn/ZMhRQkw5KwW0\nD6O0\r\n=htj1\r\n-----END PGP SIGNATURE-----\r\n",
+    "shasum": "1b4ab9fdc238dba77921cb7c5bd2d813c834e905",
+    "tarball": "https://registry.npmjs.org/@fullcalendar/daygrid/-/daygrid-4.3.0.tgz",
+    "unpackedSize": 198316
+  },
+  "docs": "https://fullcalendar.io/docs/month-view",
+  "homepage": "https://fullcalendar.io/",
+  "keywords": [
+    "calendar",
+    "event",
+    "full-sized"
+  ],
+  "license": "MIT",
+  "main": "main.js",
+  "maintainers": [
+    {
+      "name": "arshaw",
+      "email": "arshaw@arshaw.com"
+    }
+  ],
+  "module": "main.esm.js",
+  "name": "@fullcalendar/daygrid",
+  "optionalDependencies": {},
+  "peerDependencies": {
+    "@fullcalendar/core": "~4.3.0"
+  },
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "homepage": "https://github.com/fullcalendar/fullcalendar",
+    "type": "git",
+    "url": "git+https://github.com/fullcalendar/fullcalendar.git"
+  },
+  "title": "FullCalendar Day Grid Plugin",
+  "types": "main.d.ts",
+  "unpkg": "main.min.js",
+  "version": "4.3.0"
+}
