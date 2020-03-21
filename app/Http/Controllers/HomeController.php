@@ -43,7 +43,7 @@ class HomeController extends Controller
 
             throw new Exception('User with no role', 403);
 
-            return redirect('/');
+            return redirect()->to('/');
         }
     }
 

@@ -31,7 +31,7 @@ class EvaluationTypeCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        CRUD::setModel('App\Models\EvaluationType');
+        CRUD::setModel(\App\Models\EvaluationType::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/evaluationtype');
         CRUD::setEntityNameStrings('evaluationtype', 'evaluation_types');
 

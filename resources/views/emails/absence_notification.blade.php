@@ -6,4 +6,4 @@
 
 <p>@lang('Best regards,')</p>
 
-<p>{{ env('MAIL_FROM_NAME') }}</p>
+<p>{{ config('settings.mail_from_name') }}</p>

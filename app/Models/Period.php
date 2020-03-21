@@ -9,8 +9,6 @@ use Illuminate\Support\Facades\DB;
 class Period extends Model
 {
     use CrudTrait;
-
-    protected $table = 'periods';
     // protected $primaryKey = 'id';
     public $timestamps = false;
     // protected $guarded = ['id'];

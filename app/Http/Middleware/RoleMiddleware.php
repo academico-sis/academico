@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Closure;
 
 class RoleMiddleware
@@ -20,7 +20,7 @@ class RoleMiddleware
             return redirect('/login');
         }
 
-        if (! backpack_auth()->user()->hasRole($role)) {
+        if (! backpack_$request->user()->hasRole($role)) {
             abort(403);
         }
 

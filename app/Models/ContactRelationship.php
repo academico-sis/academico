@@ -9,8 +9,6 @@ class ContactRelationship extends Model
 {
     use HasTranslations;
 
-    protected $table = 'contact_relationships';
-
     public $timestamps = false;
 
     public $translatable = ['name'];

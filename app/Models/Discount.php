@@ -15,8 +15,6 @@ class Discount extends Model
     | GLOBAL VARIABLES
     |--------------------------------------------------------------------------
     */
-
-    protected $table = 'discounts';
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];

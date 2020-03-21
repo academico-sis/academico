@@ -34,18 +34,18 @@ class EventCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        CRUD::setModel('App\Models\Event');
+        CRUD::setModel(\App\Models\Event::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/event');
         CRUD::setEntityNameStrings('event', 'events');
     }
-        /*
-        |--------------------------------------------------------------------------
-        | CrudPanel Configuration
-        |--------------------------------------------------------------------------
-        */
-        public function setupListOperation()
-        {
 
+    /*
+    |--------------------------------------------------------------------------
+    | CrudPanel Configuration
+    |--------------------------------------------------------------------------
+    */
+    public function setupListOperation()
+    {
         CRUD::setColumns([
 
             [
@@ -61,7 +61,7 @@ class EventCrudController extends CrudController
                 'name' => 'course_id', // the column that contains the ID of that connected entity;
                 'entity' => 'course', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => "App\Models\Course", // foreign key model
+                'model' => \App\Models\Course::class, // foreign key model
                 ],
 
             [
@@ -79,7 +79,7 @@ class EventCrudController extends CrudController
             'name' => 'teacher_id', // the column that contains the ID of that connected entity;
             'entity' => 'teacher', // the method that defines the relationship in your Model
             'attribute' => 'name', // foreign key attribute that is shown to user
-            'model' => "App\Models\Teacher", // foreign key model
+            'model' => \App\Models\Teacher::class, // foreign key model
             ],
 
             [
@@ -89,7 +89,7 @@ class EventCrudController extends CrudController
             'name' => 'room_id', // the column that contains the ID of that connected entity;
             'entity' => 'room', // the method that defines the relationship in your Model
             'attribute' => 'name', // foreign key attribute that is shown to user
-            'model' => "App\Models\Room", // foreign key model
+            'model' => \App\Models\Room::class, // foreign key model
             ],
 
             [
@@ -158,11 +158,10 @@ class EventCrudController extends CrudController
           },
           function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
           });
+    }
 
-        }
-
-        public function setupCreateOperation()
-        {
+    public function setupCreateOperation()
+    {
         CRUD::addFields([
 
             [
@@ -178,7 +177,7 @@ class EventCrudController extends CrudController
             'name' => 'teacher_id', // the column that contains the ID of that connected entity;
             'entity' => 'teacher', // the method that defines the relationship in your Model
             'attribute' => 'name', // foreign key attribute that is shown to user
-            'model' => "App\Models\Teacher", // foreign key model
+            'model' => \App\Models\Teacher::class, // foreign key model
 
             ],
 
@@ -189,7 +188,7 @@ class EventCrudController extends CrudController
             'name' => 'room_id', // the column that contains the ID of that connected entity;
             'entity' => 'room', // the method that defines the relationship in your Model
             'attribute' => 'name', // foreign key attribute that is shown to user
-            'model' => "App\Models\Room", // foreign key model
+            'model' => \App\Models\Room::class, // foreign key model
             ],
 
             [
@@ -212,9 +211,8 @@ class EventCrudController extends CrudController
         CRUD::setValidation(StoreRequest::class);
     }
 
-
     public function setupUpdateOperation()
     {
-       $this->setupCreateOperation();
+        $this->setupCreateOperation();
     }
 }

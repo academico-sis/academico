@@ -85,7 +85,7 @@ class MyAccountController extends \App\Http\Controllers\Controller
             $this->guard()->user()->student->update(['force_update' => 3]);
         }
 
-        return redirect('/');
+        return redirect()->to('/');
     }
 
     /**
@@ -111,7 +111,7 @@ class MyAccountController extends \App\Http\Controllers\Controller
 
         \Alert::success(__('Your data has been saved'))->flash();
 
-        return redirect('/');
+        return redirect()->to('/');
     }
 
     /**
@@ -151,7 +151,7 @@ class MyAccountController extends \App\Http\Controllers\Controller
         \Alert::success(__('Your data has been saved'))->flash();
         Log::info('User updated their data step 4');
 
-        return redirect('/');
+        return redirect()->to('/');
     }
 
     /**
@@ -183,7 +183,7 @@ class MyAccountController extends \App\Http\Controllers\Controller
         \Alert::success(__('Your picture has been saved'))->flash();
         Log::info('User updated their data step 5');
 
-        return redirect('/');
+        return redirect()->to('/');
     }
 
     /**
@@ -197,19 +197,19 @@ class MyAccountController extends \App\Http\Controllers\Controller
         return view('student.account.additional_contacts', $this->data);
     }
 
-    public function postContactsForm()
+    public function postContactsForm(Request $request)
     {
         if ($this->guard()->user()->student->force_update == 6) {
             $this->guard()->user()->student->update(['force_update' => null]);
         }
         Log::info('User updated their data step 6');
 
-        if (session()->has('logout')) {
+        if ($request->session()->has('logout')) {
             backpack_auth()->logout();
-            session()->flush();
+            $request->session()->flush();
         }
 
-        return redirect('/');
+        return redirect()->to('/');
     }
 
     /**

@@ -14,8 +14,6 @@ class Fee extends Model
     | GLOBAL VARIABLES
     |--------------------------------------------------------------------------
     */
-
-    protected $table = 'fees';
     // protected $primaryKey = 'id';
     public $timestamps = false;
     protected $guarded = ['id'];

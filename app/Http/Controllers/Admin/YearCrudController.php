@@ -26,7 +26,7 @@ class YearCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        CRUD::setModel('App\Models\Year');
+        CRUD::setModel(\App\Models\Year::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/year');
         CRUD::setEntityNameStrings('year', 'years');
 

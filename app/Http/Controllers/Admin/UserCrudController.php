@@ -57,7 +57,6 @@ class UserCrudController extends CrudController
 
         ]);
 
-
         // Role Filter
         $this->crud->addFilter(
             [
@@ -67,14 +66,12 @@ class UserCrudController extends CrudController
             ],
             config('permission.models.role')::all()->pluck('name', 'id')->toArray(),
             function ($value) { // if the filter is active
-            $this->crud->addClause('whereHas', 'roles', function ($query) use ($value) {
-                $query->where('role_id', '=', $value);
-            });
-        }
+                $this->crud->addClause('whereHas', 'roles', function ($query) use ($value) {
+                    $query->where('role_id', '=', $value);
+                });
+            }
         );
-
     }
-
 
     public function setupCreateOperation()
     {
@@ -136,7 +133,6 @@ class UserCrudController extends CrudController
         return $request;
     }
 
-    
     protected function addUserFields()
     {
         // Fields
@@ -175,10 +171,9 @@ class UserCrudController extends CrudController
                 'name'      => 'roles',
                 'entity'    => 'roles',
                 'attribute' => 'name',
-                'model'     => "Backpack\PermissionManager\app\Models\Role",
+                'model'     => 'Backpack\\PermissionManager\\app\\Models\\Role',
                 'pivot'     => true,
             ],
         ]);
     }
-
 }

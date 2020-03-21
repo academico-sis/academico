@@ -15,8 +15,6 @@ class LeadType extends Model
     | GLOBAL VARIABLES
     |--------------------------------------------------------------------------
     */
-
-    protected $table = 'lead_types';
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     // protected $guarded = ['id'];

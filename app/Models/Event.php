@@ -39,8 +39,6 @@ class Event extends Model
     | GLOBAL VARIABLES
     |--------------------------------------------------------------------------
     */
-
-    protected $table = 'events';
     // protected $primaryKey = 'id';
     public $timestamps = false;
     protected $guarded = ['id'];

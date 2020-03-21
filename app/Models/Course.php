@@ -24,7 +24,7 @@ class Course extends Model
     {
         return $this->name;
     }
-    
+
     /** model events */
     protected static function boot()
     {
@@ -102,8 +102,6 @@ class Course extends Model
     | GLOBAL VARIABLES
     |--------------------------------------------------------------------------
     */
-
-    protected $table = 'courses';
     // protected $primaryKey = 'id';
     public $timestamps = true;
     protected $guarded = ['id'];
@@ -174,88 +172,88 @@ class Course extends Model
     /** the scheduled day/times for the course, that repeat throughout the course date span */
     public function times()
     {
-        return $this->hasMany('App\Models\CourseTime', 'course_id');
+        return $this->hasMany(\App\Models\CourseTime::class, 'course_id');
     }
 
     /** course sessions (classes) with a specific start and end date/time */
     public function events()
     {
-        return $this->hasMany('App\Models\Event');
+        return $this->hasMany(\App\Models\Event::class);
     }
 
     /** may be null if the teacher is not yet assigned */
     public function teacher()
     {
-        return $this->belongsTo('App\Models\Teacher')->withTrashed();
+        return $this->belongsTo(\App\Models\Teacher::class)->withTrashed();
     }
 
     public function campus()
     {
-        return $this->belongsTo('App\Models\Campus');
+        return $this->belongsTo(\App\Models\Campus::class);
     }
 
     /** may be null if the room is not yet assigned */
     public function room()
     {
-        return $this->belongsTo('App\Models\Room')->withTrashed();
+        return $this->belongsTo(\App\Models\Room::class)->withTrashed();
     }
 
     /** the "category" of course */
     public function rhythm()
     {
-        return $this->belongsTo('App\Models\Rhythm');
+        return $this->belongsTo(\App\Models\Rhythm::class);
     }
 
     /** a course can only have one level. Parent courses would generally have no level defined */
     public function level()
     {
-        return $this->belongsTo('App\Models\Level');
+        return $this->belongsTo(\App\Models\Level::class);
     }
 
     /** a course needs to belong to a period */
     public function period()
     {
-        return $this->belongsTo('App\Models\Period');
+        return $this->belongsTo(\App\Models\Period::class);
     }
 
     /** children courses = sub-courses, or course modules */
     public function children()
     {
-        return $this->hasMany('App\Models\Course', 'parent_course_id');
+        return $this->hasMany(self::class, 'parent_course_id');
     }
 
     public function parent()
     {
-        return $this->belongsTo('App\Models\Course', 'parent_course_id');
+        return $this->belongsTo(self::class, 'parent_course_id');
     }
 
     /** evaluation methods associated to the course - grades, skill-based evaluation... */
     public function evaluation_type()
     {
-        return $this->belongsToMany('App\Models\EvaluationType');
+        return $this->belongsToMany(\App\Models\EvaluationType::class);
     }
 
     /** a Grade model = an individual grade, belongs to a student */
     public function grades()
     {
-        return $this->hasMany('App\Models\Grade')->with('student');
+        return $this->hasMany(\App\Models\Grade::class)->with('student');
     }
 
     /** the different grade types associated to the course */
     public function grade_type()
     {
-        return $this->belongsToMany('App\Models\GradeType');
+        return $this->belongsToMany(\App\Models\GradeType::class);
     }
 
     /** in the case of skills-based evaluation, Skill models are attached to the course */
     public function skills()
     {
-        return $this->belongsToMany('App\Models\Skills\Skill')->orderBy('order');
+        return $this->belongsToMany(\App\Models\Skills\Skill::class)->orderBy('order');
     }
 
     public function skill_evaluations()
     {
-        return $this->hasMany('App\Models\Skills\SkillEvaluation')
+        return $this->hasMany(\App\Models\Skills\SkillEvaluation::class)
         ->with('skill_scale');
     }
 
@@ -270,7 +268,7 @@ class Course extends Model
      */
     public function attendance()
     {
-        return $this->hasManyThrough('App\Models\Attendance', 'App\Models\Event');
+        return $this->hasManyThrough(\App\Models\Attendance::class, \App\Models\Event::class);
     }
 
     /**
@@ -291,7 +289,7 @@ class Course extends Model
         ->with('attendance')
         ->with('teacher')
         ->with('course.enrollments')
-        ->where('start', '<', Carbon::now(env('COURSES_TIMEZONE'))->toDateTimeString())
+        ->where('start', '<', Carbon::now(config('settings.courses_timezone'))->toDateTimeString())
         ->get();
 
         $pending_events = [];
@@ -455,7 +453,7 @@ class Course extends Model
             $query->where('exempt_attendance', '!=', true);
             $query->where('exempt_attendance', '!=', 1);
             $query->orWhereNull('exempt_attendance');
-        })->where('start', '<', Carbon::now(env('COURSES_TIMEZONE'))->toDateTimeString());
+        })->where('start', '<', Carbon::now(config('settings.courses_timezone'))->toDateTimeString());
     }
 
     public function getSortableIdAttribute()

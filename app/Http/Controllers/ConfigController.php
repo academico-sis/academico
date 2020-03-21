@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateConfigRequest;
 use App\Models\Config;
 use App\Models\Period;
 use Illuminate\Http\Request;
@@ -21,16 +22,11 @@ class ConfigController extends Controller
         return view('admin.defaultPeriodsSelection', compact('currentPeriod', 'enrollmentsPeriod', 'availablePeriods'));
     }
 
-    public function update(Request $request)
+    public function update(UpdateConfigRequest $request)
     {
         if (! backpack_user()->hasPermissionTo('courses.edit')) {
             abort(403);
         }
-
-        $request->validate([
-            'currentPeriod' => 'required',
-            'enrollmentsPeriod' => 'required',
-        ]);
 
         Config::where('name', 'current_period')->first()->update([
             'value' => $request->currentPeriod,
@@ -40,6 +36,6 @@ class ConfigController extends Controller
             'value' => $request->enrollmentsPeriod,
         ]);
 
-        return redirect('/');
+        return redirect()->to('/');
     }
 }

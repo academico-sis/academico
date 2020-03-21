@@ -157,7 +157,7 @@ class PreInvoiceController extends Controller
               ]);
 
             if ($response->getBody()) {
-                $code = json_decode(preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $response->getBody()), true);
+                $code = json_decode(preg_replace('/[\\x00-\\x1F\\x80-\\xFF]/', '', $response->getBody()), true);
             }
 
             $preinvoice->invoice_number = $code['mensaje'];

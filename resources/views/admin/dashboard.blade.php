@@ -117,13 +117,13 @@ document.addEventListener('DOMContentLoaded', function() { // page is now ready.
         plugins: [ 'dayGrid', 'resourceTimeGrid' ],
         defaultView: 'resourceTimeGridDay',
         schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
-        resources: <?php echo json_encode($resources) ?>,
+        resources: @json($resources),
         height: "auto",
         minTime: "07:00:00",
         maxTime: "21:00:00",
         nowIndicator: true,
         locale: 'fr',
-        events: <?php echo json_encode($events) ?>
+        events: @json($events)
 
     });
 

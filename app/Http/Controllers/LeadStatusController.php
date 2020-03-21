@@ -91,6 +91,6 @@ class LeadStatusController extends Controller
         $students = Student::where('lead_type_id', '=', 1)->update(['lead_type_id' => 4]);
 
         // TODO change this to a queuable command!
-        return back();
+        return redirect()->back();
     }
 }

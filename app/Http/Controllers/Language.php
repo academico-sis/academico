@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class Language extends Controller
 {
@@ -43,7 +43,7 @@ class Language extends Controller
 
         $url = config('language.url') ? url('/'.$locale) : url('/');
 
-        return redirect($url);
+        return redirect()->to($url);
     }
 
     /**
@@ -61,7 +61,7 @@ class Language extends Controller
         $session = $request->session();
 
         if (config('language.url')) {
-            $previous_url = substr(str_replace(env('APP_URL'), '', $session->previousUrl()), 7);
+            $previous_url = substr(str_replace(config('settings.app_url'), '', $session->previousUrl()), 7);
 
             if (strlen($previous_url) == 3) {
                 $previous_url = substr($previous_url, 3);
@@ -69,11 +69,11 @@ class Language extends Controller
                 $previous_url = substr($previous_url, strrpos($previous_url, '/') + 1);
             }
 
-            $url = rtrim(env('APP_URL'), '/').'/'.$locale.'/'.ltrim($previous_url, '/');
+            $url = rtrim(config('settings.app_url'), '/').'/'.$locale.'/'.ltrim($previous_url, '/');
 
             $session->setPreviousUrl($url);
         }
 
-        return redirect($session->previousUrl());
+        return redirect()->to($session->previousUrl());
     }
 }

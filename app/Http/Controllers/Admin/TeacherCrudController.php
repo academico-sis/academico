@@ -29,19 +29,18 @@ class TeacherCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        CRUD::setModel('App\Models\Teacher');
+        CRUD::setModel(\App\Models\Teacher::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/teacher');
         CRUD::setEntityNameStrings('teacher', 'teachers');
     }
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | CrudPanel Configuration
-        |--------------------------------------------------------------------------
-        */
-        public function setupListOperation()
-        {
+    /*
+    |--------------------------------------------------------------------------
+    | CrudPanel Configuration
+    |--------------------------------------------------------------------------
+    */
+    public function setupListOperation()
+    {
         CRUD::setColumns([
             [
                 'label' => __('First Name'),
@@ -72,12 +71,10 @@ class TeacherCrudController extends CrudController
             ],
 
         ]);
+    }
 
-        }
-
-        public function setupCreateOperation()
-        {
-
+    public function setupCreateOperation()
+    {
         CRUD::addFields([
 
             [  // Select2
@@ -86,7 +83,7 @@ class TeacherCrudController extends CrudController
                 'name' => 'user_id', // the db column for the foreign key
                 'entity' => 'user', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => "App\Models\User", // foreign key model
+                'model' => \App\Models\User::class, // foreign key model
             ],
 
             [
@@ -106,8 +103,7 @@ class TeacherCrudController extends CrudController
         // add asterisk for fields that are required in TeacherRequest
         CRUD::setRequiredFields(StoreRequest::class, 'create');
     }
-    
-    
+
     protected function setupUpdateOperation()
     {
         CRUD::addFields([
@@ -118,11 +114,11 @@ class TeacherCrudController extends CrudController
                 'name' => 'user_id', // the db column for the foreign key
                 'entity' => 'user', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => "App\Models\User",
+                'model' => \App\Models\User::class,
                 'attributes' => [
                     'readonly'=>'readonly',
                     'disabled'=>'disabled',
-                ]
+                ],
             ],
 
             [

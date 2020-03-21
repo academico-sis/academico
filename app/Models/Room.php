@@ -16,8 +16,6 @@ class Room extends Model
     | GLOBAL VARIABLES
     |--------------------------------------------------------------------------
     */
-
-    protected $table = 'rooms';
     // protected $primaryKey = 'id';
     public $timestamps = false;
     protected $guarded = ['id'];
@@ -38,12 +36,12 @@ class Room extends Model
     */
     public function events()
     {
-        return $this->hasMany('App\Models\Event');
+        return $this->hasMany(\App\Models\Event::class);
     }
 
     public function campus()
     {
-        return $this->belongsTo('App\Models\Campus');
+        return $this->belongsTo(\App\Models\Campus::class);
     }
 
     /*
