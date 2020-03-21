@@ -11,9 +11,7 @@ Route::post('register', 'Auth\\RegisterController@register');
 Route::get('searchstudents', 'Admin\\StudentCrudController@dataAjax');
 
 /* All routes should be protected by Backpack */
-Route::group(
-    ['middleware' => ['web', 'language']],
-    function () {
+Route::middleware('web', 'language')->group(function () {
 
     // dashboard and home routes
         Route::get('/home', 'HomeController@index')->name('home')->middleware('forceupdate');
@@ -58,9 +56,7 @@ Route::group(
     });
 
 // EVALUATION RELATED ROUTES
-Route::group(
-    ['middleware' => ['web', 'permission:evaluation.edit', 'language']],
-    function () {
+Route::middleware('web', 'permission:evaluation.edit', 'language')->group(function () {
         Route::get('course/{course}/skill', 'CourseSkillController@index')->name('course-skills');
         Route::get('course/{course}/getskills', 'CourseSkillController@get');
         Route::patch('course/{course}/setskills', 'CourseSkillController@set');
@@ -82,9 +78,7 @@ Route::group(
 Route::post('store-result', 'ResultController@store')->name('storeResult');
 
 // COURSE EDITION ROUTES
-Route::group(
-    ['middleware' => ['web', 'permission:courses.edit', 'language']],
-    function () {
+Route::middleware('web', 'permission:courses.edit', 'language')->group(function () {
 
     /* Course Times update */
         /* todo use route names in Vue Components*/
@@ -101,9 +95,7 @@ Route::group(
     });
 
 // Comments routes
-Route::group(
-    ['middleware' => ['web', 'permission:comments.edit', 'language']],
-    function () {
+Route::middleware('web', 'permission:comments.edit', 'language')->group(function () {
         Route::delete('comment/{comment}', 'CommentController@destroy');
     }
 );
@@ -111,9 +103,7 @@ Route::group(
 Route::post('comment', 'CommentController@store')->name('storeComment');
 
 // Enrollments, Billing and Invoicing routes
-Route::group(
-    ['middleware' => ['web', 'permission:enrollments.create', 'language']],
-    function () {
+Route::middleware('web', 'permission:enrollments.create', 'language')->group(function () {
         Route::get('enrollments/{enrollment}/bill', 'EnrollmentController@bill'); // new
     Route::get('enrollments/{enrollment}/quickbill', 'EnrollmentController@quickbill'); // temporary
 
@@ -130,9 +120,7 @@ Route::group(
     });
 
 // calendars routes
-Route::group(
-    ['middleware' => ['web', 'language']],
-    function () {
+Route::middleware('web', 'language')->group(function () {
         Route::get('/calendar/room/{room}', 'RoomController@show')->name('roomCalendar');
         Route::get('/calendar/room', 'RoomController@index')->name('roomsCalendar');
         Route::get('/leave/teachers', 'TeacherController@leaves')->name('teachersLeaves');
@@ -143,17 +131,13 @@ Route::group(
 );
 
 // HR routes
-Route::group(
-    ['middleware' => ['web', 'permission:hr.view', 'language']],
-    function () {
+Route::middleware('web', 'permission:hr.view', 'language')->group(function () {
         Route::get('/hr', 'HRController@index')->name('hrDashboard');
     }
 );
 
 // Reports routes
-Route::group(
-    ['middleware' => ['web', 'permission:reports.view', 'language']],
-    function () {
+Route::middleware('web', 'permission:reports.view', 'language')->group(function () {
         Route::get('/report', 'ReportController@index')->name('allReports');
 
         Route::get('/report/internal', 'ReportController@internal')->name('homeReport');
@@ -167,9 +151,7 @@ Route::group(
 Route::post('leadstatus', 'LeadStatusController@update')->name('postLeadStatus');
 
 // New COURSES module
-Route::group(
-    ['middleware' => ['web', 'language']],
-    function () {
+Route::middleware('web', 'language')->group(function () {
         Route::get('courselist', 'CourseController@index')->name('get-courses-list');
         Route::get('courselist/search', 'CourseController@search')->name('search-courses');
     }

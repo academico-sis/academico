@@ -6,12 +6,9 @@
 // This route file is loaded automatically by Backpack\Base.
 // Routes you generate using Backpack\Generators will be placed here.
 
-Route::group(
+Route::middleware('web', 'loggedin', 'language')->prefix(config('backpack.base.route_prefix'))->group(
     [
-        'namespace'  => '\\App\\Http\\Controllers',
-        'middleware' => ['web', 'loggedin', 'language'],
-        'prefix'     => config('backpack.base.route_prefix'),
-    ],
+        'namespace'  => '\\App\\Http\\Controllers',],
     function () {
         // Registration Routes...
 
@@ -31,12 +28,9 @@ Route::group(
 );
 
 // move to routes/web.php
-Route::group(
+Route::middleware('web', 'loggedin', 'language', 'forceupdate')->prefix(config('backpack.base.route_prefix'))->group(
     [
-        'namespace'  => '\\App\\Http\\Controllers',
-        'middleware' => ['web', 'loggedin', 'language', 'forceupdate'],
-        'prefix'     => config('backpack.base.route_prefix'),
-    ],
+        'namespace'  => '\\App\\Http\\Controllers',],
     function () {
         // route numbers match the DB forceupdate field
         Route::get('edit/1', 'Auth\\MyAccountController@getAccountInfoForm')->name('backpack.account.info');
@@ -50,9 +44,7 @@ Route::group(
 
 // enrollments and invoicing
 
-Route::group([
-    'prefix'     => config('backpack.base.route_prefix'),
-    'middleware' => ['web', 'permission:enrollments.view', 'language'],
+Route::prefix(config('backpack.base.route_prefix'))->middleware('web', 'permission:enrollments.view', 'language')->group([
     'namespace'  => 'App\\Http\\Controllers\\Admin',
     ], function () {
         Route::crud('enrollment', 'EnrollmentCrudController');
@@ -61,9 +53,7 @@ Route::group([
 );
 
 /* Admin routes */
-Route::group([
-    'prefix'     => config('backpack.base.route_prefix'),
-    'middleware' => ['web', 'role:admin', 'language'],
+Route::prefix(config('backpack.base.route_prefix'))->middleware('web', 'role:admin', 'language')->group([
     'namespace'  => 'App\\Http\\Controllers\\Admin',
     ], function () {
         Route::crud('period', 'PeriodCrudController');
