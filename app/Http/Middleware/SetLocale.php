@@ -2,10 +2,10 @@
 
 namespace App\Http\Middleware;
 
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Closure;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 use Unicodeveloper\Identify\Facades\IdentityFacade as Identify;
 
 class SetLocale
