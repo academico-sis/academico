@@ -38,7 +38,7 @@
             
             <div class="card-body" id="app">
                 
-                    <skills-list :course={!! json_encode($course->id) !!}></skills-list>
+                    <skills-list :course=@json($course->id)></skills-list>
                 
             </div>
         </div>

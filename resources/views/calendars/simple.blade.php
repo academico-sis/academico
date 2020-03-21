@@ -52,10 +52,10 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
     firstDay: 1,
     eventSources: [
             {
-                events: <?php echo json_encode($events) ?>,
+                events: @json($events),
             },
             {
-                events: <?php echo json_encode($leaves ?? null) ?>,
+                events: @json($leaves ?? null),
                 color: 'red',
                 textColor: 'white',
             },

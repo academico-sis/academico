@@ -76,7 +76,7 @@
     
     $(document).ready(function() {
         
-        var data = <?php echo json_encode($data) ?>;
+        var data = @json($data);
         
         var chartData = {
             labels: [],

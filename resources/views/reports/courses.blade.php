@@ -64,7 +64,7 @@
 
 $(document).ready(function(){
 
-var data = <?php echo json_encode($courses) ?>;
+var data = @json($courses);
 console.log(data);
 var chartData = {
   labels: [],

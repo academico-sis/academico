@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function() { // page is now ready.
         schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
         plugins: [ 'resourceTimeline', 'interaction' ],
         defaultView: 'resourceTimelineWeek',
-        resources: <?php echo json_encode($resources) ?>,
+        resources: @json($resources),
         height: "auto",
         slotLabelInterval: {hours:4},
         nowIndicator: true,
@@ -59,13 +59,13 @@ document.addEventListener('DOMContentLoaded', function() { // page is now ready.
         resourceAreaWidth: 150,
         eventSources: [
             {
-                events: <?php echo json_encode($events) ?>
+                events: @json($events)
             },
             {
-                events: <?php echo json_encode($unassigned_events) ?>
+                events: @json($unassigned_events)
             },
             {
-                events: <?php echo json_encode($leaves ?? null) ?>,
+                events: @json($leaves ?? null),
                 color: 'red',
                 textColor: 'white',
             },

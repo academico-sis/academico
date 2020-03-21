@@ -182,7 +182,7 @@
 <script>
 $(document).ready(function()
 {
-    var data = <?php echo json_encode($year_data) ?>;
+    var data = @json($year_data);
 
     var chartData = {
         labels: [],
