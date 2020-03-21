@@ -38,14 +38,14 @@ class EventCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix').'/event');
         CRUD::setEntityNameStrings('event', 'events');
     }
-        /*
-        |--------------------------------------------------------------------------
-        | CrudPanel Configuration
-        |--------------------------------------------------------------------------
-        */
-        public function setupListOperation()
-        {
 
+    /*
+    |--------------------------------------------------------------------------
+    | CrudPanel Configuration
+    |--------------------------------------------------------------------------
+    */
+    public function setupListOperation()
+    {
         CRUD::setColumns([
 
             [
@@ -158,11 +158,10 @@ class EventCrudController extends CrudController
           },
           function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
           });
+    }
 
-        }
-
-        public function setupCreateOperation()
-        {
+    public function setupCreateOperation()
+    {
         CRUD::addFields([
 
             [
@@ -212,9 +211,8 @@ class EventCrudController extends CrudController
         CRUD::setValidation(StoreRequest::class);
     }
 
-
     public function setupUpdateOperation()
     {
-       $this->setupCreateOperation();
+        $this->setupCreateOperation();
     }
 }

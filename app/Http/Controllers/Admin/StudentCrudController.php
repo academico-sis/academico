@@ -158,7 +158,6 @@ class StudentCrudController extends CrudController
               });
     }
 
-
     public function setupCreateOperation()
     {
         // Fields
@@ -185,7 +184,6 @@ class StudentCrudController extends CrudController
             ],
 
         ]);
-
     }
 
     public function show($student)
@@ -209,9 +207,8 @@ class StudentCrudController extends CrudController
 
     public function setupUpdateOperation()
     {
-       $this->setupCreateOperation();
+        $this->setupCreateOperation();
     }
-
 
     /* TODO move somewhere else (API controller) */
     public function dataAjax(Request $request)

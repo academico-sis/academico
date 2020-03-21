@@ -30,15 +30,16 @@ class PeriodCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix').'/period');
         CRUD::setEntityNameStrings('period', 'periods');
     }
-        /*
-        |--------------------------------------------------------------------------
-        | CrudPanel Configuration
-        |--------------------------------------------------------------------------
-        */
 
-        public function setupListOperation()
-        {
-            CRUD::setColumns([
+    /*
+    |--------------------------------------------------------------------------
+    | CrudPanel Configuration
+    |--------------------------------------------------------------------------
+    */
+
+    public function setupListOperation()
+    {
+        CRUD::setColumns([
                 [
                     'label'     => __('Year'),
                     'type'      => 'select',
@@ -64,11 +65,10 @@ class PeriodCrudController extends CrudController
                     'name' => 'end',
                 ],
             ]);
-        }
+    }
 
-        public function setupCreateOperation()
-        {
-
+    public function setupCreateOperation()
+    {
         CRUD::addFields([
             [
                 'label'     => __('Year'),
@@ -105,6 +105,6 @@ class PeriodCrudController extends CrudController
 
     public function setupUpdateOperation()
     {
-    $this->setupCreateOperation();
+        $this->setupCreateOperation();
     }
 }

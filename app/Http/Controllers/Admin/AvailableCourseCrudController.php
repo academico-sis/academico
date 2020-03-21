@@ -48,13 +48,14 @@ class AvailableCourseCrudController extends CrudController
 
         CRUD::setListView('courses.available');
     }
-        /*
-        |--------------------------------------------------------------------------
-        | CrudPanel Configuration
-        |--------------------------------------------------------------------------
-        */
-        public function setupListOperation()
-        {
+
+    /*
+    |--------------------------------------------------------------------------
+    | CrudPanel Configuration
+    |--------------------------------------------------------------------------
+    */
+    public function setupListOperation()
+    {
         CRUD::setColumns([
             [
             // RYTHM

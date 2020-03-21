@@ -40,14 +40,15 @@ class ResultCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix').'/result');
         CRUD::setEntityNameStrings('result', 'results');
     }
-        /*
-        |--------------------------------------------------------------------------
-        | CrudPanel Configuration
-        |--------------------------------------------------------------------------
-        */
 
-        public function setupListOperation()
-        {
+    /*
+    |--------------------------------------------------------------------------
+    | CrudPanel Configuration
+    |--------------------------------------------------------------------------
+    */
+
+    public function setupListOperation()
+    {
         CRUD::setColumns([
 
             [
@@ -96,7 +97,6 @@ class ResultCrudController extends CrudController
                 'model' => "App\Models\Result", // foreign key model
                 ],
         ]);
-
 
         CRUD::addFilter([
             'type' => 'simple',
@@ -164,5 +164,4 @@ class ResultCrudController extends CrudController
 
         return view('results.show', compact('enrollment', 'grades', 'skills', 'result'));
     }
-
 }

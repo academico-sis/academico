@@ -24,7 +24,7 @@ class Course extends Model
     {
         return $this->name;
     }
-    
+
     /** model events */
     protected static function boot()
     {

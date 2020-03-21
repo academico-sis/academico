@@ -34,14 +34,13 @@ class TeacherCrudController extends CrudController
         CRUD::setEntityNameStrings('teacher', 'teachers');
     }
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | CrudPanel Configuration
-        |--------------------------------------------------------------------------
-        */
-        public function setupListOperation()
-        {
+    /*
+    |--------------------------------------------------------------------------
+    | CrudPanel Configuration
+    |--------------------------------------------------------------------------
+    */
+    public function setupListOperation()
+    {
         CRUD::setColumns([
             [
                 'label' => __('First Name'),
@@ -72,12 +71,10 @@ class TeacherCrudController extends CrudController
             ],
 
         ]);
+    }
 
-        }
-
-        public function setupCreateOperation()
-        {
-
+    public function setupCreateOperation()
+    {
         CRUD::addFields([
 
             [  // Select2
@@ -106,8 +103,7 @@ class TeacherCrudController extends CrudController
         // add asterisk for fields that are required in TeacherRequest
         CRUD::setRequiredFields(StoreRequest::class, 'create');
     }
-    
-    
+
     protected function setupUpdateOperation()
     {
         CRUD::addFields([
@@ -122,7 +118,7 @@ class TeacherCrudController extends CrudController
                 'attributes' => [
                     'readonly'=>'readonly',
                     'disabled'=>'disabled',
-                ]
+                ],
             ],
 
             [
