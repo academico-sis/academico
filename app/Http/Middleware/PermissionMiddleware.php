@@ -17,7 +17,7 @@ class PermissionMiddleware
     public function handle($request, Closure $next, $permission)
     {
         if (backpack_auth()->guest()) {
-            return redirect('login');
+            return redirect()->to('login');
         }
 
         if (! backpack_user()->can($permission)) {

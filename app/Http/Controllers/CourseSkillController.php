@@ -120,6 +120,6 @@ class CourseSkillController extends Controller
             }
         }
 
-        return back();
+        return redirect()->back();
     }
 }

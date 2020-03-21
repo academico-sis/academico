@@ -85,7 +85,7 @@ class MyAccountController extends \App\Http\Controllers\Controller
             $this->guard()->user()->student->update(['force_update' => 3]);
         }
 
-        return redirect('/');
+        return redirect()->to('/');
     }
 
     /**
@@ -111,7 +111,7 @@ class MyAccountController extends \App\Http\Controllers\Controller
 
         \Alert::success(__('Your data has been saved'))->flash();
 
-        return redirect('/');
+        return redirect()->to('/');
     }
 
     /**
@@ -151,7 +151,7 @@ class MyAccountController extends \App\Http\Controllers\Controller
         \Alert::success(__('Your data has been saved'))->flash();
         Log::info('User updated their data step 4');
 
-        return redirect('/');
+        return redirect()->to('/');
     }
 
     /**
@@ -183,7 +183,7 @@ class MyAccountController extends \App\Http\Controllers\Controller
         \Alert::success(__('Your picture has been saved'))->flash();
         Log::info('User updated their data step 5');
 
-        return redirect('/');
+        return redirect()->to('/');
     }
 
     /**
@@ -209,7 +209,7 @@ class MyAccountController extends \App\Http\Controllers\Controller
             $request->session()->flush();
         }
 
-        return redirect('/');
+        return redirect()->to('/');
     }
 
     /**

@@ -68,7 +68,7 @@ class GradeController extends Controller
             ]);
         }
 
-        return back();
+        return redirect()->back();
     }
 
     public function remove_grade_type_from_course(Course $course, GradeType $gradetype)

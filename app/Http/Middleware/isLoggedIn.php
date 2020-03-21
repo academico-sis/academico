@@ -16,7 +16,7 @@ class isLoggedIn
     public function handle($request, Closure $next)
     {
         if (backpack_auth()->guest()) {
-            return redirect('/login');
+            return redirect()->to('/login');
         }
 
         return $next($request);

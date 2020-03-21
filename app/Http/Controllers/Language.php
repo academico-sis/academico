@@ -43,7 +43,7 @@ class Language extends Controller
 
         $url = config('language.url') ? url('/'.$locale) : url('/');
 
-        return redirect($url);
+        return redirect()->to($url);
     }
 
     /**
@@ -74,6 +74,6 @@ class Language extends Controller
             $session->setPreviousUrl($url);
         }
 
-        return redirect($session->previousUrl());
+        return redirect()->to($session->previousUrl());
     }
 }

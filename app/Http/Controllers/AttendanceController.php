@@ -120,7 +120,7 @@ class AttendanceController extends Controller
         if ($events->count() == 0 || $course->enrollments()->count() == 0) {
             \Alert::add('error', 'This course has no events.')->flash();
 
-            return back();
+            return redirect()->back();
         }
 
         $enrollments = $course->enrollments()->with('student')->get();

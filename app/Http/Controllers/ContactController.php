@@ -44,10 +44,10 @@ class ContactController extends Controller
         if ($request->input('destination') == 'logout') {
             backpack_auth()->logout();
 
-            return redirect('/');
+            return redirect()->to('/');
         }
 
-        return back();
+        return redirect()->back();
     }
 
     public function getPhoneNumber(Contact $contact)
@@ -84,7 +84,7 @@ class ContactController extends Controller
 
         \Alert::success(__('The information has successfully been saved'))->flash();
 
-        return back();
+        return redirect()->back();
     }
 
     // open a page to update contact information

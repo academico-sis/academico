@@ -144,7 +144,7 @@ class LeaveCrudController extends CrudController
             }
         }
 
-        return redirect('/leave/teachers');
+        return redirect()->to('/leave/teachers');
     }
 
     protected function setupUpdateOperation()

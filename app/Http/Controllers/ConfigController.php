@@ -37,6 +37,6 @@ class ConfigController extends Controller
             'value' => $request->enrollmentsPeriod,
         ]);
 
-        return redirect('/');
+        return redirect()->to('/');
     }
 }
