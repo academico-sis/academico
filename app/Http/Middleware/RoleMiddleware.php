@@ -20,7 +20,7 @@ class RoleMiddleware
             return redirect('/login');
         }
 
-        if (! backpack_$request->user()->hasRole($role)) {
+        if (! backpack_auth()->user()->hasRole($role)) {
             abort(403);
         }
 
