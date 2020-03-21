@@ -41,8 +41,8 @@ class WatchAttendance implements ShouldQueue
                 array_push($otherRecipients, ['email' => $this->attendance->event->teacher->email]);
             }
 
-            if (env('MANAGER_EMAIL') !== null) {
-                array_push($otherRecipients, ['email' => env('MANAGER_EMAIL')]);
+            if (config('settings.manager_email') !== null) {
+                array_push($otherRecipients, ['email' => config('settings.manager_email')]);
             }
 
             // also send to the student's contacts

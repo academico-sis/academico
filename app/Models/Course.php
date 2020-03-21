@@ -291,7 +291,7 @@ class Course extends Model
         ->with('attendance')
         ->with('teacher')
         ->with('course.enrollments')
-        ->where('start', '<', Carbon::now(env('COURSES_TIMEZONE'))->toDateTimeString())
+        ->where('start', '<', Carbon::now(config('settings.courses_timezone'))->toDateTimeString())
         ->get();
 
         $pending_events = [];
@@ -455,7 +455,7 @@ class Course extends Model
             $query->where('exempt_attendance', '!=', true);
             $query->where('exempt_attendance', '!=', 1);
             $query->orWhereNull('exempt_attendance');
-        })->where('start', '<', Carbon::now(env('COURSES_TIMEZONE'))->toDateTimeString());
+        })->where('start', '<', Carbon::now(config('settings.courses_timezone'))->toDateTimeString());
     }
 
     public function getSortableIdAttribute()

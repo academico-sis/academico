@@ -486,7 +486,7 @@
         @if(app()->bound('sentry') && app('sentry')->getLastEventId())
             <script src="https://browser.sentry-cdn.com/5.7.1/bundle.min.js" integrity="sha384-KMv6bBTABABhv0NI+rVWly6PIRvdippFEgjpKyxUcpEmDWZTkDOiueL5xW+cztZZ" crossorigin="anonymous"></script>
             <script>
-                Sentry.init({ dsn: '{{ env('SENTRY_LARAVEL_DSN') }}' });
+                Sentry.init({ dsn: '{{ config('settings.sentry_laravel_dsn') }}' });
                 Sentry.showReportDialog({
                     eventId: '{{ Sentry::getLastEventID() }}',
                     lang: 'es',

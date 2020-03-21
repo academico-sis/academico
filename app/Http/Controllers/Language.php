@@ -61,7 +61,7 @@ class Language extends Controller
         $session = $request->session();
 
         if (config('language.url')) {
-            $previous_url = substr(str_replace(env('APP_URL'), '', $session->previousUrl()), 7);
+            $previous_url = substr(str_replace(config('settings.app_url'), '', $session->previousUrl()), 7);
 
             if (strlen($previous_url) == 3) {
                 $previous_url = substr($previous_url, 3);
@@ -69,7 +69,7 @@ class Language extends Controller
                 $previous_url = substr($previous_url, strrpos($previous_url, '/') + 1);
             }
 
-            $url = rtrim(env('APP_URL'), '/').'/'.$locale.'/'.ltrim($previous_url, '/');
+            $url = rtrim(config('settings.app_url'), '/').'/'.$locale.'/'.ltrim($previous_url, '/');
 
             $session->setPreviousUrl($url);
         }
