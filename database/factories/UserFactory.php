@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Str;
 use Carbon\Carbon;
 use Faker\Generator as Faker;
+use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------

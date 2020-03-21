@@ -28,7 +28,6 @@ class ConfigController extends Controller
             abort(403);
         }
 
-
         Config::where('name', 'current_period')->first()->update([
             'value' => $request->currentPeriod,
         ]);

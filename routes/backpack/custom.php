@@ -8,7 +8,7 @@
 
 Route::middleware('web', 'loggedin', 'language')->prefix(config('backpack.base.route_prefix'))->group(
     [
-        'namespace'  => '\\App\\Http\\Controllers',],
+        'namespace'  => '\\App\\Http\\Controllers', ],
     function () {
         // Registration Routes...
 
@@ -30,7 +30,7 @@ Route::middleware('web', 'loggedin', 'language')->prefix(config('backpack.base.r
 // move to routes/web.php
 Route::middleware('web', 'loggedin', 'language', 'forceupdate')->prefix(config('backpack.base.route_prefix'))->group(
     [
-        'namespace'  => '\\App\\Http\\Controllers',],
+        'namespace'  => '\\App\\Http\\Controllers', ],
     function () {
         // route numbers match the DB forceupdate field
         Route::get('edit/1', 'Auth\\MyAccountController@getAccountInfoForm')->name('backpack.account.info');

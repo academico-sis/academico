@@ -35,7 +35,6 @@ class EnrollmentController extends Controller
      */
     public function store(StoreEnrollmentRequest $request)
     {
-
         $course = Course::findOrFail($request->input('course_id'));
 
         if (Gate::forUser(backpack_user())->denies('enroll-in-course', $course)) {

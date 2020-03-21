@@ -219,12 +219,12 @@ class Course extends Model
     /** children courses = sub-courses, or course modules */
     public function children()
     {
-        return $this->hasMany(\App\Models\Course::class, 'parent_course_id');
+        return $this->hasMany(self::class, 'parent_course_id');
     }
 
     public function parent()
     {
-        return $this->belongsTo(\App\Models\Course::class, 'parent_course_id');
+        return $this->belongsTo(self::class, 'parent_course_id');
     }
 
     /** evaluation methods associated to the course - grades, skill-based evaluation... */
