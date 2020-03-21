@@ -17,8 +17,6 @@ class Level extends Model
     | GLOBAL VARIABLES
     |--------------------------------------------------------------------------
     */
-
-    protected $table = 'levels';
     // protected $primaryKey = 'id';
     public $timestamps = false;
     protected $guarded = ['id'];

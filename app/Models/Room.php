@@ -16,8 +16,6 @@ class Room extends Model
     | GLOBAL VARIABLES
     |--------------------------------------------------------------------------
     */
-
-    protected $table = 'rooms';
     // protected $primaryKey = 'id';
     public $timestamps = false;
     protected $guarded = ['id'];

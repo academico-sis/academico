@@ -14,8 +14,6 @@ class Book extends Model
     | GLOBAL VARIABLES
     |--------------------------------------------------------------------------
     */
-
-    protected $table = 'books';
     // protected $primaryKey = 'id';
     public $timestamps = false;
     protected $guarded = ['id'];

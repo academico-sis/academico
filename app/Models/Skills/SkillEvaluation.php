@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class SkillEvaluation extends Model
 {
-    protected $table = 'skill_evaluations';
     protected $guarded = ['id'];
 
     use CrudTrait;

@@ -14,8 +14,6 @@ class Campus extends Model
     use HasTranslations;
 
     public $translatable = ['name'];
-
-    protected $table = 'campuses';
     // protected $primaryKey = 'id';
     public $timestamps = false;
     // protected $guarded = ['id'];

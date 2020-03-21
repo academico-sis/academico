@@ -102,8 +102,6 @@ class Course extends Model
     | GLOBAL VARIABLES
     |--------------------------------------------------------------------------
     */
-
-    protected $table = 'courses';
     // protected $primaryKey = 'id';
     public $timestamps = true;
     protected $guarded = ['id'];

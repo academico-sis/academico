@@ -17,8 +17,6 @@ class Rhythm extends Model
     | GLOBAL VARIABLES
     |--------------------------------------------------------------------------
     */
-
-    protected $table = 'rhythms';
     // protected $primaryKey = 'id';
     public $timestamps = false;
     protected $guarded = ['id'];

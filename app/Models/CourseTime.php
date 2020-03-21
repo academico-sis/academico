@@ -31,8 +31,6 @@ class CourseTime extends Model
     | GLOBAL VARIABLES
     |--------------------------------------------------------------------------
     */
-
-    protected $table = 'course_times';
     // protected $primaryKey = 'id';
     public $timestamps = false;
     protected $guarded = ['id'];
