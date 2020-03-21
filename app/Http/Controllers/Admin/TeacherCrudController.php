@@ -57,26 +57,22 @@ class TeacherCrudController extends CrudController
                 'label' => trans('backpack::permissionmanager.email'),
                 'type'  => 'email',
             ],
-
             [
                 'name'  => 'max_week_hours',
                 'label' => __('Weekly workable hours'),
                 'type'  => 'number',
             ],
-
             [
                 'name'  => 'hired_at',
                 'label' => __('Hire Date'),
                 'type'  => 'date',
             ],
-
         ]);
     }
 
     public function setupCreateOperation()
     {
         CRUD::addFields([
-
             [  // Select2
                 'label' => 'User',
                 'type' => 'select2',
@@ -85,19 +81,16 @@ class TeacherCrudController extends CrudController
                 'attribute' => 'name', // foreign key attribute that is shown to user
                 'model' => \App\Models\User::class, // foreign key model
             ],
-
             [
                 'name'  => 'max_week_hours',
                 'label' => __('Weekly workable hours'),
                 'type'  => 'number',
             ],
-
             [
                 'name'  => 'hired_at',
                 'label' => __('Hire Date'),
                 'type'  => 'date',
             ],
-
         ]);
 
         // add asterisk for fields that are required in TeacherRequest
@@ -120,38 +113,19 @@ class TeacherCrudController extends CrudController
                     'disabled'=>'disabled',
                 ],
             ],
-
             [
                 'name'  => 'max_week_hours',
                 'label' => __('Weekly workable hours'),
                 'type'  => 'number',
             ],
-
             [
                 'name'  => 'hired_at',
                 'label' => __('Hire Date'),
                 'type'  => 'date',
             ],
-
         ]);
+        
         CRUD::setRequiredFields(UpdateRequest::class, 'edit');
     }
 
-    /**
-     * Handle password input fields.
-     *
-     * @param Request $request
-     */
-    protected function handlePasswordInput(StoreRequest $request)
-    {
-        // Remove fields not present on the user.
-        $request->request->remove('password_confirmation');
-
-        // Encrypt password if specified.
-        if ($request->input('password')) {
-            $request->request->set('password', bcrypt($request->input('password')));
-        } else {
-            $request->request->remove('password');
-        }
-    }
 }
