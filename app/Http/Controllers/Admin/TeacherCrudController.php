@@ -32,13 +32,16 @@ class TeacherCrudController extends CrudController
         CRUD::setModel('App\Models\Teacher');
         CRUD::setRoute(config('backpack.base.route_prefix').'/teacher');
         CRUD::setEntityNameStrings('teacher', 'teachers');
+    }
+
 
         /*
         |--------------------------------------------------------------------------
         | CrudPanel Configuration
         |--------------------------------------------------------------------------
         */
-
+        public function setupListOperation()
+        {
         CRUD::setColumns([
             [
                 'label' => __('First Name'),
@@ -70,6 +73,11 @@ class TeacherCrudController extends CrudController
 
         ]);
 
+        }
+
+        public function setupCreateOperation()
+        {
+
         CRUD::addFields([
 
             [  // Select2
@@ -97,17 +105,40 @@ class TeacherCrudController extends CrudController
 
         // add asterisk for fields that are required in TeacherRequest
         CRUD::setRequiredFields(StoreRequest::class, 'create');
-        CRUD::setRequiredFields(UpdateRequest::class, 'edit');
     }
-
-    protected function setupCreateOperation()
-    {
-        CRUD::setValidation(StoreRequest::class);
-    }
-
+    
+    
     protected function setupUpdateOperation()
     {
-        CRUD::setValidation(UpdateRequest::class);
+        CRUD::addFields([
+
+            [  // Select2
+                'label' => 'User',
+                'type' => 'select2',
+                'name' => 'user_id', // the db column for the foreign key
+                'entity' => 'user', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model' => "App\Models\User",
+                'attributes' => [
+                    'readonly'=>'readonly',
+                    'disabled'=>'disabled',
+                ]
+            ],
+
+            [
+                'name'  => 'max_week_hours',
+                'label' => __('Weekly workable hours'),
+                'type'  => 'number',
+            ],
+
+            [
+                'name'  => 'hired_at',
+                'label' => __('Hire Date'),
+                'type'  => 'date',
+            ],
+
+        ]);
+        CRUD::setRequiredFields(UpdateRequest::class, 'edit');
     }
 
     /**

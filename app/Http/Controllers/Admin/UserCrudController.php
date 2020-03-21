@@ -25,7 +25,10 @@ class UserCrudController extends CrudController
         CRUD::setModel(config('backpack.permissionmanager.models.user'));
         CRUD::setEntityNameStrings(trans('backpack::permissionmanager.user'), trans('backpack::permissionmanager.users'));
         CRUD::setRoute(backpack_url('user'));
+    }
 
+    public function setupListOperation()
+    {
         // Columns.
         CRUD::setColumns([
             [
@@ -54,6 +57,88 @@ class UserCrudController extends CrudController
 
         ]);
 
+
+        // Role Filter
+        $this->crud->addFilter(
+            [
+                'name'  => 'role',
+                'type'  => 'dropdown',
+                'label' => trans('backpack::permissionmanager.role'),
+            ],
+            config('permission.models.role')::all()->pluck('name', 'id')->toArray(),
+            function ($value) { // if the filter is active
+            $this->crud->addClause('whereHas', 'roles', function ($query) use ($value) {
+                $query->where('role_id', '=', $value);
+            });
+        }
+        );
+
+    }
+
+
+    public function setupCreateOperation()
+    {
+        $this->addUserFields();
+        $this->crud->setValidation(StoreRequest::class);
+    }
+
+    public function setupUpdateOperation()
+    {
+        $this->addUserFields();
+        $this->crud->setValidation(UpdateRequest::class);
+    }
+
+    /**
+     * Store a newly created resource in the database.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store()
+    {
+        $this->crud->request = $this->crud->validateRequest();
+        $this->crud->request = $this->handlePasswordInput($this->crud->request);
+        $this->crud->unsetValidation(); // validation has already been run
+
+        return $this->traitStore();
+    }
+
+    /**
+     * Update the specified resource in the database.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update()
+    {
+        $this->crud->request = $this->crud->validateRequest();
+        $this->crud->request = $this->handlePasswordInput($this->crud->request);
+        $this->crud->unsetValidation(); // validation has already been run
+
+        return $this->traitUpdate();
+    }
+
+    /**
+     * Handle password input fields.
+     */
+    protected function handlePasswordInput($request)
+    {
+        // Remove fields not present on the user.
+        $request->request->remove('password_confirmation');
+        $request->request->remove('roles_show');
+        $request->request->remove('permissions_show');
+
+        // Encrypt password if specified.
+        if ($request->input('password')) {
+            $request->request->set('password', Hash::make($request->input('password')));
+        } else {
+            $request->request->remove('password');
+        }
+
+        return $request;
+    }
+
+    
+    protected function addUserFields()
+    {
         // Fields
         CRUD::addFields([
             [  // Select2
@@ -96,49 +181,4 @@ class UserCrudController extends CrudController
         ]);
     }
 
-    /**
-     * Store a newly created resource in the database.
-     *
-     * @param StoreRequest $request - type injection used for validation using Requests
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function store(StoreRequest $request)
-    {
-        $this->handlePasswordInput($request);
-
-        return $this->store($request); //BP4 double check this
-    }
-
-    /**
-     * Update the specified resource in the database.
-     *
-     * @param UpdateRequest $request - type injection used for validation using Requests
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function update(UpdateRequest $request)
-    {
-        $this->handlePasswordInput($request);
-
-        return $this->update($request); //BP4 double check this
-    }
-
-    /**
-     * Handle password input fields.
-     *
-     * @param Request $request
-     */
-    protected function handlePasswordInput(Request $request)
-    {
-        // Remove fields not present on the user.
-        $request->request->remove('password_confirmation');
-
-        // Encrypt password if specified.
-        if ($request->input('password')) {
-            $request->request->set('password', bcrypt($request->input('password')));
-        } else {
-            $request->request->remove('password');
-        }
-    }
 }

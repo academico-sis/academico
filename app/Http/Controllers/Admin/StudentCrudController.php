@@ -55,7 +55,10 @@ class StudentCrudController extends CrudController
         }
 
         CRUD::orderBy('created_at', 'desc');
+    }
 
+    public function setupListOperation()
+    {
         // Columns.
         CRUD::setColumns([
             [
@@ -154,7 +157,11 @@ class StudentCrudController extends CrudController
               }, function ($value) { // if the filter is active
                   CRUD::addClause('where', 'lead_type_id', '!=', $value);
               });
+    }
 
+
+    public function setupCreateOperation()
+    {
         // Fields
         CRUD::addFields([
             [
@@ -179,6 +186,7 @@ class StudentCrudController extends CrudController
             ],
 
         ]);
+
     }
 
     public function show($student)
@@ -200,30 +208,13 @@ class StudentCrudController extends CrudController
         ]);
     }
 
-    protected function setupUpdateOperation()
+    public function setupUpdateOperation()
     {
-        CRUD::setValidation(UpdateRequest::class);
+       $this->setupCreateOperation();
     }
 
-    /**
-     * Handle password input fields.
-     * TODO REMOVE THIS, NOT NEEDED?
-     *
-     * @param Request $request
-     */
-    protected function handlePasswordInput(StoreRequest $request)
-    {
-        // Remove fields not present on the user.
-        $request->request->remove('password_confirmation');
 
-        // Encrypt password if specified.
-        if ($request->input('password')) {
-            $request->request->set('password', bcrypt($request->input('password')));
-        } else {
-            $request->request->remove('password');
-        }
-    }
-
+    /* TODO move somewhere else (API controller) */
     public function dataAjax(Request $request)
     {
         $data = [];
