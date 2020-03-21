@@ -27,7 +27,7 @@ class DiscountCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        CRUD::setModel('App\Models\Discount');
+        CRUD::setModel('App\\Models\\Discount');
         CRUD::setRoute(config('backpack.base.route_prefix').'/discount');
         CRUD::setEntityNameStrings('discount', 'discounts');
 

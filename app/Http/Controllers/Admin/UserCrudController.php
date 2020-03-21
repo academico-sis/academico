@@ -171,7 +171,7 @@ class UserCrudController extends CrudController
                 'name'      => 'roles',
                 'entity'    => 'roles',
                 'attribute' => 'name',
-                'model'     => "Backpack\PermissionManager\app\Models\Role",
+                'model'     => 'Backpack\\PermissionManager\\app\\Models\\Role',
                 'pivot'     => true,
             ],
         ]);

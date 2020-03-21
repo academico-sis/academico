@@ -26,7 +26,7 @@ class SkillScaleCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        CRUD::setModel('App\Models\Skills\SkillScale');
+        CRUD::setModel('App\\Models\\Skills\\SkillScale');
         CRUD::setRoute(config('backpack.base.route_prefix').'/skillscale');
         CRUD::setEntityNameStrings('skillscale', 'skill_scales');
 

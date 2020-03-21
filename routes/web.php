@@ -6,9 +6,9 @@ Route::permanentRedirect('/dashboard', '/');
 // save an additional contact for a student
 Route::post('user/addcontact', 'ContactController@store')->name('addContact');
 
-Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('backpack.auth.register');
-Route::post('register', 'Auth\RegisterController@register');
-Route::get('searchstudents', 'Admin\StudentCrudController@dataAjax');
+Route::get('register', 'Auth\\RegisterController@showRegistrationForm')->name('backpack.auth.register');
+Route::post('register', 'Auth\\RegisterController@register');
+Route::get('searchstudents', 'Admin\\StudentCrudController@dataAjax');
 
 /* All routes should be protected by Backpack */
 Route::group(

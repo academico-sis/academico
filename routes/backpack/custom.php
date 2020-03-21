@@ -8,43 +8,43 @@
 
 Route::group(
     [
-        'namespace'  => '\App\Http\Controllers',
+        'namespace'  => '\\App\\Http\\Controllers',
         'middleware' => ['web', 'loggedin', 'language'],
         'prefix'     => config('backpack.base.route_prefix'),
     ],
     function () {
         // Registration Routes...
 
-        Route::crud('result', 'Admin\ResultCrudController');
-        Route::crud('student', 'Admin\StudentCrudController');
-        Route::crud('course', 'Admin\CourseCrudController');
-        Route::crud('externalcourse', 'Admin\ExternalCourseCrudController');
-        Route::crud('comment', 'Admin\CommentCrudController');
+        Route::crud('result', 'Admin\\ResultCrudController');
+        Route::crud('student', 'Admin\\StudentCrudController');
+        Route::crud('course', 'Admin\\CourseCrudController');
+        Route::crud('externalcourse', 'Admin\\ExternalCourseCrudController');
+        Route::crud('comment', 'Admin\\CommentCrudController');
 
-        Route::post('edit-account-info', 'Auth\MyAccountController@postAccountInfoForm');
-        Route::post('edit-student-info', 'Auth\MyAccountController@postStudentInfoForm');
-        Route::post('edit-profession', 'Auth\MyAccountController@postAccountProfessionForm');
-        Route::post('edit-phone', 'Auth\MyAccountController@postPhoneForm');
-        Route::post('edit-photo', 'Auth\MyAccountController@postPhotoForm');
-        Route::post('edit-contacts', 'Auth\MyAccountController@postContactsForm');
+        Route::post('edit-account-info', 'Auth\\MyAccountController@postAccountInfoForm');
+        Route::post('edit-student-info', 'Auth\\MyAccountController@postStudentInfoForm');
+        Route::post('edit-profession', 'Auth\\MyAccountController@postAccountProfessionForm');
+        Route::post('edit-phone', 'Auth\\MyAccountController@postPhoneForm');
+        Route::post('edit-photo', 'Auth\\MyAccountController@postPhotoForm');
+        Route::post('edit-contacts', 'Auth\\MyAccountController@postContactsForm');
     }
 );
 
 // move to routes/web.php
 Route::group(
     [
-        'namespace'  => '\App\Http\Controllers',
+        'namespace'  => '\\App\\Http\\Controllers',
         'middleware' => ['web', 'loggedin', 'language', 'forceupdate'],
         'prefix'     => config('backpack.base.route_prefix'),
     ],
     function () {
         // route numbers match the DB forceupdate field
-        Route::get('edit/1', 'Auth\MyAccountController@getAccountInfoForm')->name('backpack.account.info');
-        Route::get('edit/2', 'Auth\MyAccountController@getStudentInfoForm')->name('backpack.student.info');
-        Route::get('edit/3', 'Auth\MyAccountController@getPhoneForm')->name('backpack.account.phone');
-        Route::get('edit/4', 'Auth\MyAccountController@getAccountProfessionForm')->name('backpack.account.profession');
-        Route::get('edit/5', 'Auth\MyAccountController@getPhotoForm')->name('backpack.account.photo');
-        Route::get('edit/6', 'Auth\MyAccountController@getContactsForm')->name('backpack.account.contacts');
+        Route::get('edit/1', 'Auth\\MyAccountController@getAccountInfoForm')->name('backpack.account.info');
+        Route::get('edit/2', 'Auth\\MyAccountController@getStudentInfoForm')->name('backpack.student.info');
+        Route::get('edit/3', 'Auth\\MyAccountController@getPhoneForm')->name('backpack.account.phone');
+        Route::get('edit/4', 'Auth\\MyAccountController@getAccountProfessionForm')->name('backpack.account.profession');
+        Route::get('edit/5', 'Auth\\MyAccountController@getPhotoForm')->name('backpack.account.photo');
+        Route::get('edit/6', 'Auth\\MyAccountController@getContactsForm')->name('backpack.account.contacts');
     }
 );
 
@@ -53,7 +53,7 @@ Route::group(
 Route::group([
     'prefix'     => config('backpack.base.route_prefix'),
     'middleware' => ['web', 'permission:enrollments.view', 'language'],
-    'namespace'  => 'App\Http\Controllers\Admin',
+    'namespace'  => 'App\\Http\\Controllers\\Admin',
     ], function () {
         Route::crud('enrollment', 'EnrollmentCrudController');
         Route::crud('availablecourse', 'AvailableCourseCrudController');
@@ -64,7 +64,7 @@ Route::group([
 Route::group([
     'prefix'     => config('backpack.base.route_prefix'),
     'middleware' => ['web', 'role:admin', 'language'],
-    'namespace'  => 'App\Http\Controllers\Admin',
+    'namespace'  => 'App\\Http\\Controllers\\Admin',
     ], function () {
         Route::crud('period', 'PeriodCrudController');
         Route::crud('event', 'EventCrudController');

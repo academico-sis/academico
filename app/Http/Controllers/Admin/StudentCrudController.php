@@ -32,7 +32,7 @@ class StudentCrudController extends CrudController
         | BASIC CRUD INFORMATION
         |--------------------------------------------------------------------------
         */
-        CRUD::setModel('App\Models\Student');
+        CRUD::setModel('App\\Models\\Student');
         CRUD::setRoute(config('backpack.base.route_prefix').'/student');
         CRUD::setEntityNameStrings(__('student'), __('students'));
         //CRUD::removeAllButtons();
@@ -90,7 +90,7 @@ class StudentCrudController extends CrudController
                 'name' => 'phone', // the method that defines the relationship in your Model
                 'entity' => 'phone', // the method that defines the relationship in your Model
                 'attribute' => 'phone_number', // foreign key attribute that is shown to user
-                'model' => "App\Models\PhoneNumber", // foreign key model
+                'model' => 'App\\Models\\PhoneNumber', // foreign key model
              ],
 
             [
@@ -100,7 +100,7 @@ class StudentCrudController extends CrudController
                 'name' => 'lead_type_id', // the column that contains the ID of that connected entity;
                 'entity' => 'leadType', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => "App\Models\LeadType", // foreign key model
+                'model' => 'App\\Models\\LeadType', // foreign key model
              ],
 
         ]);

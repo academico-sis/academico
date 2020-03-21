@@ -34,7 +34,7 @@ class EventCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        CRUD::setModel('App\Models\Event');
+        CRUD::setModel('App\\Models\\Event');
         CRUD::setRoute(config('backpack.base.route_prefix').'/event');
         CRUD::setEntityNameStrings('event', 'events');
     }
@@ -61,7 +61,7 @@ class EventCrudController extends CrudController
                 'name' => 'course_id', // the column that contains the ID of that connected entity;
                 'entity' => 'course', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => "App\Models\Course", // foreign key model
+                'model' => 'App\\Models\\Course', // foreign key model
                 ],
 
             [
@@ -79,7 +79,7 @@ class EventCrudController extends CrudController
             'name' => 'teacher_id', // the column that contains the ID of that connected entity;
             'entity' => 'teacher', // the method that defines the relationship in your Model
             'attribute' => 'name', // foreign key attribute that is shown to user
-            'model' => "App\Models\Teacher", // foreign key model
+            'model' => 'App\\Models\\Teacher', // foreign key model
             ],
 
             [
@@ -89,7 +89,7 @@ class EventCrudController extends CrudController
             'name' => 'room_id', // the column that contains the ID of that connected entity;
             'entity' => 'room', // the method that defines the relationship in your Model
             'attribute' => 'name', // foreign key attribute that is shown to user
-            'model' => "App\Models\Room", // foreign key model
+            'model' => 'App\\Models\\Room', // foreign key model
             ],
 
             [
@@ -177,7 +177,7 @@ class EventCrudController extends CrudController
             'name' => 'teacher_id', // the column that contains the ID of that connected entity;
             'entity' => 'teacher', // the method that defines the relationship in your Model
             'attribute' => 'name', // foreign key attribute that is shown to user
-            'model' => "App\Models\Teacher", // foreign key model
+            'model' => 'App\\Models\\Teacher', // foreign key model
 
             ],
 
@@ -188,7 +188,7 @@ class EventCrudController extends CrudController
             'name' => 'room_id', // the column that contains the ID of that connected entity;
             'entity' => 'room', // the method that defines the relationship in your Model
             'attribute' => 'name', // foreign key attribute that is shown to user
-            'model' => "App\Models\Room", // foreign key model
+            'model' => 'App\\Models\\Room', // foreign key model
             ],
 
             [

@@ -12,4 +12,4 @@
 */
 
 //Route::get('/courses', 'Api\CourseController@getCourses')->middleware('cors');
-Route::post('checkemail', '\App\Http\Controllers\Auth\RegisterController@checkEmailUnicity');
+Route::post('checkemail', '\\App\\Http\\Controllers\\Auth\\RegisterController@checkEmailUnicity');

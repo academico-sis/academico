@@ -28,7 +28,7 @@ class LeaveCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        CRUD::setModel('App\Models\Leave');
+        CRUD::setModel('App\\Models\\Leave');
         CRUD::setRoute(config('backpack.base.route_prefix').'/leave');
         CRUD::setEntityNameStrings('leave', 'leaves');
 
@@ -46,7 +46,7 @@ class LeaveCrudController extends CrudController
                 'name' => 'teacher_id', // the column that contains the ID of that connected entity;
                 'entity' => 'teacher', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => "App\Models\Teacher", // foreign key model
+                'model' => 'App\\Models\\Teacher', // foreign key model
              ],
 
              [
@@ -56,7 +56,7 @@ class LeaveCrudController extends CrudController
                 'name' => 'leave_type_id', // the column that contains the ID of that connected entity;
                 'entity' => 'leaveType', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => "App\Models\LeaveType", // foreign key model
+                'model' => 'App\\Models\\LeaveType', // foreign key model
              ],
 
              [
@@ -103,7 +103,7 @@ class LeaveCrudController extends CrudController
                 'name' => 'teacher_id', // the column that contains the ID of that connected entity;
                 'entity' => 'teacher', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => "App\Models\Teacher", // foreign key model
+                'model' => 'App\\Models\\Teacher', // foreign key model
              ],
 
              [
@@ -113,7 +113,7 @@ class LeaveCrudController extends CrudController
                 'name' => 'leave_type_id', // the column that contains the ID of that connected entity;
                 'entity' => 'leaveType', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => "App\Models\LeaveType", // foreign key model
+                'model' => 'App\\Models\\LeaveType', // foreign key model
              ],
 
              [   // date_range
@@ -159,7 +159,7 @@ class LeaveCrudController extends CrudController
                 'name' => 'leave_type_id', // the column that contains the ID of that connected entity;
                 'entity' => 'leaveType', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => "App\Models\LeaveType", // foreign key model
+                'model' => 'App\\Models\\LeaveType', // foreign key model
              ],
 
              [   // date_range
