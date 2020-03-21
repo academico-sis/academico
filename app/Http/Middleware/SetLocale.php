@@ -2,8 +2,8 @@
 
 namespace App\Http\Middleware;
 
-use App;
-use Auth;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Closure;
 use Unicodeveloper\Identify\Facades\IdentityFacade as Identify;
