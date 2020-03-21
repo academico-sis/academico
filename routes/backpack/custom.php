@@ -86,7 +86,6 @@ Route::group([
         Route::crud('leave', 'LeaveCrudController');
         Route::crud('leadtype', 'LeadTypeCrudController');
         Route::crud('config', 'ConfigCrudController');
-
         Route::crud('book', 'BookCrudController');
         Route::crud('fee', 'FeeCrudController');
         Route::crud('discount', 'DiscountCrudController');
