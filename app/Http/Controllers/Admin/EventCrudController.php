@@ -37,12 +37,14 @@ class EventCrudController extends CrudController
         CRUD::setModel('App\Models\Event');
         CRUD::setRoute(config('backpack.base.route_prefix').'/event');
         CRUD::setEntityNameStrings('event', 'events');
-
+    }
         /*
         |--------------------------------------------------------------------------
         | CrudPanel Configuration
         |--------------------------------------------------------------------------
         */
+        public function setupListOperation()
+        {
 
         CRUD::setColumns([
 
@@ -157,6 +159,10 @@ class EventCrudController extends CrudController
           function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
           });
 
+        }
+
+        public function setupCreateOperation()
+        {
         CRUD::addFields([
 
             [
@@ -189,13 +195,13 @@ class EventCrudController extends CrudController
             [
             'name' => 'start', // The db column name
             'label' => 'Start Date', // Table column heading
-            'type' => 'datetime',
+            'type' => 'datetime_picker',
             ],
 
             [
             'name' => 'end', // The db column name
             'label' => 'End Date', // Table column heading
-            'type' => 'datetime',
+            'type' => 'datetime_picker',
             ],
 
         ]);
@@ -203,15 +209,12 @@ class EventCrudController extends CrudController
         // add asterisk for fields that are required in EventRequest
         CRUD::setRequiredFields(StoreRequest::class, 'create');
         CRUD::setRequiredFields(UpdateRequest::class, 'edit');
-    }
-
-    protected function setupCreateOperation()
-    {
         CRUD::setValidation(StoreRequest::class);
     }
 
-    protected function setupUpdateOperation()
+
+    public function setupUpdateOperation()
     {
-        CRUD::setValidation(UpdateRequest::class);
+       $this->setupCreateOperation();
     }
 }

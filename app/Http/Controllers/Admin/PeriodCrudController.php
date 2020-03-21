@@ -29,39 +29,45 @@ class PeriodCrudController extends CrudController
         CRUD::setModel('App\Models\Period');
         CRUD::setRoute(config('backpack.base.route_prefix').'/period');
         CRUD::setEntityNameStrings('period', 'periods');
-
+    }
         /*
         |--------------------------------------------------------------------------
         | CrudPanel Configuration
         |--------------------------------------------------------------------------
         */
 
-        CRUD::setColumns([
-            [
-                'label'     => __('Year'),
-                'type'      => 'select',
-                'entity'    => 'year',
-                'attribute' => 'name',
-            ],
+        public function setupListOperation()
+        {
+            CRUD::setColumns([
+                [
+                    'label'     => __('Year'),
+                    'type'      => 'select',
+                    'entity'    => 'year',
+                    'attribute' => 'name',
+                ],
 
-            [
-                'label' => __('Name'),
-                'type' => 'text',
-                'name' => 'name',
-            ],
+                [
+                    'label' => __('Name'),
+                    'type' => 'text',
+                    'name' => 'name',
+                ],
 
-            [
-                'label' => __('Start'),
-                'type' => 'date',
-                'name' => 'start',
-            ],
+                [
+                    'label' => __('Start'),
+                    'type' => 'date',
+                    'name' => 'start',
+                ],
 
-            [
-                'label' => __('End'),
-                'type' => 'date',
-                'name' => 'end',
-            ],
-        ]);
+                [
+                    'label' => __('End'),
+                    'type' => 'date',
+                    'name' => 'end',
+                ],
+            ]);
+        }
+
+        public function setupCreateOperation()
+        {
 
         CRUD::addFields([
             [
@@ -97,13 +103,8 @@ class PeriodCrudController extends CrudController
         CRUD::setRequiredFields(UpdateRequest::class, 'edit');
     }
 
-    protected function setupCreateOperation()
+    public function setupUpdateOperation()
     {
-        CRUD::setValidation(StoreRequest::class);
-    }
-
-    protected function setupUpdateOperation()
-    {
-        CRUD::setValidation(UpdateRequest::class);
+    $this->setupCreateOperation();
     }
 }

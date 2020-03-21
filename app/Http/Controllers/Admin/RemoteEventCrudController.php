@@ -35,13 +35,14 @@ class RemoteEventCrudController extends CrudController
         CRUD::setModel('App\Models\RemoteEvent');
         CRUD::setRoute(config('backpack.base.route_prefix').'/remoteevent');
         CRUD::setEntityNameStrings('remoteevent', 'remote_events');
-
+    }
         /*
         |--------------------------------------------------------------------------
         | CrudPanel Configuration
         |--------------------------------------------------------------------------
         */
-
+        public function setupListOperation()
+        {
         CRUD::setColumns([
             [
                 // 1-n relationship
@@ -75,7 +76,10 @@ class RemoteEventCrudController extends CrudController
              ],
 
         ]);
+        }
 
+        public function setupCreateOperation()
+        {
         CRUD::addFields([
             [
                 // 1-n relationship
@@ -113,16 +117,10 @@ class RemoteEventCrudController extends CrudController
         ]);
         // add asterisk for fields that are required in RemoteEventRequest
         CRUD::setRequiredFields(StoreRequest::class, 'create');
-        CRUD::setRequiredFields(UpdateRequest::class, 'edit');
-    }
+        }
 
-    protected function setupCreateOperation()
+    public function setupUpdateOperation()
     {
-        CRUD::setValidation(StoreRequest::class);
-    }
-
-    protected function setupUpdateOperation()
-    {
-        CRUD::setValidation(UpdateRequest::class);
+       $this->setupCreateOperation(); // if it's the same as Create
     }
 }

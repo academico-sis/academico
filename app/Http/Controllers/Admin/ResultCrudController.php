@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\ResultRequest as StoreRequest;
-// VALIDATION: change the requests to match your own file names if you need form validation
-use App\Http\Requests\ResultRequest as UpdateRequest;
 use App\Models\Comment;
 use App\Models\Enrollment;
 use App\Models\Period;
@@ -42,12 +39,15 @@ class ResultCrudController extends CrudController
         CRUD::setModel('App\Models\Enrollment');
         CRUD::setRoute(config('backpack.base.route_prefix').'/result');
         CRUD::setEntityNameStrings('result', 'results');
-
+    }
         /*
         |--------------------------------------------------------------------------
         | CrudPanel Configuration
         |--------------------------------------------------------------------------
         */
+
+        public function setupListOperation()
+        {
         CRUD::setColumns([
 
             [
@@ -97,8 +97,6 @@ class ResultCrudController extends CrudController
                 ],
         ]);
 
-        // add asterisk for fields that are required in EnrollmentRequest
-        CRUD::setRequiredFields(UpdateRequest::class, 'edit');
 
         CRUD::addFilter([
             'type' => 'simple',
@@ -167,8 +165,4 @@ class ResultCrudController extends CrudController
         return view('results.show', compact('enrollment', 'grades', 'skills', 'result'));
     }
 
-    protected function setupUpdateOperation()
-    {
-        CRUD::setValidation(UpdateRequest::class);
-    }
 }

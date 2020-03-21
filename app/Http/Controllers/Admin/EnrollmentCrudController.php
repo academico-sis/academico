@@ -52,12 +52,16 @@ class EnrollmentCrudController extends CrudController
             CRUD::enableExportButtons();
         }
 
+    }
+
         /*
         |--------------------------------------------------------------------------
         | CrudPanel Configuration
         |--------------------------------------------------------------------------
         */
 
+        public function setupListOperation()
+        {
         CRUD::setColumns([
 
             [
@@ -67,34 +71,34 @@ class EnrollmentCrudController extends CrudController
 
             [
             // STUDENT NAME
-            'label' => __('Student'), // Table column heading
-            'type' => 'select',
-            'entity' => 'student', // the method that defines the relationship in your Model
-            'attribute' => 'name', // foreign key attribute that is shown to user
-            'searchLogic' => function ($query, $column, $searchTerm) {
-                $query->orWhereHas('student', function ($q) use ($column, $searchTerm) {
-                    $q->WhereHas('user', function ($q) use ($column, $searchTerm) {
-                        $q->where('firstname', 'like', '%'.$searchTerm.'%')
-                        ->orWhere('lastname', 'like', '%'.$searchTerm.'%');
+                'label' => __('Student'), // Table column heading
+                'type' => 'select',
+                'entity' => 'student', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'searchLogic' => function ($query, $column, $searchTerm) {
+                    $query->orWhereHas('student', function ($q) use ($column, $searchTerm) {
+                        $q->WhereHas('user', function ($q) use ($column, $searchTerm) {
+                            $q->where('firstname', 'like', '%'.$searchTerm.'%')
+                            ->orWhere('lastname', 'like', '%'.$searchTerm.'%');
+                        });
                     });
-                });
-            },
+                },
             ],
 
             [
-            // COURSE NAME
-            'label' => __('Course'), // Table column heading
-            'type' => 'select',
-            'name' => 'course_id', // the column that contains the ID of that connected entity;
-            'entity' => 'course', // the method that defines the relationship in your Model
-            'attribute' => 'name', // foreign key attribute that is shown to user
-            'model' => "App\Models\Course", // foreign key model
+                // COURSE NAME
+                'label' => __('Course'), // Table column heading
+                'type' => 'select',
+                'name' => 'course_id', // the column that contains the ID of that connected entity;
+                'entity' => 'course', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model' => "App\Models\Course", // foreign key model
             ],
 
             [
-            'name' => 'course.period.name',
-            'label' => __('Period'),
-            'type' => 'text',
+                'name' => 'course.period.name',
+                'label' => __('Period'),
+                'type' => 'text',
             ],
 
             [

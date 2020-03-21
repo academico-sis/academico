@@ -47,13 +47,14 @@ class AvailableCourseCrudController extends CrudController
         CRUD::addButtonFromView('line', 'children_badge', 'children_badge', 'beginning');
 
         CRUD::setListView('courses.available');
-
+    }
         /*
         |--------------------------------------------------------------------------
         | CrudPanel Configuration
         |--------------------------------------------------------------------------
         */
-
+        public function setupListOperation()
+        {
         CRUD::setColumns([
             [
             // RYTHM
