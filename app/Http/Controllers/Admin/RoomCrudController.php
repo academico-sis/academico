@@ -26,7 +26,7 @@ class RoomCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        CRUD::setModel('App\\Models\\Room');
+        CRUD::setModel(\App\Models\Room::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/room');
         CRUD::setEntityNameStrings('room', 'rooms');
 

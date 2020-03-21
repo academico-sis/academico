@@ -26,7 +26,7 @@ class LevelCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        CRUD::setModel('App\\Models\\Level');
+        CRUD::setModel(\App\Models\Level::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/level');
         CRUD::setEntityNameStrings('level', 'levels');
 

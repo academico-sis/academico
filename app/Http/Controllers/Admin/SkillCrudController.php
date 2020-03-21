@@ -34,7 +34,7 @@ class SkillCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        CRUD::setModel('App\\Models\\Skills\\Skill');
+        CRUD::setModel(\App\Models\Skills\Skill::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/skill');
         CRUD::setEntityNameStrings('skill', 'skills');
 
@@ -84,7 +84,7 @@ class SkillCrudController extends CrudController
                 'name' => 'skill_type_id', // the db column for the foreign key
                 'entity' => 'skill_type', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => 'App\\Models\\Skills\\SkillType',
+                'model' => \App\Models\Skills\SkillType::class,
              ],
 
             [
@@ -99,7 +99,7 @@ class SkillCrudController extends CrudController
                'name' => 'level_id', // the db column for the foreign key
                'entity' => 'level', // the method that defines the relationship in your Model
                'attribute' => 'name', // foreign key attribute that is shown to user
-               'model' => 'App\\Models\\Level',
+               'model' => \App\Models\Level::class,
             ],
 
         ]);

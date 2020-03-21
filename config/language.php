@@ -82,7 +82,7 @@ return [
     | This option indicates the middleware to change language.
     |
     */
-    'middleware'    => 'App\\Http\\Middleware\\SetLocale',
+    'middleware'    => App\Http\Middleware\SetLocale::class,
 
     /*
     |--------------------------------------------------------------------------
@@ -92,7 +92,7 @@ return [
     | This option indicates the controller to be used.
     |
     */
-    'controller'    => 'App\\Http\\Controllers\\Language',
+    'controller'    => App\Http\Controllers\Language::class,
 
     /*
     |--------------------------------------------------------------------------

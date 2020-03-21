@@ -33,7 +33,7 @@ class CommentCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        CRUD::setModel('App\\Models\\Comment');
+        CRUD::setModel(\App\Models\Comment::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/comment');
         CRUD::setEntityNameStrings('comment', 'comments');
         CRUD::setRequiredFields(UpdateRequest::class, 'edit');
@@ -96,17 +96,17 @@ class CommentCrudController extends CrudController
                 'type' => 'dropdown',
                 'label'=> 'Type',
               ], [
-                'App\\Models\\Student' => 'Student',
-                'App\\Models\\Enrollment' => 'Enrollments',
-                'App\\Models\\PreInvoice' => 'PreInvoice',
-                'App\\Models\\Result' => 'Result',
+                \App\Models\Student::class => 'Student',
+                \App\Models\Enrollment::class => 'Enrollments',
+                \App\Models\PreInvoice::class => 'PreInvoice',
+                \App\Models\Result::class => 'Result',
 
               ], function ($value) { // if the filter is active
                   CRUD::addClause('where', 'commentable_type', '=', $value);
               },
               function () { // if the filter is not active
-                  CRUD::addClause('where', 'commentable_type', '=', 'App\\Models\\Student');
-                  $this->crud->request->request->add(['commentable_type' => 'App\\Models\\Student']); // to make the filter look active
+                  CRUD::addClause('where', 'commentable_type', '=', \App\Models\Student::class);
+                  $this->crud->request->request->add(['commentable_type' => \App\Models\Student::class]); // to make the filter look active
               });
     }
 

@@ -26,7 +26,7 @@ class CampusCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        CRUD::setModel('App\\Models\\Campus');
+        CRUD::setModel(\App\Models\Campus::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/campus');
         CRUD::setEntityNameStrings('campus', 'campuses');
 

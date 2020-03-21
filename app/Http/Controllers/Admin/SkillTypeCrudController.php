@@ -26,7 +26,7 @@ class SkillTypeCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        CRUD::setModel('App\\Models\\Skills\\SkillType');
+        CRUD::setModel(\App\Models\Skills\SkillType::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/skilltype');
         CRUD::setEntityNameStrings('skilltype', 'skill_types');
 

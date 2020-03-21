@@ -36,7 +36,7 @@ class ResultCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        CRUD::setModel('App\\Models\\Enrollment');
+        CRUD::setModel(\App\Models\Enrollment::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/result');
         CRUD::setEntityNameStrings('result', 'results');
     }
@@ -79,7 +79,7 @@ class ResultCrudController extends CrudController
             'name' => 'course_id', // the column that contains the ID of that connected entity;
             'entity' => 'course', // the method that defines the relationship in your Model
             'attribute' => 'name', // foreign key attribute that is shown to user
-            'model' => 'App\\Models\\Course', // foreign key model
+            'model' => \App\Models\Course::class, // foreign key model
             ],
 
             [
@@ -94,7 +94,7 @@ class ResultCrudController extends CrudController
                 'type' => 'select',
                 'entity' => 'result', // the method that defines the relationship in your Model
                 'attribute' => 'result_type', // foreign key attribute that is shown to user
-                'model' => 'App\\Models\\Result', // foreign key model
+                'model' => \App\Models\Result::class, // foreign key model
                 ],
         ]);
 

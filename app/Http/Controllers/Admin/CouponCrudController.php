@@ -27,7 +27,7 @@ class CouponCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        CRUD::setModel('App\\Models\\Coupon');
+        CRUD::setModel(\App\Models\Coupon::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/coupon');
         CRUD::setEntityNameStrings('coupon', 'coupons');
 

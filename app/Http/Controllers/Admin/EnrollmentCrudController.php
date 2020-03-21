@@ -40,7 +40,7 @@ class EnrollmentCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        CRUD::setModel('App\\Models\\Enrollment');
+        CRUD::setModel(\App\Models\Enrollment::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/enrollment');
         CRUD::setEntityNameStrings('enrollment', 'enrollments');
 
@@ -91,7 +91,7 @@ class EnrollmentCrudController extends CrudController
                 'name' => 'course_id', // the column that contains the ID of that connected entity;
                 'entity' => 'course', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => 'App\\Models\\Course', // foreign key model
+                'model' => \App\Models\Course::class, // foreign key model
             ],
 
             [
@@ -107,7 +107,7 @@ class EnrollmentCrudController extends CrudController
                 'name' => 'status_id', // the column that contains the ID of that connected entity;
                 'entity' => 'enrollmentStatus', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => 'App\\Models\\EnrollmentStatusType', // foreign key model
+                'model' => \App\Models\EnrollmentStatusType::class, // foreign key model
             ],
 
             [
@@ -117,7 +117,7 @@ class EnrollmentCrudController extends CrudController
                 'name' => 'student.phone', // the method that defines the relationship in your Model
                 'entity' => 'student.phone', // the method that defines the relationship in your Model
                 'attribute' => 'phone_number', // foreign key attribute that is shown to user
-                'model' => 'App\\Models\\PhoneNumber', // foreign key model
+                'model' => \App\Models\PhoneNumber::class, // foreign key model
              ],
 
         ]);

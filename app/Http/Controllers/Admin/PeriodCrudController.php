@@ -26,7 +26,7 @@ class PeriodCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        CRUD::setModel('App\\Models\\Period');
+        CRUD::setModel(\App\Models\Period::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/period');
         CRUD::setEntityNameStrings('period', 'periods');
     }
@@ -76,7 +76,7 @@ class PeriodCrudController extends CrudController
                 'name'      => 'year_id',
                 'entity'    => 'year',
                 'attribute' => 'name',
-                'model'     => 'App\\Models\\Year',
+                'model'     => \App\Models\Year::class,
             ],
 
             [

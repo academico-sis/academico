@@ -32,7 +32,7 @@ class RemoteEventCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        CRUD::setModel('App\\Models\\RemoteEvent');
+        CRUD::setModel(\App\Models\RemoteEvent::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/remoteevent');
         CRUD::setEntityNameStrings('remoteevent', 'remote_events');
     }
@@ -52,7 +52,7 @@ class RemoteEventCrudController extends CrudController
                 'name' => 'period_id', // the column that contains the ID of that connected entity;
                 'entity' => 'period', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => 'App\\Models\\Period', // foreign key model
+                'model' => \App\Models\Period::class, // foreign key model
              ],
 
              [
@@ -89,7 +89,7 @@ class RemoteEventCrudController extends CrudController
                 'name' => 'period_id', // the column that contains the ID of that connected entity;
                 'entity' => 'period', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => 'App\\Models\\Period', // foreign key model
+                'model' => \App\Models\Period::class, // foreign key model
              ],
 
              [
@@ -99,7 +99,7 @@ class RemoteEventCrudController extends CrudController
                 'name' => 'teacher_id', // the column that contains the ID of that connected entity;
                 'entity' => 'teacher', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => 'App\\Models\\Teacher', // foreign key model
+                'model' => \App\Models\Teacher::class, // foreign key model
              ],
 
              [

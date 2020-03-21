@@ -26,7 +26,7 @@ class ResultTypeCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        CRUD::setModel('App\\Models\\ResultType');
+        CRUD::setModel(\App\Models\ResultType::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/resulttype');
         CRUD::setEntityNameStrings('resulttype', 'result_types');
 

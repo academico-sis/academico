@@ -17,7 +17,7 @@ class CourseEvaluationCrudController extends CrudController
 
     public function setup()
     {
-        $this->crud->setModel('App\\Models\\Course');
+        $this->crud->setModel(\App\Models\Course::class);
         $this->crud->setRoute(config('backpack.base.route_prefix').'/courseevaluation');
         $this->crud->setEntityNameStrings('courseevaluation', 'course_evaluations');
 
@@ -39,7 +39,7 @@ class CourseEvaluationCrudController extends CrudController
             'name' => 'rhythm_id', // the column that contains the ID of that connected entity;
             'entity' => 'rhythm', // the method that defines the relationship in your Model
             'attribute' => 'name', // foreign key attribute that is shown to user
-            'model' => 'App\\Models\\Rhythm', // foreign key model
+            'model' => \App\Models\Rhythm::class, // foreign key model
             ],
 
             [
@@ -49,7 +49,7 @@ class CourseEvaluationCrudController extends CrudController
             'name' => 'level_id', // the column that contains the ID of that connected entity;
             'entity' => 'level', // the method that defines the relationship in your Model
             'attribute' => 'name', // foreign key attribute that is shown to user
-            'model' => 'App\\Models\\Level', // foreign key model
+            'model' => \App\Models\Level::class, // foreign key model
             ],
 
             [
@@ -64,7 +64,7 @@ class CourseEvaluationCrudController extends CrudController
             'name' => 'teacher_id', // the column that contains the ID of that connected entity;
             'entity' => 'teacher', // the method that defines the relationship in your Model
             'attribute' => 'name', // foreign key attribute that is shown to user
-            'model' => 'App\\Models\\Teacher', // foreign key model
+            'model' => \App\Models\Teacher::class, // foreign key model
             ],
 
             // EVALUATION METHODS
@@ -75,7 +75,7 @@ class CourseEvaluationCrudController extends CrudController
             'name' => 'evaluation_type', // the method that defines the relationship in your Model
             'entity' => 'evaluation_type', // the method that defines the relationship in your Model
             'attribute' => 'name', // foreign key attribute that is shown to user
-            'model' => 'App\\Models\\EvaluationType', // foreign key model
+            'model' => \App\Models\EvaluationType::class, // foreign key model
             ],
 
         ]);
@@ -148,7 +148,7 @@ class CourseEvaluationCrudController extends CrudController
                'name' => 'evaluation_type', // the method that defines the relationship in your Model
                'entity' => 'evaluation_type', // the method that defines the relationship in your Model
                'attribute' => 'name', // foreign key attribute that is shown to user
-               'model' => 'App\\Models\\EvaluationType', // foreign key model
+               'model' => \App\Models\EvaluationType::class, // foreign key model
                'pivot' => true,
             ]
             );
