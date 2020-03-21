@@ -6,153 +6,171 @@ Route::permanentRedirect('/dashboard', '/');
 // save an additional contact for a student
 Route::post('user/addcontact', 'ContactController@store')->name('addContact');
 
-Route::get('register', 'Auth\\RegisterController@showRegistrationForm')->name('backpack.auth.register');
-Route::post('register', 'Auth\\RegisterController@register');
-Route::get('searchstudents', 'Admin\\StudentCrudController@dataAjax');
+Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('backpack.auth.register');
+Route::post('register', 'Auth\RegisterController@register');
+Route::get('searchstudents', 'Admin\StudentCrudController@dataAjax');
 
 /* All routes should be protected by Backpack */
-Route::middleware('web', 'language')->group(function () {
+Route::group(
+    ['middleware' => ['web', 'language']],
+    function () {
 
     // dashboard and home routes
-    Route::get('/home', 'HomeController@index')->name('home')->middleware('forceupdate');
-    Route::get('/', 'HomeController@index')->name('home')->middleware('forceupdate');
-    Route::get('/admin', 'HomeController@admin')->name('admin');
-    Route::get('dashboard/teacher', 'HomeController@teacher')->name('teacherDashboard');
-    Route::get('dashboard/teacher/{teacher}/hours', 'HRController@teacher')->name('teacherHours'); // todo protect
+        Route::get('/home', 'HomeController@index')->name('home')->middleware('forceupdate');
+        Route::get('/', 'HomeController@index')->name('home')->middleware('forceupdate');
+        Route::get('/admin', 'HomeController@admin')->name('admin');
+        Route::get('dashboard/teacher', 'HomeController@teacher')->name('teacherDashboard');
+        Route::get('dashboard/teacher/{teacher}/hours', 'HRController@teacher')->name('teacherHours'); // todo protect
 
-    Route::get('dashboard/student', 'HomeController@student')->name('studentDashboard')->middleware('forceupdate');
+        Route::get('dashboard/student', 'HomeController@student')->name('studentDashboard')->middleware('forceupdate');
 
-    Route::get('student/{student}/phonenumbers', 'PhoneNumberController@get');
-    Route::get('contact/{contact}/phonenumbers', 'ContactController@getPhoneNumber');
+        Route::get('student/{student}/phonenumbers', 'PhoneNumberController@get');
+        Route::get('contact/{contact}/phonenumbers', 'ContactController@getPhoneNumber');
 
-    Route::get('contact/{contact}/edit', 'ContactController@edit');
-    Route::patch('contact/{contact}', 'ContactController@update')->name('updateContact');
+        Route::get('contact/{contact}/edit', 'ContactController@edit');
+        Route::patch('contact/{contact}', 'ContactController@update')->name('updateContact');
 
-    Route::delete('phonenumber/{phoneNumber}', 'PhoneNumberController@destroy');
-    Route::post('phonenumber', 'PhoneNumberController@store');
-    Route::post('contactphonenumber', 'ContactController@storePhoneNumber');
+        Route::delete('phonenumber/{phoneNumber}', 'PhoneNumberController@destroy');
+        Route::post('phonenumber', 'PhoneNumberController@store');
+        Route::post('contactphonenumber', 'ContactController@storePhoneNumber');
 
-    // creates a new enrollment
-    Route::post('student/enroll', 'EnrollmentController@store')->name('storeEnrollment');
+        // creates a new enrollment
+        Route::post('student/enroll', 'EnrollmentController@store')->name('storeEnrollment');
 
-    // Attendance routes
-    Route::get('attendance', 'AttendanceController@index')->name('monitorAttendance');
-    Route::get('attendance/student/{student}', 'AttendanceController@showStudentAttendanceForCourse')->name('studentAttendance');
-    Route::get('attendance/course/{course}', 'AttendanceController@showCourse')->name('monitorCourseAttendance');
-    Route::get('attendance/event/{event}', 'AttendanceController@showEvent')->name('eventAttendance');
-    Route::post('attendance', 'AttendanceController@store')->name('storeAttendance');
+        // Attendance routes
+        Route::get('attendance', 'AttendanceController@index')->name('monitorAttendance');
+        Route::get('attendance/student/{student}', 'AttendanceController@showStudentAttendanceForCourse')->name('studentAttendance');
+        Route::get('attendance/course/{course}', 'AttendanceController@showCourse')->name('monitorCourseAttendance');
+        Route::get('attendance/event/{event}', 'AttendanceController@showEvent')->name('eventAttendance');
+        Route::post('attendance', 'AttendanceController@store')->name('storeAttendance');
 
-    Route::post('attendance/event/{event}/toggle', 'AttendanceController@toggleEventAttendanceStatus')->name('toggleEventAttendance');
-    Route::post('attendance/course/{course}/toggle', 'AttendanceController@toggleCourseAttendanceStatus')->name('toggleCourseAttendance');
+        Route::post('attendance/event/{event}/toggle', 'AttendanceController@toggleEventAttendanceStatus')->name('toggleEventAttendance');
+        Route::post('attendance/course/{course}/toggle', 'AttendanceController@toggleCourseAttendanceStatus')->name('toggleCourseAttendance');
 
-    // Skills Evaluation
-    Route::get('course/{course}/skillsevaluation', 'CourseSkillEvaluationController@index')->name('courseSkillsEvaluation');
-    Route::get('course/{course}/skillsevaluation/{student}', 'CourseSkillEvaluationController@edit')->name('studentSkillsEvaluation');
-    Route::post('skillsevaluation', 'CourseSkillEvaluationController@store')->name('storeSkillEvaluation');
-    Route::post('resultcomment', 'CommentController@storeresult')->name('storeResultComment'); // todo protect
+        // Skills Evaluation
+        Route::get('course/{course}/skillsevaluation', 'CourseSkillEvaluationController@index')->name('courseSkillsEvaluation');
+        Route::get('course/{course}/skillsevaluation/{student}', 'CourseSkillEvaluationController@edit')->name('studentSkillsEvaluation');
+        Route::post('skillsevaluation', 'CourseSkillEvaluationController@store')->name('storeSkillEvaluation');
+        Route::post('resultcomment', 'CommentController@storeresult')->name('storeResultComment'); // todo protect
 
-    Route::get('setup', 'SetupController@index')->name('setupHome');
-    Route::post('/leads/reset-converted', 'LeadStatusController@reset_all_converted_leads')->name('resetAllConvertedLeads');
-});
+        Route::get('setup', 'SetupController@index')->name('setupHome');
+        Route::post('/leads/reset-converted', 'LeadStatusController@reset_all_converted_leads')->name('resetAllConvertedLeads');
+    });
 
 // EVALUATION RELATED ROUTES
-Route::middleware('web', 'permission:evaluation.edit', 'language')->group(function () {
-    Route::get('course/{course}/skill', 'CourseSkillController@index')->name('course-skills');
-    Route::get('course/{course}/getskills', 'CourseSkillController@get');
-    Route::patch('course/{course}/setskills', 'CourseSkillController@set');
+Route::group(
+    ['middleware' => ['web', 'permission:evaluation.edit', 'language']],
+    function () {
+        Route::get('course/{course}/skill', 'CourseSkillController@index')->name('course-skills');
+        Route::get('course/{course}/getskills', 'CourseSkillController@get');
+        Route::patch('course/{course}/setskills', 'CourseSkillController@set');
 
-    Route::get('course/{course}/skills/export', 'CourseSkillController@export')->name('course-skills-export');
-    Route::post('course/{course}/skills/import', 'CourseSkillController@import')->name('course-skills-import');
+        Route::get('course/{course}/skills/export', 'CourseSkillController@export')->name('course-skills-export');
+        Route::post('course/{course}/skills/import', 'CourseSkillController@import')->name('course-skills-import');
 
-    Route::get('course/{course}/syllabus', 'CourseSkillController@exportCourseSyllabus')->name('exportCourseSyllabus');
+        Route::get('course/{course}/syllabus', 'CourseSkillController@exportCourseSyllabus')->name('exportCourseSyllabus');
 
-    // todo review this entire module
-    /* Course grades update */
-    Route::get('course/{course}/grades', 'GradeController@edit');
-    Route::post('grades', 'GradeController@store');
-    Route::delete('grades', 'GradeController@destroy');
-    Route::post('course/gradetype', 'GradeController@add_grade_type_to_course');
-    Route::delete('course/{course}/gradetype/{gradetype}', 'GradeController@remove_grade_type_from_course');
-});
+        // todo review this entire module
+        /* Course grades update */
+        Route::get('course/{course}/grades', 'GradeController@edit');
+        Route::post('grades', 'GradeController@store');
+        Route::delete('grades', 'GradeController@destroy');
+        Route::post('course/gradetype', 'GradeController@add_grade_type_to_course');
+        Route::delete('course/{course}/gradetype/{gradetype}', 'GradeController@remove_grade_type_from_course');
+    });
 
 Route::post('store-result', 'ResultController@store')->name('storeResult');
 
 // COURSE EDITION ROUTES
-Route::middleware('web', 'permission:courses.edit', 'language')->group(function () {
+Route::group(
+    ['middleware' => ['web', 'permission:courses.edit', 'language']],
+    function () {
 
     /* Course Times update */
-    /* todo use route names in Vue Components*/
-    Route::get('coursetime/{course}/get', 'CourseTimeController@get');
-    Route::get('coursetime/{course}/edit', 'CourseTimeController@edit');
-    Route::post('coursetime/{course}', 'CourseTimeController@store');
-    Route::delete('coursetime/{id}', 'CourseTimeController@destroy');
+        /* todo use route names in Vue Components*/
+        Route::get('coursetime/{course}/get', 'CourseTimeController@get');
+        Route::get('coursetime/{course}/edit', 'CourseTimeController@edit');
+        Route::post('coursetime/{course}', 'CourseTimeController@store');
+        Route::delete('coursetime/{id}', 'CourseTimeController@destroy');
 
-    // Course Events routes
+        // Course Events routes
     Route::get('course/{course}/events/get', 'EventController@getCourseEvents')->name('getCourseEvents'); // todo use route name
 
     Route::patch('calendar/teacher', 'EventController@update_course_teacher');
-    Route::patch('calendar/room', 'EventController@update_course_room');
-});
+        Route::patch('calendar/room', 'EventController@update_course_room');
+    });
 
 // Comments routes
-Route::middleware('web', 'permission:comments.edit', 'language')->group(function () {
-    Route::delete('comment/{comment}', 'CommentController@destroy');
-}
+Route::group(
+    ['middleware' => ['web', 'permission:comments.edit', 'language']],
+    function () {
+        Route::delete('comment/{comment}', 'CommentController@destroy');
+    }
 );
 
 Route::post('comment', 'CommentController@store')->name('storeComment');
 
 // Enrollments, Billing and Invoicing routes
-Route::middleware('web', 'permission:enrollments.create', 'language')->group(function () {
-    Route::get('enrollments/{enrollment}/bill', 'EnrollmentController@bill'); // new
+Route::group(
+    ['middleware' => ['web', 'permission:enrollments.create', 'language']],
+    function () {
+        Route::get('enrollments/{enrollment}/bill', 'EnrollmentController@bill'); // new
     Route::get('enrollments/{enrollment}/quickbill', 'EnrollmentController@quickbill'); // temporary
 
     Route::post('enrollment/{enrollment}/changeCourse', 'EnrollmentController@update')->name('changeCourse');
 
-    Route::post('preinvoice', 'EnrollmentController@quickInvoice')->name('quickInvoice'); // temporary
+        Route::post('preinvoice', 'EnrollmentController@quickInvoice')->name('quickInvoice'); // temporary
 
-    Route::post('checkout', 'PreInvoiceController@store');
+        Route::post('checkout', 'PreInvoiceController@store');
 
-    Route::patch('invoice/{preInvoice}', 'PreInvoiceController@update'); // todo
+        Route::patch('invoice/{preInvoice}', 'PreInvoiceController@update'); // todo
 
-    Route::get('config/default-periods', 'ConfigController@get')->name('get-default-periods-screen');
-    Route::post('config/default-periods', 'ConfigController@update')->name('set-default-periods');
-});
+        Route::get('config/default-periods', 'ConfigController@get')->name('get-default-periods-screen');
+        Route::post('config/default-periods', 'ConfigController@update')->name('set-default-periods');
+    });
 
 // calendars routes
-Route::middleware('web', 'language')->group(function () {
-    Route::get('/calendar/room/{room}', 'RoomController@show')->name('roomCalendar');
-    Route::get('/calendar/room', 'RoomController@index')->name('roomsCalendar');
-    Route::get('/leave/teachers', 'TeacherController@leaves')->name('teachersLeaves');
+Route::group(
+    ['middleware' => ['web', 'language']],
+    function () {
+        Route::get('/calendar/room/{room}', 'RoomController@show')->name('roomCalendar');
+        Route::get('/calendar/room', 'RoomController@index')->name('roomsCalendar');
+        Route::get('/leave/teachers', 'TeacherController@leaves')->name('teachersLeaves');
 
-    Route::get('/calendar/teacher/{teacher}', 'TeacherController@show')->name('teacherCalendar');
-    Route::get('/calendar/teacher', 'TeacherController@index')->name('teachersCalendar');
-}
+        Route::get('/calendar/teacher/{teacher}', 'TeacherController@show')->name('teacherCalendar');
+        Route::get('/calendar/teacher', 'TeacherController@index')->name('teachersCalendar');
+    }
 );
 
 // HR routes
-Route::middleware('web', 'permission:hr.view', 'language')->group(function () {
-    Route::get('/hr', 'HRController@index')->name('hrDashboard');
-}
+Route::group(
+    ['middleware' => ['web', 'permission:hr.view', 'language']],
+    function () {
+        Route::get('/hr', 'HRController@index')->name('hrDashboard');
+    }
 );
 
 // Reports routes
-Route::middleware('web', 'permission:reports.view', 'language')->group(function () {
-    Route::get('/report', 'ReportController@index')->name('allReports');
+Route::group(
+    ['middleware' => ['web', 'permission:reports.view', 'language']],
+    function () {
+        Route::get('/report', 'ReportController@index')->name('allReports');
 
-    Route::get('/report/internal', 'ReportController@internal')->name('homeReport');
-    Route::get('/report/external', 'ReportController@external')->name('externalReport');
+        Route::get('/report/internal', 'ReportController@internal')->name('homeReport');
+        Route::get('/report/external', 'ReportController@external')->name('externalReport');
 
-    Route::get('/report/courses', 'ReportController@courses')->name('courseReport');
-    Route::get('/report/rhythms', 'ReportController@rhythms')->name('rhythmReport');
-}
+        Route::get('/report/courses', 'ReportController@courses')->name('courseReport');
+        Route::get('/report/rhythms', 'ReportController@rhythms')->name('rhythmReport');
+    }
 );
 
 Route::post('leadstatus', 'LeadStatusController@update')->name('postLeadStatus');
 
 // New COURSES module
-Route::middleware('web', 'language')->group(function () {
-    Route::get('courselist', 'CourseController@index')->name('get-courses-list');
-    Route::get('courselist/search', 'CourseController@search')->name('search-courses');
-}
+Route::group(
+    ['middleware' => ['web', 'language']],
+    function () {
+        Route::get('courselist', 'CourseController@index')->name('get-courses-list');
+        Route::get('courselist/search', 'CourseController@search')->name('search-courses');
+    }
 );
