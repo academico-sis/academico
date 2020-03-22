@@ -81,7 +81,7 @@ class AuthServiceProvider extends ServiceProvider
          * of if they have explicit permission to enroll students
          */
         Gate::define('enroll-in-course', function ($user, $course) {
-            return ($course->teacher_id == $user->teacher_id) || $user->can('enrollments.create');
+            return ($course->teacher_id == $user->teacher_id) || $user->can('enrollments.edit');
         });
 
         /*

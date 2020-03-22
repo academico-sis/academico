@@ -27,7 +27,7 @@ class EnrollmentController extends Controller
     public function __construct()
     {
         parent::__construct();
-        $this->middleware('permission:enrollments.create', ['except' => 'store']);
+        $this->middleware('permission:enrollments.edit', ['except' => 'store']);
     }
 
     /**

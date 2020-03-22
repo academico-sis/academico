@@ -45,7 +45,7 @@ class StudentCrudController extends CrudController
 
         $permissions = backpack_user()->getAllPermissions();
 
-        if ($permissions->contains('name', 'enrollments.create')) {
+        if ($permissions->contains('name', 'enrollments.edit')) {
             CRUD::addButtonFromView('line', 'selectCourse', 'selectCourse', 'beginning');
         }
 

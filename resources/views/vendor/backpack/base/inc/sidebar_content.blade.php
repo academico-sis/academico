@@ -34,13 +34,10 @@
 @endif
 
 
-@if(backpack_user()->hasRole(['admin', 'manager']))
+@if(backpack_user()->hasRole('admin'))
   <li class="nav-title">@lang('HR')</li>
   <li class='nav-item'><a class='nav-link' href="{{ route('hrDashboard') }}"><i class="nav-icon fa fa-calendar"></i> <span>@lang('HR')</span></a></li>
 
-@endif
-
-@if(backpack_user()->hasRole(['admin']))
 <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon fa fa-calendar"></i> <span>@lang('Leave')</span></a>
     <ul class="nav-dropdown-items">
       <li class='nav-item'><a class='nav-link' href="{{ backpack_url('leave/teachers') }}"><i class="nav-icon fa fa-calendar"></i> <span>@lang('Overview')</span></a></li>

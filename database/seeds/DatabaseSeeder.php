@@ -264,7 +264,6 @@ class DatabaseSeeder extends Seeder
 
         // enrollments
         Permission::create(['name' => 'enrollments.view']);
-        Permission::create(['name' => 'enrollments.create']);
         Permission::create(['name' => 'enrollments.edit']);
         Permission::create(['name' => 'enrollments.delete']);
 
@@ -278,7 +277,6 @@ class DatabaseSeeder extends Seeder
 
         // reports
         Permission::create(['name' => 'reports.view']);
-        Permission::create(['name' => 'reports.edit']);
 
         // calendars
         Permission::create(['name' => 'calendars.view']);
@@ -301,12 +299,6 @@ class DatabaseSeeder extends Seeder
             $role->givePermissionTo($permission->name);
         }
 
-        // managers have all permissions but are NOT admins
-        $role = Role::create(['name' => 'manager']);
-        foreach (Permission::all() as $permission) {
-            $role->givePermissionTo($permission->name);
-        }
-
         // secretaries typically deal with enrollments, course information, etc.
         $role = Role::create(['name' => 'secretary']);
         $role->givePermissionTo('calendars.view');
@@ -315,7 +307,6 @@ class DatabaseSeeder extends Seeder
         $role->givePermissionTo('attendance.edit');
         $role->givePermissionTo('enrollments.view');
         $role->givePermissionTo('enrollments.edit');
-        $role->givePermissionTo('enrollments.create');
         $role->givePermissionTo('courses.view');
         $role->givePermissionTo('leads.manage');
 

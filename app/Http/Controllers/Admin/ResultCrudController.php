@@ -25,8 +25,7 @@ class ResultCrudController extends CrudController
     public function __construct()
     {
         parent::__construct();
-        $this->middleware('permission:evaluation.view', ['except' => ['show', 'store']]);
-        //$this->middleware('permission:evaluation.edit', ['only' => ['store', 'update']]);
+        $this->middleware('permission:evaluation.view', ['except' => ['show']]);
     }
 
     public function setup()

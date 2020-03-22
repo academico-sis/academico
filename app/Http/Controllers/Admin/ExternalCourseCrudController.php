@@ -43,12 +43,16 @@ class ExternalCourseCrudController extends CrudController
         }
 
         CRUD::enableExportButtons();
+    }
 
         /*
         |--------------------------------------------------------------------------
         | CrudPanel Configuration
         |--------------------------------------------------------------------------
         */
+
+    protected function setupListOperation()
+    {
 
         CRUD::setColumns([
             [
@@ -188,6 +192,12 @@ class ExternalCourseCrudController extends CrudController
               $this->crud->request->request->add(['period_id' => $period]); // to make the filter look active
           });
 
+    }
+
+    protected function setupCreateOperation()
+    {
+        CRUD::setValidation(StoreRequest::class);
+
         CRUD::addFields([
             [
                 // RYTHM
@@ -293,16 +303,12 @@ class ExternalCourseCrudController extends CrudController
 
         // add asterisk for fields that are required in ExternalCourseRequest
         CRUD::setRequiredFields(StoreRequest::class, 'create');
-        CRUD::setRequiredFields(UpdateRequest::class, 'edit');
-    }
-
-    protected function setupCreateOperation()
-    {
-        CRUD::setValidation(StoreRequest::class);
     }
 
     protected function setupUpdateOperation()
     {
+        $this->setupCreateOperation();
+        CRUD::setRequiredFields(UpdateRequest::class, 'edit');
         CRUD::setValidation(UpdateRequest::class);
     }
 }

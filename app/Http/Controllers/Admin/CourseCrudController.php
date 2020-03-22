@@ -378,29 +378,10 @@ class CourseCrudController extends CrudController
         CRUD::setValidation(UpdateRequest::class);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Course  $course
-     * @return \Illuminate\Http\Response
-     */
-    public function show($course)
-    {
-        $course = Course::findOrFail($course);
-
-        // The current is not allowed to view the page
-        if (Gate::forUser(backpack_user())->denies('view-course', $course)) {
-            abort(403);
-        }
-
-        $enrollments = $course->enrollments()->with('student')->get();
-
-        return view('courses/show', compact('course', 'enrollments'));
-    }
 
     /*
     * Allow to create a child course for the selected parent
-    * TODO this will be improved in the future
+    * This method is temporary and should be improved in the future
     */
     public function clone($id)
     {

@@ -31,7 +31,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if (backpack_user()->hasRole(['admin', 'secretary', 'manager'])) {
+        if (backpack_user()->hasRole(['admin', 'secretary'])) {
             return redirect()->route('admin');
         } elseif (backpack_user()->isTeacher()) {
             return redirect()->route('teacherDashboard');
@@ -86,7 +86,7 @@ class HomeController extends Controller
         $currentPeriod = Period::get_default_period();
         $enrollmentsPeriod = Period::get_enrollments_period();
 
-        if (! backpack_user()->hasRole(['admin', 'secretary', 'manager'])) {
+        if (! backpack_user()->hasRole(['admin', 'secretary'])) {
             abort(403);
         }
 
