@@ -210,22 +210,4 @@ class StudentCrudController extends CrudController
         $this->setupCreateOperation();
     }
 
-    /* TODO move somewhere else (API controller) */
-    public function dataAjax(Request $request)
-    {
-        $data = [];
-
-        if ($request->has('q')) {
-            $search = $request->q;
-
-            $data = DB::table('students')
-                    ->select('students.id', 'users.firstname', 'users.lastname')
-                    ->join('users', 'students.user_id', '=', 'users.id')
-                    ->where('users.firstname', 'LIKE', "%$search%")
-                    ->orWhere('users.lastname', 'LIKE', "%$search%")
-                    ->get();
-        }
-
-        return response()->json($data);
-    }
 }

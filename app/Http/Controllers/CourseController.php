@@ -31,8 +31,7 @@ class CourseController extends Controller
     public function __construct()
     {
         parent::__construct();
-        $this->middleware('permission:courses.view', ['except' => 'show']);
-        $this->middleware('permission:courses.edit', ['only' => ['update', 'create', 'store', 'destroy']]);
+        $this->middleware('permission:courses.view');
     }
 
     /**
@@ -61,27 +60,6 @@ class CourseController extends Controller
             AllowedFilter::custom('searchable_levels', new FiltersSearchableLevels),
             'teacher_id', ])
         ->get();
-    }
-
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($course)
-    {
-        $course = Course::findOrFail($course);
-
-        // The current is not allowed to view the page
-        if (Gate::forUser(backpack_user())->denies('view-course', $course)) {
-            abort(403);
-        }
-
-        $enrollments = $course->enrollments()->with('student')->get();
-
-        return view('courses/show', compact('course', 'enrollments'));
     }
 
 }

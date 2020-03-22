@@ -85,6 +85,14 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         /*
+         * if the user is a teacher
+         * of if they have explicit permission to enroll students
+         */
+        Gate::define('enroll-students', function ($user) {
+            return $user->isTeacher() || $user->can('enrollments.edit');
+        });
+
+        /*
          * teachers are allowed to view their own hours,
          * and users with explicit permission can view all hours
          */
