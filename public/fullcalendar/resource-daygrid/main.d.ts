@@ -13,7 +13,7 @@ declare module '@fullcalendar/resource-daygrid' {
 }
 
 declare module '@fullcalendar/resource-daygrid/ResourceDayGridView' {
-    import { ComponentContext, ViewSpec, DateProfileGenerator } from '@fullcalendar/core';
+    import { ComponentContext } from '@fullcalendar/core';
     import { AbstractDayGridView } from '@fullcalendar/daygrid';
     import { ResourceDayHeader, ResourceViewProps } from '@fullcalendar/resource-common';
     import ResourceDayGrid from '@fullcalendar/resource-daygrid/ResourceDayGrid';
@@ -23,9 +23,10 @@ declare module '@fullcalendar/resource-daygrid/ResourceDayGridView' {
         props: ResourceViewProps;
         header: ResourceDayHeader;
         resourceDayGrid: ResourceDayGrid;
-        constructor(context: ComponentContext, viewSpec: ViewSpec, dateProfileGenerator: DateProfileGenerator, parentEl: HTMLElement);
-        destroy(): void;
-        render(props: ResourceViewProps): void;
+        _processOptions(options: any): void;
+        render(props: ResourceViewProps, context: ComponentContext): void;
+        _renderSkeleton(context: ComponentContext): void;
+        _unrenderSkeleton(): void;
     }
 }
 
@@ -49,9 +50,10 @@ declare module '@fullcalendar/resource-daygrid/ResourceDayGrid' {
     export { ResourceDayGrid as default, ResourceDayGrid };
     class ResourceDayGrid extends DateComponent<ResourceDayGridProps> {
         dayGrid: DayGrid;
-        constructor(context: ComponentContext, dayGrid: DayGrid);
+        constructor(dayGrid: DayGrid);
+        firstContext(context: ComponentContext): void;
         destroy(): void;
-        render(props: ResourceDayGridProps): void;
+        render(props: ResourceDayGridProps, context: ComponentContext): void;
         buildPositionCaches(): void;
         queryHit(positionLeft: number, positionTop: number): Hit;
     }

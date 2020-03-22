@@ -1,5 +1,5 @@
 /*!
-FullCalendar Resource Day Grid Plugin v4.3.0
+FullCalendar Resource Day Grid Plugin v4.4.0
 Docs & License: https://fullcalendar.io/scheduler
 (c) 2019 Adam Shaw
 */
@@ -55,22 +55,24 @@ Docs & License: https://fullcalendar.io/scheduler
 
     var ResourceDayGrid = /** @class */ (function (_super) {
         __extends(ResourceDayGrid, _super);
-        function ResourceDayGrid(context, dayGrid) {
-            var _this = _super.call(this, context, dayGrid.el) || this;
+        function ResourceDayGrid(dayGrid) {
+            var _this = _super.call(this, dayGrid.el) || this;
             _this.splitter = new ResourceCommonPlugin.VResourceSplitter();
             _this.slicers = {};
             _this.joiner = new ResourceDayGridJoiner();
             _this.dayGrid = dayGrid;
-            context.calendar.registerInteractiveComponent(_this, {
-                el: _this.dayGrid.el
-            });
             return _this;
         }
+        ResourceDayGrid.prototype.firstContext = function (context) {
+            context.calendar.registerInteractiveComponent(this, {
+                el: this.dayGrid.el
+            });
+        };
         ResourceDayGrid.prototype.destroy = function () {
             _super.prototype.destroy.call(this);
-            this.calendar.unregisterInteractiveComponent(this);
+            this.context.calendar.unregisterInteractiveComponent(this);
         };
-        ResourceDayGrid.prototype.render = function (props) {
+        ResourceDayGrid.prototype.render = function (props, context) {
             var _this = this;
             var dayGrid = this.dayGrid;
             var dateProfile = props.dateProfile, resourceDayTable = props.resourceDayTable, nextDayThreshold = props.nextDayThreshold;
@@ -79,10 +81,10 @@ Docs & License: https://fullcalendar.io/scheduler
                 return _this.slicers[resourceId] || new DayGridPlugin.DayGridSlicer();
             });
             var slicedProps = core.mapHash(this.slicers, function (slicer, resourceId) {
-                return slicer.sliceProps(splitProps[resourceId], dateProfile, nextDayThreshold, dayGrid, resourceDayTable.dayTable);
+                return slicer.sliceProps(splitProps[resourceId], dateProfile, nextDayThreshold, context.calendar, dayGrid, resourceDayTable.dayTable);
             });
             dayGrid.allowAcrossResources = resourceDayTable.dayTable.colCnt === 1;
-            dayGrid.receiveProps(__assign({}, this.joiner.joinProps(slicedProps, resourceDayTable), { dateProfile: dateProfile, cells: resourceDayTable.cells, isRigid: props.isRigid }));
+            dayGrid.receiveProps(__assign({}, this.joiner.joinProps(slicedProps, resourceDayTable), { dateProfile: dateProfile, cells: resourceDayTable.cells, isRigid: props.isRigid }), context);
         };
         ResourceDayGrid.prototype.buildPositionCaches = function () {
             this.dayGrid.buildPositionCaches();
@@ -126,28 +128,21 @@ Docs & License: https://fullcalendar.io/scheduler
 
     var ResourceDayGridView = /** @class */ (function (_super) {
         __extends(ResourceDayGridView, _super);
-        function ResourceDayGridView(context, viewSpec, dateProfileGenerator, parentEl) {
-            var _this = _super.call(this, context, viewSpec, dateProfileGenerator, parentEl) || this;
+        function ResourceDayGridView() {
+            var _this = _super !== null && _super.apply(this, arguments) || this;
             _this.flattenResources = core.memoize(ResourceCommonPlugin.flattenResources);
             _this.buildResourceDayTable = core.memoize(buildResourceDayTable);
-            _this.resourceOrderSpecs = core.parseFieldSpecs(_this.opt('resourceOrder'));
-            if (_this.opt('columnHeader')) {
-                _this.header = new ResourceCommonPlugin.ResourceDayHeader(_this.context, _this.el.querySelector('.fc-head-container'));
-            }
-            _this.resourceDayGrid = new ResourceDayGrid(context, _this.dayGrid);
             return _this;
         }
-        ResourceDayGridView.prototype.destroy = function () {
-            _super.prototype.destroy.call(this);
-            if (this.header) {
-                this.header.destroy();
-            }
-            this.resourceDayGrid.destroy();
+        ResourceDayGridView.prototype._processOptions = function (options) {
+            _super.prototype._processOptions.call(this, options);
+            this.resourceOrderSpecs = core.parseFieldSpecs(options.resourceOrder);
         };
-        ResourceDayGridView.prototype.render = function (props) {
-            _super.prototype.render.call(this, props); // for flags for updateSize
+        ResourceDayGridView.prototype.render = function (props, context) {
+            _super.prototype.render.call(this, props, context); // for flags for updateSize. also _renderSkeleton/_unrenderSkeleton
+            var options = context.options, nextDayThreshold = context.nextDayThreshold;
             var resources = this.flattenResources(props.resourceStore, this.resourceOrderSpecs);
-            var resourceDayTable = this.buildResourceDayTable(this.props.dateProfile, this.dateProfileGenerator, resources, this.opt('datesAboveResources'));
+            var resourceDayTable = this.buildResourceDayTable(props.dateProfile, props.dateProfileGenerator, resources, options.datesAboveResources);
             if (this.header) {
                 this.header.receiveProps({
                     resources: resources,
@@ -155,7 +150,7 @@ Docs & License: https://fullcalendar.io/scheduler
                     dateProfile: props.dateProfile,
                     datesRepDistinctDays: true,
                     renderIntroHtml: this.renderHeadIntroHtml
-                });
+                }, context);
             }
             this.resourceDayGrid.receiveProps({
                 dateProfile: props.dateProfile,
@@ -168,8 +163,22 @@ Docs & License: https://fullcalendar.io/scheduler
                 eventDrag: props.eventDrag,
                 eventResize: props.eventResize,
                 isRigid: this.hasRigidRows(),
-                nextDayThreshold: this.nextDayThreshold
-            });
+                nextDayThreshold: nextDayThreshold
+            }, context);
+        };
+        ResourceDayGridView.prototype._renderSkeleton = function (context) {
+            _super.prototype._renderSkeleton.call(this, context);
+            if (context.options.columnHeader) {
+                this.header = new ResourceCommonPlugin.ResourceDayHeader(this.el.querySelector('.fc-head-container'));
+            }
+            this.resourceDayGrid = new ResourceDayGrid(this.dayGrid);
+        };
+        ResourceDayGridView.prototype._unrenderSkeleton = function () {
+            _super.prototype._unrenderSkeleton.call(this);
+            if (this.header) {
+                this.header.destroy();
+            }
+            this.resourceDayGrid.destroy();
         };
         ResourceDayGridView.needsResourceData = true; // for ResourceViewProps
         return ResourceDayGridView;

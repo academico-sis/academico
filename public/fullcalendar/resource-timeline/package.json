@@ -1,20 +1,20 @@
 {
   "_args": [
     [
-      "@fullcalendar/resource-timeline@^4.3.0",
-      "/home/thomas/academico/academico"
+      "@fullcalendar/resource-timeline@4.4.0",
+      "/home/thomas/academico"
     ]
   ],
-  "_from": "@fullcalendar/resource-timeline@>=4.3.0 <5.0.0",
+  "_from": "@fullcalendar/resource-timeline@4.4.0",
   "_hasShrinkwrap": false,
-  "_id": "@fullcalendar/resource-timeline@4.3.0",
+  "_id": "@fullcalendar/resource-timeline@4.4.0",
   "_inCache": true,
   "_installable": true,
   "_location": "/@fullcalendar/resource-timeline",
   "_nodeVersion": "11.6.0",
   "_npmOperationalInternal": {
     "host": "s3://npm-registry-packages",
-    "tmp": "tmp/resource-timeline_4.3.0_1565407477994_0.5418564072483638"
+    "tmp": "tmp/resource-timeline_4.4.0_1581468877109_0.5937859509827006"
   },
   "_npmUser": {
     "email": "arshaw@arshaw.com",
@@ -24,20 +24,20 @@
   "_phantomChildren": {},
   "_requested": {
     "name": "@fullcalendar/resource-timeline",
-    "raw": "@fullcalendar/resource-timeline@^4.3.0",
-    "rawSpec": "^4.3.0",
+    "raw": "@fullcalendar/resource-timeline@4.4.0",
+    "rawSpec": "4.4.0",
     "scope": "@fullcalendar",
-    "spec": ">=4.3.0 <5.0.0",
-    "type": "range"
+    "spec": "4.4.0",
+    "type": "version"
   },
   "_requiredBy": [
     "/"
   ],
-  "_resolved": "https://registry.npmjs.org/@fullcalendar/resource-timeline/-/resource-timeline-4.3.0.tgz",
-  "_shasum": "4a1c1ce62c5c4174a6ceb6aa69f8ad5ac1b4c401",
+  "_resolved": "https://registry.npmjs.org/@fullcalendar/resource-timeline/-/resource-timeline-4.4.0.tgz",
+  "_shasum": "857892350d449b1efb477df908454160df8e24dd",
   "_shrinkwrap": null,
-  "_spec": "@fullcalendar/resource-timeline@^4.3.0",
-  "_where": "/home/thomas/academico/academico",
+  "_spec": "@fullcalendar/resource-timeline@4.4.0",
+  "_where": "/home/thomas/academico",
   "author": {
     "email": "arshaw@arshaw.com",
     "name": "Adam Shaw",
@@ -48,19 +48,19 @@
   },
   "copyright": "2019 Adam Shaw",
   "dependencies": {
-    "@fullcalendar/resource-common": "~4.3.0",
-    "@fullcalendar/timeline": "~4.3.0"
+    "@fullcalendar/resource-common": "~4.4.0",
+    "@fullcalendar/timeline": "~4.4.0"
   },
   "description": "Display events and resources on a horizontal time axis",
   "devDependencies": {},
   "directories": {},
   "dist": {
     "fileCount": 9,
-    "integrity": "sha512-FOgrsanEjYGVCzzn4DRIeFGpLyA2apDPZ74snhovBOTsqO9043wNtkH8N6jlhnwIMC7EwNJNbtaY+MgapMBtUw==",
-    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJdTjj2CRA9TVsSAnZWagAA18YQAI0wSLinc9wfAJeD31Vt\nmJYMomjSyd9TbN+/PAQayS7MKL34tHU8L14qprJm7CWW99XAz/lwUwDLQnpG\nOvBLKXGLE+FRBhPueTgXuCHvIKOSUvy/AsZb0bybAIkgVF4lUztYNhdtQeUy\nSketgJcZKDegmJBJqhJECGKHxJCTBoMMdK8y4HYyzh/902MSMy6BBVpBQPlj\nYq1Te2MuNQqAZlzU+QBzYEAyS5T6fkFZHYes/Hxl2OdTDMQzIpn8lwEQzXn1\nfmOboH4omNsg2MuANNOEtkXlUIjNa9yVZuzbff5oFBxCya6qT1Gb2nyntleV\nX4zC3QsD1MwkwwK9TWq931bH1brzGndkaGfG6mZ+xIAWgrMXltFtqxm1i8vj\nbJo1YLBHVevlix6SA3hXLfq1fvgmOx7vOOlsKjWlz0Rs6MmbZ328ROGA8Tyl\nB4hYdZIpr0hrEp4iuejZ4F/0J1S4coJ+tEexnZLrLIgZBgun88uM9D2MsRSn\ntMt0nB2yPxGqp5FnxPbVk2jO5Kd4QOdyHTFzBL3AoFRZAqPhiHxMHf5zZANG\nkOVZT11j0hT3IAhCMXsbg6Dy38irwZdIYrARzDtFU/uDdzTUTLP++Zu5A8YV\nSHYEs0p/36ju9RBsUOkMpoDEQUzLCvKIcNQQQLHGJxYOMvXWIB+aDXMRwFlb\nTeAy\r\n=hFqh\r\n-----END PGP SIGNATURE-----\r\n",
-    "shasum": "4a1c1ce62c5c4174a6ceb6aa69f8ad5ac1b4c401",
-    "tarball": "https://registry.npmjs.org/@fullcalendar/resource-timeline/-/resource-timeline-4.3.0.tgz",
-    "unpackedSize": 134047
+    "integrity": "sha512-r1CjidsZ3BVe3/wmKMAps0blWLdCG9GvvtwslS6mMDFq08LW5hziJ6snW52EoBUhMPai0iPFDxS1ZOFGqalPdQ==",
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJeQ0zVCRA9TVsSAnZWagAAfcAQAJNYolWKQ4W9iT46xOti\nVS2oFxqtHVfJRKt3yi9ggeoM3uaxXbkvVT/L5Vyh1ujbfbyd7KnbB8cEm1aH\nevG8QTNhYP66p3BMmSH3J/2Rb8PNvcZO9OpziDHNFjR/D7TpR0WKvrd0Jjka\n1iDTWBJ3mUVNzcbucKnspS0tcg3N5oSlyxqGteOwEvVN//TK7UCPt0fZWPs0\nprFe5t3Ljol4svXUYTWVFg+GEEktRvWWwCjk/bXcwORSKv+rujTJStC8mEg0\nPM1nFvTjJRWi8u5txVeK9zNHQ2r2wOUScLoJvNtNyUZMGmVO0rlR6vLbGl3D\nAHFLFYRsiEd41KD290wL8zq5KUwhWQJhCdXjnZKx3JHuUy+58t5VIq4UNdGc\n4sv7H0UEeZbRoUTpggQhFI69GBEPO5yEd2DnVDIoqcSWsFG0c6dDZKocc4Ut\nPyR3sL4JBSdLUTClyCC7vEJp7jxYg7TOsx8RsCerwgGi80oDgR2XFmtUrnE5\niwr2N6IDoldOMAyunJnLC6fS401cDps73lZNldEntBozHeNYd6kZDwWd41BX\nAzwyYzfOIBaWi/p59xALJ2McmlEEdgfzTYSrDLFm7oHs+jqyZlcxWw8nJY6h\nvKIUroSSDv11JDM+wsejQ7OCDbX64vsEtF9YLddQ00lEXkRFP6YcAqX3Mxbh\nBqBm\r\n=nbHq\r\n-----END PGP SIGNATURE-----\r\n",
+    "shasum": "857892350d449b1efb477df908454160df8e24dd",
+    "tarball": "https://registry.npmjs.org/@fullcalendar/resource-timeline/-/resource-timeline-4.4.0.tgz",
+    "unpackedSize": 141184
   },
   "docs": "https://fullcalendar.io/docs/timeline-view",
   "homepage": "https://fullcalendar.io/scheduler",
@@ -81,7 +81,7 @@
   "name": "@fullcalendar/resource-timeline",
   "optionalDependencies": {},
   "peerDependencies": {
-    "@fullcalendar/core": "~4.3.0"
+    "@fullcalendar/core": "~4.4.0"
   },
   "readme": "ERROR: No README data found!",
   "repository": {
@@ -92,5 +92,5 @@
   "title": "FullCalendar Resource Timeline Plugin",
   "types": "main.d.ts",
   "unpkg": "main.min.js",
-  "version": "4.3.0"
+  "version": "4.4.0"
 }

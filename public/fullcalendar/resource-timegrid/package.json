@@ -1,20 +1,20 @@
 {
   "_args": [
     [
-      "@fullcalendar/resource-timegrid@^4.3.0",
-      "/home/thomas/academico/academico"
+      "@fullcalendar/resource-timegrid@4.4.0",
+      "/home/thomas/academico"
     ]
   ],
-  "_from": "@fullcalendar/resource-timegrid@>=4.3.0 <5.0.0",
+  "_from": "@fullcalendar/resource-timegrid@4.4.0",
   "_hasShrinkwrap": false,
-  "_id": "@fullcalendar/resource-timegrid@4.3.0",
+  "_id": "@fullcalendar/resource-timegrid@4.4.0",
   "_inCache": true,
   "_installable": true,
   "_location": "/@fullcalendar/resource-timegrid",
   "_nodeVersion": "11.6.0",
   "_npmOperationalInternal": {
     "host": "s3://npm-registry-packages",
-    "tmp": "tmp/resource-timegrid_4.3.0_1565407477623_0.28203387329173535"
+    "tmp": "tmp/resource-timegrid_4.4.0_1581468877015_0.7957456484374394"
   },
   "_npmUser": {
     "email": "arshaw@arshaw.com",
@@ -24,20 +24,20 @@
   "_phantomChildren": {},
   "_requested": {
     "name": "@fullcalendar/resource-timegrid",
-    "raw": "@fullcalendar/resource-timegrid@^4.3.0",
-    "rawSpec": "^4.3.0",
+    "raw": "@fullcalendar/resource-timegrid@4.4.0",
+    "rawSpec": "4.4.0",
     "scope": "@fullcalendar",
-    "spec": ">=4.3.0 <5.0.0",
-    "type": "range"
+    "spec": "4.4.0",
+    "type": "version"
   },
   "_requiredBy": [
     "/"
   ],
-  "_resolved": "https://registry.npmjs.org/@fullcalendar/resource-timegrid/-/resource-timegrid-4.3.0.tgz",
-  "_shasum": "741c9f4339737e3a6a5303b1c638820a52e99e65",
+  "_resolved": "https://registry.npmjs.org/@fullcalendar/resource-timegrid/-/resource-timegrid-4.4.0.tgz",
+  "_shasum": "0ee20c992fa6065cc186915c977dd5c367d2cd0c",
   "_shrinkwrap": null,
-  "_spec": "@fullcalendar/resource-timegrid@^4.3.0",
-  "_where": "/home/thomas/academico/academico",
+  "_spec": "@fullcalendar/resource-timegrid@4.4.0",
+  "_where": "/home/thomas/academico",
   "author": {
     "email": "arshaw@arshaw.com",
     "name": "Adam Shaw",
@@ -48,20 +48,20 @@
   },
   "copyright": "2019 Adam Shaw",
   "dependencies": {
-    "@fullcalendar/resource-common": "~4.3.0",
-    "@fullcalendar/resource-daygrid": "~4.3.0",
-    "@fullcalendar/timegrid": "~4.3.0"
+    "@fullcalendar/resource-common": "~4.4.0",
+    "@fullcalendar/resource-daygrid": "~4.4.0",
+    "@fullcalendar/timegrid": "~4.4.0"
   },
   "description": "Displays events on a vertical resource view with time slots",
   "devDependencies": {},
   "directories": {},
   "dist": {
-    "fileCount": 7,
-    "integrity": "sha512-mwzItAuDk0sVSQ2epCkJXFu3wiYxPHHN2NDB7DUnluEtN/jVThKTT7pW94K07lqj8Nq5ZRvnTdl7QskNPTcfIw==",
-    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJdTjj2CRA9TVsSAnZWagAALh4P/jqYs9Peyn/g0x8fZJo+\nvSSBiZacitXD4eez5NYkYCWgAZXIIdGh14UWzEqvyfbwHuQDRTU3ge855H/7\nSCVRAfEOGDNYHGutRlKgNti9j53aIXrWr7rpsOUMwHm8sWcWEGJcQCGIljQy\noZB5DQS83R2WSQaLtHLwHe/YUIMcm6/oW27S71CPNqSXDYk1/SZaL083CjQh\nviuAXlRGm8lmpq6FUz5k3mSr3OVYTngmWHiqDBhqbX8ZGAveLgby7/kRtEE4\nnWFOmbZMtz5eIVZnb2ZfA786yjzW8kOpU6xlV4POqpgfTM5O4bKmbUeQIrDp\nCOP7fszZYJLSln9XsLD9muNzYhWKjhBFSImMpJmMAVJcY9XBWjXYFM5+2LfE\nNuxF8g6HaBfm0inEJwqDdHrs30ev3F73Ja7OIgyy969hPVonttOj6bhpycFO\nrydLKKXw6anTU/blFWsU/71K85wDf8aojowcPcsmOT2dtGrgnlSoRoMc0TDA\nc5tN3KuxALukvVLcUK1JxwJg1Dn7JCjpPUi3/yLJ8lEbpi80/I405e2rpoex\ntId/NippceJbc5DcUNR7SWR3iDAN9Hn9gIoBITVdJ39QIKn0yIH0wi1o2PpM\nMv4aUa1H5JpfiyT+8Feh0gf9gLohf6loyaFtxMk6vXzYmjjQa2Qm2vKz1Fm+\nv5BY\r\n=jlNv\r\n-----END PGP SIGNATURE-----\r\n",
-    "shasum": "741c9f4339737e3a6a5303b1c638820a52e99e65",
-    "tarball": "https://registry.npmjs.org/@fullcalendar/resource-timegrid/-/resource-timegrid-4.3.0.tgz",
-    "unpackedSize": 30861
+    "fileCount": 8,
+    "integrity": "sha512-0Vn+WQbysgqBsp0JtRsOkGWACCRFY0oq/Thxgldfz6MXrDFXC64HZU1FTwSZFdfCd01n36SqBcBr1eoAOz5J4g==",
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJeQ0zNCRA9TVsSAnZWagAAHq8P/iGe/bX5CyoOLY3gqmUF\neK8eCS3W8ocH+uiQS1Xgc2GKRakv9xhceKo9bsgXa7rhORlr7XSkJQLGytjQ\nwDpwbtJ53QBiCRuLSIrSsMCBdRU3uuLSUI1MKtwuFk1e+TtAqiBVnSqJCapM\nmjulX9I8WA8gsLwxQncJQZ/kzjRQD5Y0V3YQJC5bVolSo+9qGvyhaKYa5IId\nTSf0CbosQNNPlGdenxcjkhzfnVVp7OioVm2acGiJclPUxVqgTTga7f904sN+\nBUJiiAQZ1HxnU3+dS5b4EVzjEGb6lkPX/+kOvq1/gmKSvqCTTt3CHEqhiN5j\nx7f3GDpRFJcqRAhA/0HV+zmR6zI3ygil/CwpTS4QnhDeaulqBPR1CAceY8GX\nfMFDtz5+q2BXVpqgwrZrwgieZ3YdM31ShjMHK4EYlzSiOs2YLZjm+b48Rdx7\ntWuUF8w/rh/W8pLyRrIDZrP4WSIctRIYJiwhww9JaINGV7O9SuuzfKy1ridi\ndaTiwuDwLfsPtemThfoC4w05h1Pu66Y3u829qi3C2R43P3YruFTinoom79gA\n9jecT3ULLNQB8d67rHOMEvXd19cV3eZfzP+Je9XOV7SRB+d6YJ4boNMPxpPq\nr0ApORORYuO9WoZVzoSqzZovAOk0nHsAvLM5a5zvmx3xTi29Acb6LHcS3cer\nnH8p\r\n=Lj0T\r\n-----END PGP SIGNATURE-----\r\n",
+    "shasum": "0ee20c992fa6065cc186915c977dd5c367d2cd0c",
+    "tarball": "https://registry.npmjs.org/@fullcalendar/resource-timegrid/-/resource-timegrid-4.4.0.tgz",
+    "unpackedSize": 49913
   },
   "docs": "https://fullcalendar.io/docs/vertical-resource-view",
   "homepage": "https://fullcalendar.io/scheduler",
@@ -82,7 +82,7 @@
   "name": "@fullcalendar/resource-timegrid",
   "optionalDependencies": {},
   "peerDependencies": {
-    "@fullcalendar/core": "~4.3.0"
+    "@fullcalendar/core": "~4.4.0"
   },
   "readme": "ERROR: No README data found!",
   "repository": {
@@ -93,5 +93,5 @@
   "title": "FullCalendar Resource Time Grid Plugin",
   "types": "main.d.ts",
   "unpkg": "main.min.js",
-  "version": "4.3.0"
+  "version": "4.4.0"
 }

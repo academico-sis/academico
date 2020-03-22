@@ -1,20 +1,20 @@
 {
   "_args": [
     [
-      "@fullcalendar/interaction@^4.3.0",
-      "/home/thomas/academico/academico"
+      "@fullcalendar/interaction@4.4.0",
+      "/home/thomas/academico"
     ]
   ],
-  "_from": "@fullcalendar/interaction@>=4.3.0 <5.0.0",
+  "_from": "@fullcalendar/interaction@4.4.0",
   "_hasShrinkwrap": false,
-  "_id": "@fullcalendar/interaction@4.3.0",
+  "_id": "@fullcalendar/interaction@4.4.0",
   "_inCache": true,
   "_installable": true,
   "_location": "/@fullcalendar/interaction",
   "_nodeVersion": "11.6.0",
   "_npmOperationalInternal": {
     "host": "s3://npm-registry-packages",
-    "tmp": "tmp/interaction_4.3.0_1565407478233_0.3140368705445633"
+    "tmp": "tmp/interaction_4.4.0_1581468877180_0.4795853459025905"
   },
   "_npmUser": {
     "email": "arshaw@arshaw.com",
@@ -24,20 +24,20 @@
   "_phantomChildren": {},
   "_requested": {
     "name": "@fullcalendar/interaction",
-    "raw": "@fullcalendar/interaction@^4.3.0",
-    "rawSpec": "^4.3.0",
+    "raw": "@fullcalendar/interaction@4.4.0",
+    "rawSpec": "4.4.0",
     "scope": "@fullcalendar",
-    "spec": ">=4.3.0 <5.0.0",
-    "type": "range"
+    "spec": "4.4.0",
+    "type": "version"
   },
   "_requiredBy": [
     "/"
   ],
-  "_resolved": "https://registry.npmjs.org/@fullcalendar/interaction/-/interaction-4.3.0.tgz",
-  "_shasum": "a52d22e4fa2666d5032c77afde75ecfad95c0f3b",
+  "_resolved": "https://registry.npmjs.org/@fullcalendar/interaction/-/interaction-4.4.0.tgz",
+  "_shasum": "fc8f8baaf5cb3533d6ce0a684d6f9952a4430685",
   "_shrinkwrap": null,
-  "_spec": "@fullcalendar/interaction@^4.3.0",
-  "_where": "/home/thomas/academico/academico",
+  "_spec": "@fullcalendar/interaction@4.4.0",
+  "_where": "/home/thomas/academico",
   "author": {
     "email": "arshaw@arshaw.com",
     "name": "Adam Shaw",
@@ -52,12 +52,12 @@
   "devDependencies": {},
   "directories": {},
   "dist": {
-    "fileCount": 7,
-    "integrity": "sha512-kaKV+tdgH/oIrwTSMGYFec989L5r+KMYJ9ybwLc8G3LbMVcebo8fAlN9VizmGQAuopKfyvOw8yzJdjfmVCCRYQ==",
-    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJdTjj9CRA9TVsSAnZWagAA3kMP/0kVeDrPZFW6ti49nfgy\n4l3YOpu1cISCGVhQuQKXzuW4lo/fg0W//GAeJafn6QEIL2nw171fxtSaug/P\n53uQxus5RzmTBH/PKG9sDTOwOuE7GSm9c243Cx/hnn4ZrWMTLGXsbQubRzwa\nwjsiLpH1A2VQ6q+snjJ5j9TM1z0G94S1JRRDMDSNcm/bYzUpIx3Do3T0aq4C\nQOIi6qm81xO0dC8MmfgRKtC9HRYrKmazpParfguq7aOCPAPij9jEqHLy6U0j\noR5FZCAa4bIJj62oJED3jT3+LVunX4Iv2LxxKIzGh2Re6lwavbjwNO6S1Is3\nVIjXsSncI50Yo6Q8NQCQbwXh1AJ/IWjIcKf67smFWgJ61kFSe3EXHTQ693Vw\nOEIxFx/JM0k/rJY/9C5taEX7mYU5SeDVp7OTJpdd5ReTjgk4OeJeu/oAVrr5\ntGOGv6B4KOv5fOAO1HPsnkcg6Z0Pm0v51OQVgZBlYp9LcGFz3jFPiREnWJfv\nJIljdSTw/YBy70Xm+Kgj5m/mppwmoqFkFsxL8q16XmI4FOtUsfLpjHPSOTUp\nlDwdx+cj0Msp+CfCjVzT8b6X4lFNZYkj41K+13SzAU88tSPlnk7vjpy+8vMV\n8d7bv5b8DhlvSJkihzQbMDOGZlY0oNcHk7cXRzNSCT6IcB/jmkgQIT7G+pTU\ngivN\r\n=RE6H\r\n-----END PGP SIGNATURE-----\r\n",
-    "shasum": "a52d22e4fa2666d5032c77afde75ecfad95c0f3b",
-    "tarball": "https://registry.npmjs.org/@fullcalendar/interaction/-/interaction-4.3.0.tgz",
-    "unpackedSize": 248613
+    "fileCount": 8,
+    "integrity": "sha512-nGu0ZzYYlNpIhqfyv3JupteWKFETs3W1MzbRJcEZkuPncn4BooEi4A2blgHfacHAmmpaNkT84tAmhzi734MFBA==",
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJeQ0zVCRA9TVsSAnZWagAAnRkP/0Bt4m0qVQnDKSRTi5Zh\nAif5TWB4srZosKzhBqhRSgFHahFdJkrBmVsm9c6A/RVYM1YdZLZkDEgmitKH\nuxVAvbxNCd03rG3TG+A3Ba+qpjaRRRPNHgwl8QmqJZ6SryNvi33LTbbes8IZ\nvrkjdemNo7+kHX7d0g+YzlunUnRa50+nA1yWbMPxyoT8GcaO5O66GgfUH89g\n+W4sGE+2LBijvz2zHC3L/Vuf6Si/BKROy8u54zNrchki7zwZOT8aVVtvg89F\njkJMecKCl8/41mnNZfygMTk7TM50cyjMYU7DqlQdLvOfqNwG/7tXqIKkgCiX\nY8T9P83HoIYyMDf1VBHqdhrVpB7ZGuGUhxO2qECdvsEtGyge24wfdn1OQ7sV\nph1d89MyfFIyxCgdV6uSsD6HjFkhSbj2I5Wq8KjxPXcrw+Iy8zMLmNIQEodP\nmNfkVuPMO4XgYM2a5bXO4lcbpOUHbZjciJVBhRxfmrhm3Y7+AGkIc2Wx7WzH\nFUHzsBbva2f3sSz+bme5AY9Q3jSzSlcnc1g40k6rRwvYZhCAwomSPb5FINpK\nYNNiAQMP2+5T3NJNIIEfpUI5HG4HB+vcEBz+tQWjGAr74ClpmReznd/2j/s8\nbJgIfx/FwHHABpNjfzGJbtk4K2zd7Ss+JLXJ81Cj0WwC2VzecEfOCh+GjMP0\noJ/T\r\n=embF\r\n-----END PGP SIGNATURE-----\r\n",
+    "shasum": "fc8f8baaf5cb3533d6ce0a684d6f9952a4430685",
+    "tarball": "https://registry.npmjs.org/@fullcalendar/interaction/-/interaction-4.4.0.tgz",
+    "unpackedSize": 428525
   },
   "docs": "https://fullcalendar.io/docs/editable",
   "homepage": "https://fullcalendar.io/",
@@ -78,7 +78,7 @@
   "name": "@fullcalendar/interaction",
   "optionalDependencies": {},
   "peerDependencies": {
-    "@fullcalendar/core": "~4.3.0"
+    "@fullcalendar/core": "~4.4.0"
   },
   "readme": "ERROR: No README data found!",
   "repository": {
@@ -89,5 +89,5 @@
   "title": "FullCalendar Interaction Plugin",
   "types": "main.d.ts",
   "unpkg": "main.min.js",
-  "version": "4.3.0"
+  "version": "4.4.0"
 }

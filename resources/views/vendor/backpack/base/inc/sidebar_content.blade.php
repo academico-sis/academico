@@ -28,7 +28,7 @@
           <li class='nav-item'><a class='nav-link' href='{{ backpack_url('skilltype') }}'><span>@lang('Skill Types')</span></a></li>
           <li class='nav-item'><a class='nav-link' href='{{ backpack_url('skillscale') }}'><span>@lang('Skill Scales')</span></a></li>
           <li class='nav-item'><a class='nav-link' href='{{ backpack_url('resulttype') }}'><span>@lang('Result Types')</span></a></li>
-  
+
       </ul>
     </li>
 @endif
@@ -128,22 +128,22 @@
     </li>
 
     <li class='nav-item'><a class='nav-link' href='{{ route('setupHome') }}'><i class='fa fa-gears'></i> <span>@lang('Setup Dashboard')</span></a></li>
-    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('config') }}'><i class='fa fa-gears'></i> <span>@lang('Internal Settings')</span></a></li>    
+    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('config') }}'><i class='fa fa-gears'></i> <span>@lang('Internal Settings')</span></a></li>
 
 @endif
 
-@if(backpack_user()->isTeacher()) {{-- todo transform this --}}
+@if(backpack_user()->isTeacher())
   <li class="nav-title">@lang('TEACHER')</li>
 
   <li class='nav-item'><a class='nav-link' href="{{ route('teacherDashboard') }}"><i class="nav-icon fa fa-home"></i> <span>@lang('Teacher Dashboard')</span></a></li>
   <li class='nav-item'><a class='nav-link' href="{{ route('teacherCalendar', ['teacher' => backpack_user()->teacher_id]) }}"><i class="nav-icon fa fa-calendar"></i> <span>@lang('My Schedule')</span></a></li>
   <li class='nav-item'><a class='nav-link' href="{{ route('teacherHours', ['teacher' => backpack_user()->teacher_id]) }}"><i class="nav-icon fa fa-clock-o"></i> <span>@lang('My Hours')</span></a></li>
-
+  <li class='nav-item'><a class='nav-link' href="https://moodle.afcuenca.org.ec"><i class="nav-icon fa fa-clock-o"></i> <span>@lang('SPHERE')</span></a></li>
 @endif
 
-@if(backpack_user()->isTeacher() || (backpack_user()->isStudent()) && backpack_user()->student->enrollments()->exists()) {{-- todo transform this --}}
+@if((backpack_user()->isStudent()))
+  <li class="nav-item"><a class='nav-link' href="{{ route('backpack.account.info') }}"><i class="fa fa-user"></i> <span>{{ trans('backpack::base.my_account') }}</span></a></li>
   <li class='nav-item'><a class='nav-link' href="https://moodle.afcuenca.org.ec"><i class="nav-icon fa fa-clock-o"></i> <span>@lang('SPHERE')</span></a></li>
-
 @endif
 
 

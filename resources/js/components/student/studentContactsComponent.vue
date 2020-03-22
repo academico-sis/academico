@@ -2,7 +2,7 @@
   <div class="card">
     <div class="card-body">
     <ul class="nav nav-tabs" id="myTab1" role="tablist">
-        <li class="nav-item"><a class="nav-link active" id="student-tab" data-toggle="tab" href="#student-pane" role="tab" aria-controls="student-tab" aria-selected="true">Student Info</a></li>
+        <li class="nav-item"><a class="nav-link active" id="student-tab" data-toggle="tab" href="#student-pane" role="tab" aria-controls="student-tab" aria-selected="true">{{ $t('Student') }}</a></li>
         <li class="nav-item" v-for="contact in contacts" v-bind:key="contact.id">
             <a class="nav-link" :id="contact.id+'-tab'" data-toggle="tab" v-bind:href="`#contact-${contact.id}-pane`" role="tab" :aria-controls="contact.id+'-tab'" aria-selected="false">{{ $t('Additional Contact') }}</a>
         </li>

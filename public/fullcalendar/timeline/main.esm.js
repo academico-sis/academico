@@ -1,10 +1,10 @@
 /*!
-FullCalendar Timeline Plugin v4.3.0
+FullCalendar Timeline Plugin v4.4.0
 Docs & License: https://fullcalendar.io/scheduler
 (c) 2019 Adam Shaw
 */
 
-import { htmlToElement, forceClassName, applyStyle, debounce, preventDefault, ScrollComponent, EmitterMixin, removeElement, createElement, computeEdges, asRoughMs, isSingleDay, getDayClasses, findElements, Component, PositionCache, findChildren, isInt, multiplyDuration, config, createFormatter, greatestDurationDenominator, createDuration, wholeDivideDurations, addDays, startOfDay, computeVisibleDayRange, asRoughMinutes, padStart, asRoughSeconds, diffWholeDays, buildGotoAnchorHtml, htmlEscape, translateRect, rangeContainsMarker, cssToStr, computeHeightAndMargins, applyStyleProp, FgEventRenderer, FillRenderer, memoizeRendering, DateComponent, intersectRanges, addMs, Slicer, View, createPlugin } from '@fullcalendar/core';
+import { htmlToElement, forceClassName, applyStyle, debounce, preventDefault, ScrollComponent, EmitterMixin, removeElement, createElement, computeEdges, asRoughMs, isSingleDay, getDayClasses, findElements, Component, PositionCache, findChildren, isInt, multiplyDuration, config, createFormatter, greatestDurationDenominator, createDuration, wholeDivideDurations, addDays, startOfDay, computeVisibleDayRange, asRoughMinutes, padStart, asRoughSeconds, diffWholeDays, buildGotoAnchorHtml, htmlEscape, translateRect, memoizeRendering, rangeContainsMarker, computeEventDraggable, computeEventStartResizable, computeEventEndResizable, cssToStr, computeHeightAndMargins, applyStyleProp, FgEventRenderer, FillRenderer, DateComponent, intersectRanges, addMs, Slicer, View, createPlugin } from '@fullcalendar/core';
 
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation. All rights reserved.
@@ -525,13 +525,16 @@ var HeaderBodyLayout = /** @class */ (function () {
 
 var TimelineHeader = /** @class */ (function (_super) {
     __extends(TimelineHeader, _super);
-    function TimelineHeader(context, parentEl) {
-        var _this = _super.call(this, context) || this;
-        parentEl.appendChild(_this.tableEl = createElement('table', {
-            className: _this.theme.getClass('tableGrid')
-        }));
+    function TimelineHeader(parentEl) {
+        var _this = _super.call(this) || this;
+        _this.parentEl = parentEl;
         return _this;
     }
+    TimelineHeader.prototype.firstContext = function (context) {
+        this.parentEl.appendChild(this.tableEl = createElement('table', {
+            className: context.theme.getClass('tableGrid')
+        }));
+    };
     TimelineHeader.prototype.destroy = function () {
         removeElement(this.tableEl);
         _super.prototype.destroy.call(this);
@@ -540,7 +543,7 @@ var TimelineHeader = /** @class */ (function (_super) {
         this.renderDates(props.tDateProfile);
     };
     TimelineHeader.prototype.renderDates = function (tDateProfile) {
-        var _a = this, dateEnv = _a.dateEnv, theme = _a.theme;
+        var _a = this.context, dateEnv = _a.dateEnv, theme = _a.theme;
         var cellRows = tDateProfile.cellRows;
         var lastRow = cellRows[cellRows.length - 1];
         var isChrono = asRoughMs(tDateProfile.labelInterval) > asRoughMs(tDateProfile.slotDuration);
@@ -593,8 +596,8 @@ var TimelineHeader = /** @class */ (function (_super) {
 
 var TimelineSlats = /** @class */ (function (_super) {
     __extends(TimelineSlats, _super);
-    function TimelineSlats(context, parentEl) {
-        var _this = _super.call(this, context) || this;
+    function TimelineSlats(parentEl) {
+        var _this = _super.call(this) || this;
         parentEl.appendChild(_this.el = createElement('div', { className: 'fc-slats' }));
         return _this;
     }
@@ -606,7 +609,7 @@ var TimelineSlats = /** @class */ (function (_super) {
         this.renderDates(props.tDateProfile);
     };
     TimelineSlats.prototype.renderDates = function (tDateProfile) {
-        var _a = this, theme = _a.theme, view = _a.view, dateEnv = _a.dateEnv;
+        var _a = this.context, calendar = _a.calendar, view = _a.view, theme = _a.theme, dateEnv = _a.dateEnv;
         var slotDates = tDateProfile.slotDates, isWeekStarts = tDateProfile.isWeekStarts;
         var html = '<table class="' + theme.getClass('tableGrid') + '">' +
             '<colgroup>';
@@ -623,7 +626,7 @@ var TimelineSlats = /** @class */ (function (_super) {
         this.slatColEls = findElements(this.el, 'col');
         this.slatEls = findElements(this.el, 'td');
         for (var i = 0; i < slotDates.length; i++) {
-            view.publiclyTrigger('dayRender', [
+            calendar.publiclyTrigger('dayRender', [
                 {
                     date: dateEnv.toDate(slotDates[i]),
                     el: this.slatEls[i],
@@ -641,7 +644,7 @@ var TimelineSlats = /** @class */ (function (_super) {
         );
     };
     TimelineSlats.prototype.slatCellHtml = function (date, isEm, tDateProfile) {
-        var _a = this, theme = _a.theme, dateEnv = _a.dateEnv;
+        var _a = this.context, theme = _a.theme, dateEnv = _a.dateEnv;
         var classes;
         if (tDateProfile.isTimeScale) {
             classes = [];
@@ -667,17 +670,18 @@ var TimelineSlats = /** @class */ (function (_super) {
     };
     TimelineSlats.prototype.positionToHit = function (leftPosition) {
         var outerCoordCache = this.outerCoordCache;
+        var _a = this.context, dateEnv = _a.dateEnv, isRtl = _a.isRtl;
         var tDateProfile = this.props.tDateProfile;
         var slatIndex = outerCoordCache.leftToIndex(leftPosition);
         if (slatIndex != null) {
             // somewhat similar to what TimeGrid does. consolidate?
             var slatWidth = outerCoordCache.getWidth(slatIndex);
-            var partial = this.isRtl ?
+            var partial = isRtl ?
                 (outerCoordCache.rights[slatIndex] - leftPosition) / slatWidth :
                 (leftPosition - outerCoordCache.lefts[slatIndex]) / slatWidth;
             var localSnapIndex = Math.floor(partial * tDateProfile.snapsPerSlot);
-            var start = this.dateEnv.add(tDateProfile.slotDates[slatIndex], multiplyDuration(tDateProfile.snapDuration, localSnapIndex));
-            var end = this.dateEnv.add(start, tDateProfile.snapDuration);
+            var start = dateEnv.add(tDateProfile.slotDates[slatIndex], multiplyDuration(tDateProfile.snapDuration, localSnapIndex));
+            var end = dateEnv.add(start, tDateProfile.snapDuration);
             return {
                 dateSpan: {
                     range: { start: start, end: end },
@@ -718,22 +722,21 @@ var STOCK_SUB_DURATIONS = [
     { milliseconds: 10 },
     { milliseconds: 1 }
 ];
-function buildTimelineDateProfile(dateProfile, view) {
-    var dateEnv = view.dateEnv;
+function buildTimelineDateProfile(dateProfile, dateEnv, allOptions, dateProfileGenerator) {
     var tDateProfile = {
-        labelInterval: queryDurationOption(view, 'slotLabelInterval'),
-        slotDuration: queryDurationOption(view, 'slotDuration')
+        labelInterval: queryDurationOption(allOptions, 'slotLabelInterval'),
+        slotDuration: queryDurationOption(allOptions, 'slotDuration')
     };
     validateLabelAndSlot(tDateProfile, dateProfile, dateEnv); // validate after computed grid duration
     ensureLabelInterval(tDateProfile, dateProfile, dateEnv);
     ensureSlotDuration(tDateProfile, dateProfile, dateEnv);
-    var input = view.opt('slotLabelFormat');
+    var input = allOptions.slotLabelFormat;
     var rawFormats = Array.isArray(input) ?
         input
         : (input != null) ?
             [input]
             :
-                computeHeaderFormats(tDateProfile, dateProfile, dateEnv, view);
+                computeHeaderFormats(tDateProfile, dateProfile, dateEnv, allOptions);
     tDateProfile.headerFormats = rawFormats.map(function (rawFormat) {
         return createFormatter(rawFormat);
     });
@@ -749,7 +752,7 @@ function buildTimelineDateProfile(dateProfile, view) {
     tDateProfile.emphasizeWeeks =
         isSingleDay(tDateProfile.slotDuration) &&
             currentRangeAs('weeks', dateProfile, dateEnv) >= 2 &&
-            !view.opt('businessHours');
+            !allOptions.businessHours;
     /*
     console.log('label interval =', timelineView.labelInterval.humanize())
     console.log('slot duration =', timelineView.slotDuration.humanize())
@@ -757,7 +760,7 @@ function buildTimelineDateProfile(dateProfile, view) {
     console.log('isTimeScale', timelineView.isTimeScale)
     console.log('largeUnit', timelineView.largeUnit)
     */
-    var rawSnapDuration = view.opt('snapDuration');
+    var rawSnapDuration = allOptions.snapDuration;
     var snapDuration;
     var snapsPerSlot;
     if (rawSnapDuration) {
@@ -787,7 +790,7 @@ function buildTimelineDateProfile(dateProfile, view) {
     var slotDates = [];
     var date = normalizedStart;
     while (date < normalizedEnd) {
-        if (isValidDate(date, tDateProfile, dateProfile, view)) {
+        if (isValidDate(date, tDateProfile, dateProfile, dateProfileGenerator)) {
             slotDates.push(date);
         }
         date = dateEnv.add(date, tDateProfile.slotDuration);
@@ -800,7 +803,7 @@ function buildTimelineDateProfile(dateProfile, view) {
     var snapIndexToDiff = [];
     date = normalizedStart;
     while (date < normalizedEnd) {
-        if (isValidDate(date, tDateProfile, dateProfile, view)) {
+        if (isValidDate(date, tDateProfile, dateProfile, dateProfileGenerator)) {
             snapIndex++;
             snapDiffToIndex.push(snapIndex);
             snapIndexToDiff.push(snapDiff);
@@ -817,7 +820,7 @@ function buildTimelineDateProfile(dateProfile, view) {
     tDateProfile.slotCnt = tDateProfile.snapCnt / tDateProfile.snapsPerSlot;
     // more...
     tDateProfile.isWeekStarts = buildIsWeekStarts(tDateProfile, dateEnv);
-    tDateProfile.cellRows = buildCellRows(tDateProfile, dateEnv, view);
+    tDateProfile.cellRows = buildCellRows(tDateProfile, dateEnv, allOptions);
     return tDateProfile;
 }
 /*
@@ -857,8 +860,8 @@ function normalizeRange(range, tDateProfile, dateEnv) {
     }
     return range;
 }
-function isValidDate(date, tDateProfile, dateProfile, view) {
-    if (view.dateProfileGenerator.isHiddenDay(date)) {
+function isValidDate(date, tDateProfile, dateProfile, dateProfileGenerator) {
+    if (dateProfileGenerator.isHiddenDay(date)) {
         return false;
     }
     else if (tDateProfile.isTimeScale) {
@@ -873,8 +876,8 @@ function isValidDate(date, tDateProfile, dateProfile, view) {
         return true;
     }
 }
-function queryDurationOption(view, name) {
-    var input = view.opt(name);
+function queryDurationOption(allOptions, name) {
+    var input = allOptions[name];
     if (input != null) {
         return createDuration(input);
     }
@@ -975,12 +978,12 @@ function ensureSlotDuration(tDateProfile, dateProfile, dateEnv) {
     }
     return slotDuration;
 }
-function computeHeaderFormats(tDateProfile, dateProfile, dateEnv, view) {
+function computeHeaderFormats(tDateProfile, dateProfile, dateEnv, allOptions) {
     var format1;
     var format2;
     var labelInterval = tDateProfile.labelInterval;
     var unit = greatestDurationDenominator(labelInterval).unit;
-    var weekNumbersVisible = view.opt('weekNumbers');
+    var weekNumbersVisible = allOptions.weekNumbers;
     var format0 = (format1 = (format2 = null));
     // NOTE: weekNumber computation function wont work
     if ((unit === 'week') && !weekNumbersVisible) {
@@ -1101,7 +1104,7 @@ function buildIsWeekStarts(tDateProfile, dateEnv) {
     }
     return isWeekStarts;
 }
-function buildCellRows(tDateProfile, dateEnv, view) {
+function buildCellRows(tDateProfile, dateEnv, allOptions) {
     var slotDates = tDateProfile.slotDates;
     var formats = tDateProfile.headerFormats;
     var cellRows = formats.map(function (format) { return []; }); // indexed by row,col
@@ -1122,7 +1125,7 @@ function buildCellRows(tDateProfile, dateEnv, view) {
             if (isSuperRow) {
                 var text = dateEnv.format(date, format);
                 if (!leadingCell || (leadingCell.text !== text)) {
-                    newCell = buildCellObject(date, text, rowUnits[row], view);
+                    newCell = buildCellObject(date, text, rowUnits[row], allOptions, dateEnv);
                 }
                 else {
                     leadingCell.colspan += 1;
@@ -1132,7 +1135,7 @@ function buildCellRows(tDateProfile, dateEnv, view) {
                 if (!leadingCell ||
                     isInt(dateEnv.countDurationsBetween(tDateProfile.normalizedRange.start, date, tDateProfile.labelInterval))) {
                     var text = dateEnv.format(date, format);
-                    newCell = buildCellObject(date, text, rowUnits[row], view);
+                    newCell = buildCellObject(date, text, rowUnits[row], allOptions, dateEnv);
                 }
                 else {
                     leadingCell.colspan += 1;
@@ -1146,8 +1149,8 @@ function buildCellRows(tDateProfile, dateEnv, view) {
     }
     return cellRows;
 }
-function buildCellObject(date, text, rowUnit, view) {
-    var spanHtml = buildGotoAnchorHtml(view, {
+function buildCellObject(date, text, rowUnit, allOptions, dateEnv) {
+    var spanHtml = buildGotoAnchorHtml(allOptions, dateEnv, {
         date: date,
         type: rowUnit,
         forceOff: !rowUnit
@@ -1325,46 +1328,55 @@ function computeStickyPropVal() {
 
 var TimeAxis = /** @class */ (function (_super) {
     __extends(TimeAxis, _super);
-    function TimeAxis(context, headerContainerEl, bodyContainerEl) {
-        var _this = _super.call(this, context) || this;
-        var layout = _this.layout = new HeaderBodyLayout(headerContainerEl, bodyContainerEl, 'auto');
+    function TimeAxis(headerContainerEl, bodyContainerEl) {
+        var _this = _super.call(this) || this;
+        _this.renderSkeleton = memoizeRendering(_this._renderSkeleton, _this._unrenderSkeleton);
+        _this.layout = new HeaderBodyLayout(headerContainerEl, bodyContainerEl, 'auto');
+        return _this;
+    }
+    TimeAxis.prototype.render = function (props, context) {
+        var tDateProfile = this.tDateProfile =
+            buildTimelineDateProfile(props.dateProfile, context.dateEnv, context.options, props.dateProfileGenerator); // TODO: cache
+        this.renderSkeleton(context);
+        this.header.receiveProps({
+            dateProfile: props.dateProfile,
+            tDateProfile: tDateProfile
+        }, context);
+        this.slats.receiveProps({
+            dateProfile: props.dateProfile,
+            tDateProfile: tDateProfile
+        }, context);
+    };
+    TimeAxis.prototype.destroy = function () {
+        this.renderSkeleton.unrender();
+        this.layout.destroy();
+        _super.prototype.destroy.call(this);
+    };
+    TimeAxis.prototype._renderSkeleton = function (context) {
+        var layout = this.layout;
         var headerEnhancedScroller = layout.headerScroller.enhancedScroll;
         var bodyEnhancedScroller = layout.bodyScroller.enhancedScroll;
         // needs to go after layout, which has ScrollJoiner
-        _this.headStickyScroller = new StickyScroller(headerEnhancedScroller, _this.isRtl, false); // isVertical=false
-        _this.bodyStickyScroller = new StickyScroller(bodyEnhancedScroller, _this.isRtl, false); // isVertical=false
-        _this.header = new TimelineHeader(context, headerEnhancedScroller.canvas.contentEl);
-        _this.slats = new TimelineSlats(context, bodyEnhancedScroller.canvas.bgEl);
-        _this.nowIndicator = new TimelineNowIndicator(headerEnhancedScroller.canvas.el, bodyEnhancedScroller.canvas.el);
-        return _this;
-    }
-    TimeAxis.prototype.destroy = function () {
-        this.layout.destroy();
+        this.headStickyScroller = new StickyScroller(headerEnhancedScroller, context.isRtl, false); // isVertical=false
+        this.bodyStickyScroller = new StickyScroller(bodyEnhancedScroller, context.isRtl, false); // isVertical=false
+        this.header = new TimelineHeader(headerEnhancedScroller.canvas.contentEl);
+        this.slats = new TimelineSlats(bodyEnhancedScroller.canvas.bgEl);
+        this.nowIndicator = new TimelineNowIndicator(headerEnhancedScroller.canvas.el, bodyEnhancedScroller.canvas.el);
+    };
+    TimeAxis.prototype._unrenderSkeleton = function () {
         this.header.destroy();
         this.slats.destroy();
         this.nowIndicator.unrender();
         this.headStickyScroller.destroy();
         this.bodyStickyScroller.destroy();
-        _super.prototype.destroy.call(this);
-    };
-    TimeAxis.prototype.render = function (props) {
-        var tDateProfile = this.tDateProfile =
-            buildTimelineDateProfile(props.dateProfile, this.view); // TODO: cache
-        this.header.receiveProps({
-            dateProfile: props.dateProfile,
-            tDateProfile: tDateProfile
-        });
-        this.slats.receiveProps({
-            dateProfile: props.dateProfile,
-            tDateProfile: tDateProfile
-        });
     };
     // Now Indicator
     // ------------------------------------------------------------------------------------------
-    TimeAxis.prototype.getNowIndicatorUnit = function (dateProfile) {
+    TimeAxis.prototype.getNowIndicatorUnit = function (dateProfile, dateProfileGenerator) {
+        var context = this.context;
         // yuck
         var tDateProfile = this.tDateProfile =
-            buildTimelineDateProfile(dateProfile, this.view); // TODO: cache
+            buildTimelineDateProfile(dateProfile, context.dateEnv, context.options, dateProfileGenerator); // TODO: cache
         if (tDateProfile.isTimeScale) {
             return greatestDurationDenominator(tDateProfile.slotDuration).unit;
         }
@@ -1372,7 +1384,7 @@ var TimeAxis = /** @class */ (function (_super) {
     // will only execute if isTimeScale
     TimeAxis.prototype.renderNowIndicator = function (date) {
         if (rangeContainsMarker(this.tDateProfile.normalizedRange, date)) {
-            this.nowIndicator.render(this.dateToCoord(date), this.isRtl);
+            this.nowIndicator.render(this.dateToCoord(date), this.context.isRtl);
         }
     };
     // will only execute if isTimeScale
@@ -1393,7 +1405,7 @@ var TimeAxis = /** @class */ (function (_super) {
         this.bodyStickyScroller.updateSize();
     };
     TimeAxis.prototype.computeSlotWidth = function () {
-        var slotWidth = this.opt('slotWidth') || '';
+        var slotWidth = this.context.options.slotWidth || '';
         if (slotWidth === '') {
             slotWidth = this.computeDefaultSlotWidth(this.tDateProfile);
         }
@@ -1447,7 +1459,8 @@ var TimeAxis = /** @class */ (function (_super) {
     };
     // returned value is between 0 and the number of snaps
     TimeAxis.prototype.computeDateSnapCoverage = function (date) {
-        var _a = this, dateEnv = _a.dateEnv, tDateProfile = _a.tDateProfile;
+        var tDateProfile = this.tDateProfile;
+        var dateEnv = this.context.dateEnv;
         var snapDiff = dateEnv.countDurationsBetween(tDateProfile.normalizedRange.start, date, tDateProfile.snapDuration);
         if (snapDiff < 0) {
             return 0;
@@ -1479,7 +1492,7 @@ var TimeAxis = /** @class */ (function (_super) {
         slotIndex = Math.min(slotIndex, tDateProfile.slotCnt - 1);
         var partial = slotCoverage - slotIndex;
         var _a = this.slats, innerCoordCache = _a.innerCoordCache, outerCoordCache = _a.outerCoordCache;
-        if (this.isRtl) {
+        if (this.context.isRtl) {
             return (outerCoordCache.rights[slotIndex] -
                 (innerCoordCache.getWidth(slotIndex) * partial)) - outerCoordCache.originClientRect.width;
         }
@@ -1489,7 +1502,7 @@ var TimeAxis = /** @class */ (function (_super) {
         }
     };
     TimeAxis.prototype.rangeToCoords = function (range) {
-        if (this.isRtl) {
+        if (this.context.isRtl) {
             return { right: this.dateToCoord(range.start), left: this.dateToCoord(range.end) };
         }
         else {
@@ -1499,14 +1512,14 @@ var TimeAxis = /** @class */ (function (_super) {
     // Scrolling
     // ------------------------------------------------------------------------------------------
     TimeAxis.prototype.computeDateScroll = function (duration) {
-        var dateEnv = this.dateEnv;
+        var _a = this.context, dateEnv = _a.dateEnv, isRtl = _a.isRtl;
         var dateProfile = this.props.dateProfile;
         var left = 0;
         if (dateProfile) {
             left = this.dateToCoord(dateEnv.add(startOfDay(dateProfile.activeRange.start), // startOfDay needed?
             duration));
             // hack to overcome the left borders of non-first slat
-            if (!this.isRtl && left) {
+            if (!isRtl && left) {
                 left += 1;
             }
         }
@@ -1528,20 +1541,20 @@ var TimeAxis = /** @class */ (function (_super) {
 
 var TimelineLaneEventRenderer = /** @class */ (function (_super) {
     __extends(TimelineLaneEventRenderer, _super);
-    function TimelineLaneEventRenderer(context, masterContainerEl, timeAxis) {
-        var _this = _super.call(this, context) || this;
+    function TimelineLaneEventRenderer(masterContainerEl, timeAxis) {
+        var _this = _super.call(this) || this;
         _this.masterContainerEl = masterContainerEl;
         _this.timeAxis = timeAxis;
         return _this;
     }
     TimelineLaneEventRenderer.prototype.renderSegHtml = function (seg, mirrorInfo) {
-        var view = this.context.view;
+        var context = this.context;
         var eventRange = seg.eventRange;
         var eventDef = eventRange.def;
         var eventUi = eventRange.ui;
-        var isDraggable = view.computeEventDraggable(eventDef, eventUi);
-        var isResizableFromStart = seg.isStart && view.computeEventStartResizable(eventDef, eventUi);
-        var isResizableFromEnd = seg.isEnd && view.computeEventEndResizable(eventDef, eventUi);
+        var isDraggable = computeEventDraggable(context, eventDef, eventUi);
+        var isResizableFromStart = seg.isStart && computeEventStartResizable(context, eventDef, eventUi);
+        var isResizableFromEnd = seg.isEnd && computeEventEndResizable(context, eventDef, eventUi);
         var classes = this.getSegClasses(seg, isDraggable, isResizableFromStart || isResizableFromEnd, mirrorInfo);
         classes.unshift('fc-timeline-event', 'fc-h-event');
         var timeText = this.getTimeText(eventRange);
@@ -1701,8 +1714,8 @@ function timeRowSegsCollide(seg0, seg1) {
 
 var TimelineLaneFillRenderer = /** @class */ (function (_super) {
     __extends(TimelineLaneFillRenderer, _super);
-    function TimelineLaneFillRenderer(context, masterContainerEl, timeAxis) {
-        var _this = _super.call(this, context) || this;
+    function TimelineLaneFillRenderer(masterContainerEl, timeAxis) {
+        var _this = _super.call(this) || this;
         _this.masterContainerEl = masterContainerEl;
         _this.timeAxis = timeAxis;
         return _this;
@@ -1750,29 +1763,30 @@ var TimelineLaneFillRenderer = /** @class */ (function (_super) {
 
 var TimelineLane = /** @class */ (function (_super) {
     __extends(TimelineLane, _super);
-    function TimelineLane(context, fgContainerEl, bgContainerEl, timeAxis) {
-        var _this = _super.call(this, context, bgContainerEl) // should el be bgContainerEl???
-         || this;
+    function TimelineLane(fgContainerEl, bgContainerEl, timeAxis) {
+        var _this = _super.call(this, bgContainerEl) || this;
         _this.slicer = new TimelineLaneSlicer();
         _this.renderEventDrag = memoizeRendering(_this._renderEventDrag, _this._unrenderEventDrag);
         _this.renderEventResize = memoizeRendering(_this._renderEventResize, _this._unrenderEventResize);
-        var fillRenderer = _this.fillRenderer = new TimelineLaneFillRenderer(context, bgContainerEl, timeAxis);
-        var eventRenderer = _this.eventRenderer = new TimelineLaneEventRenderer(context, fgContainerEl, timeAxis);
-        _this.mirrorRenderer = new TimelineLaneEventRenderer(context, fgContainerEl, timeAxis);
+        _this.fgContainerEl = fgContainerEl;
+        _this.timeAxis = timeAxis;
+        var fillRenderer = _this.fillRenderer = new TimelineLaneFillRenderer(bgContainerEl, timeAxis);
+        var eventRenderer = _this.eventRenderer = new TimelineLaneEventRenderer(fgContainerEl, timeAxis);
+        _this.mirrorRenderer = new TimelineLaneEventRenderer(fgContainerEl, timeAxis);
         _this.renderBusinessHours = memoizeRendering(fillRenderer.renderSegs.bind(fillRenderer, 'businessHours'), fillRenderer.unrender.bind(fillRenderer, 'businessHours'));
         _this.renderDateSelection = memoizeRendering(fillRenderer.renderSegs.bind(fillRenderer, 'highlight'), fillRenderer.unrender.bind(fillRenderer, 'highlight'));
         _this.renderBgEvents = memoizeRendering(fillRenderer.renderSegs.bind(fillRenderer, 'bgEvent'), fillRenderer.unrender.bind(fillRenderer, 'bgEvent'));
         _this.renderFgEvents = memoizeRendering(eventRenderer.renderSegs.bind(eventRenderer), eventRenderer.unrender.bind(eventRenderer));
         _this.renderEventSelection = memoizeRendering(eventRenderer.selectByInstanceId.bind(eventRenderer), eventRenderer.unselectByInstanceId.bind(eventRenderer), [_this.renderFgEvents]);
-        _this.timeAxis = timeAxis;
         return _this;
     }
-    TimelineLane.prototype.render = function (props) {
-        var slicedProps = this.slicer.sliceProps(props, props.dateProfile, this.timeAxis.tDateProfile.isTimeScale ? null : props.nextDayThreshold, this, this.timeAxis);
-        this.renderBusinessHours(slicedProps.businessHourSegs);
-        this.renderDateSelection(slicedProps.dateSelectionSegs);
-        this.renderBgEvents(slicedProps.bgEventSegs);
-        this.renderFgEvents(slicedProps.fgEventSegs);
+    TimelineLane.prototype.render = function (props, context) {
+        var timeAxis = this.timeAxis;
+        var slicedProps = this.slicer.sliceProps(props, props.dateProfile, timeAxis.tDateProfile.isTimeScale ? null : props.nextDayThreshold, context.calendar, this, timeAxis);
+        this.renderBusinessHours(context, slicedProps.businessHourSegs);
+        this.renderDateSelection(context, slicedProps.dateSelectionSegs);
+        this.renderBgEvents(context, slicedProps.bgEventSegs);
+        this.renderFgEvents(context, slicedProps.fgEventSegs);
         this.renderEventSelection(slicedProps.eventSelection);
         this.renderEventDrag(slicedProps.eventDrag);
         this.renderEventResize(slicedProps.eventResize);
@@ -1790,13 +1804,13 @@ var TimelineLane = /** @class */ (function (_super) {
     TimelineLane.prototype._renderEventDrag = function (state) {
         if (state) {
             this.eventRenderer.hideByHash(state.affectedInstances);
-            this.mirrorRenderer.renderSegs(state.segs, { isDragging: true, sourceSeg: state.sourceSeg });
+            this.mirrorRenderer.renderSegs(this.context, state.segs, { isDragging: true, sourceSeg: state.sourceSeg });
         }
     };
     TimelineLane.prototype._unrenderEventDrag = function (state) {
         if (state) {
             this.eventRenderer.showByHash(state.affectedInstances);
-            this.mirrorRenderer.unrender(state.segs, { isDragging: true, sourceSeg: state.sourceSeg });
+            this.mirrorRenderer.unrender(this.context, state.segs, { isDragging: true, sourceSeg: state.sourceSeg });
         }
     };
     TimelineLane.prototype._renderEventResize = function (state) {
@@ -1806,15 +1820,15 @@ var TimelineLane = /** @class */ (function (_super) {
                 return __assign({}, seg);
             });
             this.eventRenderer.hideByHash(state.affectedInstances);
-            this.fillRenderer.renderSegs('highlight', segsForHighlight);
-            this.mirrorRenderer.renderSegs(state.segs, { isDragging: true, sourceSeg: state.sourceSeg });
+            this.fillRenderer.renderSegs('highlight', this.context, segsForHighlight);
+            this.mirrorRenderer.renderSegs(this.context, state.segs, { isDragging: true, sourceSeg: state.sourceSeg });
         }
     };
     TimelineLane.prototype._unrenderEventResize = function (state) {
         if (state) {
             this.eventRenderer.showByHash(state.affectedInstances);
-            this.fillRenderer.unrender('highlight');
-            this.mirrorRenderer.unrender(state.segs, { isDragging: true, sourceSeg: state.sourceSeg });
+            this.fillRenderer.unrender('highlight', this.context);
+            this.mirrorRenderer.unrender(this.context, state.segs, { isDragging: true, sourceSeg: state.sourceSeg });
         }
     };
     TimelineLane.prototype.updateSize = function (isResize) {
@@ -1835,8 +1849,9 @@ var TimelineLaneSlicer = /** @class */ (function (_super) {
     }
     TimelineLaneSlicer.prototype.sliceRange = function (origRange, timeAxis) {
         var tDateProfile = timeAxis.tDateProfile;
-        var dateProfile = timeAxis.props.dateProfile;
-        var normalRange = normalizeRange(origRange, tDateProfile, timeAxis.dateEnv);
+        var _a = timeAxis.props, dateProfile = _a.dateProfile, dateProfileGenerator = _a.dateProfileGenerator;
+        var dateEnv = timeAxis.context.dateEnv;
+        var normalRange = normalizeRange(origRange, tDateProfile, dateEnv);
         var segs = [];
         // protect against when the span is entirely in an invalid date region
         if (timeAxis.computeDateSnapCoverage(normalRange.start) < timeAxis.computeDateSnapCoverage(normalRange.end)) {
@@ -1846,8 +1861,8 @@ var TimelineLaneSlicer = /** @class */ (function (_super) {
                 segs.push({
                     start: slicedRange.start,
                     end: slicedRange.end,
-                    isStart: slicedRange.start.valueOf() === normalRange.start.valueOf() && isValidDate(slicedRange.start, tDateProfile, dateProfile, timeAxis.view),
-                    isEnd: slicedRange.end.valueOf() === normalRange.end.valueOf() && isValidDate(addMs(slicedRange.end, -1), tDateProfile, dateProfile, timeAxis.view)
+                    isStart: slicedRange.start.valueOf() === normalRange.start.valueOf() && isValidDate(slicedRange.start, tDateProfile, dateProfile, dateProfileGenerator),
+                    isEnd: slicedRange.end.valueOf() === normalRange.end.valueOf() && isValidDate(addMs(slicedRange.end, -1), tDateProfile, dateProfile, dateProfileGenerator)
                 });
             }
         }
@@ -1858,36 +1873,54 @@ var TimelineLaneSlicer = /** @class */ (function (_super) {
 
 var TimelineView = /** @class */ (function (_super) {
     __extends(TimelineView, _super);
-    function TimelineView(context, viewSpec, dateProfileGenerator, parentEl) {
-        var _this = _super.call(this, context, viewSpec, dateProfileGenerator, parentEl) || this;
-        _this.el.classList.add('fc-timeline');
-        if (_this.opt('eventOverlap') === false) {
-            _this.el.classList.add('fc-no-overlap');
-        }
-        _this.el.innerHTML = _this.renderSkeletonHtml();
-        _this.timeAxis = new TimeAxis(_this.context, _this.el.querySelector('thead .fc-time-area'), _this.el.querySelector('tbody .fc-time-area'));
-        _this.lane = new TimelineLane(_this.context, _this.timeAxis.layout.bodyScroller.enhancedScroll.canvas.contentEl, _this.timeAxis.layout.bodyScroller.enhancedScroll.canvas.bgEl, _this.timeAxis);
-        context.calendar.registerInteractiveComponent(_this, {
-            el: _this.timeAxis.slats.el
-        });
+    function TimelineView() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.renderSkeleton = memoizeRendering(_this._renderSkeleton, _this._unrenderSkeleton);
+        _this.startInteractive = memoizeRendering(_this._startInteractive, _this._stopInteractive);
         return _this;
     }
+    TimelineView.prototype._startInteractive = function (timeAxisEl) {
+        this.context.calendar.registerInteractiveComponent(this, {
+            el: timeAxisEl
+        });
+    };
+    TimelineView.prototype._stopInteractive = function () {
+        this.context.calendar.unregisterInteractiveComponent(this);
+    };
+    TimelineView.prototype.render = function (props, context) {
+        _super.prototype.render.call(this, props, context); // flags for updateSize, addScroll. and _renderSkeleton/_unrenderSkeleton
+        this.renderSkeleton(this.context);
+        this.timeAxis.receiveProps({
+            dateProfileGenerator: props.dateProfileGenerator,
+            dateProfile: props.dateProfile
+        }, context);
+        this.startInteractive(this.timeAxis.slats.el);
+        this.lane.receiveProps(__assign({}, props, { nextDayThreshold: this.context.nextDayThreshold }), context);
+        this.startNowIndicator(props.dateProfile, props.dateProfileGenerator);
+    };
     TimelineView.prototype.destroy = function () {
+        this.startInteractive.unrender(); // "unrender" a weird name
+        this.renderSkeleton.unrender();
+        _super.prototype.destroy.call(this);
+    };
+    TimelineView.prototype._renderSkeleton = function (context) {
+        this.el.classList.add('fc-timeline');
+        if (context.options.eventOverlap === false) {
+            this.el.classList.add('fc-no-overlap');
+        }
+        this.el.innerHTML = this.renderSkeletonHtml();
+        this.timeAxis = new TimeAxis(this.el.querySelector('thead .fc-time-area'), this.el.querySelector('tbody .fc-time-area'));
+        this.lane = new TimelineLane(this.timeAxis.layout.bodyScroller.enhancedScroll.canvas.contentEl, this.timeAxis.layout.bodyScroller.enhancedScroll.canvas.bgEl, this.timeAxis);
+    };
+    TimelineView.prototype._unrenderSkeleton = function () {
+        this.el.classList.remove('fc-timeline');
+        this.el.classList.remove('fc-no-overlap');
         this.timeAxis.destroy();
         this.lane.destroy();
-        _super.prototype.destroy.call(this);
-        this.calendar.unregisterInteractiveComponent(this);
     };
     TimelineView.prototype.renderSkeletonHtml = function () {
-        var theme = this.theme;
+        var theme = this.context.theme;
         return "<table class=\"" + theme.getClass('tableGrid') + "\"> <thead class=\"fc-head\"> <tr> <td class=\"fc-time-area " + theme.getClass('widgetHeader') + "\"></td> </tr> </thead> <tbody class=\"fc-body\"> <tr> <td class=\"fc-time-area " + theme.getClass('widgetContent') + "\"></td> </tr> </tbody> </table>";
-    };
-    TimelineView.prototype.render = function (props) {
-        _super.prototype.render.call(this, props); // flags for updateSize, addScroll
-        this.timeAxis.receiveProps({
-            dateProfile: props.dateProfile
-        });
-        this.lane.receiveProps(__assign({}, props, { nextDayThreshold: this.nextDayThreshold }));
     };
     TimelineView.prototype.updateSize = function (isResize, totalHeight, isAuto) {
         this.timeAxis.updateSize(isResize, totalHeight, isAuto);
@@ -1895,8 +1928,8 @@ var TimelineView = /** @class */ (function (_super) {
     };
     // Now Indicator
     // ------------------------------------------------------------------------------------------
-    TimelineView.prototype.getNowIndicatorUnit = function (dateProfile) {
-        return this.timeAxis.getNowIndicatorUnit(dateProfile);
+    TimelineView.prototype.getNowIndicatorUnit = function (dateProfile, dateProfileGenerator) {
+        return this.timeAxis.getNowIndicatorUnit(dateProfile, dateProfileGenerator);
     };
     TimelineView.prototype.renderNowIndicator = function (date) {
         this.timeAxis.renderNowIndicator(date);
@@ -1911,9 +1944,9 @@ var TimelineView = /** @class */ (function (_super) {
     };
     TimelineView.prototype.applyScroll = function (scroll, isResize) {
         _super.prototype.applyScroll.call(this, scroll, isResize); // will call applyDateScroll
+        var calendar = this.context.calendar;
         // avoid updating stickyscroll too often
         // TODO: repeat code as ResourceTimelineView::updateSize
-        var calendar = this.calendar;
         if (isResize || calendar.isViewUpdated || calendar.isDatesUpdated || calendar.isEventsUpdated) {
             this.timeAxis.updateStickyScrollers();
         }

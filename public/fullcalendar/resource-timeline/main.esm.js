@@ -1,5 +1,5 @@
 /*!
-FullCalendar Resource Timeline Plugin v4.3.0
+FullCalendar Resource Timeline Plugin v4.4.0
 Docs & License: https://fullcalendar.io/scheduler
 (c) 2019 Adam Shaw
 */
@@ -50,8 +50,8 @@ var __assign = function() {
 
 var Row = /** @class */ (function (_super) {
     __extends(Row, _super);
-    function Row(context, spreadsheetParent, spreadsheetNextSibling, timeAxisParent, timeAxisNextSibling) {
-        var _this = _super.call(this, context) || this;
+    function Row(spreadsheetParent, spreadsheetNextSibling, timeAxisParent, timeAxisNextSibling) {
+        var _this = _super.call(this) || this;
         _this.isSizeDirty = false;
         spreadsheetParent.insertBefore(_this.spreadsheetTr = document.createElement('tr'), spreadsheetNextSibling);
         timeAxisParent.insertBefore(_this.timeAxisTr = document.createElement('tr'), timeAxisNextSibling);
@@ -96,7 +96,7 @@ var GroupRow = /** @class */ (function (_super) {
         _this._updateExpanderIcon = memoizeRendering(_this.updateExpanderIcon, null, [_this._renderCells]);
         _this.onExpanderClick = function (ev) {
             var props = _this.props;
-            _this.calendar.dispatch({
+            _this.context.calendar.dispatch({
                 type: 'SET_RESOURCE_ENTITY_EXPANDED',
                 id: props.id,
                 isExpanded: !props.isExpanded
@@ -171,14 +171,14 @@ GroupRow.addEqualityFuncs({
 
 var SpreadsheetRow = /** @class */ (function (_super) {
     __extends(SpreadsheetRow, _super);
-    function SpreadsheetRow(context, tr) {
-        var _this = _super.call(this, context) || this;
+    function SpreadsheetRow(tr) {
+        var _this = _super.call(this) || this;
         _this._renderRow = memoizeRendering(_this.renderRow, _this.unrenderRow);
         _this._updateTrResourceId = memoizeRendering(updateTrResourceId, null, [_this._renderRow]);
         _this._updateExpanderIcon = memoizeRendering(_this.updateExpanderIcon, null, [_this._renderRow]);
         _this.onExpanderClick = function (ev) {
             var props = _this.props;
-            _this.calendar.dispatch({
+            _this.context.calendar.dispatch({
                 type: 'SET_RESOURCE_ENTITY_EXPANDED',
                 id: props.id,
                 isExpanded: !props.isExpanded
@@ -197,7 +197,8 @@ var SpreadsheetRow = /** @class */ (function (_super) {
         this._renderRow.unrender(); // should unrender everything else
     };
     SpreadsheetRow.prototype.renderRow = function (resource, rowSpans, depth, colSpecs) {
-        var _a = this, tr = _a.tr, theme = _a.theme, calendar = _a.calendar, view = _a.view;
+        var _a = this.context, calendar = _a.calendar, view = _a.view, theme = _a.theme;
+        var tr = this.tr;
         var resourceFields = buildResourceFields(resource); // slightly inefficient. already done up the call stack
         var mainTd;
         for (var i = 0; i < colSpecs.length; i++) {
@@ -242,7 +243,7 @@ var SpreadsheetRow = /** @class */ (function (_super) {
         }
         this.expanderIconEl = tr.querySelector('.fc-expander-space .fc-icon');
         // wait until very end
-        view.publiclyTrigger('resourceRender', [
+        calendar.publiclyTrigger('resourceRender', [
             {
                 resource: new ResourceApi(calendar, resource),
                 el: mainTd,
@@ -291,20 +292,15 @@ function renderIconHtml(depth) {
 
 var ResourceRow = /** @class */ (function (_super) {
     __extends(ResourceRow, _super);
-    function ResourceRow(context, a, b, c, d, timeAxis) {
-        var _this = _super.call(this, context, a, b, c, d) || this;
-        _this._updateTrResourceId = memoizeRendering(updateTrResourceId);
-        _this.spreadsheetRow = new SpreadsheetRow(context, _this.spreadsheetTr);
-        _this.timeAxisTr.appendChild(createElement('td', { className: _this.theme.getClass('widgetContent') }, _this.innerContainerEl = document.createElement('div')));
-        _this.lane = new TimelineLane(context, _this.innerContainerEl, _this.innerContainerEl, timeAxis);
+    function ResourceRow(a, b, c, d, timeAxis) {
+        var _this = _super.call(this, a, b, c, d) || this;
+        _this.renderSkeleton = memoizeRendering(_this._renderSkeleton, _this._unrenderSkeleton);
+        _this.updateTrResourceId = memoizeRendering(updateTrResourceId);
+        _this.timeAxis = timeAxis;
         return _this;
     }
-    ResourceRow.prototype.destroy = function () {
-        this.spreadsheetRow.destroy();
-        this.lane.destroy();
-        _super.prototype.destroy.call(this);
-    };
-    ResourceRow.prototype.render = function (props) {
+    ResourceRow.prototype.render = function (props, context) {
+        this.renderSkeleton(context);
         // spreadsheetRow handles calling updateTrResourceId for spreadsheetTr
         this.spreadsheetRow.receiveProps({
             colSpecs: props.colSpecs,
@@ -314,8 +310,8 @@ var ResourceRow = /** @class */ (function (_super) {
             isExpanded: props.isExpanded,
             hasChildren: props.hasChildren,
             resource: props.resource
-        });
-        this._updateTrResourceId(this.timeAxisTr, props.resource.id);
+        }, context);
+        this.updateTrResourceId(this.timeAxisTr, props.resource.id);
         this.lane.receiveProps({
             dateProfile: props.dateProfile,
             nextDayThreshold: props.nextDayThreshold,
@@ -326,8 +322,22 @@ var ResourceRow = /** @class */ (function (_super) {
             eventSelection: props.eventSelection,
             eventDrag: props.eventDrag,
             eventResize: props.eventResize
-        });
+        }, context);
         this.isSizeDirty = true;
+    };
+    ResourceRow.prototype.destroy = function () {
+        this.renderSkeleton.unrender();
+        _super.prototype.destroy.call(this);
+    };
+    ResourceRow.prototype._renderSkeleton = function (context) {
+        this.timeAxisTr.appendChild(this.cellEl = createElement('td', { className: context.theme.getClass('widgetContent') }, this.innerContainerEl = document.createElement('div')));
+        this.spreadsheetRow = new SpreadsheetRow(this.spreadsheetTr);
+        this.lane = new TimelineLane(this.innerContainerEl, this.innerContainerEl, this.timeAxis);
+    };
+    ResourceRow.prototype._unrenderSkeleton = function () {
+        this.spreadsheetRow.destroy();
+        this.lane.destroy();
+        removeElement(this.cellEl);
     };
     ResourceRow.prototype.updateSize = function (isResize) {
         _super.prototype.updateSize.call(this, isResize);
@@ -345,26 +355,18 @@ ResourceRow.addEqualityFuncs({
 var COL_MIN_WIDTH = 30;
 var SpreadsheetHeader = /** @class */ (function (_super) {
     __extends(SpreadsheetHeader, _super);
-    function SpreadsheetHeader(context, parentEl) {
-        var _this = _super.call(this, context) || this;
+    function SpreadsheetHeader(parentEl) {
+        var _this = _super.call(this) || this;
         _this.resizables = [];
         _this.colWidths = [];
         _this.emitter = new EmitterMixin();
-        parentEl.appendChild(_this.tableEl = createElement('table', {
-            className: _this.theme.getClass('tableGrid')
-        }));
+        _this.renderSkeleton = memoizeRendering(_this._renderSkeleton, _this._unrenderSkeleton);
+        _this.parentEl = parentEl;
         return _this;
     }
-    SpreadsheetHeader.prototype.destroy = function () {
-        for (var _i = 0, _a = this.resizables; _i < _a.length; _i++) {
-            var resizable = _a[_i];
-            resizable.destroy();
-        }
-        removeElement(this.tableEl);
-        _super.prototype.destroy.call(this);
-    };
-    SpreadsheetHeader.prototype.render = function (props) {
-        var theme = this.theme;
+    SpreadsheetHeader.prototype.render = function (props, context) {
+        this.renderSkeleton(context);
+        var theme = context.theme;
         var colSpecs = props.colSpecs;
         var html = '<colgroup>' + props.colTags + '</colgroup>' +
             '<tbody>';
@@ -409,9 +411,26 @@ var SpreadsheetHeader = /** @class */ (function (_super) {
         this.resizerEls = Array.prototype.slice.call(this.tableEl.querySelectorAll('.fc-col-resizer'));
         this.initColResizing();
     };
+    SpreadsheetHeader.prototype.destroy = function () {
+        for (var _i = 0, _a = this.resizables; _i < _a.length; _i++) {
+            var resizable = _a[_i];
+            resizable.destroy();
+        }
+        this.renderSkeleton.unrender();
+        _super.prototype.destroy.call(this);
+    };
+    SpreadsheetHeader.prototype._renderSkeleton = function (context) {
+        this.parentEl.appendChild(this.tableEl = createElement('table', {
+            className: context.theme.getClass('tableGrid')
+        }));
+    };
+    SpreadsheetHeader.prototype._unrenderSkeleton = function () {
+        removeElement(this.tableEl);
+    };
     SpreadsheetHeader.prototype.initColResizing = function () {
         var _this = this;
-        var ElementDraggingImpl = this.calendar.pluginSystem.hooks.elementDraggingImpl;
+        var _a = this.context, calendar = _a.calendar, isRtl = _a.isRtl;
+        var ElementDraggingImpl = calendar.pluginSystem.hooks.elementDraggingImpl;
         if (ElementDraggingImpl) {
             this.resizables = this.resizerEls.map(function (handleEl, colIndex) {
                 var dragging = new ElementDraggingImpl(handleEl);
@@ -423,7 +442,7 @@ var SpreadsheetHeader = /** @class */ (function (_super) {
                     }
                 });
                 dragging.emitter.on('dragmove', function (pev) {
-                    _this.colWidths[colIndex] = Math.max(startWidth + pev.deltaX * (_this.isRtl ? -1 : 1), COL_MIN_WIDTH);
+                    _this.colWidths[colIndex] = Math.max(startWidth + pev.deltaX * (isRtl ? -1 : 1), COL_MIN_WIDTH);
                     _this.emitter.trigger('colwidthchange', _this.colWidths);
                 });
                 dragging.setAutoScrollEnabled(false); // because gets weird with auto-scrolling time area
@@ -436,46 +455,54 @@ var SpreadsheetHeader = /** @class */ (function (_super) {
 
 var Spreadsheet = /** @class */ (function (_super) {
     __extends(Spreadsheet, _super);
-    function Spreadsheet(context, headParentEl, bodyParentEl) {
-        var _this = _super.call(this, context) || this;
-        _this._renderCells = memoizeRendering(_this.renderCells, _this.unrenderCells);
+    function Spreadsheet(headParentEl, bodyParentEl) {
+        var _this = _super.call(this) || this;
+        _this.renderSkeleton = memoizeRendering(_this._renderSkeleton, _this._unrenderSkeleton);
+        _this.renderCells = memoizeRendering(_this._renderCells, _this._unrenderCells, [_this.renderSkeleton]);
         _this.layout = new HeaderBodyLayout(headParentEl, bodyParentEl, 'clipped-scroll');
-        var headerEnhancedScroller = _this.layout.headerScroller.enhancedScroll;
-        var bodyEnhancedScroller = _this.layout.bodyScroller.enhancedScroll;
-        _this.header = new SpreadsheetHeader(context, headerEnhancedScroller.canvas.contentEl);
-        _this.header.emitter.on('colwidthchange', function (colWidths) {
-            _this.applyColWidths(colWidths);
-        });
+        return _this;
+    }
+    Spreadsheet.prototype.render = function (props, context) {
+        this.renderSkeleton(context);
+        this.renderCells(props.superHeaderText, props.colSpecs);
+    };
+    Spreadsheet.prototype.destroy = function () {
+        this.renderCells.unrender();
+        this.renderSkeleton.unrender();
+        this.layout.destroy();
+        _super.prototype.destroy.call(this);
+    };
+    Spreadsheet.prototype._renderSkeleton = function (context) {
+        var _this = this;
+        var bodyEnhancedScroller = this.layout.bodyScroller.enhancedScroll;
         bodyEnhancedScroller.canvas.contentEl
-            .appendChild(_this.bodyContainerEl = createElement('div', { className: 'fc-rows' }, '<table>' +
+            .appendChild(this.bodyContainerEl = createElement('div', { className: 'fc-rows' }, '<table>' +
             '<colgroup />' +
             '<tbody />' +
             '</table>'));
-        _this.bodyColGroup = _this.bodyContainerEl.querySelector('colgroup');
-        _this.bodyTbody = _this.bodyContainerEl.querySelector('tbody');
-        return _this;
-    }
-    Spreadsheet.prototype.destroy = function () {
+        this.bodyColGroup = this.bodyContainerEl.querySelector('colgroup');
+        this.bodyTbody = this.bodyContainerEl.querySelector('tbody');
+        var headerEnhancedScroller = this.layout.headerScroller.enhancedScroll;
+        this.header = new SpreadsheetHeader(headerEnhancedScroller.canvas.contentEl);
+        this.header.emitter.on('colwidthchange', function (colWidths) {
+            _this.applyColWidths(colWidths);
+        });
+    };
+    Spreadsheet.prototype._unrenderSkeleton = function () {
         this.header.destroy();
-        this.layout.destroy();
-        this._renderCells.unrender();
-        _super.prototype.destroy.call(this);
     };
-    Spreadsheet.prototype.render = function (props) {
-        this._renderCells(props.superHeaderText, props.colSpecs);
-    };
-    Spreadsheet.prototype.renderCells = function (superHeaderText, colSpecs) {
+    Spreadsheet.prototype._renderCells = function (superHeaderText, colSpecs) {
         var colTags = this.renderColTags(colSpecs);
         this.header.receiveProps({
             superHeaderText: superHeaderText,
             colSpecs: colSpecs,
             colTags: colTags
-        });
+        }, this.context);
         this.bodyColGroup.innerHTML = colTags;
         this.bodyColEls = Array.prototype.slice.call(this.bodyColGroup.querySelectorAll('col'));
         this.applyColWidths(colSpecs.map(function (colSpec) { return colSpec.width; }));
     };
-    Spreadsheet.prototype.unrenderCells = function () {
+    Spreadsheet.prototype._unrenderCells = function () {
         this.bodyColGroup.innerHTML = '';
     };
     Spreadsheet.prototype.renderColTags = function (colSpecs) {
@@ -515,26 +542,61 @@ var Spreadsheet = /** @class */ (function (_super) {
 var MIN_RESOURCE_AREA_WIDTH = 30; // definitely bigger than scrollbars
 var ResourceTimelineView = /** @class */ (function (_super) {
     __extends(ResourceTimelineView, _super);
-    function ResourceTimelineView(context, viewSpec, dateProfileGenerator, parentEl) {
-        var _this = _super.call(this, context, viewSpec, dateProfileGenerator, parentEl) || this;
+    function ResourceTimelineView() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.isStickyScrollDirty = false;
         _this.rowNodes = [];
         _this.rowComponents = [];
         _this.rowComponentsById = {};
         _this.resourceAreaWidthDraggings = [];
         _this.splitter = new ResourceSplitter(); // doesn't let it do businessHours tho
+        _this.renderSkeleton = memoizeRendering(_this._renderSkeleton, _this._unrenderSkeleton);
         _this.hasResourceBusinessHours = memoize(hasResourceBusinessHours);
         _this.buildRowNodes = memoize(buildRowNodes);
         _this.hasNesting = memoize(hasNesting);
-        _this._updateHasNesting = memoizeRendering(_this.updateHasNesting);
-        var allColSpecs = _this.opt('resourceColumns') || [];
-        var labelText = _this.opt('resourceLabelText'); // TODO: view.override
+        _this.updateHasNesting = memoizeRendering(_this._updateHasNesting);
+        _this.startInteractive = memoizeRendering(_this._startInteractive, _this._stopInteractive);
+        return _this;
+    }
+    ResourceTimelineView.prototype._startInteractive = function (timeAxisEl) {
+        this.context.calendar.registerInteractiveComponent(this, { el: timeAxisEl });
+    };
+    ResourceTimelineView.prototype._stopInteractive = function () {
+        this.context.calendar.unregisterInteractiveComponent(this);
+    };
+    ResourceTimelineView.prototype.render = function (props, context) {
+        _super.prototype.render.call(this, props, context);
+        this.renderSkeleton(context);
+        var splitProps = this.splitter.splitProps(props);
+        var hasResourceBusinessHours = this.hasResourceBusinessHours(props.resourceStore);
+        this.spreadsheet.receiveProps({
+            superHeaderText: this.superHeaderText,
+            colSpecs: this.colSpecs
+        }, context);
+        this.timeAxis.receiveProps({
+            dateProfileGenerator: props.dateProfileGenerator,
+            dateProfile: props.dateProfile
+        }, context);
+        this.startInteractive(this.timeAxis.slats.el);
+        // for all-resource bg events / selections / business-hours
+        this.lane.receiveProps(__assign({}, splitProps[''], { dateProfile: props.dateProfile, nextDayThreshold: context.nextDayThreshold, businessHours: hasResourceBusinessHours ? null : props.businessHours }), context);
+        var newRowNodes = this.buildRowNodes(props.resourceStore, this.groupSpecs, this.orderSpecs, this.isVGrouping, props.resourceEntityExpansions, context.options.resourcesInitiallyExpanded);
+        this.updateHasNesting(this.hasNesting(newRowNodes));
+        this.diffRows(newRowNodes);
+        this.updateRowProps(props.dateProfile, hasResourceBusinessHours ? props.businessHours : null, // CONFUSING, comment
+        splitProps);
+        this.startNowIndicator(props.dateProfile, props.dateProfileGenerator);
+    };
+    ResourceTimelineView.prototype._renderSkeleton = function (context) {
+        var options = context.options, calendar = context.calendar;
+        var allColSpecs = options.resourceColumns || [];
+        var labelText = options.resourceLabelText; // TODO: view.override
         var defaultLabelText = 'Resources'; // TODO: view.defaults
         var superHeaderText = null;
         if (!allColSpecs.length) {
             allColSpecs.push({
                 labelText: labelText || defaultLabelText,
-                text: buildResourceTextFunc(_this.opt('resourceText'), _this.calendar)
+                text: buildResourceTextFunc(options.resourceText, calendar)
             });
         }
         else {
@@ -560,17 +622,17 @@ var ResourceTimelineView = /** @class */ (function (_super) {
             isVGrouping = true;
         }
         else {
-            var hGroupField = _this.opt('resourceGroupField');
+            var hGroupField = options.resourceGroupField;
             if (hGroupField) {
                 isHGrouping = true;
                 groupSpecs.push({
                     field: hGroupField,
-                    text: _this.opt('resourceGroupText'),
-                    render: _this.opt('resourceGroupRender')
+                    text: options.resourceGroupText,
+                    render: options.resourceGroupRender
                 });
             }
         }
-        var allOrderSpecs = parseFieldSpecs(_this.opt('resourceOrder'));
+        var allOrderSpecs = parseFieldSpecs(options.resourceOrder);
         var plainOrderSpecs = [];
         for (var _a = 0, allOrderSpecs_1 = allOrderSpecs; _a < allOrderSpecs_1.length; _a++) {
             var orderSpec = allOrderSpecs_1[_a];
@@ -587,65 +649,51 @@ var ResourceTimelineView = /** @class */ (function (_super) {
                 plainOrderSpecs.push(orderSpec);
             }
         }
-        _this.superHeaderText = superHeaderText;
-        _this.isVGrouping = isVGrouping;
-        _this.isHGrouping = isHGrouping;
-        _this.groupSpecs = groupSpecs;
-        _this.colSpecs = groupColSpecs.concat(plainColSpecs);
-        _this.orderSpecs = plainOrderSpecs;
+        this.superHeaderText = superHeaderText;
+        this.isVGrouping = isVGrouping;
+        this.isHGrouping = isHGrouping;
+        this.groupSpecs = groupSpecs;
+        this.colSpecs = groupColSpecs.concat(plainColSpecs);
+        this.orderSpecs = plainOrderSpecs;
         // START RENDERING...
-        _this.el.classList.add('fc-timeline');
-        if (_this.opt('eventOverlap') === false) {
-            _this.el.classList.add('fc-no-overlap');
+        this.el.classList.add('fc-timeline');
+        if (options.eventOverlap === false) {
+            this.el.classList.add('fc-no-overlap');
         }
-        _this.el.innerHTML = _this.renderSkeletonHtml();
-        _this.resourceAreaHeadEl = _this.el.querySelector('thead .fc-resource-area');
-        _this.setResourceAreaWidth(_this.opt('resourceAreaWidth'));
-        _this.initResourceAreaWidthDragging();
-        _this.miscHeight = _this.el.getBoundingClientRect().height;
-        _this.spreadsheet = new Spreadsheet(_this.context, _this.resourceAreaHeadEl, _this.el.querySelector('tbody .fc-resource-area'));
-        _this.timeAxis = new TimeAxis(_this.context, _this.el.querySelector('thead .fc-time-area'), _this.el.querySelector('tbody .fc-time-area'));
+        this.el.innerHTML = this.renderSkeletonHtml();
+        this.resourceAreaHeadEl = this.el.querySelector('thead .fc-resource-area');
+        this.setResourceAreaWidth(options.resourceAreaWidth);
+        this.initResourceAreaWidthDragging();
+        this.miscHeight = this.el.getBoundingClientRect().height;
+        this.spreadsheet = new Spreadsheet(this.resourceAreaHeadEl, this.el.querySelector('tbody .fc-resource-area'));
+        this.timeAxis = new TimeAxis(this.el.querySelector('thead .fc-time-area'), this.el.querySelector('tbody .fc-time-area'));
         var timeAxisRowContainer = createElement('div', { className: 'fc-rows' }, '<table><tbody /></table>');
-        _this.timeAxis.layout.bodyScroller.enhancedScroll.canvas.contentEl.appendChild(timeAxisRowContainer);
-        _this.timeAxisTbody = timeAxisRowContainer.querySelector('tbody');
-        _this.lane = new TimelineLane(_this.context, null, _this.timeAxis.layout.bodyScroller.enhancedScroll.canvas.bgEl, _this.timeAxis);
-        _this.bodyScrollJoiner = new ScrollJoiner('vertical', [
-            _this.spreadsheet.layout.bodyScroller,
-            _this.timeAxis.layout.bodyScroller
+        this.timeAxis.layout.bodyScroller.enhancedScroll.canvas.contentEl.appendChild(timeAxisRowContainer);
+        this.timeAxisTbody = timeAxisRowContainer.querySelector('tbody');
+        this.lane = new TimelineLane(null, this.timeAxis.layout.bodyScroller.enhancedScroll.canvas.bgEl, this.timeAxis);
+        this.bodyScrollJoiner = new ScrollJoiner('vertical', [
+            this.spreadsheet.layout.bodyScroller,
+            this.timeAxis.layout.bodyScroller
         ]);
         // after scrolljoiner
-        _this.spreadsheetBodyStickyScroller = new StickyScroller(_this.spreadsheet.layout.bodyScroller.enhancedScroll, _this.isRtl, true // isVertical
+        this.spreadsheetBodyStickyScroller = new StickyScroller(this.spreadsheet.layout.bodyScroller.enhancedScroll, context.isRtl, true // isVertical
         );
-        _this.spreadsheet.receiveProps({
-            superHeaderText: _this.superHeaderText,
-            colSpecs: _this.colSpecs
-        });
-        // Component...
-        context.calendar.registerInteractiveComponent(_this, {
-            el: _this.timeAxis.slats.el
-        });
-        return _this;
-    }
+    };
+    ResourceTimelineView.prototype._unrenderSkeleton = function (context) {
+        this.startInteractive.unrender(); // "unrender" bad name
+        this.destroyRows(); // wierd to call this here
+        this.spreadsheet.destroy();
+        this.timeAxis.destroy();
+        this.lane.destroy();
+        this.spreadsheetBodyStickyScroller.destroy();
+        this.el.classList.remove('fc-timeline');
+        this.el.classList.remove('fc-no-overlap');
+    };
     ResourceTimelineView.prototype.renderSkeletonHtml = function () {
-        var theme = this.theme;
+        var theme = this.context.theme;
         return "<table class=\"" + theme.getClass('tableGrid') + "\"> <thead class=\"fc-head\"> <tr> <td class=\"fc-resource-area " + theme.getClass('widgetHeader') + "\"></td> <td class=\"fc-divider fc-col-resizer " + theme.getClass('widgetHeader') + "\"></td> <td class=\"fc-time-area " + theme.getClass('widgetHeader') + "\"></td> </tr> </thead> <tbody class=\"fc-body\"> <tr> <td class=\"fc-resource-area " + theme.getClass('widgetContent') + "\"></td> <td class=\"fc-divider fc-col-resizer " + theme.getClass('widgetHeader') + "\"></td> <td class=\"fc-time-area " + theme.getClass('widgetContent') + "\"></td> </tr> </tbody> </table>";
     };
-    ResourceTimelineView.prototype.render = function (props) {
-        _super.prototype.render.call(this, props);
-        var splitProps = this.splitter.splitProps(props);
-        var hasResourceBusinessHours = this.hasResourceBusinessHours(props.resourceStore);
-        this.timeAxis.receiveProps({
-            dateProfile: props.dateProfile
-        });
-        // for all-resource bg events / selections / business-hours
-        this.lane.receiveProps(__assign({}, splitProps[''], { dateProfile: props.dateProfile, nextDayThreshold: this.nextDayThreshold, businessHours: hasResourceBusinessHours ? null : props.businessHours }));
-        var newRowNodes = this.buildRowNodes(props.resourceStore, this.groupSpecs, this.orderSpecs, this.isVGrouping, props.resourceEntityExpansions, this.opt('resourcesInitiallyExpanded'));
-        this._updateHasNesting(this.hasNesting(newRowNodes));
-        this.diffRows(newRowNodes);
-        this.renderRows(props.dateProfile, hasResourceBusinessHours ? props.businessHours : null, // CONFUSING, comment
-        splitProps);
-    };
-    ResourceTimelineView.prototype.updateHasNesting = function (isNesting) {
+    ResourceTimelineView.prototype._updateHasNesting = function (isNesting) {
         var classList = this.el.classList;
         if (isNesting) {
             classList.remove('fc-flat');
@@ -702,14 +750,14 @@ var ResourceTimelineView = /** @class */ (function (_super) {
     };
     ResourceTimelineView.prototype.buildChildComponent = function (node, spreadsheetTbody, spreadsheetNext, timeAxisTbody, timeAxisNext) {
         if (node.group) {
-            return new GroupRow(this.context, spreadsheetTbody, spreadsheetNext, timeAxisTbody, timeAxisNext);
+            return new GroupRow(spreadsheetTbody, spreadsheetNext, timeAxisTbody, timeAxisNext);
         }
         else if (node.resource) {
-            return new ResourceRow(this.context, spreadsheetTbody, spreadsheetNext, timeAxisTbody, timeAxisNext, this.timeAxis);
+            return new ResourceRow(spreadsheetTbody, spreadsheetNext, timeAxisTbody, timeAxisNext, this.timeAxis);
         }
     };
-    ResourceTimelineView.prototype.renderRows = function (dateProfile, fallbackBusinessHours, splitProps) {
-        var _a = this, rowNodes = _a.rowNodes, rowComponents = _a.rowComponents;
+    ResourceTimelineView.prototype.updateRowProps = function (dateProfile, fallbackBusinessHours, splitProps) {
+        var _a = this, rowNodes = _a.rowNodes, rowComponents = _a.rowComponents, context = _a.context;
         for (var i = 0; i < rowNodes.length; i++) {
             var rowNode = rowNodes[i];
             var rowComponent = rowComponents[i];
@@ -719,23 +767,24 @@ var ResourceTimelineView = /** @class */ (function (_super) {
                     id: rowNode.id,
                     isExpanded: rowNode.isExpanded,
                     group: rowNode.group
-                });
+                }, context);
             }
             else {
                 var resource = rowNode.resource;
-                rowComponent.receiveProps(__assign({}, splitProps[resource.id], { dateProfile: dateProfile, nextDayThreshold: this.nextDayThreshold, businessHours: resource.businessHours || fallbackBusinessHours, colSpecs: this.colSpecs, id: rowNode.id, rowSpans: rowNode.rowSpans, depth: rowNode.depth, isExpanded: rowNode.isExpanded, hasChildren: rowNode.hasChildren, resource: rowNode.resource }));
+                rowComponent.receiveProps(__assign({}, splitProps[resource.id], { dateProfile: dateProfile, nextDayThreshold: context.nextDayThreshold, businessHours: resource.businessHours || fallbackBusinessHours, colSpecs: this.colSpecs, id: rowNode.id, rowSpans: rowNode.rowSpans, depth: rowNode.depth, isExpanded: rowNode.isExpanded, hasChildren: rowNode.hasChildren, resource: rowNode.resource }), context);
             }
         }
     };
     ResourceTimelineView.prototype.updateSize = function (isResize, viewHeight, isAuto) {
         // FYI: this ordering is really important
-        var calendar = this.calendar;
+        var calendar = this.context.calendar;
         var isBaseSizing = isResize || calendar.isViewUpdated || calendar.isDatesUpdated || calendar.isEventsUpdated;
         if (isBaseSizing) {
             this.syncHeadHeights();
-            this.timeAxis.updateSize(isResize, viewHeight - this.miscHeight, isAuto);
-            this.spreadsheet.updateSize(isResize, viewHeight - this.miscHeight, isAuto);
         }
+        // TODO: don't always call these (but guarding behind isBaseSizing was unreliable)
+        this.timeAxis.updateSize(isResize, viewHeight - this.miscHeight, isAuto);
+        this.spreadsheet.updateSize(isResize, viewHeight - this.miscHeight, isAuto);
         var rowSizingCnt = this.updateRowSizes(isResize);
         this.lane.updateSize(isResize); // is efficient. uses flags
         if (isBaseSizing || rowSizingCnt) {
@@ -801,27 +850,26 @@ var ResourceTimelineView = /** @class */ (function (_super) {
         }
         return dirtyRowComponents.length;
     };
-    ResourceTimelineView.prototype.destroy = function () {
+    ResourceTimelineView.prototype.destroyRows = function () {
         for (var _i = 0, _a = this.rowComponents; _i < _a.length; _i++) {
             var rowComponent = _a[_i];
             rowComponent.destroy();
         }
         this.rowNodes = [];
         this.rowComponents = [];
-        this.spreadsheet.destroy();
-        this.timeAxis.destroy();
-        for (var _b = 0, _c = this.resourceAreaWidthDraggings; _b < _c.length; _b++) {
-            var resourceAreaWidthDragging = _c[_b];
+    };
+    ResourceTimelineView.prototype.destroy = function () {
+        for (var _i = 0, _a = this.resourceAreaWidthDraggings; _i < _a.length; _i++) {
+            var resourceAreaWidthDragging = _a[_i];
             resourceAreaWidthDragging.destroy();
         }
-        this.spreadsheetBodyStickyScroller.destroy();
+        this.renderSkeleton.unrender(); // will call destroyRows
         _super.prototype.destroy.call(this);
-        this.calendar.unregisterInteractiveComponent(this);
     };
     // Now Indicator
     // ------------------------------------------------------------------------------------------
-    ResourceTimelineView.prototype.getNowIndicatorUnit = function (dateProfile) {
-        return this.timeAxis.getNowIndicatorUnit(dateProfile);
+    ResourceTimelineView.prototype.getNowIndicatorUnit = function (dateProfile, dateProfileGenerator) {
+        return this.timeAxis.getNowIndicatorUnit(dateProfile, dateProfileGenerator);
     };
     ResourceTimelineView.prototype.renderNowIndicator = function (date) {
         this.timeAxis.renderNowIndicator(date);
@@ -941,8 +989,9 @@ var ResourceTimelineView = /** @class */ (function (_super) {
     };
     ResourceTimelineView.prototype.initResourceAreaWidthDragging = function () {
         var _this = this;
+        var _a = this.context, calendar = _a.calendar, isRtl = _a.isRtl;
         var resourceAreaDividerEls = Array.prototype.slice.call(this.el.querySelectorAll('.fc-col-resizer'));
-        var ElementDraggingImpl = this.calendar.pluginSystem.hooks.elementDraggingImpl;
+        var ElementDraggingImpl = calendar.pluginSystem.hooks.elementDraggingImpl;
         if (ElementDraggingImpl) {
             this.resourceAreaWidthDraggings = resourceAreaDividerEls.map(function (el) {
                 var dragging = new ElementDraggingImpl(el);
@@ -956,7 +1005,7 @@ var ResourceTimelineView = /** @class */ (function (_super) {
                     viewWidth = _this.el.getBoundingClientRect().width;
                 });
                 dragging.emitter.on('dragmove', function (pev) {
-                    var newWidth = dragStartWidth + pev.deltaX * (_this.isRtl ? -1 : 1);
+                    var newWidth = dragStartWidth + pev.deltaX * (isRtl ? -1 : 1);
                     newWidth = Math.max(newWidth, MIN_RESOURCE_AREA_WIDTH);
                     newWidth = Math.min(newWidth, viewWidth - MIN_RESOURCE_AREA_WIDTH);
                     _this.setResourceAreaWidth(newWidth);

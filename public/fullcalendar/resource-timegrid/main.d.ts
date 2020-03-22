@@ -14,7 +14,7 @@ declare module '@fullcalendar/resource-timegrid' {
 }
 
 declare module '@fullcalendar/resource-timegrid/ResourceTimeGridView' {
-    import { ComponentContext, ViewSpec, DateProfileGenerator } from '@fullcalendar/core';
+    import { ComponentContext } from '@fullcalendar/core';
     import { AbstractTimeGridView } from '@fullcalendar/timegrid';
     import { ResourceDayHeader, ResourceViewProps } from '@fullcalendar/resource-common';
     import { ResourceDayGrid } from '@fullcalendar/resource-daygrid';
@@ -26,9 +26,10 @@ declare module '@fullcalendar/resource-timegrid/ResourceTimeGridView' {
         header: ResourceDayHeader;
         resourceTimeGrid: ResourceTimeGrid;
         resourceDayGrid: ResourceDayGrid;
-        constructor(context: ComponentContext, viewSpec: ViewSpec, dateProfileGenerator: DateProfileGenerator, parentEl: HTMLElement);
-        destroy(): void;
-        render(props: ResourceViewProps): void;
+        _processOptions(options: any): void;
+        render(props: ResourceViewProps, context: ComponentContext): void;
+        _renderSkeleton(context: ComponentContext): void;
+        _unrenderSkeleton(): void;
         renderNowIndicator(date: any): void;
     }
 }
@@ -51,9 +52,10 @@ declare module '@fullcalendar/resource-timegrid/ResourceTimeGrid' {
     export { ResourceTimeGrid as default, ResourceTimeGrid };
     class ResourceTimeGrid extends DateComponent<ResourceTimeGridProps> {
         timeGrid: TimeGrid;
-        constructor(context: ComponentContext, timeGrid: TimeGrid);
+        constructor(timeGrid: TimeGrid);
+        firstContext(context: ComponentContext): void;
         destroy(): void;
-        render(props: ResourceTimeGridProps): void;
+        render(props: ResourceTimeGridProps, context: ComponentContext): void;
         renderNowIndicator(date: DateMarker): void;
         buildPositionCaches(): void;
         queryHit(positionLeft: number, positionTop: number): Hit;

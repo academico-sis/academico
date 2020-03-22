@@ -3,9 +3,6 @@
 Route::permanentRedirect('/auth/login', '/');
 Route::permanentRedirect('/dashboard', '/');
 
-// save an additional contact for a student
-Route::post('user/addcontact', 'ContactController@store')->name('addContact');
-
 Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('backpack.auth.register');
 Route::post('register', 'Auth\RegisterController@register');
 Route::get('searchstudents', 'StudentController@search');
@@ -24,15 +21,7 @@ Route::group(
 
         Route::get('dashboard/student', 'HomeController@student')->name('studentDashboard')->middleware('forceupdate');
 
-        Route::get('student/{student}/phonenumbers', 'PhoneNumberController@get');
-        Route::get('contact/{contact}/phonenumbers', 'ContactController@getPhoneNumber');
 
-        Route::get('contact/{contact}/edit', 'ContactController@edit');
-        Route::patch('contact/{contact}', 'ContactController@update')->name('updateContact');
-
-        Route::delete('phonenumber/{phoneNumber}', 'PhoneNumberController@destroy');
-        Route::post('phonenumber', 'PhoneNumberController@store');
-        Route::post('contactphonenumber', 'ContactController@storePhoneNumber');
 
         // creates a new enrollment
         Route::post('student/enroll', 'EnrollmentController@store')->name('storeEnrollment');
@@ -56,6 +45,29 @@ Route::group(
         Route::get('setup', 'SetupController@index')->name('setupHome');
         Route::post('/leads/reset-converted', 'LeadStatusController@reset_all_converted_leads')->name('resetAllConvertedLeads');
     });
+
+
+/* STUDENTS-RELATED ROUTES */
+Route::group(
+    ['middleware' => ['web', 'language']],
+    function () {
+        Route::get('phonenumber/student/{student}', 'StudentPhoneNumberController@get');
+        Route::post('phonenumber/student/{student}', 'StudentPhoneNumberController@store');
+        Route::delete('phonenumber/{phoneNumber}', 'StudentPhoneNumberController@destroy');
+    }
+);
+
+/* CONTACTS-RELATED ROUTES */
+Route::group(
+    ['middleware' => ['web', 'language']],
+    function () {
+        Route::post('user/addcontact', 'ContactController@store')->name('addContact'); // save an additional contact for a student
+        Route::get('contact/{contact}/edit', 'ContactController@edit');
+        Route::patch('contact/{contact}', 'ContactController@update')->name('updateContact');
+        Route::get('phonenumber/contact/{contact}', 'ContactPhoneNumberController@get');
+        Route::post('phonenumber/contact/{contact}', 'ContactPhoneNumberController@store');
+    }
+);
 
 // EVALUATION RELATED ROUTES
 Route::group(

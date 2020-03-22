@@ -112,7 +112,7 @@ declare module '@fullcalendar/resource-common/resource-sources/resource-json-fee
 }
 
 declare module '@fullcalendar/resource-common/common/ResourceDayHeader' {
-    import { Component, ComponentContext, DateMarker, DateProfile, DateFormatter } from '@fullcalendar/core';
+    import { Calendar, Component, DateMarker, DateProfile, DateFormatter, ComponentContext } from '@fullcalendar/core';
     import { Resource } from '@fullcalendar/resource-common/structs/resource';
     export interface ResourceDayHeaderProps {
         dates: DateMarker[];
@@ -126,11 +126,13 @@ declare module '@fullcalendar/resource-common/common/ResourceDayHeader' {
         datesAboveResources: boolean;
         resourceTextFunc: (resource: Resource) => string;
         dateFormat: DateFormatter;
+        parentEl: HTMLElement;
         el: HTMLElement;
         thead: HTMLElement;
-        constructor(context: ComponentContext, parentEl: HTMLElement);
+        constructor(parentEl: HTMLElement);
+        _processOptions(options: any, calendar: Calendar): void;
+        render(props: ResourceDayHeaderProps, context: ComponentContext): void;
         destroy(): void;
-        render(props: ResourceDayHeaderProps): void;
         renderResourceRow(resources: Resource[]): string;
         renderDayAndResourceRows(dates: DateMarker[], resources: Resource[]): string;
         renderResourceAndDayRows(resources: Resource[], dates: DateMarker[]): string;
@@ -256,7 +258,7 @@ declare module '@fullcalendar/resource-common/View' {
     }
     export class ResourceDataAdder implements ViewPropsTransformer {
         filterResources: typeof filterResources;
-        transform(viewProps: ViewProps, viewSpec: ViewSpec, calendarProps: CalendarComponentProps, view: View): {
+        transform(viewProps: ViewProps, viewSpec: ViewSpec, calendarProps: CalendarComponentProps, allOptions: any): {
             resourceStore: ResourceHash;
             resourceEntityExpansions: ResourceEntityExpansions;
         };

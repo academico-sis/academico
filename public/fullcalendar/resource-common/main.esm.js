@@ -1,10 +1,10 @@
 /*!
-FullCalendar Resources Common Plugin v4.3.1
+FullCalendar Resources Common Plugin v4.4.0
 Docs & License: https://fullcalendar.io/scheduler
 (c) 2019 Adam Shaw
 */
 
-import { memoize, filterHash, rangesIntersect, memoizeOutput, isPropsEqual, mapHash, combineEventUis, refineProps, rangesEqual, processScopedUiProps, parseBusinessHours, EventApi, Calendar, Splitter, mergeEventStores, isPropsValid, appendToElement, htmlEscape, cssToStr, config, isValidDate, addDays, unpromisify, requestJson, htmlToElement, removeElement, createFormatter, computeFallbackHeaderFormat, renderDateCell, findElements, Component, flexibleCompare, compareByFieldSpecs, createPlugin } from '@fullcalendar/core';
+import { memoize, filterHash, rangesIntersect, memoizeOutput, isPropsEqual, mapHash, combineEventUis, refineProps, rangesEqual, processScopedUiProps, parseBusinessHours, EventApi, Calendar, Splitter, mergeEventStores, isPropsValid, appendToElement, htmlEscape, cssToStr, config, isValidDate, addDays, unpromisify, requestJson, htmlToElement, createFormatter, computeFallbackHeaderFormat, removeElement, renderDateCell, findElements, Component, flexibleCompare, compareByFieldSpecs, createPlugin } from '@fullcalendar/core';
 
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation. All rights reserved.
@@ -114,10 +114,10 @@ var ResourceDataAdder = /** @class */ (function () {
     function ResourceDataAdder() {
         this.filterResources = memoize(filterResources);
     }
-    ResourceDataAdder.prototype.transform = function (viewProps, viewSpec, calendarProps, view) {
+    ResourceDataAdder.prototype.transform = function (viewProps, viewSpec, calendarProps, allOptions) {
         if (viewSpec.class.needsResourceData) {
             return {
-                resourceStore: this.filterResources(calendarProps.resourceStore, view.opt('filterResourcesWithEvents'), calendarProps.eventStore, calendarProps.dateProfile.activeRange),
+                resourceStore: this.filterResources(calendarProps.resourceStore, allOptions.filterResourcesWithEvents, calendarProps.eventStore, calendarProps.dateProfile.activeRange),
                 resourceEntityExpansions: calendarProps.resourceEntityExpansions
             };
         }
@@ -219,7 +219,7 @@ function injectResourceEventUi(origEventUi, eventDef, resourceEventUis) {
 function transformIsDraggable(val, eventDef, eventUi, view) {
     if (!val) {
         if (view.viewSpec.class.needsResourceData) {
-            if (computeResourceEditable(eventDef, view.calendar)) {
+            if (computeResourceEditable(eventDef, view.context.calendar)) { // yuck
                 return true;
             }
         }
@@ -809,7 +809,7 @@ EventApi.prototype.setResources = function (resources) {
     });
 };
 
-var RELEASE_DATE = '2019-08-10'; // for Scheduler
+var RELEASE_DATE = '2020-02-12'; // for Scheduler
 var UPGRADE_WINDOW = 365 + 7; // days. 1 week leeway, for tz shift reasons too
 var LICENSE_INFO_URL = 'http://fullcalendar.io/scheduler/license/';
 var PRESET_LICENSE_KEYS = [
@@ -1003,25 +1003,28 @@ function buildResourceTextFunc(resourceTextSetting, calendar) {
 
 var ResourceDayHeader = /** @class */ (function (_super) {
     __extends(ResourceDayHeader, _super);
-    function ResourceDayHeader(context, parentEl) {
-        var _this = _super.call(this, context) || this;
-        _this.datesAboveResources = _this.opt('datesAboveResources');
-        _this.resourceTextFunc = buildResourceTextFunc(_this.opt('resourceText'), _this.calendar);
-        parentEl.innerHTML = ''; // because might be nbsp
-        parentEl.appendChild(_this.el = htmlToElement('<div class="fc-row ' + _this.theme.getClass('headerRow') + '">' +
-            '<table class="' + _this.theme.getClass('tableGrid') + '">' +
+    function ResourceDayHeader(parentEl) {
+        var _this = _super.call(this) || this;
+        _this.processOptions = memoize(_this._processOptions);
+        _this.parentEl = parentEl;
+        return _this;
+    }
+    ResourceDayHeader.prototype._processOptions = function (options, calendar) {
+        this.datesAboveResources = options.datesAboveResources;
+        this.resourceTextFunc = buildResourceTextFunc(options.resourceText, calendar);
+    };
+    ResourceDayHeader.prototype.render = function (props, context) {
+        var options = context.options, calendar = context.calendar, theme = context.theme;
+        this.processOptions(options, calendar);
+        this.parentEl.innerHTML = ''; // because might be nbsp
+        this.parentEl.appendChild(this.el = htmlToElement('<div class="fc-row ' + theme.getClass('headerRow') + '">' +
+            '<table class="' + theme.getClass('tableGrid') + '">' +
             '<thead></thead>' +
             '</table>' +
             '</div>'));
-        _this.thead = _this.el.querySelector('thead');
-        return _this;
-    }
-    ResourceDayHeader.prototype.destroy = function () {
-        removeElement(this.el);
-    };
-    ResourceDayHeader.prototype.render = function (props) {
+        this.thead = this.el.querySelector('thead');
         var html;
-        this.dateFormat = createFormatter(this.opt('columnHeaderFormat') ||
+        this.dateFormat = createFormatter(options.columnHeaderFormat ||
             computeFallbackHeaderFormat(props.datesRepDistinctDays, props.dates.length));
         if (props.dates.length === 1) {
             html = this.renderResourceRow(props.resources);
@@ -1036,6 +1039,9 @@ var ResourceDayHeader = /** @class */ (function (_super) {
         }
         this.thead.innerHTML = html;
         this.processResourceEls(props.resources);
+    };
+    ResourceDayHeader.prototype.destroy = function () {
+        removeElement(this.el);
     };
     ResourceDayHeader.prototype.renderResourceRow = function (resources) {
         var _this = this;
@@ -1076,7 +1082,7 @@ var ResourceDayHeader = /** @class */ (function (_super) {
     // ----------------------------------------------------------------------------------------------
     // a cell with the resource name. might be associated with a specific day
     ResourceDayHeader.prototype.renderResourceCell = function (resource, colspan, date) {
-        var dateEnv = this.dateEnv;
+        var dateEnv = this.context.dateEnv;
         return '<th class="fc-resource-cell"' +
             ' data-resource-id="' + resource.id + '"' +
             (date ?
@@ -1101,7 +1107,7 @@ var ResourceDayHeader = /** @class */ (function (_super) {
         if (this.props.renderIntroHtml) {
             cellHtmls = [this.props.renderIntroHtml()].concat(cellHtmls);
         }
-        if (this.isRtl) {
+        if (this.context.isRtl) {
             cellHtmls.reverse();
         }
         return '<tr>' +
@@ -1112,17 +1118,16 @@ var ResourceDayHeader = /** @class */ (function (_super) {
     // ----------------------------------------------------------------------------------------------
     // given a container with already rendered resource cells
     ResourceDayHeader.prototype.processResourceEls = function (resources) {
-        var _this = this;
-        var view = this.view;
+        var _a = this.context, calendar = _a.calendar, isRtl = _a.isRtl, view = _a.view;
         findElements(this.thead, '.fc-resource-cell').forEach(function (node, col) {
             col = col % resources.length;
-            if (_this.isRtl) {
+            if (isRtl) {
                 col = resources.length - 1 - col;
             }
             var resource = resources[col];
-            view.publiclyTrigger('resourceRender', [
+            calendar.publiclyTrigger('resourceRender', [
                 {
-                    resource: new ResourceApi(_this.calendar, resource),
+                    resource: new ResourceApi(calendar, resource),
                     el: node,
                     view: view
                 }

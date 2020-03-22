@@ -12,7 +12,7 @@ declare module '@fullcalendar/resource-timeline' {
 }
 
 declare module '@fullcalendar/resource-timeline/ResourceTimelineView' {
-    import { ElementDragging, SplittableProps, PositionCache, Hit, View, ViewSpec, ComponentContext, DateProfileGenerator, DateProfile, Duration } from '@fullcalendar/core';
+    import { ElementDragging, SplittableProps, PositionCache, Hit, View, ComponentContext, DateProfile, Duration, DateProfileGenerator } from '@fullcalendar/core';
     import { ScrollJoiner, TimelineLane, StickyScroller, TimeAxis } from '@fullcalendar/timeline';
     import { GroupNode, ResourceNode, ResourceViewProps } from '@fullcalendar/resource-common';
     import GroupRow from '@fullcalendar/resource-timeline/GroupRow';
@@ -45,22 +45,26 @@ declare module '@fullcalendar/resource-timeline/ResourceTimelineView' {
         colSpecs: any;
         orderSpecs: any;
         rowPositions: PositionCache;
-        constructor(context: ComponentContext, viewSpec: ViewSpec, dateProfileGenerator: DateProfileGenerator, parentEl: HTMLElement);
+        _startInteractive(timeAxisEl: HTMLElement): void;
+        _stopInteractive(): void;
+        render(props: ResourceViewProps, context: ComponentContext): void;
+        _renderSkeleton(context: ComponentContext): void;
+        _unrenderSkeleton(context: ComponentContext): void;
         renderSkeletonHtml(): string;
-        render(props: ResourceViewProps): void;
-        updateHasNesting(isNesting: boolean): void;
+        _updateHasNesting(isNesting: boolean): void;
         diffRows(newNodes: any): void;
         addRow(index: any, rowNode: any): void;
         removeRows(startIndex: any, len: any, oldRowNodes: any): void;
         buildChildComponent(node: (GroupNode | ResourceNode), spreadsheetTbody: HTMLElement, spreadsheetNext: HTMLElement, timeAxisTbody: HTMLElement, timeAxisNext: HTMLElement): GroupRow | ResourceRow;
-        renderRows(dateProfile: DateProfile, fallbackBusinessHours: any, splitProps: {
+        updateRowProps(dateProfile: DateProfile, fallbackBusinessHours: any, splitProps: {
             [resourceId: string]: SplittableProps;
         }): void;
         updateSize(isResize: any, viewHeight: any, isAuto: any): void;
         syncHeadHeights(): void;
         updateRowSizes(isResize: boolean): number;
+        destroyRows(): void;
         destroy(): void;
-        getNowIndicatorUnit(dateProfile: DateProfile): string;
+        getNowIndicatorUnit(dateProfile: DateProfile, dateProfileGenerator: DateProfileGenerator): string;
         renderNowIndicator(date: any): void;
         unrenderNowIndicator(): void;
         queryScroll(): any;
@@ -133,12 +137,16 @@ declare module '@fullcalendar/resource-timeline/ResourceRow' {
     }
     export { ResourceRow as default, ResourceRow };
     class ResourceRow extends Row<ResourceRowProps> {
+        cellEl: HTMLElement;
         innerContainerEl: HTMLElement;
+        timeAxis: TimeAxis;
         spreadsheetRow: SpreadsheetRow;
         lane: TimelineLane;
-        constructor(context: ComponentContext, a: any, b: any, c: any, d: any, timeAxis: TimeAxis);
+        constructor(a: any, b: any, c: any, d: any, timeAxis: TimeAxis);
+        render(props: ResourceRowProps, context: ComponentContext): void;
         destroy(): void;
-        render(props: ResourceRowProps): void;
+        _renderSkeleton(context: ComponentContext): void;
+        _unrenderSkeleton(): void;
         updateSize(isResize: boolean): void;
         getHeightEls(): HTMLElement[];
     }
@@ -160,11 +168,13 @@ declare module '@fullcalendar/resource-timeline/Spreadsheet' {
         bodyColGroup: HTMLElement;
         bodyTbody: HTMLElement;
         bodyColEls: HTMLElement[];
-        constructor(context: ComponentContext, headParentEl: HTMLElement, bodyParentEl: HTMLElement);
+        constructor(headParentEl: HTMLElement, bodyParentEl: HTMLElement);
+        render(props: SpreadsheetProps, context: ComponentContext): void;
         destroy(): void;
-        render(props: SpreadsheetProps): void;
-        renderCells(superHeaderText: any, colSpecs: any): void;
-        unrenderCells(): void;
+        _renderSkeleton(context: ComponentContext): void;
+        _unrenderSkeleton(): void;
+        _renderCells(superHeaderText: any, colSpecs: any): void;
+        _unrenderCells(): void;
         renderColTags(colSpecs: any): string;
         updateSize(isResize: any, totalHeight: any, isAuto: any): void;
         applyColWidths(colWidths: (number | string)[]): void;
@@ -172,13 +182,13 @@ declare module '@fullcalendar/resource-timeline/Spreadsheet' {
 }
 
 declare module '@fullcalendar/resource-timeline/Row' {
-    import { Component, ComponentContext } from '@fullcalendar/core';
+    import { Component } from '@fullcalendar/core';
     export { Row as default, Row };
     abstract class Row<PropsType> extends Component<PropsType> {
         spreadsheetTr: HTMLElement;
         timeAxisTr: HTMLElement;
         isSizeDirty: boolean;
-        constructor(context: ComponentContext, spreadsheetParent: HTMLElement, spreadsheetNextSibling: HTMLElement, timeAxisParent: HTMLElement, timeAxisNextSibling: HTMLElement);
+        constructor(spreadsheetParent: HTMLElement, spreadsheetNextSibling: HTMLElement, timeAxisParent: HTMLElement, timeAxisNextSibling: HTMLElement);
         destroy(): void;
         abstract getHeightEls(): HTMLElement[];
         updateSize(isResize: boolean): void;
@@ -186,7 +196,7 @@ declare module '@fullcalendar/resource-timeline/Row' {
 }
 
 declare module '@fullcalendar/resource-timeline/SpreadsheetRow' {
-    import { Component, ComponentContext } from '@fullcalendar/core';
+    import { Component } from '@fullcalendar/core';
     import { Resource } from '@fullcalendar/resource-common';
     export interface SpreadsheetRowProps {
         colSpecs: any;
@@ -202,7 +212,7 @@ declare module '@fullcalendar/resource-timeline/SpreadsheetRow' {
         tr: HTMLElement;
         heightEl: HTMLElement;
         expanderIconEl: HTMLElement;
-        constructor(context: ComponentContext, tr: HTMLElement);
+        constructor(tr: HTMLElement);
         render(props: SpreadsheetRowProps): void;
         destroy(): void;
         renderRow(resource: Resource, rowSpans: number[], depth: number, colSpecs: any): void;
@@ -221,6 +231,7 @@ declare module '@fullcalendar/resource-timeline/SpreadsheetHeader' {
     }
     export { SpreadsheetHeader as default, SpreadsheetHeader };
     class SpreadsheetHeader extends Component<SpreadsheetHeaderProps> {
+        parentEl: HTMLElement;
         tableEl: HTMLElement;
         resizerEls: HTMLElement[];
         resizables: ElementDragging[];
@@ -228,9 +239,11 @@ declare module '@fullcalendar/resource-timeline/SpreadsheetHeader' {
         colEls: HTMLElement[];
         colWidths: number[];
         emitter: EmitterMixin;
-        constructor(context: ComponentContext, parentEl: HTMLElement);
+        constructor(parentEl: HTMLElement);
+        render(props: SpreadsheetHeaderProps, context: ComponentContext): void;
         destroy(): void;
-        render(props: SpreadsheetHeaderProps): void;
+        _renderSkeleton(context: ComponentContext): void;
+        _unrenderSkeleton(): void;
         initColResizing(): void;
     }
 }

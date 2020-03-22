@@ -1,20 +1,20 @@
 {
   "_args": [
     [
-      "@fullcalendar/resource-daygrid@^4.3.0",
-      "/home/thomas/academico/academico"
+      "@fullcalendar/resource-daygrid@4.4.0",
+      "/home/thomas/academico"
     ]
   ],
-  "_from": "@fullcalendar/resource-daygrid@>=4.3.0 <5.0.0",
+  "_from": "@fullcalendar/resource-daygrid@4.4.0",
   "_hasShrinkwrap": false,
-  "_id": "@fullcalendar/resource-daygrid@4.3.0",
+  "_id": "@fullcalendar/resource-daygrid@4.4.0",
   "_inCache": true,
   "_installable": true,
   "_location": "/@fullcalendar/resource-daygrid",
   "_nodeVersion": "11.6.0",
   "_npmOperationalInternal": {
     "host": "s3://npm-registry-packages",
-    "tmp": "tmp/resource-daygrid_4.3.0_1565407477859_0.4037277945049629"
+    "tmp": "tmp/resource-daygrid_4.4.0_1581468877069_0.3142165366758385"
   },
   "_npmUser": {
     "email": "arshaw@arshaw.com",
@@ -24,21 +24,21 @@
   "_phantomChildren": {},
   "_requested": {
     "name": "@fullcalendar/resource-daygrid",
-    "raw": "@fullcalendar/resource-daygrid@^4.3.0",
-    "rawSpec": "^4.3.0",
+    "raw": "@fullcalendar/resource-daygrid@4.4.0",
+    "rawSpec": "4.4.0",
     "scope": "@fullcalendar",
-    "spec": ">=4.3.0 <5.0.0",
-    "type": "range"
+    "spec": "4.4.0",
+    "type": "version"
   },
   "_requiredBy": [
     "/",
     "/@fullcalendar/resource-timegrid"
   ],
-  "_resolved": "https://registry.npmjs.org/@fullcalendar/resource-daygrid/-/resource-daygrid-4.3.0.tgz",
-  "_shasum": "3f68d1a823af6a3a24236869909dfa8a0585e992",
+  "_resolved": "https://registry.npmjs.org/@fullcalendar/resource-daygrid/-/resource-daygrid-4.4.0.tgz",
+  "_shasum": "6ca4aee965a57be37b8b2f944f7d7eba3e4fb44e",
   "_shrinkwrap": null,
-  "_spec": "@fullcalendar/resource-daygrid@^4.3.0",
-  "_where": "/home/thomas/academico/academico",
+  "_spec": "@fullcalendar/resource-daygrid@4.4.0",
+  "_where": "/home/thomas/academico",
   "author": {
     "email": "arshaw@arshaw.com",
     "name": "Adam Shaw",
@@ -49,19 +49,19 @@
   },
   "copyright": "2019 Adam Shaw",
   "dependencies": {
-    "@fullcalendar/daygrid": "~4.3.0",
-    "@fullcalendar/resource-common": "~4.3.0"
+    "@fullcalendar/daygrid": "~4.4.0",
+    "@fullcalendar/resource-common": "~4.4.0"
   },
   "description": "Displays events in individual columns for days and resources",
   "devDependencies": {},
   "directories": {},
   "dist": {
-    "fileCount": 7,
-    "integrity": "sha512-MF1WS0vjNHsCuyIT4VYLU3U0Ty5jIXoB2rafoJH7POVfMIeiJ0tSHHyfJQrcdJjFxPZ8UidpdP9khUz5oT/zPA==",
-    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJdTjj2CRA9TVsSAnZWagAAY4sP/0wq0WW6Qo8CSW89BWwR\nUpMgtGRFy9GpqV8IPsdKwDEMFzv24N8ktkqQcGm6ugLNuI243zGXK7Q+jpti\nZ7av+hvQ1bFSqjV0/BBJU6M/tVqH+bBRzP+VcjBdKxY8MJx8me+joJgcRmcf\nBfn+396R1/quzx+7cFBsN/OFWGMoyVQnprD9BRkdGb4gh40M9/3PE8rNco91\naPLN8MpaSxfKNXT8Q35D1aHXB5bvgf9CsXyOtjrjhyVSxZzskFme0k+MLCrj\nnkx3PH9C5XlFE6udxFBQeeV2a0lYYJDUrZJgLshqagIty8j4A7P6FlSkogPd\nfarm6W35c2TqxXL6OkMUrh1VGRrtv01KgdQsFwNqaO6nTn+fjxS/mYwIKEr2\nkUffgrE3SOyrHPRwy/gXLRTVyYXPkMJuWIPCjcxC0nFTStqIHo52c9sWLvtk\n1IF9y033bEyfqxyDlnD27u4YSksibKyrRiOh8s6qZv5LnY9NWyrlBUJVTKAx\nDzSWjvmab11inkG0hSB9cxxdWbyDR4198ojj+L5vxFcJDHL+VqQq/OU961mJ\nlE2joEoLuEaISFAh/lmdAyXgIwN2xYA7P4YDtPYOoYbH8gXaVHUKdWdGW2NB\nPgkFJ+95YXr6ndhRi6m1xQue40QmBQW5W5rRdteNB3WpWPP3Tp7Bg8u5DBd4\n2oBD\r\n=inqy\r\n-----END PGP SIGNATURE-----\r\n",
-    "shasum": "3f68d1a823af6a3a24236869909dfa8a0585e992",
-    "tarball": "https://registry.npmjs.org/@fullcalendar/resource-daygrid/-/resource-daygrid-4.3.0.tgz",
-    "unpackedSize": 28811
+    "fileCount": 8,
+    "integrity": "sha512-b/Rdy2yqzxl5QWMCclpsDEMywOqqg/CV70J0QQgzhGEUdxftWLajU8KuiDN01K+3vJBwHWAwNz+2xudlw4pYkA==",
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJeQ0zNCRA9TVsSAnZWagAANdUQAIkq+nk+SAs0+Z3unfvC\nB4Rd2xQpP17RQPp6YlCvTJnRl7T0/XPSWvrrR+MVb9rO6nd6gFSDLI7GbfmP\nO0uoC/k2D3DEGWkvplvSkaODuSMGnTht+W2Q5Bhqh2Bw8G9L51vQvcyY2xQU\nUHwpWP2LB0JinOuhjAgFuLxbr8DqjKU/nRgNn+1HtEMfQE8EVdYKyxJaoD4B\nQ1qrlpAYUx5fASajJf562VWdZgxBaW1IGZrMBpI4/IFrshxjNWqq1St2QIWG\nbMkcWjGJTfZj9QcTXt52jHhlGY7AHGd17/yFff14f4Y4AXPBrK/0OGjDmAKi\nvIFGxyCSEifZf8rf+uhFhY0Tis9FnVcWDwxqJwveQ46byRIedE0IyUvf8eod\n54ypfpS6FK3S+wGnAbNhsjoRwYRzxeuu+ieltf4nd8qsST120sjkVa85IaYV\n8IEMd7cEep1Jy8DrPHtI1ab5WKoJ0wML1TvI//28KKu81JZR3t4wYMioPA7k\nKlzHnnTziCqTkpRrTKTpm/Qo9ooBdMxvAbgJ+BfVikJvUzh8wbnD+IJY0FMq\n0EiEPO2SeZhh1Fte02McvgR3XbfxGuvWpmoztcBRIZi5SuHzi+tu2ffVhfhd\nk4Vht6C1LVLD/klPpSTcOvnrpw7Fc3CznZPHS2R+BT/ehMx+nq5MFGqO7foo\nMgcp\r\n=M7fO\r\n-----END PGP SIGNATURE-----\r\n",
+    "shasum": "6ca4aee965a57be37b8b2f944f7d7eba3e4fb44e",
+    "tarball": "https://registry.npmjs.org/@fullcalendar/resource-daygrid/-/resource-daygrid-4.4.0.tgz",
+    "unpackedSize": 45748
   },
   "docs": "https://fullcalendar.io/docs/resource-daygrid-view",
   "homepage": "https://fullcalendar.io/scheduler",
@@ -82,7 +82,7 @@
   "name": "@fullcalendar/resource-daygrid",
   "optionalDependencies": {},
   "peerDependencies": {
-    "@fullcalendar/core": "~4.3.0"
+    "@fullcalendar/core": "~4.4.0"
   },
   "readme": "ERROR: No README data found!",
   "repository": {
@@ -93,5 +93,5 @@
   "title": "FullCalendar Resource Day Grid Plugin",
   "types": "main.d.ts",
   "unpkg": "main.min.js",
-  "version": "4.3.0"
+  "version": "4.4.0"
 }

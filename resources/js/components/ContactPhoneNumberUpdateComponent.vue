@@ -35,7 +35,7 @@
         methods: {
             getPhoneNumbers()
             {
-                axios.get('/contact/' + this.contact + '/phonenumbers')
+                axios.get(`/phonenumber/contact/${this.contact}`)
                 .then(response => {
                     this.phoneables = response.data
                     })
@@ -45,9 +45,8 @@
 
             addPhoneNumber()
             {
-                axios.post('/contactphonenumber',
+                axios.post(`/phonenumber/contact/${this.contact}`,
                 {
-                    contact: this.contact,
                     number: this.number
                 })
                 .then(response => {
@@ -61,7 +60,7 @@
 
             deletePhoneNumber(phonenumber)
             {
-                axios.delete('/phonenumber/' + phonenumber)
+                axios.delete(`/phonenumber/${phonenumber}`)
                     .then(response => {
                         this.getPhoneNumbers();
                     })

@@ -15,19 +15,22 @@ declare module '@fullcalendar/timeline' {
 }
 
 declare module '@fullcalendar/timeline/TimelineView' {
-    import { Hit, View, ViewProps, ComponentContext, ViewSpec, DateProfileGenerator, DateProfile, Duration } from '@fullcalendar/core';
+    import { Hit, View, ViewProps, ComponentContext, DateProfile, Duration, DateProfileGenerator } from '@fullcalendar/core';
     import TimeAxis from '@fullcalendar/timeline/TimeAxis';
     import TimelineLane from '@fullcalendar/timeline/TimelineLane';
     export { TimelineView as default, TimelineView };
     class TimelineView extends View {
         timeAxis: TimeAxis;
         lane: TimelineLane;
-        constructor(context: ComponentContext, viewSpec: ViewSpec, dateProfileGenerator: DateProfileGenerator, parentEl: HTMLElement);
+        _startInteractive(timeAxisEl: HTMLElement): void;
+        _stopInteractive(): void;
+        render(props: ViewProps, context: ComponentContext): void;
         destroy(): void;
+        _renderSkeleton(context: ComponentContext): void;
+        _unrenderSkeleton(): void;
         renderSkeletonHtml(): string;
-        render(props: ViewProps): void;
         updateSize(isResize: any, totalHeight: any, isAuto: any): void;
-        getNowIndicatorUnit(dateProfile: DateProfile): string;
+        getNowIndicatorUnit(dateProfile: DateProfile, dateProfileGenerator: DateProfileGenerator): string;
         renderNowIndicator(date: any): void;
         unrenderNowIndicator(): void;
         computeDateScroll(duration: Duration): {
@@ -64,9 +67,10 @@ declare module '@fullcalendar/timeline/TimelineLane' {
     }
     export { TimelineLane as default, TimelineLane };
     class TimelineLane extends DateComponent<TimelineLaneProps> {
+        fgContainerEl: HTMLElement;
         timeAxis: TimeAxis;
-        constructor(context: ComponentContext, fgContainerEl: HTMLElement, bgContainerEl: HTMLElement, timeAxis: TimeAxis);
-        render(props: TimelineLaneProps): void;
+        constructor(fgContainerEl: HTMLElement, bgContainerEl: HTMLElement, timeAxis: TimeAxis);
+        render(props: TimelineLaneProps, context: ComponentContext): void;
         destroy(): void;
         _renderEventDrag(state: EventSegUiInteractionState): void;
         _unrenderEventDrag(state: EventSegUiInteractionState): void;
@@ -116,7 +120,7 @@ declare module '@fullcalendar/timeline/util/StickyScroller' {
 }
 
 declare module '@fullcalendar/timeline/TimeAxis' {
-    import { DateProfile, DateMarker, Component, ComponentContext, Duration } from '@fullcalendar/core';
+    import { DateProfile, DateMarker, Component, ComponentContext, Duration, DateProfileGenerator } from '@fullcalendar/core';
     import HeaderBodyLayout from '@fullcalendar/timeline/HeaderBodyLayout';
     import TimelineHeader from '@fullcalendar/timeline/TimelineHeader';
     import TimelineSlats from '@fullcalendar/timeline/TimelineSlats';
@@ -124,6 +128,7 @@ declare module '@fullcalendar/timeline/TimeAxis' {
     import TimelineNowIndicator from '@fullcalendar/timeline/TimelineNowIndicator';
     import StickyScroller from '@fullcalendar/timeline/util/StickyScroller';
     export interface TimeAxisProps {
+        dateProfileGenerator: DateProfileGenerator;
         dateProfile: DateProfile;
     }
     export { TimeAxis as default, TimeAxis };
@@ -135,10 +140,12 @@ declare module '@fullcalendar/timeline/TimeAxis' {
         headStickyScroller: StickyScroller;
         bodyStickyScroller: StickyScroller;
         tDateProfile: TimelineDateProfile;
-        constructor(context: ComponentContext, headerContainerEl: any, bodyContainerEl: any);
+        constructor(headerContainerEl: any, bodyContainerEl: any);
+        render(props: TimeAxisProps, context: ComponentContext): void;
         destroy(): void;
-        render(props: TimeAxisProps): void;
-        getNowIndicatorUnit(dateProfile: DateProfile): string;
+        _renderSkeleton(context: ComponentContext): void;
+        _unrenderSkeleton(): void;
+        getNowIndicatorUnit(dateProfile: DateProfile, dateProfileGenerator: DateProfileGenerator): string;
         renderNowIndicator(date: any): void;
         unrenderNowIndicator(): void;
         updateSize(isResize: any, totalHeight: any, isAuto: any): void;
@@ -241,10 +248,12 @@ declare module '@fullcalendar/timeline/TimelineHeader' {
     }
     export { TimelineHeader as default, TimelineHeader };
     class TimelineHeader extends Component<TimelineHeaderProps> {
+        parentEl: HTMLElement;
         tableEl: HTMLElement;
         slatColEls: HTMLElement[];
         innerEls: HTMLElement[];
-        constructor(context: ComponentContext, parentEl: HTMLElement);
+        constructor(parentEl: HTMLElement);
+        firstContext(context: ComponentContext): void;
         destroy(): void;
         render(props: TimelineHeaderProps): void;
         renderDates(tDateProfile: TimelineDateProfile): void;
@@ -252,7 +261,7 @@ declare module '@fullcalendar/timeline/TimelineHeader' {
 }
 
 declare module '@fullcalendar/timeline/TimelineSlats' {
-    import { PositionCache, Component, ComponentContext, DateProfile } from '@fullcalendar/core';
+    import { PositionCache, Component, DateProfile } from '@fullcalendar/core';
     import { TimelineDateProfile } from '@fullcalendar/timeline/timeline-date-profile';
     export interface TimelineSlatsProps {
         dateProfile: DateProfile;
@@ -265,7 +274,7 @@ declare module '@fullcalendar/timeline/TimelineSlats' {
         slatEls: HTMLElement[];
         outerCoordCache: PositionCache;
         innerCoordCache: PositionCache;
-        constructor(context: ComponentContext, parentEl: HTMLElement);
+        constructor(parentEl: HTMLElement);
         destroy(): void;
         render(props: TimelineSlatsProps): void;
         renderDates(tDateProfile: TimelineDateProfile): void;
@@ -287,7 +296,7 @@ declare module '@fullcalendar/timeline/TimelineSlats' {
 }
 
 declare module '@fullcalendar/timeline/timeline-date-profile' {
-    import { Duration, View, DateProfile, DateMarker, DateEnv, DateRange } from '@fullcalendar/core';
+    import { Duration, DateProfile, DateMarker, DateEnv, DateRange, DateProfileGenerator } from '@fullcalendar/core';
     export interface TimelineDateProfile {
         labelInterval: Duration;
         slotDuration: Duration;
@@ -314,10 +323,10 @@ declare module '@fullcalendar/timeline/timeline-date-profile' {
         colspan: number;
         isWeekStart: boolean;
     }
-    export function buildTimelineDateProfile(dateProfile: DateProfile, view: View): TimelineDateProfile;
+    export function buildTimelineDateProfile(dateProfile: DateProfile, dateEnv: DateEnv, allOptions: any, dateProfileGenerator: DateProfileGenerator): TimelineDateProfile;
     export function normalizeDate(date: DateMarker, tDateProfile: TimelineDateProfile, dateEnv: DateEnv): DateMarker;
     export function normalizeRange(range: DateRange, tDateProfile: TimelineDateProfile, dateEnv: DateEnv): DateRange;
-    export function isValidDate(date: DateMarker, tDateProfile: TimelineDateProfile, dateProfile: DateProfile, view: View): boolean;
+    export function isValidDate(date: DateMarker, tDateProfile: TimelineDateProfile, dateProfile: DateProfile, dateProfileGenerator: DateProfileGenerator): boolean;
 }
 
 declare module '@fullcalendar/timeline/TimelineNowIndicator' {

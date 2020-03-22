@@ -1,5 +1,5 @@
 /*!
-FullCalendar Resource Time Grid Plugin v4.3.0
+FullCalendar Resource Time Grid Plugin v4.4.0
 Docs & License: https://fullcalendar.io/scheduler
 (c) 2019 Adam Shaw
 */
@@ -51,35 +51,38 @@ var __assign = function() {
 
 var ResourceTimeGrid = /** @class */ (function (_super) {
     __extends(ResourceTimeGrid, _super);
-    function ResourceTimeGrid(context, timeGrid) {
-        var _this = _super.call(this, context, timeGrid.el) || this;
+    function ResourceTimeGrid(timeGrid) {
+        var _this = _super.call(this, timeGrid.el) || this;
         _this.buildDayRanges = memoize(buildDayRanges);
         _this.splitter = new VResourceSplitter();
         _this.slicers = {};
         _this.joiner = new ResourceTimeGridJoiner();
         _this.timeGrid = timeGrid;
-        context.calendar.registerInteractiveComponent(_this, {
-            el: _this.timeGrid.el
-        });
         return _this;
     }
-    ResourceTimeGrid.prototype.destroy = function () {
-        this.calendar.unregisterInteractiveComponent(this);
+    ResourceTimeGrid.prototype.firstContext = function (context) {
+        context.calendar.registerInteractiveComponent(this, {
+            el: this.timeGrid.el
+        });
     };
-    ResourceTimeGrid.prototype.render = function (props) {
+    ResourceTimeGrid.prototype.destroy = function () {
+        this.context.calendar.unregisterInteractiveComponent(this);
+    };
+    ResourceTimeGrid.prototype.render = function (props, context) {
         var _this = this;
         var timeGrid = this.timeGrid;
+        var dateEnv = context.dateEnv;
         var dateProfile = props.dateProfile, resourceDayTable = props.resourceDayTable;
-        var dayRanges = this.dayRanges = this.buildDayRanges(resourceDayTable.dayTable, dateProfile, this.dateEnv);
+        var dayRanges = this.dayRanges = this.buildDayRanges(resourceDayTable.dayTable, dateProfile, dateEnv);
         var splitProps = this.splitter.splitProps(props);
         this.slicers = mapHash(splitProps, function (split, resourceId) {
             return _this.slicers[resourceId] || new TimeGridSlicer();
         });
         var slicedProps = mapHash(this.slicers, function (slicer, resourceId) {
-            return slicer.sliceProps(splitProps[resourceId], dateProfile, null, timeGrid, dayRanges);
+            return slicer.sliceProps(splitProps[resourceId], dateProfile, null, context.calendar, timeGrid, dayRanges);
         });
         timeGrid.allowAcrossResources = dayRanges.length === 1;
-        timeGrid.receiveProps(__assign({}, this.joiner.joinProps(slicedProps, resourceDayTable), { dateProfile: dateProfile, cells: resourceDayTable.cells[0] }));
+        timeGrid.receiveProps(__assign({}, this.joiner.joinProps(slicedProps, resourceDayTable), { dateProfile: dateProfile, cells: resourceDayTable.cells[0] }), context);
     };
     ResourceTimeGrid.prototype.renderNowIndicator = function (date) {
         var timeGrid = this.timeGrid;
@@ -129,35 +132,23 @@ var ResourceTimeGridJoiner = /** @class */ (function (_super) {
 
 var ResourceTimeGridView = /** @class */ (function (_super) {
     __extends(ResourceTimeGridView, _super);
-    function ResourceTimeGridView(context, viewSpec, dateProfileGenerator, parentEl) {
-        var _this = _super.call(this, context, viewSpec, dateProfileGenerator, parentEl) || this;
+    function ResourceTimeGridView() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.processOptions = memoize(_this._processOptions);
         _this.flattenResources = memoize(flattenResources);
         _this.buildResourceDayTable = memoize(buildResourceDayTable);
-        _this.resourceOrderSpecs = parseFieldSpecs(_this.opt('resourceOrder'));
-        if (_this.opt('columnHeader')) {
-            _this.header = new ResourceDayHeader(_this.context, _this.el.querySelector('.fc-head-container'));
-        }
-        _this.resourceTimeGrid = new ResourceTimeGrid(context, _this.timeGrid);
-        if (_this.dayGrid) {
-            _this.resourceDayGrid = new ResourceDayGrid(context, _this.dayGrid);
-        }
         return _this;
     }
-    ResourceTimeGridView.prototype.destroy = function () {
-        _super.prototype.destroy.call(this);
-        if (this.header) {
-            this.header.destroy();
-        }
-        this.resourceTimeGrid.destroy();
-        if (this.resourceDayGrid) {
-            this.resourceDayGrid.destroy();
-        }
+    ResourceTimeGridView.prototype._processOptions = function (options) {
+        this.resourceOrderSpecs = parseFieldSpecs(options.resourceOrder);
     };
-    ResourceTimeGridView.prototype.render = function (props) {
-        _super.prototype.render.call(this, props); // for flags for updateSize
+    ResourceTimeGridView.prototype.render = function (props, context) {
+        _super.prototype.render.call(this, props, context); // for flags for updateSize. and will call _renderSkeleton/_unrenderSkeleton
+        var options = context.options, nextDayThreshold = context.nextDayThreshold;
+        this.processOptions(options);
         var splitProps = this.splitter.splitProps(props);
         var resources = this.flattenResources(props.resourceStore, this.resourceOrderSpecs);
-        var resourceDayTable = this.buildResourceDayTable(this.props.dateProfile, this.dateProfileGenerator, resources, this.opt('datesAboveResources'));
+        var resourceDayTable = this.buildResourceDayTable(props.dateProfile, props.dateProfileGenerator, resources, options.datesAboveResources);
         if (this.header) {
             this.header.receiveProps({
                 resources: resources,
@@ -165,11 +156,32 @@ var ResourceTimeGridView = /** @class */ (function (_super) {
                 dateProfile: props.dateProfile,
                 datesRepDistinctDays: true,
                 renderIntroHtml: this.renderHeadIntroHtml
-            });
+            }, context);
         }
-        this.resourceTimeGrid.receiveProps(__assign({}, splitProps['timed'], { dateProfile: props.dateProfile, resourceDayTable: resourceDayTable }));
+        this.resourceTimeGrid.receiveProps(__assign({}, splitProps['timed'], { dateProfile: props.dateProfile, resourceDayTable: resourceDayTable }), context);
         if (this.resourceDayGrid) {
-            this.resourceDayGrid.receiveProps(__assign({}, splitProps['allDay'], { dateProfile: props.dateProfile, resourceDayTable: resourceDayTable, isRigid: false, nextDayThreshold: this.nextDayThreshold }));
+            this.resourceDayGrid.receiveProps(__assign({}, splitProps['allDay'], { dateProfile: props.dateProfile, resourceDayTable: resourceDayTable, isRigid: false, nextDayThreshold: nextDayThreshold }), context);
+        }
+        this.startNowIndicator(props.dateProfile, props.dateProfileGenerator);
+    };
+    ResourceTimeGridView.prototype._renderSkeleton = function (context) {
+        _super.prototype._renderSkeleton.call(this, context);
+        if (context.options.columnHeader) {
+            this.header = new ResourceDayHeader(this.el.querySelector('.fc-head-container'));
+        }
+        this.resourceTimeGrid = new ResourceTimeGrid(this.timeGrid);
+        if (this.dayGrid) {
+            this.resourceDayGrid = new ResourceDayGrid(this.dayGrid);
+        }
+    };
+    ResourceTimeGridView.prototype._unrenderSkeleton = function () {
+        _super.prototype._unrenderSkeleton.call(this);
+        if (this.header) {
+            this.header.destroy();
+        }
+        this.resourceTimeGrid.destroy();
+        if (this.resourceDayGrid) {
+            this.resourceDayGrid.destroy();
         }
     };
     ResourceTimeGridView.prototype.renderNowIndicator = function (date) {

@@ -50,22 +50,6 @@ class ContactController extends Controller
         return redirect()->back();
     }
 
-    public function getPhoneNumber(Contact $contact)
-    {
-        return $contact->phone;
-    }
-
-    public function storePhoneNumber(Request $request)
-    {
-        if ($request->number != null) {
-            $number = PhoneNumber::create([
-                'phoneable_type' => Contact::class,
-                'phoneable_id' => $request->contact,
-                'phone_number' => $request->number,
-            ]);
-        }
-    }
-
     public function update(Contact $contact, Request $request)
     {
 
