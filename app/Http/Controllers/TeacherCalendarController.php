@@ -7,7 +7,7 @@ use App\Models\Leave;
 use App\Models\Teacher;
 use Illuminate\Support\Facades\Gate;
 
-class TeacherController extends Controller
+class TeacherCalendarController extends Controller
 {
     public function __construct()
     {
@@ -113,10 +113,4 @@ class TeacherController extends Controller
         ]);
     }
 
-    public function leaves()
-    {
-        $teachers = Teacher::all();
-
-        return view('leaves.index', compact('teachers'));
-    }
 }
