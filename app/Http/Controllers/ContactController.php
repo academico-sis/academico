@@ -20,6 +20,15 @@ class ContactController extends Controller
      */
     public function store(StoreRequest $request)
     {
+        $request->validate([
+            'firstname' => 'required',
+            'lastname' => 'required',
+            'email' => 'required',
+            'address' => 'required',
+            'phone_number' => 'required',
+            'idnumber' => 'required',
+        ]);
+        
         $contact = new Contact;
         $contact->student_id = $request->input('student_id');
         $contact->firstname = $request->input('firstname');

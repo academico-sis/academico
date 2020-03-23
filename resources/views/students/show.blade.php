@@ -155,32 +155,32 @@
                 
                 <div class="form-group">
                     <label for="firstname">@lang('Firstname')</label>
-                    <input type="text" id="firstname" name="firstname">
+                    <input required type="text" id="firstname" name="firstname">
                 </div>
 
                 <div class="form-group">
                     <label for="lastname">@lang('Name')</label>
-                    <input type="text" id="lastname" name="lastname">
+                    <input required type="text" id="lastname" name="lastname">
                 </div>
 
                 <div class="form-group">
                     <label for="email">@lang('Email')</label>
-                    <input type="text" id="email" name="email">
+                    <input required type="email" id="email" name="email">
             </div>
 
             <div class="form-group">
                 <label for="address">@lang('Address')</label>
-                <input type="text" id="address" name="address">
+                <input required type="text" id="address" name="address">
             </div>
 
             <div class="form-group">
                 <label for="phone_number">@lang('Phone Number')</label>
-                <input type="text" id="phone_number" name="phone_number">
+                <input required type="text" id="phone_number" name="phone_number">
             </div>
 
             <div class="form-group">
                 <label for="idnumber">@lang('ID Number')</label>
-                <input type="text" id="idnumber" name="idnumber">
+                <input required type="text" id="idnumber" name="idnumber">
             </div>
 
 

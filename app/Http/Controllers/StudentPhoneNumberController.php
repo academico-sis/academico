@@ -21,7 +21,7 @@ class StudentPhoneNumberController extends Controller
      */
     public function store(Student $student, Request $request)
     {
-        $number = PhoneNumber::create([
+        return PhoneNumber::create([
             'phoneable_type' => Student::class,
             'phoneable_id' => $student->id,
             'phone_number' => $request->number,

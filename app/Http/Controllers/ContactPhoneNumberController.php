@@ -16,7 +16,7 @@ class ContactPhoneNumberController extends Controller
     public function store(Contact $contact, Request $request)
     {
         if ($request->number != null) {
-            $number = PhoneNumber::create([
+            return PhoneNumber::create([
                 'phoneable_type' => Contact::class,
                 'phoneable_id' => $contact->id,
                 'phone_number' => $request->number,

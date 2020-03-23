@@ -13,16 +13,34 @@
             <div><strong>{{ $t('idnumber') }}:</strong> {{ student.idnumber }}</div>
             <div><strong>{{ $t('address') }}:</strong> {{ student.address }}</div>
 
-                <div v-if="student.phone.length > 0"><strong>{{ $t('Phone Number') }}:</strong>
+                <div><strong>{{ $t('Phone Number') }}:</strong>
+                    <button class="btn btn-sm btn-primary" @click="addingNumberToStudent = true" v-if="writeaccess">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                    
                     <ul>
-                        <li v-for="phone in student.phone" v-bind:key="phone.id">{{ phone.phone_number }}</li>
+                        <li v-for="phone in student.phone" v-bind:key="phone.id">
+                            {{ phone.phone_number }}
+                            <button v-if="writeaccess" class="btn btn-sm btn-ghost-danger" @click="removePhoneNumber(student.phone, phone)">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </li>
+
+                        <li class="controls" v-if="addingNumberToStudent && writeaccess">
+                            <div class="input-group">
+                            <input class="form-control" type="text" v-model="newNumber">
+                            <span class="input-group-append">
+                                <button class="btn btn-sm btn-success" type="button" @click="saveStudentPhoneNumber(student)"><i class="fa fa-save"></i></button>
+                            </span>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             <div><strong>{{ $t('email') }}:</strong> {{ student.email }}</div>
             <div><strong>{{ $t('birthdate') }}:</strong> {{ student.student_birthdate }}</div>
             <div><strong>{{ $t('age') }}:</strong> {{ student.student_age }} {{ $t('years old') }}</div>
 
-            <div class="" v-if="writeaccess">
+            <div v-if="writeaccess">
                 <a class="btn btn-sm btn-warning" :href="`/student/${student.id}/edit`">
                     <i class="fa fa-edit"></i>
                 </a>
@@ -33,15 +51,33 @@
             </div>
         </div>
 
-        <div class="tab-pane fade" v-for="contact in contacts" v-bind:key="contact.id" v-bind:id="`contact-${contact.id}-pane`" role="tabpanel" :aria-labelledby="contact.id+'-tab'">
+        <div class="tab-pane fade" v-for="contact in this.contactsData" v-bind:key="contact.id" v-bind:id="`contact-${contact.id}-pane`" role="tabpanel" :aria-labelledby="contact.id+'-tab'">
             <h4 v-if="contact.relationship">{{ contact.relationship.name }}</h4>
 
             <div><strong>{{ $t('name') }}:</strong> {{ contact.firstname }} {{ contact.lastname }}</div>
             <div><strong>{{ $t('idnumber') }}:</strong> {{ contact.idnumber }}</div>
             <div><strong>{{ $t('address') }}:</strong> {{ contact.address }}</div>
-                <div v-if="contact.phone.length > 0"><strong>{{ $t('Phone Number') }}:</strong>
+                <div><strong>{{ $t('Phone Number') }}:</strong>
+                    <button class="btn btn-sm btn-primary" @click="addingNumberToContact = true" v-if="writeaccess">
+                        <i class="fa fa-plus"></i>
+                    </button>
+
                     <ul>
-                        <li v-for="phone in contact.phone" v-bind:key="phone.id">{{ phone.phone_number }}</li>
+                        <li v-for="phone in contact.phone" v-bind:key="phone.id">
+                            {{ phone.phone_number }}
+                            <button v-if="writeaccess" class="btn btn-sm btn-ghost-danger" @click="removePhoneNumber(contact.phone, phone)">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </li>
+
+                        <li class="controls" v-if="addingNumberToContact && writeaccess">
+                            <div class="input-group">
+                            <input class="form-control" type="text" v-model="newNumber">
+                            <span class="input-group-append">
+                                <button class="btn btn-sm btn-success" type="button" @click="saveContactPhoneNumber(contact)"><i class="fa fa-save"></i></button>
+                            </span>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             <div><strong>{{ $t('email') }}:</strong> {{ contact.email }}</div>
@@ -76,8 +112,84 @@ export default {
     data () {
         return {
             selectedTab: 0,
+            studentData: this.student,
+            contactsData: this.contacts,
+            addingNumberToStudent: false,
+            addingNumberToContact: false,
+            newNumber: null
         }
     },
+
+    methods: {
+        removePhoneNumber(list, phone) {
+            swal({
+                title: 'Attention',
+                text: "Voulez-vous vraiment supprimer ce numéro de téléphone ?",
+                icon: "warning",
+                buttons: {
+                    cancel: {
+                    text: "Annuler",
+                    value: null,
+                    visible: true,
+                    className: "bg-secondary",
+                    closeModal: true,
+                    },
+                    delete: {
+                    text: "Supprimer",
+                    value: true,
+                    visible: true,
+                    className: "bg-danger",
+                    }
+                },
+                }).then((value) => {
+                    if (value) {
+                        axios.delete(`/phonenumber/${phone.id}`)
+                        .then(response => {
+                            var index = list.indexOf(phone);
+                            if (index !== -1) list.splice(index, 1);
+                        })
+                    }
+                });
+        },
+
+        saveStudentPhoneNumber(student)
+        {
+            axios
+                .post(`/phonenumber/student/${student.id}`, {
+                    number: this.newNumber
+                })
+                .then(response => {
+                    this.addingNumberToStudent = false
+                    this.studentData.phone.push(response.data)
+                    this.newNumber = null
+                })
+                .catch(errors => {
+                    new Noty({
+                        type: "error",
+                        text: 'Unable to save your change',
+                    }).show();
+                })
+        },
+
+        saveContactPhoneNumber(contact)
+        {
+            axios
+                .post(`/phonenumber/contact/${contact.id}`, {
+                    number: this.newNumber
+                })
+                .then(response => {
+                    this.addingNumberToContact = false
+                    contact.phone.push(response.data)
+                    this.newNumber = null
+                })
+                .catch(errors => {
+                    new Noty({
+                        type: "error",
+                        text: 'Unable to save your change',
+                    }).show();
+                })
+        }
+    }
 }
 </script>
 
