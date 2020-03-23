@@ -23,10 +23,6 @@ The following instructions assume that you are somehow familiar with Laravel.
 * `php artisan migrate`
 * `php artisan db:seed`
 
-Compile the assets:
-* `npm install`
-* `npm run prod`
-
 ## Run the application
 * `php artisan serve`
 
