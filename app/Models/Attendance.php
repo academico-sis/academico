@@ -64,7 +64,7 @@ class Attendance extends Model
     {
         $period = Period::get_default_period();
         foreach (Teacher::all() as $teacher) {
-            $events = $teacher->events_with_pending_attendance
+            $events = $teacher->events_with_pending_attendance($period)
             ->where('start', '<', (Carbon::parse('24 hours ago'))->toDateTimeString());
 
             if ($events->count() > 0) {

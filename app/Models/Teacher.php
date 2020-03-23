@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
-use App\Models\Course;
-use App\Models\User;
-use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
+use App\Models\User;
+use App\Models\Course;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 
 class Teacher extends Model
 {
@@ -169,23 +170,40 @@ class Teacher extends Model
         return round($dailyHours * ($period_days - $teacherLeaves), 0);
     }
 
-    /** TODO This method should be updated to use a better way of checking missing attendance records */
-    public function getEventsWithPendingAttendanceAttribute()
+    /* Return the events with incomplete attendance for this teacher */
+    public function events_with_pending_attendance(Period $period)
     {
-        return $this->events()
-            ->where(function ($query) {
-                $query->where('exempt_attendance', '!=', true);
-                $query->where('exempt_attendance', '!=', 1);
-                $query->orWhereNull('exempt_attendance');
-            })
-            ->where('course_id', '!=', null)
-            ->withCount('attendance')
-            ->with('course')
-            ->where('start', '<', Carbon::now(config('settings.courses_timezone'))->addMinutes(20)->toDateTimeString())
-            ->get()
-            ->filter(function ($event, $key) {
-                return $event->course->enrollments_count != $event->attendance_count; // todo improve check
-            })
-            ->values(); // reset the array keys to start at 0
+        $eventsWithMissingAttendance = [];
+
+        $eventsWithExpectedAttendance = $this->events()
+        ->where(function ($query) {
+            $query->where('exempt_attendance', '!=', true);
+            $query->where('exempt_attendance', '!=', 1);
+            $query->orWhereNull('exempt_attendance');
+        })
+        ->where('course_id', '!=', null)
+        ->whereHas('course', function (Builder $query) use ($period) {
+            return $query->where('period_id', $period->id);
+        })
+        ->with('course')
+        ->where('start', '<', Carbon::now(config('settings.courses_timezone'))->addMinutes(20)->toDateTimeString())
+        ->get();
+
+        foreach ($eventsWithExpectedAttendance as $event) {
+            foreach ($event->enrollments as $enrollment) {
+
+                // if a student has no attendance record for the class (event)
+                $hasNotAttended = $event->attendance->where('student_id', $enrollment->student_id)->isEmpty();
+
+                // count one and break loop
+                if ($hasNotAttended) {
+                    
+                    $eventsWithMissingAttendance[] = $event;
+                    break;
+                }
+            }
+        }
+
+        return collect($eventsWithMissingAttendance);
     }
 }
