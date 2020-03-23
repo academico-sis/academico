@@ -21,10 +21,6 @@ The following instructions assume that you are somehow familiar with Laravel.
 * `php artisan migrate`
 * `php artisan db:seed`
 
-Some package files were excluded from Version Control, so you need to publish them:
-* `php artisan vendor:publish --provider="Backpack\CRUD\BackpackServiceProvider" --tag="minimum"`
-* `php artisan vendor:publish --provider="Prologue\Alerts\AlertsServiceProvider"`
-
 Compile the assets:
 * `npm install`
 * `npm run prod`
