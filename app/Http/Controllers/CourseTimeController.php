@@ -19,9 +19,7 @@ class CourseTimeController extends Controller
      */
     public function get(Course $course)
     {
-        $times = CourseTime::where('course_id', $course->id)->get();
-
-        return $times;
+        return CourseTime::where('course_id', $course->id)->get();
     }
 
     /**
