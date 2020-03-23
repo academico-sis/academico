@@ -1,8 +1,10 @@
 # About this project
 Academico is an open-source, Lavarel-based school management platform. Its main features include course management, enrolments management, resources scheduling, reports and stats. It is primarily targeted at small and medium-sized institutions who need a simple and affordable solution to manage their school and courses.
 
+See overview and features at https://academico.site
+
 # License
-This software is is based on Backpack for Laravel, which means you can test if for free, but you will need to [acquire a Backpack license](https://backpackforlaravel.com/pricing) if you decide to use it for commercial use.
+This software is is based on Backpack for Laravel, which means you can test if for free, but you will need to [acquire a Backpack license](https://backpackforlaravel.com/pricing) if you decide to use it for _commercial_ use.
 
 
 # Installation
@@ -20,10 +22,6 @@ The following instructions assume that you are somehow familiar with Laravel.
 * `composer install`
 * `php artisan migrate`
 * `php artisan db:seed`
-
-Compile the assets:
-* `npm install`
-* `npm run prod`
 
 ## Run the application
 * `php artisan serve`
