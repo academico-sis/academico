@@ -27,6 +27,9 @@ class EnrollmentController extends Controller
     public function __construct()
     {
         parent::__construct();
+
+        // these methods are reserved to administrators or staff members.
+        // Only the store method can also be called by teachers to enroll students in their courses
         $this->middleware('permission:enrollments.edit', ['except' => 'store']);
     }
 
@@ -104,7 +107,7 @@ class EnrollmentController extends Controller
 
         $enrollments = Enrollment::where('id', $enrollment->id)->with('course.rhythm')->get();
         $books = $enrollment->course->books ?? [];
-        $fees = Fee::first()->get();
+        $fees = Fee::first()->get(); // todo issue #119
 
         $availableBooks = Book::all();
         $availableFees = Fee::all();

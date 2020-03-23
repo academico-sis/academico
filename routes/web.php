@@ -21,11 +21,6 @@ Route::group(
 
         Route::get('dashboard/student', 'HomeController@student')->name('studentDashboard')->middleware('forceupdate');
 
-
-
-        // creates a new enrollment
-        Route::post('student/enroll', 'EnrollmentController@store')->name('storeEnrollment');
-
         // Attendance routes
         Route::get('attendance', 'AttendanceController@index')->name('monitorAttendance');
         Route::get('attendance/student/{student}', 'AttendanceController@showStudentAttendanceForCourse')->name('studentAttendance');
@@ -46,6 +41,24 @@ Route::group(
         Route::post('/leads/reset-converted', 'LeadStatusController@reset_all_converted_leads')->name('resetAllConvertedLeads');
     });
 
+
+/* ENROLLMENTS-RELATED ROUTES */
+Route::group(
+    ['middleware' => ['web', 'language']],
+    function () {
+        Route::post('student/enroll', 'EnrollmentController@store')->name('storeEnrollment'); // create a new enrollment
+        Route::post('enrollment/{enrollment}/changeCourse', 'EnrollmentController@update')->name('changeCourse');
+        Route::get('enrollments/{enrollment}/bill', 'EnrollmentController@bill'); // new
+        Route::get('enrollments/{enrollment}/quickbill', 'EnrollmentController@quickbill'); // temporary
+
+
+        Route::post('preinvoice', 'EnrollmentController@quickInvoice')->name('quickInvoice'); // temporary
+
+        Route::post('checkout', 'PreInvoiceController@store');
+
+        Route::patch('invoice/{preInvoice}', 'PreInvoiceController@update'); // todo
+
+    });
 
 /* STUDENTS-RELATED ROUTES */
 Route::group(
@@ -126,17 +139,6 @@ Route::post('comment', 'CommentController@store')->name('storeComment');
 Route::group(
     ['middleware' => ['web', 'permission:enrollments.edit', 'language']],
     function () {
-        Route::get('enrollments/{enrollment}/bill', 'EnrollmentController@bill'); // new
-    Route::get('enrollments/{enrollment}/quickbill', 'EnrollmentController@quickbill'); // temporary
-
-    Route::post('enrollment/{enrollment}/changeCourse', 'EnrollmentController@update')->name('changeCourse');
-
-        Route::post('preinvoice', 'EnrollmentController@quickInvoice')->name('quickInvoice'); // temporary
-
-        Route::post('checkout', 'PreInvoiceController@store');
-
-        Route::patch('invoice/{preInvoice}', 'PreInvoiceController@update'); // todo
-
         Route::get('config/default-periods', 'ConfigController@get')->name('get-default-periods-screen');
         Route::post('config/default-periods', 'ConfigController@update')->name('set-default-periods');
     });
