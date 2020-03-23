@@ -41,7 +41,6 @@ class Attendance extends Model
     }
 
     /** Additional data = contact information associated to the student */
-    // todo optimize the references
     public function contacts()
     {
         return $this->hasMany(Contact::class, 'student_id', 'user_id');

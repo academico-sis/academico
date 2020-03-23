@@ -17,7 +17,6 @@ class CommentController extends Controller
         $this->middleware('permission:comments.edit', ['only' => 'delete']);
     }
 
-    // todo use CommentRequest instead
     public function store(StoreRequest $request)
     {
         Log::info('Comment created by '.backpack_user()->firstname);
@@ -45,7 +44,6 @@ class CommentController extends Controller
         ]);
     }
 
-    // todo deduplicate from commentCrudController
     public function destroy(Comment $comment)
     {
         $comment->delete();

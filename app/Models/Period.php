@@ -16,7 +16,10 @@ class Period extends Model
     // protected $hidden = [];
     // protected $dates = [];
 
-    /** todo allow admin to override this */
+    /** 
+     * Return the current period to be used as a default system-wide.
+     * First look in Config DB table; otherwise select current or closest next period
+    */
     public static function get_default_period()
     {
         $selected_period = Config::where('name', 'current_period')->first()->value;

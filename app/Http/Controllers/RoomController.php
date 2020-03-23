@@ -18,7 +18,8 @@ class RoomController extends Controller
      */
     public function index()
     {
-        $events = Event::all()->toArray(); // todo only get last xxx events
+        // Do not fetch all events but only those closest to current date. TODO optimize this.
+        $events = Event::where('start', '>', (Carbon::now()->subDays(90)))->where('end', '<', (Carbon::now()->addDays(90)))->orderBy('id', 'desc')->get()->toArray();
         $rooms = Room::all()->toArray();
 
         $rooms = array_map(function ($room) {

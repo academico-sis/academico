@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\LeaveRequest as StoreRequest;
-use App\Http\Requests\LeaveRequest as UpdateRequest;
+use App\Http\Requests\LeaveUpdateRequest as UpdateRequest;
 // VALIDATION: change the requests to match your own file names if you need form validation
 use App\Models\Leave;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -125,9 +125,8 @@ class LeaveCrudController extends CrudController
         ]);
     }
 
-    public function store()
+    public function store(StoreRequest $request)
     {
-        // todo validate input
 
         foreach ($this->crud->request->teacher_id as $teacher_id) {
             $start = Carbon::parse($this->crud->request->start_date);
@@ -162,7 +161,7 @@ class LeaveCrudController extends CrudController
                 'model' => \App\Models\LeaveType::class, // foreign key model
              ],
 
-             [   // date_range
+             [   // datepicker
                 'name' => 'date',
                 'label' => 'Event Date',
                 'type' => 'date',

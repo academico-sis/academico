@@ -52,7 +52,7 @@ class PreInvoiceController extends Controller
 
             PreInvoiceDetail::create([
                 'pre_invoice_id' => $preinvoice->id,
-                'product_name' => $enrollment['course']['name'], // todo
+                'product_name' => $enrollment['course']['name'],
                 'product_code' => $enrollment['course']['product_code'],
                 'product_id' => $enrollment['id'],
                 'product_type' => Enrollment::class,

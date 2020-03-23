@@ -166,7 +166,6 @@ class EnrollmentCrudController extends CrudController
             ->get();
 
         // get related comments
-        // todo also get the comments related to children / parent enrollments
         $comments = $enrollment->comments;
 
         $availableCourses = Course::where('period_id', $enrollment->course->period_id)->get();

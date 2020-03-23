@@ -19,7 +19,8 @@ class TeacherCalendarController extends Controller
      */
     public function index()
     {
-        $events = Event::orderBy('id', 'desc')->limit(10000)->get()->toArray();
+        // Do not fetch all events but only those closest to current date. TODO optimize this.
+        $events = Event::where('start', '>', (Carbon::now()->subDays(90)))->where('end', '<', (Carbon::now()->addDays(90)))->orderBy('id', 'desc')->get()->get()->toArray();
 
         $teachers = Teacher::with('user')->get()->toArray();
 
