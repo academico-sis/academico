@@ -35,6 +35,12 @@ class MyAccountController extends \App\Http\Controllers\Controller
      */
     public function postAccountInfoForm(Request $request)
     {
+        $request->validate([
+            'firstname' => 'required',
+            'lastname' => 'required',
+            'email' => 'required|email|unique:users'
+        ]);
+
         $result = $this->guard()->user()->update($request->except(['_token']));
         if ($result) {
             Alert::success(trans('backpack::base.account_updated'))->flash();
@@ -69,6 +75,12 @@ class MyAccountController extends \App\Http\Controllers\Controller
      */
     public function postStudentInfoForm(Request $request)
     {
+        $request->validate([
+            'idnumber' => 'required',
+            'address' => 'required',
+            'birthdate' => 'required',
+        ]);
+
         $student = Student::updateOrCreate(
             ['user_id' => $this->guard()->user()->id],
             [
@@ -127,6 +139,11 @@ class MyAccountController extends \App\Http\Controllers\Controller
 
     public function postAccountProfessionForm(Request $request)
     {
+        $request->validate([
+            'profession' => 'required',
+            'institution' => 'required',
+        ]);
+
         $profession = Profession::firstOrCreate([
             'name' => $request->profession,
         ]);
