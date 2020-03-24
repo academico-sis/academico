@@ -46,12 +46,10 @@ Route::group(
     function () {
         Route::post('student/enroll', 'EnrollmentController@store')->name('storeEnrollment'); // create a new enrollment
         Route::post('enrollment/{enrollment}/changeCourse', 'EnrollmentController@update')->name('changeCourse');
-        Route::get('enrollments/{enrollment}/bill', 'EnrollmentController@bill'); // new
-        Route::get('enrollments/{enrollment}/quickbill', 'EnrollmentController@quickbill'); // temporary
-
-        Route::post('preinvoice', 'EnrollmentController@quickInvoice')->name('quickInvoice'); // temporary
-        Route::post('checkout', 'PreInvoiceController@store');
-        Route::patch('invoice/{preInvoice}', 'PreInvoiceController@update'); // todo
+        Route::get('enrollment/{enrollment}/bill', 'EnrollmentController@checkout'); // display the cart to checkout the enrollment
+        Route::post('checkout', 'PreInvoiceController@store'); // checkout the cart. Now only one enrollment at a time but maybe several in the future.
+        Route::get('invoice/{preInvoice}/edit', 'PreInvoiceController@edit')->name('edit-invoice-number'); // update the invoice number
+        Route::patch('invoice/{preInvoice}', 'PreInvoiceController@update')->name('store-invoice-number'); // update the invoice number
     });
 
 

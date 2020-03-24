@@ -269,10 +269,6 @@
             <div class="card card-solid card-primary">
                 <div class="card-header">
                         {{ $t('front.Payment method') }}
-                    <div class="card-header-actions">
-                        <button v-if="shoppingCartTotal == paidTotal" class="btn btn-success" @click="finish()"><i class="fa fa-check"></i>Facturar</button>
-
-                    </div>
                 </div>
                 <div class="card-body">
 
@@ -314,15 +310,33 @@
                         </tbody>
                     </table>
 
-                    <div class="form-group">
-                        <h4>{{ $t('front.Total received amount') }}: $ {{ paidTotal }}</h4>
-                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <h4>{{ $t('front.Total received amount') }}: $ {{ paidTotal }}</h4>
+                            </div>
 
-                    <div class="form-group">
-                        <label for="comment">{{ $t('Comment') }}</label>
-                        <textarea name="comment" id="comment" cols="50" rows="2" v-model="comment"></textarea>
-                    </div>
+                            <div class="form-group">
+                                <label for="comment">{{ $t('Comment') }}</label>
+                                <textarea name="comment" id="comment" cols="50" rows="2" v-model="comment"></textarea>
+                            </div>
+                        </div>
 
+                        <div class="col-md-6" style="text-align: center;">
+                            <div v-if="shoppingCartTotal == paidTotal">
+                                <div class="form-group">
+                                    <button class="btn btn-lg btn-success" @click="finish()"><i class="fa fa-check"></i>Facturar</button>
+                                </div>
+                                <div class="form-group" style="display:flex;">
+                                    <label class="switch switch-pill switch-success">
+                                        <input class="switch-input" type="checkbox" v-model="sendInvoiceToAccounting"><span class="switch-slider"></span>
+                                    </label>
+                                    <span v-if="sendInvoiceToAccounting">Mandar datos al sistema contable para generar factura</span>
+                                    <span v-if="!sendInvoiceToAccounting">La matricula sera marcada como pagada sin generar la factura en el sistema contable</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -378,6 +392,7 @@
                 payments: [],
                 products: [],
                 comment: '',
+                sendInvoiceToAccounting: true,
             }
         },
 
@@ -529,6 +544,7 @@
                     client_email: this.clientemail,
                     total_price: this.shoppingCartTotal,
                     comment: this.comment,
+                    sendinvoice: this.sendInvoiceToAccounting,
                 })
                 .then(response => {
                     // handle success
@@ -536,7 +552,7 @@
                         window.location.href = '/enrollment/' + this.enrollments[0]. id + '/show';
                         new PNotify({
                             title: "Operation successful",
-                            text: "The invoice has been sent to Accounting",
+                            text: "The enrollment has been paid",
                             type: "success"
                             });
                     }
@@ -545,7 +561,7 @@
                         this.errors.push(e)
                         new PNotify({
                             title: "Error",
-                            text: "The invoice has not been generated",
+                            text: "The enrollment couldn't be paid",
                             type: "error"
                             });
                     }
