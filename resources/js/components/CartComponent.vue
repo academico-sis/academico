@@ -301,10 +301,22 @@
                                         <input type="text" v-model="payment.comment" class="form-control">
                                     </div>
                                 </td>
+
+                                <td>
+                                    <button @click="removePayment(payment)" class="btn btn-sm btn-ghost-danger"><i class="fa fa-times"></i></button>
+                                </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <button class="btn btn-secondary" @click="addPayment()">{{ $t('front.Add') }}</button>
+                                    <div class="btn-group">
+                                        <div class="dropdown">
+                                            <button class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ $t('front.Add') }}</button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <a v-for="paymentmethod in availablepaymentmethods" v-bind:key="paymentmethod.id" @click="addPayment(paymentmethod.code)" class="dropdown-item" href="#">{{paymentmethod.name}}</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                
                                 </td>
                             </tr>
                         </tbody>
@@ -325,14 +337,14 @@
                         <div class="col-md-6" style="text-align: center;">
                             <div v-if="shoppingCartTotal == paidTotal">
                                 <div class="form-group">
-                                    <button class="btn btn-lg btn-success" @click="finish()"><i class="fa fa-check"></i>Facturar</button>
+                                    <button class="btn btn-lg btn-success" @click="finish()"><i class="fa fa-check"></i>{{ $t('Checkout') }}</button>
                                 </div>
                                 <div class="form-group" style="display:flex;" v-if="this.externalaccountingenabled">
                                     <label class="switch switch-pill switch-success">
                                         <input class="switch-input" type="checkbox" v-model="sendInvoiceToAccounting"><span class="switch-slider"></span>
                                     </label>
-                                    <span v-if="sendInvoiceToAccounting">Mandar datos al sistema contable para generar factura</span>
-                                    <span v-if="!sendInvoiceToAccounting">La matricula sera marcada como pagada sin generar la factura en el sistema contable</span>
+                                    <span v-if="sendInvoiceToAccounting">{{ $t('Mandar datos al sistema contable para generar factura') }}</span>
+                                    <span v-if="!sendInvoiceToAccounting">{{ $t('Mark this enrollment as paid but do not send to accounting system') }}</span>
                                 </div>
                             </div>
                         </div>
@@ -476,15 +488,21 @@
                 this.step = 3;
             },
 
-            addPayment()
+            addPayment(method)
             {
                 let payment = {
-                    method: "",
+                    method: method,
                     value: this.shoppingCartTotal,
                     comment: ""
                 };
 
                 this.payments.push(payment);
+            },
+
+            removePayment(payment)
+            {
+                var index = this.payments.indexOf(payment);
+                if (index !== -1) this.payments.splice(index, 1);
             },
 
             finish()
