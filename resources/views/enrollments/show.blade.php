@@ -113,11 +113,7 @@
                     @if(backpack_user()->can('enrollments.edit') && $enrollment->parent_id == null)
 
                         <div class="form-group">
-                            <a href="/enrollments/{{ $enrollment->id }}/bill" class="btn btn-primary">Facturar y generar factura</a>
-                        </div>
-
-                        <div class="form-group">
-                            <a href="/enrollments/{{ $enrollment->id }}/quickbill" class="btn btn-info btn-sm">@lang('Mark as paid without generating an invoice')</a>
+                            <a href="/enrollment/{{ $enrollment->id }}/bill" class="btn btn-primary">@lang('Checkout enrollment')</a>
                         </div>
 
                     @endif
@@ -151,7 +147,7 @@
 
 </div>
 
-@if ($enrollment->pre_invoice()->count() > 0)
+@if ($enrollment->pre_invoice()->count() > 0 && backpack_user()->can('enrollments.edit'))
     @include('invoices.show')
 @endif
 

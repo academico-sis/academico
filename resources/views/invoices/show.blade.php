@@ -7,7 +7,10 @@
             </div>
             
             <div class="card-body">        
-                <p>@lang('Invoice ID') : {{ $enrollment->pre_invoice()->first()->invoice_number }}</p>   
+                <p>
+                    @lang('Invoice ID') : {{ $enrollment->pre_invoice()->first()->invoice_number }}
+                    <a class="btn btn-sm btn-secondary" href="{{ route('edit-invoice-number', ['preInvoice' => $enrollment->pre_invoice()->first()]) }}">Edit</a>
+                </p>
                 <p>@lang('Pre-invoice ID') : {{ $enrollment->pre_invoice()->first()->id }}</p>
                 <p>@lang('Date') : {{ $enrollment->pre_invoice()->first()->created_at }}</p>
                 <p>@lang('Client name') : {{ $enrollment->pre_invoice()->first()->client_name }}</p>
