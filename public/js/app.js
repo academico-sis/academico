@@ -2280,7 +2280,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['enrollmentslist', 'feeslist', 'bookslist', 'availablebooks', 'availablefees', 'availablediscounts', 'contactdata', 'availablepaymentmethods'],
+  props: ['enrollmentslist', 'feeslist', 'bookslist', 'availablebooks', 'availablefees', 'availablediscounts', 'contactdata', 'availablepaymentmethods', 'externalaccountingenabled'],
   data: function data() {
     return {
       enrollments: this.enrollmentslist || [],
@@ -2298,7 +2298,7 @@ __webpack_require__.r(__webpack_exports__);
       payments: [],
       products: [],
       comment: '',
-      sendInvoiceToAccounting: true
+      sendInvoiceToAccounting: this.externalaccountingenabled
     };
   },
   mounted: function mounted() {},
@@ -25247,87 +25247,98 @@ var render = function() {
                               )
                             ]),
                             _vm._v(" "),
-                            _c(
-                              "div",
-                              {
-                                staticClass: "form-group",
-                                staticStyle: { display: "flex" }
-                              },
-                              [
-                                _c(
-                                  "label",
+                            this.externalaccountingenabled
+                              ? _c(
+                                  "div",
                                   {
-                                    staticClass:
-                                      "switch switch-pill switch-success"
+                                    staticClass: "form-group",
+                                    staticStyle: { display: "flex" }
                                   },
                                   [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.sendInvoiceToAccounting,
-                                          expression: "sendInvoiceToAccounting"
-                                        }
-                                      ],
-                                      staticClass: "switch-input",
-                                      attrs: { type: "checkbox" },
-                                      domProps: {
-                                        checked: Array.isArray(
-                                          _vm.sendInvoiceToAccounting
-                                        )
-                                          ? _vm._i(
-                                              _vm.sendInvoiceToAccounting,
-                                              null
-                                            ) > -1
-                                          : _vm.sendInvoiceToAccounting
+                                    _c(
+                                      "label",
+                                      {
+                                        staticClass:
+                                          "switch switch-pill switch-success"
                                       },
-                                      on: {
-                                        change: function($event) {
-                                          var $$a = _vm.sendInvoiceToAccounting,
-                                            $$el = $event.target,
-                                            $$c = $$el.checked ? true : false
-                                          if (Array.isArray($$a)) {
-                                            var $$v = null,
-                                              $$i = _vm._i($$a, $$v)
-                                            if ($$el.checked) {
-                                              $$i < 0 &&
-                                                (_vm.sendInvoiceToAccounting = $$a.concat(
-                                                  [$$v]
-                                                ))
-                                            } else {
-                                              $$i > -1 &&
-                                                (_vm.sendInvoiceToAccounting = $$a
-                                                  .slice(0, $$i)
-                                                  .concat($$a.slice($$i + 1)))
+                                      [
+                                        _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value:
+                                                _vm.sendInvoiceToAccounting,
+                                              expression:
+                                                "sendInvoiceToAccounting"
                                             }
-                                          } else {
-                                            _vm.sendInvoiceToAccounting = $$c
+                                          ],
+                                          staticClass: "switch-input",
+                                          attrs: { type: "checkbox" },
+                                          domProps: {
+                                            checked: Array.isArray(
+                                              _vm.sendInvoiceToAccounting
+                                            )
+                                              ? _vm._i(
+                                                  _vm.sendInvoiceToAccounting,
+                                                  null
+                                                ) > -1
+                                              : _vm.sendInvoiceToAccounting
+                                          },
+                                          on: {
+                                            change: function($event) {
+                                              var $$a =
+                                                  _vm.sendInvoiceToAccounting,
+                                                $$el = $event.target,
+                                                $$c = $$el.checked
+                                                  ? true
+                                                  : false
+                                              if (Array.isArray($$a)) {
+                                                var $$v = null,
+                                                  $$i = _vm._i($$a, $$v)
+                                                if ($$el.checked) {
+                                                  $$i < 0 &&
+                                                    (_vm.sendInvoiceToAccounting = $$a.concat(
+                                                      [$$v]
+                                                    ))
+                                                } else {
+                                                  $$i > -1 &&
+                                                    (_vm.sendInvoiceToAccounting = $$a
+                                                      .slice(0, $$i)
+                                                      .concat(
+                                                        $$a.slice($$i + 1)
+                                                      ))
+                                                }
+                                              } else {
+                                                _vm.sendInvoiceToAccounting = $$c
+                                              }
+                                            }
                                           }
-                                        }
-                                      }
-                                    }),
-                                    _c("span", { staticClass: "switch-slider" })
+                                        }),
+                                        _c("span", {
+                                          staticClass: "switch-slider"
+                                        })
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _vm.sendInvoiceToAccounting
+                                      ? _c("span", [
+                                          _vm._v(
+                                            "Mandar datos al sistema contable para generar factura"
+                                          )
+                                        ])
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    !_vm.sendInvoiceToAccounting
+                                      ? _c("span", [
+                                          _vm._v(
+                                            "La matricula sera marcada como pagada sin generar la factura en el sistema contable"
+                                          )
+                                        ])
+                                      : _vm._e()
                                   ]
-                                ),
-                                _vm._v(" "),
-                                _vm.sendInvoiceToAccounting
-                                  ? _c("span", [
-                                      _vm._v(
-                                        "Mandar datos al sistema contable para generar factura"
-                                      )
-                                    ])
-                                  : _vm._e(),
-                                _vm._v(" "),
-                                !_vm.sendInvoiceToAccounting
-                                  ? _c("span", [
-                                      _vm._v(
-                                        "La matricula sera marcada como pagada sin generar la factura en el sistema contable"
-                                      )
-                                    ])
-                                  : _vm._e()
-                              ]
-                            )
+                                )
+                              : _vm._e()
                           ])
                         : _vm._e()
                     ]

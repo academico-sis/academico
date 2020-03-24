@@ -191,7 +191,7 @@ class PreInvoiceController extends Controller
         // send the details to Accounting
         // if the user selected so
         // and receive and store the invoice number
-        if ($request->sendinvoice == true) {
+        if ($request->sendinvoice == true && config('settings.external_accounting_enabled') == true) {
             $this->sendInvoiceToAccountingSystem($request, $preinvoice);
         }
 

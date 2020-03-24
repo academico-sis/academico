@@ -327,7 +327,7 @@
                                 <div class="form-group">
                                     <button class="btn btn-lg btn-success" @click="finish()"><i class="fa fa-check"></i>Facturar</button>
                                 </div>
-                                <div class="form-group" style="display:flex;">
+                                <div class="form-group" style="display:flex;" v-if="this.externalaccountingenabled">
                                     <label class="switch switch-pill switch-success">
                                         <input class="switch-input" type="checkbox" v-model="sendInvoiceToAccounting"><span class="switch-slider"></span>
                                     </label>
@@ -373,7 +373,7 @@
 
     export default {
 
-        props: ['enrollmentslist', 'feeslist', 'bookslist', 'availablebooks', 'availablefees', 'availablediscounts', 'contactdata', 'availablepaymentmethods'],
+        props: ['enrollmentslist', 'feeslist', 'bookslist', 'availablebooks', 'availablefees', 'availablediscounts', 'contactdata', 'availablepaymentmethods', 'externalaccountingenabled'],
 
         data () {
             return {
@@ -392,7 +392,7 @@
                 payments: [],
                 products: [],
                 comment: '',
-                sendInvoiceToAccounting: true,
+                sendInvoiceToAccounting: this.externalaccountingenabled,
             }
         },
 

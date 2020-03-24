@@ -23,7 +23,7 @@
             :availablediscounts="{{ json_encode($availableDiscounts) }}"
             :contactdata="{{ json_encode($contactData) }}"
             :availablepaymentmethods="{{ json_encode($availablePaymentMethods) }}"
-
+            :externalaccountingenabled="{{ json_encode(config('settings.external_accounting_enabled')) }}"
         >
         </cart-component>
 
