@@ -51,5 +51,8 @@ return [
     'all' => 'tous',
     'Delete' => 'Supprimer',
     'spots left' => 'places disponibles',
+    'Send invoice data to external accounting system' => 'Transmettre les données au système comptable',
+    'Checkout' => 'Facturer',
+    'Mark this enrollment as paid but do not send to accounting system' => 'Marquer cette inscription comme payée mais ne pas transmettre les données au système comptable'
 
 ];

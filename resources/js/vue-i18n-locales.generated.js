@@ -345,7 +345,10 @@ export default {
             "noresults": "No courses with the selected filers",
             "all": "all",
             "Delete": "Delete",
-            "spots left": "spots left"
+            "spots left": "spots left",
+            "Send invoice data to external accounting system": "Send invoice data to external accounting system",
+            "Checkout": "Checkout",
+            "Mark this enrollment as paid but do not send to accounting system": "Mark this enrollment as paid but do not send to accounting system"
         },
         "validation": {
             "accepted": "The {attribute} must be accepted.",
@@ -789,7 +792,10 @@ export default {
             "noresults": "No hay cursos con los criterios seleccionados",
             "all": "todos",
             "Delete": "Eliminar",
-            "spots left": "cupos disponibles"
+            "spots left": "cupos disponibles",
+            "Send invoice data to external accounting system": "Mandar datos al sistema contable para generar factura",
+            "Checkout": "Facturar",
+            "Mark this enrollment as paid but do not send to accounting system": "La matricula sera marcada como pagada sin generar la factura en el sistema contable"
         }
     },
     "fr": {
@@ -1123,7 +1129,10 @@ export default {
             "noresults": "Pas de cours avec les filtres sélectionnés",
             "all": "tous",
             "Delete": "Supprimer",
-            "spots left": "places disponibles"
+            "spots left": "places disponibles",
+            "Send invoice data to external accounting system": "Transmettre les données au système comptable",
+            "Checkout": "Facturer",
+            "Mark this enrollment as paid but do not send to accounting system": "Marquer cette inscription comme payée mais ne pas transmettre les données au système comptable"
         }
     }
 }
