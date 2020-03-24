@@ -18,7 +18,7 @@ class RegisterTest extends TestCase
     {
         parent::setUp();
 
-        $this->seed('DatabaseSeeder');
+        $this->seed('TestSeeder');
     }
 
     /**

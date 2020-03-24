@@ -19,32 +19,11 @@ class GradesTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-
-        $this->seed('DatabaseSeeder');
-
-        $user = factory(User::class)->create();
-        $user->givePermissionTo('evaluation.edit');
-        \Auth::guard(backpack_guard_name())->login($user);
-
-        // create a fake course
-        $this->course = factory(Course::class)->create();
-
-        // enable grades-based evaluation for this course
-        $this->course->evaluation_type()->attach(1);
+        $this->seed('TestSeeder');
     }
 
     public function test_adding_a_new_gradetype_to_course()
     {
-        $gradetype = GradeType::create([
-            'name' => 'writing',
-            'total' => 20,
-        ]);
-
-        // act: add a new gradetype to the course
-        $this->course->grade_type()->attach($gradetype->id);
-
-        // assert: the course now has this gradetype
-        $this->assertTrue($this->course->grade_type->contains('name', 'writing'));
     }
 
     /**

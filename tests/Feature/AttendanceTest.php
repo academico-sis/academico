@@ -18,13 +18,17 @@ class AttendanceTest extends TestCase
     {
         parent::setUp();
 
-        $this->seed('DatabaseSeeder');
+        $this->seed('TestSeeder');
+
+        $teacher = factory(Teacher::class)->create();
 
         // Arrange a course with some events, and students
-        $this->course = factory(Course::class)->create(); // todo allow coursetime creation from the course factory
+        $this->course = factory(Course::class)->create([
+            'teacher_id' => $teacher->id,
+        ]); // todo allow coursetime creation from the course factory
 
-        $this->course->teacher->user->givePermissionTo('attendance.edit');
-        $this->course->teacher->user->givePermissionTo('attendance.view');
+        $teacher->user->givePermissionTo('attendance.edit');
+        $teacher->user->givePermissionTo('attendance.view');
 
         // add a coursetime, which will create events
         $this->course->times()->create([
@@ -62,12 +66,11 @@ class AttendanceTest extends TestCase
         $this->assertDatabaseHas('attendances', $this->attributes);
     }
 
-    /** @test */
+    /** @test
+     * guests can not use the post route
+    */
     public function unauthorized_users_cannot_take_attendance()
     {
-
-            // guests can not use the post route
-
         $student = $this->course->enrollments()->first()->student;
 
         $attributes = [
@@ -99,7 +102,7 @@ class AttendanceTest extends TestCase
     public function test_attendance_overview_per_course()
     {
         // the teacher can view the attendance for their courses
-            // but not for other courses
+        // but not for other courses
     }
 
     public function test_absence_monitoring()

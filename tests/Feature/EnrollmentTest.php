@@ -2,15 +2,16 @@
 
 namespace Tests\Feature;
 
-use App\Models\Attendance;
-use App\Models\Course;
-use App\Models\Enrollment;
-use App\Models\Event;
-use App\Models\Student;
-use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use App\Models\User;
+use App\Models\Event;
+use App\Models\Course;
+use App\Models\Student;
+use App\Models\Teacher;
+use App\Models\Attendance;
+use App\Models\Enrollment;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class EnrollmentTest extends TestCase
 {
@@ -20,7 +21,7 @@ class EnrollmentTest extends TestCase
     {
         parent::setUp();
 
-        $this->seed('DatabaseSeeder');
+        $this->seed('TestSeeder');
 
         // create an admin user and log them in to access enrollment routes
         $admin = factory(User::class)->create();
@@ -43,45 +44,73 @@ class EnrollmentTest extends TestCase
 
         // Act: if we enroll the user in the course
         $response = $this->json('POST', '/student/enroll', [
-            'student_id' => $student->user->id,
+            'student_id' => $student->id,
             'course_id' => $course->id,
         ]);
 
-        // Assert: they appear among the enrollments list for the course
+       // Assert: they appear among the enrollments list for the course
         $this->assertTrue($student->enrollments->contains('course_id', $course->id));
+    }
 
-        $guest = factory(User::class)->create();
-        backpack_auth()->login($guest, true);
+
+    /** @test
+     * A teacher should not be allowed to perform enrollments unless the course is theirs
+    */
+    public function unauthorized_teachers_may_not_enroll_students()
+    {
+        $teacher = factory(Teacher::class)->create();
+        backpack_auth()->login($teacher->user, true);
 
         // Arrange: given a newly created student...
-        $student_2 = factory(Student::class)->create();
+        $student = factory(Student::class)->create();
 
         // and a newly created course
         $course = factory(Course::class)->create();
 
         // Act: if we enroll the user in the course
         $response = $this->json('POST', '/student/enroll', [
-            'student_id' => $student_2->user->id,
+            'student_id' => $student->id,
             'course_id' => $course->id,
         ]);
 
-        // Assert: they appear among the enrollments list for the course
-        $this->assertFalse($student_2->enrollments->contains('course_id', $course->id));
-
-        /* failing: test the course view endpoint */
-/*         $response = $this->get("/course/$course->id");
-        $response->assertSee("$student->firstname"); */
+        // Assert: the operation is unauthorized and the enrollment is not created
+        $response->assertStatus(403);
+        $this->assertFalse($student->enrollments->contains('course_id', $course->id));
     }
 
-    public function test_child_courses_enrollment()
+
+    /** @test
+     * A teacher should not be allowed to perform enrollments unless the course is theirs
+    */
+    public function teachers_may_enroll_students_in_their_course()
     {
+        $teacher = factory(Teacher::class)->create();
+        backpack_auth()->login($teacher->user, true);
+
+        // Arrange: given a newly created student...
+        $student = factory(Student::class)->create();
+
+        // and a newly created course
+        $course = factory(Course::class)->create([
+            'teacher_id' => $teacher->id
+        ]);
+
+        // Act: if we enroll the user in the course
+        $response = $this->json('POST', '/student/enroll', [
+            'student_id' => $student->id,
+            'course_id' => $course->id,
+        ]);
+
+        // Assert: the operation is authorized and the enrollment is created
+        $response->assertStatus(200);
+        $this->assertTrue($student->enrollments->contains('course_id', $course->id));
     }
 
-    public function test_pending_enrollment_checkout()
-    {
-    }
 
-    /** @test */
+    /** @test
+     * if an enrollment is created in a parent course; enrollments are automatically created in children courses as well
+     * The "real_enrollments" method on the student class allows to return student enrollments excluding "meta" enrollments in parent courses
+    */
     public function access_student_real_enrollments()
     {
         // create a student
@@ -116,15 +145,6 @@ class EnrollmentTest extends TestCase
         $this->assertFalse($student->real_enrollments->contains('id', $enrollment_2));
     }
 
-    /** @test */
-    public function access_course_enrollments()
-    {
-    }
-
-    /** @test */
-    public function an_enrollment_may_be_created_by_authorized_users_only()
-    {
-    }
 
     /** @test */
     public function an_enrollment_may_be_deleted_by_authorized_users_only()
@@ -144,23 +164,10 @@ class EnrollmentTest extends TestCase
                 'student_id' => factory(Student::class)->create(),
             ]);
 
-        // and some attendance in course A
-        Attendance::create([
-                'event_id' => factory(Event::class)->create(['course_id' => $courseA->id]),
-                'student_id' => $enrollment->student_id,
-                'attendance_type_id' => 1,
-            ]);
-
-        dd($courseA->attendance);
-
-        //$this->assertTrue($courseA->id, $enrollment->course_id);
-
         // if we change the enrollment
         $enrollment->changeCourse($courseB);
 
         // it now belongs to courseB
         $this->assertEquals($courseB->id, $enrollment->course_id);
-
-        // the previous attendance have been deleted
     }
 }
