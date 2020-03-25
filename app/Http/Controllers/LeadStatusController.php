@@ -26,59 +26,63 @@ class LeadStatusController extends Controller
 
     public function update(Request $request)
     {
-        $activeStudentsGroupId = Config::where('name', 'mailerlite_students_group_id')->first()->value;
-        $inactiveStudentsGroupId = Config::where('name', 'mailerlite_oldstudents_group_id')->first()->value;
 
         // create or update the lead status record for the selected student
         $student = Student::findOrFail($request->input('student'));
         $student->lead_type_id = $request->input('status');
         $student->save();
 
-        // converted, active clients
-        if ($request->input('status') == 1) {
-            $subscriber = [
-                'email' => $student->email,
-                'name' => $student->firstname,
-                'fields' => [
-                  'lastname' => $student->lastname,
-                ],
-            ];
-            $this->subscribeToList($subscriber, $activeStudentsGroupId);
-
-            // contacts
-            foreach ($student->contacts as $contact) {
+        // if the sync with external mailing system is enabled
+        if (config('settings.external_mailing_enabled') == true) {
+            $activeStudentsGroupId = Config::where('name', 'mailerlite_students_group_id')->first()->value;
+            $inactiveStudentsGroupId = Config::where('name', 'mailerlite_oldstudents_group_id')->first()->value;
+            
+            // converted, active clients
+            if ($request->input('status') == 1) {
                 $subscriber = [
-                    'email' => $contact->email,
-                    'name' => $contact->firstname,
+                    'email' => $student->email,
+                    'name' => $student->firstname,
                     'fields' => [
-                    'lastname' => $contact->lastname,
+                    'lastname' => $student->lastname,
                     ],
                 ];
                 $this->subscribeToList($subscriber, $activeStudentsGroupId);
+
+                // contacts
+                foreach ($student->contacts as $contact) {
+                    $subscriber = [
+                        'email' => $contact->email,
+                        'name' => $contact->firstname,
+                        'fields' => [
+                        'lastname' => $contact->lastname,
+                        ],
+                    ];
+                    $this->subscribeToList($subscriber, $activeStudentsGroupId);
+                }
             }
-        }
 
-        // inactive or formerClient
-        if ($request->input('status') == 2 || $request->input('status') == 3) {
-            $subscriber = [
-                'email' => $student->email,
-                'name' => $student->firstname,
-                'fields' => [
-                  'lastname' => $student->lastname,
-                ],
-            ];
-            $this->subscribeToList($subscriber, $inactiveStudentsGroupId);
-
-            // contacts
-            foreach ($student->contacts as $contact) {
+            // inactive or formerClient
+            if ($request->input('status') == 2 || $request->input('status') == 3) {
                 $subscriber = [
-                    'email' => $contact->email,
-                    'name' => $contact->firstname,
+                    'email' => $student->email,
+                    'name' => $student->firstname,
                     'fields' => [
-                    'lastname' => $contact->lastname,
+                    'lastname' => $student->lastname,
                     ],
                 ];
                 $this->subscribeToList($subscriber, $inactiveStudentsGroupId);
+
+                // contacts
+                foreach ($student->contacts as $contact) {
+                    $subscriber = [
+                        'email' => $contact->email,
+                        'name' => $contact->firstname,
+                        'fields' => [
+                        'lastname' => $contact->lastname,
+                        ],
+                    ];
+                    $this->subscribeToList($subscriber, $inactiveStudentsGroupId);
+                }
             }
         }
 
