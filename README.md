@@ -4,7 +4,7 @@ Academico is an open-source, Lavarel-based school management platform. Its main 
 See overview and features at https://academico.site
 
 # License
-This software is is based on Backpack for Laravel, which means you can test if for free, but you will need to [acquire a Backpack license](https://backpackforlaravel.com/pricing) if you decide to use it for _commercial_ use.
+This software is is based on Backpack for Laravel, which means you can test if for free, but you will need to [acquire a Backpack license](https://backpackforlaravel.com/pricing) if you decide to use it for _commercial_ use. This is the recommended solution and Backpack does provide a nice, clean and easy CRUD panels throughout the application. However, if you're interested in the project but don't want to purchase Backpack, it shouldn't be too much work to fork the project and use another package, or design the CRUD panels yourself.
 
 
 # Installation
@@ -32,9 +32,7 @@ Login using username `admin@academico.site` and password `secret`
 
 ## Set up in production
 
-You need to install a webserver according to the Laravel documentation when you're ready to move the application to production
-
-Some features will also require a queue worker.
+You need to install a webserver according to the Laravel documentation when you're ready to move the application to production. Some features will also require a queue worker.
 
 # Documentation
 * Technical documentation -> https://github.com/laxsmi/academico/wiki
