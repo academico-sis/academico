@@ -2,7 +2,6 @@
 
 namespace App\Imports;
 
-use App\Models\Course;
 use App\Models\Skills\Skill;
 use Maatwebsite\Excel\Concerns\ToModel;
 

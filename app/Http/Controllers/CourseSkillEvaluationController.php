@@ -9,7 +9,6 @@ use App\Models\ResultType;
 use App\Models\Skills\SkillEvaluation;
 use App\Models\Skills\SkillScale;
 use App\Models\Student;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -53,9 +52,9 @@ class CourseSkillEvaluationController extends Controller
         }
 
         $new_skill = SkillEvaluation::firstOrNew([
-            'course_id' => $course->id,
+            'course_id'  => $course->id,
             'student_id' => $student,
-            'skill_id' => $skill,
+            'skill_id'   => $skill,
         ]);
 
         $new_skill->skill_scale_id = $status;

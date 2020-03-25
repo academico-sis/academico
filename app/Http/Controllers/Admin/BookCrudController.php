@@ -11,6 +11,7 @@ use Backpack\CRUD\CrudPanel;
 
 /**
  * Class BookCrudController.
+ *
  * @property-read CrudPanel $crud
  */
 class BookCrudController extends CrudController

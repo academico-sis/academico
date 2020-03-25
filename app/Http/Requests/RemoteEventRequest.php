@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Request;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RemoteEventRequest extends FormRequest
@@ -26,9 +25,9 @@ class RemoteEventRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:2|max:60',
+            'name'         => 'required|min:2|max:60',
             'worked_hours' => 'required|numeric',
-            'teacher_id' => 'required',
+            'teacher_id'   => 'required',
 
         ];
     }

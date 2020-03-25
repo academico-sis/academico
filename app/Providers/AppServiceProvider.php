@@ -5,12 +5,9 @@ namespace App\Providers;
 use App\Models\Period;
 use App\Models\Room;
 use App\Models\Teacher;
-use App\Models\User;
-use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
-use Spatie\Permission\Models\Role;
 
 class AppServiceProvider extends ServiceProvider
 {

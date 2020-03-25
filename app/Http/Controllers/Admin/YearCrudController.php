@@ -10,6 +10,7 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
  * Class YearCrudController.
+ *
  * @property-read CrudPanel $crud
  */
 class YearCrudController extends CrudController

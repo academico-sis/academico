@@ -69,10 +69,10 @@ return [
     // Show / hide breadcrumbs on admin panel pages.
     'breadcrumbs' => false,
 
-    'header_class' => 'app-header navbar navbar-color bg-error border-0',
-    'body_class' => 'app aside-menu-fixed sidebar-lg-show',
+    'header_class'  => 'app-header navbar navbar-color bg-error border-0',
+    'body_class'    => 'app aside-menu-fixed sidebar-lg-show',
     'sidebar_class' => 'sidebar', // add "sidebar-light" for light sidebar
-    'footer_class' => 'app-footer',
+    'footer_class'  => 'app-footer',
 
     // Developer or company name. Shown in footer.
     'developer_name' => 'AFC Academico',

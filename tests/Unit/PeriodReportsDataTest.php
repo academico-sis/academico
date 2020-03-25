@@ -7,7 +7,6 @@ use App\Models\Enrollment;
 use App\Models\Period;
 use App\Models\Student;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class PeriodReportsDataTest extends TestCase
@@ -165,9 +164,9 @@ class PeriodReportsDataTest extends TestCase
 
         // if some of these students are also enrolled in period P
         $period2 = Period::create([
-            'name' => 'period 2',
-            'start' => date('Y-m-d', strtotime('+1 day')),
-            'end' => date('Y-m-d', strtotime('+90 days')),
+            'name'    => 'period 2',
+            'start'   => date('Y-m-d', strtotime('+1 day')),
+            'end'     => date('Y-m-d', strtotime('+90 days')),
             'year_id' => 1,
         ]);
 

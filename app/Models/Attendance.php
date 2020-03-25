@@ -3,12 +3,7 @@
 namespace App\Models;
 
 use App\Jobs\WatchAttendance;
-use App\Mail\AbsenceNotification;
 use App\Mail\PendingAttendanceReminder;
-use App\Models\AttendanceType;
-use App\Models\Contact;
-use App\Models\Course;
-use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;

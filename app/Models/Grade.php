@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\GradeType;
-use App\Models\Student;
 use Illuminate\Database\Eloquent\Model;
 
 class Grade extends Model

@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\EnrollmentRequest as StoreRequest;
 // VALIDATION: change the requests to match your own file names if you need form validation
-use App\Http\Requests\EnrollmentRequest as UpdateRequest;
 use App\Models\Course;
 use App\Models\Enrollment;
-use App\Models\EnrollmentStatus;
 use App\Models\EnrollmentStatusType;
 use App\Models\Period;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -18,6 +15,7 @@ use Illuminate\Support\Facades\Log;
  * Class EnrollmentCrudController
  * This controller is used to view enrollments only.
  * No enrollments may be created or updated from here.
+ *
  * @property-read CrudPanel $crud
  */
 class EnrollmentCrudController extends CrudController
@@ -64,16 +62,16 @@ class EnrollmentCrudController extends CrudController
         CRUD::setColumns([
 
             [
-                'name' => 'id',
+                'name'  => 'id',
                 'label' => 'ID',
             ],
 
             [
-            // STUDENT NAME
-                'label' => __('Student'), // Table column heading
-                'type' => 'select',
-                'entity' => 'student', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
+                // STUDENT NAME
+                'label'       => __('Student'), // Table column heading
+                'type'        => 'select',
+                'entity'      => 'student', // the method that defines the relationship in your Model
+                'attribute'   => 'name', // foreign key attribute that is shown to user
                 'searchLogic' => function ($query, $column, $searchTerm) {
                     $query->orWhereHas('student', function ($q) use ($column, $searchTerm) {
                         $q->WhereHas('user', function ($q) use ($column, $searchTerm) {
@@ -86,70 +84,75 @@ class EnrollmentCrudController extends CrudController
 
             [
                 // COURSE NAME
-                'label' => __('Course'), // Table column heading
-                'type' => 'select',
-                'name' => 'course_id', // the column that contains the ID of that connected entity;
-                'entity' => 'course', // the method that defines the relationship in your Model
+                'label'     => __('Course'), // Table column heading
+                'type'      => 'select',
+                'name'      => 'course_id', // the column that contains the ID of that connected entity;
+                'entity'    => 'course', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\Course::class, // foreign key model
+                'model'     => \App\Models\Course::class, // foreign key model
             ],
 
             [
-                'name' => 'course.period.name',
+                'name'  => 'course.period.name',
                 'label' => __('Period'),
-                'type' => 'text',
+                'type'  => 'text',
             ],
 
             [
                 // STATUS
-                'label' => __('Status'), // Table column heading
-                'type' => 'select',
-                'name' => 'status_id', // the column that contains the ID of that connected entity;
-                'entity' => 'enrollmentStatus', // the method that defines the relationship in your Model
+                'label'     => __('Status'), // Table column heading
+                'type'      => 'select',
+                'name'      => 'status_id', // the column that contains the ID of that connected entity;
+                'entity'    => 'enrollmentStatus', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\EnrollmentStatusType::class, // foreign key model
+                'model'     => \App\Models\EnrollmentStatusType::class, // foreign key model
             ],
 
             [
                 // n-n relationship (with pivot table)
-                'label' => 'Phone', // Table column heading
-                'type' => 'select_multiple',
-                'name' => 'student.phone', // the method that defines the relationship in your Model
-                'entity' => 'student.phone', // the method that defines the relationship in your Model
+                'label'     => 'Phone', // Table column heading
+                'type'      => 'select_multiple',
+                'name'      => 'student.phone', // the method that defines the relationship in your Model
+                'entity'    => 'student.phone', // the method that defines the relationship in your Model
                 'attribute' => 'phone_number', // foreign key attribute that is shown to user
-                'model' => \App\Models\PhoneNumber::class, // foreign key model
-             ],
+                'model'     => \App\Models\PhoneNumber::class, // foreign key model
+            ],
 
         ]);
 
-        CRUD::addFilter([
-            'name' => 'status_id',
-            'type' => 'select2_multiple',
-            'label'=> __('Status'),
-          ], function () {
+        CRUD::addFilter(
+            [
+                'name' => 'status_id',
+                'type' => 'select2_multiple',
+                'label'=> __('Status'),
+            ],
+            function () {
               return EnrollmentStatusType::all()->pluck('name', 'id')->toArray();
           },
-          function ($values) { // if the filter is active
+            function ($values) { // if the filter is active
               foreach (json_decode($values) as $key => $value) {
                   CRUD::addClause('orWhere', 'status_id', $value);
               }
-          });
+          }
+        );
 
-        CRUD::addFilter([
-            'type' => 'simple',
-            'name' => 'hidechildren',
-            'label'=> __('Hide Children'),
-          ],
-          false,
-          function () {
+        CRUD::addFilter(
+            [
+                'type' => 'simple',
+                'name' => 'hidechildren',
+                'label'=> __('Hide Children'),
+            ],
+            false,
+            function () {
               CRUD::addClause('parent');
-          });
+          }
+        );
 
         CRUD::addFilter([
             'name' => 'period_id',
             'type' => 'select2',
             'label'=> __('Period'),
-          ], function () {
+        ], function () {
               return Period::all()->pluck('name', 'id')->toArray();
           }, function ($value) { // if the filter is active
               CRUD::addClause('period', $value);
@@ -178,7 +181,8 @@ class EnrollmentCrudController extends CrudController
      * Change the status of the enrollment to ANULADO
      * todo/Later, use softdeletes instead?
      *
-     * @param  \App\Models\Enrollment  $enrollment
+     * @param \App\Models\Enrollment $enrollment
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($enrollment)

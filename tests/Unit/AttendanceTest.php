@@ -9,9 +9,7 @@ use App\Models\Enrollment;
 use App\Models\Period;
 use App\Models\Student;
 use App\Models\Teacher;
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
@@ -37,7 +35,7 @@ class AttendanceTest extends TestCase
         // given a course with some past classes
         $course = factory(Course::class)->create([
             'start_date' => date('Y-m-d', strtotime('-7 days')),
-            'end_date' => date('Y-m-d'),
+            'end_date'   => date('Y-m-d'),
         ]);
         $course->times()->create(['day' => 1, 'start' => '09:00:00', 'end' => '17:00:00']);
         $course->times()->create(['day' => 2, 'start' => '09:00:00', 'end' => '17:00:00']);
@@ -47,7 +45,7 @@ class AttendanceTest extends TestCase
 
         // We have to manually create the enrollment to prevent automatic attendance record creation (see next test)
         DB::table('enrollments')->insert([
-            'course_id' => $course->id,
+            'course_id'  => $course->id,
             'student_id' => $student->id,
         ]);
 
@@ -94,12 +92,12 @@ class AttendanceTest extends TestCase
 
         // We have to manually create the enrollment to prevent automatic attendance record creation (see next test)
         DB::table('enrollments')->insert([
-            'course_id' => $course->id,
+            'course_id'  => $course->id,
             'student_id' => $student->id,
         ]);
 
         // a notification email is sent to the teacher of this event
-        (new Attendance)->remindPendingAttendance();
+        (new Attendance())->remindPendingAttendance();
 
         Mail::assertQueued(PendingAttendanceReminder::class);
     }
@@ -117,38 +115,38 @@ class AttendanceTest extends TestCase
 
         // We have to manually create the enrollment to prevent automatic attendance record creation (see next test)
         DB::table('enrollments')->insert([
-            'course_id' => $course->id,
+            'course_id'  => $course->id,
             'student_id' => $student->id,
         ]);
 
         $event = $course->events()->create([
-            'start' => date('Y-m-d', strtotime('-2 days')),
-            'end' => date('Y-m-d', strtotime('-1 days')),
-            'name' => 'test event 1',
+            'start'      => date('Y-m-d', strtotime('-2 days')),
+            'end'        => date('Y-m-d', strtotime('-1 days')),
+            'name'       => 'test event 1',
             'teacher_id' => $teacher->id,
         ]);
 
         Attendance::create([
-            'student_id' => $student->id,
-            'event_id' => $event->id,
+            'student_id'         => $student->id,
+            'event_id'           => $event->id,
             'attendance_type_id' => 4,
         ]);
 
         $event = $course->events()->create([
-            'start' => date('Y-m-d', strtotime('-3 days')),
-            'end' => date('Y-m-d', strtotime('-2 days')),
-            'name' => 'test event 2',
+            'start'      => date('Y-m-d', strtotime('-3 days')),
+            'end'        => date('Y-m-d', strtotime('-2 days')),
+            'name'       => 'test event 2',
             'teacher_id' => $teacher->id,
         ]);
 
         Attendance::create([
-            'student_id' => $student->id,
-            'event_id' => $event->id,
+            'student_id'         => $student->id,
+            'event_id'           => $event->id,
             'attendance_type_id' => 3,
         ]);
 
         // the absence count for this student should be two
-        $absences = (new Attendance)->get_absence_count_per_student(Period::get_default_period());
+        $absences = (new Attendance())->get_absence_count_per_student(Period::get_default_period());
         $this->assertEquals(2, $absences->first()->count());
     }
 
@@ -166,21 +164,21 @@ class AttendanceTest extends TestCase
 
         // We have to manually create the enrollment to prevent automatic attendance record creation (see next test)
         DB::table('enrollments')->insert([
-            'course_id' => $course->id,
+            'course_id'  => $course->id,
             'student_id' => $student->id,
         ]);
 
         $event1 = $course->events()->create([
-            'start' => date('Y-m-d', strtotime('-2 days')),
-            'end' => date('Y-m-d', strtotime('-1 days')),
-            'name' => 'test event 1',
+            'start'      => date('Y-m-d', strtotime('-2 days')),
+            'end'        => date('Y-m-d', strtotime('-1 days')),
+            'name'       => 'test event 1',
             'teacher_id' => $teacher->id,
         ]);
 
         $event2 = $course->events()->create([
-            'start' => date('Y-m-d', strtotime('-3 days')),
-            'end' => date('Y-m-d', strtotime('-2 days')),
-            'name' => 'test event 2',
+            'start'      => date('Y-m-d', strtotime('-3 days')),
+            'end'        => date('Y-m-d', strtotime('-2 days')),
+            'name'       => 'test event 2',
             'teacher_id' => $teacher->id,
         ]);
 
@@ -189,14 +187,14 @@ class AttendanceTest extends TestCase
         $this->assertEquals(1, $coursesWithPendingAttendanceCount);
 
         Attendance::create([
-            'student_id' => $student->id,
-            'event_id' => $event2->id,
+            'student_id'         => $student->id,
+            'event_id'           => $event2->id,
             'attendance_type_id' => 2,
         ]);
 
         Attendance::create([
-            'student_id' => $student->id,
-            'event_id' => $event1->id,
+            'student_id'         => $student->id,
+            'event_id'           => $event1->id,
             'attendance_type_id' => 3,
         ]);
 

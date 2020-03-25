@@ -19,12 +19,12 @@ class ReportController extends Controller
         $enrollmentsPeriod = Period::get_enrollments_period();
 
         return view('reports.index', [
-            'currentPeriod' => $currentPeriod,
-            'enrollmentsPeriod' => $enrollmentsPeriod,
+            'currentPeriod'            => $currentPeriod,
+            'enrollmentsPeriod'        => $enrollmentsPeriod,
             'pending_enrollment_count' => $currentPeriod->pending_enrollments_count,
-            'paid_enrollment_count' => $currentPeriod->paid_enrollments_count,
-            'total_enrollment_count' => $currentPeriod->internal_enrollments_count,
-            'students_count' => $currentPeriod->students_count,
+            'paid_enrollment_count'    => $currentPeriod->paid_enrollments_count,
+            'total_enrollment_count'   => $currentPeriod->internal_enrollments_count,
+            'students_count'           => $currentPeriod->students_count,
         ]);
     }
 
@@ -35,7 +35,7 @@ class ReportController extends Controller
         $data = [];
         $year_data = [];
 
-        if (! isset($request->period)) {
+        if (!isset($request->period)) {
             $startperiod = Period::find(Config::where('name', 'first_period')->first()->value);
         } else {
             $startperiod = Period::find($request->period);
@@ -82,8 +82,8 @@ class ReportController extends Controller
 
         return view('reports.external', [
             'selected_period' => $startperiod,
-            'data' => $data,
-            'year_data' => $year_data,
+            'data'            => $data,
+            'year_data'       => $year_data,
         ]);
     }
 
@@ -98,7 +98,7 @@ class ReportController extends Controller
     {
         $period = Period::get_default_period();
 
-        if (! isset($request->period)) {
+        if (!isset($request->period)) {
             $startperiod = Period::find(Config::where('name', 'first_period')->first()->value);
         } else {
             $startperiod = Period::find($request->period);
@@ -123,13 +123,13 @@ class ReportController extends Controller
         Log::info('Reports viewed by '.backpack_user()->firstname);
 
         return view('reports.internal', [
-            'selected_period' => $period,
+            'selected_period'          => $period,
             'pending_enrollment_count' => $period->pending_enrollments_count,
-            'paid_enrollment_count' => $period->paid_enrollments_count,
-            'total_enrollment_count' => $period->internal_enrollments_count,
-            'students_count' => $period->students_count,
-            'data' => $data,
-            'selected_period' => $startperiod,
+            'paid_enrollment_count'    => $period->paid_enrollments_count,
+            'total_enrollment_count'   => $period->internal_enrollments_count,
+            'students_count'           => $period->students_count,
+            'data'                     => $data,
+            'selected_period'          => $startperiod,
         ]);
     }
 
@@ -152,7 +152,7 @@ class ReportController extends Controller
 
         return view('reports.rhythms', [
             'selected_period' => $period,
-            'data' => $data,
+            'data'            => $data,
         ]);
     }
 
@@ -165,7 +165,7 @@ class ReportController extends Controller
 
         return view('reports.courses', [
             'selected_period' => $period,
-            'courses' => $courses,
+            'courses'         => $courses,
         ]);
     }
 }

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\TeacherRequest as StoreRequest;
 // VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\TeacherRequest as UpdateRequest;
-use App\Models\Teacher;
 use App\Models\User;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -13,6 +12,7 @@ use Backpack\CRUD\CrudPanel;
 
 /**
  * Class TeacherCrudController.
+ *
  * @property-read CrudPanel $crud
  */
 class TeacherCrudController extends CrudController
@@ -44,13 +44,13 @@ class TeacherCrudController extends CrudController
         CRUD::setColumns([
             [
                 'label' => __('First Name'),
-                'type' => 'text',
-                'name' => 'firstname',
+                'type'  => 'text',
+                'name'  => 'firstname',
             ],
             [
                 'label' => __('Last Name'),
-                'type' => 'text',
-                'name' => 'lastname',
+                'type'  => 'text',
+                'name'  => 'lastname',
             ],
             [
                 'name'  => 'email',
@@ -74,12 +74,12 @@ class TeacherCrudController extends CrudController
     {
         CRUD::addFields([
             [  // Select2
-                'label' => 'User',
-                'type' => 'select2',
-                'name' => 'user_id', // the db column for the foreign key
-                'entity' => 'user', // the method that defines the relationship in your Model
+                'label'     => 'User',
+                'type'      => 'select2',
+                'name'      => 'user_id', // the db column for the foreign key
+                'entity'    => 'user', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\User::class, // foreign key model
+                'model'     => \App\Models\User::class, // foreign key model
             ],
             [
                 'name'  => 'max_week_hours',
@@ -102,15 +102,15 @@ class TeacherCrudController extends CrudController
         CRUD::addFields([
 
             [  // Select2
-                'label' => 'User',
-                'type' => 'select2',
-                'name' => 'user_id', // the db column for the foreign key
-                'entity' => 'user', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\User::class,
+                'label'      => 'User',
+                'type'       => 'select2',
+                'name'       => 'user_id', // the db column for the foreign key
+                'entity'     => 'user', // the method that defines the relationship in your Model
+                'attribute'  => 'name', // foreign key attribute that is shown to user
+                'model'      => \App\Models\User::class,
                 'attributes' => [
-                    'readonly'=>'readonly',
-                    'disabled'=>'disabled',
+                    'readonly'=> 'readonly',
+                    'disabled'=> 'disabled',
                 ],
             ],
             [
@@ -124,8 +124,7 @@ class TeacherCrudController extends CrudController
                 'type'  => 'date',
             ],
         ]);
-        
+
         CRUD::setRequiredFields(UpdateRequest::class, 'edit');
     }
-
 }

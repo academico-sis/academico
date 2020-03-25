@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CommentRequest as StoreRequest;
 use App\Models\Comment;
 use App\Models\Result;
-use App\Models\Student;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -22,11 +20,11 @@ class CommentController extends Controller
         Log::info('Comment created by '.backpack_user()->firstname);
 
         return Comment::create([
-            'commentable_id' => $request->input('commentable_id'),
+            'commentable_id'   => $request->input('commentable_id'),
             'commentable_type' => $request->input('commentable_type'),
-            'action' => $request->input('action'),
-            'body' => $request->input('body'),
-            'author_id' => \backpack_user()->id,
+            'action'           => $request->input('action'),
+            'body'             => $request->input('body'),
+            'author_id'        => \backpack_user()->id,
         ]);
     }
 
@@ -37,10 +35,10 @@ class CommentController extends Controller
         ]);
 
         return Comment::create([
-            'commentable_id' => $result->id,
+            'commentable_id'   => $result->id,
             'commentable_type' => Result::class,
-            'body' => $request->input('comment'),
-            'author_id' => \backpack_user()->id,
+            'body'             => $request->input('comment'),
+            'author_id'        => \backpack_user()->id,
         ]);
     }
 

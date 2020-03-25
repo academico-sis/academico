@@ -4,9 +4,7 @@ namespace Tests\Unit;
 
 use App\Models\Course;
 use App\Models\Event;
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class CourseTest extends TestCase
@@ -24,15 +22,15 @@ class CourseTest extends TestCase
 
         $course = factory(Course::class)->create([
             'start_date' => $initialStartDate,
-            'end_date' => $initialEndDate,
+            'end_date'   => $initialEndDate,
         ]);
 
         $course->times()->create([
             'course_id' => $course->id,
-            'day' => 2, // todo randomize
-            'start' => '15:00',
-            'end' => '17:00',
-            ]);
+            'day'       => 2, // todo randomize
+            'start'     => '15:00',
+            'end'       => '17:00',
+        ]);
 
         // the course should have 2 events
         $this->assertEquals(2, $course->events->count());

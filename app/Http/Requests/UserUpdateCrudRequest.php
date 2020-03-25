@@ -12,10 +12,10 @@ class UserUpdateCrudRequest extends \Backpack\PermissionManager\app\Http\Request
     public function rules()
     {
         return [
-            'email'    => 'required|unique:'.config('permission.table_names.users', 'users').',email,'.$this->get('id'),
+            'email'         => 'required|unique:'.config('permission.table_names.users', 'users').',email,'.$this->get('id'),
             'firstname'     => 'required',
-            'lastname' => 'required',
-            'password' => 'confirmed',
+            'lastname'      => 'required',
+            'password'      => 'confirmed',
         ];
     }
 }

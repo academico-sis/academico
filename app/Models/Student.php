@@ -2,17 +2,14 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
-use App\Models\Config;
-use App\Models\Profession;
-use App\Models\Institution;
-use Spatie\Image\Manipulations;
-use Spatie\MediaLibrary\Models\Media;
-use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Image\Manipulations;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Spatie\MediaLibrary\Models\Media;
 
 class Student extends Model implements HasMedia
 {
@@ -196,8 +193,8 @@ class Student extends Model implements HasMedia
     {
         // avoid duplicates by retrieving an potential existing enrollment for the same course
         $enrollment = Enrollment::firstOrNew([
-            'student_id' =>  $this->id,
-            'course_id' => $course->id,
+            'student_id' => $this->id,
+            'course_id'  => $course->id,
         ]);
 
         $enrollment->responsible_id = backpack_user()->id ?? 1;
@@ -207,9 +204,9 @@ class Student extends Model implements HasMedia
         if ($course->children_count > 0) {
             foreach ($course->children as $children_course) {
                 $child_enrollment = Enrollment::firstOrNew([
-                    'student_id' =>  $this->id,
-                    'course_id' => $children_course->id,
-                    'parent_id' => $enrollment->id,
+                    'student_id' => $this->id,
+                    'course_id'  => $children_course->id,
+                    'parent_id'  => $enrollment->id,
                 ]);
                 $child_enrollment->responsible_id = backpack_user()->id ?? null;
                 $child_enrollment->save();
@@ -226,10 +223,10 @@ class Student extends Model implements HasMedia
             $activeStudentsGroupId = Config::where('name', 'mailerlite_students_group_id')->first()->value;
             $groupsApi = (new \MailerLiteApi\MailerLite($api_key))->groups();
             $addedSubscriber = $groupsApi->addSubscriber($activeStudentsGroupId, [
-                'email' => $this->email,
-                'name' => $this->firstname,
+                'email'  => $this->email,
+                'name'   => $this->firstname,
                 'fields' => [
-                  'lastname' => $this->lastname,
+                    'lastname' => $this->lastname,
                 ],
             ]); // returns added subscriber
         }

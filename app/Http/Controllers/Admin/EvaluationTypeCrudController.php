@@ -10,6 +10,7 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
  * Class EvaluationTypeCrudController.
+ *
  * @property-read CrudPanel $crud
  */
 class EvaluationTypeCrudController extends CrudController
@@ -18,7 +19,6 @@ class EvaluationTypeCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-
 
     public function setup()
     {

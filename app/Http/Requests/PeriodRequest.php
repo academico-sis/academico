@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Request;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PeriodRequest extends FormRequest
@@ -26,10 +25,10 @@ class PeriodRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:periods|max:60',
+            'name'    => 'required|unique:periods|max:60',
             'year_id' => 'required|integer',
-            'start' => 'date|required',
-            'end' => 'date|required',
+            'start'   => 'date|required',
+            'end'     => 'date|required',
         ];
     }
 

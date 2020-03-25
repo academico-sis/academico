@@ -5,13 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UpdateConfigRequest;
 use App\Models\Config;
 use App\Models\Period;
-use Illuminate\Http\Request;
 
 class ConfigController extends Controller
 {
     public function get()
     {
-        if (! backpack_user()->hasPermissionTo('enrollments.edit')) {
+        if (!backpack_user()->hasPermissionTo('enrollments.edit')) {
             abort(403);
         }
 
@@ -24,7 +23,7 @@ class ConfigController extends Controller
 
     public function update(UpdateConfigRequest $request)
     {
-        if (! backpack_user()->hasPermissionTo('courses.edit')) {
+        if (!backpack_user()->hasPermissionTo('courses.edit')) {
             abort(403);
         }
 

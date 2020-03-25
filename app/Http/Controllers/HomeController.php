@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\MissingBaseTables;
-use App\Models\Attendance;
 use App\Models\Comment;
 use App\Models\Event;
 use App\Models\Leave;
@@ -49,7 +47,7 @@ class HomeController extends Controller
 
     public function teacher(Request $request)
     {
-        if (! backpack_user()->isTeacher()) {
+        if (!backpack_user()->isTeacher()) {
             abort(403);
         }
 
@@ -59,16 +57,16 @@ class HomeController extends Controller
         Log::info($teacher->name.' accessed the student dashboard');
 
         return view('teacher.dashboard', [
-            'teacher' => $teacher,
-            'courses' => $teacher->period_courses($period),
+            'teacher'            => $teacher,
+            'courses'            => $teacher->period_courses($period),
             'pending_attendance' => $teacher->events_with_pending_attendance($period),
-            'selected_period' => $period,
+            'selected_period'    => $period,
         ]);
     }
 
     public function student()
     {
-        if (! backpack_user()->isStudent()) {
+        if (!backpack_user()->isStudent()) {
             abort(403);
         }
 
@@ -76,7 +74,7 @@ class HomeController extends Controller
         Log::info($student->name.' accessed the student dashboard');
 
         return view('student.dashboard', [
-            'student' => $student,
+            'student'     => $student,
             'enrollments' => $student->real_enrollments,
         ]);
     }
@@ -86,7 +84,7 @@ class HomeController extends Controller
         $currentPeriod = Period::get_default_period();
         $enrollmentsPeriod = Period::get_enrollments_period();
 
-        if (! backpack_user()->hasRole(['admin', 'secretary'])) {
+        if (!backpack_user()->hasRole(['admin', 'secretary'])) {
             abort(403);
         }
 
@@ -99,34 +97,34 @@ class HomeController extends Controller
 
         $teachers = array_map(function ($teacher) {
             return [
-                'id' => $teacher['id'],
+                'id'    => $teacher['id'],
                 'title' => $teacher['user']['firstname'],
             ];
         }, $teachers);
 
         $events = array_map(function ($event) {
             return [
-                'title' => $event['name'],
+                'title'      => $event['name'],
                 'resourceId' => $event['teacher_id'],
-                'start' => $event['start'],
-                'end' => $event['end'],
+                'start'      => $event['start'],
+                'end'        => $event['end'],
             ];
         }, $events);
 
         return view('admin.dashboard', [
             'pending_enrollment_count' => $currentPeriod->pending_enrollments_count,
-            'paid_enrollment_count' => $currentPeriod->paid_enrollments_count,
-            'students_count' => $currentPeriod->students_count,
-            'currentPeriod' => $currentPeriod,
-            'enrollmentsPeriod' => $enrollmentsPeriod,
-            'total_enrollment_count' => $currentPeriod->internal_enrollments_count,
-            'pending_attendance' => $currentPeriod->courses_with_pending_attendance,  // optimize
-            'unassigned_events' => (new Event)->unassigned_teacher->count(),
-            'upcoming_leaves' => Leave::upcoming_leaves(),
-            'resources' => $teachers,
-            'events' => $events,
-            'pending_leads' => (new Student)->potential_clients_count,
-            'action_comments' => Comment::where('action', 1)->count(),
+            'paid_enrollment_count'    => $currentPeriod->paid_enrollments_count,
+            'students_count'           => $currentPeriod->students_count,
+            'currentPeriod'            => $currentPeriod,
+            'enrollmentsPeriod'        => $enrollmentsPeriod,
+            'total_enrollment_count'   => $currentPeriod->internal_enrollments_count,
+            'pending_attendance'       => $currentPeriod->courses_with_pending_attendance,  // optimize
+            'unassigned_events'        => (new Event())->unassigned_teacher->count(),
+            'upcoming_leaves'          => Leave::upcoming_leaves(),
+            'resources'                => $teachers,
+            'events'                   => $events,
+            'pending_leads'            => (new Student())->potential_clients_count,
+            'action_comments'          => Comment::where('action', 1)->count(),
         ]);
     }
 }

@@ -11,6 +11,7 @@ use Backpack\CRUD\CrudPanel;
 
 /**
  * Class DiscountCrudController.
+ *
  * @property-read CrudPanel $crud
  */
 class DiscountCrudController extends CrudController
@@ -40,22 +41,22 @@ class DiscountCrudController extends CrudController
         CRUD::setColumns([
 
             [
-                'name' => 'id',
+                'name'  => 'id',
                 'label' => 'ID',
             ],
 
             [
                 // Discount name
                 'label' => __('Name'), // Table column heading
-                'type' => 'text',
-                'name' => 'name',
+                'type'  => 'text',
+                'name'  => 'name',
             ],
 
             [
                 // Value
-                'label' => __('Discount Value'), // Table column heading
-                'type' => 'decimal',
-                'name' => 'value',
+                'label'  => __('Discount Value'), // Table column heading
+                'type'   => 'decimal',
+                'name'   => 'value',
                 'suffix' => '%',
             ],
 
@@ -66,16 +67,16 @@ class DiscountCrudController extends CrudController
             [
                 // Discount name
                 'label' => __('Name'), // Table column heading
-                'type' => 'text',
-                'name' => 'name',
+                'type'  => 'text',
+                'name'  => 'name',
             ],
 
             [
                 // Value
-                'label' => __('Discount Value (0-100%)'), // Table column heading
-                'type' => 'number',
+                'label'      => __('Discount Value (0-100%)'), // Table column heading
+                'type'       => 'number',
                 'attributes' => ['step' => '1'],
-                'name' => 'value',
+                'name'       => 'value',
             ],
 
         ]);

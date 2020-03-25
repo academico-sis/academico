@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Period;
-use App\Models\Teacher;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 

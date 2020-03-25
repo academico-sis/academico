@@ -2,22 +2,16 @@
 
 namespace App\Models;
 
-use App\Models\Attendance;
-use App\Models\Book;
-use App\Models\Course;
-use App\Models\Enrollment;
-use App\Models\Event;
-use App\Models\Period;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Log;
 
 class Course extends Model
 {
-    use CrudTrait, \Venturecraft\Revisionable\RevisionableTrait;
+    use CrudTrait;
+    use \Venturecraft\Revisionable\RevisionableTrait;
     use SoftDeletes;
 
     public function identifiableName()
@@ -53,13 +47,13 @@ class Course extends Model
                     // if there is a coursetime for today, create the event
                     if ($course->times->contains('day', $start->format('w'))) {
                         Event::create([
-                            'course_id' => $course->id,
-                            'teacher_id' => $course->teacher_id,
-                            'room_id' => $course->room_id,
-                            'start' => $start->setTimeFromTimeString($course->times->where('day', $start->format('w'))->first()->start)->toDateTimeString(),
-                            'end' => $start->setTimeFromTimeString($course->times->where('day', $start->format('w'))->first()->end)->toDateTimeString(),
-                            'name' => $course->name,
-                            'course_time_id' => $course->times->where('day', $start->format('w'))->first()->id,
+                            'course_id'         => $course->id,
+                            'teacher_id'        => $course->teacher_id,
+                            'room_id'           => $course->room_id,
+                            'start'             => $start->setTimeFromTimeString($course->times->where('day', $start->format('w'))->first()->start)->toDateTimeString(),
+                            'end'               => $start->setTimeFromTimeString($course->times->where('day', $start->format('w'))->first()->end)->toDateTimeString(),
+                            'name'              => $course->name,
+                            'course_time_id'    => $course->times->where('day', $start->format('w'))->first()->id,
                             'exempt_attendance' => $course->exempt_attendance,
                         ]);
                     }
@@ -77,13 +71,13 @@ class Course extends Model
                     // if there is a coursetime for today, create the event
                     if ($course->times->contains('day', $start->format('w'))) {
                         Event::create([
-                            'course_id' => $course->id,
-                            'teacher_id' => $course->teacher_id,
-                            'room_id' => $course->room_id,
-                            'start' => $start->setTimeFromTimeString($course->times->where('day', $start->format('w'))->first()->start)->toDateTimeString(),
-                            'end' => $start->setTimeFromTimeString($course->times->where('day', $start->format('w'))->first()->end)->toDateTimeString(),
-                            'name' => $course->name,
-                            'course_time_id' => $course->times->where('day', $start->format('w'))->first()->id,
+                            'course_id'         => $course->id,
+                            'teacher_id'        => $course->teacher_id,
+                            'room_id'           => $course->room_id,
+                            'start'             => $start->setTimeFromTimeString($course->times->where('day', $start->format('w'))->first()->start)->toDateTimeString(),
+                            'end'               => $start->setTimeFromTimeString($course->times->where('day', $start->format('w'))->first()->end)->toDateTimeString(),
+                            'name'              => $course->name,
+                            'course_time_id'    => $course->times->where('day', $start->format('w'))->first()->id,
                             'exempt_attendance' => $course->exempt_attendance,
                         ]);
                     }

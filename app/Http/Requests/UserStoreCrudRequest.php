@@ -7,10 +7,10 @@ class UserStoreCrudRequest extends \Backpack\PermissionManager\app\Http\Requests
     public function rules()
     {
         return [
-            'email'    => 'required|unique:'.config('permission.table_names.users', 'users').',email',
+            'email'         => 'required|unique:'.config('permission.table_names.users', 'users').',email',
             'firstname'     => 'required',
-            'lastname'     => 'required',
-            'password' => 'required',
+            'lastname'      => 'required',
+            'password'      => 'required',
         ];
     }
 }

@@ -2,12 +2,11 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
 use App\Models\Course;
-use App\Models\Student;
 use App\Models\Enrollment;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Models\Student;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class EnrollmentBillingTest extends TestCase
 {
@@ -27,7 +26,7 @@ class EnrollmentBillingTest extends TestCase
         $student->enroll($course);
         $enrollment = Enrollment::where('student_id', $student->id)->where('course_id', $course->id)->first();
         $this->assertEquals(1, $enrollment->status_id);
-        
+
         // after billing the enrollment, the status is updated to 2
         $enrollment->markAsPaid();
         $this->assertEquals(2, $enrollment->status_id);
@@ -45,7 +44,7 @@ class EnrollmentBillingTest extends TestCase
 
         $enrollment = Enrollment::where('student_id', $student->id)->where('course_id', $course->id)->first();
         $this->assertEquals(1, $enrollment->status_id);
-        
+
         $childrenEnrollment = Enrollment::where('student_id', $student->id)->where('course_id', $childrenCourse->id)->first();
         $this->assertEquals(1, $childrenEnrollment->status_id);
 
@@ -61,6 +60,5 @@ class EnrollmentBillingTest extends TestCase
     {
         // [WIP] given several fees recorded in the DB
         // the fees with a flag of "default" will be automatically added to the cart along with an enrollment
-
     }
 }

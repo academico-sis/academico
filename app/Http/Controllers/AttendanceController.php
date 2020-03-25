@@ -35,7 +35,7 @@ class AttendanceController extends Controller
         $selected_period = $this->selectPeriod($request);
 
         // student attendance overview
-        $absences = (new Attendance)->get_absence_count_per_student($selected_period);
+        $absences = (new Attendance())->get_absence_count_per_student($selected_period);
 
         // get all courses for period and preload relations
         $courses = $selected_period->courses()->whereHas('events')->whereHas('enrollments')->with('attendance')->with('events')->get();
@@ -90,7 +90,7 @@ class AttendanceController extends Controller
 
         $attendance = Attendance::firstOrNew([
             'student_id' => $student->id,
-            'event_id' => $event->id,
+            'event_id'   => $event->id,
         ]);
 
         $attendance->attendance_type_id = $attendance_type->id;
@@ -194,7 +194,7 @@ class AttendanceController extends Controller
 
     public function toggleEventAttendanceStatus(Event $event, Request $request)
     {
-        if (! backpack_user()->hasPermissionTo('courses.edit')) {
+        if (!backpack_user()->hasPermissionTo('courses.edit')) {
             abort(403);
         }
         $event->exempt_attendance = (int) $request->status;
@@ -205,7 +205,7 @@ class AttendanceController extends Controller
 
     public function toggleCourseAttendanceStatus(Course $course, Request $request)
     {
-        if (! backpack_user()->hasPermissionTo('courses.edit')) {
+        if (!backpack_user()->hasPermissionTo('courses.edit')) {
             abort(403);
         }
         $course->exempt_attendance = (int) $request->status;

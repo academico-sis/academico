@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Request;
 use Illuminate\Foundation\Http\FormRequest;
 
 class SkillScaleRequest extends FormRequest
@@ -26,9 +25,9 @@ class SkillScaleRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:255|unique',
+            'name'      => 'required|max:255|unique',
             'shortname' => 'required|max:8|unique',
-            'value' => 'numeric|between:0,1',
+            'value'     => 'numeric|between:0,1',
         ];
     }
 

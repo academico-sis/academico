@@ -33,70 +33,70 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         Campus::create([
-            'id' => 1,
+            'id'   => 1,
             'name' => [
-               'en' => 'Internal',
-               'es' => 'Interno',
-               'fr' => 'Interne',
+                'en' => 'Internal',
+                'es' => 'Interno',
+                'fr' => 'Interne',
             ],
-         ]);
+        ]);
 
         Campus::create([
-            'id' => 2,
+            'id'   => 2,
             'name' => [
-               'en' => 'External',
-               'es' => 'Externo',
-               'fr' => 'Externe',
+                'en' => 'External',
+                'es' => 'Externo',
+                'fr' => 'Externe',
             ],
-         ]);
+        ]);
 
         EnrollmentStatusType::create([
-            'id' => 1,
+            'id'   => 1,
             'name' => [
                 'es' => 'PENDIENTE',
                 'en' => 'PENDING',
                 'fr' => 'NON-PAYÉ',
-                ],
-         ]);
+            ],
+        ]);
 
         EnrollmentStatusType::create([
-            'id' => 2,
+            'id'   => 2,
             'name' => [
                 'es' => 'PAGADA',
                 'en' => 'PAID',
                 'fr' => 'PAYÉ',
-                ],
-         ]);
+            ],
+        ]);
 
         EnrollmentStatusType::create([
-            'id' => 3,
+            'id'   => 3,
             'name' => [
                 'es' => 'ANULADA',
                 'en' => 'CANCELED',
                 'fr' => 'ANNULÉ',
-                ],
-         ]);
+            ],
+        ]);
 
         EnrollmentStatusType::create([
-            'id' => 4,
+            'id'   => 4,
             'name' => [
                 'es' => 'TRASPASO',
                 'en' => 'TRANSFERED',
                 'fr' => 'TRANSFÉRÉ',
-                ],
-         ]);
+            ],
+        ]);
 
         EnrollmentStatusType::create([
-            'id' => 5,
+            'id'   => 5,
             'name' => [
                 'es' => 'DEVOLUCION',
                 'en' => 'REFUND',
                 'fr' => 'REMBOURSÉ',
-                ],
-         ]);
+            ],
+        ]);
 
         ResultType::create([
-            'id' => 1,
+            'id'   => 1,
             'name' => [
                 'fr' => 'VALIDÉ',
                 'es' => 'APROBADO',
@@ -107,11 +107,11 @@ class DatabaseSeeder extends Seeder
                 'fr' => 'Peut passer au niveau suivant',
                 'es' => 'Puede pasar al nivel siguiente',
                 'en' => 'May go to the next level',
-                ],
-         ]);
+            ],
+        ]);
 
         ResultType::create([
-            'id' => 2,
+            'id'   => 2,
             'name' => [
                 'fr' => 'NON-VALIDÉ',
                 'es' => 'REPROBADO',
@@ -122,11 +122,11 @@ class DatabaseSeeder extends Seeder
                 'fr' => 'Ne peut pas passer au niveau suivant',
                 'es' => 'No puede pasar al nivel siguiente',
                 'en' => 'Cannot go to the next level',
-                ],
-         ]);
+            ],
+        ]);
 
         ResultType::create([
-            'id' => 3,
+            'id'   => 3,
             'name' => [
                 'fr' => 'VOIR COORD. PEDA',
                 'es' => 'VER COORD. PEDA',
@@ -137,108 +137,108 @@ class DatabaseSeeder extends Seeder
                 'fr' => 'Vérifier le résultat avec la direction pédagogique',
                 'es' => 'Ver con la dirección pedagógica',
                 'en' => 'Check results with the Pedagogy department',
-                ],
-         ]);
+            ],
+        ]);
 
         EvaluationType::create([
-            'id' => 1,
+            'id'   => 1,
             'name' => [
                 'fr' => 'NOTES',
                 'es' => 'NOTAS',
                 'en' => 'GRADES',
-                ],
-         ]);
+            ],
+        ]);
 
         EvaluationType::create([
-            'id' => 2,
+            'id'   => 2,
             'name' => [
                 'fr' => 'COMPÉTENCES',
                 'es' => 'COMPETENCIAS',
                 'en' => 'SKILLS',
-                ],
-         ]);
+            ],
+        ]);
 
         AttendanceType::create([
-            'id' => 1,
+            'id'   => 1,
             'name' => ['fr' => 'PRÉSENT(E)', 'es' => 'PRESENTE', 'en' => 'PRESENT'],
-         ]);
+        ]);
 
         AttendanceType::create([
-            'id' => 2,
+            'id'   => 2,
             'name' => ['fr' => 'PRÉSENCE PARTIELLE', 'es' => 'PRESENCIA PARCIAL', 'en' => 'PARTIAL PRESENCE'],
-         ]);
+        ]);
 
         AttendanceType::create([
-            'id' => 3,
+            'id'   => 3,
             'name' => ['fr' => 'EXCUSÉ(E)', 'es' => 'JUSTIFICADO', 'en' => 'EXCUSED'],
-         ]);
+        ]);
 
         AttendanceType::create([
-            'id' => 4,
+            'id'   => 4,
             'name' => ['fr' => 'ABSENT(E)', 'es' => 'AUSENTE', 'en' => 'ABSENT'],
-         ]);
+        ]);
 
         ContactRelationship::create([
-            'id' => 1,
+            'id'   => 1,
             'name' => ['fr' => 'FAMILLE', 'es' => 'FAMILIA', 'en' => 'FAMILY'],
-         ]);
+        ]);
 
         ContactRelationship::create([
-            'id' => 2,
+            'id'   => 2,
             'name' => ['fr' => 'TRAVAIL', 'es' => 'TRABAJO', 'en' => 'WORK'],
-         ]);
+        ]);
 
         DB::table('fees')->insert(
             [
-                'id' => 1,
-                'name' => 'Matricula',
+                'id'    => 1,
+                'name'  => 'Matricula',
                 'price' => '20',
             ]
         );
 
         SkillScale::create([
-            'id' => 1,
+            'id'        => 1,
             'shortname' => ['fr' => 'NON', 'es' => 'NO', 'en' => 'NO'],
-            'name' => ['fr' => 'NON-ACQUIS', 'es' => 'NO ADQUIRIDO', 'en' => 'NOT ACQUIRED'],
-            'value' => 0,
+            'name'      => ['fr' => 'NON-ACQUIS', 'es' => 'NO ADQUIRIDO', 'en' => 'NOT ACQUIRED'],
+            'value'     => 0,
         ]);
 
         SkillScale::create([
-            'id' => 2,
+            'id'        => 2,
             'shortname' => ['fr' => 'EC', 'es' => 'EC', 'en' => 'WIP'],
-            'name' => ['fr' => 'EN COURS', 'es' => 'EN CURSO DE ADQUISICIÓN', 'en' => 'IN PROGRESS'],
-            'value' => 0.4,
+            'name'      => ['fr' => 'EN COURS', 'es' => 'EN CURSO DE ADQUISICIÓN', 'en' => 'IN PROGRESS'],
+            'value'     => 0.4,
         ]);
 
         SkillScale::create([
-            'id' => 3,
+            'id'        => 3,
             'shortname' => ['fr' => 'OUI', 'es' => 'SI', 'en' => 'YES'],
-            'name' => ['fr' => 'ACQUIS', 'es' => 'ADQUIRIDO', 'en' => 'ACQUIRED'],
-            'value' => 1,
+            'name'      => ['fr' => 'ACQUIS', 'es' => 'ADQUIRIDO', 'en' => 'ACQUIRED'],
+            'value'     => 1,
         ]);
 
         LeaveType::create([
-            'id' => 1,
+            'id'   => 1,
             'name' => ['fr' => 'JOUR FÉRIÉ', 'es' => 'FERIADO', 'en' => 'NATIONAL HOLIDAY'],
         ]);
 
         LeaveType::create([
-            'id' => 2,
+            'id'   => 2,
             'name' => ['fr' => 'CONGÉ', 'es' => 'VACACIONES', 'en' => 'LEAVE'],
         ]);
 
         LeaveType::create([
-            'id' => 3,
+            'id'   => 3,
             'name' => ['fr' => 'SPÉCIAL', 'es' => 'ESPECIAL', 'en' => 'SPECIAL'],
         ]);
 
         LeaveType::create([
-            'id' => 4,
+            'id'   => 4,
             'name' => ['fr' => 'RÉCUPÉRATION', 'es' => 'RECUPERACIÓN', 'en' => 'RECOVERY'],
         ]);
 
         LeaveType::create([
-            'id' => 5,
+            'id'   => 5,
             'name' => ['fr' => 'MALADIE', 'es' => 'ENFERMEDAD', 'en' => 'SICK LEAVE'],
         ]);
 
@@ -311,7 +311,7 @@ class DatabaseSeeder extends Seeder
         $role->givePermissionTo('leads.manage');
 
         $admin = factory(User::class)->create([
-            'email' => 'admin@academico.site',
+            'email'    => 'admin@academico.site',
             'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
         ]);
 
@@ -338,16 +338,16 @@ class DatabaseSeeder extends Seeder
         $period = Period::first();
 
         $p1course1 = factory(Course::class)->create([
-            'campus_id' => 1,
-            'rhythm_id' => 1,
-            'level_id' => 1,
-            'volume' => 10,
-            'price' => 100,
+            'campus_id'  => 1,
+            'rhythm_id'  => 1,
+            'level_id'   => 1,
+            'volume'     => 10,
+            'price'      => 100,
             'start_date' => $period->start,
-            'end_date' => $period->end,
-            'room_id' => 1,
+            'end_date'   => $period->end,
+            'room_id'    => 1,
             'teacher_id' => 3,
-            'period_id' => 1,
+            'period_id'  => 1,
         ]);
 
         $p1course1->times()->create(['day' => 1, 'start' => '09:00:00', 'end' => '17:00:00']);
@@ -357,16 +357,16 @@ class DatabaseSeeder extends Seeder
         $p1course1->times()->create(['day' => 5, 'start' => '09:00:00', 'end' => '17:00:00']);
 
         $p1course2 = factory(Course::class)->create([
-            'campus_id' => 1,
-            'rhythm_id' => 1,
-            'level_id' => 2,
-            'volume' => 10,
-            'price' => 100,
+            'campus_id'  => 1,
+            'rhythm_id'  => 1,
+            'level_id'   => 2,
+            'volume'     => 10,
+            'price'      => 100,
             'start_date' => $period->start,
-            'end_date' => $period->end,
-            'room_id' => 2,
+            'end_date'   => $period->end,
+            'room_id'    => 2,
             'teacher_id' => 2,
-            'period_id' => 1,
+            'period_id'  => 1,
         ]);
 
         $p1course2->times()->create(['day' => 1, 'start' => '09:00:00', 'end' => '17:00:00']);
@@ -376,16 +376,16 @@ class DatabaseSeeder extends Seeder
         $p1course2->times()->create(['day' => 5, 'start' => '09:00:00', 'end' => '17:00:00']);
 
         $p1course3 = factory(Course::class)->create([
-            'campus_id' => 1,
-            'rhythm_id' => 4,
-            'level_id' => 3,
-            'volume' => 20,
-            'price' => 100,
+            'campus_id'  => 1,
+            'rhythm_id'  => 4,
+            'level_id'   => 3,
+            'volume'     => 20,
+            'price'      => 100,
             'start_date' => $period->start,
-            'end_date' => $period->end,
-            'room_id' => 3,
+            'end_date'   => $period->end,
+            'room_id'    => 3,
             'teacher_id' => 3,
-            'period_id' => 1,
+            'period_id'  => 1,
         ]);
 
         $p1course3->times()->create(['day' => 6, 'start' => '09:00:00', 'end' => '13:00:00']);
@@ -394,25 +394,25 @@ class DatabaseSeeder extends Seeder
         // again for period 2
 
         DB::table('periods')->insert([
-            'id' => 2,
-            'name' => 'Period 2',
-            'start' => date('Y-m-d', strtotime('first day of april this year')),
-            'end' => date('Y-m-d', strtotime('last day of june this year')),
+            'id'      => 2,
+            'name'    => 'Period 2',
+            'start'   => date('Y-m-d', strtotime('first day of april this year')),
+            'end'     => date('Y-m-d', strtotime('last day of june this year')),
             'year_id' => 1,
         ]);
 
         $period = Period::find(2);
         $p2course1 = factory(Course::class)->create([
-            'campus_id' => 1,
-            'rhythm_id' => 1,
-            'level_id' => 1,
-            'volume' => 10,
-            'price' => 100,
+            'campus_id'  => 1,
+            'rhythm_id'  => 1,
+            'level_id'   => 1,
+            'volume'     => 10,
+            'price'      => 100,
             'start_date' => $period->start,
-            'end_date' => $period->end,
-            'room_id' => 1,
+            'end_date'   => $period->end,
+            'room_id'    => 1,
             'teacher_id' => 3,
-            'period_id' => 2,
+            'period_id'  => 2,
         ]);
 
         $p2course1->times()->create(['day' => 1, 'start' => '09:00:00', 'end' => '17:00:00']);
@@ -422,16 +422,16 @@ class DatabaseSeeder extends Seeder
         $p2course1->times()->create(['day' => 5, 'start' => '09:00:00', 'end' => '17:00:00']);
 
         $p2course2 = factory(Course::class)->create([
-            'campus_id' => 1,
-            'rhythm_id' => 1,
-            'level_id' => 2,
-            'volume' => 10,
-            'price' => 100,
+            'campus_id'  => 1,
+            'rhythm_id'  => 1,
+            'level_id'   => 2,
+            'volume'     => 10,
+            'price'      => 100,
             'start_date' => $period->start,
-            'end_date' => $period->end,
-            'room_id' => 2,
+            'end_date'   => $period->end,
+            'room_id'    => 2,
             'teacher_id' => 2,
-            'period_id' => 2,
+            'period_id'  => 2,
         ]);
 
         $p2course2->times()->create(['day' => 1, 'start' => '09:00:00', 'end' => '17:00:00']);
@@ -441,16 +441,16 @@ class DatabaseSeeder extends Seeder
         $p2course2->times()->create(['day' => 5, 'start' => '09:00:00', 'end' => '17:00:00']);
 
         $p2course3 = factory(Course::class)->create([
-            'campus_id' => 1,
-            'rhythm_id' => 4,
-            'level_id' => 3,
-            'volume' => 20,
-            'price' => 100,
+            'campus_id'  => 1,
+            'rhythm_id'  => 4,
+            'level_id'   => 3,
+            'volume'     => 20,
+            'price'      => 100,
             'start_date' => $period->start,
-            'end_date' => $period->end,
-            'room_id' => 3,
+            'end_date'   => $period->end,
+            'room_id'    => 3,
             'teacher_id' => 3,
-            'period_id' => 2,
+            'period_id'  => 2,
         ]);
 
         $p2course3->times()->create(['day' => 6, 'start' => '09:00:00', 'end' => '13:00:00']);
@@ -459,24 +459,24 @@ class DatabaseSeeder extends Seeder
         // again for period 3
 
         DB::table('periods')->insert([
-            'id' => 3,
-            'name' => 'Period 3',
-            'start' => date('Y-m-d', strtotime('first day of july this year')),
-            'end' => date('Y-m-d', strtotime('last day of august this year')),
+            'id'      => 3,
+            'name'    => 'Period 3',
+            'start'   => date('Y-m-d', strtotime('first day of july this year')),
+            'end'     => date('Y-m-d', strtotime('last day of august this year')),
             'year_id' => 1,
         ]);
         $period = Period::find(3);
         $p3course1 = factory(Course::class)->create([
-            'campus_id' => 1,
-            'rhythm_id' => 1,
-            'level_id' => 1,
-            'volume' => 10,
-            'price' => 100,
+            'campus_id'  => 1,
+            'rhythm_id'  => 1,
+            'level_id'   => 1,
+            'volume'     => 10,
+            'price'      => 100,
             'start_date' => $period->start,
-            'end_date' => $period->end,
-            'room_id' => 1,
+            'end_date'   => $period->end,
+            'room_id'    => 1,
             'teacher_id' => 3,
-            'period_id' => 3,
+            'period_id'  => 3,
         ]);
 
         $p3course1->times()->create(['day' => 1, 'start' => '09:00:00', 'end' => '17:00:00']);
@@ -486,16 +486,16 @@ class DatabaseSeeder extends Seeder
         $p3course1->times()->create(['day' => 5, 'start' => '09:00:00', 'end' => '17:00:00']);
 
         $p3course2 = factory(Course::class)->create([
-            'campus_id' => 1,
-            'rhythm_id' => 1,
-            'level_id' => 2,
-            'volume' => 10,
-            'price' => 100,
+            'campus_id'  => 1,
+            'rhythm_id'  => 1,
+            'level_id'   => 2,
+            'volume'     => 10,
+            'price'      => 100,
             'start_date' => $period->start,
-            'end_date' => $period->end,
-            'room_id' => 2,
+            'end_date'   => $period->end,
+            'room_id'    => 2,
             'teacher_id' => 2,
-            'period_id' => 3,
+            'period_id'  => 3,
         ]);
 
         $p3course2->times()->create(['day' => 1, 'start' => '09:00:00', 'end' => '17:00:00']);
@@ -505,16 +505,16 @@ class DatabaseSeeder extends Seeder
         $p3course2->times()->create(['day' => 5, 'start' => '09:00:00', 'end' => '17:00:00']);
 
         $p3course3 = factory(Course::class)->create([
-            'campus_id' => 1,
-            'rhythm_id' => 4,
-            'level_id' => 3,
-            'volume' => 20,
-            'price' => 100,
+            'campus_id'  => 1,
+            'rhythm_id'  => 4,
+            'level_id'   => 3,
+            'volume'     => 20,
+            'price'      => 100,
             'start_date' => $period->start,
-            'end_date' => $period->end,
-            'room_id' => 3,
+            'end_date'   => $period->end,
+            'room_id'    => 3,
             'teacher_id' => 3,
-            'period_id' => 3,
+            'period_id'  => 3,
         ]);
 
         $p3course3->times()->create(['day' => 6, 'start' => '09:00:00', 'end' => '13:00:00']);
@@ -523,24 +523,24 @@ class DatabaseSeeder extends Seeder
         // again for period 4
 
         DB::table('periods')->insert([
-            'id' => 4,
-            'name' => 'Period 4',
-            'start' => date('Y-m-d', strtotime('first day of september this year')),
-            'end' => date('Y-m-d', strtotime('last day of december this year')),
+            'id'      => 4,
+            'name'    => 'Period 4',
+            'start'   => date('Y-m-d', strtotime('first day of september this year')),
+            'end'     => date('Y-m-d', strtotime('last day of december this year')),
             'year_id' => 1,
         ]);
         $period = Period::find(4);
         $p4course1 = factory(Course::class)->create([
-            'campus_id' => 1,
-            'rhythm_id' => 1,
-            'level_id' => 1,
-            'volume' => 10,
-            'price' => 100,
+            'campus_id'  => 1,
+            'rhythm_id'  => 1,
+            'level_id'   => 1,
+            'volume'     => 10,
+            'price'      => 100,
             'start_date' => $period->start,
-            'end_date' => $period->end,
-            'room_id' => 1,
+            'end_date'   => $period->end,
+            'room_id'    => 1,
             'teacher_id' => 3,
-            'period_id' => 4,
+            'period_id'  => 4,
         ]);
 
         $p4course1->times()->create(['day' => 1, 'start' => '09:00:00', 'end' => '17:00:00']);
@@ -550,16 +550,16 @@ class DatabaseSeeder extends Seeder
         $p4course1->times()->create(['day' => 5, 'start' => '09:00:00', 'end' => '17:00:00']);
 
         $p4course2 = factory(Course::class)->create([
-            'campus_id' => 1,
-            'rhythm_id' => 1,
-            'level_id' => 2,
-            'volume' => 10,
-            'price' => 100,
+            'campus_id'  => 1,
+            'rhythm_id'  => 1,
+            'level_id'   => 2,
+            'volume'     => 10,
+            'price'      => 100,
             'start_date' => $period->start,
-            'end_date' => $period->end,
-            'room_id' => 2,
+            'end_date'   => $period->end,
+            'room_id'    => 2,
             'teacher_id' => 2,
-            'period_id' => 4,
+            'period_id'  => 4,
         ]);
 
         $p4course2->times()->create(['day' => 1, 'start' => '09:00:00', 'end' => '17:00:00']);
@@ -569,16 +569,16 @@ class DatabaseSeeder extends Seeder
         $p4course2->times()->create(['day' => 5, 'start' => '09:00:00', 'end' => '17:00:00']);
 
         $p4course3 = factory(Course::class)->create([
-            'campus_id' => 1,
-            'rhythm_id' => 4,
-            'level_id' => 3,
-            'volume' => 20,
-            'price' => 100,
+            'campus_id'  => 1,
+            'rhythm_id'  => 4,
+            'level_id'   => 3,
+            'volume'     => 20,
+            'price'      => 100,
             'start_date' => $period->start,
-            'end_date' => $period->end,
-            'room_id' => 3,
+            'end_date'   => $period->end,
+            'room_id'    => 3,
             'teacher_id' => 3,
-            'period_id' => 4,
+            'period_id'  => 4,
         ]);
 
         $p4course3->times()->create(['day' => 6, 'start' => '09:00:00', 'end' => '13:00:00']);

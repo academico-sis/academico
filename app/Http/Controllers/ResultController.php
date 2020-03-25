@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Comment;
 use App\Models\Enrollment;
-use App\Models\Grade;
 use App\Models\Result;
-use App\Models\Skills\Skill;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
@@ -25,8 +22,8 @@ class ResultController extends Controller
         }
 
         $result = Result::firstOrNew([
-             'enrollment_id' => $enrollment->id,
-         ]);
+            'enrollment_id' => $enrollment->id,
+        ]);
 
         $result->result_type_id = $request->input('result');
 

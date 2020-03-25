@@ -2,15 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Attendance;
-use App\Models\Comment;
-use App\Models\Course;
-use App\Models\EnrollmentStatusType;
-use App\Models\Grade;
-use App\Models\PreInvoice;
-use App\Models\Result;
 use App\Models\Skills\SkillEvaluation;
-use App\Models\Student;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -32,10 +24,10 @@ class Enrollment extends Model
 
         // when creating a new enrollment, also add past attendance
         static::created(function (self $enrollment) {
-            $events = $enrollment->course->events->where('start', '<', (new Carbon)->toDateString());
+            $events = $enrollment->course->events->where('start', '<', (new Carbon())->toDateString());
             foreach ($events as $event) {
                 $event->attendance()->create([
-                    'student_id' => $enrollment->student_id,
+                    'student_id'         => $enrollment->student_id,
                     'attendance_type_id' => 3,
                 ]);
             }

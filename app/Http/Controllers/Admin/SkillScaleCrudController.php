@@ -10,6 +10,7 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
  * Class SkillScaleCrudController.
+ *
  * @property-read CrudPanel $crud
  */
 class SkillScaleCrudController extends CrudController

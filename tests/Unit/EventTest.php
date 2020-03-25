@@ -27,22 +27,22 @@ class EventTest extends TestCase
 
         // given a course
         $course = factory(Course::class)->create([
-            'rhythm_id' => $rhythm->id,
-            'room_id' => $room->id,
-            'level_id' => $level->id,
-            'campus_id' => $campus->id,
-            'period_id' => $period->id,
+            'rhythm_id'  => $rhythm->id,
+            'room_id'    => $room->id,
+            'level_id'   => $level->id,
+            'campus_id'  => $campus->id,
+            'period_id'  => $period->id,
             'start_date' => '2019-01-01', // Tuesday
-            'end_date' => '2019-01-05',
+            'end_date'   => '2019-01-05',
         ]);
 
         // when a coursetime is added
         $course->times()->create([
             'course_id' => $course->id,
-            'day' => 4, // Thursday
-            'start' => '15:00',
-            'end' => '17:00',
-            ]);
+            'day'       => 4, // Thursday
+            'start'     => '15:00',
+            'end'       => '17:00',
+        ]);
 
         // an event with the date of the coursetime should exist
         $this->assertEquals('2019-01-03 15:00:00', $course->events->first()->start);
@@ -60,28 +60,28 @@ class EventTest extends TestCase
 
         // given a course
         $course = factory(Course::class)->create([
-            'rhythm_id' => $rhythm->id,
-            'level_id' => $level->id,
-            'room_id' => $room->id,
-            'campus_id' => $campus->id,
-            'period_id' => $period->id,
+            'rhythm_id'  => $rhythm->id,
+            'level_id'   => $level->id,
+            'room_id'    => $room->id,
+            'campus_id'  => $campus->id,
+            'period_id'  => $period->id,
             'start_date' => '2019-01-01', // Tuesday = day 2
-            'end_date' => '2019-01-06', // sunday = day 0
+            'end_date'   => '2019-01-06', // sunday = day 0
         ]);
 
         // with 2 weekly events
         $course->times()->create([
             'course_id' => $course->id,
-            'day' => 4,
-            'start' => '15:00',
-            'end' => '17:00',
+            'day'       => 4,
+            'start'     => '15:00',
+            'end'       => '17:00',
         ]);
 
         $course->times()->create([
             'course_id' => $course->id,
-            'day' => 6,
-            'start' => '09:00',
-            'end' => '10:30',
+            'day'       => 6,
+            'start'     => '09:00',
+            'end'       => '10:30',
         ]);
 
         // when a coursetime is deleted

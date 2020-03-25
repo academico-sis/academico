@@ -5,9 +5,7 @@ namespace Tests\Feature;
 use App\Models\Course;
 use App\Models\Student;
 use App\Models\Teacher;
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class AttendanceTest extends TestCase
@@ -32,10 +30,10 @@ class AttendanceTest extends TestCase
 
         // add a coursetime, which will create events
         $this->course->times()->create([
-            'day' => 3,
+            'day'   => 3,
             'start' => '15:45:00',
-            'end' => '17:45:00',
-            ]);
+            'end'   => '17:45:00',
+        ]);
 
         for ($i = 0; $i < 4; $i++) {
             $student = factory(Student::class)->create();
@@ -43,8 +41,8 @@ class AttendanceTest extends TestCase
         }
 
         $this->attributes = [
-            'student_id' => $this->course->enrollments()->first()->student->id,
-            'event_id' => $this->course->events->first()->id,
+            'student_id'         => $this->course->enrollments()->first()->student->id,
+            'event_id'           => $this->course->events->first()->id,
             'attendance_type_id' => 1,
         ];
     }
@@ -68,16 +66,16 @@ class AttendanceTest extends TestCase
 
     /** @test
      * guests can not use the post route
-    */
+     */
     public function unauthorized_users_cannot_take_attendance()
     {
         $student = $this->course->enrollments()->first()->student;
 
         $attributes = [
-                'student_id' => $student->id,
-                'event_id' => $this->course->events->first()->id,
-                'attendance_type_id' => 1,
-            ];
+            'student_id'         => $student->id,
+            'event_id'           => $this->course->events->first()->id,
+            'attendance_type_id' => 1,
+        ];
 
         $this->json('POST', route('storeAttendance'), $attributes);
         $this->assertDatabaseMissing('attendances', $attributes);
@@ -112,24 +110,24 @@ class AttendanceTest extends TestCase
         // when an absence record is created, the student number of absences is incremented.
 
         $this->recordAttendanceByTeacher([
-                'student_id' => $student->id,
-                'event_id' => $this->course->events->first()->id,
-                'attendance_type_id' => 4,
-            ]);
+            'student_id'         => $student->id,
+            'event_id'           => $this->course->events->first()->id,
+            'attendance_type_id' => 4,
+        ]);
 
         $absencesCountBefore = $student->periodAbsences($this->course->period)->count();
 
         $this->recordAttendanceByTeacher([
-                'student_id' => $student->id,
-                'event_id' => $this->course->events->last()->id,
-                'attendance_type_id' => 4,
-            ]);
+            'student_id'         => $student->id,
+            'event_id'           => $this->course->events->last()->id,
+            'attendance_type_id' => 4,
+        ]);
 
         $this->recordAttendanceByTeacher([
-                'student_id' => $student->id,
-                'event_id' => $this->course->events->get(2)->id,
-                'attendance_type_id' => 1,
-            ]);
+            'student_id'         => $student->id,
+            'event_id'           => $this->course->events->get(2)->id,
+            'attendance_type_id' => 1,
+        ]);
 
         $absencesCountAfter = $student->periodAbsences($this->course->period)->count();
 

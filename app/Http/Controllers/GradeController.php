@@ -54,17 +54,17 @@ class GradeController extends Controller
         $course = Course::findOrFail($request->input('course_id'));
         $grade_type = GradeType::findOrFail($request->input('grade_type_id'));
 
-        if (! $course->grade_type->has($grade_type->id)) {
+        if (!$course->grade_type->has($grade_type->id)) {
             $course->grade_type()->attach($grade_type->id);
         }
 
         // todo improve -- create an empty grade for every student in course.
         foreach ($course->enrollments as $enrollment) {
             Grade::create([
-                'student_id' => $enrollment->student_id,
+                'student_id'    => $enrollment->student_id,
                 'grade_type_id' => $grade_type->id,
-                'grade' => 0,
-                'course_id' => $course->id,
+                'grade'         => 0,
+                'course_id'     => $course->id,
             ]);
         }
 

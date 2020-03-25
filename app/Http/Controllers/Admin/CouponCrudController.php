@@ -11,6 +11,7 @@ use Backpack\CRUD\CrudPanel;
 
 /**
  * Class CouponCrudController.
+ *
  * @property-read CrudPanel $crud
  */
 class CouponCrudController extends CrudController

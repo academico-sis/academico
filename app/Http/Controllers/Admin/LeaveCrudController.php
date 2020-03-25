@@ -12,6 +12,7 @@ use Carbon\Carbon;
 
 /**
  * Class LeaveCrudController.
+ *
  * @property-read CrudPanel $crud
  */
 class LeaveCrudController extends CrudController
@@ -41,54 +42,60 @@ class LeaveCrudController extends CrudController
         CRUD::setColumns([
             [
                 // 1-n relationship
-                'label' => 'Teacher', // Table column heading
-                'type' => 'select',
-                'name' => 'teacher_id', // the column that contains the ID of that connected entity;
-                'entity' => 'teacher', // the method that defines the relationship in your Model
+                'label'     => 'Teacher', // Table column heading
+                'type'      => 'select',
+                'name'      => 'teacher_id', // the column that contains the ID of that connected entity;
+                'entity'    => 'teacher', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\Teacher::class, // foreign key model
-             ],
+                'model'     => \App\Models\Teacher::class, // foreign key model
+            ],
 
-             [
+            [
                 // 1-n relationship
-                'label' => 'Type', // Table column heading
-                'type' => 'select',
-                'name' => 'leave_type_id', // the column that contains the ID of that connected entity;
-                'entity' => 'leaveType', // the method that defines the relationship in your Model
+                'label'     => 'Type', // Table column heading
+                'type'      => 'select',
+                'name'      => 'leave_type_id', // the column that contains the ID of that connected entity;
+                'entity'    => 'leaveType', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\LeaveType::class, // foreign key model
-             ],
+                'model'     => \App\Models\LeaveType::class, // foreign key model
+            ],
 
-             [
-                'name' => 'date', // The db column name
+            [
+                'name'  => 'date', // The db column name
                 'label' => 'Date', // Table column heading
-                'type' => 'date',
-             ],
+                'type'  => 'date',
+            ],
         ]);
 
-        CRUD::addFilter([ // select2 filter
-            'name' => 'teacher_id',
-            'type' => 'select2',
-            'label'=> __('Teacher'),
-          ], function () {
+        CRUD::addFilter(
+            [ // select2 filter
+                'name' => 'teacher_id',
+                'type' => 'select2',
+                'label'=> __('Teacher'),
+            ],
+            function () {
               return \App\Models\Teacher::all()->pluck('name', 'id')->toArray();
-          }, function ($value) { // if the filter is active
+          },
+            function ($value) { // if the filter is active
               CRUD::addClause('where', 'teacher_id', $value);
           },
-          function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
-          });
+            function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
+          }
+        );
 
-        CRUD::addFilter([ // daterange filter
-            'type' => 'date_range',
-            'name' => 'from_to',
-            'label'=> __('Date range'),
-          ],
-          false,
-          function ($value) { // if the filter is active, apply these constraints
+        CRUD::addFilter(
+            [ // daterange filter
+                'type' => 'date_range',
+                'name' => 'from_to',
+                'label'=> __('Date range'),
+            ],
+            false,
+            function ($value) { // if the filter is active, apply these constraints
               $dates = json_decode($value);
               CRUD::addClause('where', 'date', '>=', $dates->from);
               CRUD::addClause('where', 'date', '<=', $dates->to.' 23:59:59');
-          });
+          }
+        );
     }
 
     protected function setupCreateOperation()
@@ -98,28 +105,28 @@ class LeaveCrudController extends CrudController
         CRUD::addFields([
             [
                 // 1-n relationship
-                'label' => 'Teacher', // Table column heading
-                'type' => 'select_multiple',
-                'name' => 'teacher_id', // the column that contains the ID of that connected entity;
-                'entity' => 'teacher', // the method that defines the relationship in your Model
+                'label'     => 'Teacher', // Table column heading
+                'type'      => 'select_multiple',
+                'name'      => 'teacher_id', // the column that contains the ID of that connected entity;
+                'entity'    => 'teacher', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\Teacher::class, // foreign key model
-             ],
+                'model'     => \App\Models\Teacher::class, // foreign key model
+            ],
 
-             [
+            [
                 // 1-n relationship
-                'label' => 'Type', // Table column heading
-                'type' => 'select',
-                'name' => 'leave_type_id', // the column that contains the ID of that connected entity;
-                'entity' => 'leaveType', // the method that defines the relationship in your Model
+                'label'     => 'Type', // Table column heading
+                'type'      => 'select',
+                'name'      => 'leave_type_id', // the column that contains the ID of that connected entity;
+                'entity'    => 'leaveType', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\LeaveType::class, // foreign key model
-             ],
+                'model'     => \App\Models\LeaveType::class, // foreign key model
+            ],
 
-             [   // date_range
-                'name' => ['start_date', 'end_date'], // db columns for start_date & end_date
-                'label' => 'Event Date Range',
-                'type' => 'date_range',
+            [   // date_range
+                'name'    => ['start_date', 'end_date'], // db columns for start_date & end_date
+                'label'   => 'Event Date Range',
+                'type'    => 'date_range',
                 'default' => [Carbon::now()->format('Y-m-d 00:00'), Carbon::now()->addDays(2)->format('Y-m-d 00:00')], // default value for start_date and end_date
             ],
         ]);
@@ -127,15 +134,14 @@ class LeaveCrudController extends CrudController
 
     public function store(StoreRequest $request)
     {
-
         foreach ($this->crud->request->teacher_id as $teacher_id) {
             $start = Carbon::parse($this->crud->request->start_date);
             $end = Carbon::parse($this->crud->request->end_date);
 
             while ($start <= $end) {
                 Leave::create([
-                    'teacher_id' => $teacher_id,
-                    'date' => $start,
+                    'teacher_id'    => $teacher_id,
+                    'date'          => $start,
                     'leave_type_id' => $this->crud->request->leave_type_id,
                 ]);
 
@@ -151,20 +157,20 @@ class LeaveCrudController extends CrudController
         CRUD::setValidation(UpdateRequest::class);
 
         CRUD::addFields([
-             [
+            [
                 // 1-n relationship
-                'label' => 'Type', // Table column heading
-                'type' => 'select',
-                'name' => 'leave_type_id', // the column that contains the ID of that connected entity;
-                'entity' => 'leaveType', // the method that defines the relationship in your Model
+                'label'     => 'Type', // Table column heading
+                'type'      => 'select',
+                'name'      => 'leave_type_id', // the column that contains the ID of that connected entity;
+                'entity'    => 'leaveType', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\LeaveType::class, // foreign key model
-             ],
+                'model'     => \App\Models\LeaveType::class, // foreign key model
+            ],
 
-             [   // datepicker
-                'name' => 'date',
+            [   // datepicker
+                'name'  => 'date',
                 'label' => 'Event Date',
-                'type' => 'date',
+                'type'  => 'date',
             ],
         ]);
     }

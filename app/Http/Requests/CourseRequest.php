@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Request;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CourseRequest extends FormRequest
@@ -26,14 +25,14 @@ class CourseRequest extends FormRequest
     public function rules()
     {
         return [
-            'campus_id' => 'required',
-            'volume' => 'required|numeric',
-            'name' => 'required|string|max:255',
-            'price' => 'required|numeric',
+            'campus_id'  => 'required',
+            'volume'     => 'required|numeric',
+            'name'       => 'required|string|max:255',
+            'price'      => 'required|numeric',
             'start_date' => 'required|date',
-            'end_date' => 'required|date',
-            'period_id' => 'required|numeric',
-            'rhythm_id' => 'required|numeric',
+            'end_date'   => 'required|date',
+            'period_id'  => 'required|numeric',
+            'rhythm_id'  => 'required|numeric',
         ];
     }
 

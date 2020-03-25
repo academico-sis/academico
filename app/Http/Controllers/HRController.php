@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Event;
-use App\Models\Period;
 use App\Models\Teacher;
 use App\Traits\PeriodSelection;
 use Illuminate\Http\Request;
@@ -33,7 +31,7 @@ class HRController extends Controller
 
         return view('hr.dashboard', [
             'selected_period' => $period,
-            'teachers' => $teachers,
+            'teachers'        => $teachers,
         ]);
     }
 
@@ -48,9 +46,9 @@ class HRController extends Controller
 
         return view('teacher.hours', [
             'selected_period' => $period,
-            'teacher' => $teacher,
-            'events' => $teacher->period_events($period),
-            'remote_events' => $teacher->period_remote_events($period),
+            'teacher'         => $teacher,
+            'events'          => $teacher->period_events($period),
+            'remote_events'   => $teacher->period_remote_events($period),
 
         ]);
     }

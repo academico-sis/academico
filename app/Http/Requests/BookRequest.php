@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Request;
 use Illuminate\Foundation\Http\FormRequest;
 
 class BookRequest extends FormRequest
@@ -26,8 +25,8 @@ class BookRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:5|max:255|unique:books',
-            'price' => 'required',
+            'name'         => 'required|min:5|max:255|unique:books',
+            'price'        => 'required',
             'product_code' => 'required|string',
 
         ];

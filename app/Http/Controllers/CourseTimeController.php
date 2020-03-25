@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use App\Models\CourseTime;
-use App\Models\Event;
 use Illuminate\Http\Request;
 
 class CourseTimeController extends Controller
@@ -41,7 +40,7 @@ class CourseTimeController extends Controller
         // if the course has children, register the coursetime for all children instead.
         if ($course->children->count() > 0) {
             foreach ($course->children as $child) {
-                $newTime = new CourseTime;
+                $newTime = new CourseTime();
                 $newTime->course_id = $child->id;
                 $newTime->day = $request->input('day');
                 $newTime->start = $request->input('start');
@@ -49,7 +48,7 @@ class CourseTimeController extends Controller
                 $newTime->save();
             }
         } else {
-            $newTime = new CourseTime;
+            $newTime = new CourseTime();
             $newTime->course_id = $course->id;
             $newTime->day = $request->input('day');
             $newTime->start = $request->input('start');

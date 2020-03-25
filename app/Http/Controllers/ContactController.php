@@ -6,7 +6,6 @@ use App\Http\Requests\ContactRequest as StoreRequest;
 use App\Models\Contact;
 use App\Models\PhoneNumber;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 
 class ContactController extends Controller
 {
@@ -21,15 +20,15 @@ class ContactController extends Controller
     public function store(StoreRequest $request)
     {
         $request->validate([
-            'firstname' => 'required',
-            'lastname' => 'required',
-            'email' => 'required',
-            'address' => 'required',
+            'firstname'    => 'required',
+            'lastname'     => 'required',
+            'email'        => 'required',
+            'address'      => 'required',
             'phone_number' => 'required',
-            'idnumber' => 'required',
+            'idnumber'     => 'required',
         ]);
-        
-        $contact = new Contact;
+
+        $contact = new Contact();
         $contact->student_id = $request->input('student_id');
         $contact->firstname = $request->input('firstname');
         $contact->lastname = $request->input('lastname');
@@ -41,7 +40,7 @@ class ContactController extends Controller
 
         // register the phone number
         if (($request->input('phone_number')) !== null) {
-            $phone = new PhoneNumber;
+            $phone = new PhoneNumber();
             $phone->phoneable_id = $contact->id;
             $phone->phoneable_type = Contact::class;
             $phone->phone_number = $request->input('phone_number');
@@ -63,16 +62,16 @@ class ContactController extends Controller
     {
 
         // check if the user is allowed to edit the contact
-        if (! backpack_user()->can('update', $contact)) {
+        if (!backpack_user()->can('update', $contact)) {
             abort(403);
         }
 
         $contact->update([
             'firstname' => $request->firstname,
-            'lastname' => $request->lastname,
-            'idnumber' => $request->idnumber,
-            'address' => $request->address,
-            'email' => $request->email,
+            'lastname'  => $request->lastname,
+            'idnumber'  => $request->idnumber,
+            'address'   => $request->address,
+            'email'     => $request->email,
         ]);
 
         \Alert::success(__('The information has successfully been saved'))->flash();
@@ -84,7 +83,7 @@ class ContactController extends Controller
     public function edit(Contact $contact)
     {
         // check if the user is allowed to edit the contact
-        if (! backpack_user()->can('update', $contact)) {
+        if (!backpack_user()->can('update', $contact)) {
             abort(403);
         }
 

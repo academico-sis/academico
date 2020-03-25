@@ -10,6 +10,7 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
  * Class RhythmCrudController.
+ *
  * @property-read CrudPanel $crud
  */
 class RhythmCrudController extends CrudController

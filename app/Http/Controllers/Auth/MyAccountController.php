@@ -7,7 +7,6 @@ use App\Models\Institution;
 use App\Models\Profession;
 use App\Models\Student;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
 class MyAccountController extends \App\Http\Controllers\Controller
@@ -37,8 +36,8 @@ class MyAccountController extends \App\Http\Controllers\Controller
     {
         $request->validate([
             'firstname' => 'required',
-            'lastname' => 'required',
-            'email' => 'required|email|unique:users'
+            'lastname'  => 'required',
+            'email'     => 'required|email|unique:users',
         ]);
 
         $result = $this->guard()->user()->update($request->except(['_token']));
@@ -76,16 +75,16 @@ class MyAccountController extends \App\Http\Controllers\Controller
     public function postStudentInfoForm(Request $request)
     {
         $request->validate([
-            'idnumber' => 'required',
-            'address' => 'required',
+            'idnumber'  => 'required',
+            'address'   => 'required',
             'birthdate' => 'required',
         ]);
 
         $student = Student::updateOrCreate(
             ['user_id' => $this->guard()->user()->id],
             [
-                'idnumber' => $request->idnumber,
-                'address' => $request->address,
+                'idnumber'  => $request->idnumber,
+                'address'   => $request->address,
                 'birthdate' => $request->birthdate,
             ]
         );
@@ -140,7 +139,7 @@ class MyAccountController extends \App\Http\Controllers\Controller
     public function postAccountProfessionForm(Request $request)
     {
         $request->validate([
-            'profession' => 'required',
+            'profession'  => 'required',
             'institution' => 'required',
         ]);
 

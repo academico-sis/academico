@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Request;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ContactRequest extends FormRequest
@@ -28,11 +27,11 @@ class ContactRequest extends FormRequest
         return [
             // 'name' => 'required|max:255'
             //'student_id' => 'required',
-            'firstname' => 'required|max:255',
-            'lastname' => 'required|max:255',
-            'idnumber' => 'required|max:255',
-            'address' => 'required|max:255',
-            'email' => 'required|email|max:255',
+            'firstname'       => 'required|max:255',
+            'lastname'        => 'required|max:255',
+            'idnumber'        => 'required|max:255',
+            'address'         => 'required|max:255',
+            'email'           => 'required|email|max:255',
             'relationship_id' => 'nullable',
         ];
     }

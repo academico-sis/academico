@@ -10,6 +10,7 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
  * Class PeriodCrudController.
+ *
  * @property-read CrudPanel $crud
  */
 class PeriodCrudController extends CrudController
@@ -40,31 +41,31 @@ class PeriodCrudController extends CrudController
     public function setupListOperation()
     {
         CRUD::setColumns([
-                [
-                    'label'     => __('Year'),
-                    'type'      => 'select',
-                    'entity'    => 'year',
-                    'attribute' => 'name',
-                ],
+            [
+                'label'     => __('Year'),
+                'type'      => 'select',
+                'entity'    => 'year',
+                'attribute' => 'name',
+            ],
 
-                [
-                    'label' => __('Name'),
-                    'type' => 'text',
-                    'name' => 'name',
-                ],
+            [
+                'label' => __('Name'),
+                'type'  => 'text',
+                'name'  => 'name',
+            ],
 
-                [
-                    'label' => __('Start'),
-                    'type' => 'date',
-                    'name' => 'start',
-                ],
+            [
+                'label' => __('Start'),
+                'type'  => 'date',
+                'name'  => 'start',
+            ],
 
-                [
-                    'label' => __('End'),
-                    'type' => 'date',
-                    'name' => 'end',
-                ],
-            ]);
+            [
+                'label' => __('End'),
+                'type'  => 'date',
+                'name'  => 'end',
+            ],
+        ]);
     }
 
     public function setupCreateOperation()
@@ -81,20 +82,20 @@ class PeriodCrudController extends CrudController
 
             [
                 'label' => __('Name'),
-                'type' => 'text',
-                'name' => 'name',
+                'type'  => 'text',
+                'name'  => 'name',
             ],
 
             [
                 'label' => __('Start'),
-                'type' => 'date',
-                'name' => 'start',
+                'type'  => 'date',
+                'name'  => 'start',
             ],
 
             [
                 'label' => __('End'),
-                'type' => 'date',
-                'name' => 'end',
+                'type'  => 'date',
+                'name'  => 'end',
             ],
         ]);
 

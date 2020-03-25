@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Request;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ResultTypeRequest extends FormRequest
@@ -26,7 +25,7 @@ class ResultTypeRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:55|unique',
+            'name'        => 'required|max:55|unique',
             'description' => 'max:255|nullable',
         ];
     }

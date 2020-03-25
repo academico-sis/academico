@@ -11,6 +11,7 @@ use Backpack\CRUD\CrudPanel;
 
 /**
  * Class LeadTypeCrudController.
+ *
  * @property-read CrudPanel $crud
  */
 class LeadTypeCrudController extends CrudController

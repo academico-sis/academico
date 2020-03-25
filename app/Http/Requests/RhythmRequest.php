@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Request;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RhythmRequest extends FormRequest
@@ -26,9 +25,9 @@ class RhythmRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:60|unique:rhythms',
+            'name'           => 'required|string|max:60|unique:rhythms',
             'default_volume' => 'required',
-            'product_code' => 'required|string',
+            'product_code'   => 'required|string',
         ];
     }
 

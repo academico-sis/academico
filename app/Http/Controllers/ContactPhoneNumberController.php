@@ -18,8 +18,8 @@ class ContactPhoneNumberController extends Controller
         if ($request->number != null) {
             return PhoneNumber::create([
                 'phoneable_type' => Contact::class,
-                'phoneable_id' => $contact->id,
-                'phone_number' => $request->number,
+                'phoneable_id'   => $contact->id,
+                'phone_number'   => $request->number,
             ]);
         }
     }

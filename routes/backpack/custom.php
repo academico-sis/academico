@@ -22,19 +22,19 @@ Route::group(
     }
 );
 
-
 /* enrollments and invoicing */
 
-Route::group([
-    'prefix'     => config('backpack.base.route_prefix'),
-    'middleware' => ['web', 'permission:enrollments.view', 'language'],
-    'namespace'  => 'App\Http\Controllers\Admin',
-    ], function () {
+Route::group(
+    [
+        'prefix'     => config('backpack.base.route_prefix'),
+        'middleware' => ['web', 'permission:enrollments.view', 'language'],
+        'namespace'  => 'App\Http\Controllers\Admin',
+    ],
+    function () {
         Route::crud('enrollment', 'EnrollmentCrudController');
         Route::crud('availablecourse', 'AvailableCourseCrudController');
     }
 );
-
 
 /* Admin routes - Backpack's CRUD panels, accessible only to administrators */
 
@@ -42,7 +42,7 @@ Route::group([
     'prefix'     => config('backpack.base.route_prefix'),
     'middleware' => ['web', 'role:admin', 'language'],
     'namespace'  => 'App\Http\Controllers\Admin',
-    ], function () {
+], function () {
         Route::crud('period', 'PeriodCrudController');
         Route::crud('event', 'EventCrudController');
         Route::crud('level', 'LevelCrudController');

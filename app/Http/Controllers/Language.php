@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Auth;
 
 class Language extends Controller
 {
@@ -18,7 +17,7 @@ class Language extends Controller
     {
 
         // Check if is allowed and set default locale if not
-        if (! language()->allowed($locale)) {
+        if (!language()->allowed($locale)) {
             $locale = config('app.locale');
         }
 

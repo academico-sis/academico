@@ -12,6 +12,7 @@ use Backpack\CRUD\CrudPanel;
 /**
  * Class ConfigCrudController
  * Various settings that are more easily stored here than in the env file.
+ *
  * @property-read CrudPanel $crud
  */
 class ConfigCrudController extends CrudController
@@ -44,15 +45,15 @@ class ConfigCrudController extends CrudController
     protected function setupListOperation()
     {
         $this->crud->addColumn([
-            'name' => 'name', // The db column name
+            'name'  => 'name', // The db column name
             'label' => 'Config Field Name', // Table column heading
-            'type' => 'Text',
+            'type'  => 'Text',
         ]);
 
         $this->crud->addColumn([
-            'name' => 'value', // The db column name
+            'name'  => 'value', // The db column name
             'label' => 'Config Field Value', // Table column heading
-            'type' => 'Text',
+            'type'  => 'Text',
         ]);
     }
 
@@ -61,18 +62,18 @@ class ConfigCrudController extends CrudController
         CRUD::setValidation(UpdateRequest::class);
 
         $this->crud->addField([
-            'name' => 'name', // The db column name
-            'label' => 'Config Field Name', // Table column heading
-            'type' => 'text',
+            'name'       => 'name', // The db column name
+            'label'      => 'Config Field Name', // Table column heading
+            'type'       => 'text',
             'attributes' => [
-                'disabled'=>'disabled',
+                'disabled'=> 'disabled',
             ],
         ]);
 
         $this->crud->addField([
-            'name' => 'value', // The db column name
+            'name'  => 'value', // The db column name
             'label' => 'Config Field Value', // Table column heading
-            'type' => 'text',
+            'type'  => 'text',
         ]);
     }
 }

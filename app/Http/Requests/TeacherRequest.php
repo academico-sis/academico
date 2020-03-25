@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Request;
 use Illuminate\Foundation\Http\FormRequest;
 
 class TeacherRequest extends FormRequest
@@ -26,7 +25,7 @@ class TeacherRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => 'required',
+            'user_id'        => 'required',
             'max_week_hours' => 'required|numeric|min:1',
         ];
     }

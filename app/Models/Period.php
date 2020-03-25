@@ -16,10 +16,10 @@ class Period extends Model
     // protected $hidden = [];
     // protected $dates = [];
 
-    /** 
+    /**
      * Return the current period to be used as a default system-wide.
-     * First look in Config DB table; otherwise select current or closest next period
-    */
+     * First look in Config DB table; otherwise select current or closest next period.
+     */
     public static function get_default_period()
     {
         $selected_period = Config::where('name', 'current_period')->first()->value;
@@ -141,7 +141,7 @@ class Period extends Model
     {
         $period = self::where('id', '<', $this->id)->orderBy('id', 'desc')->first();
 
-        if (! $period == null) {
+        if (!$period == null) {
             return $period;
         } else {
             return self::first();

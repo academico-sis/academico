@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Models\Student;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -34,6 +33,7 @@ class RegisterTest extends TestCase
 
     /**
      * Check that a user is created with the form action endpoint.
+     *
      * @test
      */
     public function testIfUserIsCreated()
@@ -49,13 +49,13 @@ class RegisterTest extends TestCase
 
         // when we post data to the endpoint
         $response = $this->json('POST', route('backpack.auth.register'), [
-            'firstname' => $firstname,
-            'lastname' => $lastname,
-            'email' => $email,
-            'password' => 'secret',
+            'firstname'             => $firstname,
+            'lastname'              => $lastname,
+            'email'                 => $email,
+            'password'              => 'secret',
             'password_confirmation' => 'secret',
-            'rules' => true,
-            ]);
+            'rules'                 => true,
+        ]);
 
         // Assert that the user is created.
         $user = User::where('firstname', $firstname)
@@ -71,6 +71,7 @@ class RegisterTest extends TestCase
 
     /**
      * Check that validation rules prevent incomplete data to be submitted to the DB.
+     *
      * @test
      */
     public function testUserCreationValidationRules()
@@ -78,12 +79,12 @@ class RegisterTest extends TestCase
 
         // when we post failing data to the endpoint
         $response = $this->json('POST', route('backpack.auth.register'), [
-            'firstname' => '',
-            'lastname' => '',
-            'email' => '123',
-            'password' => 'secret',
+            'firstname'             => '',
+            'lastname'              => '',
+            'email'                 => '123',
+            'password'              => 'secret',
             'password_confirmation' => 'secret',
-            ]);
+        ]);
 
         // Assert that the errors are returned
         $response->assertJsonValidationErrors(['firstname', 'lastname', 'email', 'rules']);

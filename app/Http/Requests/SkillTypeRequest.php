@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Request;
 use Illuminate\Foundation\Http\FormRequest;
 
 class SkillTypeRequest extends FormRequest
@@ -27,7 +26,7 @@ class SkillTypeRequest extends FormRequest
     {
         return [
             'shortname' => 'required|max:6|unique',
-            'name' => 'max:60|unique',
+            'name'      => 'max:60|unique',
         ];
     }
 

@@ -2,15 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\UserStoreCrudRequest as StoreRequest;
-use App\Http\Requests\UserUpdateCrudRequest as UpdateRequest;
 use App\Models\LeadType;
 use App\Models\Period;
 use App\Models\Student;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class StudentCrudController extends CrudController
 {
@@ -62,13 +58,13 @@ class StudentCrudController extends CrudController
         CRUD::setColumns([
             [
                 'label' => 'ID number',
-                'type' => 'text',
-                'name' => 'idnumber',
+                'type'  => 'text',
+                'name'  => 'idnumber',
             ],
             [
-                'label' => __('Name'),
-                'type' => 'text',
-                'name' => 'name',
+                'label'       => __('Name'),
+                'type'        => 'text',
+                'name'        => 'name',
                 'searchLogic' => function ($query, $column, $searchTerm) {
                     $query->orWhereHas('user', function ($q) use ($column, $searchTerm) {
                         $q->where('firstname', 'like', '%'.$searchTerm.'%')
@@ -85,47 +81,51 @@ class StudentCrudController extends CrudController
 
             [
                 // n-n relationship (with pivot table)
-                'label' => 'Phone', // Table column heading
-                'type' => 'select_multiple',
-                'name' => 'phone', // the method that defines the relationship in your Model
-                'entity' => 'phone', // the method that defines the relationship in your Model
+                'label'     => 'Phone', // Table column heading
+                'type'      => 'select_multiple',
+                'name'      => 'phone', // the method that defines the relationship in your Model
+                'entity'    => 'phone', // the method that defines the relationship in your Model
                 'attribute' => 'phone_number', // foreign key attribute that is shown to user
-                'model' => \App\Models\PhoneNumber::class, // foreign key model
-             ],
+                'model'     => \App\Models\PhoneNumber::class, // foreign key model
+            ],
 
             [
                 // 1-n relationship
-                'label' => __('Status'), // Table column heading
-                'type' => 'select',
-                'name' => 'lead_type_id', // the column that contains the ID of that connected entity;
-                'entity' => 'leadType', // the method that defines the relationship in your Model
+                'label'     => __('Status'), // Table column heading
+                'type'      => 'select',
+                'name'      => 'lead_type_id', // the column that contains the ID of that connected entity;
+                'entity'    => 'leadType', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\LeadType::class, // foreign key model
-             ],
+                'model'     => \App\Models\LeadType::class, // foreign key model
+            ],
 
         ]);
 
-        CRUD::addFilter([ // select2 filter
+        CRUD::addFilter(
+            [ // select2 filter
                 'name' => 'enrolled',
                 'type' => 'select2',
                 'label'=> __('Is Enrolled in'),
-            ], function () {
+            ],
+            function () {
                 return Period::all()->pluck('name', 'id')->toArray();
-            }, function ($value) { // if the filter is active
+            },
+            function ($value) { // if the filter is active
                 $this->crud->query = $this->crud->query->whereHas('enrollments', function ($query) use ($value) {
                     return $query->whereHas('course', function ($q) use ($value) {
                         $q->where('period_id', $value);
                     });
                 });
             },
-          function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
-          });
+            function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
+          }
+        );
 
         CRUD::addFilter([ // select2_multiple filter
             'name' => 'notenrolled',
             'type' => 'select2_multiple',
             'label'=> __('Is Not Enrolled in'),
-          ], function () { // the options that show up in the select2
+        ], function () { // the options that show up in the select2
               return Period::all()->pluck('name', 'id')->toArray();
           }, function ($values) { // if the filter is active
               foreach (json_decode($values) as $key => $value) {
@@ -141,17 +141,17 @@ class StudentCrudController extends CrudController
             'name' => 'lead_status_is',
             'type' => 'select2',
             'label'=> __('Status is'),
-          ], function () {
+        ], function () {
               return LeadType::all()->pluck('name', 'id')->toArray();
           }, function ($value) { // if the filter is active
               CRUD::addClause('where', 'lead_type_id', $value);
           });
 
         CRUD::addFilter([ // select2 filter
-                'name' => 'lead_status_isnot',
-                'type' => 'select2',
-                'label'=> __('Status is not'),
-              ], function () {
+            'name' => 'lead_status_isnot',
+            'type' => 'select2',
+            'label'=> __('Status is not'),
+        ], function () {
                   return LeadType::all()->pluck('name', 'id')->toArray();
               }, function ($value) { // if the filter is active
                   CRUD::addClause('where', 'lead_type_id', '!=', $value);
@@ -164,13 +164,13 @@ class StudentCrudController extends CrudController
         CRUD::addFields([
             [
                 'label' => trans('firstname'),
-                'type' => 'text',
-                'name' => 'firstname',
+                'type'  => 'text',
+                'name'  => 'firstname',
             ],
             [
                 'label' => trans('lastname'),
-                'type' => 'text',
-                'name' => 'lastname',
+                'type'  => 'text',
+                'name'  => 'lastname',
             ],
             [
                 'name'  => 'email',
@@ -190,16 +190,16 @@ class StudentCrudController extends CrudController
     {
         $student = Student::findOrFail($student);
 
-        if (! backpack_user()->can('show', $student) && ! backpack_user()->can('enrollments.view')) {
+        if (!backpack_user()->can('show', $student) && !backpack_user()->can('enrollments.view')) {
             abort(403);
         }
 
         $comments = $student->comments;
 
         return view('students/show', [
-            'student' => $student,
-            'comments' => $comments,
-            'lead_types' => LeadType::all(),
+            'student'     => $student,
+            'comments'    => $comments,
+            'lead_types'  => LeadType::all(),
             'attendances' => $student->periodAttendance()->get(),
             'writeaccess' => backpack_user()->can('enrollments.edit') ?? 0,
         ]);
@@ -209,5 +209,4 @@ class StudentCrudController extends CrudController
     {
         $this->setupCreateOperation();
     }
-
 }

@@ -10,6 +10,7 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
  * Class RoomCrudController.
+ *
  * @property-read CrudPanel $crud
  */
 class RoomCrudController extends CrudController
@@ -39,23 +40,23 @@ class RoomCrudController extends CrudController
         CRUD::setColumns([
             [
                 // 1-n relationship
-                'label' => 'Campus',
-                'type' => 'select',
-                'entity' => 'campus',
+                'label'     => 'Campus',
+                'type'      => 'select',
+                'entity'    => 'campus',
                 'attribute' => 'name',
-             ],
+            ],
 
-             [
-                'name' => 'name', // The db column name
+            [
+                'name'  => 'name', // The db column name
                 'label' => 'Name', // Table column heading
-                'type' => 'text',
-             ],
+                'type'  => 'text',
+            ],
 
-             [
-                'name' => 'capacity', // The db column name
+            [
+                'name'  => 'capacity', // The db column name
                 'label' => 'Capacity', // Table column heading
-                'type' => 'number',
-             ],
+                'type'  => 'number',
+            ],
         ]);
 
         // add asterisk for fields that are required in RoomRequest

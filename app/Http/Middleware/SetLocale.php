@@ -5,7 +5,6 @@ namespace App\Http\Middleware;
 use Carbon\Carbon;
 use Closure;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Auth;
 use Unicodeveloper\Identify\Facades\IdentityFacade as Identify;
 
 class SetLocale
@@ -18,7 +17,7 @@ class SetLocale
     private function setLocale($locale)
     {
         // Check if is allowed and set default locale if not
-        if (! language()->allowed($locale)) {
+        if (!language()->allowed($locale)) {
             $locale = config('app.locale');
         }
 

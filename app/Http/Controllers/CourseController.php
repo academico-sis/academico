@@ -7,7 +7,6 @@ use App\Models\Level;
 use App\Models\Period;
 use App\Models\Rhythm;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\Filters\Filter;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -57,9 +56,8 @@ class CourseController extends Controller
             'name',
             'period_id',
             'rhythm_id',
-            AllowedFilter::custom('searchable_levels', new FiltersSearchableLevels),
+            AllowedFilter::custom('searchable_levels', new FiltersSearchableLevels()),
             'teacher_id', ])
         ->get();
     }
-
 }

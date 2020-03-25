@@ -80,7 +80,7 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
         // create the student
 
         $student = Student::create([
-            'user_id' => $user->id,
+            'user_id'                              => $user->id,
             'idnumber'                             => $data['idnumber'],
             'birthdate'                            => Carbon::parse($data['birthdate'])->toDateTimeString(),
             'address'                              => $data['address'],
@@ -101,7 +101,7 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
     public function register(Request $request)
     {
         // if registration is closed, deny access
-        if (! config('backpack.base.registration_open')) {
+        if (!config('backpack.base.registration_open')) {
             abort(403, trans('backpack::base.registration_closed'));
         }
 
@@ -112,9 +112,9 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
 
         foreach ($request->data['phonenumbers'] as $number) {
             PhoneNumber::create([
-                'phoneable_id' => $student->id,
+                'phoneable_id'   => $student->id,
                 'phoneable_type' => Student::class,
-                'phone_number' => $number['number'],
+                'phone_number'   => $number['number'],
             ]);
         }
 
@@ -147,18 +147,18 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
         foreach ($request->data['contacts'] as $contact) {
             $newContact = Contact::create([
                 'student_id' => $student->id,
-                'firstname' => $contact['firstname'],
-                'lastname' => $contact['lastname'],
-                'idnumber' => $contact['idnumber'],
-                'address' => $contact['address'],
-                'email' => $contact['email'],
+                'firstname'  => $contact['firstname'],
+                'lastname'   => $contact['lastname'],
+                'idnumber'   => $contact['idnumber'],
+                'address'    => $contact['address'],
+                'email'      => $contact['email'],
             ]);
 
             foreach ($contact['phonenumbers'] as $number) {
                 PhoneNumber::create([
-                    'phoneable_id' => $newContact->id,
+                    'phoneable_id'   => $newContact->id,
                     'phoneable_type' => Contact::class,
-                    'phone_number' => $number['number'],
+                    'phone_number'   => $number['number'],
                 ]);
             }
         }

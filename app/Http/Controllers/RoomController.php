@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use App\Models\Room;
-use Illuminate\Http\Request;
 
 class RoomController extends Controller
 {
@@ -24,7 +23,7 @@ class RoomController extends Controller
 
         $rooms = array_map(function ($room) {
             return [
-                'id' => $room['id'],
+                'id'    => $room['id'],
                 'title' => $room['name'],
             ];
         }, $rooms);
@@ -33,13 +32,13 @@ class RoomController extends Controller
 
         $events = array_map(function ($event) {
             return [
-                'title' => $event['name'],
-                'resourceId' => $event['room_id'],
-                'start' => $event['start'],
-                'end' => $event['end'],
-                'groupId' => $event['course_id'],
+                'title'           => $event['name'],
+                'resourceId'      => $event['room_id'],
+                'start'           => $event['start'],
+                'end'             => $event['end'],
+                'groupId'         => $event['course_id'],
                 'backgroundColor' => '#'.substr(md5($event['course_id']), 0, 6),
-                'borderColor' => '#'.substr(md5($event['course_id']), 0, 6),
+                'borderColor'     => '#'.substr(md5($event['course_id']), 0, 6),
             ];
         }, $events);
 
@@ -47,19 +46,19 @@ class RoomController extends Controller
 
         $unassigned_events = array_map(function ($event) {
             return [
-                'title' => $event['name'],
-                'resourceId' => 'tbd',
-                'start' => $event['start'],
-                'end' => $event['end'],
-                'groupId' => $event['course_id'],
+                'title'           => $event['name'],
+                'resourceId'      => 'tbd',
+                'start'           => $event['start'],
+                'end'             => $event['end'],
+                'groupId'         => $event['course_id'],
                 'backgroundColor' => '#'.substr(md5($event['course_id']), 0, 6),
-                'borderColor' => '#'.substr(md5($event['course_id']), 0, 6),
+                'borderColor'     => '#'.substr(md5($event['course_id']), 0, 6),
             ];
         }, $unassigned_events);
 
         return view('calendars.overview', [
-            'events' => $events,
-            'resources' => $rooms,
+            'events'            => $events,
+            'resources'         => $rooms,
             'unassigned_events' => $unassigned_events,
         ]);
     }
@@ -74,12 +73,12 @@ class RoomController extends Controller
             return [
                 'title' => $event['name'],
                 'start' => $event['start'],
-                'end' => $event['end'],
+                'end'   => $event['end'],
             ];
         }, $events);
 
         return view('calendars.simple', [
-            'events' => $events,
+            'events'   => $events,
             'resource' => $room,
         ]);
     }
