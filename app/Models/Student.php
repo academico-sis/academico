@@ -2,16 +2,17 @@
 
 namespace App\Models;
 
-use App\Models\Institution;
-use App\Models\Profession;
-use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Config;
+use App\Models\Profession;
+use App\Models\Institution;
 use Spatie\Image\Manipulations;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\Models\Media;
+use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
 class Student extends Model implements HasMedia
 {
@@ -217,6 +218,21 @@ class Student extends Model implements HasMedia
 
         $this->lead_type_id = 1; // converted
         $this->save();
+
+        // if enabled, subscribe the student to the mailing list
+        // TODO this should be extracted to an interface to allow different mailing systems to be used
+        if (config('settings.external_mailing_enabled') == true) {
+            $api_key = Config::where('name', 'mailerlite_api_key')->first()->value;
+            $activeStudentsGroupId = Config::where('name', 'mailerlite_students_group_id')->first()->value;
+            $groupsApi = (new \MailerLiteApi\MailerLite($api_key))->groups();
+            $addedSubscriber = $groupsApi->addSubscriber($activeStudentsGroupId, [
+                'email' => $this->email,
+                'name' => $this->firstname,
+                'fields' => [
+                  'lastname' => $this->lastname,
+                ],
+            ]); // returns added subscriber
+        }
 
         return $enrollment->id;
     }
