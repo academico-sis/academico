@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LeadType;
 use App\Models\Period;
 use App\Models\Student;
-use App\Models\LeadType;
-use Illuminate\Http\Request;
 use App\Traits\PeriodSelection;
 
 class SetupController extends Controller

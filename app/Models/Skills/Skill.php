@@ -4,8 +4,6 @@ namespace App\Models\Skills;
 
 use App\Models\Course;
 use App\Models\Level;
-use App\Models\Skills\SkillEvaluation;
-use App\Models\Skills\SkillType;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 

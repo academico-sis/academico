@@ -31,20 +31,20 @@ class TestSeeder extends Seeder
         Campus::create([
             'id' => 1,
             'name' => [
-               'en' => 'Internal',
-               'es' => 'Interno',
-               'fr' => 'Interne',
+                'en' => 'Internal',
+                'es' => 'Interno',
+                'fr' => 'Interne',
             ],
-         ]);
+        ]);
 
         Campus::create([
             'id' => 2,
             'name' => [
-               'en' => 'External',
-               'es' => 'Externo',
-               'fr' => 'Externe',
+                'en' => 'External',
+                'es' => 'Externo',
+                'fr' => 'Externe',
             ],
-         ]);
+        ]);
 
         EnrollmentStatusType::create([
             'id' => 1,
@@ -52,8 +52,8 @@ class TestSeeder extends Seeder
                 'es' => 'PENDIENTE',
                 'en' => 'PENDING',
                 'fr' => 'NON-PAYÉ',
-                ],
-         ]);
+            ],
+        ]);
 
         EnrollmentStatusType::create([
             'id' => 2,
@@ -61,8 +61,8 @@ class TestSeeder extends Seeder
                 'es' => 'PAGADA',
                 'en' => 'PAID',
                 'fr' => 'PAYÉ',
-                ],
-         ]);
+            ],
+        ]);
 
         EnrollmentStatusType::create([
             'id' => 3,
@@ -70,8 +70,8 @@ class TestSeeder extends Seeder
                 'es' => 'ANULADA',
                 'en' => 'CANCELED',
                 'fr' => 'ANNULÉ',
-                ],
-         ]);
+            ],
+        ]);
 
         EnrollmentStatusType::create([
             'id' => 4,
@@ -79,8 +79,8 @@ class TestSeeder extends Seeder
                 'es' => 'TRASPASO',
                 'en' => 'TRANSFERED',
                 'fr' => 'TRANSFÉRÉ',
-                ],
-         ]);
+            ],
+        ]);
 
         EnrollmentStatusType::create([
             'id' => 5,
@@ -88,8 +88,8 @@ class TestSeeder extends Seeder
                 'es' => 'DEVOLUCION',
                 'en' => 'REFUND',
                 'fr' => 'REMBOURSÉ',
-                ],
-         ]);
+            ],
+        ]);
 
         ResultType::create([
             'id' => 1,
@@ -103,8 +103,8 @@ class TestSeeder extends Seeder
                 'fr' => 'Peut passer au niveau suivant',
                 'es' => 'Puede pasar al nivel siguiente',
                 'en' => 'May go to the next level',
-                ],
-         ]);
+            ],
+        ]);
 
         ResultType::create([
             'id' => 2,
@@ -118,8 +118,8 @@ class TestSeeder extends Seeder
                 'fr' => 'Ne peut pas passer au niveau suivant',
                 'es' => 'No puede pasar al nivel siguiente',
                 'en' => 'Cannot go to the next level',
-                ],
-         ]);
+            ],
+        ]);
 
         ResultType::create([
             'id' => 3,
@@ -133,8 +133,8 @@ class TestSeeder extends Seeder
                 'fr' => 'Vérifier le résultat avec la direction pédagogique',
                 'es' => 'Ver con la dirección pedagógica',
                 'en' => 'Check results with the Pedagogy department',
-                ],
-         ]);
+            ],
+        ]);
 
         EvaluationType::create([
             'id' => 1,
@@ -142,8 +142,8 @@ class TestSeeder extends Seeder
                 'fr' => 'NOTES',
                 'es' => 'NOTAS',
                 'en' => 'GRADES',
-                ],
-         ]);
+            ],
+        ]);
 
         EvaluationType::create([
             'id' => 2,
@@ -151,38 +151,38 @@ class TestSeeder extends Seeder
                 'fr' => 'COMPÉTENCES',
                 'es' => 'COMPETENCIAS',
                 'en' => 'SKILLS',
-                ],
-         ]);
+            ],
+        ]);
 
         AttendanceType::create([
             'id' => 1,
             'name' => ['fr' => 'PRÉSENT(E)', 'es' => 'PRESENTE', 'en' => 'PRESENT'],
-         ]);
+        ]);
 
         AttendanceType::create([
             'id' => 2,
             'name' => ['fr' => 'PRÉSENCE PARTIELLE', 'es' => 'PRESENCIA PARCIAL', 'en' => 'PARTIAL PRESENCE'],
-         ]);
+        ]);
 
         AttendanceType::create([
             'id' => 3,
             'name' => ['fr' => 'EXCUSÉ(E)', 'es' => 'JUSTIFICADO', 'en' => 'EXCUSED'],
-         ]);
+        ]);
 
         AttendanceType::create([
             'id' => 4,
             'name' => ['fr' => 'ABSENT(E)', 'es' => 'AUSENTE', 'en' => 'ABSENT'],
-         ]);
+        ]);
 
         ContactRelationship::create([
             'id' => 1,
             'name' => ['fr' => 'FAMILLE', 'es' => 'FAMILIA', 'en' => 'FAMILY'],
-         ]);
+        ]);
 
         ContactRelationship::create([
             'id' => 2,
             'name' => ['fr' => 'TRAVAIL', 'es' => 'TRABAJO', 'en' => 'WORK'],
-         ]);
+        ]);
 
         DB::table('fees')->insert(
             [

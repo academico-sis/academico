@@ -7,7 +7,6 @@ use App\Models\Level;
 use App\Models\Period;
 use App\Models\Rhythm;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\Filters\Filter;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -61,5 +60,4 @@ class CourseController extends Controller
             'teacher_id', ])
         ->get();
     }
-
 }

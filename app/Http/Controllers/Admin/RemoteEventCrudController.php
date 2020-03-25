@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\RemoteEventRequest as StoreRequest;
-use App\Http\Requests\RemoteEventRequest as UpdateRequest;
 // VALIDATION: change the requests to match your own file names if you need form validation
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -47,28 +46,28 @@ class RemoteEventCrudController extends CrudController
                 'entity' => 'period', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
                 'model' => \App\Models\Period::class, // foreign key model
-             ],
+            ],
 
-             [
+            [
                 // 1-n relationship
                 'label' => 'Teacher', // Table column heading
                 'type' => 'select',
                 'entity' => 'teacher', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-             ],
+            ],
 
-             [
+            [
                 'name' => 'worked_hours', // The db column name
                 'label' => 'Worked Hours', // Table column heading
                 'type' => 'number',
                 'suffix' => ' h',
                 'decimals' => 2,
-             ],
+            ],
 
-             [
+            [
                 'name' => 'name', // The db column name
                 'label' => 'Project', // Table column heading
-             ],
+            ],
 
         ]);
     }
@@ -84,9 +83,9 @@ class RemoteEventCrudController extends CrudController
                 'entity' => 'period', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
                 'model' => \App\Models\Period::class, // foreign key model
-             ],
+            ],
 
-             [
+            [
                 // 1-n relationship
                 'label' => 'Teacher', // Table column heading
                 'type' => 'select',
@@ -94,20 +93,20 @@ class RemoteEventCrudController extends CrudController
                 'entity' => 'teacher', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
                 'model' => \App\Models\Teacher::class, // foreign key model
-             ],
+            ],
 
-             [
+            [
                 'name' => 'worked_hours', // The db column name
                 'label' => 'Worked Hours', // Table column heading
                 'type' => 'number',
                 'suffix' => ' h',
                 'decimals' => 2,
-             ],
+            ],
 
-             [
+            [
                 'name' => 'name', // The db column name
                 'label' => 'Project', // Table column heading
-             ],
+            ],
 
         ]);
         // add asterisk for fields that are required in RemoteEventRequest

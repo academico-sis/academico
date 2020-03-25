@@ -6,7 +6,6 @@ use App\Http\Requests\ContactRequest as StoreRequest;
 use App\Models\Contact;
 use App\Models\PhoneNumber;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 
 class ContactController extends Controller
 {
@@ -28,7 +27,7 @@ class ContactController extends Controller
             'phone_number' => 'required',
             'idnumber' => 'required',
         ]);
-        
+
         $contact = new Contact;
         $contact->student_id = $request->input('student_id');
         $contact->firstname = $request->input('firstname');

@@ -2,7 +2,6 @@
 
 namespace App\Models\Policies;
 
-use App\Models\Contact;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 

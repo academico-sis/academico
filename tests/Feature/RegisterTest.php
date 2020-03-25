@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Models\Student;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -55,7 +54,7 @@ class RegisterTest extends TestCase
             'password' => 'secret',
             'password_confirmation' => 'secret',
             'rules' => true,
-            ]);
+        ]);
 
         // Assert that the user is created.
         $user = User::where('firstname', $firstname)
@@ -83,7 +82,7 @@ class RegisterTest extends TestCase
             'email' => '123',
             'password' => 'secret',
             'password_confirmation' => 'secret',
-            ]);
+        ]);
 
         // Assert that the errors are returned
         $response->assertJsonValidationErrors(['firstname', 'lastname', 'email', 'rules']);

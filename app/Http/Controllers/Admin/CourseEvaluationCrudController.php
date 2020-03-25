@@ -33,49 +33,49 @@ class CourseEvaluationCrudController extends CrudController
     {
         CRUD::setColumns([
             [
-            // RYTHM
-            'label' => __('Rhythm'), // Table column heading
-            'type' => 'select',
-            'name' => 'rhythm_id', // the column that contains the ID of that connected entity;
-            'entity' => 'rhythm', // the method that defines the relationship in your Model
-            'attribute' => 'name', // foreign key attribute that is shown to user
-            'model' => \App\Models\Rhythm::class, // foreign key model
+                // RYTHM
+                'label' => __('Rhythm'), // Table column heading
+                'type' => 'select',
+                'name' => 'rhythm_id', // the column that contains the ID of that connected entity;
+                'entity' => 'rhythm', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model' => \App\Models\Rhythm::class, // foreign key model
             ],
 
             [
-            // LEVEL
-            'label' => __('Level'), // Table column heading
-            'type' => 'select',
-            'name' => 'level_id', // the column that contains the ID of that connected entity;
-            'entity' => 'level', // the method that defines the relationship in your Model
-            'attribute' => 'name', // foreign key attribute that is shown to user
-            'model' => \App\Models\Level::class, // foreign key model
+                // LEVEL
+                'label' => __('Level'), // Table column heading
+                'type' => 'select',
+                'name' => 'level_id', // the column that contains the ID of that connected entity;
+                'entity' => 'level', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model' => \App\Models\Level::class, // foreign key model
             ],
 
             [
-            'name' => 'name', // The db column name
-            'label' => __('Name'), // Table column heading
+                'name' => 'name', // The db column name
+                'label' => __('Name'), // Table column heading
             ],
 
             [
-            // TEACHER
-            'label' => __('Teacher'), // Table column heading
-            'type' => 'select',
-            'name' => 'teacher_id', // the column that contains the ID of that connected entity;
-            'entity' => 'teacher', // the method that defines the relationship in your Model
-            'attribute' => 'name', // foreign key attribute that is shown to user
-            'model' => \App\Models\Teacher::class, // foreign key model
+                // TEACHER
+                'label' => __('Teacher'), // Table column heading
+                'type' => 'select',
+                'name' => 'teacher_id', // the column that contains the ID of that connected entity;
+                'entity' => 'teacher', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model' => \App\Models\Teacher::class, // foreign key model
             ],
 
             // EVALUATION METHODS
             [
-            // n-n relationship (with pivot table)
-            'label' => __('Evaluation method'), // Table column heading
-            'type' => 'select_multiple',
-            'name' => 'evaluation_type', // the method that defines the relationship in your Model
-            'entity' => 'evaluation_type', // the method that defines the relationship in your Model
-            'attribute' => 'name', // foreign key attribute that is shown to user
-            'model' => \App\Models\EvaluationType::class, // foreign key model
+                // n-n relationship (with pivot table)
+                'label' => __('Evaluation method'), // Table column heading
+                'type' => 'select_multiple',
+                'name' => 'evaluation_type', // the method that defines the relationship in your Model
+                'entity' => 'evaluation_type', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model' => \App\Models\EvaluationType::class, // foreign key model
             ],
 
         ]);
@@ -84,7 +84,7 @@ class CourseEvaluationCrudController extends CrudController
             'name' => 'rhythm_id',
             'type' => 'select2',
             'label'=> __('Rhythm'),
-          ], function () {
+        ], function () {
               return \App\Models\Rhythm::all()->pluck('name', 'id')->toArray();
           }, function ($value) { // if the filter is active
               CRUD::addClause('where', 'rhythm_id', $value);
@@ -96,7 +96,7 @@ class CourseEvaluationCrudController extends CrudController
             'name' => 'teacher_id',
             'type' => 'select2',
             'label'=> __('Teacher'),
-          ], function () {
+        ], function () {
               return \App\Models\Teacher::all()->pluck('name', 'id')->toArray();
           }, function ($value) { // if the filter is active
               CRUD::addClause('where', 'teacher_id', $value);
@@ -108,7 +108,7 @@ class CourseEvaluationCrudController extends CrudController
             'name' => 'level_id',
             'type' => 'select2',
             'label'=> __('Level'),
-          ], function () {
+        ], function () {
               return \App\Models\Level::all()->pluck('name', 'id')->toArray();
           }, function ($value) { // if the filter is active
               CRUD::addClause('where', 'level_id', $value);
@@ -120,7 +120,7 @@ class CourseEvaluationCrudController extends CrudController
             'name' => 'period_id',
             'type' => 'select2',
             'label'=> __('Period'),
-          ], function () {
+        ], function () {
               return \App\Models\Period::all()->sortByDesc('id')->pluck('name', 'id')->toArray();
           }, function ($value) { // if the filter is active
               CRUD::addClause('where', 'period_id', $value);
@@ -142,14 +142,14 @@ class CourseEvaluationCrudController extends CrudController
         CRUD::addField(
             // EVALUATION METHODS
             [
-               // n-n relationship (with pivot table)
-               'label' => __('Evaluation method'), // Table column heading
-               'type' => 'select_multiple',
-               'name' => 'evaluation_type', // the method that defines the relationship in your Model
-               'entity' => 'evaluation_type', // the method that defines the relationship in your Model
-               'attribute' => 'name', // foreign key attribute that is shown to user
-               'model' => \App\Models\EvaluationType::class, // foreign key model
-               'pivot' => true,
+                // n-n relationship (with pivot table)
+                'label' => __('Evaluation method'), // Table column heading
+                'type' => 'select_multiple',
+                'name' => 'evaluation_type', // the method that defines the relationship in your Model
+                'entity' => 'evaluation_type', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model' => \App\Models\EvaluationType::class, // foreign key model
+                'pivot' => true,
             ]
             );
     }

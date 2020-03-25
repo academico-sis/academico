@@ -7,7 +7,6 @@ use App\Models\Institution;
 use App\Models\Profession;
 use App\Models\Student;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
 class MyAccountController extends \App\Http\Controllers\Controller
@@ -38,7 +37,7 @@ class MyAccountController extends \App\Http\Controllers\Controller
         $request->validate([
             'firstname' => 'required',
             'lastname' => 'required',
-            'email' => 'required|email|unique:users'
+            'email' => 'required|email|unique:users',
         ]);
 
         $result = $this->guard()->user()->update($request->except(['_token']));

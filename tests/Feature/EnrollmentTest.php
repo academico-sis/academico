@@ -2,16 +2,13 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
-use App\Models\User;
-use App\Models\Event;
 use App\Models\Course;
+use App\Models\Enrollment;
 use App\Models\Student;
 use App\Models\Teacher;
-use App\Models\Attendance;
-use App\Models\Enrollment;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class EnrollmentTest extends TestCase
 {
@@ -48,14 +45,13 @@ class EnrollmentTest extends TestCase
             'course_id' => $course->id,
         ]);
 
-       // Assert: they appear among the enrollments list for the course
+        // Assert: they appear among the enrollments list for the course
         $this->assertTrue($student->enrollments->contains('course_id', $course->id));
     }
 
-
     /** @test
      * A teacher should not be allowed to perform enrollments unless the course is theirs
-    */
+     */
     public function unauthorized_teachers_may_not_enroll_students()
     {
         $teacher = factory(Teacher::class)->create();
@@ -78,10 +74,9 @@ class EnrollmentTest extends TestCase
         $this->assertFalse($student->enrollments->contains('course_id', $course->id));
     }
 
-
     /** @test
      * A teacher should not be allowed to perform enrollments unless the course is theirs
-    */
+     */
     public function teachers_may_enroll_students_in_their_course()
     {
         $teacher = factory(Teacher::class)->create();
@@ -92,7 +87,7 @@ class EnrollmentTest extends TestCase
 
         // and a newly created course
         $course = factory(Course::class)->create([
-            'teacher_id' => $teacher->id
+            'teacher_id' => $teacher->id,
         ]);
 
         // Act: if we enroll the user in the course
@@ -106,11 +101,10 @@ class EnrollmentTest extends TestCase
         $this->assertTrue($student->enrollments->contains('course_id', $course->id));
     }
 
-
     /** @test
      * if an enrollment is created in a parent course; enrollments are automatically created in children courses as well
      * The "real_enrollments" method on the student class allows to return student enrollments excluding "meta" enrollments in parent courses
-    */
+     */
     public function access_student_real_enrollments()
     {
         // create a student
@@ -122,12 +116,12 @@ class EnrollmentTest extends TestCase
 
         // and two children courses for the second course
         $course_2_a = factory(Course::class)->create([
-                'parent_course_id' => $course_2->id,
-            ]);
+            'parent_course_id' => $course_2->id,
+        ]);
 
         $course_2_b = factory(Course::class)->create([
-                'parent_course_id' => $course_2->id,
-            ]);
+            'parent_course_id' => $course_2->id,
+        ]);
 
         // enroll the student in course 1 and 2
         $enrollment_1 = $student->enroll($course_1);
@@ -145,7 +139,6 @@ class EnrollmentTest extends TestCase
         $this->assertFalse($student->real_enrollments->contains('id', $enrollment_2));
     }
 
-
     /** @test */
     public function an_enrollment_may_be_deleted_by_authorized_users_only()
     {
@@ -160,9 +153,9 @@ class EnrollmentTest extends TestCase
 
         // given an enrollment in course A
         $enrollment = factory(Enrollment::class)->create([
-                'course_id' => $courseA->id,
-                'student_id' => factory(Student::class)->create(),
-            ]);
+            'course_id' => $courseA->id,
+            'student_id' => factory(Student::class)->create(),
+        ]);
 
         // if we change the enrollment
         $enrollment->changeCourse($courseB);

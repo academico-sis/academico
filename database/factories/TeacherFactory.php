@@ -2,7 +2,6 @@
 
 use App\Models\Teacher;
 use App\Models\User;
-use Carbon\Carbon;
 use Faker\Generator as Faker;
 
 /*

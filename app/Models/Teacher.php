@@ -2,13 +2,11 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
-use App\Models\User;
-use App\Models\Course;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Teacher extends Model
 {
@@ -197,7 +195,6 @@ class Teacher extends Model
 
                 // count one and break loop
                 if ($hasNotAttended) {
-                    
                     $eventsWithMissingAttendance[] = $event;
                     break;
                 }

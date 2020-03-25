@@ -4,12 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Course;
 // VALIDATION: change the requests to match your own file names if you need form validation
-use App\Models\Rhythm;
 use App\Models\Student;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 /**
  * Class CourseCrudController
@@ -58,83 +56,83 @@ class AvailableCourseCrudController extends CrudController
     {
         CRUD::setColumns([
             [
-            // RYTHM
-            'label' => __('Rhythm'),
-            'type' => 'select',
-            'name' => 'rhythm_id', // the column that contains the ID of that connected entity;
-            'entity' => 'rhythm', // the method that defines the relationship in your Model
-            'attribute' => 'name', // foreign key attribute that is shown to user
-            'model' => \App\Models\Rhythm::class, // foreign key model
+                // RYTHM
+                'label' => __('Rhythm'),
+                'type' => 'select',
+                'name' => 'rhythm_id', // the column that contains the ID of that connected entity;
+                'entity' => 'rhythm', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model' => \App\Models\Rhythm::class, // foreign key model
             ],
 
             [
-            // LEVEL
-            'label' => __('Level'),
-            'type' => 'select',
-            'name' => 'level_id', // the column that contains the ID of that connected entity;
-            'entity' => 'level', // the method that defines the relationship in your Model
-            'attribute' => 'name', // foreign key attribute that is shown to user
-            'model' => \App\Models\Level::class, // foreign key model
+                // LEVEL
+                'label' => __('Level'),
+                'type' => 'select',
+                'name' => 'level_id', // the column that contains the ID of that connected entity;
+                'entity' => 'level', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model' => \App\Models\Level::class, // foreign key model
             ],
 
             [
-            'name' => 'name', // The db column name
-            'label' => __('Name'),
+                'name' => 'name', // The db column name
+                'label' => __('Name'),
             ],
 
             [
-            'name' => 'volume', // The db column name
-            'label' => __('Volume'),
-            'suffix' => 'h',
+                'name' => 'volume', // The db column name
+                'label' => __('Volume'),
+                'suffix' => 'h',
             ],
 
             [
-            // TEACHER
-            'label' => __('Teacher'),
-            'type' => 'select',
-            'name' => 'teacher_id', // the column that contains the ID of that connected entity;
-            'entity' => 'teacher', // the method that defines the relationship in your Model
-            'attribute' => 'name', // foreign key attribute that is shown to user
-            'model' => \App\Models\Teacher::class, // foreign key model
+                // TEACHER
+                'label' => __('Teacher'),
+                'type' => 'select',
+                'name' => 'teacher_id', // the column that contains the ID of that connected entity;
+                'entity' => 'teacher', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model' => \App\Models\Teacher::class, // foreign key model
             ],
 
             [
-            // ROOM
-            'label' => __('Room'),
-            'type' => 'select',
-            'name' => 'room_id', // the column that contains the ID of that connected entity;
-            'entity' => 'room', // the method that defines the relationship in your Model
-            'attribute' => 'name', // foreign key attribute that is shown to user
-            'model' => \App\Models\Room::class, // foreign key model
+                // ROOM
+                'label' => __('Room'),
+                'type' => 'select',
+                'name' => 'room_id', // the column that contains the ID of that connected entity;
+                'entity' => 'room', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model' => \App\Models\Room::class, // foreign key model
             ],
 
             // COURSE SCHEDULED TIMES
             [
-            'name' => 'times',
-            'label' => __('Schedule'),
-            'type' => 'model_function',
-            'function_name' => 'getCourseTimesAttribute',
-            'limit' => 150, // Limit the number of characters shown
+                'name' => 'times',
+                'label' => __('Schedule'),
+                'type' => 'model_function',
+                'function_name' => 'getCourseTimesAttribute',
+                'limit' => 150, // Limit the number of characters shown
             ],
 
             // ENROLLMENTS COUNT
             [
-            'name' => 'enrollments',
-            'label' => __('Enrollments'),
-            'type' => 'model_function',
-            'function_name' => 'getCourseEnrollmentsCountAttribute',
+                'name' => 'enrollments',
+                'label' => __('Enrollments'),
+                'type' => 'model_function',
+                'function_name' => 'getCourseEnrollmentsCountAttribute',
             ],
 
             [
-            'name' => 'start_date',
-            'label' => __('Start Date'),
-            'type' => 'date',
+                'name' => 'start_date',
+                'label' => __('Start Date'),
+                'type' => 'date',
             ],
 
             [
-            'name' => 'end_date',
-            'label' => __('End Date'),
-            'type' => 'date',
+                'name' => 'end_date',
+                'label' => __('End Date'),
+                'type' => 'date',
             ],
 
         ]);
@@ -143,7 +141,7 @@ class AvailableCourseCrudController extends CrudController
             'name' => 'campus_id',
             'type' => 'select2',
             'label'=> __('Campus'),
-          ], function () {
+        ], function () {
               return \App\Models\Campus::all()->pluck('name', 'id')->toArray();
           }, function ($value) { // if the filter is active
               CRUD::addClause('where', 'campus_id', $value);
@@ -157,7 +155,7 @@ class AvailableCourseCrudController extends CrudController
             'name' => 'period_id',
             'type' => 'select2',
             'label'=> __('Period'),
-          ], function () {
+        ], function () {
               return \App\Models\Period::all()->pluck('name', 'id')->toArray();
           }, function ($value) { // if the filter is active
               CRUD::addClause('where', 'period_id', $value);
@@ -172,7 +170,7 @@ class AvailableCourseCrudController extends CrudController
             'name' => 'rhythm_id',
             'type' => 'select2',
             'label'=> __('Rhythm'),
-          ], function () {
+        ], function () {
               return \App\Models\Rhythm::all()->pluck('name', 'id')->toArray();
           }, function ($value) { // if the filter is active
               CRUD::addClause('where', 'rhythm_id', $value);
@@ -184,7 +182,7 @@ class AvailableCourseCrudController extends CrudController
             'name' => 'level_id',
             'type' => 'select2',
             'label'=> __('Level'),
-          ], function () {
+        ], function () {
               return \App\Models\Level::all()->pluck('name', 'id')->toArray();
           }, function ($value) { // if the filter is active
               CRUD::addClause('where', 'level_id', $value);
@@ -196,7 +194,7 @@ class AvailableCourseCrudController extends CrudController
             'type' => 'simple',
             'name' => 'parent',
             'label'=> __('Show Children Courses'),
-          ],
+        ],
           false,
           function () {
               CRUD::addClause('children');

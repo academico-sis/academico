@@ -2,21 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Fee;
 use App\Models\Book;
-use App\Models\User;
-use App\Models\Config;
-use App\Models\Course;
-use GuzzleHttp\Client;
 use App\Models\Comment;
-use App\Models\Contact;
-use App\Models\Payment;
+use App\Models\Config;
 use App\Models\Enrollment;
+use App\Models\Fee;
+use App\Models\Payment;
 use App\Models\PreInvoice;
-use Illuminate\Http\Request;
 use App\Models\PreInvoiceDetail;
+use App\Models\User;
+use GuzzleHttp\Client;
+use Illuminate\Http\Request;
 use Prologue\Alerts\Facades\Alert;
-use GuzzleHttp\Exception\GuzzleException;
 
 class PreInvoiceController extends Controller
 {
@@ -27,7 +24,7 @@ class PreInvoiceController extends Controller
     }
 
     /** This part is optionnal. It can be disabled system-wide (config table) or per-operation during the enrollment checkout process.
-     * In the future, this should be implemented using an interface to allow integration with other accounting systems
+     * In the future, this should be implemented using an interface to allow integration with other accounting systems.
      */
     protected function sendInvoiceToAccountingSystem($request, $preinvoice)
     {
@@ -82,7 +79,7 @@ class PreInvoiceController extends Controller
                     'Content-Type' => 'application/json',
                 ],
                 'json' => $body,
-              ]);
+            ]);
 
             if ($response->getBody()) {
                 $code = json_decode(preg_replace('/[\\x00-\\x1F\\x80-\\xFF]/', '', $response->getBody()), true);
@@ -104,7 +101,6 @@ class PreInvoiceController extends Controller
             $preinvoice->destroy();
         }
     }
-
 
     /**
      * Create a preinvoice based on the cart contents for the specified user
@@ -133,7 +129,7 @@ class PreInvoiceController extends Controller
             if ($enrollment->status_id != 1) {
                 abort(422, 'Esta matricula no esta pendiente');
             }
-            
+
             PreInvoiceDetail::create([
                 'pre_invoice_id' => $preinvoice->id,
                 'product_name' => $enrollment['course']['name'],
@@ -176,7 +172,6 @@ class PreInvoiceController extends Controller
                 'price' => $book['price'],
             ]);
         }
-
 
         foreach ($request->payments as $p => $payment) {
             Payment::create([

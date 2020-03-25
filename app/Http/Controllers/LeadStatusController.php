@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Config;
 use App\Models\Student;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class LeadStatusController extends Controller
 {
@@ -36,14 +35,14 @@ class LeadStatusController extends Controller
         if (config('settings.external_mailing_enabled') == true) {
             $activeStudentsGroupId = Config::where('name', 'mailerlite_students_group_id')->first()->value;
             $inactiveStudentsGroupId = Config::where('name', 'mailerlite_oldstudents_group_id')->first()->value;
-            
+
             // converted, active clients
             if ($request->input('status') == 1) {
                 $subscriber = [
                     'email' => $student->email,
                     'name' => $student->firstname,
                     'fields' => [
-                    'lastname' => $student->lastname,
+                        'lastname' => $student->lastname,
                     ],
                 ];
                 $this->subscribeToList($subscriber, $activeStudentsGroupId);
@@ -54,7 +53,7 @@ class LeadStatusController extends Controller
                         'email' => $contact->email,
                         'name' => $contact->firstname,
                         'fields' => [
-                        'lastname' => $contact->lastname,
+                            'lastname' => $contact->lastname,
                         ],
                     ];
                     $this->subscribeToList($subscriber, $activeStudentsGroupId);
@@ -67,7 +66,7 @@ class LeadStatusController extends Controller
                     'email' => $student->email,
                     'name' => $student->firstname,
                     'fields' => [
-                    'lastname' => $student->lastname,
+                        'lastname' => $student->lastname,
                     ],
                 ];
                 $this->subscribeToList($subscriber, $inactiveStudentsGroupId);
@@ -78,7 +77,7 @@ class LeadStatusController extends Controller
                         'email' => $contact->email,
                         'name' => $contact->firstname,
                         'fields' => [
-                        'lastname' => $contact->lastname,
+                            'lastname' => $contact->lastname,
                         ],
                     ];
                     $this->subscribeToList($subscriber, $inactiveStudentsGroupId);

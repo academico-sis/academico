@@ -43,9 +43,9 @@ class EventCrudController extends CrudController
         CRUD::setColumns([
 
             [
-            'name' => 'name', // The db column name
-            'label' => 'Name', // Table column heading
-            'type' => 'text',
+                'name' => 'name', // The db column name
+                'label' => 'Name', // Table column heading
+                'type' => 'text',
             ],
 
             [
@@ -56,47 +56,47 @@ class EventCrudController extends CrudController
                 'entity' => 'course', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
                 'model' => \App\Models\Course::class, // foreign key model
-                ],
-
-            [
-            'name' => 'volume',
-            'label' => __('Volume'), // Table column heading
-            'type' => 'model_function',
-            'function_name' => 'getVolumeAttribute', // the method in your Model
-            'suffix' => 'h',
             ],
 
             [
-            // TEACHER
-            'label' => __('Teacher'), // Table column heading
-            'type' => 'select',
-            'name' => 'teacher_id', // the column that contains the ID of that connected entity;
-            'entity' => 'teacher', // the method that defines the relationship in your Model
-            'attribute' => 'name', // foreign key attribute that is shown to user
-            'model' => \App\Models\Teacher::class, // foreign key model
+                'name' => 'volume',
+                'label' => __('Volume'), // Table column heading
+                'type' => 'model_function',
+                'function_name' => 'getVolumeAttribute', // the method in your Model
+                'suffix' => 'h',
             ],
 
             [
-            // ROOM
-            'label' => __('Room'), // Table column heading
-            'type' => 'select',
-            'name' => 'room_id', // the column that contains the ID of that connected entity;
-            'entity' => 'room', // the method that defines the relationship in your Model
-            'attribute' => 'name', // foreign key attribute that is shown to user
-            'model' => \App\Models\Room::class, // foreign key model
+                // TEACHER
+                'label' => __('Teacher'), // Table column heading
+                'type' => 'select',
+                'name' => 'teacher_id', // the column that contains the ID of that connected entity;
+                'entity' => 'teacher', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model' => \App\Models\Teacher::class, // foreign key model
             ],
 
             [
-            'name' => 'start', // The db column name
-            'label' => __('Start Date'), // Table column heading
-            'type' => 'datetime',
+                // ROOM
+                'label' => __('Room'), // Table column heading
+                'type' => 'select',
+                'name' => 'room_id', // the column that contains the ID of that connected entity;
+                'entity' => 'room', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model' => \App\Models\Room::class, // foreign key model
+            ],
+
+            [
+                'name' => 'start', // The db column name
+                'label' => __('Start Date'), // Table column heading
+                'type' => 'datetime',
                 // 'format' => 'l j F Y', // use something else than the base.defauormat config value
             ],
 
             [
-            'name' => 'end', // The db column name
-            'label' => __('End Date'), // Table column heading
-            'type' => 'datetime',
+                'name' => 'end', // The db column name
+                'label' => __('End Date'), // Table column heading
+                'type' => 'datetime',
                 // 'format' => 'l j F Y', // use something else than the base.default_date_format config value
             ],
 
@@ -106,7 +106,7 @@ class EventCrudController extends CrudController
             'type' => 'date_range',
             'name' => 'from_to',
             'label'=> __('Date range'),
-          ],
+        ],
           false,
           function ($value) { // if the filter is active, apply these constraints
               $dates = json_decode($value);
@@ -123,7 +123,7 @@ class EventCrudController extends CrudController
             'type' => 'simple',
             'name' => 'orphan',
             'label'=> __('Events with no course'),
-          ],
+        ],
           false,
           function ($value) { // if the filter is active, apply these constraints
               $this->crud->query->where('course_id', null);
@@ -135,7 +135,7 @@ class EventCrudController extends CrudController
             'type' => 'simple',
             'name' => 'unassigned',
             'label'=> __('Events with no teacher'),
-          ],
+        ],
           false,
           function ($value) { // if the filter is active, apply these constraints
               $this->crud->query->where('teacher_id', null);
@@ -145,7 +145,7 @@ class EventCrudController extends CrudController
             'name' => 'teacher_id',
             'type' => 'select2',
             'label'=> __('Teacher'),
-          ], function () {
+        ], function () {
               return \App\Models\Teacher::all()->pluck('name', 'id')->toArray();
           }, function ($value) { // if the filter is active
               CRUD::addClause('where', 'teacher_id', $value);
@@ -159,42 +159,42 @@ class EventCrudController extends CrudController
         CRUD::addFields([
 
             [
-            'name' => 'name', // The db column name
-            'label' => 'Name', // Table column heading
-            'type' => 'text',
+                'name' => 'name', // The db column name
+                'label' => 'Name', // Table column heading
+                'type' => 'text',
             ],
 
             [
-            // TEACHER
-            'label' => 'Teacher', // Table column heading
-            'type' => 'select',
-            'name' => 'teacher_id', // the column that contains the ID of that connected entity;
-            'entity' => 'teacher', // the method that defines the relationship in your Model
-            'attribute' => 'name', // foreign key attribute that is shown to user
-            'model' => \App\Models\Teacher::class, // foreign key model
+                // TEACHER
+                'label' => 'Teacher', // Table column heading
+                'type' => 'select',
+                'name' => 'teacher_id', // the column that contains the ID of that connected entity;
+                'entity' => 'teacher', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model' => \App\Models\Teacher::class, // foreign key model
 
             ],
 
             [
-            // ROOM
-            'label' => 'Room', // Table column heading
-            'type' => 'select',
-            'name' => 'room_id', // the column that contains the ID of that connected entity;
-            'entity' => 'room', // the method that defines the relationship in your Model
-            'attribute' => 'name', // foreign key attribute that is shown to user
-            'model' => \App\Models\Room::class, // foreign key model
+                // ROOM
+                'label' => 'Room', // Table column heading
+                'type' => 'select',
+                'name' => 'room_id', // the column that contains the ID of that connected entity;
+                'entity' => 'room', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model' => \App\Models\Room::class, // foreign key model
             ],
 
             [
-            'name' => 'start', // The db column name
-            'label' => 'Start Date', // Table column heading
-            'type' => 'datetime_picker',
+                'name' => 'start', // The db column name
+                'label' => 'Start Date', // Table column heading
+                'type' => 'datetime_picker',
             ],
 
             [
-            'name' => 'end', // The db column name
-            'label' => 'End Date', // Table column heading
-            'type' => 'datetime_picker',
+                'name' => 'end', // The db column name
+                'label' => 'End Date', // Table column heading
+                'type' => 'datetime_picker',
             ],
 
         ]);

@@ -6,7 +6,6 @@ use App\Http\Requests\UserStoreCrudRequest as StoreRequest;
 use App\Http\Requests\UserUpdateCrudRequest as UpdateRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use Illuminate\Http\Request;
 
 class UserCrudController extends CrudController
 {
@@ -47,12 +46,12 @@ class UserCrudController extends CrudController
                 'type'  => 'email',
             ],
             [ // n-n relationship (with pivot table)
-               'label'     => trans('backpack::permissionmanager.roles'), // Table column heading
-               'type'      => 'select_multiple',
-               'name'      => 'roles', // the method that defines the relationship in your Model
-               'entity'    => 'roles', // the method that defines the relationship in your Model
-               'attribute' => 'name', // foreign key attribute that is shown to user
-               'model'     => config('permission.models.role'), // foreign key model
+                'label'     => trans('backpack::permissionmanager.roles'), // Table column heading
+                'type'      => 'select_multiple',
+                'name'      => 'roles', // the method that defines the relationship in your Model
+                'entity'    => 'roles', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model'     => config('permission.models.role'), // foreign key model
             ],
 
         ]);

@@ -19,7 +19,6 @@ class EvaluationTypeCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 
-
     public function setup()
     {
         /*

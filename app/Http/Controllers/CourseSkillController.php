@@ -3,16 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Exports\CoursesExport;
-use App\Exports\UsersExport;
 use App\Imports\CourseSkillsImport;
 use App\Models\Course;
 use App\Models\Skills\Skill;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\Importable;
-use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Facades\Excel;
-use Prologue\Alerts\Facades\Alert;
 
 class CourseSkillController extends Controller
 {

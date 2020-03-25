@@ -2,13 +2,8 @@
 
 namespace App\Models;
 
-use App\Models\Student;
-use App\Models\Teacher;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Backpack\CRUD\app\Notifications\ResetPasswordNotification as ResetPasswordNotification;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Contracts\Translation\HasLocalePreference;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;

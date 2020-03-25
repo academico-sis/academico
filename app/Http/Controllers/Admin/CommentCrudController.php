@@ -48,60 +48,60 @@ class CommentCrudController extends CrudController
     public function setupListOperation()
     {
         CRUD::setColumns([
-                [
-                    // Commentable entity
-                    'label' => 'Commentable', // Table column heading
-                    'type' => 'select',
-                    'name' => 'commentable_id', // the column that contains the ID of that connected entity;
-                    'entity' => 'commentable', // the method that defines the relationship in your Model
-                    'attribute' => 'name', // foreign key attribute that is shown to user
-                ],
+            [
+                // Commentable entity
+                'label' => 'Commentable', // Table column heading
+                'type' => 'select',
+                'name' => 'commentable_id', // the column that contains the ID of that connected entity;
+                'entity' => 'commentable', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+            ],
 
-                [
-                    // Commentable entity
-                    'label' => 'Commentable', // Table column heading
-                    'type' => 'text',
-                    'name' => 'body', // the column that contains the ID of that connected entity;
-                ],
+            [
+                // Commentable entity
+                'label' => 'Commentable', // Table column heading
+                'type' => 'text',
+                'name' => 'body', // the column that contains the ID of that connected entity;
+            ],
 
-                [
-                    // Commentable entity
-                    'label' => 'Author', // Table column heading
-                    'type' => 'select',
-                    'name' => 'author_id', // the column that contains the ID of that connected entity;
-                    'entity' => 'author', // the method that defines the relationship in your Model
-                    'attribute' => 'name', // foreign key attribute that is shown to user
-                ],
+            [
+                // Commentable entity
+                'label' => 'Author', // Table column heading
+                'type' => 'select',
+                'name' => 'author_id', // the column that contains the ID of that connected entity;
+                'entity' => 'author', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+            ],
 
-                [
-                    // Commentable entity
-                    'label' => 'Action', // Table column heading
-                    'type' => 'boolean',
-                    'name' => 'action', // the column that contains the ID of that connected entity;
-                ],
-            ]);
+            [
+                // Commentable entity
+                'label' => 'Action', // Table column heading
+                'type' => 'boolean',
+                'name' => 'action', // the column that contains the ID of that connected entity;
+            ],
+        ]);
 
         CRUD::addFilter([ // simple filter
-                'type' => 'simple',
-                'name' => 'action',
-                'label'=> 'Action',
-              ],
+            'type' => 'simple',
+            'name' => 'action',
+            'label'=> 'Action',
+        ],
               false,
               function () { // if the filter is active
                   CRUD::addClause('where', 'action', true);
               });
 
         CRUD::addFilter([ // dropdown filter
-                'name' => 'type',
-                'type' => 'dropdown',
-                'label'=> 'Type',
-              ], [
-                \App\Models\Student::class => 'Student',
-                \App\Models\Enrollment::class => 'Enrollments',
-                \App\Models\PreInvoice::class => 'PreInvoice',
-                \App\Models\Result::class => 'Result',
+            'name' => 'type',
+            'type' => 'dropdown',
+            'label'=> 'Type',
+        ], [
+            \App\Models\Student::class => 'Student',
+            \App\Models\Enrollment::class => 'Enrollments',
+            \App\Models\PreInvoice::class => 'PreInvoice',
+            \App\Models\Result::class => 'Result',
 
-              ], function ($value) { // if the filter is active
+        ], function ($value) { // if the filter is active
                   CRUD::addClause('where', 'commentable_type', '=', $value);
               },
               function () { // if the filter is not active
@@ -113,8 +113,8 @@ class CommentCrudController extends CrudController
     public function setupUpdateOperation()
     {
         CRUD::addFields([
-                ['label' => 'Comment', 'type' => 'text', 'name' => 'body'],
-                ['label' => 'Action', 'type' => 'checkbox', 'name' => 'action'],
+            ['label' => 'Comment', 'type' => 'text', 'name' => 'body'],
+            ['label' => 'Action', 'type' => 'checkbox', 'name' => 'action'],
         ]);
     }
 }

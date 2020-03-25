@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Comment;
 use App\Models\Enrollment;
 use App\Models\Period;
 use App\Models\Result;
 use App\Models\ResultType;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
 /**
@@ -56,35 +54,35 @@ class ResultCrudController extends CrudController
             ],
 
             [
-            // STUDENT NAME
-            'label' => __('Student'), // Table column heading
-            'type' => 'select',
-            'entity' => 'student', // the method that defines the relationship in your Model
-            'attribute' => 'name', // foreign key attribute that is shown to user
-            'searchLogic' => function ($query, $column, $searchTerm) {
-                $query->orWhereHas('student', function ($q) use ($column, $searchTerm) {
-                    $q->WhereHas('user', function ($q) use ($column, $searchTerm) {
-                        $q->where('firstname', 'like', '%'.$searchTerm.'%')
-                        ->orWhere('lastname', 'like', '%'.$searchTerm.'%');
+                // STUDENT NAME
+                'label' => __('Student'), // Table column heading
+                'type' => 'select',
+                'entity' => 'student', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'searchLogic' => function ($query, $column, $searchTerm) {
+                    $query->orWhereHas('student', function ($q) use ($column, $searchTerm) {
+                        $q->WhereHas('user', function ($q) use ($column, $searchTerm) {
+                            $q->where('firstname', 'like', '%'.$searchTerm.'%')
+                            ->orWhere('lastname', 'like', '%'.$searchTerm.'%');
+                        });
                     });
-                });
-            },
+                },
             ],
 
             [
-            // COURSE NAME
-            'label' => __('Course'), // Table column heading
-            'type' => 'select',
-            'name' => 'course_id', // the column that contains the ID of that connected entity;
-            'entity' => 'course', // the method that defines the relationship in your Model
-            'attribute' => 'name', // foreign key attribute that is shown to user
-            'model' => \App\Models\Course::class, // foreign key model
+                // COURSE NAME
+                'label' => __('Course'), // Table column heading
+                'type' => 'select',
+                'name' => 'course_id', // the column that contains the ID of that connected entity;
+                'entity' => 'course', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model' => \App\Models\Course::class, // foreign key model
             ],
 
             [
-            'name' => 'course.period.name',
-            'label' => __('Period'),
-            'type' => 'text',
+                'name' => 'course.period.name',
+                'label' => __('Period'),
+                'type' => 'text',
             ],
 
             [
@@ -94,14 +92,14 @@ class ResultCrudController extends CrudController
                 'entity' => 'result', // the method that defines the relationship in your Model
                 'attribute' => 'result_type', // foreign key attribute that is shown to user
                 'model' => \App\Models\Result::class, // foreign key model
-                ],
+            ],
         ]);
 
         CRUD::addFilter([
             'type' => 'simple',
             'name' => 'noresult',
             'label'=> __('No Result'),
-          ],
+        ],
           false,
           function () {
               CRUD::addClause('noResult');
@@ -111,7 +109,7 @@ class ResultCrudController extends CrudController
             'type' => 'simple',
             'name' => 'hideparents',
             'label'=> __('Hide Parents'),
-          ],
+        ],
           false,
           function () {
               CRUD::addClause('real');
@@ -121,7 +119,7 @@ class ResultCrudController extends CrudController
             'name' => 'period_id',
             'type' => 'select2',
             'label'=> __('Period'),
-          ], function () {
+        ], function () {
               return Period::all()->pluck('name', 'id')->toArray();
           }, function ($value) { // if the filter is active
               CRUD::addClause('period', $value);
@@ -131,7 +129,7 @@ class ResultCrudController extends CrudController
             'name' => 'result',
             'type' => 'select2_multiple',
             'label'=> __('Result'),
-          ], function () { // the options that show up in the select2
+        ], function () { // the options that show up in the select2
               return ResultType::all()->pluck('name', 'id')->toArray();
           }, function ($values) { // if the filter is active
               foreach (json_decode($values) as $key => $value) {

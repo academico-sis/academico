@@ -7,7 +7,6 @@ use App\Models\Period;
 use App\Models\Rhythm;
 use App\Models\Room;
 use App\Models\Teacher;
-use Carbon\Carbon;
 use Faker\Generator as Faker;
 
 $factory->define(Course::class, function (Faker $faker) {

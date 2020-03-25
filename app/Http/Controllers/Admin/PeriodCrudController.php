@@ -40,31 +40,31 @@ class PeriodCrudController extends CrudController
     public function setupListOperation()
     {
         CRUD::setColumns([
-                [
-                    'label'     => __('Year'),
-                    'type'      => 'select',
-                    'entity'    => 'year',
-                    'attribute' => 'name',
-                ],
+            [
+                'label'     => __('Year'),
+                'type'      => 'select',
+                'entity'    => 'year',
+                'attribute' => 'name',
+            ],
 
-                [
-                    'label' => __('Name'),
-                    'type' => 'text',
-                    'name' => 'name',
-                ],
+            [
+                'label' => __('Name'),
+                'type' => 'text',
+                'name' => 'name',
+            ],
 
-                [
-                    'label' => __('Start'),
-                    'type' => 'date',
-                    'name' => 'start',
-                ],
+            [
+                'label' => __('Start'),
+                'type' => 'date',
+                'name' => 'start',
+            ],
 
-                [
-                    'label' => __('End'),
-                    'type' => 'date',
-                    'name' => 'end',
-                ],
-            ]);
+            [
+                'label' => __('End'),
+                'type' => 'date',
+                'name' => 'end',
+            ],
+        ]);
     }
 
     public function setupCreateOperation()
