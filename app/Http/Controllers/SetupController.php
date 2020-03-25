@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\LeadType;
+use App\Models\Period;
 use App\Models\Student;
-use App\Traits\PeriodSelection;
+use App\Models\LeadType;
 use Illuminate\Http\Request;
+use App\Traits\PeriodSelection;
 
 class SetupController extends Controller
 {
@@ -25,6 +26,9 @@ class SetupController extends Controller
         $lead_types = LeadType::withCount('students')->get();
         $orphan_students = Student::where('lead_type_id', null)->count();
 
-        return view('setup.dashboard', compact('queue', 'failed', 'lead_types', 'orphan_students'));
+        $currentPeriod = Period::get_default_period();
+        $enrollmentsPeriod = Period::get_enrollments_period();
+
+        return view('setup.dashboard', compact('queue', 'failed', 'lead_types', 'orphan_students', 'currentPeriod', 'enrollmentsPeriod'));
     }
 }

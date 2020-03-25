@@ -2,11 +2,15 @@
 
 namespace App\Console;
 
-use App\Models\Attendance;
+use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Period;
+use App\Models\Attendance;
+use App\Mail\AdminReminders;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use Illuminate\Support\Facades\Log;
 
 class Kernel extends ConsoleKernel
 {
@@ -31,6 +35,17 @@ class Kernel extends ConsoleKernel
             Log::info('Sending attendance reminders');
             (new Attendance)->remindPendingAttendance();
         })->dailyAt('08:15');
+
+        $schedule->call(function () {
+            Log::info('Sending admin reminders');
+            $changeNextPeriod = Carbon::parse(Period::get_enrollments_period()->end)->diffInDays() < 15;
+            $changeCurrentPeriod = Carbon::parse(Period::get_default_period()->end) < Carbon::now();
+            
+            // if today is towards the end of the default enrollments period
+            if($changeNextPeriod || $changeCurrentPeriod) {
+                Mail::to(config('settings.manager_email'))->queue(new AdminReminders($changeNextPeriod, $changeCurrentPeriod));
+            }
+        })->everyMinute();
     }
 
     /**
