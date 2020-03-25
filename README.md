@@ -19,6 +19,8 @@ The following instructions assume that you are somehow familiar with Laravel.
 * `php artisan migrate`
 * `php artisan db:seed`
 
+The last command will fill the database with the defaults you need to launch the application for the first time.
+
 ## Run the application
 * `php artisan serve`
 
