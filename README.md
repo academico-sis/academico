@@ -13,9 +13,9 @@ The following instructions assume that you are somehow familiar with Laravel.
 
 ## Download and install the code
 * `git clone https://github.com/laxsmi/academico.git`
-* Copy `.env.example` to `.env` and  edit the file with your database settings
-* `php artisan key:generate`
+* Copy `.env.example` to `.env` and  edit the file with your database settings (you need to create a new database)
 * `composer install`
+* `php artisan key:generate`
 * `php artisan migrate`
 * `php artisan db:seed`
 
