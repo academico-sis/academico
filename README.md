@@ -35,7 +35,11 @@ You need to install a webserver according to the Laravel documentation when you'
 * User documentation -> https://laxsmi.gitbook.io/academico-docs/
 
 # Contributors needed!
-This project was initially developped to address the needs of a non-profit language school. The initial developper is maintaining the code and fixing bugs on his free time, however, the project would greatly benefit from new contributors. If you need a school management system for your institution, you may want to fork this project and share your modifications with us! Contributing to this project is also a great way to train your developper skills. Some issues are labeled as `first-good-issue` and/or `up-for-grabs`: feel free to have a look and post a comment if you'd like to receive some guidance to fix them! Your contribution will be posted on this page.
+This project was initially developed to address the needs of one specific school, however, the project was published as open-source with the hope that others might use it. Please feel free to try it or to request a demo to see if it could match with your expectations.
+
+The initial developer is still actively maintaining the code and fixing bugs on his spare time, however, the project would greatly benefit from new contributors. Contributing to this project is also a great way to train your developer skills.
+
+Please see [this page on the wiki](https://github.com/laxsmi/academico/wiki/Development-Roadmap) for details.
 
 # License
 This software is based on Laravel and Backpack for Laravel. You will need to [acquire a Backpack license](https://backpackforlaravel.com/pricing) if you decide to use it for _commercial_ use. This is the recommended solution and Backpack does provide a nice, clean and easy CRUD panels throughout the application. Backpack for Laravel is kind enough to issue free licences for non-commercial projects.
