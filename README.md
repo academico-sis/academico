@@ -12,7 +12,7 @@ See https://laravel.com/docs/6.x/installation#server-requirements
 The following instructions assume that you are somehow familiar with Laravel.
 
 ## Download and install the code
-* `git clone`
+* `git clone https://github.com/laxsmi/academico.git`
 * Copy `.env.example` to `.env` and  edit the file with your database settings
 * `php artisan key:generate`
 * `composer install`
