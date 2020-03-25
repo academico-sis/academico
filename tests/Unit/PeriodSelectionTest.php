@@ -4,7 +4,6 @@ namespace Tests\Unit;
 
 use App\Models\Period;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 

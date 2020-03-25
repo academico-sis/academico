@@ -49,7 +49,7 @@ class SkillCrudController extends CrudController
                 'entity'    => 'skill_type', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
                 'model'     => 'skill_type', // foreign key model
-             ],
+            ],
 
             [
                 'label' => 'Name', // skill description
@@ -58,12 +58,12 @@ class SkillCrudController extends CrudController
             ],
 
             [ // skill level
-               'label'     => 'Level', // Table column heading
-               'type'      => 'select',
-               'name'      => 'level', // the method that defines the relationship in your Model
-               'entity'    => 'level', // the method that defines the relationship in your Model
-               'attribute' => 'name', // foreign key attribute that is shown to user
-               'model'     => 'level', // foreign key model
+                'label'     => 'Level', // Table column heading
+                'type'      => 'select',
+                'name'      => 'level', // the method that defines the relationship in your Model
+                'entity'    => 'level', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model'     => 'level', // foreign key model
             ],
 
         ]);
@@ -79,7 +79,7 @@ class SkillCrudController extends CrudController
                 'entity' => 'skill_type', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
                 'model' => \App\Models\Skills\SkillType::class,
-             ],
+            ],
 
             [
                 'label' => 'Name', // skill description
@@ -88,12 +88,12 @@ class SkillCrudController extends CrudController
             ],
 
             [ // skill level
-               'label'     => 'Level', // Table column heading
-               'type' => 'select',
-               'name' => 'level_id', // the db column for the foreign key
-               'entity' => 'level', // the method that defines the relationship in your Model
-               'attribute' => 'name', // foreign key attribute that is shown to user
-               'model' => \App\Models\Level::class,
+                'label'     => 'Level', // Table column heading
+                'type' => 'select',
+                'name' => 'level_id', // the db column for the foreign key
+                'entity' => 'level', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model' => \App\Models\Level::class,
             ],
 
         ]);
@@ -106,7 +106,7 @@ class SkillCrudController extends CrudController
             'name' => 'level_id',
             'type' => 'select2',
             'label'=> 'Level',
-          ], function () {
+        ], function () {
               return \App\Models\Level::all()->pluck('name', 'id')->toArray();
           }, function ($value) { // if the filter is active
               CRUD::addClause('where', 'level_id', $value);
@@ -116,7 +116,7 @@ class SkillCrudController extends CrudController
             'name' => 'skill_type_id',
             'type' => 'select2',
             'label'=> 'Type',
-          ], function () {
+        ], function () {
               return \App\Models\Skills\SkillType::all()->pluck('name', 'id')->toArray();
           }, function ($value) { // if the filter is active
               CRUD::addClause('where', 'skill_type_id', $value);

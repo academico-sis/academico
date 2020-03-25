@@ -2,8 +2,6 @@
 
 namespace Tests\Unit;
 
-use App\Models\Course;
-use App\Models\Enrollment;
 use App\Models\Student;
 use App\Models\User;
 use Carbon\Carbon;

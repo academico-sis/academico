@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\MissingBaseTables;
-use App\Models\Attendance;
 use App\Models\Comment;
 use App\Models\Event;
 use App\Models\Leave;

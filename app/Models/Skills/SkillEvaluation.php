@@ -3,8 +3,6 @@
 namespace App\Models\Skills;
 
 use App\Models\Course;
-use App\Models\Skills\Skill;
-use App\Models\Skills\SkillScale;
 use App\Models\Student;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;

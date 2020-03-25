@@ -3,13 +3,8 @@
 namespace Tests\Feature;
 
 use App\Models\Course;
-use App\Models\GradeType;
 use App\Models\Period;
-use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;
 
 class GradesTest extends TestCase

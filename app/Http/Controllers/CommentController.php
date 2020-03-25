@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CommentRequest as StoreRequest;
 use App\Models\Comment;
 use App\Models\Result;
-use App\Models\Student;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 

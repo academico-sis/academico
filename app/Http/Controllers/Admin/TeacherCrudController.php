@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\TeacherRequest as StoreRequest;
 // VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\TeacherRequest as UpdateRequest;
-use App\Models\Teacher;
 use App\Models\User;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -124,8 +123,7 @@ class TeacherCrudController extends CrudController
                 'type'  => 'date',
             ],
         ]);
-        
+
         CRUD::setRequiredFields(UpdateRequest::class, 'edit');
     }
-
 }

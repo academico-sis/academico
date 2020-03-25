@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\DiscountType;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 

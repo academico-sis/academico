@@ -3,9 +3,7 @@
 use App\Models\Course;
 use App\Models\Event;
 use App\Models\Room;
-use App\Models\Student;
 use App\Models\Teacher;
-use Carbon\Carbon;
 use Faker\Generator as Faker;
 
 $factory->define(Event::class, function (Faker $faker) {

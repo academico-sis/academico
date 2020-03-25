@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\EnrollmentRequest as StoreRequest;
 // VALIDATION: change the requests to match your own file names if you need form validation
-use App\Http\Requests\EnrollmentRequest as UpdateRequest;
 use App\Models\Course;
 use App\Models\Enrollment;
-use App\Models\EnrollmentStatus;
 use App\Models\EnrollmentStatusType;
 use App\Models\Period;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -69,7 +66,7 @@ class EnrollmentCrudController extends CrudController
             ],
 
             [
-            // STUDENT NAME
+                // STUDENT NAME
                 'label' => __('Student'), // Table column heading
                 'type' => 'select',
                 'entity' => 'student', // the method that defines the relationship in your Model
@@ -118,7 +115,7 @@ class EnrollmentCrudController extends CrudController
                 'entity' => 'student.phone', // the method that defines the relationship in your Model
                 'attribute' => 'phone_number', // foreign key attribute that is shown to user
                 'model' => \App\Models\PhoneNumber::class, // foreign key model
-             ],
+            ],
 
         ]);
 
@@ -126,7 +123,7 @@ class EnrollmentCrudController extends CrudController
             'name' => 'status_id',
             'type' => 'select2_multiple',
             'label'=> __('Status'),
-          ], function () {
+        ], function () {
               return EnrollmentStatusType::all()->pluck('name', 'id')->toArray();
           },
           function ($values) { // if the filter is active
@@ -139,7 +136,7 @@ class EnrollmentCrudController extends CrudController
             'type' => 'simple',
             'name' => 'hidechildren',
             'label'=> __('Hide Children'),
-          ],
+        ],
           false,
           function () {
               CRUD::addClause('parent');
@@ -149,7 +146,7 @@ class EnrollmentCrudController extends CrudController
             'name' => 'period_id',
             'type' => 'select2',
             'label'=> __('Period'),
-          ], function () {
+        ], function () {
               return Period::all()->pluck('name', 'id')->toArray();
           }, function ($value) { // if the filter is active
               CRUD::addClause('period', $value);

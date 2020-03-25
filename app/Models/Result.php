@@ -3,9 +3,6 @@
 namespace App\Models;
 
 use App\Mail\ResultNotification;
-use App\Models\Comment;
-use App\Models\Enrollment;
-use App\Models\ResultType;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Mail;

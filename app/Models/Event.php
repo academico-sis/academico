@@ -2,16 +2,10 @@
 
 namespace App\Models;
 
-use App\Models\Attendance;
-use App\Models\Course;
-use App\Models\CourseTime;
-use App\Models\Room;
-use App\Models\Teacher;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Prologue\Alerts\Facades\Alert;
 
 class Event extends Model
 {

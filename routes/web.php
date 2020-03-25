@@ -11,7 +11,6 @@ Route::get('searchstudents', 'StudentController@search');
 Route::group(
     ['middleware' => ['web', 'language']],
     function () {
-
         Route::get('/home', 'HomeController@index')->name('home')->middleware('forceupdate');
         Route::get('/', 'HomeController@index')->name('home')->middleware('forceupdate');
         Route::get('/admin', 'HomeController@admin')->name('admin');
@@ -24,7 +23,6 @@ Route::group(
         Route::post('/leads/reset-converted', 'LeadStatusController@reset_all_converted_leads')->name('resetAllConvertedLeads');
     });
 
-    
 /* ATTENDANCE-RELATED ROUTES */
 Route::group(
     ['middleware' => ['web', 'language']],
@@ -39,7 +37,6 @@ Route::group(
         Route::post('attendance/course/{course}/toggle', 'AttendanceController@toggleCourseAttendanceStatus')->name('toggleCourseAttendance');
     });
 
-
 /* ENROLLMENTS-RELATED ROUTES */
 Route::group(
     ['middleware' => ['web', 'language']],
@@ -52,7 +49,6 @@ Route::group(
         Route::patch('invoice/{preInvoice}', 'PreInvoiceController@update')->name('store-invoice-number'); // update the invoice number
     });
 
-
 /* STUDENTS-RELATED ROUTES */
 Route::group(
     ['middleware' => ['web', 'language']],
@@ -62,7 +58,6 @@ Route::group(
         Route::delete('phonenumber/{phoneNumber}', 'StudentPhoneNumberController@destroy');
     }
 );
-
 
 /* CONTACTS-RELATED ROUTES */
 Route::group(
@@ -75,7 +70,6 @@ Route::group(
         Route::post('phonenumber/contact/{contact}', 'ContactPhoneNumberController@store');
     }
 );
-
 
 // EVALUATION RELATED ROUTES
 Route::group(
@@ -112,26 +106,24 @@ Route::group(
 
 Route::post('store-result', 'ResultController@store')->name('storeResult');
 
-
 // COURSE EDITION ROUTES
 Route::group(
     ['middleware' => ['web', 'permission:courses.edit', 'language']],
     function () {
 
     /* Course Times update */
-    /* todo use route names in Vue Components*/
-    Route::get('coursetime/{course}/get', 'CourseTimeController@get');
-    Route::get('coursetime/{course}/edit', 'CourseTimeController@edit');
-    Route::post('coursetime/{course}', 'CourseTimeController@store');
-    Route::delete('coursetime/{id}', 'CourseTimeController@destroy');
+        /* todo use route names in Vue Components*/
+        Route::get('coursetime/{course}/get', 'CourseTimeController@get');
+        Route::get('coursetime/{course}/edit', 'CourseTimeController@edit');
+        Route::post('coursetime/{course}', 'CourseTimeController@store');
+        Route::delete('coursetime/{id}', 'CourseTimeController@destroy');
 
-    // Course Events routes
+        // Course Events routes
     Route::get('course/{course}/events/get', 'EventController@getCourseEvents')->name('getCourseEvents'); // todo use route name
 
     Route::patch('calendar/teacher', 'EventController@update_course_teacher');
-    Route::patch('calendar/room', 'EventController@update_course_room');
+        Route::patch('calendar/room', 'EventController@update_course_room');
     });
-
 
 // Comments routes
 Route::group(
@@ -143,7 +135,6 @@ Route::group(
 
 Route::post('comment', 'CommentController@store')->name('storeComment');
 
-
 /* SETUP ROUTES */
 Route::group(
     ['middleware' => ['web', 'permission:enrollments.edit', 'language']],
@@ -151,7 +142,6 @@ Route::group(
         Route::get('config/default-periods', 'ConfigController@get')->name('get-default-periods-screen');
         Route::post('config/default-periods', 'ConfigController@update')->name('set-default-periods');
     });
-
 
 // calendars routes
 Route::group(
@@ -166,7 +156,6 @@ Route::group(
     }
 );
 
-
 // HR routes
 Route::group(
     ['middleware' => ['web', 'permission:hr.view', 'language']],
@@ -174,7 +163,6 @@ Route::group(
         Route::get('/hr', 'HRController@index')->name('hrDashboard');
     }
 );
-
 
 // Reports routes
 Route::group(
@@ -190,9 +178,7 @@ Route::group(
     }
 );
 
-
 Route::post('leadstatus', 'LeadStatusController@update')->name('postLeadStatus');
-
 
 // New COURSES module
 Route::group(
@@ -202,7 +188,6 @@ Route::group(
         Route::get('courselist/search', 'CourseController@search')->name('search-courses');
     }
 );
-
 
 // Registration Routes...
 Route::group(
@@ -220,7 +205,6 @@ Route::group(
         Route::post('edit-contacts', 'Auth\MyAccountController@postContactsForm');
     }
 );
-
 
 Route::group(
     [

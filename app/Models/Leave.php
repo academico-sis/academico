@@ -2,9 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Leave;
-use App\Models\LeaveType;
-use App\Models\Teacher;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 

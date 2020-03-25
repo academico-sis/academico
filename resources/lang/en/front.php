@@ -53,6 +53,6 @@ return [
     'spots left' => 'spots left',
     'Send invoice data to external accounting system' => 'Send invoice data to external accounting system',
     'Checkout' => 'Checkout',
-    'Mark this enrollment as paid but do not send to accounting system' => 'Mark this enrollment as paid but do not send to accounting system'
+    'Mark this enrollment as paid but do not send to accounting system' => 'Mark this enrollment as paid but do not send to accounting system',
 
 ];

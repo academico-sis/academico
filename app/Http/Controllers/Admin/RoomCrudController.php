@@ -43,19 +43,19 @@ class RoomCrudController extends CrudController
                 'type' => 'select',
                 'entity' => 'campus',
                 'attribute' => 'name',
-             ],
+            ],
 
-             [
+            [
                 'name' => 'name', // The db column name
                 'label' => 'Name', // Table column heading
                 'type' => 'text',
-             ],
+            ],
 
-             [
+            [
                 'name' => 'capacity', // The db column name
                 'label' => 'Capacity', // Table column heading
                 'type' => 'number',
-             ],
+            ],
         ]);
 
         // add asterisk for fields that are required in RoomRequest

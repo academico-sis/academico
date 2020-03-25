@@ -2,10 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\ContactRelationship;
-use App\Models\Student;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
-use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 

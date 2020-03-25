@@ -53,6 +53,6 @@ return [
     'spots left' => 'cupos disponibles',
     'Send invoice data to external accounting system' => 'Mandar datos al sistema contable para generar factura',
     'Checkout' => 'Facturar',
-    'Mark this enrollment as paid but do not send to accounting system' => 'La matricula sera marcada como pagada sin generar la factura en el sistema contable'
+    'Mark this enrollment as paid but do not send to accounting system' => 'La matricula sera marcada como pagada sin generar la factura en el sistema contable',
 
 ];

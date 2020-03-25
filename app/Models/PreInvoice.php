@@ -2,9 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Enrollment;
-use App\Models\Payment;
-use App\Models\PreInvoiceDetail;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;

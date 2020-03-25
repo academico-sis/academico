@@ -5,20 +5,16 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreEnrollmentRequest;
 use App\Models\Attendance;
 use App\Models\Book;
-use App\Models\Comment;
 use App\Models\Course;
 use App\Models\Discount;
 use App\Models\Enrollment;
 use App\Models\Fee;
 use App\Models\Paymentmethod;
-use App\Models\PreInvoice;
-use App\Models\PreInvoiceDetail;
 use App\Models\Student;
 use App\Traits\PeriodSelection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Session;
 
 class EnrollmentController extends Controller
 {

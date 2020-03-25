@@ -7,7 +7,6 @@ use App\Models\Enrollment;
 use App\Models\Period;
 use App\Models\Student;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class PeriodReportsDataTest extends TestCase

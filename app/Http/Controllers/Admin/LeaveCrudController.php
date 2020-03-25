@@ -47,9 +47,9 @@ class LeaveCrudController extends CrudController
                 'entity' => 'teacher', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
                 'model' => \App\Models\Teacher::class, // foreign key model
-             ],
+            ],
 
-             [
+            [
                 // 1-n relationship
                 'label' => 'Type', // Table column heading
                 'type' => 'select',
@@ -57,20 +57,20 @@ class LeaveCrudController extends CrudController
                 'entity' => 'leaveType', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
                 'model' => \App\Models\LeaveType::class, // foreign key model
-             ],
+            ],
 
-             [
+            [
                 'name' => 'date', // The db column name
                 'label' => 'Date', // Table column heading
                 'type' => 'date',
-             ],
+            ],
         ]);
 
         CRUD::addFilter([ // select2 filter
             'name' => 'teacher_id',
             'type' => 'select2',
             'label'=> __('Teacher'),
-          ], function () {
+        ], function () {
               return \App\Models\Teacher::all()->pluck('name', 'id')->toArray();
           }, function ($value) { // if the filter is active
               CRUD::addClause('where', 'teacher_id', $value);
@@ -82,7 +82,7 @@ class LeaveCrudController extends CrudController
             'type' => 'date_range',
             'name' => 'from_to',
             'label'=> __('Date range'),
-          ],
+        ],
           false,
           function ($value) { // if the filter is active, apply these constraints
               $dates = json_decode($value);
@@ -104,9 +104,9 @@ class LeaveCrudController extends CrudController
                 'entity' => 'teacher', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
                 'model' => \App\Models\Teacher::class, // foreign key model
-             ],
+            ],
 
-             [
+            [
                 // 1-n relationship
                 'label' => 'Type', // Table column heading
                 'type' => 'select',
@@ -114,9 +114,9 @@ class LeaveCrudController extends CrudController
                 'entity' => 'leaveType', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
                 'model' => \App\Models\LeaveType::class, // foreign key model
-             ],
+            ],
 
-             [   // date_range
+            [   // date_range
                 'name' => ['start_date', 'end_date'], // db columns for start_date & end_date
                 'label' => 'Event Date Range',
                 'type' => 'date_range',
@@ -127,7 +127,6 @@ class LeaveCrudController extends CrudController
 
     public function store(StoreRequest $request)
     {
-
         foreach ($this->crud->request->teacher_id as $teacher_id) {
             $start = Carbon::parse($this->crud->request->start_date);
             $end = Carbon::parse($this->crud->request->end_date);
@@ -151,7 +150,7 @@ class LeaveCrudController extends CrudController
         CRUD::setValidation(UpdateRequest::class);
 
         CRUD::addFields([
-             [
+            [
                 // 1-n relationship
                 'label' => 'Type', // Table column heading
                 'type' => 'select',
@@ -159,9 +158,9 @@ class LeaveCrudController extends CrudController
                 'entity' => 'leaveType', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
                 'model' => \App\Models\LeaveType::class, // foreign key model
-             ],
+            ],
 
-             [   // datepicker
+            [   // datepicker
                 'name' => 'date',
                 'label' => 'Event Date',
                 'type' => 'date',

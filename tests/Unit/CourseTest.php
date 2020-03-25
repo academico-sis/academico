@@ -4,9 +4,7 @@ namespace Tests\Unit;
 
 use App\Models\Course;
 use App\Models\Event;
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class CourseTest extends TestCase
@@ -32,7 +30,7 @@ class CourseTest extends TestCase
             'day' => 2, // todo randomize
             'start' => '15:00',
             'end' => '17:00',
-            ]);
+        ]);
 
         // the course should have 2 events
         $this->assertEquals(2, $course->events->count());

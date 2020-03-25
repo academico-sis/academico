@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use App\Models\CourseTime;
-use App\Models\Event;
 use Illuminate\Http\Request;
 
 class CourseTimeController extends Controller

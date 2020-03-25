@@ -113,5 +113,4 @@ class TeacherCalendarController extends Controller
             'leaves' => $leaves,
         ]);
     }
-
 }

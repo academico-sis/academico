@@ -42,7 +42,7 @@ class EventTest extends TestCase
             'day' => 4, // Thursday
             'start' => '15:00',
             'end' => '17:00',
-            ]);
+        ]);
 
         // an event with the date of the coursetime should exist
         $this->assertEquals('2019-01-03 15:00:00', $course->events->first()->start);

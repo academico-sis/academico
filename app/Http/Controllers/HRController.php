@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Event;
-use App\Models\Period;
 use App\Models\Teacher;
 use App\Traits\PeriodSelection;
 use Illuminate\Http\Request;

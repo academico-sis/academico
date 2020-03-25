@@ -2,8 +2,6 @@
 
 namespace Tests\Unit;
 
-use App\Models\Course;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
