@@ -88,9 +88,6 @@ class LeadStatusController extends Controller
     public function reset_all_converted_leads()
     {
         // change all active students to potential
-        $students = Student::where('lead_type_id', '=', 1)->update(['lead_type_id' => 4]);
-
-        // TODO change this to a queuable command!
-        return redirect()->back();
+        Student::where('lead_type_id', '=', 1)->update(['lead_type_id' => 4]);
     }
 }

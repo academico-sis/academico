@@ -12,22 +12,11 @@
 @section('content')
     <div class="row">
 
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header">                          
-                        <strong>@lang('Scheduled Tasks')</strong>
+    <div class="col-sm-6">
+        @include('partials.default_periods_info')
+    </div>
 
-                    <div class="card-header-actions">
-
-                    </div>
-                </div>
-
-                <div class="card-body">
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
+        <div class="col-md-6">
             <div class="card">
                 <div class="card-header">                          
                     <strong>@lang('Jobs Queue')</strong>
@@ -42,29 +31,15 @@
             </div>
         </div>
 
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header">                          
-                    <strong>@lang('Default Period')</strong>
-                </div>
-
-                <div class="card-body">
-                    <p>Current period is {{ \App\Models\Period::get_default_period()->name }}</p>
-                    <p>Default enrollment period is {{ \App\Models\Period::get_enrollments_period()->name }}</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
+</div>
+<div class="row" id="app">
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-header">                          
                     <strong>@lang('Leads Status')</strong>
 
                     <div class="card-header-actions">
-                        <form action="{{ route('resetAllConvertedLeads') }}" method="post" onsubmit="return confirm('Are you sure? There is no going back!');">
-                            @csrf
-                            <input type="submit" class="btn btn-small" value="@lang('Change all Converted to Pending')">
-                        </form>
+                        <button @click="changeActiveToPotential()" type="submit" class="btn btn-primary btn-small">Change all Converted to Pending</button>
                     </div>
                 </div>
 
@@ -82,3 +57,35 @@
     </div>
 @endsection
 
+@section('after_scripts')
+    <script src="/js/app.js"></script>
+    <script>
+    function changeActiveToPotential()
+    {
+        swal({
+		  title: "{!! trans('backpack::base.warning') !!}",
+		  text: "Are you sure?",
+		  icon: "warning",
+		  buttons: {
+		  	cancel: {
+			  text: "{!! trans('backpack::crud.cancel') !!}",
+			  value: null,
+			  visible: true,
+			  className: "bg-secondary",
+			  closeModal: true,
+			},
+		  	delete: {
+			  text: "Yes",
+			  value: true,
+			  visible: true,
+			  className: "bg-primary",
+			}
+		  },
+		}).then((value) => {
+			if (value) {
+                axios.post("{{ route('resetAllConvertedLeads') }}").then(location.reload())
+            }
+        })
+    }
+    </script>
+@endsection
