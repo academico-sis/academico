@@ -181,7 +181,12 @@ class Teacher extends Model
         })
         ->where('course_id', '!=', null)
         ->whereHas('course', function (Builder $query) use ($period) {
-            return $query->where('period_id', $period->id);
+            return $query->where('period_id', $period->id)
+                ->where(function ($query) {
+                    $query->where('exempt_attendance', '!=', true);
+                    $query->where('exempt_attendance', '!=', 1);
+                    $query->orWhereNull('exempt_attendance');
+                });
         })
         ->with('course')
         ->where('start', '<', Carbon::now(config('settings.courses_timezone'))->addMinutes(20)->toDateTimeString())

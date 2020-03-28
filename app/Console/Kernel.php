@@ -44,7 +44,7 @@ class Kernel extends ConsoleKernel
             if ($changeNextPeriod || $changeCurrentPeriod) {
                 Mail::to(config('settings.manager_email'))->queue(new AdminReminders($changeNextPeriod, $changeCurrentPeriod));
             }
-        })->everyMinute();
+        })->dailyAt('08:05');
     }
 
     /**
