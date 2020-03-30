@@ -124,8 +124,8 @@ class EnrollmentCrudController extends CrudController
             'type' => 'select2_multiple',
             'label'=> __('Status'),
         ], function () {
-              return EnrollmentStatusType::all()->pluck('name', 'id')->toArray();
-          },
+            return EnrollmentStatusType::all()->pluck('name', 'id')->toArray();
+        },
           function ($values) { // if the filter is active
               foreach (json_decode($values) as $key => $value) {
                   CRUD::addClause('orWhere', 'status_id', $value);
@@ -147,10 +147,10 @@ class EnrollmentCrudController extends CrudController
             'type' => 'select2',
             'label'=> __('Period'),
         ], function () {
-              return Period::all()->pluck('name', 'id')->toArray();
-          }, function ($value) { // if the filter is active
-              CRUD::addClause('period', $value);
-          });
+            return Period::all()->pluck('name', 'id')->toArray();
+        }, function ($value) { // if the filter is active
+            CRUD::addClause('period', $value);
+        });
     }
 
     public function show($enrollment)

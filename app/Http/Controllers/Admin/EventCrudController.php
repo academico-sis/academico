@@ -146,10 +146,10 @@ class EventCrudController extends CrudController
             'type' => 'select2',
             'label'=> __('Teacher'),
         ], function () {
-              return \App\Models\Teacher::all()->pluck('name', 'id')->toArray();
-          }, function ($value) { // if the filter is active
-              CRUD::addClause('where', 'teacher_id', $value);
-          },
+            return \App\Models\Teacher::all()->pluck('name', 'id')->toArray();
+        }, function ($value) { // if the filter is active
+            CRUD::addClause('where', 'teacher_id', $value);
+        },
           function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
           });
     }
