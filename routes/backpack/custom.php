@@ -29,9 +29,9 @@ Route::group([
     'middleware' => ['web', 'permission:enrollments.view', 'language'],
     'namespace'  => 'App\Http\Controllers\Admin',
 ], function () {
-        Route::crud('enrollment', 'EnrollmentCrudController');
-        Route::crud('availablecourse', 'AvailableCourseCrudController');
-    }
+    Route::crud('enrollment', 'EnrollmentCrudController');
+    Route::crud('availablecourse', 'AvailableCourseCrudController');
+}
 );
 
 /* Admin routes - Backpack's CRUD panels, accessible only to administrators */
@@ -41,30 +41,30 @@ Route::group([
     'middleware' => ['web', 'role:admin', 'language'],
     'namespace'  => 'App\Http\Controllers\Admin',
 ], function () {
-        Route::crud('period', 'PeriodCrudController');
-        Route::crud('event', 'EventCrudController');
-        Route::crud('level', 'LevelCrudController');
-        Route::crud('room', 'RoomCrudController');
-        Route::crud('rhythm', 'RhythmCrudController');
-        Route::crud('year', 'YearCrudController');
-        Route::crud('campus', 'CampusCrudController');
-        Route::crud('user', 'UserCrudController');
-        Route::crud('teacher', 'TeacherCrudController');
-        Route::crud('evaluationtype', 'EvaluationTypeCrudController');
-        Route::crud('gradetype', 'GradeTypeCrudController');
-        Route::crud('skill', 'SkillCrudController');
-        Route::post('skill/bulk-attach', 'SkillCrudController@bulkAttachToCourse'); // TODO move to own controller
-        Route::crud('skilltype', 'SkillTypeCrudController');
-        Route::crud('skillscale', 'SkillScaleCrudController');
-        Route::crud('resulttype', 'ResultTypeCrudController');
-        Route::crud('remoteevent', 'RemoteEventCrudController');
-        Route::crud('leave', 'LeaveCrudController');
-        Route::crud('leadtype', 'LeadTypeCrudController');
-        Route::crud('config', 'ConfigCrudController');
-        Route::crud('book', 'BookCrudController');
-        Route::crud('fee', 'FeeCrudController');
-        Route::crud('discount', 'DiscountCrudController');
-        Route::crud('coupon', 'CouponCrudController');
-        Route::crud('paymentmethod', 'PaymentmethodCrudController');
-        Route::crud('courseevaluation', 'CourseEvaluationCrudController');
-    }); // this should be the absolute last line of this file
+    Route::crud('period', 'PeriodCrudController');
+    Route::crud('event', 'EventCrudController');
+    Route::crud('level', 'LevelCrudController');
+    Route::crud('room', 'RoomCrudController');
+    Route::crud('rhythm', 'RhythmCrudController');
+    Route::crud('year', 'YearCrudController');
+    Route::crud('campus', 'CampusCrudController');
+    Route::crud('user', 'UserCrudController');
+    Route::crud('teacher', 'TeacherCrudController');
+    Route::crud('evaluationtype', 'EvaluationTypeCrudController');
+    Route::crud('gradetype', 'GradeTypeCrudController');
+    Route::crud('skill', 'SkillCrudController');
+    Route::post('skill/bulk-attach', 'SkillCrudController@bulkAttachToCourse'); // TODO move to own controller
+    Route::crud('skilltype', 'SkillTypeCrudController');
+    Route::crud('skillscale', 'SkillScaleCrudController');
+    Route::crud('resulttype', 'ResultTypeCrudController');
+    Route::crud('remoteevent', 'RemoteEventCrudController');
+    Route::crud('leave', 'LeaveCrudController');
+    Route::crud('leadtype', 'LeadTypeCrudController');
+    Route::crud('config', 'ConfigCrudController');
+    Route::crud('book', 'BookCrudController');
+    Route::crud('fee', 'FeeCrudController');
+    Route::crud('discount', 'DiscountCrudController');
+    Route::crud('coupon', 'CouponCrudController');
+    Route::crud('paymentmethod', 'PaymentmethodCrudController');
+    Route::crud('courseevaluation', 'CourseEvaluationCrudController');
+}); // this should be the absolute last line of this file

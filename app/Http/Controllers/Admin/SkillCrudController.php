@@ -107,20 +107,20 @@ class SkillCrudController extends CrudController
             'type' => 'select2',
             'label'=> 'Level',
         ], function () {
-              return \App\Models\Level::all()->pluck('name', 'id')->toArray();
-          }, function ($value) { // if the filter is active
-              CRUD::addClause('where', 'level_id', $value);
-          });
+            return \App\Models\Level::all()->pluck('name', 'id')->toArray();
+        }, function ($value) { // if the filter is active
+            CRUD::addClause('where', 'level_id', $value);
+        });
 
         CRUD::addFilter([ // select2 filter
             'name' => 'skill_type_id',
             'type' => 'select2',
             'label'=> 'Type',
         ], function () {
-              return \App\Models\Skills\SkillType::all()->pluck('name', 'id')->toArray();
-          }, function ($value) { // if the filter is active
-              CRUD::addClause('where', 'skill_type_id', $value);
-          });
+            return \App\Models\Skills\SkillType::all()->pluck('name', 'id')->toArray();
+        }, function ($value) { // if the filter is active
+            CRUD::addClause('where', 'skill_type_id', $value);
+        });
     }
 
     protected function setupCreateOperation()

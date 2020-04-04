@@ -120,24 +120,24 @@ class ResultCrudController extends CrudController
             'type' => 'select2',
             'label'=> __('Period'),
         ], function () {
-              return Period::all()->pluck('name', 'id')->toArray();
-          }, function ($value) { // if the filter is active
-              CRUD::addClause('period', $value);
-          });
+            return Period::all()->pluck('name', 'id')->toArray();
+        }, function ($value) { // if the filter is active
+            CRUD::addClause('period', $value);
+        });
 
         CRUD::addFilter([ // select2_multiple filter
             'name' => 'result',
             'type' => 'select2_multiple',
             'label'=> __('Result'),
         ], function () { // the options that show up in the select2
-              return ResultType::all()->pluck('name', 'id')->toArray();
-          }, function ($values) { // if the filter is active
-              foreach (json_decode($values) as $key => $value) {
-                  $this->crud->query = $this->crud->query->whereHas('result', function ($query) use ($value) {
-                      $query->where('result_type_id', $value);
-                  });
-              }
-          });
+            return ResultType::all()->pluck('name', 'id')->toArray();
+        }, function ($values) { // if the filter is active
+            foreach (json_decode($values) as $key => $value) {
+                $this->crud->query = $this->crud->query->whereHas('result', function ($query) use ($value) {
+                    $query->where('result_type_id', $value);
+                });
+            }
+        });
     }
 
     /**
