@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Event;
 use App\Models\Leave;
 use App\Models\Teacher;
@@ -20,7 +21,7 @@ class TeacherCalendarController extends Controller
     public function index()
     {
         // Do not fetch all events but only those closest to current date. TODO optimize this.
-        $events = Event::where('start', '>', (Carbon::now()->subDays(90)))->where('end', '<', (Carbon::now()->addDays(90)))->orderBy('id', 'desc')->get()->get()->toArray();
+        $events = Event::where('start', '>', (Carbon::now()->subDays(90)))->where('end', '<', (Carbon::now()->addDays(90)))->orderBy('id', 'desc')->get()->toArray();
 
         $teachers = Teacher::with('user')->get()->toArray();
 
