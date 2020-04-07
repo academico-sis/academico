@@ -142,10 +142,10 @@ class AvailableCourseCrudController extends CrudController
             'type' => 'select2',
             'label'=> __('Campus'),
         ], function () {
-              return \App\Models\Campus::all()->pluck('name', 'id')->toArray();
-          }, function ($value) { // if the filter is active
-              CRUD::addClause('where', 'campus_id', $value);
-          },
+            return \App\Models\Campus::all()->pluck('name', 'id')->toArray();
+        }, function ($value) { // if the filter is active
+            CRUD::addClause('where', 'campus_id', $value);
+        },
           function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
               CRUD::addClause('where', 'campus_id', '1');
               $this->crud->request->request->add(['campus_id' => 1]); // to make the filter look active
@@ -156,10 +156,10 @@ class AvailableCourseCrudController extends CrudController
             'type' => 'select2',
             'label'=> __('Period'),
         ], function () {
-              return \App\Models\Period::all()->pluck('name', 'id')->toArray();
-          }, function ($value) { // if the filter is active
-              CRUD::addClause('where', 'period_id', $value);
-          },
+            return \App\Models\Period::all()->pluck('name', 'id')->toArray();
+        }, function ($value) { // if the filter is active
+            CRUD::addClause('where', 'period_id', $value);
+        },
           function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
               $period = \App\Models\Period::get_enrollments_period()->id;
               CRUD::addClause('where', 'period_id', $period);
@@ -171,10 +171,10 @@ class AvailableCourseCrudController extends CrudController
             'type' => 'select2',
             'label'=> __('Rhythm'),
         ], function () {
-              return \App\Models\Rhythm::all()->pluck('name', 'id')->toArray();
-          }, function ($value) { // if the filter is active
-              CRUD::addClause('where', 'rhythm_id', $value);
-          },
+            return \App\Models\Rhythm::all()->pluck('name', 'id')->toArray();
+        }, function ($value) { // if the filter is active
+            CRUD::addClause('where', 'rhythm_id', $value);
+        },
           function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
           });
 
@@ -183,10 +183,10 @@ class AvailableCourseCrudController extends CrudController
             'type' => 'select2',
             'label'=> __('Level'),
         ], function () {
-              return \App\Models\Level::all()->pluck('name', 'id')->toArray();
-          }, function ($value) { // if the filter is active
-              CRUD::addClause('where', 'level_id', $value);
-          },
+            return \App\Models\Level::all()->pluck('name', 'id')->toArray();
+        }, function ($value) { // if the filter is active
+            CRUD::addClause('where', 'level_id', $value);
+        },
           function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
           });
 
