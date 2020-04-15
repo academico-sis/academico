@@ -3,6 +3,8 @@ Academico is an open-source, Lavarel-based school management platform. Its main 
 
 See overview and features at https://academico.site
 
+Demo available at http://demo.academico.site (use `admin@academico.site` with password `secret`)
+
 # Installation
 
 ## Requirements
