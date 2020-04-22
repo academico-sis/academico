@@ -64,7 +64,7 @@ return [
     // ------
 
     // Menu logo. You can replace this with an <img> tag if you have a logo.
-    'project_logo'   => '<b>AFC</b>uenca',
+    'project_logo'   => '<b>Ac</b>ademico',
 
     // Show / hide breadcrumbs on admin panel pages.
     'breadcrumbs' => false,
@@ -75,7 +75,7 @@ return [
     'footer_class' => 'app-footer',
 
     // Developer or company name. Shown in footer.
-    'developer_name' => 'AFC Academico',
+    'developer_name' => 'Academico',
 
     // Developer website. Link in footer. Type false if you want to hide it.
     'developer_link' => 'https://github.com/laxsmi/academico',
