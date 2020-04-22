@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
 use App\Models\Event;
 use App\Models\Leave;
 use App\Models\Teacher;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Gate;
 
 class TeacherCalendarController extends Controller
