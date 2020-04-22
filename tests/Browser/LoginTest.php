@@ -2,12 +2,12 @@
 
 namespace Tests\Browser;
 
-use App\Models\User;
 use App\Models\Student;
 use App\Models\Teacher;
-use Tests\DuskTestCase;
-use Laravel\Dusk\Browser;
+use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Laravel\Dusk\Browser;
+use Tests\DuskTestCase;
 
 class LoginTest extends DuskTestCase
 {
@@ -18,7 +18,7 @@ class LoginTest extends DuskTestCase
         parent::setUp();
         $this->seed('TestSeeder');
     }
-    
+
     public function testLoginAsAdmin()
     {
         $this->browse(function (Browser $browser) {
