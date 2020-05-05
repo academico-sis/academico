@@ -415,7 +415,9 @@ class Course extends Model
     {
         if ($this->teacher_id) {
             return $this->teacher['firstname'].' '.$this->teacher['lastname'];
-        } else { return '-'; }
+        } else {
+            return '-';
+        }
     }
 
     public function getChildrenCountAttribute()
