@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
-use App\Models\Room;
 use App\Models\Event;
+use App\Models\Room;
+use Carbon\Carbon;
 
 class RoomController extends Controller
 {
