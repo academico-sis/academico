@@ -13,6 +13,19 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "laxsmi",
+      "name": "Laxsmi",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/1422621?v=4",
+      "profile": "https://github.com/laxsmi",
+      "contributions": [
+        "code",
+        "doc",
+        "ideas",
+        "maintenance",
+        "test"
+      ]
     }
   ],
   "contributorsPerLine": 7,
