@@ -19,7 +19,7 @@ class CreateYearsTable extends Migration
         });
 
         DB::table('years')->insert([
-            'name' => date('Y'),
+            'name' => '2019',
         ]);
 
         Schema::table('periods', function (Blueprint $table) {

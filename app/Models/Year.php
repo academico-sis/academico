@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Backpack\CRUD\app\Models\Traits\CrudTrait;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Period;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Model;
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 
 class Year extends Model
 {
@@ -33,6 +34,11 @@ class Year extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
+
+    public function periods()
+    {
+        return $this->hasMany(Period::class);
+    }
 
     /*
     |--------------------------------------------------------------------------
