@@ -80,10 +80,13 @@ class ReportController extends Controller
 
         Log::info('Reports viewed by '.backpack_user()->firstname);
 
+        $current_year = \App\Models\Year::find($current_year_id);
+
         return view('reports.external', [
             'selected_period' => $startperiod,
             'data' => $data,
             'year_data' => $year_data,
+            'current_year' => $current_year,
         ]);
     }
 
@@ -108,6 +111,8 @@ class ReportController extends Controller
 
         $data = [];
 
+        $current_year_id = $startperiod->year_id;
+
         foreach ($periods as $i => $data_period) {
             $data[$data_period->id]['period'] = $data_period->name;
             $data[$data_period->id]['year_id'] = $data_period->year_id;
@@ -122,6 +127,8 @@ class ReportController extends Controller
 
         Log::info('Reports viewed by '.backpack_user()->firstname);
 
+        $current_year = \App\Models\Year::find($current_year_id);
+
         return view('reports.internal', [
             'selected_period' => $period,
             'pending_enrollment_count' => $period->pending_enrollments_count,
@@ -130,6 +137,7 @@ class ReportController extends Controller
             'students_count' => $period->students_count,
             'data' => $data,
             'selected_period' => $startperiod,
+            'current_year' => $current_year,
         ]);
     }
 

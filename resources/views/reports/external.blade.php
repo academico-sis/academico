@@ -42,7 +42,7 @@
                         </thead>
 
                         @php
-                            $current_year = $selected_period->year_id;
+                            $current_year_id = $selected_period->year_id;
                             $i = 0;
                             $year_enrollments = 0;
                             $year_taught_hours = 0;
@@ -55,11 +55,11 @@
                             @foreach($data as $data_period)
 
                             {{-- if we are starting a new year, display previous year's totals first --}}
-                            @if ($current_year != $data_period['year_id'])
+                            @if ($current_year_id != $data_period['year_id'])
 
                                 <tr style="font-weight: bold">
                                     <td>
-                                        {{ \App\Models\Year::find($current_year)->name ?? '-' }}
+                                        {{ $current_year->name ?? '-' }}
                                     </td>
 
                                     <td>
@@ -129,14 +129,14 @@
                                 </tr>
 
                                 @php
-                                    $current_year = $data_period['year_id'];
+                                    $current_year_id = $data_period['year_id'];
                                     $i ++;
                                 @endphp
                             @endforeach
 
                             <tr style="font-weight: bold">
                                     <td>
-                                        {{ \App\Models\Year::find($current_year)->name ?? '-' }}
+                                        {{ $current_year->name ?? '-' }}
                                     </td>
 
                                     <td>
