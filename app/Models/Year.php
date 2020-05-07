@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-use App\Models\Period;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Year extends Model
 {
