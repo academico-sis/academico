@@ -34,6 +34,7 @@ class ReportController extends Controller
 
         $data = [];
         $year_data = [];
+        $years = []; // New array
 
         if (! isset($request->period)) {
             $startperiod = Period::find(Config::where('name', 'first_period')->first()->value);
@@ -76,6 +77,8 @@ class ReportController extends Controller
             $year_data[$current_year_id]['enrollments'] += $data_period->external_enrollments_count;
             $year_data[$current_year_id]['taught_hours'] += $data_period->external_taught_hours_count;
             $year_data[$current_year_id]['sold_hours'] += $data_period->external_sold_hours_count;
+
+            $years[$data_period->year_id] = \App\Models\Year::find($data_period->year_id); // New array using the Model
         }
 
         Log::info('Reports viewed by '.backpack_user()->firstname);
@@ -83,7 +86,8 @@ class ReportController extends Controller
         return view('reports.external', [
             'selected_period' => $startperiod,
             'data' => $data,
-            'year_data' => $year_data,
+            'year_data' => $year_data, // Existing array
+            'years' => $years,
         ]);
     }
 
@@ -107,6 +111,9 @@ class ReportController extends Controller
         $periods = Period::where('id', '>=', $startperiod->id)->get();
 
         $data = [];
+        $years = [];
+
+        $current_year_id = $startperiod->year_id;
 
         foreach ($periods as $i => $data_period) {
             $data[$data_period->id]['period'] = $data_period->name;
@@ -118,6 +125,7 @@ class ReportController extends Controller
             $data[$data_period->id]['new_students'] = $data_period->new_students_count;
             $data[$data_period->id]['taught_hours'] = $data_period->period_taught_hours_count;
             $data[$data_period->id]['sold_hours'] = $data_period->period_sold_hours_count;
+            $years[$data_period->year_id] = \App\Models\Year::find($data_period->year_id); // New array using the Model
         }
 
         Log::info('Reports viewed by '.backpack_user()->firstname);
@@ -130,6 +138,7 @@ class ReportController extends Controller
             'students_count' => $period->students_count,
             'data' => $data,
             'selected_period' => $startperiod,
+            'years' => $years, // New array
         ]);
     }
 
