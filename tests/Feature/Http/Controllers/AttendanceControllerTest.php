@@ -39,7 +39,7 @@ class AttendanceControllerTest extends TestCase
         $student->enroll($course);
 
         // when the admin browses to the attendance dashboard
-        $response = $this->get('/attendance');
+        $response = $this->get('/attendance?period='.$course->period_id);
 
         // they should see the same of the course and the name of the student
         $response->assertSee($course->name);

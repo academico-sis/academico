@@ -19,7 +19,7 @@ class CreateYearsTable extends Migration
         });
 
         DB::table('years')->insert([
-            'name' => '2019',
+            'name' => '2019-default',
         ]);
 
         Schema::table('periods', function (Blueprint $table) {

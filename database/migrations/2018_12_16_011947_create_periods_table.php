@@ -23,8 +23,8 @@ class CreatePeriodsTable extends Migration
 
         DB::table('periods')->insert([
             'name' => 'Period 1',
-            'start' => date('Y-m-d', strtotime('first day of january this year')),
-            'end' => date('Y-m-d', strtotime('last day of march this year')),
+            'start' => date('Y-m-d', strtotime('-1 day')),
+            'end' => date('Y-m-d', strtotime('+90 days')),
             'year_id' => 1,
         ]);
 

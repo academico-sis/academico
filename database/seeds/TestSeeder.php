@@ -1,23 +1,24 @@
 <?php
 
-use App\Models\AttendanceType;
+use App\Models\Room;
+use App\Models\User;
+use App\Models\Level;
 use App\Models\Campus;
-use App\Models\ContactRelationship;
-use App\Models\EnrollmentStatusType;
-use App\Models\EvaluationType;
+use App\Models\Period;
+use App\Models\Rhythm;
 use App\Models\LeadType;
 use App\Models\LeaveType;
-use App\Models\Level;
-use App\Models\Paymentmethod;
 use App\Models\ResultType;
-use App\Models\Rhythm;
-use App\Models\Room;
-use App\Models\Skills\SkillScale;
-use App\Models\User;
+use App\Models\Paymentmethod;
+use App\Models\AttendanceType;
+use App\Models\EvaluationType;
 use Illuminate\Database\Seeder;
+use App\Models\Skills\SkillScale;
 use Illuminate\Support\Facades\DB;
-use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use App\Models\ContactRelationship;
+use App\Models\EnrollmentStatusType;
+use Spatie\Permission\Models\Permission;
 
 class TestSeeder extends Seeder
 {
@@ -323,5 +324,7 @@ class TestSeeder extends Seeder
         factory(Level::class)->create(['name' => 'Beginner']);
         factory(Level::class)->create(['name' => 'Intermediate']);
         factory(Level::class)->create(['name' => 'Advanced']);
+
+        factory(Period::class)->create();
     }
 }
