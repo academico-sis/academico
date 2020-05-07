@@ -1,24 +1,24 @@
 <?php
 
-use App\Models\Room;
-use App\Models\User;
-use App\Models\Level;
-use App\Models\Campus;
-use App\Models\Period;
-use App\Models\Rhythm;
-use App\Models\LeadType;
-use App\Models\LeaveType;
-use App\Models\ResultType;
-use App\Models\Paymentmethod;
 use App\Models\AttendanceType;
-use App\Models\EvaluationType;
-use Illuminate\Database\Seeder;
-use App\Models\Skills\SkillScale;
-use Illuminate\Support\Facades\DB;
-use Spatie\Permission\Models\Role;
+use App\Models\Campus;
 use App\Models\ContactRelationship;
 use App\Models\EnrollmentStatusType;
+use App\Models\EvaluationType;
+use App\Models\LeadType;
+use App\Models\LeaveType;
+use App\Models\Level;
+use App\Models\Paymentmethod;
+use App\Models\Period;
+use App\Models\ResultType;
+use App\Models\Rhythm;
+use App\Models\Room;
+use App\Models\Skills\SkillScale;
+use App\Models\User;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class TestSeeder extends Seeder
 {
