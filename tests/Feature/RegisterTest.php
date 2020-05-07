@@ -37,7 +37,6 @@ class RegisterTest extends TestCase
      */
     public function testIfUserIsCreated()
     {
-
     }
 
     public function test_that_a_student_is_created()
