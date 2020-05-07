@@ -1,28 +1,28 @@
 <?php
 
-use App\Models\Room;
-use App\Models\User;
-use App\Models\Year;
-use App\Models\Level;
+use App\Models\AttendanceType;
 use App\Models\Campus;
+use App\Models\ContactRelationship;
 use App\Models\Course;
-use App\Models\Period;
-use App\Models\Rhythm;
-use App\Models\Student;
-use App\Models\Teacher;
+use App\Models\EnrollmentStatusType;
+use App\Models\EvaluationType;
 use App\Models\LeadType;
 use App\Models\LeaveType;
-use App\Models\ResultType;
+use App\Models\Level;
 use App\Models\Paymentmethod;
-use App\Models\AttendanceType;
-use App\Models\EvaluationType;
-use Illuminate\Database\Seeder;
+use App\Models\Period;
+use App\Models\ResultType;
+use App\Models\Rhythm;
+use App\Models\Room;
 use App\Models\Skills\SkillScale;
+use App\Models\Student;
+use App\Models\Teacher;
+use App\Models\User;
+use App\Models\Year;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Spatie\Permission\Models\Role;
-use App\Models\ContactRelationship;
-use App\Models\EnrollmentStatusType;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
 {
@@ -340,34 +340,32 @@ class DatabaseSeeder extends Seeder
             'name' => '2020',
         ]);
 
-        foreach (Year::all() as $year)
-        {
-            
+        foreach (Year::all() as $year) {
+
             // seed 4 periods inside that year
             DB::table('periods')->insert([
-                'name' => 'Period 2 in year '. $year->name,
+                'name' => 'Period 2 in year '.$year->name,
                 'start' => date('Y-m-d', strtotime('first day of april this year')),
                 'end' => date('Y-m-d', strtotime('last day of june this year')),
                 'year_id' => $year->id,
             ]);
 
             DB::table('periods')->insert([
-                'name' => 'Period 3 in year '. $year->name,
+                'name' => 'Period 3 in year '.$year->name,
                 'start' => date('Y-m-d', strtotime('first day of july this year')),
                 'end' => date('Y-m-d', strtotime('last day of august this year')),
                 'year_id' => $year->id,
             ]);
 
             DB::table('periods')->insert([
-                'name' => 'Period 4 in year '. $year->name,
+                'name' => 'Period 4 in year '.$year->name,
                 'start' => date('Y-m-d', strtotime('first day of september this year')),
                 'end' => date('Y-m-d', strtotime('last day of december this year')),
                 'year_id' => $year->id,
             ]);
 
             // foreach period in year, seed some courses
-            foreach ($year->periods as $period)
-            {
+            foreach ($year->periods as $period) {
                 $p1course1 = factory(Course::class)->create([
                     'campus_id' => 1,
                     'rhythm_id' => 1,
@@ -380,13 +378,13 @@ class DatabaseSeeder extends Seeder
                     'teacher_id' => 3,
                     'period_id' => $period->id,
                 ]);
-        
+
                 $p1course1->times()->create(['day' => 1, 'start' => '09:00:00', 'end' => '17:00:00']);
                 $p1course1->times()->create(['day' => 2, 'start' => '09:00:00', 'end' => '17:00:00']);
                 $p1course1->times()->create(['day' => 3, 'start' => '09:00:00', 'end' => '17:00:00']);
                 $p1course1->times()->create(['day' => 4, 'start' => '09:00:00', 'end' => '17:00:00']);
                 $p1course1->times()->create(['day' => 5, 'start' => '09:00:00', 'end' => '17:00:00']);
-        
+
                 $p1course2 = factory(Course::class)->create([
                     'campus_id' => 1,
                     'rhythm_id' => 1,
@@ -399,11 +397,11 @@ class DatabaseSeeder extends Seeder
                     'teacher_id' => 2,
                     'period_id' => $period->id,
                 ]);
-        
+
                 $p1course2->times()->create(['day' => 1, 'start' => '14:00:00', 'end' => '17:00:00']);
                 $p1course2->times()->create(['day' => 3, 'start' => '14:00:00', 'end' => '17:00:00']);
                 $p1course2->times()->create(['day' => 5, 'start' => '14:00:00', 'end' => '17:00:00']);
-        
+
                 $p1course3 = factory(Course::class)->create([
                     'campus_id' => 1,
                     'rhythm_id' => 4,
@@ -416,29 +414,27 @@ class DatabaseSeeder extends Seeder
                     'teacher_id' => 3,
                     'period_id' => $period->id,
                 ]);
-        
+
                 $p1course3->times()->create(['day' => 6, 'start' => '09:00:00', 'end' => '13:00:00']);
                 $p1course3->times()->create(['day' => 0, 'start' => '09:00:00', 'end' => '13:00:00']);
 
                 // create some "random" enrollments so that reports apear to have real data
 
-                for ($i = 0; $i < random_int(5,19); $i++) {
+                for ($i = 0; $i < random_int(5, 19); $i++) {
                     $student = factory(Student::class)->create();
                     $student->enroll($p1course1);
                 }
-        
-                for ($i = 0; $i < random_int(5,19); $i++) {
+
+                for ($i = 0; $i < random_int(5, 19); $i++) {
                     $student = factory(Student::class)->create();
                     $student->enroll($p1course2);
                 }
 
-                for ($i = 0; $i < random_int(5,19); $i++) {
+                for ($i = 0; $i < random_int(5, 19); $i++) {
                     $student = factory(Student::class)->create();
                     $student->enroll($p1course3);
                 }
-
             }
         }
-
     }
 }
