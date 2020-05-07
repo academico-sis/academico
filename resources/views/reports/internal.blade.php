@@ -63,7 +63,7 @@
 
                                 <tr style="font-weight: bold">
                                     <td>
-                                        {{ $current_year->name ?? '-' }}
+                                        {{ $years[$current_year_id]->name ?? '-' }}
                                     </td>
 
                                     <td>
@@ -71,7 +71,7 @@
                                     </td>
 
                                     <td>
-                                        {{ $current_year->year_distinct_students_count ?? '-' }}
+                                        {{ $years[$current_year_id]->year_distinct_students_count ?? '-' }}
                                     </td>
 
                                     <td>
@@ -144,7 +144,7 @@
 
                             <tr style="font-weight: bold">
                                     <td>
-                                        {{ $current_year->name ?? '-' }}
+                                        {{ $years[$current_year_id]->name ?? '-' }}
                                     </td>
 
                                     <td>
@@ -152,7 +152,7 @@
                                     </td>
 
                                     <td>
-                                        {{ $current_year->year_distinct_students_count ?? '-' }}
+                                        {{ $years[$current_year_id]->year_distinct_students_count ?? '-' }}
                                     </td>
 
                                     <td>

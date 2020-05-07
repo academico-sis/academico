@@ -80,13 +80,10 @@ class ReportController extends Controller
 
         Log::info('Reports viewed by '.backpack_user()->firstname);
 
-        $current_year = \App\Models\Year::find($current_year_id);
-
         return view('reports.external', [
             'selected_period' => $startperiod,
             'data' => $data,
-            'year_data' => $year_data,
-            'current_year' => $current_year,
+            'year_data' => $year_data, // Existing array
         ]);
     }
 
@@ -110,6 +107,7 @@ class ReportController extends Controller
         $periods = Period::where('id', '>=', $startperiod->id)->get();
 
         $data = [];
+        $years = [];
 
         $current_year_id = $startperiod->year_id;
 
@@ -123,11 +121,10 @@ class ReportController extends Controller
             $data[$data_period->id]['new_students'] = $data_period->new_students_count;
             $data[$data_period->id]['taught_hours'] = $data_period->period_taught_hours_count;
             $data[$data_period->id]['sold_hours'] = $data_period->period_sold_hours_count;
+            $years[$data_period->year_id] = \App\Models\Year::find($data_period->year_id); // New array using the Model
         }
 
         Log::info('Reports viewed by '.backpack_user()->firstname);
-
-        $current_year = \App\Models\Year::find($current_year_id);
 
         return view('reports.internal', [
             'selected_period' => $period,
@@ -137,7 +134,7 @@ class ReportController extends Controller
             'students_count' => $period->students_count,
             'data' => $data,
             'selected_period' => $startperiod,
-            'current_year' => $current_year,
+            'years' => $years, // New array
         ]);
     }
 
