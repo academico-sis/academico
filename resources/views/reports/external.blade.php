@@ -59,7 +59,7 @@
 
                                 <tr style="font-weight: bold">
                                     <td>
-                                        {{  $year_data[$current_year_id]['year_name'] ?? '-' }}
+                                        {{ $years[$current_year_id]->name ?? '-' }}
                                     </td>
 
                                     <td>
@@ -136,7 +136,7 @@
 
                             <tr style="font-weight: bold">
                                     <td>
-                                        {{  $year_data[$current_year_id]['year_name'] ?? '-' }}
+                                        {{ $years[$current_year_id]->name ?? '-' }}
                                     </td>
 
                                     <td>
