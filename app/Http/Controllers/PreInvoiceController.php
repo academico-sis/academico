@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Book;
-use App\Models\Comment;
-use App\Models\Config;
-use App\Models\Enrollment;
 use App\Models\Fee;
-use App\Models\Payment;
-use App\Models\PreInvoice;
-use App\Models\PreInvoiceDetail;
+use App\Models\Book;
 use App\Models\User;
+use App\Models\Config;
 use GuzzleHttp\Client;
+use App\Models\Comment;
+use App\Models\Payment;
+use App\Models\Enrollment;
+use App\Models\PreInvoice;
 use Illuminate\Http\Request;
+use App\Models\PreInvoiceDetail;
 use Prologue\Alerts\Facades\Alert;
+use Illuminate\Support\Facades\Log;
 
 class PreInvoiceController extends Controller
 {
@@ -81,6 +82,9 @@ class PreInvoiceController extends Controller
                 'json' => $body,
             ]);
 
+            Log::info('Sending data to accounting');
+            Log::info(print_r($response));
+
             if ($response->getBody()) {
                 $code = json_decode(preg_replace('/[\\x00-\\x1F\\x80-\\xFF]/', '', $response->getBody()), true);
             }
@@ -88,6 +92,8 @@ class PreInvoiceController extends Controller
             $preinvoice->invoice_number = $code['mensaje'];
             $preinvoice->save();
         } catch (Exception $exception) {
+            Log::error('Data could not be sent to accounting');
+            Log::error($exception);
             parent::report($exception);
 
             foreach ($preinvoice->pre_invoice_details as $product) {
