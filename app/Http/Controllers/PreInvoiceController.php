@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Fee;
 use App\Models\Book;
-use App\Models\User;
-use App\Models\Config;
-use GuzzleHttp\Client;
 use App\Models\Comment;
-use App\Models\Payment;
+use App\Models\Config;
 use App\Models\Enrollment;
+use App\Models\Fee;
+use App\Models\Payment;
 use App\Models\PreInvoice;
-use Illuminate\Http\Request;
 use App\Models\PreInvoiceDetail;
-use Prologue\Alerts\Facades\Alert;
+use App\Models\User;
+use GuzzleHttp\Client;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Prologue\Alerts\Facades\Alert;
 
 class PreInvoiceController extends Controller
 {
