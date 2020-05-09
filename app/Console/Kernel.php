@@ -45,6 +45,8 @@ class Kernel extends ConsoleKernel
                 Mail::to(config('settings.manager_email'))->queue(new AdminReminders($changeNextPeriod, $changeCurrentPeriod));
             }
         })->dailyAt('08:05');
+
+        $schedule->command('monitor:check-uptime')->everyMinute();
     }
 
     /**

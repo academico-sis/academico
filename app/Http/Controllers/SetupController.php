@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\LeadType;
 use App\Models\Period;
 use App\Models\Student;
+use App\Models\LeadType;
 use App\Traits\PeriodSelection;
+use Illuminate\Support\Facades\DB;
 
 class SetupController extends Controller
 {
@@ -28,6 +29,8 @@ class SetupController extends Controller
         $currentPeriod = Period::get_default_period();
         $enrollmentsPeriod = Period::get_enrollments_period();
 
-        return view('setup.dashboard', compact('queue', 'failed', 'lead_types', 'orphan_students', 'currentPeriod', 'enrollmentsPeriod'));
+        $uptime = DB::table('monitors')->get();
+
+        return view('setup.dashboard', compact('queue', 'failed', 'lead_types', 'orphan_students', 'currentPeriod', 'enrollmentsPeriod', 'uptime'));
     }
 }
