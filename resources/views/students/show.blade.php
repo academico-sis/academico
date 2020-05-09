@@ -14,13 +14,13 @@
 
 <div class="row">
 
-    @if ($student->getFirstMediaUrl() != null)
+{{--     @if ($student->getFirstMediaUrl() != null)
     <div class="col-md-2">
         <div class="card">
             <img src="{{$student->getMedia()->last()->getUrl('thumb')}}" style="width: 100%" />
         </div>
     </div>
-    @endif
+    @endif --}}
 
     <div class="col-md-6">
         <student-contacts-component :student="{{ $student }}" :contacts="{{ $student->contacts }}" writeaccess="{{ $writeaccess }}"></student-contacts-component>
