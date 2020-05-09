@@ -69,7 +69,7 @@ class PreInvoiceController extends Controller
             'pckardex' => $pckardex,
         ];
 
-        $client = new Client();
+        $client = new Client(['debug' => true, 'connect_timeout' => 20]);
 
         $serverurl = Config::where('name', 'ACCOUNTING_URL')->first()->value;
 
