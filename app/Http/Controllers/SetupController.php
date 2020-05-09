@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LeadType;
 use App\Models\Period;
 use App\Models\Student;
-use App\Models\LeadType;
 use App\Traits\PeriodSelection;
 use Illuminate\Support\Facades\DB;
 
