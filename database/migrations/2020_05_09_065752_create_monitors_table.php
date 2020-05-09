@@ -1,9 +1,9 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 use Spatie\UptimeMonitor\Models\Enums\CertificateStatus;
 use Spatie\UptimeMonitor\Models\Enums\UptimeStatus;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
 
 class CreateMonitorsTable extends Migration
 {
