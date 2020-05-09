@@ -8,9 +8,11 @@ See overview and features at https://academico.site
 
 Demo available at http://demo.academico.site (use `admin@academico.site` with password `secret`)
 
+If you're using this software, please be get in touch with project maintener to receive security updates. Just send an email to academico.platform@gmail.com (this is also very helpful for me to keep track of how many people actually use this software).
+
 # Documentation
-* Technical documentation -> https://github.com/laxsmi/academico/wiki
-* User documentation -> https://laxsmi.gitbook.io/academico-docs/
+* Technical documentation (EN), including installation instructions -> https://github.com/laxsmi/academico/wiki
+* User documentation (FR) -> https://laxsmi.gitbook.io/academico-docs/
 
 # Contributors welcome! ✨
 This project was initially developed to address the needs of one specific school, however, the project is now published as open-source with the hope that others might use it. Developing and maintaining a new application takes a lot of time and effort, and everyone wins by using and improving already existing software instead of starting from scratch every time.
