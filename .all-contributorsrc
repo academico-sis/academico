@@ -26,6 +26,15 @@
         "maintenance",
         "test"
       ]
+    },
+    {
+      "login": "damienBAUDET",
+      "name": "Damien Baudet",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/51827692?v=4",
+      "profile": "https://github.com/damienBAUDET",
+      "contributions": [
+        "maintenance"
+      ]
     }
   ],
   "contributorsPerLine": 7,
