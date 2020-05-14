@@ -14,13 +14,13 @@
 
 <div class="row">
 
-{{--     @if ($student->getFirstMediaUrl() != null)
+     @if ($student->getFirstMediaUrl() != null)
     <div class="col-md-2">
         <div class="card">
             <img src="{{$student->getMedia()->last()->getUrl('thumb')}}" style="width: 100%" />
         </div>
     </div>
-    @endif --}}
+    @endif
 
     <div class="col-md-6">
         <student-contacts-component :student="{{ $student }}" :contacts="{{ $student->contacts }}" writeaccess="{{ $writeaccess }}"></student-contacts-component>
@@ -76,7 +76,7 @@
 
                         </div>
                     </div>
-                    
+
                     <div class="card-body">
                         <table class="table table-striped">
                             <thead>
@@ -148,11 +148,11 @@
               <h4 class="modal-title">@lang('Add a new contact')</h4>
             </div>
             <div class="modal-body">
-              
+
                 <form action="{{ route('addContact') }}" method="post">
                 @csrf
                 <input type="hidden" name="student_id" value="{{ $student->id }}">
-                
+
                 <div class="form-group">
                     <label for="firstname">@lang('Firstname')</label>
                     <input required type="text" id="firstname" name="firstname">
@@ -193,12 +193,12 @@
         </div>
       </div>
     </div>
-    
-    
+
+
 @endsection
 
 @section('after_scripts')
     <script src="/js/app.js"></script>
 
-    
+
 @endsection
