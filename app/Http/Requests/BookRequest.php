@@ -26,7 +26,7 @@ class BookRequest extends FormRequest
     {
         return [
             'name' => 'required|min:5|max:255|unique:books',
-            'price' => 'required',
+            'price' => 'required|numeric|min:0',
             'product_code' => 'required|string',
 
         ];
