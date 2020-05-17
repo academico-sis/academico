@@ -36,8 +36,10 @@ class YearCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
 
-        // TODO: remove setFromDb() and manually define Fields and Columns
-        CRUD::setFromDb();
+        CRUD::addColumn(['name' => 'name', 'label' => 'Name']);
+
+        CRUD::addField(['name' => 'name', 'label' => 'Name', 'type' => 'text']);
+
 
         // add asterisk for fields that are required in YearRequest
         CRUD::setRequiredFields(StoreRequest::class, 'create');
