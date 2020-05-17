@@ -36,8 +36,17 @@ class RhythmCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
 
-        // TODO: remove setFromDb() and manually define Fields and Columns
-        CRUD::setFromDb();
+        CRUD::addColumns([
+            ['name' => 'name', 'label' => 'Name'],
+            ['name' => 'default_volume', 'label' => 'Default volume'],
+            ['name' => 'product_code', 'label' => 'Product code']
+        ]);
+
+        CRUD::addFields([
+            ['name' => 'name', 'label' => 'Name', 'type' => 'text'],
+            ['name' => 'default_volume', 'label' => 'Default volume', 'type' => 'text'],
+            ['name' => 'product_code', 'label' => 'Product code', 'type' => 'text']
+        ]);
 
         // add asterisk for fields that are required in RhythmRequest
         CRUD::setRequiredFields(StoreRequest::class, 'create');
