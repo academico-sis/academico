@@ -36,8 +36,15 @@ class ResultTypeCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
 
-        // TODO: remove setFromDb() and manually define Fields and Columns
-        CRUD::setFromDb();
+        CRUD::addColumns([
+            ['name' => 'name', 'label' => 'Name'],
+            ['name' => 'description', 'label' => 'Description']
+        ]);
+
+        CRUD::addFields([
+            ['name' => 'name', 'label' => 'Name', 'type' => 'textarea'],
+            ['name' => 'description', 'label' => 'Description', 'type' => 'textarea']
+        ]);
 
         // add asterisk for fields that are required in ResultTypeRequest
         CRUD::setRequiredFields(StoreRequest::class, 'create');
