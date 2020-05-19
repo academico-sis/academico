@@ -4,7 +4,7 @@
     <div class="card-header">{{ $t('Comments') }}
         <div class="card-header-actions">
             <button type="button" class="btn btn-sm btn-primary" @click="showEditField = true">
-                <i class="fa fa-plus"></i>
+                <i class="la la-plus"></i>
             </button>
         </div>
     </div>

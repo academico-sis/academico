@@ -15,14 +15,14 @@
 
                 <div><strong>{{ $t('Phone Number') }}:</strong>
                     <button class="btn btn-sm btn-primary" @click="addingNumberToStudent = true" v-if="writeaccess">
-                        <i class="fa fa-plus"></i>
+                        <i class="la la-plus"></i>
                     </button>
                     
                     <ul>
                         <li v-for="phone in student.phone" v-bind:key="phone.id">
                             {{ phone.phone_number }}
                             <button v-if="writeaccess" class="btn btn-sm btn-ghost-danger" @click="removePhoneNumber(student.phone, phone)">
-                                <i class="fa fa-trash"></i>
+                                <i class="la la-trash"></i>
                             </button>
                         </li>
 
@@ -30,7 +30,7 @@
                             <div class="input-group">
                             <input class="form-control" type="text" v-model="newNumber">
                             <span class="input-group-append">
-                                <button class="btn btn-sm btn-success" type="button" @click="saveStudentPhoneNumber(student)"><i class="fa fa-save"></i></button>
+                                <button class="btn btn-sm btn-success" type="button" @click="saveStudentPhoneNumber(student)"><i class="la la-save"></i></button>
                             </span>
                             </div>
                         </li>
@@ -42,11 +42,11 @@
 
             <div v-if="writeaccess">
                 <a class="btn btn-sm btn-warning" :href="`/student/${student.id}/edit`">
-                    <i class="fa fa-edit"></i>
+                    <i class="la la-edit"></i>
                 </a>
 
                 <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#userDataModal">
-                    <i class="fa fa-plus"></i>
+                    <i class="la la-plus"></i>
                 </button>
             </div>
         </div>
@@ -59,14 +59,14 @@
             <div><strong>{{ $t('address') }}:</strong> {{ contact.address }}</div>
                 <div><strong>{{ $t('Phone Number') }}:</strong>
                     <button class="btn btn-sm btn-primary" @click="addingNumberToContact = true" v-if="writeaccess">
-                        <i class="fa fa-plus"></i>
+                        <i class="la la-plus"></i>
                     </button>
 
                     <ul>
                         <li v-for="phone in contact.phone" v-bind:key="phone.id">
                             {{ phone.phone_number }}
                             <button v-if="writeaccess" class="btn btn-sm btn-ghost-danger" @click="removePhoneNumber(contact.phone, phone)">
-                                <i class="fa fa-trash"></i>
+                                <i class="la la-trash"></i>
                             </button>
                         </li>
 
@@ -74,7 +74,7 @@
                             <div class="input-group">
                             <input class="form-control" type="text" v-model="newNumber">
                             <span class="input-group-append">
-                                <button class="btn btn-sm btn-success" type="button" @click="saveContactPhoneNumber(contact)"><i class="fa fa-save"></i></button>
+                                <button class="btn btn-sm btn-success" type="button" @click="saveContactPhoneNumber(contact)"><i class="la la-save"></i></button>
                             </span>
                             </div>
                         </li>
@@ -84,15 +84,15 @@
 
             <div class="" v-if="writeaccess">
                 <a class="btn btn-sm btn-warning" :href="`/contact/${contact.id}/edit`">
-                    <i class="fa fa-edit"></i>
+                    <i class="la la-edit"></i>
                 </a>
 
                 <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#userDataModal">
-                    <i class="fa fa-plus"></i>
+                    <i class="la la-plus"></i>
                 </button>
 
                 <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#userDataModal">
-                    <i class="fa fa-trash"></i>
+                    <i class="la la-trash"></i>
                 </button><!-- TODO -->
             </div>
         </div>

@@ -34,7 +34,7 @@
                                 type="button"
                                 class="btn btn-xs btn-success"
                                 @click="addTime()">
-                                    <i class="fa fa-plus"></i>
+                                    <i class="la la-plus"></i>
                             </button>
                         </th>
                     </thead>
@@ -44,7 +44,7 @@
                             <td>{{ time.day }}</td>
                             <td>{{ time.start }}</td>
                             <td>{{ time.end }}</td>
-                            <td><a @click="removeTime(time)">(<i class="fa fa-times"></i>)</a></td>
+                            <td><a @click="removeTime(time)">(<i class="la la-times"></i>)</a></td>
                         </tr>
                     </tbody>
                 </table>
