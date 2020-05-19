@@ -148,7 +148,7 @@ class AvailableCourseCrudController extends CrudController
         },
           function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
               CRUD::addClause('where', 'campus_id', '1');
-              $this->crud->request->request->add(['campus_id' => 1]); // to make the filter look active
+              //$this->crud->request->request->add(['campus_id' => 1]); // to make the filter look active
           });
 
         CRUD::addFilter([ // select2 filter

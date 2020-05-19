@@ -1,8 +1,31 @@
+/**
+ * Copyright (c) Tiny Technologies, Inc. All rights reserved.
+ * Licensed under the LGPL or a commercial license.
+ * For LGPL see License.txt in the project root for license information.
+ * For commercial licenses see https://www.tiny.cloud/
+ *
+ * Version: 5.2.2 (2020-04-23)
+ */
 (function () {
-var nonbreaking = (function () {
     'use strict';
 
     var global = tinymce.util.Tools.resolve('tinymce.PluginManager');
+
+    var getKeyboardSpaces = function (editor) {
+      var spaces = editor.getParam('nonbreaking_force_tab', 0);
+      if (typeof spaces === 'boolean') {
+        return spaces === true ? 3 : 0;
+      } else {
+        return spaces;
+      }
+    };
+    var wrapNbsps = function (editor) {
+      return editor.getParam('nonbreaking_wrap', true, 'boolean');
+    };
+    var Settings = {
+      getKeyboardSpaces: getKeyboardSpaces,
+      wrapNbsps: wrapNbsps
+    };
 
     var stringRepeat = function (string, repeats) {
       var str = '';
@@ -15,9 +38,17 @@ var nonbreaking = (function () {
       return editor.plugins.visualchars ? editor.plugins.visualchars.isEnabled() : false;
     };
     var insertNbsp = function (editor, times) {
-      var nbsp = isVisualCharsEnabled(editor) ? '<span class="mce-nbsp">&nbsp;</span>' : '&nbsp;';
-      editor.insertContent(stringRepeat(nbsp, times));
-      editor.dom.setAttrib(editor.dom.select('span.mce-nbsp'), 'data-mce-bogus', '1');
+      var classes = function () {
+        return isVisualCharsEnabled(editor) ? 'mce-nbsp-wrap mce-nbsp' : 'mce-nbsp-wrap';
+      };
+      var nbspSpan = function () {
+        return '<span class="' + classes() + '" contenteditable="false">' + stringRepeat('&nbsp;', times) + '</span>';
+      };
+      var shouldWrap = Settings.wrapNbsps(editor);
+      var html = shouldWrap || editor.plugins.visualchars ? nbspSpan() : stringRepeat('&nbsp;', times);
+      editor.undoManager.transact(function () {
+        return editor.insertContent(html);
+      });
     };
     var Actions = { insertNbsp: insertNbsp };
 
@@ -29,16 +60,6 @@ var nonbreaking = (function () {
     var Commands = { register: register };
 
     var global$1 = tinymce.util.Tools.resolve('tinymce.util.VK');
-
-    var getKeyboardSpaces = function (editor) {
-      var spaces = editor.getParam('nonbreaking_force_tab', 0);
-      if (typeof spaces === 'boolean') {
-        return spaces === true ? 3 : 0;
-      } else {
-        return spaces;
-      }
-    };
-    var Settings = { getKeyboardSpaces: getKeyboardSpaces };
 
     var setup = function (editor) {
       var spaces = Settings.getKeyboardSpaces(editor);
@@ -58,28 +79,31 @@ var nonbreaking = (function () {
     var Keyboard = { setup: setup };
 
     var register$1 = function (editor) {
-      editor.addButton('nonbreaking', {
-        title: 'Nonbreaking space',
-        cmd: 'mceNonBreaking'
+      editor.ui.registry.addButton('nonbreaking', {
+        icon: 'non-breaking',
+        tooltip: 'Nonbreaking space',
+        onAction: function () {
+          return editor.execCommand('mceNonBreaking');
+        }
       });
-      editor.addMenuItem('nonbreaking', {
-        icon: 'nonbreaking',
+      editor.ui.registry.addMenuItem('nonbreaking', {
+        icon: 'non-breaking',
         text: 'Nonbreaking space',
-        cmd: 'mceNonBreaking',
-        context: 'insert'
+        onAction: function () {
+          return editor.execCommand('mceNonBreaking');
+        }
       });
     };
     var Buttons = { register: register$1 };
 
-    global.add('nonbreaking', function (editor) {
-      Commands.register(editor);
-      Buttons.register(editor);
-      Keyboard.setup(editor);
-    });
     function Plugin () {
+      global.add('nonbreaking', function (editor) {
+        Commands.register(editor);
+        Buttons.register(editor);
+        Keyboard.setup(editor);
+      });
     }
 
-    return Plugin;
+    Plugin();
 
 }());
-})();

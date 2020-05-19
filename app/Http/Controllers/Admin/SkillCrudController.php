@@ -137,8 +137,8 @@ class SkillCrudController extends CrudController
     {
         $this->middleware(['permission:evaluation.edit']);
 
-        $entries = $this->request->input('entries');
-        $course = Course::find($this->request->input('course'));
+        $entries = request()->input('entries');
+        $course = Course::find(request()->input('course'));
 
         $course->skills()->detach();
 

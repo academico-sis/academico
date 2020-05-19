@@ -1,5 +1,12 @@
+/**
+ * Copyright (c) Tiny Technologies, Inc. All rights reserved.
+ * Licensed under the LGPL or a commercial license.
+ * For LGPL see License.txt in the project root for license information.
+ * For commercial licenses see https://www.tiny.cloud/
+ *
+ * Version: 5.2.2 (2020-04-23)
+ */
 (function () {
-var autolink = (function () {
     'use strict';
 
     var global = tinymce.util.Tools.resolve('tinymce.PluginManager');
@@ -10,11 +17,15 @@ var autolink = (function () {
       return editor.getParam('autolink_pattern', /^(https?:\/\/|ssh:\/\/|ftp:\/\/|file:\/|www\.|(?:mailto:)?[A-Z0-9._%+\-]+@)(.+)$/i);
     };
     var getDefaultLinkTarget = function (editor) {
-      return editor.getParam('default_link_target', '');
+      return editor.getParam('default_link_target', false);
+    };
+    var getDefaultLinkProtocol = function (editor) {
+      return editor.getParam('link_default_protocol', 'http', 'string');
     };
     var Settings = {
       getAutoLinkPattern: getAutoLinkPattern,
-      getDefaultLinkTarget: getDefaultLinkTarget
+      getDefaultLinkTarget: getDefaultLinkTarget,
+      getDefaultLinkProtocol: getDefaultLinkProtocol
     };
 
     var rangeEqualsDelimiterOrSpace = function (rangeString, delimiter) {
@@ -120,16 +131,17 @@ var autolink = (function () {
       }
       text = rng.toString().trim();
       matches = text.match(autoLinkPattern);
+      var protocol = Settings.getDefaultLinkProtocol(editor);
       if (matches) {
         if (matches[1] === 'www.') {
-          matches[1] = 'http://www.';
+          matches[1] = protocol + '://www.';
         } else if (/@$/.test(matches[1]) && !/^mailto:/.test(matches[1])) {
           matches[1] = 'mailto:' + matches[1];
         }
         bookmark = editor.selection.getBookmark();
         editor.selection.setRng(rng);
         editor.execCommand('createlink', false, matches[1] + matches[2]);
-        if (defaultLinkTarget) {
+        if (defaultLinkTarget !== false) {
           editor.dom.setAttrib(editor.selection.getNode(), 'target', defaultLinkTarget);
         }
         editor.selection.moveToBookmark(bookmark);
@@ -143,7 +155,7 @@ var autolink = (function () {
           return handleEnter(editor);
         }
       });
-      if (global$1.ie) {
+      if (global$1.browser.isIE()) {
         editor.on('focus', function () {
           if (!autoUrlDetectState) {
             autoUrlDetectState = true;
@@ -168,13 +180,12 @@ var autolink = (function () {
     };
     var Keys = { setup: setup };
 
-    global.add('autolink', function (editor) {
-      Keys.setup(editor);
-    });
     function Plugin () {
+      global.add('autolink', function (editor) {
+        Keys.setup(editor);
+      });
     }
 
-    return Plugin;
+    Plugin();
 
 }());
-})();
