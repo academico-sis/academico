@@ -337,14 +337,20 @@
                         <div class="col-md-6" style="text-align: center;">
                             <div v-if="shoppingCartTotal == paidTotal">
                                 <div class="form-group">
-                                    <button class="btn btn-lg btn-success" @click="finish()"><i class="la la-check"></i>{{ $t('Checkout') }}</button>
+                                    <button class="btn btn-lg btn-success" @click="finish()" :disabled="loading">
+                                        <span v-if="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                        <i class="la la-check"></i>{{ $t('Checkout') }}
+                                    </button>
                                 </div>
                                 <div class="form-group" style="display:flex;" v-if="this.externalaccountingenabled">
-                                    <label class="switch switch-pill switch-success">
-                                        <input class="switch-input" type="checkbox" v-model="sendInvoiceToAccounting"><span class="switch-slider"></span>
-                                    </label>
-                                    <span v-if="sendInvoiceToAccounting">{{ $t('Mandar datos al sistema contable para generar factura') }}</span>
-                                    <span v-if="!sendInvoiceToAccounting">{{ $t('Mark this enrollment as paid but do not send to accounting system') }}</span>
+                                    <div v-if="this.accountingServiceIsUp">
+                                        <label class="switch switch-pill switch-success">
+                                            <input class="switch-input" type="checkbox" v-model="sendInvoiceToAccounting"><span class="switch-slider"></span>
+                                        </label>
+                                        <span v-if="sendInvoiceToAccounting">{{ $t('Mandar datos al sistema contable para generar factura') }}</span>
+                                        <span v-if="!sendInvoiceToAccounting">{{ $t('Mark this enrollment as paid but do not send to accounting system') }}</span>
+                                    </div>
+                                    <span class="alert alert-danger" v-else>{{ $t('Unable to communicate with Accounting Service. This invoice will NOT be sent automatically to the Accounting system') }} <a href="#" @click="checkAccountingStatus()">Refresh status</a></span>
                                 </div>
                             </div>
                         </div>
@@ -405,15 +411,20 @@
                 products: [],
                 comment: '',
                 sendInvoiceToAccounting: this.externalaccountingenabled,
+                accountingServiceIsUp: false,
+                loading: false,
             }
         },
 
         mounted() {
-
+            this.checkAccountingStatus();
         },
 
         methods: {
-
+            checkAccountingStatus()
+            {
+                axios.get('/accountingservice/status').then(response => this.accountingServiceIsUp = response.data);
+            },
             addBook(book)
             {
                 if(!this.books.some(el => el.id == book.id)) {
@@ -507,7 +518,7 @@
 
             finish()
             {
-
+                this.loading = true;
                 this.products = [];
 
                 this.enrollments.forEach(element => {
@@ -568,20 +579,21 @@
                     // handle success
                         this.step = 4;
                         window.location.href = '/enrollment/' + this.enrollments[0]. id + '/show';
-                        new PNotify({
+                        new Noty({
                             title: "Operation successful",
                             text: "The enrollment has been paid",
                             type: "success"
-                            });
+                            }).show();
                     }
                 )
                 .catch(e => {
+                        this.loading = false
                         this.errors.push(e)
-                        new PNotify({
+                        new Noty({
                             title: "Error",
                             text: "The enrollment couldn't be paid",
                             type: "error"
-                            });
+                            }).show();
                     }
                 );
             }
