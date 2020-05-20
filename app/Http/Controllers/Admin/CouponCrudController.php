@@ -39,12 +39,12 @@ class CouponCrudController extends CrudController
 
         CRUD::addColumns([
             ['name' => 'name', 'label' => 'Name'],
-            ['name' => 'value', 'label' => 'Value']
+            ['name' => 'value', 'label' => 'Value'],
         ]);
 
         CRUD::addFields([
             ['name' => 'name', 'label' => 'Name', 'type' => 'text'],
-            ['name' => 'value', 'label' => 'Value', 'type' => 'text']
+            ['name' => 'value', 'label' => 'Value', 'type' => 'text'],
         ]);
 
         // add asterisk for fields that are required in CouponRequest

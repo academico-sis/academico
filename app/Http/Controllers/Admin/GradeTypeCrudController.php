@@ -38,12 +38,12 @@ class GradeTypeCrudController extends CrudController
 
         CRUD::addColumns([
             ['name' => 'name', 'label' => 'Name'],
-            ['name' => 'total', 'label' => 'Total']
+            ['name' => 'total', 'label' => 'Total'],
         ]);
 
         CRUD::addFields([
             ['name' => 'name', 'label' => 'Name', 'type' => 'text'],
-            ['name' => 'total', 'label' => 'Total', 'type' => 'text']
+            ['name' => 'total', 'label' => 'Total', 'type' => 'text'],
         ]);
 
         // add asterisk for fields that are required in GradeTypeRequest

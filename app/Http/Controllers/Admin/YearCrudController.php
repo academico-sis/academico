@@ -40,7 +40,6 @@ class YearCrudController extends CrudController
 
         CRUD::addField(['name' => 'name', 'label' => 'Name', 'type' => 'text']);
 
-
         // add asterisk for fields that are required in YearRequest
         CRUD::setRequiredFields(StoreRequest::class, 'create');
         CRUD::setRequiredFields(UpdateRequest::class, 'edit');

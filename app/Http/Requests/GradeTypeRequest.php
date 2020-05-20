@@ -26,7 +26,7 @@ class GradeTypeRequest extends FormRequest
     {
         return [
             'name' => 'required|unique:grade_types|max:60',
-            'total' => 'required|integer|min:0'
+            'total' => 'required|integer|min:0',
         ];
     }
 
