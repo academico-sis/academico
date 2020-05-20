@@ -37,8 +37,17 @@ class BookCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
 
-        // TODO: remove setFromDb() and manually define Fields and Columns
-        CRUD::setFromDb();
+        CRUD::addColumns([
+            ['name' => 'name', 'label' => 'Name'],
+            ['name' => 'price', 'label' => 'Price'],
+            ['name' => 'product_code', 'label' => 'Product Code']
+        ]);
+
+        CRUD::addFields([
+            ['name' => 'name', 'label' => 'Name', 'type' => 'text'],
+            ['name' => 'price', 'label' => 'Price', 'type' => 'text'],
+            ['name' => 'product_code', 'label' => 'Product Code', 'type' => 'text']
+        ]);
 
         // add asterisk for fields that are required in BookRequest
         CRUD::setRequiredFields(StoreRequest::class, 'create');

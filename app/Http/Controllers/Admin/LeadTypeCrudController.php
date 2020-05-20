@@ -37,8 +37,10 @@ class LeadTypeCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
 
-        // TODO: remove setFromDb() and manually define Fields and Columns
-        CRUD::setFromDb();
+        CRUD::addColumn(['name' => 'name', 'label' => 'Name']);
+
+        CRUD::addField(['name' => 'name', 'label' => 'Name', 'type' => 'text']);
+
 
         // add asterisk for fields that are required in LeadTypeRequest
         CRUD::setRequiredFields(StoreRequest::class, 'create');

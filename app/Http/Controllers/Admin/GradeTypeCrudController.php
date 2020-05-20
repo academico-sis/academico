@@ -36,8 +36,15 @@ class GradeTypeCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
 
-        // TODO: remove setFromDb() and manually define Fields and Columns
-        CRUD::setFromDb();
+        CRUD::addColumns([
+            ['name' => 'name', 'label' => 'Name'],
+            ['name' => 'total', 'label' => 'Total']
+        ]);
+
+        CRUD::addFields([
+            ['name' => 'name', 'label' => 'Name', 'type' => 'text'],
+            ['name' => 'total', 'label' => 'Total', 'type' => 'text']
+        ]);
 
         // add asterisk for fields that are required in GradeTypeRequest
         CRUD::setRequiredFields(StoreRequest::class, 'create');

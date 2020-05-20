@@ -36,8 +36,15 @@ class SkillTypeCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
 
-        // TODO: remove setFromDb() and manually define Fields and Columns
-        CRUD::setFromDb();
+        CRUD::addColumns([
+            ['name' => 'shortname', 'label' => 'Shortname'],
+            ['name' => 'name', 'label' => 'Name']
+        ]);
+
+        CRUD::addFields([
+            ['name' => 'shortname', 'label' => 'Shortname', 'type' => 'text'],
+            ['name' => 'name', 'label' => 'Name', 'type' => 'text']
+        ]);
 
         // add asterisk for fields that are required in SkillTypeRequest
         CRUD::setRequiredFields(StoreRequest::class, 'create');
