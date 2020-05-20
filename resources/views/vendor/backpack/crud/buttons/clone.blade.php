@@ -2,7 +2,7 @@
 
 	<a href="javascript:void(0)" onclick="cloneEntry(this)" data-route="{{ url($crud->route.'/'.$entry->getKey().'/clone') }}" class="btn btn-sm btn-link" data-button-type="clone"><i class="la la-clone"></i></a>
 @endif
-@push('after_scripts') @if ($crud->request->ajax()) @endpush @endif
+
 <script>
 	if (typeof cloneEntry != 'function') {
 	  $("[data-button-type=clone]").unbind('click');
@@ -69,4 +69,3 @@
 	// make it so that the function above is run after each DataTable draw event
 	// crud.addFunctionToDataTablesDrawEventQueue('cloneEntry');
 </script>
-@if (!$crud->request->ajax()) @endpush @endif
