@@ -38,12 +38,12 @@ class SkillTypeCrudController extends CrudController
 
         CRUD::addColumns([
             ['name' => 'shortname', 'label' => 'Shortname'],
-            ['name' => 'name', 'label' => 'Name']
+            ['name' => 'name', 'label' => 'Name'],
         ]);
 
         CRUD::addFields([
             ['name' => 'shortname', 'label' => 'Shortname', 'type' => 'text'],
-            ['name' => 'name', 'label' => 'Name', 'type' => 'text']
+            ['name' => 'name', 'label' => 'Name', 'type' => 'text'],
         ]);
 
         // add asterisk for fields that are required in SkillTypeRequest

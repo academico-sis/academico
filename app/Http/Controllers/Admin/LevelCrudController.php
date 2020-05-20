@@ -40,7 +40,6 @@ class LevelCrudController extends CrudController
 
         CRUD::addField(['name' => 'name', 'label' => 'Name', 'type' => 'text']);
 
-
         // add asterisk for fields that are required in LevelRequest
         CRUD::setRequiredFields(StoreRequest::class, 'create');
         CRUD::setRequiredFields(UpdateRequest::class, 'edit');

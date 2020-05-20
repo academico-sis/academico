@@ -40,13 +40,13 @@ class FeeCrudController extends CrudController
         CRUD::addColumns([
             ['name' => 'name', 'label' => 'Name'],
             ['name' => 'price', 'label' => 'Price'],
-            ['name' => 'product_code', 'label' => 'Product Code']
+            ['name' => 'product_code', 'label' => 'Product Code'],
         ]);
 
         CRUD::addFields([
             ['name' => 'name', 'label' => 'Name', 'type' => 'text'],
             ['name' => 'price', 'label' => 'Price', 'type' => 'text'],
-            ['name' => 'product_code', 'label' => 'Product Code', 'type' => 'text']
+            ['name' => 'product_code', 'label' => 'Product Code', 'type' => 'text'],
         ]);
 
         // add asterisk for fields that are required in FeeRequest

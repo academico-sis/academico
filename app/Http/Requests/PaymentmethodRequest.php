@@ -26,7 +26,7 @@ class PaymentmethodRequest extends FormRequest
     {
         return [
             'name' => 'required|min:5|max:255|unique:paymentmethods',
-            'code' => 'required|unique:paymentmethods'
+            'code' => 'required|unique:paymentmethods',
         ];
     }
 

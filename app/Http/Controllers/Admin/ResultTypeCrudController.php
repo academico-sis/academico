@@ -38,12 +38,12 @@ class ResultTypeCrudController extends CrudController
 
         CRUD::addColumns([
             ['name' => 'name', 'label' => 'Name'],
-            ['name' => 'description', 'label' => 'Description']
+            ['name' => 'description', 'label' => 'Description'],
         ]);
 
         CRUD::addFields([
             ['name' => 'name', 'label' => 'Name', 'type' => 'textarea'],
-            ['name' => 'description', 'label' => 'Description', 'type' => 'textarea']
+            ['name' => 'description', 'label' => 'Description', 'type' => 'textarea'],
         ]);
 
         // add asterisk for fields that are required in ResultTypeRequest

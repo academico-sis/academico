@@ -39,14 +39,13 @@ class PaymentmethodCrudController extends CrudController
 
         CRUD::addColumns([
             ['name' => 'name', 'label' => 'Name'],
-            ['name' => 'code', 'label' => 'Code']
+            ['name' => 'code', 'label' => 'Code'],
         ]);
 
         CRUD::addFields([
             ['name' => 'name', 'label' => 'Name', 'type' => 'text'],
-            ['name' => 'code', 'label' => 'Code', 'type' => 'text']
+            ['name' => 'code', 'label' => 'Code', 'type' => 'text'],
         ]);
-
 
         // add asterisk for fields that are required in PaymentmethodRequest
         CRUD::setRequiredFields(StoreRequest::class, 'create');
