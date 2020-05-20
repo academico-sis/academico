@@ -54,7 +54,7 @@
                 <h4>@lang('Students under 18, please add contact data from your legal representatives')</h4>
 
                 <a class="btn btn btn-primary" data-toggle="modal" data-target="#userDataModal">
-                    <i class="fa fa-plus"></i> @lang('Create another Contact')
+                    <i class="la la-plus"></i> @lang('Create another Contact')
                 </a>
 
             </div>
@@ -75,7 +75,7 @@
 
                 <div class="card-header-actions">
                     <a class="btn btn btn-warning" href="/contact/{{$contact->id}}/edit">
-                        <i class="fa fa-pencil"></i>
+                        <i class="la la-pencil"></i>
                     </a>  
                 </div>
             </div>
@@ -120,7 +120,7 @@
         
                         <form action="/edit-contacts" method="post">
                             @csrf
-                                <button class="btn btn-lg btn-success" type='submit'><i class="fa fa-check"></i> @lang('Finish update')</button>
+                                <button class="btn btn-lg btn-success" type='submit'><i class="la la-check"></i> @lang('Finish update')</button>
                         </form>
                     </div>
                 </div>

@@ -14,7 +14,7 @@
     "laravel-mix": "^5.0.4",
     "lodash": "^4.17.15",
     "resolve-url-loader": "^3.1.1",
-    "sass": "^1.26.3",
+    "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
     "vue-template-compiler": "^2.6.11"
   },
@@ -27,12 +27,12 @@
     "@fullcalendar/resource-timegrid": "^4.4.0",
     "@fullcalendar/resource-timeline": "^4.4.0",
     "axios": "^0.19.2",
-    "buefy": "^0.8.13",
+    "buefy": "^0.8.19",
     "chart.js": "^2.9.3",
-    "moment": "^2.24.0",
-    "vee-validate": "^3.2.5",
+    "moment": "^2.25.3",
+    "vee-validate": "^3.3.0",
     "vue": "^2.6.11",
-    "vue-i18n": "^8.15.5",
+    "vue-i18n": "^8.17.7",
     "vue-moment": "^4.1.0"
   }
 }

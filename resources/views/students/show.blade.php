@@ -70,7 +70,7 @@
                                 @if(backpack_user()->can('enrollments.edit'))
 
                             <a href="/availablecourse?student={{ $student->id }}" class="btn btn-sm btn-primary">
-                                <i class="fa fa-user-plus"></i>
+                                <i class="la la-user-plus"></i>
                             </a>
                             @endif
 
@@ -109,7 +109,7 @@
                                             @if(isset($enrollment->result))
                                             {{ $enrollment->result['result_name']['name'] }}
                                             <a href="/result/{{ $enrollment->id }}/show" class="btn btn-sm btn-info">
-                                                <i class="fa fa-eye"></i>
+                                                <i class="la la-eye"></i>
                                             </a>
                                             @endif
                                         </td>
@@ -117,7 +117,7 @@
                                             @if(isset($enrollment->attendance_ratio))
                                                 {{ $enrollment->attendance_ratio }}%
                                                 <a href="{{ route('studentAttendance', ['student' => $enrollment->student_id]) }}?course_id={{ $enrollment->course_id }}" class="btn btn-sm btn-info">
-                                                    <i class="fa fa-eye"></i>
+                                                    <i class="la la-eye"></i>
                                                 </a>
                                             @endif
                                         </td>

@@ -24,7 +24,7 @@ class CourseCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\CloneOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\RevisionsOperation;
+    use \Backpack\ReviseOperation\ReviseOperation;
 
     public function __construct()
     {
@@ -220,7 +220,7 @@ class CourseCrudController extends CrudController
           function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
               $period = \App\Models\Period::get_default_period()->id;
               CRUD::addClause('where', 'period_id', $period);
-              $this->crud->request->request->add(['period_id' => $period]); // to make the filter look active
+              //$this->crud->request->request->add(['period_id' => $period]); // to make the filter look active
           });
 
         CRUD::addFilter([ // add a "simple" filter called Draft

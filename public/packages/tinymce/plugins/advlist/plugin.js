@@ -1,5 +1,12 @@
+/**
+ * Copyright (c) Tiny Technologies, Inc. All rights reserved.
+ * Licensed under the LGPL or a commercial license.
+ * For LGPL see License.txt in the project root for license information.
+ * For commercial licenses see https://www.tiny.cloud/
+ *
+ * Version: 5.2.2 (2020-04-23)
+ */
 (function () {
-var advlist = (function () {
     'use strict';
 
     var global = tinymce.util.Tools.resolve('tinymce.PluginManager');
@@ -27,12 +34,131 @@ var advlist = (function () {
       return styles ? styles.split(/[ ,]/) : [];
     };
     var getBulletStyles = function (editor) {
-      var styles = editor.getParam('advlist_bullet_styles', 'default,circle,disc,square');
+      var styles = editor.getParam('advlist_bullet_styles', 'default,circle,square');
       return styles ? styles.split(/[ ,]/) : [];
     };
     var Settings = {
       getNumberStyles: getNumberStyles,
       getBulletStyles: getBulletStyles
+    };
+
+    var noop = function () {
+    };
+    var constant = function (value) {
+      return function () {
+        return value;
+      };
+    };
+    var never = constant(false);
+    var always = constant(true);
+
+    var none = function () {
+      return NONE;
+    };
+    var NONE = function () {
+      var eq = function (o) {
+        return o.isNone();
+      };
+      var call = function (thunk) {
+        return thunk();
+      };
+      var id = function (n) {
+        return n;
+      };
+      var me = {
+        fold: function (n, s) {
+          return n();
+        },
+        is: never,
+        isSome: never,
+        isNone: always,
+        getOr: id,
+        getOrThunk: call,
+        getOrDie: function (msg) {
+          throw new Error(msg || 'error: getOrDie called on none.');
+        },
+        getOrNull: constant(null),
+        getOrUndefined: constant(undefined),
+        or: id,
+        orThunk: call,
+        map: none,
+        each: noop,
+        bind: none,
+        exists: never,
+        forall: always,
+        filter: none,
+        equals: eq,
+        equals_: eq,
+        toArray: function () {
+          return [];
+        },
+        toString: constant('none()')
+      };
+      if (Object.freeze) {
+        Object.freeze(me);
+      }
+      return me;
+    }();
+    var some = function (a) {
+      var constant_a = constant(a);
+      var self = function () {
+        return me;
+      };
+      var bind = function (f) {
+        return f(a);
+      };
+      var me = {
+        fold: function (n, s) {
+          return s(a);
+        },
+        is: function (v) {
+          return a === v;
+        },
+        isSome: always,
+        isNone: never,
+        getOr: constant_a,
+        getOrThunk: constant_a,
+        getOrDie: constant_a,
+        getOrNull: constant_a,
+        getOrUndefined: constant_a,
+        or: self,
+        orThunk: self,
+        map: function (f) {
+          return some(f(a));
+        },
+        each: function (f) {
+          f(a);
+        },
+        bind: bind,
+        exists: bind,
+        forall: bind,
+        filter: function (f) {
+          return f(a) ? me : NONE;
+        },
+        toArray: function () {
+          return [a];
+        },
+        toString: function () {
+          return 'some(' + a + ')';
+        },
+        equals: function (o) {
+          return o.is(a);
+        },
+        equals_: function (o, elementEq) {
+          return o.fold(never, function (b) {
+            return elementEq(a, b);
+          });
+        }
+      };
+      return me;
+    };
+    var from = function (value) {
+      return value === null || value === undefined ? NONE : some(value);
+    };
+    var Option = {
+      some: some,
+      none: none,
+      from: from
     };
 
     var isChildOfBody = function (editor, elm) {
@@ -48,30 +174,14 @@ var advlist = (function () {
     };
     var getSelectedStyleType = function (editor) {
       var listElm = editor.dom.getParent(editor.selection.getNode(), 'ol,ul');
-      return editor.dom.getStyle(listElm, 'listStyleType') || '';
+      var style = editor.dom.getStyle(listElm, 'listStyleType');
+      return Option.from(style);
     };
     var ListUtils = {
       isTableCellNode: isTableCellNode,
       isListNode: isListNode,
       getSelectedStyleType: getSelectedStyleType
     };
-
-    var styleValueToText = function (styleValue) {
-      return styleValue.replace(/\-/g, ' ').replace(/\b\w/g, function (chr) {
-        return chr.toUpperCase();
-      });
-    };
-    var toMenuItems = function (styles) {
-      return global$1.map(styles, function (styleValue) {
-        var text = styleValueToText(styleValue);
-        var data = styleValue === 'default' ? '' : styleValue;
-        return {
-          text: text,
-          data: data
-        };
-      });
-    };
-    var ListStyles = { toMenuItems: toMenuItems };
 
     var findIndex = function (list, predicate) {
       for (var index = 0; index < list.length; index++) {
@@ -82,49 +192,77 @@ var advlist = (function () {
       }
       return -1;
     };
-    var listState = function (editor, listName) {
-      return function (e) {
-        var ctrl = e.control;
-        editor.on('NodeChange', function (e) {
-          var tableCellIndex = findIndex(e.parents, ListUtils.isTableCellNode);
-          var parents = tableCellIndex !== -1 ? e.parents.slice(0, tableCellIndex) : e.parents;
-          var lists = global$1.grep(parents, ListUtils.isListNode(editor));
-          ctrl.active(lists.length > 0 && lists[0].nodeName === listName);
-        });
-      };
+    var styleValueToText = function (styleValue) {
+      return styleValue.replace(/\-/g, ' ').replace(/\b\w/g, function (chr) {
+        return chr.toUpperCase();
+      });
     };
-    var updateSelection = function (editor) {
-      return function (e) {
-        var listStyleType = ListUtils.getSelectedStyleType(editor);
-        e.control.items().each(function (ctrl) {
-          ctrl.active(ctrl.settings.data === listStyleType);
-        });
-      };
+    var isWithinList = function (editor, e, nodeName) {
+      var tableCellIndex = findIndex(e.parents, ListUtils.isTableCellNode);
+      var parents = tableCellIndex !== -1 ? e.parents.slice(0, tableCellIndex) : e.parents;
+      var lists = global$1.grep(parents, ListUtils.isListNode(editor));
+      return lists.length > 0 && lists[0].nodeName === nodeName;
     };
     var addSplitButton = function (editor, id, tooltip, cmd, nodeName, styles) {
-      editor.addButton(id, {
-        active: false,
-        type: 'splitbutton',
+      editor.ui.registry.addSplitButton(id, {
         tooltip: tooltip,
-        menu: ListStyles.toMenuItems(styles),
-        onPostRender: listState(editor, nodeName),
-        onshow: updateSelection(editor),
-        onselect: function (e) {
-          Actions.applyListFormat(editor, nodeName, e.control.settings.data);
+        icon: nodeName === 'OL' ? 'ordered-list' : 'unordered-list',
+        presets: 'listpreview',
+        columns: 3,
+        fetch: function (callback) {
+          var items = global$1.map(styles, function (styleValue) {
+            var iconStyle = nodeName === 'OL' ? 'num' : 'bull';
+            var iconName = styleValue === 'disc' || styleValue === 'decimal' ? 'default' : styleValue;
+            var itemValue = styleValue === 'default' ? '' : styleValue;
+            var displayText = styleValueToText(styleValue);
+            return {
+              type: 'choiceitem',
+              value: itemValue,
+              icon: 'list-' + iconStyle + '-' + iconName,
+              text: displayText
+            };
+          });
+          callback(items);
         },
-        onclick: function () {
-          editor.execCommand(cmd);
+        onAction: function () {
+          return editor.execCommand(cmd);
+        },
+        onItemAction: function (splitButtonApi, value) {
+          Actions.applyListFormat(editor, nodeName, value);
+        },
+        select: function (value) {
+          var listStyleType = ListUtils.getSelectedStyleType(editor);
+          return listStyleType.map(function (listStyle) {
+            return value === listStyle;
+          }).getOr(false);
+        },
+        onSetup: function (api) {
+          var nodeChangeHandler = function (e) {
+            api.setActive(isWithinList(editor, e, nodeName));
+          };
+          editor.on('NodeChange', nodeChangeHandler);
+          return function () {
+            return editor.off('NodeChange', nodeChangeHandler);
+          };
         }
       });
     };
     var addButton = function (editor, id, tooltip, cmd, nodeName, styles) {
-      editor.addButton(id, {
+      editor.ui.registry.addToggleButton(id, {
         active: false,
-        type: 'button',
         tooltip: tooltip,
-        onPostRender: listState(editor, nodeName),
-        onclick: function () {
-          editor.execCommand(cmd);
+        icon: nodeName === 'OL' ? 'ordered-list' : 'unordered-list',
+        onSetup: function (api) {
+          var nodeChangeHandler = function (e) {
+            api.setActive(isWithinList(editor, e, nodeName));
+          };
+          editor.on('NodeChange', nodeChangeHandler);
+          return function () {
+            return editor.off('NodeChange', nodeChangeHandler);
+          };
+        },
+        onAction: function () {
+          return editor.execCommand(cmd);
         }
       });
     };
@@ -141,20 +279,19 @@ var advlist = (function () {
     };
     var Buttons = { register: register$1 };
 
-    global.add('advlist', function (editor) {
-      var hasPlugin = function (editor, plugin) {
-        var plugins = editor.settings.plugins ? editor.settings.plugins : '';
-        return global$1.inArray(plugins.split(/[ ,]/), plugin) !== -1;
-      };
-      if (hasPlugin(editor, 'lists')) {
-        Buttons.register(editor);
-        Commands.register(editor);
-      }
-    });
     function Plugin () {
+      global.add('advlist', function (editor) {
+        var hasPlugin = function (editor, plugin) {
+          var plugins = editor.settings.plugins ? editor.settings.plugins : '';
+          return global$1.inArray(plugins.split(/[ ,]/), plugin) !== -1;
+        };
+        if (hasPlugin(editor, 'lists')) {
+          Buttons.register(editor);
+          Commands.register(editor);
+        }
+      });
     }
 
-    return Plugin;
+    Plugin();
 
 }());
-})();

@@ -34,7 +34,7 @@
                                 <td>{{ book.name }}</td>
                                 <td>$ {{ book.price }}</td>
                                 <td>
-                                    <button class="btn btn-xs btn-danger" v-on:click="removeBookFromCart(index)"><i class="fa fa-trash"></i></button>
+                                    <button class="btn btn-xs btn-danger" v-on:click="removeBookFromCart(index)"><i class="la la-trash"></i></button>
                                 </td>
                             </tr>
 
@@ -42,7 +42,7 @@
                                 <td>{{ fee.name }}</td>
                                 <td>$ {{ fee.price }}</td>
                                 <td>
-                                    <button class="btn btn-xs btn-danger" v-on:click="removeFeeFromCart(index)"><i class="fa fa-trash"></i></button>
+                                    <button class="btn btn-xs btn-danger" v-on:click="removeFeeFromCart(index)"><i class="la la-trash"></i></button>
                                 </td>
                             </tr>
                         </tbody>
@@ -54,7 +54,7 @@
             <div class="card">
                 <div class="card-body text-center">
                         <h4>{{ $t('front.Total price') }}: $ {{ shoppingCartTotal }}</h4>
-                        <button class="btn btn-success" v-if="enrollments[0]" @click="step = 2"><i class="fa fa-check"></i>{{ $t('front.Confirm') }}</button>
+                        <button class="btn btn-success" v-if="enrollments[0]" @click="step = 2"><i class="la la-check"></i>{{ $t('front.Confirm') }}</button>
                 </div>
             </div>
 
@@ -103,7 +103,7 @@
                     <ul>
                         <li v-bind:key="discount.id" v-for="(discount, index) in discounts">
                             {{ discount.name }} ({{ discount.value }}%)
-                            <button class="btn btn-xs btn-warning" v-on:click="removeDiscount(index)"><i class="fa fa-times"></i></button>
+                            <button class="btn btn-xs btn-warning" v-on:click="removeDiscount(index)"><i class="la la-times"></i></button>
                         </li>
                     </ul>
 
@@ -132,7 +132,7 @@
                     {{ $t('Student') }}
 
                     <div class="card-header-actions">
-                        <button class="btn btn-info" @click="selectStudentData()"><i class="fa fa-check"></i>{{ $t('front.Select') }}</button>
+                        <button class="btn btn-info" @click="selectStudentData()"><i class="la la-check"></i>{{ $t('front.Select') }}</button>
                     </div>
                 </div>
                 <div class="card-body">
@@ -147,7 +147,7 @@
                     Contact
 
                     <div class="card-header-actions">
-                        <button class="btn btn-info" @click="selectInvoiceData(contact)"><i class="fa fa-check"></i>{{ $t('front.Select') }}</button>
+                        <button class="btn btn-info" @click="selectInvoiceData(contact)"><i class="la la-check"></i>{{ $t('front.Select') }}</button>
                     </div>
                 </div>
                 <div class="card-body">
@@ -163,7 +163,7 @@
                 <div class="card-header">
                     {{ $t('front.Invoice Data') }}
                     <div class="card-header-actions">
-                        <button v-if="checkForm()" class="btn btn-success" @click="confirmInvoiceData()"><i class="fa fa-check"></i>{{ $t('front.Select') }}</button>
+                        <button v-if="checkForm()" class="btn btn-success" @click="confirmInvoiceData()"><i class="la la-check"></i>{{ $t('front.Select') }}</button>
                     </div>
                 </div>
                 <div class="card-body">
@@ -303,7 +303,7 @@
                                 </td>
 
                                 <td>
-                                    <button @click="removePayment(payment)" class="btn btn-sm btn-ghost-danger"><i class="fa fa-times"></i></button>
+                                    <button @click="removePayment(payment)" class="btn btn-sm btn-ghost-danger"><i class="la la-times"></i></button>
                                 </td>
                             </tr>
                             <tr>
@@ -337,7 +337,7 @@
                         <div class="col-md-6" style="text-align: center;">
                             <div v-if="shoppingCartTotal == paidTotal">
                                 <div class="form-group">
-                                    <button class="btn btn-lg btn-success" @click="finish()"><i class="fa fa-check"></i>{{ $t('Checkout') }}</button>
+                                    <button class="btn btn-lg btn-success" @click="finish()"><i class="la la-check"></i>{{ $t('Checkout') }}</button>
                                 </div>
                                 <div class="form-group" style="display:flex;" v-if="this.externalaccountingenabled">
                                     <label class="switch switch-pill switch-success">

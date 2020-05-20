@@ -34,7 +34,7 @@
                 
                 <div class="card-header-actions">
                     <a class="btn btn-primary" data-toggle="modal" data-target="#gradeTypeModal">
-                        <i class="fa fa-plus"></i> @lang('Add Grade Type to Course')
+                        <i class="la la-plus"></i> @lang('Add Grade Type to Course')
                     </a>
                 </div>
             </div>

@@ -27,7 +27,7 @@
 <div class="col-sm-6 col-md-3">
 
     <div class="card">
-        <div class="card-body p-3 d-flex align-items-center"><i class="fa fa-check bg-primary p-3 font-2xl mr-3"></i>
+        <div class="card-body p-3 d-flex align-items-center"><i class="la la-check bg-primary p-3 font-2xl mr-3"></i>
             <div>
                 <div class="text-value-sm text-primary">{{ (new \App\Models\Student)->active_clients_count }}</div>
                 <div class="text-muted text-uppercase font-weight-bold small">@lang('Active clients')</div>
@@ -39,7 +39,7 @@
 
 <div class="col-sm-6 col-md-3">
     <div class="card">
-        <div class="card-body p-3 d-flex align-items-center"><i class="fa fa-star-o bg-primary p-3 font-2xl mr-3"></i>
+        <div class="card-body p-3 d-flex align-items-center"><i class="la la-star-o bg-primary p-3 font-2xl mr-3"></i>
             <div>
                 <div class="text-value-sm text-primary">{{ (new \App\Models\Student)->potential_clients_count }}</div>
                 <div class="text-muted text-uppercase font-weight-bold small">@lang('Potential clients')</div>
@@ -51,7 +51,7 @@
 
 <div class="col-sm-6 col-md-3">
     <div class="card">
-        <div class="card-body p-3 d-flex align-items-center"><i class="fa fa-eye-slash bg-primary p-3 font-2xl mr-3"></i>
+        <div class="card-body p-3 d-flex align-items-center"><i class="la la-eye-slash bg-primary p-3 font-2xl mr-3"></i>
             <div>
                 <div class="text-value-sm text-primary">{{ (new \App\Models\Student)->former_clients_count }}</div>
                 <div class="text-muted text-uppercase font-weight-bold small">@lang('Former clients')</div>
@@ -63,7 +63,7 @@
 
 <div class="col-sm-6 col-md-3">
     <div class="card">
-        <div class="card-body p-3 d-flex align-items-center"><i class="fa fa-pause bg-primary p-3 font-2xl mr-3"></i>
+        <div class="card-body p-3 d-flex align-items-center"><i class="la la-pause bg-primary p-3 font-2xl mr-3"></i>
             <div>
                 <div class="text-value-sm text-primary">{{ (new \App\Models\Student)->inactive_clients_count }}</div>
                 <div class="text-muted text-uppercase font-weight-bold small">@lang('Inactive clients')</div>

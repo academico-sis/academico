@@ -47,7 +47,7 @@
 
                             <td><!-- available actions -->
                                 <a href="/student/{{ $enrollment->student_id }}/show" class='btn btn-sm btn-secondary'>
-                                    <i class='fa fa-briefcase'></i>
+                                    <i class='la la-briefcase'></i>
                                 </a>
    
                             </td>

@@ -1,5 +1,12 @@
-(function () {
-var fullpage = (function () {
+/**
+ * Copyright (c) Tiny Technologies, Inc. All rights reserved.
+ * Licensed under the LGPL or a commercial license.
+ * For LGPL see License.txt in the project root for license information.
+ * For commercial licenses see https://www.tiny.cloud/
+ *
+ * Version: 5.2.2 (2020-04-23)
+ */
+(function (domGlobals) {
     'use strict';
 
     var Cell = function (initial) {
@@ -21,6 +28,19 @@ var fullpage = (function () {
     };
 
     var global = tinymce.util.Tools.resolve('tinymce.PluginManager');
+
+    var __assign = function () {
+      __assign = Object.assign || function __assign(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+          s = arguments[i];
+          for (var p in s)
+            if (Object.prototype.hasOwnProperty.call(s, p))
+              t[p] = s[p];
+        }
+        return t;
+      };
+      return __assign.apply(this, arguments);
+    };
 
     var global$1 = tinymce.util.Tools.resolve('tinymce.util.Tools');
 
@@ -69,7 +89,7 @@ var fullpage = (function () {
       return global$2({
         validate: false,
         root_name: '#document'
-      }).parse(head);
+      }).parse(head, { format: 'xhtml' });
     };
     var htmlToData = function (editor, head) {
       var headerFragment = parseHeader(head);
@@ -282,7 +302,6 @@ var fullpage = (function () {
       html = global$4({
         validate: false,
         indent: true,
-        apply_source_formatting: true,
         indent_before: 'head,html,body,meta,title,script,link,style',
         indent_after: 'head,html,body,meta,title,script,link,style'
       }).serialize(headerFragment);
@@ -296,42 +315,72 @@ var fullpage = (function () {
 
     var open = function (editor, headState) {
       var data = Parser.htmlToData(editor, headState.get());
+      var defaultData = {
+        title: '',
+        keywords: '',
+        description: '',
+        robots: '',
+        author: '',
+        docencoding: ''
+      };
+      var initialData = __assign(__assign({}, defaultData), data);
       editor.windowManager.open({
-        title: 'Document properties',
-        data: data,
-        defaults: {
-          type: 'textbox',
-          size: 40
+        title: 'Metadata and Document Properties',
+        size: 'normal',
+        body: {
+          type: 'panel',
+          items: [
+            {
+              name: 'title',
+              type: 'input',
+              label: 'Title'
+            },
+            {
+              name: 'keywords',
+              type: 'input',
+              label: 'Keywords'
+            },
+            {
+              name: 'description',
+              type: 'input',
+              label: 'Description'
+            },
+            {
+              name: 'robots',
+              type: 'input',
+              label: 'Robots'
+            },
+            {
+              name: 'author',
+              type: 'input',
+              label: 'Author'
+            },
+            {
+              name: 'docencoding',
+              type: 'input',
+              label: 'Encoding'
+            }
+          ]
         },
-        body: [
+        buttons: [
           {
-            name: 'title',
-            label: 'Title'
+            type: 'cancel',
+            name: 'cancel',
+            text: 'Cancel'
           },
           {
-            name: 'keywords',
-            label: 'Keywords'
-          },
-          {
-            name: 'description',
-            label: 'Description'
-          },
-          {
-            name: 'robots',
-            label: 'Robots'
-          },
-          {
-            name: 'author',
-            label: 'Author'
-          },
-          {
-            name: 'docencoding',
-            label: 'Encoding'
+            type: 'submit',
+            name: 'save',
+            text: 'Save',
+            primary: true
           }
         ],
-        onSubmit: function (e) {
-          var headHtml = Parser.dataToHtml(editor, global$1.extend(data, e.data), headState.get());
+        initialData: initialData,
+        onSubmit: function (api) {
+          var nuData = api.getData();
+          var headHtml = Parser.dataToHtml(editor, global$1.extend(data, nuData), headState.get());
           headState.set(headHtml);
+          api.close();
         }
       });
     };
@@ -371,7 +420,6 @@ var fullpage = (function () {
     var handleSetContent = function (editor, headState, footState, evt) {
       var startPos, endPos, content, headerFragment, styles = '';
       var dom = editor.dom;
-      var elm;
       if (evt.selection) {
         return;
       }
@@ -406,24 +454,21 @@ var fullpage = (function () {
           styles += node.firstChild.value;
         }
       });
-      elm = headerFragment.getAll('body')[0];
-      if (elm) {
+      var bodyElm = headerFragment.getAll('body')[0];
+      if (bodyElm) {
         dom.setAttribs(editor.getBody(), {
-          style: elm.attr('style') || '',
-          dir: elm.attr('dir') || '',
-          vLink: elm.attr('vlink') || '',
-          link: elm.attr('link') || '',
-          aLink: elm.attr('alink') || ''
+          style: bodyElm.attr('style') || '',
+          dir: bodyElm.attr('dir') || '',
+          vLink: bodyElm.attr('vlink') || '',
+          link: bodyElm.attr('link') || '',
+          aLink: bodyElm.attr('alink') || ''
         });
       }
       dom.remove('fullpage_styles');
       var headElm = editor.getDoc().getElementsByTagName('head')[0];
       if (styles) {
-        dom.add(headElm, 'style', { id: 'fullpage_styles' }, styles);
-        elm = dom.get('fullpage_styles');
-        if (elm.styleSheet) {
-          elm.styleSheet.cssText = styles;
-        }
+        var styleElm = dom.add(headElm, 'style', { id: 'fullpage_styles' });
+        styleElm.appendChild(domGlobals.document.createTextNode(styles));
       }
       var currentStyleSheetsMap = {};
       global$1.each(headElm.getElementsByTagName('link'), function (stylesheet) {
@@ -492,28 +537,32 @@ var fullpage = (function () {
     var FilterContent = { setup: setup };
 
     var register$1 = function (editor) {
-      editor.addButton('fullpage', {
-        title: 'Document properties',
-        cmd: 'mceFullPageProperties'
+      editor.ui.registry.addButton('fullpage', {
+        tooltip: 'Metadata and document properties',
+        icon: 'document-properties',
+        onAction: function () {
+          editor.execCommand('mceFullPageProperties');
+        }
       });
-      editor.addMenuItem('fullpage', {
-        text: 'Document properties',
-        cmd: 'mceFullPageProperties',
-        context: 'file'
+      editor.ui.registry.addMenuItem('fullpage', {
+        text: 'Metadata and document properties',
+        icon: 'document-properties',
+        onAction: function () {
+          editor.execCommand('mceFullPageProperties');
+        }
       });
     };
     var Buttons = { register: register$1 };
 
-    global.add('fullpage', function (editor) {
-      var headState = Cell(''), footState = Cell('');
-      Commands.register(editor, headState);
-      Buttons.register(editor);
-      FilterContent.setup(editor, headState, footState);
-    });
     function Plugin () {
+      global.add('fullpage', function (editor) {
+        var headState = Cell(''), footState = Cell('');
+        Commands.register(editor, headState);
+        Buttons.register(editor);
+        FilterContent.setup(editor, headState, footState);
+      });
     }
 
-    return Plugin;
+    Plugin();
 
-}());
-})();
+}(window));

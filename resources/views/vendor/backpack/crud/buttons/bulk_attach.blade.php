@@ -1,6 +1,6 @@
 @if ($crud->hasAccess('create') && isset(request()->course))
   <a href="javascript:void(0)" onclick="bulkAttachEntries(this)" class="btn btn-success">
-    <i class="fa fa-clone"></i> @lang('Attach to course')
+    <i class="la la-clone"></i> @lang('Attach to course')
   </a>
 @endif
 
