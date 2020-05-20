@@ -20,7 +20,7 @@
     <li class='nav-item'><a class='nav-link' href="{{ backpack_url('courseevaluation') }}"><i class="nav-icon la la-bar-chart"></i> <span>@lang('Course Evaluation')</span></a></li>
     <li class='nav-item'><a class='nav-link' href="{{ backpack_url('/result?hideparents=true') }}"><i class="nav-icon la la-graduation-cap"></i> <span>@lang('Results')</span></a></li>
     {{-- EVALUATION METHODS --}}
-    <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-link"></i> <span>@lang('Settings')</span></a>
+    <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-link"></i> @lang('Settings')</a>
       <ul class="nav-dropdown-items">
           <li class='nav-item'><a class='nav-link' href='{{ backpack_url('evaluationtype') }}'><span>@lang('Evaluation Types')</span></a></li>
           <li class='nav-item'><a class='nav-link' href='{{ backpack_url('gradetype') }}'><span>@lang('Grade Types')</span></a></li>
@@ -38,7 +38,7 @@
   <li class="nav-title">@lang('HR')</li>
   <li class='nav-item'><a class='nav-link' href="{{ route('hrDashboard') }}"><i class="nav-icon la la-calendar"></i> <span>@lang('HR')</span></a></li>
 
-<li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-calendar"></i> <span>@lang('Leave')</span></a>
+<li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-calendar"></i> @lang('Leave')</a>
     <ul class="nav-dropdown-items">
       <li class='nav-item'><a class='nav-link' href="{{ backpack_url('leave/teachers') }}"><i class="nav-icon la la-calendar"></i> <span>@lang('Overview')</span></a></li>
       <li class='nav-item'><a class='nav-link' href="{{ backpack_url('leave') }}"><i class="nav-icon la la-calendar"></i> <span>@lang('Manage leaves')</span></a></li>
@@ -54,7 +54,7 @@
 
 @if(backpack_user()->hasRole(['admin', 'secretary']))
   <li class="nav-title">@lang('CALENDARS')</li>
-  <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-group"></i> <span>@lang('teachers')</span></a>
+  <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-group"></i> @lang('teachers')</a>
       <ul class="nav-dropdown-items">
         <li class='nav-item'><a class='nav-link' href="{{ route('teachersCalendar') }}"><i class="nav-icon la la-binoculars"></i><span>@lang('Overview')</span></a></li>
         @foreach ($teachers as $teacher)
@@ -64,7 +64,7 @@
   </li>
 
 
-  <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-building"></i> <span>@lang('rooms')</span></a>
+  <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-building"></i> @lang('rooms')</a>
       <ul class="nav-dropdown-items">
         <li class='nav-item'><a class='nav-link' href="{{ route('roomsCalendar') }}"><i class="nav-icon la la-binoculars"></i><span>@lang('Overview')</span></a></li>
         @foreach ($rooms as $room)
@@ -81,7 +81,7 @@
 
   <li class='nav-item'><a class='nav-link' href="{{ route('allReports') }}"><i class="nav-icon la la-bar-chart"></i> <span>@lang('Overview')</span></a></li>
 
-  <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-home"></i> <span>@lang('Internal')</span></a>
+  <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-home"></i> @lang('Internal')</a>
       <ul class="nav-dropdown-items">
         <li class='nav-item'><a class='nav-link' href="{{ route('homeReport') }}"><i class="nav-icon la la-users"></i> <span>@lang('Students')</span></a></li>
         <li class='nav-item'><a class='nav-link' href="{{ route('rhythmReport') }}"><i class="nav-icon la la-pie-chart"></i><span>@lang('Per rhythm')</span></a></li>
@@ -97,7 +97,7 @@
 
 @if(backpack_user()->hasRole('admin'))
   <li class="nav-title">@lang('SETTINGS')</li>
-  <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-link"></i> <span>@lang('Settings')</span></a>
+  <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-link"></i> @lang('Settings')</a>
     <ul class="nav-dropdown-items">
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('period') }}'><i class='la la-calendar'></i> <span>@lang('periods')</span></a></li>
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('level') }}'><i class='la la-star'></i> <span>@lang('levels')</span></a></li>
@@ -110,7 +110,7 @@
     </ul>
   </li>
 
-  <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-link"></i> <span>@lang('Invoicing')</span></a>
+  <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-link"></i> @lang('Invoicing')</a>
     <ul class="nav-dropdown-items">
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('discount') }}'><i class='la la-percent'></i> <span>@lang('Discounts')</span></a></li>
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('fee') }}'><i class='la la-dollar'></i> <span>@lang('Fees')</span></a></li>
@@ -119,7 +119,7 @@
   </li>
 
   <!-- Users, Roles Permissions -->
-  <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-group"></i> <span>@lang('Users')</span></a>
+  <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-group"></i> @lang('Users')</a>
       <ul class="nav-dropdown-items">
         <li class='nav-item'><a class='nav-link' href="{{ backpack_url('user') }}"><i class="nav-icon la la-user"></i> <span>@lang('Users')</span></a></li>
         <li class='nav-item'><a class='nav-link' href="{{ backpack_url('teacher') }}"><i class="nav-icon la la-user"></i> <span>@lang('Teachers')</span></a></li>
