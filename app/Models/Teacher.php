@@ -21,7 +21,6 @@ class Teacher extends Model
     protected $appends = ['firstname', 'lastname', 'name'];
     protected static $logUnguarded = true;
 
-
     /** relations */
     public function user()
     {

@@ -8,7 +8,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 class PhoneNumber extends Model
 {
     use LogsActivity;
-    
+
     public $timestamps = false;
     protected $guarded = ['id'];
     protected static $logUnguarded = true;
