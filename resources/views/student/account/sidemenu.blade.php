@@ -12,10 +12,10 @@
 	<div class="card-body">
 		<ul class="list-group">
 		<li class="list-group-item" role="presentation"
-		@if (Request::route()->getName() == 'backpack.account.info')
+		@if (Request::route()->getName() == 'backpack.account.edit_info')
 	  	class="active"
 	  	@endif
-	  	><a href="{{ route('backpack.account.info') }}">@lang('Account Data')</a></li>
+	  	><a href="{{ route('backpack.account.edit_info') }}">@lang('Account Data')</a></li>
 
 		@if(!(backpack_user()->getRoleNames()->count() > 0 || backpack_user()->isTeacher()))
 			<li class="list-group-item" role="presentation"

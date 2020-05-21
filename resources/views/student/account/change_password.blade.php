@@ -23,7 +23,7 @@
         </li>
 
         <li>
-            <a href="{{ route('backpack.account.info') }}">{{ trans('backpack::base.my_account') }}</a>
+            <a href="{{ route('backpack.account.edit_info') }}">{{ trans('backpack::base.my_account') }}</a>
         </li>
 
         <li class="active">

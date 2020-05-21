@@ -214,7 +214,7 @@ Route::group(
     ],
     function () {
         // route numbers match the DB forceupdate field
-        Route::get('edit/1', 'Auth\MyAccountController@getAccountInfoForm')->name('backpack.account.info');
+        Route::get('edit/1', 'Auth\MyAccountController@getAccountInfoForm')->name('backpack.account.edit_info');
         Route::get('edit/2', 'Auth\MyAccountController@getStudentInfoForm')->name('backpack.student.info');
         Route::get('edit/3', 'Auth\MyAccountController@getPhoneForm')->name('backpack.account.phone');
         Route::get('edit/4', 'Auth\MyAccountController@getAccountProfessionForm')->name('backpack.account.profession');

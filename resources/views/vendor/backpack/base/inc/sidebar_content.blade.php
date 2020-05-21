@@ -142,7 +142,7 @@
 @endif
 
 @if((backpack_user()->isStudent()))
-  <li class="nav-item"><a class='nav-link' href="{{ route('backpack.account.info') }}"><i class="la la-user"></i> <span>{{ trans('backpack::base.my_account') }}</span></a></li>
+  <li class="nav-item"><a class='nav-link' href="{{ route('backpack.account.edit_info') }}"><i class="la la-user"></i> <span>{{ trans('backpack::base.my_account') }}</span></a></li>
   <li class='nav-item'><a class='nav-link' href="https://moodle.afcuenca.org.ec"><i class="nav-icon la la-clock-o"></i> <span>@lang('SPHERE')</span></a></li>
 @endif
 
