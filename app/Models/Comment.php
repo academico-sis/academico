@@ -5,14 +5,12 @@ namespace App\Models;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class Comment extends Model
 {
     use CrudTrait;
     use LogsActivity;
-    use SoftDeletes;
 
     protected $guarded = ['id'];
     protected static $logUnguarded = true;

@@ -5,7 +5,6 @@ namespace App\Models;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
@@ -15,7 +14,6 @@ use Spatie\MediaLibrary\Models\Media;
 class Student extends Model implements HasMedia
 {
     use CrudTrait;
-    use SoftDeletes;
     use HasMediaTrait;
     use LogsActivity;
 
