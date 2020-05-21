@@ -11,7 +11,7 @@ class RemoteEvent extends Model
 {
     use CrudTrait;
     use LogsActivity;
-    
+
     protected $guarded = ['id'];
     protected static $logUnguarded = true;
 

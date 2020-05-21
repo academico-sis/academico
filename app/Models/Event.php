@@ -45,7 +45,6 @@ class Event extends Model
     //protected $with = ['course'];
     protected static $logUnguarded = true;
 
-
     /*
     |--------------------------------------------------------------------------
     | FUNCTIONS

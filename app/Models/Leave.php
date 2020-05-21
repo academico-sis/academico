@@ -10,7 +10,7 @@ class Leave extends Model
 {
     use CrudTrait;
     use LogsActivity;
-    
+
     protected $guarded = ['id'];
     protected $with = ['leaveType'];
     protected static $logUnguarded = true;

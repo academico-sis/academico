@@ -11,7 +11,7 @@ class Period extends Model
 {
     use CrudTrait;
     use LogsActivity;
-    
+
     // protected $primaryKey = 'id';
     public $timestamps = false;
     // protected $guarded = ['id'];
