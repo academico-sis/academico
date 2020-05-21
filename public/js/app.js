@@ -2291,6 +2291,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['enrollmentslist', 'feeslist', 'bookslist', 'availablebooks', 'availablefees', 'availablediscounts', 'contactdata', 'availablepaymentmethods', 'externalaccountingenabled'],
   data: function data() {
@@ -2310,11 +2316,22 @@ __webpack_require__.r(__webpack_exports__);
       payments: [],
       products: [],
       comment: '',
-      sendInvoiceToAccounting: this.externalaccountingenabled
+      sendInvoiceToAccounting: this.externalaccountingenabled,
+      accountingServiceIsUp: false,
+      loading: false
     };
   },
-  mounted: function mounted() {},
+  mounted: function mounted() {
+    this.checkAccountingStatus();
+  },
   methods: {
+    checkAccountingStatus: function checkAccountingStatus() {
+      var _this = this;
+
+      axios.get('/accountingservice/status').then(function (response) {
+        return _this.accountingServiceIsUp = response.data;
+      });
+    },
     addBook: function addBook(book) {
       if (!this.books.some(function (el) {
         return el.id == book.id;
@@ -2381,19 +2398,20 @@ __webpack_require__.r(__webpack_exports__);
       if (index !== -1) this.payments.splice(index, 1);
     },
     finish: function finish() {
-      var _this = this;
+      var _this2 = this;
 
+      this.loading = true;
       this.products = [];
       this.enrollments.forEach(function (element) {
         var enrollment = {
           codinventario: element.course.rhythm.product_code,
           codbodega: "MAT",
           cantidad: 1,
-          descuento: _this.totalDiscount,
+          descuento: _this2.totalDiscount,
           preciototal: element.course.price
         };
 
-        _this.products.push(enrollment);
+        _this2.products.push(enrollment);
       });
       this.books.forEach(function (element) {
         var book = {
@@ -2405,7 +2423,7 @@ __webpack_require__.r(__webpack_exports__);
 
         };
 
-        _this.products.push(book);
+        _this2.products.push(book);
       });
       this.fees.forEach(function (element) {
         var fee = {
@@ -2417,7 +2435,7 @@ __webpack_require__.r(__webpack_exports__);
 
         };
 
-        _this.products.push(fee);
+        _this2.products.push(fee);
       });
       axios.post('/checkout', {
         enrollments: this.enrollments,
@@ -2435,27 +2453,29 @@ __webpack_require__.r(__webpack_exports__);
         sendinvoice: this.sendInvoiceToAccounting
       }).then(function (response) {
         // handle success
-        _this.step = 4;
-        window.location.href = '/enrollment/' + _this.enrollments[0].id + '/show';
-        new PNotify({
+        _this2.step = 4;
+        window.location.href = '/enrollment/' + _this2.enrollments[0].id + '/show';
+        new Noty({
           title: "Operation successful",
           text: "The enrollment has been paid",
           type: "success"
-        });
+        }).show();
       })["catch"](function (e) {
-        _this.errors.push(e);
+        _this2.loading = false;
 
-        new PNotify({
+        _this2.errors.push(e);
+
+        new Noty({
           title: "Error",
           text: "The enrollment couldn't be paid",
           type: "error"
-        });
+        }).show();
       });
     }
   },
   computed: {
     shoppingCartTotal: function shoppingCartTotal() {
-      var _this2 = this;
+      var _this3 = this;
 
       var total = 0;
 
@@ -2473,7 +2493,7 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.enrollments) {
         this.enrollments.forEach(function (enrollment) {
-          total += parseFloat(enrollment.course.price) - _this2.discount(parseFloat(enrollment.course.price));
+          total += parseFloat(enrollment.course.price) - _this3.discount(parseFloat(enrollment.course.price));
         });
       }
 
@@ -25467,6 +25487,7 @@ var render = function() {
                                 "button",
                                 {
                                   staticClass: "btn btn-lg btn-success",
+                                  attrs: { disabled: _vm.loading },
                                   on: {
                                     click: function($event) {
                                       return _vm.finish()
@@ -25474,8 +25495,22 @@ var render = function() {
                                   }
                                 },
                                 [
+                                  _vm.loading
+                                    ? _c("span", {
+                                        staticClass:
+                                          "spinner-border spinner-border-sm",
+                                        attrs: {
+                                          role: "status",
+                                          "aria-hidden": "true"
+                                        }
+                                      })
+                                    : _vm._e(),
+                                  _vm._v(" "),
                                   _c("i", { staticClass: "la la-check" }),
-                                  _vm._v(_vm._s(_vm.$t("Checkout")))
+                                  _vm._v(
+                                    _vm._s(_vm.$t("Checkout")) +
+                                      "\n                                    "
+                                  )
                                 ]
                               )
                             ]),
@@ -25488,95 +25523,123 @@ var render = function() {
                                     staticStyle: { display: "flex" }
                                   },
                                   [
-                                    _c(
-                                      "label",
-                                      {
-                                        staticClass:
-                                          "switch switch-pill switch-success"
-                                      },
-                                      [
-                                        _c("input", {
-                                          directives: [
+                                    this.accountingServiceIsUp
+                                      ? _c("div", [
+                                          _c(
+                                            "label",
                                             {
-                                              name: "model",
-                                              rawName: "v-model",
-                                              value:
-                                                _vm.sendInvoiceToAccounting,
-                                              expression:
-                                                "sendInvoiceToAccounting"
-                                            }
-                                          ],
-                                          staticClass: "switch-input",
-                                          attrs: { type: "checkbox" },
-                                          domProps: {
-                                            checked: Array.isArray(
-                                              _vm.sendInvoiceToAccounting
-                                            )
-                                              ? _vm._i(
-                                                  _vm.sendInvoiceToAccounting,
-                                                  null
-                                                ) > -1
-                                              : _vm.sendInvoiceToAccounting
-                                          },
-                                          on: {
-                                            change: function($event) {
-                                              var $$a =
-                                                  _vm.sendInvoiceToAccounting,
-                                                $$el = $event.target,
-                                                $$c = $$el.checked
-                                                  ? true
-                                                  : false
-                                              if (Array.isArray($$a)) {
-                                                var $$v = null,
-                                                  $$i = _vm._i($$a, $$v)
-                                                if ($$el.checked) {
-                                                  $$i < 0 &&
-                                                    (_vm.sendInvoiceToAccounting = $$a.concat(
-                                                      [$$v]
-                                                    ))
-                                                } else {
-                                                  $$i > -1 &&
-                                                    (_vm.sendInvoiceToAccounting = $$a
-                                                      .slice(0, $$i)
-                                                      .concat(
-                                                        $$a.slice($$i + 1)
-                                                      ))
+                                              staticClass:
+                                                "switch switch-pill switch-success"
+                                            },
+                                            [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value:
+                                                      _vm.sendInvoiceToAccounting,
+                                                    expression:
+                                                      "sendInvoiceToAccounting"
+                                                  }
+                                                ],
+                                                staticClass: "switch-input",
+                                                attrs: { type: "checkbox" },
+                                                domProps: {
+                                                  checked: Array.isArray(
+                                                    _vm.sendInvoiceToAccounting
+                                                  )
+                                                    ? _vm._i(
+                                                        _vm.sendInvoiceToAccounting,
+                                                        null
+                                                      ) > -1
+                                                    : _vm.sendInvoiceToAccounting
+                                                },
+                                                on: {
+                                                  change: function($event) {
+                                                    var $$a =
+                                                        _vm.sendInvoiceToAccounting,
+                                                      $$el = $event.target,
+                                                      $$c = $$el.checked
+                                                        ? true
+                                                        : false
+                                                    if (Array.isArray($$a)) {
+                                                      var $$v = null,
+                                                        $$i = _vm._i($$a, $$v)
+                                                      if ($$el.checked) {
+                                                        $$i < 0 &&
+                                                          (_vm.sendInvoiceToAccounting = $$a.concat(
+                                                            [$$v]
+                                                          ))
+                                                      } else {
+                                                        $$i > -1 &&
+                                                          (_vm.sendInvoiceToAccounting = $$a
+                                                            .slice(0, $$i)
+                                                            .concat(
+                                                              $$a.slice($$i + 1)
+                                                            ))
+                                                      }
+                                                    } else {
+                                                      _vm.sendInvoiceToAccounting = $$c
+                                                    }
+                                                  }
                                                 }
-                                              } else {
-                                                _vm.sendInvoiceToAccounting = $$c
-                                              }
-                                            }
-                                          }
-                                        }),
-                                        _c("span", {
-                                          staticClass: "switch-slider"
-                                        })
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _vm.sendInvoiceToAccounting
-                                      ? _c("span", [
-                                          _vm._v(
-                                            _vm._s(
-                                              _vm.$t(
-                                                "Mandar datos al sistema contable para generar factura"
-                                              )
-                                            )
-                                          )
+                                              }),
+                                              _c("span", {
+                                                staticClass: "switch-slider"
+                                              })
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _vm.sendInvoiceToAccounting
+                                            ? _c("span", [
+                                                _vm._v(
+                                                  _vm._s(
+                                                    _vm.$t(
+                                                      "Mandar datos al sistema contable para generar factura"
+                                                    )
+                                                  )
+                                                )
+                                              ])
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          !_vm.sendInvoiceToAccounting
+                                            ? _c("span", [
+                                                _vm._v(
+                                                  _vm._s(
+                                                    _vm.$t(
+                                                      "Mark this enrollment as paid but do not send to accounting system"
+                                                    )
+                                                  )
+                                                )
+                                              ])
+                                            : _vm._e()
                                         ])
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    !_vm.sendInvoiceToAccounting
-                                      ? _c("span", [
-                                          _vm._v(
-                                            _vm._s(
-                                              _vm.$t(
-                                                "Mark this enrollment as paid but do not send to accounting system"
-                                              )
+                                      : _c(
+                                          "span",
+                                          { staticClass: "alert alert-danger" },
+                                          [
+                                            _vm._v(
+                                              _vm._s(
+                                                _vm.$t(
+                                                  "Unable to communicate with Accounting Service. This invoice will NOT be sent automatically to the Accounting system"
+                                                )
+                                              ) + " "
+                                            ),
+                                            _c(
+                                              "a",
+                                              {
+                                                attrs: { href: "#" },
+                                                on: {
+                                                  click: function($event) {
+                                                    return _vm.checkAccountingStatus()
+                                                  }
+                                                }
+                                              },
+                                              [_vm._v("Refresh status")]
                                             )
-                                          )
-                                        ])
-                                      : _vm._e()
+                                          ]
+                                        )
                                   ]
                                 )
                               : _vm._e()

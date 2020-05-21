@@ -1,5 +1,6 @@
 export default {
     "en": {
+        "Unable to communicate with Accounting Service. This invoice will NOT be sent automatically to the Accounting system": "Unable to communicate with Accounting Service. This invoice will NOT be sent automatically to the Accounting system",
         "% of period max": "% of period max",
         "Absence Notification": "Absence Notification",
         "absences": "absences",
@@ -462,6 +463,7 @@ export default {
         }
     },
     "es": {
+        "Unable to communicate with Accounting Service. This invoice will NOT be sent automatically to the Accounting system": "El servidor de contabilidad no esta disponible. La factura NO sera generada automaticamente",
         "% of period max": "% del máx. para la sesión",
         "Absence Notification": "Notificacion de ausencia",
         "absences": "ausencias",
@@ -799,6 +801,7 @@ export default {
         }
     },
     "fr": {
+        "Unable to communicate with Accounting Service. This invoice will NOT be sent automatically to the Accounting system": "Impossible de communiquer avec le service comptable. La facture ne sera PAS générée automatiquement",
         "% of period max": "% du maximum",
         "Absence Notification": "Notification d'absence",
         "absences": "absences",
