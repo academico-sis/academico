@@ -11,6 +11,7 @@ jobs:
         with:
           php-version: ['7.2', '7.3', '7.4']
           extensions: mbstring, dom, fileinfo, sqlite, imagick
+      -name: Setup config file
         run: cp .env.example .env
       - name: Create Database
         run: |
