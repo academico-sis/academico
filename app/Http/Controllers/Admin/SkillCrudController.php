@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\SkillRequest as StoreRequest;
 // VALIDATION: change the requests to match your own file names if you need form validation
-use App\Http\Requests\SkillRequest as UpdateRequest;
 use App\Models\Course;
 use App\Models\Skills\Skill;
 use Backpack\CRUD\app\Http\Controllers\CrudController;

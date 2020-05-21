@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\CourseRequest as StoreRequest;
 // VALIDATION: change the requests to match your own file names if you need form validation
-use App\Http\Requests\CourseRequest as UpdateRequest;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Event;
@@ -79,9 +78,8 @@ class CourseCrudController extends CrudController
         if (backpack_user()->hasRole('admin')) {
             CRUD::enableExportButtons();
         }
-
     }
-    
+
     protected function setupListOperation()
     {
         CRUD::setColumns([
@@ -230,11 +228,10 @@ class CourseCrudController extends CrudController
           function () {
               CRUD::addClause('parent');
           });
+    }
 
-        }
-        
-        protected function setupCreateOperation()
-        {
+    protected function setupCreateOperation()
+    {
         CRUD::addFields([
             [
                 // RYTHM
