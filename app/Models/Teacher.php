@@ -24,35 +24,35 @@ class Teacher extends Model
         return $this->belongsTo(User::class, 'user_id')->withTrashed();
     }
 
-        /** attributes */
-        public function getFirstnameAttribute()
-        {
-            if ($this->user) {
-                return $this->user->firstname;
-            }
+    /** attributes */
+    public function getFirstnameAttribute()
+    {
+        if ($this->user) {
+            return $this->user->firstname;
         }
-    
-        public function getLastnameAttribute()
-        {
-            if ($this->user) {
-                return $this->user->lastname;
-            }
+    }
+
+    public function getLastnameAttribute()
+    {
+        if ($this->user) {
+            return $this->user->lastname;
         }
-    
-        public function getEmailAttribute()
-        {
-            if ($this->user) {
-                return $this->user->email;
-            }
+    }
+
+    public function getEmailAttribute()
+    {
+        if ($this->user) {
+            return $this->user->email;
         }
-    
-        public function getNameAttribute()
-        {
-            if ($this->user) {
-                return $this->user->firstname.' '.$this->user->lastname;
-            }
+    }
+
+    public function getNameAttribute()
+    {
+        if ($this->user) {
+            return $this->user->firstname.' '.$this->user->lastname;
         }
-        
+    }
+
     public function period_courses(Period $period)
     {
         return $this->courses()
