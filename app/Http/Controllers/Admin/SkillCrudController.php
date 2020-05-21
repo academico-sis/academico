@@ -25,10 +25,9 @@ class SkillCrudController extends CrudController
         CRUD::setModel(\App\Models\Skills\Skill::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/skill');
         CRUD::setEntityNameStrings('skill', 'skills');
-        CRUD::enableBulkActions();
         CRUD::addButtonFromView('top', 'bulk_attach', 'bulk_attach', 'end');
     }
-
+    
     protected function setupListOperation()
     {
         CRUD::setColumns([
@@ -55,6 +54,8 @@ class SkillCrudController extends CrudController
             ],
         ]);
 
+        CRUD::enableBulkActions();
+        
         CRUD::addFilter([ // select2 filter
             'name' => 'level_id',
             'type' => 'select2',
