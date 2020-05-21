@@ -10,17 +10,21 @@ use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\Models\Media;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Student extends Model implements HasMedia
 {
     use CrudTrait;
     use SoftDeletes;
     use HasMediaTrait;
+    use LogsActivity;
 
     public $timestamps = true;
     protected $guarded = ['id'];
     protected $with = ['user', 'phone'];
     protected $appends = ['email', 'name', 'firstname', 'lastname', 'student_age', 'student_birthdate'];
+    protected static $logUnguarded = true;
+
 
     protected static function boot()
     {

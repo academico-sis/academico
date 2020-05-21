@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class User extends Authenticatable
 {
@@ -15,11 +16,13 @@ class User extends Authenticatable
     use SoftDeletes;
     use CrudTrait;
     use HasRoles;
+    use LogsActivity;
 
     /**
      * The attributes that are mass assignable.
      */
     protected $fillable = ['firstname', 'lastname', 'name', 'email', 'password', 'locale'];
+    protected static $logFillable = true;
 
     /**
      * The attributes that should be hidden for arrays.

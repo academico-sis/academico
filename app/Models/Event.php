@@ -6,11 +6,13 @@ use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Event extends Model
 {
     use CrudTrait;
     use SoftDeletes;
+    use LogsActivity;
 
     protected static function boot()
     {
@@ -41,6 +43,8 @@ class Event extends Model
     // protected $dates = [];
     protected $appends = ['length'];
     //protected $with = ['course'];
+    protected static $logUnguarded = true;
+
 
     /*
     |--------------------------------------------------------------------------

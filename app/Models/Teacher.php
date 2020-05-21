@@ -7,16 +7,20 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Teacher extends Model
 {
     use CrudTrait;
     use SoftDeletes;
+    use LogsActivity;
 
     public $timestamps = true;
     protected $guarded = ['id'];
     protected $with = ['user'];
     protected $appends = ['firstname', 'lastname', 'name'];
+    protected static $logUnguarded = true;
+
 
     /** relations */
     public function user()

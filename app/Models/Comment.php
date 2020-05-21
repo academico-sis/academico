@@ -6,14 +6,16 @@ use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Comment extends Model
 {
     use CrudTrait;
+    use LogsActivity;
+    use SoftDeletes;
 
     protected $guarded = ['id'];
-
-    use SoftDeletes;
+    protected static $logUnguarded = true;
 
     public function getDateAttribute()
     {
