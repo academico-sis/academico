@@ -80,12 +80,10 @@ class CourseCrudController extends CrudController
             CRUD::enableExportButtons();
         }
 
-        /*
-        |--------------------------------------------------------------------------
-        | CrudPanel Configuration
-        |--------------------------------------------------------------------------
-        */
-
+    }
+    
+    protected function setupListOperation()
+    {
         CRUD::setColumns([
             [
                 // RYTHM
@@ -233,6 +231,10 @@ class CourseCrudController extends CrudController
               CRUD::addClause('parent');
           });
 
+        }
+        
+        protected function setupCreateOperation()
+        {
         CRUD::addFields([
             [
                 // RYTHM
@@ -363,18 +365,12 @@ class CourseCrudController extends CrudController
         ]);
 
         // add asterisk for fields that are required in CourseRequest
-        CRUD::setRequiredFields(StoreRequest::class, 'create');
-        CRUD::setRequiredFields(UpdateRequest::class, 'edit');
-    }
-
-    protected function setupCreateOperation()
-    {
         CRUD::setValidation(StoreRequest::class);
     }
 
     protected function setupUpdateOperation()
     {
-        CRUD::setValidation(UpdateRequest::class);
+        $this->setupCreateOperation(); // since this calls the methods above, no need to do anything here
     }
 
     public function show($course)

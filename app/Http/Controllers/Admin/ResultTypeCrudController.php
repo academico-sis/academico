@@ -21,43 +21,31 @@ class ResultTypeCrudController extends CrudController
 
     public function setup()
     {
-        /*
-        |--------------------------------------------------------------------------
-        | CrudPanel Basic Information
-        |--------------------------------------------------------------------------
-        */
         CRUD::setModel(\App\Models\ResultType::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/resulttype');
         CRUD::setEntityNameStrings('resulttype', 'result_types');
+    }
 
-        /*
-        |--------------------------------------------------------------------------
-        | CrudPanel Configuration
-        |--------------------------------------------------------------------------
-        */
-
+    protected function setupListOperation()
+    {
         CRUD::addColumns([
             ['name' => 'name', 'label' => 'Name'],
             ['name' => 'description', 'label' => 'Description'],
         ]);
-
-        CRUD::addFields([
-            ['name' => 'name', 'label' => 'Name', 'type' => 'textarea'],
-            ['name' => 'description', 'label' => 'Description', 'type' => 'textarea'],
-        ]);
-
-        // add asterisk for fields that are required in ResultTypeRequest
-        CRUD::setRequiredFields(StoreRequest::class, 'create');
-        CRUD::setRequiredFields(UpdateRequest::class, 'edit');
     }
 
     protected function setupCreateOperation()
     {
         CRUD::setValidation(StoreRequest::class);
+
+        CRUD::addFields([
+            ['name' => 'name', 'label' => 'Name', 'type' => 'textarea'],
+            ['name' => 'description', 'label' => 'Description', 'type' => 'textarea'],
+        ]);
     }
 
     protected function setupUpdateOperation()
     {
-        CRUD::setValidation(UpdateRequest::class);
+        $this->setupCreateOperation();
     }
 }

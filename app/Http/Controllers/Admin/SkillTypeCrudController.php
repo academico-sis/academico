@@ -21,43 +21,30 @@ class SkillTypeCrudController extends CrudController
 
     public function setup()
     {
-        /*
-        |--------------------------------------------------------------------------
-        | CrudPanel Basic Information
-        |--------------------------------------------------------------------------
-        */
         CRUD::setModel(\App\Models\Skills\SkillType::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/skilltype');
         CRUD::setEntityNameStrings('skilltype', 'skill_types');
+    }
 
-        /*
-        |--------------------------------------------------------------------------
-        | CrudPanel Configuration
-        |--------------------------------------------------------------------------
-        */
-
+    protected function setupListOperation()
+    {
         CRUD::addColumns([
             ['name' => 'shortname', 'label' => 'Shortname'],
             ['name' => 'name', 'label' => 'Name'],
         ]);
-
-        CRUD::addFields([
-            ['name' => 'shortname', 'label' => 'Shortname', 'type' => 'text'],
-            ['name' => 'name', 'label' => 'Name', 'type' => 'text'],
-        ]);
-
-        // add asterisk for fields that are required in SkillTypeRequest
-        CRUD::setRequiredFields(StoreRequest::class, 'create');
-        CRUD::setRequiredFields(UpdateRequest::class, 'edit');
     }
 
     protected function setupCreateOperation()
     {
         CRUD::setValidation(StoreRequest::class);
+        CRUD::addFields([
+            ['name' => 'shortname', 'label' => 'Shortname', 'type' => 'text'],
+            ['name' => 'name', 'label' => 'Name', 'type' => 'text'],
+        ]);
     }
 
     protected function setupUpdateOperation()
     {
-        CRUD::setValidation(UpdateRequest::class);
+        $this->setupCreateOperation();
     }
 }

@@ -29,16 +29,6 @@ class ConfigCrudController extends CrudController
         CRUD::setModel(\App\Models\Config::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/config');
         CRUD::setEntityNameStrings('config', 'configs');
-
-        /*
-        |--------------------------------------------------------------------------
-        | CrudPanel Configuration
-        |--------------------------------------------------------------------------
-        */
-
-        // add asterisk for fields that are required in ConfigRequest
-        CRUD::setRequiredFields(StoreRequest::class, 'create');
-        CRUD::setRequiredFields(UpdateRequest::class, 'edit');
     }
 
     protected function setupListOperation()

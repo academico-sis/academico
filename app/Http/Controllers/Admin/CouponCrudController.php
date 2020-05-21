@@ -46,10 +46,6 @@ class CouponCrudController extends CrudController
             ['name' => 'name', 'label' => 'Name', 'type' => 'text'],
             ['name' => 'value', 'label' => 'Value', 'type' => 'text'],
         ]);
-
-        // add asterisk for fields that are required in CouponRequest
-        CRUD::setRequiredFields(StoreRequest::class, 'create');
-        CRUD::setRequiredFields(UpdateRequest::class, 'edit');
     }
 
     protected function setupCreateOperation()
@@ -59,6 +55,6 @@ class CouponCrudController extends CrudController
 
     protected function setupUpdateOperation()
     {
-        CRUD::setValidation(UpdateRequest::class);
+        $this->setupCreateOperation();
     }
 }

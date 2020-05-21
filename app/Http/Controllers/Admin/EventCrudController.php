@@ -199,9 +199,6 @@ class EventCrudController extends CrudController
 
         ]);
 
-        // add asterisk for fields that are required in EventRequest
-        CRUD::setRequiredFields(StoreRequest::class, 'create');
-        CRUD::setRequiredFields(UpdateRequest::class, 'edit');
         CRUD::setValidation(StoreRequest::class);
     }
 

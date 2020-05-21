@@ -28,31 +28,18 @@ class ResultCrudController extends CrudController
 
     public function setup()
     {
-        /*
-        |--------------------------------------------------------------------------
-        | CrudPanel Basic Information
-        |--------------------------------------------------------------------------
-        */
         CRUD::setModel(\App\Models\Enrollment::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/result');
         CRUD::setEntityNameStrings('result', 'results');
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | CrudPanel Configuration
-    |--------------------------------------------------------------------------
-    */
-
     public function setupListOperation()
     {
         CRUD::setColumns([
-
             [
                 'name' => 'id',
                 'label' => 'ID',
             ],
-
             [
                 // STUDENT NAME
                 'label' => __('Student'), // Table column heading
@@ -68,7 +55,6 @@ class ResultCrudController extends CrudController
                     });
                 },
             ],
-
             [
                 // COURSE NAME
                 'label' => __('Course'), // Table column heading
@@ -78,13 +64,11 @@ class ResultCrudController extends CrudController
                 'attribute' => 'name', // foreign key attribute that is shown to user
                 'model' => \App\Models\Course::class, // foreign key model
             ],
-
             [
                 'name' => 'course.period.name',
                 'label' => __('Period'),
                 'type' => 'text',
             ],
-
             [
                 // RESULT
                 'label' => __('Result'), // Table column heading

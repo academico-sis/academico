@@ -30,35 +30,27 @@ class PaymentmethodCrudController extends CrudController
         CRUD::setModel(\App\Models\Paymentmethod::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/paymentmethod');
         CRUD::setEntityNameStrings('paymentmethod', 'paymentmethods');
+    }
 
-        /*
-        |--------------------------------------------------------------------------
-        | CrudPanel Configuration
-        |--------------------------------------------------------------------------
-        */
-
+    protected function setupListOperation()
+    {
         CRUD::addColumns([
             ['name' => 'name', 'label' => 'Name'],
             ['name' => 'code', 'label' => 'Code'],
         ]);
-
-        CRUD::addFields([
-            ['name' => 'name', 'label' => 'Name', 'type' => 'text'],
-            ['name' => 'code', 'label' => 'Code', 'type' => 'text'],
-        ]);
-
-        // add asterisk for fields that are required in PaymentmethodRequest
-        CRUD::setRequiredFields(StoreRequest::class, 'create');
-        CRUD::setRequiredFields(UpdateRequest::class, 'edit');
     }
 
     protected function setupCreateOperation()
     {
         CRUD::setValidation(StoreRequest::class);
+        CRUD::addFields([
+            ['name' => 'name', 'label' => 'Name', 'type' => 'text'],
+            ['name' => 'code', 'label' => 'Code', 'type' => 'text'],
+        ]);
     }
 
     protected function setupUpdateOperation()
     {
-        CRUD::setValidation(UpdateRequest::class);
+        $this->setupCreateOperation();
     }
 }

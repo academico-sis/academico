@@ -17,11 +17,6 @@ class UserCrudController extends CrudController
 
     public function setup()
     {
-        /*
-        |--------------------------------------------------------------------------
-        | BASIC CRUD INFORMATION
-        |--------------------------------------------------------------------------
-        */
         CRUD::setModel(config('backpack.permissionmanager.models.user'));
         CRUD::setEntityNameStrings(trans('backpack::permissionmanager.user'), trans('backpack::permissionmanager.users'));
         CRUD::setRoute(backpack_url('user'));

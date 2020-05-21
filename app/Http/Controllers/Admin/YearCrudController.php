@@ -21,37 +21,24 @@ class YearCrudController extends CrudController
 
     public function setup()
     {
-        /*
-        |--------------------------------------------------------------------------
-        | CrudPanel Basic Information
-        |--------------------------------------------------------------------------
-        */
         CRUD::setModel(\App\Models\Year::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/year');
         CRUD::setEntityNameStrings('year', 'years');
+    }
 
-        /*
-        |--------------------------------------------------------------------------
-        | CrudPanel Configuration
-        |--------------------------------------------------------------------------
-        */
-
+    protected function setupListOperation()
+    {
         CRUD::addColumn(['name' => 'name', 'label' => 'Name']);
-
-        CRUD::addField(['name' => 'name', 'label' => 'Name', 'type' => 'text']);
-
-        // add asterisk for fields that are required in YearRequest
-        CRUD::setRequiredFields(StoreRequest::class, 'create');
-        CRUD::setRequiredFields(UpdateRequest::class, 'edit');
     }
 
     protected function setupCreateOperation()
     {
         CRUD::setValidation(StoreRequest::class);
+        CRUD::addField(['name' => 'name', 'label' => 'Name', 'type' => 'text']);
     }
 
     protected function setupUpdateOperation()
     {
-        CRUD::setValidation(UpdateRequest::class);
+        $this->setupCreateOperation();
     }
 }

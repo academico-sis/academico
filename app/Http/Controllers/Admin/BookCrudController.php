@@ -45,13 +45,9 @@ class BookCrudController extends CrudController
 
         CRUD::addFields([
             ['name' => 'name', 'label' => 'Name', 'type' => 'text'],
-            ['name' => 'price', 'label' => 'Price', 'type' => 'text'],
+            ['name' => 'price', 'label' => 'Price', 'type' => 'number', 'decimals' => 2],
             ['name' => 'product_code', 'label' => 'Product Code', 'type' => 'text'],
         ]);
-
-        // add asterisk for fields that are required in BookRequest
-        CRUD::setRequiredFields(StoreRequest::class, 'create');
-        CRUD::setRequiredFields(UpdateRequest::class, 'edit');
     }
 
     protected function setupCreateOperation()
@@ -61,6 +57,6 @@ class BookCrudController extends CrudController
 
     protected function setupUpdateOperation()
     {
-        CRUD::setValidation(UpdateRequest::class);
+        $this->setupCreateOperation();
     }
 }

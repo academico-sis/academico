@@ -23,21 +23,11 @@ class TeacherCrudController extends CrudController
 
     public function setup()
     {
-        /*
-        |--------------------------------------------------------------------------
-        | CrudPanel Basic Information
-        |--------------------------------------------------------------------------
-        */
         CRUD::setModel(\App\Models\Teacher::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/teacher');
         CRUD::setEntityNameStrings('teacher', 'teachers');
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | CrudPanel Configuration
-    |--------------------------------------------------------------------------
-    */
     public function setupListOperation()
     {
         CRUD::setColumns([
@@ -71,6 +61,7 @@ class TeacherCrudController extends CrudController
 
     public function setupCreateOperation()
     {
+        CRUD::setValidation(StoreRequest::class);
         CRUD::addFields([
             [  // Select2
                 'label' => 'User',
@@ -91,15 +82,12 @@ class TeacherCrudController extends CrudController
                 'type'  => 'date',
             ],
         ]);
-
-        // add asterisk for fields that are required in TeacherRequest
-        CRUD::setRequiredFields(StoreRequest::class, 'create');
     }
 
     protected function setupUpdateOperation()
     {
+        CRUD::setValidation(UpdateRequest::class);
         CRUD::addFields([
-
             [  // Select2
                 'label' => 'User',
                 'type' => 'select2',
@@ -123,7 +111,5 @@ class TeacherCrudController extends CrudController
                 'type'  => 'date',
             ],
         ]);
-
-        CRUD::setRequiredFields(UpdateRequest::class, 'edit');
     }
 }
