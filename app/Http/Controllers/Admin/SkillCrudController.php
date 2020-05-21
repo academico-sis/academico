@@ -27,7 +27,7 @@ class SkillCrudController extends CrudController
         CRUD::setEntityNameStrings('skill', 'skills');
         CRUD::addButtonFromView('top', 'bulk_attach', 'bulk_attach', 'end');
     }
-    
+
     protected function setupListOperation()
     {
         CRUD::setColumns([
@@ -55,7 +55,7 @@ class SkillCrudController extends CrudController
         ]);
 
         CRUD::enableBulkActions();
-        
+
         CRUD::addFilter([ // select2 filter
             'name' => 'level_id',
             'type' => 'select2',

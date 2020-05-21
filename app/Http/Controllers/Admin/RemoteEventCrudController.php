@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
+use App\Http\Requests\RemoteEventRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use App\Http\Requests\RemoteEventRequest;
 
 /**
  * Class RemoteEventCrudController.
