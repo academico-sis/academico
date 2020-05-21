@@ -30,12 +30,9 @@ class EventController extends Controller
     {
         Log::notice('Calendar events updated by user '.backpack_user()->id);
         $course = Course::findOrFail($request->input('course_id'));
-        if ($request->input('resource_id') == 'tbd')
-        {
+        if ($request->input('resource_id') == 'tbd') {
             $teacher_id = null;
-        }
-        else
-        {
+        } else {
             $teacher_id = Teacher::findOrFail($request->input('resource_id'))->id;
         }
 
@@ -58,12 +55,9 @@ class EventController extends Controller
         Log::notice('Calendar events updated by user '.backpack_user()->id);
 
         $course = Course::findOrFail($request->input('course_id'));
-        if ($request->input('resource_id') == 'tbd')
-        {
+        if ($request->input('resource_id') == 'tbd') {
             $room_id = null;
-        }
-        else
-        {
+        } else {
             $room_id = Room::findOrFail($request->input('resource_id'))->id;
         }
 
