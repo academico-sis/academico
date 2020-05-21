@@ -10,13 +10,8 @@ use Illuminate\Support\Facades\Log;
 
 class Course extends Model
 {
-    use CrudTrait, \Venturecraft\Revisionable\RevisionableTrait;
+    use CrudTrait;
     use SoftDeletes;
-
-    public function identifiableName()
-    {
-        return $this->name;
-    }
 
     /** model events */
     protected static function boot()

@@ -23,13 +23,12 @@ class CourseCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\CloneOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-    use \Backpack\ReviseOperation\ReviseOperation;
 
     public function __construct()
     {
         parent::__construct();
         $this->middleware('permission:courses.view', ['except' => 'show']);
-        $this->middleware('permission:courses.edit', ['only' => ['update', 'create', 'store', 'destroy', 'revisions']]);
+        $this->middleware('permission:courses.edit', ['only' => ['update', 'create', 'store', 'destroy']]);
     }
 
     public function setup()
@@ -56,7 +55,6 @@ class CourseCrudController extends CrudController
         if (! $permissions->contains('name', 'courses.edit')) {
             CRUD::denyAccess('create');
             CRUD::denyAccess('clone');
-            CRUD::denyAccess('revisions');
         }
 
         if ($permissions->contains('name', 'courses.view')) {

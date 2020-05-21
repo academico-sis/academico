@@ -29,7 +29,6 @@
         "spatie/laravel-translatable": "^4.3",
         "spatie/laravel-uptime-monitor": "^3.8",
         "symfony/psr-http-message-bridge": "^1.1",
-        "venturecraft/revisionable": "1.*",
         "fruitcake/laravel-cors": "^1.0"
     },
     "require-dev": {

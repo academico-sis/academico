@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "37c4daaf65255cc482783a1096d9dbd3",
+    "content-hash": "d31305ff0a3c852d2050720406d86381",
     "packages": [
         {
             "name": "akaunting/language",
@@ -118,16 +118,16 @@
         },
         {
             "name": "backpack/crud",
-            "version": "4.1.5",
+            "version": "4.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Laravel-Backpack/CRUD.git",
-                "reference": "e2c166b065f6b405747db5a5f4d36a2a88f8dc22"
+                "reference": "cbd4143d3eb8302916012af205565cd3183f274f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Laravel-Backpack/CRUD/zipball/e2c166b065f6b405747db5a5f4d36a2a88f8dc22",
-                "reference": "e2c166b065f6b405747db5a5f4d36a2a88f8dc22",
+                "url": "https://api.github.com/repos/Laravel-Backpack/CRUD/zipball/cbd4143d3eb8302916012af205565cd3183f274f",
+                "reference": "cbd4143d3eb8302916012af205565cd3183f274f",
                 "shasum": ""
             },
             "require": {
@@ -198,7 +198,7 @@
                 "read",
                 "update"
             ],
-            "time": "2020-05-16T03:46:11+00:00"
+            "time": "2020-05-21T05:58:04+00:00"
         },
         {
             "name": "backpack/permissionmanager",
@@ -2806,16 +2806,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "2.34.0",
+            "version": "2.34.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "52ea68aebbad8a3b27b5d24e4c66ebe1933f8399"
+                "reference": "3e87404329b8072295ea11d548b47a1eefe5a162"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/52ea68aebbad8a3b27b5d24e4c66ebe1933f8399",
-                "reference": "52ea68aebbad8a3b27b5d24e4c66ebe1933f8399",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/3e87404329b8072295ea11d548b47a1eefe5a162",
+                "reference": "3e87404329b8072295ea11d548b47a1eefe5a162",
                 "shasum": ""
             },
             "require": {
@@ -2875,7 +2875,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2020-05-12T19:53:34+00:00"
+            "time": "2020-05-19T22:14:16+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -4552,16 +4552,16 @@
         },
         {
             "name": "sentry/sentry",
-            "version": "2.3.2",
+            "version": "2.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-php.git",
-                "reference": "b3e71feb32f1787b66a3b4fdb8686972e9c7ba94"
+                "reference": "e44561875e0d724bac3d9cdb705bf58847acd425"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/b3e71feb32f1787b66a3b4fdb8686972e9c7ba94",
-                "reference": "b3e71feb32f1787b66a3b4fdb8686972e9c7ba94",
+                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/e44561875e0d724bac3d9cdb705bf58847acd425",
+                "reference": "e44561875e0d724bac3d9cdb705bf58847acd425",
                 "shasum": ""
             },
             "require": {
@@ -4576,7 +4576,9 @@
                 "php-http/discovery": "^1.6.1",
                 "php-http/httplug": "^1.1|^2.0",
                 "php-http/message": "^1.5",
+                "psr/http-factory": "^1.0",
                 "psr/http-message-implementation": "^1.0",
+                "psr/log": "^1.0",
                 "symfony/options-resolver": "^2.7|^3.0|^4.0|^5.0",
                 "symfony/polyfill-uuid": "^1.13.1"
             },
@@ -4585,12 +4587,12 @@
                 "raven/raven": "*"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^2.13",
+                "friendsofphp/php-cs-fixer": "^2.16",
                 "monolog/monolog": "^1.3|^2.0",
                 "php-http/mock-client": "^1.3",
                 "phpstan/extension-installer": "^1.0",
-                "phpstan/phpstan": "^0.11",
-                "phpstan/phpstan-phpunit": "^0.11",
+                "phpstan/phpstan": "^0.12",
+                "phpstan/phpstan-phpunit": "^0.12",
                 "phpunit/phpunit": "^7.5.18",
                 "symfony/phpunit-bridge": "^4.3|^5.0",
                 "vimeo/psalm": "^3.4"
@@ -4601,7 +4603,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.3-dev"
+                    "dev-master": "2.4-dev"
                 }
             },
             "autoload": {
@@ -4633,7 +4635,7 @@
                 "logging",
                 "sentry"
             ],
-            "time": "2020-03-06T09:24:53+00:00"
+            "time": "2020-05-20T20:49:38+00:00"
         },
         {
             "name": "sentry/sentry-laravel",
@@ -4896,16 +4898,16 @@
         },
         {
             "name": "spatie/laravel-permission",
-            "version": "3.12.0",
+            "version": "3.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-permission.git",
-                "reference": "ee3d83e6c85f480e595ae4d96aab656063efe85a"
+                "reference": "49b8063fbb9ec52ebef98cc6ec527a80d8853141"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/ee3d83e6c85f480e595ae4d96aab656063efe85a",
-                "reference": "ee3d83e6c85f480e595ae4d96aab656063efe85a",
+                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/49b8063fbb9ec52ebef98cc6ec527a80d8853141",
+                "reference": "49b8063fbb9ec52ebef98cc6ec527a80d8853141",
                 "shasum": ""
             },
             "require": {
@@ -4960,7 +4962,7 @@
                 "security",
                 "spatie"
             ],
-            "time": "2020-05-14T16:42:35+00:00"
+            "time": "2020-05-20T00:31:29+00:00"
         },
         {
             "name": "spatie/laravel-query-builder",
@@ -7227,16 +7229,16 @@
     "packages-dev": [
         {
             "name": "backpack/generators",
-            "version": "v3.0.1",
+            "version": "v3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Laravel-Backpack/Generators.git",
-                "reference": "6aa74c58840d8172885b6a7af620599ec3e0f962"
+                "reference": "12a44a285ff65cdff649e2a1560d0d0f917c2f7d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Laravel-Backpack/Generators/zipball/6aa74c58840d8172885b6a7af620599ec3e0f962",
-                "reference": "6aa74c58840d8172885b6a7af620599ec3e0f962",
+                "url": "https://api.github.com/repos/Laravel-Backpack/Generators/zipball/12a44a285ff65cdff649e2a1560d0d0f917c2f7d",
+                "reference": "12a44a285ff65cdff649e2a1560d0d0f917c2f7d",
                 "shasum": ""
             },
             "require": {
@@ -7283,7 +7285,7 @@
                 "request",
                 "view"
             ],
-            "time": "2020-05-08T08:42:33+00:00"
+            "time": "2020-05-20T07:31:20+00:00"
         },
         {
             "name": "doctrine/instantiator",
