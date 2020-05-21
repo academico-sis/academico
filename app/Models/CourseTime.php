@@ -39,7 +39,6 @@ class CourseTime extends Model
     // protected $dates = [];
     protected static $logUnguarded = true;
 
-
     /*
     |--------------------------------------------------------------------------
     | FUNCTIONS

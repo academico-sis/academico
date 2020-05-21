@@ -6,11 +6,11 @@ use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\Models\Media;
-use Spatie\Activitylog\Traits\LogsActivity;
 
 class Student extends Model implements HasMedia
 {
@@ -24,7 +24,6 @@ class Student extends Model implements HasMedia
     protected $with = ['user', 'phone'];
     protected $appends = ['email', 'name', 'firstname', 'lastname', 'student_age', 'student_birthdate'];
     protected static $logUnguarded = true;
-
 
     protected static function boot()
     {
