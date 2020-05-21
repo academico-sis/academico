@@ -12,7 +12,7 @@ Route::group(
     ['middleware' => ['web', 'language']],
     function () {
         Route::get('/home', 'HomeController@index')->name('home')->middleware('forceupdate');
-        Route::get('/', 'HomeController@index')->name('home')->middleware('forceupdate');
+        Route::get('/', 'HomeController@index')->middleware('forceupdate');
         Route::get('/admin', 'HomeController@admin')->name('admin');
         Route::get('dashboard/teacher', 'HomeController@teacher')->name('teacherDashboard');
         Route::get('dashboard/teacher/{teacher}/hours', 'HRController@teacher')->name('teacherHours'); // todo protect
