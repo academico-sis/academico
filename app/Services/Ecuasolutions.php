@@ -2,27 +2,24 @@
 
 namespace App\Services;
 
-use App\Models\Config;
-use GuzzleHttp\Client;
 use App\Models\Comment;
-use App\Models\Payment;
+use App\Models\Config;
 use App\Models\Enrollment;
+use App\Models\Payment;
 use App\Models\PreInvoiceDetail;
+use GuzzleHttp\Client;
+use Http\Client\Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Http\Client\Exception;
 
 class Ecuasolutions
 {
-
     public function checkServerStatus()
     {
         $server = DB::table('monitors')->where('url', config('services.ecuasolutions.pingurl'))->first();
-        if ($server)
-        {
-            return $server->uptime_status == "up" ? true : false;
-        }
-        else {
+        if ($server) {
+            return $server->uptime_status == 'up' ? true : false;
+        } else {
             return false;
         }
     }
@@ -91,8 +88,9 @@ class Ecuasolutions
             ]);
         }
     }
+
     /** This class will be called during the enrollment checkout process to transmit data to an external accounting system.
-     * Other implementations may be created in the future (in this case we'll need to bind this class in the service container)
+     * Other implementations may be created in the future (in this case we'll need to bind this class in the service container).
      */
     public function sendInvoiceToAccountingSystem($request, $preinvoice)
     {
@@ -159,10 +157,11 @@ class Ecuasolutions
             if ($code['mensaje'] !== null) {
                 $preinvoice->invoice_number = $code['mensaje'];
                 $preinvoice->save();
-    
+
                 $this->saveInvoiceData($request, $preinvoice);
+            } else {
+                abort(422);
             }
-            else { abort(422); }
         } catch (Exception $exception) {
             Log::error('Data could not be sent to accounting');
             Log::error($exception);
