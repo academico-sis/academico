@@ -24,6 +24,10 @@ jobs:
       matrix:
         php-versions: ['7.3', '7.4']
     steps:
+      - name: Create Database
+        run: |
+          sudo systemctl start mysql
+          mysql --user="root" --password="root" -e "CREATE DATABASE laravel character set UTF8mb4 collate utf8mb4_bin;"
       - name: Checkout
         uses: actions/checkout@v2
       - name: Setup PHP, with composer and extensions
