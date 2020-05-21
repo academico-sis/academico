@@ -1,42 +1,32 @@
-# GitHub Action for Laravel
-name: Testing Laravel
-on: [push, pull_request]
+name: Phpunit
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
 jobs:
-  laravel:
-    name: Laravel (PHP ${{ matrix.php-versions }} on ${{ matrix.operating-system }})
-    runs-on: ${{ matrix.operating-system }}
-    strategy:
-      fail-fast: false
-      matrix:
-        operating-system: [ubuntu-latest, windows-latest, macos-latest]
-        php-versions: ['7.2', '7.3', '7.4']
+  laravel-tests:
+
+    runs-on: ubuntu-latest
+    
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Setup PHP, with composer and extensions
-        uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
-        with:
-          php-version: ${{ matrix.php-versions }}
-          extensions: mbstring, dom, fileinfo, imagick, gd, exif, bcmath, ctype, json, tokenizer, zip
-          coverage: xdebug #optional
-      - name: Get composer cache directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-      - name: Cache composer dependencies
-        uses: actions/cache@v1
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          # Use composer.json for key, if composer.lock is not committed.
-          # key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: ${{ runner.os }}-composer-
-      - name: Install Composer dependencies
-        run: composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
-      - name: Prepare the application
-        run: |
-          php -r "file_exists('.env') || copy('.env.example', '.env');"
-          php artisan key:generate
-      - name: Clear Config
-        run: php artisan config:clear
-      - name: Test with phpunit
-        run: vendor/bin/phpunit --coverage-text
+    - uses: actions/checkout@v2
+    - name: Copy .env
+      run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+    - name: Install Dependencies
+      run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
+    - name: Generate key
+      run: php artisan key:generate
+    - name: Directory Permissions
+      run: chmod -R 777 storage bootstrap/cache
+    - name: Create Database
+      run: |
+        mkdir -p database
+        touch database/database.sqlite
+    - name: Execute tests (Unit and Feature tests) via PHPUnit
+      env:
+        DB_CONNECTION: sqlite
+        DB_DATABASE: database/database.sqlite
+      run: vendor/bin/phpunit
