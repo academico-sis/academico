@@ -12,7 +12,13 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Setup PHP, with composer and extensions
+      uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
+      with:
+        php-version: ['7.2', '7.3', '7.4']
+        extensions: mbstring, dom, fileinfo, mysql
     - name: Copy .env
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
     - name: Install Dependencies
