@@ -6,7 +6,7 @@ jobs:
     name: Laravel (PHP ${{ matrix.php-versions }})
     runs-on: ubuntu-latest
     env:
-      DB_DATABASE: academico-dusk
+      DB_DATABASE: dusk
       DB_USERNAME: root
       DB_PASSWORD: root 
     services:
@@ -15,7 +15,7 @@ jobs:
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: false
           MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: academico-dusk
+          MYSQL_DATABASE: dusk
         ports:
           - 3306/tcp
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -27,7 +27,7 @@ jobs:
       - name: Create Database
         run: |
           sudo systemctl start mysql
-          mysql --user="root" --password="root" -e "CREATE DATABASE academico-dusk character set UTF8mb4 collate utf8mb4_bin;"
+          mysql --user="root" --password="root" -e "CREATE DATABASE dusk character set UTF8mb4 collate utf8mb4_bin;"
       - name: Checkout
         uses: actions/checkout@v2
       - name: Setup PHP, with composer and extensions
