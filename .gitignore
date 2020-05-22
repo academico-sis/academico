@@ -5,12 +5,10 @@
 /vendor
 /report
 .env
-.env.testing
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
-.env.testing
 .idea
 deploy.php
