@@ -2,11 +2,11 @@
 
 namespace Tests\Feature\Http\Controllers;
 
+use App\Models\Course;
+use App\Models\Student;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use App\Models\Course;
-use App\Models\User;
-use App\Models\Student;
 
 /**
  * @see \App\Http\Controllers\AttendanceController
@@ -20,7 +20,7 @@ class AttendanceControllerTest extends TestCase
         parent::setUp();
         $this->seed('TestSeeder');
     }
-    
+
     public function testAttendanceMonitor()
     {
         $user = User::first();
@@ -42,7 +42,7 @@ class AttendanceControllerTest extends TestCase
         // they should see the same of the course and the name of the student
         $response->assertSee($course->name);
     }
-    
+
     /**
      * @test
      */

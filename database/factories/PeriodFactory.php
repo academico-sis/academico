@@ -2,8 +2,8 @@
 
 use App\Models\Period;
 use App\Models\Year;
-use Faker\Generator as Faker;
 use Carbon\Carbon;
+use Faker\Generator as Faker;
 
 $factory->define(Period::class, function (Faker $faker) {
     $start = $faker->date;
