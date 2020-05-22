@@ -2,7 +2,8 @@ language: php
 php:
   - '7.3'
   - '7.4'
-  - imagick
+
+before_install: echo "extension = imagick.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   
 before_script:
   - composer install --no-interaction
