@@ -198,7 +198,7 @@
               <form action="{{ route('deleteContact') }}" method="post">
                 @method('DELETE')
                 @csrf
-                <input type="hidden" name="student_id" value="{{ $contact->id }}">
+                <input type="hidden" name="contact" value="{{ $contact->idnumber }}">
                   <div class="modal-footer">
                       <button type="button" class="btn btn-default" data-dismiss="modal">@lang('Close')</button>
                       <button type="submit" class="btn btn-success">@lang('Delete')</button>
