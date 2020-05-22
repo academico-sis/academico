@@ -4,7 +4,7 @@ php:
   - '7.4'
 
 before_install:
-  - pecl install imagick
+  - printf "\n" | pecl install imagick
   
 install:
   - cp .env.testing .env
