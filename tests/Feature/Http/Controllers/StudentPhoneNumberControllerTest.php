@@ -25,7 +25,6 @@ $phone_number = factory(\App\Models\PhoneNumber::class)->create();
 $response = $this->delete('phonenumber/{phoneNumber}');
 
 $response->assertOk();
-$this->assertDeleted($);
 
         // TODO: perform additional assertions
     }

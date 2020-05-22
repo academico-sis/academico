@@ -25,7 +25,7 @@ $course_time = factory(\App\Models\CourseTime::class)->create();
 $response = $this->delete('coursetime/{id}');
 
 $response->assertOk();
-$this->assertDeleted($);
+$this->assertDeleted($course_time);
 
         // TODO: perform additional assertions
     }

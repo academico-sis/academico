@@ -3,12 +3,15 @@
 use App\Models\Period;
 use App\Models\Year;
 use Faker\Generator as Faker;
+use Carbon\Carbon;
 
 $factory->define(Period::class, function (Faker $faker) {
+    $start = $faker->date;
+
     return [
         'name' => $faker->unique()->randomNumber,
-        'start' => date('Y-m-d', strtotime('-1 day')), // todo randomize
-        'end' => date('Y-m-d', strtotime('+90 days')),
+        'start' => Carbon::parse($start),
+        'end' => Carbon::parse($start)->addDays(90),
         'year_id' => factory(Year::class)->create()->id,
     ];
 });
