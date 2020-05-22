@@ -89,4 +89,13 @@ class ContactController extends Controller
 
         return view('students.edit-contact', compact('contact'));
     }
+    // delete additional contact information
+    public function destroy(Contact $contact)
+    {
+        if (! backpack_user()->can('delete', $contact)) {
+            abort(403);
+        }
+        
+        Contact::findOrFail($contact)->delete();
+    }
 }

@@ -91,7 +91,7 @@
                     <i class="fa fa-plus"></i>
                 </button>
 
-                <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#userDataModal">
+                <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteContactModal">
                     <i class="fa fa-trash"></i>
                 </button><!-- TODO -->
             </div>
