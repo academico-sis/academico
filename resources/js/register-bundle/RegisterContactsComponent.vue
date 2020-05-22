@@ -54,37 +54,7 @@
                         </ValidationProvider>
                     </b-field>
 
-                    <b-field label="Documento de identificación">
-                        <div class="block">
-                            <b-radio
-                                v-model="contact.idnumber_type"
-                                native-value="cédula"
-                                >Cédula</b-radio
-                            >
-                            <b-radio
-                                v-model="contact.idnumber_type"
-                                native-value="pasaporte"
-                                >Pasaporte</b-radio
-                            >
-                        </div>
-                    </b-field>
-
                     <b-field
-                        v-if="contact.idnumber_type == 'cédula'"
-                        label="Número de cédula"
-                    >
-                        <ValidationProvider
-                            v-slot="{ errors }"
-                            name="número de cédula"
-                            rules="required|cedula|length:10"
-                        >
-                            <b-input v-model="contact.idnumber"></b-input>
-                            <p class="help is-danger">{{ errors[0] }}</p>
-                        </ValidationProvider>
-                    </b-field>
-
-                    <b-field
-                        v-if="contact.idnumber_type == 'pasaporte'"
                         label="Número de pasaporte"
                     >
                         <ValidationProvider
@@ -201,8 +171,6 @@ export default {
                 firstname: null,
                 lastname: null,
                 email: null,
-                idnumber_type: "cédula",
-                cedula_check: null,
                 idnumber: null,
                 address: null,
                 phonenumbers: [{ number: null }],

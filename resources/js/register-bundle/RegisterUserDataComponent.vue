@@ -47,35 +47,6 @@
                 </ValidationProvider>
             </b-field>
 
-            <b-field :label="$t('iddocument')">
-                <div class="block">
-                    <b-radio
-                        v-model="formdata.idnumber_type"
-                        native-value="cedula"
-                        >{{ $t("cedula") }}</b-radio
-                    >
-                    <b-radio
-                        v-model="formdata.idnumber_type"
-                        native-value="passport"
-                        >{{ $t("passport") }}</b-radio
-                    >
-                </div>
-            </b-field>
-
-            <b-field
-                v-if="formdata.idnumber_type == 'cedula'"
-                :label="$t('cedula_number')"
-            >
-                <ValidationProvider
-                    v-slot="{ errors }"
-                    name="número de cédula"
-                    rules="required|cedula|length:10"
-                >
-                    <b-input v-model="formdata.idnumber"></b-input>
-                    <p class="help is-danger">{{ errors[0] }}</p>
-                </ValidationProvider>
-            </b-field>
-
             <b-field
                 v-if="formdata.idnumber_type == 'passport'"
                 rules="required"
@@ -135,7 +106,7 @@ export default {
                 lastname: null,
                 email: null,
                 password: null,
-                idnumber_type: "cedula",
+                idnumber_type: "passport",
                 idnumber: null,
                 address: null,
                 phonenumber: null,
