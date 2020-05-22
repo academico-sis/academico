@@ -30,8 +30,7 @@
         "spatie/laravel-query-builder": "^2.8",
         "spatie/laravel-translatable": "^4.3",
         "spatie/laravel-uptime-monitor": "^3.8",
-        "symfony/psr-http-message-bridge": "^1.1",
-        "fruitcake/laravel-cors": "^1.0"
+        "symfony/psr-http-message-bridge": "^1.1"
     },
     "require-dev": {
         "backpack/generators": "^3.0",
