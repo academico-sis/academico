@@ -3,7 +3,13 @@ php:
   - '7.3'
   - '7.4'
 
-before_install: echo "extension = imagick.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+before_install:
+  - pecl install imagick
+  
+install:
+  - cp .env.testing .env
+  - travis_retry composer install --no-interaction --prefer-dist --no-suggest
+  - php artisan key:generate
   
 before_script:
   - composer install --no-interaction
