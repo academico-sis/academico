@@ -11,8 +11,8 @@ $factory->define(Event::class, function (Faker $faker) {
         'teacher_id' => factory(Teacher::class)->create()->id,
         'course_id' => factory(Course::class)->create()->id,
         'room_id' => factory(Room::class)->create()->id,
-        'start' => '2019-01-01 18:00:00',
-        'end' => '2019-01-01 18:00:00',
-        'name' => 'test event',
+        'start' => $faker->datetime(),
+        'end' => $faker->datetime(),
+        'name' => $faker->word,
     ];
 });
