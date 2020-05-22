@@ -35,6 +35,15 @@
       "contributions": [
         "maintenance"
       ]
+    },
+    {
+      "login": "mubarak23",
+      "name": "Mubarak M Aminu",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/7858376?v=4",
+      "profile": "http://techarewa.com",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
