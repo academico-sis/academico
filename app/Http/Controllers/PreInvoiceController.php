@@ -5,23 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Config;
 use App\Models\PreInvoice;
 use App\Models\User;
-use App\Services\Ecuasolutions;
-use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Prologue\Alerts\Facades\Alert;
 
 class PreInvoiceController extends Controller
 {
-    public function __construct(Ecuasolutions $ecuasolutions)
+    public function __construct()
     {
         parent::__construct();
         $this->middleware(['permission:enrollments.edit']);
-        $this->ecuasolutions = $ecuasolutions;
-    }
-
-    public function accountingServiceStatus()
-    {
-        return $this->ecuasolutions->checkServerStatus();
     }
 
     /**
@@ -30,9 +22,6 @@ class PreInvoiceController extends Controller
      */
     public function store(Request $request)
     {
-        $ivkardex = [];
-        $pckardex = [];
-
         // receive the client data and create a preinvoice with status = pending
         $preinvoice = new PreInvoice;
         $preinvoice->fill([
@@ -44,15 +33,70 @@ class PreInvoiceController extends Controller
             'total_price' => $request->total_price,
         ]);
 
-        // send the details to Accounting
-        // and receive and store the invoice number
-        if ($request->sendinvoice == true && config('settings.external_accounting_enabled') == true) {
-            $this->ecuasolutions->sendInvoiceToAccountingSystem($request, $preinvoice);
-        }
-
         // mark the preinvoice and associated enrollments as paid.
         foreach ($preinvoice->enrollments as $enrollment) {
             $enrollment->markAsPaid();
+        }
+
+        // receive the list of products and generate the preinvoice details
+
+        foreach ($request->enrollments as $e => $enrollment) {
+            $enrollment = Enrollment::find($enrollment['id']);
+            if ($enrollment->status_id != 1) {
+                abort(422, 'Esta matricula no esta pendiente');
+            }
+
+            PreInvoiceDetail::create([
+                'pre_invoice_id' => $preinvoice->id,
+                'product_name' => $enrollment['course']['name'],
+                'product_code' => $enrollment['course']['product_code'],
+                'product_id' => $enrollment['id'],
+                'product_type' => Enrollment::class,
+                'price' => $enrollment['course']['price'],
+            ]);
+
+            $preinvoice->enrollments()->attach($enrollment);
+
+            if (isset($request->comment)) {
+                Comment::create([
+                    'commentable_id' => $enrollment->id,
+                    'commentable_type' => Enrollment::class,
+                    'body' => $request->comment,
+                    'author_id' => backpack_user()->id,
+                ]);
+            }
+        }
+
+        foreach ($request->fees as $f => $fee) {
+            PreInvoiceDetail::create([
+                'pre_invoice_id' => $preinvoice->id,
+                'product_name' => $fee['name'],
+                'product_code' => $fee['product_code'],
+                'product_id' => $fee['id'],
+                'product_type' => Fee::class,
+                'price' => $fee['price'],
+            ]);
+        }
+
+        foreach ($request->books as $b => $book) {
+            PreInvoiceDetail::create([
+                'pre_invoice_id' => $preinvoice->id,
+                'product_name' => $book['name'],
+                'product_code' => $book['product_code'],
+                'product_id' => $book['id'],
+                'product_type' => Book::class,
+                'price' => $book['price'],
+            ]);
+        }
+
+        foreach ($request->payments as $p => $payment) {
+            Payment::create([
+                'responsable_id' => backpack_user()->id,
+                'pre_invoice_id' => $preinvoice->id,
+                'payment_method' => $payment['method'],
+                'value' => $payment['value'],
+                'comment' => $payment['comment'],
+            ]);
         }
     }
 

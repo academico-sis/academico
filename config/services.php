@@ -40,8 +40,4 @@ return [
         ],
     ],
 
-    'ecuasolutions' => [
-        'pingurl' => env('ECUASOLUTIONS_PING_URL'),
-    ],
-
 ];
