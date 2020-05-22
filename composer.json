@@ -22,7 +22,6 @@
         "laravel/framework": "^7.11",
         "laravel/tinker": "^2.0",
         "maatwebsite/excel": "^3.1.19",
-        "mailerlite/mailerlite-api-v2-php-sdk": "^0.2.3",
         "phpoffice/phpword": "^0.16.0",
         "sentry/sentry-laravel": "^1.7",
         "spatie/laravel-activitylog": "^3.14",
