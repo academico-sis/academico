@@ -130,7 +130,8 @@ class User extends Authenticatable
         return $this->force_update ?? null;
     }
 
-    public function setEmailAttribute($value){
+    public function setEmailAttribute($value)
+    {
         $this->attributes['email'] = strtolower($value);
     }
 }
