@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\StudentRequest;
 use App\Models\LeadType;
 use App\Models\Period;
 use App\Models\Student;
@@ -23,11 +24,6 @@ class StudentCrudController extends CrudController
 
     public function setup()
     {
-        /*
-        |--------------------------------------------------------------------------
-        | BASIC CRUD INFORMATION
-        |--------------------------------------------------------------------------
-        */
         CRUD::setModel(\App\Models\Student::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/student');
         CRUD::setEntityNameStrings(__('student'), __('students'));
@@ -156,6 +152,8 @@ class StudentCrudController extends CrudController
 
     public function setupCreateOperation()
     {
+        CRUD::setValidation(StudentRequest::class);
+
         // Fields
         CRUD::addFields([
             [

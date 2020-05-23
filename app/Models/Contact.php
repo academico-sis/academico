@@ -4,20 +4,16 @@ namespace App\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Contact extends Model
 {
+    use CrudTrait;
+    use LogsActivity;
+
     protected $fillable = ['firstname', 'lastname', 'idnumber', 'address', 'email', 'relationship_id', 'student_id'];
     protected $with = ['phone'];
-
-    use SoftDeletes;
-    use CrudTrait;
-
-    /*     public function preferredLocale()
-        {
-            return $this->locale;
-        } */
+    protected static $logUnguarded = true;
 
     public function phone()
     {

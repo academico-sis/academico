@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\CourseRequest as StoreRequest;
 // VALIDATION: change the requests to match your own file names if you need form validation
-use App\Http\Requests\CourseRequest as UpdateRequest;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Event;
@@ -24,13 +23,12 @@ class CourseCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\CloneOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\RevisionsOperation;
 
     public function __construct()
     {
         parent::__construct();
         $this->middleware('permission:courses.view', ['except' => 'show']);
-        $this->middleware('permission:courses.edit', ['only' => ['update', 'create', 'store', 'destroy', 'revisions']]);
+        $this->middleware('permission:courses.edit', ['only' => ['update', 'create', 'store', 'destroy']]);
     }
 
     public function setup()
@@ -57,7 +55,6 @@ class CourseCrudController extends CrudController
         if (! $permissions->contains('name', 'courses.edit')) {
             CRUD::denyAccess('create');
             CRUD::denyAccess('clone');
-            CRUD::denyAccess('revisions');
         }
 
         if ($permissions->contains('name', 'courses.view')) {
@@ -79,13 +76,10 @@ class CourseCrudController extends CrudController
         if (backpack_user()->hasRole('admin')) {
             CRUD::enableExportButtons();
         }
+    }
 
-        /*
-        |--------------------------------------------------------------------------
-        | CrudPanel Configuration
-        |--------------------------------------------------------------------------
-        */
-
+    protected function setupListOperation()
+    {
         CRUD::setColumns([
             [
                 // RYTHM
@@ -220,7 +214,7 @@ class CourseCrudController extends CrudController
           function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
               $period = \App\Models\Period::get_default_period()->id;
               CRUD::addClause('where', 'period_id', $period);
-              $this->crud->request->request->add(['period_id' => $period]); // to make the filter look active
+              //$this->crud->request->request->add(['period_id' => $period]); // to make the filter look active
           });
 
         CRUD::addFilter([ // add a "simple" filter called Draft
@@ -232,7 +226,10 @@ class CourseCrudController extends CrudController
           function () {
               CRUD::addClause('parent');
           });
+    }
 
+    protected function setupCreateOperation()
+    {
         CRUD::addFields([
             [
                 // RYTHM
@@ -363,18 +360,12 @@ class CourseCrudController extends CrudController
         ]);
 
         // add asterisk for fields that are required in CourseRequest
-        CRUD::setRequiredFields(StoreRequest::class, 'create');
-        CRUD::setRequiredFields(UpdateRequest::class, 'edit');
-    }
-
-    protected function setupCreateOperation()
-    {
         CRUD::setValidation(StoreRequest::class);
     }
 
     protected function setupUpdateOperation()
     {
-        CRUD::setValidation(UpdateRequest::class);
+        $this->setupCreateOperation(); // since this calls the methods above, no need to do anything here
     }
 
     public function show($course)

@@ -25,7 +25,7 @@ class ResultTypeRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:55|unique',
+            'name' => 'required|max:55|unique:result_types',
             'description' => 'max:255|nullable',
         ];
     }

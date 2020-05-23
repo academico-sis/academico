@@ -12,7 +12,7 @@ Route::group(
     ['middleware' => ['web', 'language']],
     function () {
         Route::get('/home', 'HomeController@index')->name('home')->middleware('forceupdate');
-        Route::get('/', 'HomeController@index')->name('home')->middleware('forceupdate');
+        Route::get('/', 'HomeController@index')->middleware('forceupdate');
         Route::get('/admin', 'HomeController@admin')->name('admin');
         Route::get('dashboard/teacher', 'HomeController@teacher')->name('teacherDashboard');
         Route::get('dashboard/teacher/{teacher}/hours', 'HRController@teacher')->name('teacherHours'); // todo protect
@@ -47,6 +47,7 @@ Route::group(
         Route::post('checkout', 'PreInvoiceController@store'); // checkout the cart. Now only one enrollment at a time but maybe several in the future.
         Route::get('invoice/{preInvoice}/edit', 'PreInvoiceController@edit')->name('edit-invoice-number'); // update the invoice number
         Route::patch('invoice/{preInvoice}', 'PreInvoiceController@update')->name('store-invoice-number'); // update the invoice number
+        Route::get('accountingservice/status', 'PreInvoiceController@accountingServiceStatus');
     });
 
 /* STUDENTS-RELATED ROUTES */
@@ -215,7 +216,7 @@ Route::group(
     ],
     function () {
         // route numbers match the DB forceupdate field
-        Route::get('edit/1', 'Auth\MyAccountController@getAccountInfoForm')->name('backpack.account.info');
+        Route::get('edit/1', 'Auth\MyAccountController@getAccountInfoForm')->name('backpack.account.edit_info');
         Route::get('edit/2', 'Auth\MyAccountController@getStudentInfoForm')->name('backpack.student.info');
         Route::get('edit/3', 'Auth\MyAccountController@getPhoneForm')->name('backpack.account.phone');
         Route::get('edit/4', 'Auth\MyAccountController@getAccountProfessionForm')->name('backpack.account.profession');

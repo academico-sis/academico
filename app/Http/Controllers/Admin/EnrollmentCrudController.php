@@ -171,13 +171,6 @@ class EnrollmentCrudController extends CrudController
         return view('enrollments.show', compact('enrollment', 'products', 'comments', 'availableCourses'));
     }
 
-    /**
-     * Change the status of the enrollment to ANULADO
-     * todo/Later, use softdeletes instead?
-     *
-     * @param  \App\Models\Enrollment  $enrollment
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($enrollment)
     {
         $enrollment = Enrollment::findOrFail($enrollment);

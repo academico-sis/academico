@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\CampusRequest as StoreRequest;
-use App\Http\Requests\CampusRequest as UpdateRequest;
 // VALIDATION: change the requests to match your own file names if you need form validation
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -37,12 +36,7 @@ class CampusCrudController extends CrudController
         */
 
         CRUD::addColumn(['name' => 'name', 'label' => 'Name']);
-
         CRUD::addField(['name' => 'name', 'label' => 'Name', 'type' => 'text']);
-
-        // add asterisk for fields that are required in CampusRequest
-        CRUD::setRequiredFields(StoreRequest::class, 'create');
-        CRUD::setRequiredFields(UpdateRequest::class, 'edit');
     }
 
     protected function setupCreateOperation()
@@ -52,6 +46,6 @@ class CampusCrudController extends CrudController
 
     protected function setupUpdateOperation()
     {
-        CRUD::setValidation(UpdateRequest::class);
+        $this->setupCreateOperation();
     }
 }

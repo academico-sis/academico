@@ -15,7 +15,7 @@
                 @click="saveAttendance(1)"
                 class="btn btn-secondary" 
                 v-bind:class="{ 'btn-success': studentAttendance == 1 }">
-                P <i class="fa fa-user"></i>
+                P <i class="la la-user"></i>
             </button>
         </div>
         
@@ -25,7 +25,7 @@
                 @click="saveAttendance(2)"
                 class="btn btn-secondary"
                 v-bind:class="{ 'btn-warning': studentAttendance == 2 }">
-                PP <i class="fa fa-clock-o"></i>
+                PP <i class="la la-clock-o"></i>
             </button>
         </div>
         
@@ -35,7 +35,7 @@
                 @click="saveAttendance(3)"
                 class="btn btn-secondary"
                 v-bind:class="{ 'btn-info': studentAttendance == 3 }">
-                AJ <i class="fa fa-exclamation"></i>
+                AJ <i class="la la-exclamation"></i>
             </button>
         </div>
         
@@ -45,7 +45,7 @@
                 @click="saveAttendance(4)"
                 class="btn btn-secondary"
                 v-bind:class="{ 'btn-danger': studentAttendance == 4 }">
-                A <i class="fa fa-user-times"></i>
+                A <i class="la la-user-times"></i>
             </button>
         </div>
         

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\DiscountRequest as StoreRequest;
-use App\Http\Requests\DiscountRequest as UpdateRequest;
 // VALIDATION: change the requests to match your own file names if you need form validation
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -30,27 +29,21 @@ class DiscountCrudController extends CrudController
         CRUD::setModel(\App\Models\Discount::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/discount');
         CRUD::setEntityNameStrings('discount', 'discounts');
+    }
 
-        /*
-        |--------------------------------------------------------------------------
-        | CrudPanel Configuration
-        |--------------------------------------------------------------------------
-        */
-
+    protected function setupListOperation()
+    {
         CRUD::setColumns([
-
             [
                 'name' => 'id',
                 'label' => 'ID',
             ],
-
             [
                 // Discount name
                 'label' => __('Name'), // Table column heading
                 'type' => 'text',
                 'name' => 'name',
             ],
-
             [
                 // Value
                 'label' => __('Discount Value'), // Table column heading
@@ -58,18 +51,19 @@ class DiscountCrudController extends CrudController
                 'name' => 'value',
                 'suffix' => '%',
             ],
-
         ]);
+    }
 
+    protected function setupCreateOperation()
+    {
+        CRUD::setValidation(StoreRequest::class);
         CRUD::addFields([
-
             [
                 // Discount name
                 'label' => __('Name'), // Table column heading
                 'type' => 'text',
                 'name' => 'name',
             ],
-
             [
                 // Value
                 'label' => __('Discount Value (0-100%)'), // Table column heading
@@ -77,21 +71,11 @@ class DiscountCrudController extends CrudController
                 'attributes' => ['step' => '1'],
                 'name' => 'value',
             ],
-
         ]);
-
-        // add asterisk for fields that are required in DiscountRequest
-        CRUD::setRequiredFields(StoreRequest::class, 'create');
-        CRUD::setRequiredFields(UpdateRequest::class, 'edit');
-    }
-
-    protected function setupCreateOperation()
-    {
-        CRUD::setValidation(StoreRequest::class);
     }
 
     protected function setupUpdateOperation()
     {
-        CRUD::setValidation(UpdateRequest::class);
+        $this->setupCreateOperation();
     }
 }

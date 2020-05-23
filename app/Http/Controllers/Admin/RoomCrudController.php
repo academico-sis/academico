@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\RoomRequest as StoreRequest;
-use App\Http\Requests\RoomRequest as UpdateRequest;
 // VALIDATION: change the requests to match your own file names if you need form validation
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -21,21 +20,13 @@ class RoomCrudController extends CrudController
 
     public function setup()
     {
-        /*
-        |--------------------------------------------------------------------------
-        | CrudPanel Basic Information
-        |--------------------------------------------------------------------------
-        */
         CRUD::setModel(\App\Models\Room::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/room');
         CRUD::setEntityNameStrings('room', 'rooms');
+    }
 
-        /*
-        |--------------------------------------------------------------------------
-        | CrudPanel Configuration
-        |--------------------------------------------------------------------------
-        */
-
+    protected function setupListOperation()
+    {
         CRUD::setColumns([
             [
                 // 1-n relationship
@@ -57,19 +48,37 @@ class RoomCrudController extends CrudController
                 'type' => 'number',
             ],
         ]);
-
-        // add asterisk for fields that are required in RoomRequest
-        CRUD::setRequiredFields(StoreRequest::class, 'create');
-        CRUD::setRequiredFields(UpdateRequest::class, 'edit');
     }
 
     protected function setupCreateOperation()
     {
         CRUD::setValidation(StoreRequest::class);
+        CRUD::addFields([
+            [
+                // 1-n relationship
+                'label' => 'Campus',
+                'type' => 'select',
+                'entity' => 'campus',
+                'name' => 'campus_id', // the db column for the foreign key
+                'attribute' => 'name',
+            ],
+
+            [
+                'name' => 'name', // The db column name
+                'label' => 'Name', // Table column heading
+                'type' => 'text',
+            ],
+
+            [
+                'name' => 'capacity', // The db column name
+                'label' => 'Capacity', // Table column heading
+                'type' => 'number',
+            ],
+        ]);
     }
 
     protected function setupUpdateOperation()
     {
-        CRUD::setValidation(UpdateRequest::class);
+        $this->setupCreateOperation();
     }
 }

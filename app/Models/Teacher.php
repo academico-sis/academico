@@ -7,15 +7,19 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Teacher extends Model
 {
     use CrudTrait;
     use SoftDeletes;
+    use LogsActivity;
 
     public $timestamps = true;
     protected $guarded = ['id'];
     protected $with = ['user'];
+    protected $appends = ['firstname', 'lastname', 'name'];
+    protected static $logUnguarded = true;
 
     /** relations */
     public function user()
@@ -26,22 +30,30 @@ class Teacher extends Model
     /** attributes */
     public function getFirstnameAttribute()
     {
-        return $this->user->firstname;
+        if ($this->user) {
+            return $this->user->firstname;
+        }
     }
 
     public function getLastnameAttribute()
     {
-        return $this->user->lastname;
-    }
-
-    public function getNameAttribute()
-    {
-        return $this->firstname.' '.$this->lastname;
+        if ($this->user) {
+            return $this->user->lastname;
+        }
     }
 
     public function getEmailAttribute()
     {
-        return $this->user->email;
+        if ($this->user) {
+            return $this->user->email;
+        }
+    }
+
+    public function getNameAttribute()
+    {
+        if ($this->user) {
+            return $this->user->firstname.' '.$this->user->lastname;
+        }
     }
 
     public function period_courses(Period $period)

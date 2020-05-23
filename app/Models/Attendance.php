@@ -8,11 +8,15 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Attendance extends Model
 {
+    use LogsActivity;
+
     protected $guarded = ['id'];
     protected $with = ['attendance_type'];
+    protected static $logUnguarded = true;
 
     protected static function boot()
     {

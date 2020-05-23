@@ -6,11 +6,15 @@ use App\Mail\ResultNotification;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Mail;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Result extends Model
 {
     use CrudTrait;
+    use LogsActivity;
+
     protected $guarded = ['id'];
+    protected static $logUnguarded = true;
 
     protected static function boot()
     {

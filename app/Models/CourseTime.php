@@ -4,9 +4,12 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class CourseTime extends Model
 {
+    use LogsActivity;
+
     protected static function boot()
     {
         parent::boot();
@@ -34,6 +37,7 @@ class CourseTime extends Model
     // protected $fillable = [];
     // protected $hidden = [];
     // protected $dates = [];
+    protected static $logUnguarded = true;
 
     /*
     |--------------------------------------------------------------------------

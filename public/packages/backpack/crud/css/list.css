@@ -7,14 +7,16 @@
 	table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before, table.dataTable thead .sorting_desc:before, table.dataTable thead .sorting_asc_disabled:before, table.dataTable thead .sorting_desc_disabled:before {
 		right: 0.4em;
 	    top: 1em;
-	    content: "\f16c";
-	    font: normal normal normal 14px/1 "LineAwesome";
+	    content: "\f0d8";
+	    font: normal normal normal 14px/1 "Line Awesome Free";
+	    font-weight: 900;
 	}
 
 	table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc_disabled:after {
 	    right: 0.4em;
-	    content: "\f165";
-	    font: normal normal normal 14px/1 "LineAwesome";
+	    content: "\f0d7";
+	    font: normal normal normal 14px/1 "Line Awesome Free";
+	    font-weight: 900;
 	}
 	
 	/* Removes the horizontal scroll (if the width allows it) */
@@ -57,12 +59,13 @@
 	#crudTable.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first-child:before {
 		background-color: transparent;
 		color: #636161;
-		font-family: 'LineAwesome';
+		font-family: 'Line Awesome Free';
+		font-weight: 900;
 		width: 16px;
-		content: "\f1c4";
+		content: "\f142";
 		font-size: 21px;
 		box-shadow: none;
-		margin-top: 8px;
+		/*margin-top: 8px;*/
 		border: none;
 	}
 
@@ -84,7 +87,8 @@
 	}
 
 	div.dataTables_wrapper div.dataTables_length select {
-		width: auto;
+		min-width: 3.6rem;
+		margin-right: 0.4rem;
 	}
 
 

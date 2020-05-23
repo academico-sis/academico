@@ -4,12 +4,16 @@ namespace App\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /** A RemoteEvent represents hours that do not have a specific date/time, but that should be taken into account in the teacher's total for the month or the period */
 class RemoteEvent extends Model
 {
     use CrudTrait;
+    use LogsActivity;
+
     protected $guarded = ['id'];
+    protected static $logUnguarded = true;
 
     public function teacher()
     {

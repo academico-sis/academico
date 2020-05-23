@@ -1,4 +1,4 @@
 @if($entry->parent_course_id !== null)
-	<i class="fa fa-repeat"></i>
+	<i class="la la-repeat"></i>
 &nbsp;
 @endif

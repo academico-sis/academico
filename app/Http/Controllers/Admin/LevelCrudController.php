@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\LevelRequest as StoreRequest;
-use App\Http\Requests\LevelRequest as UpdateRequest;
 // VALIDATION: change the requests to match your own file names if you need form validation
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -21,36 +20,24 @@ class LevelCrudController extends CrudController
 
     public function setup()
     {
-        /*
-        |--------------------------------------------------------------------------
-        | CrudPanel Basic Information
-        |--------------------------------------------------------------------------
-        */
         CRUD::setModel(\App\Models\Level::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/level');
         CRUD::setEntityNameStrings('level', 'levels');
+    }
 
-        /*
-        |--------------------------------------------------------------------------
-        | CrudPanel Configuration
-        |--------------------------------------------------------------------------
-        */
-
-        // TODO: remove setFromDb() and manually define Fields and Columns
-        CRUD::setFromDb();
-
-        // add asterisk for fields that are required in LevelRequest
-        CRUD::setRequiredFields(StoreRequest::class, 'create');
-        CRUD::setRequiredFields(UpdateRequest::class, 'edit');
+    protected function setupListOperation()
+    {
+        CRUD::addColumn(['name' => 'name', 'label' => 'Name']);
     }
 
     protected function setupCreateOperation()
     {
         CRUD::setValidation(StoreRequest::class);
+        CRUD::addField(['name' => 'name', 'label' => 'Name', 'type' => 'text']);
     }
 
     protected function setupUpdateOperation()
     {
-        CRUD::setValidation(UpdateRequest::class);
+        $this->setupCreateOperation();
     }
 }

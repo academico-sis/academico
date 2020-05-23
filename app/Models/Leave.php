@@ -4,12 +4,16 @@ namespace App\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Leave extends Model
 {
     use CrudTrait;
+    use LogsActivity;
+
     protected $guarded = ['id'];
     protected $with = ['leaveType'];
+    protected static $logUnguarded = true;
 
     protected static function boot()
     {

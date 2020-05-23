@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\PeriodRequest as StoreRequest;
-use App\Http\Requests\PeriodRequest as UpdateRequest;
 // VALIDATION: change the requests to match your own file names if you need form validation
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -21,21 +19,10 @@ class PeriodCrudController extends CrudController
 
     public function setup()
     {
-        /*
-        |--------------------------------------------------------------------------
-        | CrudPanel Basic Information
-        |--------------------------------------------------------------------------
-        */
         CRUD::setModel(\App\Models\Period::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/period');
         CRUD::setEntityNameStrings('period', 'periods');
     }
-
-    /*
-    |--------------------------------------------------------------------------
-    | CrudPanel Configuration
-    |--------------------------------------------------------------------------
-    */
 
     public function setupListOperation()
     {
@@ -97,10 +84,6 @@ class PeriodCrudController extends CrudController
                 'name' => 'end',
             ],
         ]);
-
-        // add asterisk for fields that are required in PeriodRequest
-        CRUD::setRequiredFields(StoreRequest::class, 'create');
-        CRUD::setRequiredFields(UpdateRequest::class, 'edit');
     }
 
     public function setupUpdateOperation()

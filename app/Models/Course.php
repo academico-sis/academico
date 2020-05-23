@@ -7,16 +7,13 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Log;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Course extends Model
 {
-    use CrudTrait, \Venturecraft\Revisionable\RevisionableTrait;
+    use CrudTrait;
     use SoftDeletes;
-
-    public function identifiableName()
-    {
-        return $this->name;
-    }
+    use LogsActivity;
 
     /** model events */
     protected static function boot()
@@ -103,6 +100,7 @@ class Course extends Model
     protected $dates = ['start_date', 'end_date'];
     //protected $with = ['enrollments'];
     protected $appends = ['course_times', 'course_teacher_name', 'course_enrollments_count', 'sortable_id'];
+    protected static $logUnguarded = true;
 
     /*
     |--------------------------------------------------------------------------

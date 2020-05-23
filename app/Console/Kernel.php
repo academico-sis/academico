@@ -47,6 +47,7 @@ class Kernel extends ConsoleKernel
         })->dailyAt('08:05');
 
         $schedule->command('monitor:check-uptime')->everyMinute();
+        $schedule->command('activitylog:clean')->daily();
     }
 
     /**

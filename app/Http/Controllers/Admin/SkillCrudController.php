@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\SkillRequest as StoreRequest;
 // VALIDATION: change the requests to match your own file names if you need form validation
-use App\Http\Requests\SkillRequest as UpdateRequest;
 use App\Models\Course;
 use App\Models\Skills\Skill;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -23,25 +22,15 @@ class SkillCrudController extends CrudController
 
     public function setup()
     {
-        /*
-        |--------------------------------------------------------------------------
-        | CrudPanel Basic Information
-        |--------------------------------------------------------------------------
-        */
         CRUD::setModel(\App\Models\Skills\Skill::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/skill');
         CRUD::setEntityNameStrings('skill', 'skills');
-
         CRUD::addButtonFromView('top', 'bulk_attach', 'bulk_attach', 'end');
+    }
 
-        /*
-        |--------------------------------------------------------------------------
-        | CrudPanel Configuration
-        |--------------------------------------------------------------------------
-        */
-        //CRUD::setFromDb();
+    protected function setupListOperation()
+    {
         CRUD::setColumns([
-
             [ // skill type
                 'label'     => 'Type', // Table column heading
                 'type'      => 'select',
@@ -50,13 +39,11 @@ class SkillCrudController extends CrudController
                 'attribute' => 'name', // foreign key attribute that is shown to user
                 'model'     => 'skill_type', // foreign key model
             ],
-
             [
                 'label' => 'Name', // skill description
                 'type' => 'text',
                 'name' => 'name',
             ],
-
             [ // skill level
                 'label'     => 'Level', // Table column heading
                 'type'      => 'select',
@@ -65,42 +52,9 @@ class SkillCrudController extends CrudController
                 'attribute' => 'name', // foreign key attribute that is shown to user
                 'model'     => 'level', // foreign key model
             ],
-
         ]);
 
         CRUD::enableBulkActions();
-
-        CRUD::addFields([
-
-            [ // skill type
-                'label'     => 'Type', // Table column heading
-                'type' => 'select',
-                'name' => 'skill_type_id', // the db column for the foreign key
-                'entity' => 'skill_type', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\Skills\SkillType::class,
-            ],
-
-            [
-                'label' => 'Name', // skill description
-                'type' => 'text',
-                'name' => 'name',
-            ],
-
-            [ // skill level
-                'label'     => 'Level', // Table column heading
-                'type' => 'select',
-                'name' => 'level_id', // the db column for the foreign key
-                'entity' => 'level', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\Level::class,
-            ],
-
-        ]);
-
-        // add asterisk for fields that are required in SkillRequest
-        CRUD::setRequiredFields(StoreRequest::class, 'create');
-        CRUD::setRequiredFields(UpdateRequest::class, 'edit');
 
         CRUD::addFilter([ // select2 filter
             'name' => 'level_id',
@@ -126,19 +80,42 @@ class SkillCrudController extends CrudController
     protected function setupCreateOperation()
     {
         CRUD::setValidation(StoreRequest::class);
+        CRUD::addFields([
+            [ // skill type
+                'label'     => 'Type', // Table column heading
+                'type' => 'select',
+                'name' => 'skill_type_id', // the db column for the foreign key
+                'entity' => 'skill_type', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model' => \App\Models\Skills\SkillType::class,
+            ],
+            [
+                'label' => 'Name', // skill description
+                'type' => 'text',
+                'name' => 'name',
+            ],
+            [ // skill level
+                'label'     => 'Level', // Table column heading
+                'type' => 'select',
+                'name' => 'level_id', // the db column for the foreign key
+                'entity' => 'level', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model' => \App\Models\Level::class,
+            ],
+        ]);
     }
 
     protected function setupUpdateOperation()
     {
-        CRUD::setValidation(UpdateRequest::class);
+        $this->setupCreateOperation();
     }
 
     public function bulkAttachToCourse()
     {
         $this->middleware(['permission:evaluation.edit']);
 
-        $entries = $this->request->input('entries');
-        $course = Course::find($this->request->input('course'));
+        $entries = request()->input('entries');
+        $course = Course::find(request()->input('course'));
 
         $course->skills()->detach();
 

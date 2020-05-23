@@ -12,25 +12,25 @@
             <label
                 v-if="event.attendance && event.attendance.attendance_type_id == 1"
                 class="badge badge-success">
-                P <i class="fa fa-user"></i>
+                P <i class="la la-user"></i>
             </label>
         
             <label
                 v-if="event.attendance && event.attendance.attendance_type_id == 2"
                 class="badge badge-warning">
-                PP <i class="fa fa-clock-o"></i>
+                PP <i class="la la-clock-o"></i>
             </label>
         
             <label
                 v-if="event.attendance && event.attendance.attendance_type_id == 3"
                 class="badge badge-info">
-                AJ <i class="fa fa-exclamation"></i>
+                AJ <i class="la la-exclamation"></i>
             </label>
         
             <label
                 v-if="event.attendance && event.attendance.attendance_type_id == 4"
                 class="badge badge-danger">
-                A <i class="fa fa-user-times"></i>
+                A <i class="la la-user-times"></i>
             </label>
 
         </td>

@@ -40,7 +40,7 @@
                     <div class="col-sm-6 col-md-3">
 
                         <div class="card">
-                            <div class="card-body p-3 d-flex align-items-center"><i class="fa fa-user bg-primary p-3 font-2xl mr-3"></i>
+                            <div class="card-body p-3 d-flex align-items-center"><i class="la la-user bg-primary p-3 font-2xl mr-3"></i>
                                 <div>
                                     <div class="text-value-sm text-primary">{{ $attendanceratio }}%</div>
                                     <div class="text-muted text-uppercase font-weight-bold small">@lang('Attendance Ratio')</div>
@@ -52,7 +52,7 @@
 
                     <div class="col-sm-6 col-md-3">
                         <div class="card">
-                            <div class="card-body p-3 d-flex align-items-center"><i class="fa fa-user-times bg-danger p-3 font-2xl mr-3"></i>
+                            <div class="card-body p-3 d-flex align-items-center"><i class="la la-user-times bg-danger p-3 font-2xl mr-3"></i>
                                 <div>
                                     <div class="text-value-sm text-primary">{{ $attendances->where('attendance_type_id', 4)->count() + $attendances->where('attendance_type_id', 3)->count() }}</div>
                                     <div class="text-muted text-uppercase font-weight-bold small">@lang('Number of Absences')</div>
@@ -83,28 +83,28 @@
                                 @if ($attendance->attendance_type_id == 1)
                                 <label
                                     class="badge badge-success">
-                                    P <i class="fa fa-user"></i>
+                                    P <i class="la la-user"></i>
                                 </label>
                                 @endif
                             
                                 @if ($attendance->attendance_type_id == 2)
                                 <label
                                     class="badge badge-warning">
-                                    PP <i class="fa fa-clock-o"></i>
+                                    PP <i class="la la-clock-o"></i>
                                 </label>
                                 @endif
                             
                                 @if ($attendance->attendance_type_id == 3)
                                 <label
                                     class="badge badge-info">
-                                    AJ <i class="fa fa-exclamation"></i>
+                                    AJ <i class="la la-exclamation"></i>
                                 </label>
                                 @endif
                             
                                 @if ($attendance->attendance_type_id == 4)
                                 <label
                                     class="badge badge-danger">
-                                    A <i class="fa fa-user-times"></i>
+                                    A <i class="la la-user-times"></i>
                                 </label>
                                 @endif
                             </td>
@@ -115,19 +115,19 @@
                     </div>
                     <div class="card-footer">
             <label class="badge badge-success">
-                P <i class="fa fa-user"></i>
+                P <i class="la la-user"></i>
             </label> : @lang('Present')
             - 
             <label class="badge badge-warning">
-                PP <i class="fa fa-clock-o"></i>
+                PP <i class="la la-clock-o"></i>
             </label> : @lang('Partial presence (arrived late or left early)')
             - 
             <label class="badge badge-info">
-                AJ <i class="fa fa-exclamation"></i>
+                AJ <i class="la la-exclamation"></i>
             </label> : @lang('justified absence')
             - 
             <label class="badge badge-danger">
-                A <i class="fa fa-user-times"></i>
+                A <i class="la la-user-times"></i>
             </label> : @lang('unjustified absence')
             </div>
             </div>

@@ -20,7 +20,7 @@
                     </strong>
                 </div>
 
-                <div class="card-body p-3 d-flex align-items-center"><i class="fa fa-calendar bg-primary p-3 font-2xl mr-3"></i>
+                <div class="card-body p-3 d-flex align-items-center"><i class="la la-calendar bg-primary p-3 font-2xl mr-3"></i>
                     <div>
                         @include('partials.period_selection')
                     </div>
@@ -59,22 +59,22 @@
                         <strong>{{ $course->name }}</strong>
                         <div class="card-header-actions">
                             @if($course->campus_id == 1)
-                                <a href="/course/{{$course->id}}/show" class="btn btn-default btn-xs"><i class="fa fa-users"></i></a>
+                                <a href="/course/{{$course->id}}/show" class="btn btn-default btn-xs"><i class="la la-users"></i></a>
                             @endif
 
                             @if($course->enrollments->count() > 0 && $course->events->count() > 0 && $course->exempt_attendance !== 1)
-                                <a href="{{ route('monitorCourseAttendance', ['course' => $course->id]) }}" class="btn btn-default btn-xs"><i class="fa fa-calendar"></i></a>
+                                <a href="{{ route('monitorCourseAttendance', ['course' => $course->id]) }}" class="btn btn-default btn-xs"><i class="la la-calendar"></i></a>
                             @endif
 
                             @if($course->evaluation_type->contains(1))
                                 <a href="/course/{{$course->id}}/grades" class="btn btn-xs btn-default">
-                                    <i class="fa fa-percent"></i>
+                                    <i class="la la-percent"></i>
                                 </a>
                             @endif
 
                             @if($course->evaluation_type->contains(2))
                                 <a href="{{ route('courseSkillsEvaluation', ['course' => $course->id]) }}" class="btn btn-xs btn-default">
-                                    <i class="fa fa-th"></i>
+                                    <i class="la la-th"></i>
                                 </a>
                             @endif
                         </div>

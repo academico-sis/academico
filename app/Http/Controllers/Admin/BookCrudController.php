@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\BookRequest as StoreRequest;
-use App\Http\Requests\BookRequest as UpdateRequest;
 // VALIDATION: change the requests to match your own file names if you need form validation
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -37,12 +36,17 @@ class BookCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
 
-        // TODO: remove setFromDb() and manually define Fields and Columns
-        CRUD::setFromDb();
+        CRUD::addColumns([
+            ['name' => 'name', 'label' => 'Name'],
+            ['name' => 'price', 'label' => 'Price'],
+            ['name' => 'product_code', 'label' => 'Product Code'],
+        ]);
 
-        // add asterisk for fields that are required in BookRequest
-        CRUD::setRequiredFields(StoreRequest::class, 'create');
-        CRUD::setRequiredFields(UpdateRequest::class, 'edit');
+        CRUD::addFields([
+            ['name' => 'name', 'label' => 'Name', 'type' => 'text'],
+            ['name' => 'price', 'label' => 'Price', 'type' => 'number', 'decimals' => 2],
+            ['name' => 'product_code', 'label' => 'Product Code', 'type' => 'text'],
+        ]);
     }
 
     protected function setupCreateOperation()
@@ -52,6 +56,6 @@ class BookCrudController extends CrudController
 
     protected function setupUpdateOperation()
     {
-        CRUD::setValidation(UpdateRequest::class);
+        $this->setupCreateOperation();
     }
 }

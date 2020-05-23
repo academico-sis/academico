@@ -19,7 +19,6 @@ class ExternalCourseCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\RevisionsOperation;
 
     public function __construct()
     {
@@ -36,7 +35,7 @@ class ExternalCourseCrudController extends CrudController
         */
         CRUD::setModel(\App\Models\ExternalCourse::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/externalcourse');
-        CRUD::setEntityNameStrings('externalcourse', 'external_courses');
+        CRUD::setEntityNameStrings('External Course', 'External Courses');
         $permissions = backpack_user()->getAllPermissions();
         if ($permissions->contains('name', 'courses.edit')) {
             CRUD::addButtonFromView('line', 'schedule', 'schedule', 'end');
@@ -296,17 +295,12 @@ class ExternalCourseCrudController extends CrudController
                 'label' => __('Students to count in year total'), // Table column heading
                 'type' => 'number',
             ],
-
         ]);
-
-        // add asterisk for fields that are required in ExternalCourseRequest
-        CRUD::setRequiredFields(StoreRequest::class, 'create');
     }
 
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
-        CRUD::setRequiredFields(UpdateRequest::class, 'edit');
         CRUD::setValidation(UpdateRequest::class);
     }
 }

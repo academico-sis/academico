@@ -80,15 +80,19 @@ document.addEventListener('DOMContentLoaded', function() { // page is now ready.
                 } )
 
             .then(function (response) {
-                new PNotify({
+                new Noty({
                     title: "Operation successful",
                     text: "The course has been updated.",
                     type: "success"
-                    });
+                    }).show();
             })
             
             .catch(function (error) {
-                console.log(error);
+                new Noty({
+                    title: "Error",
+                    text: "The course was not updated.",
+                    type: "error"
+                    }).show();
             });
         }
     });

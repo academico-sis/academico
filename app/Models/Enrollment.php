@@ -8,15 +8,18 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Enrollment extends Model
 {
     use CrudTrait;
     use SoftDeletes;
+    use LogsActivity;
 
     protected $fillable = ['student_id', 'course_id', 'parent_id', 'status_id'];
     protected $append = ['childrenEnrollments', 'productCode'];
     protected $with = ['student', 'course'];
+    protected static $logUnguarded = true;
 
     protected static function boot()
     {

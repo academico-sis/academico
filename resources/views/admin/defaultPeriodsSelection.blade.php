@@ -33,8 +33,8 @@
         </div>
 
         <div class="form-group col-sm-12">
-            <button class="btn btn-sm btn-primary" type="submit"><i class="fa fa-dot-circle-o"></i> @lang('Save')</button>
-            <a class="btn btn-sm btn-secondary" href="/"><i class="fa fa-ban"></i> @lang('Cancel')</a>
+            <button class="btn btn-sm btn-primary" type="submit"><i class="la la-dot-circle-o"></i> @lang('Save')</button>
+            <a class="btn btn-sm btn-secondary" href="/"><i class="la la-ban"></i> @lang('Cancel')</a>
         </div>
     </form>
 </div>

@@ -30,17 +30,22 @@ class EventController extends Controller
     {
         Log::notice('Calendar events updated by user '.backpack_user()->id);
         $course = Course::findOrFail($request->input('course_id'));
-        $teacher = Teacher::findOrFail($request->input('resource_id'));
+        if ($request->input('resource_id') == 'tbd') {
+            $teacher_id = null;
+        } else {
+            $teacher_id = Teacher::findOrFail($request->input('resource_id'))->id;
+        }
 
-        $course->teacher_id = $teacher->id;
+        $course->teacher_id = $teacher_id;
         $course->save();
-        $course->events()->update(['teacher_id' => $course->teacher_id]);
+        $course->events()->update(['teacher_id' => $teacher_id]);
 
         // if the course has a parent, update the children of the parent as well.
         if ($course->parent_course_id !== null) {
             $parent = Course::find($course->parent_course_id);
+            $parent->teacher_id = $teacher_id;
             foreach ($parent->children as $child) {
-                $child->events()->update(['teacher_id' => $course->teacher_id]);
+                $child->events()->update(['teacher_id' => $teacher_id]);
             }
         }
     }
@@ -50,10 +55,22 @@ class EventController extends Controller
         Log::notice('Calendar events updated by user '.backpack_user()->id);
 
         $course = Course::findOrFail($request->input('course_id'));
-        $room = Room::findOrFail($request->input('resource_id'));
+        if ($request->input('resource_id') == 'tbd') {
+            $room_id = null;
+        } else {
+            $room_id = Room::findOrFail($request->input('resource_id'))->id;
+        }
 
-        $course->room_id = $room->id;
+        $course->room_id = $room_id;
         $course->save();
-        $course->events()->update(['room_id' => $course->room_id]);
+        $course->events()->update(['room_id' => $room_id]);
+        // if the course has a parent, update the children of the parent as well.
+        if ($course->parent_course_id !== null) {
+            $parent = Course::find($course->parent_course_id);
+            $parent->room_id = $room_id;
+            foreach ($parent->children as $child) {
+                $child->events()->update(['room_id' => $room_id]);
+            }
+        }
     }
 }

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\PaymentmethodRequest as StoreRequest;
-use App\Http\Requests\PaymentmethodRequest as UpdateRequest;
 // VALIDATION: change the requests to match your own file names if you need form validation
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -30,28 +29,27 @@ class PaymentmethodCrudController extends CrudController
         CRUD::setModel(\App\Models\Paymentmethod::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/paymentmethod');
         CRUD::setEntityNameStrings('paymentmethod', 'paymentmethods');
+    }
 
-        /*
-        |--------------------------------------------------------------------------
-        | CrudPanel Configuration
-        |--------------------------------------------------------------------------
-        */
-
-        // TODO: remove setFromDb() and manually define Fields and Columns
-        CRUD::setFromDb();
-
-        // add asterisk for fields that are required in PaymentmethodRequest
-        CRUD::setRequiredFields(StoreRequest::class, 'create');
-        CRUD::setRequiredFields(UpdateRequest::class, 'edit');
+    protected function setupListOperation()
+    {
+        CRUD::addColumns([
+            ['name' => 'name', 'label' => 'Name'],
+            ['name' => 'code', 'label' => 'Code'],
+        ]);
     }
 
     protected function setupCreateOperation()
     {
         CRUD::setValidation(StoreRequest::class);
+        CRUD::addFields([
+            ['name' => 'name', 'label' => 'Name', 'type' => 'text'],
+            ['name' => 'code', 'label' => 'Code', 'type' => 'text'],
+        ]);
     }
 
     protected function setupUpdateOperation()
     {
-        CRUD::setValidation(UpdateRequest::class);
+        $this->setupCreateOperation();
     }
 }

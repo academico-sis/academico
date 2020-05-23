@@ -69,7 +69,7 @@
                     @if(isset($enrollment->result))
                         <p>
                             <a href="/result/{{ $enrollment->id }}/show" class="btn btn-sm btn-info">
-                                <i class="fa fa-eye"></i> {{ $enrollment->result['result_name']['name'] }}
+                                <i class="la la-eye"></i> {{ $enrollment->result['result_name']['name'] }}
                             </a>
                         </p>
                     @endif

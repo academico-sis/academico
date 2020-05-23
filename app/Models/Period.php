@@ -5,16 +5,20 @@ namespace App\Models;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Period extends Model
 {
     use CrudTrait;
+    use LogsActivity;
+
     // protected $primaryKey = 'id';
     public $timestamps = false;
     // protected $guarded = ['id'];
     protected $fillable = ['name', 'year_id', 'start', 'end'];
     // protected $hidden = [];
     // protected $dates = [];
+    protected static $logUnguarded = true;
 
     /**
      * Return the current period to be used as a default system-wide.

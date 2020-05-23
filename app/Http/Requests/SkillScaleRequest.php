@@ -25,9 +25,9 @@ class SkillScaleRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:255|unique',
-            'shortname' => 'required|max:8|unique',
-            'value' => 'numeric|between:0,1',
+            'name' => 'required|max:255|unique:skill_scales',
+            'shortname' => 'required|max:8|unique:skill_scales',
+            'value' => 'required|numeric|between:0,1',
         ];
     }
 
