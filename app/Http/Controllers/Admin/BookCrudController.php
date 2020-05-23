@@ -28,7 +28,7 @@ class BookCrudController extends CrudController
         */
         CRUD::setModel(\App\Models\Book::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/book');
-        CRUD::setEntityNameStrings('book', 'books');
+        CRUD::setEntityNameStrings(__('book'), __('books'));
 
         /*
         |--------------------------------------------------------------------------
@@ -44,7 +44,7 @@ class BookCrudController extends CrudController
 
         CRUD::addFields([
             ['name' => 'name', 'label' => 'Name', 'type' => 'text'],
-            ['name' => 'price', 'label' => 'Price', 'type' => 'number', 'decimals' => 2],
+            ['name' => 'price', 'label' => 'Price', 'type' => 'number', 'attributes' => ['step' => '0.01']],
             ['name' => 'product_code', 'label' => 'Product Code', 'type' => 'text'],
         ]);
     }

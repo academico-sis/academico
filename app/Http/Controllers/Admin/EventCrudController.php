@@ -29,7 +29,7 @@ class EventCrudController extends CrudController
         */
         CRUD::setModel(\App\Models\Event::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/event');
-        CRUD::setEntityNameStrings('event', 'events');
+        CRUD::setEntityNameStrings(__('event'), __('events'));
     }
 
     /*

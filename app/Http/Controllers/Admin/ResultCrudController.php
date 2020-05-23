@@ -30,7 +30,7 @@ class ResultCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\Enrollment::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/result');
-        CRUD::setEntityNameStrings('result', 'results');
+        CRUD::setEntityNameStrings(__('result'), __('results'));
     }
 
     public function setupListOperation()

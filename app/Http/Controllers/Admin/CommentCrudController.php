@@ -35,7 +35,7 @@ class CommentCrudController extends CrudController
         */
         CRUD::setModel(\App\Models\Comment::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/comment');
-        CRUD::setEntityNameStrings('comment', 'comments');
+        CRUD::setEntityNameStrings(__('comment'), __('comments'));
         CRUD::setRequiredFields(UpdateRequest::class, 'edit');
     }
 

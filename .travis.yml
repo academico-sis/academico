@@ -1,11 +1,18 @@
 language: php
 php:
-  - '7.2'
   - '7.3'
   - '7.4'
 
+before_install:
+  - printf "\n" | pecl install imagick
+  
+install:
+  - cp .env.testing .env
+  - travis_retry composer install --no-interaction --prefer-dist --no-suggest
+  - php artisan key:generate
+  
 before_script:
   - composer install --no-interaction
   
 script:
-  - vendor/bin/phpunit --coverage-text
+  - vendor/bin/phpunit

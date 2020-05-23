@@ -28,7 +28,7 @@ class PaymentmethodCrudController extends CrudController
         */
         CRUD::setModel(\App\Models\Paymentmethod::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/paymentmethod');
-        CRUD::setEntityNameStrings('paymentmethod', 'paymentmethods');
+        CRUD::setEntityNameStrings(__('payment method'), __('payment methods'));
     }
 
     protected function setupListOperation()

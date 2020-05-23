@@ -33,7 +33,17 @@
       "avatar_url": "https://avatars1.githubusercontent.com/u/51827692?v=4",
       "profile": "https://github.com/damienBAUDET",
       "contributions": [
-        "maintenance"
+        "maintenance",
+        "code"
+      ]
+    },
+    {
+      "login": "mubarak23",
+      "name": "Mubarak M Aminu",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/7858376?v=4",
+      "profile": "http://techarewa.com",
+      "contributions": [
+        "code"
       ]
     }
   ],

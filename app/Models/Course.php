@@ -81,9 +81,10 @@ class Course extends Model
                 }
             }
 
-            // update course events with new room and teacher
+            // update course events with new room, teacher and name
             Event::where('course_id', $course->id)->update(['room_id' => $course->room_id]);
             Event::where('course_id', $course->id)->update(['teacher_id' => $course->teacher_id]);
+            Event::where('course_id', $course->id)->update(['name' => $course->name]);
         });
     }
 

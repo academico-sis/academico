@@ -25,7 +25,7 @@ class TeacherCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\Teacher::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/teacher');
-        CRUD::setEntityNameStrings('teacher', 'teachers');
+        CRUD::setEntityNameStrings(__('teacher'), __('teachers'));
     }
 
     public function setupListOperation()
@@ -75,6 +75,7 @@ class TeacherCrudController extends CrudController
                 'name'  => 'max_week_hours',
                 'label' => __('Weekly workable hours'),
                 'type'  => 'number',
+                'attributes' => ['step' => '0.01'],
             ],
             [
                 'name'  => 'hired_at',
@@ -104,6 +105,7 @@ class TeacherCrudController extends CrudController
                 'name'  => 'max_week_hours',
                 'label' => __('Weekly workable hours'),
                 'type'  => 'number',
+                'attributes' => ['step' => '0.01'],
             ],
             [
                 'name'  => 'hired_at',

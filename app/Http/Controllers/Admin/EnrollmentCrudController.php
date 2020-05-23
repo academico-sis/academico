@@ -39,7 +39,7 @@ class EnrollmentCrudController extends CrudController
         */
         CRUD::setModel(\App\Models\Enrollment::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/enrollment');
-        CRUD::setEntityNameStrings('enrollment', 'enrollments');
+        CRUD::setEntityNameStrings(__('enrollment'), __('enrollments'));
 
         CRUD::allowAccess('show');
 

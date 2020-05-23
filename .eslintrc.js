@@ -21,6 +21,8 @@ module.exports = {
   ],
   rules: {
     "no-undef": 1,
+    "vue/no-unused-vars": 1,
+    "no-unused-vars": 1,
   },
   
 }

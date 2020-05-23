@@ -28,7 +28,7 @@ class LeadTypeCrudController extends CrudController
         */
         CRUD::setModel(\App\Models\LeadType::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/leadtype');
-        CRUD::setEntityNameStrings('leadtype', 'lead_types');
+        CRUD::setEntityNameStrings(__('lead type'), __('lead types'));
     }
 
     protected function setupListOperation()

@@ -47,7 +47,6 @@ Route::group(
         Route::post('checkout', 'PreInvoiceController@store'); // checkout the cart. Now only one enrollment at a time but maybe several in the future.
         Route::get('invoice/{preInvoice}/edit', 'PreInvoiceController@edit')->name('edit-invoice-number'); // update the invoice number
         Route::patch('invoice/{preInvoice}', 'PreInvoiceController@update')->name('store-invoice-number'); // update the invoice number
-        Route::get('accountingservice/status', 'PreInvoiceController@accountingServiceStatus');
     });
 
 /* STUDENTS-RELATED ROUTES */

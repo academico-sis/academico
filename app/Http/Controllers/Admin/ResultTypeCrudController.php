@@ -22,7 +22,7 @@ class ResultTypeCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\ResultType::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/resulttype');
-        CRUD::setEntityNameStrings('resulttype', 'result_types');
+        CRUD::setEntityNameStrings(__('result type'), ('result types'));
     }
 
     protected function setupListOperation()

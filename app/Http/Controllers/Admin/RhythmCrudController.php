@@ -22,7 +22,7 @@ class RhythmCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\Rhythm::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/rhythm');
-        CRUD::setEntityNameStrings('rhythm', 'rhythms');
+        CRUD::setEntityNameStrings(__('rhythm'), __('rhythms'));
     }
 
     protected function setupListOperation()
