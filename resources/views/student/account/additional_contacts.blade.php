@@ -201,7 +201,7 @@
                 <input type="hidden" name="contact" value="{{ $contact->idnumber }}">
                   <div class="modal-footer">
                       <button type="button" class="btn btn-default" data-dismiss="modal">@lang('Close')</button>
-                      <button type="submit" class="btn btn-success">@lang('Delete')</button>
+                      <button type="submit" class="btn btn-danger">@lang('Delete')</button>
                   </div>
               </form>
             </div>
