@@ -92,7 +92,7 @@ class RemoteEventCrudController extends CrudController
                 'label' => 'Worked Hours', // Table column heading
                 'type' => 'number',
                 'suffix' => ' h',
-                'decimals' => 2,
+                'attributes' => ['step' => '0.01'],
             ],
 
             [

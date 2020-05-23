@@ -44,7 +44,7 @@ class BookCrudController extends CrudController
 
         CRUD::addFields([
             ['name' => 'name', 'label' => 'Name', 'type' => 'text'],
-            ['name' => 'price', 'label' => 'Price', 'type' => 'number', 'decimals' => 2],
+            ['name' => 'price', 'label' => 'Price', 'type' => 'number', 'attributes' => ['step' => '0.01']],
             ['name' => 'product_code', 'label' => 'Product Code', 'type' => 'text'],
         ]);
     }
