@@ -19,7 +19,7 @@ class CourseEvaluationCrudController extends CrudController
     {
         $this->crud->setModel(\App\Models\Course::class);
         $this->crud->setRoute(config('backpack.base.route_prefix').'/courseevaluation');
-        $this->crud->setEntityNameStrings('courseevaluation', 'course_evaluations');
+        $this->crud->setEntityNameStrings(__('course evaluation'), __('course evaluations'));
 
         CRUD::addClause('internal');
         CRUD::addClause('realcourses'); // filter out parent courses

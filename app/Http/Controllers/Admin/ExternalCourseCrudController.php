@@ -35,7 +35,7 @@ class ExternalCourseCrudController extends CrudController
         */
         CRUD::setModel(\App\Models\ExternalCourse::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/externalcourse');
-        CRUD::setEntityNameStrings('External Course', 'External Courses');
+        CRUD::setEntityNameStrings(__('External Course'), __('External Courses'));
         $permissions = backpack_user()->getAllPermissions();
         if ($permissions->contains('name', 'courses.edit')) {
             CRUD::addButtonFromView('line', 'schedule', 'schedule', 'end');

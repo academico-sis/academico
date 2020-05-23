@@ -22,7 +22,7 @@ class RemoteEventCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\RemoteEvent::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/remoteevent');
-        CRUD::setEntityNameStrings('remoteevent', 'remote_events');
+        CRUD::setEntityNameStrings(__('remote event'), __('remote events'));
     }
 
     public function setupListOperation()

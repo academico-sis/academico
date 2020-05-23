@@ -22,7 +22,7 @@ class EvaluationTypeCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\EvaluationType::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/evaluationtype');
-        CRUD::setEntityNameStrings('evaluationtype', 'evaluation_types');
+        CRUD::setEntityNameStrings(__('evaluation type'), __('evaluation types'));
     }
 
     protected function setupListOperation()

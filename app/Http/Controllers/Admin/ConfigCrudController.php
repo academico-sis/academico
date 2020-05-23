@@ -27,7 +27,7 @@ class ConfigCrudController extends CrudController
         */
         CRUD::setModel(\App\Models\Config::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/config');
-        CRUD::setEntityNameStrings('config', 'configs');
+        CRUD::setEntityNameStrings(__('config'), __('configs'));
     }
 
     protected function setupListOperation()

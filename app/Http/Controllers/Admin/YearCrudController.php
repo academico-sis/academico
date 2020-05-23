@@ -22,7 +22,7 @@ class YearCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\Year::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/year');
-        CRUD::setEntityNameStrings('year', 'years');
+        CRUD::setEntityNameStrings(__('year'), __('years'));
     }
 
     protected function setupListOperation()

@@ -21,7 +21,7 @@ class PeriodCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\Period::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/period');
-        CRUD::setEntityNameStrings('period', 'periods');
+        CRUD::setEntityNameStrings(__('period'), __('periods'));
     }
 
     public function setupListOperation()

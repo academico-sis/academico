@@ -30,7 +30,7 @@ class LeaveCrudController extends CrudController
         */
         CRUD::setModel(\App\Models\Leave::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/leave');
-        CRUD::setEntityNameStrings('leave', 'leaves');
+        CRUD::setEntityNameStrings(__('leave'), __('leaves'));
 
         /*
         |--------------------------------------------------------------------------

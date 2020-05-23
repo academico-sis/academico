@@ -22,7 +22,7 @@ class LevelCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\Level::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/level');
-        CRUD::setEntityNameStrings('level', 'levels');
+        CRUD::setEntityNameStrings(__('level'), __('levels'));
     }
 
     protected function setupListOperation()

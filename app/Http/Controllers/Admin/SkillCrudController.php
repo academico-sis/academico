@@ -24,7 +24,7 @@ class SkillCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\Skills\Skill::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/skill');
-        CRUD::setEntityNameStrings('skill', 'skills');
+        CRUD::setEntityNameStrings(__('skill'), __('skills'));
         CRUD::addButtonFromView('top', 'bulk_attach', 'bulk_attach', 'end');
     }
 

@@ -28,7 +28,7 @@ class GradeTypeCrudController extends CrudController
         */
         CRUD::setModel(\App\Models\GradeType::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/gradetype');
-        CRUD::setEntityNameStrings('gradetype', 'grade_types');
+        CRUD::setEntityNameStrings(__('grade type'), __('grade types'));
 
         /*
         |--------------------------------------------------------------------------
