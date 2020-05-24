@@ -45,7 +45,7 @@
                             <td>{{ $teacher->name }}</td>
                             <td>
                                 <p>@lang('Remote') : {{ number_format($remote_hours, 2, '.', ',') }} h</p>
-                                <p>@lang('Face-to-face') : {{ number_format($period_hours, 2, '.', ',') }} h</p>
+                                <p>@lang('Presencial') : {{ number_format($period_hours, 2, '.', ',') }} h</p>
                             </td>
 
                             <td>{{ number_format($max_hours, 2, '.', ',') }} h</td>
