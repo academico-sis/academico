@@ -40,7 +40,10 @@
     "Books": "Livres",
     "Calendar for": "Calendrier de",
     "CALENDARS": "CALENDRIERS",
+<<<<<<< HEAD
     "campus": "campus",
+=======
+>>>>>>> Revert "improve and correct translations"
     "Campus": "Campus",
     "campuses": "campus",
     "Cancel": "Annuler",

@@ -40,7 +40,10 @@
     "Books": "Books",
     "Calendar for": "Calendar for",
     "CALENDARS": "CALENDARS",
+<<<<<<< HEAD
     "campus": "campus",
+=======
+>>>>>>> Revert "improve and correct translations"
     "Campus": "Campus",
     "campuses": "campuses",
     "Cancel": "Cancel",
@@ -85,7 +88,10 @@
     "Delete Enrollment": "Delete Enrollment",
     "Discount Value": "Discount Value",
     "Discount Value (0-100%)": "Discount Value (0-100%)",
+<<<<<<< HEAD
     "discounts": "discounts",
+=======
+>>>>>>> Revert "improve and correct translations"
     "Discounts": "Discounts",
     "Edit": "Edit",
     "Edit contact": "Edit contact",
@@ -116,7 +122,10 @@
     "Evaluation method": "Evaluation method",
     "Evaluation Types": "Evaluation Types",
     "Event": "Event",
+<<<<<<< HEAD
     "events": "events",
+=======
+>>>>>>> Revert "improve and correct translations"
     "Events": "Events",
     "Events with no course": "Events with no course",
     "Events with no teacher": "Events with no teacher",
@@ -235,7 +244,10 @@
     "result": "result",
     "Result Notification": "Result Notification",
     "Result Types": "Result Types",
+<<<<<<< HEAD
     "results": "results",
+=======
+>>>>>>> Revert "improve and correct translations"
     "Results": "Results",
     "Rhythm": "Rhythm",
     "rhythm": "rhythm",
