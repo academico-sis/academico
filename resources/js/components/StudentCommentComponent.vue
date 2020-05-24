@@ -34,10 +34,18 @@
             </ul>
         </div>
         <div v-if="showEditField" class="card-footer">
+<<<<<<< HEAD
             <div v-if="errors" class="alert alert-danger">
                 {{ errors }}
             </div>
 
+=======
+            <div v-if="errors.length" class="alert alert-danger">
+                <ul>
+                    <li v-for="error in errors">{{ error.response.data.errors.body[0] }}</li>
+                </ul>
+            </div>
+>>>>>>> add focus and show validation's errors for student comment
             <textarea
                 id="comment"
                 ref="comment"
@@ -121,7 +129,12 @@ export default {
                     }, 3000)
                 })
                 .catch((e) => {
+<<<<<<< HEAD
                     this.errors = e.response.data.errors.body[0];
+=======
+                    this.errors.push(e);
+                    console.log(this.errors);
+>>>>>>> add focus and show validation's errors for student comment
                 });
         },
 
@@ -133,6 +146,7 @@ export default {
                 })
                 .catch((e) => {
                     this.errors.push(e);
+                    console.log(this.errors);
                 });
         },
     },
