@@ -36,10 +36,14 @@
         <div v-if="showEditField" class="card-footer">
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 6b89fb29b934ec6c89a106301f497c981df3dc5f
             <div v-if="errors" class="alert alert-danger">
                 {{ errors }}
             </div>
 
+<<<<<<< HEAD
 =======
             <div v-if="errors.length" class="alert alert-danger">
                 <ul>
@@ -53,6 +57,8 @@
             </div>
 
 >>>>>>> add validation flash message
+=======
+>>>>>>> 6b89fb29b934ec6c89a106301f497c981df3dc5f
             <textarea
                 id="comment"
                 ref="comment"
@@ -138,6 +144,7 @@ export default {
                 .catch((e) => {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                     this.errors = e.response.data.errors.body[0];
 =======
                     this.errors.push(e);
@@ -146,6 +153,9 @@ export default {
 =======
                     this.errors = e.response.data.errors.body[0];
 >>>>>>> add validation flash message
+=======
+                    this.errors = e.response.data.errors.body[0];
+>>>>>>> 6b89fb29b934ec6c89a106301f497c981df3dc5f
                 });
         },
 
