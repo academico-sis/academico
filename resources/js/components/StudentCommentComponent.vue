@@ -14,6 +14,9 @@
         </div>
 
         <div class="card-body">
+            <div v-if="isValidated" class="alert alert-success">
+                Your comment has been saved
+            </div>
             <ul>
                 <li v-for="(comment, index) in commentlist" :key="comment.id">
                     {{ comment.body }} ({{
@@ -31,11 +34,10 @@
             </ul>
         </div>
         <div v-if="showEditField" class="card-footer">
-            <div v-if="errors.length" class="alert alert-danger">
-                <ul>
-                    <li v-for="error in errors">{{ error.response.data.errors.body[0] }}</li>
-                </ul>
+            <div v-if="errors" class="alert alert-danger">
+                {{ errors }}
             </div>
+
             <textarea
                 id="comment"
                 ref="comment"
@@ -84,8 +86,9 @@ export default {
             comment_body: null,
             action: false,
             showEditField: false,
-            errors: [],
+            errors: null,
             commentlist: this.comments,
+            isValidated: false,
         };
     },
 
@@ -111,10 +114,14 @@ export default {
                     this.commentlist.push(response.data);
                     this.comment_body = null;
                     this.showEditField = false;
+                    this.errors = null;
+                    this.isValidated = true;
+                    setTimeout(() => {
+                        this.isValidated = false;
+                    }, 3000)
                 })
                 .catch((e) => {
-                    this.errors.push(e);
-                    console.log(this.errors);
+                    this.errors = e.response.data.errors.body[0];
                 });
         },
 
@@ -126,7 +133,6 @@ export default {
                 })
                 .catch((e) => {
                     this.errors.push(e);
-                    console.log(this.errors);
                 });
         },
     },
