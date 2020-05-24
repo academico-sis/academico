@@ -6,7 +6,7 @@
                 <button
                     type="button"
                     class="btn btn-sm btn-primary"
-                    @click="showEditField = true"
+                    @click="showCommentForm()"
                 >
                     <i class="la la-plus"></i>
                 </button>
@@ -31,8 +31,14 @@
             </ul>
         </div>
         <div v-if="showEditField" class="card-footer">
+            <div v-if="errors.length" class="alert alert-danger">
+                <ul>
+                    <li v-for="error in errors">{{ error.response.data.errors.body[0] }}</li>
+                </ul>
+            </div>
             <textarea
                 id="comment"
+                ref="comment"
                 v-model="comment_body"
                 name="comment"
                 style="width: 100%;"
@@ -86,6 +92,13 @@ export default {
     mounted() {},
 
     methods: {
+        showCommentForm() {
+            this.showEditField = true;
+            this.$nextTick(() => {
+                this.$refs.comment.focus();
+            })
+        },
+
         addComment() {
             axios
                 .post(this.route, {
@@ -101,6 +114,7 @@ export default {
                 })
                 .catch((e) => {
                     this.errors.push(e);
+                    console.log(this.errors);
                 });
         },
 
@@ -112,6 +126,7 @@ export default {
                 })
                 .catch((e) => {
                     this.errors.push(e);
+                    console.log(this.errors);
                 });
         },
     },
