@@ -1,9 +1,9 @@
 <template>
     <table id="skillsTable" class="table table-striped">
         <thead>
-            <td>{{ $t("front.Skill Type") }}</td>
-            <td>{{ $t("front.Level") }}</td>
-            <td>{{ $t("front.Skill") }}</td>
+            <td>{{ $t("Skill Type") }}</td>
+            <td>{{ $t("Level") }}</td>
+            <td>{{ $t("Skill") }}</td>
         </thead>
         <tbody>
             <tr v-for="skill in skills" :key="skill.id">
