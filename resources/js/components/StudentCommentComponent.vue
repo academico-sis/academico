@@ -35,6 +35,7 @@
         </div>
         <div v-if="showEditField" class="card-footer">
 <<<<<<< HEAD
+<<<<<<< HEAD
             <div v-if="errors" class="alert alert-danger">
                 {{ errors }}
             </div>
@@ -46,6 +47,12 @@
                 </ul>
             </div>
 >>>>>>> add focus and show validation's errors for student comment
+=======
+            <div v-if="errors" class="alert alert-danger">
+                {{ errors }}
+            </div>
+
+>>>>>>> add validation flash message
             <textarea
                 id="comment"
                 ref="comment"
@@ -130,11 +137,15 @@ export default {
                 })
                 .catch((e) => {
 <<<<<<< HEAD
+<<<<<<< HEAD
                     this.errors = e.response.data.errors.body[0];
 =======
                     this.errors.push(e);
                     console.log(this.errors);
 >>>>>>> add focus and show validation's errors for student comment
+=======
+                    this.errors = e.response.data.errors.body[0];
+>>>>>>> add validation flash message
                 });
         },
 
@@ -146,7 +157,6 @@ export default {
                 })
                 .catch((e) => {
                     this.errors.push(e);
-                    console.log(this.errors);
                 });
         },
     },

@@ -4135,7 +4135,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> add validation flash message
 //
 //
 //
@@ -4144,6 +4147,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+<<<<<<< HEAD
+>>>>>>> add validation flash message
+=======
 >>>>>>> add validation flash message
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["comments", "id", "type", "route"],
@@ -4153,8 +4159,14 @@ __webpack_require__.r(__webpack_exports__);
       action: false,
       showEditField: false,
 <<<<<<< HEAD
+<<<<<<< HEAD
       errors: [],
       commentlist: this.comments
+=======
+      errors: null,
+      commentlist: this.comments,
+      isValidated: false
+>>>>>>> add validation flash message
 =======
       errors: null,
       commentlist: this.comments,
@@ -4165,10 +4177,13 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {},
   methods: {
 <<<<<<< HEAD
+<<<<<<< HEAD
     addComment: function addComment() {
       var _this = this;
 
 =======
+=======
+>>>>>>> add validation flash message
     showCommentForm: function showCommentForm() {
       var _this = this;
 
@@ -4180,6 +4195,9 @@ __webpack_require__.r(__webpack_exports__);
     addComment: function addComment() {
       var _this2 = this;
 
+<<<<<<< HEAD
+>>>>>>> add validation flash message
+=======
 >>>>>>> add validation flash message
       axios.post(this.route, {
         body: this.comment_body,
@@ -4187,6 +4205,7 @@ __webpack_require__.r(__webpack_exports__);
         commentable_type: this.type,
         action: this.action
       }).then(function (response) {
+<<<<<<< HEAD
 <<<<<<< HEAD
         _this.commentlist.push(response.data);
 
@@ -4204,6 +4223,8 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (e) {
         _this2.errors.push(e);
 =======
+=======
+>>>>>>> add validation flash message
         _this2.commentlist.push(response.data);
 
         _this2.comment_body = null;
@@ -4224,6 +4245,9 @@ __webpack_require__.r(__webpack_exports__);
         _this3.$delete(_this3.commentlist, index);
       })["catch"](function (e) {
         _this3.errors.push(e);
+<<<<<<< HEAD
+>>>>>>> add validation flash message
+=======
 >>>>>>> add validation flash message
       });
     }
@@ -25118,7 +25142,11 @@ var render = function() {
                 }
               },
 <<<<<<< HEAD
+<<<<<<< HEAD
               [_vm._v(_vm._s(_vm.$t("Invoice Data")))]
+=======
+              [_vm._v(_vm._s(_vm.$t("front.Invoice Data")))]
+>>>>>>> add validation flash message
 =======
               [_vm._v(_vm._s(_vm.$t("front.Invoice Data")))]
 >>>>>>> add validation flash message
@@ -25138,7 +25166,11 @@ var render = function() {
                 }
               },
 <<<<<<< HEAD
+<<<<<<< HEAD
               [_vm._v(_vm._s(_vm.$t("Payment")))]
+=======
+              [_vm._v(_vm._s(_vm.$t("front.Payment")))]
+>>>>>>> add validation flash message
 =======
               [_vm._v(_vm._s(_vm.$t("front.Payment")))]
 >>>>>>> add validation flash message
@@ -25180,7 +25212,11 @@ var render = function() {
                                 _vm._s(enrollment.course.name) +
                                 "\n                                    " +
 <<<<<<< HEAD
+<<<<<<< HEAD
                                 _vm._s(_vm.$t("for")) +
+=======
+                                _vm._s(_vm.$t("front.for")) +
+>>>>>>> add validation flash message
 =======
                                 _vm._s(_vm.$t("front.for")) +
 >>>>>>> add validation flash message
@@ -25276,7 +25312,11 @@ var render = function() {
                   _vm._v(
                     "\n                        " +
 <<<<<<< HEAD
+<<<<<<< HEAD
                       _vm._s(_vm.$t("Total price")) +
+=======
+                      _vm._s(_vm.$t("front.Total price")) +
+>>>>>>> add validation flash message
 =======
                       _vm._s(_vm.$t("front.Total price")) +
 >>>>>>> add validation flash message
@@ -25301,7 +25341,12 @@ var render = function() {
                         _c("i", { staticClass: "la la-check" }),
                         _vm._v(
 <<<<<<< HEAD
+<<<<<<< HEAD
                           _vm._s(_vm.$t("Confirm")) + "\n                    "
+=======
+                          _vm._s(_vm.$t("front.Confirm")) +
+                            "\n                    "
+>>>>>>> add validation flash message
 =======
                           _vm._s(_vm.$t("front.Confirm")) +
                             "\n                    "
@@ -25320,7 +25365,11 @@ var render = function() {
                 _vm._v(
                   "\n                    " +
 <<<<<<< HEAD
+<<<<<<< HEAD
                     _vm._s(_vm.$t("Add products")) +
+=======
+                    _vm._s(_vm.$t("front.Add products")) +
+>>>>>>> add validation flash message
 =======
                     _vm._s(_vm.$t("front.Add products")) +
 >>>>>>> add validation flash message
@@ -25474,7 +25523,11 @@ var render = function() {
                         _vm._v(
                           "\n                                " +
 <<<<<<< HEAD
+<<<<<<< HEAD
                             _vm._s(_vm.$t("Add discount")) +
+=======
+                            _vm._s(_vm.$t("front.Add discount")) +
+>>>>>>> add validation flash message
 =======
                             _vm._s(_vm.$t("front.Add discount")) +
 >>>>>>> add validation flash message
@@ -25547,7 +25600,11 @@ var render = function() {
                         _c("i", { staticClass: "la la-check" }),
                         _vm._v(
 <<<<<<< HEAD
+<<<<<<< HEAD
                           _vm._s(_vm.$t("Select")) +
+=======
+                          _vm._s(_vm.$t("front.Select")) +
+>>>>>>> add validation flash message
 =======
                           _vm._s(_vm.$t("front.Select")) +
 >>>>>>> add validation flash message
@@ -25600,7 +25657,11 @@ var render = function() {
                           _c("i", { staticClass: "la la-check" }),
                           _vm._v(
 <<<<<<< HEAD
+<<<<<<< HEAD
                             _vm._s(_vm.$t("Select")) +
+=======
+                            _vm._s(_vm.$t("front.Select")) +
+>>>>>>> add validation flash message
 =======
                             _vm._s(_vm.$t("front.Select")) +
 >>>>>>> add validation flash message
@@ -25636,7 +25697,11 @@ var render = function() {
                 _vm._v(
                   "\n                    " +
 <<<<<<< HEAD
+<<<<<<< HEAD
                     _vm._s(_vm.$t("Invoice Data")) +
+=======
+                    _vm._s(_vm.$t("front.Invoice Data")) +
+>>>>>>> add validation flash message
 =======
                     _vm._s(_vm.$t("front.Invoice Data")) +
 >>>>>>> add validation flash message
@@ -25658,7 +25723,11 @@ var render = function() {
                           _c("i", { staticClass: "la la-check" }),
                           _vm._v(
 <<<<<<< HEAD
+<<<<<<< HEAD
                             _vm._s(_vm.$t("Select")) +
+=======
+                            _vm._s(_vm.$t("front.Select")) +
+>>>>>>> add validation flash message
 =======
                             _vm._s(_vm.$t("front.Select")) +
 >>>>>>> add validation flash message
@@ -25850,7 +25919,11 @@ var render = function() {
                                   _vm._s(enrollment.course.name) +
                                   "\n                                    " +
 <<<<<<< HEAD
+<<<<<<< HEAD
                                   _vm._s(_vm.$t("for")) +
+=======
+                                  _vm._s(_vm.$t("front.for")) +
+>>>>>>> add validation flash message
 =======
                                   _vm._s(_vm.$t("front.for")) +
 >>>>>>> add validation flash message
@@ -25918,7 +25991,11 @@ var render = function() {
                 _vm._v(
                   "\n                    " +
 <<<<<<< HEAD
+<<<<<<< HEAD
                     _vm._s(_vm.$t("Invoice Data")) +
+=======
+                    _vm._s(_vm.$t("front.Invoice Data")) +
+>>>>>>> add validation flash message
 =======
                     _vm._s(_vm.$t("front.Invoice Data")) +
 >>>>>>> add validation flash message
@@ -25949,7 +26026,11 @@ var render = function() {
                   _vm._v(
                     "\n                        " +
 <<<<<<< HEAD
+<<<<<<< HEAD
                       _vm._s(_vm.$t("Total price")) +
+=======
+                      _vm._s(_vm.$t("front.Total price")) +
+>>>>>>> add validation flash message
 =======
                       _vm._s(_vm.$t("front.Total price")) +
 >>>>>>> add validation flash message
@@ -25966,7 +26047,11 @@ var render = function() {
                 _vm._v(
                   "\n                    " +
 <<<<<<< HEAD
+<<<<<<< HEAD
                     _vm._s(_vm.$t("Payment method")) +
+=======
+                    _vm._s(_vm.$t("front.Payment method")) +
+>>>>>>> add validation flash message
 =======
                     _vm._s(_vm.$t("front.Payment method")) +
 >>>>>>> add validation flash message
@@ -25979,10 +26064,13 @@ var render = function() {
                   _c("thead", [
                     _c("tr", [
 <<<<<<< HEAD
+<<<<<<< HEAD
                       _c("th", [_vm._v(_vm._s(_vm.$t("Payment method")))]),
                       _vm._v(" "),
                       _c("th", [_vm._v(_vm._s(_vm.$t("Amount received")))]),
 =======
+=======
+>>>>>>> add validation flash message
                       _c("th", [
                         _vm._v(_vm._s(_vm.$t("front.Payment method")))
                       ]),
@@ -25990,6 +26078,9 @@ var render = function() {
                       _c("th", [
                         _vm._v(_vm._s(_vm.$t("front.Amount received")))
                       ]),
+<<<<<<< HEAD
+>>>>>>> add validation flash message
+=======
 >>>>>>> add validation flash message
                       _vm._v(" "),
                       _c("th", [_vm._v(_vm._s(_vm.$t("Comment")))])
@@ -26154,7 +26245,11 @@ var render = function() {
                                   _vm._v(
                                     "\n                                                " +
 <<<<<<< HEAD
+<<<<<<< HEAD
                                       _vm._s(_vm.$t("Add")) +
+=======
+                                      _vm._s(_vm.$t("front.Add")) +
+>>>>>>> add validation flash message
 =======
                                       _vm._s(_vm.$t("front.Add")) +
 >>>>>>> add validation flash message
@@ -26209,7 +26304,11 @@ var render = function() {
                         _vm._v(
                           "\n                                    " +
 <<<<<<< HEAD
+<<<<<<< HEAD
                             _vm._s(_vm.$t("Total received amount")) +
+=======
+                            _vm._s(_vm.$t("front.Total received amount")) +
+>>>>>>> add validation flash message
 =======
                             _vm._s(_vm.$t("front.Total received amount")) +
 >>>>>>> add validation flash message
@@ -26443,7 +26542,11 @@ var render = function() {
                 _vm._v(
                   "\n                    " +
 <<<<<<< HEAD
+<<<<<<< HEAD
                     _vm._s(_vm.$t("The invoice has been generated")) +
+=======
+                    _vm._s(_vm.$t("front.The invoice has been generated")) +
+>>>>>>> add validation flash message
 =======
                     _vm._s(_vm.$t("front.The invoice has been generated")) +
 >>>>>>> add validation flash message
@@ -26456,7 +26559,11 @@ var render = function() {
                   _vm._v(
                     "\n                        " +
 <<<<<<< HEAD
+<<<<<<< HEAD
                       _vm._s(_vm.$t("Enrollment number")) +
+=======
+                      _vm._s(_vm.$t("front.Enrollment number")) +
+>>>>>>> add validation flash message
 =======
                       _vm._s(_vm.$t("front.Enrollment number")) +
 >>>>>>> add validation flash message
@@ -26740,7 +26847,11 @@ var render = function() {
                           _vm._v(
                             "\n                                " +
 <<<<<<< HEAD
+<<<<<<< HEAD
                               _vm._s(_vm.$t("all")) +
+=======
+                              _vm._s(_vm.$t("front.all")) +
+>>>>>>> add validation flash message
 =======
                               _vm._s(_vm.$t("front.all")) +
 >>>>>>> add validation flash message
@@ -26789,7 +26900,11 @@ var render = function() {
                     [
                       _c("option", { attrs: { value: "" } }, [
 <<<<<<< HEAD
+<<<<<<< HEAD
                         _vm._v(_vm._s(_vm.$t("All teachers")))
+=======
+                        _vm._v(_vm._s(_vm.$t("front.All teachers")))
+>>>>>>> add validation flash message
 =======
                         _vm._v(_vm._s(_vm.$t("front.All teachers")))
 >>>>>>> add validation flash message
@@ -26850,7 +26965,11 @@ var render = function() {
                           _vm._v(
                             "\n                                " +
 <<<<<<< HEAD
+<<<<<<< HEAD
                               _vm._s(_vm.$t("all")) +
+=======
+                              _vm._s(_vm.$t("front.all")) +
+>>>>>>> add validation flash message
 =======
                               _vm._s(_vm.$t("front.all")) +
 >>>>>>> add validation flash message
@@ -26968,7 +27087,11 @@ var render = function() {
                           _vm._v(
                             "\n                                " +
 <<<<<<< HEAD
+<<<<<<< HEAD
                               _vm._s(_vm.$t("all")) +
+=======
+                              _vm._s(_vm.$t("front.all")) +
+>>>>>>> add validation flash message
 =======
                               _vm._s(_vm.$t("front.all")) +
 >>>>>>> add validation flash message
@@ -27059,7 +27182,11 @@ var render = function() {
             _vm._v(
               "\n            " +
 <<<<<<< HEAD
+<<<<<<< HEAD
                 _vm._s(_vm.$t("Results are loading")) +
+=======
+                _vm._s(_vm.$t("front.Results are loading")) +
+>>>>>>> add validation flash message
 =======
                 _vm._s(_vm.$t("front.Results are loading")) +
 >>>>>>> add validation flash message
@@ -27073,7 +27200,11 @@ var render = function() {
             _vm._v(
               "\n            " +
 <<<<<<< HEAD
+<<<<<<< HEAD
                 _vm._s(_vm.$t("errorfetchingcourses")) +
+=======
+                _vm._s(_vm.$t("front.errorfetchingcourses")) +
+>>>>>>> add validation flash message
 =======
                 _vm._s(_vm.$t("front.errorfetchingcourses")) +
 >>>>>>> add validation flash message
@@ -27093,7 +27224,11 @@ var render = function() {
                       _vm._v(
                         "\n                    " +
 <<<<<<< HEAD
+<<<<<<< HEAD
                           _vm._s(_vm.$t("noresults")) +
+=======
+                          _vm._s(_vm.$t("front.noresults")) +
+>>>>>>> add validation flash message
 =======
                           _vm._s(_vm.$t("front.noresults")) +
 >>>>>>> add validation flash message
@@ -27222,7 +27357,13 @@ var render = function() {
                                             _vm._v(
                                               "\n                                        " +
 <<<<<<< HEAD
+<<<<<<< HEAD
                                                 _vm._s(_vm.$t("Edit schedule"))
+=======
+                                                _vm._s(
+                                                  _vm.$t("front.Edit schedule")
+                                                )
+>>>>>>> add validation flash message
 =======
                                                 _vm._s(
                                                   _vm.$t("front.Edit schedule")
@@ -27254,7 +27395,13 @@ var render = function() {
                                               "\n                                        " +
                                                 _vm._s(
 <<<<<<< HEAD
+<<<<<<< HEAD
                                                   _vm.$t("Create subcourse")
+=======
+                                                  _vm.$t(
+                                                    "front.Create subcourse"
+                                                  )
+>>>>>>> add validation flash message
 =======
                                                   _vm.$t(
                                                     "front.Create subcourse"
@@ -27289,7 +27436,11 @@ var render = function() {
                                             _vm._v(
                                               "\n                                        " +
 <<<<<<< HEAD
+<<<<<<< HEAD
                                                 _vm._s(_vm.$t("Delete")) +
+=======
+                                                _vm._s(_vm.$t("front.Delete")) +
+>>>>>>> add validation flash message
 =======
                                                 _vm._s(_vm.$t("front.Delete")) +
 >>>>>>> add validation flash message
@@ -27381,7 +27532,11 @@ var render = function() {
                                     ) +
                                     "\n                                " +
 <<<<<<< HEAD
+<<<<<<< HEAD
                                     _vm._s(_vm.$t("spots left")) +
+=======
+                                    _vm._s(_vm.$t("front.spots left")) +
+>>>>>>> add validation flash message
 =======
                                     _vm._s(_vm.$t("front.spots left")) +
 >>>>>>> add validation flash message
@@ -27598,7 +27753,11 @@ var render = function() {
           _vm._v(
             "\n                " +
 <<<<<<< HEAD
+<<<<<<< HEAD
               _vm._s(_vm.$t("Add a new course time")) +
+=======
+              _vm._s(_vm.$t("front.Add a new course time")) +
+>>>>>>> add validation flash message
 =======
               _vm._s(_vm.$t("front.Add a new course time")) +
 >>>>>>> add validation flash message
@@ -27641,6 +27800,7 @@ var render = function() {
                   [
                     _c("option", { attrs: { value: "1" } }, [
 <<<<<<< HEAD
+<<<<<<< HEAD
                       _vm._v(_vm._s(_vm.$t("Monday")))
                     ]),
                     _vm._v(" "),
@@ -27667,6 +27827,8 @@ var render = function() {
                     _c("option", { attrs: { value: "0" } }, [
                       _vm._v(_vm._s(_vm.$t("Sunday")))
 =======
+=======
+>>>>>>> add validation flash message
                       _vm._v(_vm._s(_vm.$t("front.Monday")))
                     ]),
                     _vm._v(" "),
@@ -27692,6 +27854,9 @@ var render = function() {
                     _vm._v(" "),
                     _c("option", { attrs: { value: "0" } }, [
                       _vm._v(_vm._s(_vm.$t("front.Sunday")))
+<<<<<<< HEAD
+>>>>>>> add validation flash message
+=======
 >>>>>>> add validation flash message
                     ])
                   ]
@@ -27974,7 +28139,11 @@ var render = function() {
   return _c("div", { staticClass: "card" }, [
     _c("div", { staticClass: "card-header" }, [
 <<<<<<< HEAD
+<<<<<<< HEAD
       _vm._v("\n        " + _vm._s(_vm.$t("Lead Status")) + "\n    ")
+=======
+      _vm._v("\n        " + _vm._s(_vm.$t("front.Lead Status")) + "\n    ")
+>>>>>>> add validation flash message
 =======
       _vm._v("\n        " + _vm._s(_vm.$t("front.Lead Status")) + "\n    ")
 >>>>>>> add validation flash message
@@ -28136,17 +28305,23 @@ var render = function() {
     [
       _c("thead", [
 <<<<<<< HEAD
+<<<<<<< HEAD
         _c("td", [_vm._v(_vm._s(_vm.$t("Skill Type")))]),
         _vm._v(" "),
         _c("td", [_vm._v(_vm._s(_vm.$t("Level")))]),
         _vm._v(" "),
         _c("td", [_vm._v(_vm._s(_vm.$t("Skill")))])
 =======
+=======
+>>>>>>> add validation flash message
         _c("td", [_vm._v(_vm._s(_vm.$t("front.Skill Type")))]),
         _vm._v(" "),
         _c("td", [_vm._v(_vm._s(_vm.$t("front.Level")))]),
         _vm._v(" "),
         _c("td", [_vm._v(_vm._s(_vm.$t("front.Skill")))])
+<<<<<<< HEAD
+>>>>>>> add validation flash message
+=======
 >>>>>>> add validation flash message
       ]),
       _vm._v(" "),
@@ -28200,7 +28375,11 @@ var render = function() {
             on: {
               click: function($event) {
 <<<<<<< HEAD
+<<<<<<< HEAD
                 _vm.showEditField = true
+=======
+                return _vm.showCommentForm()
+>>>>>>> add validation flash message
 =======
                 return _vm.showCommentForm()
 >>>>>>> add validation flash message
@@ -28214,13 +28393,19 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "card-body" }, [
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> add validation flash message
       _vm.isValidated
         ? _c("div", { staticClass: "alert alert-success" }, [
             _vm._v("\n            Your comment has been saved\n        ")
           ])
         : _vm._e(),
       _vm._v(" "),
+<<<<<<< HEAD
+>>>>>>> add validation flash message
+=======
 >>>>>>> add validation flash message
       _c(
         "ul",
@@ -28255,13 +28440,19 @@ var render = function() {
     _vm.showEditField
       ? _c("div", { staticClass: "card-footer" }, [
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> add validation flash message
           _vm.errors
             ? _c("div", { staticClass: "alert alert-danger" }, [
                 _vm._v("\n            " + _vm._s(_vm.errors) + "\n        ")
               ])
             : _vm._e(),
           _vm._v(" "),
+<<<<<<< HEAD
+>>>>>>> add validation flash message
+=======
 >>>>>>> add validation flash message
           _c("textarea", {
             directives: [
@@ -28273,6 +28464,10 @@ var render = function() {
               }
             ],
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+            ref: "comment",
+>>>>>>> add validation flash message
 =======
             ref: "comment",
 >>>>>>> add validation flash message
@@ -28293,7 +28488,13 @@ var render = function() {
             ? _c("div", { staticClass: "form-group" }, [
                 _c("label", { attrs: { for: "action" } }, [
 <<<<<<< HEAD
+<<<<<<< HEAD
                   _vm._v(_vm._s(_vm.$t("This comment requires an action")))
+=======
+                  _vm._v(
+                    _vm._s(_vm.$t("front.This comment requires an action"))
+                  )
+>>>>>>> add validation flash message
 =======
                   _vm._v(
                     _vm._s(_vm.$t("front.This comment requires an action"))
@@ -28357,7 +28558,11 @@ var render = function() {
                 _vm._v(
                   "\n                " +
 <<<<<<< HEAD
+<<<<<<< HEAD
                     _vm._s(_vm.$t("Cancel")) +
+=======
+                    _vm._s(_vm.$t("front.Cancel")) +
+>>>>>>> add validation flash message
 =======
                     _vm._s(_vm.$t("front.Cancel")) +
 >>>>>>> add validation flash message
@@ -28425,7 +28630,11 @@ var render = function() {
           [
             _c("thead", [
 <<<<<<< HEAD
+<<<<<<< HEAD
               _c("th", [_vm._v(_vm._s(_vm.$t("Skill")))]),
+=======
+              _c("th", [_vm._v(_vm._s(_vm.$t("front.Skill")))]),
+>>>>>>> add validation flash message
 =======
               _c("th", [_vm._v(_vm._s(_vm.$t("front.Skill")))]),
 >>>>>>> add validation flash message
@@ -46142,6 +46351,10 @@ module.exports = function(module) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_i18n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-i18n */ "./node_modules/vue-i18n/dist/vue-i18n.esm.js");
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+/* harmony import */ var _vue_i18n_locales_generated__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./vue-i18n-locales.generated */ "./resources/js/vue-i18n-locales.generated.js");
+>>>>>>> add validation flash message
 =======
 /* harmony import */ var _vue_i18n_locales_generated__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./vue-i18n-locales.generated */ "./resources/js/vue-i18n-locales.generated.js");
 >>>>>>> add validation flash message
@@ -46151,10 +46364,14 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 Vue.use(__webpack_require__(/*! vue-moment */ "./node_modules/vue-moment/dist/vue-moment.js"));
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 var messages = {
   en: __webpack_require__(/*! ../lang/en.json */ "./resources/lang/en.json"),
   fr: __webpack_require__(/*! ../lang/fr.json */ "./resources/lang/fr.json")
 };
+=======
+
+>>>>>>> add validation flash message
 =======
 
 >>>>>>> add validation flash message
@@ -46164,7 +46381,11 @@ var lang = document.documentElement.lang.substr(0, 2); // or however you determi
 var i18n = new vue_i18n__WEBPACK_IMPORTED_MODULE_0__["default"]({
   locale: lang,
 <<<<<<< HEAD
+<<<<<<< HEAD
   messages: messages
+=======
+  messages: _vue_i18n_locales_generated__WEBPACK_IMPORTED_MODULE_1__["default"]
+>>>>>>> add validation flash message
 =======
   messages: _vue_i18n_locales_generated__WEBPACK_IMPORTED_MODULE_1__["default"]
 >>>>>>> add validation flash message
@@ -47282,6 +47503,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ }),
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 /***/ "./resources/lang/en.json":
 /*!********************************!*\
   !*** ./resources/lang/en.json ***!
@@ -47302,6 +47524,8 @@ module.exports = JSON.parse("{\"% of period max\":\"% of period max\",\"Absence 
 
 module.exports = JSON.parse("{\"% of period max\":\"% du maximum\",\"Absence Notification\":\"Notification d'absence\",\"absences\":\"absences\",\"Account Data\":\"Informations du compte\",\"Acquisition Rate\":\"Taux de fidélisation\",\"Actionnable Comments\":\"Action requise\",\"actions\":\"actions\",\"Actions\":\"Actions\",\"Active clients\":\"Clients actifs\",\"Add\":\"Ajouter\",\"Add a new contact\":\"Ajouter un contact\",\"Add a new course time\":\"Ajouter un horaire de cours\",\"Add a new grade type to course\":\"Ajouter un critère\",\"Add discount\":\"Ajouter une réduction\",\"Add Grade Type to Course\":\"Ajouter un critère\",\"Add products\":\"Ajouter un produit\",\"Additional Contact\":\"Autre contact\",\"Additional Contacts\":\"Contacts\",\"Additional Data\":\"Informations de l'étudiant(e)\",\"Address\":\"Addresse\",\"address\":\"addresse\",\"age\":\"âge\",\"all\":\"tous\",\"All teachers\":\"Tous les enseignants\",\"Amount received\":\"Valeur perçue\",\"Attach skills to course\":\"Ajouter des compétences au cours\",\"Attach to course\":\"Associer au cours\",\"Attendance\":\"Présences\",\"Attendance Ratio\":\"Pourcentage de présence\",\"Attendance Status\":\"Présence\",\"Attendance status\":\"Présence\",\"available course\":\"cours disponible\",\"available courses\":\"cours disponibles\",\"Back to course\":\"Revenir au cours\",\"Best regards,\":\"Cordialement,\",\"Birthdate\":\"Date de naissance\",\"birthdate\":\"date de naissance\",\"book\":\"livre\",\"books\":\"livres\",\"Books\":\"Livres\",\"Calendar for\":\"Calendrier de\",\"CALENDARS\":\"CALENDRIERS\",\"campus\":\"campus\",\"Campus\":\"Campus\",\"campuses\":\"campus\",\"Cancel\":\"Annuler\",\"Cart Details\":\"Détails du panier\",\"Change course\":\"Changer de cours\",\"Checkout\":\"Facturer\",\"Checkout enrollment\":\"Facturer cette inscription\",\"Children enrollments\":\"Inscriptions liées\",\"Classes without teacher\":\"Classes sans enseignant\",\"Client address\":\"Adresse du Client\",\"Client email\":\"Email du client\",\"Client ID Number\":\"Numéro d'identité du client\",\"Client name\":\"Nom du client\",\"Client Phone Number\":\"Numéro de téléphone du client\",\"Close\":\"Fermer\",\"comment\":\"commentaire\",\"comments\":\"commentaires\",\"Comments\":\"Commentaires\",\"config\":\"option\",\"configs\":\"options\",\"Continue without uploading a profile picture\":\"Continuer sans photo de profil\",\"coupon\":\"coupon\",\"coupons\":\"coupons\",\"Course\":\"Cours\",\"course\":\"cours\",\"Course :\":\"Cours :\",\"Course Details\":\"Détails du cours\",\"course evaluation\":\"évaluation des cours\",\"Course Evaluation\":\"Gérer l'évaluation\",\"course evaluations\":\"évaluations des cours\",\"Course info\":\"Informations du cours\",\"Course result\":\"Résultat du cours\",\"Course Result Details\":\"Résultat du cours\",\"Course Schedule\":\"Horaires du cours\",\"Courses\":\"Cours\",\"COURSES\":\"COURS\",\"courses\":\"cours\",\"Courses (list)\":\"Cours (liste)\",\"Create another Contact\":\"Créer un autre contact\",\"Create subcourse\":\"Créer un sous-cours\",\"Current Period\":\"Cycle en cours\",\"Currently enrolled\":\"Inscrits maintenant\",\"Date\":\"Date\",\"Date range\":\"Dates\",\"Default Periods on Academico\":\"Cycle par défaut\",\"Default Periods Selection\":\"Sélection des cycles par défaut\",\"Delete\":\"Supprimer\",\"Delete Enrollment\":\"Annuler l'inscription\",\"discount\":\"réduction\",\"Discount Value\":\"Valeur de la réduction\",\"Discount Value (0-100%)\":\"Valeur de la réduction (0-100%)\",\"discounts\":\"réductions\",\"Discounts\":\"Réductions\",\"Edit\":\"Editer\",\"Edit contact\":\"Modifier le contact\",\"Edit Course Skills\":\"Modifier les compétences du cours\",\"Edit Grades\":\"Modifier les notes\",\"Edit Invoice Number\":\"Editer le numéro de facture\",\"Edit schedule\":\"Editer les horaires\",\"Edit skills for course\":\"Modifier les compétences du cours\",\"Edit Student Skills\":\"Modifier les compétences de l'étudiant\",\"Email\":\"Email\",\"email\":\"email\",\"End\":\"Fin\",\"End Date\":\"Date de fin\",\"Enroll\":\"Inscrire\",\"Enroll new student\":\"Inscrire un étudiant\",\"enrollment\":\"inscription\",\"Enrollment date\":\"Date d'inscription\",\"Enrollment Details\":\"Détails de l'inscription\",\"Enrollment ID\":\"Numéro d'inscription\",\"Enrollment number\":\"Inscription #\",\"Enrollment successfully created\":\"Inscription enregistrée\",\"enrollments\":\"enrollments\",\"Enrollments\":\"Inscriptions\",\"Enrollments per Course\":\"Inscriptions par cours\",\"Enrollments per Rhythm\":\"Inscriptions par modalité\",\"Enrollments Period\":\"Cycle d'inscription\",\"errorfetchingcourses\":\"Erreur lors du chargement. Veuillez actualiser la page\",\"EVALUATION\":\"ÉVALUATION\",\"Evaluation method\":\"Type d'évaluation\",\"evaluation type\":\"type d'évaluation\",\"evaluation types\":\"types d'évaluation\",\"Evaluation Types\":\"Types d'évaluation\",\"event\":\"classe\",\"Event\":\"Classe\",\"events\":\"classes\",\"Events\":\"Classes\",\"Events with no course\":\"Classes sans cours\",\"Events with no teacher\":\"Classes sans professeur\",\"Exempt Attendance\":\"Dispenser de fiche de présence\",\"Export Course syllabus\":\"Exporter le syllabus\",\"Export skills\":\"Exporter les compétences\",\"External\":\"Externe\",\"External Course\":\"Cours externe\",\"External Courses\":\"Cours externes\",\"External Courses Report\":\"Rapport des cours externes\",\"fee\":\"frais administratif\",\"fees\":\"frais administratifs\",\"Fees\":\"Frais administratifs\",\"Finish update\":\"Terminer la mise à jour\",\"First Name\":\"Prénom\",\"Firstname\":\"Prénom\",\"for\":\"pour\",\"Former clients\":\"Anciens clients\",\"Friday\":\"Vendredi\",\"Go Home\":\"Page d'accueil\",\"grade type\":\"Type de note\",\"grade types\":\"Types de notes\",\"Grade Types\":\"Critères\",\"Grades\":\"Notes\",\"Head Count\":\"Inscriptions\",\"Hi\":\"Bonjour\",\"Hide Children\":\"Cacher les enfants\",\"Hide Children Courses\":\"Cacher les cours enfants\",\"Hide Parents\":\"Cacher les cours parents\",\"Hire Date\":\"Date d'embauche\",\"hours\":\"heures\",\"Hours Sold\":\"Heures vendues\",\"Hours Taught\":\"Henres enseignées\",\"HR\":\"RH\",\"Human Resources\":\"Ressources Humaines\",\"ID Number\":\"Numéro d'identité\",\"idnumber\":\"numéro d'identité\",\"Import skills\":\"Importer les compétences\",\"Inactive clients\":\"Clients inactifs\",\"Incomplete Attendance\":\"Fiches de présence incomplètes\",\"Internal\":\"Interne\",\"Internal Courses\":\"Cours internes\",\"Internal Settings\":\"Paramètres du système\",\"Invoice\":\"Facture\",\"Invoice Data\":\"Coordonnées de facturation\",\"Invoice ID\":\"ID de facture\",\"Invoices\":\"Factures\",\"Invoicing\":\"Facturation\",\"Is Enrolled in\":\"Inscrit en\",\"Is Not Enrolled in\":\"Non-inscrit en\",\"Jobs Queue\":\"File de travaux\",\"justified absence\":\"absence justifée\",\"Justified Absence\":\"Absence justifiée\",\"Last Enrollment\":\"Dernière inscription\",\"Last Name\":\"Nom\",\"Lastname\":\"Nom\",\"lead type\":\"catégorie Client\",\"lead types\":\"catégories Client\",\"Leads Status\":\"États client\",\"Leave\":\"Vacances\",\"leave\":\"vacance\",\"leaves\":\"vacances\",\"Length\":\"Durée\",\"level\":\"niveau\",\"Level\":\"Niveau\",\"levels\":\"niveaux\",\"Manage leaves\":\"Gestion des vacances\",\"Mark this enrollment as paid but do not send to accounting system\":\"Marquer cette inscription comme payée mais ne pas transmettre les données au système comptable\",\"Missing attendance\":\"Présences incomplètes\",\"Monday\":\"Lundi\",\"My Hours\":\"Mes heures\",\"My Schedule\":\"Mon emploi du temps\",\"name\":\"nom\",\"Name\":\"Nom\",\"New Course\":\"Nouveau cours\",\"New Students\":\"Nouveaux étudiants\",\"No Result\":\"Pas de résultat\",\"noresults\":\"Pas de cours avec les filtres sélectionnés\",\"Not yet enrolled: call them and update status!\":\"Pas encore inscrits. Les appeler et mettre à jour le statut !\",\"Number of Absences\":\"Nombre d'absences\",\"Number of Courses\":\"Nombre de cours\",\"Oh no\":\"Oh no\",\"on\":\"le\",\"or\":\"ou\",\"Overview\":\"Vue générale\",\"Paid Enrollments\":\"Inscriptions payées\",\"Partial presence (arrived late or left early)\":\"Présence partielle (retard ou départ anticipé)\",\"payment method\":\"méthode de paiement\",\"Payment methods\":\"Moyens de paiement\",\"payment methods\":\"méthodes de paiement\",\"Pedagogy\":\"Pedagogie\",\"Pending\":\"Impayés\",\"Pending Attendance\":\"Présences en attente\",\"Pending leads\":\"Clients potentiels\",\"Per course\":\"Par cours\",\"Per rhythm\":\"Par modalité\",\"period\":\"cycle\",\"Period\":\"Cycle\",\"Period Classes\":\"Cours ce cycle\",\"Period Max\":\"Max. pour le cycle\",\"Period Total\":\"Total ce cycle\",\"periods\":\"cycles\",\"Permanently ended their learning\":\"Ont terminé leur apprentissage\",\"Phone Number\":\"Téléphone\",\"Phone Numbers\":\"Numéros de téléphone\",\"Planned Hours\":\"Heures prévues\",\"Please check the additional contact data associated to your account\":\"Vérifiez les contacts associés à votre compte\",\"Please check your personal phone number(s)\":\"Merci de vérifier vos numéros de téléphone\",\"Please chose an image on your computer to update your profile picture\":\"Veuillez choisir une photo de profil\",\"Please fill in your profession and your institution (school, workplace).\":\"Merci d'indiquer votre profession et votre institution (école, travail)\",\"Potential clients\":\"Clients potentiels\",\"Pre-invoice ID\":\"Numéro de pré-facture\",\"Face-to-face\":\"Présentiel\",\"Present\":\"Présent\",\"Price\":\"Prix\",\"Product\":\"Produit\",\"Products\":\"Produits\",\"Profession\":\"Profession\",\"Profile Picture\":\"Photo de profil\",\"Project\":\"Projet\",\"Remote\":\"À distance\",\"remote event\":\"travail à distance\",\"remote events\":\"travaux à distance\",\"Remote Events\":\"Travaux à distance\",\"Remote Work\":\"Travail à distance\",\"REPORTS\":\"RAPPORTS\",\"resource Calendars\":\"Calendriers des ressources\",\"Resources\":\"Ressources\",\"result\":\"result\",\"Result\":\"Résultat\",\"Result Notification\":\"Notification de résultat\",\"result type\":\"type de résultat\",\"Result Types\":\"Échelles de résultat\",\"results\":\"résultats\",\"Results\":\"Résultats\",\"rhythm\":\"modalité\",\"Rhythm\":\"Modalité\",\"rhythms\":\"modalités\",\"Roles\":\"Rôles\",\"room\":\"room\",\"Room\":\"Salle\",\"rooms\":\"salles\",\"Saturday\":\"Samedi\",\"Save\":\"Enregistrer\",\"Save new Contact\":\"Enregistrer le contact\",\"Schedule\":\"Horaires\",\"Selected Period\":\"Période sélectionnée\",\"Settings\":\"Paramètres\",\"SETTINGS\":\"PARAMÈTRES\",\"Setup Dashboard\":\"Panel système\",\"share of students from previous period who were re-enrolled\":\"part des étudiants du cycle précédent qui se sont réinscrits\",\"Show Children Courses\":\"Montrer les cours enfants\",\"Since the beginning of this course, you have:\":\"Depuis le début du cours, vous avez\",\"skill\":\"compétence\",\"skill scale\":\"échelle de compétence\",\"Skill Scales\":\"Échelles de compétences\",\"skill scales\":\"échelles de compétences\",\"skill type\":\"type de compétence\",\"Skill Types\":\"Types de compétences\",\"skill types\":\"types de compétences\",\"skills\":\"compétences\",\"Skills\":\"Compétences\",\"Skills set was saved for the course\":\"Les compétences du cours ont été enregistrées\",\"Skillset File\":\"Fichier de compétences\",\"SPHERE\":\"SPHERE\",\"Spots\":\"Places\",\"spots left\":\"places disponibles\",\"Start\":\"Début\",\"Start Date\":\"Date de début\",\"Start from period:\":\"Commencer au cycle :\",\"Status\":\"État\",\"Status is\":\"Statut client est\",\"Status is not\":\"Statut client n'est pas\",\"Student\":\"Étudiant\",\"student\":\"Étudiant\",\"Student :\":\"Étudiant :\",\"Student Attendance Overview\":\"Présences de l'étudiant\",\"Student Attendance Report\":\"Présences de l'étudiant\",\"Student details for\":\"Informations de l'étudiant\",\"Student Info\":\"Informations de l'étudiant\",\"students\":\"étudiants\",\"Students\":\"Étudiants\",\"Students to count in year total\":\"Étudiants à compter dans le total de l'année\",\"Students under 18, please add contact data from your legal representatives\":\"Les étudiants mineurs doivent ajouter le contact de leurs représentants légaux\",\"Students with no leadStatus\":\"Étudiants sans statut client\",\"teacher\":\"enseignant(e)\",\"TEACHER\":\"ENSEIGNANT(E)\",\"Teacher\":\"Enseignant(e)\",\"Teacher Dashboard\":\"Tableau de bord enseignant\",\"Teacher Leaves\":\"Congés\",\"Teachers\":\"Enseignants\",\"teachers\":\"enseignants\",\"The attendance record is incomplete for the following classes:\":\"La fiche de présence est incomplète pour les classes suivantes :\",\"The enrollment has been updated\":\"L'inscription a été mise à jour\",\"The information has successfully been saved\":\"L'information a été enregistrée\",\"The invoice has been generated\":\"La facture a été générée avec succès\",\"The invoice number has been saved\":\"Le numéro de facture a été enregistré\",\"The selected teacher is not available on this date\":\"Cet enseigant n'est pas disponible à ces dates\",\"This comment requires an action\":\"Ce commentaire demande une action\",\"This course has no skills yet\":\"Ce cours ne comporte aucune compétence\",\"This enrollment belongs to\":\"Cette inscription est liée à\",\"This is an absence notification for\":\"Ce message est une notification d'absence pour\",\"This is important, so that we can reach you in case of an emergency\":\"Ceci est important car cela nous permet de vous contacter en cas d'urgence\",\"This will erase all skills currently associated to the course\":\"Vous allez écraser les compétences associées au cours\",\"Thursday\":\"Jeudi\",\"TOTAL\":\"TOTAL\",\"Total\":\"Total\",\"Unavailable now, call for next session!\":\"Non disponible maintenant ; les appeler pour le prochain cycle !\",\"unjustified absence\":\"absence non-justifiée\",\"Unjustified Absence\":\"Absence non justifiée\",\"Upcoming Leaves\":\"Prochaines vacances\",\"Upload skillset file\":\"Charger un fichier de compétences\",\"Uptime Monitor\":\"Uptime Monitor\",\"Users\":\"Utilisateurs\",\"View\":\"Voir\",\"View Course Skills\":\"Voir les compétences du cours\",\"View Skills for Group\":\"Voir les compétences du groupe\",\"Volume\":\"Volume\",\"Wednesday\":\"Mercredi\",\"Weekly workable hours\":\"Volume de travail hebdomadaire\",\"When everything is ready, please confirm that your data is up-to-date\":\"Lorsque toutes les données sont à jour, vous pouvez valider et terminer le processus\",\"Worked Hours\":\"Heures travaillées\",\"year\":\"year\",\"Year\":\"Année\",\"Year Students\":\"Étudiants sur l'année\",\"years\":\"années\",\"Years\":\"Années\",\"years old\":\"ans\",\"You also need to add the invoice information here\":\"Vous devez aussi créer un contact pour la facture\",\"You may log in to view your results, and the comments from your teacher, if any\":\"Pour voir votre résultat et le commentaire de votre professeur, connectez-vous à la plateforme\",\"Your course result is available for\":\"Le résultat est disponible pour votre cours\",\"Your data has been saved\":\"Les informations ont été enregistrées\",\"Your picture has been saved\":\"Votre photo a été enregistrée\",\"Your comment has been saved\":\"Votre commentaire a été enregistré\"}");
 =======
+=======
+>>>>>>> add validation flash message
 /***/ "./resources/js/vue-i18n-locales.generated.js":
 /*!****************************************************!*\
   !*** ./resources/js/vue-i18n-locales.generated.js ***!
@@ -48452,6 +48676,9 @@ __webpack_require__.r(__webpack_exports__);
     }
   }
 });
+<<<<<<< HEAD
+>>>>>>> add validation flash message
+=======
 >>>>>>> add validation flash message
 
 /***/ }),
@@ -48464,7 +48691,11 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 module.exports = __webpack_require__(/*! /home/thomas/academico/resources/js/app.js */"./resources/js/app.js");
+=======
+module.exports = __webpack_require__(/*! /Users/damienbaudet/contribution/academico/resources/js/app.js */"./resources/js/app.js");
+>>>>>>> add validation flash message
 =======
 module.exports = __webpack_require__(/*! /Users/damienbaudet/contribution/academico/resources/js/app.js */"./resources/js/app.js");
 >>>>>>> add validation flash message
