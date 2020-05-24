@@ -40,7 +40,7 @@
             ></textarea>
             <div v-if="this.type == 'App\\Models\\Student'" class="form-group">
                 <label for="action">{{
-                    $t("front.This comment requires an action")
+                    $t("This comment requires an action")
                 }}</label>
                 <input
                     id="action"
@@ -55,7 +55,7 @@
                     class="btn btn-default"
                     @click="showEditField = false"
                 >
-                    {{ $t("front.Cancel") }}
+                    {{ $t("Cancel") }}
                 </button>
                 <button
                     type="button"

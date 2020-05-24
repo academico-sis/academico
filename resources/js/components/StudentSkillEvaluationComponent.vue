@@ -8,7 +8,7 @@
             <div class="card-body">
                 <table id="skillsTable" class="table table-striped">
                     <thead>
-                        <th>{{ $t("front.Skill") }}</th>
+                        <th>{{ $t("Skill") }}</th>
                         <th></th>
                         <th></th>
                         <th></th>

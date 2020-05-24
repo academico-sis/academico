@@ -1,7 +1,7 @@
 <template>
     <div class="card">
         <div class="card-header">
-            {{ $t("front.Lead Status") }}
+            {{ $t("Lead Status") }}
         </div>
 
         <div class="card-body">

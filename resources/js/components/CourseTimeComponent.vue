@@ -3,7 +3,7 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
-                    {{ $t("front.Add a new course time") }}
+                    {{ $t("Add a new course time") }}
                 </div>
 
                 <div class="card-body">
@@ -12,25 +12,25 @@
                             <th>
                                 <select id="day" v-model="day" name="day">
                                     <option value="1">{{
-                                        $t("front.Monday")
+                                        $t("Monday")
                                     }}</option>
                                     <option value="2">{{
-                                        $t("front.Tuesday")
+                                        $t("Tuesday")
                                     }}</option>
                                     <option value="3">{{
-                                        $t("front.Wednesday")
+                                        $t("Wednesday")
                                     }}</option>
                                     <option value="4">{{
-                                        $t("front.Thursday")
+                                        $t("Thursday")
                                     }}</option>
                                     <option value="5">{{
-                                        $t("front.Friday")
+                                        $t("Friday")
                                     }}</option>
                                     <option value="6">{{
-                                        $t("front.Saturday")
+                                        $t("Saturday")
                                     }}</option>
                                     <option value="0">{{
-                                        $t("front.Sunday")
+                                        $t("Sunday")
                                     }}</option>
                                 </select>
                             </th>

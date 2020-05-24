@@ -5,7 +5,10 @@ window.Vue = require('vue');
 Vue.use(require('vue-moment'));
 
 import VueInternationalization from 'vue-i18n';
-import Locale from './vue-i18n-locales.generated';
+const messages = {
+    en: require("../lang/en.json"),
+    fr: require("../lang/fr.json"),
+};
 
 Vue.use(VueInternationalization);
 
@@ -14,7 +17,7 @@ const lang = document.documentElement.lang.substr(0, 2);
 
 const i18n = new VueInternationalization({
     locale: lang,
-    messages: Locale
+    messages: messages
 });
 
 Vue.component('course-time-component', require('./components/CourseTimeComponent.vue').default);
