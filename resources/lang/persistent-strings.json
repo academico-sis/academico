@@ -41,5 +41,6 @@
     "Send invoice data to external accounting system",
     "Checkout",
     "Mark this enrollment as paid but do not send to accounting system",
-    "Your comment has been saved"
+    "Your comment has been saved",
+    "Refresh status"
 ]
