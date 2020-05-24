@@ -28000,7 +28000,11 @@ var render = function() {
     _c("div", { staticClass: "card-body" }, [
       _vm.isValidated
         ? _c("div", { staticClass: "alert alert-success" }, [
-            _vm._v("\n            Your comment has been saved\n        ")
+            _vm._v(
+              "\n            " +
+                _vm._s(_vm.$t("Your comment has been saved")) +
+                "\n        "
+            )
           ])
         : _vm._e(),
       _vm._v(" "),

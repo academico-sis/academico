@@ -15,7 +15,7 @@
 
         <div class="card-body">
             <div v-if="isValidated" class="alert alert-success">
-                Your comment has been saved
+                {{ $t('Your comment has been saved') }}
             </div>
             <ul>
                 <li v-for="(comment, index) in commentlist" :key="comment.id">
