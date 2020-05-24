@@ -4134,6 +4134,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+<<<<<<< HEAD
+=======
+//
+//
+//
+//
+//
+//
+//
+//
+>>>>>>> add validation flash message
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["comments", "id", "type", "route"],
   data: function data() {
@@ -4141,21 +4152,42 @@ __webpack_require__.r(__webpack_exports__);
       comment_body: null,
       action: false,
       showEditField: false,
+<<<<<<< HEAD
       errors: [],
       commentlist: this.comments
+=======
+      errors: null,
+      commentlist: this.comments,
+      isValidated: false
+>>>>>>> add validation flash message
     };
   },
   mounted: function mounted() {},
   methods: {
+<<<<<<< HEAD
     addComment: function addComment() {
       var _this = this;
 
+=======
+    showCommentForm: function showCommentForm() {
+      var _this = this;
+
+      this.showEditField = true;
+      this.$nextTick(function () {
+        _this.$refs.comment.focus();
+      });
+    },
+    addComment: function addComment() {
+      var _this2 = this;
+
+>>>>>>> add validation flash message
       axios.post(this.route, {
         body: this.comment_body,
         commentable_id: this.id,
         commentable_type: this.type,
         action: this.action
       }).then(function (response) {
+<<<<<<< HEAD
         _this.commentlist.push(response.data);
 
         _this.comment_body = null;
@@ -4171,6 +4203,28 @@ __webpack_require__.r(__webpack_exports__);
         _this2.$delete(_this2.commentlist, index);
       })["catch"](function (e) {
         _this2.errors.push(e);
+=======
+        _this2.commentlist.push(response.data);
+
+        _this2.comment_body = null;
+        _this2.showEditField = false;
+        _this2.errors = null;
+        _this2.isValidated = true;
+        setTimeout(function () {
+          _this2.isValidated = false;
+        }, 3000);
+      })["catch"](function (e) {
+        _this2.errors = e.response.data.errors.body[0];
+      });
+    },
+    deleteComment: function deleteComment(comment, index) {
+      var _this3 = this;
+
+      axios["delete"]("/comment/" + comment).then(function (response) {
+        _this3.$delete(_this3.commentlist, index);
+      })["catch"](function (e) {
+        _this3.errors.push(e);
+>>>>>>> add validation flash message
       });
     }
   }
@@ -25063,7 +25117,11 @@ var render = function() {
                   }
                 }
               },
+<<<<<<< HEAD
               [_vm._v(_vm._s(_vm.$t("Invoice Data")))]
+=======
+              [_vm._v(_vm._s(_vm.$t("front.Invoice Data")))]
+>>>>>>> add validation flash message
             )
           ])
         : _vm._e(),
@@ -25079,7 +25137,11 @@ var render = function() {
                   }
                 }
               },
+<<<<<<< HEAD
               [_vm._v(_vm._s(_vm.$t("Payment")))]
+=======
+              [_vm._v(_vm._s(_vm.$t("front.Payment")))]
+>>>>>>> add validation flash message
             )
           ])
         : _vm._e()
@@ -25117,7 +25179,11 @@ var render = function() {
                               "\n                                    " +
                                 _vm._s(enrollment.course.name) +
                                 "\n                                    " +
+<<<<<<< HEAD
                                 _vm._s(_vm.$t("for")) +
+=======
+                                _vm._s(_vm.$t("front.for")) +
+>>>>>>> add validation flash message
                                 "\n                                    " +
                                 _vm._s(enrollment.student.user.firstname) +
                                 "\n                                    " +
@@ -25209,7 +25275,11 @@ var render = function() {
                 _c("h4", [
                   _vm._v(
                     "\n                        " +
+<<<<<<< HEAD
                       _vm._s(_vm.$t("Total price")) +
+=======
+                      _vm._s(_vm.$t("front.Total price")) +
+>>>>>>> add validation flash message
                       ": $\n                        " +
                       _vm._s(_vm.shoppingCartTotal) +
                       "\n                    "
@@ -25230,7 +25300,12 @@ var render = function() {
                       [
                         _c("i", { staticClass: "la la-check" }),
                         _vm._v(
+<<<<<<< HEAD
                           _vm._s(_vm.$t("Confirm")) + "\n                    "
+=======
+                          _vm._s(_vm.$t("front.Confirm")) +
+                            "\n                    "
+>>>>>>> add validation flash message
                         )
                       ]
                     )
@@ -25244,7 +25319,11 @@ var render = function() {
               _c("div", { staticClass: "card-header" }, [
                 _vm._v(
                   "\n                    " +
+<<<<<<< HEAD
                     _vm._s(_vm.$t("Add products")) +
+=======
+                    _vm._s(_vm.$t("front.Add products")) +
+>>>>>>> add validation flash message
                     "\n                "
                 )
               ]),
@@ -25394,7 +25473,11 @@ var render = function() {
                         _c("span", { staticClass: "caret" }),
                         _vm._v(
                           "\n                                " +
+<<<<<<< HEAD
                             _vm._s(_vm.$t("Add discount")) +
+=======
+                            _vm._s(_vm.$t("front.Add discount")) +
+>>>>>>> add validation flash message
                             "\n                            "
                         )
                       ]
@@ -25463,7 +25546,11 @@ var render = function() {
                       [
                         _c("i", { staticClass: "la la-check" }),
                         _vm._v(
+<<<<<<< HEAD
                           _vm._s(_vm.$t("Select")) +
+=======
+                          _vm._s(_vm.$t("front.Select")) +
+>>>>>>> add validation flash message
                             "\n                        "
                         )
                       ]
@@ -25512,7 +25599,11 @@ var render = function() {
                         [
                           _c("i", { staticClass: "la la-check" }),
                           _vm._v(
+<<<<<<< HEAD
                             _vm._s(_vm.$t("Select")) +
+=======
+                            _vm._s(_vm.$t("front.Select")) +
+>>>>>>> add validation flash message
                               "\n                        "
                           )
                         ]
@@ -25544,7 +25635,11 @@ var render = function() {
               _c("div", { staticClass: "card-header" }, [
                 _vm._v(
                   "\n                    " +
+<<<<<<< HEAD
                     _vm._s(_vm.$t("Invoice Data")) +
+=======
+                    _vm._s(_vm.$t("front.Invoice Data")) +
+>>>>>>> add validation flash message
                     "\n                    "
                 ),
                 _c("div", { staticClass: "card-header-actions" }, [
@@ -25562,7 +25657,11 @@ var render = function() {
                         [
                           _c("i", { staticClass: "la la-check" }),
                           _vm._v(
+<<<<<<< HEAD
                             _vm._s(_vm.$t("Select")) +
+=======
+                            _vm._s(_vm.$t("front.Select")) +
+>>>>>>> add validation flash message
                               "\n                        "
                           )
                         ]
@@ -25750,7 +25849,11 @@ var render = function() {
                                 "\n                                    " +
                                   _vm._s(enrollment.course.name) +
                                   "\n                                    " +
+<<<<<<< HEAD
                                   _vm._s(_vm.$t("for")) +
+=======
+                                  _vm._s(_vm.$t("front.for")) +
+>>>>>>> add validation flash message
                                   "\n                                    " +
                                   _vm._s(enrollment.student.user.firstname) +
                                   "\n                                    " +
@@ -25814,7 +25917,11 @@ var render = function() {
               _c("div", { staticClass: "card-header" }, [
                 _vm._v(
                   "\n                    " +
+<<<<<<< HEAD
                     _vm._s(_vm.$t("Invoice Data")) +
+=======
+                    _vm._s(_vm.$t("front.Invoice Data")) +
+>>>>>>> add validation flash message
                     "\n                "
                 )
               ]),
@@ -25841,7 +25948,11 @@ var render = function() {
                 _c("h4", [
                   _vm._v(
                     "\n                        " +
+<<<<<<< HEAD
                       _vm._s(_vm.$t("Total price")) +
+=======
+                      _vm._s(_vm.$t("front.Total price")) +
+>>>>>>> add validation flash message
                       ": $\n                        " +
                       _vm._s(_vm.shoppingCartTotal) +
                       "\n                    "
@@ -25854,7 +25965,11 @@ var render = function() {
               _c("div", { staticClass: "card-header" }, [
                 _vm._v(
                   "\n                    " +
+<<<<<<< HEAD
                     _vm._s(_vm.$t("Payment method")) +
+=======
+                    _vm._s(_vm.$t("front.Payment method")) +
+>>>>>>> add validation flash message
                     "\n                "
                 )
               ]),
@@ -25863,9 +25978,19 @@ var render = function() {
                 _c("table", { staticClass: "table" }, [
                   _c("thead", [
                     _c("tr", [
+<<<<<<< HEAD
                       _c("th", [_vm._v(_vm._s(_vm.$t("Payment method")))]),
                       _vm._v(" "),
                       _c("th", [_vm._v(_vm._s(_vm.$t("Amount received")))]),
+=======
+                      _c("th", [
+                        _vm._v(_vm._s(_vm.$t("front.Payment method")))
+                      ]),
+                      _vm._v(" "),
+                      _c("th", [
+                        _vm._v(_vm._s(_vm.$t("front.Amount received")))
+                      ]),
+>>>>>>> add validation flash message
                       _vm._v(" "),
                       _c("th", [_vm._v(_vm._s(_vm.$t("Comment")))])
                     ])
@@ -26028,7 +26153,11 @@ var render = function() {
                                 [
                                   _vm._v(
                                     "\n                                                " +
+<<<<<<< HEAD
                                       _vm._s(_vm.$t("Add")) +
+=======
+                                      _vm._s(_vm.$t("front.Add")) +
+>>>>>>> add validation flash message
                                       "\n                                            "
                                   )
                                 ]
@@ -26079,7 +26208,11 @@ var render = function() {
                       _c("h4", [
                         _vm._v(
                           "\n                                    " +
+<<<<<<< HEAD
                             _vm._s(_vm.$t("Total received amount")) +
+=======
+                            _vm._s(_vm.$t("front.Total received amount")) +
+>>>>>>> add validation flash message
                             ":\n                                    $ " +
                             _vm._s(_vm.paidTotal) +
                             "\n                                "
@@ -26309,7 +26442,11 @@ var render = function() {
               _c("div", { staticClass: "card-header" }, [
                 _vm._v(
                   "\n                    " +
+<<<<<<< HEAD
                     _vm._s(_vm.$t("The invoice has been generated")) +
+=======
+                    _vm._s(_vm.$t("front.The invoice has been generated")) +
+>>>>>>> add validation flash message
                     "\n                "
                 )
               ]),
@@ -26318,7 +26455,11 @@ var render = function() {
                 _c("p", [
                   _vm._v(
                     "\n                        " +
+<<<<<<< HEAD
                       _vm._s(_vm.$t("Enrollment number")) +
+=======
+                      _vm._s(_vm.$t("front.Enrollment number")) +
+>>>>>>> add validation flash message
                       "\n                        " +
                       _vm._s(_vm.enrollments[0].id) +
                       "\n                    "
@@ -26598,7 +26739,11 @@ var render = function() {
                         [
                           _vm._v(
                             "\n                                " +
+<<<<<<< HEAD
                               _vm._s(_vm.$t("all")) +
+=======
+                              _vm._s(_vm.$t("front.all")) +
+>>>>>>> add validation flash message
                               "\n                            "
                           )
                         ]
@@ -26643,7 +26788,11 @@ var render = function() {
                     },
                     [
                       _c("option", { attrs: { value: "" } }, [
+<<<<<<< HEAD
                         _vm._v(_vm._s(_vm.$t("All teachers")))
+=======
+                        _vm._v(_vm._s(_vm.$t("front.All teachers")))
+>>>>>>> add validation flash message
                       ]),
                       _vm._v(" "),
                       _vm._l(this.teachers, function(teacher) {
@@ -26700,7 +26849,11 @@ var render = function() {
                         [
                           _vm._v(
                             "\n                                " +
+<<<<<<< HEAD
                               _vm._s(_vm.$t("all")) +
+=======
+                              _vm._s(_vm.$t("front.all")) +
+>>>>>>> add validation flash message
                               "\n                            "
                           )
                         ]
@@ -26814,7 +26967,11 @@ var render = function() {
                         [
                           _vm._v(
                             "\n                                " +
+<<<<<<< HEAD
                               _vm._s(_vm.$t("all")) +
+=======
+                              _vm._s(_vm.$t("front.all")) +
+>>>>>>> add validation flash message
                               "\n                            "
                           )
                         ]
@@ -26901,7 +27058,11 @@ var render = function() {
         ? _c("div", { staticClass: "col-md-8" }, [
             _vm._v(
               "\n            " +
+<<<<<<< HEAD
                 _vm._s(_vm.$t("Results are loading")) +
+=======
+                _vm._s(_vm.$t("front.Results are loading")) +
+>>>>>>> add validation flash message
                 "\n        "
             )
           ])
@@ -26911,7 +27072,11 @@ var render = function() {
         ? _c("div", { staticClass: "col-md-8" }, [
             _vm._v(
               "\n            " +
+<<<<<<< HEAD
                 _vm._s(_vm.$t("errorfetchingcourses")) +
+=======
+                _vm._s(_vm.$t("front.errorfetchingcourses")) +
+>>>>>>> add validation flash message
                 "\n        "
             )
           ])
@@ -26927,7 +27092,11 @@ var render = function() {
                   ? _c("p", [
                       _vm._v(
                         "\n                    " +
+<<<<<<< HEAD
                           _vm._s(_vm.$t("noresults")) +
+=======
+                          _vm._s(_vm.$t("front.noresults")) +
+>>>>>>> add validation flash message
                           "\n                "
                       )
                     ])
@@ -27052,7 +27221,13 @@ var render = function() {
                                             }),
                                             _vm._v(
                                               "\n                                        " +
+<<<<<<< HEAD
                                                 _vm._s(_vm.$t("Edit schedule"))
+=======
+                                                _vm._s(
+                                                  _vm.$t("front.Edit schedule")
+                                                )
+>>>>>>> add validation flash message
                                             )
                                           ]
                                         )
@@ -27078,7 +27253,13 @@ var render = function() {
                                             _vm._v(
                                               "\n                                        " +
                                                 _vm._s(
+<<<<<<< HEAD
                                                   _vm.$t("Create subcourse")
+=======
+                                                  _vm.$t(
+                                                    "front.Create subcourse"
+                                                  )
+>>>>>>> add validation flash message
                                                 ) +
                                                 "\n                                    "
                                             )
@@ -27107,7 +27288,11 @@ var render = function() {
                                             }),
                                             _vm._v(
                                               "\n                                        " +
+<<<<<<< HEAD
                                                 _vm._s(_vm.$t("Delete")) +
+=======
+                                                _vm._s(_vm.$t("front.Delete")) +
+>>>>>>> add validation flash message
                                                 "\n                                    "
                                             )
                                           ]
@@ -27195,7 +27380,11 @@ var render = function() {
                                       )
                                     ) +
                                     "\n                                " +
+<<<<<<< HEAD
                                     _vm._s(_vm.$t("spots left")) +
+=======
+                                    _vm._s(_vm.$t("front.spots left")) +
+>>>>>>> add validation flash message
                                     "\n                            "
                                 )
                               ]
@@ -27408,7 +27597,11 @@ var render = function() {
         _c("div", { staticClass: "card-header" }, [
           _vm._v(
             "\n                " +
+<<<<<<< HEAD
               _vm._s(_vm.$t("Add a new course time")) +
+=======
+              _vm._s(_vm.$t("front.Add a new course time")) +
+>>>>>>> add validation flash message
               "\n            "
           )
         ]),
@@ -27447,6 +27640,7 @@ var render = function() {
                   },
                   [
                     _c("option", { attrs: { value: "1" } }, [
+<<<<<<< HEAD
                       _vm._v(_vm._s(_vm.$t("Monday")))
                     ]),
                     _vm._v(" "),
@@ -27472,6 +27666,33 @@ var render = function() {
                     _vm._v(" "),
                     _c("option", { attrs: { value: "0" } }, [
                       _vm._v(_vm._s(_vm.$t("Sunday")))
+=======
+                      _vm._v(_vm._s(_vm.$t("front.Monday")))
+                    ]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "2" } }, [
+                      _vm._v(_vm._s(_vm.$t("front.Tuesday")))
+                    ]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "3" } }, [
+                      _vm._v(_vm._s(_vm.$t("front.Wednesday")))
+                    ]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "4" } }, [
+                      _vm._v(_vm._s(_vm.$t("front.Thursday")))
+                    ]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "5" } }, [
+                      _vm._v(_vm._s(_vm.$t("front.Friday")))
+                    ]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "6" } }, [
+                      _vm._v(_vm._s(_vm.$t("front.Saturday")))
+                    ]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "0" } }, [
+                      _vm._v(_vm._s(_vm.$t("front.Sunday")))
+>>>>>>> add validation flash message
                     ])
                   ]
                 )
@@ -27752,7 +27973,11 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card" }, [
     _c("div", { staticClass: "card-header" }, [
+<<<<<<< HEAD
       _vm._v("\n        " + _vm._s(_vm.$t("Lead Status")) + "\n    ")
+=======
+      _vm._v("\n        " + _vm._s(_vm.$t("front.Lead Status")) + "\n    ")
+>>>>>>> add validation flash message
     ]),
     _vm._v(" "),
     _c(
@@ -27910,11 +28135,19 @@ var render = function() {
     { staticClass: "table table-striped", attrs: { id: "skillsTable" } },
     [
       _c("thead", [
+<<<<<<< HEAD
         _c("td", [_vm._v(_vm._s(_vm.$t("Skill Type")))]),
         _vm._v(" "),
         _c("td", [_vm._v(_vm._s(_vm.$t("Level")))]),
         _vm._v(" "),
         _c("td", [_vm._v(_vm._s(_vm.$t("Skill")))])
+=======
+        _c("td", [_vm._v(_vm._s(_vm.$t("front.Skill Type")))]),
+        _vm._v(" "),
+        _c("td", [_vm._v(_vm._s(_vm.$t("front.Level")))]),
+        _vm._v(" "),
+        _c("td", [_vm._v(_vm._s(_vm.$t("front.Skill")))])
+>>>>>>> add validation flash message
       ]),
       _vm._v(" "),
       _c(
@@ -27966,7 +28199,11 @@ var render = function() {
             attrs: { type: "button" },
             on: {
               click: function($event) {
+<<<<<<< HEAD
                 _vm.showEditField = true
+=======
+                return _vm.showCommentForm()
+>>>>>>> add validation flash message
               }
             }
           },
@@ -27976,6 +28213,15 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "card-body" }, [
+<<<<<<< HEAD
+=======
+      _vm.isValidated
+        ? _c("div", { staticClass: "alert alert-success" }, [
+            _vm._v("\n            Your comment has been saved\n        ")
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+>>>>>>> add validation flash message
       _c(
         "ul",
         _vm._l(_vm.commentlist, function(comment, index) {
@@ -28008,6 +28254,15 @@ var render = function() {
     _vm._v(" "),
     _vm.showEditField
       ? _c("div", { staticClass: "card-footer" }, [
+<<<<<<< HEAD
+=======
+          _vm.errors
+            ? _c("div", { staticClass: "alert alert-danger" }, [
+                _vm._v("\n            " + _vm._s(_vm.errors) + "\n        ")
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+>>>>>>> add validation flash message
           _c("textarea", {
             directives: [
               {
@@ -28017,6 +28272,10 @@ var render = function() {
                 expression: "comment_body"
               }
             ],
+<<<<<<< HEAD
+=======
+            ref: "comment",
+>>>>>>> add validation flash message
             staticStyle: { width: "100%" },
             attrs: { id: "comment", name: "comment", rows: "3" },
             domProps: { value: _vm.comment_body },
@@ -28033,7 +28292,13 @@ var render = function() {
           this.type == "App\\Models\\Student"
             ? _c("div", { staticClass: "form-group" }, [
                 _c("label", { attrs: { for: "action" } }, [
+<<<<<<< HEAD
                   _vm._v(_vm._s(_vm.$t("This comment requires an action")))
+=======
+                  _vm._v(
+                    _vm._s(_vm.$t("front.This comment requires an action"))
+                  )
+>>>>>>> add validation flash message
                 ]),
                 _vm._v(" "),
                 _c("input", {
@@ -28091,7 +28356,11 @@ var render = function() {
               [
                 _vm._v(
                   "\n                " +
+<<<<<<< HEAD
                     _vm._s(_vm.$t("Cancel")) +
+=======
+                    _vm._s(_vm.$t("front.Cancel")) +
+>>>>>>> add validation flash message
                     "\n            "
                 )
               ]
@@ -28155,7 +28424,11 @@ var render = function() {
           { staticClass: "table table-striped", attrs: { id: "skillsTable" } },
           [
             _c("thead", [
+<<<<<<< HEAD
               _c("th", [_vm._v(_vm._s(_vm.$t("Skill")))]),
+=======
+              _c("th", [_vm._v(_vm._s(_vm.$t("front.Skill")))]),
+>>>>>>> add validation flash message
               _vm._v(" "),
               _c("th"),
               _vm._v(" "),
@@ -45868,21 +46141,33 @@ module.exports = function(module) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_i18n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-i18n */ "./node_modules/vue-i18n/dist/vue-i18n.esm.js");
+<<<<<<< HEAD
+=======
+/* harmony import */ var _vue_i18n_locales_generated__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./vue-i18n-locales.generated */ "./resources/js/vue-i18n-locales.generated.js");
+>>>>>>> add validation flash message
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 Vue.use(__webpack_require__(/*! vue-moment */ "./node_modules/vue-moment/dist/vue-moment.js"));
 
+<<<<<<< HEAD
 var messages = {
   en: __webpack_require__(/*! ../lang/en.json */ "./resources/lang/en.json"),
   fr: __webpack_require__(/*! ../lang/fr.json */ "./resources/lang/fr.json")
 };
+=======
+
+>>>>>>> add validation flash message
 Vue.use(vue_i18n__WEBPACK_IMPORTED_MODULE_0__["default"]);
 var lang = document.documentElement.lang.substr(0, 2); // or however you determine your current app locale
 
 var i18n = new vue_i18n__WEBPACK_IMPORTED_MODULE_0__["default"]({
   locale: lang,
+<<<<<<< HEAD
   messages: messages
+=======
+  messages: _vue_i18n_locales_generated__WEBPACK_IMPORTED_MODULE_1__["default"]
+>>>>>>> add validation flash message
 });
 Vue.component('course-time-component', __webpack_require__(/*! ./components/CourseTimeComponent.vue */ "./resources/js/components/CourseTimeComponent.vue")["default"]);
 Vue.component('cart-component', __webpack_require__(/*! ./components/CartComponent.vue */ "./resources/js/components/CartComponent.vue")["default"]);
@@ -46996,6 +47281,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+<<<<<<< HEAD
 /***/ "./resources/lang/en.json":
 /*!********************************!*\
   !*** ./resources/lang/en.json ***!
@@ -47015,6 +47301,1158 @@ module.exports = JSON.parse("{\"% of period max\":\"% of period max\",\"Absence 
 /***/ (function(module) {
 
 module.exports = JSON.parse("{\"% of period max\":\"% du maximum\",\"Absence Notification\":\"Notification d'absence\",\"absences\":\"absences\",\"Account Data\":\"Informations du compte\",\"Acquisition Rate\":\"Taux de fidélisation\",\"Actionnable Comments\":\"Action requise\",\"actions\":\"actions\",\"Actions\":\"Actions\",\"Active clients\":\"Clients actifs\",\"Add\":\"Ajouter\",\"Add a new contact\":\"Ajouter un contact\",\"Add a new course time\":\"Ajouter un horaire de cours\",\"Add a new grade type to course\":\"Ajouter un critère\",\"Add discount\":\"Ajouter une réduction\",\"Add Grade Type to Course\":\"Ajouter un critère\",\"Add products\":\"Ajouter un produit\",\"Additional Contact\":\"Autre contact\",\"Additional Contacts\":\"Contacts\",\"Additional Data\":\"Informations de l'étudiant(e)\",\"Address\":\"Addresse\",\"address\":\"addresse\",\"age\":\"âge\",\"all\":\"tous\",\"All teachers\":\"Tous les enseignants\",\"Amount received\":\"Valeur perçue\",\"Attach skills to course\":\"Ajouter des compétences au cours\",\"Attach to course\":\"Associer au cours\",\"Attendance\":\"Présences\",\"Attendance Ratio\":\"Pourcentage de présence\",\"Attendance Status\":\"Présence\",\"Attendance status\":\"Présence\",\"available course\":\"cours disponible\",\"available courses\":\"cours disponibles\",\"Back to course\":\"Revenir au cours\",\"Best regards,\":\"Cordialement,\",\"Birthdate\":\"Date de naissance\",\"birthdate\":\"date de naissance\",\"book\":\"livre\",\"books\":\"livres\",\"Books\":\"Livres\",\"Calendar for\":\"Calendrier de\",\"CALENDARS\":\"CALENDRIERS\",\"campus\":\"campus\",\"Campus\":\"Campus\",\"campuses\":\"campus\",\"Cancel\":\"Annuler\",\"Cart Details\":\"Détails du panier\",\"Change course\":\"Changer de cours\",\"Checkout\":\"Facturer\",\"Checkout enrollment\":\"Facturer cette inscription\",\"Children enrollments\":\"Inscriptions liées\",\"Classes without teacher\":\"Classes sans enseignant\",\"Client address\":\"Adresse du Client\",\"Client email\":\"Email du client\",\"Client ID Number\":\"Numéro d'identité du client\",\"Client name\":\"Nom du client\",\"Client Phone Number\":\"Numéro de téléphone du client\",\"Close\":\"Fermer\",\"comment\":\"commentaire\",\"comments\":\"commentaires\",\"Comments\":\"Commentaires\",\"config\":\"option\",\"configs\":\"options\",\"Continue without uploading a profile picture\":\"Continuer sans photo de profil\",\"coupon\":\"coupon\",\"coupons\":\"coupons\",\"Course\":\"Cours\",\"course\":\"cours\",\"Course :\":\"Cours :\",\"Course Details\":\"Détails du cours\",\"course evaluation\":\"évaluation des cours\",\"Course Evaluation\":\"Gérer l'évaluation\",\"course evaluations\":\"évaluations des cours\",\"Course info\":\"Informations du cours\",\"Course result\":\"Résultat du cours\",\"Course Result Details\":\"Résultat du cours\",\"Course Schedule\":\"Horaires du cours\",\"Courses\":\"Cours\",\"COURSES\":\"COURS\",\"courses\":\"cours\",\"Courses (list)\":\"Cours (liste)\",\"Create another Contact\":\"Créer un autre contact\",\"Create subcourse\":\"Créer un sous-cours\",\"Current Period\":\"Cycle en cours\",\"Currently enrolled\":\"Inscrits maintenant\",\"Date\":\"Date\",\"Date range\":\"Dates\",\"Default Periods on Academico\":\"Cycle par défaut\",\"Default Periods Selection\":\"Sélection des cycles par défaut\",\"Delete\":\"Supprimer\",\"Delete Enrollment\":\"Annuler l'inscription\",\"discount\":\"réduction\",\"Discount Value\":\"Valeur de la réduction\",\"Discount Value (0-100%)\":\"Valeur de la réduction (0-100%)\",\"discounts\":\"réductions\",\"Discounts\":\"Réductions\",\"Edit\":\"Editer\",\"Edit contact\":\"Modifier le contact\",\"Edit Course Skills\":\"Modifier les compétences du cours\",\"Edit Grades\":\"Modifier les notes\",\"Edit Invoice Number\":\"Editer le numéro de facture\",\"Edit schedule\":\"Editer les horaires\",\"Edit skills for course\":\"Modifier les compétences du cours\",\"Edit Student Skills\":\"Modifier les compétences de l'étudiant\",\"Email\":\"Email\",\"email\":\"email\",\"End\":\"Fin\",\"End Date\":\"Date de fin\",\"Enroll\":\"Inscrire\",\"Enroll new student\":\"Inscrire un étudiant\",\"enrollment\":\"inscription\",\"Enrollment date\":\"Date d'inscription\",\"Enrollment Details\":\"Détails de l'inscription\",\"Enrollment ID\":\"Numéro d'inscription\",\"Enrollment number\":\"Inscription #\",\"Enrollment successfully created\":\"Inscription enregistrée\",\"enrollments\":\"enrollments\",\"Enrollments\":\"Inscriptions\",\"Enrollments per Course\":\"Inscriptions par cours\",\"Enrollments per Rhythm\":\"Inscriptions par modalité\",\"Enrollments Period\":\"Cycle d'inscription\",\"errorfetchingcourses\":\"Erreur lors du chargement. Veuillez actualiser la page\",\"EVALUATION\":\"ÉVALUATION\",\"Evaluation method\":\"Type d'évaluation\",\"evaluation type\":\"type d'évaluation\",\"evaluation types\":\"types d'évaluation\",\"Evaluation Types\":\"Types d'évaluation\",\"event\":\"classe\",\"Event\":\"Classe\",\"events\":\"classes\",\"Events\":\"Classes\",\"Events with no course\":\"Classes sans cours\",\"Events with no teacher\":\"Classes sans professeur\",\"Exempt Attendance\":\"Dispenser de fiche de présence\",\"Export Course syllabus\":\"Exporter le syllabus\",\"Export skills\":\"Exporter les compétences\",\"External\":\"Externe\",\"External Course\":\"Cours externe\",\"External Courses\":\"Cours externes\",\"External Courses Report\":\"Rapport des cours externes\",\"fee\":\"frais administratif\",\"fees\":\"frais administratifs\",\"Fees\":\"Frais administratifs\",\"Finish update\":\"Terminer la mise à jour\",\"First Name\":\"Prénom\",\"Firstname\":\"Prénom\",\"for\":\"pour\",\"Former clients\":\"Anciens clients\",\"Friday\":\"Vendredi\",\"Go Home\":\"Page d'accueil\",\"grade type\":\"Type de note\",\"grade types\":\"Types de notes\",\"Grade Types\":\"Critères\",\"Grades\":\"Notes\",\"Head Count\":\"Inscriptions\",\"Hi\":\"Bonjour\",\"Hide Children\":\"Cacher les enfants\",\"Hide Children Courses\":\"Cacher les cours enfants\",\"Hide Parents\":\"Cacher les cours parents\",\"Hire Date\":\"Date d'embauche\",\"hours\":\"heures\",\"Hours Sold\":\"Heures vendues\",\"Hours Taught\":\"Henres enseignées\",\"HR\":\"RH\",\"Human Resources\":\"Ressources Humaines\",\"ID Number\":\"Numéro d'identité\",\"idnumber\":\"numéro d'identité\",\"Import skills\":\"Importer les compétences\",\"Inactive clients\":\"Clients inactifs\",\"Incomplete Attendance\":\"Fiches de présence incomplètes\",\"Internal\":\"Interne\",\"Internal Courses\":\"Cours internes\",\"Internal Settings\":\"Paramètres du système\",\"Invoice\":\"Facture\",\"Invoice Data\":\"Coordonnées de facturation\",\"Invoice ID\":\"ID de facture\",\"Invoices\":\"Factures\",\"Invoicing\":\"Facturation\",\"Is Enrolled in\":\"Inscrit en\",\"Is Not Enrolled in\":\"Non-inscrit en\",\"Jobs Queue\":\"File de travaux\",\"justified absence\":\"absence justifée\",\"Justified Absence\":\"Absence justifiée\",\"Last Enrollment\":\"Dernière inscription\",\"Last Name\":\"Nom\",\"Lastname\":\"Nom\",\"lead type\":\"catégorie Client\",\"lead types\":\"catégories Client\",\"Leads Status\":\"États client\",\"Leave\":\"Vacances\",\"leave\":\"vacance\",\"leaves\":\"vacances\",\"Length\":\"Durée\",\"level\":\"niveau\",\"Level\":\"Niveau\",\"levels\":\"niveaux\",\"Manage leaves\":\"Gestion des vacances\",\"Mark this enrollment as paid but do not send to accounting system\":\"Marquer cette inscription comme payée mais ne pas transmettre les données au système comptable\",\"Missing attendance\":\"Présences incomplètes\",\"Monday\":\"Lundi\",\"My Hours\":\"Mes heures\",\"My Schedule\":\"Mon emploi du temps\",\"name\":\"nom\",\"Name\":\"Nom\",\"New Course\":\"Nouveau cours\",\"New Students\":\"Nouveaux étudiants\",\"No Result\":\"Pas de résultat\",\"noresults\":\"Pas de cours avec les filtres sélectionnés\",\"Not yet enrolled: call them and update status!\":\"Pas encore inscrits. Les appeler et mettre à jour le statut !\",\"Number of Absences\":\"Nombre d'absences\",\"Number of Courses\":\"Nombre de cours\",\"Oh no\":\"Oh no\",\"on\":\"le\",\"or\":\"ou\",\"Overview\":\"Vue générale\",\"Paid Enrollments\":\"Inscriptions payées\",\"Partial presence (arrived late or left early)\":\"Présence partielle (retard ou départ anticipé)\",\"payment method\":\"méthode de paiement\",\"Payment methods\":\"Moyens de paiement\",\"payment methods\":\"méthodes de paiement\",\"Pedagogy\":\"Pedagogie\",\"Pending\":\"Impayés\",\"Pending Attendance\":\"Présences en attente\",\"Pending leads\":\"Clients potentiels\",\"Per course\":\"Par cours\",\"Per rhythm\":\"Par modalité\",\"period\":\"cycle\",\"Period\":\"Cycle\",\"Period Classes\":\"Cours ce cycle\",\"Period Max\":\"Max. pour le cycle\",\"Period Total\":\"Total ce cycle\",\"periods\":\"cycles\",\"Permanently ended their learning\":\"Ont terminé leur apprentissage\",\"Phone Number\":\"Téléphone\",\"Phone Numbers\":\"Numéros de téléphone\",\"Planned Hours\":\"Heures prévues\",\"Please check the additional contact data associated to your account\":\"Vérifiez les contacts associés à votre compte\",\"Please check your personal phone number(s)\":\"Merci de vérifier vos numéros de téléphone\",\"Please chose an image on your computer to update your profile picture\":\"Veuillez choisir une photo de profil\",\"Please fill in your profession and your institution (school, workplace).\":\"Merci d'indiquer votre profession et votre institution (école, travail)\",\"Potential clients\":\"Clients potentiels\",\"Pre-invoice ID\":\"Numéro de pré-facture\",\"Face-to-face\":\"Présentiel\",\"Present\":\"Présent\",\"Price\":\"Prix\",\"Product\":\"Produit\",\"Products\":\"Produits\",\"Profession\":\"Profession\",\"Profile Picture\":\"Photo de profil\",\"Project\":\"Projet\",\"Remote\":\"À distance\",\"remote event\":\"travail à distance\",\"remote events\":\"travaux à distance\",\"Remote Events\":\"Travaux à distance\",\"Remote Work\":\"Travail à distance\",\"REPORTS\":\"RAPPORTS\",\"resource Calendars\":\"Calendriers des ressources\",\"Resources\":\"Ressources\",\"result\":\"result\",\"Result\":\"Résultat\",\"Result Notification\":\"Notification de résultat\",\"result type\":\"type de résultat\",\"Result Types\":\"Échelles de résultat\",\"results\":\"résultats\",\"Results\":\"Résultats\",\"rhythm\":\"modalité\",\"Rhythm\":\"Modalité\",\"rhythms\":\"modalités\",\"Roles\":\"Rôles\",\"room\":\"room\",\"Room\":\"Salle\",\"rooms\":\"salles\",\"Saturday\":\"Samedi\",\"Save\":\"Enregistrer\",\"Save new Contact\":\"Enregistrer le contact\",\"Schedule\":\"Horaires\",\"Selected Period\":\"Période sélectionnée\",\"Settings\":\"Paramètres\",\"SETTINGS\":\"PARAMÈTRES\",\"Setup Dashboard\":\"Panel système\",\"share of students from previous period who were re-enrolled\":\"part des étudiants du cycle précédent qui se sont réinscrits\",\"Show Children Courses\":\"Montrer les cours enfants\",\"Since the beginning of this course, you have:\":\"Depuis le début du cours, vous avez\",\"skill\":\"compétence\",\"skill scale\":\"échelle de compétence\",\"Skill Scales\":\"Échelles de compétences\",\"skill scales\":\"échelles de compétences\",\"skill type\":\"type de compétence\",\"Skill Types\":\"Types de compétences\",\"skill types\":\"types de compétences\",\"skills\":\"compétences\",\"Skills\":\"Compétences\",\"Skills set was saved for the course\":\"Les compétences du cours ont été enregistrées\",\"Skillset File\":\"Fichier de compétences\",\"SPHERE\":\"SPHERE\",\"Spots\":\"Places\",\"spots left\":\"places disponibles\",\"Start\":\"Début\",\"Start Date\":\"Date de début\",\"Start from period:\":\"Commencer au cycle :\",\"Status\":\"État\",\"Status is\":\"Statut client est\",\"Status is not\":\"Statut client n'est pas\",\"Student\":\"Étudiant\",\"student\":\"Étudiant\",\"Student :\":\"Étudiant :\",\"Student Attendance Overview\":\"Présences de l'étudiant\",\"Student Attendance Report\":\"Présences de l'étudiant\",\"Student details for\":\"Informations de l'étudiant\",\"Student Info\":\"Informations de l'étudiant\",\"students\":\"étudiants\",\"Students\":\"Étudiants\",\"Students to count in year total\":\"Étudiants à compter dans le total de l'année\",\"Students under 18, please add contact data from your legal representatives\":\"Les étudiants mineurs doivent ajouter le contact de leurs représentants légaux\",\"Students with no leadStatus\":\"Étudiants sans statut client\",\"teacher\":\"enseignant(e)\",\"TEACHER\":\"ENSEIGNANT(E)\",\"Teacher\":\"Enseignant(e)\",\"Teacher Dashboard\":\"Tableau de bord enseignant\",\"Teacher Leaves\":\"Congés\",\"Teachers\":\"Enseignants\",\"teachers\":\"enseignants\",\"The attendance record is incomplete for the following classes:\":\"La fiche de présence est incomplète pour les classes suivantes :\",\"The enrollment has been updated\":\"L'inscription a été mise à jour\",\"The information has successfully been saved\":\"L'information a été enregistrée\",\"The invoice has been generated\":\"La facture a été générée avec succès\",\"The invoice number has been saved\":\"Le numéro de facture a été enregistré\",\"The selected teacher is not available on this date\":\"Cet enseigant n'est pas disponible à ces dates\",\"This comment requires an action\":\"Ce commentaire demande une action\",\"This course has no skills yet\":\"Ce cours ne comporte aucune compétence\",\"This enrollment belongs to\":\"Cette inscription est liée à\",\"This is an absence notification for\":\"Ce message est une notification d'absence pour\",\"This is important, so that we can reach you in case of an emergency\":\"Ceci est important car cela nous permet de vous contacter en cas d'urgence\",\"This will erase all skills currently associated to the course\":\"Vous allez écraser les compétences associées au cours\",\"Thursday\":\"Jeudi\",\"TOTAL\":\"TOTAL\",\"Total\":\"Total\",\"Unavailable now, call for next session!\":\"Non disponible maintenant ; les appeler pour le prochain cycle !\",\"unjustified absence\":\"absence non-justifiée\",\"Unjustified Absence\":\"Absence non justifiée\",\"Upcoming Leaves\":\"Prochaines vacances\",\"Upload skillset file\":\"Charger un fichier de compétences\",\"Uptime Monitor\":\"Uptime Monitor\",\"Users\":\"Utilisateurs\",\"View\":\"Voir\",\"View Course Skills\":\"Voir les compétences du cours\",\"View Skills for Group\":\"Voir les compétences du groupe\",\"Volume\":\"Volume\",\"Wednesday\":\"Mercredi\",\"Weekly workable hours\":\"Volume de travail hebdomadaire\",\"When everything is ready, please confirm that your data is up-to-date\":\"Lorsque toutes les données sont à jour, vous pouvez valider et terminer le processus\",\"Worked Hours\":\"Heures travaillées\",\"year\":\"year\",\"Year\":\"Année\",\"Year Students\":\"Étudiants sur l'année\",\"years\":\"années\",\"Years\":\"Années\",\"years old\":\"ans\",\"You also need to add the invoice information here\":\"Vous devez aussi créer un contact pour la facture\",\"You may log in to view your results, and the comments from your teacher, if any\":\"Pour voir votre résultat et le commentaire de votre professeur, connectez-vous à la plateforme\",\"Your course result is available for\":\"Le résultat est disponible pour votre cours\",\"Your data has been saved\":\"Les informations ont été enregistrées\",\"Your picture has been saved\":\"Votre photo a été enregistrée\",\"Your comment has been saved\":\"Votre commentaire a été enregistré\"}");
+=======
+/***/ "./resources/js/vue-i18n-locales.generated.js":
+/*!****************************************************!*\
+  !*** ./resources/js/vue-i18n-locales.generated.js ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  "en": {
+    "Unable to communicate with Accounting Service. This invoice will NOT be sent automatically to the Accounting system": "Unable to communicate with Accounting Service. This invoice will NOT be sent automatically to the Accounting system",
+    "% of period max": "% of period max",
+    "Absence Notification": "Absence Notification",
+    "absences": "absences",
+    "Account Data": "Account Data",
+    "Acquisition Rate": "Acquisition Rate",
+    "Actionnable Comments": "Actionnable Comments",
+    "Actions": "Actions",
+    "actions": "actions",
+    "Active clients": "Active clients",
+    "Add a new contact": "Add a new contact",
+    "Add a new grade type to course": "Add a new grade type to course",
+    "Add Grade Type to Course": "Add Grade Type to Course",
+    "Additional Contact": "Additional Contact",
+    "Additional Contacts": "Additional Contacts",
+    "Additional Data": "Additional Data",
+    "address": "address",
+    "Address": "Address",
+    "age": "age",
+    "Attach skills to course": "Attach skills to course",
+    "Attach to course": "Attach to course",
+    "Attendance": "Attendance",
+    "Attendance Ratio": "Attendance Ratio",
+    "Attendance Status": "Attendance Status",
+    "Attendance status": "Attendance status",
+    "available course": "available course",
+    "available courses": "available courses",
+    "Back to course": "Back to course",
+    "Best regards,": "Best regards,",
+    "birthdate": "birthdate",
+    "Birthdate": "Birthdate",
+    "Books": "Books",
+    "Calendar for": "Calendar for",
+    "CALENDARS": "CALENDARS",
+    "Campus": "Campus",
+    "campuses": "campuses",
+    "Cancel": "Cancel",
+    "Cart Details": "Cart Details",
+    "Change all Converted to Pending": "Change all Converted to Pending",
+    "Change course": "Change course",
+    "Children enrollments": "Children enrollments",
+    "Classes without teacher": "Classes without teacher",
+    "Client address": "Client address",
+    "Client email": "Client email",
+    "Client ID Number": "Client ID Number",
+    "Client name": "Client name",
+    "Client Phone Number": "Client Phone Number",
+    "Close": "Close",
+    "Comment": "Comment",
+    "Comments": "Comments",
+    "Continue without uploading a profile picture": "Continue without uploading a profile picture",
+    "course": "course",
+    "Course": "Course",
+    "Course :": "Course :",
+    "Course Details": "Course Details",
+    "Course Evaluation": "Course Evaluation",
+    "Course info": "Course info",
+    "Course result": "Course result",
+    "Course Result Details": "Course Result Details",
+    "Course Schedule": "Course Schedule",
+    "courses": "courses",
+    "COURSES": "COURSES",
+    "Courses": "Courses",
+    "Courses (list)": "Courses (list)",
+    "Create another Contact": "Create another Contact",
+    "Current Period": "Current Period",
+    "Currently enrolled": "Currently enrolled",
+    "Date": "Date",
+    "Date range": "Date range",
+    "Default Period": "Default Period",
+    "Default Periods Selection": "Default Periods Selection",
+    "Delete Enrollment": "Delete Enrollment",
+    "Discount Value": "Discount Value",
+    "Discount Value (0-100%)": "Discount Value (0-100%)",
+    "Discounts": "Discounts",
+    "Edit": "Edit",
+    "Edit contact": "Edit contact",
+    "Edit Course Skills": "Edit Course Skills",
+    "Edit Grades": "Edit Grades",
+    "Edit skills for course": "Edit skills for course",
+    "Edit Student Skills": "Edit Student Skills",
+    "email": "email",
+    "Email": "Email",
+    "End": "End",
+    "End Date": "End Date",
+    "Enroll": "Enroll",
+    "Enroll new student": "Enroll new student",
+    "Enrollment date": "Enrollment date",
+    "Enrollment Details": "Enrollment Details",
+    "Enrollment ID": "Enrollment ID",
+    "Enrollment successfully created": "Enrollment successfully created",
+    "Enrollments": "Enrollments",
+    "Enrollments per Course": "Enrollments per Course",
+    "Enrollments per Rhythm": "Enrollments per Rhythm",
+    "Enrollments Period": "Enrollments Period",
+    "EVALUATION": "EVALUATION",
+    "Evaluation method": "Evaluation method",
+    "Evaluation Types": "Evaluation Types",
+    "Event": "Event",
+    "Events": "Events",
+    "Events with no course": "Events with no course",
+    "Events with no teacher": "Events with no teacher",
+    "Exempt Attendance": "Exempt Attendance",
+    "Export Course syllabus": "Export Course syllabus",
+    "Export skills": "Export skills",
+    "External": "External",
+    "External Courses": "External Courses",
+    "External Courses Report": "External Courses Report",
+    "Fees": "Fees",
+    "Finish update": "Finish update",
+    "First Name": "First Name",
+    "Firstname": "Firstname",
+    "Former clients": "Former clients",
+    "Go Home": "Go Home",
+    "Grade Types": "Grade Types",
+    "Grades": "Grades",
+    "Head Count": "Head Count",
+    "Hi": "Hi",
+    "Hide Children": "Hide Children",
+    "Hide Children Courses": "Hide Children Courses",
+    "Hide Parents": "Hide Parents",
+    "Hire Date": "Hire Date",
+    "hours": "hours",
+    "Hours Sold": "Hours Sold",
+    "Hours Taught": "Hours Taught",
+    "HR": "HR",
+    "Human Resources": "Human Resources",
+    "ID Number": "ID Number",
+    "idnumber": "idnumber",
+    "Import skills": "Import skills",
+    "Inactive clients": "Inactive clients",
+    "Incomplete Attendance": "Incomplete Attendance",
+    "Internal": "Internal",
+    "Internal Courses": "Internal Courses",
+    "Internal Settings": "Internal Settings",
+    "Invoice": "Invoice",
+    "Invoice ID": "Invoice ID",
+    "Invoice Number": "Invoice Number",
+    "Invoices": "Invoices",
+    "Invoicing": "Invoicing",
+    "Is Enrolled in": "Is Enrolled in",
+    "Is Not Enrolled in": "Is Not Enrolled in",
+    "Jobs Queue": "Jobs Queue",
+    "justified absence": "justified absence",
+    "Last Enrollment": "Last Enrollment",
+    "Last Name": "Last Name",
+    "Lastname": "Lastname",
+    "Leads Status": "Leads Status",
+    "Leave": "Leave",
+    "Length": "Length",
+    "Level": "Level",
+    "levels": "levels",
+    "Manage leaves": "Manage leaves",
+    "Mark as paid without generating an invoice": "Mark as paid without generating an invoice",
+    "Missing attendance": "Missing attendance",
+    "My Hours": "My Hours",
+    "My Schedule": "My Schedule",
+    "name": "name",
+    "Name": "Name",
+    "New Course": "New Course",
+    "New pre-invoice": "New pre-invoice",
+    "New Students": "New Students",
+    "No Result": "No Result",
+    "Not yet enrolled: call them and update status!": "Not yet enrolled: call them and update status!",
+    "Number of Absences": "Number of Absences",
+    "Number of Courses": "Number of Courses",
+    "Oh no": "Oh no",
+    "on": "on",
+    "or": "or",
+    "Overview": "Overview",
+    "Paid Enrollments": "Paid Enrollments",
+    "Partial presence (arrived late or left early)": "Partial presence (arrived late or left early)",
+    "Payment methods": "Payment methods",
+    "Pedagogy": "Pedagogy",
+    "Pending": "Pending",
+    "Pending Attendance": "Pending Attendance",
+    "Pending leads": "Pending leads",
+    "Per course": "Per course",
+    "Per rhythm": "Per rhythm",
+    "Period": "Period",
+    "Period Classes": "Period Classes",
+    "Period Max": "Period Max",
+    "Period Total": "Period Total",
+    "periods": "periods",
+    "Permanently ended their learning": "Permanently ended their learning",
+    "Phone Number": "Phone Number",
+    "Phone Numbers": "Phone Numbers",
+    "Planned Hours": "Planned Hours",
+    "Please check the additional contact data associated to your account": "Please check the additional contact data associated to your account",
+    "Please check your personal phone number(s)": "Please check your personal phone number(s)",
+    "Please chose an image on your computer to update your profile picture": "Please chose an image on your computer to update your profile picture",
+    "Please fill in your profession and your institution (school, workplace).": "Please fill in your profession and your institution (school, workplace).",
+    "Potential clients": "Potential clients",
+    "Pre-invoice ID": "Pre-invoice ID",
+    "Presencial": "Presencial",
+    "Present": "Present",
+    "Price": "Price",
+    "Product": "Product",
+    "Products": "Products",
+    "Profession": "Profession",
+    "Profile Picture": "Profile Picture",
+    "Project": "Project",
+    "Remote": "Remote",
+    "Remote Events": "Remote Events",
+    "Remote Work": "Remote Work",
+    "REPORTS": "REPORTS",
+    "resource Calendars": "resource Calendars",
+    "Resources": "Resources",
+    "Result": "Result",
+    "Result Notification": "Result Notification",
+    "Result Types": "Result Types",
+    "Results": "Results",
+    "Rhythm": "Rhythm",
+    "rhythms": "rhythms",
+    "Roles": "Roles",
+    "Room": "Room",
+    "rooms": "rooms",
+    "Save": "Save",
+    "Save new Contact": "Save new Contact",
+    "Schedule": "Schedule",
+    "Scheduled Tasks": "Scheduled Tasks",
+    "Selected Period": "Selected Period",
+    "Settings": "Settings",
+    "SETTINGS": "SETTINGS",
+    "Setup Dashboard": "Setup Dashboard",
+    "share of students from previous period who were re-enrolled": "share of students from previous period who were re-enrolled",
+    "Show Children Courses": "Show Children Courses",
+    "Since the beginning of this course, you have:": "Since the beginning of this course, you have:",
+    "Skill Scales": "Skill Scales",
+    "Skill Types": "Skill Types",
+    "Skills": "Skills",
+    "Skills set was saved for the course": "Skills set was saved for the course",
+    "Skillset File": "Skillset File",
+    "SPHERE": "SPHERE",
+    "Spots": "Spots",
+    "Start": "Start",
+    "Start Date": "Start Date",
+    "Start from period:": "Start from period:",
+    "Status": "Status",
+    "Status is": "Status is",
+    "Status is not": "Status is not",
+    "Student": "Student",
+    "student": "student",
+    "Student :": "Student :",
+    "Student Attendance Overview": "Student Attendance Overview",
+    "Student Attendance Report": "Student Attendance Report",
+    "Student details for": "Student details for",
+    "Student Info": "Student Info",
+    "Students": "Students",
+    "students": "students",
+    "Students to count in year total": "Students to count in year total",
+    "Students under 18, please add contact data from your legal representatives": "Students under 18, please add contact data from your legal representatives",
+    "Students with no leadStatus": "Students with no leadStatus",
+    "Teacher": "Teacher",
+    "TEACHER": "TEACHER",
+    "Teacher Dashboard": "Teacher Dashboard",
+    "Teacher Leaves": "Teacher Leaves",
+    "teachers": "teachers",
+    "Teachers": "Teachers",
+    "The attendance record is incomplete for the following classes:": "The attendance record is incomplete for the following classes:",
+    "The enrollment has been updated": "The enrollment has been updated",
+    "The information has successfully been saved": "The information has successfully been saved",
+    "The invoice number has been saved": "The invoice number has been saved",
+    "The selected teacher is not available on this date": "The selected teacher is not available on this date",
+    "This course has no skills yet": "This course has no skills yet",
+    "This enrollment belongs to": "This enrollment belongs to",
+    "This is an absence notification for": "This is an absence notification for",
+    "This is important, so that we can reach you in case of an emergency": "This is important, so that we can reach you in case of an emergency",
+    "This will erase all skills currently associated to the course": "This will erase all skills currently associated to the course",
+    "TOTAL": "TOTAL",
+    "Total": "Total",
+    "Unavailable now, call for next session!": "Unavailable now, call for next session!",
+    "unjustified absence": "unjustified absence",
+    "Upcoming Leaves": "Upcoming Leaves",
+    "Upload skillset file": "Upload skillset file",
+    "Users": "Users",
+    "View": "View",
+    "View Course Skills": "View Course Skills",
+    "View Skills for Group": "View Skills for Group",
+    "Volume": "Volume",
+    "Weekly workable hours": "Weekly workable hours",
+    "When everything is ready, please confirm that your data is up-to-date": "When everything is ready, please confirm that your data is up-to-date",
+    "Worked Hours": "Worked Hours",
+    "Year": "Year",
+    "Year Students": "Year Students",
+    "Years": "Years",
+    "years old": "years old",
+    "You also need to add the invoice information here": "You also need to add the invoice information here",
+    "You may log in to view your results, and the comments from your teacher, if any": "You may log in to view your results, and the comments from your teacher, if any",
+    "Your course result is available for": "Your course result is available for",
+    "Your data has been saved": "Your data has been saved",
+    "Your picture has been saved": "Your picture has been saved",
+    "pagination": {
+      "previous": "&laquo; Previous",
+      "next": "Next &raquo;"
+    },
+    "auth": {
+      "failed": "These credentials do not match our records.",
+      "throttle": "Too many login attempts. Please try again in {seconds} seconds."
+    },
+    "passwords": {
+      "password": "Passwords must be at least six characters and match the confirmation.",
+      "reset": "Your password has been reset!",
+      "sent": "We have e-mailed your password reset link!",
+      "token": "This password reset token is invalid.",
+      "user": "We can't find a user with that e-mail address."
+    },
+    "front": {
+      "Add a new course time": "Add a new course time",
+      "Monday": "Monday",
+      "Tuesday": "Tuesday",
+      "Wednesday": "Wednesday",
+      "Thursday": "Thursday",
+      "Friday": "Friday",
+      "Saturday": "Saturday",
+      "Sunday": "Sunday",
+      "Justified Absence": "Justified Absence",
+      "Unjustified Absence": "Unjustified Absence",
+      "Invoice Data": "Invoice Data",
+      "Payment": "Payment",
+      "for": "for",
+      "Total price": "Total price",
+      "Confirm": "Confirm",
+      "Add products": "Add products",
+      "Add discount": "Add discount",
+      "Select": "Select",
+      "Payment method": "Payment method",
+      "Amount received": "Amount received",
+      "Add": "Add",
+      "Total received amount": "Total received amount",
+      "The invoice has been generated": "The invoice has been generated",
+      "Enrollment number": "Enrollment number",
+      "Lead Status": "Lead Status",
+      "Skill Type": "Skill Type",
+      "Level": "Level",
+      "Skill": "Skill",
+      "This comment requires an action": "This comment requires an action",
+      "Cancel": "Cancel",
+      "Results are loading": "Results are loading",
+      "errorfetchingcourses": "Unable to fetch courses. Try to refresh the page!",
+      "All teachers": "All teachers",
+      "Edit schedule": "Edit schedule",
+      "Create subcourse": "Create subcourse",
+      "noresults": "No courses with the selected filers",
+      "all": "all",
+      "Delete": "Delete",
+      "spots left": "spots left",
+      "Send invoice data to external accounting system": "Send invoice data to external accounting system",
+      "Checkout": "Checkout",
+      "Mark this enrollment as paid but do not send to accounting system": "Mark this enrollment as paid but do not send to accounting system"
+    },
+    "validation": {
+      "accepted": "The {attribute} must be accepted.",
+      "active_url": "The {attribute} is not a valid URL.",
+      "after": "The {attribute} must be a date after {date}.",
+      "after_or_equal": "The {attribute} must be a date after or equal to {date}.",
+      "alpha": "The {attribute} may only contain letters.",
+      "alpha_dash": "The {attribute} may only contain letters, numbers, dashes and underscores.",
+      "alpha_num": "The {attribute} may only contain letters and numbers.",
+      "array": "The {attribute} must be an array.",
+      "before": "The {attribute} must be a date before {date}.",
+      "before_or_equal": "The {attribute} must be a date before or equal to {date}.",
+      "between": {
+        "numeric": "The {attribute} must be between {min} and {max}.",
+        "file": "The {attribute} must be between {min} and {max} kilobytes.",
+        "string": "The {attribute} must be between {min} and {max} characters.",
+        "array": "The {attribute} must have between {min} and {max} items."
+      },
+      "boolean": "The {attribute} field must be true or false.",
+      "confirmed": "The {attribute} confirmation does not match.",
+      "date": "The {attribute} is not a valid date.",
+      "date_equals": "The {attribute} must be a date equal to {date}.",
+      "date_format": "The {attribute} does not match the format {format}.",
+      "different": "The {attribute} and {other} must be different.",
+      "digits": "The {attribute} must be {digits} digits.",
+      "digits_between": "The {attribute} must be between {min} and {max} digits.",
+      "dimensions": "The {attribute} has invalid image dimensions.",
+      "distinct": "The {attribute} field has a duplicate value.",
+      "email": "The {attribute} must be a valid email address.",
+      "exists": "The selected {attribute} is invalid.",
+      "file": "The {attribute} must be a file.",
+      "filled": "The {attribute} field must have a value.",
+      "gt": {
+        "numeric": "The {attribute} must be greater than {value}.",
+        "file": "The {attribute} must be greater than {value} kilobytes.",
+        "string": "The {attribute} must be greater than {value} characters.",
+        "array": "The {attribute} must have more than {value} items."
+      },
+      "gte": {
+        "numeric": "The {attribute} must be greater than or equal {value}.",
+        "file": "The {attribute} must be greater than or equal {value} kilobytes.",
+        "string": "The {attribute} must be greater than or equal {value} characters.",
+        "array": "The {attribute} must have {value} items or more."
+      },
+      "image": "The {attribute} must be an image.",
+      "in": "The selected {attribute} is invalid.",
+      "in_array": "The {attribute} field does not exist in {other}.",
+      "integer": "The {attribute} must be an integer.",
+      "ip": "The {attribute} must be a valid IP address.",
+      "ipv4": "The {attribute} must be a valid IPv4 address.",
+      "ipv6": "The {attribute} must be a valid IPv6 address.",
+      "json": "The {attribute} must be a valid JSON string.",
+      "lt": {
+        "numeric": "The {attribute} must be less than {value}.",
+        "file": "The {attribute} must be less than {value} kilobytes.",
+        "string": "The {attribute} must be less than {value} characters.",
+        "array": "The {attribute} must have less than {value} items."
+      },
+      "lte": {
+        "numeric": "The {attribute} must be less than or equal {value}.",
+        "file": "The {attribute} must be less than or equal {value} kilobytes.",
+        "string": "The {attribute} must be less than or equal {value} characters.",
+        "array": "The {attribute} must not have more than {value} items."
+      },
+      "max": {
+        "numeric": "The {attribute} may not be greater than {max}.",
+        "file": "The {attribute} may not be greater than {max} kilobytes.",
+        "string": "The {attribute} may not be greater than {max} characters.",
+        "array": "The {attribute} may not have more than {max} items."
+      },
+      "mimes": "The {attribute} must be a file of type: {values}.",
+      "mimetypes": "The {attribute} must be a file of type: {values}.",
+      "min": {
+        "numeric": "The {attribute} must be at least {min}.",
+        "file": "The {attribute} must be at least {min} kilobytes.",
+        "string": "The {attribute} must be at least {min} characters.",
+        "array": "The {attribute} must have at least {min} items."
+      },
+      "not_in": "The selected {attribute} is invalid.",
+      "not_regex": "The {attribute} format is invalid.",
+      "numeric": "The {attribute} must be a number.",
+      "present": "The {attribute} field must be present.",
+      "regex": "The {attribute} format is invalid.",
+      "required": "The {attribute} field is required.",
+      "required_if": "The {attribute} field is required when {other} is {value}.",
+      "required_unless": "The {attribute} field is required unless {other} is in {values}.",
+      "required_with": "The {attribute} field is required when {values} is present.",
+      "required_with_all": "The {attribute} field is required when {values} are present.",
+      "required_without": "The {attribute} field is required when {values} is not present.",
+      "required_without_all": "The {attribute} field is required when none of {values} are present.",
+      "same": "The {attribute} and {other} must match.",
+      "size": {
+        "numeric": "The {attribute} must be {size}.",
+        "file": "The {attribute} must be {size} kilobytes.",
+        "string": "The {attribute} must be {size} characters.",
+        "array": "The {attribute} must contain {size} items."
+      },
+      "starts_with": "The {attribute} must start with one of the following: {values}",
+      "string": "The {attribute} must be a string.",
+      "timezone": "The {attribute} must be a valid zone.",
+      "unique": "The {attribute} has already been taken.",
+      "uploaded": "The {attribute} failed to upload.",
+      "url": "The {attribute} format is invalid.",
+      "uuid": "The {attribute} must be a valid UUID.",
+      "custom": {
+        "attribute-name": {
+          "rule-name": "custom-message"
+        }
+      },
+      "attributes": []
+    }
+  },
+  "es": {
+    "Unable to communicate with Accounting Service. This invoice will NOT be sent automatically to the Accounting system": "El servidor de contabilidad no esta disponible. La factura NO sera generada automaticamente",
+    "% of period max": "% del máx. para la sesión",
+    "Absence Notification": "Notificacion de ausencia",
+    "absences": "ausencias",
+    "Account Data": "Datos de la cuenta",
+    "Acquisition Rate": "Tasa de conservación de alumnos",
+    "Actionnable Comments": "Requiere acción",
+    "Actions": "Acciones",
+    "actions": "acciones",
+    "Active clients": "activos",
+    "Add a new contact": "Añadir un contacto",
+    "Add a new grade type to course": "Añadir un criterio de evaluación al curso",
+    "Add Grade Type to Course": "Añadir un criterio de evaluación al curso",
+    "Additional Contact": "Contacto addicional",
+    "Additional Contacts": "Contactos",
+    "Additional Data": "Datos del estudiante",
+    "address": "dirección",
+    "Address": "Dirección",
+    "age": "edad",
+    "Attach skills to course": "Agregar competencias al curso",
+    "Attach to course": "Asociar al curso",
+    "Attendance": "Asistencia",
+    "Attendance Ratio": "Percentaje de asistencia",
+    "Attendance Status": "Asistencia",
+    "Attendance status": "Asistencia",
+    "available course": "curso disponible",
+    "available courses": "cursos disponibles",
+    "Back to course": "Volver al curso",
+    "Best regards,": "Saludos cordiales,",
+    "birthdate": "fecha de nacimiento",
+    "Birthdate": "Fecha de nacimiento",
+    "Books": "Libros",
+    "Calendar for": "Calendario de",
+    "CALENDARS": "CALENDARIOS",
+    "Campus": "Campus",
+    "campuses": "campus",
+    "Cancel": "Cancelar",
+    "Cart Details": "Detalles del carrito",
+    "Change all Converted to Pending": "Cambiar todos los Converted a Pending",
+    "Change course": "Cambiar curso",
+    "Children enrollments": "Matriculas hijas",
+    "Classes without teacher": "Classes sin profesor",
+    "Client address": "Dirección del cliente",
+    "Client email": "Correo electrónico del cliente",
+    "Client ID Number": "Cédula del cliente",
+    "Client name": "Nombre del cliente",
+    "Client Phone Number": "Teléfono del cliente",
+    "Close": "Cerrar",
+    "Comment": "Commentario",
+    "Comments": "Commentarios",
+    "Continue without uploading a profile picture": "Seguir sin subir una foto",
+    "course": "curso",
+    "Course": "Curso",
+    "Course :": "Curso :",
+    "Course Details": "Detalles del curso",
+    "Course Evaluation": "Evaluacón de los cursos",
+    "Course info": "Información del curso",
+    "Course result": "Resultado del curso",
+    "Course Result Details": "Detalles del resultado",
+    "Course Schedule": "Horarios del curso",
+    "courses": "cursos",
+    "COURSES": "CURSOS",
+    "Courses": "Cursos",
+    "Courses (list)": "Cursos (listado)",
+    "Create another Contact": "Agregar otro contacto",
+    "Current Period": "Periodo actual",
+    "Currently enrolled": "Estan matriculados ahora",
+    "Date": "Fecha",
+    "Date range": "Fechas",
+    "Default Period": "Periodo por defecto",
+    "Default Periods Selection": "Seleccionar los periodo por defecto",
+    "Delete Enrollment": "Eliminar la matricula",
+    "Discount Value": "Valor del descuento",
+    "Discount Value (0-100%)": "Valor del descuento (0-100%)",
+    "Discounts": "Descuentos",
+    "Edit": "Editar",
+    "Edit contact": "Editar contacto",
+    "Edit Course Skills": "Modificar las competencias del curso",
+    "Edit Grades": "Modificar notas",
+    "Edit skills for course": "Modificar las competencias del curso",
+    "Edit Student Skills": "Evaluar las competencias del estudiante",
+    "email": "correo electrónico",
+    "Email": "Correo electrónico",
+    "End": "Fin",
+    "End Date": "Fecha de fin",
+    "Enroll": "Matricular",
+    "Enroll new student": "Matricular nuevo estudiante",
+    "Enrollment date": "Fecha de matricula",
+    "Enrollment Details": "Detalles de la matricula",
+    "Enrollment ID": "Número de la matricula",
+    "Enrollment successfully created": "La matricula ha sido creada con éxito",
+    "Enrollments": "Matriculas",
+    "Enrollments per Course": "Matriculas per curso",
+    "Enrollments per Rhythm": "Matriculas per modalidad",
+    "Enrollments Period": "Periodo de matriculas",
+    "EVALUATION": "EVALUACIÓN",
+    "Evaluation method": "Tipo de evaluación",
+    "Evaluation Types": "Tipos de evaluación",
+    "Event": "Clase",
+    "Events": "Clases",
+    "Events with no course": "Clases sin curso",
+    "Events with no teacher": "Clases sin profesor",
+    "Exempt Attendance": "Exentar Asistencia",
+    "Export Course syllabus": "Exportar el silabo",
+    "Export skills": "Exportar las competencias",
+    "External": "Externos",
+    "External Courses": "Cursos externos",
+    "External Courses Report": "Reporte de cursos externos",
+    "Fees": "Gastos administrativos",
+    "Finish update": "Finalizar actualización",
+    "First Name": "Nombres",
+    "Firstname": "Nombres",
+    "Former clients": "Clientes antiguos",
+    "Go Home": "Pagina principal",
+    "Grade Types": "Tipos de notas",
+    "Grades": "Notas",
+    "Head Count": "Número de inscripciones",
+    "Hi": "Hola",
+    "Hide Children": "Ocultar cursos hijos",
+    "Hide Children Courses": "Ocultar los cursos hijos",
+    "Hide Parents": "Ocultar los cursos padres",
+    "Hire Date": "Fecha de contratación",
+    "hours": "horas",
+    "Hours Sold": "Horas-estudiantes",
+    "Hours Taught": "Horas-profesores",
+    "HR": "RRHH",
+    "Human Resources": "Recursos Humanos",
+    "ID Number": "Cédula",
+    "idnumber": "cédula",
+    "Import skills": "Importar competencias",
+    "Inactive clients": "Inactivos",
+    "Incomplete Attendance": "Asistencia pendiente",
+    "Internal": "Internos",
+    "Internal Courses": "Cursos internos",
+    "Internal Settings": "Opciones del sistema",
+    "Invoice": "Factura",
+    "Invoice ID": "ID de factura",
+    "Invoice Number": "Número de factura",
+    "Invoices": "Factura(s)",
+    "Invoicing": "Facturación",
+    "Is Enrolled in": "Matriculado en",
+    "Is Not Enrolled in": "No matriculado en",
+    "Jobs Queue": "Cola de trabajo",
+    "justified absence": "ausencia justificada",
+    "Last Enrollment": "Última matricula",
+    "Last Name": "Apellidos",
+    "Lastname": "Apellidos",
+    "Leads Status": "Estado de client",
+    "Leave": "Vacaciones",
+    "Length": "Tiempo",
+    "Level": "Nivel",
+    "levels": "niveles",
+    "Manage leaves": "Gestion de vacaciones",
+    "Mark as paid without generating an invoice": "Marcar como facturada sin generar factura",
+    "Missing attendance": "Asistencia incompleta",
+    "My Hours": "Mis horas",
+    "My Schedule": "Mi calendario",
+    "name": "Nombre",
+    "Name": "Nombre",
+    "New Course": "Nuevo curso",
+    "New pre-invoice": "Nueva prefactura",
+    "New Students": "Nuevos estudiantes",
+    "No Result": "No hay resultado",
+    "Not yet enrolled: call them and update status!": "Todavia no estan matriculados. Llamar y cambiar estado!",
+    "Number of Absences": "Número de ausencias",
+    "Number of Courses": "Número de cursos",
+    "Oh no": "Oh no",
+    "on": "el",
+    "or": "o",
+    "Overview": "Vista general",
+    "Paid Enrollments": "Matriculas pagadas",
+    "Partial presence (arrived late or left early)": "Presencia parcial (llegó tarde o salió temprano)",
+    "Payment methods": "Formas de pago",
+    "Pedagogy": "Pedagogía",
+    "Pending": "Pendientes",
+    "Pending Attendance": "Asistencia pendiente",
+    "Pending leads": "Clientes potenciales",
+    "Per course": "Per curso",
+    "Per rhythm": "Per modalidad",
+    "Period": "Sessión",
+    "Period Classes": "Clases del periodo",
+    "Period Max": "Máximo por periodo",
+    "Period Total": "Total por periodo",
+    "periods": "sessiones",
+    "Permanently ended their learning": "Acabó su aprendizaje",
+    "Phone Number": "Número de teléfono",
+    "Phone Numbers": "Números de télefono",
+    "Planned Hours": "Horas previstas",
+    "Please check the additional contact data associated to your account": "Por favor, verifique los datos de contacto addicional vinculados a su cuenta",
+    "Please check your personal phone number(s)": "Por favor verifique su(s) numero(s) de teléfono",
+    "Please chose an image on your computer to update your profile picture": "Por favor sube una foto para su perfil",
+    "Please fill in your profession and your institution (school, workplace).": "Por favor indique su profesión y institución (escuela, trabajo)",
+    "Potential clients": "Clientes potenciales",
+    "Pre-invoice ID": "Número de prefactura",
+    "Presencial": "Presencial",
+    "Present": "Presente",
+    "Price": "Precio",
+    "Product": "Producto",
+    "Products": "Productos",
+    "Profession": "Profesión",
+    "Profile Picture": "Foto de perfil",
+    "Project": "Proyecto",
+    "Remote": "A distancia",
+    "Remote Events": "Eventos a distancia",
+    "Remote Work": "Trabajo a distancia",
+    "REPORTS": "REPORTES",
+    "resource Calendars": "Calendarios de recursos",
+    "Resources": "Recursos",
+    "Result": "Resultado",
+    "Result Notification": "Notificación de resultado",
+    "Result Types": "Tipos de resultados",
+    "Results": "Resultados",
+    "Rhythm": "Modalidad",
+    "rhythms": "modalidades",
+    "Roles": "Papeles",
+    "Room": "Aula",
+    "rooms": "aulas",
+    "Save": "Guardar",
+    "Save new Contact": "Guardar el contacto",
+    "Schedule": "Horarios",
+    "Scheduled Tasks": "Tareas programadas",
+    "Selected Period": "Sesión",
+    "Settings": "Opciones",
+    "SETTINGS": "OPCIONES",
+    "Setup Dashboard": "Monitoreo del sistema",
+    "share of students from previous period who were re-enrolled": "porcentaje de los estudiantes del periodo anterior matriculados en este periodo",
+    "Show Children Courses": "Mostrar los cursos hijos",
+    "Since the beginning of this course, you have:": "Desde el inicio del curso, tiene:",
+    "Skill Scales": "Niveles de competencia",
+    "Skill Types": "Tipos de competencias",
+    "Skills": "Competencias",
+    "Skills set was saved for the course": "Las competencias del curso han sido guardadas.",
+    "Skillset File": "Archivo de competencias",
+    "SPHERE": "SPHERE",
+    "Spots": "Cupos",
+    "Start": "Inicio",
+    "Start Date": "Fecha de inicio",
+    "Start from period:": "Inicar con periodo:",
+    "Status": "Estado",
+    "Status is": "Estado es",
+    "Status is not": "Estado no es",
+    "Student": "Estudiante",
+    "student": "estudiante",
+    "Student :": "Estudiante :",
+    "Student Attendance Overview": "Reporte de asistencia del estudiante",
+    "Student Attendance Report": "Reporte de asistencia del estudiante",
+    "Student details for": "Detalles del estudiante",
+    "Student Info": "Información del estudiante",
+    "Students": "Estudiantes",
+    "students": "estudiantes",
+    "Students to count in year total": "Estudiantes contabilizados en total del año",
+    "Students under 18, please add contact data from your legal representatives": "Estudiantes menores de edad, por favor agregar los datos de sus representates legales",
+    "Students with no leadStatus": "Estudiantes sin estado cliente",
+    "Teacher": "Profesor",
+    "TEACHER": "PROFESOR",
+    "Teacher Dashboard": "Panel del Profesor",
+    "Teacher Leaves": "Vacaciones",
+    "teachers": "profesores",
+    "Teachers": "Profesores",
+    "The attendance record is incomplete for the following classes:": "La asistancia esta incompleta para las clases siguientes:",
+    "The enrollment has been updated": "La matricula ha sido guardada",
+    "The information has successfully been saved": "La información ha sido guardada",
+    "The invoice number has been saved": "El número de factura ha sido guardado",
+    "The selected teacher is not available on this date": "Este profesor no está disponibles para estas fechas",
+    "This course has no skills yet": "Este curso no tiene competencias",
+    "This enrollment belongs to": "Esta matricula esta relacionada con",
+    "This is an absence notification for": "Este es una notifiación de ausencia para",
+    "This is important, so that we can reach you in case of an emergency": "Eso es importante para poder recibir mensajes importantes en caso de emergencia",
+    "This will erase all skills currently associated to the course": "Las competencias asociadas al curso serán elimidadas",
+    "TOTAL": "TOTAL",
+    "Total": "Total",
+    "Unavailable now, call for next session!": "No esta disponible ahora, llamar para la proxima sesión!",
+    "unjustified absence": "ausencia no justificada",
+    "Upcoming Leaves": "Proximas vacaciones",
+    "Upload skillset file": "Cargar archivo de competencias",
+    "Users": "Usuarios",
+    "View": "Ver",
+    "View Course Skills": "Ver las competencias del curso",
+    "View Skills for Group": "Ver las competencias del grupo",
+    "Volume": "Volumen",
+    "Weekly workable hours": "Horas por semana",
+    "When everything is ready, please confirm that your data is up-to-date": "Cuando todos los datos estan correctos, confirme y finalize el tramite",
+    "Worked Hours": "Horas enseñadas",
+    "Year": "Año",
+    "Year Students": "Estudiantes del año",
+    "Years": "Años",
+    "years old": "años",
+    "You also need to add the invoice information here": "También tiene que agregar los datos de facturación que quiere",
+    "You may log in to view your results, and the comments from your teacher, if any": "Puede conectarse a la plataforma para ver su resultado y el comentario de su profesor",
+    "Your course result is available for": "El resultado es disponible para su curso",
+    "Your data has been saved": "Los datos han sido guardados",
+    "Your picture has been saved": "Su foto ha sido guardada",
+    "front": {
+      "Add a new course time": "Agregar un horario",
+      "Monday": "Lunes",
+      "Tuesday": "Martes",
+      "Wednesday": "Miércoles",
+      "Thursday": "Jueves",
+      "Friday": "Viernes",
+      "Saturday": "Sábado",
+      "Sunday": "Domingo",
+      "Justified Absence": "Ausencia justificada",
+      "Unjustified Absence": "Ausencia no justificada",
+      "Invoice Data": "Datos de la factura",
+      "Payment": "Pago",
+      "for": "para",
+      "Total price": "Precio total",
+      "Confirm": "Confirmar",
+      "Add products": "Agregar productos",
+      "Add discount": "Agregar descuento",
+      "Select": "Seleccionar",
+      "Payment method": "Forma de pago",
+      "Amount received": "Valor recibida",
+      "Add": "Agregar",
+      "Total received amount": "Valor total recibida",
+      "The invoice has been generated": "La factura ha sido generada",
+      "Enrollment number": "Matricula #",
+      "Lead Status": "Estado del cliente",
+      "Skill Type": "Categoria",
+      "Level": "Nivel",
+      "Skill": "Competencia",
+      "This comment requires an action": "Este comentario necesita accion",
+      "Cancel": "Cancelar",
+      "Results are loading": "Cargando los resultados...",
+      "errorfetchingcourses": "Error al cargar los cursos. Por favor actualizar la pagina",
+      "All teachers": "Todos los profesores",
+      "Edit schedule": "Editar horarios",
+      "Create subcourse": "Crear curso hijo",
+      "noresults": "No hay cursos con los criterios seleccionados",
+      "all": "todos",
+      "Delete": "Eliminar",
+      "spots left": "cupos disponibles",
+      "Send invoice data to external accounting system": "Mandar datos al sistema contable para generar factura",
+      "Checkout": "Facturar",
+      "Mark this enrollment as paid but do not send to accounting system": "La matricula sera marcada como pagada sin generar la factura en el sistema contable"
+    }
+  },
+  "fr": {
+    "Unable to communicate with Accounting Service. This invoice will NOT be sent automatically to the Accounting system": "Impossible de communiquer avec le service comptable. La facture ne sera PAS générée automatiquement",
+    "% of period max": "% du maximum",
+    "Absence Notification": "Notification d'absence",
+    "absences": "absences",
+    "Account Data": "Informations du compte",
+    "Acquisition Rate": "Taux de fidélisation",
+    "Actionnable Comments": "Action requise",
+    "Actions": "Actions",
+    "actions": "actions",
+    "Active clients": "Clients actifs",
+    "Add a new contact": "Ajouter un contact",
+    "Add a new grade type to course": "Ajouter un critère",
+    "Add Grade Type to Course": "Ajouter un critère",
+    "Additional Contact": "Autre contact",
+    "Additional Contacts": "Contacts",
+    "Additional Data": "Informations de l'étudiant(e)",
+    "address": "addresse",
+    "Address": "Addresse",
+    "age": "âge",
+    "Attach skills to course": "Ajouter des compétences au cours",
+    "Attach to course": "Associer au cours",
+    "Attendance": "Présences",
+    "Attendance Ratio": "Pourcentage de présence",
+    "Attendance Status": "Présence",
+    "Attendance status": "Présence",
+    "available course": "cours disponible",
+    "available courses": "cours disponibles",
+    "Back to course": "Revenir au cours",
+    "Best regards,": "Cordialement,",
+    "birthdate": "date de naissance",
+    "Birthdate": "Date de naissance",
+    "Books": "Livres",
+    "Calendar for": "Calendrier de",
+    "CALENDARS": "CALENDRIERS",
+    "Campus": "Campus",
+    "campuses": "campus",
+    "Cancel": "Annuler",
+    "Cart Details": "Détails du panier",
+    "Change all Converted to Pending": "Changer tous les Converted à Pending",
+    "Change course": "Changer de cours",
+    "Children enrollments": "Inscriptions liées",
+    "Classes without teacher": "Classes sans enseignant",
+    "Client address": "Adresse du Client",
+    "Client email": "Email du client",
+    "Client ID Number": "Numéro d'identité du client",
+    "Client name": "Nom du client",
+    "Client Phone Number": "Numéro de téléphone du client",
+    "Close": "Fermer",
+    "Comment": "Commentaire",
+    "Comments": "Commentaires",
+    "Continue without uploading a profile picture": "Continuer sans photo de profil",
+    "course": "cours",
+    "Course": "Cours",
+    "Course :": "Cours :",
+    "Course Details": "Détails du cours",
+    "Course Evaluation": "Gérer l'évaluation",
+    "Course info": "Informations du cours",
+    "Course result": "Résultat du cours",
+    "Course Result Details": "Résultat du cours",
+    "Course Schedule": "Horaires du cours",
+    "courses": "cours",
+    "COURSES": "COURS",
+    "Courses": "Cours",
+    "Courses (list)": "Cours (liste)",
+    "Create another Contact": "Créer un autre contact",
+    "Current Period": "Cycle en cours",
+    "Currently enrolled": "Inscrits maintenant",
+    "Date": "Date",
+    "Date range": "Dates",
+    "Default Period": "Période par défaut",
+    "Default Periods Selection": "Sélection des cycles par défaut",
+    "Delete Enrollment": "Annuler l'inscription",
+    "Discount Value": "Valeur de la réduction",
+    "Discount Value (0-100%)": "Valeur de la réduction (0-100%)",
+    "Discounts": "Réductions",
+    "Edit": "Editer",
+    "Edit contact": "Modifier le contact",
+    "Edit Course Skills": "Modifier les compétences du cours",
+    "Edit Grades": "Modifier les notes",
+    "Edit skills for course": "Modifier les compétences du cours",
+    "Edit Student Skills": "Modifier les compétences de l'étudiant",
+    "email": "email",
+    "Email": "Email",
+    "End": "Fin",
+    "End Date": "Date de fin",
+    "Enroll": "Inscrire",
+    "Enroll new student": "Inscrire un étudiant",
+    "Enrollment date": "Date d'inscription",
+    "Enrollment Details": "Détails de l'inscription",
+    "Enrollment ID": "Numéro d'inscription",
+    "Enrollment successfully created": "Inscription enregistrée",
+    "Enrollments": "Inscriptions",
+    "Enrollments per Course": "Inscriptions par cours",
+    "Enrollments per Rhythm": "Inscriptions par rythme",
+    "Enrollments Period": "Cycle d'inscription",
+    "EVALUATION": "ÉVALUATION",
+    "Evaluation method": "Type d'évaluation",
+    "Evaluation Types": "Types d'évaluation",
+    "Event": "Classe",
+    "Events": "Classes",
+    "Events with no course": "Classes sans cours",
+    "Events with no teacher": "Classes sans professeur",
+    "Exempt Attendance": "Dispenser de fiche de présence",
+    "Export Course syllabus": "Exporter le syllabus",
+    "Export skills": "Exporter les compétences",
+    "External": "Externe",
+    "External Courses": "Cours externes",
+    "External Courses Report": "Rapport des cours externes",
+    "Fees": "Frais administratifs",
+    "Finish update": "Terminer la mise à jour",
+    "First Name": "Prénom",
+    "Firstname": "Prénom",
+    "Former clients": "Anciens clients",
+    "Go Home": "Page d'accueil",
+    "Grade Types": "Critères",
+    "Grades": "Notes",
+    "Head Count": "Inscriptions",
+    "Hi": "Bonjour",
+    "Hide Children": "Cacher les enfants",
+    "Hide Children Courses": "Cacher les cours enfants",
+    "Hide Parents": "Cacher les cours parents",
+    "Hire Date": "Date d'embauche",
+    "hours": "heures",
+    "Hours Sold": "Heures vendues",
+    "Hours Taught": "Henres enseignées",
+    "HR": "RH",
+    "Human Resources": "Ressources Humaines",
+    "ID Number": "Numéro d'identité",
+    "idnumber": "numéro d'identité",
+    "Import skills": "Importer les compétences",
+    "Inactive clients": "Clients inactifs",
+    "Incomplete Attendance": "Fiches de présence incomplètes",
+    "Internal": "Interne",
+    "Internal Courses": "Cours internes",
+    "Internal Settings": "Paramètres du système",
+    "Invoice": "Facture",
+    "Invoice ID": "ID de facture",
+    "Invoice Number": "Numéro de facture",
+    "Invoices": "Factures",
+    "Invoicing": "Facturation",
+    "Is Enrolled in": "Inscrit en",
+    "Is Not Enrolled in": "Non-inscrit en",
+    "Jobs Queue": "File de travaux",
+    "justified absence": "absence justifée",
+    "Last Enrollment": "Dernière inscription",
+    "Last Name": "Nom",
+    "Lastname": "Nom",
+    "Leads Status": "Statuts client",
+    "Leave": "Vacances",
+    "Length": "Durée",
+    "Level": "Niveau",
+    "levels": "niveaux",
+    "Manage leaves": "Gestion des vacances",
+    "Mark as paid without generating an invoice": "Marquer comme facturé sans générer de facture",
+    "Missing attendance": "Présences incomplètes",
+    "My Hours": "Mes heures",
+    "My Schedule": "Mon emploi du temps",
+    "name": "nom",
+    "Name": "Nom",
+    "New Course": "Nouveau cours",
+    "New pre-invoice": "Nouvelle facture",
+    "New Students": "Nouveaux étudiants",
+    "No Result": "Pas de résultat",
+    "Not yet enrolled: call them and update status!": "Pas encore inscrits. Les appeler et mettre à jour le statut !",
+    "Number of Absences": "Nombre d'absences",
+    "Number of Courses": "Nombre de cours",
+    "Oh no": "Oh no",
+    "on": "le",
+    "or": "ou",
+    "Overview": "Vue générale",
+    "Paid Enrollments": "Inscriptions payées",
+    "Partial presence (arrived late or left early)": "Présence partielle (retard ou départ anticipé)",
+    "Payment methods": "Moyens de paiement",
+    "Pedagogy": "Pedagogie",
+    "Pending": "Impayés",
+    "Pending Attendance": "Présences en attente",
+    "Pending leads": "Clients potentiels",
+    "Per course": "Par cours",
+    "Per rhythm": "Par rythme",
+    "Period": "Session",
+    "Period Classes": "Cours de la session",
+    "Period Max": "Max. pour la session",
+    "Period Total": "Total pour la session",
+    "periods": "sessions",
+    "Permanently ended their learning": "Ont terminé leur apprentissage",
+    "Phone Number": "Téléphone",
+    "Phone Numbers": "Numéros de téléphone",
+    "Planned Hours": "Heures prévues",
+    "Please check the additional contact data associated to your account": "Vérifiez les contacts associés à votre compte",
+    "Please check your personal phone number(s)": "Merci de vérifier vos numéros de téléphone",
+    "Please chose an image on your computer to update your profile picture": "Veuillez choisir une photo de profil",
+    "Please fill in your profession and your institution (school, workplace).": "Merci d'indiquer votre profession et votre institution (école, travail)",
+    "Potential clients": "Clients potentiels",
+    "Pre-invoice ID": "Numéro de pré-facture",
+    "Presencial": "Presentiel",
+    "Present": "Présent",
+    "Price": "Prix",
+    "Product": "Produit",
+    "Products": "Produits",
+    "Profession": "Profession",
+    "Profile Picture": "Photo de profil",
+    "Project": "Projet",
+    "Remote": "À distance",
+    "Remote Events": "Événements à distance",
+    "Remote Work": "Travail à distance",
+    "REPORTS": "RAPPORTS",
+    "resource Calendars": "Calendriers des ressources",
+    "Resources": "Ressources",
+    "Result": "Résultat",
+    "Result Notification": "Notification de résultat",
+    "Result Types": "Échelles de résultat",
+    "Results": "Résultats",
+    "Rhythm": "Rythme",
+    "rhythms": "rythmes",
+    "Roles": "Rôles",
+    "Room": "Salle",
+    "rooms": "salles",
+    "Save": "Enregistrer",
+    "Save new Contact": "Enregistrer le contact",
+    "Schedule": "Horaires",
+    "Scheduled Tasks": "Tâches programmées",
+    "Selected Period": "Période sélectionnée",
+    "Settings": "Paramètres",
+    "SETTINGS": "PARAMÈTRES",
+    "Setup Dashboard": "Panel système",
+    "share of students from previous period who were re-enrolled": "part des étudiants du cycle précédent qui se sont réinscrits",
+    "Show Children Courses": "Montrer les cours enfants",
+    "Since the beginning of this course, you have:": "Depuis le début du cours, vous avez",
+    "Skill Scales": "Échelles de compétences",
+    "Skill Types": "Types de compétences",
+    "Skills": "Compétences",
+    "Skills set was saved for the course": "Les compétences du cours ont été enregistrées",
+    "Skillset File": "Fichier de compétences",
+    "SPHERE": "SPHERE",
+    "Spots": "Places",
+    "Start": "Début",
+    "Start Date": "Date de début",
+    "Start from period:": "Commencer à la période :",
+    "Status": "État",
+    "Status is": "Statut client est",
+    "Status is not": "Statut client n'est pas",
+    "Student": "Étudiant",
+    "student": "Étudiant",
+    "Student :": "Étudiant :",
+    "Student Attendance Overview": "Présences de l'étudiant",
+    "Student Attendance Report": "Présences de l'étudiant",
+    "Student details for": "Informations de l'étudiant",
+    "Student Info": "Informations de l'étudiant",
+    "Students": "Étudiants",
+    "students": "étudiants",
+    "Students to count in year total": "Étudiants à compter dans le total de l'année",
+    "Students under 18, please add contact data from your legal representatives": "Les étudiants mineurs doivent ajouter le contact de leurs représentants légaux",
+    "Students with no leadStatus": "Étudiants sans statut client",
+    "Teacher": "Enseignant(e)",
+    "TEACHER": "ENSEIGNANT(E)",
+    "Teacher Dashboard": "Tableau de bord enseignant",
+    "Teacher Leaves": "Congés",
+    "teachers": "enseignants",
+    "Teachers": "Enseignants",
+    "The attendance record is incomplete for the following classes:": "La fiche de présence est incomplète pour les classes suivantes :",
+    "The enrollment has been updated": "L'inscription a été mise à jour",
+    "The information has successfully been saved": "L'information a été enregistrée",
+    "The invoice number has been saved": "Le numéro de facture a été enregistré",
+    "The selected teacher is not available on this date": "Cet enseigant n'est pas disponible à ces dates",
+    "This course has no skills yet": "Ce cours ne comporte aucune compétence",
+    "This enrollment belongs to": "Cette inscription est liée à",
+    "This is an absence notification for": "Ce message est une notification d'absence pour",
+    "This is important, so that we can reach you in case of an emergency": "Ceci est important car cela nous permet de vous contacter en cas d'urgence",
+    "This will erase all skills currently associated to the course": "Vous allez écraser les compétences associées au cours",
+    "TOTAL": "TOTAL",
+    "Total": "Total",
+    "Unavailable now, call for next session!": "Non disponible maintenant ; les appeler pour la prochaine session!",
+    "unjustified absence": "absence non-justifiée",
+    "Upcoming Leaves": "Prochaines vacances",
+    "Upload skillset file": "Charger un fichier de compétences",
+    "Users": "Utilisateurs",
+    "View": "Voir",
+    "View Course Skills": "Voir les compétences du cours",
+    "View Skills for Group": "Voir les compétences du groupe",
+    "Volume": "Volume",
+    "Weekly workable hours": "Volume de travail hebdomadaire",
+    "When everything is ready, please confirm that your data is up-to-date": "Lorsque toutes les données sont à jour, vous pouvez valider et terminer le processus",
+    "Worked Hours": "Heures travaillées",
+    "Year": "Année",
+    "Year Students": "Étudiants sur l'année",
+    "Years": "Années",
+    "years old": "ans",
+    "You also need to add the invoice information here": "Vous devez aussi créer un contact pour la facture",
+    "You may log in to view your results, and the comments from your teacher, if any": "Pour voir votre résultat et le commentaire de votre professeur, connectez-vous à la plateforme",
+    "Your course result is available for": "Le résultat est disponible pour votre cours",
+    "Your data has been saved": "Les informations ont été enregistrées",
+    "Your picture has been saved": "Votre photo a été enregistrée",
+    "front": {
+      "Add a new course time": "Ajouter un horaire de cours",
+      "Monday": "Lundi",
+      "Tuesday": "Mardi",
+      "Wednesday": "Mercredi",
+      "Thursday": "Jeudi",
+      "Friday": "Vendredi",
+      "Saturday": "Samedi",
+      "Sunday": "Dimanche",
+      "Justified Absence": "Absence justifiée",
+      "Unjustified Absence": "Absence non justifiée",
+      "Invoice Data": "Coordonnées de facturation",
+      "Payment": "Paiement",
+      "for": "pour",
+      "Total price": "Prix total",
+      "Confirm": "Confirmer",
+      "Add products": "Ajouter un produit",
+      "Add discount": "Ajouter une réduction",
+      "Select": "Sélectionner",
+      "Payment method": "Moyen de paiement",
+      "Amount received": "Valeur perçue",
+      "Add": "Ajouter",
+      "Total received amount": "Valeur totale perçue",
+      "The invoice has been generated": "La facture a été générée avec succès",
+      "Enrollment number": "Inscription #",
+      "Lead Status": "État client",
+      "Skill Type": "Categoria",
+      "Level": "Nivel",
+      "Skill": "Competencia",
+      "This comment requires an action": "Ce commentaire demande une action",
+      "Cancel": "Annuler",
+      "Results are loading": "Résultats en cours de chargement...",
+      "errorfetchingcourses": "Erreur lors du chargement. Veuillez actualiser la page",
+      "All teachers": "Tous les enseignants",
+      "Edit schedule": "Editer les horaires",
+      "Create subcourse": "Créer un sous-cours",
+      "noresults": "Pas de cours avec les filtres sélectionnés",
+      "all": "tous",
+      "Delete": "Supprimer",
+      "spots left": "places disponibles",
+      "Send invoice data to external accounting system": "Transmettre les données au système comptable",
+      "Checkout": "Facturer",
+      "Mark this enrollment as paid but do not send to accounting system": "Marquer cette inscription comme payée mais ne pas transmettre les données au système comptable"
+    }
+  }
+});
+>>>>>>> add validation flash message
 
 /***/ }),
 
@@ -47025,7 +48463,11 @@ module.exports = JSON.parse("{\"% of period max\":\"% du maximum\",\"Absence Not
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
+<<<<<<< HEAD
 module.exports = __webpack_require__(/*! /home/thomas/academico/resources/js/app.js */"./resources/js/app.js");
+=======
+module.exports = __webpack_require__(/*! /Users/damienbaudet/contribution/academico/resources/js/app.js */"./resources/js/app.js");
+>>>>>>> add validation flash message
 
 
 /***/ })
