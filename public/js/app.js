@@ -4134,6 +4134,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["comments", "id", "type", "route"],
   data: function data() {
@@ -4141,14 +4149,23 @@ __webpack_require__.r(__webpack_exports__);
       comment_body: null,
       action: false,
       showEditField: false,
-      errors: [],
-      commentlist: this.comments
+      errors: null,
+      commentlist: this.comments,
+      isValidated: false
     };
   },
   mounted: function mounted() {},
   methods: {
-    addComment: function addComment() {
+    showCommentForm: function showCommentForm() {
       var _this = this;
+
+      this.showEditField = true;
+      this.$nextTick(function () {
+        _this.$refs.comment.focus();
+      });
+    },
+    addComment: function addComment() {
+      var _this2 = this;
 
       axios.post(this.route, {
         body: this.comment_body,
@@ -4156,21 +4173,26 @@ __webpack_require__.r(__webpack_exports__);
         commentable_type: this.type,
         action: this.action
       }).then(function (response) {
-        _this.commentlist.push(response.data);
+        _this2.commentlist.push(response.data);
 
-        _this.comment_body = null;
-        _this.showEditField = false;
+        _this2.comment_body = null;
+        _this2.showEditField = false;
+        _this2.errors = null;
+        _this2.isValidated = true;
+        setTimeout(function () {
+          _this2.isValidated = false;
+        }, 3000);
       })["catch"](function (e) {
-        _this.errors.push(e);
+        _this2.errors = e.response.data.errors.body[0];
       });
     },
     deleteComment: function deleteComment(comment, index) {
-      var _this2 = this;
+      var _this3 = this;
 
       axios["delete"]("/comment/" + comment).then(function (response) {
-        _this2.$delete(_this2.commentlist, index);
+        _this3.$delete(_this3.commentlist, index);
       })["catch"](function (e) {
-        _this2.errors.push(e);
+        _this3.errors.push(e);
       });
     }
   }
@@ -27966,7 +27988,7 @@ var render = function() {
             attrs: { type: "button" },
             on: {
               click: function($event) {
-                _vm.showEditField = true
+                return _vm.showCommentForm()
               }
             }
           },
@@ -27976,6 +27998,16 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "card-body" }, [
+      _vm.isValidated
+        ? _c("div", { staticClass: "alert alert-success" }, [
+            _vm._v(
+              "\n            " +
+                _vm._s(_vm.$t("Your comment has been saved")) +
+                "\n        "
+            )
+          ])
+        : _vm._e(),
+      _vm._v(" "),
       _c(
         "ul",
         _vm._l(_vm.commentlist, function(comment, index) {
@@ -28008,6 +28040,12 @@ var render = function() {
     _vm._v(" "),
     _vm.showEditField
       ? _c("div", { staticClass: "card-footer" }, [
+          _vm.errors
+            ? _c("div", { staticClass: "alert alert-danger" }, [
+                _vm._v("\n            " + _vm._s(_vm.errors) + "\n        ")
+              ])
+            : _vm._e(),
+          _vm._v(" "),
           _c("textarea", {
             directives: [
               {
@@ -28017,6 +28055,7 @@ var render = function() {
                 expression: "comment_body"
               }
             ],
+            ref: "comment",
             staticStyle: { width: "100%" },
             attrs: { id: "comment", name: "comment", rows: "3" },
             domProps: { value: _vm.comment_body },
@@ -47025,7 +47064,7 @@ module.exports = JSON.parse("{\"% of period max\":\"% du maximum\",\"Absence Not
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/thomas/academico/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/damienbaudet/contribution/academico/resources/js/app.js */"./resources/js/app.js");
 
 
 /***/ })

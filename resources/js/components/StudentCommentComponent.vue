@@ -6,7 +6,7 @@
                 <button
                     type="button"
                     class="btn btn-sm btn-primary"
-                    @click="showEditField = true"
+                    @click="showCommentForm()"
                 >
                     <i class="la la-plus"></i>
                 </button>
@@ -14,6 +14,9 @@
         </div>
 
         <div class="card-body">
+            <div v-if="isValidated" class="alert alert-success">
+                {{ $t('Your comment has been saved') }}
+            </div>
             <ul>
                 <li v-for="(comment, index) in commentlist" :key="comment.id">
                     {{ comment.body }} ({{
@@ -31,8 +34,13 @@
             </ul>
         </div>
         <div v-if="showEditField" class="card-footer">
+            <div v-if="errors" class="alert alert-danger">
+                {{ errors }}
+            </div>
+
             <textarea
                 id="comment"
+                ref="comment"
                 v-model="comment_body"
                 name="comment"
                 style="width: 100%;"
@@ -78,14 +86,22 @@ export default {
             comment_body: null,
             action: false,
             showEditField: false,
-            errors: [],
+            errors: null,
             commentlist: this.comments,
+            isValidated: false,
         };
     },
 
     mounted() {},
 
     methods: {
+        showCommentForm() {
+            this.showEditField = true;
+            this.$nextTick(() => {
+                this.$refs.comment.focus();
+            })
+        },
+
         addComment() {
             axios
                 .post(this.route, {
@@ -98,9 +114,14 @@ export default {
                     this.commentlist.push(response.data);
                     this.comment_body = null;
                     this.showEditField = false;
+                    this.errors = null;
+                    this.isValidated = true;
+                    setTimeout(() => {
+                        this.isValidated = false;
+                    }, 3000)
                 })
                 .catch((e) => {
-                    this.errors.push(e);
+                    this.errors = e.response.data.errors.body[0];
                 });
         },
 
