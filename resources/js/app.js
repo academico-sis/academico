@@ -8,6 +8,7 @@ import VueInternationalization from 'vue-i18n';
 const messages = {
     en: require("../lang/en.json"),
     fr: require("../lang/fr.json"),
+    es: require("../lang/es.json"),
 };
 
 Vue.use(VueInternationalization);
