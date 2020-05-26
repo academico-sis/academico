@@ -364,5 +364,6 @@
     "Your course result is available for": "Le résultat est disponible pour votre cours",
     "Your data has been saved": "Les informations ont été enregistrées",
     "Your picture has been saved": "Votre photo a été enregistrée",
-    "Refresh status": "Vérifier à nouveau"
+    "Refresh status": "Vérifier à nouveau",
+    "Unable to communicate with Accounting Service. This invoice will NOT be sent automatically to the Accounting system": "Impossible de contacter le serveur comptable. Les données de facturation ne seront PAS transmises automatiquement"
 }

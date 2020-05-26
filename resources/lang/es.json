@@ -364,5 +364,6 @@
     "Your course result is available for": "El resultado es disponible para su curso",
     "Your data has been saved": "Los datos han sido guardados",
     "Your picture has been saved": "Su foto ha sido guardada",
-    "Refresh status": "Tratar otra vez"
+    "Refresh status": "Tratar otra vez",
+    "Unable to communicate with Accounting Service. This invoice will NOT be sent automatically to the Accounting system": "El servidor contable no contesta. La factura NO sera generada automaticamente"
 }
