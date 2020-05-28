@@ -92,10 +92,6 @@ class ContactController extends Controller
     // delete additional contact information
     public function destroy(Contact $contact)
     {
-        if (! backpack_user()->can('delete', $contact)) {
-            abort(403);
-        }
-        
-        Contact::findOrFail($contact)->delete();
+        $contact->delete();
     }
 }
