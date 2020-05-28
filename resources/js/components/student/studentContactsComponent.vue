@@ -91,7 +91,7 @@
                     <i class="la la-plus"></i>
                 </button>
 
-                <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteContactModal">
+                <button class="btn btn-sm btn-danger" @click="deleteContact(contact.id)">
                     <i class="la la-trash"></i>
                 </button><!-- TODO -->
             </div>
@@ -188,6 +188,45 @@ export default {
                         text: 'Unable to save your change',
                     }).show();
                 })
+        },
+        deleteContact(contact) {
+            swal({
+                title: "Attention",
+                text: "Voulez-vous vraiment supprimer ce numéro de contact ?",
+                icon: "warning",
+                buttons: {
+                    cancel: {
+                        text: "Annuler",
+                        value: null,
+                        visible: true,
+                        className: "bg-secondary",
+                        closeModal: true,
+                    },
+                    delete: {
+                        text: "Supprimer",
+                        value: true,
+                        visible: true,
+                        className: "bg-danger",
+                    },
+                },
+            }).then((value) => {
+                if (value) {
+                    axios
+                        .delete(`/contact/${contact}/delete`)
+                        .then((response) => {
+                            console.log("resolved");
+                            var index = this.contactsData.indexOf(contact);
+                            if (index !== -1)
+                                this.contactsData.splice(index, 1);
+                        })
+                        .catch((err) => {
+                            new Noty({
+                                type: "error",
+                                text: 'Unable to delete contact',
+                            }).show();
+                        });
+                }
+            });
         }
     }
 }
