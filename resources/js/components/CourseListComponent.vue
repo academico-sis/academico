@@ -39,7 +39,7 @@
                                     class="btn btn-sm btn-pill btn-secondary float-right"
                                     @click="clearSelectedTeacher()"
                                 >
-                                    {{ $t("front.all") }}
+                                    {{ $t("all") }}
                                 </button>
                             </div>
                             <div class="card-body">
@@ -51,7 +51,7 @@
                                     @change="getCoursesResults()"
                                 >
                                     <option value="">{{
-                                        $t("front.All teachers")
+                                        $t("All teachers")
                                     }}</option>
                                     <option
                                         v-for="teacher in this.teachers"
@@ -81,7 +81,7 @@
                                     class="btn btn-sm btn-pill btn-secondary float-right"
                                     @click="clearSelectedRhythms()"
                                 >
-                                    {{ $t("front.all") }}
+                                    {{ $t("all") }}
                                 </button>
                             </div>
                             <div class="card-body">
@@ -124,7 +124,7 @@
                                     class="btn btn-sm btn-pill btn-secondary float-right"
                                     @click="clearSelectedLevels()"
                                 >
-                                    {{ $t("front.all") }}
+                                    {{ $t("all") }}
                                 </button>
                             </div>
                             <div class="card-body">
@@ -160,13 +160,13 @@
                 v-if="isLoading == true && hasErrors == false"
                 class="col-md-8"
             >
-                {{ $t("front.Results are loading") }}
+                {{ $t("Results are loading") }}
             </div>
             <div
                 v-if="isLoading == false && hasErrors == true"
                 class="col-md-8"
             >
-                {{ $t("front.errorfetchingcourses") }}
+                {{ $t("errorfetchingcourses") }}
             </div>
 
             <div
@@ -175,7 +175,7 @@
             >
                 <div class="row">
                     <p v-if="sortedCourses.length == 0">
-                        {{ $t("front.noresults") }}
+                        {{ $t("noresults") }}
                     </p>
                     <div
                         v-for="course in sortedCourses"
@@ -246,7 +246,7 @@
                                             class="dropdown-item"
                                             :href="`coursetime/${course.id}/edit`"
                                             ><i class="la la-clock-o"></i>
-                                            {{ $t("front.Edit schedule") }}</a
+                                            {{ $t("Edit schedule") }}</a
                                         >
                                         <button
                                             v-if="editable == 1"
@@ -256,7 +256,7 @@
                                             "
                                         >
                                             <i class="la la-clone"></i>
-                                            {{ $t("front.Create subcourse") }}
+                                            {{ $t("Create subcourse") }}
                                         </button>
                                         <button
                                             v-if="
@@ -268,7 +268,7 @@
                                             @click="deleteCourse(course.id)"
                                         >
                                             <i class="la la-trash"></i>
-                                            {{ $t("front.Delete") }}
+                                            {{ $t("Delete") }}
                                         </button>
                                     </div>
                                 </div>
@@ -310,7 +310,7 @@
                                                 course.course_enrollments_count
                                         )
                                     }}
-                                    {{ $t("front.spots left") }}
+                                    {{ $t("spots left") }}
                                 </div>
                             </div>
                         </div>

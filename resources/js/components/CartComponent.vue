@@ -5,10 +5,10 @@
                 <a @click="step = 1">{{ $t("Products") }}</a>
             </li>
             <li v-if="step >= 2" class="breadcrumb-item">
-                <a @click="step = 2">{{ $t("front.Invoice Data") }}</a>
+                <a @click="step = 2">{{ $t("Invoice Data") }}</a>
             </li>
             <li v-if="step >= 3" class="breadcrumb-item">
-                <a @click="step = 3">{{ $t("front.Payment") }}</a>
+                <a @click="step = 3">{{ $t("Payment") }}</a>
             </li>
         </ol>
 
@@ -33,7 +33,7 @@
                                 >
                                     <td>
                                         {{ enrollment.course.name }}
-                                        {{ $t("front.for") }}
+                                        {{ $t("for") }}
                                         {{ enrollment.student.user.firstname }}
                                         {{ enrollment.student.user.lastname }}
                                     </td>
@@ -92,7 +92,7 @@
                 <div class="card">
                     <div class="card-body text-center">
                         <h4>
-                            {{ $t("front.Total price") }}: $
+                            {{ $t("Total price") }}: $
                             {{ shoppingCartTotal }}
                         </h4>
                         <button
@@ -100,7 +100,7 @@
                             class="btn btn-success"
                             @click="step = 2"
                         >
-                            <i class="la la-check"></i>{{ $t("front.Confirm") }}
+                            <i class="la la-check"></i>{{ $t("Confirm") }}
                         </button>
                     </div>
                 </div>
@@ -109,7 +109,7 @@
             <div class="col col-md-4">
                 <div class="card">
                     <div class="card-header">
-                        {{ $t("front.Add products") }}
+                        {{ $t("Add products") }}
                     </div>
 
                     <div class="card-body">
@@ -189,7 +189,7 @@
                                     data-toggle="dropdown"
                                 >
                                     <span class="caret"></span>
-                                    {{ $t("front.Add discount") }}
+                                    {{ $t("Add discount") }}
                                 </button>
                                 <div class="dropdown-menu">
                                     <button
@@ -221,7 +221,7 @@
                                 @click="selectStudentData()"
                             >
                                 <i class="la la-check"></i
-                                >{{ $t("front.Select") }}
+                                >{{ $t("Select") }}
                             </button>
                         </div>
                     </div>
@@ -249,7 +249,7 @@
                                 @click="selectInvoiceData(contact)"
                             >
                                 <i class="la la-check"></i
-                                >{{ $t("front.Select") }}
+                                >{{ $t("Select") }}
                             </button>
                         </div>
                     </div>
@@ -264,7 +264,7 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                        {{ $t("front.Invoice Data") }}
+                        {{ $t("Invoice Data") }}
                         <div class="card-header-actions">
                             <button
                                 v-if="checkForm()"
@@ -272,7 +272,7 @@
                                 @click="confirmInvoiceData()"
                             >
                                 <i class="la la-check"></i
-                                >{{ $t("front.Select") }}
+                                >{{ $t("Select") }}
                             </button>
                         </div>
                     </div>
@@ -363,7 +363,7 @@
                                 >
                                     <td>
                                         {{ enrollment.course.name }}
-                                        {{ $t("front.for") }}
+                                        {{ $t("for") }}
                                         {{ enrollment.student.user.firstname }}
                                         {{ enrollment.student.user.lastname }}
                                     </td>
@@ -405,7 +405,7 @@
             <div class="col-md-4">
                 <div class="card card-solid card-primary">
                     <div class="card-header">
-                        {{ $t("front.Invoice Data") }}
+                        {{ $t("Invoice Data") }}
                     </div>
                     <div class="card-body">
                         <ul>
@@ -423,7 +423,7 @@
                 <div class="card">
                     <div class="card-body text-center">
                         <h4>
-                            {{ $t("front.Total price") }}: $
+                            {{ $t("Total price") }}: $
                             {{ shoppingCartTotal }}
                         </h4>
                     </div>
@@ -431,14 +431,14 @@
 
                 <div class="card card-solid card-primary">
                     <div class="card-header">
-                        {{ $t("front.Payment method") }}
+                        {{ $t("Payment method") }}
                     </div>
                     <div class="card-body">
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>{{ $t("front.Payment method") }}</th>
-                                    <th>{{ $t("front.Amount received") }}</th>
+                                    <th>{{ $t("Payment method") }}</th>
+                                    <th>{{ $t("Amount received") }}</th>
                                     <th>{{ $t("Comment") }}</th>
                                 </tr>
                             </thead>
@@ -510,7 +510,7 @@
                                                     aria-haspopup="true"
                                                     aria-expanded="false"
                                                 >
-                                                    {{ $t("front.Add") }}
+                                                    {{ $t("Add") }}
                                                 </button>
                                                 <div
                                                     class="dropdown-menu"
@@ -542,7 +542,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <h4>
-                                        {{ $t("front.Total received amount") }}:
+                                        {{ $t("Total received amount") }}:
                                         $ {{ paidTotal }}
                                     </h4>
                                 </div>
@@ -640,12 +640,12 @@
             <div class="col col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        {{ $t("front.The invoice has been generated") }}
+                        {{ $t("The invoice has been generated") }}
                     </div>
 
                     <div class="card-body">
                         <p>
-                            {{ $t("front.Enrollment number") }}
+                            {{ $t("Enrollment number") }}
                             {{ enrollments[0].id }}
                         </p>
                     </div>
