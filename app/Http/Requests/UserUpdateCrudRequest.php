@@ -15,7 +15,7 @@ class UserUpdateCrudRequest extends \Backpack\PermissionManager\app\Http\Request
             'email'    => 'required|unique:'.config('permission.table_names.users', 'users').',email,'.$this->get('id'),
             'firstname'     => 'required',
             'lastname' => 'required',
-            'password' => 'confirmed',
+            'password' => 'required',
         ];
     }
 }

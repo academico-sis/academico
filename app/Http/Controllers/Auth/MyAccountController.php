@@ -37,7 +37,7 @@ class MyAccountController extends \App\Http\Controllers\Controller
         $request->validate([
             'firstname' => 'required',
             'lastname' => 'required',
-            'email' => 'required|email|unique:users',
+            'email' => 'required|email',
         ]);
 
         $result = $this->guard()->user()->update($request->except(['_token']));
