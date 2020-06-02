@@ -197,7 +197,6 @@ Route::group(
         'prefix'     => config('backpack.base.route_prefix'),
     ],
     function () {
-        Route::post('edit-account-info', 'Auth\MyAccountController@postAccountInfoForm');
         Route::post('edit-student-info', 'Auth\MyAccountController@postStudentInfoForm');
         Route::post('edit-profession', 'Auth\MyAccountController@postAccountProfessionForm');
         Route::post('edit-phone', 'Auth\MyAccountController@postPhoneForm');
