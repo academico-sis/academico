@@ -93,7 +93,7 @@
 
                 <button class="btn btn-sm btn-danger" @click="deleteContact(contact.id)">
                     <i class="la la-trash"></i>
-                </button><!-- TODO -->
+                </button>
             </div>
         </div>
         
@@ -192,7 +192,7 @@ export default {
         deleteContact(contact) {
             swal({
                 title: "Attention",
-                text: "Voulez-vous vraiment supprimer ce numéro de contact ?",
+                text: "Voulez-vous vraiment supprimer ce contact ?",
                 icon: "warning",
                 buttons: {
                     cancel: {
@@ -214,10 +214,7 @@ export default {
                     axios
                         .delete(`/contact/${contact}/delete`)
                         .then((response) => {
-                            console.log("resolved");
-                            var index = this.contactsData.indexOf(contact);
-                            if (index !== -1)
-                                this.contactsData.splice(index, 1);
+                            window.location.reload()    
                         })
                         .catch((err) => {
                             new Noty({
