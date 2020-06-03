@@ -65,6 +65,7 @@ Route::group(
     function () {
         Route::post('user/addcontact', 'ContactController@store')->name('addContact'); // save an additional contact for a student
         Route::get('contact/{contact}/edit', 'ContactController@edit');
+        Route::delete('contact/{contact}/delete', 'ContactController@destroy')->name('deleteContact');
         Route::patch('contact/{contact}', 'ContactController@update')->name('updateContact');
         Route::get('phonenumber/contact/{contact}', 'ContactPhoneNumberController@get');
         Route::post('phonenumber/contact/{contact}', 'ContactPhoneNumberController@store');

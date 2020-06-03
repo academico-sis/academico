@@ -91,9 +91,9 @@
                     <i class="la la-plus"></i>
                 </button>
 
-                <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#userDataModal">
+                <button class="btn btn-sm btn-danger" @click="deleteContact(contact.id)">
                     <i class="la la-trash"></i>
-                </button><!-- TODO -->
+                </button>
             </div>
         </div>
         
@@ -188,6 +188,42 @@ export default {
                         text: 'Unable to save your change',
                     }).show();
                 })
+        },
+        deleteContact(contact) {
+            swal({
+                title: "Attention",
+                text: "Voulez-vous vraiment supprimer ce contact ?",
+                icon: "warning",
+                buttons: {
+                    cancel: {
+                        text: "Annuler",
+                        value: null,
+                        visible: true,
+                        className: "bg-secondary",
+                        closeModal: true,
+                    },
+                    delete: {
+                        text: "Supprimer",
+                        value: true,
+                        visible: true,
+                        className: "bg-danger",
+                    },
+                },
+            }).then((value) => {
+                if (value) {
+                    axios
+                        .delete(`/contact/${contact}/delete`)
+                        .then((response) => {
+                            window.location.reload()    
+                        })
+                        .catch((err) => {
+                            new Noty({
+                                type: "error",
+                                text: 'Unable to delete contact',
+                            }).show();
+                        });
+                }
+            });
         }
     }
 }

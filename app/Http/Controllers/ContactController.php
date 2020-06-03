@@ -89,4 +89,9 @@ class ContactController extends Controller
 
         return view('students.edit-contact', compact('contact'));
     }
+    // delete additional contact information
+    public function destroy(Contact $contact)
+    {
+        $contact->delete();
+    }
 }
