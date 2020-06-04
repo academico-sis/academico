@@ -45,11 +45,20 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "Aybee5",
+      "name": "Ibrahim Abdullahi Aliyu",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/42099896?v=4",
+      "profile": "https://github.com/Aybee5",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
   "projectName": "academico",
-  "projectOwner": "laxsmi",
+  "projectOwner": "academico-sis",
   "repoType": "github",
   "repoHost": "https://github.com",
   "skipCi": true
