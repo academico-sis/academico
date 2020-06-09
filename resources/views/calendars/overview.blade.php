@@ -56,6 +56,9 @@ document.addEventListener('DOMContentLoaded', function() { // page is now ready.
         hiddenDays: [ 0 ], // TODO make this customizable
         firstDay: 1,
         slotWidth: 20,
+        eventRender: function (info) {
+            $(info.el).tooltip({ title: info.event.title });     
+        },
         resourceAreaWidth: 150,
         eventSources: [
             {
