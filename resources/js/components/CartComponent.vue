@@ -920,3 +920,10 @@ export default {
     },
 };
 </script>
+
+<style scoped>
+    .dropdown-menu {
+        max-height: calc(80vh - 50px);
+        overflow-y: auto;
+    }
+</style>
