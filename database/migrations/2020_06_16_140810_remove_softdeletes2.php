@@ -2,8 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class RemoveSoftdeletes2 extends Migration
 {
@@ -15,7 +15,7 @@ class RemoveSoftdeletes2 extends Migration
     public function up()
     {
         DB::table('courses')->whereNotNull('deleted_at')->delete();
-        
+
         Schema::table('courses', function ($table) {
             $table->dropColumn('deleted_at');
         });
