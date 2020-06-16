@@ -34,7 +34,7 @@ class Event extends Model
     |--------------------------------------------------------------------------
     */
     // protected $primaryKey = 'id';
-    public $timestamps = false;
+    public $timestamps = true;
     protected $guarded = ['id'];
     //protected $fillable = [];
     // protected $hidden = [];

@@ -32,7 +32,7 @@ class CreateEnrollmentsTable extends Migration
         Schema::table('enrollments', function (Blueprint $table) {
             $table->foreign('student_id')
             ->references('id')->on('students')
-            ->onDelete('restrict');
+            ->onDelete('cascade');
 
             $table->foreign('responsible_id')
             ->references('id')->on('users')

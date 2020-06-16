@@ -5,14 +5,12 @@ namespace App\Models;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Log;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class Course extends Model
 {
     use CrudTrait;
-    use SoftDeletes;
     use LogsActivity;
 
     /** model events */
