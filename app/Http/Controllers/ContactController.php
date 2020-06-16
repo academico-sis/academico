@@ -60,7 +60,6 @@ class ContactController extends Controller
 
     public function update(Contact $contact, Request $request)
     {
-
         // check if the user is allowed to edit the contact
         if (! backpack_user()->can('update', $contact)) {
             abort(403);
@@ -89,6 +88,7 @@ class ContactController extends Controller
 
         return view('students.edit-contact', compact('contact'));
     }
+
     // delete additional contact information
     public function destroy(Contact $contact)
     {
