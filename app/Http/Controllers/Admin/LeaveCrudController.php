@@ -127,15 +127,15 @@ class LeaveCrudController extends CrudController
 
     public function store(StoreRequest $request)
     {
-        foreach ($this->crud->request->teacher_id as $teacher_id) {
-            $start = Carbon::parse($this->crud->request->start_date);
-            $end = Carbon::parse($this->crud->request->end_date);
+        foreach ($request->teacher_id as $teacher_id) {
+            $start = Carbon::parse($request->start_date);
+            $end = Carbon::parse($request->end_date);
 
             while ($start <= $end) {
                 Leave::create([
                     'teacher_id' => $teacher_id,
                     'date' => $start,
-                    'leave_type_id' => $this->crud->request->leave_type_id,
+                    'leave_type_id' => $request->leave_type_id,
                 ]);
 
                 $start->addDay();
