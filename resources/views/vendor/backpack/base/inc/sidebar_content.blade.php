@@ -10,7 +10,6 @@
   <li class='nav-item'><a class='nav-link' href="{{ backpack_url('student') }}"><i class="nav-icon la la-user"></i> <span>@lang('Students')</span></a></li>
   <li class='nav-item'><a class='nav-link' href="{{ backpack_url('/enrollment?status_id=["1"]&hidechildren=true') }}"><i class="nav-icon la la-credit-card"></i> <span>@lang('Pending')</span></a></li>
   <li class='nav-item'><a class='nav-link' href="{{ backpack_url('attendance') }}"><i class="nav-icon la la-calendar"></i> <span>@lang('Attendance')</span></a></li>
-
 @endif
 
 @if(backpack_user()->hasRole(['admin']))
@@ -94,11 +93,12 @@
 
 @endif
 
-
-@if(backpack_user()->hasRole('admin'))
-  <li class="nav-title">@lang('SETTINGS')</li>
-  <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-link"></i> @lang('Settings')</a>
-    <ul class="nav-dropdown-items">
+@if(backpack_user()->hasRole(['admin', 'secretary']))
+<li class="nav-title">@lang('SETTINGS')</li>
+<li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-link"></i> @lang('Settings')</a>
+  <ul class="nav-dropdown-items">
+    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('institution') }}'><i class='nav-icon la la-building'></i> @lang('Institutions')</a></li>
+      @if(backpack_user()->hasRole('admin'))
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('period') }}'><i class='la la-calendar'></i> <span>@lang('periods')</span></a></li>
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('level') }}'><i class='la la-star'></i> <span>@lang('levels')</span></a></li>
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('room') }}'><i class='la la-star'></i> <span>@lang('rooms')</span></a></li>
@@ -106,30 +106,33 @@
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('rhythm') }}'><i class='la la-star'></i> <span>@lang('rhythms')</span></a></li>
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('year') }}'><i class='la la-star'></i> <span>@lang('Years')</span></a></li>
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('book') }}'><i class='la la-book'></i> <span>@lang('Books')</span></a></li>
+      @endif
+
+      <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-link"></i> @lang('Invoicing')</a>
+        <ul class="nav-dropdown-items">
+          <li class='nav-item'><a class='nav-link' href='{{ backpack_url('discount') }}'><i class='la la-percent'></i> <span>@lang('Discounts')</span></a></li>
+          <li class='nav-item'><a class='nav-link' href='{{ backpack_url('fee') }}'><i class='la la-dollar'></i> <span>@lang('Fees')</span></a></li>
+          <li class='nav-item'><a class='nav-link' href='{{ backpack_url('paymentmethod') }}'><i class='la la-dollar'></i> <span>@lang('Payment methods')</span></a></li>
+        </ul>
+      </li>
+      
+      @if(backpack_user()->hasRole('admin'))
+      <!-- Users, Roles Permissions -->
+      <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-group"></i> @lang('Users')</a>
+          <ul class="nav-dropdown-items">
+            <li class='nav-item'><a class='nav-link' href="{{ backpack_url('user') }}"><i class="nav-icon la la-user"></i> <span>@lang('Users')</span></a></li>
+            <li class='nav-item'><a class='nav-link' href="{{ backpack_url('teacher') }}"><i class="nav-icon la la-user"></i> <span>@lang('Teachers')</span></a></li>
+            <li class='nav-item'><a class='nav-link' href="{{ backpack_url('role') }}"><i class="nav-icon la la-group"></i> <span>@lang('Roles')</span></a></li>
+          </ul>
+        </li>
+    
+        <li class='nav-item'><a class='nav-link' href='{{ route('setupHome') }}'><i class='la la-gears'></i> <span>@lang('Setup Dashboard')</span></a></li>
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('config') }}'><i class='la la-gears'></i> <span>@lang('Internal Settings')</span></a></li>
+        @endif
 
     </ul>
   </li>
-
-  <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-link"></i> @lang('Invoicing')</a>
-    <ul class="nav-dropdown-items">
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('discount') }}'><i class='la la-percent'></i> <span>@lang('Discounts')</span></a></li>
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('fee') }}'><i class='la la-dollar'></i> <span>@lang('Fees')</span></a></li>
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('paymentmethod') }}'><i class='la la-dollar'></i> <span>@lang('Payment methods')</span></a></li>
-    </ul>
-  </li>
-
-  <!-- Users, Roles Permissions -->
-  <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-group"></i> @lang('Users')</a>
-      <ul class="nav-dropdown-items">
-        <li class='nav-item'><a class='nav-link' href="{{ backpack_url('user') }}"><i class="nav-icon la la-user"></i> <span>@lang('Users')</span></a></li>
-        <li class='nav-item'><a class='nav-link' href="{{ backpack_url('teacher') }}"><i class="nav-icon la la-user"></i> <span>@lang('Teachers')</span></a></li>
-        <li class='nav-item'><a class='nav-link' href="{{ backpack_url('role') }}"><i class="nav-icon la la-group"></i> <span>@lang('Roles')</span></a></li>
-      </ul>
-    </li>
-
-    <li class='nav-item'><a class='nav-link' href='{{ route('setupHome') }}'><i class='la la-gears'></i> <span>@lang('Setup Dashboard')</span></a></li>
-    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('config') }}'><i class='la la-gears'></i> <span>@lang('Internal Settings')</span></a></li>
-
+  
 @endif
 
 @if(backpack_user()->isTeacher())

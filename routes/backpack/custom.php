@@ -34,6 +34,19 @@ Route::group([
 }
 );
 
+/* CRUD routes accessible to admins or secretary */
+Route::group([
+    'prefix'     => config('backpack.base.route_prefix'),
+    'middleware' => ['web', 'role:admin|secretary', 'language'],
+    'namespace'  => 'App\Http\Controllers\Admin',
+], function () {
+    Route::crud('fee', 'FeeCrudController');
+    Route::crud('discount', 'DiscountCrudController');
+    Route::crud('coupon', 'CouponCrudController');
+    Route::crud('paymentmethod', 'PaymentmethodCrudController');
+    Route::crud('institution', 'InstitutionCrudController');
+});
+
 /* Admin routes - Backpack's CRUD panels, accessible only to administrators */
 
 Route::group([
@@ -62,9 +75,5 @@ Route::group([
     Route::crud('leadtype', 'LeadTypeCrudController');
     Route::crud('config', 'ConfigCrudController');
     Route::crud('book', 'BookCrudController');
-    Route::crud('fee', 'FeeCrudController');
-    Route::crud('discount', 'DiscountCrudController');
-    Route::crud('coupon', 'CouponCrudController');
-    Route::crud('paymentmethod', 'PaymentmethodCrudController');
     Route::crud('courseevaluation', 'CourseEvaluationCrudController');
 }); // this should be the absolute last line of this file

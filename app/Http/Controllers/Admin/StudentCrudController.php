@@ -8,6 +8,7 @@ use App\Models\Period;
 use App\Models\Student;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use App\Models\Institution;
 
 class StudentCrudController extends CrudController
 {
@@ -147,6 +148,17 @@ class StudentCrudController extends CrudController
             return LeadType::all()->pluck('name', 'id')->toArray();
         }, function ($value) { // if the filter is active
             CRUD::addClause('where', 'lead_type_id', '!=', $value);
+        });
+
+        // select2 filter
+        $this->crud->addFilter([
+            'name'  => 'institution_id',
+            'type'  => 'select2',
+            'label' => __('Institution'),
+        ], function() {
+            return Institution::all()->pluck('name', 'id')->toArray();
+        }, function($value) { // if the filter is active
+            $this->crud->addClause('where', 'institution_id', $value);
         });
     }
 
