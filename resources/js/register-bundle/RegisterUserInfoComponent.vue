@@ -94,7 +94,6 @@
                 :allow-new=true
                 :open-on-focus=true
                 maxtags="1"
-                field="name"
                 :placeholder="$t('institution_example')"
                 @typing="getFilteredInstitutions">
                 <template slot="empty">{{$t('institution_save')}}</template>
@@ -153,7 +152,7 @@ export default {
         },
         getFilteredInstitutions(text) {
             this.filteredInstitutions = this.institutionslist.filter((option) => {
-                return option.name
+                return option
                     .toString()
                     .toLowerCase()
                     .indexOf(text.toLowerCase()) >= 0

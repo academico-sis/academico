@@ -24,7 +24,7 @@
         <div class="container">
             <h1 class="title">{{ trans('backpack::base.register') }}</h1>
             <div id="app">
-                <register-component :institutions="{{ \App\Models\Institution::all() }}"></register-component>
+                <register-component :institutions="{{ \App\Models\Institution::all()->pluck('name') }}"></register-component>
             </div>
         </div>
     </section>
