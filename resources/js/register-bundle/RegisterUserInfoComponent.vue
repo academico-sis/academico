@@ -87,11 +87,19 @@
                     name="institución"
                     rules="required"
                 >
-                    <b-input
-                        v-model="formdata.institution"
-                        :placeholder="$t('institution_example')"
-                    >
-                    </b-input>
+                <b-taginput
+                v-model="formdata.institution"
+                :data="filteredInstitutions"
+                autocomplete
+                :allow-new=true
+                :open-on-focus=true
+                maxtags="1"
+                field="name"
+                :placeholder="$t('institution_example')"
+                @typing="getFilteredInstitutions">
+                <template slot="empty">{{$t('institution_save')}}</template>
+            </b-taginput>
+                   
                     <p class="help is-danger">{{ errors[0] }}</p>
                 </ValidationProvider>
             </b-field>
@@ -113,11 +121,13 @@ export default {
         ValidationObserver,
     },
 
-    props: [],
+    props: ['institutions'],
 
     data() {
         return {
             errors: [],
+            institutionslist: this.institutions,
+            filteredInstitutions: this.institutionslist,
             formdata: {
                 address: null,
                 birthdate: null,
@@ -141,7 +151,14 @@ export default {
         dropPhoneNumber(index) {
             this.formdata.phonenumbers.splice(index, 1);
         },
-
+        getFilteredInstitutions(text) {
+            this.filteredInstitutions = this.institutionslist.filter((option) => {
+                return option.name
+                    .toString()
+                    .toLowerCase()
+                    .indexOf(text.toLowerCase()) >= 0
+            })
+        },
         async validateBeforeSubmit() {
             const isValid = await this.$refs.observer.validate();
 

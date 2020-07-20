@@ -34,7 +34,8 @@ export default {
         "passport": "Passport",
         "cedula_number": "Cédula number",
         "passport_number": "Passport number",
-        "iddocument": "ID document"
+        "iddocument": "ID document",
+        "institution_save": "Press ENTER to confirm your institution"
     },
     "es": {
         "step1": "Datos del estudiante",
@@ -71,7 +72,8 @@ export default {
         "passport": "Pasaporte",
         "cedula_number": "Número de cédula",
         "passport_number": "Número de pasaporte",
-        "iddocument": "Documento de identificación"
+        "iddocument": "Documento de identificación",
+        "institution_save": "Pulse ENTER para continuar"
     },
     "fr": {
         "step1": "Informations de l'étudiant",
@@ -108,6 +110,7 @@ export default {
         "passport": "Passeport",
         "cedula_number": "Numéro de cédula",
         "passport_number": "Numéro de passeport",
-        "iddocument": "Document d'identité"
+        "iddocument": "Document d'identité",
+        "institution_save": "Appuyez sur ENTRÉE pour confirmer"
     }
 }
