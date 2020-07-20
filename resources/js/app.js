@@ -48,6 +48,8 @@ Vue.component('student-contacts-component', require('./components/student/studen
 
 Vue.component('course-list-component', require('./components/CourseListComponent.vue').default);
 
+Vue.component('event-creation-component', require('./components/eventCreationComponent.vue').default);
+
 const app = new Vue({
     el: '#app',
     i18n,
