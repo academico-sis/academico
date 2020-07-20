@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\StudentRequest;
+use App\Models\Institution;
 use App\Models\LeadType;
 use App\Models\Period;
 use App\Models\Student;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use App\Models\Institution;
 
 class StudentCrudController extends CrudController
 {
@@ -155,9 +155,9 @@ class StudentCrudController extends CrudController
             'name'  => 'institution_id',
             'type'  => 'select2',
             'label' => __('Institution'),
-        ], function() {
+        ], function () {
             return Institution::all()->pluck('name', 'id')->toArray();
-        }, function($value) { // if the filter is active
+        }, function ($value) { // if the filter is active
             $this->crud->addClause('where', 'institution_id', $value);
         });
     }
