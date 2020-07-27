@@ -141,12 +141,8 @@
   <li class='nav-item'><a class='nav-link' href="{{ route('teacherDashboard') }}"><i class="nav-icon la la-home"></i> <span>@lang('Teacher Dashboard')</span></a></li>
   <li class='nav-item'><a class='nav-link' href="{{ route('teacherCalendar', ['teacher' => backpack_user()->teacher_id]) }}"><i class="nav-icon la la-calendar"></i> <span>@lang('My Schedule')</span></a></li>
   <li class='nav-item'><a class='nav-link' href="{{ route('teacherHours', ['teacher' => backpack_user()->teacher_id]) }}"><i class="nav-icon la la-clock-o"></i> <span>@lang('My Hours')</span></a></li>
-  <li class='nav-item'><a class='nav-link' href="https://moodle.afcuenca.org.ec"><i class="nav-icon la la-clock-o"></i> <span>@lang('SPHERE')</span></a></li>
 @endif
 
 @if((backpack_user()->isStudent()))
   <li class="nav-item"><a class='nav-link' href="{{ route('backpack.account.edit_info') }}"><i class="la la-user"></i> <span>{{ trans('backpack::base.my_account') }}</span></a></li>
-  <li class='nav-item'><a class='nav-link' href="https://moodle.afcuenca.org.ec"><i class="nav-icon la la-clock-o"></i> <span>@lang('SPHERE')</span></a></li>
-@endif
-
-
+  @endif
