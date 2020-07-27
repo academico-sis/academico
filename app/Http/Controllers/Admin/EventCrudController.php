@@ -6,6 +6,9 @@ use App\Http\Requests\EventRequest as StoreRequest;
 // VALIDATION: change the requests to match your own file names if you need form validation
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Http\Request;
+use App\Models\Event;
+use Carbon\Carbon;
 
 /**
  * Class EventCrudController
@@ -154,7 +157,25 @@ class EventCrudController extends CrudController
           });
     }
 
-    public function setupCreateOperation()
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required'
+        ]);
+
+        foreach ($request->createList as $eventData)
+        {
+            Event::create([
+                'name' => $request->name,
+                'start' => Carbon::parse($eventData['start']),
+                'end' => Carbon::parse($eventData['end']),
+                'teacher_id' => $request->teacher,
+                'room_id' => $request->room,
+            ]);
+        }
+    }
+
+    public function setupUpdateOperation()
     {
         CRUD::addFields([
 
@@ -200,10 +221,5 @@ class EventCrudController extends CrudController
         ]);
 
         CRUD::setValidation(StoreRequest::class);
-    }
-
-    public function setupUpdateOperation()
-    {
-        $this->setupCreateOperation();
     }
 }
