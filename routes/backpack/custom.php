@@ -30,7 +30,6 @@ Route::group([
     'namespace'  => 'App\Http\Controllers\Admin',
 ], function () {
     Route::crud('enrollment', 'EnrollmentCrudController');
-    Route::crud('availablecourse', 'AvailableCourseCrudController');
 }
 );
 

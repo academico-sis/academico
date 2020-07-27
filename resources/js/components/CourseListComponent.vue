@@ -200,7 +200,7 @@
                             @mouseleave="highlightedSortableId = null"
                         >
                             <div class="card-body">
-                                <div class="btn-group float-right">
+                                <div v-if="mode == 'view'" class="btn-group float-right">
                                     <a
                                         class="btn"
                                         :href="'course/' + course.id + '/show'"
@@ -272,6 +272,24 @@
                                         </button>
                                     </div>
                                 </div>
+
+                                <div v-if="mode == 'enroll' && (course.spots - course.course_enrollments_count > 0)" class="btn-group float-right">
+                                    <a
+                                        class="btn"
+                                        href='#'
+                                        @click="enrollStudent(course.id)"
+                                        ><i class="la la-user-plus"></i
+                                    ></a>
+                                </div>
+
+                                <div v-if="mode == 'update'" class="btn-group float-right">
+                                    <a
+                                        class="btn"
+                                        href='#'
+                                        @click="updateEnrollment(course.id)"
+                                        ><i class="la la-user-plus"></i
+                                    ></a>
+                                </div>
                                 <h5 class="coursename">{{ course.name }}</h5>
                                 <div v-if="course.teacher">
                                     <i class="la la-user"></i>
@@ -334,6 +352,9 @@ export default {
         "rhythms",
         "levels",
         "editable",
+        "mode",
+        "student_id",
+        "enrollment_id"
     ],
 
     data() {
@@ -346,6 +367,7 @@ export default {
             highlightedSortableId: null,
             isLoading: true,
             hasErrors: false,
+            showChildren: true,
         };
     },
 
@@ -510,6 +532,36 @@ export default {
                     });
                 }
             });
+        },
+        enrollStudent(course_id)
+        {
+            this.mode = 'blocked'
+            new Noty({
+                type: "info",
+                text: 'Matricula en curso...',
+            }).show();
+            axios.post('/student/enroll', {
+                student_id: this.student_id,
+                course_id: course_id
+            })
+            .then(response => {
+                window.location.href=response.data
+            })
+        },
+        updateEnrollment(course_id)
+        {
+            this.mode = 'blocked'
+            new Noty({
+                type: "info",
+                text: 'Cambiando de curso...',
+            }).show();
+            axios.post(`/enrollment/${this.enrollment_id}/changeCourse`, {
+                student_id: this.student_id,
+                course_id: course_id
+            })
+            .then(response => {
+                window.location.href=response.data
+            })
         },
     },
 };

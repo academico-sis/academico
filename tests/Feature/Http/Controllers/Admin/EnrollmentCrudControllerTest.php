@@ -71,7 +71,6 @@ class EnrollmentCrudControllerTest extends TestCase
         $response->assertViewHas('enrollment');
         $response->assertViewHas('products');
         $response->assertViewHas('comments');
-        $response->assertViewHas('availableCourses');
 
         // TODO: perform additional assertions
     }

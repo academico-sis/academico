@@ -165,10 +165,8 @@ class EnrollmentCrudController extends CrudController
         // get related comments
         $comments = $enrollment->comments;
 
-        $availableCourses = Course::where('period_id', $enrollment->course->period_id)->get();
-
         // then load the page
-        return view('enrollments.show', compact('enrollment', 'products', 'comments', 'availableCourses'));
+        return view('enrollments.show', compact('enrollment', 'products', 'comments'));
     }
 
     public function destroy($enrollment)
