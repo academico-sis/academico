@@ -6,13 +6,13 @@ use App\Models\Course;
 use App\Models\Level;
 use App\Models\Period;
 use App\Models\Rhythm;
+use App\Models\Student;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\Filters\Filter;
 use Spatie\QueryBuilder\QueryBuilder;
-use Illuminate\Http\Request;
-use App\Models\Student;
 
 class FiltersSearchableLevels implements Filter
 {
@@ -50,6 +50,7 @@ class CourseController extends Controller
         $mode = $request->mode ?? 'view';
         $student = Student::with('enrollments')->find($request->student_id) ?? collect(['']);
         $enrollment_id = $request->enrollment_id ?? 'none';
+
         return view('courses.list', compact('defaultPeriod', 'isAllowedToEdit', 'rhythms', 'levels', 'mode', 'student', 'enrollment_id'));
     }
 
