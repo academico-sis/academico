@@ -21,7 +21,7 @@
         :levels="{{ $levels }}"
         :editable="{{ $isAllowedToEdit }}"
         mode="{{ $mode }}"
-        student_id="{{ $student_id }}"
+        :student="{{ $student }}"
         enrollment_id="{{ $enrollment_id }}"
     ></course-list-component>
 </div>

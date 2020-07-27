@@ -173,6 +173,31 @@
                 v-if="isLoading == false && hasErrors == false"
                 class="col-md-8"
             >
+            <div class="row" v-if="this.mode == 'enroll'">
+                    <div class="col-md-6">
+                        <div class="card">
+                        <div class="card-header">
+                            {{ $t("Student") }}
+                        </div>
+                        <div class="card-body">
+                            {{ this.student.name }}
+                        </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="card">
+                        <div class="card-header">
+                            {{ $t("Last enrollment") }}
+                        </div>
+                        <div class="card-body">
+                            <p>{{ this.student.enrollments.slice(-1)[0].course.name }} ({{ this.student.enrollments.slice(-1)[0].course.course_period_name }})</p>
+                            <label class="label-info">{{ this.student.enrollments.slice(-1)[0].result_name }}</label>
+                        </div>
+                        </div>
+                    </div>
+
+            </div>
                 <div class="row">
                     <p v-if="sortedCourses.length == 0">
                         {{ $t("noresults") }}
@@ -353,7 +378,7 @@ export default {
         "levels",
         "editable",
         "mode",
-        "student_id",
+        "student",
         "enrollment_id"
     ],
 
@@ -541,7 +566,7 @@ export default {
                 text: 'Matricula en curso...',
             }).show();
             axios.post('/student/enroll', {
-                student_id: this.student_id,
+                student_id: this.student.id,
                 course_id: course_id
             })
             .then(response => {
@@ -556,7 +581,7 @@ export default {
                 text: 'Cambiando de curso...',
             }).show();
             axios.post(`/enrollment/${this.enrollment_id}/changeCourse`, {
-                student_id: this.student_id,
+                student_id: this.student.id,
                 course_id: course_id
             })
             .then(response => {

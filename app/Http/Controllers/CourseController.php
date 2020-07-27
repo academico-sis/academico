@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\Filters\Filter;
 use Spatie\QueryBuilder\QueryBuilder;
+use Illuminate\Http\Request;
+use App\Models\Student;
 
 class FiltersSearchableLevels implements Filter
 {
@@ -46,10 +48,9 @@ class CourseController extends Controller
         $levels = Level::all();
         $isAllowedToEdit = backpack_user()->hasPermissionTo('courses.edit') ? 1 : 0;
         $mode = $request->mode ?? 'view';
-        $student_id = $request->student_id ?? 'none';
+        $student = Student::with('enrollments')->find($request->student_id) ?? collect(['']);
         $enrollment_id = $request->enrollment_id ?? 'none';
-
-        return view('courses.list', compact('defaultPeriod', 'isAllowedToEdit', 'rhythms', 'levels', 'mode', 'student_id', 'enrollment_id'));
+        return view('courses.list', compact('defaultPeriod', 'isAllowedToEdit', 'rhythms', 'levels', 'mode', 'student', 'enrollment_id'));
     }
 
     public function search()

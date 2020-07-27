@@ -98,7 +98,7 @@ class Course extends Model
     // protected $hidden = [];
     protected $dates = ['start_date', 'end_date'];
     //protected $with = ['enrollments'];
-    protected $appends = ['course_times', 'course_teacher_name', 'course_enrollments_count', 'sortable_id'];
+    protected $appends = ['course_times', 'course_teacher_name', 'course_period_name','course_enrollments_count', 'sortable_id'];
     protected static $logUnguarded = true;
 
     /*
@@ -406,6 +406,11 @@ class Course extends Model
     public function getCourseRhythmNameAttribute()
     {
         return strtoupper($this->rhythm['name']);
+    }
+
+    public function getCoursePeriodNameAttribute()
+    {
+        return $this->period['name'];
     }
 
     public function getCourseTeacherNameAttribute()

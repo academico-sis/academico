@@ -69,7 +69,7 @@
                         <div class="card-header-actions">
                                 @if(backpack_user()->can('enrollments.edit'))
 
-                            <a href="/availablecourse?student={{ $student->id }}" class="btn btn-sm btn-primary">
+                            <a href="{{ route('get-courses-list', ['mode' => 'enroll', 'student_id' => $student->id]) }}" class="btn btn-sm btn-primary">
                                 <i class="la la-user-plus"></i>
                             </a>
                             @endif

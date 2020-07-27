@@ -17,8 +17,8 @@ class Enrollment extends Model
     use LogsActivity;
 
     protected $fillable = ['student_id', 'course_id', 'parent_id', 'status_id'];
-    protected $append = ['childrenEnrollments', 'productCode'];
-    protected $with = ['student', 'course'];
+    protected $appends = ['result_name', 'product_code'];
+    protected $with = ['student', 'course', 'childrenEnrollments'];
     protected static $logUnguarded = true;
 
     protected static function boot()
