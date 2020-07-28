@@ -9,7 +9,6 @@ use App\Models\Rhythm;
 use App\Models\Student;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\Filters\Filter;
 use Spatie\QueryBuilder\QueryBuilder;
