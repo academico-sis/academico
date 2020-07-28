@@ -69,11 +69,11 @@ class AuthServiceProvider extends ServiceProvider
 
         /*
          * the user is allowed to view the result if they are the student,
-         * if they are the teacher of the course for this result
+         * if they are a teacher
          * of if they have explicit permission to view any result
          */
         Gate::define('view-enrollment', function ($user, $enrollment) {
-            return $user->student_id == $enrollment->student_id || $user->teacher_id == $enrollment->course->teacher_id || $user->can('evaluation.view');
+            return $user->student_id == $enrollment->student_id || $user->isTeacher() || $user->can('evaluation.view');
         });
 
         /*

@@ -196,7 +196,7 @@ class StudentCrudController extends CrudController
     {
         $student = Student::findOrFail($student);
 
-        if (! backpack_user()->can('show', $student) && ! backpack_user()->can('enrollments.view')) {
+        if (! backpack_user()->isTeacher() && ! backpack_user()->can('enrollments.view')) {
             abort(403);
         }
 
