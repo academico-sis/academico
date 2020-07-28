@@ -337,6 +337,10 @@ class DatabaseSeeder extends Seeder
         factory(Teacher::class)->create();
 
         factory(Year::class)->create([
+            'name' => '2019',
+        ]);
+
+        factory(Year::class)->create([
             'name' => '2020',
         ]);
 
@@ -344,21 +348,21 @@ class DatabaseSeeder extends Seeder
 
             // seed 4 periods inside that year
             DB::table('periods')->insert([
-                'name' => 'Period 2 in year '.$year->name,
+                'name' => $year->name.'-I',
                 'start' => date('Y-m-d', strtotime('first day of april this year')),
                 'end' => date('Y-m-d', strtotime('last day of june this year')),
                 'year_id' => $year->id,
             ]);
 
             DB::table('periods')->insert([
-                'name' => 'Period 3 in year '.$year->name,
+                'name' => $year->name.'-II',
                 'start' => date('Y-m-d', strtotime('first day of july this year')),
                 'end' => date('Y-m-d', strtotime('last day of august this year')),
                 'year_id' => $year->id,
             ]);
 
             DB::table('periods')->insert([
-                'name' => 'Period 4 in year '.$year->name,
+                'name' => $year->name.'-III',
                 'start' => date('Y-m-d', strtotime('first day of september this year')),
                 'end' => date('Y-m-d', strtotime('last day of december this year')),
                 'year_id' => $year->id,
@@ -427,11 +431,18 @@ class DatabaseSeeder extends Seeder
 
                 for ($i = 0; $i < random_int(5, 19); $i++) {
                     $student = factory(Student::class)->create();
+                    $student->enroll($p1course1);
                     $student->enroll($p1course2);
                 }
 
                 for ($i = 0; $i < random_int(5, 19); $i++) {
                     $student = factory(Student::class)->create();
+                    $student->enroll($p1course3);
+                }
+
+                for ($i = 0; $i < random_int(5, 19); $i++) {
+                    $student = factory(Student::class)->create();
+                    $student->enroll($p1course2);
                     $student->enroll($p1course3);
                 }
             }
