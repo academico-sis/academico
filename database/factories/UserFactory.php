@@ -1,9 +1,9 @@
 <?php
 
+use Faker\Generator as Faker;
 use Illuminate\Support\Str;
 
-$factory->define(App\Models\User::class, function () {
-    $faker = Faker\Factory::create('fr_FR');
+$factory->define(App\Models\User::class, function (Faker $faker) {
     return [
         'firstname' => $faker->name,
         'lastname' => $faker->name,
