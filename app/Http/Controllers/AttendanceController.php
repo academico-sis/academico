@@ -211,6 +211,13 @@ class AttendanceController extends Controller
         $course->exempt_attendance = (int) $request->status;
         $course->save();
 
+        // apply the same change to all course events
+        foreach ($course->events as $event)
+        {
+            $event->exempt_attendance = (int) $request->status;
+            $event->save();
+        }
+
         return (int) $course->exempt_attendance;
     }
 }
