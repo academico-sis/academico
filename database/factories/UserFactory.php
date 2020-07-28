@@ -4,6 +4,7 @@ use Illuminate\Support\Str;
 
 $factory->define(App\Models\User::class, function () {
     $faker = Faker\Factory::create('fr_FR');
+
     return [
         'firstname' => $faker->name,
         'lastname' => $faker->name,
