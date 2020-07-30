@@ -7,10 +7,10 @@ use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\EnrollmentStatusType;
 use App\Models\Period;
+use App\Models\Scholarship;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Support\Facades\Log;
-use App\Models\Scholarship;
 
 /**
  * Class EnrollmentCrudController
@@ -110,7 +110,7 @@ class EnrollmentCrudController extends CrudController
                 'model' => \App\Models\EnrollmentStatusType::class, // foreign key model
             ],
 
-            [  
+            [
                 // any type of relationship
                 'name'         => 'scholarships', // name of relationship method in the model
                 'type'         => 'relationship',
@@ -119,7 +119,7 @@ class EnrollmentCrudController extends CrudController
                 // 'entity'    => 'tags', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
                 'model'     => App\Models\Scholarship::class, // foreign key model
-             ],
+            ],
 
             [
                 // n-n relationship (with pivot table)
@@ -174,15 +174,13 @@ class EnrollmentCrudController extends CrudController
             return Scholarship::all()->pluck('name', 'id')->toArray();
         },
           function ($value) { // if the filter is active
-            if ($value == 'all') 
-            {
-                CRUD::addClause('whereHas', 'scholarships');
-            }
-            else {
-                CRUD::addClause('whereHas', 'scholarships', function ($q) use ($value) {
-                    $q->where('scholarships.id', $value);
-                });
-            }
+              if ($value == 'all') {
+                  CRUD::addClause('whereHas', 'scholarships');
+              } else {
+                  CRUD::addClause('whereHas', 'scholarships', function ($q) use ($value) {
+                      $q->where('scholarships.id', $value);
+                  });
+              }
           });
     }
 

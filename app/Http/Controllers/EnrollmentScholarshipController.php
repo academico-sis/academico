@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Enrollment;
 use App\Models\Scholarship;
+use Illuminate\Http\Request;
 
 class EnrollmentScholarshipController extends Controller
 {
-
     /**
      * Store a newly created resource in storage.
      */

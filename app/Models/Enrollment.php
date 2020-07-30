@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
-use App\Models\Scholarship;
 
 class Enrollment extends Model
 {
@@ -244,7 +243,7 @@ class Enrollment extends Model
 
     public function getProductCodeAttribute()
     {
-        return $this->course->rhythm->product_code ?? " ";
+        return $this->course->rhythm->product_code ?? ' ';
     }
 
     public function getAttendanceRatioAttribute()

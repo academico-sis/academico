@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateScholarshipsTable extends Migration
 {
@@ -22,7 +22,7 @@ class CreateScholarshipsTable extends Migration
         Schema::create('enrollment_scholarship', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedBigInteger('enrollment_id')->references('id')->on('enrollments')->onDelete('cascade');
-            $table->unsignedBigInteger('scholarship_id')->references('id')->on('scholarships')->onDelete('cascade');;
+            $table->unsignedBigInteger('scholarship_id')->references('id')->on('scholarships')->onDelete('cascade');
             $table->timestamps();
         });
     }

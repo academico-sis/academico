@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Request;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ScholarshipRequest extends FormRequest
@@ -26,7 +25,7 @@ class ScholarshipRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:scholarships'
+            'name' => 'required|unique:scholarships',
         ];
     }
 
