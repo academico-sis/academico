@@ -44,5 +44,6 @@
     "Your comment has been saved",
     "Refresh status",
     "Unable to communicate with Accounting Service. This invoice will NOT be sent automatically to the Accounting system",
-    "institution_save"
+    "institution_save",
+    "Add scholarship"
 ]

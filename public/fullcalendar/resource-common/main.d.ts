@@ -473,9 +473,9 @@ declare module '@fullcalendar/resource-common/reducers/resources' {
         resourceSource: import("@fullcalendar/resource-common/structs/resource-source").ResourceSource;
         resourceStore: ResourceHash;
         resourceEntityExpansions: import("@fullcalendar/resource-common/reducers/resourceEntityExpansions").ResourceEntityExpansions;
+        loadingLevel: number;
         eventSources: import("@fullcalendar/core").EventSourceHash;
         eventSourceLoadingLevel: number;
-        loadingLevel: number;
         viewType: string;
         currentDate: Date;
         dateProfile: import("@fullcalendar/core").DateProfile;

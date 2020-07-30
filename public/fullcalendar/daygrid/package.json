@@ -1,66 +1,43 @@
 {
-  "_args": [
-    [
-      "@fullcalendar/daygrid@4.4.0",
-      "/home/thomas/academico"
-    ]
-  ],
-  "_from": "@fullcalendar/daygrid@4.4.0",
-  "_hasShrinkwrap": false,
-  "_id": "@fullcalendar/daygrid@4.4.0",
-  "_inCache": true,
-  "_installable": true,
+  "_from": "@fullcalendar/daygrid@4.4.2",
+  "_id": "@fullcalendar/daygrid@4.4.2",
+  "_inBundle": false,
+  "_integrity": "sha512-axjfMhxEXHShV3r2TZjf+2niJ1C6LdAxkHKmg7mVq4jXtUQHOldU5XsjV0v2lUAt1urJBFi2zajfK8798ukL3Q==",
   "_location": "/@fullcalendar/daygrid",
-  "_nodeVersion": "11.6.0",
-  "_npmOperationalInternal": {
-    "host": "s3://npm-registry-packages",
-    "tmp": "tmp/daygrid_4.4.0_1581468879907_0.9448389013816487"
-  },
-  "_npmUser": {
-    "email": "arshaw@arshaw.com",
-    "name": "arshaw"
-  },
-  "_npmVersion": "6.5.0",
   "_phantomChildren": {},
   "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "@fullcalendar/daygrid@4.4.2",
     "name": "@fullcalendar/daygrid",
-    "raw": "@fullcalendar/daygrid@4.4.0",
-    "rawSpec": "4.4.0",
+    "escapedName": "@fullcalendar%2fdaygrid",
     "scope": "@fullcalendar",
-    "spec": "4.4.0",
-    "type": "version"
+    "rawSpec": "4.4.2",
+    "saveSpec": null,
+    "fetchSpec": "4.4.2"
   },
   "_requiredBy": [
+    "#USER",
     "/",
     "/@fullcalendar/resource-daygrid",
     "/@fullcalendar/timegrid"
   ],
-  "_resolved": "https://registry.npmjs.org/@fullcalendar/daygrid/-/daygrid-4.4.0.tgz",
-  "_shasum": "25fcae7226b62688b4e086a611582e72253b5229",
-  "_shrinkwrap": null,
-  "_spec": "@fullcalendar/daygrid@4.4.0",
+  "_resolved": "https://registry.npmjs.org/@fullcalendar/daygrid/-/daygrid-4.4.2.tgz",
+  "_shasum": "568bfb3c7cc97f83b57cf3aef0fa3ed1bf6eda16",
+  "_spec": "@fullcalendar/daygrid@4.4.2",
   "_where": "/home/thomas/academico",
   "author": {
-    "email": "arshaw@arshaw.com",
     "name": "Adam Shaw",
+    "email": "arshaw@arshaw.com",
     "url": "http://arshaw.com/"
   },
   "bugs": {
     "url": "https://fullcalendar.io/reporting-bugs"
   },
+  "bundleDependencies": false,
   "copyright": "2019 Adam Shaw",
-  "dependencies": {},
+  "deprecated": false,
   "description": "Display events on Month view or DayGrid view",
-  "devDependencies": {},
-  "directories": {},
-  "dist": {
-    "fileCount": 10,
-    "integrity": "sha512-pDfvL0XZxKHTZ4VFOmwaYe3LmuABEIZsEopeqQ8y5O6BDen9KCbJqgHeCI8FpASSBd6bNlUx7il7EHdSoHhgIw==",
-    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJeQ0zQCRA9TVsSAnZWagAAOkkP/0ft1KiSNZjmJE8l4fM6\n7icTU/AeHK8Q15VdxnKGGWF0urm0L2I0Ch8R9IG7rXXktHkoDzi6r6m6A4No\nwERx3O9akKC8TJtgB7dg1O5/oeqqU5h9rEuXkUXdZSBBjz0p31lJMdSKl23m\n5tt3R415pX+swPajgIll8xgLC8Q+J7IY/c4Fdpz5zz7aTMI0I0sOOnPjMe59\nmwQ+/MRDfoULiyJztd4aGpIuHXwjCQYI9pjRN/2AbzSEKvod7jyYCV+UoKKR\ngQc470YYEHxkLrHql2T/Se6suVZBX8PiVyI1iLeVs5nvxccbgyyUWHVHE9Be\niRyll6M5aRitBVbLedEcsPh9PzXZsU9LiXMc0f9eiixz3kp62cKGhlsJvkXd\n3WRPeCout9SuchCcW5yf1okjstuQnxb6XBZ90MmRFT3BBVLt9J4DZPU3EOTu\nuDZJFuD7TIQE+OOsQfrnY+h3WP+QM4kKn1S5fcV9MNPGP2xMRm/yyxOqT5Z5\nhj5jSQhktOrTsuLk7b22/pCMkrbyXM11lfSz0Ib9hn1yqvu8gduxQSNStmYj\nL+7gZhN8fkGz8fVb5uCCOE50BdkCtAzth9p3mfbfGVXuckikqbEZBqO5vrvu\n443tAfTWT3lp3SrkdR2tpZFubWFffB5hMZ51S1mW7Vt5o8ZkfYXUyWTQNIrf\nF6iE\r\n=i2lq\r\n-----END PGP SIGNATURE-----\r\n",
-    "shasum": "25fcae7226b62688b4e086a611582e72253b5229",
-    "tarball": "https://registry.npmjs.org/@fullcalendar/daygrid/-/daygrid-4.4.0.tgz",
-    "unpackedSize": 343740
-  },
   "docs": "https://fullcalendar.io/docs/month-view",
   "homepage": "https://fullcalendar.io/",
   "keywords": [
@@ -70,26 +47,18 @@
   ],
   "license": "MIT",
   "main": "main.js",
-  "maintainers": [
-    {
-      "name": "arshaw",
-      "email": "arshaw@arshaw.com"
-    }
-  ],
   "module": "main.esm.js",
   "name": "@fullcalendar/daygrid",
-  "optionalDependencies": {},
   "peerDependencies": {
     "@fullcalendar/core": "~4.4.0"
   },
-  "readme": "ERROR: No README data found!",
   "repository": {
-    "homepage": "https://github.com/fullcalendar/fullcalendar",
     "type": "git",
-    "url": "git+https://github.com/fullcalendar/fullcalendar.git"
+    "url": "git+https://github.com/fullcalendar/fullcalendar.git",
+    "homepage": "https://github.com/fullcalendar/fullcalendar"
   },
   "title": "FullCalendar Day Grid Plugin",
   "types": "main.d.ts",
   "unpkg": "main.min.js",
-  "version": "4.4.0"
+  "version": "4.4.2"
 }

@@ -1,67 +1,44 @@
 {
-  "_args": [
-    [
-      "@fullcalendar/resource-common@4.4.0",
-      "/home/thomas/academico"
-    ]
-  ],
-  "_from": "@fullcalendar/resource-common@4.4.0",
-  "_hasShrinkwrap": false,
-  "_id": "@fullcalendar/resource-common@4.4.0",
-  "_inCache": true,
-  "_installable": true,
+  "_from": "@fullcalendar/resource-common@4.4.2",
+  "_id": "@fullcalendar/resource-common@4.4.2",
+  "_inBundle": false,
+  "_integrity": "sha512-aypS0cu1pao5iRzhDkSGCSpizqDIFELcMyxZTzkzv9dozccU9wCgDK3rM6qFnSldn7CdOdGRgrUDAAvb3OmzFQ==",
   "_location": "/@fullcalendar/resource-common",
-  "_nodeVersion": "11.6.0",
-  "_npmOperationalInternal": {
-    "host": "s3://npm-registry-packages",
-    "tmp": "tmp/resource-common_4.4.0_1581468885329_0.5265411110649489"
-  },
-  "_npmUser": {
-    "email": "arshaw@arshaw.com",
-    "name": "arshaw"
-  },
-  "_npmVersion": "6.5.0",
   "_phantomChildren": {},
   "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "@fullcalendar/resource-common@4.4.2",
     "name": "@fullcalendar/resource-common",
-    "raw": "@fullcalendar/resource-common@4.4.0",
-    "rawSpec": "4.4.0",
+    "escapedName": "@fullcalendar%2fresource-common",
     "scope": "@fullcalendar",
-    "spec": "4.4.0",
-    "type": "version"
+    "rawSpec": "4.4.2",
+    "saveSpec": null,
+    "fetchSpec": "4.4.2"
   },
   "_requiredBy": [
+    "#USER",
     "/",
     "/@fullcalendar/resource-daygrid",
     "/@fullcalendar/resource-timegrid",
     "/@fullcalendar/resource-timeline"
   ],
-  "_resolved": "https://registry.npmjs.org/@fullcalendar/resource-common/-/resource-common-4.4.0.tgz",
-  "_shasum": "eed6aa5ce4a85d2179db402a8e96568695cd2c5d",
-  "_shrinkwrap": null,
-  "_spec": "@fullcalendar/resource-common@4.4.0",
+  "_resolved": "https://registry.npmjs.org/@fullcalendar/resource-common/-/resource-common-4.4.2.tgz",
+  "_shasum": "fd317d68d8790083e0ed5b99545bd2618bf0b489",
+  "_spec": "@fullcalendar/resource-common@4.4.2",
   "_where": "/home/thomas/academico",
   "author": {
-    "email": "arshaw@arshaw.com",
     "name": "Adam Shaw",
+    "email": "arshaw@arshaw.com",
     "url": "http://arshaw.com/"
   },
   "bugs": {
     "url": "https://fullcalendar.io/reporting-bugs"
   },
+  "bundleDependencies": false,
   "copyright": "2019 Adam Shaw",
-  "dependencies": {},
+  "deprecated": false,
   "description": "Offers base support for resources. Required for all resource-related plugins.",
-  "devDependencies": {},
-  "directories": {},
-  "dist": {
-    "fileCount": 8,
-    "integrity": "sha512-pR7LNBCeqrCsKbNzhdDSg/yiaJe/HUp9axStl2J9GgJF73bXFqYywCJ1WcGp1WLejzT3zq6cXHYBKq9gSzLywQ==",
-    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJeQ0zVCRA9TVsSAnZWagAAih0QAIuBxmUZAm+Zu5/1mjUI\nrVuQQVOAixs+p+jhr7Scl2e1Kj5K0xhxSbgGqpJWO0JnMvDdG/y53bCIXcMt\nuUmIb/tf59T81nW8y6vQcpYXTwkXCpZIqPWLA5xgoZ8T6KaQXVLiB1RlwCtP\nJ56KtyEHCj9oCNRbAX1gxG7IjRO6f8NqDLmeXbILSBHcUyofwwZJILF6mdAk\nmCtANo5KSH945GqTMqrqixdhWywyYiRwphUDjMDP6pU5p6E3/hkBXQz2qwI7\n+I+3/pjC8VaW5MX522KCF5y0iJIM3LMYMRZbNbI2meYGBq7cGvpOopzpZFQ1\nMRyYNctuyHTlrNQaxzfYWhGnsUPc79iffYwR/6+/bfsln2ZHQI2jF2FaWeu0\nfhCOOJH6jgQIJhYwOeX6RXPs0e122CJrnX0NagAH6PzVYxGiwZObFJIlaEid\no7NYOBPFgs0BBA5N4r7W+FE05SD2GPzfLz2QCJYHW2OChZZy0vAsqrBlOG96\nlZFHfuKLVW2WvGeAo9FKS5gszOjsujjEmIbavn+T/1ScdV4ooyOxe15BtSYh\nG47jbUtR2jrRFopoYbv7mJZsmNzYvWaXfMCpqZwJdOFqrQbIGMDcTDKxE35z\nXUzmHrrLDe6ziSCgrigrTvr9wLn6nR+c69kkfNFEUHondTNzTT52kTIYeGVr\nKjG/\r\n=MmH4\r\n-----END PGP SIGNATURE-----\r\n",
-    "shasum": "eed6aa5ce4a85d2179db402a8e96568695cd2c5d",
-    "tarball": "https://registry.npmjs.org/@fullcalendar/resource-common/-/resource-common-4.4.0.tgz",
-    "unpackedSize": 293252
-  },
   "docs": "https://fullcalendar.io/docs/scheduler",
   "homepage": "https://fullcalendar.io/scheduler",
   "keywords": [
@@ -71,26 +48,18 @@
   ],
   "license": "SEE LICENSE IN LICENSE.md",
   "main": "main.js",
-  "maintainers": [
-    {
-      "name": "arshaw",
-      "email": "arshaw@arshaw.com"
-    }
-  ],
   "module": "main.esm.js",
   "name": "@fullcalendar/resource-common",
-  "optionalDependencies": {},
   "peerDependencies": {
     "@fullcalendar/core": "~4.4.0"
   },
-  "readme": "ERROR: No README data found!",
   "repository": {
-    "homepage": "https://github.com/fullcalendar/fullcalendar-scheduler",
     "type": "git",
-    "url": "git+https://github.com/fullcalendar/fullcalendar-scheduler.git"
+    "url": "git+https://github.com/fullcalendar/fullcalendar-scheduler.git",
+    "homepage": "https://github.com/fullcalendar/fullcalendar-scheduler"
   },
   "title": "FullCalendar Resources Common Plugin",
   "types": "main.d.ts",
   "unpkg": "main.min.js",
-  "version": "4.4.0"
+  "version": "4.4.2"
 }

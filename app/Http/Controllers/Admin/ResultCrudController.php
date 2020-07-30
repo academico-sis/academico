@@ -50,7 +50,9 @@ class ResultCrudController extends CrudController
                     $query->orWhereHas('student', function ($q) use ($searchTerm) {
                         $q->WhereHas('user', function ($q) use ($searchTerm) {
                             $q->where('firstname', 'like', '%'.$searchTerm.'%')
-                            ->orWhere('lastname', 'like', '%'.$searchTerm.'%');
+                            ->orWhere('lastname', 'like', '%'.$searchTerm.'%')
+                            ->orWhere('email', 'like', '%'.$searchTerm.'%')
+                          ->orWhere('idnumber', 'like', '%'.$searchTerm.'%');
                         });
                     });
                 },
@@ -111,16 +113,14 @@ class ResultCrudController extends CrudController
 
         CRUD::addFilter([ // select2_multiple filter
             'name' => 'result',
-            'type' => 'select2_multiple',
+            'type' => 'select2',
             'label'=> __('Result'),
         ], function () { // the options that show up in the select2
             return ResultType::all()->pluck('name', 'id')->toArray();
-        }, function ($values) { // if the filter is active
-            foreach (json_decode($values) as $key => $value) {
-                $this->crud->query = $this->crud->query->whereHas('result', function ($query) use ($value) {
-                    $query->where('result_type_id', $value);
-                });
-            }
+        }, function ($value) { // if the filter is active
+            $this->crud->query = $this->crud->query->whereHas('result', function ($query) use ($value) {
+                $query->where('result_type_id', $value);
+            });
         });
     }
 

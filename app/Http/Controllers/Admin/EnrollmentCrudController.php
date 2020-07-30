@@ -10,6 +10,7 @@ use App\Models\Period;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Support\Facades\Log;
+use App\Models\Scholarship;
 
 /**
  * Class EnrollmentCrudController
@@ -75,7 +76,9 @@ class EnrollmentCrudController extends CrudController
                     $query->orWhereHas('student', function ($q) use ($searchTerm) {
                         $q->WhereHas('user', function ($q) use ($searchTerm) {
                             $q->where('firstname', 'like', '%'.$searchTerm.'%')
-                            ->orWhere('lastname', 'like', '%'.$searchTerm.'%');
+                            ->orWhere('lastname', 'like', '%'.$searchTerm.'%')
+                            ->orWhere('email', 'like', '%'.$searchTerm.'%')
+                            ->orWhere('idnumber', 'like', '%'.$searchTerm.'%');
                         });
                     });
                 },
@@ -107,9 +110,20 @@ class EnrollmentCrudController extends CrudController
                 'model' => \App\Models\EnrollmentStatusType::class, // foreign key model
             ],
 
+            [  
+                // any type of relationship
+                'name'         => 'scholarships', // name of relationship method in the model
+                'type'         => 'relationship',
+                'label'        => __('Scholarship'),
+                // OPTIONAL
+                // 'entity'    => 'tags', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model'     => App\Models\Scholarship::class, // foreign key model
+             ],
+
             [
                 // n-n relationship (with pivot table)
-                'label' => 'Phone', // Table column heading
+                'label' => __('Phone'), // Table column heading
                 'type' => 'select_multiple',
                 'name' => 'student.phone', // the method that defines the relationship in your Model
                 'entity' => 'student.phone', // the method that defines the relationship in your Model
@@ -151,6 +165,25 @@ class EnrollmentCrudController extends CrudController
         }, function ($value) { // if the filter is active
             CRUD::addClause('period', $value);
         });
+
+        CRUD::addFilter([
+            'name' => 'scholarship',
+            'type' => 'select2',
+            'label'=> __('Scholarship'),
+        ], function () {
+            return Scholarship::all()->pluck('name', 'id')->toArray();
+        },
+          function ($value) { // if the filter is active
+            if ($value == 'all') 
+            {
+                CRUD::addClause('whereHas', 'scholarships');
+            }
+            else {
+                CRUD::addClause('whereHas', 'scholarships', function ($q) use ($value) {
+                    $q->where('scholarships.id', $value);
+                });
+            }
+          });
     }
 
     public function show($enrollment)
@@ -165,8 +198,10 @@ class EnrollmentCrudController extends CrudController
         // get related comments
         $comments = $enrollment->comments;
 
+        $scholarships = Scholarship::all();
+
         // then load the page
-        return view('enrollments.show', compact('enrollment', 'products', 'comments'));
+        return view('enrollments.show', compact('enrollment', 'products', 'comments', 'scholarships'));
     }
 
     public function destroy($enrollment)

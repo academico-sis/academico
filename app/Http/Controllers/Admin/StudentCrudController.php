@@ -65,7 +65,9 @@ class StudentCrudController extends CrudController
                 'searchLogic' => function ($query, $column, $searchTerm) {
                     $query->orWhereHas('user', function ($q) use ($searchTerm) {
                         $q->where('firstname', 'like', '%'.$searchTerm.'%')
-                          ->orWhere('lastname', 'like', '%'.$searchTerm.'%');
+                          ->orWhere('lastname', 'like', '%'.$searchTerm.'%')
+                          ->orWhere('email', 'like', '%'.$searchTerm.'%')
+                          ->orWhere('idnumber', 'like', '%'.$searchTerm.'%');
                     });
                 },
             ],

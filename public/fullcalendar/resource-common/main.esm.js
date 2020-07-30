@@ -1,5 +1,5 @@
 /*!
-FullCalendar Resources Common Plugin v4.4.0
+FullCalendar Resources Common Plugin v4.4.2
 Docs & License: https://fullcalendar.io/scheduler
 (c) 2019 Adam Shaw
 */
@@ -7,18 +7,18 @@ Docs & License: https://fullcalendar.io/scheduler
 import { memoize, filterHash, rangesIntersect, memoizeOutput, isPropsEqual, mapHash, combineEventUis, refineProps, rangesEqual, processScopedUiProps, parseBusinessHours, EventApi, Calendar, Splitter, mergeEventStores, isPropsValid, appendToElement, htmlEscape, cssToStr, config, isValidDate, addDays, unpromisify, requestJson, htmlToElement, createFormatter, computeFallbackHeaderFormat, removeElement, renderDateCell, findElements, Component, flexibleCompare, compareByFieldSpecs, createPlugin } from '@fullcalendar/core';
 
 /*! *****************************************************************************
-Copyright (c) Microsoft Corporation. All rights reserved.
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use
-this file except in compliance with the License. You may obtain a copy of the
-License at http://www.apache.org/licenses/LICENSE-2.0
+Copyright (c) Microsoft Corporation.
 
-THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
-WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
-MERCHANTABLITY OR NON-INFRINGEMENT.
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
 
-See the Apache Version 2.0 License for specific language governing permissions
-and limitations under the License.
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
 ***************************************************************************** */
 /* global Reflect, Promise */
 
@@ -472,9 +472,11 @@ function resourcesReducers (state, action, calendar) {
     var resourceSource = reduceResourceSource(state.resourceSource, action, state.dateProfile, calendar);
     var resourceStore = reduceResourceStore(state.resourceStore, action, resourceSource, calendar);
     var resourceEntityExpansions = reduceResourceEntityExpansions(state.resourceEntityExpansions, action);
+    var loadingLevel = state.loadingLevel + ((resourceSource && resourceSource.isFetching) ? 1 : 0);
     return __assign({}, state, { resourceSource: resourceSource,
         resourceStore: resourceStore,
-        resourceEntityExpansions: resourceEntityExpansions });
+        resourceEntityExpansions: resourceEntityExpansions,
+        loadingLevel: loadingLevel });
 }
 
 var RESOURCE_RELATED_PROPS = {
@@ -809,7 +811,7 @@ EventApi.prototype.setResources = function (resources) {
     });
 };
 
-var RELEASE_DATE = '2020-02-12'; // for Scheduler
+var RELEASE_DATE = '2020-05-28'; // for Scheduler
 var UPGRADE_WINDOW = 365 + 7; // days. 1 week leeway, for tz shift reasons too
 var LICENSE_INFO_URL = 'http://fullcalendar.io/scheduler/license/';
 var PRESET_LICENSE_KEYS = [

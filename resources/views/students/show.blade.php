@@ -100,7 +100,12 @@
                                             <a href="/enrollment/{{ $enrollment->id }}/show">{{ $enrollment->id }}</a>
                                         </td>
                                         @if(backpack_user()->can('enrollments.edit'))
-                                            <td>{{ $enrollment->status }}</td>
+                                            <td>
+                                                {{ $enrollment->status }}
+                                                @foreach ($enrollment->scholarships as $scholarship)
+                                                    {{ $scholarship->name }}
+                                                @endforeach
+                                            </td>
                                         @endif
                                         <td>{{ $enrollment->course->name }}</td>
                                         <td>{{ $enrollment->course->teacher->name ?? '-'}}</td>

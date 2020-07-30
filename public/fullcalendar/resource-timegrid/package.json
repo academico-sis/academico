@@ -1,68 +1,46 @@
 {
-  "_args": [
-    [
-      "@fullcalendar/resource-timegrid@4.4.0",
-      "/home/thomas/academico"
-    ]
-  ],
-  "_from": "@fullcalendar/resource-timegrid@4.4.0",
-  "_hasShrinkwrap": false,
-  "_id": "@fullcalendar/resource-timegrid@4.4.0",
-  "_inCache": true,
-  "_installable": true,
+  "_from": "@fullcalendar/resource-timegrid@4.4.2",
+  "_id": "@fullcalendar/resource-timegrid@4.4.2",
+  "_inBundle": false,
+  "_integrity": "sha512-QI6gn8I4uYi7lIgA68k/EDLNTSiSBD3+HZUziCP7ivPx/AwrL38PY2OZVep/uDjYWG/In44Laf6SSWRdWTkOQA==",
   "_location": "/@fullcalendar/resource-timegrid",
-  "_nodeVersion": "11.6.0",
-  "_npmOperationalInternal": {
-    "host": "s3://npm-registry-packages",
-    "tmp": "tmp/resource-timegrid_4.4.0_1581468877015_0.7957456484374394"
-  },
-  "_npmUser": {
-    "email": "arshaw@arshaw.com",
-    "name": "arshaw"
-  },
-  "_npmVersion": "6.5.0",
   "_phantomChildren": {},
   "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "@fullcalendar/resource-timegrid@4.4.2",
     "name": "@fullcalendar/resource-timegrid",
-    "raw": "@fullcalendar/resource-timegrid@4.4.0",
-    "rawSpec": "4.4.0",
+    "escapedName": "@fullcalendar%2fresource-timegrid",
     "scope": "@fullcalendar",
-    "spec": "4.4.0",
-    "type": "version"
+    "rawSpec": "4.4.2",
+    "saveSpec": null,
+    "fetchSpec": "4.4.2"
   },
   "_requiredBy": [
+    "#USER",
     "/"
   ],
-  "_resolved": "https://registry.npmjs.org/@fullcalendar/resource-timegrid/-/resource-timegrid-4.4.0.tgz",
-  "_shasum": "0ee20c992fa6065cc186915c977dd5c367d2cd0c",
-  "_shrinkwrap": null,
-  "_spec": "@fullcalendar/resource-timegrid@4.4.0",
+  "_resolved": "https://registry.npmjs.org/@fullcalendar/resource-timegrid/-/resource-timegrid-4.4.2.tgz",
+  "_shasum": "eb361469efee0818f240d656f82b80ac95f31e0c",
+  "_spec": "@fullcalendar/resource-timegrid@4.4.2",
   "_where": "/home/thomas/academico",
   "author": {
-    "email": "arshaw@arshaw.com",
     "name": "Adam Shaw",
+    "email": "arshaw@arshaw.com",
     "url": "http://arshaw.com/"
   },
   "bugs": {
     "url": "https://fullcalendar.io/reporting-bugs"
   },
+  "bundleDependencies": false,
   "copyright": "2019 Adam Shaw",
   "dependencies": {
     "@fullcalendar/resource-common": "~4.4.0",
     "@fullcalendar/resource-daygrid": "~4.4.0",
     "@fullcalendar/timegrid": "~4.4.0"
   },
+  "deprecated": false,
   "description": "Displays events on a vertical resource view with time slots",
-  "devDependencies": {},
-  "directories": {},
-  "dist": {
-    "fileCount": 8,
-    "integrity": "sha512-0Vn+WQbysgqBsp0JtRsOkGWACCRFY0oq/Thxgldfz6MXrDFXC64HZU1FTwSZFdfCd01n36SqBcBr1eoAOz5J4g==",
-    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJeQ0zNCRA9TVsSAnZWagAAHq8P/iGe/bX5CyoOLY3gqmUF\neK8eCS3W8ocH+uiQS1Xgc2GKRakv9xhceKo9bsgXa7rhORlr7XSkJQLGytjQ\nwDpwbtJ53QBiCRuLSIrSsMCBdRU3uuLSUI1MKtwuFk1e+TtAqiBVnSqJCapM\nmjulX9I8WA8gsLwxQncJQZ/kzjRQD5Y0V3YQJC5bVolSo+9qGvyhaKYa5IId\nTSf0CbosQNNPlGdenxcjkhzfnVVp7OioVm2acGiJclPUxVqgTTga7f904sN+\nBUJiiAQZ1HxnU3+dS5b4EVzjEGb6lkPX/+kOvq1/gmKSvqCTTt3CHEqhiN5j\nx7f3GDpRFJcqRAhA/0HV+zmR6zI3ygil/CwpTS4QnhDeaulqBPR1CAceY8GX\nfMFDtz5+q2BXVpqgwrZrwgieZ3YdM31ShjMHK4EYlzSiOs2YLZjm+b48Rdx7\ntWuUF8w/rh/W8pLyRrIDZrP4WSIctRIYJiwhww9JaINGV7O9SuuzfKy1ridi\ndaTiwuDwLfsPtemThfoC4w05h1Pu66Y3u829qi3C2R43P3YruFTinoom79gA\n9jecT3ULLNQB8d67rHOMEvXd19cV3eZfzP+Je9XOV7SRB+d6YJ4boNMPxpPq\nr0ApORORYuO9WoZVzoSqzZovAOk0nHsAvLM5a5zvmx3xTi29Acb6LHcS3cer\nnH8p\r\n=Lj0T\r\n-----END PGP SIGNATURE-----\r\n",
-    "shasum": "0ee20c992fa6065cc186915c977dd5c367d2cd0c",
-    "tarball": "https://registry.npmjs.org/@fullcalendar/resource-timegrid/-/resource-timegrid-4.4.0.tgz",
-    "unpackedSize": 49913
-  },
   "docs": "https://fullcalendar.io/docs/vertical-resource-view",
   "homepage": "https://fullcalendar.io/scheduler",
   "keywords": [
@@ -72,26 +50,18 @@
   ],
   "license": "SEE LICENSE IN LICENSE.md",
   "main": "main.js",
-  "maintainers": [
-    {
-      "name": "arshaw",
-      "email": "arshaw@arshaw.com"
-    }
-  ],
   "module": "main.esm.js",
   "name": "@fullcalendar/resource-timegrid",
-  "optionalDependencies": {},
   "peerDependencies": {
     "@fullcalendar/core": "~4.4.0"
   },
-  "readme": "ERROR: No README data found!",
   "repository": {
-    "homepage": "https://github.com/fullcalendar/fullcalendar-scheduler",
     "type": "git",
-    "url": "git+https://github.com/fullcalendar/fullcalendar-scheduler.git"
+    "url": "git+https://github.com/fullcalendar/fullcalendar-scheduler.git",
+    "homepage": "https://github.com/fullcalendar/fullcalendar-scheduler"
   },
   "title": "FullCalendar Resource Time Grid Plugin",
   "types": "main.d.ts",
   "unpkg": "main.min.js",
-  "version": "4.4.0"
+  "version": "4.4.2"
 }

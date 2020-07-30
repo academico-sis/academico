@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
+use App\Models\Scholarship;
 
 class Enrollment extends Model
 {
@@ -107,6 +108,30 @@ class Enrollment extends Model
         }
     }
 
+    public function markAsUnpaid()
+    {
+        $this->status_id = 1;
+        $this->save();
+
+        // also mark children as unpaid
+        foreach ($this->childrenEnrollments as $child) {
+            $child->status_id = 1;
+            $child->save();
+        }
+    }
+
+    public function addScholarship(Scholarship $scholarship)
+    {
+        $this->scholarships()->sync($scholarship);
+        $this->markAsPaid();
+    }
+
+    public function removeScholarship($scholarship)
+    {
+        $this->scholarships()->detach($scholarship);
+        $this->markAsUnpaid();
+    }
+
     /** RELATIONS */
     public function student()
     {
@@ -126,6 +151,11 @@ class Enrollment extends Model
     public function comments()
     {
         return $this->morphMany(Comment::class, 'commentable');
+    }
+
+    public function scholarships()
+    {
+        return $this->belongsToMany(Scholarship::class);
     }
 
     public function result()
@@ -214,7 +244,7 @@ class Enrollment extends Model
 
     public function getProductCodeAttribute()
     {
-        return $this->course->rhythm->product_code;
+        return $this->course->rhythm->product_code ?? " ";
     }
 
     public function getAttendanceRatioAttribute()

@@ -368,5 +368,10 @@
     "Your data has been saved": "Your data has been saved",
     "Your picture has been saved": "Your picture has been saved",
     "Refresh status": "Refresh status",
-    "Unable to communicate with Accounting Service. This invoice will NOT be sent automatically to the Accounting system": "Unable to communicate with Accounting Service. This invoice will NOT be sent automatically to the Accounting system"
+    "Unable to communicate with Accounting Service. This invoice will NOT be sent automatically to the Accounting system": "Unable to communicate with Accounting Service. This invoice will NOT be sent automatically to the Accounting system",
+    "scholarship": "scholarship",
+    "scholarships": "scholarships",
+    "Scholarship": "Scholarship",
+    "Scholarships": "Scholarships",
+    "Add scholarship": "Add scholarship"
 }

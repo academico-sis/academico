@@ -1,64 +1,40 @@
 {
-  "_args": [
-    [
-      "@fullcalendar/timeline@~4.4.0",
-      "/home/thomas/academico/node_modules/@fullcalendar/resource-timeline"
-    ]
-  ],
-  "_from": "@fullcalendar/timeline@>=4.4.0 <4.5.0",
-  "_hasShrinkwrap": false,
-  "_id": "@fullcalendar/timeline@4.4.0",
-  "_inCache": true,
-  "_installable": true,
+  "_from": "@fullcalendar/timeline@~4.4.0",
+  "_id": "@fullcalendar/timeline@4.4.2",
+  "_inBundle": false,
+  "_integrity": "sha512-9lmFKZNtjHLlbZgOBUqjrKkyvuH3gksD13rRE9LC+TBB2EiUypks99A1Cqa1WhScVi2T6j1HZn3TpV6HFM6MBg==",
   "_location": "/@fullcalendar/timeline",
-  "_nodeVersion": "11.6.0",
-  "_npmOperationalInternal": {
-    "host": "s3://npm-registry-packages",
-    "tmp": "tmp/timeline_4.4.0_1581468877323_0.7122587261510414"
-  },
-  "_npmUser": {
-    "email": "arshaw@arshaw.com",
-    "name": "arshaw"
-  },
-  "_npmVersion": "6.5.0",
   "_phantomChildren": {},
   "_requested": {
-    "name": "@fullcalendar/timeline",
+    "type": "range",
+    "registry": true,
     "raw": "@fullcalendar/timeline@~4.4.0",
-    "rawSpec": "~4.4.0",
+    "name": "@fullcalendar/timeline",
+    "escapedName": "@fullcalendar%2ftimeline",
     "scope": "@fullcalendar",
-    "spec": ">=4.4.0 <4.5.0",
-    "type": "range"
+    "rawSpec": "~4.4.0",
+    "saveSpec": null,
+    "fetchSpec": "~4.4.0"
   },
   "_requiredBy": [
     "/@fullcalendar/resource-timeline"
   ],
-  "_resolved": "https://registry.npmjs.org/@fullcalendar/timeline/-/timeline-4.4.0.tgz",
-  "_shasum": "1d5947fb4c1fa6289d054edaa054e19f46251c26",
-  "_shrinkwrap": null,
+  "_resolved": "https://registry.npmjs.org/@fullcalendar/timeline/-/timeline-4.4.2.tgz",
+  "_shasum": "52e622619787b8a632983e68199803a1473d7d12",
   "_spec": "@fullcalendar/timeline@~4.4.0",
   "_where": "/home/thomas/academico/node_modules/@fullcalendar/resource-timeline",
   "author": {
-    "email": "arshaw@arshaw.com",
     "name": "Adam Shaw",
+    "email": "arshaw@arshaw.com",
     "url": "http://arshaw.com/"
   },
   "bugs": {
     "url": "https://fullcalendar.io/reporting-bugs"
   },
+  "bundleDependencies": false,
   "copyright": "2019 Adam Shaw",
-  "dependencies": {},
+  "deprecated": false,
   "description": "Display events on a horizontal time axis (without resources)",
-  "devDependencies": {},
-  "directories": {},
-  "dist": {
-    "fileCount": 10,
-    "integrity": "sha512-GpgNMVjUkFXlC/dVBhiVZJf3/22EulvD1qLaH5zEk/2xYZVdKC9BWo+vOAuRjyvuDnkgHSmtqyjyV2KlRNKWPw==",
-    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJeQ0zVCRA9TVsSAnZWagAAE4YP/0Ovv3Oyvp7KN39f+/fI\nXHhHOvNQWrAoZUEHLf0oKfyQQu5Nq5j8HsuSmd13GqIDIJFIVHB0Tz2PydXe\nLiivRPdwZPyKaENiq1hqLbmoygyeDEbwJZhYnjoQ2SPXsylC93yVCvqxf8tx\n0wTHt2mnpKF6K6mcslAqSvg41kTgHI129nYLSb/dY1xnHhmenKQHlVP6kqaj\nQatlDT41S0YeagIYplo5bzfj0UtFcJnHte3veIvG57ELn0hMoxRjruGfSu4N\nr9e+9Kvv6qci2EzzpSLQWprMkq+otPjkS+PUau/LyrK1mAPwzkTT/X86uBjJ\nTjV2nFDIsi6rFYicFwXzrxCf10cWDMF20zILd3X/NVusYXNk32NYbY39Yz2I\nPF9XCPEV8y7mb4OcpQk2E5oq4ClG4WsyehJrdwmX1cQVCS9hvlJ2JPmIVDPn\nYKwAB9AumR9fYoiUY8L6egD83l/X2q3mgL+CUb5aMIHzQ7Jnbtbr8OqyLGlC\nXgm39QT92i968NNVhjcDbnSsDyMunuWe8sA/MyGln4ZZms0zu/cK7AqKLITO\n/LZRFQRooTg4wjJksGzDkcv5yi0LEtzDdRWBploqRI/TpXxjH1nZ0HXbZHzv\nlylhs/UNRsK1R36L7rVyHS7QAvRtp6JFrtuKl/x2UjnTsD/WSeDftTkCidsf\nEird\r\n=EpA1\r\n-----END PGP SIGNATURE-----\r\n",
-    "shasum": "1d5947fb4c1fa6289d054edaa054e19f46251c26",
-    "tarball": "https://registry.npmjs.org/@fullcalendar/timeline/-/timeline-4.4.0.tgz",
-    "unpackedSize": 416912
-  },
   "docs": "https://fullcalendar.io/docs/timeline-view-no-resources",
   "homepage": "https://fullcalendar.io/scheduler",
   "keywords": [
@@ -68,26 +44,18 @@
   ],
   "license": "SEE LICENSE IN LICENSE.md",
   "main": "main.js",
-  "maintainers": [
-    {
-      "name": "arshaw",
-      "email": "arshaw@arshaw.com"
-    }
-  ],
   "module": "main.esm.js",
   "name": "@fullcalendar/timeline",
-  "optionalDependencies": {},
   "peerDependencies": {
     "@fullcalendar/core": "~4.4.0"
   },
-  "readme": "ERROR: No README data found!",
   "repository": {
-    "homepage": "https://github.com/fullcalendar/fullcalendar-scheduler",
     "type": "git",
-    "url": "git+https://github.com/fullcalendar/fullcalendar-scheduler.git"
+    "url": "git+https://github.com/fullcalendar/fullcalendar-scheduler.git",
+    "homepage": "https://github.com/fullcalendar/fullcalendar-scheduler"
   },
   "title": "FullCalendar Timeline Plugin",
   "types": "main.d.ts",
   "unpkg": "main.min.js",
-  "version": "4.4.0"
+  "version": "4.4.2"
 }

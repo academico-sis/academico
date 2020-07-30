@@ -1,64 +1,41 @@
 {
-  "_args": [
-    [
-      "@fullcalendar/core@4.4.0",
-      "/home/thomas/academico"
-    ]
-  ],
-  "_from": "@fullcalendar/core@4.4.0",
-  "_hasShrinkwrap": false,
-  "_id": "@fullcalendar/core@4.4.0",
-  "_inCache": true,
-  "_installable": true,
+  "_from": "@fullcalendar/core@4.4.2",
+  "_id": "@fullcalendar/core@4.4.2",
+  "_inBundle": false,
+  "_integrity": "sha512-vq7KQGuAJ1ieFG5tUqwxwUwmXYtblFOTjHaLAVHo6iEPB52mS7DS45VJfkhaQmX4+5/+BHRpg82G1qkuAINwtg==",
   "_location": "/@fullcalendar/core",
-  "_nodeVersion": "11.6.0",
-  "_npmOperationalInternal": {
-    "host": "s3://npm-registry-packages",
-    "tmp": "tmp/core_4.4.0_1581468884874_0.2863028259190412"
-  },
-  "_npmUser": {
-    "email": "arshaw@arshaw.com",
-    "name": "arshaw"
-  },
-  "_npmVersion": "6.5.0",
   "_phantomChildren": {},
   "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "@fullcalendar/core@4.4.2",
     "name": "@fullcalendar/core",
-    "raw": "@fullcalendar/core@4.4.0",
-    "rawSpec": "4.4.0",
+    "escapedName": "@fullcalendar%2fcore",
     "scope": "@fullcalendar",
-    "spec": "4.4.0",
-    "type": "version"
+    "rawSpec": "4.4.2",
+    "saveSpec": null,
+    "fetchSpec": "4.4.2"
   },
   "_requiredBy": [
+    "#USER",
     "/"
   ],
-  "_resolved": "https://registry.npmjs.org/@fullcalendar/core/-/core-4.4.0.tgz",
-  "_shasum": "79dbc0cca836ce628a07e739a456da11ff141373",
-  "_shrinkwrap": null,
-  "_spec": "@fullcalendar/core@4.4.0",
+  "_resolved": "https://registry.npmjs.org/@fullcalendar/core/-/core-4.4.2.tgz",
+  "_shasum": "864abe98cce4497a163c01a8fc30389f15d3d4e1",
+  "_spec": "@fullcalendar/core@4.4.2",
   "_where": "/home/thomas/academico",
   "author": {
-    "email": "arshaw@arshaw.com",
     "name": "Adam Shaw",
+    "email": "arshaw@arshaw.com",
     "url": "http://arshaw.com/"
   },
   "bugs": {
     "url": "https://fullcalendar.io/reporting-bugs"
   },
+  "bundleDependencies": false,
   "copyright": "2019 Adam Shaw",
-  "dependencies": {},
+  "deprecated": false,
   "description": "Provides core functionality, including the Calendar class",
-  "devDependencies": {},
-  "directories": {},
-  "dist": {
-    "fileCount": 79,
-    "integrity": "sha512-PC4mmXHJHAlXmUEmZVnePyA8yYCOBdxBNq8yjJqedEtT1X0x36yTFz/Y0Ux6bniICZDqYtk0xoxe6jaxi++e0g==",
-    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJeQ0zVCRA9TVsSAnZWagAAa2QP/3E76Ombh24YE8OOjiRL\nbYOVfDuVaWktJ8ks+GkAdbjKZPCce3T5hyq+BUGVJ4Ycb9yfwrgWJkHkP6R2\nNKEpkWdpxjK3qlIuRa6iZ0xVniTkT0z+Kzd51iel5oQjX6P14E6I2Agxb9j2\nVNXeBDAmDTMzJ5OCyC30COcoMWF0TTcq+kuPM1rE15jwyFVn4OrlMldkTmp/\nA8t90Dfn4ppCe5MZPvcl8j6vGmLQfN1UeDzKxrAsAc/vXuk4KIIdeu3Yw09O\nY9qxKtsybl3aKSLE7p1qdjOGAb0Zp92nDj+GgsgZsfCI27LgfuC6KVUj9A1e\nh33oB+aWjEeMv1GzGbfPxmMAwtPPFbYXvLl8ZkH4GLPi8rMJZX8iLHaNlXFm\nf3I4uLVhe0aXenppO5j3dsnidadhUW7+PSPyt3O3Mka7PF9uk6Qth+O/N/Kv\nMkfywDetjKCFB0RpaQJOR1xaaZehByK0DXBkzvwXmx5Hr0JWtGAtsKLuBvZd\nDwDKgDkZbiEptW/92Y7REEp84oLaTw6pBo4lgTWNVdcUQC126nwOVoV+J+w7\nCX+42ZGw3cNb1mSgDyp6KsGf2jWd4a8bYEZhOIjXCqI40l2YvrQnrIO36kOw\nnJm3erLC53Tnj3sXFLZpTbnNa2ju/uAefFjALTeSLtnv38lRCVXv/pe4KwH2\nIYQM\r\n=shSa\r\n-----END PGP SIGNATURE-----\r\n",
-    "shasum": "79dbc0cca836ce628a07e739a456da11ff141373",
-    "tarball": "https://registry.npmjs.org/@fullcalendar/core/-/core-4.4.0.tgz",
-    "unpackedSize": 1800342
-  },
   "docs": "https://fullcalendar.io/docs/initialize-es6",
   "homepage": "https://fullcalendar.io/",
   "keywords": [
@@ -68,23 +45,15 @@
   ],
   "license": "MIT",
   "main": "main.js",
-  "maintainers": [
-    {
-      "name": "arshaw",
-      "email": "arshaw@arshaw.com"
-    }
-  ],
   "module": "main.esm.js",
   "name": "@fullcalendar/core",
-  "optionalDependencies": {},
-  "readme": "ERROR: No README data found!",
   "repository": {
-    "homepage": "https://github.com/fullcalendar/fullcalendar",
     "type": "git",
-    "url": "git+https://github.com/fullcalendar/fullcalendar.git"
+    "url": "git+https://github.com/fullcalendar/fullcalendar.git",
+    "homepage": "https://github.com/fullcalendar/fullcalendar"
   },
   "title": "FullCalendar Core Package",
   "types": "main.d.ts",
   "unpkg": "main.min.js",
-  "version": "4.4.0"
+  "version": "4.4.2"
 }
