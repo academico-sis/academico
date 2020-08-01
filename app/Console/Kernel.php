@@ -53,7 +53,10 @@ class Kernel extends ConsoleKernel
 
         })->dailyAt('00:00');
 
-        $schedule->command('monitor:check-uptime')->everyMinute();
+        if (config('settings.external_accounting_enabled'))
+        {
+            $schedule->command('monitor:check-uptime')->everyMinute();
+        }
         $schedule->command('activitylog:clean')->daily();
     }
 
