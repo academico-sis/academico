@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Comment;
 use App\Models\Event;
 use App\Models\LeadType;
-use App\Models\LeadType;
 use App\Models\Leave;
 use App\Models\Period;
 use App\Models\Student;
