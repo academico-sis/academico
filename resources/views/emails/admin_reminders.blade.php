@@ -4,9 +4,8 @@
 @if ($changeNextPeriod)
 <p>Le cycle d'inscriptions actuellement sélectionné sur la plateforme se termine dans moins de 15 jours. Les actions suivantes sont recommandées :</p>
 <ul>
-    <li>Tout d'abord, sélectionner le prochain cycle comme cycle d'inscriptions par défaut</li>
+    <li>Sélectionner le prochain cycle comme cycle d'inscriptions par défaut</li>
     <li>Ne pas changer le cycle par défaut jusqu'à ce que toutes les classes du cycle en cours soient achevées.</li>
-    <li>Changer le statut de tous les étudiants "actifs" à "potentiels"</li>
 </ul>
 <br>
 @endif

@@ -78,7 +78,7 @@ return [
     'developer_name' => 'Academico',
 
     // Developer website. Link in footer. Type false if you want to hide it.
-    'developer_link' => 'https://github.com/laxsmi/academico',
+    'developer_link' => 'https://github.com/academico-sis',
 
     // Show powered by Laravel Backpack in the footer? true/false
     'show_powered_by' => true,

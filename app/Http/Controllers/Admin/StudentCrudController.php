@@ -137,7 +137,7 @@ class StudentCrudController extends CrudController
             'type' => 'select2',
             'label'=> __('Status is'),
         ], function () {
-            return LeadType::all()->pluck('name', 'id')->toArray();
+            return LeadType::all()->except(1)->pluck('name', 'id')->toArray();
         }, function ($value) { // if the filter is active
             CRUD::addClause('where', 'lead_type_id', $value);
         });
@@ -147,7 +147,7 @@ class StudentCrudController extends CrudController
             'type' => 'select2',
             'label'=> __('Status is not'),
         ], function () {
-            return LeadType::all()->pluck('name', 'id')->toArray();
+            return LeadType::all()->except(1)->pluck('name', 'id')->toArray();
         }, function ($value) { // if the filter is active
             CRUD::addClause('where', 'lead_type_id', '!=', $value);
         });

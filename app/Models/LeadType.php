@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Translatable\HasTranslations;
 
 class LeadType extends Model
 {
     use CrudTrait;
+    use HasTranslations;
 
     /*
     |--------------------------------------------------------------------------
@@ -17,9 +19,11 @@ class LeadType extends Model
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     // protected $guarded = ['id'];
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'description'];
+    public $translatable = ['name', 'description'];
     // protected $hidden = [];
     // protected $dates = [];
+    protected $appends = ['translated_name'];
 
     /*
     |--------------------------------------------------------------------------
@@ -49,6 +53,11 @@ class LeadType extends Model
     | ACCESORS
     |--------------------------------------------------------------------------
     */
+
+    public function getTranslatedNameAttribute()
+    {
+        return $this->getTranslation('name', app()->getLocale());
+    }
 
     /*
     |--------------------------------------------------------------------------

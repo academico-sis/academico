@@ -6,6 +6,7 @@ use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Carbon\Carbon;
 
 class Period extends Model
 {
@@ -45,7 +46,15 @@ class Period extends Model
         if (self::where('id', $selected_period)->count() > 0) {
             return self::find($selected_period);
         } else {
-            return self::get_default_period();
+            // if the current period ends within 15 days, switch to the next one
+            $default_period = self::get_default_period();
+
+            // the number of days between the end and today is 2x less than the number of days between start and end
+            if (Carbon::parse($default_period->end)->diffInDays() < 0.5 * Carbon::parse($default_period->start)->diffInDays($default_period->end)) {
+                return self::where('id', '>', $default_period->id)->orderBy('id')->first();
+            } else {
+                return $default_period;
+            }
         }
     }
 
@@ -154,7 +163,7 @@ class Period extends Model
 
     public function getNextPeriodAttribute()
     {
-        return self::where('id', '<', $this->id)->orderBy('id')->first();
+        return self::where('id', '>', $this->id)->orderBy('id')->first();
     }
 
     /** Compute the acquisition rate = the part of students from period P-1 who have been kept in period P */

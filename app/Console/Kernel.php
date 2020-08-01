@@ -2,7 +2,6 @@
 
 namespace App\Console;
 
-use App\Mail\AdminReminders;
 use App\Models\Attendance;
 use App\Models\Period;
 use Carbon\Carbon;
@@ -10,6 +9,7 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use App\Models\Config;
 
 class Kernel extends ConsoleKernel
 {
@@ -36,15 +36,22 @@ class Kernel extends ConsoleKernel
         })->dailyAt('08:15');
 
         $schedule->call(function () {
-            Log::info('Sending admin reminders');
-            $changeNextPeriod = Carbon::parse(Period::get_enrollments_period()->end)->diffInDays() < 15;
+            Log::info('Checking default periods');
+            
+            // when we finish the current period; remove the manual override to automatically fallbackto the next one
             $changeCurrentPeriod = Carbon::parse(Period::get_default_period()->end) < Carbon::now();
-
-            // if today is towards the end of the default enrollments period
-            if ($changeNextPeriod || $changeCurrentPeriod) {
-                Mail::to(config('settings.manager_email'))->queue(new AdminReminders($changeNextPeriod, $changeCurrentPeriod));
+            if ($changeCurrentPeriod) {
+                Log::info('Removing manual current period override');
+                Config::where('name', 'current_period')->update(['value' => null]);
             }
-        })->dailyAt('08:05');
+            
+            // if the enrollment period is the same as the current period, we can remove it
+            if (Period::get_enrollments_period() == Period::get_default_period()) {
+                Log::info('Removing manual enrollment period override');
+                Config::where('name', 'default_enrollment_period')->update(['value' => null]);
+            }
+
+        })->dailyAt('00:00');
 
         $schedule->command('monitor:check-uptime')->everyMinute();
         $schedule->command('activitylog:clean')->daily();

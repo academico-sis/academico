@@ -20,7 +20,7 @@ class Student extends Model implements HasMedia
     public $timestamps = true;
     protected $guarded = ['id'];
     protected $with = ['user', 'phone', 'institution'];
-    protected $appends = ['email', 'name', 'firstname', 'lastname', 'student_age', 'student_birthdate'];
+    protected $appends = ['email', 'name', 'firstname', 'lastname', 'student_age', 'student_birthdate', 'lead_status', 'is_enrolled'];
     protected static $logUnguarded = true;
 
     protected static function boot()
@@ -164,24 +164,38 @@ class Student extends Model implements HasMedia
         return Carbon::parse($this->birthdate)->toFormattedDateString();
     }
 
-    public function getActiveClientsCountAttribute()
+    public function getIsEnrolledAttribute()
     {
-        return $this->where('lead_type_id', 1)->count();
+        // if the student is currently enrolled
+        if ($this->enrollments()->whereHas('course', function ($q) {
+            return $q->where('period_id', Period::get_default_period()->id);
+        })->count() > 0)
+        {
+            return 1;
+        }
     }
 
-    public function getInactiveClientsCountAttribute()
+    public function getLeadStatusAttribute()
     {
-        return $this->where('lead_type_id', 2)->count();
-    }
-
-    public function getPotentialClientsCountAttribute()
-    {
-        return $this->where('lead_type_id', 4)->count();
-    }
-
-    public function getFormerClientsCountAttribute()
-    {
-        return $this->where('lead_type_id', 3)->count();
+        // if the student is currently enrolled, they are CONVERTED
+        if ($this->is_enrolled)
+        {
+            return 1;
+        }
+        
+        // if the student has a special status, return it
+        if ($this->leadType != null) {
+            return $this->leadType->id;
+        }
+        // if the student was previously enrolled, they must be potential students
+        elseif ($this->has('enrollments'))
+        {
+            return 4;
+        }
+        else {
+            return;
+        }
+        // otherwise, their status cannot be determined and should be left blank
     }
 
     /** functions */
@@ -214,8 +228,7 @@ class Student extends Model implements HasMedia
             }
         }
 
-        $this->lead_type_id = 1; // converted
-        $this->save();
+        $this->update(['lead_type_id' => null]); // fallback to default (converted)
 
         return $enrollment->id;
     }
