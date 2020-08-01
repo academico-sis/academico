@@ -12,6 +12,7 @@ use App\Traits\PeriodSelection;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use App\Models\LeadType;
 
 class HomeController extends Controller
 {
@@ -123,7 +124,7 @@ class HomeController extends Controller
             'upcoming_leaves' => Leave::upcoming_leaves(),
             'resources' => $teachers,
             'events' => $events,
-            'pending_leads' => (new Student)->potential_clients_count,
+            'pending_leads' => LeadType::find(4)->students()->count(),
             'action_comments' => Comment::where('action', 1)->count(),
         ]);
     }

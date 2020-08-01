@@ -24,54 +24,19 @@
 
 <div class="row">
 
-<div class="col-sm-6 col-md-3">
-
-    <div class="card">
+  @foreach (\App\Models\LeadType::all()->except(1) as $leadType)
+    <div class="col-sm-6 col-md-3">
+      <div class="card">
         <div class="card-body p-3 d-flex align-items-center"><i class="la la-check bg-primary p-3 font-2xl mr-3"></i>
-            <div>
-                <div class="text-value-sm text-primary">{{ (new \App\Models\Student)->active_clients_count }}</div>
-                <div class="text-muted text-uppercase font-weight-bold small">@lang('Active clients')</div>
-                <small class="text-muted">@lang('Currently enrolled')</small>
-            </div>
+          <div>
+            <div class="text-value-sm text-primary">{{ $leadType->students()->count() }}</div>
+            <div class="text-muted text-uppercase font-weight-bold small">{{ $leadType->name }}</div>
+            <small class="text-muted">{{ $leadType->description }}</small>
+          </div>
         </div>
+      </div>
     </div>
-</div>
-
-<div class="col-sm-6 col-md-3">
-    <div class="card">
-        <div class="card-body p-3 d-flex align-items-center"><i class="la la-star-o bg-primary p-3 font-2xl mr-3"></i>
-            <div>
-                <div class="text-value-sm text-primary">{{ (new \App\Models\Student)->potential_clients_count }}</div>
-                <div class="text-muted text-uppercase font-weight-bold small">@lang('Potential clients')</div>
-                <small class="text-muted">@lang('Not yet enrolled: call them and update status!')</small>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="col-sm-6 col-md-3">
-    <div class="card">
-        <div class="card-body p-3 d-flex align-items-center"><i class="la la-eye-slash bg-primary p-3 font-2xl mr-3"></i>
-            <div>
-                <div class="text-value-sm text-primary">{{ (new \App\Models\Student)->former_clients_count }}</div>
-                <div class="text-muted text-uppercase font-weight-bold small">@lang('Former clients')</div>
-                <small class="text-muted">@lang('Permanently ended their learning')</small>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="col-sm-6 col-md-3">
-    <div class="card">
-        <div class="card-body p-3 d-flex align-items-center"><i class="la la-pause bg-primary p-3 font-2xl mr-3"></i>
-            <div>
-                <div class="text-value-sm text-primary">{{ (new \App\Models\Student)->inactive_clients_count }}</div>
-                <div class="text-muted text-uppercase font-weight-bold small">@lang('Inactive clients')</div>
-                <small class="text-muted">@lang('Unavailable now, call for next session!')</small>
-            </div>
-        </div>
-    </div>
-</div>
+  @endforeach
 
 </div>
 

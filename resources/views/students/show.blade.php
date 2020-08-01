@@ -60,23 +60,23 @@
 
 <div class="row">
 
-    @if (count($student->enrollments) > 0)
-        <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                            @lang('Enrollments')
-
-                        <div class="card-header-actions">
-                                @if(backpack_user()->can('enrollments.edit'))
-
-                            <a href="{{ route('get-courses-list', ['mode' => 'enroll', 'student_id' => $student->id]) }}" class="btn btn-sm btn-primary">
-                                <i class="la la-user-plus"></i>
-                            </a>
-                            @endif
-
-                        </div>
-                    </div>
-
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                @lang('Enrollments')
+                
+                <div class="card-header-actions">
+                    @if(backpack_user()->can('enrollments.edit'))
+                    
+                    <a href="{{ route('get-courses-list', ['mode' => 'enroll', 'student_id' => $student->id]) }}" class="btn btn-sm btn-primary">
+                        <i class="la la-user-plus"></i>
+                    </a>
+                    @endif
+                    
+                </div>
+            </div>
+            
+            @if (count($student->enrollments) > 0)
                     <div class="card-body">
                         <table class="table table-striped">
                             <thead>
@@ -131,9 +131,9 @@
                             </tbody>
                         </table>
                     </div>
+                    @endif
                 </div>
             </div>
-    @endif
 
 </div>
 </div>

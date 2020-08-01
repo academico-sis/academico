@@ -14,9 +14,10 @@
                 <button
                     class="btn btn-sm btn-secondary"
                     :class="{ 'btn-info': status && status == leadtype.id }"
+                    :disabled="isLoading || student.is_enrolled"
                     @click="saveStatus(leadtype.id)"
                 >
-                    {{ leadtype.name }}
+                    {{ leadtype.translated_name }}
                 </button>
             </div>
         </div>
@@ -29,7 +30,9 @@ export default {
 
     data() {
         return {
-            status: this.student.lead_type_id,
+            lang: document.documentElement.lang.substr(0, 2),
+            status: this.student.lead_status,
+            isLoading: false,
         };
     },
 
@@ -37,7 +40,7 @@ export default {
 
     methods: {
         saveStatus(status) {
-            console.log("click");
+            this.isLoading = true;
             axios
                 .post(this.route, {
                     student: this.student.id,
@@ -45,6 +48,7 @@ export default {
                 })
                 .then((response) => {
                     this.status = response.data;
+                    this.isLoading = false;
                 })
                 .catch((e) => {
                     this.errors.push(e);

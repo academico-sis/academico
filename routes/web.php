@@ -20,7 +20,6 @@ Route::group(
         Route::get('dashboard/student', 'HomeController@student')->name('studentDashboard')->middleware('forceupdate');
 
         Route::get('setup', 'SetupController@index')->name('setupHome');
-        Route::post('/leads/reset-converted', 'LeadStatusController@reset_all_converted_leads')->name('resetAllConvertedLeads');
     });
 
 /* ATTENDANCE-RELATED ROUTES */

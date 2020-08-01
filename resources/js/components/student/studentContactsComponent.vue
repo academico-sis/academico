@@ -39,7 +39,7 @@
             <div><strong>{{ $t('email') }}:</strong> {{ student.email }}</div>
             <div><strong>{{ $t('birthdate') }}:</strong> {{ student.student_birthdate }}</div>
             <div><strong>{{ $t('age') }}:</strong> {{ student.student_age }} {{ $t('years old') }}</div>
-            <div><strong>{{ $t('institution') }}:</strong> <a :href="`/student?institution_id=${student.institution.id}`">{{ student.institution.name }}</a></div>
+            <div><strong>{{ $t('institution') }}:</strong> <a :href="`/student?institutionId=${student.institution.id}`">{{ student.institution.name }}</a></div>
             <div v-if="writeaccess">
                 <a class="btn btn-sm btn-warning" :href="`/student/${student.id}/edit`">
                     <i class="la la-edit"></i>
