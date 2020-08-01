@@ -169,8 +169,7 @@ class Student extends Model implements HasMedia
         // if the student is currently enrolled
         if ($this->enrollments()->whereHas('course', function ($q) {
             return $q->where('period_id', Period::get_default_period()->id);
-        })->count() > 0)
-        {
+        })->count() > 0) {
             return 1;
         }
     }
@@ -178,21 +177,18 @@ class Student extends Model implements HasMedia
     public function getLeadStatusAttribute()
     {
         // if the student is currently enrolled, they are CONVERTED
-        if ($this->is_enrolled)
-        {
+        if ($this->is_enrolled) {
             return 1;
         }
-        
+
         // if the student has a special status, return it
         if ($this->leadType != null) {
             return $this->leadType->id;
         }
         // if the student was previously enrolled, they must be potential students
-        elseif ($this->has('enrollments'))
-        {
+        elseif ($this->has('enrollments')) {
             return 4;
-        }
-        else {
+        } else {
             return;
         }
         // otherwise, their status cannot be determined and should be left blank
