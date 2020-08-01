@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Comment;
 use App\Models\Event;
 use App\Models\LeadType;
+use App\Models\LeadType;
 use App\Models\Leave;
 use App\Models\Period;
 use App\Models\Student;
@@ -13,7 +14,6 @@ use App\Traits\PeriodSelection;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use App\Models\LeadType;
 
 class HomeController extends Controller
 {
