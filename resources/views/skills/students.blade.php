@@ -25,8 +25,8 @@
                         <table class="table">
                             <tr>
                                 <td></td>
-                                    @foreach ($skills as $skill)
-                                        <td title="{{ $skill->name }}">{{ substr($skill->name, 0, 30) }}...</td>
+                                    @foreach ($skills as $category)
+                                        <td> {{ $category[0]->skill_type->name }}</td>
                                     @endforeach
                             </tr>
 
@@ -37,10 +37,11 @@
                                                 {{ $enrollment->student->user->firstname }} {{ $enrollment->student->user->lastname }}
                                             </a>
                                         </td>
-
-                                        @foreach ($skills as $skill)
-                                            <td class="{{ $skill_evaluations->where('student_id', $enrollment->student->id)->where('skill_id', $skill->id)->first()['skill_scale']['style'] }}">
-                                                {{ $skill_evaluations->where('student_id', $enrollment->student->id)->where('skill_id', $skill->id)->first()['skill_scale']['shortname'] }}
+                                        @foreach ($skills as $category)
+                                            <td>
+                                                <span class="badge badge-danger">{{ $skill_evaluations->where('student_id', $enrollment->student->id)->where('skill.skill_type_id', $category[0]->skill_type_id)->where('skill_scale_id', 1)->count() }}</span> - 
+                                                <span class="badge badge-warning">{{ $skill_evaluations->where('student_id', $enrollment->student->id)->where('skill.skill_type_id', $category[0]->skill_type_id)->where('skill_scale_id', 2)->count() }}</span> - 
+                                                <span class="badge badge-success">{{ $skill_evaluations->where('student_id', $enrollment->student->id)->where('skill.skill_type_id', $category[0]->skill_type_id)->where('skill_scale_id', 3)->count() }}</span>
                                             </td>
                                         @endforeach
                                     </tr>

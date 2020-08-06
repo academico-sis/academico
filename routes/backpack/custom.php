@@ -66,7 +66,6 @@ Route::group([
     Route::crud('evaluationtype', 'EvaluationTypeCrudController');
     Route::crud('gradetype', 'GradeTypeCrudController');
     Route::crud('skill', 'SkillCrudController');
-    Route::post('skill/bulk-attach', 'SkillCrudController@bulkAttachToCourse'); // TODO move to own controller
     Route::crud('skilltype', 'SkillTypeCrudController');
     Route::crud('skillscale', 'SkillScaleCrudController');
     Route::crud('resulttype', 'ResultTypeCrudController');

@@ -6,15 +6,13 @@
             </div>
 
             <div class="card-body">
-                <table id="skillsTable" class="table table-striped">
+                <table id="skillsTable" class="table table-striped" v-for="category in skills" :key="category[0].skill_type.id">
                     <thead>
-                        <th>{{ $t("Skill") }}</th>
-                        <th></th>
-                        <th></th>
+                        <th>{{ category[0].skill_type.name }}</th>
                         <th></th>
                     </thead>
                     <tbody>
-                        <tr v-for="skill in skills" :key="skill.id">
+                        <tr v-for="skill in category" :key="skill.id">
                             <td style="width: 50%;">{{ skill.name }}</td>
 
                             <td>

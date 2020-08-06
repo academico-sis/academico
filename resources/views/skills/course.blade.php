@@ -3,7 +3,7 @@
 @section('header')
 <section class="container-fluid">
     <h2>
-        @lang('Edit Course Skills')
+        @lang('Edit Course Skills') - {{ $course->name }}
     </h2>
 </section>
 @endsection
@@ -15,25 +15,19 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                    @lang('View Course Skills')
-                
                 <div class="card-header-actions">
-                    <a class="btn btn-primary" href="{{ backpack_url('skill') }}?course={{$course->id}}">
-                        @lang('Edit skills for course')
-                    </a>
-
                     <a class="btn btn-primary" href="{{ route('course-skills-export', ['course' => $course->id]) }}">
                         @lang('Export skills')
                     </a>
 
-                    <a class="btn btn-primary" data-toggle="modal" data-target="#skillsUploadModal">
+                    <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#skillsUploadModal">
                         @lang('Import skills')
                     </a>
 
                     <a class="btn btn-primary" href="{{ route('exportCourseSyllabus', ['course' => $course->id]) }}">
                         @lang('Export Course syllabus')
                     </a>
-                </div>  
+                </div>
             </div>
             
             <div class="card-body" id="app">

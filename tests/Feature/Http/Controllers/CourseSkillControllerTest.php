@@ -53,7 +53,7 @@ class CourseSkillControllerTest extends TestCase
 
         $course = factory(\App\Models\Course::class)->create();
 
-        $response = $this->get('course/{course}/getskills');
+        $response = $this->get('course/{course}/getcourseskills');
 
         $response->assertOk();
 

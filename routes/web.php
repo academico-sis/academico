@@ -89,8 +89,12 @@ Route::group(
     ['middleware' => ['web', 'permission:evaluation.edit', 'language']],
     function () {
         Route::get('course/{course}/skill', 'CourseSkillController@index')->name('course-skills');
-        Route::get('course/{course}/getskills', 'CourseSkillController@get');
-        Route::patch('course/{course}/setskills', 'CourseSkillController@set');
+        Route::get('course/{course}/getcourseskills', 'CourseSkillController@getCourseSkills');
+        Route::get('course/{course}/getavailableskills', 'CourseSkillController@getAvailableSkills');
+        Route::put('course/{course}/setskills', 'CourseSkillController@set');
+
+        Route::post('course/{course}/skills/add', 'CourseSkillController@addSkill');
+        Route::post('course/{course}/skills/remove', 'CourseSkillController@removeSkill');
 
         Route::get('course/{course}/skills/export', 'CourseSkillController@export')->name('course-skills-export');
         Route::post('course/{course}/skills/import', 'CourseSkillController@import')->name('course-skills-import');
