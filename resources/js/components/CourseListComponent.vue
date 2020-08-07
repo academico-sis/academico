@@ -190,7 +190,7 @@
                         <div class="card-header">
                             {{ $t("Last enrollment") }}
                         </div>
-                        <div class="card-body">
+                        <div class="card-body" v-if="this.student.enrollments.length > 0">
                             <p>{{ this.student.enrollments.slice(-1)[0].course.name }} ({{ this.student.enrollments.slice(-1)[0].course.course_period_name }})</p>
                             <label class="label-info">{{ this.student.enrollments.slice(-1)[0].result_name }}</label>
                         </div>
