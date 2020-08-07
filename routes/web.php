@@ -177,7 +177,6 @@ Route::group(
         Route::get('/report', 'ReportController@index')->name('allReports');
 
         Route::get('/report/internal', 'ReportController@internal')->name('homeReport');
-        Route::get('/report/external', 'ReportController@external')->name('externalReport');
 
         Route::get('/report/courses', 'ReportController@courses')->name('courseReport');
         Route::get('/report/rhythms', 'ReportController@rhythms')->name('rhythmReport');

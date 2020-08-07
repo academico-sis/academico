@@ -71,12 +71,7 @@ class Period extends Model
 
     public function internal_courses()
     {
-        return $this->hasMany(Course::class)->internal();
-    }
-
-    public function external_courses()
-    {
-        return $this->hasMany(Course::class)->external();
+        return $this->hasMany(Course::class);
     }
 
     public function year()
@@ -135,21 +130,6 @@ class Period extends Model
         return $this->paid_enrollments_count + $this->pending_enrollments_count;
     }
 
-    public function getExternalEnrollmentsCountAttribute()
-    {
-        return $this->external_courses->sum('head_count');
-    }
-
-    public function getExternalStudentsCountAttribute()
-    {
-        return $this->external_courses->sum('new_students');
-    }
-
-    public function getExternalCoursesCountAttribute()
-    {
-        return $this->external_courses->count();
-    }
-
     public function getPreviousPeriodAttribute()
     {
         $period = self::where('id', '<', $this->id)->orderBy('id', 'desc')->first();
@@ -204,24 +184,8 @@ class Period extends Model
     public function getPeriodSoldHoursCountAttribute()
     {
         $total = 0;
-        foreach ($this->courses()->internal()->withCount('real_enrollments')->get() as $course) {
+        foreach ($this->courses()->withCount('real_enrollments')->get() as $course) {
             $total += $course->volume * $course->real_enrollments_count;
-        }
-
-        return $total;
-    }
-
-    public function getExternalTaughtHoursCountAttribute()
-    {
-        // return the sum of all courses' volume for period
-        return $this->external_courses->where('parent_course_id', null)->sum('volume');
-    }
-
-    public function getExternalSoldHoursCountAttribute()
-    {
-        $total = 0;
-        foreach ($this->external_courses as $course) {
-            $total += $course->volume * $course->head_count;
         }
 
         return $total;

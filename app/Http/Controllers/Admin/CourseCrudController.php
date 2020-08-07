@@ -42,8 +42,6 @@ class CourseCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix').'/course');
         CRUD::setEntityNameStrings(__('course'), __('courses'));
 
-        CRUD::addClause('internal');
-
         $permissions = backpack_user()->getAllPermissions();
 
         if (! $permissions->contains('name', 'courses.edit')) {

@@ -5,7 +5,6 @@
   <li class="nav-title">@lang('COURSES')</li>
   <li class='nav-item'><a class='nav-link' href="{{ backpack_url('course') }}"><i class="nav-icon la la-book"></i> <span>@lang('Courses (list)')</span></a></li>
   <li class='nav-item'><a class='nav-link' href="{{ route('get-courses-list') }}"><i class="nav-icon la la-book"></i> <span>@lang('Internal Courses')</span></a></li>
-  <li class='nav-item'><a class='nav-link' href="{{ backpack_url('externalcourse') }}"><i class="nav-icon la la-bus"></i> <span>@lang('External Courses')</span></a></li>
 @endif
 
 @if(backpack_user()->hasRole(['admin', 'secretary']))
@@ -85,8 +84,6 @@
   <li class='nav-item'><a class='nav-link' href="{{ route('homeReport') }}"><i class="nav-icon la la-users"></i> <span>@lang('Students')</span></a></li>
   <li class='nav-item'><a class='nav-link' href="{{ route('rhythmReport') }}"><i class="nav-icon la la-pie-chart"></i><span>@lang('Per rhythm')</span></a></li>
   <li class='nav-item'><a class='nav-link' href="{{ route('courseReport') }}"><i class="nav-icon la la-graduation-cap"></i><span>@lang('Per course')</span></a></li>
-
-  <li class='nav-item'><a class='nav-link' href="{{ route('externalReport') }}"><i class="nav-icon la la-bus"></i> <span>@lang('External')</span></a></li>
 
 @endif
 
