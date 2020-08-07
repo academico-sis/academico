@@ -79,7 +79,7 @@ class CourseSkillController extends Controller
     {
         return view('skills.course', compact('course'));
     }
-    
+
     // get skills for the selected course level which are not already assigned to the course
     public function getAvailableSkills(Course $course)
     {
@@ -94,14 +94,12 @@ class CourseSkillController extends Controller
     public function addSkill(Course $course, Request $request)
     {
         $request->validate(['skill_id' => 'required']);
-        
-        if ($request->skill_id == 'all')
-        {
+
+        if ($request->skill_id == 'all') {
             foreach (Skill::where('level_id', $course->level_id)->whereNotIn('id', $course->refresh()->skills->pluck('id'))->get() as $skill) {
                 $course->skills()->attach($skill, ['weight' => 1]);
             }
-        }
-        else {
+        } else {
             $course->skills()->attach(Skill::find($request->skill_id), ['weight' => 1]);
         }
 
@@ -111,15 +109,13 @@ class CourseSkillController extends Controller
     public function removeSkill(Course $course, Request $request)
     {
         $request->validate(['skill_id' => 'required']);
-        
-        if ($request->skill_id == 'all')
-        {
+
+        if ($request->skill_id == 'all') {
             $course->skills()->detach();
-        }
-        else {
+        } else {
             $course->skills()->detach(Skill::find($request->skill_id));
         }
-        
+
         return $this->getCoursesSkillList($course);
     }
 

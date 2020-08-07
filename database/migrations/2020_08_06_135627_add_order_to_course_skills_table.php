@@ -28,6 +28,5 @@ class AddOrderToCourseSkillsTable extends Migration
      */
     public function down()
     {
-
     }
 }
