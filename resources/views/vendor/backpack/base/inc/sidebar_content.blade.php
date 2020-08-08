@@ -11,8 +11,8 @@
   <li class="nav-title">@lang('ADMINISTRATION')</li>
   <li class='nav-item'><a class='nav-link' href="{{ backpack_url('student') }}"><i class="nav-icon la la-user"></i> <span>@lang('Students')</span></a></li>
   <li class='nav-item'><a class='nav-link' href="{{ backpack_url('attendance') }}"><i class="nav-icon la la-calendar"></i> <span>@lang('Attendance')</span></a></li>
-  <li class='nav-item'><a class='nav-link' href="{{ backpack_url('/enrollment?status_id=["1"]&hidechildren=true') }}"><i class="nav-icon la la-credit-card"></i> <span>@lang('Pending')</span></a></li>
-  <li class='nav-item'><a class='nav-link' href="{{ backpack_url('/enrollment?scholarship=all&hidechildren=true') }}"><i class="nav-icon la la-comment-dollar"></i> <span>@lang('Scholarships')</span></a></li>
+  <li class='nav-item'><a class='nav-link' href="{{ backpack_url('/enrollment?status_id=["1"]') }}"><i class="nav-icon la la-credit-card"></i> <span>@lang('Pending')</span></a></li>
+  <li class='nav-item'><a class='nav-link' href="{{ backpack_url('/enrollment?scholarship=all') }}"><i class="nav-icon la la-comment-dollar"></i> <span>@lang('Scholarships')</span></a></li>
 @endif
 
 @if(backpack_user()->hasRole(['admin']))

@@ -147,16 +147,6 @@ class EnrollmentCrudController extends CrudController
           });
 
         CRUD::addFilter([
-            'type' => 'simple',
-            'name' => 'hidechildren',
-            'label'=> __('Hide Children'),
-        ],
-          false,
-          function () {
-              CRUD::addClause('parent');
-          });
-
-        CRUD::addFilter([
             'name' => 'period_id',
             'type' => 'select2',
             'label'=> __('Period'),
