@@ -12,7 +12,7 @@ class Contact extends Model
     use LogsActivity;
 
     protected $fillable = ['firstname', 'lastname', 'idnumber', 'address', 'email', 'relationship_id', 'student_id'];
-    protected $with = ['phone', 'relationship'];
+    protected $with = ['phone', 'relationship', 'profession'];
     protected static $logUnguarded = true;
 
     public function phone()
@@ -33,5 +33,10 @@ class Contact extends Model
     public function relationship()
     {
         return $this->belongsTo(ContactRelationship::class);
+    }
+
+    public function profession()
+    {
+        return $this->belongsTo(Profession::class);
     }
 }

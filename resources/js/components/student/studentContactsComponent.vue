@@ -42,6 +42,7 @@
             <div><strong>{{ $t('birthdate') }}:</strong> {{ student.student_birthdate }}</div>
             <div><strong>{{ $t('age') }}:</strong> {{ student.student_age }} {{ $t('years old') }}</div>
             <div v-if="student.institution"><strong>{{ $t('institution') }}:</strong> <a :href="`/student?institutionId=${student.institution.id}`">{{ student.institution.name }}</a></div>
+            <div v-if="student.profession"><strong>{{ $t('profession') }}:</strong>{{ student.profession.name }}</div>
             <div v-if="writeaccess">
                 <a class="btn btn-sm btn-warning" :href="`/student/${student.id}/edit`">
                     <i class="la la-edit"></i>
@@ -81,6 +82,7 @@
                     </ul>
                 </div>
             <div><strong>{{ $t('email') }}:</strong> {{ contact.email }}</div>
+            <div v-if="contact.profession"><strong>{{ $t('profession') }}:</strong>{{ contact.profession.name }}</div>
 
             <div class="" v-if="writeaccess">
                 <a class="btn btn-sm btn-warning" :href="`/contact/${contact.id}/edit`">
