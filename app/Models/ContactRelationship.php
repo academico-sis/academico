@@ -12,4 +12,11 @@ class ContactRelationship extends Model
     public $timestamps = false;
 
     public $translatable = ['name'];
+
+    protected $appends = ['translated_name'];
+
+    public function getTranslatedNameAttribute()
+    {
+        return $this->getTranslation('name', app()->getLocale());
+    }
 }

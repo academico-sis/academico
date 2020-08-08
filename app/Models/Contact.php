@@ -12,7 +12,7 @@ class Contact extends Model
     use LogsActivity;
 
     protected $fillable = ['firstname', 'lastname', 'idnumber', 'address', 'email', 'relationship_id', 'student_id'];
-    protected $with = ['phone'];
+    protected $with = ['phone', 'relationship'];
     protected static $logUnguarded = true;
 
     public function phone()

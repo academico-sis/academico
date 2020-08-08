@@ -4,7 +4,9 @@
     <ul class="nav nav-tabs" id="myTab1" role="tablist">
         <li class="nav-item"><a class="nav-link active" id="student-tab" data-toggle="tab" href="#student-pane" role="tab" aria-controls="student-tab" aria-selected="true">{{ $t('Student') }}</a></li>
         <li class="nav-item" v-for="contact in contacts" v-bind:key="contact.id">
-            <a class="nav-link" :id="contact.id+'-tab'" data-toggle="tab" v-bind:href="`#contact-${contact.id}-pane`" role="tab" :aria-controls="contact.id+'-tab'" aria-selected="false">{{ $t('Additional Contact') }}</a>
+            <a class="nav-link" :id="contact.id+'-tab'" data-toggle="tab" v-bind:href="`#contact-${contact.id}-pane`" role="tab" :aria-controls="contact.id+'-tab'" aria-selected="false">
+                <span v-if="contact.relationship">{{ contact.relationship.translated_name }}</span><span v-else>{{ $t('Additional Contact') }}</span>
+            </a>
         </li>
     </ul>
     <div class="tab-content" id="myTab1Content">
@@ -39,7 +41,7 @@
             <div><strong>{{ $t('email') }}:</strong> {{ student.email }}</div>
             <div><strong>{{ $t('birthdate') }}:</strong> {{ student.student_birthdate }}</div>
             <div><strong>{{ $t('age') }}:</strong> {{ student.student_age }} {{ $t('years old') }}</div>
-            <div><strong>{{ $t('institution') }}:</strong> <a :href="`/student?institutionId=${student.institution.id}`">{{ student.institution.name }}</a></div>
+            <div v-if="student.institution"><strong>{{ $t('institution') }}:</strong> <a :href="`/student?institutionId=${student.institution.id}`">{{ student.institution.name }}</a></div>
             <div v-if="writeaccess">
                 <a class="btn btn-sm btn-warning" :href="`/student/${student.id}/edit`">
                     <i class="la la-edit"></i>
@@ -52,8 +54,6 @@
         </div>
 
         <div class="tab-pane fade" v-for="contact in this.contactsData" v-bind:key="contact.id" v-bind:id="`contact-${contact.id}-pane`" role="tabpanel" :aria-labelledby="contact.id+'-tab'">
-            <h4 v-if="contact.relationship">{{ contact.relationship.name }}</h4>
-
             <div><strong>{{ $t('name') }}:</strong> {{ contact.firstname }} {{ contact.lastname }}</div>
             <div><strong>{{ $t('idnumber') }}:</strong> {{ contact.idnumber }}</div>
             <div><strong>{{ $t('address') }}:</strong> {{ contact.address }}</div>
