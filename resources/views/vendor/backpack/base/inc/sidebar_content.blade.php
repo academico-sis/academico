@@ -4,7 +4,7 @@
   <li class='nav-item'><a class='nav-link' href="{{ url('/') }}"><i class="nav-icon la la-book"></i> <span>{{ trans('backpack::base.dashboard') }}</span></a></li>
   <li class="nav-title">@lang('COURSES')</li>
   <li class='nav-item'><a class='nav-link' href="{{ backpack_url('course') }}"><i class="nav-icon la la-book"></i> <span>@lang('Courses (list)')</span></a></li>
-  <li class='nav-item'><a class='nav-link' href="{{ route('get-courses-list') }}"><i class="nav-icon la la-book"></i> <span>@lang('Internal Courses')</span></a></li>
+  <li class='nav-item'><a class='nav-link' href="{{ route('get-courses-list') }}"><i class="nav-icon la la-book"></i> <span>@lang('Courses')</span></a></li>
 @endif
 
 @if(backpack_user()->hasRole(['admin', 'secretary']))
@@ -118,11 +118,10 @@
             <li class='nav-item'><a class='nav-link' href="{{ backpack_url('user') }}"><i class="nav-icon la la-user"></i> <span>@lang('Users')</span></a></li>
             <li class='nav-item'><a class='nav-link' href="{{ backpack_url('teacher') }}"><i class="nav-icon la la-user"></i> <span>@lang('Teachers')</span></a></li>
             <li class='nav-item'><a class='nav-link' href="{{ backpack_url('role') }}"><i class="nav-icon la la-group"></i> <span>@lang('Roles')</span></a></li>
+            <li class='nav-item'><a class='nav-link' href='{{ backpack_url('member') }}'><i class='nav-icon la la-question'></i> Members</a></li>
           </ul>
         </li>
     
-        <li class='nav-item'><a class='nav-link' href='{{ route('setupHome') }}'><i class='la la-gears'></i> <span>@lang('Setup Dashboard')</span></a></li>
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('config') }}'><i class='la la-gears'></i> <span>@lang('Internal Settings')</span></a></li>
         @endif
 
     </ul>

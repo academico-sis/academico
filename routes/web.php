@@ -19,7 +19,6 @@ Route::group(
 
         Route::get('dashboard/student', 'HomeController@student')->name('studentDashboard')->middleware('forceupdate');
 
-        Route::get('setup', 'SetupController@index')->name('setupHome');
     });
 
 /* ATTENDANCE-RELATED ROUTES */
