@@ -67,7 +67,7 @@ class AttendanceController extends Controller
         }
 
         // sort by number of events with missing attendance
-        $courses = collect($coursesdata)->sortByDesc('missing')->toArray();
+        $courses = collect($coursesdata ?? [])->sortByDesc('missing')->toArray();
         $isadmin = backpack_user()->hasPermissionTo('courses.edit');
 
         return view('attendance.monitor', compact('absences', 'courses', 'selected_period', 'isadmin'));
@@ -98,6 +98,8 @@ class AttendanceController extends Controller
         $attendance->save();
 
         Log::info('Attendance recorded by '.\backpack_user()->id);
+
+        return $attendance;
     }
 
     /**
@@ -114,7 +116,7 @@ class AttendanceController extends Controller
         // get past events for the course
         $events = $course->events->filter(function ($value, $key) {
             return Carbon::parse($value->start) < Carbon::now();
-        })->sortBy('start');
+        })->sortByDesc('start');
 
         // if the course has any past events
         if ($events->count() == 0 || $course->enrollments()->count() == 0) {
@@ -157,6 +159,9 @@ class AttendanceController extends Controller
         $attendance = $event->attendance;
 
         $attendances = [];
+
+        $attendance_types = AttendanceType::all();
+
         // build a collection : for each student, display attendance
 
         foreach ($enrollments as $enrollment) {
@@ -166,7 +171,7 @@ class AttendanceController extends Controller
         }
         Log::info('Attendance for event viewed by '.\backpack_user()->id);
 
-        return view('attendance/event', compact('attendances', 'event'));
+        return view('attendance/event', compact('attendances', 'event', 'attendance_types'));
     }
 
     public function showStudentAttendanceForCourse(Student $student, Request $request)

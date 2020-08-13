@@ -27,6 +27,7 @@
                         @foreach ($attendances as $attendance)
                             <tr is="event-attendance-component"
                                 :attendance="{{ json_encode($attendance) }}"
+                                :attendance_types="{{ json_encode($attendance_types) }}"
                                 :event="{{ json_encode($event) }}"
                                 route="{{ route('storeAttendance') }}">
                             </tr>
@@ -36,24 +37,6 @@
                 </table>
                 </div>
             </div>
-            <div class="card-footer">
-            <label class="badge badge-success">
-                P <i class="la la-user"></i>
-            </label> : @lang('Present')
-            - 
-            <label class="badge badge-warning">
-                PP <i class="la la-clock-o"></i>
-            </label> : @lang('Partial presence (arrived late or left early)')
-            - 
-            <label class="badge badge-info">
-                AJ <i class="la la-exclamation"></i>
-            </label> : @lang('justified absence')
-            - 
-            <label class="badge badge-danger">
-                A <i class="la la-user-times"></i>
-            </label> : @lang('unjustified absence')
-            </div>
-            
         </div>
     </div>
 

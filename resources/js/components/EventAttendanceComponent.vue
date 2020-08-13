@@ -8,47 +8,17 @@
             <div class="btn-group" role="group" aria-label="">
                 <div class="btn-group" role="group">
                     <button
-                        id=""
-                        class="btn btn-secondary"
-                        :class="{ 'btn-success': studentAttendance == 1 }"
-                        @click="saveAttendance(1)"
+                        v-for="attendance_type in attendance_types"
+                        v-bind:key="attendance_type.id"
+                        v-bind:class="buttonClass(attendance_type)"
+                        @click="saveAttendance(attendance_type.id)"
                     >
-                        P <i class="la la-user"></i>
+                        <span v-html="attendance_type.icon"></span>
+                        {{ attendance_type.translated_name }}
                     </button>
+
                 </div>
 
-                <div class="btn-group" role="group">
-                    <button
-                        id=""
-                        class="btn btn-secondary"
-                        :class="{ 'btn-warning': studentAttendance == 2 }"
-                        @click="saveAttendance(2)"
-                    >
-                        PP <i class="la la-clock-o"></i>
-                    </button>
-                </div>
-
-                <div class="btn-group" role="group">
-                    <button
-                        id=""
-                        class="btn btn-secondary"
-                        :class="{ 'btn-info': studentAttendance == 3 }"
-                        @click="saveAttendance(3)"
-                    >
-                        AJ <i class="la la-exclamation"></i>
-                    </button>
-                </div>
-
-                <div class="btn-group" role="group">
-                    <button
-                        id=""
-                        class="btn btn-secondary"
-                        :class="{ 'btn-danger': studentAttendance == 4 }"
-                        @click="saveAttendance(4)"
-                    >
-                        A <i class="la la-user-times"></i>
-                    </button>
-                </div>
             </div>
         </td>
     </tr>
@@ -56,31 +26,41 @@
 
 <script>
 export default {
-    props: ["attendance", "event", "route"],
+    props: ["attendance", "event", "route", "attendance_types"],
 
     data() {
         return {
-            studentAttendance: this.attendance.attendance.attendance_type_id,
+            studentAttendance: this.attendance.attendance,
         };
     },
 
     mounted() {},
 
     methods: {
-        saveAttendance(attendance) {
+        saveAttendance(attendance_type_id) {
             axios
                 .post(this.route, {
                     event_id: this.event.id,
                     student_id: this.attendance.student_id,
-                    attendance_type_id: attendance,
+                    attendance_type_id: attendance_type_id,
                 })
                 .then((response) => {
-                    this.studentAttendance = attendance;
+                    this.studentAttendance = response.data;
                 })
                 .catch((e) => {
                     this.errors.push(e);
                 });
         },
-    },
+
+        buttonClass(attendance_type) {
+            if (this.studentAttendance.attendance_type_id == attendance_type.id)
+            {
+                return "btn btn-"+attendance_type.class
+            }
+            else {
+                return "btn btn-secondary"
+            }
+        }
+    }
 };
 </script>

@@ -4,44 +4,16 @@
             <a :href="studentdetailsroute">{{ student.student }}</a>
         </td>
 
-        <td v-for="event in student" :key="event.id">
-            <!-- todo clean -->
+        <td v-for="event in student" :key="event.id" style="text-align: center;">
 
             <label
-                v-if="
-                    event.attendance && event.attendance.attendance_type_id == 1
-                "
-                class="badge badge-success"
+                v-if="event.attendance"
+                :class="'badge badge-'+event.attendance.attendance_type.class"
             >
-                P <i class="la la-user"></i>
+                <span v-html="event.attendance.attendance_type.icon"></span>
+                {{ event.attendance.attendance_type.translated_name }}
             </label>
 
-            <label
-                v-if="
-                    event.attendance && event.attendance.attendance_type_id == 2
-                "
-                class="badge badge-warning"
-            >
-                PP <i class="la la-clock-o"></i>
-            </label>
-
-            <label
-                v-if="
-                    event.attendance && event.attendance.attendance_type_id == 3
-                "
-                class="badge badge-info"
-            >
-                AJ <i class="la la-exclamation"></i>
-            </label>
-
-            <label
-                v-if="
-                    event.attendance && event.attendance.attendance_type_id == 4
-                "
-                class="badge badge-danger"
-            >
-                A <i class="la la-user-times"></i>
-            </label>
         </td>
     </tr>
 </template>

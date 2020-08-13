@@ -162,21 +162,29 @@ class DatabaseSeeder extends Seeder
         AttendanceType::create([
             'id' => 1,
             'name' => ['fr' => 'PRÉSENT(E)', 'es' => 'PRESENTE', 'en' => 'PRESENT'],
+            'class' => 'success',
+            'icon' => '<i class="la la-user"></i>',
         ]);
 
         AttendanceType::create([
             'id' => 2,
             'name' => ['fr' => 'PRÉSENCE PARTIELLE', 'es' => 'PRESENCIA PARCIAL', 'en' => 'PARTIAL PRESENCE'],
+            'class' => 'warning',
+            'icon' => '<i class="la la-clock-o"></i>',
         ]);
 
         AttendanceType::create([
             'id' => 3,
             'name' => ['fr' => 'EXCUSÉ(E)', 'es' => 'JUSTIFICADO', 'en' => 'EXCUSED'],
+            'class' => 'info',
+            'icon' => '<i class="la la-exclamation"></i>',
         ]);
 
         AttendanceType::create([
             'id' => 4,
             'name' => ['fr' => 'ABSENT(E)', 'es' => 'AUSENTE', 'en' => 'ABSENT'],
+            'class' => 'danger',
+            'icon' => '<i class="la la-user-times"></i>',
         ]);
 
         ContactRelationship::create([

@@ -11,4 +11,11 @@ class AttendanceType extends Model
 
     public $translatable = ['name'];
     public $timestamps = false;
+
+    protected $appends = ['translated_name'];
+
+    public function getTranslatedNameAttribute()
+    {
+        return $this->getTranslation('name', app()->getLocale());
+    }
 }
