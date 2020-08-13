@@ -155,7 +155,7 @@ return [
 
     // Set this to false if you would like to skip adding "my account" routes
     // (you then need to manually define the routes in your web.php)
-    'setup_my_account_routes' => true,
+    'setup_my_account_routes' => false,
 
     /*
     |--------------------------------------------------------------------------

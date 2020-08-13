@@ -16,33 +16,15 @@
         {{ trans('backpack::base.my_account') }}
     </h2>
 
-    <ol class="breadcrumb">
-
-        <li class="breadcrumb-item">
-            <a href="{{ backpack_url() }}">{{ config('backpack.base.project_name') }}</a>
-        </li>
-
-        <li class="breadcrumb-item">
-            <a href="{{ route('backpack.account.edit_info') }}">{{ trans('backpack::base.my_account') }}</a>
-        </li>
-
-        <li class="breadcrumb-item active">
-            {{ trans('backpack::base.update_account_info') }}
-        </li>
-
-    </ol>
-
 </section>
 @endsection
 
 @section('content')
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-4">
         @include('student.account.sidemenu')
     </div>
-
-    <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-8">
 
         <form class="form" action="/edit-account-info" method="post">
 
@@ -106,58 +88,5 @@
         </form>
 
     </div><!-- /.col -->
-    <div class="col md-4">
-
-    {{-- CHANGE PASSWORD FORM --}}
-            <form class="form" action="{{ route('backpack.account.password') }}" method="post">
-
-                {!! csrf_field() !!}
-
-                <div class="card padding-10">
-
-                    <div class="card-header">
-                        {{ trans('backpack::base.change_password') }}
-                    </div>
-
-                    <div class="card-body backpack-profile-form bold-labels">
-                        <div class="row">
-                            <div class="col-md-4 form-group">
-                                @php
-                                    $label = trans('backpack::base.old_password');
-                                    $field = 'old_password';
-                                @endphp
-                                <label class="required">{{ $label }}</label>
-                                <input autocomplete="new-password" required class="form-control" type="password" name="{{ $field }}" id="{{ $field }}" value="">
-                            </div>
-
-                            <div class="col-md-4 form-group">
-                                @php
-                                    $label = trans('backpack::base.new_password');
-                                    $field = 'new_password';
-                                @endphp
-                                <label class="required">{{ $label }}</label>
-                                <input autocomplete="new-password" required class="form-control" type="password" name="{{ $field }}" id="{{ $field }}" value="">
-                            </div>
-
-                            <div class="col-md-4 form-group">
-                                @php
-                                    $label = trans('backpack::base.confirm_password');
-                                    $field = 'confirm_password';
-                                @endphp
-                                <label class="required">{{ $label }}</label>
-                                <input autocomplete="new-password" required class="form-control" type="password" name="{{ $field }}" id="{{ $field }}" value="">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card-footer">
-                            <button type="submit" class="btn btn-success"><i class="la la-save"></i> {{ trans('backpack::base.change_password') }}</button>
-                            <a href="{{ backpack_url() }}" class="btn">{{ trans('backpack::base.cancel') }}</a>
-                    </div>
-
-                </div>
-
-            </form>
-        </div>
 </div>
 @endsection

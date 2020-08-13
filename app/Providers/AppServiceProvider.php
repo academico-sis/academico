@@ -8,6 +8,7 @@ use App\Models\Teacher;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use App\Models\ContactRelationship;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -34,6 +35,10 @@ class AppServiceProvider extends ServiceProvider
         if (\Schema::hasTable('rooms')) {
             View::share('rooms', Room::all());
         }
+
+        View::composer('partials.create_new_contact', function ($view) {
+            $view->with('contact_types', ContactRelationship::all());
+        });
     }
 
     /**

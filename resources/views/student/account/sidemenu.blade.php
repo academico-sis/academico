@@ -10,48 +10,26 @@
 	</div>
 
 	<div class="card-body">
-		<ul class="list-group">
-		<li class="list-group-item" role="presentation"
-		@if (Request::route()->getName() == 'backpack.account.edit_info')
-	  	class="active"
-	  	@endif
-	  	><a href="{{ route('backpack.account.edit_info') }}">@lang('Account Data')</a></li>
+		<div class="list-group">
+			<a class="list-group-item @if (Request::route()->getName() == 'backpack.account.edit_info') {{ "active" }} @elseif(!$user->student || ($user->student->force_update && $user->student->force_update != 1)) {{ "disabled" }} @endif" href="{{ route('backpack.account.edit_info') }}">@lang('Account Data')</a>
 
-		@if(!(backpack_user()->getRoleNames()->count() > 0 || backpack_user()->isTeacher()))
-			<li class="list-group-item" role="presentation"
-			@if (Request::route()->getName() == 'backpack.student.info')
-				class="active"
-				@endif
-				><a href="{{ route('backpack.student.info') }}">@lang('Additional Data')</a></li>
-		@endif
+			<a class="list-group-item @if (Request::route()->getName() == 'backpack.account.password') {{ "active" }} @elseif ($user->student->force_update && $user->student->force_update != 2) {{ "disabled" }} @endif" href="{{ route('backpack.account.password') }}">@lang('Password')</a>
 
-		@if(backpack_user()->isStudent())
-			<li class="list-group-item" role="presentation"
-			@if (Request::route()->getName() == 'backpack.account.phone')
-				class="active"
-				@endif
-				><a href="{{ route('backpack.account.phone') }}">@lang('Phone Numbers')</a></li>
+			@if(!(backpack_user()->getRoleNames()->count() > 0 || backpack_user()->isTeacher()))
+				<a class="list-group-item @if (Request::route()->getName() == 'backpack.student.info') {{ "active" }} @elseif ($user->student->force_update && $user->student->force_update != 3) {{ "disabled" }} @endif" href="{{ route('backpack.student.info') }}">@lang('Additional Data')</a>
+			@endif
 
-			<li class="list-group-item" role="presentation"
-			@if (Request::route()->getName() == 'backpack.account.profession')
-				class="active"
-				@endif
-				><a href="{{ route('backpack.account.profession') }}">@lang('Profession')</a></li>
+			@if(backpack_user()->isStudent())
+				<a class="list-group-item @if (Request::route()->getName() == 'backpack.account.phone') {{ "active" }} @elseif ($user->student->force_update && $user->student->force_update != 4) {{ "disabled" }} @endif"  href="{{ route('backpack.account.phone') }}">@lang('Phone Numbers')</a>
 
-			<li class="list-group-item" role="presentation"
-			@if (Request::route()->getName() == 'backpack.account.photo')
-				class="active"
-				@endif
-				><a href="{{ route('backpack.account.photo') }}">@lang('Profile Picture')</a></li>
+				<a class="list-group-item @if (Request::route()->getName() == 'backpack.account.profession') {{ "active" }} @elseif ($user->student->force_update && $user->student->force_update != 5) {{ "disabled" }} @endif"  href="{{ route('backpack.account.profession') }}">@lang('Profession')</a>
 
-			<li class="list-group-item" role="presentation"
-			@if (Request::route()->getName() == 'backpack.account.contacts')
-				class="active"
-				@endif
-				><a href="{{ route('backpack.account.contacts') }}">@lang('Additional Contacts')</a></li>
+				<a class="list-group-item @if (Request::route()->getName() == 'backpack.account.photo') {{ "active" }} @elseif ($user->student->force_update && $user->student->force_update != 6) {{ "disabled" }} @endif"  href="{{ route('backpack.account.photo') }}">@lang('Profile Picture')</a>
 
-		@endif
-		</ul>
+				<a class="list-group-item @if (Request::route()->getName() == 'backpack.account.contacts') {{ "active" }} @elseif ($user->student->force_update && $user->student->force_update != 7) {{ "disabled" }} @endif"  href="{{ route('backpack.account.contacts') }}">@lang('Additional Contacts')</a>
+
+			@endif
+		</div>
 	</div>
 
 

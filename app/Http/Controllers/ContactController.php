@@ -6,6 +6,7 @@ use App\Http\Requests\ContactRequest as StoreRequest;
 use App\Models\Contact;
 use App\Models\PhoneNumber;
 use Illuminate\Http\Request;
+use App\Models\ContactRelationship;
 
 class ContactController extends Controller
 {
@@ -26,6 +27,7 @@ class ContactController extends Controller
             'address' => 'required',
             'phone_number' => 'required',
             'idnumber' => 'required',
+            'contact_type' => 'required',
         ]);
 
         $contact = new Contact;
@@ -35,7 +37,7 @@ class ContactController extends Controller
         $contact->idnumber = $request->input('idnumber');
         $contact->address = $request->input('address');
         $contact->email = $request->input('email');
-        //$contact->relationship_id = $request->input('relationship_id'); // todo add this
+        $contact->relationship_id = $request->input('contact_type');
         $contact->save();
 
         // register the phone number
@@ -48,12 +50,6 @@ class ContactController extends Controller
         }
 
         \Alert::success(__('The information has successfully been saved'))->flash();
-
-        if ($request->input('destination') == 'logout') {
-            backpack_auth()->logout();
-
-            return redirect()->to('/');
-        }
 
         return redirect()->back();
     }
@@ -71,11 +67,12 @@ class ContactController extends Controller
             'idnumber' => $request->idnumber,
             'address' => $request->address,
             'email' => $request->email,
+            'relationship_id' => $request->contact_type,
         ]);
 
         \Alert::success(__('The information has successfully been saved'))->flash();
 
-        return redirect()->back();
+        return redirect($request->redirect_path);
     }
 
     // open a page to update contact information
@@ -86,7 +83,10 @@ class ContactController extends Controller
             abort(403);
         }
 
-        return view('students.edit-contact', compact('contact'));
+        return view('students.edit-contact', [
+            'contact' => $contact,
+            'redirect_url' =>url()->previous(),
+        ]);
     }
 
     // delete additional contact information

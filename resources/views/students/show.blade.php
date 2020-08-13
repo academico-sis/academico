@@ -143,62 +143,7 @@
 
 @section('before_scripts')
 
-
-    <!-- Add additional user data Modal-->
-    <div class="modal fade" id="userDataModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title">@lang('Add a new contact')</h4>
-            </div>
-            <div class="modal-body">
-
-                <form action="{{ route('addContact') }}" method="post">
-                @csrf
-                <input type="hidden" name="student_id" value="{{ $student->id }}">
-
-                <div class="form-group">
-                    <label for="firstname">@lang('Firstname')</label>
-                    <input required type="text" id="firstname" name="firstname">
-                </div>
-
-                <div class="form-group">
-                    <label for="lastname">@lang('Name')</label>
-                    <input required type="text" id="lastname" name="lastname">
-                </div>
-
-                <div class="form-group">
-                    <label for="email">@lang('Email')</label>
-                    <input required type="email" id="email" name="email">
-            </div>
-
-            <div class="form-group">
-                <label for="address">@lang('Address')</label>
-                <input required type="text" id="address" name="address">
-            </div>
-
-            <div class="form-group">
-                <label for="phone_number">@lang('Phone Number')</label>
-                <input required type="text" id="phone_number" name="phone_number">
-            </div>
-
-            <div class="form-group">
-                <label for="idnumber">@lang('ID Number')</label>
-                <input required type="text" id="idnumber" name="idnumber">
-            </div>
-
-
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">@lang('Close')</button>
-              <button type="submit" class="btn btn-success">@lang('Save new Contact')</button>
-            </div>
-        </form>
-          </div>
-        </div>
-      </div>
-    </div>
-
+@include('partials.create_new_contact')
 
 @endsection
 

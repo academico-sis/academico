@@ -16,33 +16,17 @@
         {{ trans('backpack::base.my_account') }}
     </h2>
 
-    <ol class="breadcrumb">
-
-        <li class="breadcrumb-item">
-            <a href="{{ backpack_url() }}">{{ config('backpack.base.project_name') }}</a>
-        </li>
-
-        <li class="breadcrumb-item">
-            <a href="{{ route('backpack.account.edit_info') }}">{{ trans('backpack::base.my_account') }}</a>
-        </li>
-
-        <li class="breadcrumb-item active">
-            {{ trans('backpack::base.update_account_info') }}
-        </li>
-
-    </ol>
-
 </section>
 @endsection
 
 @section('content')
 <div id="app">
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-4">
         @include('student.account.sidemenu')
     </div>
 
-    <div class="col-md-9">
+    <div class="col-md-8">
     <div class="row">
         <div class="card">
             <div class="card-body text-center">
@@ -65,7 +49,7 @@
 
         @foreach ($user->student->contacts as $contact)
 
-        <div class="col-md-4">
+        <div class="col-md-6">
         <div class="card">
             <div class="card-header">
                 @lang('Additional Contact')
@@ -74,9 +58,13 @@
                 @endif
 
                 <div class="card-header-actions">
-                    <a class="btn btn btn-warning" href="/contact/{{$contact->id}}/edit">
+                    <a class="btn btn-sm btn-warning" href="/contact/{{$contact->id}}/edit">
                         <i class="la la-pencil"></i>
-                    </a>  
+                    </a>
+
+                    <button class="btn btn-sm btn-danger" href="#" onclick="if(confirm('Seguro que quiere eliminar este contacto?')) deleteContact({{ $contact->id }})">
+                        <i class="la la-trash"></i>
+                    </a>
                 </div>
             </div>
                     
@@ -131,60 +119,21 @@
 @endsection
 
 @section('after_scripts')
-    <!-- Add additional user data Modal-->
-    <div class="modal fade" id="userDataModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title">@lang('Add a new contact')</h4>
-            </div>
-            <div class="modal-body">
-              
-                <form action="{{ route('addContact') }}" method="post">
-                @csrf
-                <input type="hidden" name="student_id" value="{{ $user->student->id }}">
-                
-                <div class="form-group">
-                    <label for="firstname">@lang('Firstname')</label>
-                    <input type="text" id="firstname" name="firstname">
-                </div>
+@include('partials.create_new_contact', ['student' => $user->student])
 
-                <div class="form-group">
-                    <label for="lastname">@lang('Name')</label>
-                    <input type="text" id="lastname" name="lastname">
-                </div>
-
-                <div class="form-group">
-                    <label for="email">@lang('Email')</label>
-                    <input type="text" id="email" name="email">
-            </div>
-
-            <div class="form-group">
-                <label for="address">@lang('Address')</label>
-                <input type="text" id="address" name="address">
-            </div>
-
-            <div class="form-group">
-                <label for="phone_number">@lang('Phone Number')</label>
-                <input type="text" id="phone_number" name="phone_number">
-            </div>
-
-            <div class="form-group">
-                <label for="idnumber">@lang('ID Number')</label>
-                <input type="text" id="idnumber" name="idnumber">
-            </div>
+    <script src="/js/app.js"></script>
 
 
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">@lang('Close')</button>
-              <button type="submit" class="btn btn-success">@lang('Save new Contact')</button>
-            </div>
-        </form>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <script src="/js/app.js"></script>   
+    <script>
+        function deleteContact(contact)
+            {
+                axios.delete(`/contact/${contact}/delete`)
+                    .then(function (response) {
+                        window.location.reload()
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+    </script>
 @endsection

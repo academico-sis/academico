@@ -19,6 +19,7 @@
 					<form method="post" action="{{ route('updateContact', ['contact' => $contact->id]) }}">
 						{!! csrf_field() !!}
 						{!! method_field('PATCH') !!}
+						<input type="hidden" name="redirect_path" value="{{ $redirect_url }}">
 
 
 					@if ($errors->count())
@@ -34,7 +35,20 @@
 
 					<div class="form-group">
 						@php
-							$label = trans('firstname');
+							$label = trans('Contact Type');
+							$field = 'contact_type';
+						@endphp
+						<label class="required">{{ $label }}</label>
+						<select class="form-control" required name="{{ $field }}" id="{{ $field }}">
+							@foreach ($contact_types as $value)
+								<option value="{{ $value->id }}">{{ $value->name }}</option>
+							@endforeach
+						</select>
+					</div>
+
+					<div class="form-group">
+						@php
+							$label = trans('Firstname');
 							$field = 'firstname';
 						@endphp
 						<label class="required">{{ $label }}</label>
@@ -44,7 +58,7 @@
 
 					<div class="form-group">
 						@php
-							$label = trans('lastname');
+							$label = trans('Lastname');
 							$field = 'lastname';
 						@endphp
 						<label class="required">{{ $label }}</label>
@@ -54,7 +68,7 @@
 
 					<div class="form-group">
 						@php
-							$label = trans('email');
+							$label = trans('Email');
 							$field = 'email';
 						@endphp
 						<label class="required">{{ $label }}</label>
@@ -64,7 +78,7 @@
 
 					<div class="form-group">
 						@php
-							$label = trans('ID number');
+							$label = trans('ID Number');
 							$field = 'idnumber';
 						@endphp
 						<label class="required">{{ $label }}</label>

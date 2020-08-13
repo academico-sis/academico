@@ -4,7 +4,7 @@
             <i class="la la-phone"></i>
             <span class="input-lg">{{ phoneable.phone_number }}</span>
             <button
-                class="btn btn-danger"
+                class="btn btn-sm btn-danger"
                 @click="deletePhoneNumber(phoneable.id)"
             >
                 <i class="la la-trash"></i>
@@ -20,7 +20,7 @@
                 name="new_number"
                 type="numeric"
             />
-            <button class="btn" @click="addPhoneNumber()">
+            <button class="btn btn-sm" @click="addPhoneNumber()">
                 <i class="la la-plus"></i>
             </button>
         </div>
