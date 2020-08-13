@@ -1,6 +1,6 @@
 # About this project
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 [![Build Status](https://travis-ci.org/laxsmi/academico.svg?branch=master)](https://travis-ci.org/laxsmi/academico)
 
@@ -28,11 +28,12 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/laxsmi"><img src="https://avatars3.githubusercontent.com/u/1422621?v=4" width="100px;" alt=""/><br /><sub><b>Thomas Debay</b></sub></a><br /><a href="https://github.com/academico-sis/academico/commits?author=laxsmi" title="Code">💻</a> <a href="https://github.com/academico-sis/academico/commits?author=laxsmi" title="Documentation">📖</a> <a href="#ideas-laxsmi" title="Ideas, Planning, & Feedback">🤔</a> <a href="#maintenance-laxsmi" title="Maintenance">🚧</a> <a href="https://github.com/academico-sis/academico/commits?author=laxsmi" title="Tests">⚠️</a></td>
+    <td align="center"><a href="https://github.com/thdebay"><img src="https://avatars3.githubusercontent.com/u/1422621?v=4" width="100px;" alt=""/><br /><sub><b>Thomas Debay</b></sub></a><br /><a href="https://github.com/academico-sis/academico/commits?author=thdebay" title="Code">💻</a> <a href="https://github.com/academico-sis/academico/commits?author=thdebay" title="Documentation">📖</a> <a href="#ideas-thdebay" title="Ideas, Planning, & Feedback">🤔</a> <a href="#maintenance-thdebay" title="Maintenance">🚧</a> <a href="https://github.com/academico-sis/academico/commits?author=thdebay" title="Tests">⚠️</a></td>
     <td align="center"><a href="https://github.com/marcmarina"><img src="https://avatars3.githubusercontent.com/u/38327883?v=4" width="100px;" alt=""/><br /><sub><b>Marc Marina Miravitlles</b></sub></a><br /><a href="https://github.com/academico-sis/academico/commits?author=marcmarina" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/damienBAUDET"><img src="https://avatars1.githubusercontent.com/u/51827692?v=4" width="100px;" alt=""/><br /><sub><b>Damien Baudet</b></sub></a><br /><a href="#maintenance-damienBAUDET" title="Maintenance">🚧</a> <a href="https://github.com/academico-sis/academico/commits?author=damienBAUDET" title="Code">💻</a></td>
     <td align="center"><a href="http://techarewa.com"><img src="https://avatars3.githubusercontent.com/u/7858376?v=4" width="100px;" alt=""/><br /><sub><b>Mubarak M Aminu</b></sub></a><br /><a href="https://github.com/academico-sis/academico/commits?author=mubarak23" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/Aybee5"><img src="https://avatars1.githubusercontent.com/u/42099896?v=4" width="100px;" alt=""/><br /><sub><b>Ibrahim Abdullahi Aliyu</b></sub></a><br /><a href="https://github.com/academico-sis/academico/commits?author=Aybee5" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/AleksandarMitevski"><img src="https://avatars3.githubusercontent.com/u/59975218?v=4" width="100px;" alt=""/><br /><sub><b>AleksandarMitevski</b></sub></a><br /><a href="https://github.com/academico-sis/academico/commits?author=AleksandarMitevski" title="Tests">⚠️</a></td>
   </tr>
 </table>
 

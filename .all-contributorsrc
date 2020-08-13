@@ -54,6 +54,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "AleksandarMitevski",
+      "name": "AleksandarMitevski",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/59975218?v=4",
+      "profile": "https://github.com/AleksandarMitevski",
+      "contributions": [
+        "test"
+      ]
     }
   ],
   "contributorsPerLine": 7,
