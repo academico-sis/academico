@@ -2,13 +2,13 @@
 
 namespace App\Providers;
 
+use App\Models\ContactRelationship;
 use App\Models\Period;
 use App\Models\Room;
 use App\Models\Teacher;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
-use App\Models\ContactRelationship;
 
 class AppServiceProvider extends ServiceProvider
 {

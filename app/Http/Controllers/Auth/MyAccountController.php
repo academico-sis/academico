@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use Alert;
+use App\Models\ContactRelationship;
 use App\Models\Institution;
 use App\Models\Profession;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use App\Models\ContactRelationship;
 
 class MyAccountController extends \App\Http\Controllers\Controller
 {
@@ -49,6 +49,7 @@ class MyAccountController extends \App\Http\Controllers\Controller
             if ($this->guard()->user()->isStudent()) {
                 if ($this->guard()->user()->student->force_update == 1) {
                     $this->guard()->user()->student->update(['force_update' => 2]);
+
                     return redirect('edit/2');
                 }
             }
@@ -84,6 +85,7 @@ class MyAccountController extends \App\Http\Controllers\Controller
             if ($this->guard()->user()->isStudent()) {
                 if ($this->guard()->user()->student->force_update == 2) {
                     $this->guard()->user()->student->update(['force_update' => 3]);
+
                     return redirect('edit/3');
                 }
             }

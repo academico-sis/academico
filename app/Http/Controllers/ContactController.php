@@ -6,7 +6,6 @@ use App\Http\Requests\ContactRequest as StoreRequest;
 use App\Models\Contact;
 use App\Models\PhoneNumber;
 use Illuminate\Http\Request;
-use App\Models\ContactRelationship;
 
 class ContactController extends Controller
 {
