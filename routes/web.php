@@ -18,7 +18,6 @@ Route::group(
         Route::get('dashboard/teacher/{teacher}/hours', 'HRController@teacher')->name('teacherHours'); // todo protect
 
         Route::get('dashboard/student', 'HomeController@student')->name('studentDashboard')->middleware('forceupdate');
-
     });
 
 /* ATTENDANCE-RELATED ROUTES */

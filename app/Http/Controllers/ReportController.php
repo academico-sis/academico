@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Config;
 use App\Models\Period;
-use App\Models\Year;
 use App\Traits\PeriodSelection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;

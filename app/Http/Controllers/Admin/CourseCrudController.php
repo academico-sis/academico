@@ -211,7 +211,6 @@ class CourseCrudController extends CrudController
               CRUD::addClause('where', 'period_id', $period);
               //$this->crud->request->request->add(['period_id' => $period]); // to make the filter look active
           });
-
     }
 
     protected function setupCreateOperation()
