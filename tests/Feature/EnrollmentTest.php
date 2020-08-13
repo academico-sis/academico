@@ -51,9 +51,9 @@ class EnrollmentTest extends TestCase
         // Assert: The students lead_type_id is null
         $this->assertTrue($student->lead_type_id == null);
     }
-    
+
     /** @test
-        Non authorized users may not enroll students
+     * Non authorized users may not enroll students
      */
     public function unauthorized_users_may_not_enroll_students()
     {
@@ -66,13 +66,13 @@ class EnrollmentTest extends TestCase
         // and a newly created course
         $course = factory(Course::class)->create();
 
-        // Attempt to enroll a student 
+        // Attempt to enroll a student
         $response = $this->json('POST', '/student/enroll', [
             'student_id' => $student->id,
             'course_id' => $course->id,
         ]);
         // Assert that the response status is 403;
-        $response->assertStatus(403);    
+        $response->assertStatus(403);
     }
 
     /** @test
@@ -166,19 +166,18 @@ class EnrollmentTest extends TestCase
     }
 
     /** @test */
-
     public function an_enrollment_may_be_deleted_by_authorized_users_only()
     {
         $admin = factory(User::class)->create();
-        
+
         $admin->assignRole('admin');
-        backpack_auth()->login($admin, true);    
+        backpack_auth()->login($admin, true);
 
         // Newly created student
-        $student = factory(Student::class)-> create();
+        $student = factory(Student::class)->create();
 
         // Newly created course
-        $course = factory(Course::class)-> create();
+        $course = factory(Course::class)->create();
 
         // Enroll the student in the course
         $this->json('POST', '/student/enroll', [
@@ -189,7 +188,7 @@ class EnrollmentTest extends TestCase
         // Retrieving the newly created Enrollment from the database
         $findEnrollment = Enrollment::where([
             ['student_id', $student->id],
-            ['course_id', $course->id]
+            ['course_id', $course->id],
         ])->first();
 
         // Hit the EnrollmentCrudController delete path
@@ -204,9 +203,7 @@ class EnrollmentTest extends TestCase
 
         // Using Laravels ORM trashed method to insure that the Enrollment has been soft deleted.
         $this->assertTrue($findEnrollment->trashed());
-
     }
-
 
     // /** @test */
     // public function an_enrollment_may_be_changed_by_authorized_users()
@@ -231,7 +228,6 @@ class EnrollmentTest extends TestCase
     /** @test */
     public function an_enrollment_may_be_changed_by_authorized_users()
     {
-
         $admin = factory(User::class)->create();
         $admin->assignRole('admin');
         backpack_auth()->login($admin, true);
@@ -265,5 +261,4 @@ class EnrollmentTest extends TestCase
         // it now belongs to courseB
         $this->assertEquals($courseB->id, $enrollment->course_id);
     }
-
 }

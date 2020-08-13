@@ -2,18 +2,14 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use App\Models\Enrollment;
 use App\Models\Student;
 use App\Models\Teacher;
-use App\Models\Course;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class EnrollmentViewAuthTest extends TestCase
 {
-
     use RefreshDatabase;
 
     public function setUp(): void
@@ -27,8 +23,8 @@ class EnrollmentViewAuthTest extends TestCase
     public function unathorized_users_cannot_view_enrollments()
     {
         $response = $this->get('enrollment');
-        $response -> assertStatus(302);
-        $response -> assertRedirect('/login');
+        $response->assertStatus(302);
+        $response->assertRedirect('/login');
     }
 
     /** @test **/
@@ -36,19 +32,19 @@ class EnrollmentViewAuthTest extends TestCase
     {
         $teacher = factory(Teacher::class)->create();
         backpack_auth()->login($teacher->user, true);
-    
-        $response = $this->get('enrollment');
-        $response -> assertStatus(403);
 
+        $response = $this->get('enrollment');
+        $response->assertStatus(403);
     }
+
     /** @test **/
     public function students_cannot_view_enrollments()
     {
         $student = factory(Student::class)->create();
-        backpack_auth()->login($student->user,true);
+        backpack_auth()->login($student->user, true);
 
         $response = $this->get('enrollment');
-        $response -> assertStatus(403);
+        $response->assertStatus(403);
     }
 
     /** @test **/
