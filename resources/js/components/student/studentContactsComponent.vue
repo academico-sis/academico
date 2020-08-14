@@ -12,8 +12,8 @@
     <div class="tab-content" id="myTab1Content">
         <div class="tab-pane fade show active" id="student-pane" role="tabpanel" aria-labelledby="student-tab">
             <div><strong>{{ $t('name') }}:</strong> {{ student.firstname }} {{ student.lastname }}</div>
-            <div><strong>{{ $t('idnumber') }}:</strong> {{ student.idnumber }}</div>
-            <div><strong>{{ $t('address') }}:</strong> {{ student.address }}</div>
+            <div v-if="student.idnumber"><strong>{{ $t('idnumber') }}:</strong> {{ student.idnumber }}</div>
+            <div v-if="student.address"><strong>{{ $t('address') }}:</strong> {{ student.address }}</div>
 
                 <div><strong>{{ $t('Phone Number') }}:</strong>
                     <button class="btn btn-sm btn-primary" @click="addingNumberToStudent = true" v-if="writeaccess">
@@ -39,8 +39,7 @@
                     </ul>
                 </div>
             <div><strong>{{ $t('email') }}:</strong> {{ student.email }}</div>
-            <div><strong>{{ $t('birthdate') }}:</strong> {{ student.student_birthdate }}</div>
-            <div><strong>{{ $t('age') }}:</strong> {{ student.student_age }} {{ $t('years old') }}</div>
+            <div v-if="student.birthdate"><strong>{{ $t('birthdate') }}:</strong> {{ student.student_birthdate }} ({{ student.student_age }} {{ $t('years old') }})</div>
             <div v-if="student.institution"><strong>{{ $t('institution') }}:</strong> <a :href="`/student?institutionId=${student.institution.id}`">{{ student.institution.name }}</a></div>
             <div v-if="student.profession"><strong>{{ $t('profession') }}:</strong>{{ student.profession.name }}</div>
             <div v-if="writeaccess">

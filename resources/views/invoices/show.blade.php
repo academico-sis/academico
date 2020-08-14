@@ -6,7 +6,7 @@
                 @lang('Invoices')
             </div>
             
-            <div class="card-body">        
+            <div class="card-body">
                 <p>
                     @lang('Invoice ID') : {{ $enrollment->pre_invoice()->first()->invoice_number }}
                     <a class="btn btn-sm btn-secondary" href="{{ route('edit-invoice-number', ['preInvoice' => $enrollment->pre_invoice()->first()]) }}">Edit</a>
@@ -17,8 +17,6 @@
                 <p>@lang('Client email') : {{ $enrollment->pre_invoice()->first()->client_email }}</p>
                 <p>@lang('Client address') : {{ $enrollment->pre_invoice()->first()->client_address }}</p>
                 <p>@lang('Client ID Number') : {{ $enrollment->pre_invoice()->first()->client_idnumber }}</p>
-                <p>@lang('Client Phone Number') : {{ $enrollment->pre_invoice()->first()->client_phone }}</p>
-
             </div>
         </div>
     </div>
