@@ -156,7 +156,7 @@ class Student extends Model implements HasMedia
 
     public function getStudentAgeAttribute()
     {
-        return Carbon::parse($this->birthdate)->age ?? "";
+        return Carbon::parse($this->birthdate)->age ?? '';
     }
 
     public function getStudentBirthdateAttribute()
