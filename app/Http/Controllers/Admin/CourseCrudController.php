@@ -20,7 +20,6 @@ class CourseCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CloneOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 
@@ -42,16 +41,12 @@ class CourseCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix').'/course');
         CRUD::setEntityNameStrings(__('course'), __('courses'));
 
-        CRUD::addClause('internal');
-
         $permissions = backpack_user()->getAllPermissions();
 
         if (! $permissions->contains('name', 'courses.edit')) {
             CRUD::denyAccess('update');
         }
-        if ($permissions->contains('name', 'courses.edit')) {
-            CRUD::allowAccess('clone');
-        }
+
         if (! $permissions->contains('name', 'courses.edit')) {
             CRUD::denyAccess('create');
             CRUD::denyAccess('clone');
@@ -215,16 +210,6 @@ class CourseCrudController extends CrudController
               $period = \App\Models\Period::get_default_period()->id;
               CRUD::addClause('where', 'period_id', $period);
               //$this->crud->request->request->add(['period_id' => $period]); // to make the filter look active
-          });
-
-        CRUD::addFilter([ // add a "simple" filter called Draft
-            'type' => 'simple',
-            'name' => 'parent',
-            'label'=> __('Hide Children Courses'),
-        ],
-          false,
-          function () {
-              CRUD::addClause('parent');
           });
     }
 

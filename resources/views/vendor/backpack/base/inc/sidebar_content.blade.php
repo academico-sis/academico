@@ -1,19 +1,18 @@
 <!-- This file is used to store sidebar items, starting with Backpack\Base 0.9.0 -->
 
+<li class='nav-item'><a class='nav-link' href="{{ url('/') }}"><i class="nav-icon la la-book"></i> <span>{{ trans('backpack::base.dashboard') }}</span></a></li>
 @if(backpack_user()->hasRole(['admin', 'secretary']))
-  <li class='nav-item'><a class='nav-link' href="{{ url('/') }}"><i class="nav-icon la la-book"></i> <span>{{ trans('backpack::base.dashboard') }}</span></a></li>
   <li class="nav-title">@lang('COURSES')</li>
   <li class='nav-item'><a class='nav-link' href="{{ backpack_url('course') }}"><i class="nav-icon la la-book"></i> <span>@lang('Courses (list)')</span></a></li>
-  <li class='nav-item'><a class='nav-link' href="{{ route('get-courses-list') }}"><i class="nav-icon la la-book"></i> <span>@lang('Internal Courses')</span></a></li>
-  <li class='nav-item'><a class='nav-link' href="{{ backpack_url('externalcourse') }}"><i class="nav-icon la la-bus"></i> <span>@lang('External Courses')</span></a></li>
+  <li class='nav-item'><a class='nav-link' href="{{ route('get-courses-list') }}"><i class="nav-icon la la-book"></i> <span>@lang('Courses')</span></a></li>
 @endif
 
 @if(backpack_user()->hasRole(['admin', 'secretary']))
   <li class="nav-title">@lang('ADMINISTRATION')</li>
   <li class='nav-item'><a class='nav-link' href="{{ backpack_url('student') }}"><i class="nav-icon la la-user"></i> <span>@lang('Students')</span></a></li>
   <li class='nav-item'><a class='nav-link' href="{{ backpack_url('attendance') }}"><i class="nav-icon la la-calendar"></i> <span>@lang('Attendance')</span></a></li>
-  <li class='nav-item'><a class='nav-link' href="{{ backpack_url('/enrollment?status_id=["1"]&hidechildren=true') }}"><i class="nav-icon la la-credit-card"></i> <span>@lang('Pending')</span></a></li>
-  <li class='nav-item'><a class='nav-link' href="{{ backpack_url('/enrollment?scholarship=all&hidechildren=true') }}"><i class="nav-icon la la-comment-dollar"></i> <span>@lang('Scholarships')</span></a></li>
+  <li class='nav-item'><a class='nav-link' href="{{ backpack_url('/enrollment?status_id=["1"]') }}"><i class="nav-icon la la-credit-card"></i> <span>@lang('Pending')</span></a></li>
+  <li class='nav-item'><a class='nav-link' href="{{ backpack_url('/enrollment?scholarship=all') }}"><i class="nav-icon la la-comment-dollar"></i> <span>@lang('Scholarships')</span></a></li>
 @endif
 
 @if(backpack_user()->hasRole(['admin']))
@@ -86,8 +85,6 @@
   <li class='nav-item'><a class='nav-link' href="{{ route('rhythmReport') }}"><i class="nav-icon la la-pie-chart"></i><span>@lang('Per rhythm')</span></a></li>
   <li class='nav-item'><a class='nav-link' href="{{ route('courseReport') }}"><i class="nav-icon la la-graduation-cap"></i><span>@lang('Per course')</span></a></li>
 
-  <li class='nav-item'><a class='nav-link' href="{{ route('externalReport') }}"><i class="nav-icon la la-bus"></i> <span>@lang('External')</span></a></li>
-
 @endif
 
 @if(backpack_user()->hasRole(['admin', 'secretary']))
@@ -121,11 +118,10 @@
             <li class='nav-item'><a class='nav-link' href="{{ backpack_url('user') }}"><i class="nav-icon la la-user"></i> <span>@lang('Users')</span></a></li>
             <li class='nav-item'><a class='nav-link' href="{{ backpack_url('teacher') }}"><i class="nav-icon la la-user"></i> <span>@lang('Teachers')</span></a></li>
             <li class='nav-item'><a class='nav-link' href="{{ backpack_url('role') }}"><i class="nav-icon la la-group"></i> <span>@lang('Roles')</span></a></li>
+            <li class='nav-item'><a class='nav-link' href='{{ backpack_url('member') }}'><i class='nav-icon la la-question'></i> Members</a></li>
           </ul>
         </li>
     
-        <li class='nav-item'><a class='nav-link' href='{{ route('setupHome') }}'><i class='la la-gears'></i> <span>@lang('Setup Dashboard')</span></a></li>
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('config') }}'><i class='la la-gears'></i> <span>@lang('Internal Settings')</span></a></li>
         @endif
 
     </ul>
@@ -143,4 +139,4 @@
 
 @if((backpack_user()->isStudent()))
   <li class="nav-item"><a class='nav-link' href="{{ route('backpack.account.edit_info') }}"><i class="la la-user"></i> <span>{{ trans('backpack::base.my_account') }}</span></a></li>
-  @endif
+@endif

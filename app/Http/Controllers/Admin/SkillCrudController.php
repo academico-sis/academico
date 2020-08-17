@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\SkillRequest as StoreRequest;
 // VALIDATION: change the requests to match your own file names if you need form validation
-use App\Models\Course;
 use App\Models\Skills\Skill;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -25,7 +24,6 @@ class SkillCrudController extends CrudController
         CRUD::setModel(\App\Models\Skills\Skill::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/skill');
         CRUD::setEntityNameStrings(__('skill'), __('skills'));
-        CRUD::addButtonFromView('top', 'bulk_attach', 'bulk_attach', 'end');
     }
 
     protected function setupListOperation()
@@ -108,23 +106,5 @@ class SkillCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
-    }
-
-    public function bulkAttachToCourse()
-    {
-        $this->middleware(['permission:evaluation.edit']);
-
-        $entries = request()->input('entries');
-        $course = Course::find(request()->input('course'));
-
-        $course->skills()->detach();
-
-        foreach ($entries as $skill) {
-            $course->skills()->attach(Skill::find($skill),
-            ['weight' => 1]); // todo allow edition of this parameter
-        }
-        \Alert::success(__('Skills set was saved for the course'))->flash();
-
-        return $course->id;
     }
 }

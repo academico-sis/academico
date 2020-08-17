@@ -21,12 +21,10 @@ class CourseEvaluationCrudController extends CrudController
         $this->crud->setRoute(config('backpack.base.route_prefix').'/courseevaluation');
         $this->crud->setEntityNameStrings(__('course evaluation'), __('course evaluations'));
 
-        CRUD::addClause('internal');
         CRUD::addClause('realcourses'); // filter out parent courses
 
         CRUD::addButtonFromView('line', 'skills', 'skills', 'end');
-        CRUD::addButtonFromView('line', 'skillsevaluation', 'skillsevaluation', 'end');
-        CRUD::addButtonFromView('line', 'grades', 'grades', 'end');
+        CRUD::addButtonFromView('line', 'evaluation', 'evaluation', 'end');
     }
 
     protected function setupListOperation()

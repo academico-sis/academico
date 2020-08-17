@@ -190,7 +190,7 @@
                         <div class="card-header">
                             {{ $t("Last enrollment") }}
                         </div>
-                        <div class="card-body">
+                        <div class="card-body" v-if="this.student.enrollments.length > 0">
                             <p>{{ this.student.enrollments.slice(-1)[0].course.name }} ({{ this.student.enrollments.slice(-1)[0].course.course_period_name }})</p>
                             <label class="label-info">{{ this.student.enrollments.slice(-1)[0].result_name }}</label>
                         </div>
@@ -273,16 +273,6 @@
                                             ><i class="la la-clock-o"></i>
                                             {{ $t("Edit schedule") }}</a
                                         >
-                                        <button
-                                            v-if="editable == 1"
-                                            class="dropdown-item"
-                                            @click="
-                                                createChildCourse(course.id)
-                                            "
-                                        >
-                                            <i class="la la-clone"></i>
-                                            {{ $t("Create subcourse") }}
-                                        </button>
                                         <button
                                             v-if="
                                                 editable == 1 &&
@@ -442,59 +432,6 @@ export default {
         clearSelectedTeacher() {
             this.selectedTeacher = "";
             this.getCoursesResults();
-        },
-
-        createChildCourse(id) {
-            swal({
-                title: "Warning",
-                text: "Realmente quiere crear un curso hijo para este curso?",
-                icon: "warning",
-                buttons: {
-                    cancel: {
-                        text: "No",
-                        value: null,
-                        visible: true,
-                        className: "bg-secondary",
-                        closeModal: true,
-                    },
-                    delete: {
-                        text: "Si",
-                        value: true,
-                        visible: true,
-                        className: "bg-danger",
-                    },
-                },
-            }).then((value) => {
-                if (value) {
-                    $.ajax({
-                        url: `course/${id}/clone`,
-                        type: "POST",
-                        success: function (result) {
-                            // Show an alert with the result
-                            new Noty({
-                                type: "success",
-                                text:
-                                    "<strong>Course cloned</strong><br>A new course has been created as a sub-course of this one.",
-                            }).show();
-
-                            // Hide the modal, if any
-                            $(".modal").modal("hide");
-
-                            // open new course edit page
-                            window.location.href =
-                                "/course/" + result + "/edit";
-                        },
-                        error: function (result) {
-                            // Show an alert with the result
-                            new Noty({
-                                type: "warning",
-                                text:
-                                    "<strong>Cloning failed</strong><br>The new course could not be created. Please try again.",
-                            }).show();
-                        },
-                    });
-                }
-            });
         },
 
         deleteCourse(id) {

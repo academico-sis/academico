@@ -13,9 +13,9 @@
 @endif
 
         <div class="card">
-                    <div class="card-header">@lang('Attendance')</div>
+            <div class="card-header">@lang('Attendance')</div>
             <div class="card-body">
-                <div id="app">
+                <div id="app" style="overflow-x:auto;">
                 <table class="table">
                     <thead>
                         <td></td>
@@ -44,25 +44,6 @@
                 </table>
             </div>
             </div>
-
-            <div class="card-footer">
-            <label class="badge badge-success">
-                P <i class="la la-user"></i>
-            </label> : @lang('Present')
-            - 
-            <label class="badge badge-warning">
-                PP <i class="la la-clock-o"></i>
-            </label> : @lang('Partial presence (arrived late or left early)')
-            - 
-            <label class="badge badge-info">
-                AJ <i class="la la-exclamation"></i>
-            </label> : @lang('justified absence')
-            - 
-            <label class="badge badge-danger">
-                A <i class="la la-user-times"></i>
-            </label> : @lang('unjustified absence')
-            </div>
-            
         </div>
     </div>
 

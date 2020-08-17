@@ -16,31 +16,15 @@
         {{ trans('backpack::base.my_account') }}
     </h2>
 
-    <ol class="breadcrumb">
-
-        <li class="breadcrumb-item">
-            <a href="{{ backpack_url() }}">{{ config('backpack.base.project_name') }}</a>
-        </li>
-
-        <li class="breadcrumb-item">
-            <a href="{{ route('backpack.account.edit_info') }}">{{ trans('backpack::base.my_account') }}</a>
-        </li>
-
-        <li class="breadcrumb-item active">
-            {{ trans('backpack::base.update_account_info') }}
-        </li>
-
-    </ol>
-
 </section>
 @endsection
 
 @section('content')
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-4">
         @include('student.account.sidemenu')
     </div>
-    <div class="col-md-6">
+    <div class="col-md-8">
 
         <form action="/edit-photo" method="post" enctype="multipart/form-data">
 

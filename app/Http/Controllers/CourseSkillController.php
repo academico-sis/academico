@@ -20,6 +20,11 @@ class CourseSkillController extends Controller
         $this->middleware(['permission:evaluation.edit']);
     }
 
+    protected function getCoursesSkillList($course)
+    {
+        return $course->skills->groupBy('skill_type_id')->toArray();
+    }
+
     public function exportCourseSyllabus(Course $course)
     {
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
@@ -72,14 +77,46 @@ class CourseSkillController extends Controller
      */
     public function index(Course $course)
     {
-        $skills = $course->skills->toJson();
-
-        return view('skills.course', compact('course', 'skills'));
+        return view('skills.course', compact('course'));
     }
 
-    public function get(Course $course)
+    // get skills for the selected course level which are not already assigned to the course
+    public function getAvailableSkills(Course $course)
     {
-        return $course->skills->toJson();
+        return Skill::where('level_id', $course->level_id)->whereNotIn('id', $course->refresh()->skills->pluck('id'))->get()->groupBy('skill_type_id')->toJson();
+    }
+
+    public function getCourseSkills(Course $course)
+    {
+        return $this->getCoursesSkillList($course);
+    }
+
+    public function addSkill(Course $course, Request $request)
+    {
+        $request->validate(['skill_id' => 'required']);
+
+        if ($request->skill_id == 'all') {
+            foreach (Skill::where('level_id', $course->level_id)->whereNotIn('id', $course->refresh()->skills->pluck('id'))->get() as $skill) {
+                $course->skills()->attach($skill, ['weight' => 1]);
+            }
+        } else {
+            $course->skills()->attach(Skill::find($request->skill_id), ['weight' => 1]);
+        }
+
+        return $this->getCoursesSkillList($course->refresh());
+    }
+
+    public function removeSkill(Course $course, Request $request)
+    {
+        $request->validate(['skill_id' => 'required']);
+
+        if ($request->skill_id == 'all') {
+            $course->skills()->detach();
+        } else {
+            $course->skills()->detach(Skill::find($request->skill_id));
+        }
+
+        return $this->getCoursesSkillList($course);
     }
 
     public function set(Course $course, Request $request)

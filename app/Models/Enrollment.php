@@ -208,7 +208,7 @@ class Enrollment extends Model
 
     public function getStudentAgeAttribute()
     {
-        return Carbon::createFromFormat('Y-m-d', $this->student['birthdate'])->age;
+        return $this->student->age;
     }
 
     public function getStudentBirthdateAttribute()

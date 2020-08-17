@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\ContactRelationship;
 use App\Models\Period;
 use App\Models\Room;
 use App\Models\Teacher;
@@ -34,6 +35,10 @@ class AppServiceProvider extends ServiceProvider
         if (\Schema::hasTable('rooms')) {
             View::share('rooms', Room::all());
         }
+
+        View::composer('partials.create_new_contact', function ($view) {
+            $view->with('contact_types', ContactRelationship::all());
+        });
     }
 
     /**

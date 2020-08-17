@@ -17,7 +17,6 @@ Route::group(
         Route::crud('result', 'Admin\ResultCrudController');
         Route::crud('student', 'Admin\StudentCrudController');
         Route::crud('course', 'Admin\CourseCrudController');
-        Route::crud('externalcourse', 'Admin\ExternalCourseCrudController');
         Route::crud('comment', 'Admin\CommentCrudController');
     }
 );
@@ -66,7 +65,6 @@ Route::group([
     Route::crud('evaluationtype', 'EvaluationTypeCrudController');
     Route::crud('gradetype', 'GradeTypeCrudController');
     Route::crud('skill', 'SkillCrudController');
-    Route::post('skill/bulk-attach', 'SkillCrudController@bulkAttachToCourse'); // TODO move to own controller
     Route::crud('skilltype', 'SkillTypeCrudController');
     Route::crud('skillscale', 'SkillScaleCrudController');
     Route::crud('resulttype', 'ResultTypeCrudController');

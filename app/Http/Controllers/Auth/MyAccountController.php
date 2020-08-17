@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use Alert;
+use App\Models\ContactRelationship;
 use App\Models\Institution;
 use App\Models\Profession;
 use App\Models\Student;
@@ -48,6 +49,44 @@ class MyAccountController extends \App\Http\Controllers\Controller
             if ($this->guard()->user()->isStudent()) {
                 if ($this->guard()->user()->student->force_update == 1) {
                     $this->guard()->user()->student->update(['force_update' => 2]);
+
+                    return redirect('edit/2');
+                }
+            }
+        } else {
+            Alert::error(trans('backpack::base.error_saving'))->flash();
+        }
+
+        return redirect()->back();
+    }
+
+    public function getChangePasswordForm()
+    {
+        $this->data['title'] = trans('Change password');
+        $this->data['user'] = $this->guard()->user();
+
+        return view('student.account.change_password', $this->data);
+    }
+
+    public function postChangePasswordForm(Request $request)
+    {
+        $request->validate([
+            'password' => 'required|confirmed',
+        ]);
+
+        $result = $this->guard()->user()->update([
+            'password' => bcrypt($request->password),
+        ]);
+
+        if ($result) {
+            Alert::success(trans('backpack::base.account_updated'))->flash();
+
+            // if the user has been selected for a forced update, move to the next step
+            if ($this->guard()->user()->isStudent()) {
+                if ($this->guard()->user()->student->force_update == 2) {
+                    $this->guard()->user()->student->update(['force_update' => 3]);
+
+                    return redirect('edit/3');
                 }
             }
         } else {
@@ -92,8 +131,8 @@ class MyAccountController extends \App\Http\Controllers\Controller
         Alert::success(trans('backpack::base.account_updated'))->flash();
 
         // if the user has been selected for a forced update, move to the next step
-        if ($this->guard()->user()->student->force_update == 2 || $this->guard()->user()->force_update == null) {
-            $this->guard()->user()->student->update(['force_update' => 3]);
+        if ($this->guard()->user()->student->force_update == 3) {
+            $this->guard()->user()->student->update(['force_update' => 4]);
         }
 
         return redirect()->to('/');
@@ -116,8 +155,8 @@ class MyAccountController extends \App\Http\Controllers\Controller
     public function postPhoneForm()
     {
         // if the user has been selected for a forced update, move to the next step
-        if ($this->guard()->user()->student->force_update == 3) {
-            $this->guard()->user()->student->update(['force_update' => 4]);
+        if ($this->guard()->user()->student->force_update == 4) {
+            $this->guard()->user()->student->update(['force_update' => 5]);
         }
 
         \Alert::success(__('Your data has been saved'))->flash();
@@ -160,8 +199,8 @@ class MyAccountController extends \App\Http\Controllers\Controller
         ]);
 
         // if the user has been selected for a forced update, move to the next step
-        if ($this->guard()->user()->student->force_update == 4) {
-            $this->guard()->user()->student->update(['force_update' => 5]);
+        if ($this->guard()->user()->student->force_update == 5) {
+            $this->guard()->user()->student->update(['force_update' => 6]);
         }
 
         \Alert::success(__('Your data has been saved'))->flash();
@@ -192,8 +231,8 @@ class MyAccountController extends \App\Http\Controllers\Controller
         }
 
         // if the user has been selected for a forced update, move to the next step
-        if ($this->guard()->user()->student->force_update == 5) {
-            $this->guard()->user()->student->update(['force_update' => 6]);
+        if ($this->guard()->user()->student->force_update == 6) {
+            $this->guard()->user()->student->update(['force_update' => 7]);
         }
 
         \Alert::success(__('Your picture has been saved'))->flash();
@@ -209,13 +248,14 @@ class MyAccountController extends \App\Http\Controllers\Controller
     {
         $this->data['title'] = trans('backpack::base.my_account');
         $this->data['user'] = $this->guard()->user();
+        $this->data['contact_types'] = ContactRelationship::all();
 
         return view('student.account.additional_contacts', $this->data);
     }
 
     public function postContactsForm(Request $request)
     {
-        if ($this->guard()->user()->student->force_update == 6) {
+        if ($this->guard()->user()->student->force_update == 7) {
             $this->guard()->user()->student->update(['force_update' => null]);
         }
         Log::info('User updated their data step 6');

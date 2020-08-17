@@ -15,44 +15,18 @@
     
     <div class="col-md-4">
         <div class="card">
-            <div class="card-header">@lang('Student Info')
+            <div class="card-header">@lang('Enrollment Info')
             </div>
             
             <div class="card-body">
                 <p>@lang('name'): 
                     <a href="{{ url('student') }}/{{$enrollment->student->id }}/show">{{ $enrollment->student->firstname }} {{ $enrollment->student->lastname }}</a>
                 </p>
-                <p>@lang('idnumber'): {{ $enrollment->student->idnumber }}</p>
-                <p>@lang('address'): {{ $enrollment->student->address }}</p>
+                <p>@lang('Enrollment date'): {{ $enrollment->date }}</p>
+                <p>@lang('Enrollment ID'): {{ $enrollment->id }}</p>
+                <p>@lang('Course'): {{ $enrollment->course->name }}</p>
+                <p>@lang('Period'): {{ $enrollment->course->period->name }}</p>
                 
-                @if (count($enrollment->student->phone) > 0)
-                <p>@lang('Phone Number'):
-                    <ul>
-                        @foreach($enrollment->student->phone as $phone)
-                        <li>{{ $phone->phone_number }}</li>
-                        @endforeach
-                    </ul>
-                </p>
-                @endif
-                <p>@lang('email'): {{ $enrollment->student->email }}</p>
-                <p>@lang('birthdate'): {{ $enrollment->student->birthdate }}</p>
-                <p>@lang('age'): {{ $enrollment->student_age }} @lang('years old')</p>
-            </div>
-        </div>
-    </div>
-    
-    
-
-    <div class="col-md-4">
-            <div class="card">
-                <div class="card-header">@lang('Course info')</div>
-                
-                <div class="card-body">
-                    <p>@lang('Enrollment date'): {{ $enrollment->date }}</p>
-                    <p>@lang('Enrollment ID'): {{ $enrollment->id }}</p>
-                    <p>@lang('Course'): {{ $enrollment->course->name }}</p>
-                    <p>@lang('Period'): {{ $enrollment->course->period->name }}</p>
-                    
                     @if ($enrollment->children_count > 0)
                         <p>@lang('Children enrollments'):</p>
                         <ul>

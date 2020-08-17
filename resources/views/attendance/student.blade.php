@@ -80,33 +80,9 @@
                             <td>{{ $attendance->event->name }}</td>
                             <td>{{ Carbon\Carbon::parse($attendance->event->start)->locale(app()->getLocale())->isoFormat('Do MMM YYYY') }}</td>
                             <td>
-                                @if ($attendance->attendance_type_id == 1)
-                                <label
-                                    class="badge badge-success">
-                                    P <i class="la la-user"></i>
-                                </label>
-                                @endif
-                            
-                                @if ($attendance->attendance_type_id == 2)
-                                <label
-                                    class="badge badge-warning">
-                                    PP <i class="la la-clock-o"></i>
-                                </label>
-                                @endif
-                            
-                                @if ($attendance->attendance_type_id == 3)
-                                <label
-                                    class="badge badge-info">
-                                    AJ <i class="la la-exclamation"></i>
-                                </label>
-                                @endif
-                            
-                                @if ($attendance->attendance_type_id == 4)
-                                <label
-                                    class="badge badge-danger">
-                                    A <i class="la la-user-times"></i>
-                                </label>
-                                @endif
+                                <label class="badge badge-{{ $attendance->attendance_type->class }}">
+                                {!! $attendance->attendance_type->icon !!}
+                                {{ $attendance->attendance_type->translated_name }}
                             </td>
                             </tr>
                         @endforeach

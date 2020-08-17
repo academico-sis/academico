@@ -28,7 +28,7 @@ class CourseSkillEvaluationController extends Controller
             abort(403);
         }
 
-        $skills = $course->skills;
+        $skills = $course->skills->groupBy('skill_type_id');
         $enrollments = $course->enrollments;
 
         // get skill evaluations for the course
@@ -81,6 +81,8 @@ class CourseSkillEvaluationController extends Controller
 
             return $skill;
         });
+
+        $skills = $skills->groupBy('skill_type_id');
 
         $enrollment = Enrollment::where('student_id', $student->id)
         ->where('course_id', $course->id)->first();

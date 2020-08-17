@@ -19,7 +19,7 @@ class Student extends Model implements HasMedia
 
     public $timestamps = true;
     protected $guarded = ['id'];
-    protected $with = ['user', 'phone', 'institution'];
+    protected $with = ['user', 'phone', 'institution', 'profession'];
     protected $appends = ['email', 'name', 'firstname', 'lastname', 'student_age', 'student_birthdate', 'lead_status', 'is_enrolled'];
     protected static $logUnguarded = true;
 
@@ -156,7 +156,7 @@ class Student extends Model implements HasMedia
 
     public function getStudentAgeAttribute()
     {
-        return Carbon::parse($this->birthdate)->age;
+        return Carbon::parse($this->birthdate)->age ?? '';
     }
 
     public function getStudentBirthdateAttribute()

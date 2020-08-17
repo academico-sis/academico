@@ -16,33 +16,17 @@
         {{ trans('backpack::base.my_account') }}
     </h2>
 
-    <ol class="breadcrumb">
-
-        <li class="breadcrumb-item">
-            <a href="{{ backpack_url() }}">{{ config('backpack.base.project_name') }}</a>
-        </li>
-
-        <li class="breadcrumb-item">
-            <a href="{{ route('backpack.account.edit_info') }}">{{ trans('backpack::base.my_account') }}</a>
-        </li>
-
-        <li class="breadcrumb-item active">
-            {{ trans('backpack::base.update_account_info') }}
-        </li>
-
-    </ol>
-
 </section>
 @endsection
 
 @section('content')
 <div class="row" id="app">
 
-    <div class="col-md-3">
+    <div class="col-md-4">
         @include('student.account.sidemenu')
     </div>
 
-    <div class="col-md-6">
+    <div class="col-md-8">
         <div class="card">
             <div class="card-body text-center">
                 <h4>@lang('Please check your personal phone number(s)')</h4>
@@ -52,9 +36,7 @@
 
             </div>
         </div>
-    </div>
 
-    <div class="col-md-6 text-center">
         <form class="form" action="/edit-phone" method="post">
 
             {!! csrf_field() !!}
@@ -81,7 +63,6 @@
 
                     <div class="form-group m-b-0">
                         <button type="submit" class="btn btn-success"><span class="ladda-label"><i class="la la-save"></i> {{ trans('backpack::base.save') }}</span></button>
-                        <a href="{{ backpack_url() }}" class="btn btn-default"><span class="ladda-label">{{ trans('backpack::base.cancel') }}</span></a>
                     </div>
 
                 </div>

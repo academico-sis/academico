@@ -18,8 +18,6 @@ Route::group(
         Route::get('dashboard/teacher/{teacher}/hours', 'HRController@teacher')->name('teacherHours'); // todo protect
 
         Route::get('dashboard/student', 'HomeController@student')->name('studentDashboard')->middleware('forceupdate');
-
-        Route::get('setup', 'SetupController@index')->name('setupHome');
     });
 
 /* ATTENDANCE-RELATED ROUTES */
@@ -89,8 +87,12 @@ Route::group(
     ['middleware' => ['web', 'permission:evaluation.edit', 'language']],
     function () {
         Route::get('course/{course}/skill', 'CourseSkillController@index')->name('course-skills');
-        Route::get('course/{course}/getskills', 'CourseSkillController@get');
-        Route::patch('course/{course}/setskills', 'CourseSkillController@set');
+        Route::get('course/{course}/getcourseskills', 'CourseSkillController@getCourseSkills');
+        Route::get('course/{course}/getavailableskills', 'CourseSkillController@getAvailableSkills');
+        Route::put('course/{course}/setskills', 'CourseSkillController@set');
+
+        Route::post('course/{course}/skills/add', 'CourseSkillController@addSkill');
+        Route::post('course/{course}/skills/remove', 'CourseSkillController@removeSkill');
 
         Route::get('course/{course}/skills/export', 'CourseSkillController@export')->name('course-skills-export');
         Route::post('course/{course}/skills/import', 'CourseSkillController@import')->name('course-skills-import');
@@ -173,7 +175,6 @@ Route::group(
         Route::get('/report', 'ReportController@index')->name('allReports');
 
         Route::get('/report/internal', 'ReportController@internal')->name('homeReport');
-        Route::get('/report/external', 'ReportController@external')->name('externalReport');
 
         Route::get('/report/courses', 'ReportController@courses')->name('courseReport');
         Route::get('/report/rhythms', 'ReportController@rhythms')->name('rhythmReport');
@@ -204,6 +205,7 @@ Route::group(
         Route::post('edit-phone', 'Auth\MyAccountController@postPhoneForm');
         Route::post('edit-photo', 'Auth\MyAccountController@postPhotoForm');
         Route::post('edit-contacts', 'Auth\MyAccountController@postContactsForm');
+        Route::post('change-password', 'Auth\MyAccountController@postChangePasswordForm')->name('backpack.account.password');
     }
 );
 
@@ -215,11 +217,15 @@ Route::group(
     ],
     function () {
         // route numbers match the DB forceupdate field
+        Route::permanentRedirect('/edit-account-info', '/edit/1')->name('backpack.account.info');
+        Route::post('edit-account-info', 'Auth\MyAccountController@postAccountInfoForm')->name('backpack.account.info.store');
         Route::get('edit/1', 'Auth\MyAccountController@getAccountInfoForm')->name('backpack.account.edit_info');
-        Route::get('edit/2', 'Auth\MyAccountController@getStudentInfoForm')->name('backpack.student.info');
-        Route::get('edit/3', 'Auth\MyAccountController@getPhoneForm')->name('backpack.account.phone');
-        Route::get('edit/4', 'Auth\MyAccountController@getAccountProfessionForm')->name('backpack.account.profession');
-        Route::get('edit/5', 'Auth\MyAccountController@getPhotoForm')->name('backpack.account.photo');
-        Route::get('edit/6', 'Auth\MyAccountController@getContactsForm')->name('backpack.account.contacts');
+        Route::get('edit/2', 'Auth\MyAccountController@getChangePasswordForm')->name('backpack.account.password');
+        Route::get('edit/3', 'Auth\MyAccountController@getStudentInfoForm')->name('backpack.student.info');
+        Route::get('edit/4', 'Auth\MyAccountController@getPhoneForm')->name('backpack.account.phone');
+        Route::get('edit/5', 'Auth\MyAccountController@getAccountProfessionForm')->name('backpack.account.profession');
+        Route::get('edit/6', 'Auth\MyAccountController@getPhotoForm')->name('backpack.account.photo');
+        Route::get('edit/7', 'Auth\MyAccountController@getContactsForm')->name('backpack.account.contacts');
+        Route::get('edit/8', 'Auth\MyAccountController@getContactsForm')->name('backpack.account.contacts');
     }
 );

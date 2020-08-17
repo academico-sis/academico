@@ -118,14 +118,10 @@ class Course extends Model
         return $query->where('parent_course_id', '!=', null);
     }
 
+    /** unused, needed because some reference might still be present in other modules */
     public function scopeInternal($query)
     {
-        return $query->where('campus_id', 1);
-    }
-
-    public function scopeExternal($query)
-    {
-        return $query->where('campus_id', 2);
+        return $query;
     }
 
     public function scopeRealcourses($query)
