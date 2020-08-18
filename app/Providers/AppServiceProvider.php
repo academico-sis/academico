@@ -36,7 +36,8 @@ class AppServiceProvider extends ServiceProvider
             View::share('rooms', Room::all());
         }
 
-        View::composer('partials.create_new_contact', function ($view) {
+        View::composer(
+            ['partials.create_new_contact', 'students.edit-contact'], function ($view) {
             $view->with('contact_types', ContactRelationship::all());
         });
     }
