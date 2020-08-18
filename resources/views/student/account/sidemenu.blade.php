@@ -13,7 +13,7 @@
 		<div class="list-group">
 			<a class="list-group-item @if (Request::route()->getName() == 'backpack.account.edit_info') {{ "active" }} @elseif(!$user->student || ($user->student->force_update && $user->student->force_update != 1)) {{ "disabled" }} @endif" href="{{ route('backpack.account.edit_info') }}">@lang('Account Data')</a>
 
-			<a class="list-group-item @if (Request::route()->getName() == 'backpack.account.password') {{ "active" }} @elseif ($user->student->force_update && $user->student->force_update != 2) {{ "disabled" }} @endif" href="{{ route('backpack.account.password') }}">@lang('Password')</a>
+			<a class="list-group-item @if (Request::route()->getName() == 'backpack.account.change_password') {{ "active" }} @elseif ($user->student->force_update && $user->student->force_update != 2) {{ "disabled" }} @endif" href="{{ route('backpack.account.change_password') }}">@lang('Password')</a>
 
 			@if(!(backpack_user()->getRoleNames()->count() > 0 || backpack_user()->isTeacher()))
 				<a class="list-group-item @if (Request::route()->getName() == 'backpack.student.info') {{ "active" }} @elseif ($user->student->force_update && $user->student->force_update != 3) {{ "disabled" }} @endif" href="{{ route('backpack.student.info') }}">@lang('Additional Data')</a>

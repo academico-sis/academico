@@ -220,7 +220,7 @@ Route::group(
         Route::permanentRedirect('/edit-account-info', '/edit/1')->name('backpack.account.info');
         Route::post('edit-account-info', 'Auth\MyAccountController@postAccountInfoForm')->name('backpack.account.info.store');
         Route::get('edit/1', 'Auth\MyAccountController@getAccountInfoForm')->name('backpack.account.edit_info');
-        Route::get('edit/2', 'Auth\MyAccountController@getChangePasswordForm')->name('backpack.account.password');
+        Route::get('edit/2', 'Auth\MyAccountController@getChangePasswordForm')->name('backpack.account.change_password');
         Route::get('edit/3', 'Auth\MyAccountController@getStudentInfoForm')->name('backpack.student.info');
         Route::get('edit/4', 'Auth\MyAccountController@getPhoneForm')->name('backpack.account.phone');
         Route::get('edit/5', 'Auth\MyAccountController@getAccountProfessionForm')->name('backpack.account.profession');
