@@ -226,6 +226,5 @@ Route::group(
         Route::get('edit/5', 'Auth\MyAccountController@getAccountProfessionForm')->name('backpack.account.profession');
         Route::get('edit/6', 'Auth\MyAccountController@getPhotoForm')->name('backpack.account.photo');
         Route::get('edit/7', 'Auth\MyAccountController@getContactsForm')->name('backpack.account.contacts');
-        Route::get('edit/8', 'Auth\MyAccountController@getContactsForm')->name('backpack.account.contacts');
     }
 );

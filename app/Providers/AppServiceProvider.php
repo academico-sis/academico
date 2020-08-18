@@ -9,7 +9,7 @@ use App\Models\Teacher;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use App\Providers\TelescopeServiceProvider;
-use Laravel\Telescope\TelescopeServiceProvider;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
