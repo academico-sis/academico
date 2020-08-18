@@ -7,6 +7,7 @@ use App\Http\Requests\GradeTypeRequest as UpdateRequest;
 // VALIDATION: change the requests to match your own file names if you need form validation
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use App\Models\GradeTypeCategory;
 
 /**
  * Class GradeTypeCrudController.
@@ -39,11 +40,29 @@ class GradeTypeCrudController extends CrudController
         CRUD::addColumns([
             ['name' => 'name', 'label' => 'Name'],
             ['name' => 'total', 'label' => 'Total'],
+            [
+                // 1-n relationship
+                'label'     => 'Category', // Table column heading
+                'type'      => 'select',
+                'name'      => 'grade_type_category_id', // the column that contains the ID of that connected entity;
+                'entity'    => 'category', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model'     => GradeTypeCategory::class,
+             ],
         ]);
+        
 
         CRUD::addFields([
             ['name' => 'name', 'label' => 'Name', 'type' => 'text'],
             ['name' => 'total', 'label' => 'Total', 'type' => 'text'],
+            [  // Select
+                'label'     => "Category",
+                'type'      => 'select',
+                'name'      => 'grade_type_category_id', // the db column for the foreign key
+                'entity'    => 'category', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model'     => GradeTypeCategory::class,
+             ],
         ]);
 
         // add asterisk for fields that are required in GradeTypeRequest

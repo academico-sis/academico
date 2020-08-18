@@ -26,6 +26,7 @@
       <ul class="nav-dropdown-items">
           <li class='nav-item'><a class='nav-link' href='{{ backpack_url('evaluationtype') }}'><span>@lang('Evaluation Types')</span></a></li>
           <li class='nav-item'><a class='nav-link' href='{{ backpack_url('gradetype') }}'><span>@lang('Grade Types')</span></a></li>
+          <li class='nav-item'><a class='nav-link' href='{{ backpack_url('gradetypecategory') }}'><i class='nav-icon la la-question'></i> @lang('Grade Type Categories')</a></li>
           <li class='nav-item'><a class='nav-link' href='{{ backpack_url('skill') }}'><span>@lang('Skills')</span></a></li>
           <li class='nav-item'><a class='nav-link' href='{{ backpack_url('skilltype') }}'><span>@lang('Skill Types')</span></a></li>
           <li class='nav-item'><a class='nav-link' href='{{ backpack_url('skillscale') }}'><span>@lang('Skill Scales')</span></a></li>

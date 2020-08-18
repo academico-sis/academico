@@ -77,14 +77,41 @@
             
             <div class="card-body">
                 <table class="table">
-                    @foreach ($grades as $grade)
-                    <tr>
-                        <td>{{ $grade->grade_type->name }}</td>
-                        <td>{{ $grade->grade }} / {{ $grade->grade_type->total }}</td>
-                    </tr>
+                    @php $all_total = 0; @endphp
+                    @php $all_grade = 0; @endphp
+                    @foreach ($grades as $category)
+                    @php $cat_total = 0; @endphp
+                    @php $cat_grade = 0; @endphp
+                    <thead>
+                        <tr>
+                            <th>{{ $category[0]->grade_type_category }}</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($category as $grade)
+                        @php $cat_grade += $grade->grade; @endphp
+                        @php $cat_total += $grade->grade_type->total; @endphp
+                        <tr>
+                            <td>{{ $grade->grade_type->name }}</td>
+                            <td>{{ $grade->grade }} / {{ $grade->grade_type->total }}</td>
+                        </tr>
+                        @endforeach
+                        <tr>
+                            <td><strong>{{ __('Total') }}</strong></td>
+                            <td><strong>{{ $cat_grade }} / {{ $cat_total }}</strong></td>
+                        </tr>
+                    </tbody>
+                    @php $all_grade += $cat_grade; @endphp
+                    @php $all_total += $cat_total; @endphp
                     @endforeach
-                </table>
-                <!-- TODO add total -->
+                    <thead>
+                        <tr>
+                            <th><strong>{{ __('Total') }}</strong></th>
+                            <th><strong>{{ $all_grade }} / {{ $all_total }}</strong></th>
+                        </tr>
+                    </thead>
+                    </table>
             </div>
         </div>
     </div>

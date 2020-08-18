@@ -139,7 +139,7 @@ class ResultCrudController extends CrudController
             abort(403);
         }
 
-        $grades = $enrollment->grades;
+        $grades = $enrollment->grades->groupBy('grade_type_category');
         $skills = $enrollment->skills;
         $result = $enrollment->result;
 

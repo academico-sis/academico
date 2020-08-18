@@ -9,10 +9,15 @@ class GradeType extends Model
 {
     use CrudTrait;
 
-    protected $fillable = ['name', 'total'];
+    protected $guarded = ['id'];
 
     public function courses()
     {
         return $this->belongsToMany(Course::class, 'course_grade_type', 'grade_type_id', 'course_id');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(GradeTypeCategory::class, 'grade_type_category_id');
     }
 }

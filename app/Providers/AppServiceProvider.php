@@ -8,7 +8,8 @@ use App\Models\Room;
 use App\Models\Teacher;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
-use Illuminate\Support\ServiceProvider;
+use App\Providers\TelescopeServiceProvider;
+use Laravel\Telescope\TelescopeServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
