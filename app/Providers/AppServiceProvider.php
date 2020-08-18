@@ -38,8 +38,8 @@ class AppServiceProvider extends ServiceProvider
 
         View::composer(
             ['partials.create_new_contact', 'students.edit-contact'], function ($view) {
-            $view->with('contact_types', ContactRelationship::all());
-        });
+                $view->with('contact_types', ContactRelationship::all());
+            });
     }
 
     /**
