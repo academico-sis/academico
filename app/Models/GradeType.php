@@ -10,6 +10,7 @@ class GradeType extends Model
     use CrudTrait;
 
     protected $guarded = ['id'];
+    protected $with = ['category'];
 
     public function courses()
     {
