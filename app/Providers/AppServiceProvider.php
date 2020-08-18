@@ -8,7 +8,6 @@ use App\Models\Room;
 use App\Models\Teacher;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
-use App\Providers\TelescopeServiceProvider;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
