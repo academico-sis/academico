@@ -27,7 +27,7 @@ class AddStylingColumnToAttendanceTypesTable extends Migration
     public function down()
     {
         Schema::table('attendance_types', function (Blueprint $table) {
-            $table->dropColumn('styling');
+            $table->dropColumn(['class', 'icon']);
         });
     }
 }
