@@ -7,6 +7,13 @@
             <a class="nav-link" :id="contact.id+'-tab'" data-toggle="tab" v-bind:href="`#contact-${contact.id}-pane`" role="tab" :aria-controls="contact.id+'-tab'" aria-selected="false">
                 <span v-if="contact.relationship">{{ contact.relationship.translated_name }}</span><span v-else>{{ $t('Additional Contact') }}</span>
             </a>
+            <li class="nav-item" v-if="writeaccess">
+                <div class="nav-link">
+                    <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#userDataModal">
+                        <i class="la la-plus"></i>
+                    </button>
+                </div>
+            </li>
         </li>
     </ul>
     <div class="tab-content" id="myTab1Content">
@@ -46,10 +53,6 @@
                 <a class="btn btn-sm btn-warning" :href="`/student/${student.id}/edit`">
                     <i class="la la-edit"></i>
                 </a>
-
-                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#userDataModal">
-                    <i class="la la-plus"></i>
-                </button>
             </div>
         </div>
 
@@ -87,10 +90,6 @@
                 <a class="btn btn-sm btn-warning" :href="`/contact/${contact.id}/edit`">
                     <i class="la la-edit"></i>
                 </a>
-
-                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#userDataModal">
-                    <i class="la la-plus"></i>
-                </button>
 
                 <button class="btn btn-sm btn-danger" @click="deleteContact(contact.id)">
                     <i class="la la-trash"></i>

@@ -13,7 +13,6 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 class StudentCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation { show as traitShow; }
 
     public function __construct()
@@ -28,11 +27,6 @@ class StudentCrudController extends CrudController
         CRUD::setModel(\App\Models\Student::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/student');
         CRUD::setEntityNameStrings(__('student'), __('students'));
-        //CRUD::removeAllButtons();
-
-        CRUD::removeButton('delete');
-        CRUD::removeButton('create');
-        CRUD::removeButton('update');
 
         CRUD::setListView('students.list');
 
@@ -45,6 +39,8 @@ class StudentCrudController extends CrudController
         if (backpack_user()->hasPermissionTo('enrollments.view')) {
             CRUD::enableExportButtons();
         }
+
+        $this->crud->addButtonFromView('top', 'createStudent', 'createStudent', 'start');
 
     }
 
@@ -203,36 +199,6 @@ class StudentCrudController extends CrudController
         });
     }
 
-    public function setupCreateOperation()
-    {
-        CRUD::setValidation(StudentRequest::class);
-
-        // Fields
-        CRUD::addFields([
-            [
-                'label' => trans('firstname'),
-                'type' => 'text',
-                'name' => 'firstname',
-            ],
-            [
-                'label' => trans('lastname'),
-                'type' => 'text',
-                'name' => 'lastname',
-            ],
-            [
-                'name'  => 'email',
-                'label' => trans('backpack::permissionmanager.email'),
-                'type'  => 'email',
-            ],
-            [
-                'name'  => 'birthdate',
-                'label' => trans('birthdate'),
-                'type'  => 'date',
-            ],
-
-        ]);
-    }
-
     public function show($student)
     {
         $student = Student::findOrFail($student);
@@ -252,8 +218,4 @@ class StudentCrudController extends CrudController
         ]);
     }
 
-    public function setupUpdateOperation()
-    {
-        $this->setupCreateOperation();
-    }
 }
