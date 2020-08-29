@@ -152,6 +152,7 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
                 'idnumber' => $contact['idnumber'],
                 'address' => $contact['address'],
                 'email' => $contact['email'],
+                'invoiceable' => $contact['invoiceable'],
             ]);
 
             foreach ($contact['phonenumbers'] as $number) {

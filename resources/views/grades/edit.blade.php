@@ -39,15 +39,16 @@
                 </div>
             </div>
             
-            <div class="card-body">           
+            <div class="card-body" style="overflow-x: scroll">           
                 <table class="table">
                     <tr>
                         <td></td>
                         @php $total = 0; @endphp
                         @foreach ($course_grade_types->sortBy('id') as $grade_type)
                             <td>
-                                {{$grade_type->name}}
-                                <button onclick="return confirm('Are you sure? This will delete all grades for this grade type.')?removeGradeType({{$grade_type->id}}):'';">(x)</button>
+                                ({{$grade_type->category->name}})<br> <strong>{{$grade_type->name}}</strong>
+                                <br>
+                                <button class="btn btn-sm btn-danger" onclick="return confirm('Are you sure? This will delete all grades for this grade type.')?removeGradeType({{$grade_type->id}}):'';"><i class="la la-trash"></i></button>
                             </td>
                             @php $total += $grade_type->total; @endphp
                         @endforeach
@@ -109,7 +110,7 @@
                     <div class="form-group">
                         <select name="grade_type_id" required>
                             @foreach ($all_grade_types as $grade_type)
-                                <option value="{{ $grade_type->id }}">{{ $grade_type->name }}</option>
+                                <option value="{{ $grade_type->id }}">({{$grade_type->category->name}}) {{ $grade_type->name }}</option>
                             @endforeach
                         </select>
                     </div>

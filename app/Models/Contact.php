@@ -11,7 +11,7 @@ class Contact extends Model
     use CrudTrait;
     use LogsActivity;
 
-    protected $fillable = ['firstname', 'lastname', 'idnumber', 'address', 'email', 'relationship_id', 'student_id'];
+    protected $fillable = ['firstname', 'lastname', 'idnumber', 'address', 'email', 'relationship_id', 'profession_id', 'student_id'];
     protected $with = ['phone', 'relationship', 'profession'];
     protected static $logUnguarded = true;
 

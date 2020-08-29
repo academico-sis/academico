@@ -11,9 +11,9 @@
 
 @section('content')
 
-<div class="row">
+<div class="row" id="app">
     
-    <div class="col-md-4">
+    <div class="col-md-6">
         <div class="card">
                 <div class="card-header">
                     <strong>{{ $enrollment->student->firstname }} {{ $enrollment->student->lastname }}</strong>
@@ -26,42 +26,17 @@
     
     
 
-    <div class="col-md-4">
-            <div class="card">
-                <div class="card-header">
-                        @lang('Course result')
-                        <!-- TODO ENABLE RESULT EDITION (if the user is allowed to do so) -->
-                    <div class="card-header-actions">
-                    </div>
-                </div>
-                
-                <div class="card-body">                      
-                        <p>
-                            {{ $result->result_name->name ?? "-" }}
-                        </p>
-                </div>
-            </div>
+    <div class="col-md-6">
+        <course-result-component
+            comment-post-route="{{ route('storeComment') }}"
+            result-post-route="{{ route('storeResult') }}"
+            :enrollment="{{ json_encode($enrollment) }}"
+            :results="{{ json_encode($results) }}"
+            :stored_comments="{{ json_encode($result->comments ?? null) }}"
+            :result="{{ json_encode($result) }}"
+            writeaccess="{{ $writeaccess }}">
+        </course-result-component>
         </div>
-
-   @if(isset($result))
-        <div class="col-md-4">
-                <div class="card">
-                    <div class="card-header">
-                            @lang('Comments')
-                    </div>
-                    
-                    <div class="card-body">                      
-                            @forelse ($result->comments as $comment)
-                                <p>{{ $comment->body }}</p>
-                            @empty
-                            <p></p>
-                            @endforelse
-                    </div>
-                </div>
-            </div>
-    @endif
-
-
 
     
 </div>
@@ -151,4 +126,9 @@
 
 </div>
 
+@endsection
+
+
+@section('after_scripts')
+    <script src="/js/app.js"></script>
 @endsection

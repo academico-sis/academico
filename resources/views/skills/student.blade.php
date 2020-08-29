@@ -21,13 +21,13 @@
     </student-skills-component>
 
     <course-result-component
-        comment-post-route="{{ route('storeResultComment') }}"
+        comment-post-route="{{ route('storeComment') }}"
         result-post-route="{{ route('storeResult') }}"
-        :student="{{ json_encode($student) }}"
         :enrollment="{{ json_encode($enrollment) }}"
         :results="{{ json_encode($results) }}"
         :stored_comments="{{ json_encode($result->comments ?? null) }}"
-        :result="{{ json_encode($result) }}">
+        :result="{{ json_encode($result) }}"
+        writeaccess="{{ $writeaccess }}">
     </course-result-component>
 
 

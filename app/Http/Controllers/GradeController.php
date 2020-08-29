@@ -12,7 +12,7 @@ class GradeController extends Controller
     public function __construct()
     {
         parent::__construct();
-        $this->middleware(['permission:evaluation.edit']);
+        //$this->middleware(['permission:evaluation.edit']);
     }
 
     /**

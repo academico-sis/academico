@@ -2,7 +2,7 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                Résultat final
+                {{ $t('Course result') }}
             </div>
 
             <div class="card-body">
@@ -11,34 +11,15 @@
                     role="group"
                     aria-label=""
                 >
-                    <!-- todo get styling from the model -->
-                    <div
-                        v-for="result in results"
-                        :key="result.id"
-                        class="btn-group"
-                        role="group"
-                    >
                         <button
-                            class="btn btn-secondary"
-                            :class="{
-                                'btn-success':
-                                    course_result &&
-                                    course_result.result_type_id == result.id &&
-                                    result.id == 1,
-                                'btn-danger':
-                                    course_result &&
-                                    course_result.result_type_id == result.id &&
-                                    result.id == 2,
-                                'btn-info':
-                                    course_result &&
-                                    course_result.result_type_id == result.id &&
-                                    result.id == 3,
-                            }"
+                            v-for="result in results"
+                            :key="result.id"
+                            v-bind:class="buttonClass(result)"
                             @click="saveResult(result)"
+                            :disabled="loading || !writeaccess"
                         >
-                            {{ result.name.fr }}
+                            {{ result.translated_name }}
                         </button>
-                    </div>
                 </div>
 
                 <div v-if="this.course_result">
@@ -61,6 +42,7 @@
                         type="button"
                         class="btn btn-primary"
                         @click="saveComment(newcomment)"
+                        :disabled="loading"
                     >
                         Enregistrer
                     </button>
@@ -73,20 +55,22 @@
 <script>
 export default {
     props: [
-        "student",
         "enrollment",
         "results",
         "result",
         "stored_comments",
         "resultPostRoute",
         "commentPostRoute",
+        "writeaccess"
     ],
 
     data() {
         return {
             newcomment: null,
             course_result: this.result,
-            comments: this.stored_comments,
+            comments: this.stored_comments ?? [],
+            loading: false,
+            errors: []
         };
     },
 
@@ -94,13 +78,22 @@ export default {
 
     methods: {
         saveComment() {
+            this.loading = true;
             axios
                 .post(this.commentPostRoute, {
-                    enrollment: this.enrollment.id,
-                    comment: this.newcomment,
+                    commentable_id: this.course_result.id,
+                    commentable_type: "App\\Models\\Result",
+                    body: this.newcomment,
                 })
                 .then((response) => {
+                    this.loading = false;
                     this.comments.push(response.data);
+                    this.newcomment = null
+                    new Noty({
+                        title: "Opération réussie",
+                        text: "Commentaire sauvegardé !",
+                        type: "success",
+                    }).show();
                 })
                 .catch((e) => {
                     this.errors.push(e);
@@ -108,19 +101,31 @@ export default {
         },
 
         saveResult(result) {
+            this.loading = true;
             axios
                 .post(this.resultPostRoute, {
                     result: result.id,
-                    student: this.student.id,
+                    student: this.enrollment.student_id,
                     enrollment: this.enrollment.id,
                 })
                 .then((response) => {
-                    document.location.reload(true); // todo improve
+                    this.loading = false;
+                    this.course_result = response.data
                 })
                 .catch((e) => {
                     this.errors.push(e);
                 });
         },
+
+        buttonClass(result_type) {
+            if (this.course_result && this.course_result.result_type_id == result_type.id)
+            {
+                return "btn btn-"+result_type.class
+            }
+            else {
+                return "btn btn-secondary"
+            }
+        }
     },
 };
 </script>

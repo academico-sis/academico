@@ -22,22 +22,8 @@ class CommentController extends Controller
         return Comment::create([
             'commentable_id' => $request->input('commentable_id'),
             'commentable_type' => $request->input('commentable_type'),
-            'action' => $request->input('action'),
+            'action' => $request->input('action') ?? 0,
             'body' => $request->input('body'),
-            'author_id' => \backpack_user()->id,
-        ]);
-    }
-
-    public function storeresult(Request $request)
-    {
-        $result = Result::where('enrollment_id', $request->input('enrollment'))->firstOrCreate([
-            'enrollment_id' => $request->input('enrollment'),
-        ]);
-
-        return Comment::create([
-            'commentable_id' => $result->id,
-            'commentable_type' => Result::class,
-            'body' => $request->input('comment'),
             'author_id' => \backpack_user()->id,
         ]);
     }
