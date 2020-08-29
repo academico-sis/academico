@@ -104,7 +104,6 @@ Route::group(
         Route::post('course/{course}/skills/import', 'CourseSkillController@import')->name('course-skills-import');
 
         Route::get('course/{course}/syllabus', 'CourseSkillController@exportCourseSyllabus')->name('exportCourseSyllabus');
-
     });
 
 Route::post('store-result', 'ResultController@store')->name('storeResult');

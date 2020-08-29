@@ -70,10 +70,10 @@ class StudentCrudController extends CrudController
                     $query->orWhereHas('user', function ($q) use ($searchTerm) {
                         $q->where('lastname', 'like', '%'.$searchTerm.'%');
                     });
-                }
-             ],
+                },
+            ],
 
-             [
+            [
                 // 1-n relationship
                 'label'     => __('First Name'), // Table column heading
                 'type'      => 'select',
@@ -90,8 +90,8 @@ class StudentCrudController extends CrudController
                     $query->orWhereHas('user', function ($q) use ($searchTerm) {
                         $q->where('firstname', 'like', '%'.$searchTerm.'%');
                     });
-                }
-             ],
+                },
+            ],
 
             [
                 // 1-n relationship
@@ -110,8 +110,8 @@ class StudentCrudController extends CrudController
                     $query->orWhereHas('user', function ($q) use ($searchTerm) {
                         $q->where('email', 'like', '%'.$searchTerm.'%');
                     });
-                }
-             ],
+                },
+            ],
 
             [
                 // n-n relationship (with pivot table)
