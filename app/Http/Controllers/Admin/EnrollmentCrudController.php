@@ -76,7 +76,7 @@ class EnrollmentCrudController extends CrudController
                             $q->where('lastname', 'like', '%'.$searchTerm.'%');
                         });
                     });
-                }
+                },
             ],
 
             [
@@ -89,7 +89,7 @@ class EnrollmentCrudController extends CrudController
                             $q->where('firtname', 'like', '%'.$searchTerm.'%');
                         });
                     });
-                }
+                },
             ],
 
             [
