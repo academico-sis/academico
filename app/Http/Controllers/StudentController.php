@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Institution;
+use App\Models\Profession;
+use App\Models\Student;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
-use App\Models\Student;
-use Illuminate\Validation\Rule;
-use App\Models\Profession;
-use App\Models\Institution;
-use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class StudentController extends Controller
 {
@@ -42,6 +42,7 @@ class StudentController extends Controller
     public function create()
     {
         $student = (new Student);
+
         return view('students.edit', compact('student'));
     }
 
@@ -79,28 +80,26 @@ class StudentController extends Controller
         ]);
 
         // save profession and institution
-        if($request->profession)
-        {
+        if ($request->profession) {
             $profession = Profession::firstOrCreate([
                 'name' => $request->profession,
             ]);
-            
+
             $student->update([
                 'profession_id' => $profession->id,
-                ]);
+            ]);
         }
 
-        if($request->institution)
-        {
+        if ($request->institution) {
             $institution = Institution::firstOrCreate([
                 'name' => $request->institution,
             ]);
-    
+
             $student->update([
                 'institution_id' => $institution->id,
             ]);
         }
-        
+
         return redirect()->route('student.index');
     }
 
@@ -134,28 +133,26 @@ class StudentController extends Controller
         ]);
 
         // save profession and institution
-        if($request->profession)
-        {
+        if ($request->profession) {
             $profession = Profession::firstOrCreate([
                 'name' => $request->profession,
             ]);
-            
+
             $student->update([
                 'profession_id' => $profession->id,
-                ]);
+            ]);
         }
 
-        if($request->institution)
-        {
+        if ($request->institution) {
             $institution = Institution::firstOrCreate([
                 'name' => $request->institution,
             ]);
-    
+
             $student->update([
                 'institution_id' => $institution->id,
             ]);
         }
-        
+
         return redirect()->back();
     }
 }
