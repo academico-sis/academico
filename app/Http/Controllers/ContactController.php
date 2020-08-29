@@ -5,9 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ContactRequest as StoreRequest;
 use App\Models\Contact;
 use App\Models\PhoneNumber;
-use Illuminate\Http\Request;
-use App\Models\ContactRelationship;
 use App\Models\Profession;
+use Illuminate\Http\Request;
 
 class ContactController extends Controller
 {
@@ -77,15 +76,14 @@ class ContactController extends Controller
             'relationship_id' => $request->contact_type,
         ]);
 
-        if($request->profession)
-        {
+        if ($request->profession) {
             $profession = Profession::firstOrCreate([
                 'name' => $request->profession,
             ]);
-            
+
             $contact->update([
                 'profession_id' => $profession->id,
-                ]);
+            ]);
         }
 
         \Alert::success(__('The information has successfully been saved'))->flash();
