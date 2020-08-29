@@ -25,8 +25,6 @@ class TeacherRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => 'required',
-            'max_week_hours' => 'required|numeric|min:1',
         ];
     }
 

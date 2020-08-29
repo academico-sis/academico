@@ -6,6 +6,8 @@ use App\Http\Requests\ContactRequest as StoreRequest;
 use App\Models\Contact;
 use App\Models\PhoneNumber;
 use Illuminate\Http\Request;
+use App\Models\ContactRelationship;
+use App\Models\Profession;
 
 class ContactController extends Controller
 {
@@ -60,6 +62,12 @@ class ContactController extends Controller
             abort(403);
         }
 
+        $request->validate([
+            'firstname'                            => 'required|max:255',
+            'lastname'                             => 'required|max:255',
+            'email'                                => 'required',
+        ]);
+
         $contact->update([
             'firstname' => $request->firstname,
             'lastname' => $request->lastname,
@@ -68,6 +76,17 @@ class ContactController extends Controller
             'email' => $request->email,
             'relationship_id' => $request->contact_type,
         ]);
+
+        if($request->profession)
+        {
+            $profession = Profession::firstOrCreate([
+                'name' => $request->profession,
+            ]);
+            
+            $contact->update([
+                'profession_id' => $profession->id,
+                ]);
+        }
 
         \Alert::success(__('The information has successfully been saved'))->flash();
 

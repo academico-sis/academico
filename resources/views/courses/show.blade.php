@@ -27,7 +27,8 @@
                 <table id="studentsTable" class="table table-striped responsive" style="width:100%">
                     <thead>
                         <tr>
-                            <th>@lang('students')</th>
+                            <th>@lang('Last Name')</th>
+                            <th>@lang('First Name')</th>
                             <th>@lang('age')</th>
                             <th>@lang('birthdate')</th>
                             <th>@lang('email')</th>
@@ -39,7 +40,8 @@
                     <tbody>
                         @foreach ($enrollments as $enrollment)
                         <tr>
-                            <td>{{ $enrollment->student->name }}</td>
+                            <td>{{ $enrollment->student->lastname }}</td>
+                            <td>{{ $enrollment->student->firstname }}</td>
                             <td>{{ $enrollment->student->student_age }}</td>
                             <td>{{ $enrollment->student->student_birthdate }}</td>
                             <td>{{ $enrollment->student->email }}</td>
