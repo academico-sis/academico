@@ -16,10 +16,14 @@
     <div class="col-md-6">
         <div class="card">
                 <div class="card-header">
-                    <strong>{{ $enrollment->student->firstname }} {{ $enrollment->student->lastname }}</strong>
+                    <a href="{{ route('student.show', ['id' => $enrollment->student_id]) }}">
+                        <strong>{{ $enrollment->student->firstname }} {{ $enrollment->student->lastname }}</strong>
+                    </a>
                 </div>    
             <div class="card-body">
-                <p>{{ $enrollment->course->name }} ({{ $enrollment->course->period->name }})</p>
+                <a href="{{ route('course.show', ['id' => $enrollment->course_id]) }}">
+                    <p>{{ $enrollment->course->name }} ({{ $enrollment->course->period->name }})</p>
+                </a>
             </div>
         </div>
     </div>

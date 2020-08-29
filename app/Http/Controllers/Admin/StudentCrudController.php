@@ -46,7 +46,6 @@ class StudentCrudController extends CrudController
             CRUD::enableExportButtons();
         }
 
-        CRUD::orderBy('created_at', 'desc');
     }
 
     public function setupListOperation()
@@ -54,33 +53,73 @@ class StudentCrudController extends CrudController
         // Columns.
         CRUD::setColumns([
             [
-                'label' => 'ID number',
+                'label' => __('ID number'),
                 'type' => 'text',
                 'name' => 'idnumber',
             ],
             [
-                'label' => __('Name'),
-                'type' => 'text',
-                'name' => 'name',
+                // 1-n relationship
+                'label'     => __('Last Name'), // Table column heading
+                'type'      => 'select',
+                'name'      => 'lastname', // the column that contains the ID of that connected entity;
+                'entity'    => 'user', // the method that defines the relationship in your Model
+                'attribute' => 'lastname', // foreign key attribute that is shown to user
+                'model'     => "App\Models\User", // foreign key model
+                'orderable' => true,
+                'orderLogic' => function ($query, $column, $columnDirection) {
+                    return $query->leftJoin('users', 'users.id', '=', 'students.user_id')
+                        ->orderBy('users.lastname', $columnDirection)->select('students.*');
+                },
                 'searchLogic' => function ($query, $column, $searchTerm) {
                     $query->orWhereHas('user', function ($q) use ($searchTerm) {
-                        $q->where('firstname', 'like', '%'.$searchTerm.'%')
-                          ->orWhere('lastname', 'like', '%'.$searchTerm.'%')
-                          ->orWhere('email', 'like', '%'.$searchTerm.'%')
-                          ->orWhere('idnumber', 'like', '%'.$searchTerm.'%');
+                        $q->where('lastname', 'like', '%'.$searchTerm.'%');
                     });
+                }
+             ],
+
+             [
+                // 1-n relationship
+                'label'     => __('First Name'), // Table column heading
+                'type'      => 'select',
+                'name'      => 'firstname', // the column that contains the ID of that connected entity;
+                'entity'    => 'user', // the method that defines the relationship in your Model
+                'attribute' => 'firstname', // foreign key attribute that is shown to user
+                'model'     => "App\Models\User", // foreign key model
+                'orderable' => true,
+                'orderLogic' => function ($query, $column, $columnDirection) {
+                    return $query->leftJoin('users', 'users.id', '=', 'students.user_id')
+                        ->orderBy('users.firstname', $columnDirection)->select('students.*');
                 },
-            ],
+                'searchLogic' => function ($query, $column, $searchTerm) {
+                    $query->orWhereHas('user', function ($q) use ($searchTerm) {
+                        $q->where('firstname', 'like', '%'.$searchTerm.'%');
+                    });
+                }
+             ],
 
             [
-                'name'  => 'email',
-                'label' => trans('backpack::permissionmanager.email'),
-                'type'  => 'text',
-            ],
+                // 1-n relationship
+                'label'     => __('Email'), // Table column heading
+                'type'      => 'select',
+                'name'      => 'email', // the column that contains the ID of that connected entity;
+                'entity'    => 'user', // the method that defines the relationship in your Model
+                'attribute' => 'email', // foreign key attribute that is shown to user
+                'model'     => "App\Models\User", // foreign key model
+                'orderable' => true,
+                'orderLogic' => function ($query, $column, $columnDirection) {
+                    return $query->leftJoin('users', 'users.id', '=', 'students.user_id')
+                        ->orderBy('users.email', $columnDirection)->select('students.*');
+                },
+                'searchLogic' => function ($query, $column, $searchTerm) {
+                    $query->orWhereHas('user', function ($q) use ($searchTerm) {
+                        $q->where('email', 'like', '%'.$searchTerm.'%');
+                    });
+                }
+             ],
 
             [
                 // n-n relationship (with pivot table)
-                'label' => 'Phone', // Table column heading
+                'label' => __('Phone number'), // Table column heading
                 'type' => 'select_multiple',
                 'name' => 'phone', // the method that defines the relationship in your Model
                 'entity' => 'phone', // the method that defines the relationship in your Model

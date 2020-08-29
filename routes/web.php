@@ -227,3 +227,16 @@ Route::group(
         Route::get('edit/7', 'Auth\MyAccountController@getContactsForm')->name('backpack.account.contacts');
     }
 );
+
+Route::group([
+    'middleware' => ['web', 'role:admin', 'language'],
+], function () {
+    Route::post('teacher/{id}/restore', 'TeacherController@restore');
+    Route::post('teacher/{teacher}/delete', 'TeacherController@destroy');
+
+    Route::post('level/{id}/restore', 'LevelController@restore');
+    Route::post('level/{level}/delete', 'LevelController@destroy');
+
+    Route::post('rhythm/{id}/restore', 'RhythmController@restore');
+    Route::post('rhythm/{rhythm}/delete', 'RhythmController@destroy');
+});

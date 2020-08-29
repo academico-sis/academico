@@ -187,13 +187,13 @@ class Course extends Model
     /** the "category" of course */
     public function rhythm()
     {
-        return $this->belongsTo(\App\Models\Rhythm::class);
+        return $this->belongsTo(\App\Models\Rhythm::class)->withTrashed();
     }
 
     /** a course can only have one level. Parent courses would generally have no level defined */
     public function level()
     {
-        return $this->belongsTo(\App\Models\Level::class);
+        return $this->belongsTo(\App\Models\Level::class)->withTrashed();
     }
 
     /** a course needs to belong to a period */

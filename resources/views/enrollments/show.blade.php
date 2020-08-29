@@ -24,7 +24,7 @@
                 </p>
                 <p>@lang('Enrollment date'): {{ $enrollment->date }}</p>
                 <p>@lang('Enrollment ID'): {{ $enrollment->id }}</p>
-                <p>@lang('Course'): {{ $enrollment->course->name }}</p>
+                <p>@lang('Course'): <a href="{{ route('course.show', ['id' => $enrollment->course_id]) }}">{{ $enrollment->course->name }}</a></p>
                 <p>@lang('Period'): {{ $enrollment->course->period->name }}</p>
                 
                     @if ($enrollment->children_count > 0)

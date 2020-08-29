@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
+use App\Models\User;
 
 class Enrollment extends Model
 {
@@ -135,6 +136,11 @@ class Enrollment extends Model
     public function student()
     {
         return $this->belongsTo(Student::class, 'student_id');
+    }
+
+    public function user()
+    {
+        return $this->student->user();
     }
 
     public function course()

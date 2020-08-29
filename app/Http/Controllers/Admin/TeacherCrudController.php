@@ -19,13 +19,14 @@ class TeacherCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 
     public function setup()
     {
         CRUD::setModel(\App\Models\Teacher::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/teacher');
         CRUD::setEntityNameStrings(__('teacher'), __('teachers'));
+        CRUD::addClause('withTrashed');
+        CRUD::addButtonFromView('line', 'toggle', 'toggle', 'end');
     }
 
     public function setupListOperation()
@@ -87,7 +88,6 @@ class TeacherCrudController extends CrudController
 
     protected function setupUpdateOperation()
     {
-        CRUD::setValidation(UpdateRequest::class);
         CRUD::addFields([
             [  // Select2
                 'label' => 'User',

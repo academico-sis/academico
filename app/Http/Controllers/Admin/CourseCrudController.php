@@ -62,9 +62,7 @@ class CourseCrudController extends CrudController
 
         CRUD::addButtonFromView('line', 'children_badge', 'children_badge', 'beginning');
 
-        if ($permissions->contains('name', 'courses.delete')) {
-            CRUD::addButtonFromView('line', 'deleteCourse', 'deleteCourse', 'end');
-        } else {
+        if (! $permissions->contains('name', 'courses.delete')) {
             CRUD::denyAccess('delete');
         }
 
@@ -414,11 +412,11 @@ class CourseCrudController extends CrudController
     {
         CRUD::hasAccessOrFail('delete');
         $course = Course::find($id);
-        if ($course->enrollments()->count() > 0) {
+        if ($course->enrollments->count() > 0) {
             \Alert::add('error', 'The course has enrollments, impossible to delete');
         } else {
-            Event::where('course_id', $id)->delete();
-            Enrollment::where('course_id', $id)->delete();
+            Event::where('course_id', $id)->forceDelete();
+            Enrollment::where('course_id', $id)->forceDelete();
 
             return CRUD::delete($id);
         }
