@@ -269,6 +269,13 @@ class CourseCrudController extends CrudController
             ],
 
             [
+                'name' => 'color', // The db column name
+                'label' => __('Color'), // Table column heading
+                'tab' => __('Course info'),
+                'type' => 'color_picker',
+            ],
+
+            [
                 // TEACHER
                 'label' => __('Teacher'), // Table column heading
                 'type' => 'select',
