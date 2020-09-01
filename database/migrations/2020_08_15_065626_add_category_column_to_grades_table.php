@@ -32,5 +32,6 @@ class AddCategoryColumnToGradesTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('grade_type_categories');
     }
 }
