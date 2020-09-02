@@ -1,4 +1,10 @@
 {
+  "_args": [
+    [
+      "@fullcalendar/core@4.4.2",
+      "C:\\xampp\\htdocs\\academico"
+    ]
+  ],
   "_from": "@fullcalendar/core@4.4.2",
   "_id": "@fullcalendar/core@4.4.2",
   "_inBundle": false,
@@ -17,13 +23,11 @@
     "fetchSpec": "4.4.2"
   },
   "_requiredBy": [
-    "#USER",
     "/"
   ],
   "_resolved": "https://registry.npmjs.org/@fullcalendar/core/-/core-4.4.2.tgz",
-  "_shasum": "864abe98cce4497a163c01a8fc30389f15d3d4e1",
-  "_spec": "@fullcalendar/core@4.4.2",
-  "_where": "/home/thomas/academico",
+  "_spec": "4.4.2",
+  "_where": "C:\\xampp\\htdocs\\academico",
   "author": {
     "name": "Adam Shaw",
     "email": "arshaw@arshaw.com",
@@ -32,9 +36,7 @@
   "bugs": {
     "url": "https://fullcalendar.io/reporting-bugs"
   },
-  "bundleDependencies": false,
   "copyright": "2019 Adam Shaw",
-  "deprecated": false,
   "description": "Provides core functionality, including the Calendar class",
   "docs": "https://fullcalendar.io/docs/initialize-es6",
   "homepage": "https://fullcalendar.io/",

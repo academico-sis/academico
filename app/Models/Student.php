@@ -38,7 +38,10 @@ class Student extends Model implements HasMedia
     {
         $this->addMediaConversion('thumb')
             ->fit(Manipulations::FIT_MAX, 1200, 1200)
-            ->optimize();
+            ->optimize()
+            ->nonQueued();
+
+            // I added the nonQueued option so i dont have to run queue every time i test the registration form.
     }
 
     /** relations */

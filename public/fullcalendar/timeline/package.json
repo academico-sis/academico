@@ -1,28 +1,33 @@
 {
-  "_from": "@fullcalendar/timeline@~4.4.0",
+  "_args": [
+    [
+      "@fullcalendar/timeline@4.4.2",
+      "C:\\xampp\\htdocs\\academico"
+    ]
+  ],
+  "_from": "@fullcalendar/timeline@4.4.2",
   "_id": "@fullcalendar/timeline@4.4.2",
   "_inBundle": false,
   "_integrity": "sha512-9lmFKZNtjHLlbZgOBUqjrKkyvuH3gksD13rRE9LC+TBB2EiUypks99A1Cqa1WhScVi2T6j1HZn3TpV6HFM6MBg==",
   "_location": "/@fullcalendar/timeline",
   "_phantomChildren": {},
   "_requested": {
-    "type": "range",
+    "type": "version",
     "registry": true,
-    "raw": "@fullcalendar/timeline@~4.4.0",
+    "raw": "@fullcalendar/timeline@4.4.2",
     "name": "@fullcalendar/timeline",
     "escapedName": "@fullcalendar%2ftimeline",
     "scope": "@fullcalendar",
-    "rawSpec": "~4.4.0",
+    "rawSpec": "4.4.2",
     "saveSpec": null,
-    "fetchSpec": "~4.4.0"
+    "fetchSpec": "4.4.2"
   },
   "_requiredBy": [
     "/@fullcalendar/resource-timeline"
   ],
   "_resolved": "https://registry.npmjs.org/@fullcalendar/timeline/-/timeline-4.4.2.tgz",
-  "_shasum": "52e622619787b8a632983e68199803a1473d7d12",
-  "_spec": "@fullcalendar/timeline@~4.4.0",
-  "_where": "/home/thomas/academico/node_modules/@fullcalendar/resource-timeline",
+  "_spec": "4.4.2",
+  "_where": "C:\\xampp\\htdocs\\academico",
   "author": {
     "name": "Adam Shaw",
     "email": "arshaw@arshaw.com",
@@ -31,9 +36,7 @@
   "bugs": {
     "url": "https://fullcalendar.io/reporting-bugs"
   },
-  "bundleDependencies": false,
   "copyright": "2019 Adam Shaw",
-  "deprecated": false,
   "description": "Display events on a horizontal time axis (without resources)",
   "docs": "https://fullcalendar.io/docs/timeline-view-no-resources",
   "homepage": "https://fullcalendar.io/scheduler",

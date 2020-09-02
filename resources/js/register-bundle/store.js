@@ -15,6 +15,7 @@ export const store = {
         birthdate: null,
         profession: null,
         institution: null,
+        userPicture: null,
         contacts: []
     },
 
@@ -28,6 +29,10 @@ export const store = {
         this.state.address = data.address
         this.state.phonenumber = data.phonenumber
         this.state.tc_consentdata = data.tc_consentdata
+    },
+
+    updatePictureData(data) {
+        this.state.userPicture = data
     },
 
     updateInfoData(data) {

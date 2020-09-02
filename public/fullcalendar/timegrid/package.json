@@ -1,28 +1,33 @@
 {
-  "_from": "@fullcalendar/timegrid@~4.4.0",
+  "_args": [
+    [
+      "@fullcalendar/timegrid@4.4.2",
+      "C:\\xampp\\htdocs\\academico"
+    ]
+  ],
+  "_from": "@fullcalendar/timegrid@4.4.2",
   "_id": "@fullcalendar/timegrid@4.4.2",
   "_inBundle": false,
   "_integrity": "sha512-M5an7qii8OUmI4ogY47k5pn2j/qUbLp6sa6Vo0gO182HR5pb9YtrEZnoQhnScok+I0BkDkLFzMQoiAMTjBm2PQ==",
   "_location": "/@fullcalendar/timegrid",
   "_phantomChildren": {},
   "_requested": {
-    "type": "range",
+    "type": "version",
     "registry": true,
-    "raw": "@fullcalendar/timegrid@~4.4.0",
+    "raw": "@fullcalendar/timegrid@4.4.2",
     "name": "@fullcalendar/timegrid",
     "escapedName": "@fullcalendar%2ftimegrid",
     "scope": "@fullcalendar",
-    "rawSpec": "~4.4.0",
+    "rawSpec": "4.4.2",
     "saveSpec": null,
-    "fetchSpec": "~4.4.0"
+    "fetchSpec": "4.4.2"
   },
   "_requiredBy": [
     "/@fullcalendar/resource-timegrid"
   ],
   "_resolved": "https://registry.npmjs.org/@fullcalendar/timegrid/-/timegrid-4.4.2.tgz",
-  "_shasum": "9d5b26204cd2b0928e7498c54f758a6d07b15191",
-  "_spec": "@fullcalendar/timegrid@~4.4.0",
-  "_where": "/home/thomas/academico/node_modules/@fullcalendar/resource-timegrid",
+  "_spec": "4.4.2",
+  "_where": "C:\\xampp\\htdocs\\academico",
   "author": {
     "name": "Adam Shaw",
     "email": "arshaw@arshaw.com",
@@ -31,12 +36,10 @@
   "bugs": {
     "url": "https://fullcalendar.io/reporting-bugs"
   },
-  "bundleDependencies": false,
   "copyright": "2019 Adam Shaw",
   "dependencies": {
     "@fullcalendar/daygrid": "~4.4.0"
   },
-  "deprecated": false,
   "description": "Display your events on a grid of time slots",
   "docs": "https://fullcalendar.io/docs/timegrid-view",
   "homepage": "https://fullcalendar.io/",

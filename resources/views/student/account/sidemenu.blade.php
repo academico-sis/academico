@@ -8,7 +8,7 @@
 				@endif
 			@endif
 	</div>
-
+	
 	<div class="card-body">
 		<div class="list-group">
 			<a class="list-group-item @if (Request::route()->getName() == 'backpack.account.edit_info') {{ "active" }} @elseif(!$user->student || ($user->student->force_update && $user->student->force_update != 1)) {{ "disabled" }} @endif" href="{{ route('backpack.account.edit_info') }}">@lang('Account Data')</a>

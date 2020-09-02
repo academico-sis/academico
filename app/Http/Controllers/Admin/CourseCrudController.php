@@ -22,6 +22,7 @@ class CourseCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+    use \App\Http\Controllers\Admin\Operations\ShowStudentPhotoRosterOperation;
 
     public function __construct()
     {

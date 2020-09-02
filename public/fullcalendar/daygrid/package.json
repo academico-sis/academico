@@ -1,4 +1,10 @@
 {
+  "_args": [
+    [
+      "@fullcalendar/daygrid@4.4.2",
+      "C:\\xampp\\htdocs\\academico"
+    ]
+  ],
   "_from": "@fullcalendar/daygrid@4.4.2",
   "_id": "@fullcalendar/daygrid@4.4.2",
   "_inBundle": false,
@@ -17,15 +23,13 @@
     "fetchSpec": "4.4.2"
   },
   "_requiredBy": [
-    "#USER",
     "/",
     "/@fullcalendar/resource-daygrid",
     "/@fullcalendar/timegrid"
   ],
   "_resolved": "https://registry.npmjs.org/@fullcalendar/daygrid/-/daygrid-4.4.2.tgz",
-  "_shasum": "568bfb3c7cc97f83b57cf3aef0fa3ed1bf6eda16",
-  "_spec": "@fullcalendar/daygrid@4.4.2",
-  "_where": "/home/thomas/academico",
+  "_spec": "4.4.2",
+  "_where": "C:\\xampp\\htdocs\\academico",
   "author": {
     "name": "Adam Shaw",
     "email": "arshaw@arshaw.com",
@@ -34,9 +38,7 @@
   "bugs": {
     "url": "https://fullcalendar.io/reporting-bugs"
   },
-  "bundleDependencies": false,
   "copyright": "2019 Adam Shaw",
-  "deprecated": false,
   "description": "Display events on Month view or DayGrid view",
   "docs": "https://fullcalendar.io/docs/month-view",
   "homepage": "https://fullcalendar.io/",

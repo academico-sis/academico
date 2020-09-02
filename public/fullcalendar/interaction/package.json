@@ -1,4 +1,10 @@
 {
+  "_args": [
+    [
+      "@fullcalendar/interaction@4.4.2",
+      "C:\\xampp\\htdocs\\academico"
+    ]
+  ],
   "_from": "@fullcalendar/interaction@4.4.2",
   "_id": "@fullcalendar/interaction@4.4.2",
   "_inBundle": false,
@@ -17,13 +23,11 @@
     "fetchSpec": "4.4.2"
   },
   "_requiredBy": [
-    "#USER",
     "/"
   ],
   "_resolved": "https://registry.npmjs.org/@fullcalendar/interaction/-/interaction-4.4.2.tgz",
-  "_shasum": "0a6be06538f843b6f0f4e9b4de87a5e3ec3629fb",
-  "_spec": "@fullcalendar/interaction@4.4.2",
-  "_where": "/home/thomas/academico",
+  "_spec": "4.4.2",
+  "_where": "C:\\xampp\\htdocs\\academico",
   "author": {
     "name": "Adam Shaw",
     "email": "arshaw@arshaw.com",
@@ -32,9 +36,7 @@
   "bugs": {
     "url": "https://fullcalendar.io/reporting-bugs"
   },
-  "bundleDependencies": false,
   "copyright": "2019 Adam Shaw",
-  "deprecated": false,
   "description": "Provides functionality for event drag-n-drop, resizing, dateClick, and selectable actions",
   "docs": "https://fullcalendar.io/docs/editable",
   "homepage": "https://fullcalendar.io/",

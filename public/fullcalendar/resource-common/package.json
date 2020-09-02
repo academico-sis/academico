@@ -1,4 +1,10 @@
 {
+  "_args": [
+    [
+      "@fullcalendar/resource-common@4.4.2",
+      "C:\\xampp\\htdocs\\academico"
+    ]
+  ],
   "_from": "@fullcalendar/resource-common@4.4.2",
   "_id": "@fullcalendar/resource-common@4.4.2",
   "_inBundle": false,
@@ -17,16 +23,14 @@
     "fetchSpec": "4.4.2"
   },
   "_requiredBy": [
-    "#USER",
     "/",
     "/@fullcalendar/resource-daygrid",
     "/@fullcalendar/resource-timegrid",
     "/@fullcalendar/resource-timeline"
   ],
   "_resolved": "https://registry.npmjs.org/@fullcalendar/resource-common/-/resource-common-4.4.2.tgz",
-  "_shasum": "fd317d68d8790083e0ed5b99545bd2618bf0b489",
-  "_spec": "@fullcalendar/resource-common@4.4.2",
-  "_where": "/home/thomas/academico",
+  "_spec": "4.4.2",
+  "_where": "C:\\xampp\\htdocs\\academico",
   "author": {
     "name": "Adam Shaw",
     "email": "arshaw@arshaw.com",
@@ -35,9 +39,7 @@
   "bugs": {
     "url": "https://fullcalendar.io/reporting-bugs"
   },
-  "bundleDependencies": false,
   "copyright": "2019 Adam Shaw",
-  "deprecated": false,
   "description": "Offers base support for resources. Required for all resource-related plugins.",
   "docs": "https://fullcalendar.io/docs/scheduler",
   "homepage": "https://fullcalendar.io/scheduler",

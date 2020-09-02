@@ -2,6 +2,7 @@ export default {
     "en": {
         "step1": "Student Data",
         "step2": "Additional Data",
+        "step3": "Profile Picture",
         "step4": "Contacts",
         "step5": "Finish",
         "language": "Form language",
@@ -35,11 +36,16 @@ export default {
         "cedula_number": "Cédula number",
         "passport_number": "Passport number",
         "iddocument": "ID document",
-        "institution_save": "Press ENTER to confirm your institution"
+        "institution_save": "Press ENTER to confirm your institution",
+        "profile_picture": "Select a profile picture or take a picture.",
+        "take_picture": "Take a picture",
+        "snap_picture": "Capture",
+        "click_upload": "Click to upload"
     },
     "es": {
         "step1": "Datos del estudiante",
         "step2": "Informacion addicional",
+        "step3": "Foto de perfil",
         "step4": "Contactos addicionales",
         "step5": "Finalizacion",
         "language": "Idioma del formulario",
@@ -73,11 +79,16 @@ export default {
         "cedula_number": "Número de cédula",
         "passport_number": "Número de pasaporte",
         "iddocument": "Documento de identificación",
-        "institution_save": "Pulse ENTER para continuar"
+        "institution_save": "Pulse ENTER para continuar",
+        "profile_picture": "Seleccione una foto de perfil o tome una foto",
+        "take_picture": "Toma una foto",
+        "snap_picture": "Capturar",
+        "click_upload": "Haga clic para cargar"
     },
     "fr": {
         "step1": "Informations de l'étudiant",
         "step2": "Informations complémentaires",
+        "step3": "Image de profil",
         "step4": "Contacts",
         "step5": "Fin",
         "language": "Langue du formulaire",
@@ -111,6 +122,10 @@ export default {
         "cedula_number": "Numéro de cédula",
         "passport_number": "Numéro de passeport",
         "iddocument": "Document d'identité",
-        "institution_save": "Appuyez sur ENTRÉE pour confirmer"
+        "institution_save": "Appuyez sur ENTRÉE pour confirmer",
+        "profile_picture": "Sélectionnez une photo de profil ou prenez une photo.",
+        "take_picture": "Prendre une photo",
+        "snap_picture": "Capturer",
+        "click_upload": "Cliquez pour télécharger"
     }
 }

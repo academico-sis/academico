@@ -20,6 +20,11 @@
                 <div class="card-header-actions">
                     <button class="btn btn-primary" data-toggle="modal" data-target="#myModal">@lang('Enroll new student')</button>
                 </div>
+
+                <div class="card-header-actions">
+                    <a href="/course/{{ $course->id }}/show/roster" class="btn btn-primary mr-3">Photo Roster</a>
+                </div>
+
             </div>
             
             <div class="card-body">           

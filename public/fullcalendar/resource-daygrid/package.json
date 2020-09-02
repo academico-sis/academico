@@ -1,4 +1,10 @@
 {
+  "_args": [
+    [
+      "@fullcalendar/resource-daygrid@4.4.2",
+      "C:\\xampp\\htdocs\\academico"
+    ]
+  ],
   "_from": "@fullcalendar/resource-daygrid@4.4.2",
   "_id": "@fullcalendar/resource-daygrid@4.4.2",
   "_inBundle": false,
@@ -17,14 +23,12 @@
     "fetchSpec": "4.4.2"
   },
   "_requiredBy": [
-    "#USER",
     "/",
     "/@fullcalendar/resource-timegrid"
   ],
   "_resolved": "https://registry.npmjs.org/@fullcalendar/resource-daygrid/-/resource-daygrid-4.4.2.tgz",
-  "_shasum": "f2c38286af33f54be2bb82d51e8e14fb17bc4604",
-  "_spec": "@fullcalendar/resource-daygrid@4.4.2",
-  "_where": "/home/thomas/academico",
+  "_spec": "4.4.2",
+  "_where": "C:\\xampp\\htdocs\\academico",
   "author": {
     "name": "Adam Shaw",
     "email": "arshaw@arshaw.com",
@@ -33,13 +37,11 @@
   "bugs": {
     "url": "https://fullcalendar.io/reporting-bugs"
   },
-  "bundleDependencies": false,
   "copyright": "2019 Adam Shaw",
   "dependencies": {
     "@fullcalendar/daygrid": "~4.4.0",
     "@fullcalendar/resource-common": "~4.4.0"
   },
-  "deprecated": false,
   "description": "Displays events in individual columns for days and resources",
   "docs": "https://fullcalendar.io/docs/resource-daygrid-view",
   "homepage": "https://fullcalendar.io/scheduler",
