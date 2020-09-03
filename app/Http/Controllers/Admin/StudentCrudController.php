@@ -124,11 +124,12 @@ class StudentCrudController extends CrudController
             [
                 // 1-n relationship
                 'label' => __('Status'), // Table column heading
-                'type' => 'select',
-                'name' => 'lead_type_id', // the column that contains the ID of that connected entity;
-                'entity' => 'leadType', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\LeadType::class, // foreign key model
+                'type' => 'text',
+                'name' => 'lead_status_name', // the column that contains the ID of that connected entity;
+                'orderable' => true,
+                'orderLogic' => function ($query, $column, $columnDirection) {
+                    return $query->orderBy('students.lead_type_id', $columnDirection)->select('students.*');
+                },
             ],
 
         ]);
@@ -163,26 +164,6 @@ class StudentCrudController extends CrudController
                     });
                 });
             }
-        });
-
-        CRUD::addFilter([ // select2 filter
-            'name' => 'lead_status_is',
-            'type' => 'select2',
-            'label'=> __('Status is'),
-        ], function () {
-            return LeadType::all()->except(1)->pluck('name', 'id')->toArray();
-        }, function ($value) { // if the filter is active
-            CRUD::addClause('where', 'lead_type_id', $value);
-        });
-
-        CRUD::addFilter([ // select2 filter
-            'name' => 'lead_status_isnot',
-            'type' => 'select2',
-            'label'=> __('Status is not'),
-        ], function () {
-            return LeadType::all()->except(1)->pluck('name', 'id')->toArray();
-        }, function ($value) { // if the filter is active
-            CRUD::addClause('where', 'lead_type_id', '!=', $value);
         });
 
         // select2 filter

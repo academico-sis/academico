@@ -10,6 +10,7 @@ use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\Models\Media;
+use App\Models\LeadType;
 
 class Student extends Model implements HasMedia
 {
@@ -20,7 +21,7 @@ class Student extends Model implements HasMedia
     public $timestamps = true;
     protected $guarded = ['id'];
     protected $with = ['user', 'phone', 'institution', 'profession'];
-    protected $appends = ['email', 'name', 'firstname', 'lastname', 'student_age', 'student_birthdate', 'lead_status', 'is_enrolled'];
+    protected $appends = ['email', 'name', 'firstname', 'lastname', 'student_age', 'student_birthdate', 'lead_status', 'lead_status_name', 'is_enrolled'];
     protected static $logUnguarded = true;
 
     protected static function boot()
@@ -172,6 +173,11 @@ class Student extends Model implements HasMedia
         })->count() > 0) {
             return 1;
         }
+    }
+
+    public function getLeadStatusNameAttribute()
+    {
+        return LeadType::find($this->lead_status)->name;
     }
 
     public function getLeadStatusAttribute()
