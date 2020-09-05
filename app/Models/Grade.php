@@ -9,7 +9,9 @@ class Grade extends Model
 {
     use LogsActivity;
 
-    protected $fillable = ['student_id', 'grade_type_id', 'grade', 'course_id'];
+    protected $guarded = ['id'];
+    protected $with = ['grade_type'];
+    protected $appends = ['grade_type_category'];
     protected static $logFillable = true;
 
     public function grade_type()
@@ -20,5 +22,10 @@ class Grade extends Model
     public function student()
     {
         return $this->belongsTo(Student::class);
+    }
+
+    public function getGradeTypeCategoryAttribute()
+    {
+        return $this->grade_type->category->name;
     }
 }

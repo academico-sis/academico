@@ -22,7 +22,7 @@
                         @foreach ($events as $event)
                             <td>
                                 <event-attendance-status-component
-                                    :exempted="{{ $event->exempt_attendance }}"
+                                    :exempted="{{ $event->exempt_attendance ?? 0 }}"
                                     toggleroute="{{ route('toggleEventAttendance', ['event' => $event->id ]) }}"
                                     eventattendanceroute="{{ route('eventAttendance', ['event' => $event->id]) }}"
                                     eventdate="{{ Carbon\Carbon::parse($event->start)->locale(app()->getLocale())->isoFormat('Do MMM YYYY') }}"

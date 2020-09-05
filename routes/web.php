@@ -75,12 +75,18 @@ Route::group(
 Route::group(
     ['middleware' => ['web', 'language']],
     function () {
+        // todo review this entire module
+        /* Course grades update */
+        Route::delete('grades', 'GradeController@destroy');
+        Route::post('course/gradetype', 'GradeController@add_grade_type_to_course');
+        Route::delete('course/{course}/gradetype/{gradetype}', 'GradeController@remove_grade_type_from_course');
+        Route::get('course/{course}/grades', 'GradeController@edit');
+        Route::post('grades', 'GradeController@store');
 
         // Skills Evaluation
         Route::get('course/{course}/skillsevaluation', 'CourseSkillEvaluationController@index')->name('courseSkillsEvaluation');
         Route::get('course/{course}/skillsevaluation/{student}', 'CourseSkillEvaluationController@edit')->name('studentSkillsEvaluation');
         Route::post('skillsevaluation', 'CourseSkillEvaluationController@store')->name('storeSkillEvaluation');
-        Route::post('resultcomment', 'CommentController@storeresult')->name('storeResultComment'); // todo protect
     });
 
 Route::group(
@@ -98,14 +104,6 @@ Route::group(
         Route::post('course/{course}/skills/import', 'CourseSkillController@import')->name('course-skills-import');
 
         Route::get('course/{course}/syllabus', 'CourseSkillController@exportCourseSyllabus')->name('exportCourseSyllabus');
-
-        // todo review this entire module
-        /* Course grades update */
-        Route::get('course/{course}/grades', 'GradeController@edit');
-        Route::post('grades', 'GradeController@store');
-        Route::delete('grades', 'GradeController@destroy');
-        Route::post('course/gradetype', 'GradeController@add_grade_type_to_course');
-        Route::delete('course/{course}/gradetype/{gradetype}', 'GradeController@remove_grade_type_from_course');
     });
 
 Route::post('store-result', 'ResultController@store')->name('storeResult');
@@ -220,12 +218,29 @@ Route::group(
         Route::permanentRedirect('/edit-account-info', '/edit/1')->name('backpack.account.info');
         Route::post('edit-account-info', 'Auth\MyAccountController@postAccountInfoForm')->name('backpack.account.info.store');
         Route::get('edit/1', 'Auth\MyAccountController@getAccountInfoForm')->name('backpack.account.edit_info');
-        Route::get('edit/2', 'Auth\MyAccountController@getChangePasswordForm')->name('backpack.account.password');
+        Route::get('edit/2', 'Auth\MyAccountController@getChangePasswordForm')->name('backpack.account.change_password');
         Route::get('edit/3', 'Auth\MyAccountController@getStudentInfoForm')->name('backpack.student.info');
         Route::get('edit/4', 'Auth\MyAccountController@getPhoneForm')->name('backpack.account.phone');
         Route::get('edit/5', 'Auth\MyAccountController@getAccountProfessionForm')->name('backpack.account.profession');
         Route::get('edit/6', 'Auth\MyAccountController@getPhotoForm')->name('backpack.account.photo');
         Route::get('edit/7', 'Auth\MyAccountController@getContactsForm')->name('backpack.account.contacts');
-        Route::get('edit/8', 'Auth\MyAccountController@getContactsForm')->name('backpack.account.contacts');
     }
 );
+
+Route::group([
+    'middleware' => ['web', 'role:admin', 'language'],
+], function () {
+    Route::post('teacher/{id}/restore', 'TeacherController@restore');
+    Route::post('teacher/{teacher}/delete', 'TeacherController@destroy');
+
+    Route::post('level/{id}/restore', 'LevelController@restore');
+    Route::post('level/{level}/delete', 'LevelController@destroy');
+
+    Route::post('rhythm/{id}/restore', 'RhythmController@restore');
+    Route::post('rhythm/{rhythm}/delete', 'RhythmController@destroy');
+
+    Route::get('/student/create', 'StudentController@create')->name('student.create');
+    Route::get('/student/{student}/edit', 'StudentController@edit')->name('student.edit');
+    Route::put('/student/{student}', 'StudentController@update')->name('student.update');
+    Route::post('/student', 'StudentController@store')->name('student.store');
+});

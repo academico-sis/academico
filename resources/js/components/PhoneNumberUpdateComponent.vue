@@ -5,7 +5,7 @@
             <span class="input-lg">{{ phoneable.phone_number }}</span>
             <button
                 class="btn btn-danger"
-                @click="deletePhoneNumber(phoneable.id)"
+                v-on:click.prevent="deletePhoneNumber(phoneable.id)"
             >
                 <i class="la la-trash"></i>
             </button>
@@ -20,7 +20,7 @@
                 name="new_number"
                 type="numeric"
             />
-            <button class="btn" @click="addPhoneNumber()">
+            <button class="btn" v-on:click.prevent="addPhoneNumber()">
                 <i class="la la-plus"></i>
             </button>
         </div>

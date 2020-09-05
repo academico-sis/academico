@@ -82,7 +82,7 @@
 							$field = 'idnumber';
 						@endphp
 						<label class="required">{{ $label }}</label>
-						<input required class="form-control" type="{{ $field }}" name="{{ $field }}" value="{{ old($field) ? old($field) : $contact->$field }}">
+						<input class="form-control" type="{{ $field }}" name="{{ $field }}" value="{{ old($field) ? old($field) : $contact->$field }}">
 					</div>
 
 
@@ -92,9 +92,17 @@
 							$field = 'address';
 						@endphp
 						<label class="required">{{ $label }}</label>
-						<input required class="form-control" type="{{ $field }}" name="{{ $field }}" value="{{ old($field) ? old($field) : $contact->$field }}">
+						<input class="form-control" type="{{ $field }}" name="{{ $field }}" value="{{ old($field) ? old($field) : $contact->$field }}">
 					</div>
 
+					<div class="form-group">
+						@php
+							$label = trans('Profession');
+							$field = 'profession';
+						@endphp
+						<label class="required">{{ $label }}</label>
+						<input class="form-control" type="{{ $field }}" name="{{ $field }}" value="{{ old($field) ? old($field) : $contact->$field }}">
+					</div>
 
 					<div class="form-group m-b-0">
 						<button type="submit" class="btn btn-success"><span class="ladda-label"><i class="la la-save"></i> {{ trans('backpack::base.save') }}</span></button>

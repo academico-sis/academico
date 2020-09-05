@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\StudentRequest;
 use App\Models\Institution;
 use App\Models\LeadType;
 use App\Models\Period;
@@ -13,7 +12,6 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 class StudentCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation { show as traitShow; }
 
     public function __construct()
@@ -28,11 +26,6 @@ class StudentCrudController extends CrudController
         CRUD::setModel(\App\Models\Student::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/student');
         CRUD::setEntityNameStrings(__('student'), __('students'));
-        //CRUD::removeAllButtons();
-
-        CRUD::removeButton('delete');
-        CRUD::removeButton('create');
-        CRUD::removeButton('update');
 
         CRUD::setListView('students.list');
 
@@ -46,7 +39,7 @@ class StudentCrudController extends CrudController
             CRUD::enableExportButtons();
         }
 
-        CRUD::orderBy('created_at', 'desc');
+        $this->crud->addButtonFromView('top', 'createStudent', 'createStudent', 'start');
     }
 
     public function setupListOperation()
@@ -54,33 +47,73 @@ class StudentCrudController extends CrudController
         // Columns.
         CRUD::setColumns([
             [
-                'label' => 'ID number',
+                'label' => __('ID number'),
                 'type' => 'text',
                 'name' => 'idnumber',
             ],
             [
-                'label' => __('Name'),
-                'type' => 'text',
-                'name' => 'name',
+                // 1-n relationship
+                'label'     => __('Last Name'), // Table column heading
+                'type'      => 'select',
+                'name'      => 'lastname', // the column that contains the ID of that connected entity;
+                'entity'    => 'user', // the method that defines the relationship in your Model
+                'attribute' => 'lastname', // foreign key attribute that is shown to user
+                'model'     => "App\Models\User", // foreign key model
+                'orderable' => true,
+                'orderLogic' => function ($query, $column, $columnDirection) {
+                    return $query->leftJoin('users', 'users.id', '=', 'students.user_id')
+                        ->orderBy('users.lastname', $columnDirection)->select('students.*');
+                },
                 'searchLogic' => function ($query, $column, $searchTerm) {
                     $query->orWhereHas('user', function ($q) use ($searchTerm) {
-                        $q->where('firstname', 'like', '%'.$searchTerm.'%')
-                          ->orWhere('lastname', 'like', '%'.$searchTerm.'%')
-                          ->orWhere('email', 'like', '%'.$searchTerm.'%')
-                          ->orWhere('idnumber', 'like', '%'.$searchTerm.'%');
+                        $q->where('lastname', 'like', '%'.$searchTerm.'%');
                     });
                 },
             ],
 
             [
-                'name'  => 'email',
-                'label' => trans('backpack::permissionmanager.email'),
-                'type'  => 'text',
+                // 1-n relationship
+                'label'     => __('First Name'), // Table column heading
+                'type'      => 'select',
+                'name'      => 'firstname', // the column that contains the ID of that connected entity;
+                'entity'    => 'user', // the method that defines the relationship in your Model
+                'attribute' => 'firstname', // foreign key attribute that is shown to user
+                'model'     => "App\Models\User", // foreign key model
+                'orderable' => true,
+                'orderLogic' => function ($query, $column, $columnDirection) {
+                    return $query->leftJoin('users', 'users.id', '=', 'students.user_id')
+                        ->orderBy('users.firstname', $columnDirection)->select('students.*');
+                },
+                'searchLogic' => function ($query, $column, $searchTerm) {
+                    $query->orWhereHas('user', function ($q) use ($searchTerm) {
+                        $q->where('firstname', 'like', '%'.$searchTerm.'%');
+                    });
+                },
+            ],
+
+            [
+                // 1-n relationship
+                'label'     => __('Email'), // Table column heading
+                'type'      => 'select',
+                'name'      => 'email', // the column that contains the ID of that connected entity;
+                'entity'    => 'user', // the method that defines the relationship in your Model
+                'attribute' => 'email', // foreign key attribute that is shown to user
+                'model'     => "App\Models\User", // foreign key model
+                'orderable' => true,
+                'orderLogic' => function ($query, $column, $columnDirection) {
+                    return $query->leftJoin('users', 'users.id', '=', 'students.user_id')
+                        ->orderBy('users.email', $columnDirection)->select('students.*');
+                },
+                'searchLogic' => function ($query, $column, $searchTerm) {
+                    $query->orWhereHas('user', function ($q) use ($searchTerm) {
+                        $q->where('email', 'like', '%'.$searchTerm.'%');
+                    });
+                },
             ],
 
             [
                 // n-n relationship (with pivot table)
-                'label' => 'Phone', // Table column heading
+                'label' => __('Phone number'), // Table column heading
                 'type' => 'select_multiple',
                 'name' => 'phone', // the method that defines the relationship in your Model
                 'entity' => 'phone', // the method that defines the relationship in your Model
@@ -164,36 +197,6 @@ class StudentCrudController extends CrudController
         });
     }
 
-    public function setupCreateOperation()
-    {
-        CRUD::setValidation(StudentRequest::class);
-
-        // Fields
-        CRUD::addFields([
-            [
-                'label' => trans('firstname'),
-                'type' => 'text',
-                'name' => 'firstname',
-            ],
-            [
-                'label' => trans('lastname'),
-                'type' => 'text',
-                'name' => 'lastname',
-            ],
-            [
-                'name'  => 'email',
-                'label' => trans('backpack::permissionmanager.email'),
-                'type'  => 'email',
-            ],
-            [
-                'name'  => 'birthdate',
-                'label' => trans('birthdate'),
-                'type'  => 'date',
-            ],
-
-        ]);
-    }
-
     public function show($student)
     {
         $student = Student::findOrFail($student);
@@ -211,10 +214,5 @@ class StudentCrudController extends CrudController
             'attendances' => $student->periodAttendance()->get(),
             'writeaccess' => backpack_user()->can('enrollments.edit') ?? 0,
         ]);
-    }
-
-    public function setupUpdateOperation()
-    {
-        $this->setupCreateOperation();
     }
 }

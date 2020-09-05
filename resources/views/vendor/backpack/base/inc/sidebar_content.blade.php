@@ -13,10 +13,30 @@
   <li class='nav-item'><a class='nav-link' href="{{ backpack_url('attendance') }}"><i class="nav-icon la la-calendar"></i> <span>@lang('Attendance')</span></a></li>
   <li class='nav-item'><a class='nav-link' href="{{ backpack_url('/enrollment?status_id=["1"]') }}"><i class="nav-icon la la-credit-card"></i> <span>@lang('Pending')</span></a></li>
   <li class='nav-item'><a class='nav-link' href="{{ backpack_url('/enrollment?scholarship=all') }}"><i class="nav-icon la la-comment-dollar"></i> <span>@lang('Scholarships')</span></a></li>
+
+  <li class="nav-title">@lang('CALENDARS')</li>
+  <li class='nav-item'><a class='nav-link' href="{{ route('teachersCalendar') }}"><i class="nav-icon la la-binoculars"></i><span>@lang('Teachers overview')</span></a></li>
+  <li class='nav-item'><a class='nav-link' href="{{ route('roomsCalendar') }}"><i class="nav-icon la la-binoculars"></i><span>@lang('Rooms overview')</span></a></li>
+  <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-group"></i> @lang('teachers')</a>
+      <ul class="nav-dropdown-items">
+        @foreach ($teachers as $teacher)
+          <li class='nav-item'><a class='nav-link' href="{{ route('teacherCalendar', ['teacher' => $teacher->id]) }}"><span>{{ $teacher->name }}</span></a></li>
+        @endforeach
+    </ul>
+  </li>
+
+
+  <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-building"></i> @lang('rooms')</a>
+      <ul class="nav-dropdown-items">
+        @foreach ($rooms as $room)
+          <li class='nav-item'><a class='nav-link' href="{{ route('roomCalendar', ['room' => $room->id]) }}"><span>{{ $room->name }}</span></a></li>
+        @endforeach
+    </ul>
+  </li>
+
 @endif
 
 @if(backpack_user()->hasRole(['admin']))
-  <li class='nav-item'><a class='nav-link' href="{{ backpack_url('comment') }}"><i class="nav-icon la la-pencil"></i> <span>@lang('Comments')</span></a></li>
 
   <li class="nav-title">@lang('EVALUATION')</li>
     <li class='nav-item'><a class='nav-link' href="{{ backpack_url('courseevaluation') }}"><i class="nav-icon la la-bar-chart"></i> <span>@lang('Course Evaluation')</span></a></li>
@@ -26,6 +46,7 @@
       <ul class="nav-dropdown-items">
           <li class='nav-item'><a class='nav-link' href='{{ backpack_url('evaluationtype') }}'><span>@lang('Evaluation Types')</span></a></li>
           <li class='nav-item'><a class='nav-link' href='{{ backpack_url('gradetype') }}'><span>@lang('Grade Types')</span></a></li>
+          <li class='nav-item'><a class='nav-link' href='{{ backpack_url('gradetypecategory') }}'><i class='nav-icon la la-question'></i> @lang('Grade Type Categories')</a></li>
           <li class='nav-item'><a class='nav-link' href='{{ backpack_url('skill') }}'><span>@lang('Skills')</span></a></li>
           <li class='nav-item'><a class='nav-link' href='{{ backpack_url('skilltype') }}'><span>@lang('Skill Types')</span></a></li>
           <li class='nav-item'><a class='nav-link' href='{{ backpack_url('skillscale') }}'><span>@lang('Skill Scales')</span></a></li>
@@ -52,30 +73,6 @@
 
 
 
-
-
-@if(backpack_user()->hasRole(['admin', 'secretary']))
-  <li class="nav-title">@lang('CALENDARS')</li>
-  <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-group"></i> @lang('teachers')</a>
-      <ul class="nav-dropdown-items">
-        <li class='nav-item'><a class='nav-link' href="{{ route('teachersCalendar') }}"><i class="nav-icon la la-binoculars"></i><span>@lang('Overview')</span></a></li>
-        @foreach ($teachers as $teacher)
-          <li class='nav-item'><a class='nav-link' href="{{ route('teacherCalendar', ['teacher' => $teacher->id]) }}"><span>{{ $teacher->name }}</span></a></li>
-        @endforeach
-    </ul>
-  </li>
-
-
-  <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-building"></i> @lang('rooms')</a>
-      <ul class="nav-dropdown-items">
-        <li class='nav-item'><a class='nav-link' href="{{ route('roomsCalendar') }}"><i class="nav-icon la la-binoculars"></i><span>@lang('Overview')</span></a></li>
-        @foreach ($rooms as $room)
-          <li class='nav-item'><a class='nav-link' href="{{ route('roomCalendar', ['room' => $room->id]) }}"><span>{{ $room->name }}</span></a></li>
-        @endforeach
-    </ul>
-  </li>
-
-@endif
 
 @if(backpack_user()->hasRole(['admin', 'manager']))
 
@@ -115,10 +112,8 @@
       <!-- Users, Roles Permissions -->
       <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-group"></i> @lang('Users')</a>
           <ul class="nav-dropdown-items">
-            <li class='nav-item'><a class='nav-link' href="{{ backpack_url('user') }}"><i class="nav-icon la la-user"></i> <span>@lang('Users')</span></a></li>
             <li class='nav-item'><a class='nav-link' href="{{ backpack_url('teacher') }}"><i class="nav-icon la la-user"></i> <span>@lang('Teachers')</span></a></li>
-            <li class='nav-item'><a class='nav-link' href="{{ backpack_url('role') }}"><i class="nav-icon la la-group"></i> <span>@lang('Roles')</span></a></li>
-            <li class='nav-item'><a class='nav-link' href='{{ backpack_url('member') }}'><i class='nav-icon la la-question'></i> Members</a></li>
+            <li class='nav-item'><a class='nav-link' href='{{ backpack_url('member') }}'><i class='nav-icon la la-question'></i>@lang('Members')</a></li>
           </ul>
         </li>
     

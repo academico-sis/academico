@@ -624,7 +624,7 @@
                                             <a
                                                 href="#"
                                                 @click="checkAccountingStatus()"
-                                                >Refresh status</a
+                                                >{{ $t('Refresh status') }}</a
                                             ></span
                                         >
                                     </div>

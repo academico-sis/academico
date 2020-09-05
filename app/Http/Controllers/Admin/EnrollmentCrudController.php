@@ -67,18 +67,26 @@ class EnrollmentCrudController extends CrudController
             ],
 
             [
-                // STUDENT NAME
-                'label' => __('Student'), // Table column heading
-                'type' => 'select',
-                'entity' => 'student', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
+                'name' => 'user.lastname',
+                'label' => __('Last Name'),
+                'type' => 'text',
                 'searchLogic' => function ($query, $column, $searchTerm) {
                     $query->orWhereHas('student', function ($q) use ($searchTerm) {
-                        $q->WhereHas('user', function ($q) use ($searchTerm) {
-                            $q->where('firstname', 'like', '%'.$searchTerm.'%')
-                            ->orWhere('lastname', 'like', '%'.$searchTerm.'%')
-                            ->orWhere('email', 'like', '%'.$searchTerm.'%')
-                            ->orWhere('idnumber', 'like', '%'.$searchTerm.'%');
+                        $q->whereHas('user', function ($q) use ($searchTerm) {
+                            $q->where('lastname', 'like', '%'.$searchTerm.'%');
+                        });
+                    });
+                },
+            ],
+
+            [
+                'name' => 'user.firtname',
+                'label' => __('First Name'),
+                'type' => 'text',
+                'searchLogic' => function ($query, $column, $searchTerm) {
+                    $query->orWhereHas('student', function ($q) use ($searchTerm) {
+                        $q->whereHas('user', function ($q) use ($searchTerm) {
+                            $q->where('firtname', 'like', '%'.$searchTerm.'%');
                         });
                     });
                 },

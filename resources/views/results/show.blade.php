@@ -11,57 +11,36 @@
 
 @section('content')
 
-<div class="row">
+<div class="row" id="app">
     
-    <div class="col-md-4">
+    <div class="col-md-6">
         <div class="card">
                 <div class="card-header">
-                    <strong>{{ $enrollment->student->firstname }} {{ $enrollment->student->lastname }}</strong>
+                    <a href="{{ route('student.show', ['id' => $enrollment->student_id]) }}">
+                        <strong>{{ $enrollment->student->firstname }} {{ $enrollment->student->lastname }}</strong>
+                    </a>
                 </div>    
             <div class="card-body">
-                <p>{{ $enrollment->course->name }} ({{ $enrollment->course->period->name }})</p>
+                <a href="{{ route('course.show', ['id' => $enrollment->course_id]) }}">
+                    <p>{{ $enrollment->course->name }} ({{ $enrollment->course->period->name }})</p>
+                </a>
             </div>
         </div>
     </div>
     
     
 
-    <div class="col-md-4">
-            <div class="card">
-                <div class="card-header">
-                        @lang('Course result')
-                        <!-- TODO ENABLE RESULT EDITION (if the user is allowed to do so) -->
-                    <div class="card-header-actions">
-                    </div>
-                </div>
-                
-                <div class="card-body">                      
-                        <p>
-                            {{ $result->result_name->name ?? "-" }}
-                        </p>
-                </div>
-            </div>
+    <div class="col-md-6">
+        <course-result-component
+            comment-post-route="{{ route('storeComment') }}"
+            result-post-route="{{ route('storeResult') }}"
+            :enrollment="{{ json_encode($enrollment) }}"
+            :results="{{ json_encode($results) }}"
+            :stored_comments="{{ json_encode($result->comments ?? null) }}"
+            :result="{{ json_encode($result) }}"
+            writeaccess="{{ $writeaccess }}">
+        </course-result-component>
         </div>
-
-   @if(isset($result))
-        <div class="col-md-4">
-                <div class="card">
-                    <div class="card-header">
-                            @lang('Comments')
-                    </div>
-                    
-                    <div class="card-body">                      
-                            @forelse ($result->comments as $comment)
-                                <p>{{ $comment->body }}</p>
-                            @empty
-                            <p></p>
-                            @endforelse
-                    </div>
-                </div>
-            </div>
-    @endif
-
-
 
     
 </div>
@@ -77,14 +56,41 @@
             
             <div class="card-body">
                 <table class="table">
-                    @foreach ($grades as $grade)
-                    <tr>
-                        <td>{{ $grade->grade_type->name }}</td>
-                        <td>{{ $grade->grade }} / {{ $grade->grade_type->total }}</td>
-                    </tr>
+                    @php $all_total = 0; @endphp
+                    @php $all_grade = 0; @endphp
+                    @foreach ($grades as $category)
+                    @php $cat_total = 0; @endphp
+                    @php $cat_grade = 0; @endphp
+                    <thead>
+                        <tr>
+                            <th>{{ $category[0]->grade_type_category }}</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($category as $grade)
+                        @php $cat_grade += $grade->grade; @endphp
+                        @php $cat_total += $grade->grade_type->total; @endphp
+                        <tr>
+                            <td>{{ $grade->grade_type->name }}</td>
+                            <td>{{ $grade->grade }} / {{ $grade->grade_type->total }}</td>
+                        </tr>
+                        @endforeach
+                        <tr>
+                            <td><strong>{{ __('Total') }}</strong></td>
+                            <td><strong>{{ $cat_grade }} / {{ $cat_total }}</strong></td>
+                        </tr>
+                    </tbody>
+                    @php $all_grade += $cat_grade; @endphp
+                    @php $all_total += $cat_total; @endphp
                     @endforeach
-                </table>
-                <!-- TODO add total -->
+                    <thead>
+                        <tr>
+                            <th><strong>{{ __('Total') }}</strong></th>
+                            <th><strong>{{ $all_grade }} / {{ $all_total }}</strong></th>
+                        </tr>
+                    </thead>
+                    </table>
             </div>
         </div>
     </div>
@@ -124,4 +130,9 @@
 
 </div>
 
+@endsection
+
+
+@section('after_scripts')
+    <script src="/js/app.js"></script>
 @endsection

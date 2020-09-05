@@ -15,9 +15,7 @@ class AddOrderToCourseSkillsTable extends Migration
     {
         Schema::table('course_skill', function (Blueprint $table) {
             $table->string('order')->nullable()->after('weight');
-            $table->dropColumn('created_at');
-            $table->dropColumn('updated_at');
-            $table->dropColumn('deleted_at');
+            $table->dropColumn(['created_at', 'updated_at', 'deleted_at']);
         });
     }
 

@@ -7,13 +7,23 @@
             <a class="nav-link" :id="contact.id+'-tab'" data-toggle="tab" v-bind:href="`#contact-${contact.id}-pane`" role="tab" :aria-controls="contact.id+'-tab'" aria-selected="false">
                 <span v-if="contact.relationship">{{ contact.relationship.translated_name }}</span><span v-else>{{ $t('Additional Contact') }}</span>
             </a>
+            <li class="nav-item" v-if="writeaccess">
+                <div class="nav-link">
+                    <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#userDataModal">
+                        <i class="la la-plus"></i>
+                    </button>
+                </div>
+            </li>
         </li>
     </ul>
     <div class="tab-content" id="myTab1Content">
         <div class="tab-pane fade show active" id="student-pane" role="tabpanel" aria-labelledby="student-tab">
             <div><strong>{{ $t('name') }}:</strong> {{ student.firstname }} {{ student.lastname }}</div>
-            <div v-if="student.idnumber"><strong>{{ $t('idnumber') }}:</strong> {{ student.idnumber }}</div>
-            <div v-if="student.address"><strong>{{ $t('address') }}:</strong> {{ student.address }}</div>
+            <div v-if="student.idnumber"><strong>{{ $t('ID number') }}:</strong> {{ student.idnumber }}</div>
+            <div v-if="student.address"><strong>{{ $t('Address') }}:</strong> {{ student.address }}</div>
+            <div v-if="student.city"><strong>{{ $t('City') }}:</strong> {{ student.city }}</div>
+            <div v-if="student.state"><strong>{{ $t('State') }}:</strong> {{ student.state }}</div>
+            <div v-if="student.country"><strong>{{ $t('Country') }}:</strong> {{ student.country }}</div>
 
                 <div><strong>{{ $t('Phone Number') }}:</strong>
                     <button class="btn btn-sm btn-primary" @click="addingNumberToStudent = true" v-if="writeaccess">
@@ -46,17 +56,13 @@
                 <a class="btn btn-sm btn-warning" :href="`/student/${student.id}/edit`">
                     <i class="la la-edit"></i>
                 </a>
-
-                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#userDataModal">
-                    <i class="la la-plus"></i>
-                </button>
             </div>
         </div>
 
         <div class="tab-pane fade" v-for="contact in this.contactsData" v-bind:key="contact.id" v-bind:id="`contact-${contact.id}-pane`" role="tabpanel" :aria-labelledby="contact.id+'-tab'">
             <div><strong>{{ $t('name') }}:</strong> {{ contact.firstname }} {{ contact.lastname }}</div>
-            <div><strong>{{ $t('idnumber') }}:</strong> {{ contact.idnumber }}</div>
-            <div><strong>{{ $t('address') }}:</strong> {{ contact.address }}</div>
+            <div><strong>{{ $t('ID nnumber') }}:</strong> {{ contact.idnumber }}</div>
+            <div><strong>{{ $t('Address') }}:</strong> {{ contact.address }}</div>
                 <div><strong>{{ $t('Phone Number') }}:</strong>
                     <button class="btn btn-sm btn-primary" @click="addingNumberToContact = true" v-if="writeaccess">
                         <i class="la la-plus"></i>
@@ -80,17 +86,13 @@
                         </li>
                     </ul>
                 </div>
-            <div><strong>{{ $t('email') }}:</strong> {{ contact.email }}</div>
+            <div><strong>{{ $t('Email') }}:</strong> {{ contact.email }}</div>
             <div v-if="contact.profession"><strong>{{ $t('profession') }}:</strong>{{ contact.profession.name }}</div>
 
             <div class="" v-if="writeaccess">
                 <a class="btn btn-sm btn-warning" :href="`/contact/${contact.id}/edit`">
                     <i class="la la-edit"></i>
                 </a>
-
-                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#userDataModal">
-                    <i class="la la-plus"></i>
-                </button>
 
                 <button class="btn btn-sm btn-danger" @click="deleteContact(contact.id)">
                     <i class="la la-trash"></i>
