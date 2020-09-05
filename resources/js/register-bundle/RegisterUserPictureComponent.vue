@@ -111,7 +111,7 @@ export default {
                 if(image.size > 3145728 ){
 	                this.$buefy.toast.open({
 	                    message:
-	                        "The image is too large. Maximum size is 3mb.",
+	                        "The image is too large. Maximum size is 2mb.",
 	                    type: "is-danger",
 	                    position: "is-bottom",
 	                });
