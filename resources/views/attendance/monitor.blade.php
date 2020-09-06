@@ -62,7 +62,7 @@
             <div class="card-header">
                 <div class="row">
                     <div class="col-sm-5">
-                        <h4 class="card-title mb-0">@lang('Student Attendance Overview')</h4>
+                        <h4 class="card-title mb-0">@lang('Attendance Monitor')</h4>
                     </div>
                     <div class="col-sm-7 d-none d-md-block">
                         <div class="card-header-actions">
