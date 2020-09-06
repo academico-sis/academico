@@ -49,9 +49,9 @@
                     </ul>
                 </div>
             <div><strong>{{ $t('email') }}:</strong> {{ student.email }}</div>
-            <div v-if="student.birthdate"><strong>{{ $t('birthdate') }}:</strong> {{ student.student_birthdate }} ({{ student.student_age }} {{ $t('years old') }})</div>
-            <div v-if="student.institution"><strong>{{ $t('institution') }}:</strong> <a :href="`/student?institutionId=${student.institution.id}`">{{ student.institution.name }}</a></div>
-            <div v-if="student.profession"><strong>{{ $t('profession') }}:</strong>{{ student.profession.name }}</div>
+            <div v-if="student.birthdate"><strong>{{ $t('Birthdate') }}:</strong> {{ student.student_birthdate }} ({{ student.student_age }} {{ $t('years old') }})</div>
+            <div v-if="student.institution"><strong>{{ $t('Institution') }}:</strong> <a :href="`/student?institutionId=${student.institution.id}`">{{ student.institution.name }}</a></div>
+            <div v-if="student.profession"><strong>{{ $t('Profession') }}:</strong>{{ student.profession.name }}</div>
             <div v-if="writeaccess">
                 <a class="btn btn-sm btn-warning" :href="`/student/${student.id}/edit`">
                     <i class="la la-edit"></i>
