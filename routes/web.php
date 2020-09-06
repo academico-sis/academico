@@ -131,6 +131,7 @@ Route::group(
 Route::group(
     ['middleware' => ['web', 'permission:comments.edit', 'language']],
     function () {
+        Route::put('edit-comment/{comment}', 'CommentController@update');
         Route::delete('comment/{comment}', 'CommentController@destroy');
     }
 );

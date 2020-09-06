@@ -53,6 +53,8 @@
                             @php $total += $grade_type->total; @endphp
                         @endforeach
                         <td><strong>@lang('TOTAL')</strong></td>
+                        <td><strong>@lang('Result')</strong></td>
+                        <td><strong>@lang('Comment')</strong></td>
                     </tr>
 
                     @foreach ($enrollments as $enrollment)
@@ -81,6 +83,17 @@
 
                         <td>
                             <strong>{{ $student_total }} / {{ $total }}</strong>
+                        </td>
+
+                        <td>
+                            {{ $enrollment->result_name }}
+                            <a href="/result/{{ $enrollment->id}}/show">@lang('Edit')</a>
+                        </td>
+
+                        <td>
+                            @foreach($enrollment->result->comments as $comment)
+                            <p>{{ $comment->body }}</p>
+                            @endforeach
                         </td>
 
                     </tr>

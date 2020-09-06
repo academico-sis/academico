@@ -27,9 +27,10 @@
                         class="btn btn-danger btn-sm"
                         @click="deleteComment(comment.id, index)"
                     >
-                        X
+                        <i class="la la-trash"></i>
                     </button>
-                    <!-- <button type="button" @click="editComment(comment.id)" class="btn btn-info btn-sm">Edit</button> -->
+
+                    <button type="button" @click="editComment(comment)" class="btn btn-info btn-sm"><i class="la la-pencil"></i></button>
                 </li>
             </ul>
         </div>
@@ -46,17 +47,6 @@
                 style="width: 100%;"
                 rows="3"
             ></textarea>
-            <div v-if="this.type == 'App\\Models\\Student'" class="form-group">
-                <label for="action">{{
-                    $t("This comment requires an action")
-                }}</label>
-                <input
-                    id="action"
-                    v-model="action"
-                    name="action"
-                    type="checkbox"
-                />
-            </div>
             <div class="btn-group">
                 <button
                     type="button"
@@ -66,9 +56,19 @@
                     {{ $t("Cancel") }}
                 </button>
                 <button
+                    v-if="!selectedComment"
                     type="button"
                     class="btn btn-primary"
                     @click="addComment()"
+                >
+                    {{ $t("Save") }}
+                </button>
+
+                <button
+                    v-else
+                    type="button"
+                    class="btn btn-primary"
+                    @click="updateComment()"
                 >
                     {{ $t("Save") }}
                 </button>
@@ -89,6 +89,7 @@ export default {
             errors: null,
             commentlist: this.comments,
             isValidated: false,
+            selectedComment: null,
         };
     },
 
@@ -135,6 +136,35 @@ export default {
                     this.errors.push(e);
                 });
         },
+
+        editComment(comment)
+        {
+            this.selectedComment = comment
+            this.comment_body = comment.body
+            this.showCommentForm()
+        },
+
+        updateComment()
+        {
+            axios
+                .put(`/edit-comment/${this.selectedComment.id}`, {
+                    body: this.comment_body,
+                })
+                .then((response) => {
+                    this.selectedComment = null
+                    this.commentlist[0].body = this.comment_body;
+                    this.comment_body = null;
+                    this.showEditField = false;
+                    this.errors = null;
+                    this.isValidated = true;
+                    setTimeout(() => {
+                        this.isValidated = false;
+                    }, 3000)
+                })
+                .catch((e) => {
+                    this.errors = e.response.data.errors.body[0];
+                });
+        }
     },
 };
 </script>

@@ -26,6 +26,13 @@ class CommentController extends Controller
         ]);
     }
 
+    public function update(Comment $comment, Request $request)
+    {
+        $comment->update([
+            'body' => $request->input('body'),
+        ]);
+    }
+
     public function destroy(Comment $comment)
     {
         $comment->delete();

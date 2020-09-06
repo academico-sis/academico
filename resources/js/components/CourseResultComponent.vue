@@ -21,32 +21,6 @@
                             {{ result.translated_name }}
                         </button>
                 </div>
-
-                <div v-if="this.course_result">
-                    <h4>{{ $t("Comments") }}</h4>
-                    <ul>
-                        <li v-for="comment in this.comments" :key="comment.id">
-                            {{ comment.body }}
-                        </li>
-                    </ul>
-
-                    <textarea
-                        id="comment"
-                        v-model="newcomment"
-                        name="comment"
-                        style="width: 100%;"
-                        rows="4"
-                    ></textarea>
-                    <button
-                        v-if="newcomment != null"
-                        type="button"
-                        class="btn btn-primary"
-                        @click="saveComment(newcomment)"
-                        :disabled="loading"
-                    >
-                        Enregistrer
-                    </button>
-                </div>
             </div>
         </div>
     </div>
@@ -58,48 +32,21 @@ export default {
         "enrollment",
         "results",
         "result",
-        "stored_comments",
         "resultPostRoute",
-        "commentPostRoute",
         "writeaccess"
     ],
 
     data() {
         return {
-            newcomment: null,
             course_result: this.result,
-            comments: this.stored_comments ?? [],
             loading: false,
-            errors: []
+            errors: [],
         };
     },
 
     mounted() {},
 
     methods: {
-        saveComment() {
-            this.loading = true;
-            axios
-                .post(this.commentPostRoute, {
-                    commentable_id: this.course_result.id,
-                    commentable_type: "App\\Models\\Result",
-                    body: this.newcomment,
-                })
-                .then((response) => {
-                    this.loading = false;
-                    this.comments.push(response.data);
-                    this.newcomment = null
-                    new Noty({
-                        title: "Opération réussie",
-                        text: "Commentaire sauvegardé !",
-                        type: "success",
-                    }).show();
-                })
-                .catch((e) => {
-                    this.errors.push(e);
-                });
-        },
-
         saveResult(result) {
             this.loading = true;
             axios
@@ -110,7 +57,7 @@ export default {
                 })
                 .then((response) => {
                     this.loading = false;
-                    this.course_result = response.data
+                    window.location.reload()
                 })
                 .catch((e) => {
                     this.errors.push(e);
@@ -125,7 +72,7 @@ export default {
             else {
                 return "btn btn-secondary"
             }
-        }
+        },
     },
 };
 </script>
