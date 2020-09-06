@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\UserStoreCrudRequest as StoreRequest;
-use App\Http\Requests\UserUpdateCrudRequest as UpdateRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\UserStoreCrudRequest as StoreRequest;
+use App\Http\Requests\UserUpdateCrudRequest as UpdateRequest;
+use Backpack\CRUD\app\Http\Requests\CrudRequest;
 
 class UserCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation { store as traitStore; }
+    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation { update as traitUpdate; }
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 
     public function setup()
@@ -27,12 +27,12 @@ class UserCrudController extends CrudController
         // Columns.
         CRUD::setColumns([
             [
-                'label' => 'First Name', // Table column heading
+                'label' => __('First Name'), // Table column heading
                 'type' => 'text',
                 'name' => 'firstname',
             ],
             [
-                'label' => 'Last Name', // Table column heading
+                'label' => __('Last Name'), // Table column heading
                 'type' => 'text',
                 'name' => 'lastname',
             ],
@@ -68,70 +68,52 @@ class UserCrudController extends CrudController
         );
     }
 
-    public function setupCreateOperation()
+    protected function setupCreateOperation()
     {
-        $this->addUserFields();
         $this->crud->setValidation(StoreRequest::class);
+        $this->addFields();
     }
 
-    public function setupUpdateOperation()
+    protected function setupUpdateOperation()
     {
-        $this->addUserFields();
         $this->crud->setValidation(UpdateRequest::class);
+        $this->addFields();
     }
 
     /**
      * Store a newly created resource in the database.
      *
+     * @param StoreRequest $request - type injection used for validation using Requests
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store()
+    public function store(StoreRequest $request)
     {
-        $this->crud->request = $this->crud->validateRequest();
-        $this->crud->request = $this->handlePasswordInput($this->crud->request);
-        $this->crud->unsetValidation(); // validation has already been run
+        $this->handlePasswordInput($request);
 
-        return $this->traitStore();
+        return $this->traitStore($request);
     }
 
     /**
      * Update the specified resource in the database.
      *
+     * @param UpdateRequest $request - type injection used for validation using Requests
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update()
+    public function update(UpdateRequest $request)
     {
-        $this->crud->request = $this->crud->validateRequest();
-        $this->crud->request = $this->handlePasswordInput($this->crud->request);
-        $this->crud->unsetValidation(); // validation has already been run
+        $this->handlePasswordInput($request);
 
-        return $this->traitUpdate();
+        return $this->traitUpdate($request);
     }
 
     /**
-     * Handle password input fields.
+     * Add the fields needed in the Create and Update operations.
      */
-    protected function handlePasswordInput($request)
+    protected function addFields()
     {
-        // Remove fields not present on the user.
-        $request->request->remove('password_confirmation');
-        $request->request->remove('roles_show');
-        $request->request->remove('permissions_show');
-
-        // Encrypt password if specified.
-        if ($request->input('password')) {
-            $request->request->set('password', Hash::make($request->input('password')));
-        } else {
-            $request->request->remove('password');
-        }
-
-        return $request;
-    }
-
-    protected function addUserFields()
-    {
-        // Fields
-        CRUD::addFields([
+        $this->crud->addFields([
             [  // Select2
                 'label' => trans('firstname'),
                 'type' => 'text',
@@ -147,13 +129,6 @@ class UserCrudController extends CrudController
                 'label' => trans('backpack::permissionmanager.email'),
                 'type'  => 'email',
             ],
-
-            [
-                'name'  => 'language',
-                'label' => trans('language'),
-                'type'  => 'text',
-            ],
-
             [
                 'name'  => 'password',
                 'label' => trans('password'),
@@ -170,5 +145,30 @@ class UserCrudController extends CrudController
                 'pivot'     => true,
             ],
         ]);
+    }
+
+    /**
+     * Handle password input fields.
+     *
+     * @param CrudRequest $request
+     */
+    protected function handlePasswordInput($request)
+    {
+        $crud_request = $this->crud->getRequest();
+
+        // If a password was specified
+        if ($request->input('password')) {
+            // encrypt it before storing it
+            $hashed_password = bcrypt($request->input('password'));
+
+            $crud_request->request->set('password', $hashed_password);
+            $crud_request->request->set('password_confirmation', $hashed_password);
+        } else {
+            // ignore the password inputs entirely
+            $crud_request->request->remove('password');
+            $crud_request->request->remove('password_confirmation');
+        }
+
+        $this->crud->setRequest($crud_request);
     }
 }
