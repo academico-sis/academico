@@ -152,7 +152,7 @@ class StudentController extends Controller
                 'institution_id' => $institution->id,
             ]);
         }
-        
+
         return redirect()->route('student.show', ['id' => $student->id]);
     }
 }

@@ -5,13 +5,12 @@ namespace App\Models;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\App;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\Models\Media;
-use App\Models\LeadType;
-use Illuminate\Support\Facades\App;
 
 class Student extends Model implements HasMedia
 {
@@ -163,7 +162,7 @@ class Student extends Model implements HasMedia
 
     public function getStudentBirthdateAttribute()
     {
-        return Carbon::parse($this->birthdate)->locale(App::getLocale())->isoFormat('LL');;
+        return Carbon::parse($this->birthdate)->locale(App::getLocale())->isoFormat('LL');
     }
 
     public function getIsEnrolledAttribute()
