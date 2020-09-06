@@ -87,7 +87,7 @@
                     </ul>
                 </div>
             <div><strong>{{ $t('Email') }}:</strong> {{ contact.email }}</div>
-            <div v-if="contact.profession"><strong>{{ $t('profession') }}:</strong>{{ contact.profession.name }}</div>
+            <div v-if="contact.profession"><strong>{{ $t('profession') }}:</strong> {{ contact.profession.name }}</div>
 
             <div class="" v-if="writeaccess">
                 <a class="btn btn-sm btn-warning" :href="`/contact/${contact.id}/edit`">

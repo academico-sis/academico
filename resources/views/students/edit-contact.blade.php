@@ -41,7 +41,7 @@
 						<label class="required">{{ $label }}</label>
 						<select class="form-control" required name="{{ $field }}" id="{{ $field }}">
 							@foreach ($contact_types as $value)
-								<option value="{{ $value->id }}">{{ $value->name }}</option>
+								<option @if ($value->id == $contact->relationship_id) selected @endif value="{{ $value->id }}">{{ $value->name }}</option>
 							@endforeach
 						</select>
 					</div>
@@ -101,7 +101,7 @@
 							$field = 'profession';
 						@endphp
 						<label class="required">{{ $label }}</label>
-						<input class="form-control" type="{{ $field }}" name="{{ $field }}" value="{{ old($field) ? old($field) : $contact->$field }}">
+						<input class="form-control" type="{{ $field }}" name="{{ $field }}" value="{{ old($field) ? old($field) : $contact->$field->name }}">
 					</div>
 
 					<div class="form-group m-b-0">
