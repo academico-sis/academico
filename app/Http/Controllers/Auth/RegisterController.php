@@ -53,6 +53,21 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
             'birthdate'                            => 'required',
             'profession'                           => 'required',
             'institution'                          => 'required',
+            'userPicture'                          => 'required',
+                    function ($attribute, $value, $fail) {
+
+                        $size = strlen(base64_decode($value));
+
+                        if($size > 3145728) $fail($attribute. ' image too large');
+
+                        $img = imagecreatefromstring($value);
+
+                        if(!$img) $fail($attribute. 'Invalid image');
+
+                        $size = getimagesizefromstring($value);
+
+                        if (!$size || $size[0] == 0 || $size[1] == 0 || !$size['mime']) $fail ( $attribute. 'is invalid' );
+                },
         ]);
     }
 
@@ -100,6 +115,7 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
      */
     public function register(Request $request)
     {
+
         // if registration is closed, deny access
         if (! config('backpack.base.registration_open')) {
             abort(403, trans('backpack::base.registration_closed'));
@@ -141,7 +157,12 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
 
         // add photo
 
-        //Log::info('Profile picture added to the student profile');
+        $student
+           ->addMediaFromBase64($request->data['userPicture'])
+           ->usingFileName('profilePicture.jpg')
+           ->toMediaCollection();
+
+        Log::info('Profile picture added to the student profile');
 
         // add contact(s)
         foreach ($request->data['contacts'] as $contact) {
@@ -168,4 +189,5 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
 
         return response(204);
     }
+
 }

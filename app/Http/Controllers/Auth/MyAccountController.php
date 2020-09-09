@@ -210,7 +210,7 @@ class MyAccountController extends \App\Http\Controllers\Controller
     }
 
     /**
-     * Show the phone numbers edit screen.
+     * Show the photo edit screen.
      */
     public function getPhotoForm()
     {

@@ -1,7 +1,7 @@
 <template>
     <div>
         <ValidationObserver ref="observer" v-slot="{ valid }">
-            <b-field :label="$t('firstname')">
+             <b-field :label="$t('firstname')">
                 <ValidationProvider
                     v-slot="{ errors }"
                     name="nombres"

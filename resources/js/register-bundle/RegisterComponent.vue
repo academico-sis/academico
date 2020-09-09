@@ -29,18 +29,17 @@
 
             <b-step-item :label="$t('step2')" :clickable="activeStep > 1">
                 <register-user-info-component :institutions="institutions"></register-user-info-component>
+            </b-step-item> 
+
+            <b-step-item :label="$t('step3')" :clickable="activeStep > 2">
+                <register-user-picture-component></register-user-picture-component>
             </b-step-item>
 
-            <!--     <b-step-item :label="$t('')Photo" :clickable="activeStep > 2">
-        <h1 class="title has-text-centered">Profile picture</h1>
-        Lorem ipsum dolor sit amet.
-    </b-step-item> -->
-
-            <b-step-item :label="$t('step4')" :clickable="activeStep > 2">
+            <b-step-item :label="$t('step4')" :clickable="activeStep > 3">
                 <register-contacts-component></register-contacts-component>
             </b-step-item>
 
-            <b-step-item :label="$t('step5')" :clickable="activeStep > 3">
+            <b-step-item :label="$t('step5')" :clickable="activeStep > 4">
                 <register-user-finish-component></register-user-finish-component>
             </b-step-item>
         </b-steps>
