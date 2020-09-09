@@ -54,20 +54,25 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
             'profession'                           => 'required',
             'institution'                          => 'required',
             'userPicture'                          => 'required',
-                    function ($attribute, $value, $fail) {
+            function ($attribute, $value, $fail) {
+                $size = strlen(base64_decode($value));
 
-                        $size = strlen(base64_decode($value));
+                if ($size > 3145728) {
+                    $fail($attribute.' image too large');
+                }
 
-                        if($size > 3145728) $fail($attribute. ' image too large');
+                $img = imagecreatefromstring($value);
 
-                        $img = imagecreatefromstring($value);
+                if (! $img) {
+                    $fail($attribute.'Invalid image');
+                }
 
-                        if(!$img) $fail($attribute. 'Invalid image');
+                $size = getimagesizefromstring($value);
 
-                        $size = getimagesizefromstring($value);
-
-                        if (!$size || $size[0] == 0 || $size[1] == 0 || !$size['mime']) $fail ( $attribute. 'is invalid' );
-                },
+                if (! $size || $size[0] == 0 || $size[1] == 0 || ! $size['mime']) {
+                    $fail($attribute.'is invalid');
+                }
+            },
         ]);
     }
 
@@ -189,5 +194,4 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
 
         return response(204);
     }
-
 }
