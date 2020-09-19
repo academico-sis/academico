@@ -6,6 +6,12 @@ use App\Models\PreInvoice;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Prologue\Alerts\Facades\Alert;
+use App\Models\Enrollment;
+use App\Models\PreInvoiceDetail;
+use App\Models\Comment;
+use App\Models\Fee;
+use App\Models\Book;
+use App\Models\Payment;
 
 class PreInvoiceController extends Controller
 {

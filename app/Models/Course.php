@@ -391,28 +391,28 @@ class Course extends Model
 
     public function getCourseRoomNameAttribute()
     {
-        return strtoupper($this->room['name']);
+        return strtoupper($this->room->name);
     }
 
     public function getCourseLevelNameAttribute()
     {
-        return $this->level['name'];
+        return $this->level->name;
     }
 
     public function getCourseRhythmNameAttribute()
     {
-        return strtoupper($this->rhythm['name']);
+        return strtoupper($this->rhythm->name);
     }
 
     public function getCoursePeriodNameAttribute()
     {
-        return $this->period['name'];
+        return $this->period->name ?? "";
     }
 
     public function getCourseTeacherNameAttribute()
     {
         if ($this->teacher_id) {
-            return $this->teacher['firstname'].' '.$this->teacher['lastname'];
+            return $this->teacher->firstname.' '.$this->teacher->lastname;
         } else {
             return '-';
         }

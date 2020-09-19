@@ -22,7 +22,7 @@ class TeacherCalendarController extends Controller
     {
         // Do not fetch all events but only those closest to current date. TODO optimize this.
         $events = Event::where('start', '>', (Carbon::now()->subDays(90)))->where('end', '<', (Carbon::now()->addDays(90)))->orderBy('id', 'desc')->get()->toArray();
-
+        dd($events);
         $teachers = Teacher::with('user')->get()->toArray();
 
         $teachers = array_map(function ($teacher) {

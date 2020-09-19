@@ -208,7 +208,7 @@ class CourseCrudController extends CrudController
           function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
               $period = \App\Models\Period::get_default_period()->id;
               CRUD::addClause('where', 'period_id', $period);
-              //$this->crud->request->request->add(['period_id' => $period]); // to make the filter look active
+              $this->crud->getRequest()->request->add(['period_id' => $period]); // to make the filter look active
           });
     }
 

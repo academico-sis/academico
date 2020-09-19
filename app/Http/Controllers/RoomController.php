@@ -19,7 +19,8 @@ class RoomController extends Controller
     public function index()
     {
         // Do not fetch all events but only those closest to current date. TODO optimize this.
-        $events = Event::where('start', '>', (Carbon::now()->subDays(90)))->where('end', '<', (Carbon::now()->addDays(90)))->orderBy('id', 'desc')->get()->toArray();
+        $events = Event::with('course')->where('start', '>', (Carbon::now()->subDays(90)))->where('end', '<', (Carbon::now()->addDays(90)))->orderBy('id', 'desc')->get()->toArray();
+
         $rooms = Room::all()->toArray();
 
         $rooms = array_map(function ($room) {
@@ -38,8 +39,8 @@ class RoomController extends Controller
                 'start' => $event['start'],
                 'end' => $event['end'],
                 'groupId' => $event['course_id'],
-                'backgroundColor' => $event['color'],
-                'borderColor' => $event['color'],
+                'backgroundColor' => $event['course']['color'] ?? '#'.substr(md5($event['course_id'] ?? "0"), 0, 6),
+                'borderColor' => $event['course']['color'] ?? '#'.substr(md5($event['course_id'] ?? "0"), 0, 6),
             ];
         }, $events);
 
@@ -52,8 +53,8 @@ class RoomController extends Controller
                 'start' => $event['start'],
                 'end' => $event['end'],
                 'groupId' => $event['course_id'],
-                'backgroundColor' => $event['color'],
-                'borderColor' => $event['color'],
+                'backgroundColor' => $event['course']['color'] ?? '#'.substr(md5($event['course_id'] ?? "0"), 0, 6),
+                'borderColor' => $event['course']['color'] ?? '#'.substr(md5($event['course_id'] ?? "0"), 0, 6),
             ];
         }, $unassigned_events);
 

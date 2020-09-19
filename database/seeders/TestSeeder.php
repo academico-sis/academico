@@ -1,9 +1,9 @@
 <?php
+namespace Database\Seeders;
 
 use App\Models\AttendanceType;
 use App\Models\Campus;
 use App\Models\ContactRelationship;
-use App\Models\Course;
 use App\Models\EnrollmentStatusType;
 use App\Models\EvaluationType;
 use App\Models\LeadType;
@@ -15,19 +15,16 @@ use App\Models\ResultType;
 use App\Models\Rhythm;
 use App\Models\Room;
 use App\Models\Skills\SkillScale;
-use App\Models\Student;
-use App\Models\Teacher;
 use App\Models\User;
-use App\Models\Year;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-class DatabaseSeeder extends Seeder
+class TestSeeder extends Seeder
 {
     /**
-     * Seed the application's database.
+     * Run the database seeds.
      *
      * @return void
      */
@@ -162,29 +159,21 @@ class DatabaseSeeder extends Seeder
         AttendanceType::create([
             'id' => 1,
             'name' => ['fr' => 'PRÉSENT(E)', 'es' => 'PRESENTE', 'en' => 'PRESENT'],
-            'class' => 'success',
-            'icon' => '<i class="la la-user"></i>',
         ]);
 
         AttendanceType::create([
             'id' => 2,
             'name' => ['fr' => 'PRÉSENCE PARTIELLE', 'es' => 'PRESENCIA PARCIAL', 'en' => 'PARTIAL PRESENCE'],
-            'class' => 'warning',
-            'icon' => '<i class="la la-clock-o"></i>',
         ]);
 
         AttendanceType::create([
             'id' => 3,
             'name' => ['fr' => 'EXCUSÉ(E)', 'es' => 'JUSTIFICADO', 'en' => 'EXCUSED'],
-            'class' => 'info',
-            'icon' => '<i class="la la-exclamation"></i>',
         ]);
 
         AttendanceType::create([
             'id' => 4,
             'name' => ['fr' => 'ABSENT(E)', 'es' => 'AUSENTE', 'en' => 'ABSENT'],
-            'class' => 'danger',
-            'icon' => '<i class="la la-user-times"></i>',
         ]);
 
         ContactRelationship::create([
@@ -251,13 +240,10 @@ class DatabaseSeeder extends Seeder
             'name' => ['fr' => 'MALADIE', 'es' => 'ENFERMEDAD', 'en' => 'SICK LEAVE'],
         ]);
 
-        LeadType::create(['id' => '1', 'name' => ['fr' => 'Actif', 'en' => 'Active', 'es' => 'Activo'], 'description' => ['fr' => 'Inscrit maintenant', 'en' => 'Currently enrolled', 'es' => 'Matriculado ahora']]);
-        LeadType::create(['id' => '2', 'name' => ['fr' => 'Inactif', 'en' => 'Inactive', 'es' => 'Inactivo'], 'description' => ['fr' => 'Non disponible maintenant', 'en' => 'Currently unavailable', 'es' => 'No esta disponible ahora']]);
-        LeadType::create(['id' => '3', 'name' => ['fr' => 'Ancien client', 'en' => 'Former client', 'es' => 'Clientes antiguos'], 'description' => ['fr' => 'Cursus terminé ou abandon définitif', 'en' => 'Permanently ended their learning', 'es' => 'Acabó su aprendizaje o no regresará']]);
-        LeadType::create(['id' => '4', 'name' => ['fr' => 'Client potentiel', 'en' => 'Potential Client', 'es' => 'Cliente potencial'], 'description' => ['fr' => 'Inscription attendue pour ce cycle', 'en' => 'Expected enrollment for this session', 'es' => 'Deberia matricularse este ciclo']]);
-        //LeadType::create(['id' => '5', 'name' => 'Call']); // merged with 4
-        //LeadType::create(['id' => '6', 'name' => 'exAlumno']);  // merged with 3
-        //LeadType::create(['id' => '7', 'name' => 'oldStudent']);  // merged with 3
+        LeadType::create(['id' => '1', 'name' => 'Active']);
+        LeadType::create(['id' => '2', 'name' => 'Inactive']);
+        LeadType::create(['id' => '3', 'name' => 'FormerClient']);
+        LeadType::create(['id' => '4', 'name' => 'Potential']);
 
         Paymentmethod::create(['id' => '1', 'name' => 'Tarjeta de Crédito', 'code' => 'TC']);
         Paymentmethod::create(['id' => '2', 'name' => 'Crédito', 'code' => 'CRC']);
@@ -340,120 +326,6 @@ class DatabaseSeeder extends Seeder
         factory(Level::class)->create(['name' => 'Intermediate']);
         factory(Level::class)->create(['name' => 'Advanced']);
 
-        factory(Teacher::class)->create();
-        factory(Teacher::class)->create();
-        factory(Teacher::class)->create();
-
-        factory(Year::class)->create([
-            'name' => '2019',
-        ]);
-
-        factory(Year::class)->create([
-            'name' => '2020',
-        ]);
-
-        foreach (Year::all() as $year) {
-
-            // seed 4 periods inside that year
-            DB::table('periods')->insert([
-                'name' => $year->name.'-I',
-                'start' => date('Y-m-d', strtotime('first day of april this year')),
-                'end' => date('Y-m-d', strtotime('last day of june this year')),
-                'year_id' => $year->id,
-            ]);
-
-            DB::table('periods')->insert([
-                'name' => $year->name.'-II',
-                'start' => date('Y-m-d', strtotime('first day of july this year')),
-                'end' => date('Y-m-d', strtotime('last day of august this year')),
-                'year_id' => $year->id,
-            ]);
-
-            DB::table('periods')->insert([
-                'name' => $year->name.'-III',
-                'start' => date('Y-m-d', strtotime('first day of september this year')),
-                'end' => date('Y-m-d', strtotime('last day of december this year')),
-                'year_id' => $year->id,
-            ]);
-
-            // foreach period in year, seed some courses
-            foreach ($year->periods as $period) {
-                $p1course1 = factory(Course::class)->create([
-                    'campus_id' => 1,
-                    'rhythm_id' => 1,
-                    'level_id' => 1,
-                    'volume' => 10,
-                    'price' => 100,
-                    'start_date' => $period->start,
-                    'end_date' => $period->end,
-                    'room_id' => 1,
-                    'teacher_id' => 3,
-                    'period_id' => $period->id,
-                ]);
-
-                $p1course1->times()->create(['day' => 1, 'start' => '09:00:00', 'end' => '17:00:00']);
-                $p1course1->times()->create(['day' => 2, 'start' => '09:00:00', 'end' => '17:00:00']);
-                $p1course1->times()->create(['day' => 3, 'start' => '09:00:00', 'end' => '17:00:00']);
-                $p1course1->times()->create(['day' => 4, 'start' => '09:00:00', 'end' => '17:00:00']);
-                $p1course1->times()->create(['day' => 5, 'start' => '09:00:00', 'end' => '17:00:00']);
-
-                $p1course2 = factory(Course::class)->create([
-                    'campus_id' => 1,
-                    'rhythm_id' => 1,
-                    'level_id' => 2,
-                    'volume' => 10,
-                    'price' => 100,
-                    'start_date' => $period->start,
-                    'end_date' => $period->end,
-                    'room_id' => 2,
-                    'teacher_id' => 2,
-                    'period_id' => $period->id,
-                ]);
-
-                $p1course2->times()->create(['day' => 1, 'start' => '14:00:00', 'end' => '17:00:00']);
-                $p1course2->times()->create(['day' => 3, 'start' => '14:00:00', 'end' => '17:00:00']);
-                $p1course2->times()->create(['day' => 5, 'start' => '14:00:00', 'end' => '17:00:00']);
-
-                $p1course3 = factory(Course::class)->create([
-                    'campus_id' => 1,
-                    'rhythm_id' => 4,
-                    'level_id' => 3,
-                    'volume' => 20,
-                    'price' => 100,
-                    'start_date' => $period->start,
-                    'end_date' => $period->end,
-                    'room_id' => 3,
-                    'teacher_id' => 3,
-                    'period_id' => $period->id,
-                ]);
-
-                $p1course3->times()->create(['day' => 6, 'start' => '09:00:00', 'end' => '13:00:00']);
-                $p1course3->times()->create(['day' => 0, 'start' => '09:00:00', 'end' => '13:00:00']);
-
-                // create some "random" enrollments so that reports apear to have real data
-
-                for ($i = 0; $i < random_int(5, 19); $i++) {
-                    $student = factory(Student::class)->create();
-                    $student->enroll($p1course1);
-                }
-
-                for ($i = 0; $i < random_int(5, 19); $i++) {
-                    $student = factory(Student::class)->create();
-                    $student->enroll($p1course1);
-                    $student->enroll($p1course2);
-                }
-
-                for ($i = 0; $i < random_int(5, 19); $i++) {
-                    $student = factory(Student::class)->create();
-                    $student->enroll($p1course3);
-                }
-
-                for ($i = 0; $i < random_int(5, 19); $i++) {
-                    $student = factory(Student::class)->create();
-                    $student->enroll($p1course2);
-                    $student->enroll($p1course3);
-                }
-            }
-        }
+        factory(Period::class)->create();
     }
 }

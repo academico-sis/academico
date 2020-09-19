@@ -13,37 +13,35 @@
         "backpack/crud": "4.1.*",
         "backpack/permissionmanager": "^6.0.0",
         "curl/curl": "^2.3.0",
-        "fruitcake/laravel-cors": "^2.0.1",
         "fideloper/proxy": "^4.4.0",
-        "guzzlehttp/guzzle": "^6.5.5",
+        "fruitcake/laravel-cors": "^2.0.1",
+        "guzzlehttp/guzzle": "^7.0.1",
         "intervention/image": "^2.5.1",
         "kkomelin/laravel-translatable-string-exporter": "^1.10.1",
-        "laravel/framework": "^7.22",
+        "laravel/framework": "^8.0",
+        "laravel/legacy-factories": "^1.0",
+        "laravel/telescope": "^4.0",
         "laravel/tinker": "^2.4.1",
         "maatwebsite/excel": "^3.1.20",
         "phpoffice/phpword": "^0.17.0",
         "sentry/sentry-laravel": "^1.8.0",
         "spatie/laravel-activitylog": "^3.14.2",
-        "spatie/laravel-medialibrary": "^7.19.3",
+        "spatie/laravel-medialibrary": "^8.7",
         "spatie/laravel-query-builder": "^2.8.2",
         "spatie/laravel-translatable": "^4.4.0",
-        "spatie/laravel-uptime-monitor": "^3.8.0",
         "symfony/psr-http-message-bridge": "^2.0.1"
     },
     "require-dev": {
         "backpack/generators": "^3.1.3",
+        "facade/ignition": "^2.3",
         "filp/whoops": "^2.0",
         "fzaninotto/faker": "^1.4",
+        "jasonmccreary/laravel-test-assertions": "^1.0",
         "laracasts/generators": "^1.0",
         "laravel/dusk": "^6.4.1",
-        "laravel/telescope": "^3.5.0",
-        "martinlindhe/laravel-vue-i18n-generator": "^0.1.46",
         "mockery/mockery": "^1.3.1",
-        "nunomaduro/collision": "^4.1",
-        "phpunit/phpunit": "^8.5",
-        "facade/ignition": "^2.0",
-        "jasonmccreary/laravel-test-assertions": "^1.0",
-        "mpociot/laravel-test-factory-helper": "^2.1"
+        "nunomaduro/collision": "^5.0",
+        "phpunit/phpunit": "^9.0"
     },
     "config": {
         "optimize-autoloader": true,
@@ -53,7 +51,6 @@
     "extra": {
         "laravel": {
             "dont-discover": [
-                "laravel/telescope"
             ]
         }
     },
@@ -62,7 +59,7 @@
             "App\\": "app/"
         },
         "classmap": [
-            "database/seeds",
+            "database/seeders",
             "database/factories"
         ]
     },

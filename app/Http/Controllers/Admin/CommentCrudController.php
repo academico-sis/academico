@@ -106,7 +106,7 @@ class CommentCrudController extends CrudController
         },
               function () { // if the filter is not active
                   CRUD::addClause('where', 'commentable_type', '=', \App\Models\Student::class);
-                  $this->crud->request->request->add(['commentable_type' => \App\Models\Student::class]); // to make the filter look active
+                  $this->crud->getRequest()->request->add(['commentable_type' => \App\Models\Student::class]); // to make the filter look active
               });
     }
 

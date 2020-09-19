@@ -7,6 +7,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Illuminate\Support\Facades\App;
 
 class UserTest extends TestCase
 {
@@ -15,12 +16,13 @@ class UserTest extends TestCase
     /** @test */
     public function access_student_birthdate()
     {
+        App::setLocale('en');
         // create a student
         $student = factory(Student::class)->create([
             'birthdate' => '2000-03-25',
         ]);
 
-        $this->assertEquals('Mar 25, 2000', $student->student_birthdate);
+        $this->assertEquals('March 25, 2000', $student->student_birthdate);
     }
 
     /** @test */
