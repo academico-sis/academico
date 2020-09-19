@@ -62,7 +62,7 @@
                         <i class="la la-pencil"></i>
                     </a>
 
-                    <button class="btn btn-sm btn-danger" href="#" onclick="if(confirm('Seguro que quiere eliminar este contacto?')) deleteContact({{ $contact->id }})">
+                    <a class="btn btn-sm btn-danger" href="#" onclick="if(confirm('Seguro que quiere eliminar este contacto?')) deleteContact({{ $contact->id }})">
                         <i class="la la-trash"></i>
                     </a>
                 </div>

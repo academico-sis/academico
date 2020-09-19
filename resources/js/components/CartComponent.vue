@@ -1,91 +1,38 @@
 <template>
     <div>
-        <ol class="breadcrumb bg-transparent">
-            <li v-if="step >= 1" class="breadcrumb-item">
-                <a @click="step = 1">{{ $t("Products") }}</a>
-            </li>
-            <li v-if="step >= 2" class="breadcrumb-item">
-                <a @click="step = 2">{{ $t("Invoice Data") }}</a>
-            </li>
-            <li v-if="step >= 3" class="breadcrumb-item">
-                <a @click="step = 3">{{ $t("Payment") }}</a>
-            </li>
-        </ol>
 
-        <div v-if="step == 1" class="row">
-            <div class="col col-md-8">
-                <div class="card">
-                    <div class="card-header">
-                        {{ $t("Products") }}
-                    </div>
+            <div class="row">
+                <div class="col col-md-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <table class="table">
+                                <thead>
+                                    <th>{{ $t("Product") }}</th>
+                                    <th>{{ $t("Price") }}</th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            {{ enrollment.course.name }}
+                                            {{ $t("for") }}
+                                            {{ enrollment.student.name }}
+                                        </td>
+                                        <td>
+                                            $ {{ this.enrollmentprice }}
+                                        </td>
+                                    </tr>
 
-                    <div class="card-body">
-                        <table class="table">
-                            <thead>
-                                <th>{{ $t("Product") }}</th>
-                                <th>{{ $t("Price") }}</th>
-                                <th>{{ $t("Actions") }}</th>
-                            </thead>
-                            <tbody>
-                                <tr
-                                    v-for="enrollment in enrollments"
-                                    :key="enrollment.id"
-                                >
-                                    <td>
-                                        {{ enrollment.course.name }}
-                                        {{ $t("for") }}
-                                        {{ enrollment.student.user.firstname }}
-                                        {{ enrollment.student.user.lastname }}
-                                    </td>
-                                    <td>
-                                        $ {{ enrollment.course.price }}
-                                        <span
-                                            v-if="
-                                                discount(
-                                                    enrollment.course.price
-                                                ) > 0
-                                            "
-                                            class="label label-info"
-                                            >- ${{
-                                                discount(
-                                                    enrollment.course.price
-                                                )
-                                            }}</span
-                                        >
-                                    </td>
-                                    <td></td>
-                                </tr>
-
-                                <tr
-                                    v-for="(book, index) in books"
-                                    :key="book.id"
-                                >
-                                    <td>{{ book.name }}</td>
-                                    <td>$ {{ book.price }}</td>
-                                    <td>
-                                        <button
-                                            class="btn btn-xs btn-danger"
-                                            @click="removeBookFromCart(index)"
-                                        >
-                                            <i class="la la-trash"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-
-                                <tr v-for="(fee, index) in fees" :key="fee.id">
-                                    <td>{{ fee.name }}</td>
-                                    <td>$ {{ fee.price }}</td>
-                                    <td>
-                                        <button
-                                            class="btn btn-xs btn-danger"
-                                            @click="removeFeeFromCart(index)"
-                                        >
-                                            <i class="la la-trash"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                    <tr v-for="previouspayment in previouspayments" v-bind:key="previouspayment.id">
+                                        <td>
+                                            {{ $t('Payment') }} ({{ previouspayment.date }})
+                                        </td>
+                                        <td>
+                                            - ${{ previouspayment.value }}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
 
@@ -155,270 +102,19 @@
                                         {{ availableFee.name }}
                                     </button>
                                 </div>
+
                             </div>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="card">
-                    <div class="card-header">
-                        {{ $t("Discounts") }}
-                    </div>
-
-                    <div class="card-body">
-                        <ul>
-                            <li
-                                v-for="(discount, index) in discounts"
-                                :key="discount.id"
-                            >
-                                {{ discount.name }} ({{ discount.value }}%)
-                                <button
-                                    class="btn btn-xs btn-warning"
-                                    @click="removeDiscount(index)"
-                                >
-                                    <i class="la la-times"></i>
-                                </button>
-                            </li>
-                        </ul>
-
-                        <div class="form-group">
-                            <div class="dropdown">
-                                <button
-                                    type="button"
-                                    class="btn btn-secondary dropdown-toggle"
-                                    data-toggle="dropdown"
-                                >
-                                    <span class="caret"></span>
-                                    {{ $t("Add discount") }}
-                                </button>
-                                <div class="dropdown-menu">
-                                    <button
-                                        v-for="availableDiscount in this
-                                            .availablediscounts"
-                                        :key="availableDiscount.id"
-                                        class="dropdown-item"
-                                        @click="addDiscount(availableDiscount)"
-                                    >
-                                        {{ availableDiscount.name }}
-                                    </button>
-                                </div>
+                            <div class="form-group">
+                                <label for="enrollmentprice">{{ $t('Total price') }}</label>
+                                <input id="price" type="text" v-model="enrollmentprice">
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div v-if="step == 2" class="row">
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-header">
-                        {{ $t("Student") }}
-
-                        <div class="card-header-actions">
-                            <button
-                                class="btn btn-info"
-                                @click="selectStudentData()"
-                            >
-                                <i class="la la-check"></i
-                                >{{ $t("Select") }}
-                            </button>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <p>
-                            {{ enrollments[0].student.user.firstname }}
-                            {{ enrollments[0].student.user.lastname }}
-                        </p>
-                        <p>{{ enrollments[0].student.idnumber }}</p>
-                        <p>{{ enrollments[0].student.user.email }}</p>
-                    </div>
-                </div>
-
-                <div
-                    v-for="contact in this.contactdata"
-                    :key="contact.id"
-                    class="card"
-                >
-                    <div class="card-header">
-                        Contact
-
-                        <div class="card-header-actions">
-                            <button
-                                class="btn btn-info"
-                                @click="selectInvoiceData(contact)"
-                            >
-                                <i class="la la-check"></i
-                                >{{ $t("Select") }}
-                            </button>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <p>{{ contact.firstname }} {{ contact.lastname }}</p>
-                        <p>{{ contact.idnumber }}</p>
-                        <p>{{ contact.email }}</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">
-                        {{ $t("Invoice Data") }}
-                        <div class="card-header-actions">
-                            <button
-                                v-if="checkForm()"
-                                class="btn btn-success"
-                                @click="confirmInvoiceData()"
-                            >
-                                <i class="la la-check"></i
-                                >{{ $t("Select") }}
-                            </button>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="form-group">
-                            <label for="clientname">{{
-                                $t("Client name")
-                            }}</label>
-                            <input
-                                id="clientname"
-                                v-model="clientname"
-                                required
-                                type="text"
-                                class="form-control"
-                            />
-                        </div>
-
-                        <div class="form-group">
-                            <label for="clientphone">{{
-                                $t("Client Phone Number")
-                            }}</label>
-                            <input
-                                id="clientphone"
-                                v-model="clientphone"
-                                required
-                                type="text"
-                                class="form-control"
-                            />
-                        </div>
-
-                        <div class="form-group">
-                            <label for="clientaddress">{{
-                                $t("Client address")
-                            }}</label>
-                            <input
-                                v-model="clientaddress"
-                                required
-                                type="text"
-                                class="form-control"
-                            />
-                        </div>
-
-                        <div class="form-group">
-                            <label for="clientidnumber">{{
-                                $t("Client ID Number")
-                            }}</label>
-                            <input
-                                v-model="clientidnumber"
-                                required
-                                type="text"
-                                class="form-control"
-                            />
-                        </div>
-
-                        <div class="form-group">
-                            <label for="clientemail">{{
-                                $t("Client email")
-                            }}</label>
-                            <input
-                                v-model="clientemail"
-                                required
-                                type="text"
-                                class="form-control"
-                            />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div v-if="step == 3" class="row">
-            <div class="col col-md-6">
-                <div class="card">
-                    <div class="card-header">
-                        {{ $t("Products") }}
-                    </div>
-
-                    <div class="card-body">
-                        <table class="table">
-                            <thead>
-                                <th>{{ $t("Product") }}</th>
-                                <th>{{ $t("Price") }}</th>
-                            </thead>
-                            <tbody>
-                                <tr
-                                    v-for="enrollment in enrollments"
-                                    :key="enrollment.id + '-enrollment'"
-                                >
-                                    <td>
-                                        {{ enrollment.course.name }}
-                                        {{ $t("for") }}
-                                        {{ enrollment.student.user.firstname }}
-                                        {{ enrollment.student.user.lastname }}
-                                    </td>
-                                    <td>
-                                        $ {{ enrollment.course.price }}
-                                        <span
-                                            v-if="
-                                                discount(
-                                                    enrollment.course.price
-                                                ) > 0
-                                            "
-                                            class="label label-info"
-                                            >- ${{
-                                                discount(
-                                                    enrollment.course.price
-                                                )
-                                            }}</span
-                                        >
-                                    </td>
-                                </tr>
-
-                                <tr
-                                    v-for="book in books"
-                                    :key="book.id + '-book'"
-                                >
-                                    <td>{{ book.name }}</td>
-                                    <td>$ {{ book.price }}</td>
-                                </tr>
-
-                                <tr v-for="fee in fees" :key="fee.id + '-fee'">
-                                    <td>{{ fee.name }}</td>
-                                    <td>$ {{ fee.price }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card card-solid card-primary">
-                    <div class="card-header">
-                        {{ $t("Invoice Data") }}
-                    </div>
-                    <div class="card-body">
-                        <ul>
-                            <li>{{ clientname }}</li>
-                            <li>{{ clientphone }}</li>
-                            <li>{{ clientaddress }}</li>
-                            <li>{{ clientemail }}</li>
-                            <li>{{ clientidnumber }}</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
+        <div class="row">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body text-center">
@@ -440,6 +136,8 @@
                                     <th>{{ $t("Payment method") }}</th>
                                     <th>{{ $t("Amount received") }}</th>
                                     <th>{{ $t("Comment") }}</th>
+                                    <th>{{ $t("Invoice ID") }}</th>
+                                    <th></th>
                                 </tr>
                             </thead>
 
@@ -483,6 +181,16 @@
                                         <div class="input-group">
                                             <input
                                                 v-model="payment.comment"
+                                                type="text"
+                                                class="form-control"
+                                            />
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="input-group">
+                                            <input
+                                                v-model="payment.invoice_id"
                                                 type="text"
                                                 class="form-control"
                                             />
@@ -534,6 +242,9 @@
                                             </div>
                                         </div>
                                     </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -739,7 +450,6 @@ export default {
     },
 
     mounted() {
-        this.checkAccountingStatus();
     },
 
     methods: {
@@ -782,47 +492,6 @@ export default {
 
         discount(price) {
             return price * (this.totalDiscount / 100);
-        },
-
-        selectStudentData() {
-            this.clientname =
-                this.enrollments[0].student.user.firstname +
-                " " +
-                this.enrollments[0].student.user.lastname;
-            this.clientphone =
-                typeof this.enrollments[0].student.phone[0] === "undefined"
-                    ? ""
-                    : this.enrollments[0].student.phone[0].phone_number;
-            this.clientaddress = this.enrollments[0].student.address;
-            this.clientidnumber = this.enrollments[0].student.idnumber;
-            this.clientemail = this.enrollments[0].student.user.email;
-        },
-
-        selectInvoiceData(contact) {
-            this.clientname = contact.firstname + " " + contact.lastname;
-            this.clientphone =
-                typeof contact.phone[0] === "undefined"
-                    ? ""
-                    : contact.phone[0].phone_number;
-            this.clientaddress = contact.address;
-            this.clientidnumber = contact.idnumber;
-            this.clientemail = contact.email;
-        },
-
-        checkForm: function (e) {
-            if (
-                this.clientname &&
-                this.clientphone &&
-                this.clientaddress &&
-                this.clientidnumber &&
-                this.clientemail
-            ) {
-                return true;
-            }
-        },
-
-        confirmInvoiceData() {
-            this.step = 3;
         },
 
         addPayment(method) {
@@ -887,12 +556,7 @@ export default {
                     books: this.books,
                     products: this.products,
                     payments: this.payments,
-                    client_name: this.clientname,
-                    client_idnumber: this.clientidnumber,
-                    client_address: this.clientaddress,
-                    client_phonenumber: this.clientaddress,
-                    client_email: this.clientemail,
-                    total_price: this.shoppingCartTotal,
+                    total_price: this.enrollmentprice,
                     comment: this.comment,
                     sendinvoice: this.sendInvoiceToAccounting,
                 })

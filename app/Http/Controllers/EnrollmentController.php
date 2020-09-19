@@ -93,31 +93,19 @@ class EnrollmentController extends Controller
         return "enrollment/$enrollment->id/show";
     }
 
-    /**
-     * Create a new cart with the specified enrollment
-     * and display the cart.
-     */
-    public function bill(Enrollment $enrollment)
-    {
-        Log::info(backpack_user()->firstname.' is generating a preinvoice');
-
-        $enrollments = Enrollment::where('id', $enrollment->id)->with('course.rhythm')->get();
-        $books = $enrollment->course->books ?? [];
-        $fees = Fee::first()->get(); // todo issue #119
-
-        $availableBooks = Book::all();
-        $availableFees = Fee::all();
-        $availableDiscounts = Discount::all();
-        $contactData = $enrollment->student->contacts;
-        $availablePaymentMethods = Paymentmethod::all();
-
-        return view('carts.show', compact('enrollments', 'fees', 'books', 'availableBooks', 'availableFees', 'availableDiscounts', 'contactData', 'availablePaymentMethods'));
-    }
 
     public function markaspaid(Enrollment $enrollment)
     {
         $enrollment->markAsPaid();
 
         return redirect()->back();
+    }
+
+    public function savePrice(Enrollment $enrollment, Request $request)
+    {
+        $enrollment->update(['total_price' => $request->total_price]);
+
+        // persist the default price category for student
+        $enrollment->student->update(['price_category' =>$request->price_category ]);
     }
 }

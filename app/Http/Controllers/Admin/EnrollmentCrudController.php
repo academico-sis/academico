@@ -186,18 +186,13 @@ class EnrollmentCrudController extends CrudController
     {
         $enrollment = Enrollment::findOrFail($enrollment);
 
-        // load the products from the invoice tables
-        $products = $enrollment->pre_invoice()
-            ->with('pre_invoice_details')
-            ->get();
-
         // get related comments
         $comments = $enrollment->comments;
 
         $scholarships = Scholarship::all();
 
         // then load the page
-        return view('enrollments.show', compact('enrollment', 'products', 'comments', 'scholarships'));
+        return view('enrollments.show', compact('enrollment', 'comments', 'scholarships'));
     }
 
     public function destroy($enrollment)

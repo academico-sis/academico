@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
+use App\Models\User;
+use Illuminate\Support\Facades\App;
 
 class Enrollment extends Model
 {
@@ -16,9 +18,9 @@ class Enrollment extends Model
     use SoftDeletes;
     use LogsActivity;
 
-    protected $fillable = ['student_id', 'course_id', 'parent_id', 'status_id'];
-    protected $appends = ['result_name', 'product_code'];
-    protected $with = ['student', 'course', 'childrenEnrollments'];
+    protected $guarded = ['id'];
+    protected $appends = ['result_name', 'product_code', 'price'];
+    protected $with = ['student', 'course', 'childrenEnrollments', 'payments'];
     protected static $logUnguarded = true;
 
     protected static function boot()
@@ -147,9 +149,9 @@ class Enrollment extends Model
         return $this->belongsTo(Course::class, 'course_id');
     }
 
-    public function pre_invoice()
+    public function payments()
     {
-        return $this->belongsToMany(PreInvoice::class, 'enrollment_pre_invoice', 'enrollment_id', 'pre_invoice_id');
+        return $this->hasMany(Payment::class);
     }
 
     public function comments()
@@ -228,7 +230,7 @@ class Enrollment extends Model
 
     public function getDateAttribute()
     {
-        return Carbon::parse($this->created_at, 'UTC')->toFormattedDateString();
+        return Carbon::parse($this->created_at, 'UTC')->locale(App::getLocale())->isoFormat('LL');
     }
 
     public function getChildrenCountAttribute()
@@ -269,6 +271,28 @@ class Enrollment extends Model
         $absenceCount = $attendances->where('attendance_type_id', 3)->count() + $attendances->where('attendance_type_id', 4)->count();
 
         return $absenceCount;
+    }
+
+    public function getPriceAttribute()
+    {
+        // if the enrollment has a price, we always consider it first
+        if ($this->total_price !== null)
+        {
+            return $this->total_price;
+        } else {
+            // otherwise retrieve the default price category for the student
+            $price_category = $this->student->price_category ?? "priceA";
+            return $this->course->$price_category ?? 0;
+        }
+    }
+
+    public function getBalanceAttribute()
+    {
+        $balance = $this->price;
+        foreach ($this->payments as $payment) {
+            $balance -= $payment->value;
+        }
+        return $balance;
     }
 
     public function cancel()

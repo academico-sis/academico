@@ -98,7 +98,6 @@ class CommentCrudController extends CrudController
         ], [
             \App\Models\Student::class => 'Student',
             \App\Models\Enrollment::class => 'Enrollments',
-            \App\Models\PreInvoice::class => 'PreInvoice',
             \App\Models\Result::class => 'Result',
 
         ], function ($value) { // if the filter is active

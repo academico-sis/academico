@@ -14,18 +14,12 @@
 
 <div id="app">
         
-        <cart-component
-            :enrollmentslist="{{ json_encode($enrollments) }}"
-            :bookslist="{{ json_encode($books) }}"
-            :feeslist="{{ json_encode($fees) }}"
-            :availablebooks="{{ json_encode($availableBooks) }}"
-            :availablefees="{{ json_encode($availableFees) }}"
-            :availablediscounts="{{ json_encode($availableDiscounts) }}"
-            :contactdata="{{ json_encode($contactData) }}"
-            :availablepaymentmethods="{{ json_encode($availablePaymentMethods) }}"
-            :externalaccountingenabled="{{ json_encode(config('settings.external_accounting_enabled')) }}"
-        >
-        </cart-component>
+    <cart-component
+        :enrollment="{{ json_encode($enrollment) }}"
+        :contactdata="{{ json_encode($contactData) }}"
+        :availablepaymentmethods="{{ json_encode($availablePaymentMethods) }}"
+        :previouspayments="{{ json_encode($previouspayments) }}"
+    ></cart-component>
 
 </div>
 

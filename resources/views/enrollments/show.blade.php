@@ -84,14 +84,6 @@
                         {{ $enrollment->enrollmentStatus->name }}
                     </div>
 
-                    @if(backpack_user()->can('enrollments.edit') && $enrollment->parent_id == null)
-
-                        <div class="form-group">
-                            <a href="/enrollment/{{ $enrollment->id }}/bill" class="btn btn-primary">@lang('Checkout enrollment')</a>
-                        </div>
-
-                    @endif
-
                 @endif
 
                 @foreach ($enrollment->scholarships as $scholarship)
@@ -101,19 +93,22 @@
 
                 @if(backpack_user()->can('enrollments.edit'))
 
+                    @if($enrollment->status_id != 2)
+                    <div class="form-group">
+                        <button class="btn btn-info" onclick="if(confirm('Voulez-vous vraiment marquer cette inscription comme payée ?')) markaspaid({{ $enrollment->id }})">
+                            @lang('Mark as paid')
+                        </button>
+                    </div>
+                    @endif
+
                     {{-- todo translate and improve the confirmation message --}}
                     <div class="form-group">
 
-                    <button class="btn btn-danger" onclick="if(confirm('Voulez-vous vraiment supprimer cette inscription ?')) cancel({{ $enrollment->id }})">
-                        @lang('Delete Enrollment')
-                    </button>
+                        <button class="btn btn-danger" onclick="if(confirm('Voulez-vous vraiment supprimer cette inscription ?')) cancel({{ $enrollment->id }})">
+                            @lang('Delete Enrollment')
+                        </button>
 
-                    @if($enrollment->status_id != 2)
-                    <button class="btn btn-info" onclick="if(confirm('Voulez-vous vraiment marquer cette inscription comme payée ?')) markaspaid({{ $enrollment->id }})">
-                        @lang('Mark as paid')
-                    </button>
-                    @endif
-                </div>
+                    </div>
 
                 <div class="form-group">
                     <a class="btn btn-sm btn-warning" href="{{ route('get-courses-list', ['mode' => 'update', 'enrollment_id' => $enrollment->id]) }}">@lang('Change course')</a>
@@ -131,7 +126,7 @@
 
 </div>
 
-@if ($enrollment->pre_invoice()->count() > 0 && backpack_user()->can('enrollments.edit'))
+@if ($enrollment->payments()->count() > 0 && backpack_user()->can('enrollments.edit'))
     @include('invoices.show')
 @endif
 

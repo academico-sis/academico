@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\App;
+use App\Models\Enrollment;
 
 class Payment extends Model
 {
@@ -17,6 +20,7 @@ class Payment extends Model
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
+    protected $appends = ['date'];
     //protected $fillable = [];
     // protected $hidden = [];
     // protected $dates = [];
@@ -33,9 +37,9 @@ class Payment extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function pre_invoice()
+    public function enrollment()
     {
-        return $this->belongsTo(PreInvoice::class);
+        return $this->belongsTo(Enrollment::class);
     }
 
     /*
@@ -49,7 +53,10 @@ class Payment extends Model
     | ACCESORS
     |--------------------------------------------------------------------------
     */
-
+    public function getDateAttribute()
+    {
+        return Carbon::parse($this->created_at, 'UTC')->locale(App::getLocale())->isoFormat('LL');
+    }
     /*
     |--------------------------------------------------------------------------
     | MUTATORS

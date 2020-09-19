@@ -28,9 +28,6 @@
 
                     <p>@lang('Status') : {{ $enrollment->status }}</p>
 
-                    @if($enrollment->pre_invoice->count() > 0)
-                        <p>@lang('Invoice') : @foreach($enrollment->pre_invoice as $invoice) {{ $invoice->invoice_number }} @endforeach</p>
-                    @endif
                 </div>
             </div>
         </div>

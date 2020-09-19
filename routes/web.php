@@ -41,11 +41,11 @@ Route::group(
         Route::post('student/enroll', 'EnrollmentController@store')->name('storeEnrollment'); // create a new enrollment
         Route::post('enrollment/{enrollment}/changeCourse', 'EnrollmentController@update')->name('changeCourse');
         Route::get('enrollment/{enrollment}/bill', 'EnrollmentController@bill'); // display the cart to checkout the enrollment
-        Route::post('checkout', 'PreInvoiceController@store'); // checkout the cart. Now only one enrollment at a time but maybe several in the future.
-        Route::get('invoice/{preInvoice}/edit', 'PreInvoiceController@edit')->name('edit-invoice-number'); // update the invoice number
-        Route::patch('invoice/{preInvoice}', 'PreInvoiceController@update')->name('store-invoice-number'); // update the invoice number
-        Route::post('enrollment/{enrollment}/scholarships/add', 'EnrollmentScholarshipController@store')->name('add-scholarship'); // update the invoice number
-        Route::post('enrollment/{enrollment}/scholarships/remove', 'EnrollmentScholarshipController@destroy')->name('remove-scholarship'); // update the invoice number
+        Route::post('checkout', 'PaymentController@store');
+        Route::post('enrollment/{enrollment}/price', 'EnrollmentController@savePrice');
+
+        Route::post('enrollment/{enrollment}/scholarships/add', 'EnrollmentScholarshipController@store')->name('add-scholarship');
+        Route::post('enrollment/{enrollment}/scholarships/remove', 'EnrollmentScholarshipController@destroy')->name('remove-scholarship');
         Route::post('enrollment/{enrollment}/markaspaid', 'EnrollmentController@markaspaid'); // display the cart to checkout the enrollment
     });
 
