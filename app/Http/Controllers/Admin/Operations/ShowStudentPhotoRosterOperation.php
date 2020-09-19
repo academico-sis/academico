@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers\Admin\Operations;
 
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Gate;
 use App\Models\Course;
-
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Route;
 
 trait ShowStudentPhotoRosterOperation
 {
@@ -32,7 +31,6 @@ trait ShowStudentPhotoRosterOperation
     {
         $this->crud->allowAccess('showstudentphotoroster');
         $this->crud->setOperationSetting('setFromDb', true);
-
 
         $this->crud->operation('showstudentphotoroster', function () {
             $this->crud->loadDefaultOperationSettingsFromConfig();
