@@ -20,7 +20,7 @@ const i18n = new VueInternationalization({
 import { ValidationProvider } from 'vee-validate';
 
 import { extend } from 'vee-validate';
-import { required, email, min, length } from 'vee-validate/dist/rules';
+import { required, email, min, length, image } from 'vee-validate/dist/rules';
 
 import { configure } from 'vee-validate';
 
@@ -40,6 +40,9 @@ extend('email', email);
 extend('min', min);
 
 extend('length', length);
+
+// Add the image rule
+extend('image', image);
 
 // Register vee-validate globally
 Vue.component('ValidationProvider', ValidationProvider);

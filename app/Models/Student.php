@@ -21,7 +21,7 @@ class Student extends Model implements HasMedia
     public $timestamps = true;
     protected $guarded = ['id'];
     protected $with = ['user', 'phone', 'institution', 'profession'];
-    protected $appends = ['email', 'name', 'firstname', 'lastname', 'student_age', 'student_birthdate', 'lead_status', 'lead_status_name', 'is_enrolled'];
+    protected $appends = ['email', 'name', 'firstname', 'lastname', 'student_age', 'student_birthdate', 'lead_status', 'is_enrolled'];
     protected static $logUnguarded = true;
 
     protected static function boot()
