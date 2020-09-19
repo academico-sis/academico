@@ -117,6 +117,7 @@ class EnrollmentController extends Controller
     public function markaspaid(Enrollment $enrollment)
     {
         $enrollment->markAsPaid();
+
         return redirect()->back();
     }
 }
