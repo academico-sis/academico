@@ -6,8 +6,8 @@ use App\Models\Student;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 use Illuminate\Support\Facades\App;
+use Tests\TestCase;
 
 class UserTest extends TestCase
 {

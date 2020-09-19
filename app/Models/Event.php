@@ -153,7 +153,7 @@ class Event extends Model
 
     public function getColorAttribute()
     {
-        return $this->course->color ?? '#'.substr(md5($this->course_id ?? "0"), 0, 6);
+        return $this->course->color ?? '#'.substr(md5($this->course_id ?? '0'), 0, 6);
     }
 
     /*

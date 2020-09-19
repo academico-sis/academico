@@ -8,9 +8,8 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\Activitylog\Traits\LogsActivity;
-use App\Models\User;
 use Illuminate\Support\Facades\App;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Enrollment extends Model
 {
@@ -276,12 +275,12 @@ class Enrollment extends Model
     public function getPriceAttribute()
     {
         // if the enrollment has a price, we always consider it first
-        if ($this->total_price !== null)
-        {
+        if ($this->total_price !== null) {
             return $this->total_price;
         } else {
             // otherwise retrieve the default price category for the student
-            $price_category = $this->student->price_category ?? "priceA";
+            $price_category = $this->student->price_category ?? 'priceA';
+
             return $this->course->$price_category ?? 0;
         }
     }
@@ -292,6 +291,7 @@ class Enrollment extends Model
         foreach ($this->payments as $payment) {
             $balance -= $payment->value;
         }
+
         return $balance;
     }
 

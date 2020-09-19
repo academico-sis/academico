@@ -406,7 +406,7 @@ class Course extends Model
 
     public function getCoursePeriodNameAttribute()
     {
-        return $this->period->name ?? "";
+        return $this->period->name ?? '';
     }
 
     public function getCourseTeacherNameAttribute()

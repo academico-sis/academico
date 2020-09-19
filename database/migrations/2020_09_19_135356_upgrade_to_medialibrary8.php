@@ -2,10 +2,10 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class UpgradeToMedialibrary8 extends Migration
 {
@@ -35,6 +35,5 @@ class UpgradeToMedialibrary8 extends Migration
      */
     public function down()
     {
-        
     }
 }

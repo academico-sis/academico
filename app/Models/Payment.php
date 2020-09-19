@@ -3,10 +3,9 @@
 namespace App\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
-use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
-use App\Models\Enrollment;
 
 class Payment extends Model
 {
@@ -57,6 +56,7 @@ class Payment extends Model
     {
         return Carbon::parse($this->created_at, 'UTC')->locale(App::getLocale())->isoFormat('LL');
     }
+
     /*
     |--------------------------------------------------------------------------
     | MUTATORS

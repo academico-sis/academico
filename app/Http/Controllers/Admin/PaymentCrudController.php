@@ -3,13 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\PaymentRequest;
+use App\Models\Payment;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use App\Models\Payment;
 
 /**
- * Class PaymentCrudController
- * @package App\Http\Controllers\Admin
+ * Class PaymentCrudController.
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
 class PaymentCrudController extends CrudController
@@ -19,22 +18,23 @@ class PaymentCrudController extends CrudController
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
-     * 
+     *
      * @return void
      */
     public function setup()
     {
         CRUD::setModel(\App\Models\Payment::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/payment');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/payment');
         CRUD::setEntityNameStrings(__('payment'), __('payments'));
         $this->crud->replaceSaveActions(
             [
                 'name' => __('Save and go back'),
-                'visible' => function($crud) {
+                'visible' => function ($crud) {
                     return true;
                 },
-                'redirect' => function($crud, $request, $itemId) {
+                'redirect' => function ($crud, $request, $itemId) {
                     $enrollment_id = Payment::find($itemId)->enrollment_id;
+
                     return route('enrollment.show', ['id' => $enrollment_id]);
                 },
             ],
@@ -43,7 +43,7 @@ class PaymentCrudController extends CrudController
 
     /**
      * Define what happens when the Update operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
      * @return void
      */

@@ -39,8 +39,8 @@ class RoomController extends Controller
                 'start' => $event['start'],
                 'end' => $event['end'],
                 'groupId' => $event['course_id'],
-                'backgroundColor' => $event['course']['color'] ?? '#'.substr(md5($event['course_id'] ?? "0"), 0, 6),
-                'borderColor' => $event['course']['color'] ?? '#'.substr(md5($event['course_id'] ?? "0"), 0, 6),
+                'backgroundColor' => $event['course']['color'] ?? '#'.substr(md5($event['course_id'] ?? '0'), 0, 6),
+                'borderColor' => $event['course']['color'] ?? '#'.substr(md5($event['course_id'] ?? '0'), 0, 6),
             ];
         }, $events);
 
@@ -53,8 +53,8 @@ class RoomController extends Controller
                 'start' => $event['start'],
                 'end' => $event['end'],
                 'groupId' => $event['course_id'],
-                'backgroundColor' => $event['course']['color'] ?? '#'.substr(md5($event['course_id'] ?? "0"), 0, 6),
-                'borderColor' => $event['course']['color'] ?? '#'.substr(md5($event['course_id'] ?? "0"), 0, 6),
+                'backgroundColor' => $event['course']['color'] ?? '#'.substr(md5($event['course_id'] ?? '0'), 0, 6),
+                'borderColor' => $event['course']['color'] ?? '#'.substr(md5($event['course_id'] ?? '0'), 0, 6),
             ];
         }, $unassigned_events);
 

@@ -4,12 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreEnrollmentRequest;
 use App\Models\Attendance;
-use App\Models\Book;
 use App\Models\Course;
-use App\Models\Discount;
 use App\Models\Enrollment;
-use App\Models\Fee;
-use App\Models\Paymentmethod;
 use App\Models\Student;
 use App\Traits\PeriodSelection;
 use Illuminate\Http\Request;
@@ -93,7 +89,6 @@ class EnrollmentController extends Controller
         return "enrollment/$enrollment->id/show";
     }
 
-
     public function markaspaid(Enrollment $enrollment)
     {
         $enrollment->markAsPaid();
@@ -106,6 +101,6 @@ class EnrollmentController extends Controller
         $enrollment->update(['total_price' => $request->total_price]);
 
         // persist the default price category for student
-        $enrollment->student->update(['price_category' =>$request->price_category ]);
+        $enrollment->student->update(['price_category' =>$request->price_category]);
     }
 }
