@@ -80,13 +80,13 @@ class EnrollmentCrudController extends CrudController
             ],
 
             [
-                'name' => 'user.firtname',
+                'name' => 'user.firstname',
                 'label' => __('First Name'),
                 'type' => 'text',
                 'searchLogic' => function ($query, $column, $searchTerm) {
                     $query->orWhereHas('student', function ($q) use ($searchTerm) {
                         $q->whereHas('user', function ($q) use ($searchTerm) {
-                            $q->where('firtname', 'like', '%'.$searchTerm.'%');
+                            $q->where('firstname', 'like', '%'.$searchTerm.'%');
                         });
                     });
                 },

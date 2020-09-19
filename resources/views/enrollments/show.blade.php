@@ -104,9 +104,15 @@
                     {{-- todo translate and improve the confirmation message --}}
                     <div class="form-group">
 
-                    <button type="submit" class="btn btn-danger" onclick="if(confirm('Voulez-vous vraiment supprimer cette inscription ?')) cancel({{ $enrollment->id }})">
+                    <button class="btn btn-danger" onclick="if(confirm('Voulez-vous vraiment supprimer cette inscription ?')) cancel({{ $enrollment->id }})">
                         @lang('Delete Enrollment')
                     </button>
+
+                    @if($enrollment->status_id != 2)
+                    <button class="btn btn-info" onclick="if(confirm('Voulez-vous vraiment marquer cette inscription comme payée ?')) markaspaid({{ $enrollment->id }})">
+                        @lang('Mark as paid')
+                    </button>
+                    @endif
                 </div>
 
                 <div class="form-group">
@@ -161,6 +167,17 @@
             .catch(function (error) {
                 console.log(error);
             });
+        }
+
+        function markaspaid(enrollment)
+        {
+            axios.post(`/enrollment/${enrollment}/markaspaid`)
+                .then(function (response) {
+                    window.location.reload()
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
         }
 </script>
 

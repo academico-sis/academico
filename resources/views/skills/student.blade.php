@@ -20,16 +20,25 @@
         route="{{ route('storeSkillEvaluation') }}">
     </student-skills-component>
 
+    <div class="col-md-6">
     <course-result-component
-        comment-post-route="{{ route('storeComment') }}"
-        result-post-route="{{ route('storeResult') }}"
-        :enrollment="{{ json_encode($enrollment) }}"
-        :results="{{ json_encode($results) }}"
-        :stored_comments="{{ json_encode($result->comments ?? null) }}"
-        :result="{{ json_encode($result) }}"
-        writeaccess="{{ $writeaccess }}">
-    </course-result-component>
+    result-post-route="{{ route('storeResult') }}"
+    :enrollment="{{ json_encode($enrollment) }}"
+    :results="{{ json_encode($results) }}"
+    :result="{{ json_encode($result) }}"
+    writeaccess="{{ $writeaccess }}">
+</course-result-component>
 
+    @if (isset($result))
+    <student-comments
+        route="{{ route('storeComment') }}"
+        :comments="{{ json_encode($result->comments ?? null) }}"
+        :id="{{ json_encode($result->id) }}"
+        :type="'App\\Models\\Result'"
+        >
+    </student-comments>
+    @endif
+    </div>
 
 </div>
 

@@ -113,4 +113,10 @@ class EnrollmentController extends Controller
 
         return view('carts.show', compact('enrollments', 'fees', 'books', 'availableBooks', 'availableFees', 'availableDiscounts', 'contactData', 'availablePaymentMethods'));
     }
+
+    public function markaspaid(Enrollment $enrollment)
+    {
+        $enrollment->markAsPaid();
+        return redirect()->back();
+    }
 }

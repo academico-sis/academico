@@ -26,7 +26,7 @@
     </div>
     <div class="col-md-8">
 
-        <form class="form" action="/edit-account-info" method="post">
+        <form class="form" action="/edit-account" method="post">
 
             {!! csrf_field() !!}
 

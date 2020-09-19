@@ -101,7 +101,7 @@
 							$field = 'profession';
 						@endphp
 						<label class="required">{{ $label }}</label>
-						<input class="form-control" type="{{ $field }}" name="{{ $field }}" value="{{ old($field) ? old($field) : $contact->$field->name }}">
+						<input class="form-control" type="{{ $field }}" name="{{ $field }}" value="{{ old($field) ? old($field) : $contact->$field ? $contact->$field->name : ""}}">
 					</div>
 
 					<div class="form-group m-b-0">

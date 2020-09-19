@@ -46,6 +46,7 @@ Route::group(
         Route::patch('invoice/{preInvoice}', 'PreInvoiceController@update')->name('store-invoice-number'); // update the invoice number
         Route::post('enrollment/{enrollment}/scholarships/add', 'EnrollmentScholarshipController@store')->name('add-scholarship'); // update the invoice number
         Route::post('enrollment/{enrollment}/scholarships/remove', 'EnrollmentScholarshipController@destroy')->name('remove-scholarship'); // update the invoice number
+        Route::post('enrollment/{enrollment}/markaspaid', 'EnrollmentController@markaspaid'); // display the cart to checkout the enrollment
     });
 
 /* STUDENTS-RELATED ROUTES */
@@ -199,6 +200,7 @@ Route::group(
         'prefix'     => config('backpack.base.route_prefix'),
     ],
     function () {
+        Route::post('edit-account', 'Auth\MyAccountController@postAccountInfoForm')->name('backpack.account.info.store');
         Route::post('edit-student-info', 'Auth\MyAccountController@postStudentInfoForm');
         Route::post('edit-profession', 'Auth\MyAccountController@postAccountProfessionForm');
         Route::post('edit-phone', 'Auth\MyAccountController@postPhoneForm');
@@ -217,7 +219,6 @@ Route::group(
     function () {
         // route numbers match the DB forceupdate field
         Route::permanentRedirect('/edit-account-info', '/edit/1')->name('backpack.account.info');
-        Route::post('edit-account-info', 'Auth\MyAccountController@postAccountInfoForm')->name('backpack.account.info.store');
         Route::get('edit/1', 'Auth\MyAccountController@getAccountInfoForm')->name('backpack.account.edit_info');
         Route::get('edit/2', 'Auth\MyAccountController@getChangePasswordForm')->name('backpack.account.change_password');
         Route::get('edit/3', 'Auth\MyAccountController@getStudentInfoForm')->name('backpack.student.info');
