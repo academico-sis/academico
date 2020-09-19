@@ -121,16 +121,6 @@ class StudentCrudController extends CrudController
                 'model' => \App\Models\PhoneNumber::class, // foreign key model
             ],
 
-            [
-                // 1-n relationship
-                'label' => __('Status'), // Table column heading
-                'type' => 'text',
-                'name' => 'lead_status_name', // the column that contains the ID of that connected entity;
-                'orderable' => true,
-                'orderLogic' => function ($query, $column, $columnDirection) {
-                    return $query->orderBy('students.lead_type_id', $columnDirection)->select('students.*');
-                },
-            ],
 
         ]);
 

@@ -24,12 +24,12 @@
 
 <div class="row">
 
-  @foreach (\App\Models\LeadType::all() as $leadType)
+  @foreach (\App\Models\LeadType::all()->except(1) as $leadType)
     <div class="col-sm-6 col-md-3">
       <div class="card">
         <div class="card-body p-3 d-flex align-items-center"><i class="la la-check bg-primary p-3 font-2xl mr-3"></i>
           <div>
-            <div class="text-value-sm text-primary">{{ \App\Models\Student::all()->where('lead_status', $leadType->id)->count() }}</div>
+            <div class="text-value-sm text-primary">{{ $leadType->students()->count() }}</div>
             <div class="text-muted text-uppercase font-weight-bold small">{{ $leadType->name }}</div>
             <small class="text-muted">{{ $leadType->description }}</small>
           </div>
