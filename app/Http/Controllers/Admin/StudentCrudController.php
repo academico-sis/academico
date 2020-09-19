@@ -121,7 +121,6 @@ class StudentCrudController extends CrudController
                 'model' => \App\Models\PhoneNumber::class, // foreign key model
             ],
 
-
         ]);
 
         CRUD::addFilter([ // select2 filter
