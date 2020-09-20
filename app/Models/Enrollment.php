@@ -120,7 +120,6 @@ class Enrollment extends Model
         }
     }
 
-
     /** RELATIONS */
     public function student()
     {

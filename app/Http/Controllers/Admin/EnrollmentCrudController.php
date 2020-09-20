@@ -151,7 +151,6 @@ class EnrollmentCrudController extends CrudController
         }, function ($value) { // if the filter is active
             CRUD::addClause('period', $value);
         });
-
     }
 
     public function show($enrollment)
