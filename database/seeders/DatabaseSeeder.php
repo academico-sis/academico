@@ -44,15 +44,6 @@ class DatabaseSeeder extends Seeder
             ],
         ]);
 
-        Campus::create([
-            'id' => 2,
-            'name' => [
-                'en' => 'External',
-                'es' => 'Externo',
-                'fr' => 'Externe',
-            ],
-        ]);
-
         EnrollmentStatusType::create([
             'id' => 1,
             'name' => [
@@ -77,24 +68,6 @@ class DatabaseSeeder extends Seeder
                 'es' => 'ANULADA',
                 'en' => 'CANCELED',
                 'fr' => 'ANNULÉ',
-            ],
-        ]);
-
-        EnrollmentStatusType::create([
-            'id' => 4,
-            'name' => [
-                'es' => 'TRASPASO',
-                'en' => 'TRANSFERED',
-                'fr' => 'TRANSFÉRÉ',
-            ],
-        ]);
-
-        EnrollmentStatusType::create([
-            'id' => 5,
-            'name' => [
-                'es' => 'DEVOLUCION',
-                'en' => 'REFUND',
-                'fr' => 'REMBOURSÉ',
             ],
         ]);
 
@@ -198,14 +171,6 @@ class DatabaseSeeder extends Seeder
             'id' => 2,
             'name' => ['fr' => 'TRAVAIL', 'es' => 'TRABAJO', 'en' => 'WORK'],
         ]);
-
-        DB::table('fees')->insert(
-            [
-                'id' => 1,
-                'name' => 'Matricula',
-                'price' => '20',
-            ]
-        );
 
         SkillScale::create([
             'id' => 1,
@@ -434,23 +399,13 @@ class DatabaseSeeder extends Seeder
 
                 // create some "random" enrollments so that reports apear to have real data
 
-                for ($i = 0; $i < random_int(5, 19); $i++) {
-                    $student = factory(Student::class)->create();
-                    $student->enroll($p1course1);
-                }
-
-                for ($i = 0; $i < random_int(5, 19); $i++) {
+                for ($i = 0; $i < random_int(2,8); $i++) {
                     $student = factory(Student::class)->create();
                     $student->enroll($p1course1);
                     $student->enroll($p1course2);
                 }
 
-                for ($i = 0; $i < random_int(5, 19); $i++) {
-                    $student = factory(Student::class)->create();
-                    $student->enroll($p1course3);
-                }
-
-                for ($i = 0; $i < random_int(5, 19); $i++) {
+                for ($i = 0; $i < random_int(2,8); $i++) {
                     $student = factory(Student::class)->create();
                     $student->enroll($p1course2);
                     $student->enroll($p1course3);

@@ -109,8 +109,8 @@ class HomeController extends Controller
                 'resourceId' => $event['teacher_id'],
                 'start' => $event['start'],
                 'end' => $event['end'],
-                'backgroundColor' => $event['color'],
-                'borderColor' => $event['color'],
+                'backgroundColor' => $event['course']['color'] ?? '#'.substr(md5($event['course_id'] ?? '0'), 0, 6),
+                'borderColor' => $event['course']['color'] ?? '#'.substr(md5($event['course_id'] ?? '0'), 0, 6),
             ];
         }, $events);
 
