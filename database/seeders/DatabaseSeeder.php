@@ -399,13 +399,13 @@ class DatabaseSeeder extends Seeder
 
                 // create some "random" enrollments so that reports apear to have real data
 
-                for ($i = 0; $i < random_int(2,8); $i++) {
+                for ($i = 0; $i < random_int(2, 8); $i++) {
                     $student = factory(Student::class)->create();
                     $student->enroll($p1course1);
                     $student->enroll($p1course2);
                 }
 
-                for ($i = 0; $i < random_int(2,8); $i++) {
+                for ($i = 0; $i < random_int(2, 8); $i++) {
                     $student = factory(Student::class)->create();
                     $student->enroll($p1course2);
                     $student->enroll($p1course3);
