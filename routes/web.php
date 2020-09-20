@@ -44,8 +44,6 @@ Route::group(
         Route::post('checkout', 'PaymentController@store');
         Route::post('enrollment/{enrollment}/price', 'EnrollmentController@savePrice');
 
-        Route::post('enrollment/{enrollment}/scholarships/add', 'EnrollmentScholarshipController@store')->name('add-scholarship');
-        Route::post('enrollment/{enrollment}/scholarships/remove', 'EnrollmentScholarshipController@destroy')->name('remove-scholarship');
         Route::post('enrollment/{enrollment}/markaspaid', 'EnrollmentController@markaspaid'); // display the cart to checkout the enrollment
     });
 

@@ -120,17 +120,6 @@ class Enrollment extends Model
         }
     }
 
-    public function addScholarship(Scholarship $scholarship)
-    {
-        $this->scholarships()->sync($scholarship);
-        $this->markAsPaid();
-    }
-
-    public function removeScholarship($scholarship)
-    {
-        $this->scholarships()->detach($scholarship);
-        $this->markAsUnpaid();
-    }
 
     /** RELATIONS */
     public function student()
@@ -156,11 +145,6 @@ class Enrollment extends Model
     public function comments()
     {
         return $this->morphMany(Comment::class, 'commentable');
-    }
-
-    public function scholarships()
-    {
-        return $this->belongsToMany(Scholarship::class);
     }
 
     public function result()

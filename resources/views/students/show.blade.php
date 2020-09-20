@@ -102,9 +102,6 @@
                                         @if(backpack_user()->can('enrollments.edit'))
                                             <td>
                                                 {{ $enrollment->status }}
-                                                @foreach ($enrollment->scholarships as $scholarship)
-                                                    {{ $scholarship->name }}
-                                                @endforeach
                                             </td>
                                         @endif
                                         <td>{{ $enrollment->course->name }}</td>

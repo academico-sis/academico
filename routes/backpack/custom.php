@@ -43,7 +43,6 @@ Route::group([
     Route::crud('coupon', 'CouponCrudController');
     Route::crud('paymentmethod', 'PaymentmethodCrudController');
     Route::crud('institution', 'InstitutionCrudController');
-    Route::crud('scholarship', 'ScholarshipCrudController');
 });
 
 /* Admin routes - Backpack's CRUD panels, accessible only to administrators */

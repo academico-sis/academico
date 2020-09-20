@@ -12,7 +12,6 @@
   <li class='nav-item'><a class='nav-link' href="{{ backpack_url('student') }}"><i class="nav-icon la la-user"></i> <span>@lang('Students')</span></a></li>
   <li class='nav-item'><a class='nav-link' href="{{ backpack_url('attendance') }}"><i class="nav-icon la la-calendar"></i> <span>@lang('Attendance')</span></a></li>
   <li class='nav-item'><a class='nav-link' href="{{ backpack_url('/enrollment?statusId=["1"]') }}"><i class="nav-icon la la-credit-card"></i> <span>@lang('Pending')</span></a></li>
-  <li class='nav-item'><a class='nav-link' href="{{ backpack_url('/enrollment?scholarship=all') }}"><i class="nav-icon la la-comment-dollar"></i> <span>@lang('Scholarships')</span></a></li>
 
   <li class="nav-title">@lang('CALENDARS')</li>
   <li class='nav-item'><a class='nav-link' href="{{ route('teachersCalendar') }}"><i class="nav-icon la la-binoculars"></i><span>@lang('Teachers overview')</span></a></li>
@@ -89,7 +88,6 @@
 <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-link"></i> @lang('Settings')</a>
   <ul class="nav-dropdown-items">
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('institution') }}'><i class='nav-icon la la-building'></i> @lang('Institutions')</a></li>
-    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('scholarship') }}'><i class='nav-icon la la-comment-dollar'></i> @lang('Scholarships')</a></li>
       @if(backpack_user()->hasRole('admin'))
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('period') }}'><i class='la la-calendar'></i> <span>@lang('periods')</span></a></li>
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('level') }}'><i class='la la-star'></i> <span>@lang('levels')</span></a></li>
