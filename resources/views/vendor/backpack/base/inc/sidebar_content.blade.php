@@ -79,6 +79,7 @@
 
   <li class='nav-item'><a class='nav-link' href="{{ route('homeReport') }}"><i class="nav-icon la la-users"></i> <span>@lang('Students')</span></a></li>
   <li class='nav-item'><a class='nav-link' href="{{ route('rhythmReport') }}"><i class="nav-icon la la-pie-chart"></i><span>@lang('Per rhythm')</span></a></li>
+  <li class='nav-item'><a class='nav-link' href="{{ route('levelReport') }}"><i class="nav-icon la la-pie-chart"></i><span>@lang('Per level')</span></a></li>
   <li class='nav-item'><a class='nav-link' href="{{ route('courseReport') }}"><i class="nav-icon la la-graduation-cap"></i><span>@lang('Per course')</span></a></li>
 
 @endif

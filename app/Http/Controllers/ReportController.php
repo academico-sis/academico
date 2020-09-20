@@ -113,4 +113,33 @@ class ReportController extends Controller
             'courses' => $courses,
         ]);
     }
+
+    /** Number of students per level */
+    public function levels(Request $request)
+    {
+        $period = $this->selectPeriod($request);
+
+        $count = $period->courses()->where('parent_course_id', null)->with('level')->withCount('enrollments')
+            ->get()
+            ->where('enrollments_count', '>', 0)
+            ->groupBy('level.reference');
+
+        foreach ($count as $i => $coursegroup) {
+            $data[$i]['level'] = $coursegroup[0]->level->reference;
+            $data[$i]['enrollment_count'] = $coursegroup->sum('enrollments_count');
+            $data[$i]['taught_hours_count'] = $coursegroup->sum('volume');
+
+            $total = 0;
+            foreach ($coursegroup as $course) {
+                $total += $course->volume * $course->real_enrollments->count();
+            }
+
+            $data[$i]['sold_hours_count'] = $total;
+        }
+
+        return view('reports.levels', [
+            'selected_period' => $period,
+            'data' => $data,
+        ]);
+    }
 }

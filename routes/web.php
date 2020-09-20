@@ -176,6 +176,7 @@ Route::group(
 
         Route::get('/report/courses', 'ReportController@courses')->name('courseReport');
         Route::get('/report/rhythms', 'ReportController@rhythms')->name('rhythmReport');
+        Route::get('/report/levels', 'ReportController@levels')->name('levelReport');
     }
 );
 
