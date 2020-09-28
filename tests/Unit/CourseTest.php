@@ -4,7 +4,6 @@ namespace Tests\Unit;
 
 use App\Models\Course;
 use App\Models\Event;
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

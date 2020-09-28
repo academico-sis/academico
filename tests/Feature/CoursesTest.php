@@ -49,7 +49,7 @@ class CoursesTest extends TestCase
     public function test_that_authorized_user_can_view_courses_within_the_current_period()
     {
         $currentPeriod = factory(Period::class)->create();
-        $anotherPeriod =  factory(Period::class)->create();
+        $anotherPeriod = factory(Period::class)->create();
         $courseInCurrentPeriod = factory(Course::class)->create([
             'campus_id' => 1,
             'period_id' => $currentPeriod->id,
@@ -64,7 +64,7 @@ class CoursesTest extends TestCase
 
         \Auth::guard(backpack_guard_name())->login($user);
         $response = $this->get(route('search-courses', [
-            'filter[period_id]' => $currentPeriod->id
+            'filter[period_id]' => $currentPeriod->id,
         ]));
 
         $response->assertSee($courseInCurrentPeriod->id);
@@ -89,7 +89,7 @@ class CoursesTest extends TestCase
 
         \Auth::guard(backpack_guard_name())->login($user);
         $response = $this->get(route('search-courses', [
-            'filter[period_id]' => $period->id
+            'filter[period_id]' => $period->id,
         ]));
 
         $response->assertForbidden();
