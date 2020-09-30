@@ -1,6 +1,6 @@
 # About this project
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 [![Build Status](https://travis-ci.org/laxsmi/academico.svg?branch=master)](https://travis-ci.org/laxsmi/academico)
 
@@ -34,6 +34,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="http://techarewa.com"><img src="https://avatars3.githubusercontent.com/u/7858376?v=4" width="100px;" alt=""/><br /><sub><b>Mubarak M Aminu</b></sub></a><br /><a href="https://github.com/academico-sis/academico/commits?author=mubarak23" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/Aybee5"><img src="https://avatars1.githubusercontent.com/u/42099896?v=4" width="100px;" alt=""/><br /><sub><b>Ibrahim Abdullahi Aliyu</b></sub></a><br /><a href="https://github.com/academico-sis/academico/commits?author=Aybee5" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/AleksandarMitevski"><img src="https://avatars3.githubusercontent.com/u/59975218?v=4" width="100px;" alt=""/><br /><sub><b>AleksandarMitevski</b></sub></a><br /><a href="https://github.com/academico-sis/academico/commits?author=AleksandarMitevski" title="Tests">⚠️</a> <a href="https://github.com/academico-sis/academico/commits?author=AleksandarMitevski" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/TanoRojas"><img src="https://avatars0.githubusercontent.com/u/7780437?v=4" width="100px;" alt=""/><br /><sub><b>Tano Rojas</b></sub></a><br /><a href="https://github.com/academico-sis/academico/commits?author=TanoRojas" title="Tests">⚠️</a></td>
   </tr>
 </table>
 
