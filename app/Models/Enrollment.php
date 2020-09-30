@@ -120,6 +120,11 @@ class Enrollment extends Model
         }
     }
 
+    public function isPaid()
+    {
+        return $this->status_id == 2;
+    }
+
     /** RELATIONS */
     public function student()
     {

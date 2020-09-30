@@ -21,61 +21,46 @@ class Course extends Model
         // when a course model is updated
         static::updated(function (self $course) {
 
-        // if course dates have changed, sync all events
+            // if course dates have changed, sync all events
             if ($course->isDirty('start_date') || $course->isDirty('end_date')) {
                 Log::info('cleaning the events after course date change');
-                // delete events before course start date
-                Event::where('course_id', $course->id)->where('start', '<', $course->start_date)->delete();
-
-                // delete events after course end date
-                Event::where('course_id', $course->id)->where('end', '>', $course->end_date)->delete();
 
                 // create events before first existing event and after course start
                 $firstEvent = $course->events()->orderBy('start')->first();
+                $firstEventDate = Carbon::parse($firstEvent->start)->startOfDay();
+                $lastEvent = $course->events()->orderBy('start', 'desc')->first();
+                $lastEventDate = Carbon::parse($lastEvent->start)->endOfDay();
 
-                $start = Carbon::parse($course->start_date)->startOfDay();
-                $end = Carbon::parse($firstEvent->start)->startOfDay();
+                $courseStartDate = Carbon::parse($course->start_date)->startOfDay();
+                $courseEndDate = Carbon::parse($course->end_date)->startOfDay();
+
+                // delete events before course start date
+                Event::where('course_id', $course->id)->where('start', '<', $courseStartDate->startOfDay())->delete();
+                // delete events after course end date
+                Event::where('course_id', $course->id)->where('end', '>', $courseEndDate->endOfDay())->delete();
 
                 // for each day before the first event
-                while ($start < $end) {
+                while ($courseStartDate < $courseEndDate) {
+                    // Event already exists
+                    if ($firstEventDate <= $courseStartDate && $courseStartDate <= $lastEventDate) {
+                        $courseStartDate->addDay();
+                        continue;
+                    }
+
                     // if there is a coursetime for today, create the event
-                    if ($course->times->contains('day', $start->format('w'))) {
+                    if ($course->times->contains('day', $courseStartDate->format('w'))) {
                         Event::create([
                             'course_id' => $course->id,
                             'teacher_id' => $course->teacher_id,
                             'room_id' => $course->room_id,
-                            'start' => $start->setTimeFromTimeString($course->times->where('day', $start->format('w'))->first()->start)->toDateTimeString(),
-                            'end' => $start->setTimeFromTimeString($course->times->where('day', $start->format('w'))->first()->end)->toDateTimeString(),
+                            'start' => $courseStartDate->setTimeFromTimeString($course->times->where('day', $courseStartDate->format('w'))->first()->start)->toDateTimeString(),
+                            'end' => $courseStartDate->setTimeFromTimeString($course->times->where('day', $courseStartDate->format('w'))->first()->end)->toDateTimeString(),
                             'name' => $course->name,
-                            'course_time_id' => $course->times->where('day', $start->format('w'))->first()->id,
+                            'course_time_id' => $course->times->where('day', $courseStartDate->format('w'))->first()->id,
                             'exempt_attendance' => $course->exempt_attendance,
                         ]);
                     }
-                    $start->addDay();
-                }
-
-                // create events after last existing event and before course end
-                $lastEvent = $course->events()->orderBy('start', 'desc')->first();
-
-                $start = Carbon::parse($lastEvent->end)->endOfDay();
-                $end = Carbon::parse($course->end_date)->endOfDay();
-
-                // for each day after the last event
-                while ($start < $end) {
-                    // if there is a coursetime for today, create the event
-                    if ($course->times->contains('day', $start->format('w'))) {
-                        Event::create([
-                            'course_id' => $course->id,
-                            'teacher_id' => $course->teacher_id,
-                            'room_id' => $course->room_id,
-                            'start' => $start->setTimeFromTimeString($course->times->where('day', $start->format('w'))->first()->start)->toDateTimeString(),
-                            'end' => $start->setTimeFromTimeString($course->times->where('day', $start->format('w'))->first()->end)->toDateTimeString(),
-                            'name' => $course->name,
-                            'course_time_id' => $course->times->where('day', $start->format('w'))->first()->id,
-                            'exempt_attendance' => $course->exempt_attendance,
-                        ]);
-                    }
-                    $start->addDay();
+                    $courseStartDate->addDay();
                 }
             }
 
