@@ -94,30 +94,4 @@ class PeriodSelectionTest extends TestCase
         // the period registered in config will be returned
         $this->assertEquals($period2->id, Period::get_enrollments_period()->id);
     }
-
-    /**
-     * If the default enrollment period cannot be fouund,
-     * return the first period which has not yet ended.
-     */
-    public function testEnrollmentPeriodFallbackToFirstPeriodNotOver()
-    {
-        $period1 = factory(Period::class)->create([
-            'start' => date('Y-m-d', strtotime('-3 months')),
-            'end' => date('Y-m-d', strtotime('+2 months')),
-            'year_id' => 1,
-            'name' => 'period 1 current',
-        ]);
-
-        $period2 = factory(Period::class)->create([
-            'start' => date('Y-m-d', strtotime('+2 months')),
-            'end' => date('Y-m-d', strtotime('+4 months')),
-            'year_id' => 1,
-            'name' => 'period 2 future',
-        ]);
-
-        DB::table('config')->where('name', 'default_enrollment_period')->update(['value' => null]);
-        Period::first()->delete();
-
-        $this->assertEquals($period1->id, Period::get_enrollments_period()->id);
-    }
 }
