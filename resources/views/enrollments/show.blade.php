@@ -122,10 +122,6 @@
 
 </div>
 
-@if ($enrollment->payments()->count() > 0 && backpack_user()->can('enrollments.edit'))
-    @include('invoices.show')
-@endif
-
 
 @endsection
 
