@@ -11,7 +11,7 @@
   <li class="nav-title">@lang('ADMINISTRATION')</li>
   <li class='nav-item'><a class='nav-link' href="{{ backpack_url('student') }}"><i class="nav-icon la la-user"></i> <span>@lang('Students')</span></a></li>
   <li class='nav-item'><a class='nav-link' href="{{ backpack_url('attendance') }}"><i class="nav-icon la la-calendar"></i> <span>@lang('Attendance')</span></a></li>
-  <li class='nav-item'><a class='nav-link' href="{{ backpack_url('/enrollment?statusId=["1"]') }}"><i class="nav-icon la la-credit-card"></i> <span>@lang('Pending')</span></a></li>
+  <li class='nav-item'><a class='nav-link' href="{{ backpack_url('/enrollment?status_id=["1"]') }}"><i class="nav-icon la la-credit-card"></i> <span>@lang('Pending')</span></a></li>
 
   <li class="nav-title">@lang('CALENDARS')</li>
   <li class='nav-item'><a class='nav-link' href="{{ route('teachersCalendar') }}"><i class="nav-icon la la-binoculars"></i><span>@lang('Teachers overview')</span></a></li>
