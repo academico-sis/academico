@@ -18,7 +18,7 @@ class AddInvoiceIdColumnToPaymentsTable extends Migration
             $table->unsignedBigInteger('enrollment_id')->references('id')->on('enrollments')->onDelete('cascade')->after('pre_invoice_id')->nullable();
         });
 
-        Schema::table('payments', function (Blueprint $table){
+        Schema::table('payments', function (Blueprint $table) {
             $table->string('enrollment_id')->nullable(false)->change();
         });
     }
