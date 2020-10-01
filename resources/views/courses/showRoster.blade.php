@@ -31,7 +31,7 @@
 	<div class="col-md-3">
 		<div class="card">
 			@if ($enrollment->student->getFirstMediaUrl() != null)
-				<img class="card-img-top" src="{{ $enrollment->student->getMedia()->last()->getUrl('thumb') }}"/>
+				<img class="card-img-top" src="{{ $enrollment->student->getMedia('profile-picture')->last()->getUrl('thumb') }}"/>
 			@endif
 			<div class="card-body">
 				<a href="{{ route('student.show', ['id' => $enrollment->student_id]) }}">

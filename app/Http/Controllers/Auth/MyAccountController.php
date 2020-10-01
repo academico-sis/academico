@@ -227,7 +227,7 @@ class MyAccountController extends \App\Http\Controllers\Controller
 
             $user
                ->addMedia($request->fileToUpload)
-               ->toMediaCollection();
+               ->toMediaCollection('profile-picture');
         }
 
         // if the user has been selected for a forced update, move to the next step

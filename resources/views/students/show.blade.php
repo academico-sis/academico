@@ -17,7 +17,7 @@
      @if ($student->getFirstMediaUrl() != null)
     <div class="col-md-2">
         <div class="card">
-            <img src="{{$student->getMedia()->last()->getUrl('thumb')}}" style="width: 100%" />
+            <img src="{{$student->getMedia('profile-picture')->last()->getUrl('thumb')}}" style="width: 100%" />
         </div>
     </div>
     @endif

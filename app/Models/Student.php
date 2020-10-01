@@ -35,12 +35,16 @@ class Student extends Model implements HasMedia
         });
     }
 
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('profile-picture')->singleFile();
+    }
+
     public function registerMediaConversions(Media $media = null): void
     {
         $this->addMediaConversion('thumb')
             ->fit(Manipulations::FIT_MAX, 1200, 1200)
-            ->optimize()
-            ->singleFile();
+            ->optimize()->nonQueued();
     }
 
     /** relations */

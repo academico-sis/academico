@@ -165,7 +165,7 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
         $student
            ->addMediaFromBase64($request->data['userPicture'])
            ->usingFileName('profilePicture.jpg')
-           ->toMediaCollection();
+           ->toMediaCollection('profile-picture');
 
         Log::info('Profile picture added to the student profile');
 
