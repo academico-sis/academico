@@ -1,4 +1,4 @@
-@extends(backpack_view('layouts.top_left'))
+@extends('backpack::blank')
 
 @php
   $defaultBreadcrumbs = [
