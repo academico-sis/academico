@@ -39,7 +39,8 @@ class Student extends Model implements HasMedia
     {
         $this->addMediaConversion('thumb')
             ->fit(Manipulations::FIT_MAX, 1200, 1200)
-            ->optimize();
+            ->optimize()
+            ->singleFile();
     }
 
     /** relations */
