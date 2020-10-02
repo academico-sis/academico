@@ -4,13 +4,10 @@ namespace Tests\Feature;
 
 use App\Models\Course;
 use App\Models\Period;
-use App\Models\Room;
-use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\View;
 use Tests\TestCase;
 
 class CoursesTest extends TestCase
@@ -93,15 +90,5 @@ class CoursesTest extends TestCase
         ]));
 
         $response->assertForbidden();
-    }
-
-    private function setSharedVariables()
-    {
-        View::share('periods', Period::orderBy('id', 'desc')->get());
-        View::share('current_period', Period::get_default_period());
-
-        View::share('teachers', Teacher::all());
-
-        View::share('rooms', Room::all());
     }
 }
