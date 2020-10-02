@@ -116,26 +116,6 @@ class Course extends Model
 
     /*
     |--------------------------------------------------------------------------
-    | FUNCTIONS
-    |--------------------------------------------------------------------------
-    */
-
-    /** returns all courses that are open for enrollments */
-    public static function get_available_courses(Period $period)
-    {
-        return self::where('period_id', $period->id)
-        ->where('campus_id', 1)
-        ->with('times')
-        ->with('teacher')
-        ->with('room')
-        ->with('rhythm')
-        ->with('level')
-        ->withCount('enrollments')
-        ->get();
-    }
-
-    /*
-    |--------------------------------------------------------------------------
     | RELATIONS
     |--------------------------------------------------------------------------
     */
@@ -304,74 +284,41 @@ class Course extends Model
     |--------------------------------------------------------------------------
     */
 
-    /**
-     * returns the course repeating schedule
-     * todo improve this method.
-     */
+    /** returns the course repeating schedule */
     public function getCourseTimesAttribute()
     {
-        $days = '';
-        $times = '';
+        $parsedCourseTimes = [];
+        $daysInitials = ['D', 'L', 'M', 'X', 'J', 'V', 'S'];
 
+        $courseTimes = null;
         if ($this->times->count() > 0) {
-            foreach ($this->times->unique('day') as $time) {
-                if ($time->day == '1') {
-                    $days .= 'L';
-                }
-                if ($time->day == '2') {
-                    $days .= 'M';
-                }
-                if ($time->day == '3') {
-                    $days .= 'X';
-                }
-                if ($time->day == '4') {
-                    $days .= 'J';
-                }
-                if ($time->day == '5') {
-                    $days .= 'V';
-                }
-                if ($time->day == '6') {
-                    $days .= 'S';
-                }
-                if ($time->day == '0') {
-                    $days .= 'D';
-                }
-            }
+            $courseTimes = $this->times;
+        } elseif ($this->children->count() > 0 && $this->children->first()->times->count() > 0) {
+            $courseTimes = $this->children->first()->times;
+        }
 
-            foreach ($this->times->unique('start') as $time) {
-                $times .= Carbon::parse($time->start)->format('g:i').' - '.Carbon::parse($time->end)->format('g:i');
-            }
-        } elseif ($this->children->count() > 0) {
-            foreach ($this->children->first()->times->unique('day') as $time) {
-                if ($time->day == '1') {
-                    $days .= 'L';
-                }
-                if ($time->day == '2') {
-                    $days .= 'M';
-                }
-                if ($time->day == '3') {
-                    $days .= 'X';
-                }
-                if ($time->day == '4') {
-                    $days .= 'J';
-                }
-                if ($time->day == '5') {
-                    $days .= 'V';
-                }
-                if ($time->day == '6') {
-                    $days .= 'S';
-                }
-                if ($time->day == '0') {
-                    $days .= 'D';
-                }
-            }
+        if ($courseTimes) {
+            foreach ($courseTimes as $courseTime) {
+                $initial = $daysInitials[$courseTime->day];
 
-            foreach ($this->children->first()->times->unique('start') as $time) {
-                $times .= Carbon::parse($time->start)->format('g:i').' - '.Carbon::parse($time->end)->format('g:i');
+                if (!isset($parsedCourseTimes[$initial])) {
+                    $parsedCourseTimes[$initial] = [];
+                }
+
+                $parsedCourseTimes[$initial][] = sprintf(
+                    '%s - %s',
+                    Carbon::parse($courseTime->start)->format('g:i'),
+                    Carbon::parse($courseTime->end)->format('g:i')
+                );
             }
         }
 
-        return $days.' - '.$times;
+        $result = '';
+        foreach ($parsedCourseTimes as $day => $times) {
+            $result .= $day . ' -> ' . implode(' / ', $times) . ' | ';
+        }
+
+        return trim($result, ' | ');
     }
 
     public function getCourseRoomNameAttribute()
