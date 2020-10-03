@@ -13,7 +13,7 @@ class CommentsTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->seed('DatabaseSeeder');
+        //$this->seed('DatabaseSeeder');
     }
 
     /**

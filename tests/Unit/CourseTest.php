@@ -28,10 +28,8 @@ class CourseTest extends TestCase
         }
     }
 
-    /**
-     * if course dates have changed, sync all events.
-     */
-    public function testEventsCreationUponCourseDateChange()
+    /** @test */
+    public function events_are_updated_after_course_dates_are_changed()
     {
         // given a course and events
         $course = factory(Course::class)->create([
@@ -79,7 +77,8 @@ class CourseTest extends TestCase
         $this->assertEquals($this->expectedEvents + 2 * $changeInWeeks, $course->events->count());
     }
 
-    public function testEventsDeletionUponCourseDateChange()
+    /** @test */
+    public function events_are_deleted_after_course_dates_are_changed()
     {
         $course = factory(Course::class)->create([
             'start_date' => $this->initialStartDate->format('Y-m-d'),
@@ -125,7 +124,8 @@ class CourseTest extends TestCase
         $this->assertEquals($this->expectedEvents - 2 * $changeInWeeks, $course->events->count());
     }
 
-    public function testEventsAreChangedAfterCompletelyNewCourseDate()
+    /** @test */
+    public function events_are_updated_after_assign_a_completely_new_date_to_course()
     {
         // given a course and events
         $course = factory(Course::class)->create([
@@ -160,5 +160,93 @@ class CourseTest extends TestCase
         // the events are created after
         $this->assertEquals($this->expectedEvents, Event::where('start', '>', $newStartDate->startOfDay())->where('end', '<', $newEndDate->endOfDay())->count());
         $this->assertEquals($this->expectedEvents, $course->events->count());
+    }
+
+    /** @test */
+    public function course_with_one_scheduled_day_is_correctly_parsed()
+    {
+        // given a course and events
+        $course = factory(Course::class)->create();
+        $course->times()->create([
+            'course_id' => $course->id,
+            'day' => 1,
+            'start' => '10:00',
+            'end' => '11:00',
+        ]);
+        $courseTimeParsed = $course->course_times;
+
+        $this->assertSame('L -> 10:00 - 11:00', $courseTimeParsed);
+    }
+
+    /** @test */
+    public function course_with_two_schedules_on_same_day_is_correctly_parsed()
+    {
+        // given a course and events
+        $course = factory(Course::class)->create();
+        $course->times()->create([
+            'course_id' => $course->id,
+            'day' => 1,
+            'start' => '10:00',
+            'end' => '11:00',
+        ]);
+        $course->times()->create([
+            'course_id' => $course->id,
+            'day' => 1,
+            'start' => '11:30',
+            'end' => '12:45',
+        ]);
+
+        $courseTimeParsed = $course->course_times;
+
+        $this->assertSame('L -> 10:00 - 11:00 / 11:30 - 12:45', $courseTimeParsed);
+    }
+
+    /** @test */
+    public function course_with_two_schedules_on_different_day_is_correctly_parsed()
+    {
+        // given a course and events
+        $course = factory(Course::class)->create();
+        $course->times()->create([
+            'course_id' => $course->id,
+            'day' => 1,
+            'start' => '10:00',
+            'end' => '11:00',
+        ]);
+        $course->times()->create([
+            'course_id' => $course->id,
+            'day' => 2,
+            'start' => '11:30',
+            'end' => '12:45',
+        ]);
+
+        $courseTimeParsed = $course->course_times;
+
+        $this->assertSame('L -> 10:00 - 11:00 | M -> 11:30 - 12:45', $courseTimeParsed);
+    }
+
+    /** @test */
+    public function course_with_child_is_correctly_parsed()
+    {
+        // given a course and events
+        $parentCourse = factory(Course::class)->create();
+        $childCourse = factory(Course::class)->create([
+            'parent_course_id' => $parentCourse->id,
+        ]);
+        $childCourse->times()->create([
+            'course_id' => $childCourse->id,
+            'day' => 1,
+            'start' => '10:00',
+            'end' => '11:00',
+        ]);
+        $childCourse->times()->create([
+            'course_id' => $childCourse->id,
+            'day' => 2,
+            'start' => '11:30',
+            'end' => '12:45',
+        ]);
+
+        $courseTimeParsed = $parentCourse->course_times;
+
+        $this->assertSame('L -> 10:00 - 11:00 | M -> 11:30 - 12:45', $courseTimeParsed);
     }
 }
