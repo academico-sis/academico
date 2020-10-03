@@ -13,7 +13,6 @@ abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication, AdditionalAssertions;
 
-
     protected function setSharedVariables()
     {
         View::share('periods', Period::orderBy('id', 'desc')->get());

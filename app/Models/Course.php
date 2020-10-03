@@ -301,7 +301,7 @@ class Course extends Model
             foreach ($courseTimes as $courseTime) {
                 $initial = $daysInitials[$courseTime->day];
 
-                if (!isset($parsedCourseTimes[$initial])) {
+                if (! isset($parsedCourseTimes[$initial])) {
                     $parsedCourseTimes[$initial] = [];
                 }
 
@@ -315,7 +315,7 @@ class Course extends Model
 
         $result = '';
         foreach ($parsedCourseTimes as $day => $times) {
-            $result .= $day . ' -> ' . implode(' / ', $times) . ' | ';
+            $result .= $day.' -> '.implode(' / ', $times).' | ';
         }
 
         return trim($result, ' | ');
