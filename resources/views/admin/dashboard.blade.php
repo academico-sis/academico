@@ -123,7 +123,13 @@ document.addEventListener('DOMContentLoaded', function() { // page is now ready.
         maxTime: "21:00:00",
         nowIndicator: true,
         locale: 'fr',
-        events: @json($events)
+        events: @json($events),
+        titleFormat: { // will produce something like "Tuesday, September 18, 2018"
+            month: 'long',
+            year: 'numeric',
+            day: 'numeric',
+            weekday: 'long'
+        }
 
     });
 
