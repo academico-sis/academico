@@ -28,6 +28,7 @@ class ResultController extends Controller
         $result->result_type_id = $request->input('result');
 
         $result->save();
+        Enrollment::first()->student
         Log::info('Enrollment result saved by user '.backpack_user()->id);
 
         return $result;
