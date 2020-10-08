@@ -26,7 +26,7 @@ class CommentController extends Controller
         ]);
     }
 
-    public function update(Comment $comment, Request $request)
+    public function update(Comment $comment, StoreRequest $request)
     {
         $comment->update([
             'body' => $request->input('body'),
