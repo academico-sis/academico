@@ -129,7 +129,7 @@ class Course extends Model
     /** course sessions (classes) with a specific start and end date/time */
     public function events()
     {
-        return $this->hasMany(\App\Models\Event::class);
+        return $this->hasMany(\App\Models\Event::class)->orderBy('start');
     }
 
     /** may be null if the teacher is not yet assigned */
