@@ -11,27 +11,13 @@
                         <thead>
                             <th>
                                 <select id="day" v-model="day" name="day">
-                                    <option value="1">{{
-                                        $t("Monday")
-                                    }}</option>
-                                    <option value="2">{{
-                                        $t("Tuesday")
-                                    }}</option>
-                                    <option value="3">{{
-                                        $t("Wednesday")
-                                    }}</option>
-                                    <option value="4">{{
-                                        $t("Thursday")
-                                    }}</option>
-                                    <option value="5">{{
-                                        $t("Friday")
-                                    }}</option>
-                                    <option value="6">{{
-                                        $t("Saturday")
-                                    }}</option>
-                                    <option value="0">{{
-                                        $t("Sunday")
-                                    }}</option>
+                                    <option value="1">{{ $t("Monday") }}</option>
+                                    <option value="2">{{ $t("Tuesday") }}</option>
+                                    <option value="3">{{ $t("Wednesday") }}</option>
+                                    <option value="4">{{ $t("Thursday") }}</option>
+                                    <option value="5">{{ $t("Friday") }}</option>
+                                    <option value="6">{{ $t("Saturday") }}</option>
+                                    <option value="0">{{ $t("Sunday") }}</option>
                                 </select>
                             </th>
 
@@ -66,7 +52,13 @@
 
                         <tbody>
                             <tr v-for="time in times" :key="time.id">
-                                <td>{{ time.day }}</td>
+                                <td v-if="time.day === 1">{{ $t("Monday") }}</td>
+                                <td v-if="time.day === 2">{{ $t("Tuesday") }}</td>
+                                <td v-if="time.day === 3">{{ $t("Wednesday") }}</td>
+                                <td v-if="time.day === 4">{{ $t("Thursday") }}</td>
+                                <td v-if="time.day === 5">{{ $t("Friday") }}</td>
+                                <td v-if="time.day === 6">{{ $t("Saturday") }}</td>
+                                <td v-if="time.day === 0">{{ $t("Sunday") }}</td>
                                 <td>{{ time.start }}</td>
                                 <td>{{ time.end }}</td>
                                 <td>
