@@ -62,7 +62,7 @@ class GradeControllerTest extends TestCase
 
         $response = $this->post('grades', [
             'pk' => $grade->id,
-            'value' => 7
+            'value' => 7,
         ]);
 
         $response->assertOk();
@@ -92,5 +92,4 @@ class GradeControllerTest extends TestCase
         $response->assertOk();
         $this->assertEmpty($course->fresh()->grades);
     }
-
 }

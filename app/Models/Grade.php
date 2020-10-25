@@ -14,7 +14,7 @@ class Grade extends Model
     protected $appends = ['grade_type_category'];
     protected static $logFillable = true;
     protected $casts = [
-        'grade' => 'integer'
+        'grade' => 'integer',
     ];
 
     public function grade_type()

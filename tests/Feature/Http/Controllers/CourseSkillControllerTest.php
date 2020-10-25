@@ -115,7 +115,7 @@ class CourseSkillControllerTest extends TestCase
                             'order' => 2,
                         ]
                     ),
-                ]
+                ],
             ]
         );
 
