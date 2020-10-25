@@ -5,6 +5,7 @@ namespace Tests;
 use App\Models\Period;
 use App\Models\Room;
 use App\Models\Teacher;
+use App\Models\User;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Facades\View;
 use JMac\Testing\Traits\AdditionalAssertions;
@@ -21,5 +22,12 @@ abstract class TestCase extends BaseTestCase
         View::share('teachers', Teacher::all());
 
         View::share('rooms', Room::all());
+    }
+
+    protected function logAdmin()
+    {
+        $user = factory(User::class)->create();
+        $user->assignRole('admin');
+        \Auth::guard(backpack_guard_name())->login($user);
     }
 }

@@ -31,15 +31,15 @@
         <div class="card">
             <div class="card-header">
                 @lang('Edit Grades')
-                
+
                 <div class="card-header-actions">
                     <a class="btn btn-primary" data-toggle="modal" data-target="#gradeTypeModal">
                         <i class="la la-plus"></i> @lang('Add Grade Type to Course')
                     </a>
                 </div>
             </div>
-            
-            <div class="card-body" style="overflow-x: scroll">           
+
+            <div class="card-body" style="overflow-x: scroll">
                 <table class="table">
                     <tr>
                         <td></td>
@@ -61,7 +61,7 @@
                     @php $student_total = 0; @endphp
                     <tr>
                         <td>{{ $enrollment->student_name }}</td>
-                        
+
                         @foreach ($course_grade_types->sortBy('id') as $grade_type)
                         <td>
                             @foreach($grades->where('student_id', $enrollment->student->id)->where('grade_type_id', $grade_type->id) as $grade)
@@ -91,9 +91,11 @@
                         </td>
 
                         <td>
-                            @foreach($enrollment->result->comments as $comment)
-                            <p>{{ $comment->body }}</p>
-                            @endforeach
+                            @if ($enrollment->result)
+                                @foreach($enrollment->result->comments as $comment)
+                                <p>{{ $comment->body }}</p>
+                                @endforeach
+                            @endif
                         </td>
 
                     </tr>
@@ -119,7 +121,7 @@
                 <form action="/course/gradetype" method="post">
                     @csrf
                     <input type="hidden" name="course_id" value="{{ $course->id }}">
-                    
+
                     <div class="form-group">
                         <select name="grade_type_id" required>
                             @foreach ($all_grade_types as $grade_type)
@@ -141,14 +143,14 @@
 
 @section('before_scripts')
     <script>
-        
+
     function deleteGrade(id)
         {
-            
+
             axios.delete('/grades', {
-                
+
                 params: { id }
-                
+
                 } )
 
             .then(function (response) {
@@ -160,11 +162,11 @@
 
         }
 
-        
+
         function removeGradeType(gradetype)
         {
             axios.delete('/course/{{$course->id}}/gradetype/'+gradetype, {
-                
+
                 } )
 
             .then(function (response) {
@@ -174,7 +176,7 @@
                 console.log(error);
             });
 
-            
+
         }
 
     </script>
@@ -189,7 +191,7 @@
 <script>
 $(document).ready(function() {
     $('.grade').editable({mode: 'inline'});
-    
+
     //make username required
     $('.grade').editable('option', 'validate', function(v) {
     if(!v) return 'Required field!';

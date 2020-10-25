@@ -7,7 +7,6 @@ use App\Imports\CourseSkillsImport;
 use App\Models\Course;
 use App\Models\Skills\Skill;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -121,14 +120,12 @@ class CourseSkillController extends Controller
 
     public function set(Course $course, Request $request)
     {
-        //DB::delete('course_skill')->where('course_id', $course->id);
-
+        // TODO: Review this method
         foreach ($request->skills as $skill) {
             $s = Skill::find($skill['id']);
             $s->order = $skill['order'];
             $s->save();
         }
-        //return $course->skills->toJson();
     }
 
     public function export(Course $course)

@@ -78,7 +78,7 @@ Route::group(
         /* Course grades update */
         Route::delete('grades', 'GradeController@destroy');
         Route::post('course/gradetype', 'GradeController@add_grade_type_to_course');
-        Route::delete('course/{course}/gradetype/{gradetype}', 'GradeController@remove_grade_type_from_course');
+        Route::delete('course/{course}/gradetype/{gradetype}', 'GradeController@remove_grade_type_from_course')->name('removeGradeTypeFromCourse');
         Route::get('course/{course}/grades', 'GradeController@edit');
         Route::post('grades', 'GradeController@store');
 
@@ -92,12 +92,12 @@ Route::group(
     ['middleware' => ['web', 'permission:evaluation.edit', 'language']],
     function () {
         Route::get('course/{course}/skill', 'CourseSkillController@index')->name('course-skills');
-        Route::get('course/{course}/getcourseskills', 'CourseSkillController@getCourseSkills');
+        Route::get('course/{course}/getcourseskills', 'CourseSkillController@getCourseSkills')->name('courseSkillsGetJson');
         Route::get('course/{course}/getavailableskills', 'CourseSkillController@getAvailableSkills');
-        Route::put('course/{course}/setskills', 'CourseSkillController@set');
+        Route::put('course/{course}/setskills', 'CourseSkillController@set')->name('courseSkillsSetBulk');
 
-        Route::post('course/{course}/skills/add', 'CourseSkillController@addSkill');
-        Route::post('course/{course}/skills/remove', 'CourseSkillController@removeSkill');
+        Route::post('course/{course}/skills/add', 'CourseSkillController@addSkill')->name('courseSkillsAdd');
+        Route::post('course/{course}/skills/remove', 'CourseSkillController@removeSkill')->name('courseSkillsRemove');
 
         Route::get('course/{course}/skills/export', 'CourseSkillController@export')->name('course-skills-export');
         Route::post('course/{course}/skills/import', 'CourseSkillController@import')->name('course-skills-import');
