@@ -26,9 +26,9 @@ class Course extends Model
                 Log::info('cleaning the events after course date change');
 
                 // create events before first existing event and after course start
-                $firstEvent = $course->events()->orderBy('start')->first();
+                $firstEvent = $course->events()->reorder('start')->first();
                 $firstEventDate = Carbon::parse($firstEvent->start)->startOfDay();
-                $lastEvent = $course->events()->orderBy('start', 'desc')->first();
+                $lastEvent = $course->events()->reorder('start', 'desc')->first();
                 $lastEventDate = Carbon::parse($lastEvent->start)->endOfDay();
 
                 $courseStartDate = Carbon::parse($course->start_date)->startOfDay();
