@@ -18,10 +18,6 @@ class CreateYearsTable extends Migration
             $table->string('name')->unique();
         });
 
-        DB::table('years')->insert([
-            'name' => '2019-default',
-        ]);
-
         Schema::table('periods', function (Blueprint $table) {
             $table->foreign('year_id')
             ->references('id')->on('years')

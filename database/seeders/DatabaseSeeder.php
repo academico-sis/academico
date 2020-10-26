@@ -293,27 +293,23 @@ class DatabaseSeeder extends Seeder
 
         $admin->assignRole('admin');
 
-        factory(Rhythm::class)->create(['name' => 'Intensive']);
-        factory(Rhythm::class)->create(['name' => 'Remote']);
-        factory(Rhythm::class)->create(['name' => 'Evening']);
-        factory(Rhythm::class)->create(['name' => 'Weekend']);
+        factory(Rhythm::class)->create(['name' => 'Intensif présenciel']);
+        factory(Rhythm::class)->create(['name' => 'Intensif distanciel']);
+        factory(Rhythm::class)->create(['name' => 'Semi-intensif']);
+        factory(Rhythm::class)->create(['name' => 'Week-end']);
 
-        factory(Room::class)->create(['name' => 'Room 1A']);
-        factory(Room::class)->create(['name' => 'Room 1B']);
-        factory(Room::class)->create(['name' => 'Computer lab']);
-        factory(Room::class)->create(['name' => 'Library']);
+        factory(Room::class)->create(['name' => 'Salle 1A']);
+        factory(Room::class)->create(['name' => 'Salle 1B']);
+        factory(Room::class)->create(['name' => 'Salle info']);
+        factory(Room::class)->create(['name' => 'Médiathèque']);
 
-        factory(Level::class)->create(['name' => 'Beginner']);
-        factory(Level::class)->create(['name' => 'Intermediate']);
-        factory(Level::class)->create(['name' => 'Advanced']);
+        factory(Level::class)->create(['name' => 'A1.1']);
+        factory(Level::class)->create(['name' => 'A2.1']);
+        factory(Level::class)->create(['name' => 'A2.2']);
 
         factory(Teacher::class)->create();
         factory(Teacher::class)->create();
         factory(Teacher::class)->create();
-
-        factory(Year::class)->create([
-            'name' => '2019',
-        ]);
 
         factory(Year::class)->create([
             'name' => '2020',
@@ -346,6 +342,7 @@ class DatabaseSeeder extends Seeder
             // foreach period in year, seed some courses
             foreach ($year->periods as $period) {
                 $p1course1 = factory(Course::class)->create([
+                    'name' => 'Débutants',
                     'campus_id' => 1,
                     'rhythm_id' => 1,
                     'level_id' => 1,
@@ -354,7 +351,7 @@ class DatabaseSeeder extends Seeder
                     'start_date' => $period->start,
                     'end_date' => $period->end,
                     'room_id' => 1,
-                    'teacher_id' => 3,
+                    'teacher_id' => 1,
                     'period_id' => $period->id,
                 ]);
 
@@ -365,6 +362,7 @@ class DatabaseSeeder extends Seeder
                 $p1course1->times()->create(['day' => 5, 'start' => '09:00:00', 'end' => '17:00:00']);
 
                 $p1course2 = factory(Course::class)->create([
+                    'name' => 'Groupe A2.1',
                     'campus_id' => 1,
                     'rhythm_id' => 1,
                     'level_id' => 2,
@@ -384,6 +382,7 @@ class DatabaseSeeder extends Seeder
                 $p1course3 = factory(Course::class)->create([
                     'campus_id' => 1,
                     'rhythm_id' => 4,
+                    'name' => 'Groupe A2.2',
                     'level_id' => 3,
                     'volume' => 20,
                     'price' => 100,
