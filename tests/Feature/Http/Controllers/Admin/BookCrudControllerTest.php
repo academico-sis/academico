@@ -2,10 +2,10 @@
 
 namespace Tests\Feature\Http\Controllers\Admin;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 use App\Models\Book;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 /**
  * @see \App\Http\Controllers\Admin\BookCrudController
@@ -43,7 +43,7 @@ class BookCrudControllerTest extends TestCase
         $response = $this->post(route('book.store'), $book->toArray());
         $response->assertStatus(302);
         $this->assertDatabaseMissing('books', $book->toArray());
-        
+
         $this->logInAdmin();
         $response = $this->post(route('book.store'), $book->toArray());
         $this->assertDatabaseHas('books', $book->toArray());
@@ -55,7 +55,7 @@ class BookCrudControllerTest extends TestCase
     public function destroy_is_permitted_for_authorized_users_only()
     {
         $book = factory(Book::class)->create();
-        
+
         $response = $this->delete(route('book.destroy', ['id' => $book->id]));
         $this->assertDatabaseHas('books', $book->toArray());
 
@@ -71,14 +71,14 @@ class BookCrudControllerTest extends TestCase
     public function edit_is_permitted_for_authorized_users_only()
     {
         $book = factory(Book::class)->create();
-        
+
         // create edited model but do not persist to DB
         $book2 = factory(Book::class)->make();
 
         // unauthorized users may not access the edit screen
         $response = $this->get(route('book.edit', ['id' => $book->id]));
         $response->assertStatus(302);
-        
+
         // guests may not edit
         $response = $this->put(route('book.update', ['id' => $book->id], ['name' => $book2->name, 'price' => $book2->price, 'product_code' => $book2->product_code]));
         $this->assertFalse($book->name == $book2->name);
