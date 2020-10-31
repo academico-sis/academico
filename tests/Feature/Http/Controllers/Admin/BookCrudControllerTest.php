@@ -17,7 +17,7 @@ class BookCrudControllerTest extends TestCase
     public $user;
     public $model;
     public $table;
-    
+
     public function setUp(): void
     {
         parent::setUp();
