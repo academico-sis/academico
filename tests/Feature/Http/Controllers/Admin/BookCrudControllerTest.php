@@ -14,18 +14,20 @@ class BookCrudControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    public $user;
+    public $model;
+    public $table;
+    
     public function setUp(): void
     {
         parent::setUp();
-
         $this->seed('TestSeeder');
-    }
+        $this->user = factory(User::class)->create();
+        $this->user->assignRole('admin');
 
-    private function logInAdmin()
-    {
-        $user = factory(User::class)->create();
-        $user->assignRole('admin');
-        \Auth::guard(backpack_guard_name())->login($user);
+        $this->model = Book::class;
+        $this->table = 'books';
+        $this->entityname = 'book';
     }
 
     /**
@@ -34,19 +36,20 @@ class BookCrudControllerTest extends TestCase
     public function create_is_permitted_for_authorized_users_only()
     {
         // unauthorized users should receive a 302
-        $response = $this->get(route('book.create'));
+        $response = $this->get(route($this->entityname.'.create'));
         $response->assertStatus(302);
 
         // create model but do not persist to DB
-        $book = factory(Book::class)->make();
+        $entity = factory($this->model)->make();
 
-        $response = $this->post(route('book.store'), $book->toArray());
+        $response = $this->post(route($this->entityname.'.store'), $entity->toArray());
         $response->assertStatus(302);
-        $this->assertDatabaseMissing('books', $book->toArray());
+        $this->assertDatabaseMissing($this->table, $entity->toArray());
 
-        $this->logInAdmin();
-        $response = $this->post(route('book.store'), $book->toArray());
-        $this->assertDatabaseHas('books', $book->toArray());
+        \Auth::guard(backpack_guard_name())->login($this->user);
+        $response = $this->post(route($this->entityname.'.store'), $entity->toArray());
+
+        $this->assertDatabaseHas($this->table, $entity->toArray());
     }
 
     /**
@@ -54,15 +57,15 @@ class BookCrudControllerTest extends TestCase
      */
     public function destroy_is_permitted_for_authorized_users_only()
     {
-        $book = factory(Book::class)->create();
+        $entity = factory($this->model)->create();
 
-        $response = $this->delete(route('book.destroy', ['id' => $book->id]));
-        $this->assertDatabaseHas('books', $book->toArray());
+        $response = $this->delete(route($this->entityname.'.destroy', ['id' => $entity->id]));
+        $this->assertDatabaseHas($this->table, $entity->toArray());
 
-        $this->logInAdmin();
+        \Auth::guard(backpack_guard_name())->login($this->user);
 
-        $response = $this->delete(route('book.destroy', ['id' => $book->id]));
-        $this->assertDatabaseMissing('books', $book->toArray());
+        $response = $this->delete(route($this->entityname.'.destroy', ['id' => $entity->id]));
+        $this->assertDatabaseMissing($this->table, $entity->toArray());
     }
 
     /**
@@ -70,27 +73,27 @@ class BookCrudControllerTest extends TestCase
      */
     public function edit_is_permitted_for_authorized_users_only()
     {
-        $book = factory(Book::class)->create();
+        $entity = factory($this->model)->create();
 
         // create edited model but do not persist to DB
-        $book2 = factory(Book::class)->make();
+        $entity2 = factory($this->model)->make();
 
         // unauthorized users may not access the edit screen
-        $response = $this->get(route('book.edit', ['id' => $book->id]));
+        $response = $this->get(route($this->entityname.'.edit', ['id' => $entity->id]));
         $response->assertStatus(302);
 
         // guests may not edit
-        $response = $this->put(route('book.update', ['id' => $book->id], ['name' => $book2->name, 'price' => $book2->price, 'product_code' => $book2->product_code]));
-        $this->assertFalse($book->name == $book2->name);
+        $response = $this->put(route($this->entityname.'.update', ['id' => $entity->id], ['name' => $entity2->name, 'price' => $entity2->price, 'product_code' => $entity2->product_code]));
+        $this->assertFalse($entity->name == $entity2->name);
 
         // authorized users may see the edit screen
-        $this->logInAdmin();
-        $response = $this->get(route('book.edit', ['id' => $book->id]));
+        \Auth::guard(backpack_guard_name())->login($this->user);
+        $response = $this->get(route($this->entityname.'.edit', ['id' => $entity->id]));
         $response->assertOk();
 
         // authorized users may edit
-        $response = $this->putJson(route('book.update', ['id' => $book->id]), ['name' => 'my updated name']);
-        //$this->assertTrue($book->name == 'my updated name');
+        $response = $this->putJson(route($this->entityname.'.update', ['id' => $entity->id]), ['name' => 'my updated name', 'price' => 12, 'product_code' => 'my-product']);
+        //$this->assertTrue($entity->name == 'my updated name');
         $this->markTestIncomplete('This test is currently not working.');
     }
 
@@ -99,9 +102,9 @@ class BookCrudControllerTest extends TestCase
      */
     public function index_returns_an_ok_response()
     {
-        $book = factory(Book::class)->create();
-        $this->logInAdmin();
-        $response = $this->get(route('book.index'));
+        $entity = factory($this->model)->create();
+        \Auth::guard(backpack_guard_name())->login($this->user);
+        $response = $this->get(route($this->entityname.'.index'));
         $response->assertOk();
     }
 
@@ -109,7 +112,7 @@ class BookCrudControllerTest extends TestCase
     {
         $this->markTestIncomplete('This test case was generated by Shift. When you are ready, remove this line and complete this test case.');
 
-        $response = $this->post(route('book.search'), [
+        $response = $this->post(route($this->entityname.'.search'), [
             // TODO: send request data
         ]);
 
@@ -125,7 +128,7 @@ class BookCrudControllerTest extends TestCase
     {
         $this->markTestIncomplete('This test case was generated by Shift. When you are ready, remove this line and complete this test case.');
 
-        $response = $this->get(route('book.showDetailsRow', ['id' => $id]));
+        $response = $this->get(route($this->entityname.'.showDetailsRow', ['id' => $id]));
 
         $response->assertOk();
 
@@ -139,7 +142,7 @@ class BookCrudControllerTest extends TestCase
     {
         $this->markTestIncomplete('This test case was generated by Shift. When you are ready, remove this line and complete this test case.');
 
-        $response = $this->post(route('book.store'), [
+        $response = $this->post(route($this->entityname.'.store'), [
             // TODO: send request data
         ]);
 
@@ -155,7 +158,7 @@ class BookCrudControllerTest extends TestCase
     {
         $this->markTestIncomplete('This test case was generated by Shift. When you are ready, remove this line and complete this test case.');
 
-        $response = $this->put(route('book.update', ['id' => $id]), [
+        $response = $this->put(route($this->entityname.'.update', ['id' => $id]), [
             // TODO: send request data
         ]);
 
