@@ -2,12 +2,11 @@
 
 namespace App\Models;
 
+use App\Events\CourseUpdated;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Log;
 use Spatie\Activitylog\Traits\LogsActivity;
-use App\Events\CourseUpdated;
 
 class Course extends Model
 {
@@ -17,7 +16,7 @@ class Course extends Model
     protected $dispatchesEvents = [
         'updated' => CourseUpdated::class,
     ];
-    
+
     /*
     |--------------------------------------------------------------------------
     | GLOBAL VARIABLES

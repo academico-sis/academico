@@ -3,8 +3,8 @@
 namespace App\Listeners;
 
 use App\Events\CourseUpdated;
-use Carbon\Carbon;
 use App\Models\Event;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
 class UpdateCourseEvents
@@ -12,7 +12,7 @@ class UpdateCourseEvents
     public function handle(CourseUpdated $event)
     {
         $course = $event->course;
-        
+
         // if course dates have changed, sync all events
         if ($course->isDirty('start_date') || $course->isDirty('end_date')) {
             Log::info('cleaning the events after course date change');
