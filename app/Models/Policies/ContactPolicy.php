@@ -28,4 +28,3 @@ class ContactPolicy
         return false;
     }
 }
-}
