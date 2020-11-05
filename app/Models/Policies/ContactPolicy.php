@@ -16,8 +16,7 @@ class ContactPolicy
      */
     public function update(User $user, Contact $contact)
     {
-        if ($user->can('student.edit'))
-        {
+        if ($user->can('student.edit')) {
             return true;
         }
 
