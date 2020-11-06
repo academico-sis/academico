@@ -50,7 +50,6 @@ class CourseCrudController extends CrudController
 
         if (! $permissions->contains('name', 'courses.edit')) {
             CRUD::denyAccess('create');
-            CRUD::denyAccess('clone');
         }
 
         if ($permissions->contains('name', 'courses.view')) {
@@ -371,49 +370,6 @@ class CourseCrudController extends CrudController
         $enrollments = $course->enrollments()->with('student')->get();
 
         return view('courses/show', compact('course', 'enrollments'));
-    }
-
-    /*
-    * Allow to create a child course for the selected parent
-    * This method is temporary and should be improved in the future
-    */
-    public function clone($id)
-    {
-        CRUD::hasAccessOrFail('clone');
-        CRUD::setOperation('clone');
-
-        $course = Course::findOrFail($id);
-
-        // clone the course
-        $child_course = Course::create([
-            'campus_id' => $course->campus_id,
-            'rhythm_id' => $course->rhythm_id,
-            'level_id' => $course->level_id,
-            'volume' => $course->volume,
-            'name' => $course->name,
-            'price' => $course->price,
-            'start_date' => $course->start_date,
-            'end_date' => $course->end_date,
-            'room_id' => $course->room_id,
-            'teacher_id' => $course->teacher_id,
-            'parent_course_id' => $course->id,
-            'exempt_attendance' => $course->exempt_attendance,
-            'period_id' => $course->period_id,
-            'opened' => $course->opened,
-            'spots' => $course->spots,
-        ]);
-
-        // TODO migrate the coursetime events
-
-        // TODO the evaluation methods
-
-        // TODO and generate the events
-
-        // TODO delete relations linked to the parent course (evaluation, etc)
-
-        // TODO return the id of the newly created course. The front-end will redirect to the edit screen for this course
-
-        return $child_course->id;
     }
 
     public function destroy($id)
