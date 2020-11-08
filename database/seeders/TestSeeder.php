@@ -327,10 +327,10 @@ class TestSeeder extends Seeder
         factory(Level::class)->create(['name' => 'Intermediate']);
         factory(Level::class)->create(['name' => 'Advanced']);
 
-        $periodStartDate = now()->subDays(rand(1,30));
+        $periodStartDate = now()->subDays(rand(1, 30));
         factory(Period::class)->create([
             'start' => $periodStartDate,
-            'end' => $periodStartDate->addDays(90)
+            'end' => $periodStartDate->addDays(90),
         ]);
     }
 }
