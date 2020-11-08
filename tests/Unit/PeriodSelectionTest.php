@@ -60,7 +60,6 @@ class PeriodSelectionTest extends TestCase
         ]);
 
         DB::table('config')->where('name', 'current_period')->update(['value' => null]);
-        Period::first()->delete();
 
         $this->assertEquals($period1->id, Period::get_default_period()->id);
     }
