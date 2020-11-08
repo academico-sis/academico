@@ -13,13 +13,13 @@ class CoreTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        //$this->seed('DatabaseSeeder');
+        $this->seed('TestSeeder');
     }
 
     /** @test */
     public function there_exists_a_current_period()
     {
-        $period = factory(Period::class)->create();
+        factory(Period::class)->create();
         $this->assertTrue(Period::get_default_period()->exists());
     }
 }

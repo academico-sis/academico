@@ -13,6 +13,14 @@ class PeriodReportsDataTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->setSharedVariables();
+        $this->seed('TestSeeder');
+    }
+
     /**
      * Period->real_enrollments must return the count of pending enrollments in the period.
      */

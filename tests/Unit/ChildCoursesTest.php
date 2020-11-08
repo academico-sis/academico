@@ -13,6 +13,14 @@ class ChildCoursesTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->setSharedVariables();
+        $this->seed('TestSeeder');
+    }
+
     public function test_that_an_enrollment_in_a_course_with_children_also_create_child_enrollments()
     {
         $parentCourse = factory(Course::class)->create();
