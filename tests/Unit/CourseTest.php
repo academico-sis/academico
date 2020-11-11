@@ -15,6 +15,8 @@ class CourseTest extends TestCase
     {
         parent::setUp();
 
+        $this->seed('TestSeeder');
+
         $this->weeksUntilCourseStart = 5;
         $this->weeksUntilCourseEnd = 15;
         $this->initialStartDate = now()->addWeeks($this->weeksUntilCourseStart);
