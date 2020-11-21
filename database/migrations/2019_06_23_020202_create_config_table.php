@@ -19,9 +19,9 @@ class CreateConfigTable extends Migration
             $table->string('value')->nullable();
             $table->timestamps();
         });
-
+        //default enrollment period set as first period
         DB::table('config')->insert([
-            ['name' => 'default_enrollment_period', 'value' => null],
+            ['name' => 'default_enrollment_period', 'value' => 1],
             ['name' => 'current_period', 'value' => null],
             ['name' => 'institution_rules_url', 'value' => null],
             ['name' => 'moodle_url', 'value' => null],
