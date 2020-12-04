@@ -1,6 +1,6 @@
 # About this project
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Academico is an open-source, Lavarel-based school management platform. Its main features include course management, enrolments management, resources scheduling, reports and stats. It is primarily targeted at small and medium-sized institutions who need a simple and affordable solution to manage their school and courses.
@@ -30,6 +30,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/Aybee5"><img src="https://avatars1.githubusercontent.com/u/42099896?v=4" width="100px;" alt=""/><br /><sub><b>Ibrahim Abdullahi Aliyu</b></sub></a><br /><a href="https://github.com/academico-sis/academico/commits?author=Aybee5" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/AleksandarMitevski"><img src="https://avatars3.githubusercontent.com/u/59975218?v=4" width="100px;" alt=""/><br /><sub><b>AleksandarMitevski</b></sub></a><br /><a href="https://github.com/academico-sis/academico/commits?author=AleksandarMitevski" title="Tests">⚠️</a> <a href="https://github.com/academico-sis/academico/commits?author=AleksandarMitevski" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/TanoRojas"><img src="https://avatars0.githubusercontent.com/u/7780437?v=4" width="100px;" alt=""/><br /><sub><b>Tano Rojas</b></sub></a><br /><a href="https://github.com/academico-sis/academico/commits?author=TanoRojas" title="Tests">⚠️</a> <a href="https://github.com/academico-sis/academico/commits?author=TanoRojas" title="Code">💻</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://cirkovic.me"><img src="https://avatars0.githubusercontent.com/u/32557332?v=4" width="100px;" alt=""/><br /><sub><b>Nikola Cirkovic</b></sub></a><br /><a href="https://github.com/academico-sis/academico/issues?q=author%3ACirkaN" title="Bug reports">🐛</a></td>
   </tr>
 </table>
 
