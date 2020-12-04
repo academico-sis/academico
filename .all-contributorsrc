@@ -74,6 +74,15 @@
         "test",
         "code"
       ]
+    },
+    {
+      "login": "CirkaN",
+      "name": "Nikola Cirkovic",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/32557332?v=4",
+      "profile": "https://cirkovic.me",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
