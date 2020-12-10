@@ -83,6 +83,7 @@ class Attendance extends Model
         // return attendance records for period
         $coursesIds = $period->courses->pluck('id');
         $eventsIds = Event::whereIn('course_id', $coursesIds)->pluck('id');
+
         return self::with('event.course')->with('student')->whereIn('event_id', $eventsIds)->whereIn('attendance_type_id', [3, 4])->get()->groupBy('student_id');
     }
 }
