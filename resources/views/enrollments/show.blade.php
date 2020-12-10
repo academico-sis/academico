@@ -12,21 +12,21 @@
 @section('content')
 
 <div class="row" id="app">
-    
+
     <div class="col-md-4">
         <div class="card">
             <div class="card-header">@lang('Enrollment Info')
             </div>
-            
+
             <div class="card-body">
-                <p>@lang('name'): 
+                <p>@lang('name'):
                     <a href="{{ url('student') }}/{{$enrollment->student->id }}/show">{{ $enrollment->student->firstname }} {{ $enrollment->student->lastname }}</a>
                 </p>
                 <p>@lang('Enrollment date'): {{ $enrollment->date }}</p>
                 <p>@lang('Enrollment ID'): {{ $enrollment->id }}</p>
                 <p>@lang('Course'): <a href="{{ route('course.show', ['id' => $enrollment->course_id]) }}">{{ $enrollment->course->name }}</a></p>
                 <p>@lang('Period'): {{ $enrollment->course->period->name }}</p>
-                
+
                     @if ($enrollment->children_count > 0)
                         <p>@lang('Children enrollments'):</p>
                         <ul>
@@ -39,7 +39,7 @@
                     @elseif ($enrollment->parent_id !== null)
                         @lang('This enrollment belongs to') <a href="/enrollment/{{ $enrollment->parent_id }}/show">{{ $enrollment->parent_id }}</a>
                     @endif
-                    
+
                     @if(isset($enrollment->result))
                         <p>
                             <a href="/result/{{ $enrollment->id }}/show" class="btn btn-sm btn-info">
@@ -62,13 +62,13 @@
         </student-comments>
 
     </div>
-    
 
-    
+
+
 <div class="col-md-4">
         <div class="card">
             <div class="card-header">@lang('Status')</div>
-            
+
             <div class="card-body">
 
             <div class="form-group">
@@ -110,7 +110,7 @@
                 <div class="form-group">
                     <a class="btn btn-sm btn-warning" href="{{ route('get-courses-list', ['mode' => 'update', 'enrollment_id' => $enrollment->id]) }}">@lang('Change course')</a>
                 </div>
-                
+
             @else
                 {{ $enrollment->enrollmentStatus->name }}
             @endif
@@ -118,7 +118,7 @@
             </div>
         </div>
     </div>
-    
+
 
 </div>
 
@@ -133,11 +133,11 @@
 <script>
     function cancel(enrollment)
         {
-            axios.delete('/enrollment/'+enrollment)
-                .then(function (response) {
+            axios.delete(`/enrollment/${enrollment}`)
+                .then(response => {
                     window.location.href="/enrollment"
                 })
-                .catch(function (error) {
+                .catch(error => {
                     console.log(error);
                 });
         }
@@ -146,10 +146,10 @@
         function markaspaid(enrollment)
         {
             axios.post(`/enrollment/${enrollment}/markaspaid`)
-                .then(function (response) {
+                .then(response => {
                     window.location.reload()
                 })
-                .catch(function (error) {
+                .catch(error => {
                     console.log(error);
                 });
         }

@@ -46,11 +46,11 @@ export default {
                     student: this.student.id,
                     status: status,
                 })
-                .then((response) => {
+                .then(response => {
                     this.status = response.data;
                     this.isLoading = false;
                 })
-                .catch((e) => {
+                .catch(e => {
                     this.errors.push(e);
                 });
         },

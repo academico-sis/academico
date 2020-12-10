@@ -12,7 +12,7 @@
 @section('content')
 
 <div class="row" id="app">
-    
+
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
@@ -28,7 +28,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="card-body">
                 <table class="table">
                 <thead>
@@ -72,7 +72,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="card-body">
                 <table class="table" id="studentAttendanceTable">
                     <thead>
@@ -115,16 +115,16 @@
 <script src="/js/app.js"></script>
 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.20/b-1.6.1/b-html5-1.6.1/b-print-1.6.1/datatables.min.css"/>
- 
+
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.20/b-1.6.1/b-html5-1.6.1/b-print-1.6.1/datatables.min.js"></script>
 <script>
-    $(document).ready(function() {
+    $(document).ready(() => {
     $('#studentAttendanceTable').DataTable( {
     "paging": false,
     "order": [[ 3, "desc" ]]
 } );
-} );
+});
 </script>
 @endsection

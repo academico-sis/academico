@@ -139,12 +139,12 @@ export default {
                 .post("/api/checkemail", {
                     email: this.formdata.email,
                 })
-                .then((response) => {
+                .then(response => {
                     if (response.status == 204) {
                         return true;
                     }
                 })
-                .catch((err) => {
+                .catch(err => {
                     if (err.status == 409) {
                         return false;
                     }

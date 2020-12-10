@@ -28,13 +28,13 @@
     <script type="text/javascript" charset="utf-8">
         // Helper function to get parameters from the query string.
         function getUrlParam(paramName) {
-            var reParam = new RegExp('(?:[\?&]|&amp;)' + paramName + '=([^&]+)', 'i') ;
+            var reParam = new RegExp(`(?:[?&]|&amp;)${paramName}=([^&]+)`, 'i') ;
             var match = window.location.search.match(reParam) ;
 
-            return (match && match.length > 1) ? match[1] : '' ;
+            return match && match.length > 1 ? match[1] : '' ;
         }
 
-        $().ready(function() {
+        $().ready(() => {
             var funcNum = getUrlParam('CKEditorFuncNum');
 
             var elf = $('#elfinder').elfinder({
@@ -49,14 +49,14 @@
                     _token: '<?= csrf_token() ?>'
                 },
                 url: '<?= route('elfinder.connector') ?>',  // connector URL
-                getFileCallback : function(file) {
+                getFileCallback : file => {
                     window.opener.CKEDITOR.tools.callFunction(funcNum, file.url);
                     window.close();
                 }
             }).elfinder('instance');
         });
-        $(window).resize(function(){
-            var h = ($(window).height());
+        $(window).resize(() => {
+            var h = $(window).height();
             if($('#elfinder').height() != h){
                 $('#elfinder').height(h).resize();
             }

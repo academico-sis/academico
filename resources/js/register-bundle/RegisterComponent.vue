@@ -29,7 +29,7 @@
 
             <b-step-item :label="$t('step2')" :clickable="activeStep > 1">
                 <register-user-info-component :institutions="institutions"></register-user-info-component>
-            </b-step-item> 
+            </b-step-item>
 
             <b-step-item :label="$t('step3')" :clickable="activeStep > 2">
                 <register-user-picture-component></register-user-picture-component>
@@ -74,7 +74,7 @@ export default {
             this.activeStep += 1;
         });
 
-        EventBus.$on("goBackToStep", (step) => {
+        EventBus.$on("goBackToStep", step => {
             this.activeStep = step;
         });
     },

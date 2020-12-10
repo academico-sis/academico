@@ -31,17 +31,17 @@
 
     <script type="text/javascript">
         var FileBrowserDialogue = {
-            init: function() {
+            init: () => {
                 // Here goes your code for setting your custom things onLoad.
             },
-            mySubmit: function (URL) {
+            mySubmit: URL => {
                 var win = tinyMCEPopup.getWindowArg('window');
 
                 // pass selected file path to TinyMCE
                 win.document.getElementById(tinyMCEPopup.getWindowArg('input')).value = URL;
 
                 // are we an image browser?
-                if (typeof(win.ImageDialog) != 'undefined') {
+                if (typeof win.ImageDialog != 'undefined') {
                     // update image dimensions
                     if (win.ImageDialog.getImageData) {
                         win.ImageDialog.getImageData();
@@ -59,7 +59,7 @@
 
         tinyMCEPopup.onInit.add(FileBrowserDialogue.init, FileBrowserDialogue);
 
-        $().ready(function() {
+        $().ready(() => {
             var elf = $('#elfinder').elfinder({
                 // set your elFinder options here
                 resizable: false,
@@ -72,13 +72,13 @@
                     _token: '<?= csrf_token() ?>'
                 },
                 url : '<?= route('elfinder.connector') ?>',  // connector URL
-                getFileCallback: function(file) { // editor callback
+                getFileCallback: file => { // editor callback
                     FileBrowserDialogue.mySubmit(file.url); // pass selected file path to TinyMCE
                 }
             }).elfinder('instance');
         });
-        $(window).resize(function(){
-            var h = ($(window).height());
+        $(window).resize(() => {
+            var h = $(window).height();
             if($('#elfinder').height() != h){
                 $('#elfinder').height(h).resize();
             }

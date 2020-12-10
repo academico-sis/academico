@@ -406,19 +406,19 @@ export default {
         shoppingCartTotal() {
             let total = 0;
             if (this.books) {
-                this.books.forEach((book) => {
+                this.books.forEach(book => {
                     total += parseFloat(book.price);
                 });
             }
 
             if (this.fees) {
-                this.fees.forEach((fee) => {
+                this.fees.forEach(fee => {
                     total += parseFloat(fee.price);
                 });
             }
 
             if (this.enrollments) {
-                this.enrollments.forEach((enrollment) => {
+                this.enrollments.forEach(enrollment => {
                     total +=
                         parseFloat(enrollment.course.price) -
                         this.discount(parseFloat(enrollment.course.price));
@@ -430,7 +430,7 @@ export default {
         paidTotal() {
             let total = 0;
             if (this.payments) {
-                this.payments.forEach((payment) => {
+                this.payments.forEach(payment => {
                     total += parseFloat(payment.value);
                 });
             }
@@ -440,7 +440,7 @@ export default {
         totalDiscount() {
             let total = 0;
             if (this.discounts) {
-                this.discounts.forEach((discount) => {
+                this.discounts.forEach(discount => {
                     total += parseFloat(discount.value);
                 });
             }
@@ -457,18 +457,18 @@ export default {
             axios
                 .get("/accountingservice/status")
                 .then(
-                    (response) => (this.accountingServiceIsUp = response.data)
+                    response => this.accountingServiceIsUp = response.data
                 );
         },
         addBook(book) {
-            if (!this.books.some((el) => el.id == book.id)) {
+            if (!this.books.some(el => el.id == book.id)) {
                 var addedbook = this.books.push(book) - 1;
                 this.books[addedbook].quantity = 1;
             }
         },
 
         addFee(fee) {
-            if (!this.fees.some((el) => el.id == fee.id)) {
+            if (!this.fees.some(el => el.id == fee.id)) {
                 var addedfee = this.fees.push(fee) - 1;
                 this.fees[addedfee].quantity = 1;
             }
@@ -513,7 +513,7 @@ export default {
             this.loading = true;
             this.products = [];
 
-            this.enrollments.forEach((element) => {
+            this.enrollments.forEach(element => {
                 let enrollment = {
                     codinventario: element.course.rhythm.product_code,
                     codbodega: "MAT",
@@ -525,7 +525,7 @@ export default {
                 this.products.push(enrollment);
             });
 
-            this.books.forEach((element) => {
+            this.books.forEach(element => {
                 let book = {
                     codinventario: element.product_code,
                     codbodega: "MAT",
@@ -537,7 +537,7 @@ export default {
                 this.products.push(book);
             });
 
-            this.fees.forEach((element) => {
+            this.fees.forEach(element => {
                 let fee = {
                     codinventario: element.product_code,
                     codbodega: "MAT",
@@ -560,18 +560,18 @@ export default {
                     comment: this.comment,
                     sendinvoice: this.sendInvoiceToAccounting,
                 })
-                .then((response) => {
+                .then(response => {
                     // handle success
                     this.step = 4;
                     window.location.href =
-                        "/enrollment/" + this.enrollments[0].id + "/show";
+                        `/enrollment/${this.enrollments[0].id}/show`;
                     new Noty({
                         title: "Operation successful",
                         text: "The enrollment has been paid",
                         type: "success",
                     }).show();
                 })
-                .catch((e) => {
+                .catch(e => {
                     this.loading = false;
                     this.errors.push(e);
                     new Noty({

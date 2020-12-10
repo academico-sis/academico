@@ -4,9 +4,10 @@
     <ul class="nav nav-tabs" id="myTab1" role="tablist">
         <li class="nav-item"><a class="nav-link active" id="student-tab" data-toggle="tab" href="#student-pane" role="tab" aria-controls="student-tab" aria-selected="true">{{ $t('Student') }}</a></li>
         <li class="nav-item" v-for="contact in contacts" v-bind:key="contact.id">
-            <a class="nav-link" :id="contact.id+'-tab'" data-toggle="tab" v-bind:href="`#contact-${contact.id}-pane`" role="tab" :aria-controls="contact.id+'-tab'" aria-selected="false">
+            <a class="nav-link" :id="`${contact.id}-tab`" data-toggle="tab" v-bind:href="`#contact-${contact.id}-pane`" role="tab" :aria-controls="`${contact.id}-tab`" aria-selected="false">
                 <span v-if="contact.relationship">{{ contact.relationship.translated_name }}</span><span v-else>{{ $t('Additional Contact') }}</span>
             </a>
+        </li>
             <li class="nav-item" v-if="writeaccess">
                 <div class="nav-link">
                     <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#userDataModal">
@@ -14,7 +15,6 @@
                     </button>
                 </div>
             </li>
-        </li>
     </ul>
     <div class="tab-content" id="myTab1Content">
         <div class="tab-pane fade show active" id="student-pane" role="tabpanel" aria-labelledby="student-tab">
@@ -29,7 +29,7 @@
                     <button class="btn btn-sm btn-primary" @click="addingNumberToStudent = true" v-if="writeaccess">
                         <i class="la la-plus"></i>
                     </button>
-                    
+
                     <ul>
                         <li v-for="phone in student.phone" v-bind:key="phone.id">
                             {{ phone.phone_number }}
@@ -40,7 +40,7 @@
 
                         <li class="controls" v-if="addingNumberToStudent && writeaccess">
                             <div class="input-group">
-                            <input class="form-control" type="text" v-model="newNumber">
+                            <input class="form-control" type="text" v-model="newNumber" />
                             <span class="input-group-append">
                                 <button class="btn btn-sm btn-success" type="button" @click="saveStudentPhoneNumber(student)"><i class="la la-save"></i></button>
                             </span>
@@ -59,7 +59,7 @@
             </div>
         </div>
 
-        <div class="tab-pane fade" v-for="contact in this.contactsData" v-bind:key="contact.id" v-bind:id="`contact-${contact.id}-pane`" role="tabpanel" :aria-labelledby="contact.id+'-tab'">
+        <div class="tab-pane fade" v-for="contact in this.contactsData" v-bind:key="contact.id" v-bind:id="`contact-${contact.id}-pane`" role="tabpanel" :aria-labelledby="`${contact.id}-tab`">
             <div><strong>{{ $t('name') }}:</strong> {{ contact.firstname }} {{ contact.lastname }}</div>
             <div><strong>{{ $t('ID nnumber') }}:</strong> {{ contact.idnumber }}</div>
             <div><strong>{{ $t('Address') }}:</strong> {{ contact.address }}</div>
@@ -78,7 +78,7 @@
 
                         <li class="controls" v-if="addingNumberToContact && writeaccess">
                             <div class="input-group">
-                            <input class="form-control" type="text" v-model="newNumber">
+                            <input class="form-control" type="text" v-model="newNumber" />
                             <span class="input-group-append">
                                 <button class="btn btn-sm btn-success" type="button" @click="saveContactPhoneNumber(contact)"><i class="la la-save"></i></button>
                             </span>
@@ -99,7 +99,7 @@
                 </button>
             </div>
         </div>
-        
+
     </div>
     </div>
 
@@ -111,7 +111,7 @@
 export default {
 
     props: ['student', 'contacts', 'writeaccess'],
-    
+
     data () {
         return {
             selectedTab: 0,
@@ -144,7 +144,7 @@ export default {
                     className: "bg-danger",
                     }
                 },
-                }).then((value) => {
+                }).then(value => {
                     if (value) {
                         axios.delete(`/phonenumber/${phone.id}`)
                         .then(response => {
@@ -212,14 +212,14 @@ export default {
                         className: "bg-danger",
                     },
                 },
-            }).then((value) => {
+            }).then(value => {
                 if (value) {
                     axios
                         .delete(`/contact/${contact}/delete`)
-                        .then((response) => {
-                            window.location.reload()    
+                        .then(response => {
+                            window.location.reload()
                         })
-                        .catch((err) => {
+                        .catch(err => {
                             new Noty({
                                 type: "error",
                                 text: 'Unable to delete contact',

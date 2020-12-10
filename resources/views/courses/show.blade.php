@@ -26,9 +26,9 @@
                 </div>
 
             </div>
-            
-            <div class="card-body">           
-                
+
+            <div class="card-body">
+
                 <table id="studentsTable" class="table table-striped responsive" style="width:100%">
                     <thead>
                         <tr>
@@ -41,7 +41,7 @@
                             <th>@lang('actions')</th>
                         </tr>
                     </thead>
-                    
+
                     <tbody>
                         @foreach ($enrollments as $enrollment)
                         <tr>
@@ -56,7 +56,7 @@
                                 <a href="/student/{{ $enrollment->student_id }}/show" class='btn btn-sm btn-secondary'>
                                     <i class='la la-briefcase'></i>
                                 </a>
-   
+
                             </td>
                         </tr>
                         @endforeach
@@ -74,16 +74,16 @@
 @section('after_scripts')
 
 @include('partials.enrollment_modal', ['course_id' => $course->parent])
-  
+
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.20/b-1.6.1/b-html5-1.6.1/b-print-1.6.1/fh-3.1.6/datatables.min.css"/>
- 
+
 <!-- DATA TABLES -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.20/b-1.6.1/b-html5-1.6.1/b-print-1.6.1/fh-3.1.6/datatables.min.js"></script>
 
 <script>
-    $(document).ready( function () {
+    $(document).ready(() => {
         $('#studentsTable').DataTable(
             {
                 "scrollX": true,

@@ -36,10 +36,10 @@
 
 
 @section('after_scripts')
-    
+
 <script>
 
-document.addEventListener('DOMContentLoaded', function() { // page is now ready...
+document.addEventListener('DOMContentLoaded', () => { // page is now ready...
 var calendarEl = document.getElementById('calendar'); // grab element reference
 
 var calendar = new FullCalendar.Calendar(calendarEl, {

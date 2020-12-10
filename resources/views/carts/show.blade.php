@@ -13,7 +13,7 @@
 
 
 <div id="app">
-        
+
     <cart-component
         :enrollment="{{ json_encode($enrollment) }}"
         :contactdata="{{ json_encode($contactData) }}"
@@ -33,7 +33,7 @@
 <!-- include field specific select2 js-->
 @push('crud_fields_scripts')
 <script>
-    jQuery(document).ready(function($) {
+    jQuery(document).ready($ => {
         $('.js-example-basic-single').select2();
     });
 </script>

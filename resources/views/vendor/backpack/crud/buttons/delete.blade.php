@@ -1,5 +1,5 @@
 @if ($crud->hasAccess('delete'))
-	<a href="javascript:void(0)" onclick="deleteEntry(this)" data-route="{{ url($crud->route.'/'.$entry->getKey()) }}" class="btn btn-sm btn-link" data-button-type="delete"><i class="la la-trash"></i></a>
+	<a href="javascript:void 0" onclick="deleteEntry(this)" data-route="{{ url($crud->route.'/'.$entry->getKey()) }}" class="btn btn-sm btn-link" data-button-type="delete"><i class="la la-trash"></i></a>
 @endif
 
 
@@ -13,7 +13,7 @@
 		// e.preventDefault();
 		var button = $(button);
 		var route = button.attr('data-route');
-		var row = $("#crudTable a[data-route='"+route+"']").closest('tr');
+		var row = $(`#crudTable a[data-route='${route}']`).closest('tr');
 
 		swal({
 		  title: "{!! trans('backpack::base.warning') !!}",
@@ -34,12 +34,12 @@
 			  className: "bg-danger",
 			}
 		  },
-		}).then((value) => {
+		}).then(value => {
 			if (value) {
 				$.ajax({
 			      url: route,
 			      type: 'DELETE',
-			      success: function(result) {
+			      success: result => {
 			          if (result != 1) {
 			          	// Show an error alert
 			              swal({
@@ -71,7 +71,7 @@
 			              row.remove();
 			          }
 			      },
-			      error: function(result) {
+			      error: result => {
 			          // Show an alert with the result
 			          swal({
 		              	title: "{!! trans('backpack::crud.delete_confirmation_not_title') !!}",
@@ -81,7 +81,7 @@
 		              	buttons: false,
 		              });
 			      }
-			  });
+                });
 			}
 		});
 

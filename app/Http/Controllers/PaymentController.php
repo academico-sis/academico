@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Comment;
 use App\Models\Enrollment;
-use App\Models\Payment;
-use App\Models\User;
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller

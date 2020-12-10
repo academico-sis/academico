@@ -8,7 +8,7 @@
 
             <label
                 v-if="event.attendance"
-                :class="'badge badge-'+event.attendance.attendance_type.class"
+                :class="`badge badge-${event.attendance.attendance_type.class}`"
             >
                 <span v-html="event.attendance.attendance_type.icon"></span>
                 {{ event.attendance.attendance_type.translated_name }}

@@ -90,7 +90,7 @@
                     <b-field
                         v-for="(number, numberindex) in contact.phonenumbers"
                         :key="numberindex"
-                        :label="'Teléfono #' + (numberindex + 1)"
+                        :label="`Teléfono #${numberindex + 1}`"
                         grouped
                         label-position="on-border"
                     >

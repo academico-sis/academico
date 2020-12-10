@@ -1,6 +1,6 @@
 @if ($crud->hasAccess('clone') && $entry->parent_course_id == null)
 
-	<a href="javascript:void(0)" onclick="cloneEntry(this)" data-route="{{ url($crud->route.'/'.$entry->getKey().'/clone') }}" class="btn btn-sm btn-link" data-button-type="clone"><i class="la la-clone"></i></a>
+	<a href="javascript:void 0" onclick="cloneEntry(this)" data-route="{{ url($crud->route.'/'.$entry->getKey().'/clone') }}" class="btn btn-sm btn-link" data-button-type="clone"><i class="la la-clone"></i></a>
 @endif
 
 <script>
@@ -32,13 +32,13 @@
 			  className: "bg-danger",
 			}
 		  },
-		}).then((value) => {
+		}).then(value => {
 			if (value) {
 
           $.ajax({
               url: route,
               type: 'POST',
-              success: function(result) {
+              success: result => {
                   // Show an alert with the result
                   new Noty({
                     type: "success",
@@ -49,9 +49,9 @@
                   $('.modal').modal('hide');
 
                   // open new course edit page
-                  window.location.href = '/course/'+result+'/edit'
+                  window.location.href = `/course/${result}/edit`
               },
-              error: function(result) {
+              error: result => {
                   // Show an alert with the result
                   new Noty({
                     type: "warning",

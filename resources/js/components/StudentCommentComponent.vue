@@ -111,7 +111,7 @@ export default {
                     commentable_type: this.type,
                     action: this.action,
                 })
-                .then((response) => {
+                .then(response => {
                     this.commentlist.push(response.data);
                     this.comment_body = null;
                     this.showEditField = false;
@@ -121,18 +121,18 @@ export default {
                         this.isValidated = false;
                     }, 3000)
                 })
-                .catch((e) => {
+                .catch(e => {
                     this.errors = e.response.data.errors.body[0];
                 });
         },
 
         deleteComment(comment, index) {
             axios
-                .delete("/comment/" + comment)
-                .then((response) => {
+                .delete(`/comment/${comment}`)
+                .then(response => {
                     this.$delete(this.commentlist, index);
                 })
-                .catch((e) => {
+                .catch(e => {
                     this.errors.push(e);
                 });
         },
@@ -150,7 +150,7 @@ export default {
                 .put(`/edit-comment/${this.selectedComment.id}`, {
                     body: this.comment_body,
                 })
-                .then((response) => {
+                .then(response => {
                     this.selectedComment = null
                     this.commentlist[0].body = this.comment_body;
                     this.comment_body = null;
@@ -161,7 +161,7 @@ export default {
                         this.isValidated = false;
                     }, 3000)
                 })
-                .catch((e) => {
+                .catch(e => {
                     this.errors = e.response.data.errors.body[0];
                 });
         }

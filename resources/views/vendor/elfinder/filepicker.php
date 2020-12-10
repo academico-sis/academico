@@ -32,7 +32,7 @@
     ?>
 
     <script type="text/javascript">
-        $().ready(function () {
+        $().ready(() => {
             var elf = $('#elfinder').elfinder({
                 // set your elFinder options here
                 resizable: false,
@@ -51,7 +51,7 @@
                 rememberLastDir : false,
                 height: 300,
                 defaultView: 'list',
-                getFileCallback: function (file) {
+                getFileCallback: file => {
                     window.parent.processSelectedFile(file, '<?= $input_id?>');
                     console.log(file);
                 },
@@ -86,8 +86,8 @@
                 }
             }).elfinder('instance');
         });
-        $(window).resize(function(){
-            var h = ($(window).height());
+        $(window).resize(() => {
+            var h = $(window).height();
             if($('#elfinder').height() != h){
                 $('#elfinder').height(h).resize();
             }

@@ -55,11 +55,11 @@ export default {
                     student: this.enrollment.student_id,
                     enrollment: this.enrollment.id,
                 })
-                .then((response) => {
+                .then(response => {
                     this.loading = false;
                     window.location.reload()
                 })
-                .catch((e) => {
+                .catch(e => {
                     this.errors.push(e);
                 });
         },
@@ -67,7 +67,7 @@ export default {
         buttonClass(result_type) {
             if (this.course_result && this.course_result.result_type_id == result_type.id)
             {
-                return "btn btn-"+result_type.class
+                return `btn btn-${result_type.class}`
             }
             else {
                 return "btn btn-secondary"

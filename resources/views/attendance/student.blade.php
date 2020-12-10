@@ -12,7 +12,7 @@
 @section('content')
 
 <div class="row">
-    
+
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
@@ -30,9 +30,9 @@
                         </div>
                     </div>
                 </h5>
-            
+
             </div><!-- /.card-header -->
-            
+
             <div class="card-body">
 
                 <div class="row">
@@ -93,21 +93,21 @@
             <label class="badge badge-success">
                 P <i class="la la-user"></i>
             </label> : @lang('Present')
-            - 
+            -
             <label class="badge badge-warning">
                 PP <i class="la la-clock-o"></i>
             </label> : @lang('Partial presence (arrived late or left early)')
-            - 
+            -
             <label class="badge badge-info">
                 AJ <i class="la la-exclamation"></i>
             </label> : @lang('justified absence')
-            - 
+            -
             <label class="badge badge-danger">
                 A <i class="la la-user-times"></i>
             </label> : @lang('unjustified absence')
             </div>
             </div>
-                    
+
                     </div>
                 </div>
                 </div>
@@ -120,12 +120,12 @@
 
 @section('after_scripts')
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.20/b-1.6.1/b-html5-1.6.1/b-print-1.6.1/datatables.min.css"/>
- 
+
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.20/b-1.6.1/b-html5-1.6.1/b-print-1.6.1/datatables.min.js"></script>
 <script>
-    $(document).ready(function() {
+    $(document).ready(() => {
     $('#attendanceTable').DataTable( {
     dom: 'Bfrtip',
     "paging": false,
@@ -135,6 +135,6 @@
         'print'
     ]
 } );
-} );
+});
 </script>
 @endsection

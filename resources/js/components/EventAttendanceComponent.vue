@@ -44,10 +44,10 @@ export default {
                     student_id: this.attendance.student_id,
                     attendance_type_id: attendance_type_id,
                 })
-                .then((response) => {
+                .then(response => {
                     this.studentAttendance = response.data;
                 })
-                .catch((e) => {
+                .catch(e => {
                     this.errors.push(e);
                 });
         },
@@ -55,7 +55,7 @@ export default {
         buttonClass(attendance_type) {
             if (this.studentAttendance.attendance_type_id == attendance_type.id)
             {
-                return "btn btn-"+attendance_type.class
+                return `btn btn-${attendance_type.class}`
             }
             else {
                 return "btn btn-secondary"

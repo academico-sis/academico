@@ -228,7 +228,7 @@
                                 <div v-if="mode == 'view'" class="btn-group float-right">
                                     <a
                                         class="btn"
-                                        :href="'course/' + course.id + '/show'"
+                                        :href="`course/${course.id}/show`"
                                         ><i class="la la-eye"></i
                                     ></a>
                                     <button
@@ -288,7 +288,7 @@
                                     </div>
                                 </div>
 
-                                <div v-if="mode == 'enroll' && (course.spots - course.course_enrollments_count > 0)" class="btn-group float-right">
+                                <div v-if="mode == 'enroll' && course.spots - course.course_enrollments_count > 0" class="btn-group float-right">
                                     <a
                                         class="btn"
                                         href='#'
@@ -408,12 +408,12 @@ export default {
                         "filter[teacher_id]": this.selectedTeacher,
                     },
                 })
-                .then((response) => {
+                .then(response => {
                     this.courses = response.data;
                     this.isLoading = false;
                     this.hasErrors = false;
                 })
-                .catch((errors) => {
+                .catch(errors => {
                     this.isLoading = false;
                     this.hasErrors = true;
                 });
@@ -454,12 +454,12 @@ export default {
                         className: "bg-danger",
                     },
                 },
-            }).then((value) => {
+            }).then(value => {
                 if (value) {
                     $.ajax({
-                        url: "course/" + id,
+                        url: `course/${id}`,
                         type: "DELETE",
-                        success: function (result) {
+                        success: result => {
                             if (result != 1) {
                                 // Show an error alert
                                 swal({
@@ -481,7 +481,7 @@ export default {
                                 location.reload();
                             }
                         },
-                        error: function (result) {
+                        error: result => {
                             // Show an alert with the result
                             swal({
                                 title: "Error",

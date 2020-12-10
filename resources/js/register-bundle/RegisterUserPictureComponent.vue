@@ -1,10 +1,10 @@
 <template>
 	<div id="app">
 		<ValidationObserver ref="observer" v-slot="{ valid }">
-		
+
 		<section class="section">
         <div class="container has-text-centered has-text-link is-size-4">
-        	{{ $t('profile_picture') }}        
+        	{{ $t('profile_picture') }}
         </div>
         </section>
 
@@ -32,7 +32,6 @@
 					    </span>
 					  </label>
 			            <p class="help is-danger">{{ errors[0] }}</p>
-	        			</p>
 					</div>
 	        	</div>
 
@@ -55,8 +54,8 @@
 					</figure>
 				</div>
 		    	<div class="tile is-child">
-						<video id="player" autoplay 
-						style="position: relative; border:1px solid #000000;" 
+						<video id="player" autoplay
+						style="position: relative; border:1px solid #000000;"
 						width="320" height="250"></video>
 				</div>
 				<div class="tile is-child mt-20">
@@ -72,7 +71,7 @@
 </template>
 
 <script>
-	
+
 import { store } from "./store.js";
 import { EventBus } from "./eventBus.js";
 import { ValidationObserver } from "vee-validate";
@@ -105,7 +104,7 @@ export default {
     methods: {
 
 
-    	// Checks the image size then sets the userPicture variable to the uploaded picture 
+    	// Checks the image size then sets the userPicture variable to the uploaded picture
     	onFileChange(e) {
                 const image = e.target.files[0];
                 if(image.size > 3145728 ){
@@ -140,7 +139,7 @@ export default {
     		}
         },
 
-        // This checks if the base64 string has only valid base64 string 
+        // This checks if the base64 string has only valid base64 string
         // elements.
         validateBase64(string64) {
         	var base64regex = /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/;
@@ -148,19 +147,19 @@ export default {
         	return base64regex.test(string64);
         },
 
-        // Asks the user for permission to use their attached media and  
+        // Asks the user for permission to use their attached media and
         // activates the video stream.
     	enableUserToTakePicture() {
 
     	// Specifying the media to request, along with the requirements.
 		const constraints = {
 			audio:false,
-			video: { width: 720, height: 480 }			
+			video: { width: 720, height: 480 }
 		};
 
 		// Asks the user for permission and starts the stream.
 		navigator.mediaDevices.getUserMedia(constraints)
-		  .then((stream) => {
+		  .then(stream => {
 		    this.player.srcObject = stream;
 		  });
 
@@ -168,18 +167,18 @@ export default {
 		 document.getElementById('captureButton').style.display = "block";
     	},
 
-    	// Takes a snapshot of the users video stream and displays it in the 
+    	// Takes a snapshot of the users video stream and displays it in the
     	// canvas element and saves the image in the userPicture data // variable
     	takeUserPicture() {
 
 		const constraints = {
 			audio:false,
-			video: { width: 720, height: 480 }			
+			video: { width: 720, height: 480 }
 		};
 
 
 		this.context = this.canvas.getContext('2d');
-		
+
 		// Draws the image to the canvas
 		this.context.drawImage(this.player, 0, 0, this.canvas.width, this.canvas.height);
 	  	document.getElementById('captureButton').style.display = "none";
@@ -190,12 +189,12 @@ export default {
 
         // Saves the image
 		that.userPicture = userPictureCapture;
-		
+
 		// Cuts the stream
 		this.player.srcObject.getVideoTracks().forEach(track => track.stop());
 
     	},
- 
+
         updateData() {
         	if(this.userPicture != null) {
         		store.updatePictureData(this.userPicture);

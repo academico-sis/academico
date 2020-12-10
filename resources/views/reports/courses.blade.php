@@ -12,7 +12,7 @@
                         @include('partials.period_selection')
                     </div>
                 </div>
-                
+
                 <div class="card-body">
                         <canvas id="myChart"></canvas>
                 </div>
@@ -22,7 +22,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">@lang('Enrollments per Course')</div>
-                
+
                 <div class="card-body">
                     <table class="table table-striped">
                         <thead>
@@ -52,7 +52,7 @@
 @endsection
 
 @section('before_scripts')
-   
+
 @endsection
 
 
@@ -62,7 +62,7 @@
 
 <script>
 
-$(document).ready(function(){
+$(document).ready(() => {
 
 var data = @json($courses);
 console.log(data);

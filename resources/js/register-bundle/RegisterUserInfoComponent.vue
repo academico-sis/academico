@@ -37,7 +37,7 @@
             <b-field
                 v-for="(number, index) in formdata.phonenumbers"
                 :key="index"
-                :label="$t('phonenumber') + ' #' + (index + 1)"
+                :label="`${$t('phonenumber')} #${index + 1}`"
                 grouped
                 label-position="on-border"
             >
@@ -98,7 +98,7 @@
                 @typing="getFilteredInstitutions">
                 <template slot="empty">{{$t('institution_save')}}</template>
             </b-taginput>
-                   
+
                     <p class="help is-danger">{{ errors[0] }}</p>
                 </ValidationProvider>
             </b-field>
@@ -151,7 +151,7 @@ export default {
             this.formdata.phonenumbers.splice(index, 1);
         },
         getFilteredInstitutions(text) {
-            this.filteredInstitutions = this.institutionslist.filter((option) => {
+            this.filteredInstitutions = this.institutionslist.filter(option => {
                 return option
                     .toString()
                     .toLowerCase()

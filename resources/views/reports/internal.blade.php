@@ -34,7 +34,7 @@
                         @include('partials.period_selection')
                     </div>
                 </div>
-                
+
                 <div class="card-body">
                     <table id ="reportsTable" class="table table-striped">
                         <thead>
@@ -42,7 +42,7 @@
                             <th>@lang('Enrollments')</th>
                             <th>@lang('Students')</th>
                             <th>@lang('Acquisition Rate')(*)</th>
-                            <th>@lang('New Students')</th>    
+                            <th>@lang('New Students')</th>
                             <th>@lang('Hours Taught')</th>
                             <th>@lang('Hours Sold')</th>
                         </thead>
@@ -81,11 +81,11 @@
                                     <td>
                                         {{ $data_period['new_students'] ?? '-' }}
                                     </td>
-                                    
+
                                     <td>
                                         {{ number_format($year_taught_hours ?? '0') }}
                                     </td>
-                                    
+
                                     <td>
                                         {{ number_format($year_sold_hours ?? '0') }}
                                     </td>
@@ -97,7 +97,7 @@
                                     $year_taught_hours = 0;
                                     $year_sold_hours = 0;
                                 @endphp
-                                
+
                             @endif
 
                             @php
@@ -126,11 +126,11 @@
                                     <td>
                                         {{ $data_period['new_students'] ?? '-' }}
                                     </td>
-                                    
+
                                     <td>
                                         {{ number_format($data_period['taught_hours'] ?? '0') }}
                                     </td>
-                                    
+
                                     <td>
                                         {{ number_format($data_period['sold_hours'] ?? '0') }}
                                     </td>
@@ -162,16 +162,16 @@
                                     <td>
                                         {{ $data_period['new_students'] ?? '-' }}
                                     </td>
-                                    
+
                                     <td>
                                         {{ number_format($year_taught_hours ?? '0') }}
                                     </td>
-                                    
+
                                     <td>
                                         {{ number_format($year_sold_hours ?? '0') }}
                                     </td>
                                 </tr>
-                                
+
                         </tbody>
                     </table>
                     <p>(*) = @lang('share of students from previous period who were re-enrolled')</p>
@@ -184,7 +184,7 @@
 
 
 @section('before_scripts')
-   
+
 @endsection
 
 
@@ -192,7 +192,7 @@
 <script src="/js/app.js"></script>
 
 <script>
-$(document).ready(function(){
+$(document).ready(() => {
 var data = @json($data);
 
 var chartData = {
@@ -235,12 +235,12 @@ for (s in data) {
             </script>
 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.20/b-1.6.1/b-html5-1.6.1/b-print-1.6.1/datatables.min.css"/>
- 
+
  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
  <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.20/b-1.6.1/b-html5-1.6.1/b-print-1.6.1/datatables.min.js"></script>
 <script>
- $(document).ready(function() {
+ $(document).ready(() => {
  $('#reportsTable').DataTable( {
  dom: 'Bfrtip',
  "paging": false,
@@ -252,6 +252,6 @@ for (s in data) {
      'print'
  ]
 } );
-} );
+});
 </script>
 @endsection

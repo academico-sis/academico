@@ -8,8 +8,10 @@
             <div class="card-body">
                 <table id="skillsTable" class="table table-striped" v-for="category in skills" :key="category[0].skill_type.id">
                     <thead>
+                    <tr>
                         <th>{{ category[0].skill_type.name }}</th>
                         <th></th>
+                    </tr>
                     </thead>
                     <tbody>
                         <tr v-for="skill in category" :key="skill.id">
@@ -87,10 +89,10 @@ export default {
                     student: this.student.id,
                     course: this.course.id,
                 })
-                .then((response) => {
+                .then(response => {
                     skill.status = response.data;
                 })
-                .catch((e) => {
+                .catch(e => {
                     this.errors.push(e);
                 });
         },

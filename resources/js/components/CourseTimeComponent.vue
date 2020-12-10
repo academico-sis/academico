@@ -123,56 +123,56 @@ export default {
     methods: {
         getTimes() {
             axios
-                .get("/coursetime/" + this.course + "/get")
-                .then((response) => {
+                .get(`/coursetime/${this.course}/get`)
+                .then(response => {
                     this.times = response.data;
                 })
-                .catch((error) => {
+                .catch(error => {
                     console.log(error);
                     this.errored = true;
                 })
-                .finally(() => (this.loading = false));
+                .finally(() => this.loading = false);
         },
 
         getEvents() {
             axios
-                .get("/course/" + this.course + "/events/get")
-                .then((response) => {
+                .get(`/course/${this.course}/events/get`)
+                .then(response => {
                     this.events = response.data;
                 })
-                .catch((error) => {
+                .catch(error => {
                     console.log(error);
                     this.errored = true;
                 })
-                .finally(() => (this.loading = false));
+                .finally(() => this.loading = false);
         },
 
         addTime() {
             axios
-                .post("/coursetime/" + this.course, {
+                .post(`/coursetime/${this.course}`, {
                     day: this.day,
                     start: this.start,
                     end: this.end,
                 })
-                .then((response) => {
+                .then(response => {
                     this.getTimes();
                     this.getEvents();
                 })
-                .catch((e) => {
+                .catch(e => {
                     this.errors.push(e);
                 });
         },
 
         removeTime(time) {
             axios
-                .delete("/coursetime/" + time.id, {
+                .delete(`/coursetime/${time.id}`, {
                     time,
                 })
-                .then((response) => {
+                .then(response => {
                     this.getTimes();
                     this.getEvents();
                 })
-                .catch((e) => {
+                .catch(e => {
                     this.errors.push(e);
                 });
         },

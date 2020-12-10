@@ -60,11 +60,14 @@
   <li class="nav-title">@lang('HR')</li>
   <li class='nav-item'><a class='nav-link' href="{{ route('hrDashboard') }}"><i class="nav-icon la la-calendar"></i> <span>@lang('HR')</span></a></li>
 
-<li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-calendar"></i> @lang('Leave')</a>
+<li class="nav-item nav-dropdown">
+    <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-calendar"></i> @lang('Leave')</a>
     <ul class="nav-dropdown-items">
       <li class='nav-item'><a class='nav-link' href="{{ backpack_url('leave/teachers') }}"><i class="nav-icon la la-calendar"></i> <span>@lang('Overview')</span></a></li>
       <li class='nav-item'><a class='nav-link' href="{{ backpack_url('leave') }}"><i class="nav-icon la la-calendar"></i> <span>@lang('Manage leaves')</span></a></li>
     </ul>
+</li>
+
   <li class='nav-item'><a class='nav-link' href="{{ backpack_url('remoteevent') }}"><i class="nav-icon la la-calendar"></i> <span>@lang('Remote Events')</span></a></li>
   <li class='nav-item'><a class='nav-link' href="{{ backpack_url('event') }}"><i class="nav-icon la la-calendar"></i> <span>@lang('Events')</span></a></li>
 
@@ -106,7 +109,7 @@
           <li class='nav-item'><a class='nav-link' href='{{ backpack_url('paymentmethod') }}'><i class='la la-dollar'></i> <span>@lang('Payment methods')</span></a></li>
         </ul>
       </li>
-      
+
       @if(backpack_user()->hasRole('admin'))
       <!-- Users, Roles Permissions -->
       <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-group"></i> @lang('Users')</a>
@@ -116,12 +119,12 @@
             <li class='nav-item'><a class='nav-link' href='{{ backpack_url('member') }}'><i class='nav-icon la la-question'></i>@lang('Members')</a></li>
           </ul>
         </li>
-    
+
         @endif
 
     </ul>
   </li>
-  
+
 @endif
 
 @if(backpack_user()->isTeacher())

@@ -255,9 +255,7 @@ class Enrollment extends Model
     {
         $courseEventIds = $this->course->events->pluck('id');
         $attendances = $this->student->attendance()->with('event')->get()->whereIn('event_id', $courseEventIds);
-        $absenceCount = $attendances->where('attendance_type_id', 3)->count() + $attendances->where('attendance_type_id', 4)->count();
-
-        return $absenceCount;
+        return $attendances->where('attendance_type_id', 3)->count() + $attendances->where('attendance_type_id', 4)->count();
     }
 
     public function getPriceAttribute()

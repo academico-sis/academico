@@ -12,7 +12,6 @@ use App\Models\LeadType;
 use App\Models\LeaveType;
 use App\Models\Level;
 use App\Models\Paymentmethod;
-use App\Models\Period;
 use App\Models\ResultType;
 use App\Models\Rhythm;
 use App\Models\Room;

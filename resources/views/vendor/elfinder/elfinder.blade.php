@@ -23,7 +23,7 @@
     <script type="text/javascript" charset="utf-8">
         // Documentation for client options:
         // https://github.com/Studio-42/elFinder/wiki/Client-configuration-options
-        $().ready(function() {
+        $().ready(() => {
             $('#elfinder').elfinder({
                 // set your elFinder options here
                 <?php if ($locale) { ?>

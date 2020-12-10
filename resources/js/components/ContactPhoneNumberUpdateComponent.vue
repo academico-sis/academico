@@ -46,7 +46,7 @@ export default {
         getPhoneNumbers() {
             axios
                 .get(`/phonenumber/contact/${this.contact}`)
-                .then((response) => {
+                .then(response => {
                     this.phoneables = response.data;
                 });
         },
@@ -56,14 +56,14 @@ export default {
                 .post(`/phonenumber/contact/${this.contact}`, {
                     number: this.number,
                 })
-                .then((response) => {
+                .then(response => {
                     this.getPhoneNumbers();
                     this.number = "";
                 });
         },
 
         deletePhoneNumber(phonenumber) {
-            axios.delete(`/phonenumber/${phonenumber}`).then((response) => {
+            axios.delete(`/phonenumber/${phonenumber}`).then(response => {
                 this.getPhoneNumbers();
             });
         },

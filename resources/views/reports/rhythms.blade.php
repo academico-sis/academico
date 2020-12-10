@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="row">
-    
+
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
@@ -13,21 +13,21 @@
                     @include('partials.period_selection')
                 </div>
             </div>
-            
+
             <div class="card-body">
                 <table class="table table-striped">
                     <thead>
                         <th>@lang('Rhythm')</th>
                         <th>@lang('Enrollments')</th>
                     </thead>
-                    
+
                     <tbody>
                         @foreach($data as $rhythm)
                         <tr>
                             <td>
                                 {{ $rhythm['rhythm'] ?? '-' }}
                             </td>
-                            
+
                             <td>
                                 {{ $rhythm['enrollment_count'] ?? '-' }}
                             </td>
@@ -38,16 +38,16 @@
             </div>
         </div>
     </div>
-    
-    
+
+
     <div class="col-md-6">
-        <div class="card">            
+        <div class="card">
             <div class="card-body">
                 <canvas id="myChart"></canvas>
             </div>
         </div>
     </div>
-    
+
 </div>
 @endsection
 
@@ -67,17 +67,17 @@
         }
         var color = '#';
         for (var i = 0; i < 3; i++) {
-            var value = (hash >> (i * 8)) & 255;
-            color += ('00' + value.toString(16)).substr(-2);
+            var value = hash >> (i * 8) & 255;
+            color += (`00${value.toString(16)}`).substr(-2);
         }
         return color;
     }
-    
-    
-    $(document).ready(function() {
-        
+
+
+    $(document).ready(() => {
+
         var data = @json($data);
-        
+
         var chartData = {
             labels: [],
             datasets: [{
@@ -85,16 +85,16 @@
                 backgroundColor: []
             }]
         };
-        
+
         for (s in data) {
             chartData.labels.push(data[s].rhythm);
             chartData.datasets[0].data.push(data[s].enrollment_count);
             chartData.datasets[0].backgroundColor.push(data[s].rhythm.toHex())
         }
-        
-        
+
+
         var ctx = $("#myChart");
-        
+
         var barGraph = new Chart(ctx, {
             type: 'pie',
             data: chartData,
@@ -105,7 +105,7 @@
             }
         });
     });
-    
+
 </script>
 
 @endsection

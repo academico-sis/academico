@@ -25,7 +25,7 @@
                         @include('partials.period_selection')
                     </div>
                 </div>
-            </div>        
+            </div>
         </div>
 
         <div class="col-md-8">
@@ -51,11 +51,11 @@
         </div><!-- /.col -->
         </div><!-- /.row -->
 
-        <div class="row">
+    <div class="row">
             @foreach ($courses as $course)
             <div class="col-md-4">
                 <div class="card">
-                    <div class="card-header">                          
+                    <div class="card-header">
                         <strong>{{ $course->name }}</strong>
                         <div class="card-header-actions">
                             @if($course->campus_id == 1)
@@ -91,6 +91,5 @@
                 </div>
             </div>
             @endforeach
-        </div><!-- /.row -->
-    </div>
+    </div><!-- /.row -->
 @endsection

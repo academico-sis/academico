@@ -5,7 +5,7 @@
             <div class="card-header">
                 Créer une ou des nouvelle(s) classe(s)
             </div>
-            
+
             <div class="card-body">
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label">Répéter les :</label>
@@ -77,7 +77,7 @@
                     <button @click="createEvents()" :disabled="this.createList.length == 0 || this.name == null || this.starttime == null || this.starttime == null" class="btn btn-primary">Submit</button>
                 </div>
             </div>
-            
+
             <div class="card-body">
                 <ul>
                     <li v-for="item in this.createList" v-bind:key="item.start.id">le {{ item.start | moment('DD/MM/YY') }} de {{ item.start | moment('HH:mm') }} à {{ item.end | moment('HH:mm') }}</li>
@@ -115,17 +115,13 @@ export default {
     },
     computed: {
     	selectedDays: function() {
-      	return this.days.filter(function(day) {
-        	return day.selected;
-        }).map(function(day) {
-        	return day.day;
-        });
+      	return this.days.filter(day => day.selected).map(day => day.day);
       },
 
       toggleAllDayStatus() {
-          if (this.selectedDays.length == 6) { return true } else { return false }
+          return this.selectedDays.length == 6;
     }
-      
+
     },
     methods: {
         toggleAllDays() {

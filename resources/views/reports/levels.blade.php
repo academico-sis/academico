@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="row">
-    
+
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
@@ -13,7 +13,7 @@
                     @include('partials.period_selection')
                 </div>
             </div>
-            
+
             <div class="card-body">
                 <table class="table table-striped">
                     <thead>
@@ -22,7 +22,7 @@
                         <th>@lang('Hours Taught')</th>
                         <th>@lang('Hours Sold')</th>
                     </thead>
-                    
+
                     <tbody>
                         @foreach($data as $level)
                         <tr>
@@ -37,16 +37,16 @@
             </div>
         </div>
     </div>
-    
-    
+
+
     <div class="col-md-6">
-        <div class="card">            
+        <div class="card">
             <div class="card-body">
                 <canvas id="myChart"></canvas>
             </div>
         </div>
     </div>
-    
+
 </div>
 @endsection
 
@@ -65,12 +65,12 @@
     }
     return color;
     }
-    
-    
-    $(document).ready(function() {
-        
+
+
+    $(document).ready(() => {
+
         var data = @json($data);
-        
+
         var chartData = {
             labels: [],
             datasets: [{
@@ -78,16 +78,16 @@
                 backgroundColor: []
             }]
         };
-        
+
         for (s in data) {
             chartData.labels.push(data[s].level);
             chartData.datasets[0].data.push(data[s].enrollment_count);
             chartData.datasets[0].backgroundColor.push(randomcolor())
         }
-        
-        
+
+
         var ctx = $("#myChart");
-        
+
         var barGraph = new Chart(ctx, {
             type: 'pie',
             data: chartData,
@@ -98,7 +98,7 @@
             }
         });
     });
-    
+
 </script>
 
 @endsection

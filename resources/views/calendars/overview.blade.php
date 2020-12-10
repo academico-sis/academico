@@ -27,7 +27,7 @@
 
         <div class="col-md-12">
             <div class="card">
-                <div class="card-body">               
+                <div class="card-body">
                 <div class="row">
                     <div id="calendar"></div>
                 </div>
@@ -39,10 +39,10 @@
 
 
 @section('after_scripts')
-    
+
 <script>
 
-document.addEventListener('DOMContentLoaded', function() { // page is now ready...
+document.addEventListener('DOMContentLoaded', () => { // page is now ready...
     var calendarEl = document.getElementById('calendar'); // grab element reference
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -56,8 +56,8 @@ document.addEventListener('DOMContentLoaded', function() { // page is now ready.
         hiddenDays: [ 0 ], // TODO make this customizable
         firstDay: 1,
         slotWidth: 20,
-        eventRender: function (info) {
-            $(info.el).tooltip({ title: info.event.title });     
+        eventRender: info => {
+            $(info.el).tooltip({ title: info.event.title });
         },
         resourceAreaWidth: 150,
         eventSources: [
@@ -75,22 +75,22 @@ document.addEventListener('DOMContentLoaded', function() { // page is now ready.
         ],
 
         editable:true,
-        
-        eventDrop: function(info) {
+
+        eventDrop: info => {
             axios.patch(window.location.href, {
                     course_id: info.event.groupId,
                     resource_id: info.newResource.id,
                 } )
 
-            .then(function (response) {
+            .then(response => {
                 new Noty({
                     title: "Operation successful",
                     text: "The course has been updated.",
                     type: "success"
                     }).show();
             })
-            
-            .catch(function (error) {
+
+            .catch(error => {
                 new Noty({
                     title: "Error",
                     text: "The course was not updated.",

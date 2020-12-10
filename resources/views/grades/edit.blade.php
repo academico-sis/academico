@@ -153,10 +153,10 @@
 
                 } )
 
-            .then(function (response) {
+            .then(response => {
                 document.location.reload(true);
             })
-            .catch(function (error) {
+            .catch(error => {
                 console.log(error);
             });
 
@@ -165,14 +165,14 @@
 
         function removeGradeType(gradetype)
         {
-            axios.delete('/course/{{$course->id}}/gradetype/'+gradetype, {
+            axios.delete(`/course/{{$course->id}}/gradetype/${gradetype}`, {
 
                 } )
 
-            .then(function (response) {
+            .then(response => {
                 document.location.reload(true);
             })
-            .catch(function (error) {
+            .catch(error => {
                 console.log(error);
             });
 
@@ -189,11 +189,11 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 <script>
-$(document).ready(function() {
+$(document).ready(() => {
     $('.grade').editable({mode: 'inline'});
 
     //make username required
-    $('.grade').editable('option', 'validate', function(v) {
+    $('.grade').editable('option', 'validate', v => {
     if(!v) return 'Required field!';
 });
 

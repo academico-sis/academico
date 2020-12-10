@@ -2,7 +2,7 @@
 
 @section('header')
 	<section class="container-fluid">
-		<h>@lang('Edit contact')</h1>
+		<h1>@lang('Edit contact')</h1>
 	</section>
 @endsection
 
@@ -13,7 +13,7 @@
 	<div class="col-md-12">
 
 			<div class="card">
-				
+
 				<div class="card-body">
 
 					<form method="post" action="{{ route('updateContact', ['contact' => $contact->id]) }}">
@@ -109,10 +109,10 @@
 
 						<a href="{{ backpack_url() }}" class="btn btn-default"><span class="ladda-label">{{ trans('backpack::base.cancel') }}</span></a>
 					</div>
-				
+
 					</form>
 				</div>
-				
+
 		</div>
 	</div>
 </div>

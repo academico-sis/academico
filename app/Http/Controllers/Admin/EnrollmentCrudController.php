@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
-use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\EnrollmentStatusType;
 use App\Models\Period;

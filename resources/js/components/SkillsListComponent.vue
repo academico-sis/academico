@@ -9,7 +9,7 @@
                     </a>
                 </div>
             </div>
-            
+
             <div class="card-body" v-if="loading">{{$t('Loading...')}}</div>
             <div class="card-body" v-else>
                 <table class="table table-responsive-sm table-sm" v-for="category in availableskills" :key="category[0].skill_type.id">
@@ -97,8 +97,8 @@ export default {
         getCourseSkills() {
             this.loading = true;
             axios
-                .get("/course/" + this.course + "/getcourseskills")
-                .then((response) => {
+                .get(`/course/${this.course}/getcourseskills`)
+                .then(response => {
                     this.courseskills = response.data;
                     this.loading = false;
                 });
@@ -106,8 +106,8 @@ export default {
         getAvailableSkills() {
             this.loading = true;
             axios
-                .get("/course/" + this.course + "/getavailableskills")
-                .then((response) => {
+                .get(`/course/${this.course}/getavailableskills`)
+                .then(response => {
                     this.availableskills = response.data;
                     this.loading = false;
                 });
@@ -116,10 +116,10 @@ export default {
         addSkill(skill) {
             this.loading = true;
             axios
-                .post("/course/" + this.course + "/skills/add", {
+                .post(`/course/${this.course}/skills/add`, {
                     skill_id: skill
                 })
-                .then((response) => {
+                .then(response => {
                     this.courseskills = response.data;
                     this.getAvailableSkills()
                 });
@@ -128,10 +128,10 @@ export default {
         removeSkill(skill) {
             this.loading = true;
             axios
-                .post("/course/" + this.course + "/skills/remove", {
+                .post(`/course/${this.course}/skills/remove`, {
                     skill_id: skill
                 })
-                .then((response) => {
+                .then(response => {
                     this.courseskills = response.data;
                     this.getAvailableSkills()
                 });

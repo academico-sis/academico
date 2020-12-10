@@ -12,14 +12,14 @@
 @section('content')
 
 <div class="row" id="app">
-    
+
     <div class="col-md-6">
         <div class="card">
                 <div class="card-header">
                     <a href="{{ route('student.show', ['id' => $enrollment->student_id]) }}">
                         <strong>{{ $enrollment->student->firstname }} {{ $enrollment->student->lastname }}</strong>
                     </a>
-                </div>    
+                </div>
             <div class="card-body">
                 <a href="{{ route('course.show', ['id' => $enrollment->course_id]) }}">
                     <p>{{ $enrollment->course->name }} ({{ $enrollment->course->period->name }})</p>
@@ -27,8 +27,8 @@
             </div>
         </div>
     </div>
-    
-    
+
+
 
     <div class="col-md-6">
         <course-result-component
@@ -50,7 +50,7 @@
         @endif
     </div>
 
-    
+
 </div>
 <div class="row">
 
@@ -65,7 +65,7 @@
                         <a href="/course/{{ $enrollment->course_id}}/grades" class="btn btn-primary">Retour aux notes du cours</a>
                     </div>
             </div>
-            
+
             <div class="card-body">
                 <table class="table">
                     @php $all_total = 0; @endphp
@@ -106,16 +106,18 @@
             </div>
         </div>
     </div>
-    @endif
+</div>
+@endif
 
-    @if (count($skills) > 0)
+@if (count($skills) > 0)
     <div class="col-md-6">
         <div class="card">
             <div class="card-header with-border">
                 <div class="card-title">
                     @lang('Skills')
+                </div>
             </div>
-            
+
             <div class="card-body">
                     <table class="table">
                         @foreach ($skills as $skill)
@@ -137,7 +139,6 @@
         </div>
     </div>
     @endif
-
 
 
 </div>

@@ -160,8 +160,8 @@ export default {
         submitRegisterForm() {
             this.formSubmitted = true;
 
-            const sleep = (milliseconds) => {
-                return new Promise((resolve) =>
+            const sleep = milliseconds => {
+                return new Promise(resolve =>
                     setTimeout(resolve, milliseconds)
                 );
             };
@@ -170,7 +170,7 @@ export default {
                 .post("/register", {
                     data: this.storeState,
                 })
-                .then((response) => {
+                .then(response => {
                     this.$buefy.toast.open({
                         duration: 5000,
                         message: "La cuenta ha sido creada con éxito",
@@ -182,7 +182,7 @@ export default {
                         window.location.href = "/";
                     });
                 })
-                .catch((e) => {
+                .catch(e => {
                     this.errors.push(e);
                     this.$buefy.toast.open({
                         message: "Error al crear la cuenta",

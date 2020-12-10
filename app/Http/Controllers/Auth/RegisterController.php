@@ -46,7 +46,6 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
             'rules'                                => 'required',
             'idnumber_type'                        => 'required',
             'idnumber'                             => 'required',
-            'address'                              => 'required',
             'phonenumber'                          => 'required',
             'tc_consent'                           => 'required',
             'address'                              => 'required',

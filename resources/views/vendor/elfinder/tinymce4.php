@@ -27,10 +27,10 @@
     <!-- elFinder initialization (REQUIRED) -->
     <script type="text/javascript">
         var FileBrowserDialogue = {
-            init: function() {
+            init: () => {
                 // Here goes your code for setting your custom things onLoad.
             },
-            mySubmit: function (URL) {
+            mySubmit: URL => {
                 // pass selected file path to TinyMCE
                 parent.tinymce.activeEditor.windowManager.getParams().setUrl(URL);
 
@@ -39,7 +39,7 @@
             }
         }
 
-        $().ready(function() {
+        $().ready(() => {
             var elf = $('#elfinder').elfinder({
                 // set your elFinder options here
                 resizable: false,
@@ -52,13 +52,13 @@
                     _token: '<?= csrf_token() ?>'
                 },
                 url: '<?= route('elfinder.connector') ?>',  // connector URL
-                getFileCallback: function(file) { // editor callback
+                getFileCallback: file => { // editor callback
                     FileBrowserDialogue.mySubmit(file.url); // pass selected file path to TinyMCE
                 }
             }).elfinder('instance');
         });
-        $(window).resize(function(){
-            var h = ($(window).height());
+        $(window).resize(() => {
+            var h = $(window).height();
             if($('#elfinder').height() != h){
                 $('#elfinder').height(h).resize();
             }
