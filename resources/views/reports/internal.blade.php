@@ -225,6 +225,13 @@ for (s in data) {
 		type: 'line',
 		data: chartData,
 		options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                    }
+                }]
+            },
 			legend: {
 				display: true
                 },

@@ -119,7 +119,7 @@ class MyAccountController extends \App\Http\Controllers\Controller
             'birthdate' => 'required',
         ]);
 
-        $student = Student::updateOrCreate(
+        Student::updateOrCreate(
             ['user_id' => $this->guard()->user()->id],
             [
                 'idnumber' => $request->idnumber,

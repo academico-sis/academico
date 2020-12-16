@@ -102,7 +102,6 @@ class Teacher extends Model
         }
         $formatted_leaves = [];
         $range_start = Carbon::parse($dates[0]['date']);
-        $range_end = Carbon::parse($dates[0]['date']);
 
         // loop through all leave dates
         for ($i = 0; $i < count($dates); $i++) {

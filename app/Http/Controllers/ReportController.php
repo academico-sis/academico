@@ -49,8 +49,6 @@ class ReportController extends Controller
         $data = [];
         $years = [];
 
-        $current_year_id = $startperiod->year_id;
-
         foreach ($periods as $i => $data_period) {
             $data[$data_period->id]['period'] = $data_period->name;
             $data[$data_period->id]['year_id'] = $data_period->year_id;
@@ -67,7 +65,6 @@ class ReportController extends Controller
         Log::info('Reports viewed by '.backpack_user()->firstname);
 
         return view('reports.internal', [
-            'selected_period' => $period,
             'pending_enrollment_count' => $period->pending_enrollments_count,
             'paid_enrollment_count' => $period->paid_enrollments_count,
             'total_enrollment_count' => $period->internal_enrollments_count,

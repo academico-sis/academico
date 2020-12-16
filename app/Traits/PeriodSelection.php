@@ -7,6 +7,13 @@ use Illuminate\Http\Request;
 
 trait PeriodSelection
 {
+    public $currentPeriod;
+
+    public function __construct()
+    {
+        $this->currentPeriod = Period::get_default_period()->id;
+    }
+
     protected function selectPeriod(Request $request)
     {
         $period_id = $request->query('period', null);

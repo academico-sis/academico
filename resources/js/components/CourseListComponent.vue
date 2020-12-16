@@ -212,7 +212,7 @@
                             :class="{
                                 'border-danger':
                                     course.spots > 0 &&
-                                    course.course_enrollments_count == 0,
+                                    course.enrollments_count == 0,
                                 'bg-secondary':
                                     highlightedSortableId == course.sortable_id,
                                 'border-warning':
