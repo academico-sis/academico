@@ -39,7 +39,6 @@ class StudentCrudController extends CrudController
         if ($permissions->contains('enrollments.view')) {
             CRUD::enableExportButtons();
         }
-
     }
 
     public function setupListOperation()

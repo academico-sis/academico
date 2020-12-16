@@ -176,8 +176,8 @@ class Student extends Model implements HasMedia
     {
         // if the student is currently enrolled
         if ($this->enrollments()->whereHas('course', function ($q) {
-                return $q->where('period_id', $this->currentPeriod);
-            })->count() > 0) {
+            return $q->where('period_id', $this->currentPeriod);
+        })->count() > 0) {
             return 1;
         }
     }
