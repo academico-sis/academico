@@ -56,7 +56,7 @@ class EnrollmentViewAuthTest extends TestCase
         \Auth::guard(backpack_guard_name())->login($user);
 
         $response = $this->get('enrollment');
-        $response->assertSee('Enrollments');
+        $response->assertOk();
     }
 
     /** @test **/
@@ -68,6 +68,6 @@ class EnrollmentViewAuthTest extends TestCase
         \Auth::guard(backpack_guard_name())->login($user);
 
         $response = $this->get('enrollment');
-        $response->assertSee('Enrollments');
+        $response->assertOk();
     }
 }

@@ -16,22 +16,25 @@
   <li class="nav-title">@lang('CALENDARS')</li>
   <li class='nav-item'><a class='nav-link' href="{{ route('teachersCalendar') }}"><i class="nav-icon la la-binoculars"></i><span>@lang('Teachers overview')</span></a></li>
   <li class='nav-item'><a class='nav-link' href="{{ route('roomsCalendar') }}"><i class="nav-icon la la-binoculars"></i><span>@lang('Rooms overview')</span></a></li>
-  <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-group"></i> @lang('teachers')</a>
-      <ul class="nav-dropdown-items">
-        @foreach ($teachers as $teacher)
-          <li class='nav-item'><a class='nav-link' href="{{ route('teacherCalendar', ['teacher' => $teacher->id]) }}"><span>{{ $teacher->name }}</span></a></li>
-        @endforeach
-    </ul>
-  </li>
+  @if (isset($teachers))
+    <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-group"></i> @lang('teachers')</a>
+        <ul class="nav-dropdown-items">
+          @foreach ($teachers as $teacher)
+            <li class='nav-item'><a class='nav-link' href="{{ route('teacherCalendar', ['teacher' => $teacher->id]) }}"><span>{{ $teacher->name }}</span></a></li>
+          @endforeach
+      </ul>
+    </li>
+  @endif
 
-
-  <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-building"></i> @lang('rooms')</a>
-      <ul class="nav-dropdown-items">
-        @foreach ($rooms as $room)
-          <li class='nav-item'><a class='nav-link' href="{{ route('roomCalendar', ['room' => $room->id]) }}"><span>{{ $room->name }}</span></a></li>
-        @endforeach
-    </ul>
-  </li>
+  @if(isset($rooms))
+    <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-building"></i> @lang('rooms')</a>
+        <ul class="nav-dropdown-items">
+          @foreach ($rooms as $room)
+            <li class='nav-item'><a class='nav-link' href="{{ route('roomCalendar', ['room' => $room->id]) }}"><span>{{ $room->name }}</span></a></li>
+          @endforeach
+      </ul>
+    </li>
+  @endif
 
 @endif
 
