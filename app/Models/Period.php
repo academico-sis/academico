@@ -199,7 +199,7 @@ class Period extends Model
             $query->where('exempt_attendance', '!=', true);
             $query->where('exempt_attendance', '!=', 1);
             $query->orWhereNull('exempt_attendance');
-        })->whereHas('events')->with('attendance')->with('attendance')->whereNotNull('exempt_attendance')->get();
+        })->whereHas('events')->with('attendance')->whereNotNull('exempt_attendance')->get();
         $coursesWithMissingAttendanceCount = 0;
 
         // loop through all courses and get the number of events with incomplete attendance
