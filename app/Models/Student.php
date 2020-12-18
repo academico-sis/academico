@@ -63,7 +63,7 @@ class Student extends Model implements HasMedia
     public function periodAbsences(Period $period = null)
     {
         if ($period == null) {
-            $period = Period::get_default_period();
+            $period = $this->currentPeriod;
         }
 
         return $this->hasMany(Attendance::class)
@@ -78,7 +78,7 @@ class Student extends Model implements HasMedia
     public function periodAttendance(Period $period = null)
     {
         if ($period == null) {
-            $period = Period::get_default_period();
+            $period = $this->currentPeriod;
         }
 
         return $this->hasMany(Attendance::class)
