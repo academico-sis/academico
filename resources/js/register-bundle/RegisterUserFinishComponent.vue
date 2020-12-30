@@ -6,7 +6,7 @@
 
                 <b-button
                     class="is-large is-rounded is-success is-centered"
-                    :class="{ 'is-loading': formSubmitted == true }"
+                    :class="{ 'is-loading': formSubmitted === true }"
                     @click="submitRegisterForm()"
                     >{{ $t("finish_action") }}</b-button
                 >
@@ -127,7 +127,7 @@
         <div class="container has-text-centered">
             <b-button
                 class="is-large is-rounded is-success is-centered"
-                :class="{ 'is-loading': formSubmitted == true }"
+                :class="{ 'is-loading': formSubmitted === true }"
                 @click="submitRegisterForm()"
                 >{{ $t("finish_action") }}</b-button
             >
@@ -160,11 +160,10 @@ export default {
         submitRegisterForm() {
             this.formSubmitted = true;
 
-            const sleep = milliseconds => {
-                return new Promise(resolve =>
+            const sleep = milliseconds =>
+                new Promise(resolve =>
                     setTimeout(resolve, milliseconds)
                 );
-            };
 
             axios
                 .post("/register", {

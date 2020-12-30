@@ -160,7 +160,7 @@ class Period extends Model
         // students both in period p-1 and period p
         $acquired_students = $previous_period_student_ids->intersect($current_students_ids);
 
-        return number_format(100 * $acquired_students->count() / max($previous_period_student_ids->count(), 1), 1).'%';
+        return number_format((100 * $acquired_students->count()) / max($previous_period_student_ids->count(), 1), 1).'%';
     }
 
     public function getNewStudentsCountAttribute()

@@ -38,7 +38,6 @@ class CourseController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
@@ -61,7 +60,7 @@ class CourseController extends Controller
             'name',
             'period_id',
             'rhythm_id',
-            AllowedFilter::custom('searchable_levels', new FiltersSearchableLevels),
+            AllowedFilter::custom('searchable_levels', new FiltersSearchableLevels()),
             'teacher_id', ])
         ->get();
     }

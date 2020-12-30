@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Period;
+use App\Models\Result;
 use App\Models\ResultType;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Support\Facades\Gate;
 
@@ -16,8 +20,8 @@ use Illuminate\Support\Facades\Gate;
  */
 class ResultCrudController extends CrudController
 {
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+    use ListOperation;
+    use ShowOperation;
 
     public function __construct()
     {
@@ -27,7 +31,7 @@ class ResultCrudController extends CrudController
 
     public function setup()
     {
-        CRUD::setModel(\App\Models\Enrollment::class);
+        CRUD::setModel(Enrollment::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/result');
         CRUD::setEntityNameStrings(__('result'), __('results'));
     }
@@ -63,7 +67,7 @@ class ResultCrudController extends CrudController
                 'name' => 'course_id', // the column that contains the ID of that connected entity;
                 'entity' => 'course', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\Course::class, // foreign key model
+                'model' => Course::class, // foreign key model
             ],
             [
                 'name' => 'course.period.name',
@@ -76,7 +80,7 @@ class ResultCrudController extends CrudController
                 'type' => 'select',
                 'entity' => 'result', // the method that defines the relationship in your Model
                 'attribute' => 'result_type', // foreign key attribute that is shown to user
-                'model' => \App\Models\Result::class, // foreign key model
+                'model' => Result::class, // foreign key model
             ],
         ]);
 

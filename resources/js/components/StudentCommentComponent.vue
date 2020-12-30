@@ -98,9 +98,7 @@ export default {
     methods: {
         showCommentForm() {
             this.showEditField = true;
-            this.$nextTick(() => {
-                this.$refs.comment.focus();
-            })
+            this.$nextTick(() => this.$refs.comment.focus())
         },
 
         addComment() {
@@ -129,12 +127,8 @@ export default {
         deleteComment(comment, index) {
             axios
                 .delete(`/comment/${comment}`)
-                .then(response => {
-                    this.$delete(this.commentlist, index);
-                })
-                .catch(e => {
-                    this.errors.push(e);
-                });
+                .then(response => this.$delete(this.commentlist, index))
+                .catch(e => this.errors.push(e));
         },
 
         editComment(comment)

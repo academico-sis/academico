@@ -5,15 +5,19 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\UserStoreCrudRequest as StoreRequest;
 use App\Http\Requests\UserUpdateCrudRequest as UpdateRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Http\Requests\CrudRequest;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 class UserCrudController extends CrudController
 {
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation { store as traitStore; }
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation { update as traitUpdate; }
-    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+    use ListOperation;
+    use CreateOperation { store as traitStore; }
+    use UpdateOperation { update as traitUpdate; }
+    use DeleteOperation;
 
     public function setup()
     {
@@ -83,9 +87,6 @@ class UserCrudController extends CrudController
     /**
      * Store a newly created resource in the database.
      *
-     * @param StoreRequest $request - type injection used for validation using Requests
-     *
-     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(StoreRequest $request)
     {
@@ -97,9 +98,6 @@ class UserCrudController extends CrudController
     /**
      * Update the specified resource in the database.
      *
-     * @param UpdateRequest $request - type injection used for validation using Requests
-     *
-     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(UpdateRequest $request)
     {

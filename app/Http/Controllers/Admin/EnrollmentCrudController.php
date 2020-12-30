@@ -3,10 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
+use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\EnrollmentStatusType;
 use App\Models\Period;
+use App\Models\PhoneNumber;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Support\Facades\Log;
 
@@ -18,9 +23,9 @@ use Illuminate\Support\Facades\Log;
  */
 class EnrollmentCrudController extends CrudController
 {
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+    use ListOperation;
+    use ShowOperation;
+    use DeleteOperation;
 
     public function __construct()
     {
@@ -36,7 +41,7 @@ class EnrollmentCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        CRUD::setModel(\App\Models\Enrollment::class);
+        CRUD::setModel(Enrollment::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/enrollment');
         CRUD::setEntityNameStrings(__('enrollment'), __('enrollments'));
 
@@ -97,7 +102,7 @@ class EnrollmentCrudController extends CrudController
                 'name' => 'course_id', // the column that contains the ID of that connected entity;
                 'entity' => 'course', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\Course::class, // foreign key model
+                'model' => Course::class, // foreign key model
             ],
 
             [
@@ -113,7 +118,7 @@ class EnrollmentCrudController extends CrudController
                 'name' => 'status_id', // the column that contains the ID of that connected entity;
                 'entity' => 'enrollmentStatus', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\EnrollmentStatusType::class, // foreign key model
+                'model' => EnrollmentStatusType::class, // foreign key model
             ],
 
             [
@@ -123,7 +128,7 @@ class EnrollmentCrudController extends CrudController
                 'name' => 'student.phone', // the method that defines the relationship in your Model
                 'entity' => 'student.phone', // the method that defines the relationship in your Model
                 'attribute' => 'phone_number', // foreign key attribute that is shown to user
-                'model' => \App\Models\PhoneNumber::class, // foreign key model
+                'model' => PhoneNumber::class, // foreign key model
             ],
 
         ]);

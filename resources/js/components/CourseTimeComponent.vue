@@ -158,9 +158,7 @@ export default {
                     this.getTimes();
                     this.getEvents();
                 })
-                .catch(e => {
-                    this.errors.push(e);
-                });
+                .catch(e => this.errors.push(e));
         },
 
         removeTime(time) {
@@ -172,9 +170,7 @@ export default {
                     this.getTimes();
                     this.getEvents();
                 })
-                .catch(e => {
-                    this.errors.push(e);
-                });
+                .catch(e => this.errors.push(e));
         },
     },
 };

@@ -3,7 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\CourseEvaluationRequest;
+use App\Models\Course;
+use App\Models\EvaluationType;
+use App\Models\Level;
+use App\Models\Period;
+use App\Models\Rhythm;
+use App\Models\Teacher;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
@@ -12,12 +20,12 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
  */
 class CourseEvaluationCrudController extends CrudController
 {
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use ListOperation;
+    use UpdateOperation;
 
     public function setup()
     {
-        $this->crud->setModel(\App\Models\Course::class);
+        $this->crud->setModel(Course::class);
         $this->crud->setRoute(config('backpack.base.route_prefix').'/courseevaluation');
         $this->crud->setEntityNameStrings(__('course evaluation'), __('course evaluations'));
 
@@ -37,7 +45,7 @@ class CourseEvaluationCrudController extends CrudController
                 'name' => 'rhythm_id', // the column that contains the ID of that connected entity;
                 'entity' => 'rhythm', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\Rhythm::class, // foreign key model
+                'model' => Rhythm::class, // foreign key model
             ],
 
             [
@@ -47,7 +55,7 @@ class CourseEvaluationCrudController extends CrudController
                 'name' => 'level_id', // the column that contains the ID of that connected entity;
                 'entity' => 'level', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\Level::class, // foreign key model
+                'model' => Level::class, // foreign key model
             ],
 
             [
@@ -62,7 +70,7 @@ class CourseEvaluationCrudController extends CrudController
                 'name' => 'teacher_id', // the column that contains the ID of that connected entity;
                 'entity' => 'teacher', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\Teacher::class, // foreign key model
+                'model' => Teacher::class, // foreign key model
             ],
 
             // EVALUATION METHODS
@@ -73,7 +81,7 @@ class CourseEvaluationCrudController extends CrudController
                 'name' => 'evaluation_type', // the method that defines the relationship in your Model
                 'entity' => 'evaluation_type', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\EvaluationType::class, // foreign key model
+                'model' => EvaluationType::class, // foreign key model
             ],
 
         ]);
@@ -83,7 +91,7 @@ class CourseEvaluationCrudController extends CrudController
             'type' => 'select2',
             'label'=> __('Rhythm'),
         ], function () {
-            return \App\Models\Rhythm::all()->pluck('name', 'id')->toArray();
+            return Rhythm::all()->pluck('name', 'id')->toArray();
         }, function ($value) { // if the filter is active
             CRUD::addClause('where', 'rhythm_id', $value);
         },
@@ -95,7 +103,7 @@ class CourseEvaluationCrudController extends CrudController
             'type' => 'select2',
             'label'=> __('Teacher'),
         ], function () {
-            return \App\Models\Teacher::all()->pluck('name', 'id')->toArray();
+            return Teacher::all()->pluck('name', 'id')->toArray();
         }, function ($value) { // if the filter is active
             CRUD::addClause('where', 'teacher_id', $value);
         },
@@ -107,7 +115,7 @@ class CourseEvaluationCrudController extends CrudController
             'type' => 'select2',
             'label'=> __('Level'),
         ], function () {
-            return \App\Models\Level::all()->pluck('name', 'id')->toArray();
+            return Level::all()->pluck('name', 'id')->toArray();
         }, function ($value) { // if the filter is active
             CRUD::addClause('where', 'level_id', $value);
         },
@@ -119,12 +127,12 @@ class CourseEvaluationCrudController extends CrudController
             'type' => 'select2',
             'label'=> __('Period'),
         ], function () {
-            return \App\Models\Period::all()->sortByDesc('id')->pluck('name', 'id')->toArray();
+            return Period::all()->sortByDesc('id')->pluck('name', 'id')->toArray();
         }, function ($value) { // if the filter is active
             CRUD::addClause('where', 'period_id', $value);
         },
           function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
-              $period = \App\Models\Period::get_default_period()->id;
+              $period = Period::get_default_period()->id;
               CRUD::addClause('where', 'period_id', $period);
               $this->crud->getRequest()->request->add(['period_id' => $period]); // to make the filter look active
           });
@@ -146,7 +154,7 @@ class CourseEvaluationCrudController extends CrudController
                 'name' => 'evaluation_type', // the method that defines the relationship in your Model
                 'entity' => 'evaluation_type', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\EvaluationType::class, // foreign key model
+                'model' => EvaluationType::class, // foreign key model
                 'pivot' => true,
             ]
             );

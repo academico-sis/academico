@@ -273,7 +273,7 @@
                             </div>
 
                             <div class="col-md-6" style="text-align: center;">
-                                <div v-if="shoppingCartTotal == paidTotal">
+                                <div v-if="shoppingCartTotal === paidTotal">
                                     <div class="form-group">
                                         <button
                                             class="btn btn-lg btn-success"
@@ -347,7 +347,7 @@
             </div>
         </div>
 
-        <div v-if="step == 4" class="row">
+        <div v-if="step === 4" class="row">
             <div class="col col-md-12">
                 <div class="card">
                     <div class="card-header">
@@ -461,14 +461,14 @@ export default {
                 );
         },
         addBook(book) {
-            if (!this.books.some(el => el.id == book.id)) {
+            if (!this.books.some(el => el.id === book.id)) {
                 var addedbook = this.books.push(book) - 1;
                 this.books[addedbook].quantity = 1;
             }
         },
 
         addFee(fee) {
-            if (!this.fees.some(el => el.id == fee.id)) {
+            if (!this.fees.some(el => el.id === fee.id)) {
                 var addedfee = this.fees.push(fee) - 1;
                 this.fees[addedfee].quantity = 1;
             }
@@ -496,7 +496,7 @@ export default {
 
         addPayment(method) {
             let payment = {
-                method: method,
+                method,
                 value: this.shoppingCartTotal,
                 comment: "",
             };

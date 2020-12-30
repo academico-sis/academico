@@ -14,7 +14,7 @@
 @section('header')
     <section class="container-fluid">
 	  <h2>
-        @lang('Calendar for') {{ $resource->name ?? "-" }}
+        @lang('Calendar for') {{ $resource->name ?? '-' }}
       </h2>
     </section>
 @endsection

@@ -36,12 +36,12 @@ class Room extends Model
     */
     public function events()
     {
-        return $this->hasMany(\App\Models\Event::class);
+        return $this->hasMany(Event::class);
     }
 
     public function campus()
     {
-        return $this->belongsTo(\App\Models\Campus::class);
+        return $this->belongsTo(Campus::class);
     }
 
     /*

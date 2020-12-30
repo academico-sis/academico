@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\PaymentRequest;
 use App\Models\Payment;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
@@ -13,8 +15,8 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
  */
 class PaymentCrudController extends CrudController
 {
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+    use UpdateOperation;
+    use DeleteOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -23,7 +25,7 @@ class PaymentCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\Payment::class);
+        CRUD::setModel(Payment::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/payment');
         CRUD::setEntityNameStrings(__('payment'), __('payments'));
         $this->crud->replaceSaveActions(

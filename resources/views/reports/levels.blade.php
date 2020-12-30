@@ -28,8 +28,8 @@
                         <tr>
                             <td>{{ $level['level'] ?? '-' }}</td>
                             <td>{{ $level['enrollment_count'] ?? '-' }}</td>
-                            <td>{{ $level['taught_hours_count'] . ' h' ?? '-' }}</td>
-                            <td>{{ $level['sold_hours_count'] . ' h' ?? '-' }}</td>
+                            <td>{{ ($level['taught_hours_count'] . ' h') ?? '-' }}</td>
+                            <td>{{ ($level['sold_hours_count'] . ' h') ?? '-' }}</td>
                         </tr>
                         @endforeach
                     </tbody>

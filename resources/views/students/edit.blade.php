@@ -44,67 +44,67 @@
 
                     <div class="form-group">
                             @php
-                                $field = 'lastname';
+                                $field = 'lastname'
                             @endphp
                             <label class="required">@lang('Lastname')</label>
-                            <input required class="form-control" type="text" name="{{ $field }}" value="{{ old($field) ? old($field) : $student->$field ?? ""}}">
+                            <input required class="form-control" type="text" name="{{ $field }}" value="{{ old($field) ? old($field) : ($student->$field ?? '')}}">
                     </div>
 
                     <div class="form-group">
                         @php
-                            $field = 'firstname';
+                            $field = 'firstname'
                         @endphp
                         <label class="required">@lang('Firstname')</label>
-                        <input required class="form-control" type="text" name="{{ $field }}" value="{{ old($field) ? old($field) : $student->$field ?? '' }}">
+                        <input required class="form-control" type="text" name="{{ $field }}" value="{{ old($field) ? old($field) : ($student->$field ?? '') }}">
                     </div>
 
                     <div class="form-group">
                         @php
-                            $field = backpack_authentication_column();
+                            $field = backpack_authentication_column()
                         @endphp
                         <label class="required">@lang('Email')</label>
-                        <input required class="form-control" type="{{ backpack_authentication_column()=='email'?'email':'text' }}" name="{{ $field }}" value="{{ old($field) ? old($field) : $student->$field ?? '' }}">
+                        <input required class="form-control" type="{{ (backpack_authentication_column()=='email')?'email':'text' }}" name="{{ $field }}" value="{{ old($field) ? old($field) : ($student->$field ?? '') }}">
                     </div>
 
                     <div class="form-group">
                         @php
-                            $field = 'idnumber';
+                            $field = 'idnumber'
                         @endphp
                         <label>@lang('ID Number')</label>
-                        <input class="form-control" type="text" name="{{ $field }}" value="{{ old($field) ? old($field) : $student->$field ?? '' }}">
+                        <input class="form-control" type="text" name="{{ $field }}" value="{{ old($field) ? old($field) : ($student->$field ?? '') }}">
                     </div>
 
 
                     <div class="form-group">
                         @php
-                            $field = 'address';
+                            $field = 'address'
                         @endphp
                         <label>@lang('Address')</label>
-                        <input class="form-control" type="text" name="{{ $field }}" value="{{ old($field) ? old($field) : $student->$field ?? '' }}">
+                        <input class="form-control" type="text" name="{{ $field }}" value="{{ old($field) ? old($field) : ($student->$field ?? '') }}">
                     </div>
 
                     <div class="form-group">
                         @php
-                            $field = 'city';
+                            $field = 'city'
                         @endphp
                         <label>@lang('City')</label>
-                        <input class="form-control" type="text" name="{{ $field }}" value="{{ old($field) ? old($field) : $student->$field ?? '' }}">
+                        <input class="form-control" type="text" name="{{ $field }}" value="{{ old($field) ? old($field) : ($student->$field ?? '') }}">
                     </div>
 
                     <div class="form-group">
                         @php
-                            $field = 'state';
+                            $field = 'state'
                         @endphp
                         <label>@lang('State')</label>
-                        <input class="form-control" type="text" name="{{ $field }}" value="{{ old($field) ? old($field) : $student->$field ?? '' }}">
+                        <input class="form-control" type="text" name="{{ $field }}" value="{{ old($field) ? old($field) : ($student->$field ?? '') }}">
                     </div>
 
                     <div class="form-group">
                         @php
-                            $field = 'country';
+                            $field = 'country'
                         @endphp
                         <label>@lang('Country')</label>
-                        <input class="form-control" type="text" name="{{ $field }}" value="{{ old($field) ? old($field) : $student->$field ?? '' }}">
+                        <input class="form-control" type="text" name="{{ $field }}" value="{{ old($field) ? old($field) : ($student->$field ?? '') }}">
                     </div>
 
                     @if($student->exists)
@@ -113,15 +113,15 @@
 
                     <div class="form-group">
                         @php
-                            $field = 'birthdate';
+                            $field = 'birthdate'
                         @endphp
                         <label>@lang('Birthdate')</label>
-                        <input class="form-control" type="date" name="{{ $field }}" value="{{ old($field) ? old($field) : $student->$field ?? '' }}">
+                        <input class="form-control" type="date" name="{{ $field }}" value="{{ old($field) ? old($field) : ($student->$field ?? '') }}">
                     </div>
 
                     <div class="form-group">
                         @php
-                            $label = trans('Profession');
+                            $label = trans('Profession')
                         @endphp
                         <label>{{ $label }}</label>
                         <input class="form-control" type="text" name="profession" value="{{ $student->profession->name ?? '' }}">
@@ -129,7 +129,7 @@
 
                     <div class="form-group">
                             @php
-                                $label = trans('Institution');
+                                $label = trans('Institution')
                             @endphp
                             <label>{{ $label }}</label>
                             <input class="form-control" type="text" name="institution" value="{{ $student->institution->name ?? '' }}">

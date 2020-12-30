@@ -13,7 +13,7 @@
             >
                 <button
                     class="btn btn-sm btn-secondary"
-                    :class="{ 'btn-info': status && status == leadtype.id }"
+                    :class="{ 'btn-info': status && status === leadtype.id }"
                     :disabled="isLoading || student.is_enrolled"
                     @click="saveStatus(leadtype.id)"
                 >
@@ -44,15 +44,13 @@ export default {
             axios
                 .post(this.route, {
                     student: this.student.id,
-                    status: status,
+                    status,
                 })
                 .then(response => {
                     this.status = response.data;
                     this.isLoading = false;
                 })
-                .catch(e => {
-                    this.errors.push(e);
-                });
+                .catch(e => this.errors.push(e));
         },
     },
 };

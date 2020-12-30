@@ -92,7 +92,7 @@ class HomeController extends Controller
         Log::info(backpack_user()->firstname.' '.backpack_user()->lastname.' accessed the admin dashboard');
 
         // todo optimize this !!
-        $events = Event::where('start', '>', (Carbon::now()->subDays(15)))->where('end', '<', (Carbon::now()->addDays(15)))->orderBy('id', 'desc')->get()->toArray();
+        $events = Event::where('start', '>', Carbon::now()->subDays(15))->where('end', '<', Carbon::now()->addDays(15))->orderBy('id', 'desc')->get()->toArray();
 
         $teachers = Teacher::with('user')->get()->toArray();
 
@@ -109,8 +109,8 @@ class HomeController extends Controller
                 'resourceId' => $event['teacher_id'],
                 'start' => $event['start'],
                 'end' => $event['end'],
-                'backgroundColor' => $event['course']['color'] ?? '#'.substr(md5($event['course_id'] ?? '0'), 0, 6),
-                'borderColor' => $event['course']['color'] ?? '#'.substr(md5($event['course_id'] ?? '0'), 0, 6),
+                'backgroundColor' => $event['course']['color'] ?? ('#'.substr(md5($event['course_id'] ?? '0'), 0, 6)),
+                'borderColor' => $event['course']['color'] ?? ('#'.substr(md5($event['course_id'] ?? '0'), 0, 6)),
             ];
         }, $events);
 
@@ -122,7 +122,7 @@ class HomeController extends Controller
             'enrollmentsPeriod' => $enrollmentsPeriod,
             'total_enrollment_count' => $currentPeriod->internal_enrollments_count,
             'pending_attendance' => $currentPeriod->courses_with_pending_attendance,  // optimize
-            'unassigned_events' => (new Event)->unassigned_teacher->count(),
+            'unassigned_events' => (new Event())->unassigned_teacher->count(),
             'upcoming_leaves' => Leave::upcoming_leaves(),
             'resources' => $teachers,
             'events' => $events,

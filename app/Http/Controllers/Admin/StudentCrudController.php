@@ -5,14 +5,17 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Institution;
 use App\Models\LeadType;
 use App\Models\Period;
+use App\Models\PhoneNumber;
 use App\Models\Student;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 class StudentCrudController extends CrudController
 {
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation { show as traitShow; }
+    use ListOperation;
+    use ShowOperation { show as traitShow; }
 
     public function __construct()
     {
@@ -23,7 +26,7 @@ class StudentCrudController extends CrudController
 
     public function setup()
     {
-        CRUD::setModel(\App\Models\Student::class);
+        CRUD::setModel(Student::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/student');
         CRUD::setEntityNameStrings(__('student'), __('students'));
 
@@ -57,7 +60,7 @@ class StudentCrudController extends CrudController
                 'name'      => 'lastname', // the column that contains the ID of that connected entity;
                 'entity'    => 'user', // the method that defines the relationship in your Model
                 'attribute' => 'lastname', // foreign key attribute that is shown to user
-                'model'     => "App\Models\User", // foreign key model
+                'model'     => 'App\Models\User', // foreign key model
                 'orderable' => true,
                 'orderLogic' => function ($query, $column, $columnDirection) {
                     return $query->leftJoin('users', 'users.id', '=', 'students.user_id')
@@ -77,7 +80,7 @@ class StudentCrudController extends CrudController
                 'name'      => 'firstname', // the column that contains the ID of that connected entity;
                 'entity'    => 'user', // the method that defines the relationship in your Model
                 'attribute' => 'firstname', // foreign key attribute that is shown to user
-                'model'     => "App\Models\User", // foreign key model
+                'model'     => 'App\Models\User', // foreign key model
                 'orderable' => true,
                 'orderLogic' => function ($query, $column, $columnDirection) {
                     return $query->leftJoin('users', 'users.id', '=', 'students.user_id')
@@ -97,7 +100,7 @@ class StudentCrudController extends CrudController
                 'name'      => 'email', // the column that contains the ID of that connected entity;
                 'entity'    => 'user', // the method that defines the relationship in your Model
                 'attribute' => 'email', // foreign key attribute that is shown to user
-                'model'     => "App\Models\User", // foreign key model
+                'model'     => 'App\Models\User', // foreign key model
                 'orderable' => true,
                 'orderLogic' => function ($query, $column, $columnDirection) {
                     return $query->leftJoin('users', 'users.id', '=', 'students.user_id')
@@ -117,7 +120,7 @@ class StudentCrudController extends CrudController
                 'name' => 'phone', // the method that defines the relationship in your Model
                 'entity' => 'phone', // the method that defines the relationship in your Model
                 'attribute' => 'phone_number', // foreign key attribute that is shown to user
-                'model' => \App\Models\PhoneNumber::class, // foreign key model
+                'model' => PhoneNumber::class, // foreign key model
             ],
 
         ]);

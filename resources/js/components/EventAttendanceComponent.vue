@@ -42,18 +42,16 @@ export default {
                 .post(this.route, {
                     event_id: this.event.id,
                     student_id: this.attendance.student_id,
-                    attendance_type_id: attendance_type_id,
+                    attendance_type_id,
                 })
                 .then(response => {
                     this.studentAttendance = response.data;
                 })
-                .catch(e => {
-                    this.errors.push(e);
-                });
+                .catch(e => this.errors.push(e));
         },
 
         buttonClass(attendance_type) {
-            if (this.studentAttendance.attendance_type_id == attendance_type.id)
+            if (this.studentAttendance.attendance_type_id === attendance_type.id)
             {
                 return `btn btn-${attendance_type.class}`
             }

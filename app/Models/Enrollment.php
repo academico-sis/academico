@@ -28,7 +28,7 @@ class Enrollment extends Model
 
         // when creating a new enrollment, also add past attendance
         static::created(function (self $enrollment) {
-            $events = $enrollment->course->events->where('start', '<', (new Carbon)->toDateString());
+            $events = $enrollment->course->events->where('start', '<', (new Carbon())->toDateString());
             foreach ($events as $event) {
                 $event->attendance()->create([
                     'student_id' => $enrollment->student_id,
@@ -245,7 +245,7 @@ class Enrollment extends Model
         $courseEventIds = $this->course->events->pluck('id');
         $attendances = $this->student->attendance()->with('event')->get()->whereIn('event_id', $courseEventIds);
         if ($attendances->count() > 0) {
-            return round(100 * (($attendances->where('attendance_type_id', 1)->count() + ($attendances->where('attendance_type_id', 2)->count() * 0.75)) / $attendances->count()));
+            return round(100 * (($attendances->where('attendance_type_id', 1)->count() + $attendances->where('attendance_type_id', 2)->count() * 0.75) / $attendances->count()));
         } else {
             return;
         }
@@ -285,7 +285,7 @@ class Enrollment extends Model
     public function cancel()
     {
         // if the enrollment had children, delete them entirely
-        if ($this->childrenEnrollments && $this->childrenEnrollments->count() > 0) {
+        if ($this->childrenEnrollments && ($this->childrenEnrollments->count() > 0)) {
             foreach ($this->childrenEnrollments as $child) {
                 $child->delete();
             }

@@ -166,12 +166,11 @@ export default {
                     this.studentData.phone.push(response.data)
                     this.newNumber = null
                 })
-                .catch(errors => {
+                .catch(errors =>
                     new Noty({
                         type: "error",
                         text: 'Unable to save your change',
-                    }).show();
-                })
+                    }).show())
         },
 
         saveContactPhoneNumber(contact)
@@ -185,12 +184,11 @@ export default {
                     contact.phone.push(response.data)
                     this.newNumber = null
                 })
-                .catch(errors => {
+                .catch(errors =>
                     new Noty({
                         type: "error",
                         text: 'Unable to save your change',
-                    }).show();
-                })
+                    }).show())
         },
         deleteContact(contact) {
             swal({
@@ -216,15 +214,12 @@ export default {
                 if (value) {
                     axios
                         .delete(`/contact/${contact}/delete`)
-                        .then(response => {
-                            window.location.reload()
-                        })
-                        .catch(err => {
+                        .then(response => window.location.reload())
+                        .catch(err =>
                             new Noty({
                                 type: "error",
                                 text: 'Unable to delete contact',
-                            }).show();
-                        });
+                            }).show());
                 }
             });
         }

@@ -36,7 +36,7 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
         $user_model_fqn = config('backpack.base.user_model_fqn');
         $user = new $user_model_fqn();
         $users_table = $user->getTable();
-        $email_validation = backpack_authentication_column() == 'email' ? 'email|' : '';
+        $email_validation = (backpack_authentication_column() == 'email') ? 'email|' : '';
 
         return Validator::make($data, [
             'firstname'                            => 'required|max:255',
@@ -68,7 +68,7 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
 
                 $size = getimagesizefromstring($value);
 
-                if (! $size || $size[0] == 0 || $size[1] == 0 || ! $size['mime']) {
+                if (! $size || ($size[0] == 0) || ($size[1] == 0) || ! $size['mime']) {
                     $fail($attribute.'is invalid');
                 }
             },

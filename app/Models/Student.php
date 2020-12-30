@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Traits\PeriodSelection;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -18,7 +17,6 @@ class Student extends Model implements HasMedia
     use CrudTrait;
     use InteractsWithMedia;
     use LogsActivity;
-    use PeriodSelection;
 
     public $timestamps = true;
     protected $guarded = ['id'];
@@ -78,7 +76,7 @@ class Student extends Model implements HasMedia
     public function periodAttendance(Period $period = null)
     {
         if ($period == null) {
-            $period = $this->currentPeriod;
+            $period = Period::get_default_period();
         }
 
         return $this->hasMany(Attendance::class)
@@ -176,7 +174,7 @@ class Student extends Model implements HasMedia
     {
         // if the student is currently enrolled
         if ($this->enrollments()->whereHas('course', function ($q) {
-            return $q->where('period_id', $this->currentPeriod);
+            return $q->where('period_id', Period::get_default_period()->id);
         })->count() > 0) {
             return 1;
         }

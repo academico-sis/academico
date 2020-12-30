@@ -6,7 +6,13 @@ use App\Http\Requests\LeaveRequest as StoreRequest;
 use App\Http\Requests\LeaveUpdateRequest as UpdateRequest;
 // VALIDATION: change the requests to match your own file names if you need form validation
 use App\Models\Leave;
+use App\Models\LeaveType;
+use App\Models\Teacher;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Carbon\Carbon;
 
@@ -16,10 +22,10 @@ use Carbon\Carbon;
  */
 class LeaveCrudController extends CrudController
 {
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+    use ListOperation;
+    use CreateOperation;
+    use UpdateOperation;
+    use DeleteOperation;
 
     public function setup()
     {
@@ -28,7 +34,7 @@ class LeaveCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        CRUD::setModel(\App\Models\Leave::class);
+        CRUD::setModel(Leave::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/leave');
         CRUD::setEntityNameStrings(__('leave'), __('leaves'));
 
@@ -46,7 +52,7 @@ class LeaveCrudController extends CrudController
                 'name' => 'teacher_id', // the column that contains the ID of that connected entity;
                 'entity' => 'teacher', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\Teacher::class, // foreign key model
+                'model' => Teacher::class, // foreign key model
             ],
 
             [
@@ -56,7 +62,7 @@ class LeaveCrudController extends CrudController
                 'name' => 'leave_type_id', // the column that contains the ID of that connected entity;
                 'entity' => 'leaveType', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\LeaveType::class, // foreign key model
+                'model' => LeaveType::class, // foreign key model
             ],
 
             [
@@ -71,7 +77,7 @@ class LeaveCrudController extends CrudController
             'type' => 'select2',
             'label'=> __('Teacher'),
         ], function () {
-            return \App\Models\Teacher::all()->pluck('name', 'id')->toArray();
+            return Teacher::all()->pluck('name', 'id')->toArray();
         }, function ($value) { // if the filter is active
             CRUD::addClause('where', 'teacher_id', $value);
         },
@@ -103,7 +109,7 @@ class LeaveCrudController extends CrudController
                 'name' => 'teacher_id', // the column that contains the ID of that connected entity;
                 'entity' => 'teacher', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\Teacher::class, // foreign key model
+                'model' => Teacher::class, // foreign key model
             ],
 
             [
@@ -113,7 +119,7 @@ class LeaveCrudController extends CrudController
                 'name' => 'leave_type_id', // the column that contains the ID of that connected entity;
                 'entity' => 'leaveType', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\LeaveType::class, // foreign key model
+                'model' => LeaveType::class, // foreign key model
             ],
 
             [   // date_range
@@ -157,7 +163,7 @@ class LeaveCrudController extends CrudController
                 'name' => 'leave_type_id', // the column that contains the ID of that connected entity;
                 'entity' => 'leaveType', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\LeaveType::class, // foreign key model
+                'model' => LeaveType::class, // foreign key model
             ],
 
             [   // datepicker

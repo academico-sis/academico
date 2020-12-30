@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Alert;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -20,10 +21,10 @@ class Event extends Model
         static::saving(function ($event) {
             $teacher = Teacher::find($event->teacher_id);
             // if the teacher is on leave on the day of the event
-            if ($event->teacher_id !== null && $teacher->leaves->contains('date', Carbon::parse($event->start)->toDateString())) {
+            if (($event->teacher_id !== null) && $teacher->leaves->contains('date', Carbon::parse($event->start)->toDateString())) {
                 // detach the teacher from the event
                 $event->teacher_id = null;
-                \Alert::warning(__('The selected teacher is not available on this date'))->flash();
+                Alert::warning(__('The selected teacher is not available on this date'))->flash();
             }
         });
     }
@@ -153,7 +154,7 @@ class Event extends Model
 
     public function getColorAttribute()
     {
-        return $this->course->color ?? '#'.substr(md5($this->course_id ?? '0'), 0, 6);
+        return $this->course->color ?? ('#'.substr(md5($this->course_id ?? '0'), 0, 6));
     }
 
     /*

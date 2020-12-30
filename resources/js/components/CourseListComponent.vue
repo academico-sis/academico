@@ -157,23 +157,23 @@
             <!-- filters col -->
 
             <div
-                v-if="isLoading == true && hasErrors == false"
+                v-if="isLoading === true && hasErrors === false"
                 class="col-md-8"
             >
                 {{ $t("Results are loading") }}
             </div>
             <div
-                v-if="isLoading == false && hasErrors == true"
+                v-if="isLoading === false && hasErrors === true"
                 class="col-md-8"
             >
                 {{ $t("errorfetchingcourses") }}
             </div>
 
             <div
-                v-if="isLoading == false && hasErrors == false"
+                v-if="isLoading === false && hasErrors === false"
                 class="col-md-8"
             >
-            <div class="row" v-if="this.mode == 'enroll'">
+            <div class="row" v-if="this.mode === 'enroll'">
                     <div class="col-md-6">
                         <div class="card">
                         <div class="card-header">
@@ -199,7 +199,7 @@
 
             </div>
                 <div class="row">
-                    <p v-if="sortedCourses.length == 0">
+                    <p v-if="sortedCourses.length === 0">
                         {{ $t("noresults") }}
                     </p>
                     <div
@@ -212,9 +212,9 @@
                             :class="{
                                 'border-danger':
                                     course.spots > 0 &&
-                                    course.enrollments_count == 0,
+                                    course.enrollments_count === 0,
                                 'bg-secondary':
-                                    highlightedSortableId == course.sortable_id,
+                                    highlightedSortableId === course.sortable_id,
                                 'border-warning':
                                     course.teacher_id == null ||
                                     course.room_id == null,
@@ -225,7 +225,7 @@
                             @mouseleave="highlightedSortableId = null"
                         >
                             <div class="card-body">
-                                <div v-if="mode == 'view'" class="btn-group float-right">
+                                <div v-if="mode === 'view'" class="btn-group float-right">
                                     <a
                                         class="btn"
                                         :href="`course/${course.id}/show`"
@@ -257,7 +257,7 @@
                                             {{ $t("Attendance") }}</a
                                         >
                                         <a
-                                            v-if="editable == 1"
+                                            v-if="editable === 1"
                                             class="dropdown-item"
                                             :href="`course/${course.id}/edit`"
                                             ><i class="la la-edit"></i>
@@ -265,8 +265,8 @@
                                         >
                                         <a
                                             v-if="
-                                                editable == 1 &&
-                                                course.children_count == 0
+                                                editable === 1 &&
+                                                course.children_count === 0
                                             "
                                             class="dropdown-item"
                                             :href="`coursetime/${course.id}/edit`"
@@ -275,8 +275,8 @@
                                         >
                                         <button
                                             v-if="
-                                                editable == 1 &&
-                                                course.course_enrollments_count ==
+                                                editable === 1 &&
+                                                course.course_enrollments_count ===
                                                     0
                                             "
                                             class="dropdown-item text-danger"
@@ -288,7 +288,7 @@
                                     </div>
                                 </div>
 
-                                <div v-if="mode == 'enroll' && course.spots - course.course_enrollments_count > 0" class="btn-group float-right">
+                                <div v-if="mode === 'enroll' && course.spots - course.course_enrollments_count > 0" class="btn-group float-right">
                                     <a
                                         class="btn"
                                         href='#'
@@ -297,7 +297,7 @@
                                     ></a>
                                 </div>
 
-                                <div v-if="mode == 'update'" class="btn-group float-right">
+                                <div v-if="mode === 'update'" class="btn-group float-right">
                                     <a
                                         class="btn"
                                         href='#'
@@ -329,7 +329,7 @@
                                     :class="{
                                         ' text-danger':
                                             course.spots > 0 &&
-                                            course.course_enrollments_count ==
+                                            course.course_enrollments_count ===
                                                 0,
                                     }"
                                 >
@@ -460,7 +460,7 @@ export default {
                         url: `course/${id}`,
                         type: "DELETE",
                         success: result => {
-                            if (result != 1) {
+                            if (result !== 1) {
                                 // Show an error alert
                                 swal({
                                     title: "Error",
@@ -504,7 +504,7 @@ export default {
             }).show();
             axios.post('/student/enroll', {
                 student_id: this.student.id,
-                course_id: course_id
+                course_id
             })
             .then(response => {
                 window.location.href=response.data
@@ -519,7 +519,7 @@ export default {
             }).show();
             axios.post(`/enrollment/${this.enrollment_id}/changeCourse`, {
                 student_id: this.student.id,
-                course_id: course_id
+                course_id
             })
             .then(response => {
                 window.location.href=response.data

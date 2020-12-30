@@ -31,7 +31,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->call(function () {
             Log::info('Sending attendance reminders');
-            (new Attendance)->remindPendingAttendance();
+            (new Attendance())->remindPendingAttendance();
         })->dailyAt('08:15');
 
         $schedule->call(function () {

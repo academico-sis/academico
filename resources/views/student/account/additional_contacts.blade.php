@@ -129,12 +129,8 @@
     <script>
         function deleteContact(contact) {
             axios.delete(`/contact/${contact}/delete`)
-                .then(response => {
-                    window.location.reload()
-                })
-                .catch(error => {
-                    console.log(error);
-                });
+                .then(response => window.location.reload())
+                .catch(error => console.log(error));
         }
     </script>
 @endsection

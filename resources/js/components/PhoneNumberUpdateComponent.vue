@@ -62,9 +62,7 @@ export default {
         },
 
         deletePhoneNumber(phonenumber) {
-            axios.delete(`/phonenumber/${phonenumber}`).then(response => {
-                this.getPhoneNumbers();
-            });
+            axios.delete(`/phonenumber/${phonenumber}`).then(response => this.getPhoneNumbers());
         },
     },
 };

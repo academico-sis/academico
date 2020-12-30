@@ -74,7 +74,7 @@
             <div class="card-header">
                 Les classes suivantes seront créées :
                 <div class="card-header-actions">
-                    <button @click="createEvents()" :disabled="this.createList.length == 0 || this.name == null || this.starttime == null || this.starttime == null" class="btn btn-primary">Submit</button>
+                    <button @click="createEvents()" :disabled="this.createList.length === 0 || this.name == null || this.starttime == null || this.starttime == null" class="btn btn-primary">Submit</button>
                 </div>
             </div>
 
@@ -114,12 +114,12 @@ export default {
         }
     },
     computed: {
-    	selectedDays: function() {
-      	return this.days.filter(day => day.selected).map(day => day.day);
-      },
+        selectedDays() {
+            return this.days.filter(day => day.selected).map(day => day.day);
+        },
 
       toggleAllDayStatus() {
-          return this.selectedDays.length == 6;
+          return this.selectedDays.length === 6;
     }
 
     },

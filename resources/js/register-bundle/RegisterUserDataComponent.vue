@@ -48,7 +48,7 @@
             </b-field>
 
             <b-field
-                v-if="formdata.idnumber_type == 'passport'"
+                v-if="formdata.idnumber_type === 'passport'"
                 rules="required"
                 :label="$t('passport_number')"
             >
@@ -122,7 +122,7 @@ export default {
             const isValid = await this.$refs.observer.validate();
 
             if (isValid) {
-                this.checkEmailUnicity();
+                await this.checkEmailUnicity();
                 //this.updateData()
             } else {
                 this.$buefy.toast.open({
@@ -140,12 +140,12 @@ export default {
                     email: this.formdata.email,
                 })
                 .then(response => {
-                    if (response.status == 204) {
+                    if (response.status === 204) {
                         return true;
                     }
                 })
                 .catch(err => {
-                    if (err.status == 409) {
+                    if (err.status === 409) {
                         return false;
                     }
                 });

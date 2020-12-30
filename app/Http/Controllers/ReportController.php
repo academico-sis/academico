@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Config;
 use App\Models\Period;
+use App\Models\Year;
 use App\Traits\PeriodSelection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -59,7 +60,7 @@ class ReportController extends Controller
             $data[$data_period->id]['new_students'] = $data_period->new_students_count;
             $data[$data_period->id]['taught_hours'] = $data_period->period_taught_hours_count;
             $data[$data_period->id]['sold_hours'] = $data_period->period_sold_hours_count;
-            $years[$data_period->year_id] = \App\Models\Year::find($data_period->year_id); // New array using the Model
+            $years[$data_period->year_id] = Year::find($data_period->year_id); // New array using the Model
         }
 
         Log::info('Reports viewed by '.backpack_user()->firstname);

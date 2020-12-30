@@ -29,7 +29,7 @@
         </div>
 
         <div class="col-md-8">
-        @if(isset($pending_attendance) && $pending_attendance->count() > 0)
+        @if(isset($pending_attendance) && ($pending_attendance->count() > 0))
             <div class="card">
                 <div class="card-header">
                     <strong>
@@ -62,7 +62,7 @@
                                 <a href="/course/{{$course->id}}/show" class="btn btn-default btn-xs"><i class="la la-users"></i></a>
                             @endif
 
-                            @if($course->enrollments->count() > 0 && $course->events->count() > 0 && $course->exempt_attendance !== 1)
+                            @if(($course->enrollments->count() > 0) && ($course->events->count() > 0) && ($course->exempt_attendance !== 1))
                                 <a href="{{ route('monitorCourseAttendance', ['course' => $course->id]) }}" class="btn btn-default btn-xs"><i class="la la-calendar"></i></a>
                             @endif
 

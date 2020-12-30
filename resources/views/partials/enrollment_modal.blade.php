@@ -21,7 +21,7 @@
   </div>
 
   <script>
-    $('#myModal').on('show.bs.modal', e => {
+    $('#myModal').on('show.bs.modal', e =>
         $('.select2').select2({
             width: '100%', // fill the modal body
 
@@ -42,8 +42,7 @@
 
             },
             minimumInputLength: 2 // wait for 2+ characters to make the request
-        });
-    });
+        }));
 
     function enroll()
     {
@@ -58,9 +57,7 @@
                 student_id: student
             },
 
-            success: () => {
-                location.reload();
-            }
+            success: () => location.reload()
         })
 
     }

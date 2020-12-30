@@ -14,7 +14,7 @@ class UpdateCourseEvents
         $course = $event->course;
 
         // if course dates have changed, sync all events
-        if ($course->events->count() > 0 && ($course->isDirty('start_date') || $course->isDirty('end_date'))) {
+        if (($course->events->count() > 0) && ($course->isDirty('start_date') || $course->isDirty('end_date'))) {
             Log::info('cleaning the events after course date change');
 
             // create events before first existing event and after course start
@@ -34,7 +34,7 @@ class UpdateCourseEvents
             // for each day before the first event
             while ($courseStartDate < $courseEndDate) {
                 // Event already exists
-                if ($firstEventDate <= $courseStartDate && $courseStartDate <= $lastEventDate) {
+                if (($firstEventDate <= $courseStartDate) && ($courseStartDate <= $lastEventDate)) {
                     $courseStartDate->addDay();
                     continue;
                 }

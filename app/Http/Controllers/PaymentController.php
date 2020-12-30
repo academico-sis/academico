@@ -22,8 +22,6 @@ class PaymentController extends Controller
         $enrollment = Enrollment::find($request->enrollment['id']);
         $enrollment->update(['total_price' => $request->enrollment['total_price']]);
 
-        $preinvoice->enrollments()->attach($enrollment);
-
         if (isset($request->comment)) {
             Comment::create([
                 'commentable_id' => $enrollment->id,

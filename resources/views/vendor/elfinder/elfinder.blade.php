@@ -23,18 +23,17 @@
     <script type="text/javascript" charset="utf-8">
         // Documentation for client options:
         // https://github.com/Studio-42/elFinder/wiki/Client-configuration-options
-        $().ready(() => {
+        $().ready(() =>
             $('#elfinder').elfinder({
                 // set your elFinder options here
                 <?php if ($locale) { ?>
-                    lang: '<?= $locale ?>', // locale
+                lang: '<?= $locale ?>', // locale
                 <?php } ?>
                 customData: {
                     _token: '<?= csrf_token() ?>'
                 },
-                url : '<?= route('elfinder.connector') ?>'  // connector URL
-            });
-        });
+                url: '<?= route('elfinder.connector') ?>'  // connector URL
+            }));
     </script>
 @endsection
 
@@ -42,7 +41,7 @@
   $breadcrumbs = [
     trans('backpack::crud.admin') => url(config('backpack.base.route_prefix'), 'dashboard'),
     'File Manager' => false,
-  ];
+  ]
 @endphp
 
 @section('header')

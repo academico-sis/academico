@@ -1,8 +1,10 @@
 <?php
 
+use App\Models\Campus;
 use Faker\Generator as Faker;
 
-$factory->define(\App\Models\Campus::class, function (Faker $faker) {
+/* @var \Illuminate\Database\Eloquent\Factory $factory */
+$factory->define(Campus::class, function (Faker $faker) {
     return [
         'name' => $faker->unique()->word,
     ];

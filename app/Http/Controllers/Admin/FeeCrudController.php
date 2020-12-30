@@ -4,7 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\FeeRequest as StoreRequest;
 // VALIDATION: change the requests to match your own file names if you need form validation
+use App\Models\Fee;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\CRUD\CrudPanel;
 
@@ -14,10 +19,10 @@ use Backpack\CRUD\CrudPanel;
  */
 class FeeCrudController extends CrudController
 {
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+    use ListOperation;
+    use CreateOperation;
+    use UpdateOperation;
+    use DeleteOperation;
 
     public function setup()
     {
@@ -26,7 +31,7 @@ class FeeCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        CRUD::setModel(\App\Models\Fee::class);
+        CRUD::setModel(Fee::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/fee');
         CRUD::setEntityNameStrings(__('fee'), __('fees'));
     }

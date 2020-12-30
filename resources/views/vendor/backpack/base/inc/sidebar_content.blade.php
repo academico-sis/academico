@@ -138,6 +138,6 @@
   <li class='nav-item'><a class='nav-link' href="{{ route('teacherHours', ['teacher' => backpack_user()->teacher_id]) }}"><i class="nav-icon la la-clock-o"></i> <span>@lang('My Hours')</span></a></li>
 @endif
 
-@if((backpack_user()->isStudent()))
+@if(backpack_user()->isStudent())
   <li class="nav-item"><a class='nav-link' href="{{ route('backpack.account.edit_info') }}"><i class="la la-user"></i> <span>{{ trans('backpack::base.my_account') }}</span></a></li>
 @endif

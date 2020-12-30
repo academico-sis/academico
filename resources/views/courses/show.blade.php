@@ -83,7 +83,7 @@
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.20/b-1.6.1/b-html5-1.6.1/b-print-1.6.1/fh-3.1.6/datatables.min.js"></script>
 
 <script>
-    $(document).ready(() => {
+    $(document).ready(() =>
         $('#studentsTable').DataTable(
             {
                 "scrollX": true,
@@ -91,8 +91,7 @@
                 dom: 'Bfrtip',
                 buttons: ['copy', 'excel', 'pdf', 'print']
             }
-        );
-    });
+        ));
 </script>
 
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Alert;
 use App\Models\Attendance;
 use App\Models\AttendanceType;
 use App\Models\Course;
@@ -12,6 +13,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
+use function backpack_user;
 
 class AttendanceController extends Controller
 {
@@ -19,21 +21,21 @@ class AttendanceController extends Controller
 
     public function __construct()
     {
+        parent::__construct();
         $this->middleware('permission:attendance.view', ['except' => ['showCourse', 'showEvent', 'showStudentAttendanceForCourse', 'store']]);
     }
 
     /**
      * Monitor attendance for all students.
      *
-     * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
-        Log::info('Attendance dashboard viewed by '.\backpack_user()->id);
+        Log::info('Attendance dashboard viewed by '.backpack_user()->id);
         $selected_period = $this->selectPeriod($request);
 
         // student attendance overview
-        $absences = (new Attendance)->get_absence_count_per_student($selected_period);
+        $absences = (new Attendance())->get_absence_count_per_student($selected_period);
 
         // get all courses for period and preload relations
         $courses = $selected_period->courses()->whereHas('events')->whereHas('enrollments')->with('attendance')->with('events')->get();
@@ -95,7 +97,7 @@ class AttendanceController extends Controller
 
         $attendance->save();
 
-        Log::info('Attendance recorded by '.\backpack_user()->id);
+        Log::info('Attendance recorded by '.backpack_user()->id);
 
         return $attendance;
     }
@@ -117,8 +119,8 @@ class AttendanceController extends Controller
         })->sortByDesc('start');
 
         // if the course has any past events
-        if ($events->count() == 0 || $course->enrollments()->count() == 0) {
-            \Alert::add('error', 'This course has no events.')->flash();
+        if (($events->count() == 0) || ($course->enrollments()->count() == 0)) {
+            Alert::add('error', 'This course has no events.')->flash();
 
             return redirect()->back();
         }
@@ -135,7 +137,7 @@ class AttendanceController extends Controller
                 }
             }
         }
-        Log::info('Attendance for course viewed by '.\backpack_user()->id);
+        Log::info('Attendance for course viewed by '.backpack_user()->id);
 
         $isadmin = backpack_user()->hasPermissionTo('courses.edit');
 
@@ -167,7 +169,7 @@ class AttendanceController extends Controller
             $attendances[$enrollment->student->id]['student_id'] = $enrollment->student->id;
             $attendances[$enrollment->student->id]['attendance'] = $attendance->where('student_id', $enrollment->student->id)->first() ?? '[attendance][attendance_type_id]';
         }
-        Log::info('Attendance for event viewed by '.\backpack_user()->id);
+        Log::info('Attendance for event viewed by '.backpack_user()->id);
 
         return view('attendance/event', compact('attendances', 'event', 'attendance_types'));
     }

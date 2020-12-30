@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Alert;
 use App\Http\Requests\StoreEnrollmentRequest;
 use App\Models\Attendance;
 use App\Models\Course;
@@ -38,7 +39,7 @@ class EnrollmentController extends Controller
 
         $student = Student::findOrFail($request->input('student_id'));
         $enrollment_id = $student->enroll($course);
-        \Alert::success(__('Enrollment successfully created'))->flash();
+        Alert::success(__('Enrollment successfully created'))->flash();
 
         Log::info(backpack_user()->firstname.' generated a new enrollment for student '.$student->name);
 
@@ -84,7 +85,7 @@ class EnrollmentController extends Controller
         // TODO delete grades and/or skills
 
         // display a confirmation message and redirect to enrollment details
-        \Alert::success(__('The enrollment has been updated'))->flash();
+        Alert::success(__('The enrollment has been updated'))->flash();
 
         return "enrollment/$enrollment->id/show";
     }

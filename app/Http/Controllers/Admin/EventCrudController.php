@@ -4,8 +4,15 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\EventRequest as StoreRequest;
 // VALIDATION: change the requests to match your own file names if you need form validation
+use App\Models\Course;
 use App\Models\Event;
+use App\Models\Room;
+use App\Models\Teacher;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -18,10 +25,10 @@ use Illuminate\Http\Request;
  */
 class EventCrudController extends CrudController
 {
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+    use ListOperation;
+    use CreateOperation;
+    use UpdateOperation;
+    use DeleteOperation;
 
     public function setup()
     {
@@ -30,7 +37,7 @@ class EventCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        CRUD::setModel(\App\Models\Event::class);
+        CRUD::setModel(Event::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/event');
         CRUD::setEntityNameStrings(__('event'), __('events'));
         CRUD::setCreateView('events.create');
@@ -58,7 +65,7 @@ class EventCrudController extends CrudController
                 'name' => 'course_id', // the column that contains the ID of that connected entity;
                 'entity' => 'course', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\Course::class, // foreign key model
+                'model' => Course::class, // foreign key model
             ],
 
             [
@@ -76,7 +83,7 @@ class EventCrudController extends CrudController
                 'name' => 'teacher_id', // the column that contains the ID of that connected entity;
                 'entity' => 'teacher', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\Teacher::class, // foreign key model
+                'model' => Teacher::class, // foreign key model
             ],
 
             [
@@ -86,7 +93,7 @@ class EventCrudController extends CrudController
                 'name' => 'room_id', // the column that contains the ID of that connected entity;
                 'entity' => 'room', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\Room::class, // foreign key model
+                'model' => Room::class, // foreign key model
             ],
 
             [
@@ -149,7 +156,7 @@ class EventCrudController extends CrudController
             'type' => 'select2',
             'label'=> __('Teacher'),
         ], function () {
-            return \App\Models\Teacher::all()->pluck('name', 'id')->toArray();
+            return Teacher::all()->pluck('name', 'id')->toArray();
         }, function ($value) { // if the filter is active
             CRUD::addClause('where', 'teacher_id', $value);
         },
@@ -191,7 +198,7 @@ class EventCrudController extends CrudController
                 'name' => 'teacher_id', // the column that contains the ID of that connected entity;
                 'entity' => 'teacher', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\Teacher::class, // foreign key model
+                'model' => Teacher::class, // foreign key model
 
             ],
 
@@ -202,7 +209,7 @@ class EventCrudController extends CrudController
                 'name' => 'room_id', // the column that contains the ID of that connected entity;
                 'entity' => 'room', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\Room::class, // foreign key model
+                'model' => Room::class, // foreign key model
             ],
 
             [

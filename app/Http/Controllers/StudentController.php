@@ -41,7 +41,7 @@ class StudentController extends Controller
 
     public function create()
     {
-        $student = (new Student);
+        $student = new Student();
 
         return view('students.edit', compact('student'));
     }

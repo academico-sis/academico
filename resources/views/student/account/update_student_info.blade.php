@@ -52,28 +52,28 @@
 
                     <div class="form-group">
                         @php
-                            $field = 'idnumber';
+                            $field = 'idnumber'
                         @endphp
                         <label class="required">@lang('ID Number')</label>
-                        <input required class="form-control" type="text" name="{{ $field }}" value="{{ old($field) ? old($field) : $user->student->$field ?? '' }}">
+                        <input required class="form-control" type="text" name="{{ $field }}" value="{{ old($field) ? old($field) : ($user->student->$field ?? '') }}">
                     </div>
 
 
                     <div class="form-group">
                         @php
-                            $field = 'address';
+                            $field = 'address'
                         @endphp
                         <label class="required">@lang('Address')</label>
-                        <input required class="form-control" type="text" name="{{ $field }}" value="{{ old($field) ? old($field) : $user->student->$field ?? '' }}">
+                        <input required class="form-control" type="text" name="{{ $field }}" value="{{ old($field) ? old($field) : ($user->student->$field ?? '') }}">
                     </div>
 
 
                     <div class="form-group">
                         @php
-                            $field = 'birthdate';
+                            $field = 'birthdate'
                         @endphp
                         <label class="required">@lang('Birthdate')</label>
-                        <input required class="form-control" type="date" name="{{ $field }}" value="{{ old($field) ? old($field) : $user->student->$field ?? '' }}">
+                        <input required class="form-control" type="date" name="{{ $field }}" value="{{ old($field) ? old($field) : ($user->student->$field ?? '') }}">
                     </div>
 
 

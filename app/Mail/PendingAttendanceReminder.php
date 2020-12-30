@@ -10,7 +10,8 @@ use Illuminate\Queue\SerializesModels;
 
 class PendingAttendanceReminder extends Mailable implements ShouldQueue
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
     public $teacher;
     public $events;

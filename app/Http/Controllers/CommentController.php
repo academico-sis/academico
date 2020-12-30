@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CommentRequest as StoreRequest;
 use App\Models\Comment;
 use Illuminate\Support\Facades\Log;
+use function backpack_user;
 
 class CommentController extends Controller
 {
     public function __construct()
     {
+        parent::__construct();
         $this->middleware('permission:comments.edit', ['only' => 'delete']);
     }
 
@@ -22,7 +24,7 @@ class CommentController extends Controller
             'commentable_type' => $request->input('commentable_type'),
             'action' => $request->input('action') ?? 0,
             'body' => $request->input('body'),
-            'author_id' => \backpack_user()->id,
+            'author_id' => backpack_user()->id,
         ]);
     }
 

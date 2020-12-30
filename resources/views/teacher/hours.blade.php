@@ -21,9 +21,9 @@
                     @include('partials.period_selection')
                 </div>
             </div>
-            
-            <div class="card-body">           
-                
+
+            <div class="card-body">
+
                 <table class="table table-striped responsive">
                     <thead>
                         <tr>
@@ -39,7 +39,7 @@
                         @php
                             $max_hours = $teacher->period_max_hours($selected_period);
                             $period_hours = $teacher->period_planned_hours($selected_period);
-                            $remote_hours = $teacher->periodRemoteHours($selected_period);
+                            $remote_hours = $teacher->periodRemoteHours($selected_period)
                         @endphp
                         <tr>
                             <td>{{ number_format($remote_hours, 2, '.', ',') }} h</td>
@@ -49,7 +49,7 @@
                             <td>{{ number_format($teacher->period_worked_hours($selected_period), 2, '.', ',') }} h</td>
                         </tr>
                     </tbody>
-                    
+
                 </table>
             </div>
         </div>
@@ -67,9 +67,9 @@
                         @include('partials.period_selection')
                     </div>
                 </div>
-                
-                <div class="card-body">           
-                    
+
+                <div class="card-body">
+
                     <table class="table table-striped responsive">
                         <thead>
                             <tr>
@@ -80,7 +80,7 @@
                                 <th>@lang('Length')</th>
                             </tr>
                         </thead>
-    
+
                         <tbody>
                             @foreach ($events as $event)
                             <tr>
@@ -92,7 +92,7 @@
                             </tr>
                             @endforeach
                         </tbody>
-                        
+
                     </table>
                 </div>
             </div>
@@ -107,9 +107,9 @@
                             @include('partials.period_selection')
                         </div>
                     </div>
-                    
-                    <div class="card-body">           
-                        
+
+                    <div class="card-body">
+
                         <table class="table table-striped responsive">
                             <thead>
                                 <tr>
@@ -118,7 +118,7 @@
                                     <th>@lang('Length')</th>
                                 </tr>
                             </thead>
-        
+
                             <tbody>
                                 @foreach ($remote_events as $event)
                                 <tr>
@@ -128,7 +128,7 @@
                                 </tr>
                                 @endforeach
                             </tbody>
-                            
+
                         </table>
                     </div>
                 </div>

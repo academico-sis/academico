@@ -35,16 +35,16 @@
                                             :class="{
                                                 'btn-success':
                                                     skillScale.value > 0.75 &&
-                                                    skill.status ==
+                                                    skill.status ===
                                                         skillScale.id,
                                                 'btn-warning':
                                                     0.4 <= skillScale.value &&
                                                     0.75 >= skillScale.value &&
-                                                    skill.status ==
+                                                    skill.status ===
                                                         skillScale.id,
                                                 'btn-danger':
                                                     skillScale.value < 0.4 &&
-                                                    skill.status ==
+                                                    skill.status ===
                                                         skillScale.id,
                                             }"
                                             @click="
@@ -92,9 +92,7 @@ export default {
                 .then(response => {
                     skill.status = response.data;
                 })
-                .catch(e => {
-                    this.errors.push(e);
-                });
+                .catch(e => this.errors.push(e));
         },
     },
 };

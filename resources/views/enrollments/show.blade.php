@@ -137,21 +137,15 @@
                 .then(response => {
                     window.location.href="/enrollment"
                 })
-                .catch(error => {
-                    console.log(error);
-                });
+                .catch(error => console.log(error));
         }
 
 
         function markaspaid(enrollment)
         {
             axios.post(`/enrollment/${enrollment}/markaspaid`)
-                .then(response => {
-                    window.location.reload()
-                })
-                .catch(error => {
-                    console.log(error);
-                });
+                .then(response => window.location.reload())
+                .catch(error => console.log(error));
         }
 </script>
 

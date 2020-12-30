@@ -3,7 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
+use App\Models\Period;
+use App\Models\Year;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
@@ -12,14 +18,14 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
  */
 class PeriodCrudController extends CrudController
 {
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+    use ListOperation;
+    use CreateOperation;
+    use UpdateOperation;
+    use DeleteOperation;
 
     public function setup()
     {
-        CRUD::setModel(\App\Models\Period::class);
+        CRUD::setModel(Period::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/period');
         CRUD::setEntityNameStrings(__('period'), __('periods'));
     }
@@ -63,7 +69,7 @@ class PeriodCrudController extends CrudController
                 'name'      => 'year_id',
                 'entity'    => 'year',
                 'attribute' => 'name',
-                'model'     => \App\Models\Year::class,
+                'model'     => Year::class,
             ],
 
             [

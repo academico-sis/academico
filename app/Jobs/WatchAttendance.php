@@ -13,7 +13,10 @@ use Illuminate\Support\Facades\Mail;
 
 class WatchAttendance implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     protected $attendance;
     public $tries = 5;

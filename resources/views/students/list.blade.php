@@ -8,7 +8,7 @@
   ];
 
   // if breadcrumbs aren't defined in the CrudController, use the default breadcrumbs
-  $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
+  $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs
 @endphp
 
 @section('header')
@@ -90,7 +90,7 @@
                     --}}
 
                     {{-- If it is an export field only, we are done. --}}
-                    @if(isset($column['exportOnlyField']) && $column['exportOnlyField'] === true)
+                    @if(isset($column['exportOnlyField']) && ($column['exportOnlyField'] === true))
                         data-visible="false"
                         data-visible-in-table="false"
                         data-can-be-visible-in-table="false"

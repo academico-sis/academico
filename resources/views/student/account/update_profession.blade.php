@@ -50,11 +50,11 @@
                         </div>
                     @endif
 
-                    <h4>@lang("Please fill in your profession and your institution (school, workplace).")</h4>
+                    <h4>@lang('Please fill in your profession and your institution (school, workplace).')</h4>
 
                     <div class="form-group">
                         @php
-                            $label = trans('Profession');
+                            $label = trans('Profession')
                         @endphp
                         <label class="required">{{ $label }}</label>
                         <input required class="form-control" type="text" name="profession" value="{{ $user->student->profession->name ?? '' }}">
@@ -62,7 +62,7 @@
 
                     <div class="form-group">
                             @php
-                                $label = trans('Institution');
+                                $label = trans('Institution')
                             @endphp
                             <label class="required">{{ $label }}</label>
                             <input required class="form-control" type="text" name="institution" value="{{ $user->student->institution->name ?? '' }}">

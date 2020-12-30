@@ -59,13 +59,11 @@ export default {
                     this.loading = false;
                     window.location.reload()
                 })
-                .catch(e => {
-                    this.errors.push(e);
-                });
+                .catch(e => this.errors.push(e));
         },
 
         buttonClass(result_type) {
-            if (this.course_result && this.course_result.result_type_id == result_type.id)
+            if (this.course_result && this.course_result.result_type_id === result_type.id)
             {
                 return `btn btn-${result_type.class}`
             }

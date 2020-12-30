@@ -18,7 +18,7 @@ const lang = document.documentElement.lang.substr(0, 2);
 
 const i18n = new VueInternationalization({
     locale: lang,
-    messages: messages
+    messages
 });
 
 Vue.component('course-time-component', require('./components/CourseTimeComponent.vue').default);

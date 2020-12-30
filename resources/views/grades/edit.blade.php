@@ -43,14 +43,14 @@
                 <table class="table">
                     <tr>
                         <td></td>
-                        @php $total = 0; @endphp
+                        @php $total = 0 @endphp
                         @foreach ($course_grade_types->sortBy('id') as $grade_type)
                             <td>
                                 ({{$grade_type->category->name}})<br> <strong>{{$grade_type->name}}</strong>
                                 <br>
                                 <button class="btn btn-sm btn-danger" onclick="return confirm('Are you sure? This will delete all grades for this grade type.')?removeGradeType({{$grade_type->id}}):'';"><i class="la la-trash"></i></button>
                             </td>
-                            @php $total += $grade_type->total; @endphp
+                            @php $total += $grade_type->total @endphp
                         @endforeach
                         <td><strong>@lang('TOTAL')</strong></td>
                         <td><strong>@lang('Result')</strong></td>
@@ -58,14 +58,14 @@
                     </tr>
 
                     @foreach ($enrollments as $enrollment)
-                    @php $student_total = 0; @endphp
+                    @php $student_total = 0 @endphp
                     <tr>
                         <td>{{ $enrollment->student_name }}</td>
 
                         @foreach ($course_grade_types->sortBy('id') as $grade_type)
                         <td>
                             @foreach($grades->where('student_id', $enrollment->student->id)->where('grade_type_id', $grade_type->id) as $grade)
-                            @php $student_total += $grade->grade; @endphp
+                            @php $student_total += $grade->grade @endphp
                                 <p>
                                     <a
                                         href="#"
@@ -153,12 +153,8 @@
 
                 } )
 
-            .then(response => {
-                document.location.reload(true);
-            })
-            .catch(error => {
-                console.log(error);
-            });
+            .then(response => document.location.reload(true))
+            .catch(error => console.log(error));
 
         }
 
@@ -169,12 +165,8 @@
 
                 } )
 
-            .then(response => {
-                document.location.reload(true);
-            })
-            .catch(error => {
-                console.log(error);
-            });
+            .then(response => document.location.reload(true))
+            .catch(error => console.log(error));
 
 
         }

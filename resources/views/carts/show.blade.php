@@ -33,8 +33,6 @@
 <!-- include field specific select2 js-->
 @push('crud_fields_scripts')
 <script>
-    jQuery(document).ready($ => {
-        $('.js-example-basic-single').select2();
-    });
+    jQuery(document).ready($ => $('.js-example-basic-single').select2());
 </script>
 @endpush

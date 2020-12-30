@@ -4,7 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\RemoteEventRequest;
+use App\Models\Period;
+use App\Models\RemoteEvent;
+use App\Models\Teacher;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
@@ -13,14 +20,14 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
  */
 class RemoteEventCrudController extends CrudController
 {
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+    use ListOperation;
+    use CreateOperation;
+    use UpdateOperation;
+    use DeleteOperation;
 
     public function setup()
     {
-        CRUD::setModel(\App\Models\RemoteEvent::class);
+        CRUD::setModel(RemoteEvent::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/remoteevent');
         CRUD::setEntityNameStrings(__('remote event'), __('remote events'));
     }
@@ -35,7 +42,7 @@ class RemoteEventCrudController extends CrudController
                 'name' => 'period_id', // the column that contains the ID of that connected entity;
                 'entity' => 'period', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\Period::class, // foreign key model
+                'model' => Period::class, // foreign key model
             ],
 
             [
@@ -74,7 +81,7 @@ class RemoteEventCrudController extends CrudController
                 'name' => 'period_id', // the column that contains the ID of that connected entity;
                 'entity' => 'period', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\Period::class, // foreign key model
+                'model' => Period::class, // foreign key model
             ],
 
             [
@@ -84,7 +91,7 @@ class RemoteEventCrudController extends CrudController
                 'name' => 'teacher_id', // the column that contains the ID of that connected entity;
                 'entity' => 'teacher', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\Teacher::class, // foreign key model
+                'model' => Teacher::class, // foreign key model
             ],
 
             [

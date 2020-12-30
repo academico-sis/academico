@@ -4,6 +4,7 @@ use App\Models\Teacher;
 use App\Models\User;
 use Faker\Generator as Faker;
 
+/* @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(Teacher::class, function (Faker $faker) {
     return [
         'user_id' => factory(User::class)->create()->id,

@@ -4,7 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\TeacherRequest as StoreRequest;
 // VALIDATION: change the requests to match your own file names if you need form validation
+use App\Models\Teacher;
+use App\Models\User;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\CRUD\CrudPanel;
 
@@ -14,13 +19,13 @@ use Backpack\CRUD\CrudPanel;
  */
 class TeacherCrudController extends CrudController
 {
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use ListOperation;
+    use CreateOperation;
+    use UpdateOperation;
 
     public function setup()
     {
-        CRUD::setModel(\App\Models\Teacher::class);
+        CRUD::setModel(Teacher::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/teacher');
         CRUD::setEntityNameStrings(__('teacher'), __('teachers'));
         CRUD::addClause('withTrashed');
@@ -68,7 +73,7 @@ class TeacherCrudController extends CrudController
                 'name' => 'user_id', // the db column for the foreign key
                 'entity' => 'user', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\User::class, // foreign key model
+                'model' => User::class, // foreign key model
             ],
             [
                 'name'  => 'max_week_hours',
@@ -93,7 +98,7 @@ class TeacherCrudController extends CrudController
                 'name' => 'user_id', // the db column for the foreign key
                 'entity' => 'user', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\User::class,
+                'model' => User::class,
                 'attributes' => [
                     'readonly'=>'readonly',
                     'disabled'=>'disabled',

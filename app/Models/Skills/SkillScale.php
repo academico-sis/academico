@@ -24,7 +24,7 @@ class SkillScale extends Model
     {
         if ($this->value > 0.75) {
             return 'success';
-        } elseif (0.4 <= $this->value && 0.75 >= $this->value) {
+        } elseif ((0.4 <= $this->value) && (0.75 >= $this->value)) {
             return 'warning';
         } else {
             return 'danger';

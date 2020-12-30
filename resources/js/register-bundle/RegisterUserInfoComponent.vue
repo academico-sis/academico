@@ -151,12 +151,11 @@ export default {
             this.formdata.phonenumbers.splice(index, 1);
         },
         getFilteredInstitutions(text) {
-            this.filteredInstitutions = this.institutionslist.filter(option => {
-                return option
+            this.filteredInstitutions = this.institutionslist.filter(option =>
+                option
                     .toString()
                     .toLowerCase()
-                    .indexOf(text.toLowerCase()) >= 0
-            })
+                    .indexOf(text.toLowerCase()) >= 0)
         },
         async validateBeforeSubmit() {
             const isValid = await this.$refs.observer.validate();

@@ -44,7 +44,6 @@ trait ShowStudentPhotoRosterOperation
     /**
      * Show the view for performing the operation.
      *
-     * @return Response
      */
     public function showstudentphotoroster($course)
     {

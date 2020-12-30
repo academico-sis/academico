@@ -1,5 +1,13 @@
 <?php
 
+use Spatie\UptimeMonitor\Notifications\Notifiable;
+use Spatie\UptimeMonitor\Notifications\Notifications\CertificateCheckFailed;
+use Spatie\UptimeMonitor\Notifications\Notifications\CertificateCheckSucceeded;
+use Spatie\UptimeMonitor\Notifications\Notifications\CertificateExpiresSoon;
+use Spatie\UptimeMonitor\Notifications\Notifications\UptimeCheckFailed;
+use Spatie\UptimeMonitor\Notifications\Notifications\UptimeCheckRecovered;
+use Spatie\UptimeMonitor\Notifications\Notifications\UptimeCheckSucceeded;
+
 return [
 
     /*
@@ -9,13 +17,13 @@ return [
     'notifications' => [
 
         'notifications' => [
-            \Spatie\UptimeMonitor\Notifications\Notifications\UptimeCheckFailed::class => ['mail'],
-            \Spatie\UptimeMonitor\Notifications\Notifications\UptimeCheckRecovered::class => ['mail'],
-            \Spatie\UptimeMonitor\Notifications\Notifications\UptimeCheckSucceeded::class => [],
+            UptimeCheckFailed::class => ['mail'],
+            UptimeCheckRecovered::class => ['mail'],
+            UptimeCheckSucceeded::class => [],
 
-            \Spatie\UptimeMonitor\Notifications\Notifications\CertificateCheckFailed::class => ['mail'],
-            \Spatie\UptimeMonitor\Notifications\Notifications\CertificateExpiresSoon::class => ['mail'],
-            \Spatie\UptimeMonitor\Notifications\Notifications\CertificateCheckSucceeded::class => [],
+            CertificateCheckFailed::class => ['mail'],
+            CertificateExpiresSoon::class => ['mail'],
+            CertificateCheckSucceeded::class => [],
         ],
 
         /*
@@ -42,7 +50,7 @@ return [
          * Here you can specify the notifiable to which the notifications should be sent. The default
          * notifiable will use the variables specified in this config file.
          */
-        'notifiable' => \Spatie\UptimeMonitor\Notifications\Notifiable::class,
+        'notifiable' => Notifiable::class,
 
         /*
          * The date format used in notifications.

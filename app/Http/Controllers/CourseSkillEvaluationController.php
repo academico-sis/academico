@@ -14,11 +14,6 @@ use Illuminate\Support\Facades\Gate;
 
 class CourseSkillEvaluationController extends Controller
 {
-    public function __construct()
-    {
-        //$this->middleware(['permission:evaluation.edit']);
-    }
-
     /**
      * Show the skills overview for all students in the course.
      */

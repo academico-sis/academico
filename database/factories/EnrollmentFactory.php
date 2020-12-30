@@ -5,6 +5,7 @@ use App\Models\Enrollment;
 use App\Models\Student;
 use Faker\Generator as Faker;
 
+/* @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(Enrollment::class, function (Faker $faker) {
     return [
         'student_id' => factory(Student::class)->create()->id,

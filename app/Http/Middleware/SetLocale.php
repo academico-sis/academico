@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Carbon\Carbon;
 use Closure;
+use Date;
 use Illuminate\Support\Facades\App;
 use Unicodeveloper\Identify\Facades\IdentityFacade as Identify;
 
@@ -41,7 +42,7 @@ class SetLocale
                 $locale = explode('-', $locale)[0];
             }
 
-            \Date::setLocale($locale);
+            Date::setLocale($locale);
         }
     }
 

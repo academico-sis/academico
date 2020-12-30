@@ -83,7 +83,7 @@
 			      url: `/payment/${payment}`,
 			      type: 'DELETE',
 			      success: result => {
-			          if (result == 1) {
+			          if (result === 1) {
 			          	  // Show a success notification bubble
 			              new Noty({
 		                    type: "success",
@@ -101,12 +101,11 @@
 			          	  	// trigger one or more bubble notifications
 			          	  	Object.entries(result).forEach((entry, index) => {
 			          	  	  var type = entry[0];
-			          	  	  entry[1].forEach((message, i) => {
-					          	  new Noty({
-				                    type: type,
-				                    text: message
-				                  }).show();
-			          	  	  });
+			          	  	  entry[1].forEach((message, i) =>
+                                  new Noty({
+                                      type,
+                                      text: message
+                                  }).show());
 			          	  	});
 			          	  } else {// Show an error alert
 				              swal({

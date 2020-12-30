@@ -1,8 +1,10 @@
 <?php
 
+use App\Models\Level;
 use Faker\Generator as Faker;
 
-$factory->define(\App\Models\Level::class, function (Faker $faker) {
+/* @var \Illuminate\Database\Eloquent\Factory $factory */
+$factory->define(Level::class, function (Faker $faker) {
     return [
         'name' => $faker->unique()->word,
     ];

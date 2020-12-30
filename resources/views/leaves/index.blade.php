@@ -58,11 +58,10 @@
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.20/fh-3.1.6/datatables.min.js"></script>
 
 <script>
-  $(document).ready(() => {
-    $('#crudTable').DataTable({
-        "pageLength": 50
-    });
-});
+  $(document).ready(() =>
+      $('#crudTable').DataTable({
+          "pageLength": 50
+      }));
 </script>
 @endsection
 

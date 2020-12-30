@@ -36,7 +36,7 @@
 					<div class="form-group">
 						@php
 							$label = trans('Contact Type');
-							$field = 'contact_type';
+							$field = 'contact_type'
 						@endphp
 						<label class="required">{{ $label }}</label>
 						<select class="form-control" required name="{{ $field }}" id="{{ $field }}">
@@ -49,7 +49,7 @@
 					<div class="form-group">
 						@php
 							$label = trans('Firstname');
-							$field = 'firstname';
+							$field = 'firstname'
 						@endphp
 						<label class="required">{{ $label }}</label>
 						<input required class="form-control" type="text" name="{{ $field }}" value="{{ old($field) ? old($field) : $contact->$field }}">
@@ -59,7 +59,7 @@
 					<div class="form-group">
 						@php
 							$label = trans('Lastname');
-							$field = 'lastname';
+							$field = 'lastname'
 						@endphp
 						<label class="required">{{ $label }}</label>
 						<input required class="form-control" type="text" name="{{ $field }}" value="{{ old($field) ? old($field) : $contact->$field }}">
@@ -69,7 +69,7 @@
 					<div class="form-group">
 						@php
 							$label = trans('Email');
-							$field = 'email';
+							$field = 'email'
 						@endphp
 						<label class="required">{{ $label }}</label>
 						<input required class="form-control" type="{{ $field }}" name="{{ $field }}" value="{{ old($field) ? old($field) : $contact->$field }}">
@@ -79,7 +79,7 @@
 					<div class="form-group">
 						@php
 							$label = trans('ID Number');
-							$field = 'idnumber';
+							$field = 'idnumber'
 						@endphp
 						<label class="required">{{ $label }}</label>
 						<input class="form-control" type="{{ $field }}" name="{{ $field }}" value="{{ old($field) ? old($field) : $contact->$field }}">
@@ -89,7 +89,7 @@
 					<div class="form-group">
 						@php
 							$label = trans('Address');
-							$field = 'address';
+							$field = 'address'
 						@endphp
 						<label class="required">{{ $label }}</label>
 						<input class="form-control" type="{{ $field }}" name="{{ $field }}" value="{{ old($field) ? old($field) : $contact->$field }}">
@@ -98,10 +98,10 @@
 					<div class="form-group">
 						@php
 							$label = trans('Profession');
-							$field = 'profession';
+							$field = 'profession'
 						@endphp
 						<label class="required">{{ $label }}</label>
-						<input class="form-control" type="{{ $field }}" name="{{ $field }}" value="{{ old($field) ? old($field) : $contact->$field ? $contact->$field->name : ""}}">
+						<input class="form-control" type="{{ $field }}" name="{{ $field }}" value="{{ old($field) ? old($field) : ($contact->$field ? $contact->$field->name : '')}}">
 					</div>
 
 					<div class="form-group m-b-0">

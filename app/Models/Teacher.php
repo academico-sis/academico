@@ -153,7 +153,7 @@ class Teacher extends Model
             ->events
             ->where('start', '>=', Carbon::parse($period->start)->setTime(0, 0, 0)->toDateTimeString())
             ->where('end', '<=', Carbon::parse($period->end)->setTime(23, 59, 0)->toDateTimeString())
-            ->where('end', '<=', (new Carbon)->toDateTimeString())
+            ->where('end', '<=', (new Carbon())->toDateTimeString())
             ->sum('length');
     }
 

@@ -11,7 +11,7 @@
         <span
             v-if="attendanceEnabled"
             class="badge badge-pill"
-            v-bind:class="{ 'badge-success': count == 0, 'badge-warning': count > 0, 'badge-danger': count > 4 }"
+            v-bind:class="{ 'badge-success': count === 0, 'badge-warning': count > 0, 'badge-danger': count > 4 }"
         >{{ count }}</span>
     </td>
 

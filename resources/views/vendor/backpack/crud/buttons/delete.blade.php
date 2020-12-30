@@ -40,7 +40,7 @@
 			      url: route,
 			      type: 'DELETE',
 			      success: result => {
-			          if (result != 1) {
+			          if (result !== 1) {
 			          	// Show an error alert
 			              swal({
 			              	title: "{!! trans('backpack::crud.delete_confirmation_not_title') !!}",

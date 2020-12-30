@@ -4,7 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\SkillRequest as StoreRequest;
 // VALIDATION: change the requests to match your own file names if you need form validation
+use App\Models\Level;
+use App\Models\Skills\Skill;
+use App\Models\Skills\SkillType;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
@@ -13,14 +20,14 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
  */
 class SkillCrudController extends CrudController
 {
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+    use ListOperation;
+    use CreateOperation;
+    use UpdateOperation;
+    use DeleteOperation;
 
     public function setup()
     {
-        CRUD::setModel(\App\Models\Skills\Skill::class);
+        CRUD::setModel(Skill::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/skill');
         CRUD::setEntityNameStrings(__('skill'), __('skills'));
     }
@@ -58,7 +65,7 @@ class SkillCrudController extends CrudController
             'type' => 'select2',
             'label'=> 'Level',
         ], function () {
-            return \App\Models\Level::all()->pluck('name', 'id')->toArray();
+            return Level::all()->pluck('name', 'id')->toArray();
         }, function ($value) { // if the filter is active
             CRUD::addClause('where', 'level_id', $value);
         });
@@ -68,7 +75,7 @@ class SkillCrudController extends CrudController
             'type' => 'select2',
             'label'=> 'Type',
         ], function () {
-            return \App\Models\Skills\SkillType::all()->pluck('name', 'id')->toArray();
+            return SkillType::all()->pluck('name', 'id')->toArray();
         }, function ($value) { // if the filter is active
             CRUD::addClause('where', 'skill_type_id', $value);
         });
@@ -84,7 +91,7 @@ class SkillCrudController extends CrudController
                 'name' => 'skill_type_id', // the db column for the foreign key
                 'entity' => 'skill_type', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\Skills\SkillType::class,
+                'model' => SkillType::class,
             ],
             [
                 'label' => 'Name', // skill description
@@ -97,7 +104,7 @@ class SkillCrudController extends CrudController
                 'name' => 'level_id', // the db column for the foreign key
                 'entity' => 'level', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\Level::class,
+                'model' => Level::class,
             ],
         ]);
     }

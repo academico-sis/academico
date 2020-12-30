@@ -56,9 +56,7 @@ document.addEventListener('DOMContentLoaded', () => { // page is now ready...
         hiddenDays: [ 0 ], // TODO make this customizable
         firstDay: 1,
         slotWidth: 20,
-        eventRender: info => {
-            $(info.el).tooltip({ title: info.event.title });
-        },
+        eventRender: info => $(info.el).tooltip({title: info.event.title}),
         resourceAreaWidth: 150,
         eventSources: [
             {
@@ -76,28 +74,25 @@ document.addEventListener('DOMContentLoaded', () => { // page is now ready...
 
         editable:true,
 
-        eventDrop: info => {
+        eventDrop: info =>
             axios.patch(window.location.href, {
-                    course_id: info.event.groupId,
-                    resource_id: info.newResource.id,
-                } )
-
-            .then(response => {
-                new Noty({
-                    title: "Operation successful",
-                    text: "The course has been updated.",
-                    type: "success"
-                    }).show();
+                course_id: info.event.groupId,
+                resource_id: info.newResource.id,
             })
 
-            .catch(error => {
-                new Noty({
-                    title: "Error",
-                    text: "The course was not updated.",
-                    type: "error"
-                    }).show();
-            });
-        }
+                .then(response =>
+                    new Noty({
+                        title: "Operation successful",
+                        text: "The course has been updated.",
+                        type: "success"
+                    }).show())
+
+                .catch(error =>
+                    new Noty({
+                        title: "Error",
+                        text: "The course was not updated.",
+                        type: "error"
+                    }).show())
     });
 
     calendar.render();

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Alert;
 use App\Http\Requests\ContactRequest as StoreRequest;
 use App\Models\Contact;
 use App\Models\PhoneNumber;
@@ -12,6 +13,7 @@ class ContactController extends Controller
 {
     public function __construct()
     {
+        parent::__construct();
         $this->middleware(backpack_middleware());
     }
 
@@ -30,7 +32,7 @@ class ContactController extends Controller
             'contact_type' => 'required',
         ]);
 
-        $contact = new Contact;
+        $contact = new Contact();
         $contact->student_id = $request->input('student_id');
         $contact->firstname = $request->input('firstname');
         $contact->lastname = $request->input('lastname');
@@ -41,15 +43,15 @@ class ContactController extends Controller
         $contact->save();
 
         // register the phone number
-        if (($request->input('phone_number')) !== null) {
-            $phone = new PhoneNumber;
+        if ($request->input('phone_number') !== null) {
+            $phone = new PhoneNumber();
             $phone->phoneable_id = $contact->id;
             $phone->phoneable_type = Contact::class;
             $phone->phone_number = $request->input('phone_number');
             $phone->save();
         }
 
-        \Alert::success(__('The information has successfully been saved'))->flash();
+        Alert::success(__('The information has successfully been saved'))->flash();
 
         return redirect()->back();
     }
@@ -86,7 +88,7 @@ class ContactController extends Controller
             ]);
         }
 
-        \Alert::success(__('The information has successfully been saved'))->flash();
+        Alert::success(__('The information has successfully been saved'))->flash();
 
         return redirect($request->redirect_path);
     }

@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Events\CourseUpdated;
+use App\Models\Skills\Skill;
+use App\Models\Skills\SkillEvaluation;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -69,48 +71,48 @@ class Course extends Model
     /** the scheduled day/times for the course, that repeat throughout the course date span */
     public function times()
     {
-        return $this->hasMany(\App\Models\CourseTime::class, 'course_id');
+        return $this->hasMany(CourseTime::class, 'course_id');
     }
 
     /** course sessions (classes) with a specific start and end date/time */
     public function events()
     {
-        return $this->hasMany(\App\Models\Event::class)->orderBy('start');
+        return $this->hasMany(Event::class)->orderBy('start');
     }
 
     /** may be null if the teacher is not yet assigned */
     public function teacher()
     {
-        return $this->belongsTo(\App\Models\Teacher::class)->withTrashed();
+        return $this->belongsTo(Teacher::class)->withTrashed();
     }
 
     public function campus()
     {
-        return $this->belongsTo(\App\Models\Campus::class);
+        return $this->belongsTo(Campus::class);
     }
 
     /** may be null if the room is not yet assigned */
     public function room()
     {
-        return $this->belongsTo(\App\Models\Room::class)->withTrashed();
+        return $this->belongsTo(Room::class)->withTrashed();
     }
 
     /** the "category" of course */
     public function rhythm()
     {
-        return $this->belongsTo(\App\Models\Rhythm::class)->withTrashed();
+        return $this->belongsTo(Rhythm::class)->withTrashed();
     }
 
     /** a course can only have one level. Parent courses would generally have no level defined */
     public function level()
     {
-        return $this->belongsTo(\App\Models\Level::class)->withTrashed();
+        return $this->belongsTo(Level::class)->withTrashed();
     }
 
     /** a course needs to belong to a period */
     public function period()
     {
-        return $this->belongsTo(\App\Models\Period::class);
+        return $this->belongsTo(Period::class);
     }
 
     /** children courses = sub-courses, or course modules */
@@ -127,30 +129,30 @@ class Course extends Model
     /** evaluation methods associated to the course - grades, skill-based evaluation... */
     public function evaluation_type()
     {
-        return $this->belongsToMany(\App\Models\EvaluationType::class);
+        return $this->belongsToMany(EvaluationType::class);
     }
 
     /** a Grade model = an individual grade, belongs to a student */
     public function grades()
     {
-        return $this->hasMany(\App\Models\Grade::class)->with('student');
+        return $this->hasMany(Grade::class)->with('student');
     }
 
     /** the different grade types associated to the course */
     public function grade_type()
     {
-        return $this->belongsToMany(\App\Models\GradeType::class);
+        return $this->belongsToMany(GradeType::class);
     }
 
     /** in the case of skills-based evaluation, Skill models are attached to the course */
     public function skills()
     {
-        return $this->belongsToMany(\App\Models\Skills\Skill::class)->orderBy('order');
+        return $this->belongsToMany(Skill::class)->orderBy('order');
     }
 
     public function skill_evaluations()
     {
-        return $this->hasMany(\App\Models\Skills\SkillEvaluation::class)
+        return $this->hasMany(SkillEvaluation::class)
         ->with('skill_scale');
     }
 
@@ -165,7 +167,7 @@ class Course extends Model
      */
     public function attendance()
     {
-        return $this->hasManyThrough(\App\Models\Attendance::class, \App\Models\Event::class);
+        return $this->hasManyThrough(Attendance::class, Event::class);
     }
 
     /**
@@ -239,7 +241,7 @@ class Course extends Model
         $courseTimes = null;
         if ($this->times->count() > 0) {
             $courseTimes = $this->times;
-        } elseif ($this->children->count() > 0 && $this->children->first()->times->count() > 0) {
+        } elseif (($this->children->count() > 0) && ($this->children->first()->times->count() > 0)) {
             $courseTimes = $this->children->first()->times;
         }
 

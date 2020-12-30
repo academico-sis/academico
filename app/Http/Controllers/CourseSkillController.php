@@ -9,6 +9,8 @@ use App\Models\Skills\Skill;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpWord\IOFactory;
+use PhpOffice\PhpWord\PhpWord;
 
 class CourseSkillController extends Controller
 {
@@ -16,6 +18,7 @@ class CourseSkillController extends Controller
 
     public function __construct()
     {
+        parent::__construct();
         $this->middleware(['permission:evaluation.edit']);
     }
 
@@ -26,7 +29,7 @@ class CourseSkillController extends Controller
 
     public function exportCourseSyllabus(Course $course)
     {
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord = new PhpWord();
 
         // Course general info
         $section = $phpWord->addSection();
@@ -62,7 +65,7 @@ class CourseSkillController extends Controller
         }
 
         // Saving the document as OOXML file...
-        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+        $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
         header('Content-type: application/msword');
         header('Cache-Control: no-store, no-cache');
         header('Content-Disposition: attachment; filename="document.docx"');
@@ -141,7 +144,7 @@ class CourseSkillController extends Controller
 
         $course->skills()->detach();
 
-        $skills = Excel::toArray(new CourseSkillsImport, $request->file('skillset'));
+        $skills = Excel::toArray(new CourseSkillsImport(), $request->file('skillset'));
 
         foreach ($skills as $skill) {
             foreach ($skill as $e) {

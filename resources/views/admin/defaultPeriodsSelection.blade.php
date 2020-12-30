@@ -18,7 +18,7 @@
             <label for="currentPeriod">@lang('Current Period')</label>
             <select class="form-control" id="currentPeriod" name="currentPeriod">
             @foreach ($availablePeriods as $period)
-                <option value="{{ $period->id }}" {{ $currentPeriod->id == $period->id ? 'selected="selected"' : '' }}>{{ $period->name }}</option>
+                <option value="{{ $period->id }}" {{ $currentPeriod && $currentPeriod->id == $period->id ? 'selected="selected"' : '' }}>{{ $period->name }}</option>
             @endforeach
             </select>
         </div>
@@ -27,7 +27,7 @@
             <label for="enrollmentsPeriod">@lang('Enrollments Period')</label>
             <select class="form-control" id="enrollmentsPeriod" name="enrollmentsPeriod">
             @foreach ($availablePeriods as $period)
-                <option value="{{ $period->id }}" {{ $enrollmentsPeriod->id == $period->id ? 'selected="selected"' : '' }}>{{ $period->name }}</option>
+                <option value="{{ $period->id }}" {{ $enrollmentsPeriod && $enrollmentsPeriod->id == $period->id ? 'selected="selected"' : '' }}>{{ $period->name }}</option>
             @endforeach
             </select>
         </div>

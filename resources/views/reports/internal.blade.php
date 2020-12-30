@@ -52,7 +52,7 @@
                             $i = 0;
                             $year_enrollments = 0;
                             $year_taught_hours = 0;
-                            $year_sold_hours = 0;
+                            $year_sold_hours = 0
                         @endphp
 
                         <tbody>
@@ -95,7 +95,7 @@
                                     $i ++;
                                     $year_enrollments = 0;
                                     $year_taught_hours = 0;
-                                    $year_sold_hours = 0;
+                                    $year_sold_hours = 0
                                 @endphp
 
                             @endif
@@ -103,7 +103,7 @@
                             @php
                                 $year_enrollments += $data_period['enrollments'];
                                 $year_taught_hours += $data_period['taught_hours'];
-                                $year_sold_hours += $data_period['sold_hours'];
+                                $year_sold_hours += $data_period['sold_hours']
                             @endphp
 
                                 <tr>
@@ -138,7 +138,7 @@
 
                                 @php
                                     $current_year_id = $data_period['year_id'];
-                                    $i ++;
+                                    $i ++
                                 @endphp
                             @endforeach
 
@@ -247,18 +247,17 @@ for (s in data) {
  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
  <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.20/b-1.6.1/b-html5-1.6.1/b-print-1.6.1/datatables.min.js"></script>
 <script>
- $(document).ready(() => {
- $('#reportsTable').DataTable( {
- dom: 'Bfrtip',
- "paging": false,
- "searching": false,
-    "ordering":  false,
- buttons: [
-     'excel',
-     'pdf',
-     'print'
- ]
-} );
-});
+ $(document).ready(() =>
+     $('#reportsTable').DataTable({
+         dom: 'Bfrtip',
+         "paging": false,
+         "searching": false,
+         "ordering": false,
+         buttons: [
+             'excel',
+             'pdf',
+             'print'
+         ]
+     }));
 </script>
 @endsection

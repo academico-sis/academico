@@ -12,6 +12,7 @@ class EventController extends Controller
 {
     public function __construct()
     {
+        parent::__construct();
         $this->middleware('permission:courses.view');
         $this->middleware('permission:courses.edit', ['only' => ['syncEventsTeacher', 'update_course_teacher', 'update_course_room', 'syncEventsRoom', 'store', 'destroy']]);
     }

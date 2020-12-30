@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\ConfigRequest as UpdateRequest;
 // VALIDATION: change the requests to match your own file names if you need form validation
+use App\Models\Config;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\CRUD\CrudPanel;
 
@@ -15,8 +18,8 @@ use Backpack\CRUD\CrudPanel;
  */
 class ConfigCrudController extends CrudController
 {
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use ListOperation;
+    use UpdateOperation;
 
     public function setup()
     {
@@ -25,7 +28,7 @@ class ConfigCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        CRUD::setModel(\App\Models\Config::class);
+        CRUD::setModel(Config::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/config');
         CRUD::setEntityNameStrings(__('config'), __('configs'));
     }

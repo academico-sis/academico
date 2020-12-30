@@ -2,12 +2,25 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Alert;
+use App\Http\Controllers\Admin\Operations\ShowStudentPhotoRosterOperation;
 use App\Http\Requests\CourseRequest as StoreRequest;
 // VALIDATION: change the requests to match your own file names if you need form validation
+use App\Models\Book;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Event;
+use App\Models\Level;
+use App\Models\Period;
+use App\Models\Rhythm;
+use App\Models\Room;
+use App\Models\Teacher;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Support\Facades\Gate;
 
@@ -17,12 +30,12 @@ use Illuminate\Support\Facades\Gate;
  */
 class CourseCrudController extends CrudController
 {
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-    use \App\Http\Controllers\Admin\Operations\ShowStudentPhotoRosterOperation;
+    use ListOperation;
+    use ShowOperation;
+    use CreateOperation;
+    use UpdateOperation;
+    use DeleteOperation;
+    use ShowStudentPhotoRosterOperation;
 
     public function __construct()
     {
@@ -38,7 +51,7 @@ class CourseCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        CRUD::setModel(\App\Models\Course::class);
+        CRUD::setModel(Course::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/course');
         CRUD::setEntityNameStrings(__('course'), __('courses'));
 
@@ -81,7 +94,7 @@ class CourseCrudController extends CrudController
                 'name' => 'rhythm_id', // the column that contains the ID of that connected entity;
                 'entity' => 'rhythm', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\Rhythm::class, // foreign key model
+                'model' => Rhythm::class, // foreign key model
             ],
 
             [
@@ -91,7 +104,7 @@ class CourseCrudController extends CrudController
                 'name' => 'level_id', // the column that contains the ID of that connected entity;
                 'entity' => 'level', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\Level::class, // foreign key model
+                'model' => Level::class, // foreign key model
             ],
 
             [
@@ -112,7 +125,7 @@ class CourseCrudController extends CrudController
                 'name' => 'teacher_id', // the column that contains the ID of that connected entity;
                 'entity' => 'teacher', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\Teacher::class, // foreign key model
+                'model' => Teacher::class, // foreign key model
             ],
 
             [
@@ -122,7 +135,7 @@ class CourseCrudController extends CrudController
                 'name' => 'room_id', // the column that contains the ID of that connected entity;
                 'entity' => 'room', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\Room::class, // foreign key model
+                'model' => Room::class, // foreign key model
             ],
 
             // COURSE SCHEDULED TIMES
@@ -164,7 +177,7 @@ class CourseCrudController extends CrudController
             'type' => 'select2',
             'label'=> __('Rhythm'),
         ], function () {
-            return \App\Models\Rhythm::all()->pluck('name', 'id')->toArray();
+            return Rhythm::all()->pluck('name', 'id')->toArray();
         }, function ($value) { // if the filter is active
             CRUD::addClause('where', 'rhythm_id', $value);
         },
@@ -176,7 +189,7 @@ class CourseCrudController extends CrudController
             'type' => 'select2',
             'label'=> __('Teacher'),
         ], function () {
-            return \App\Models\Teacher::all()->pluck('name', 'id')->toArray();
+            return Teacher::all()->pluck('name', 'id')->toArray();
         }, function ($value) { // if the filter is active
             CRUD::addClause('where', 'teacher_id', $value);
         },
@@ -188,7 +201,7 @@ class CourseCrudController extends CrudController
             'type' => 'select2',
             'label'=> __('Level'),
         ], function () {
-            return \App\Models\Level::all()->pluck('name', 'id')->toArray();
+            return Level::all()->pluck('name', 'id')->toArray();
         }, function ($value) { // if the filter is active
             CRUD::addClause('where', 'level_id', $value);
         },
@@ -200,12 +213,12 @@ class CourseCrudController extends CrudController
             'type' => 'select2',
             'label'=> __('Period'),
         ], function () {
-            return \App\Models\Period::all()->sortByDesc('id')->pluck('name', 'id')->toArray();
+            return Period::all()->sortByDesc('id')->pluck('name', 'id')->toArray();
         }, function ($value) { // if the filter is active
             CRUD::addClause('where', 'period_id', $value);
         },
           function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
-              $period = \App\Models\Period::get_default_period()->id;
+              $period = Period::get_default_period()->id;
               CRUD::addClause('where', 'period_id', $period);
               $this->crud->getRequest()->request->add(['period_id' => $period]); // to make the filter look active
           });
@@ -221,7 +234,7 @@ class CourseCrudController extends CrudController
                 'name' => 'rhythm_id', // the column that contains the ID of that connected entity;
                 'entity' => 'rhythm', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\Rhythm::class, // foreign key model
+                'model' => Rhythm::class, // foreign key model
                 'tab' => __('Course info'),
             ],
 
@@ -232,7 +245,7 @@ class CourseCrudController extends CrudController
                 'name' => 'level_id', // the column that contains the ID of that connected entity;
                 'entity' => 'level', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\Level::class, // foreign key model
+                'model' => Level::class, // foreign key model
                 'tab' => __('Course info'),
             ],
 
@@ -282,7 +295,7 @@ class CourseCrudController extends CrudController
                 'name' => 'teacher_id', // the column that contains the ID of that connected entity;
                 'entity' => 'teacher', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\Teacher::class, // foreign key model
+                'model' => Teacher::class, // foreign key model
                 'tab' => __('Resources'),
             ],
 
@@ -293,7 +306,7 @@ class CourseCrudController extends CrudController
                 'name' => 'room_id', // the column that contains the ID of that connected entity;
                 'entity' => 'room', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\Room::class, // foreign key model
+                'model' => Room::class, // foreign key model
                 'tab' => __('Resources'),
             ],
 
@@ -312,7 +325,7 @@ class CourseCrudController extends CrudController
                 'name' => 'books', // the method that defines the relationship in your Model
                 'entity' => 'books', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\Book::class, // foreign key model
+                'model' => Book::class, // foreign key model
                 'pivot' => true, // on create&update, do you need to add/delete pivot table entries?
                 'tab' => __('Pedagogy'),
 
@@ -325,7 +338,7 @@ class CourseCrudController extends CrudController
                 'name' => 'period_id', // the column that contains the ID of that connected entity;
                 'entity' => 'period', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\Period::class, // foreign key model
+                'model' => Period::class, // foreign key model
                 'tab' => __('Schedule'),
             ],
 
@@ -377,7 +390,7 @@ class CourseCrudController extends CrudController
         CRUD::hasAccessOrFail('delete');
         $course = Course::find($id);
         if ($course->enrollments->count() > 0) {
-            \Alert::add('error', 'The course has enrollments, impossible to delete');
+            Alert::add('error', 'The course has enrollments, impossible to delete');
         } else {
             Event::where('course_id', $id)->forceDelete();
             Enrollment::where('course_id', $id)->forceDelete();

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use Alert;
+use App\Http\Controllers\Controller;
 use App\Models\ContactRelationship;
 use App\Models\Institution;
 use App\Models\Profession;
@@ -10,12 +11,13 @@ use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-class MyAccountController extends \App\Http\Controllers\Controller
+class MyAccountController extends Controller
 {
     protected $data = [];
 
     public function __construct()
     {
+        parent::__construct();
         $this->middleware(backpack_middleware());
     }
 
@@ -159,7 +161,7 @@ class MyAccountController extends \App\Http\Controllers\Controller
             $this->guard()->user()->student->update(['force_update' => 5]);
         }
 
-        \Alert::success(__('Your data has been saved'))->flash();
+        Alert::success(__('Your data has been saved'))->flash();
 
         return redirect()->to('/');
     }
@@ -203,7 +205,7 @@ class MyAccountController extends \App\Http\Controllers\Controller
             $this->guard()->user()->student->update(['force_update' => 6]);
         }
 
-        \Alert::success(__('Your data has been saved'))->flash();
+        Alert::success(__('Your data has been saved'))->flash();
         Log::info('User updated their data step 4');
 
         return redirect()->to('/');
@@ -235,7 +237,7 @@ class MyAccountController extends \App\Http\Controllers\Controller
             $this->guard()->user()->student->update(['force_update' => 7]);
         }
 
-        \Alert::success(__('Your picture has been saved'))->flash();
+        Alert::success(__('Your picture has been saved'))->flash();
         Log::info('User updated their data step 5');
 
         return redirect()->to('/');

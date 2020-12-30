@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection Annotator */
 
 namespace App\Models;
 
