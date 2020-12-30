@@ -24,7 +24,9 @@ class UpgradeToMedialibrary8 extends Migration
         DB::raw("UPDATE media SET 'conversions_disk' = 'disk';");
 
         Media::cursor()->each(
-            fn (Media $media) => $media->update(['uuid' => Str::uuid()])
+            function (Media $media) {
+                return $media->update(['uuid' => Str::uuid()]);
+            }
          );
     }
 

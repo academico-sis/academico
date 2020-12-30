@@ -14,7 +14,7 @@
 
 <div class="row">
 
-     @if ($student->getFirstMediaUrl() != null)
+     @if ($student->getMedia('profile-picture')->count() > 0)
     <div class="col-md-2">
         <div class="card">
             <img src="{{$student->getMedia('profile-picture')->last()->getUrl('thumb')}}" style="width: 100%" />
@@ -64,18 +64,18 @@
         <div class="card">
             <div class="card-header">
                 @lang('Enrollments')
-                
+
                 <div class="card-header-actions">
                     @if(backpack_user()->can('enrollments.edit'))
-                    
+
                     <a href="{{ route('get-courses-list', ['mode' => 'enroll', 'student_id' => $student->id]) }}" class="btn btn-sm btn-primary">
                         <i class="la la-user-plus"></i>
                     </a>
                     @endif
-                    
+
                 </div>
             </div>
-            
+
             @if (count($student->enrollments) > 0)
                     <div class="card-body">
                         <table class="table table-striped">

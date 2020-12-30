@@ -1,7 +1,7 @@
 <div class="card">
      <div class="card-body">
 			@if($user->isStudent())
-				@if ($user->student->getFirstMediaUrl() != null)
+				@if ($user->student->getMedia('profile-picture')->count() > 0)
 					<img src="{{ $user->student->getMedia('profile-picture')->last()->getUrl('thumb') }}" style="width: 100%" />
 				@else
 					<img class="profile-user-img img-responsive img-circle" src="{{ backpack_avatar_url(backpack_auth()->user()) }}">

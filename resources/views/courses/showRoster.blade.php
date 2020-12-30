@@ -12,7 +12,7 @@
 
 @include('partials.course_info')
 
-<div class="row">	
+<div class="row">
 	<div class="card">
 		<div class="card-header">
 		    <div class="card-header-actions">
@@ -30,7 +30,7 @@
 	@foreach ($enrollments as $enrollment)
 	<div class="col-md-3">
 		<div class="card">
-			@if ($enrollment->student->getFirstMediaUrl() != null)
+			@if ($enrollment->student->getMedia('profile-picture')->count() > 0)
 				<img class="card-img-top" src="{{ $enrollment->student->getMedia('profile-picture')->last()->getUrl('thumb') }}"/>
 			@endif
 			<div class="card-body">
@@ -53,5 +53,5 @@
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
-  
+
 @endsection

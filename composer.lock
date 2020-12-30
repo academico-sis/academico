@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e5b0813cf1be18139227b5ba566d26a9",
+    "content-hash": "6c0383a50f8d4cb532c536d7efbce144",
     "packages": [
         {
             "name": "akaunting/language",
@@ -5441,29 +5441,30 @@
         },
         {
             "name": "spatie/laravel-medialibrary",
-            "version": "8.10.1",
+            "version": "9.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-medialibrary.git",
-                "reference": "72b408972ba0b994eb52f39d38169621699e549b"
+                "reference": "f4e08f21fe217fff5ba0600b9c8998a5e0d5ad60"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-medialibrary/zipball/72b408972ba0b994eb52f39d38169621699e549b",
-                "reference": "72b408972ba0b994eb52f39d38169621699e549b",
+                "url": "https://api.github.com/repos/spatie/laravel-medialibrary/zipball/f4e08f21fe217fff5ba0600b9c8998a5e0d5ad60",
+                "reference": "f4e08f21fe217fff5ba0600b9c8998a5e0d5ad60",
                 "shasum": ""
             },
             "require": {
+                "ext-exif": "*",
                 "ext-fileinfo": "*",
                 "ext-json": "*",
-                "illuminate/bus": "^6.18|^7.0|^8.0",
-                "illuminate/console": "^6.18|^7.0|^8.0",
-                "illuminate/database": "^6.18|^7.0|^8.0",
-                "illuminate/pipeline": "^6.18|^7.0|^8.0",
-                "illuminate/support": "^6.18|^7.0|^8.0",
+                "illuminate/bus": "^7.0|^8.0",
+                "illuminate/console": "^7.0|^8.0",
+                "illuminate/database": "^7.0|^8.0",
+                "illuminate/pipeline": "^7.0|^8.0",
+                "illuminate/support": "^7.0|^8.0",
                 "league/flysystem": "^1.0.64",
                 "maennchen/zipstream-php": "^1.0|^2.0",
-                "php": "^7.4",
+                "php": "^7.4|^8.0",
                 "spatie/image": "^1.4.0",
                 "spatie/temporary-directory": "^1.1",
                 "symfony/console": "^4.4|^5.0"
@@ -5479,8 +5480,7 @@
                 "guzzlehttp/guzzle": "^6.3|^7.0",
                 "league/flysystem-aws-s3-v3": "^1.0.23",
                 "mockery/mockery": "^1.3",
-                "orchestra/testbench": "^4.0|^5.0|^6.0",
-                "php-ffmpeg/php-ffmpeg": "^0.16.0",
+                "orchestra/testbench": "^5.0|^6.0",
                 "phpunit/phpunit": "^9.1",
                 "spatie/pdf-to-image": "^2.0",
                 "spatie/phpunit-snapshot-assertions": "^4.0"
@@ -5529,7 +5529,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-medialibrary/issues",
-                "source": "https://github.com/spatie/laravel-medialibrary/tree/8.10.1"
+                "source": "https://github.com/spatie/laravel-medialibrary/tree/9.4.1"
             },
             "funding": [
                 {
@@ -5541,7 +5541,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-10-05T21:54:57+00:00"
+            "time": "2020-12-16T14:07:51+00:00"
         },
         {
             "name": "spatie/laravel-permission",

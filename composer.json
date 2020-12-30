@@ -26,7 +26,7 @@
         "phpoffice/phpword": "^0.17.0",
         "sentry/sentry-laravel": "^2.3",
         "spatie/laravel-activitylog": "^3.14.2",
-        "spatie/laravel-medialibrary": "^8.7",
+        "spatie/laravel-medialibrary": "^9.0.0",
         "spatie/laravel-query-builder": "^2.8.2",
         "spatie/laravel-translatable": "^4.4.0",
         "symfony/psr-http-message-bridge": "^2.0.1"
