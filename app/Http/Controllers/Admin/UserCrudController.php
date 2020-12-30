@@ -86,7 +86,6 @@ class UserCrudController extends CrudController
 
     /**
      * Store a newly created resource in the database.
-     *
      */
     public function store(StoreRequest $request)
     {
@@ -97,7 +96,6 @@ class UserCrudController extends CrudController
 
     /**
      * Update the specified resource in the database.
-     *
      */
     public function update(UpdateRequest $request)
     {

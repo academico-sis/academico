@@ -1,4 +1,6 @@
-<?php /** @noinspection Annotator */
+<?php
+
+/** @noinspection Annotator */
 
 namespace App\Models;
 

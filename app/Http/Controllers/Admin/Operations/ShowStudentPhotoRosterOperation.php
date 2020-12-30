@@ -43,7 +43,6 @@ trait ShowStudentPhotoRosterOperation
 
     /**
      * Show the view for performing the operation.
-     *
      */
     public function showstudentphotoroster($course)
     {
