@@ -59,7 +59,6 @@ Route::group([
     Route::crud('rhythm', 'RhythmCrudController');
     Route::crud('year', 'YearCrudController');
     Route::crud('campus', 'CampusCrudController');
-    Route::crud('user', 'UserCrudController');
     Route::crud('teacher', 'TeacherCrudController');
     Route::crud('evaluationtype', 'EvaluationTypeCrudController');
     Route::crud('gradetype', 'GradeTypeCrudController');
@@ -70,7 +69,6 @@ Route::group([
     Route::crud('remoteevent', 'RemoteEventCrudController');
     Route::crud('leave', 'LeaveCrudController');
     Route::crud('leadtype', 'LeadTypeCrudController');
-    Route::crud('config', 'ConfigCrudController');
     Route::crud('book', 'BookCrudController');
     Route::crud('courseevaluation', 'CourseEvaluationCrudController');
     Route::crud('gradetypecategory', 'GradeTypeCategoryCrudController');
