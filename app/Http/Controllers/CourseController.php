@@ -7,25 +7,10 @@ use App\Models\Level;
 use App\Models\Period;
 use App\Models\Rhythm;
 use App\Models\Student;
-use Illuminate\Database\Eloquent\Builder;
+use App\Traits\FiltersSearchableLevels;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
-use Spatie\QueryBuilder\Filters\Filter;
 use Spatie\QueryBuilder\QueryBuilder;
-
-class FiltersSearchableLevels implements Filter
-{
-    public function __invoke(Builder $query, $value, string $property)
-    {
-        $value = collect($value)->toArray();
-        $query->where(function (Builder $query) use ($value) {
-            $query->whereIn('level_id', $value)
-                    ->orWhereHas('children', function (Builder $query) use ($value) {
-                        $query->whereIn('level_id', $value);
-                    });
-        });
-    }
-}
 
 class CourseController extends Controller
 {
@@ -37,6 +22,9 @@ class CourseController extends Controller
 
     /**
      * Display a listing of the resource.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index(Request $request)
     {
