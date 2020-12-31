@@ -9,11 +9,11 @@ use App\Models\Course;
 use App\Models\Event;
 use App\Models\Student;
 use App\Traits\PeriodSelection;
+use function backpack_user;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
-use function backpack_user;
 
 class AttendanceController extends Controller
 {
@@ -27,7 +27,6 @@ class AttendanceController extends Controller
 
     /**
      * Monitor attendance for all students.
-     *
      */
     public function index(Request $request)
     {
