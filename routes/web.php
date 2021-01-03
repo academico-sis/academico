@@ -76,8 +76,8 @@ Route::group(
     function () {
 
         /* Course grades update */
-        Route::post('course/gradetype', 'GradeController@add_grade_type_to_course');
-        Route::delete('course/{course}/gradetype/{gradetype}', 'GradeController@remove_grade_type_from_course')->name('removeGradeTypeFromCourse');
+        Route::post('course/gradetype', 'GradeController@addGradeTypeToCourse');
+        Route::delete('course/{course}/gradetype/{gradetype}', 'GradeController@removeGradeTypeFromCourse')->name('removeGradeTypeFromCourse');
         Route::get('course/{course}/grades', 'GradeController@edit')->name('editCourseGrades');
         Route::post('grades', 'GradeController@store');
         Route::post('grades/enrollment-total', 'GradeController@getEnrollmentTotal');

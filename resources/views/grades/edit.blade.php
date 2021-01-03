@@ -17,9 +17,11 @@
                 @lang('Edit Grades')
 
                 <div class="card-header-actions">
+                    @if($available_grade_types->count() > 0)
                     <a class="btn btn-primary" data-toggle="modal" data-target="#gradeTypeModal">
                         <i class="la la-plus"></i> @lang('Add Grade Type to Course')
                     </a>
+                    @endif
                 </div>
             </div>
 
@@ -76,7 +78,7 @@
 
                     <div class="form-group">
                         <select name="grade_type_id" required>
-                            @foreach ($all_grade_types as $grade_type)
+                            @foreach ($available_grade_types as $grade_type)
                                 <option value="{{ $grade_type->id }}">({{$grade_type->category->name}}) {{ $grade_type->name }}</option>
                             @endforeach
                         </select>

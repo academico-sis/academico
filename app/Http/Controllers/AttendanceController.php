@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Alert;
+use Prologue\Alerts\Facades\Alert;
 use App\Models\Attendance;
 use App\Models\AttendanceType;
 use App\Models\Course;
 use App\Models\Event;
 use App\Models\Student;
 use App\Traits\PeriodSelection;
-use function backpack_user;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -125,7 +124,7 @@ class AttendanceController extends Controller
         }
 
         $enrollments = $course->enrollments()->with('student')->get();
-
+        
         foreach ($enrollments as $enrollment) {
             foreach ($events as $event) {
                 if ($event->exempt_attendance == 1) {

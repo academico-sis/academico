@@ -16,10 +16,6 @@ use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Carbon\Carbon;
 
-/**
- * Class LeaveCrudController.
- * @property-read CrudPanel $crud
- */
 class LeaveCrudController extends CrudController
 {
     use ListOperation;

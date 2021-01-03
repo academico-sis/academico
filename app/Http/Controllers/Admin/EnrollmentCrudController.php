@@ -19,7 +19,6 @@ use Illuminate\Support\Facades\Log;
  * Class EnrollmentCrudController
  * This controller is used to view enrollments only.
  * No enrollments may be created or updated from here.
- * @property-read CrudPanel $crud
  */
 class EnrollmentCrudController extends CrudController
 {

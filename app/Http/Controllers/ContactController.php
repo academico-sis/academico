@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Alert;
+use Prologue\Alerts\Facades\Alert;
 use App\Http\Requests\ContactRequest as StoreRequest;
 use App\Models\Contact;
 use App\Models\PhoneNumber;

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Alert;
+use Prologue\Alerts\Facades\Alert;
 use App\Http\Requests\StoreEnrollmentRequest;
 use App\Models\Attendance;
 use App\Models\Course;

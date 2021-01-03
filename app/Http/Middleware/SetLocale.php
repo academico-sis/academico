@@ -4,9 +4,8 @@ namespace App\Http\Middleware;
 
 use Carbon\Carbon;
 use Closure;
-use Date;
 use Illuminate\Support\Facades\App;
-use Unicodeveloper\Identify\Facades\IdentityFacade as Identify;
+use Illuminate\Support\Facades\Date;
 
 class SetLocale
 {
@@ -14,8 +13,8 @@ class SetLocale
      * This function checks if language to set is an allowed lang of config.
      *
      * @param string $locale
-     **/
-    private function setLocale($locale)
+     */
+    private function setLocale(string $locale)
     {
         // Check if is allowed and set default locale if not
         if (! language()->allowed($locale)) {
@@ -48,11 +47,7 @@ class SetLocale
 
     public function setDefaultLocale()
     {
-        if (config('language.auto')) {
-            $this->setLocale(Identify::lang()->getLanguage());
-        } else {
-            $this->setLocale(config('app.locale'));
-        }
+        $this->setLocale(config('app.locale'));
     }
 
     public function setUserLocale()

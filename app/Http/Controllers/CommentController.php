@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CommentRequest as StoreRequest;
 use App\Models\Comment;
-use function backpack_user;
 use Illuminate\Support\Facades\Log;
 
 class CommentController extends Controller

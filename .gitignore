@@ -12,3 +12,10 @@ npm-debug.log
 yarn-error.log
 .idea
 deploy.php
+phpcs.xml
+
+phpmd-ruleset.xml
+
+phpmd.html
+
+phpstan.neon

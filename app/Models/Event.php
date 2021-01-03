@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Alert;
+use Prologue\Alerts\Facades\Alert;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;

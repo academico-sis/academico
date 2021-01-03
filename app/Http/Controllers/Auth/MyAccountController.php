@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Alert;
+use Prologue\Alerts\Facades\Alert;
 use App\Http\Controllers\Controller;
 use App\Models\ContactRelationship;
 use App\Models\Institution;

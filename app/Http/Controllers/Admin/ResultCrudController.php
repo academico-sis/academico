@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Gate;
 /**
  * Class ResultCrudController
  * Controller to monitor student results. No result can be added from here.
- * @property-read CrudPanel $crud
  */
 class ResultCrudController extends CrudController
 {

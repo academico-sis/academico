@@ -21,7 +21,6 @@ use Illuminate\Http\Request;
  * Class EventCrudController
  * An event corresponds to a class. This controller is used to monitor events automatically created
  * but also to add or update events manually.
- * @property-read CrudPanel $crud
  */
 class EventCrudController extends CrudController
 {

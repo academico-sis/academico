@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Alert;
+use Prologue\Alerts\Facades\Alert;
 use App\Http\Controllers\Admin\Operations\ShowStudentPhotoRosterOperation;
 use App\Http\Requests\CourseRequest as StoreRequest;
 // VALIDATION: change the requests to match your own file names if you need form validation
@@ -24,10 +24,6 @@ use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Support\Facades\Gate;
 
-/**
- * Class CourseCrudController.
- * @property-read CrudPanel $crud
- */
 class CourseCrudController extends CrudController
 {
     use ListOperation;

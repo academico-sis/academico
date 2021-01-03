@@ -12,10 +12,6 @@ use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
-/**
- * Class RoomCrudController.
- * @property-read CrudPanel $crud
- */
 class RoomCrudController extends CrudController
 {
     use ListOperation;

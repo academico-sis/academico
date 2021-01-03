@@ -18,7 +18,6 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
  * Class CommentCrudController
  * Monitor comments. This controller is NOT used to add comments, only to view, edit or delete them.
  * A comment may be attached to various models (polymorphism).
- * @property-read CrudPanel $crud
  */
 class CommentCrudController extends CrudController
 {
