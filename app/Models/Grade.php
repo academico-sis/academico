@@ -13,18 +13,15 @@ class Grade extends Model
     protected $with = ['grade_type'];
     protected $appends = ['grade_type_category'];
     protected static $logFillable = true;
-    protected $casts = [
-        'grade' => 'integer',
-    ];
 
     public function grade_type()
     {
         return $this->belongsTo(GradeType::class);
     }
 
-    public function student()
+    public function enrollment()
     {
-        return $this->belongsTo(Student::class);
+        return $this->belongsTo(Enrollment::class);
     }
 
     public function getGradeTypeCategoryAttribute()

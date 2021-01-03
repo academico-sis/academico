@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Models\Course;
+use App\Models\EvaluationType;
 use App\Models\Event;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -250,5 +251,18 @@ class CourseTest extends TestCase
         $courseTimeParsed = $parentCourse->course_times;
 
         $this->assertSame('L -> 10:00 - 11:00 | M -> 11:30 - 12:45', $courseTimeParsed);
+    }
+
+    /** @test */
+    public function a_course_can_have_an_evaluation_method()
+    {
+        // given a course
+        $course = factory(Course::class)->create();
+        $evaluationMethod = factory(EvaluationType::class)->create();
+
+        // an evaluation method can be attached
+        $course->evaluation_types()->attach($evaluationMethod);
+        $this->assertContains($evaluationMethod->id, $course->evaluation_types->pluck(['id']));
+        $this->assertContains($course->id, $evaluationMethod->courses->pluck('id'));
     }
 }

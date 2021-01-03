@@ -19,6 +19,7 @@ class GradesTest extends TestCase
 
     public function test_adding_a_new_gradetype_to_course()
     {
+        $this->markTestIncomplete('Test unfinished');
     }
 
     /**
@@ -26,6 +27,7 @@ class GradesTest extends TestCase
      */
     public function test_that_authorized_user_can_view_courses_within_other_periods()
     {
+        $this->markTestIncomplete('Test unfinished');
     }
 
     /**
@@ -33,5 +35,6 @@ class GradesTest extends TestCase
      */
     public function test_that_unauthroized_user_cannot_view_courses()
     {
+        $this->markTestIncomplete('Test unfinished');
     }
 }

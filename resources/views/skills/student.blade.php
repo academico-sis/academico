@@ -14,9 +14,8 @@
 <div class="row" id="app">
     <student-skills-component
         :saved_skills="{{ json_encode($skills) }}"
-        :student="{{ json_encode($student) }}"
+        :enrollment="{{ json_encode($enrollment) }}"
         :skill_scales="{{ json_encode($skillScales) }}"
-        :course="{{ json_encode($course) }}"
         route="{{ route('storeSkillEvaluation') }}">
     </student-skills-component>
 

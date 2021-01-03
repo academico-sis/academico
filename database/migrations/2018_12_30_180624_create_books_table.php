@@ -23,6 +23,7 @@ class CreateBooksTable extends Migration
         Schema::create('book_course', function (Blueprint $table) {
             $table->integer('book_id')->unsigned();
             $table->integer('course_id')->unsigned();
+            $table->index(['book_id', 'course_id']);
         });
 
         Schema::table('book_course', function (Blueprint $table) {

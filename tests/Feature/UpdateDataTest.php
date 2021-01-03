@@ -2,8 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Models\Institution;
-use App\Models\Profession;
 use App\Models\Student;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -29,6 +27,7 @@ class UpdateDataTest extends TestCase
      */
     public function SelectedUsersWillUpdateAccountData()
     {
+        $this->markTestIncomplete('Test unfinished');
     }
 
     /**
@@ -39,6 +38,7 @@ class UpdateDataTest extends TestCase
      */
     public function SelectedUsersWillUpdateStudentData()
     {
+        $this->markTestIncomplete('Test unfinished');
     }
 
     /**
@@ -49,6 +49,7 @@ class UpdateDataTest extends TestCase
      */
     public function SelectedUsersWillUpdatePhoneNumbers()
     {
+        $this->markTestIncomplete('Test unfinished');
     }
 
     /**
@@ -59,6 +60,7 @@ class UpdateDataTest extends TestCase
      */
     public function SelectedUsersWillUpdateProfession()
     {
+        $this->markTestIncomplete('Test unfinished');
     }
 
     /**
@@ -69,6 +71,7 @@ class UpdateDataTest extends TestCase
      */
     public function SelectedUsersWillUpdateProfilePicture()
     {
+        $this->markTestIncomplete('Test unfinished');
     }
 
     /**
@@ -79,5 +82,6 @@ class UpdateDataTest extends TestCase
      */
     public function SelectedUsersWillUpdateContacts()
     {
+        $this->markTestIncomplete('Test unfinished');
     }
 }

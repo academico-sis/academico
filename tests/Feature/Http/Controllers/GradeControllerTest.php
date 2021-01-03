@@ -3,8 +3,12 @@
 namespace Tests\Feature\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\Enrollment;
+use App\Models\EvaluationType;
+use App\Models\Grade;
 use App\Models\GradeType;
 use App\Models\Student;
+use App\Models\Teacher;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -31,10 +35,10 @@ class GradeControllerTest extends TestCase
         $course = factory(Course::class)->create();
         // with one enrolled student
         $student = factory(Student::class)->create();
-        $student->enroll($course);
+        $enrollment_id = $student->enroll($course);
         $gradeType = factory(GradeType::class)->create();
         // has no grade types
-        $this->assertEmpty($course->grade_type);
+        $this->assertEmpty($course->grade_types);
         // and no grades for the student
         $this->assertEmpty($course->grades);
 
@@ -47,26 +51,82 @@ class GradeControllerTest extends TestCase
 
         $response->assertRedirect();
         // the grade type is listed
-        $this->assertNotEmpty($course->grade_type);
-        // and the student has a default grade
-        $this->assertEquals($course->grades->first()->student_id, $student->id);
+        $this->assertNotEmpty($course->grade_types);
+    }
+
+    /** @test */
+    public function grades_edit_screen_is_available_to_admins()
+    {
+        $this->logAdmin();
+        $course = factory(Course::class)->create();
+        $course->evaluation_types()->save(EvaluationType::find(1));
+        $response = $this->get(route('editCourseGrades', ['course' => $course->id]));
+        $response->assertSeeText($course->name);
+    }
+
+    /** @test */
+    public function grades_edit_screen_is_available_to_authorized_users()
+    {
+        $teacher = factory(Teacher::class)->create();
+        \Auth::guard(backpack_guard_name())->login($teacher->user);
+        $course = factory(Course::class)->create(['teacher_id' => $teacher->id]);
+        $course->evaluation_types()->save(EvaluationType::find(1));
+        $response = $this->get(route('editCourseGrades', ['course' => $course->id]));
+        $response->assertSeeText($course->name);
+    }
+
+    /** @test */
+    public function grades_edit_screen_is_not_available_to_guests()
+    {
+        $course = factory(Course::class)->create();
+        $course->evaluation_types()->save(EvaluationType::find(1));
+        $response = $this->get(route('editCourseGrades', ['course' => $course->id]));
+        $response->assertRedirect('/login');
+    }
+
+    /** @test */
+    public function grades_edit_screen_is_not_available_to_unauthorized_users()
+    {
+        // given a teacher who is not the owner of the course
+        $teacher = factory(Teacher::class)->create();
+        \Auth::guard(backpack_guard_name())->login($teacher->user);
+
+        $course = factory(Course::class)->create();
+        $this->assertNotEquals($teacher->id, $course->teacher_id);
+        $course->evaluation_types()->save(EvaluationType::find(1));
+        $response = $this->get(route('editCourseGrades', ['course' => $course->id]));
+        $response->assertStatus(403);
+    }
+
+    /** @test */
+    public function gradetypes_can_be_added_to_course_by_authorized_users()
+    {
+        $teacher = factory(Teacher::class)->create();
+        \Auth::guard(backpack_guard_name())->login($teacher->user);
+        $course = factory(Course::class)->create(['teacher_id' => $teacher->id]);
+        $course->evaluation_types()->save(EvaluationType::find(1));
+        $gradetype1 = factory(GradeType::class)->create();
+        $course->grade_types()->save($gradetype1);
+        $response = $this->get(route('editCourseGrades', ['course' => $course->id]));
+        $response->assertSeeText($gradetype1->name);
     }
 
     /** @test */
     public function grades_can_be_edited()
     {
         $this->logAdmin();
-        $grade = factory(\App\Models\Grade::class)->create([
+        $grade = factory(Grade::class)->create([
             'grade' => 5,
         ]);
 
         $response = $this->post('grades', [
-            'pk' => $grade->id,
+            'enrollment_id' => $grade->enrollment_id,
+            'grade_type_id' => $grade->grade_type_id,
             'value' => 7,
         ]);
 
         $response->assertOk();
-        $this->assertSame($grade->fresh()->grade, 7);
+        $this->assertEquals($grade->fresh()->grade, 7);
     }
 
     /** @test */
@@ -74,22 +134,25 @@ class GradeControllerTest extends TestCase
     {
         $this->logAdmin();
         $course = factory(Course::class)->create();
-        $grade = factory(\App\Models\Grade::class)->create([
-            'course_id' => $course->id,
+        $enrollment = factory(Enrollment::class)->create([
+            'course_id' => $course->id
         ]);
-        $this->assertNotEmpty($course->grades);
+        $grade = factory(Grade::class)->create([
+            'enrollment_id' => $enrollment->id,
+        ]);
+        $this->assertNotEmpty($enrollment->grades);
 
         $response = $this->delete(
             route(
                 'removeGradeTypeFromCourse',
                 [
-                    'course' => $grade->course_id,
+                    'course' => $course->id,
                     'gradetype' => $grade->grade_type_id,
                 ]
             )
         );
 
         $response->assertOk();
-        $this->assertEmpty($course->fresh()->grades);
+        $this->assertEmpty($enrollment->fresh()->grades);
     }
 }

@@ -78,8 +78,8 @@ class CourseEvaluationCrudController extends CrudController
                 // n-n relationship (with pivot table)
                 'label' => __('Evaluation method'), // Table column heading
                 'type' => 'select_multiple',
-                'name' => 'evaluation_type', // the method that defines the relationship in your Model
-                'entity' => 'evaluation_type', // the method that defines the relationship in your Model
+                'name' => 'evaluation_types', // the method that defines the relationship in your Model
+                'entity' => 'evaluation_types', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
                 'model' => EvaluationType::class, // foreign key model
             ],
@@ -151,8 +151,8 @@ class CourseEvaluationCrudController extends CrudController
                 // n-n relationship (with pivot table)
                 'label' => __('Evaluation method'), // Table column heading
                 'type' => 'select_multiple',
-                'name' => 'evaluation_type', // the method that defines the relationship in your Model
-                'entity' => 'evaluation_type', // the method that defines the relationship in your Model
+                'name' => 'evaluation_types', // the method that defines the relationship in your Model
+                'entity' => 'evaluation_types', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
                 'model' => EvaluationType::class, // foreign key model
                 'pivot' => true,

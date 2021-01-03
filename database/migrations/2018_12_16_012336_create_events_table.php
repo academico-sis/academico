@@ -23,7 +23,8 @@ class CreateEventsTable extends Migration
             $table->string('name');
             $table->integer('course_time_id')->nullable()->unsigned();
             $table->boolean('exempt_attendance')->nullable();
-            $table->softDeletes();
+            //$table->softDeletes();
+            $table->timestamps();
         });
 
         Schema::table('events', function (Blueprint $table) {

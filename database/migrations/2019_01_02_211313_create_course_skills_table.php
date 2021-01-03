@@ -14,12 +14,13 @@ class CreateCourseSkillsTable extends Migration
     public function up()
     {
         Schema::create('course_skill', function (Blueprint $table) {
-            $table->increments('id');
+            //$table->increments('id');
             $table->integer('course_id')->unsigned();
             $table->integer('skill_id')->unsigned();
-            $table->integer('weight'); // specific weight of the skill in this course
-            $table->timestamps();
-            $table->softDeletes();
+            $table->integer('weight')->nullable(); // specific weight of the skill in this course
+            //$table->timestamps();
+            //$table->softDeletes();
+            $table->index(['course_id', 'skill_id']);
         });
 
         Schema::table('course_skill', function (Blueprint $table) {

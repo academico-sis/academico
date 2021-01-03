@@ -14,7 +14,7 @@ class CreateEnrollmentPreInvoiceTable extends Migration
     public function up()
     {
         Schema::create('enrollment_pre_invoice', function (Blueprint $table) {
-            $table->increments('id');
+            //$table->increments('id');
             $table->integer('enrollment_id')->unsigned();
             $table->integer('pre_invoice_id')->unsigned();
             //$table->timestamps();

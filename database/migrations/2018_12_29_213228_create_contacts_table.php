@@ -23,7 +23,7 @@ class CreateContactsTable extends Migration
             $table->string('email')->nullable(); // if null; look in the users table
             $table->integer('relationship_id')->nullable()->unsigned();
             $table->timestamps();
-            $table->softDeletes();
+            //$table->softDeletes();
         });
 
         Schema::table('contacts', function (Blueprint $table) {

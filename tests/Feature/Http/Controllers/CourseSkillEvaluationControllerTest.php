@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\Http\Controllers;
 
+use App\Models\Course;
+use App\Models\Enrollment;
 use App\Models\Skills\Skill;
 use App\Models\Skills\SkillScale;
 use App\Models\Student;
@@ -27,16 +29,15 @@ class CourseSkillEvaluationControllerTest extends TestCase
     public function edit_returns_an_ok_response()
     {
         $this->logAdmin();
-        $course = factory(\App\Models\Course::class)->create();
-        $student = factory(\App\Models\Student::class)->create();
+        $course = factory(Course::class)->create();
+        $student = factory(Student::class)->create();
         $student->enroll($course);
 
         $response = $this->get(route('studentSkillsEvaluation', [$course, $student]));
 
         $response->assertOk();
         $response->assertViewIs('skills.student');
-        $response->assertViewHas('course');
-        $response->assertViewHas('student');
+        $response->assertViewHas('enrollment');
         $response->assertViewHas('skills');
         $response->assertViewHas('skillScales');
         $response->assertViewHas('result');
@@ -48,7 +49,7 @@ class CourseSkillEvaluationControllerTest extends TestCase
     public function index_returns_an_ok_response()
     {
         $this->logAdmin();
-        $course = factory(\App\Models\Course::class)->create();
+        $course = factory(Course::class)->create();
 
         $response = $this->get(route('courseSkillsEvaluation', [$course]));
 
@@ -64,9 +65,9 @@ class CourseSkillEvaluationControllerTest extends TestCase
     public function skills_can_be_evaluated()
     {
         $this->logAdmin();
-        $course = factory(\App\Models\Course::class)->create();
+        $course = factory(Course::class)->create();
         $skill = factory(Skill::class)->create();
-        $student = factory(Student::class)->create();
+        $enrollment = factory(Enrollment::class)->create();
         $course->skills()->attach($skill, ['weight' => 1]);
         $skillScale = factory(SkillScale::class)->create();
         $this->assertEmpty($course->skill_evaluations);
@@ -74,13 +75,12 @@ class CourseSkillEvaluationControllerTest extends TestCase
         $response = $this->post(route('storeSkillEvaluation'), [
             'skill' => $skill->id,
             'status' => $skillScale->id,
-            'student' => $student->id,
-            'course' => $course->id,
+            'enrollment_id' => $enrollment->id,
         ]);
         $course->refresh();
 
         $response->assertOk();
-        $this->assertEquals($course->skill_evaluations->first()->skill_id, $skill->id);
-        $this->assertEquals($course->skill_evaluations->first()->skill_scale_id, $skillScale->id);
+        $this->assertEquals($enrollment->skill_evaluations->first()->skill_id, $skill->id);
+        $this->assertEquals($enrollment->skill_evaluations->first()->skill_scale_id, $skillScale->id);
     }
 }

@@ -22,7 +22,7 @@ class CreateStudentsTable extends Migration
             $table->date('birthdate');
             $table->timestamp('terms_accepted_at')->nullable();
             $table->timestamps();
-            $table->softDeletes();
+            //$table->softDeletes();
         });
 
         Schema::table('students', function (Blueprint $table) {

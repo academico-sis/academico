@@ -50,6 +50,9 @@ Vue.component('course-list-component', require('./components/CourseListComponent
 
 Vue.component('event-creation-component', require('./components/eventCreationComponent.vue').default);
 
+Vue.component('grade-field-component', require('./components/gradeFieldComponent.vue').default);
+Vue.component('enrollment-grades-component', require('./components/enrollmentGradesComponent.vue').default);
+
 const app = new Vue({
     el: '#app',
     i18n,

@@ -21,6 +21,7 @@ class CommentsTest extends TestCase
      */
     public function test_student_comment_creation()
     {
+        $this->markTestIncomplete('Test unfinished');
         // act: when the teacher submits the comment form
 
         // assert that the comment is saved to the DB

@@ -3,31 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\Enrollment;
 use App\Models\Grade;
 use App\Models\GradeType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class GradeController extends Controller
 {
-    public function __construct()
-    {
-        parent::__construct();
-        //$this->middleware(['permission:evaluation.edit']);
-    }
-
     /**
      * Show the form to edit grades for a course.
      *
-     * Todo refactor to prevent the number of queries to depend upong the number of records
+     * Todo refactor to prevent the number of queries to depend upon the number of records
      */
     public function edit(Course $course)
     {
-        $enrollments = $course->enrollments;
-        $course_grade_types = $course->grade_type;
-        $grades = $course->grades;
-        $all_grade_types = GradeType::all();
-        //return $grade_types;
-        return view('grades.edit', compact('enrollments', 'course_grade_types', 'grades', 'course', 'all_grade_types'));
+        $this->checkAccessForCourse($course);
+
+        return view('grades.edit', [
+            'enrollments' => $course->enrollments,
+            'course_grade_types' => $course->grade_types,
+            'grades' => $course->grades,
+            'course' => $course,
+            'all_grade_types' => GradeType::all()->except($course->grade_types->pluck('id')->toArray()),
+        ]);
     }
 
     /**
@@ -35,37 +34,26 @@ class GradeController extends Controller
      */
     public function store(Request $request)
     {
-        $grade = Grade::findOrFail($request->input('pk'));
+        $enrollment = Enrollment::findOrFail($request->input('enrollment_id'));
+        $this->checkAccessForCourse($enrollment->course);
+        $grade = Grade::firstOrNew([
+            'grade_type_id' => $request->input('grade_type_id'),
+            'enrollment_id' => $request->input('enrollment_id'),
+        ]);
         $grade->grade = $request->input('value');
         $grade->save();
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Request $request)
-    {
-        $grade = Grade::findOrFail($request->input('id'));
-        $grade->delete();
     }
 
     public function add_grade_type_to_course(Request $request)
     {
         $course = Course::findOrFail($request->input('course_id'));
+
+        $this->checkAccessForCourse($course);
+
         $grade_type = GradeType::findOrFail($request->input('grade_type_id'));
 
-        if (! $course->grade_type->has($grade_type->id)) {
-            $course->grade_type()->attach($grade_type->id);
-        }
-
-        // todo improve -- create an empty grade for every student in course.
-        foreach ($course->enrollments as $enrollment) {
-            Grade::create([
-                'student_id' => $enrollment->student_id,
-                'grade_type_id' => $grade_type->id,
-                'grade' => 0,
-                'course_id' => $course->id,
-            ]);
+        if (! $course->grade_types->contains($grade_type->id)) {
+            $course->grade_types()->attach($grade_type->id);
         }
 
         return redirect()->back();
@@ -73,7 +61,26 @@ class GradeController extends Controller
 
     public function remove_grade_type_from_course(Course $course, GradeType $gradetype)
     {
-        $course->grade_type()->detach($gradetype->id);
+        $this->checkAccessForCourse($course);
+
+        $course->grade_types()->detach($gradetype->id);
         $course->grades()->where('grade_type_id', $gradetype->id)->delete();
+    }
+
+    public function getEnrollmentTotal(Request $request)
+    {
+        $enrollment = Enrollment::findOrFail($request->input('enrollment_id'));
+        $this->checkAccessForCourse($enrollment->course);
+        return $enrollment->grades->sum('grade');
+    }
+
+    /**
+     * @param \App\Models\Course $course
+     */
+    protected function checkAccessForCourse(Course $course): void
+    {
+        if (Gate::forUser(backpack_user())->denies('edit-course-grades', $course)) {
+            abort(403);
+        }
     }
 }

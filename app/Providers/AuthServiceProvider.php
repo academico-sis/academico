@@ -26,11 +26,19 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         /*
+         * a user is allowed to edit the course grades if they are the teacher for this course,
+         * or if they have explicit permission to do so
+         */
+        Gate::define('edit-course-grades', function ($user, $course) {
+            return $user->isTeacher() && $user->teacher_id == $course->teacher_id || $user->can('evaluation.edit');
+        });
+
+        /*
          * a user is allowed to view the course attendance sheet if they are the teacher for this course,
          * or if they have explicit permission to view all course attendance sheets
          */
         Gate::define('view-course-attendance', function ($user, $course) {
-            return $user->teacher_id == $course->teacher_id || $user->can('attendance.view');
+            return $user->isTeacher() && $user->teacher_id == $course->teacher_id || $user->can('attendance.view');
         });
 
         /*
@@ -56,7 +64,7 @@ class AuthServiceProvider extends ServiceProvider
          * and users with explicit permission can view all calendars
          */
         Gate::define('view-teacher-calendar', function ($user, $teacher) {
-            return ($user->teacher_id == $teacher->id) || $user->can('calendars.view');
+            return ($user->isTeacher() && $user->teacher_id == $teacher->id) || $user->can('calendars.view');
         });
 
         /*
@@ -64,7 +72,7 @@ class AuthServiceProvider extends ServiceProvider
          * and users with explicit permission can view all courses
          */
         Gate::define('view-course', function ($user, $course) {
-            return ($user->teacher_id == $course->teacher_id) || $user->can('courses.view');
+            return ($user->isTeacher() && $user->teacher_id == $course->teacher_id) || $user->can('courses.view');
         });
 
         /*
@@ -73,7 +81,7 @@ class AuthServiceProvider extends ServiceProvider
          * of if they have explicit permission to view any result
          */
         Gate::define('view-enrollment', function ($user, $enrollment) {
-            return ($user->student_id == $enrollment->student_id) || $user->isTeacher() || $user->can('evaluation.view');
+            return ($user->isStudent() && $user->student_id == $enrollment->student_id) || $user->isTeacher() || $user->can('evaluation.view');
         });
 
         /*
@@ -97,7 +105,7 @@ class AuthServiceProvider extends ServiceProvider
          * and users with explicit permission can view all hours
          */
         Gate::define('view-teacher-hours', function ($user, $teacher) {
-            return ($user->teacher_id == $teacher->id) || $user->can('hr.view');
+            return ($user->isTeacher() && $user->teacher_id == $teacher->id) || $user->can('hr.view');
         });
 
         /*
@@ -105,7 +113,7 @@ class AuthServiceProvider extends ServiceProvider
          * as well as users with explicit permission to edit any result
          */
         Gate::define('edit-result', function ($user, $enrollment) {
-            return ($user->teacher_id == $enrollment->course->teacher_id) || $user->can('evaluation.edit');
+            return ($user->isTeacher() && $user->teacher_id == $enrollment->course->teacher_id) || $user->can('evaluation.edit');
         });
     }
 }

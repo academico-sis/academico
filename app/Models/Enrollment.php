@@ -168,26 +168,21 @@ class Enrollment extends Model
         return $this->belongsTo(EnrollmentStatusType::class, 'status_id');
     }
 
-    /* Accessors */
-    public function getGradesAttribute()
+    public function grades()
     {
-        return Grade::where('course_id', $this->course->id)
-            ->where('student_id', $this->student->id)
-            ->with('grade_type')
-            ->get();
+        return $this->hasMany(Grade::class);
     }
+
+    /* Accessors */
 
     public function getResultNameAttribute()
     {
         return $this->result->result_name->name ?? '-';
     }
 
-    public function getSkillsAttribute()
+    public function skill_evaluations()
     {
-        return SkillEvaluation::where('student_id', $this->student->id)
-            ->where('course_id', $this->course->id)
-            ->with('skill')->with('skill_scale')
-            ->get();
+        return $this->hasMany(SkillEvaluation::class);
     }
 
     public function getStudentNameAttribute()

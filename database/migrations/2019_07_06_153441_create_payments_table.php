@@ -20,7 +20,7 @@ class CreatePaymentsTable extends Migration
             $table->decimal('value', 8, 2);
             $table->string('comment')->nullable();
             $table->timestamps();
-            $table->softDeletes();
+            //$table->softDeletes();
         });
 
         Schema::table('payments', function (Blueprint $table) {

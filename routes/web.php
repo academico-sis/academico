@@ -74,14 +74,14 @@ Route::group(
 Route::group(
     ['middleware' => ['web', 'language']],
     function () {
-        // todo review this entire module
+
         /* Course grades update */
-        Route::delete('grades', 'GradeController@destroy');
         Route::post('course/gradetype', 'GradeController@add_grade_type_to_course');
         Route::delete('course/{course}/gradetype/{gradetype}', 'GradeController@remove_grade_type_from_course')->name('removeGradeTypeFromCourse');
-        Route::get('course/{course}/grades', 'GradeController@edit');
+        Route::get('course/{course}/grades', 'GradeController@edit')->name('editCourseGrades');
         Route::post('grades', 'GradeController@store');
-
+        Route::post('grades/enrollment-total', 'GradeController@getEnrollmentTotal');
+        
         // Skills Evaluation
         Route::get('course/{course}/skillsevaluation', 'CourseSkillEvaluationController@index')->name('courseSkillsEvaluation');
         Route::get('course/{course}/skillsevaluation/{student}', 'CourseSkillEvaluationController@edit')->name('studentSkillsEvaluation');

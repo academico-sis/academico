@@ -30,7 +30,7 @@ class CreateCoursesTable extends Migration
             $table->integer('period_id')->unsigned();
             $table->boolean('opened')->nullable();
             $table->integer('spots')->nullable();
-            $table->softDeletes();
+            //$table->softDeletes();
             $table->timestamps();
         });
 

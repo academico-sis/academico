@@ -21,7 +21,7 @@ class CreateCommentsTable extends Migration
             $table->boolean('action')->default(false)->nullable();
             $table->integer('author_id')->unsigned()->nullable();
             $table->timestamps();
-            $table->softDeletes();
+            //$table->softDeletes();
         });
 
         Schema::table('comments', function (Blueprint $table) {

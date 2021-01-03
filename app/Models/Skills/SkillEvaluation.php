@@ -2,14 +2,14 @@
 
 namespace App\Models\Skills;
 
-use App\Models\Course;
-use App\Models\Student;
+use App\Models\Enrollment;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class SkillEvaluation extends Model
 {
     protected $guarded = ['id'];
+    protected $with = ['skill', 'skill_scale'];
 
     use CrudTrait;
 
@@ -18,14 +18,9 @@ class SkillEvaluation extends Model
         return $this->belongsTo(Skill::class);
     }
 
-    public function student()
+    public function enrollment()
     {
-        return $this->belongsTo(Student::class);
-    }
-
-    public function course()
-    {
-        return $this->belongsTo(Course::class);
+        return $this->belongsTo(Enrollment::class);
     }
 
     public function skill_scale()

@@ -127,7 +127,7 @@ class Course extends Model
     }
 
     /** evaluation methods associated to the course - grades, skill-based evaluation... */
-    public function evaluation_type()
+    public function evaluation_types()
     {
         return $this->belongsToMany(EvaluationType::class);
     }
@@ -135,25 +135,21 @@ class Course extends Model
     /** a Grade model = an individual grade, belongs to a student */
     public function grades()
     {
-        return $this->hasMany(Grade::class)->with('student');
+        return $this->hasManyThrough(Grade::class, Enrollment::class);
     }
 
-    /** the different grade types associated to the course */
-    public function grade_type()
+    /** the different grade types associated to the course, ie. criteria that will receive the grades */
+    public function grade_types()
     {
         return $this->belongsToMany(GradeType::class);
     }
 
-    /** in the case of skills-based evaluation, Skill models are attached to the course */
+    /** in the case of skills-based evaluation, Skill models are attached to the course
+     * This represents the "criteria" that will need to be evaluated to each student (enrollment) in the course
+     */
     public function skills()
     {
         return $this->belongsToMany(Skill::class)->orderBy('order');
-    }
-
-    public function skill_evaluations()
-    {
-        return $this->hasMany(SkillEvaluation::class)
-        ->with('skill_scale');
     }
 
     public function books()

@@ -69,7 +69,7 @@
 
 <script>
 export default {
-    props: ["saved_skills", "student", "course", "skill_scales", "route"],
+    props: ["saved_skills", "enrollment", "skill_scales", "route"],
 
     data() {
         return {
@@ -86,8 +86,7 @@ export default {
                 .post(this.route, {
                     skill: skill.id,
                     status,
-                    student: this.student.id,
-                    course: this.course.id,
+                    enrollment_id: this.enrollment.id,
                 })
                 .then(response => {
                     skill.status = response.data;

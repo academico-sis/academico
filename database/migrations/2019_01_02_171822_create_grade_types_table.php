@@ -24,7 +24,7 @@ class CreateGradeTypesTable extends Migration
         // this table means to display all grade types attached to the course
         // however, the students' records are related to the 'grade' model.
         Schema::create('course_grade_type', function (Blueprint $table) {
-            $table->increments('id'); // todo delete this column?
+            //$table->increments('id');
             $table->integer('course_id')->unsigned();
             $table->integer('grade_type_id')->unsigned();
             $table->timestamps();

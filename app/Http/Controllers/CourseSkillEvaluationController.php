@@ -24,7 +24,7 @@ class CourseSkillEvaluationController extends Controller
         }
 
         $skills = $course->skills->groupBy('skill_type_id');
-        $enrollments = $course->enrollments;
+        $enrollments = $course->enrollments()->with('skill_evaluations')->get();
 
         // get skill evaluations for the course
         $skill_evaluations = $course->skill_evaluations;
@@ -39,16 +39,14 @@ class CourseSkillEvaluationController extends Controller
     {
         $skill = $request->input('skill');
         $status = $request->input('status');
-        $student = $request->input('student');
-        $course = Course::findOrFail($request->input('course'));
+        $enrollment = Enrollment::findOrFail($request->input('enrollment_id'));
 
-        if (Gate::forUser(backpack_user())->denies('view-course', $course)) {
+        if (Gate::forUser(backpack_user())->denies('view-course', $enrollment->course_id)) {
             abort(403);
         }
 
         $new_skill = SkillEvaluation::firstOrNew([
-            'course_id' => $course->id,
-            'student_id' => $student,
+            'enrollment_id' => $enrollment->id,
             'skill_id' => $skill,
         ]);
 
@@ -67,9 +65,9 @@ class CourseSkillEvaluationController extends Controller
             abort(403);
         }
 
-        $student_skills = SkillEvaluation::where('student_id', $student->id)
-        ->where('course_id', $course->id)
-        ->get();
+        $enrollment = Enrollment::where('student_id', $student->id)->where('course_id', $course->id)->first();
+
+        $student_skills = $enrollment->skill_evaluations;
 
         $skills = $course->skills->map(function ($skill, $key) use ($student_skills) {
             $skill['status'] = $student_skills->where('skill_id', $skill->id)->first()->skill_scale_id ?? null;
@@ -79,15 +77,12 @@ class CourseSkillEvaluationController extends Controller
 
         $skills = $skills->groupBy('skill_type_id');
 
-        $enrollment = Enrollment::where('student_id', $student->id)
-        ->where('course_id', $course->id)->first();
-
         $result = Result::where(['enrollment_id' => $enrollment->id])->with('result_name')->first();
 
         $results = ResultType::all();
         $skillScales = SkillScale::all();
         $writeaccess = backpack_user()->can('enrollments.edit') ?? 0;
 
-        return view('skills.student', compact('course', 'student', 'skills', 'skillScales', 'result', 'enrollment', 'results', 'writeaccess'));
+        return view('skills.student', compact( 'enrollment', 'skills', 'skillScales', 'result', 'enrollment', 'results', 'writeaccess'));
     }
 }

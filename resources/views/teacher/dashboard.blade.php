@@ -66,13 +66,13 @@
                                 <a href="{{ route('monitorCourseAttendance', ['course' => $course->id]) }}" class="btn btn-default btn-xs"><i class="la la-calendar"></i></a>
                             @endif
 
-                            @if($course->evaluation_type->contains(1))
+                            @if($course->evaluation_types->contains(1))
                                 <a href="/course/{{$course->id}}/grades" class="btn btn-xs btn-default">
                                     <i class="la la-percent"></i> {{ __('Manage grades') }}
                                 </a>
                             @endif
 
-                            @if($course->evaluation_type->contains(2))
+                            @if($course->evaluation_types->contains(2))
                                 <a href="{{ route('courseSkillsEvaluation', ['course' => $course->id]) }}" class="btn btn-xs btn-default">
                                     <i class="la la-th"></i>  {{ __('Evaluate skills') }}
                                 </a>

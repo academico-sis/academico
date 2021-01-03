@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -37,10 +36,12 @@ class RegisterTest extends TestCase
      */
     public function testIfUserIsCreated()
     {
+        $this->markTestIncomplete('Test unfinished');
     }
 
     public function test_that_a_student_is_created()
     {
+        $this->markTestIncomplete('Test unfinished');
     }
 
     /**
@@ -51,5 +52,6 @@ class RegisterTest extends TestCase
     {
         // when we post failing data to the endpoint
         // Assert that the errors are returned
+        $this->markTestIncomplete('Test unfinished');
     }
 }

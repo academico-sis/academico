@@ -19,7 +19,7 @@
             <div class="card-header">
                 @lang('View Skills for Group')
             </div>
-            
+
             <div class="card-body" id="app">
                     <div class="table-responsive" style="overflow: auto">
                         <table class="table">
@@ -30,22 +30,22 @@
                                     @endforeach
                             </tr>
 
-                                @foreach ($enrollments as $enrollment)
-                                    <tr>
+                            @foreach ($enrollments as $enrollment)
+                                <tr>
+                                    <td>
+                                        <a href="{{ route('studentSkillsEvaluation', ['course' => $course->id, 'student' => $enrollment->student->id]) }}">
+                                            {{ $enrollment->student->user->firstname }} {{ $enrollment->student->user->lastname }}
+                                        </a>
+                                    </td>
+                                    @foreach ($skills as $category)
                                         <td>
-                                            <a href="{{ route('studentSkillsEvaluation', ['course' => $course->id, 'student' => $enrollment->student->id]) }}">
-                                                {{ $enrollment->student->user->firstname }} {{ $enrollment->student->user->lastname }}
-                                            </a>
+                                            <span class="badge badge-danger">{{ $enrollment->skill_evaluations->where('skill.skill_type_id', $category[0]->skill_type_id)->where('skill_scale_id', 1)->count() }}</span> -
+                                            <span class="badge badge-warning">{{ $enrollment->skill_evaluations->where('skill.skill_type_id', $category[0]->skill_type_id)->where('skill_scale_id', 2)->count() }}</span> -
+                                            <span class="badge badge-success">{{ $enrollment->skill_evaluations->where('skill.skill_type_id', $category[0]->skill_type_id)->where('skill_scale_id', 3)->count() }}</span>
                                         </td>
-                                        @foreach ($skills as $category)
-                                            <td>
-                                                <span class="badge badge-danger">{{ $skill_evaluations->where('student_id', $enrollment->student->id)->where('skill.skill_type_id', $category[0]->skill_type_id)->where('skill_scale_id', 1)->count() }}</span> - 
-                                                <span class="badge badge-warning">{{ $skill_evaluations->where('student_id', $enrollment->student->id)->where('skill.skill_type_id', $category[0]->skill_type_id)->where('skill_scale_id', 2)->count() }}</span> - 
-                                                <span class="badge badge-success">{{ $skill_evaluations->where('student_id', $enrollment->student->id)->where('skill.skill_type_id', $category[0]->skill_type_id)->where('skill_scale_id', 3)->count() }}</span>
-                                            </td>
-                                        @endforeach
-                                    </tr>
-                                @endforeach
+                                    @endforeach
+                                </tr>
+                            @endforeach
                         </table>
                     </div>
             </div>
@@ -60,7 +60,7 @@
 
 
 @section('before_scripts')
-   
+
 @endsection
 
 

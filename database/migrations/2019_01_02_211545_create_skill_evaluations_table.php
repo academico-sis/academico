@@ -14,9 +14,8 @@ class CreateSkillEvaluationsTable extends Migration
     public function up()
     {
         Schema::create('skill_evaluations', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('course_id')->unsigned();
-            $table->integer('student_id')->unsigned();
+            //$table->increments('id');
+            $table->integer('enrollment_id')->unsigned();
             $table->integer('skill_scale_id')->unsigned();
             $table->integer('skill_id')->unsigned();
             $table->timestamps();
@@ -24,14 +23,8 @@ class CreateSkillEvaluationsTable extends Migration
         });
 
         Schema::table('skill_evaluations', function (Blueprint $table) {
-            $table->foreign('course_id')
-            ->references('id')->on('courses')
-            ->onDelete('cascade');
-        });
-
-        Schema::table('skill_evaluations', function (Blueprint $table) {
-            $table->foreign('student_id')
-            ->references('id')->on('students')
+            $table->foreign('enrollment_id')
+            ->references('id')->on('enrollments')
             ->onDelete('cascade');
 
             Schema::table('skill_evaluations', function (Blueprint $table) {

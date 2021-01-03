@@ -3,30 +3,14 @@
 @section('header')
 <section class="container-fluid">
     <h2>
-        @lang('Edit Grades')
+        {{ $course->name }}
     </h2>
 </section>
 @endsection
 
-@section('after_styles')
-<style>
-            .glyphicon-ok::before {
-                content: "\f00c";
-            }
-            .glyphicon-remove::before {
-                content: "\f00d";
-            }
-            .glyphicon {
-                font-family: 'Font Awesome 5 Free';
-                font-weight: 900;
-                font-style: normal;
-            }
-</style>
-<script src="https://kit.fontawesome.com/cedee4c07c.js" crossorigin="anonymous"></script>
-@endsection
 @section('content')
 
-<div class="row">
+<div class="row" id="app">
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
@@ -58,47 +42,13 @@
                     </tr>
 
                     @foreach ($enrollments as $enrollment)
-                    @php $student_total = 0 @endphp
-                    <tr>
-                        <td>{{ $enrollment->student_name }}</td>
-
-                        @foreach ($course_grade_types->sortBy('id') as $grade_type)
-                        <td>
-                            @foreach($grades->where('student_id', $enrollment->student->id)->where('grade_type_id', $grade_type->id) as $grade)
-                            @php $student_total += $grade->grade @endphp
-                                <p>
-                                    <a
-                                        href="#"
-                                        id="{{ $grade->id }}"
-                                        class="grade"
-                                        data-type="number"
-                                        data-pk="{{ $grade->id }}"
-                                        data-url="/grades"
-                                        data-title="Enter new grade"
-                                    >{{ $grade->grade }}</a> / {{ $grade_type->total }}
-                                </p>
-                            @endforeach
-                            </td>
-                        @endforeach
-
-                        <td>
-                            <strong>{{ $student_total }} / {{ $total }}</strong>
-                        </td>
-
-                        <td>
-                            {{ $enrollment->result_name }}
-                            <a href="/result/{{ $enrollment->id}}/show">@lang('Edit')</a>
-                        </td>
-
-                        <td>
-                            @if ($enrollment->result)
-                                @foreach($enrollment->result->comments as $comment)
-                                <p>{{ $comment->body }}</p>
-                                @endforeach
-                            @endif
-                        </td>
-
-                    </tr>
+                        <tr
+                            is="enrollment-grades-component"
+                            :key="{{ $enrollment->id }}"
+                            :enrollment="{{ json_encode($enrollment) }}"
+                            :course_grade_types="{{ json_encode($course_grade_types->sortBy('id')) }}"
+                            :grades="{{ json_encode($grades->where('enrollment_id', $enrollment->id)) }}"
+                        ></tr>
                     @endforeach
                 </table>
             </div>
@@ -114,8 +64,10 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">@lang('Add a new grade type to course')</h4>
+                <div class="modal-header-action">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
             </div>
             <div class="modal-body">
                 <form action="/course/gradetype" method="post">
@@ -142,22 +94,8 @@
 
 
 @section('before_scripts')
+    {{-- TODO migrate this to new Vue components --}}
     <script>
-
-    function deleteGrade(id)
-        {
-
-            axios.delete('/grades', {
-
-                params: { id }
-
-                } )
-
-            .then(response => document.location.reload(true))
-            .catch(error => console.log(error));
-
-        }
-
 
         function removeGradeType(gradetype)
         {
@@ -168,31 +106,11 @@
             .then(response => document.location.reload(true))
             .catch(error => console.log(error));
 
-
         }
 
     </script>
 @endsection
 
 @section('after_scripts')
-
-<link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
-<script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
-<script>
-$(document).ready(() => {
-    $('.grade').editable({mode: 'inline'});
-
-    //make username required
-    $('.grade').editable('option', 'validate', v => {
-    if(!v) return 'Required field!';
-});
-
-    $.ajaxSetup({
-  headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
-});
-
-});
-</script>
+    <script src="/js/app.js"></script>
 @endsection

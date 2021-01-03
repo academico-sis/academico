@@ -60,5 +60,6 @@ class EnrollmentBillingTest extends TestCase
     {
         // [WIP] given several fees recorded in the DB
         // the fees with a flag of "default" will be automatically added to the cart along with an enrollment
+        $this->markTestIncomplete('Test unfinished');
     }
 }
