@@ -81,7 +81,7 @@ Route::group(
         Route::get('course/{course}/grades', 'GradeController@edit')->name('editCourseGrades');
         Route::post('grades', 'GradeController@store');
         Route::post('grades/enrollment-total', 'GradeController@getEnrollmentTotal');
-        
+
         // Skills Evaluation
         Route::get('course/{course}/skillsevaluation', 'CourseSkillEvaluationController@index')->name('courseSkillsEvaluation');
         Route::get('course/{course}/skillsevaluation/{student}', 'CourseSkillEvaluationController@edit')->name('studentSkillsEvaluation');

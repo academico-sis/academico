@@ -83,6 +83,6 @@ class CourseSkillEvaluationController extends Controller
         $skillScales = SkillScale::all();
         $writeaccess = backpack_user()->can('enrollments.edit') ?? 0;
 
-        return view('skills.student', compact( 'enrollment', 'skills', 'skillScales', 'result', 'enrollment', 'results', 'writeaccess'));
+        return view('skills.student', compact('enrollment', 'skills', 'skillScales', 'result', 'enrollment', 'results', 'writeaccess'));
     }
 }

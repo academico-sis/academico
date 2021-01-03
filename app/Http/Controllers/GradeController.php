@@ -71,6 +71,7 @@ class GradeController extends Controller
     {
         $enrollment = Enrollment::findOrFail($request->input('enrollment_id'));
         $this->checkAccessForCourse($enrollment->course);
+
         return $enrollment->grades->sum('grade');
     }
 

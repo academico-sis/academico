@@ -135,7 +135,7 @@ class GradeControllerTest extends TestCase
         $this->logAdmin();
         $course = factory(Course::class)->create();
         $enrollment = factory(Enrollment::class)->create([
-            'course_id' => $course->id
+            'course_id' => $course->id,
         ]);
         $grade = factory(Grade::class)->create([
             'enrollment_id' => $enrollment->id,

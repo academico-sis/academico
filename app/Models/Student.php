@@ -211,7 +211,7 @@ class Student extends Model implements HasMedia
      * enroll the student in a course.
      * If the course has any children, we also enroll the student in the children courses.
      */
-    public function enroll(Course $course) : int
+    public function enroll(Course $course): int
     {
         // avoid duplicates by retrieving an potential existing enrollment for the same course
         $enrollment = Enrollment::firstOrNew([

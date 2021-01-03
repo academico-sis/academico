@@ -26,7 +26,7 @@ class Skill extends Model
     }
 
     /** a skill has many courses, and a course has many skills
-     * Skills are like "criteria" that will need to be evaluated during the course
+     * Skills are like "criteria" that will need to be evaluated during the course.
      */
     public function courses()
     {

@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Events\CourseUpdated;
 use App\Models\Skills\Skill;
-use App\Models\Skills\SkillEvaluation;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -145,7 +144,7 @@ class Course extends Model
     }
 
     /** in the case of skills-based evaluation, Skill models are attached to the course
-     * This represents the "criteria" that will need to be evaluated to each student (enrollment) in the course
+     * This represents the "criteria" that will need to be evaluated to each student (enrollment) in the course.
      */
     public function skills()
     {
