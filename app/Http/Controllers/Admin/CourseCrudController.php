@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Prologue\Alerts\Facades\Alert;
 use App\Http\Controllers\Admin\Operations\ShowStudentPhotoRosterOperation;
 use App\Http\Requests\CourseRequest as StoreRequest;
-// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Models\Book;
+// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Event;
@@ -23,6 +22,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Support\Facades\Gate;
+use Prologue\Alerts\Facades\Alert;
 
 class CourseCrudController extends CrudController
 {
