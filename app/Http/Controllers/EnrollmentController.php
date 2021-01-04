@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Prologue\Alerts\Facades\Alert;
 use App\Http\Requests\StoreEnrollmentRequest;
 use App\Models\Attendance;
 use App\Models\Course;
@@ -12,6 +11,7 @@ use App\Traits\PeriodSelection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
+use Prologue\Alerts\Facades\Alert;
 
 class EnrollmentController extends Controller
 {

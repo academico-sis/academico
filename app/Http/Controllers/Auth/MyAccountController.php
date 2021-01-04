@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Prologue\Alerts\Facades\Alert;
 use App\Http\Controllers\Controller;
 use App\Models\ContactRelationship;
 use App\Models\Institution;
@@ -10,6 +9,7 @@ use App\Models\Profession;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Prologue\Alerts\Facades\Alert;
 
 class MyAccountController extends Controller
 {

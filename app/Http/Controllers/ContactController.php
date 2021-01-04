@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Prologue\Alerts\Facades\Alert;
 use App\Http\Requests\ContactRequest as StoreRequest;
 use App\Models\Contact;
 use App\Models\PhoneNumber;
 use App\Models\Profession;
 use Illuminate\Http\Request;
+use Prologue\Alerts\Facades\Alert;
 
 class ContactController extends Controller
 {
