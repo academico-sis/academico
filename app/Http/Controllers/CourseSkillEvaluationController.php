@@ -41,7 +41,7 @@ class CourseSkillEvaluationController extends Controller
         $status = $request->input('status');
         $enrollment = Enrollment::findOrFail($request->input('enrollment_id'));
 
-        if (Gate::forUser(backpack_user())->denies('view-course', $enrollment->course_id)) {
+        if (Gate::forUser(backpack_user())->denies('view-course', $enrollment->course)) {
             abort(403);
         }
 

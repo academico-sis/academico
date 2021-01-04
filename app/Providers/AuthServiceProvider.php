@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Course;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -71,7 +72,7 @@ class AuthServiceProvider extends ServiceProvider
          * teachers are allowed to view their own courses,
          * and users with explicit permission can view all courses
          */
-        Gate::define('view-course', function ($user, $course) {
+        Gate::define('view-course', function ($user, Course $course) {
             return ($user->isTeacher() && $user->teacher_id == $course->teacher_id) || $user->can('courses.view');
         });
 
