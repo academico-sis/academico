@@ -7,15 +7,21 @@ use App\Models\LeadType;
 use App\Models\Period;
 use App\Models\PhoneNumber;
 use App\Models\Student;
+use App\Traits\PeriodSelection;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Backpack\CRUD\app\Library\Widget;
+use Illuminate\Support\Str;
 
 class StudentCrudController extends CrudController
 {
     use ListOperation;
-    use ShowOperation { show as traitShow; }
+    use ShowOperation {
+        show as traitShow;
+    }
+    use PeriodSelection;
 
     public function __construct()
     {
@@ -30,7 +36,21 @@ class StudentCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix').'/student');
         CRUD::setEntityNameStrings(__('student'), __('students'));
 
-        CRUD::setListView('students.list');
+        // display lead status counts on page top
+        foreach (LeadType::all() as $leadType) {
+            $count = Student::computedLeadType($leadType->id)->count();
+            if ($count > 0) {
+                Widget::add([
+                    'type' => 'view',
+                    'view' => 'students.lead-type-insights-widget',
+                    'studentCount' => $count,
+                    'name' => Str::plural($leadType->name),
+                    'icon' => $leadType->icon,
+                    'leadTypeId' => $leadType->id,
+                    'description' => $leadType->description,
+                ])->to('before_content');
+            }
+        }
 
         $permissions = backpack_user()->getAllPermissions();
 
@@ -166,6 +186,16 @@ class StudentCrudController extends CrudController
             return Institution::all()->pluck('name', 'id')->toArray();
         }, function ($value) { // if the filter is active
             $this->crud->addClause('where', 'institution_id', $value);
+        });
+
+        $this->crud->addFilter([
+            'name'  => 'status_type_id',
+            'type'  => 'select2',
+            'label' => __('Lead Status'),
+        ], function () {
+            return LeadType::all()->pluck('name', 'id')->toArray();
+        }, function ($value) {
+            $this->crud->addClause('computedLeadType', $value);
         });
     }
 

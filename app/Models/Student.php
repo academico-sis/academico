@@ -6,6 +6,7 @@ use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Str;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
@@ -35,9 +36,45 @@ class Student extends Model implements HasMedia
         });
     }
 
-    public function registerMediaCollections(): void
+    public function scopeComputedLeadType($query, $leadTypeId)
     {
-        $this->addMediaCollection('profile-picture')->singleFile();
+        switch ($leadTypeId) {
+            case 1: // active / enrolled students
+                return $query->whereHas('enrollments', function ($query) use ($leadTypeId) {
+                    return $query->whereHas('course', function ($q) use ($leadTypeId) {
+                        $q->where('period_id', Period::get_default_period()->id);
+                    });
+                });
+                break;
+
+            case 2: // custom lead status
+            case 3:
+                return $query->where('lead_type_id', $leadTypeId);
+                break;
+
+            case 4: // old students who have at least one enrollment
+                return $query
+                    ->where('lead_type_id', $leadTypeId)
+                    ->orWhere(function ($query) use ($leadTypeId) {
+                        $query
+                            ->whereNull('lead_type_id')
+                            ->whereHas('enrollments', function ($query) use ($leadTypeId) {
+                                return $query
+                                    ->whereHas('course', function ($q) use ($leadTypeId) {
+                                        $q->where('period_id', '!=', Period::get_default_period()->id);
+                                    });
+                            })
+                            ->whereDoesntHave('enrollments', function ($query) use ($leadTypeId) {
+                                return $query
+                                    ->whereHas('course', function ($q) use ($leadTypeId) {
+                                        $q->where('period_id', Period::get_default_period()->id);
+                                    });
+                            });
+                    });
+                break;
+            default:
+                return $query;
+        }
     }
 
     public function registerMediaConversions(Media $media = null): void
@@ -135,14 +172,14 @@ class Student extends Model implements HasMedia
     public function getFirstnameAttribute()
     {
         if ($this->user) {
-            return $this->user->firstname;
+            return Str::title($this->user->firstname);
         }
     }
 
     public function getLastnameAttribute()
     {
         if ($this->user) {
-            return $this->user->lastname;
+            return Str::upper($this->user->lastname);
         }
     }
 
