@@ -12,7 +12,7 @@
  */
 
 /*!
- * vue-i18n v8.22.1 
+ * vue-i18n v8.22.2 
  * (c) 2020 kazuya kawaguchi
  * Released under the MIT License.
  */

@@ -22,7 +22,7 @@ class GradeController extends Controller
 
         return view('grades.edit', [
             'enrollments' => $course->enrollments,
-            'course_grade_types' => $course->grade_types,
+            'course_grade_types' => $course->grade_types->sortBy('id'),
             'grades' => $course->grades,
             'course' => $course,
             'available_grade_types' => GradeType::whereNotIn('id', $course->grade_types->pluck('id')->toArray())->get(),

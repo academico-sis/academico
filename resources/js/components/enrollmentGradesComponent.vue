@@ -2,7 +2,7 @@
 <tr>
         <td>{{ enrollment.student.name }}</td>
 
-        <td v-for="grade_type in course_grade_types">
+        <td v-for="grade_type in sortedGradeTypes">
             <grade-field-component
                 :enrollment_id=enrollment.id
                 :grade_type=grade_type
@@ -54,6 +54,9 @@ export default {
 
             return sum;
         },
+      sortedGradeTypes() {
+        return _.orderBy(this.course_grade_types, 'id', 'asc');
+      }
     },
     methods: {
         enrollmentGradesForGradeType: function (gradeTypeId) {
