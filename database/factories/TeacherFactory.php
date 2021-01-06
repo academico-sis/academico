@@ -6,8 +6,9 @@ use Faker\Generator as Faker;
 
 /* @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(Teacher::class, function (Faker $faker) {
+    $user = factory(User::class)->create();
     return [
-        'user_id' => factory(User::class)->create()->id,
+        'id' => $user->fresh()->id,
         'max_week_hours' => 25,
     ];
 });

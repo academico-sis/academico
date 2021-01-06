@@ -40,8 +40,8 @@ class User extends Authenticatable
                 Enrollment::where('student_id', $user->student->id)->delete();
             }
 
-            Student::where('user_id', $user->id)->delete();
-            Teacher::where('user_id', $user->id)->delete();
+            Student::where('id', $user->id)->delete();
+            Teacher::where('id', $user->id)->delete();
             $user->email = 'deleted_id_'.$user->id.'_'.$user->email;
             $user->save();
         });
@@ -71,22 +71,22 @@ class User extends Authenticatable
 
     public function isTeacher()
     {
-        return Teacher::where('user_id', backpack_user()->id)->count() > 0;
+        return Teacher::whereId($this->id)->count() > 0;
     }
 
     public function isStudent()
     {
-        return Student::where('user_id', backpack_user()->id)->count() > 0;
+        return Student::whereId($this->id)->count() > 0;
     }
 
     public function student()
     {
-        return $this->hasOne(Student::class);
+        return $this->hasOne(Student::class, 'id', 'id');
     }
 
     public function teacher()
     {
-        return $this->hasOne(Teacher::class);
+        return $this->hasOne(Teacher::class, 'id', 'id');
     }
 
     public function getNameAttribute()

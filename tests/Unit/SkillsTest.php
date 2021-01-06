@@ -46,11 +46,14 @@ class SkillsTest extends TestCase
     {
         $skill = factory(Skill::class)->create();
 
-        $evaluation = factory(SkillEvaluation::class)->create(['skill_id' => $skill->id]);
+        $evaluation = factory(SkillEvaluation::class)->create([
+            'skill_id' => $skill->id,
+            'skill_scale_id' => 3,
+        ]);
 
         $skill->skill_evaluations()->save($evaluation);
 
-        $this->assertTrue($skill->skill_evaluations->contains($evaluation));
+        $this->assertEquals($skill->skill_evaluations->first()->skill_scale_id, 3);
 
         $this->assertEquals($evaluation->skill->id, $skill->id);
     }

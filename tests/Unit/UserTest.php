@@ -7,6 +7,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class UserTest extends TestCase
@@ -44,12 +45,12 @@ class UserTest extends TestCase
 
         // create a student corresponding to this User
         $student = factory(Student::class)->create([
-            'user_id' => $user->id,
+            'id' => $user->id,
         ]);
 
-        $this->assertEquals($user->firstname, $student->firstname);
-        $this->assertEquals($user->lastname, $student->lastname);
-        $this->assertEquals($user->firstname.' '.$user->lastname, $student->name);
+        $this->assertEquals(Str::title($user->firstname), $student->firstname);
+        $this->assertEquals(Str::upper($user->lastname), $student->lastname);
+        $this->assertEquals(Str::title($user->firstname) . ' ' . Str::upper($user->lastname), $student->name);
         $this->assertEquals($user->email, $student->email);
     }
 }

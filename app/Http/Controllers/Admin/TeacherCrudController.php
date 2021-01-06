@@ -65,7 +65,7 @@ class TeacherCrudController extends CrudController
             [  // Select2
                 'label' => 'User',
                 'type' => 'select2',
-                'name' => 'user_id', // the db column for the foreign key
+                'name' => 'id', // the db column for the foreign key
                 'entity' => 'user', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
                 'model' => User::class, // foreign key model
@@ -90,7 +90,7 @@ class TeacherCrudController extends CrudController
             [  // Select2
                 'label' => 'User',
                 'type' => 'select2',
-                'name' => 'user_id', // the db column for the foreign key
+                'name' => 'id', // the db column for the foreign key
                 'entity' => 'user', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
                 'model' => User::class,

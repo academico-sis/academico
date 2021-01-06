@@ -6,7 +6,7 @@ use Faker\Generator as Faker;
 /* @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(Contact::class, function (Faker $faker) {
     return [
-        'user_id' => 1,
+        'student_id' => 1,
         'firstname' => $faker->name,
         'lastname' => $faker->name,
         'email' => $faker->unique()->safeEmail,

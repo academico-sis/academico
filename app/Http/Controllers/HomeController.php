@@ -54,7 +54,7 @@ class HomeController extends Controller
 
         $period = $this->selectPeriod($request);
 
-        $teacher = Teacher::where('user_id', backpack_user()->id)->first();
+        $teacher = Teacher::where('id', backpack_user()->id)->first();
         Log::info($teacher->name.' accessed the student dashboard');
 
         return view('teacher.dashboard', [
@@ -71,7 +71,7 @@ class HomeController extends Controller
             abort(403);
         }
 
-        $student = Student::where('user_id', backpack_user()->id)->first();
+        $student = Student::where('id', backpack_user()->id)->first();
         Log::info($student->name.' accessed the student dashboard');
 
         return view('student.dashboard', [

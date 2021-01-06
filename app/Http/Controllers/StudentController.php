@@ -30,7 +30,7 @@ class StudentController extends Controller
 
             $data = DB::table('students')
                     ->select('students.id', 'users.firstname', 'users.lastname')
-                    ->join('users', 'students.user_id', '=', 'users.id')
+                    ->join('users', 'students.id', '=', 'users.id')
                     ->where('users.firstname', 'LIKE', "%$search%")
                     ->orWhere('users.lastname', 'LIKE', "%$search%")
                     ->get();
@@ -70,7 +70,7 @@ class StudentController extends Controller
         // update the student info
 
         $student = Student::create([
-            'user_id' => $user->id,
+            'id' => $user->id,
             'idnumber' => $request->idnumber,
             'address' => $request->address,
             'city' => $request->city,

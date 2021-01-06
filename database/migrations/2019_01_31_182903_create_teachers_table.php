@@ -14,8 +14,8 @@ class CreateTeachersTable extends Migration
     public function up()
     {
         Schema::create('teachers', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('user_id')->unsigned();
+            //$table->increments('id');
+            $table->integer('id')->unsigned()->unique();
             $table->timestamp('hired_at')->nullable();
             $table->decimal('max_week_hours', 4, 2);
             $table->timestamps();
@@ -47,7 +47,7 @@ class CreateTeachersTable extends Migration
         });
 
         Schema::table('teachers', function (Blueprint $table) {
-            $table->foreign('user_id')
+            $table->foreign('id')
             ->references('id')->on('users')
             ->onDelete('cascade');
         });

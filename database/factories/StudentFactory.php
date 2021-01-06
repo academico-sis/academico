@@ -11,6 +11,6 @@ $factory->define(Student::class, function (Faker $faker) {
         'genre_id' => '1',
         'address' => $faker->streetAddress,
         'birthdate' => $faker->dateTimeThisCentury->format('Y-m-d'),
-        'user_id' => factory(User::class)->create()->id,
+        'id' => factory(User::class)->create()->id,
     ];
 });

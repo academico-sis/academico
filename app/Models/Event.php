@@ -21,10 +21,12 @@ class Event extends Model
         static::saving(function ($event) {
             $teacher = Teacher::find($event->teacher_id);
             // if the teacher is on leave on the day of the event
-            if (($event->teacher_id !== null) && $teacher->leaves->contains('date', Carbon::parse($event->start)->toDateString())) {
-                // detach the teacher from the event
-                $event->teacher_id = null;
-                Alert::warning(__('The selected teacher is not available on this date'))->flash();
+            if ($event->teacher_id !== null && $teacher) {
+                if ($teacher->leaves->contains('date', Carbon::parse($event->start)->toDateString())) {
+                    // detach the teacher from the event
+                    $event->teacher_id = null;
+                    Alert::warning(__('The selected teacher is not available on this date'))->flash();
+                }
             }
         });
     }

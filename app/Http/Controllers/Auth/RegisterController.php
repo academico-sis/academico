@@ -99,7 +99,7 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
         // create the student
 
         $student = Student::create([
-            'user_id' => $user->id,
+            'id' => $user->id,
             'idnumber'                             => $data['idnumber'],
             'birthdate'                            => Carbon::parse($data['birthdate'])->toDateTimeString(),
             'address'                              => $data['address'],

@@ -390,6 +390,7 @@ class DatabaseSeeder extends Seeder
                 'year_id' => $year->id,
             ]);
 
+            $teacherIds = Teacher::pluck('id');
             // foreach period in year, seed some courses
             foreach ($year->periods as $period) {
                 $p1course1 = factory(Course::class)->create([
@@ -402,7 +403,7 @@ class DatabaseSeeder extends Seeder
                     'start_date' => $period->start,
                     'end_date' => $period->end,
                     'room_id' => 1,
-                    'teacher_id' => 1,
+                    'teacher_id' => $teacherIds->get(1),
                     'period_id' => $period->id,
                 ]);
 
@@ -422,7 +423,7 @@ class DatabaseSeeder extends Seeder
                     'start_date' => $period->start,
                     'end_date' => $period->end,
                     'room_id' => 2,
-                    'teacher_id' => 2,
+                    'teacher_id' => $teacherIds->get(2),
                     'period_id' => $period->id,
                 ]);
 
@@ -440,7 +441,7 @@ class DatabaseSeeder extends Seeder
                     'start_date' => $period->start,
                     'end_date' => $period->end,
                     'room_id' => 3,
-                    'teacher_id' => 3,
+                    'teacher_id' => $teacherIds->get(3),
                     'period_id' => $period->id,
                 ]);
 
@@ -449,7 +450,7 @@ class DatabaseSeeder extends Seeder
 
                 // create some "random" enrollments so that reports apear to have real data
 
-                for ($i = 0; $i < random_int(2, 8); $i++) {
+                /*for ($i = 0; $i < random_int(2, 8); $i++) {
                     $student = factory(Student::class)->create();
                     $student->enroll($p1course1);
                     $student->enroll($p1course2);
@@ -459,7 +460,7 @@ class DatabaseSeeder extends Seeder
                     $student = factory(Student::class)->create();
                     $student->enroll($p1course2);
                     $student->enroll($p1course3);
-                }
+                }*/
             }
         }
     }

@@ -25,7 +25,7 @@ class Attendance extends Model
         // when an attendance record is added, we check if this is an absence
         static::saved(function (self $attendance) {
             if ($attendance->attendance_type_id == 4) { // todo move to configurable settings
-                Log::info('Absence marked for student '.$attendance->student->name);
+                // Log::info('Absence marked for student '.$attendance->student->name);
                 // will check the record again and send a notification if it hasn't changed
                 WatchAttendance::dispatch($attendance)
                 ->delay(now()); // todo move to configurable settings
@@ -36,13 +36,13 @@ class Attendance extends Model
     /** RELATIONS */
     public function student()
     {
-        return $this->belongsTo(Student::class, 'student_id');
+        return $this->belongsTo(Student::class);
     }
 
     /** Additional data = contact information associated to the student */
     public function contacts()
     {
-        return $this->hasMany(Contact::class, 'student_id', 'user_id');
+        return $this->hasMany(Contact::class, 'student_id', 'id');
     }
 
     /** event = one instance of the course */

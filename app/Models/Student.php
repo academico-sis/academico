@@ -20,7 +20,8 @@ class Student extends Model implements HasMedia
     use LogsActivity;
 
     public $timestamps = true;
-    protected $guarded = ['id'];
+    protected $guarded = [];
+    public $incrementing = false;
     protected $with = ['user', 'phone', 'institution', 'profession'];
     protected $appends = ['email', 'name', 'firstname', 'lastname', 'student_age', 'student_birthdate', 'lead_status', 'is_enrolled'];
     protected static $logUnguarded = true;
@@ -87,7 +88,7 @@ class Student extends Model implements HasMedia
     /** relations */
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'id', 'id');
     }
 
     public function attendance()
@@ -193,7 +194,7 @@ class Student extends Model implements HasMedia
     public function getNameAttribute()
     {
         if ($this->user) {
-            return $this->user->firstname.' '.$this->user->lastname;
+            return $this->firstname.' '.$this->lastname;
         }
     }
 

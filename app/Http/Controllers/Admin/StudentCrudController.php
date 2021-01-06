@@ -83,7 +83,7 @@ class StudentCrudController extends CrudController
                 'model'     => 'App\Models\User', // foreign key model
                 'orderable' => true,
                 'orderLogic' => function ($query, $column, $columnDirection) {
-                    return $query->leftJoin('users', 'users.id', '=', 'students.user_id')
+                    return $query->leftJoin('users', 'users.id', '=', 'students.id')
                         ->orderBy('users.lastname', $columnDirection)->select('students.*');
                 },
                 'searchLogic' => function ($query, $column, $searchTerm) {
@@ -103,7 +103,7 @@ class StudentCrudController extends CrudController
                 'model'     => 'App\Models\User', // foreign key model
                 'orderable' => true,
                 'orderLogic' => function ($query, $column, $columnDirection) {
-                    return $query->leftJoin('users', 'users.id', '=', 'students.user_id')
+                    return $query->leftJoin('users', 'users.id', '=', 'students.id')
                         ->orderBy('users.firstname', $columnDirection)->select('students.*');
                 },
                 'searchLogic' => function ($query, $column, $searchTerm) {
@@ -123,7 +123,7 @@ class StudentCrudController extends CrudController
                 'model'     => 'App\Models\User', // foreign key model
                 'orderable' => true,
                 'orderLogic' => function ($query, $column, $columnDirection) {
-                    return $query->leftJoin('users', 'users.id', '=', 'students.user_id')
+                    return $query->leftJoin('users', 'users.id', '=', 'students.id')
                         ->orderBy('users.email', $columnDirection)->select('students.*');
                 },
                 'searchLogic' => function ($query, $column, $searchTerm) {

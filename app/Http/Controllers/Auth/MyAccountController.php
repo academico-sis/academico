@@ -122,7 +122,7 @@ class MyAccountController extends Controller
         ]);
 
         Student::updateOrCreate(
-            ['user_id' => $this->guard()->user()->id],
+            ['id' => $this->guard()->user()->id],
             [
                 'idnumber' => $request->idnumber,
                 'address' => $request->address,
@@ -225,7 +225,7 @@ class MyAccountController extends Controller
     public function postPhotoForm(Request $request)
     {
         if ($request->fileToUpload != null) {
-            $user = Student::where('user_id', $this->guard()->user()->id)->first();
+            $user = Student::where('id', $this->guard()->user()->id)->first();
 
             $user
                ->addMedia($request->fileToUpload)

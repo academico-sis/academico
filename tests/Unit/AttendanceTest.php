@@ -123,7 +123,7 @@ class AttendanceTest extends TestCase
             'start' => date('Y-m-d', strtotime('-2 days')),
             'end' => date('Y-m-d', strtotime('-1 days')),
             'name' => 'test event 1',
-            'teacher_id' => $teacher->id,
+            'teacher_id' => $teacher->fresh()->id,
         ]);
 
         Attendance::create([

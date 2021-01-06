@@ -28,7 +28,7 @@ class AbsenceNotification extends Mailable
     {
         $this->event = $event;
         $this->student = $student;
-        $nstudent = Student::where('user_id', $student->id)->first();
+        $nstudent = Student::where('id', $student->id)->first();
         $this->enrollment = Enrollment::where('student_id', $nstudent->id)->where('course_id', $event->course_id)->first();
     }
 

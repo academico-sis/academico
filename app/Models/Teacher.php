@@ -16,15 +16,16 @@ class Teacher extends Model
     use LogsActivity;
 
     public $timestamps = true;
-    protected $guarded = ['id'];
+    protected $guarded = [];
+    public $incrementing = false;
     protected $with = ['user'];
-    protected $appends = ['firstname', 'lastname', 'name'];
+    protected $appends = ['firstname', 'lastname', 'name', 'email'];
     protected static $logUnguarded = true;
 
     /** relations */
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id')->withTrashed();
+        return $this->belongsTo(User::class, 'id', 'id')->withTrashed();
     }
 
     /** attributes */
@@ -44,9 +45,7 @@ class Teacher extends Model
 
     public function getEmailAttribute()
     {
-        if ($this->user) {
-            return $this->user->email;
-        }
+        return $this->user->email;
     }
 
     public function getNameAttribute()
