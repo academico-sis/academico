@@ -18,7 +18,8 @@ Route::group(
         Route::get('dashboard/teacher/{teacher}/hours', 'HRController@teacher')->name('teacherHours'); // todo protect
 
         Route::get('dashboard/student', 'HomeController@student')->name('studentDashboard')->middleware('forceupdate');
-    });
+    }
+);
 
 /* ATTENDANCE-RELATED ROUTES */
 Route::group(
@@ -32,7 +33,8 @@ Route::group(
         Route::post('attendance', 'AttendanceController@store')->name('storeAttendance');
         Route::post('attendance/event/{event}/toggle', 'AttendanceController@toggleEventAttendanceStatus')->name('toggleEventAttendance');
         Route::post('attendance/course/{course}/toggle', 'AttendanceController@toggleCourseAttendanceStatus')->name('toggleCourseAttendance');
-    });
+    }
+);
 
 /* ENROLLMENTS-RELATED ROUTES */
 Route::group(
@@ -45,7 +47,8 @@ Route::group(
         Route::post('enrollment/{enrollment}/price', 'EnrollmentController@savePrice');
 
         Route::post('enrollment/{enrollment}/markaspaid', 'EnrollmentController@markaspaid'); // display the cart to checkout the enrollment
-    });
+    }
+);
 
 /* STUDENTS-RELATED ROUTES */
 Route::group(
@@ -86,7 +89,8 @@ Route::group(
         Route::get('course/{course}/skillsevaluation', 'CourseSkillEvaluationController@index')->name('courseSkillsEvaluation');
         Route::get('course/{course}/skillsevaluation/{student}', 'CourseSkillEvaluationController@edit')->name('studentSkillsEvaluation');
         Route::post('skillsevaluation', 'CourseSkillEvaluationController@store')->name('storeSkillEvaluation');
-    });
+    }
+);
 
 Route::group(
     ['middleware' => ['web', 'permission:evaluation.edit', 'language']],
@@ -103,7 +107,8 @@ Route::group(
         Route::post('course/{course}/skills/import', 'CourseSkillController@import')->name('course-skills-import');
 
         Route::get('course/{course}/syllabus', 'CourseSkillController@exportCourseSyllabus')->name('exportCourseSyllabus');
-    });
+    }
+);
 
 Route::post('store-result', 'ResultController@store')->name('storeResult');
 
@@ -111,20 +116,12 @@ Route::post('store-result', 'ResultController@store')->name('storeResult');
 Route::group(
     ['middleware' => ['web', 'permission:courses.edit', 'language']],
     function () {
-
-    /* Course Times update */
-        /* todo use route names in Vue Components*/
-        Route::get('coursetime/{course}/get', 'CourseTimeController@get');
-        Route::get('coursetime/{course}/edit', 'CourseTimeController@edit');
-        Route::post('coursetime/{course}', 'CourseTimeController@store');
-        Route::delete('coursetime/{id}', 'CourseTimeController@destroy');
-
         // Course Events routes
-    Route::get('course/{course}/events/get', 'EventController@getCourseEvents')->name('getCourseEvents'); // todo use route name
-
-    Route::patch('calendar/teacher', 'EventController@update_course_teacher');
+        Route::get('course/{course}/events/get', 'EventController@getCourseEvents')->name('getCourseEvents'); // todo use route name
+        Route::patch('calendar/teacher', 'EventController@update_course_teacher');
         Route::patch('calendar/room', 'EventController@update_course_room');
-    });
+    }
+);
 
 // Comments routes
 Route::group(
@@ -143,7 +140,8 @@ Route::group(
     function () {
         Route::get('config/default-periods', 'ConfigController@get')->name('get-default-periods-screen');
         Route::post('config/default-periods', 'ConfigController@update')->name('set-default-periods');
-    });
+    }
+);
 
 // calendars routes
 Route::group(

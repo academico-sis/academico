@@ -221,6 +221,41 @@ class Course extends Model
         ->where('parent_id', null);
     }
 
+
+    public function saveCourseTimes($newCourseTimes)
+    {
+
+        // before updating, retrieve existing course times
+        $oldCourseTimes = $this->times;
+
+        // check existing coursetimes
+        foreach ($oldCourseTimes as $oldCourseTime) {
+            $newCourseTime = $newCourseTimes
+                ->where('day', $oldCourseTime->day)
+                ->where('start', Carbon::parse($oldCourseTime->start)->toTimeString())
+                ->where('end', Carbon::parse($oldCourseTime->end)->toTimeString());
+
+            // remove the course time if no longer exists
+            if ($newCourseTime->count() == 0) {
+                $oldCourseTime->delete();
+            }
+        }
+
+        foreach ($newCourseTimes as $courseTime) {
+            // create missing course times
+            if ($this->times()
+                    ->where('day', $courseTime->day)
+                    ->where('start', Carbon::parse($courseTime->start)->toTimeString())
+                    ->where('end', Carbon::parse($courseTime->end)->toTimeString())
+                    ->count() == 0) {
+                $this->times()->create([
+                    'day' => $courseTime->day,
+                    'start' => Carbon::parse($courseTime->start)->toTimeString(),
+                    'end' => Carbon::parse($courseTime->end)->toTimeString(),
+                ]);
+            }
+        }
+    }
     /*
     |--------------------------------------------------------------------------
     | ACCESORS
@@ -231,7 +266,16 @@ class Course extends Model
     public function getCourseTimesAttribute()
     {
         $parsedCourseTimes = [];
-        $daysInitials = ['D', 'L', 'M', 'X', 'J', 'V', 'S'];
+        // TODO localize these
+        $daysInitials = [
+            __('Sun'),
+            __('Mon'),
+            __('Tue'),
+            __('Wed'),
+            __('Thu'),
+            __('Fri'),
+            __('Sat'),
+        ];
 
         $courseTimes = null;
         if ($this->times->count() > 0) {
@@ -258,7 +302,7 @@ class Course extends Model
 
         $result = '';
         foreach ($parsedCourseTimes as $day => $times) {
-            $result .= $day.' -> '.implode(' / ', $times).' | ';
+            $result .= $day.' '.implode(' / ', $times).' | ';
         }
 
         return trim($result, ' | ');

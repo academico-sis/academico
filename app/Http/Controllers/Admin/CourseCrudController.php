@@ -7,6 +7,7 @@ use App\Http\Requests\CourseRequest as StoreRequest;
 use App\Models\Book;
 // VALIDATION: change the requests to match your own file names if you need form validation
 use App\Models\Course;
+use App\Models\CourseTime;
 use App\Models\Enrollment;
 use App\Models\Event;
 use App\Models\Level;
@@ -21,6 +22,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Gate;
 use Prologue\Alerts\Facades\Alert;
 
@@ -28,8 +30,8 @@ class CourseCrudController extends CrudController
 {
     use ListOperation;
     use ShowOperation;
-    use CreateOperation;
-    use UpdateOperation;
+    use CreateOperation { store as traitStore; }
+    use UpdateOperation { update as traitUpdate; }
     use DeleteOperation;
     use ShowStudentPhotoRosterOperation;
 
@@ -65,10 +67,7 @@ class CourseCrudController extends CrudController
             CRUD::allowAccess('show');
         }
 
-        if ($permissions->contains('name', 'courses.edit')) {
-            CRUD::addButtonFromView('line', 'schedule', 'schedule', 'end');
-        }
-
+        // TODO not needed anymore since this feature was removed
         CRUD::addButtonFromView('line', 'children_badge', 'children_badge', 'beginning');
 
         if (! $permissions->contains('name', 'courses.delete')) {
@@ -353,8 +352,47 @@ class CourseCrudController extends CrudController
                 'type' => 'date',
                 // 'format' => 'l j F Y', // use something else than the base.default_date_format config value
                 'tab' => __('Schedule'),
-
             ],
+
+
+
+            [   // repeatable
+                'name'  => 'times',
+                'label' => __('Course Schedule'),
+                'type'  => 'repeatable',
+                'fields' => [
+                    [
+                    'name'    => 'day',
+                    'label'    => __('Day'),
+                    'type'        => 'select_from_array',
+                    'options'     => [
+                        0 => __('Sunday'),
+                        1 => __('Monday'),
+                        2 => __('Tuesday'),
+                        3 => __('Wednesday'),
+                        4 => __('Thursday'),
+                        5 => __('Friday'),
+                        6 => __('Saturday'),
+                    ],
+                    'allows_null' => false,
+                    'default'     => 1,
+                    'wrapper' => ['class' => 'form-group col-md-4'],
+                    ],
+                    [
+                        'name'    => 'start',
+                        'type'    => 'time',
+                        'label'   => __('Start'),
+                        'wrapper' => ['class' => 'form-group col-md-4'],
+                    ],
+                    [
+                        'name'    => 'end',
+                        'type'    => 'time',
+                        'label'   => __('End'),
+                        'wrapper' => ['class' => 'form-group col-md-4'],
+                    ],
+                ],
+                'tab' => __('Schedule'),
+            ]
 
         ]);
 
@@ -379,6 +417,25 @@ class CourseCrudController extends CrudController
         $enrollments = $course->enrollments()->with('student')->get();
 
         return view('courses/show', compact('course', 'enrollments'));
+    }
+
+
+    public function update()
+    {
+        $course = $this->crud->getCurrentEntry();
+        $newCourseTimes = collect(json_decode($this->crud->getRequest()->input('times')));
+        $course->saveCourseTimes($newCourseTimes);
+
+        // update model
+        $response = $this->traitUpdate();
+        return $response;
+    }
+
+
+    public function store()
+    {
+        $response = $this->traitStore();
+        return $response;
     }
 
     public function destroy($id)

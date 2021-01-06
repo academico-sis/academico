@@ -263,16 +263,6 @@
                                             ><i class="la la-edit"></i>
                                             {{ $t("Edit") }}</a
                                         >
-                                        <a
-                                            v-if="
-                                                editable === 1 &&
-                                                course.children_count === 0
-                                            "
-                                            class="dropdown-item"
-                                            :href="`coursetime/${course.id}/edit`"
-                                            ><i class="la la-clock-o"></i>
-                                            {{ $t("Edit schedule") }}</a
-                                        >
                                         <button
                                             v-if="
                                                 editable === 1 &&

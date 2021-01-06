@@ -39,6 +39,12 @@ class CourseTime extends Model
     // protected $dates = [];
     protected static $logUnguarded = true;
 
+    public function identifiableAttribute()
+    {
+        // process stuff here
+        return $this->day;
+    }
+
     /*
     |--------------------------------------------------------------------------
     | FUNCTIONS

@@ -260,6 +260,7 @@
     "room": "room",
     "rooms": "rooms",
     "Saturday": "Saturday",
+    "Sunday": "Sunday",
     "Save": "Save",
     "Save new Contact": "Save new Contact",
     "Schedule": "Schedule",
@@ -359,5 +360,13 @@
     "Enrollments per Level": "Enrollments per Level",
     "Per level": "Per level",
     "Teachers overview": "Teachers overview",
-    "Rooms overview": "Rooms overview"
+    "Rooms overview": "Rooms overview",
+    "Day": "Day",
+    "Sun": "Sun",
+    "Mon": "Mon",
+    "Tue": "Tue",
+    "Wed": "Wed",
+    "Thu": "Thu",
+    "Fri": "Fri",
+    "Sat": "Sat"
 }

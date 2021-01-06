@@ -257,6 +257,7 @@
     "Room": "Aula",
     "rooms": "aulas",
     "Saturday": "Sábado",
+    "Sunday": "Domingo",
     "Save": "Guardar",
     "Save new Contact": "Guardar el contacto",
     "Schedule": "Horarios",
@@ -356,5 +357,13 @@
     "Enrollments per Level": "Matriculas por nivel",
     "Per level": "Por nivel",
     "Teachers overview": "Todos los profesores",
-    "Rooms overview": "Todas las aulas"
+    "Rooms overview": "Todas las aulas",
+    "Day": "Dia",
+    "Sun": "Dom.",
+    "Mon": "Lun.",
+    "Tue": "Mar.",
+    "Wed": "Mie.",
+    "Thu": "Jue.",
+    "Fri": "Vie.",
+    "Sat": "Sab."
 }
