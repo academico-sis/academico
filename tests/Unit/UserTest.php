@@ -50,7 +50,7 @@ class UserTest extends TestCase
 
         $this->assertEquals(Str::title($user->firstname), $student->firstname);
         $this->assertEquals(Str::upper($user->lastname), $student->lastname);
-        $this->assertEquals(Str::title($user->firstname) . ' ' . Str::upper($user->lastname), $student->name);
+        $this->assertEquals(Str::title($user->firstname).' '.Str::upper($user->lastname), $student->name);
         $this->assertEquals($user->email, $student->email);
     }
 }

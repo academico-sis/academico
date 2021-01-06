@@ -242,7 +242,7 @@ class DatabaseSeeder extends Seeder
             'description' => [
                 'fr' => 'Non disponible maintenant',
                 'en' => 'Currently unavailable',
-                'es' => 'No esta disponible ahora'
+                'es' => 'No esta disponible ahora',
             ],
             'icon' => 'la-calendar-times',
         ]);
@@ -257,7 +257,7 @@ class DatabaseSeeder extends Seeder
             'description' => [
                 'fr' => 'Cursus terminé ou abandon définitif',
                 'en' => 'Permanently ended their learning',
-                'es' => 'Acabó su aprendizaje o no regresará'
+                'es' => 'Acabó su aprendizaje o no regresará',
             ],
             'icon' => 'la-certificate',
         ]);
@@ -272,7 +272,7 @@ class DatabaseSeeder extends Seeder
             'description' => [
                 'fr' => 'Inscription attendue pour ce cycle',
                 'en' => 'Expected enrollment for this session',
-                'es' => 'Deberia matricularse este ciclo'
+                'es' => 'Deberia matricularse este ciclo',
             ],
             'icon' => 'la-user-circle',
         ]);

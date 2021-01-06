@@ -41,8 +41,8 @@ class Student extends Model implements HasMedia
     {
         switch ($leadTypeId) {
             case 1: // active / enrolled students
-                return $query->whereHas('enrollments', function ($query) use ($leadTypeId) {
-                    return $query->whereHas('course', function ($q) use ($leadTypeId) {
+                return $query->whereHas('enrollments', function ($query) {
+                    return $query->whereHas('course', function ($q) {
                         $q->where('period_id', Period::get_default_period()->id);
                     });
                 });
@@ -56,18 +56,18 @@ class Student extends Model implements HasMedia
             case 4: // old students who have at least one enrollment
                 return $query
                     ->where('lead_type_id', $leadTypeId)
-                    ->orWhere(function ($query) use ($leadTypeId) {
+                    ->orWhere(function ($query) {
                         $query
                             ->whereNull('lead_type_id')
-                            ->whereHas('enrollments', function ($query) use ($leadTypeId) {
+                            ->whereHas('enrollments', function ($query) {
                                 return $query
-                                    ->whereHas('course', function ($q) use ($leadTypeId) {
+                                    ->whereHas('course', function ($q) {
                                         $q->where('period_id', '!=', Period::get_default_period()->id);
                                     });
                             })
-                            ->whereDoesntHave('enrollments', function ($query) use ($leadTypeId) {
+                            ->whereDoesntHave('enrollments', function ($query) {
                                 return $query
-                                    ->whereHas('course', function ($q) use ($leadTypeId) {
+                                    ->whereHas('course', function ($q) {
                                         $q->where('period_id', Period::get_default_period()->id);
                                     });
                             });
