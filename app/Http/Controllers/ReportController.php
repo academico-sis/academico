@@ -13,21 +13,6 @@ class ReportController extends Controller
 {
     use PeriodSelection;
 
-    public function index()
-    {
-        $currentPeriod = Period::get_default_period();
-        $enrollmentsPeriod = Period::get_enrollments_period();
-
-        return view('reports.index', [
-            'currentPeriod' => $currentPeriod,
-            'enrollmentsPeriod' => $enrollmentsPeriod,
-            'pending_enrollment_count' => $currentPeriod->pending_enrollments_count,
-            'paid_enrollment_count' => $currentPeriod->paid_enrollments_count,
-            'total_enrollment_count' => $currentPeriod->internal_enrollments_count,
-            'students_count' => $currentPeriod->students_count,
-        ]);
-    }
-
     /**
      * The reports dashboard
      * Displays last insights on enrollments; along with comparison to previous periods.
@@ -88,6 +73,8 @@ class ReportController extends Controller
             ->where('enrollments_count', '>', 0)
             ->groupBy('rhythm_id');
 
+        $data = [];
+
         foreach ($count as $i => $course) {
             $data[$i]['rhythm'] = $course[0]->rhythm->name;
             $data[$i]['enrollment_count'] = $course->sum('enrollments_count');
@@ -124,6 +111,8 @@ class ReportController extends Controller
             ->get()
             ->where('enrollments_count', '>', 0)
             ->groupBy('level.reference');
+
+        $data = [];
 
         foreach ($count as $i => $coursegroup) {
             $data[$i]['level'] = $coursegroup[0]->level->reference;

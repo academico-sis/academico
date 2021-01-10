@@ -168,10 +168,7 @@ Route::group(
 Route::group(
     ['middleware' => ['web', 'permission:reports.view', 'language']],
     function () {
-        Route::get('/report', 'ReportController@index')->name('allReports');
-
         Route::get('/report/internal', 'ReportController@internal')->name('homeReport');
-
         Route::get('/report/courses', 'ReportController@courses')->name('courseReport');
         Route::get('/report/rhythms', 'ReportController@rhythms')->name('rhythmReport');
         Route::get('/report/levels', 'ReportController@levels')->name('levelReport');
