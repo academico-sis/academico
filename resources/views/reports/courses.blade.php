@@ -26,8 +26,14 @@
                 <div class="card-body">
                     <table class="table table-striped">
                         <thead>
+                        <tr>
                             <th>@lang('Course')</th>
                             <th>@lang('Enrollments')</th>
+                        </tr>
+                        <tr>
+                            <th>@lang('Average')</th>
+                            <th>{{ $averageStudentCount }}</th>
+                        </tr>
                         </thead>
 
                         <tbody>
@@ -64,8 +70,9 @@
 
 $(document).ready(() => {
 
-var data = @json($courses);
-console.log(data);
+var barGraph;
+    var ctx;
+    var data = @json($courses);
 var chartData = {
   labels: [],
   datasets: [{
@@ -80,20 +87,20 @@ for (s in data) {
     chartData.datasets[0].data.push(data[s].enrollments_count);
 }
 
-	var ctx = $("#myChart");
+	ctx = $("#myChart");
 
-	var barGraph = new Chart(ctx, {
+	barGraph = new Chart(ctx, {
 		type: 'horizontalBar',
 		data: chartData,
 		options: {
 			legend: { display: true },
 			scales: {
-         xAxes: [{
-             ticks: {
-                 beginAtZero: true
-             }
-         }]
-     }
+                 xAxes: [{
+                     ticks: {
+                         beginAtZero: true
+                     }
+                 }]
+            }
 		}
 	});
 

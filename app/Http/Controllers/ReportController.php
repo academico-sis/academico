@@ -106,9 +106,12 @@ class ReportController extends Controller
 
         $courses = $period->courses()->where('parent_course_id', null)->withCount('enrollments')->orderBy('enrollments_count')->get()->where('enrollments_count', '>', 0);
 
+        $averageStudentCount = $courses->average('enrollments_count');
+
         return view('reports.courses', [
             'selected_period' => $period,
             'courses' => $courses,
+            'averageStudentCount' => round($averageStudentCount, 1),
         ]);
     }
 
