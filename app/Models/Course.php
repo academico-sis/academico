@@ -221,7 +221,6 @@ class Course extends Model
         ->where('parent_id', null);
     }
 
-
     public function saveCourseTimes($newCourseTimes)
     {
 
@@ -256,6 +255,7 @@ class Course extends Model
             }
         }
     }
+
     /*
     |--------------------------------------------------------------------------
     | ACCESORS

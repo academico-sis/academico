@@ -81,7 +81,7 @@ class CourseCrudControllerTest extends TestCase
 
         // course times can be created
         $response = $this->put(route('course.update', ['id' => $course->id]), [
-            'times' => '[{"day":"3","start":"09:00:00","end":"11:00:00"}]'
+            'times' => '[{"day":"3","start":"09:00:00","end":"11:00:00"}]',
         ]);
 
         // course time should be associated to the course
@@ -111,7 +111,7 @@ class CourseCrudControllerTest extends TestCase
 
         // course times can be created
         $this->put(route('course.update', ['id' => $course->id]), [
-            'times' => '[{"day":"3","start":"09:00:00","end":"11:00:00"}]'
+            'times' => '[{"day":"3","start":"09:00:00","end":"11:00:00"}]',
         ]);
 
         // course time should be associated to the course
@@ -145,8 +145,8 @@ class CourseCrudControllerTest extends TestCase
         $this->put(route('course.update', ['id' => $course->id]), [
             'times' => json_encode([
                 ['day' => $courseTime1->day, 'start' => $courseTime1->start, 'end' => $courseTime1->end],
-                ['day' => $courseTime3->day, 'start' => $courseTime3->start, 'end' => $courseTime3->end]
-            ])
+                ['day' => $courseTime3->day, 'start' => $courseTime3->start, 'end' => $courseTime3->end],
+            ]),
         ]);
 
         $this->assertTrue($course->times->count() == 2);

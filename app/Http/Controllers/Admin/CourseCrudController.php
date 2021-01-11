@@ -7,7 +7,6 @@ use App\Http\Requests\CourseRequest as StoreRequest;
 use App\Models\Book;
 // VALIDATION: change the requests to match your own file names if you need form validation
 use App\Models\Course;
-use App\Models\CourseTime;
 use App\Models\Enrollment;
 use App\Models\Event;
 use App\Models\Level;
@@ -22,7 +21,6 @@ use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Gate;
 use Prologue\Alerts\Facades\Alert;
 
@@ -354,29 +352,27 @@ class CourseCrudController extends CrudController
                 'tab' => __('Schedule'),
             ],
 
-
-
             [   // repeatable
                 'name'  => 'times',
                 'label' => __('Course Schedule'),
                 'type'  => 'repeatable',
                 'fields' => [
                     [
-                    'name'    => 'day',
-                    'label'    => __('Day'),
-                    'type'        => 'select_from_array',
-                    'options'     => [
-                        0 => __('Sunday'),
-                        1 => __('Monday'),
-                        2 => __('Tuesday'),
-                        3 => __('Wednesday'),
-                        4 => __('Thursday'),
-                        5 => __('Friday'),
-                        6 => __('Saturday'),
-                    ],
-                    'allows_null' => false,
-                    'default'     => 1,
-                    'wrapper' => ['class' => 'form-group col-md-4'],
+                        'name'    => 'day',
+                        'label'    => __('Day'),
+                        'type'        => 'select_from_array',
+                        'options'     => [
+                            0 => __('Sunday'),
+                            1 => __('Monday'),
+                            2 => __('Tuesday'),
+                            3 => __('Wednesday'),
+                            4 => __('Thursday'),
+                            5 => __('Friday'),
+                            6 => __('Saturday'),
+                        ],
+                        'allows_null' => false,
+                        'default'     => 1,
+                        'wrapper' => ['class' => 'form-group col-md-4'],
                     ],
                     [
                         'name'    => 'start',
@@ -392,7 +388,7 @@ class CourseCrudController extends CrudController
                     ],
                 ],
                 'tab' => __('Schedule'),
-            ]
+            ],
 
         ]);
 
@@ -419,7 +415,6 @@ class CourseCrudController extends CrudController
         return view('courses/show', compact('course', 'enrollments'));
     }
 
-
     public function update()
     {
         $course = $this->crud->getCurrentEntry();
@@ -428,13 +423,14 @@ class CourseCrudController extends CrudController
 
         // update model
         $response = $this->traitUpdate();
+
         return $response;
     }
-
 
     public function store()
     {
         $response = $this->traitStore();
+
         return $response;
     }
 
