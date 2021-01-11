@@ -33,7 +33,7 @@
     "@fullcalendar/resource-daygrid": "^4.4.2",
     "@fullcalendar/resource-timegrid": "^4.4.2",
     "@fullcalendar/resource-timeline": "^4.4.2",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "buefy": "^0.8.20",
     "chart.js": "^2.9.4",
     "moment": "^2.29.1",
