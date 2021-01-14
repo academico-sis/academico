@@ -50,7 +50,6 @@ class ReportControllerTest extends TestCase
         $response->assertSee(3);
     }
 
-
     /**
      * @test
      */
