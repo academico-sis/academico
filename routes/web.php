@@ -183,6 +183,8 @@ Route::group(
     function () {
         Route::get('courselist', 'CourseController@index')->name('get-courses-list');
         Route::get('courselist/search', 'CourseController@search')->name('search-courses');
+        Route::get('course-user-view', 'CourseController@redirectToUserPreferredView')->name('course-view-find');
+        Route::get('course-view-switch', 'CourseController@switchViews')->name('course-view-switch');
     }
 );
 

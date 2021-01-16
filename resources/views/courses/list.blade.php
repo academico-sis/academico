@@ -5,6 +5,10 @@
     <h2>
         @lang('Courses')
     </h2>
+
+    <div class="form-group">
+        <a class="btn btn-primary" href="{{ route('course-view-switch', ['view' => 'list']) }}">@lang('Switch to list view')</a>
+    </div>
 </section>
 @endsection
 

@@ -1,14 +1,10 @@
 <!-- This file is used to store sidebar items, starting with Backpack\Base 0.9.0 -->
 
 <li class='nav-item'><a class='nav-link' href="{{ url('/') }}"><i class="nav-icon la la-book"></i> <span>{{ trans('backpack::base.dashboard') }}</span></a></li>
-@if(backpack_user()->hasRole(['admin', 'secretary']))
-  <li class="nav-title">@lang('COURSES')</li>
-  <li class='nav-item'><a class='nav-link' href="{{ backpack_url('course') }}"><i class="nav-icon la la-book"></i> <span>@lang('Courses (list)')</span></a></li>
-  <li class='nav-item'><a class='nav-link' href="{{ route('get-courses-list') }}"><i class="nav-icon la la-book"></i> <span>@lang('Courses')</span></a></li>
-@endif
 
 @if(backpack_user()->hasRole(['admin', 'secretary']))
   <li class="nav-title">@lang('ADMINISTRATION')</li>
+  <li class='nav-item'><a class='nav-link' href="{{ route('course-view-find') }}"><i class="nav-icon la la-book"></i> <span>@lang('Courses')</span></a></li>
   <li class='nav-item'><a class='nav-link' href="{{ backpack_url('student') }}"><i class="nav-icon la la-user"></i> <span>@lang('Students')</span></a></li>
   <li class='nav-item'><a class='nav-link' href="{{ backpack_url('attendance') }}"><i class="nav-icon la la-calendar"></i> <span>@lang('Attendance')</span></a></li>
   <li class='nav-item'><a class='nav-link' href="{{ backpack_url('/enrollment?status_id=["1"]') }}"><i class="nav-icon la la-credit-card"></i> <span>@lang('Pending')</span></a></li>

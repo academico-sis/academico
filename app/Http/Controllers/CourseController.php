@@ -51,4 +51,28 @@ class CourseController extends Controller
             'teacher_id', ])
         ->get();
     }
+
+    public function redirectToUserPreferredView()
+    {
+        switch (backpack_user()->preferred_course_view) {
+            case 'blocks':
+                return redirect(route('get-courses-list'));
+
+            default:
+                return redirect(route('course.index'));
+        }
+    }
+
+    public function switchViews(Request $request)
+    {
+        switch ($request->view) {
+            case 'blocks':
+                backpack_user()->update(['preferred_course_view' => 'blocks']);
+                return redirect(route('get-courses-list'));
+
+            default:
+                backpack_user()->update(['preferred_course_view' => 'list']);
+                return redirect(route('course.index'));
+        }
+    }
 }

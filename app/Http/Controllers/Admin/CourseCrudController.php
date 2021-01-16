@@ -21,7 +21,9 @@ use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Backpack\CRUD\app\Library\Widget;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Str;
 use Prologue\Alerts\Facades\Alert;
 
 class CourseCrudController extends CrudController
@@ -55,18 +57,12 @@ class CourseCrudController extends CrudController
 
         if (! $permissions->contains('name', 'courses.edit')) {
             CRUD::denyAccess('update');
-        }
-
-        if (! $permissions->contains('name', 'courses.edit')) {
             CRUD::denyAccess('create');
         }
 
         if ($permissions->contains('name', 'courses.view')) {
             CRUD::allowAccess('show');
         }
-
-        // TODO not needed anymore since this feature was removed
-        CRUD::addButtonFromView('line', 'children_badge', 'children_badge', 'beginning');
 
         if (! $permissions->contains('name', 'courses.delete')) {
             CRUD::denyAccess('delete');
@@ -75,6 +71,8 @@ class CourseCrudController extends CrudController
         if (backpack_user()->hasRole('admin')) {
             CRUD::enableExportButtons();
         }
+
+        CRUD::addButtonFromView('top', 'courses-view-switcher', 'courses-view-switcher', 'end');
     }
 
     protected function setupListOperation()

@@ -1,0 +1,1 @@
+<a class="btn btn-primary" href="{{ route('course-view-switch', ['view' => 'blocks']) }}">{{ __('Switch to block view') }}</a>
