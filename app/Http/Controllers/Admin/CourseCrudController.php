@@ -21,9 +21,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use Backpack\CRUD\app\Library\Widget;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Str;
 use Prologue\Alerts\Facades\Alert;
 
 class CourseCrudController extends CrudController
