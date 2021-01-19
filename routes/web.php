@@ -15,7 +15,7 @@ Route::group(
         Route::get('/', 'HomeController@index')->middleware('forceupdate');
         Route::get('/admin', 'HomeController@admin')->name('admin');
         Route::get('dashboard/teacher', 'HomeController@teacher')->name('teacherDashboard');
-        Route::get('dashboard/teacher/{teacher}/hours', 'HRController@teacher')->name('teacherHours'); // todo protect
+        Route::get('dashboard/teacher/{teacher}/hours', 'HRController@teacher')->name('teacherHours');
 
         Route::get('dashboard/student', 'HomeController@student')->name('studentDashboard')->middleware('forceupdate');
     }
@@ -241,4 +241,6 @@ Route::group([
     Route::get('/student/{student}/edit', 'StudentController@edit')->name('student.edit');
     Route::put('/student/{student}', 'StudentController@update')->name('student.update');
     Route::post('/student', 'StudentController@store')->name('student.store');
+
+    Route::get('/sepa', 'SepaController@get');
 });

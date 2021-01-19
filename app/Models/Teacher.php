@@ -146,6 +146,14 @@ class Teacher extends Model
             ->sum('length');
     }
 
+    public function plannedHoursInPeriod($start, $end)
+    {
+        return $this->events
+            ->where('start', '>=', Carbon::parse($start)->setTime(0, 0, 0)->toDateTimeString())
+            ->where('end', '<=', Carbon::parse($end)->setTime(23, 59, 0)->toDateTimeString())
+            ->sum('length');
+    }
+
     public function period_worked_hours(Period $period)
     {
         return $this

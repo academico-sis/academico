@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Teacher;
 use App\Traits\PeriodSelection;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
@@ -23,15 +24,20 @@ class HRController extends Controller
      */
     public function index(Request $request)
     {
-        $teachers = Teacher::with('remote_events')->with('events')->get();
-
         $period = $this->selectPeriod($request);
 
-        Log::info('HR Dahsboard viewed by '.backpack_user()->firstname);
+        $report_start_date = $request->report_start_date ?? $period->start;
+        $report_end_date = $request->report_end_date ?? $period->end;
+
+        $teachers = Teacher::with('remote_events')->with('events')->get();
+
+        Log::info('HR Dahsboard viewed by '. backpack_user()->firstname);
 
         return view('hr.dashboard', [
             'selected_period' => $period,
             'teachers' => $teachers,
+            'start' => Carbon::parse($report_start_date)->format('Y-m-d'),
+            'end' => Carbon::parse($report_end_date)->format('Y-m-d'),
         ]);
     }
 

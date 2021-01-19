@@ -29,7 +29,6 @@
                         <tr>
                             <th>@lang('Remote Work')</th>
                             <th>@lang('Planned Hours')</th>
-                            <th>@lang('Period Max')</th>
                             <th><strong>@lang('Period Total')</strong></th>
                             <th>@lang('Worked Hours')</th>
                         </tr>
@@ -44,7 +43,6 @@
                         <tr>
                             <td>{{ number_format($remote_hours, 2, '.', ',') }} h</td>
                             <td>{{ number_format($period_hours, 2, '.', ',') }} h</td>
-                            <td>{{ number_format($max_hours, 2, '.', ',') }} h</td>
                             <td><strong>{{ number_format($period_hours + $remote_hours, 2, '.', ',') }} h</strong></td>
                             <td>{{ number_format($teacher->period_worked_hours($selected_period), 2, '.', ',') }} h</td>
                         </tr>

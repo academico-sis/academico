@@ -1,3 +1,4 @@
+<label for="dropdownMenuLink">@lang('Period')</label>
 <div class="btn-group">
     <div class="dropdown show">
     <a class="btn btn-secondary dropdown-toggle" id="dropdownMenuLink" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ $selected_period->name }}</a>

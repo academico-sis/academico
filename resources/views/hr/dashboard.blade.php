@@ -12,13 +12,39 @@
 <div class="row">
     <div class="col-md-12">
         <div class="card">
-            <div class="card-header">@lang('Human Resources')
-                <div class="card-header-actions">
-                    <!-- Period selection dropdown -->
-                    @include('partials.period_selection')
-                </div>
+            <div class="card-header">
+                <form action="{{ route('hrDashboard') }}" method="GET">
+                    <div class="form-row">
 
-            </div><!-- /.card-header -->
+                        <div class="col">
+                            <label for="dropdownMenuLink">@lang('Period')</label>
+                            <div class="dropdown show">
+                                <a class="btn btn-secondary dropdown-toggle" id="dropdownMenuLink" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ $selected_period->name }}</a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    @foreach ($periods as $period)
+                                        <li><a class="dropdown-item" href="{{ url()->current() }}/?period={{ $period->id }}">{{ $period->name }}</a></li>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <label for="report_start_date">Début : </label>
+                            <input class="form-control" type="date" name="report_start_date" value="{{$start}}">
+                        </div>
+
+                        <div class="col">
+                            <label for="report_end_date">Fin : </label>
+                            <input class="form-control" type="date" name="report_end_date" value="{{$end}}">
+                        </div>
+
+                        <div class="col align-bottom">
+                            <button id="sumbit" style="position: absolute; bottom: 0;" class="btn btn-primary" type="submit">OK</button>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
 
             <div class="card-body">
 
@@ -26,41 +52,15 @@
                     <thead>
                         <tr>
                             <th data-orderable="true">@lang('Teacher')</th>
-                            <th>@lang('Planned Hours')</th>
-                            <th>@lang('Period Max')</th>
-                            <th><strong>@lang('Period Total')</strong></th>
-                            <th><strong>@lang('% of period max')</strong></th>
-                            <th>@lang('Worked Hours')</th>
+                            <th data-orderable="true">@lang('Worked Hours')</th>
                         </tr>
                     </thead>
 
                     <tbody>
                         @foreach ($teachers as $teacher)
-                        @php
-                            $max_hours = $teacher->period_max_hours($selected_period);
-                            $period_hours = $teacher->period_planned_hours($selected_period);
-                            $remote_hours = $teacher->periodRemoteHours($selected_period)
-                        @endphp
                         <tr>
                             <td>{{ $teacher->name }}</td>
-                            <td>
-                                <p>@lang('Remote') : {{ number_format($remote_hours, 2, '.', ',') }} h</p>
-                                <p>@lang('Face-to-face') : {{ number_format($period_hours, 2, '.', ',') }} h</p>
-                            </td>
-
-                            <td>{{ number_format($max_hours, 2, '.', ',') }} h</td>
-
-                            <td>
-                                <strong>{{ number_format($period_hours + $remote_hours, 2, '.', ',') }} h</strong>
-
-                                <div class="progress progress-xs">
-                                    <div class="progress-bar progress-bar-red" style="width: {{(100 * ($period_hours + $remote_hours))/max(1, $max_hours)}}%"></div>
-                              </div>
-                            </td>
-
-                            <td>{{ number_format((100 * ($period_hours + $remote_hours))/max(1, $max_hours), 0) }}%</td>
-
-                            <td>{{ number_format($teacher->period_worked_hours($selected_period), 2, '.', ',') }} h</td>
+                            <td>{{ number_format($teacher->plannedHoursInPeriod($start, $end), 2, '.', ',') }} h</td>
                         </tr>
                         @endforeach
                     </tbody>
