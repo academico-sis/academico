@@ -21,7 +21,7 @@ class User extends Authenticatable
     /**
      * The attributes that are mass assignable.
      */
-    protected $fillable = ['firstname', 'lastname', 'name', 'email', 'password', 'locale', 'preferred_course_view'];
+    protected $fillable = ['firstname', 'lastname', 'name', 'email', 'password', 'locale', 'preferred_course_view', 'lms_id'];
     protected static $logFillable = true;
 
     /**

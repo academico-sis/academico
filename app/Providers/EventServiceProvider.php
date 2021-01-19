@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Events\CourseCreated;
 use App\Events\CourseUpdated;
+use App\Listeners\SyncCourseToLMS;
 use App\Listeners\UpdateCourseEvents;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -19,8 +21,12 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        CourseCreated::class => [
+            SyncCourseToLMS::class,
+        ],
         CourseUpdated::class => [
             UpdateCourseEvents::class,
+            SyncCourseToLMS::class,
         ],
     ];
 
