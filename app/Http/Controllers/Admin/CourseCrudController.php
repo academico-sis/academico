@@ -430,7 +430,7 @@ class CourseCrudController extends CrudController
         $course = $this->crud->getCurrentEntry();
         $newCourseTimes = collect(json_decode($this->crud->getRequest()->input('times')));
         $course->saveCourseTimes($newCourseTimes);
-        
+
         return $response;
     }
 
