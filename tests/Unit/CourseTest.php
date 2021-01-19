@@ -6,6 +6,7 @@ use App\Models\Course;
 use App\Models\EvaluationType;
 use App\Models\Event;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\App;
 use Tests\TestCase;
 
 class CourseTest extends TestCase
@@ -29,6 +30,8 @@ class CourseTest extends TestCase
         if (now()->format('w') == $this->eventDay) {
             $this->expectedEvents++;
         }
+
+        App::setLocale('en');
     }
 
     /** @test */
@@ -178,7 +181,7 @@ class CourseTest extends TestCase
         ]);
         $courseTimeParsed = $course->course_times;
 
-        $this->assertSame('L -> 10:00 - 11:00', $courseTimeParsed);
+        $this->assertSame('Mon 10:00 - 11:00', $courseTimeParsed);
     }
 
     /** @test */
@@ -201,7 +204,7 @@ class CourseTest extends TestCase
 
         $courseTimeParsed = $course->course_times;
 
-        $this->assertSame('L -> 10:00 - 11:00 / 11:30 - 12:45', $courseTimeParsed);
+        $this->assertSame('Mon 10:00 - 11:00 / 11:30 - 12:45', $courseTimeParsed);
     }
 
     /** @test */
@@ -224,7 +227,7 @@ class CourseTest extends TestCase
 
         $courseTimeParsed = $course->course_times;
 
-        $this->assertSame('L -> 10:00 - 11:00 | M -> 11:30 - 12:45', $courseTimeParsed);
+        $this->assertSame('Mon 10:00 - 11:00 | Tue 11:30 - 12:45', $courseTimeParsed);
     }
 
     /** @test */
@@ -250,7 +253,7 @@ class CourseTest extends TestCase
 
         $courseTimeParsed = $parentCourse->course_times;
 
-        $this->assertSame('L -> 10:00 - 11:00 | M -> 11:30 - 12:45', $courseTimeParsed);
+        $this->assertSame('Mon 10:00 - 11:00 | Tue 11:30 - 12:45', $courseTimeParsed);
     }
 
     /** @test */

@@ -137,53 +137,13 @@ class Teacher extends Model
         return $this->hasMany(Course::class);
     }
 
-    public function period_planned_hours(Period $period)
-    {
-        return $this
-            ->events
-            ->where('start', '>=', Carbon::parse($period->start)->setTime(0, 0, 0)->toDateTimeString())
-            ->where('end', '<=', Carbon::parse($period->end)->setTime(23, 59, 0)->toDateTimeString())
-            ->sum('length');
-    }
-
     public function plannedHoursInPeriod($start, $end)
     {
-        return $this->events
+        return $this->events()
             ->where('start', '>=', Carbon::parse($start)->setTime(0, 0, 0)->toDateTimeString())
             ->where('end', '<=', Carbon::parse($end)->setTime(23, 59, 0)->toDateTimeString())
+            ->get()
             ->sum('length');
-    }
-
-    public function period_worked_hours(Period $period)
-    {
-        return $this
-            ->events
-            ->where('start', '>=', Carbon::parse($period->start)->setTime(0, 0, 0)->toDateTimeString())
-            ->where('end', '<=', Carbon::parse($period->end)->setTime(23, 59, 0)->toDateTimeString())
-            ->where('end', '<=', (new Carbon())->toDateTimeString())
-            ->sum('length');
-    }
-
-    public function periodRemoteHours(Period $period)
-    {
-        return $this
-            ->remote_events
-            ->where('period_id', $period->id)
-            ->sum('worked_hours');
-    }
-
-    public function period_max_hours(Period $period)
-    {
-        $dailyHours = $this->max_week_hours / 7;
-
-        $period_days = Carbon::parse($period->start)->diffInDays(Carbon::parse($period->end));
-
-        $teacherLeaves = $this->leaves()
-            ->where('date', '>=', Carbon::parse($period->start)->toDateString())
-            ->where('date', '<=', Carbon::parse($period->end)->toDateString())
-            ->count();
-
-        return round($dailyHours * ($period_days - $teacherLeaves), 0);
     }
 
     /* Return the events with incomplete attendance for this teacher */

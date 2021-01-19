@@ -34,7 +34,7 @@ class AttendanceTest extends TestCase
     {
         // given a course with some past classes
         $course = factory(Course::class)->create([
-            'start_date' => date('Y-m-d', strtotime('-7 days')),
+            'start_date' => date('Y-m-d', strtotime('-6 days')),
             'end_date' => date('Y-m-d'),
         ]);
         $course->times()->create(['day' => 1, 'start' => '09:00:00', 'end' => '17:00:00']);
@@ -50,7 +50,7 @@ class AttendanceTest extends TestCase
         ]);
 
         // the course attendance should miss 2 attendance records for this student
-        $this->assertEquals(2, count($course->pending_attendance));
+        $this->assertCount(2, $course->pending_attendance);
         $this->assertEquals(2, $course->eventsWithExpectedAttendance->count());
     }
 
@@ -72,7 +72,7 @@ class AttendanceTest extends TestCase
         $student->enroll($course);
 
         // the course attendance records are automatically created for them for any class before the enrollment date
-        $this->assertEquals(0, count($course->pending_attendance));
+        $this->assertCount(0, $course->pending_attendance);
     }
 
     /**

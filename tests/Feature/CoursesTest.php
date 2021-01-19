@@ -48,10 +48,12 @@ class CoursesTest extends TestCase
         $currentPeriod = factory(Period::class)->create();
         $anotherPeriod = factory(Period::class)->create();
         $courseInCurrentPeriod = factory(Course::class)->create([
+            'name' => "courseInCurrentPeriod",
             'campus_id' => 1,
             'period_id' => $currentPeriod->id,
         ]);
         $courseInAnotherPeriod = factory(Course::class)->create([
+            'name' => "courseInAnotherPeriod",
             'campus_id' => 1,
             'period_id' => $anotherPeriod->id,
         ]);

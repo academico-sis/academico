@@ -27,24 +27,13 @@
                 <table class="table table-striped responsive">
                     <thead>
                         <tr>
-                            <th>@lang('Remote Work')</th>
-                            <th>@lang('Planned Hours')</th>
                             <th><strong>@lang('Period Total')</strong></th>
-                            <th>@lang('Worked Hours')</th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        @php
-                            $max_hours = $teacher->period_max_hours($selected_period);
-                            $period_hours = $teacher->period_planned_hours($selected_period);
-                            $remote_hours = $teacher->periodRemoteHours($selected_period)
-                        @endphp
                         <tr>
-                            <td>{{ number_format($remote_hours, 2, '.', ',') }} h</td>
-                            <td>{{ number_format($period_hours, 2, '.', ',') }} h</td>
-                            <td><strong>{{ number_format($period_hours + $remote_hours, 2, '.', ',') }} h</strong></td>
-                            <td>{{ number_format($teacher->period_worked_hours($selected_period), 2, '.', ',') }} h</td>
+                            <td><strong>{{ number_format($teacher->plannedHoursInPeriod($selected_period->start, $selected_period->end), 2, '.', ',') }} h</strong></td>
                         </tr>
                     </tbody>
 
@@ -56,7 +45,7 @@
 
 
 <div class="row">
-        <div class="col-md-7">
+        <div class="col">
             <div class="card">
                 <div class="card-header">
                     @lang('Period Classes')
@@ -95,41 +84,5 @@
                 </div>
             </div>
         </div>
-
-            <div class="col-md-5">
-                <div class="card">
-                    <div class="card-header">
-                            @lang('Remote Work')
-                        <div class="card-header-actions">
-                            <!-- Period selection dropdown -->
-                            @include('partials.period_selection')
-                        </div>
-                    </div>
-
-                    <div class="card-body">
-
-                        <table class="table table-striped responsive">
-                            <thead>
-                                <tr>
-                                    <th>@lang('Date')</th>
-                                    <th>@lang('Project')</th>
-                                    <th>@lang('Length')</th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                @foreach ($remote_events as $event)
-                                <tr>
-                                    <td>{{ $event->formattedDate }}</td>
-                                    <td>{{ $event->name }}</td>
-                                    <td>{{ $event->worked_hours }}h</td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-
-                        </table>
-                    </div>
-                </div>
-            </div>
         </div>
 @endsection

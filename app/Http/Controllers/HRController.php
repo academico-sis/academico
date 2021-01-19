@@ -29,9 +29,9 @@ class HRController extends Controller
         $report_start_date = $request->report_start_date ?? $period->start;
         $report_end_date = $request->report_end_date ?? $period->end;
 
-        $teachers = Teacher::with('remote_events')->with('events')->get();
+        $teachers = Teacher::all();
 
-        Log::info('HR Dahsboard viewed by '.backpack_user()->firstname);
+        Log::info('HR Dahsboard viewed by '. backpack_user()->firstname);
 
         return view('hr.dashboard', [
             'selected_period' => $period,
@@ -54,8 +54,6 @@ class HRController extends Controller
             'selected_period' => $period,
             'teacher' => $teacher,
             'events' => $teacher->period_events($period),
-            'remote_events' => $teacher->period_remote_events($period),
-
         ]);
     }
 }
