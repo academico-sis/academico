@@ -8,7 +8,10 @@
 
     <div class="form-group">
         <a class="btn btn-primary" href="{{ route('course-view-switch', ['view' => 'list']) }}">@lang('Switch to list view')</a>
+
+        <a class="btn btn-primary" href="{{ route('course.create') }}">@lang('Add') @lang('course')</a>
     </div>
+
 </section>
 @endsection
 
