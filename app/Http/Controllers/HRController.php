@@ -31,7 +31,7 @@ class HRController extends Controller
 
         $teachers = Teacher::with('remote_events')->with('events')->get();
 
-        Log::info('HR Dahsboard viewed by '. backpack_user()->firstname);
+        Log::info('HR Dahsboard viewed by '.backpack_user()->firstname);
 
         return view('hr.dashboard', [
             'selected_period' => $period,
