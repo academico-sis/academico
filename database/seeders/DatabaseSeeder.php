@@ -363,28 +363,36 @@ class DatabaseSeeder extends Seeder
         factory(Teacher::class)->create();
 
         factory(Year::class)->create([
-            'name' => '2020',
+            'name' => '2021',
         ]);
 
         foreach (Year::all() as $year) {
 
             // seed 4 periods inside that year
+
             DB::table('periods')->insert([
                 'name' => $year->name.'-I',
+                'start' => date('Y-m-d', strtotime('first day of january this year')),
+                'end' => date('Y-m-d', strtotime('last day of march this year')),
+                'year_id' => $year->id,
+            ]);
+
+            DB::table('periods')->insert([
+                'name' => $year->name.'-II',
                 'start' => date('Y-m-d', strtotime('first day of april this year')),
                 'end' => date('Y-m-d', strtotime('last day of june this year')),
                 'year_id' => $year->id,
             ]);
 
             DB::table('periods')->insert([
-                'name' => $year->name.'-II',
+                'name' => $year->name.'-III',
                 'start' => date('Y-m-d', strtotime('first day of july this year')),
                 'end' => date('Y-m-d', strtotime('last day of august this year')),
                 'year_id' => $year->id,
             ]);
 
             DB::table('periods')->insert([
-                'name' => $year->name.'-III',
+                'name' => $year->name.'-IV',
                 'start' => date('Y-m-d', strtotime('first day of september this year')),
                 'end' => date('Y-m-d', strtotime('last day of december this year')),
                 'year_id' => $year->id,
