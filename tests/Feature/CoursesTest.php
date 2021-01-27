@@ -93,4 +93,35 @@ class CoursesTest extends TestCase
 
         $response->assertForbidden();
     }
+
+    /** @test */
+    public function a_coursetime_can_be_added_to_an_existing_course()
+    {
+        $this->logAdmin();
+
+        // given a course
+        $course = factory(Course::class)->create();
+
+        $this->assertEquals(0, $course->times()->count());
+
+        // some coursetimes can be added
+        $response = $this->putJson(route('course.update', ['id' => $course->id]), [
+            'campus_id' => $course->campus_id,
+            'rhythm_id' => $course->rhythm_id,
+            'level_id' => $course->level_id,
+            'name' => $course->name,
+            'price' => $course->price,
+            'volume' => $course->volume,
+            'spots' => $course->spots,
+            'exempt_attendance' => $course->exempt_attendance,
+            'teacher_id' => $course->teacher_id,
+            'room_id' => $course->room_id,
+            'period_id' => $course->period_id,
+            'start_date' => $course->start_date,
+            'end_date' => $course->end_date,
+            'times' => '[{"day":"1","start":"11:00:00","end":"12:00:00"},{"day":"5","start":"13:00:00","end":"15:00:00"}]',
+        ]);
+
+        $this->assertEquals(2, $course->fresh()->times()->count());
+    }
 }
