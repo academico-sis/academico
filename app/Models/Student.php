@@ -46,12 +46,10 @@ class Student extends Model implements HasMedia
                         $q->where('period_id', Period::get_default_period()->id);
                     });
                 });
-                break;
 
             case 2: // custom lead status
             case 3:
                 return $query->where('lead_type_id', $leadTypeId);
-                break;
 
             case 4: // old students who have at least one enrollment
                 return $query
@@ -72,7 +70,6 @@ class Student extends Model implements HasMedia
                                     });
                             });
                     });
-                break;
             default:
                 return $query;
         }

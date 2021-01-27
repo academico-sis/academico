@@ -161,17 +161,19 @@ class CourseCrudController extends CrudController
 
         ]);
 
-        CRUD::addFilter([ // select2 filter
+        CRUD::addFilter([
             'name' => 'rhythm_id',
             'type' => 'select2',
             'label'=> __('Rhythm'),
         ], function () {
             return Rhythm::all()->pluck('name', 'id')->toArray();
-        }, function ($value) { // if the filter is active
+        }, function ($value) {
+            // if the filter is active
             CRUD::addClause('where', 'rhythm_id', $value);
         },
-          function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
-          });
+        function () {
+            // if the filter is NOT active (the GET parameter "checkbox" does not exit)
+        });
 
         CRUD::addFilter([ // select2 filter
             'name' => 'teacher_id',
@@ -179,11 +181,13 @@ class CourseCrudController extends CrudController
             'label'=> __('Teacher'),
         ], function () {
             return Teacher::all()->pluck('name', 'id')->toArray();
-        }, function ($value) { // if the filter is active
+        }, function ($value) {
+            // if the filter is active
             CRUD::addClause('where', 'teacher_id', $value);
         },
-          function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
-          });
+        function () {
+            // if the filter is NOT active (the GET parameter "checkbox" does not exit)
+        });
 
         CRUD::addFilter([ // select2 filter
             'name' => 'level_id',
@@ -191,11 +195,13 @@ class CourseCrudController extends CrudController
             'label'=> __('Level'),
         ], function () {
             return Level::all()->pluck('name', 'id')->toArray();
-        }, function ($value) { // if the filter is active
+        }, function ($value) {
+            // if the filter is active
             CRUD::addClause('where', 'level_id', $value);
         },
-          function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
-          });
+        function () {
+            // if the filter is NOT active (the GET parameter "checkbox" does not exit)
+        });
 
         CRUD::addFilter([ // select2 filter
             'name' => 'period_id',
@@ -203,14 +209,16 @@ class CourseCrudController extends CrudController
             'label'=> __('Period'),
         ], function () {
             return Period::all()->sortByDesc('id')->pluck('name', 'id')->toArray();
-        }, function ($value) { // if the filter is active
+        }, function ($value) {
+            // if the filter is active
             CRUD::addClause('where', 'period_id', $value);
         },
-          function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
-              $period = Period::get_default_period()->id;
-              CRUD::addClause('where', 'period_id', $period);
-              $this->crud->getRequest()->request->add(['period_id' => $period]); // to make the filter look active
-          });
+        function () {
+            // if the filter is NOT active (the GET parameter "checkbox" does not exit)
+            $period = Period::get_default_period()->id;
+            CRUD::addClause('where', 'period_id', $period);
+            $this->crud->getRequest()->request->add(['period_id' => $period]); // to make the filter look active
+        });
     }
 
     protected function setupCreateOperation()
@@ -440,7 +448,9 @@ class CourseCrudController extends CrudController
         $course = Course::find($id);
         if ($course->enrollments->count() > 0) {
             Alert::add('error', 'The course has enrollments, impossible to delete');
-        } else {
+        }
+
+        if ($course->enrollments->count() == 0) {
             Event::where('course_id', $id)->forceDelete();
             Enrollment::where('course_id', $id)->forceDelete();
 

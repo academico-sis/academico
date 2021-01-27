@@ -17,11 +17,11 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
 {
     public function checkEmailUnicity(Request $request)
     {
-        if (User::where('email', $request->email)->count() == 0) {
-            return response('OK', 204);
-        } else {
+        if (User::where('email', $request->email)->count() !== 0) {
             abort(409);
         }
+
+        return response('OK', 204);
     }
 
     /**
@@ -77,10 +77,6 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
 
     /**
      * Create a new user instance after a valid registration.
-     *
-     * @param array $data
-     *
-     * @return User
      */
     protected function create(array $data)
     {

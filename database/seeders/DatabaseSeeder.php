@@ -359,8 +359,6 @@ class DatabaseSeeder extends Seeder
         factory(Level::class)->create(['name' => 'A2.2']);
 
         factory(Teacher::class)->create();
-        factory(Teacher::class)->create();
-        factory(Teacher::class)->create();
 
         factory(Year::class)->create([
             'name' => '2021',

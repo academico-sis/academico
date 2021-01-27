@@ -44,7 +44,7 @@
 
 document.addEventListener('DOMContentLoaded', () => { // page is now ready...
     var calendarEl = document.getElementById('calendar'); // grab element reference
-
+    
     var calendar = new FullCalendar.Calendar(calendarEl, {
         schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
         plugins: [ 'resourceTimeline', 'interaction' ],

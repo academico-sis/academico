@@ -64,7 +64,8 @@ class UserCrudController extends CrudController
                 'label' => trans('backpack::permissionmanager.role'),
             ],
             config('permission.models.role')::all()->pluck('name', 'id')->toArray(),
-            function ($value) { // if the filter is active
+            function ($value) {
+                // if the filter is active
                 $this->crud->addClause('whereHas', 'roles', function ($query) use ($value) {
                     $query->where('role_id', '=', $value);
                 });

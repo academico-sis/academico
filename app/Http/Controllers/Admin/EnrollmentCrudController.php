@@ -139,11 +139,12 @@ class EnrollmentCrudController extends CrudController
         ], function () {
             return EnrollmentStatusType::all()->pluck('name', 'id')->toArray();
         },
-          function ($values) { // if the filter is active
-              foreach (json_decode($values) as $key => $value) {
-                  CRUD::addClause('orWhere', 'status_id', $value);
-              }
-          });
+        function ($values) {
+            // if the filter is active
+            foreach (json_decode($values) as $key => $value) {
+                CRUD::addClause('orWhere', 'status_id', $value);
+            }
+        });
 
         CRUD::addFilter([
             'name' => 'period_id',
@@ -151,7 +152,8 @@ class EnrollmentCrudController extends CrudController
             'label'=> __('Period'),
         ], function () {
             return Period::all()->pluck('name', 'id')->toArray();
-        }, function ($value) { // if the filter is active
+        }, function ($value) {
+            // if the filter is active
             CRUD::addClause('period', $value);
         });
     }
