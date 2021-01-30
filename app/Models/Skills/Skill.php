@@ -41,6 +41,10 @@ class Skill extends Model
 
     public function getCompleteNameAttribute()
     {
-        return '[' . $this->level->name . '] ' . $this->skill_type->shortname . ' - ' . $this->name;
+        if ($this->category) {
+            return '[' . $this->level->name . '] ' . $this->skill_type->shortname . ' - ' . $this->name;
+        }
+
+        return null;
     }
 }

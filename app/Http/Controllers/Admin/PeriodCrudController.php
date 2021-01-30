@@ -18,6 +18,7 @@ class PeriodCrudController extends CrudController
     use CreateOperation;
     use UpdateOperation;
     use DeleteOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
 
     public function setup()
     {
@@ -60,12 +61,10 @@ class PeriodCrudController extends CrudController
     {
         CRUD::addFields([
             [
-                'label'     => __('Year'),
-                'type'      => 'select',
-                'name'      => 'year_id',
-                'entity'    => 'year',
-                'attribute' => 'name',
-                'model'     => Year::class,
+                'type' => "relationship",
+                'name' => 'year', // the method on your model that defines the relationship
+                'ajax' => false,
+                'inline_create' => true, // assumes the URL will be "/admin/category/inline/create"
             ],
 
             [
@@ -91,5 +90,10 @@ class PeriodCrudController extends CrudController
     public function setupUpdateOperation()
     {
         $this->setupCreateOperation();
+    }
+
+    protected function fetchYear()
+    {
+        return $this->fetch(Year::class);
     }
 }
