@@ -94,16 +94,6 @@ class ResultCrudController extends CrudController
           });
 
         CRUD::addFilter([
-            'type' => 'simple',
-            'name' => 'hideparents',
-            'label'=> __('Hide Parents'),
-        ],
-          false,
-          function () {
-              CRUD::addClause('real');
-          });
-
-        CRUD::addFilter([
             'name' => 'period_id',
             'type' => 'select2',
             'label'=> __('Period'),

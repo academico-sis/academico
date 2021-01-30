@@ -79,8 +79,6 @@ Route::group(
     function () {
 
         /* Course grades update */
-        Route::post('course/gradetype', 'GradeController@addGradeTypeToCourse');
-        Route::delete('course/{course}/gradetype/{gradetype}', 'GradeController@removeGradeTypeFromCourse')->name('removeGradeTypeFromCourse');
         Route::get('course/{course}/grades', 'GradeController@edit')->name('editCourseGrades');
         Route::post('grades', 'GradeController@store');
         Route::post('grades/enrollment-total', 'GradeController@getEnrollmentTotal');
@@ -89,22 +87,6 @@ Route::group(
         Route::get('course/{course}/skillsevaluation', 'CourseSkillEvaluationController@index')->name('courseSkillsEvaluation');
         Route::get('course/{course}/skillsevaluation/{student}', 'CourseSkillEvaluationController@edit')->name('studentSkillsEvaluation');
         Route::post('skillsevaluation', 'CourseSkillEvaluationController@store')->name('storeSkillEvaluation');
-    }
-);
-
-Route::group(
-    ['middleware' => ['web', 'permission:evaluation.edit', 'language']],
-    function () {
-        Route::get('course/{course}/skill', 'CourseSkillController@index')->name('course-skills');
-        Route::get('course/{course}/getcourseskills', 'CourseSkillController@getCourseSkills')->name('courseSkillsGetJson');
-        Route::get('course/{course}/getavailableskills', 'CourseSkillController@getAvailableSkills');
-        Route::put('course/{course}/setskills', 'CourseSkillController@set')->name('courseSkillsSetBulk');
-
-        Route::post('course/{course}/skills/add', 'CourseSkillController@addSkill')->name('courseSkillsAdd');
-        Route::post('course/{course}/skills/remove', 'CourseSkillController@removeSkill')->name('courseSkillsRemove');
-
-        Route::get('course/{course}/skills/export', 'CourseSkillController@export')->name('course-skills-export');
-        Route::post('course/{course}/skills/import', 'CourseSkillController@import')->name('course-skills-import');
 
         Route::get('course/{course}/syllabus', 'CourseSkillController@exportCourseSyllabus')->name('exportCourseSyllabus');
     }

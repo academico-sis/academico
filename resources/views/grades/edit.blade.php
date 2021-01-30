@@ -15,14 +15,6 @@
         <div class="card">
             <div class="card-header">
                 @lang('Edit Grades')
-
-                <div class="card-header-actions">
-                    @if($available_grade_types->count() > 0)
-                    <a class="btn btn-primary" data-toggle="modal" data-target="#gradeTypeModal">
-                        <i class="la la-plus"></i> @lang('Add Grade Type to Course')
-                    </a>
-                    @endif
-                </div>
             </div>
 
             <div class="card-body" style="overflow-x: scroll">
@@ -33,8 +25,6 @@
                         @foreach ($course_grade_types->sortBy('id') as $grade_type)
                             <td>
                                 ({{$grade_type->category->name}})<br> <strong>{{$grade_type->name}}</strong>
-                                <br>
-                                <button class="btn btn-sm btn-danger" onclick="return confirm('Are you sure? This will delete all grades for this grade type.')?removeGradeType({{$grade_type->id}}):'';"><i class="la la-trash"></i></button>
                             </td>
                             @php $total += $grade_type->total @endphp
                         @endforeach
@@ -60,61 +50,8 @@
 
 @endsection
 
-
-<!-- New GradeType Modal-->
-<div class="modal fade" id="gradeTypeModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">@lang('Add a new grade type to course')</h4>
-                <div class="modal-header-action">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                </div>
-            </div>
-            <div class="modal-body">
-                <form action="/course/gradetype" method="post">
-                    @csrf
-                    <input type="hidden" name="course_id" value="{{ $course->id }}">
-
-                    <div class="form-group">
-                        <select name="grade_type_id" required>
-                            @foreach ($available_grade_types as $grade_type)
-                                <option value="{{ $grade_type->id }}">({{$grade_type->category->name}}) {{ $grade_type->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">@lang('Close')</button>
-                        <button type="submit" class="btn btn-success">@lang('Save')</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-@section('before_scripts')
-    {{-- TODO migrate this to new Vue components --}}
-    <script>
-
-        function removeGradeType(gradetype)
-        {
-            axios.delete(`/course/{{$course->id}}/gradetype/${gradetype}`, {
-
-                } )
-
-            .then(response => document.location.reload(true))
-            .catch(error => console.log(error));
-
-        }
-
-    </script>
-@endsection
-
 @section('after_scripts')
-        <script src="{{ mix('/js/app.js') }}"></script>
+    <script src="{{ mix('/js/app.js') }}"></script>
     <script src="{{ mix('/js/manifest.js') }}"></script>
     <script src="{{ mix('/js/vendor.js') }}"></script>
 @endsection

@@ -25,6 +25,10 @@ class GradeType extends Model
 
     public function getCompleteNameAttribute()
     {
-        return '[' . $this->category->name . '] ' . $this->name;
+        if ($this->category) {
+            return '[' . $this->category->name . '] ' . $this->name;
+        }
+
+        return null;
     }
 }
