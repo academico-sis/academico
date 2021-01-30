@@ -350,7 +350,7 @@
                                     }}
                                     {{ $t("spots left") }}
                                 </div>
-                                <div>
+                                <div v-if="course.evaluation_type">
                                     <i class="la la-th"></i>
                                     {{ course.evaluation_type.translated_name }}
                                 </div>
