@@ -3,6 +3,7 @@
 namespace App\Models\Skills;
 
 use App\Models\Course;
+use App\Models\EvaluationType;
 use App\Models\Level;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
@@ -12,6 +13,7 @@ class Skill extends Model
     use CrudTrait;
     protected $guarded = ['id'];
     protected $with = ['level', 'skill_type'];
+    protected $appends = ['complete_name'];
 
     /** The category the skill belongs to */
     public function skill_type()
@@ -25,17 +27,20 @@ class Skill extends Model
         return $this->belongsTo(Level::class);
     }
 
-    /** a skill has many courses, and a course has many skills
-     * Skills are like "criteria" that will need to be evaluated during the course.
-     */
-    public function courses()
-    {
-        return $this->belongsToMany(Course::class);
-    }
-
     /** A skill is linked to skill evaluations (themselves linked to enrollments) */
     public function skill_evaluations()
     {
         return $this->hasMany(SkillEvaluation::class);
+    }
+
+    public function presets()
+    {
+        return $this->morphToMany(EvaluationType::class, 'presettable', 'evaluation_type_presets');
+    }
+
+
+    public function getCompleteNameAttribute()
+    {
+        return '[' . $this->level->name . '] ' . $this->skill_type->shortname . ' - ' . $this->name;
     }
 }

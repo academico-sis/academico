@@ -228,9 +228,9 @@
                                 <div v-if="mode === 'view'" class="btn-group float-right">
                                     <a
                                         class="btn"
-                                        :href="`course/${course.id}/show`"
-                                        ><i class="la la-eye"></i
-                                    ></a>
+                                        :href="`course/${course.id}/show`">
+                                        <i class="la la-eye"></i>
+                                    </a>
                                     <button
                                         class="btn dropdown-toggle p-0"
                                         type="button"
@@ -263,6 +263,21 @@
                                             ><i class="la la-edit"></i>
                                             {{ $t("Edit") }}</a
                                         >
+
+                                        <a
+                                            v-if="course.evaluation_type && course.evaluation_type.skills.length > 0 && course.course_enrollments_count > 0"
+                                            class="dropdown-item"
+                                           :href="`course/${course.id}/skillsevaluation`">
+                                            <i class="la la-th"></i> {{ $t('Evaluate skills') }}
+                                        </a>
+
+                                        <a
+                                            v-if="course.evaluation_type && course.evaluation_type.grade_types.length > 0 && course.course_enrollments_count > 0"
+                                            class="dropdown-item"
+                                            :href="`course/${course.id}/grades`">
+                                            <i class="la la-th"></i> {{ $t('Manage grades') }}
+                                        </a>
+
                                         <button
                                             v-if="
                                                 editable === 1 &&
@@ -334,6 +349,10 @@
                                         )
                                     }}
                                     {{ $t("spots left") }}
+                                </div>
+                                <div>
+                                    <i class="la la-th"></i>
+                                    {{ course.evaluation_type.translated_name }}
                                 </div>
                             </div>
                         </div>

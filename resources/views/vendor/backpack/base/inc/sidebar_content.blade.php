@@ -37,7 +37,6 @@
 @if(backpack_user()->hasRole(['admin']))
 
   <li class="nav-title">@lang('EVALUATION')</li>
-    <li class='nav-item'><a class='nav-link' href="{{ backpack_url('courseevaluation') }}"><i class="nav-icon la la-bar-chart"></i> <span>@lang('Course Evaluation')</span></a></li>
     <li class='nav-item'><a class='nav-link' href="{{ backpack_url('/result?hideparents=true') }}"><i class="nav-icon la la-graduation-cap"></i> <span>@lang('Results')</span></a></li>
     {{-- EVALUATION METHODS --}}
     <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-link"></i> @lang('Settings')</a>

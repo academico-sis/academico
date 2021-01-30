@@ -29,7 +29,7 @@ class Course extends Model
     //protected $fillable = [];
     // protected $hidden = [];
     protected $dates = ['start_date', 'end_date'];
-    //protected $with = ['enrollments'];
+    protected $with = ['evaluationType'];
     protected $appends = ['course_times', 'course_teacher_name', 'course_period_name', 'course_enrollments_count', 'sortable_id'];
     protected static $logUnguarded = true;
 
@@ -126,9 +126,9 @@ class Course extends Model
     }
 
     /** evaluation methods associated to the course - grades, skill-based evaluation... */
-    public function evaluation_types()
+    public function evaluationType()
     {
-        return $this->belongsToMany(EvaluationType::class);
+        return $this->belongsTo(EvaluationType::class);
     }
 
     /** a Grade model = an individual grade, belongs to a student */
@@ -140,7 +140,7 @@ class Course extends Model
     /** the different grade types associated to the course, ie. criteria that will receive the grades */
     public function grade_types()
     {
-        return $this->belongsToMany(GradeType::class);
+        return $this->evaluationType->gradeTypes()->orderBy('order');
     }
 
     /** in the case of skills-based evaluation, Skill models are attached to the course
@@ -148,7 +148,7 @@ class Course extends Model
      */
     public function skills()
     {
-        return $this->belongsToMany(Skill::class)->orderBy('order');
+        return $this->evaluationType->skills()->orderBy('order');
     }
 
     public function books()
