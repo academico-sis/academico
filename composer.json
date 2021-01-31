@@ -13,7 +13,6 @@
         "backpack/crud": "4.1.*",
         "backpack/permissionmanager": "^6.0.0",
         "curl/curl": "^2.3.0",
-        "eduardoarandah/usermanager": "^3.0",
         "fideloper/proxy": "^4.4.0",
         "fruitcake/laravel-cors": "^2.0.1",
         "guzzlehttp/guzzle": "^7.2",
