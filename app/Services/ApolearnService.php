@@ -24,7 +24,7 @@ class ApolearnService implements LMSInterface
 
     public function authenticate() : string
     {
-        Log::info('launching API');
+        var_dump('launching API');
         $response = Http::post(config('services.apolearn.url') . '/auth.gettoken', [
               'api_key' => $this->apiKey,
               'username' => config('services.apolearn.username'),
@@ -36,7 +36,7 @@ class ApolearnService implements LMSInterface
 
     public function createUser(User $user) : void
     {
-        Log::info('checking if user exists');
+        var_dump('checking if user exists for local ID ' . $user->id);
         // first check if the user already exists (email)
         $response = Http::get(config('services.apolearn.url') . "/users/getbyemail/$user->email", [
             'auth_token' => $this->token,
@@ -45,11 +45,11 @@ class ApolearnService implements LMSInterface
 
         // if the user exists, just update their ID
         if ($this->actionSucceeded($response)) {
-            Log::info('user found, saving their ID');
+            var_dump('user found, saving their LMS ID to our DB');
             $user->update(['lms_id' => $response->json()['result']['user']['id']]);
         } else {
             // otherwise create them
-            Log::info('user not found, creating them now');
+            var_dump('user not found, creating them on the remote API now');
             $response = Http::post(config('services.apolearn.url') . '/users', [
                 'firstname' => $user->firstname,
                 'lastname' => $user->lastname,
@@ -61,19 +61,19 @@ class ApolearnService implements LMSInterface
             if ($this->actionSucceeded($response)) {
                 $user->update(['lms_id' => $response->json()['result']['id']]);
             } else {
-                dd($response->json());
+                Log::error($response->json());
             }
         }
     }
 
     public function createCourse(Course $course) : void
     {
-        Log::info('creating a new course');
         // first check if the course already has an ID (meaning it exists on the remote lms)
         if ($course->lms_id) {
-            abort(422, 'This course already exists on the remove platform');
+            abort(422, 'This course already exists on the remote platform');
         }
 
+        var_dump('pushing local course ' . $course->id . ' to API');
         $response = Http::post(config('services.apolearn.url') . '/classrooms', [
             "name" => $course->name,
             "shortname" => $course->shortname,
@@ -99,17 +99,17 @@ class ApolearnService implements LMSInterface
         ]);
 
         // and a teacher
-        $this->addTeacher($course, $courseId);
+        $this->addTeacher($course);
     }
 
     public function updateCourse(Course $course) : void
     {
-        Log::info('updating a course');
         if (!$course->lms_id) {
             $this->createCourse($course);
         }
 
-        /*$response = Http::put(config('services.apolearn.url') . "/classrooms/$course->lms_id", [
+        var_dump('updating course with locale ID' . $course->id);
+        $response = Http::put(config('services.apolearn.url') . "/classrooms/$course->lms_id", [
             "name" => $course->name,
             "shortname" => $course->shortname,
             "description" => $course->description,
@@ -119,26 +119,37 @@ class ApolearnService implements LMSInterface
             "level_id" => $course->level->lms_id ?? config('services.apolearn.default_level_id'),
             'auth_token' => $this->token,
             'api_key' => $this->apiKey,
-        ]);*/
+        ]);
 
-        Log::info('updating the course teacher');
+        // if the course has no teacher, stop
+        if (!$course->teacher) {
+            Log::alert('The course has no teacher on local system, aborting execution now');
+            die();
+        }
+
+        var_dump('updating the course teacher');
         // ensure the teacher is up to date
         $response = Http::get(config('services.apolearn.url') . "/classrooms/teachers/$course->lms_id", [
             'auth_token' => $this->token,
             'api_key' => $this->apiKey,
         ]);
-        Log::info('found these teachers:');
-        Log::info($response);
+
         if ($this->actionSucceeded($response)) {
             $teachers = collect($response->json()['result']['users']);
-            if (!$teachers->contains('id', $course->teacher->lms_id)) {
-                Log::info('the course teacher has changed, need to update it');
-                foreach ($teachers as $teacher) {
-                    Log::info('Removing teacher ' . $teacher['id'] . ' from course');
+            var_dump('found these teachers IDs on LMS:' . implode(', ', $teachers->pluck('id')->toArray()));
+
+            // check if remote course teachers are still valid
+            foreach ($teachers as $teacher) {
+                var_dump('comparing ' . $teacher['id'] . ' and ' . $course->teacher->user->lms_id);
+                if ($teacher['id'] !== $course->teacher->user->lms_id) {
+                    var_dump('Removing teacher ' . $teacher['id'] . ' from course');
                     $this->removeTeacher($course->lms_id, $teacher['id']);
                 }
+            }
 
-                //$this->addTeacher($course, $course->lms_id);
+            if (!$course->teacher->user->lms_id || !$teachers->contains('id', $course->teacher->user->lms_id)) {
+                var_dump('the course teacher has changed, need to update it');
+                $this->addTeacher($course);
             }
         }
     }
@@ -168,24 +179,38 @@ class ApolearnService implements LMSInterface
         return $response->ok() && array_key_exists('result', $response->json()) && $response->json()['result']['success'] == true;
     }
 
-    protected function addTeacher(Course $course, $courseId): void
+    protected function addTeacher(Course $course) : void
     {
-        if ($course->teacher_id) {
-            $this->createUser($course->teacher->user);
-            $response = Http::post(config('services.apolearn.url')."/classrooms/addteacher/$courseId", [
-                'user_id' => $course->teacher->user->lms_id,
-                'auth_token' => $this->token,
-                'api_key' => $this->apiKey,
-            ]);
+        var_dump('adding teacher');
+        // if the course has no teacher, abort
+        if (! $course->teacher_id) {
+            abort (422, "The course has no teacher");
         }
+
+        // if the teacher doesn't exist on LMS, create them
+        if (! $course->teacher->user->lms_id) {
+            var_dump('creating user now');
+            $this->createUser($course->teacher->user);
+        }
+
+        // then sync to API
+        var_dump('pushing course user to API');
+        $response = Http::post(config('services.apolearn.url')."/classrooms/addteacher/$course->lms_id", [
+            'user_id' => $course->teacher->user->lms_id,
+            'auth_token' => $this->token,
+            'api_key' => $this->apiKey,
+        ]);
     }
 
     protected function removeTeacher($courseId, $teacherId): void
     {
-        $response = Http::post(config('services.apolearn.url')."/classrooms/removeteacher/$courseId", [
+        var_dump('Removing teacher ' . $teacherId . ' from course ' . $courseId);
+        $response = Http::put(config('services.apolearn.url')."/classrooms/removeteacher/$courseId", [
             'user_id' => $teacherId,
             'auth_token' => $this->token,
             'api_key' => $this->apiKey,
         ]);
+
+        var_dump($response);
     }
 }
