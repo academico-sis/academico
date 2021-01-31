@@ -14,7 +14,7 @@ interface LMSInterface
 
     public function createUser(User $user) : void;
 
-    //public function updateUser(User $user) : void;
+    public function updateUser(User $user) : void;
 
     public function createCourse(Course $course) : void;
 
