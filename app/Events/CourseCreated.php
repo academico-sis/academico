@@ -13,10 +13,9 @@ class CourseCreated
     use InteractsWithSockets;
     use SerializesModels;
 
-    public $course;
 
-    public function __construct(Course $course)
+    public function __construct(public Course $course)
     {
-        $this->course = $course;
+        //
     }
 }

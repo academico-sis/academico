@@ -2,6 +2,11 @@
 
 namespace App\Models;
 
+use App\Events\StudentCreated;
+use App\Events\StudentDeleting;
+use App\Events\StudentUpdated;
+use App\Events\UserDeleting;
+use App\Events\UserUpdated;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Backpack\CRUD\app\Notifications\ResetPasswordNotification as ResetPasswordNotification;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -29,23 +34,10 @@ class User extends Authenticatable
      */
     protected $hidden = ['password', 'remember_token'];
 
-    protected static function boot()
-    {
-        parent::boot();
-
-        // when deleting a user, also delete any teacher and students accounts associated to this user.
-        static::deleting(function (self $user) {
-            if ($user->student()->exists()) {
-                Attendance::where('student_id', $user->student->id)->delete();
-                Enrollment::where('student_id', $user->student->id)->delete();
-            }
-
-            Student::where('id', $user->id)->delete();
-            Teacher::where('id', $user->id)->delete();
-            $user->email = 'deleted_id_'.$user->id.'_'.$user->email;
-            $user->save();
-        });
-    }
+    protected $dispatchesEvents = [
+        'deleting' => UserDeleting::class,
+        'updated' => UserUpdated::class,
+    ];
 
     /**
      * Send the password reset notification.

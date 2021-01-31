@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App\Events\StudentCreated;
 use App\Events\StudentUpdated;
 use App\Services\ApolearnService;
 use App\Traits\ApolearnApi;
@@ -12,13 +13,7 @@ class SyncStudentToLMS
 {
     use ApolearnApi;
 
-    /**
-     * Handle the event.
-     *
-     * @param  StudentUpdated  $event
-     * @return void
-     */
-    public function handle(StudentUpdated $event)
+    public function handle(StudentUpdated|StudentCreated $event) : void
     {
         if (!$event->student->user->lms_id) {
             // if the user doesn't exist on the LMS yet, create them
