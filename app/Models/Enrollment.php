@@ -22,21 +22,11 @@ class Enrollment extends Model
     protected $with = ['student', 'course', 'childrenEnrollments', 'payments'];
     protected static $logUnguarded = true;
 
-    protected static function boot()
-    {
-        parent::boot();
-
-        // when creating a new enrollment, also add past attendance
-        static::created(function (self $enrollment) {
-            $events = $enrollment->course->events->where('start', '<', (new Carbon())->toDateString());
-            foreach ($events as $event) {
-                $event->attendance()->create([
-                    'student_id' => $enrollment->student_id,
-                    'attendance_type_id' => 3,
-                ]);
-            }
-        });
-    }
+    protected $dispatchesEvents = [
+        'deleted' => \App\Events\EnrollmentDeleted::class,
+        'created' => \App\Events\EnrollmentCreated::class,
+        'updated' => \App\Events\EnrollmentUpdated::class,
+    ];
 
     /**
      * return all pending enrollments, without the child enrollments.

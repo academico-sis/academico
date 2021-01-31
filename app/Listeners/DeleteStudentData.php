@@ -10,23 +10,7 @@ use Illuminate\Queue\InteractsWithQueue;
 
 class DeleteStudentData
 {
-    /**
-     * Create the event listener.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
-     * Handle the event.
-     *
-     * @param  StudentDeleting  $event
-     * @return void
-     */
-    public function handle(StudentDeleting $event)
+    public function handle(StudentDeleting $event) : void
     {
         Attendance::where('student_id', $event->student->id)->delete();
         Enrollment::where('student_id', $event->student->id)->delete();

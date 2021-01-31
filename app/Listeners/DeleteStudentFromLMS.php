@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Log;
 
-class DeleteStudentFromLMS
+class DeleteStudentFromLMS implements ShouldQueue
 {
     use ApolearnApi;
 

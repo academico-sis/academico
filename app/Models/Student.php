@@ -245,24 +245,25 @@ class Student extends Model implements HasMedia
     public function enroll(Course $course): int
     {
         // avoid duplicates by retrieving an potential existing enrollment for the same course
-        $enrollment = Enrollment::firstOrNew([
+        $enrollment = Enrollment::firstOrCreate([
             'student_id' =>  $this->id,
             'course_id' => $course->id,
+        ],
+        [
+            'responsible_id' => backpack_user()->id ?? 1,
         ]);
-
-        $enrollment->responsible_id = backpack_user()->id ?? 1;
-        $enrollment->save();
 
         // if the course has children, enroll in children as well.
         if ($course->children_count > 0) {
             foreach ($course->children as $children_course) {
-                $child_enrollment = Enrollment::firstOrNew([
+                $child_enrollment = Enrollment::firstOrCreate([
                     'student_id' =>  $this->id,
                     'course_id' => $children_course->id,
                     'parent_id' => $enrollment->id,
+                ],
+                [
+                    'responsible_id' => backpack_user()->id ?? 1,
                 ]);
-                $child_enrollment->responsible_id = backpack_user()->id ?? null;
-                $child_enrollment->save();
             }
         }
 

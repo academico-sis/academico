@@ -11,23 +11,7 @@ use Illuminate\Queue\InteractsWithQueue;
 
 class DeleteUserData
 {
-    /**
-     * Create the event listener.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
-     * Handle the event.
-     *
-     * @param  UserDeleting  $event
-     * @return void
-     */
-    public function handle(UserDeleting $event)
+    public function handle(UserDeleting $event) : void
     {
         // Delete student and teacher
         Student::where('id', $event->user->id)->delete();

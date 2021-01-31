@@ -4,16 +4,23 @@ namespace App\Providers;
 
 use App\Events\CourseCreated;
 use App\Events\CourseUpdated;
+use App\Events\EnrollmentCreated;
+use App\Events\EnrollmentDeleted;
+use App\Events\EnrollmentUpdated;
 use App\Events\StudentCreated;
 use App\Events\StudentDeleting;
 use App\Events\StudentUpdated;
+use App\Events\TeacherCreated;
 use App\Events\TeacherUpdated;
 use App\Events\UserDeleting;
 use App\Events\UserUpdated;
+use App\Listeners\AddPastAttendance;
+use App\Listeners\DeleteEnrollmentFromLMS;
 use App\Listeners\DeleteStudentData;
 use App\Listeners\DeleteUserData;
 use App\Listeners\DeleteStudentFromLMS;
 use App\Listeners\SyncCourseToLMS;
+use App\Listeners\SyncEnrollmentToLMS;
 use App\Listeners\SyncStudentToLMS;
 use App\Listeners\SyncTeacherToLMS;
 use App\Listeners\SyncUserToLMS;
@@ -50,6 +57,9 @@ class EventServiceProvider extends ServiceProvider
             DeleteStudentData::class,
             DeleteStudentFromLMS::class,
         ],
+        TeacherCreated::class => [
+            SyncTeacherToLMS::class,
+        ],
         TeacherUpdated::class => [
             SyncTeacherToLMS::class,
         ],
@@ -58,6 +68,16 @@ class EventServiceProvider extends ServiceProvider
         ],
         UserDeleting::class => [
             DeleteUserData::class,
+        ],
+        EnrollmentDeleted::class => [
+            SyncEnrollmentToLMS::class,
+        ],
+        EnrollmentCreated::class => [
+            AddPastAttendance::class,
+            SyncEnrollmentToLMS::class,
+        ],
+        EnrollmentUpdated::class => [
+            //DeleteEnrollmentFromLMS::class,
         ],
     ];
 

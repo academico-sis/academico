@@ -8,7 +8,7 @@ use App\Traits\ApolearnApi;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-class SyncTeacherToLMS
+class SyncTeacherToLMS implements ShouldQueue
 {
     use ApolearnApi;
 

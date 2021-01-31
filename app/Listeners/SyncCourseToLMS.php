@@ -8,9 +8,10 @@ use App\Models\Event;
 use App\Services\ApolearnService;
 use App\Traits\ApolearnApi;
 use Carbon\Carbon;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Log;
 
-class SyncCourseToLMS
+class SyncCourseToLMS implements ShouldQueue
 {
     use ApolearnApi;
 
