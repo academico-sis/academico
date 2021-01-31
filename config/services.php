@@ -41,6 +41,7 @@ return [
     ],
 
     'apolearn' => [
+        'sync_enabled' => env('APOLEARN_SYNC', false),
         'url' => env('APOLEARN_URL'),
         'api_key' => env('APOLEARN_KEY'),
         'username' => env('APOLEARN_USERNAME'),

@@ -4,7 +4,12 @@ namespace App\Providers;
 
 use App\Events\CourseCreated;
 use App\Events\CourseUpdated;
+use App\Events\StudentCreated;
+use App\Events\StudentDeleting;
+use App\Events\StudentUpdated;
+use App\Listeners\DeleteStudentData;
 use App\Listeners\SyncCourseToLMS;
+use App\Listeners\SyncStudentToLMS;
 use App\Listeners\UpdateCourseEvents;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -27,6 +32,15 @@ class EventServiceProvider extends ServiceProvider
         CourseUpdated::class => [
             UpdateCourseEvents::class,
             SyncCourseToLMS::class,
+        ],
+        StudentCreated::class => [
+            SyncStudentToLMS::class,
+        ],
+        StudentUpdated::class => [
+            SyncStudentToLMS::class,
+        ],
+        StudentDeleting::class => [
+            DeleteStudentData::class,
         ],
     ];
 

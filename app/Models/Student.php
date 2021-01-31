@@ -2,6 +2,11 @@
 
 namespace App\Models;
 
+use App\Events\CourseCreated;
+use App\Events\CourseUpdated;
+use App\Events\StudentCreated;
+use App\Events\StudentDeleting;
+use App\Events\StudentUpdated;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -19,6 +24,12 @@ class Student extends Model implements HasMedia
     use InteractsWithMedia;
     use LogsActivity;
 
+    protected $dispatchesEvents = [
+        'deleting' => StudentDeleting::class,
+        'created' => StudentCreated::class,
+        'updated' => StudentUpdated::class,
+    ];
+
     public $timestamps = true;
     protected $guarded = [];
     public $incrementing = false;
@@ -26,53 +37,38 @@ class Student extends Model implements HasMedia
     protected $appends = ['email', 'name', 'firstname', 'lastname', 'student_age', 'student_birthdate', 'lead_status', 'is_enrolled'];
     protected static $logUnguarded = true;
 
-    protected static function boot()
-    {
-        parent::boot();
-
-        // when deleting a student, also delete any enrollments, grades and attendance related to this student
-        static::deleting(function (self $student) {
-            Attendance::where('student_id', $student->id)->delete();
-            Enrollment::where('student_id', $student->id)->delete();
-        });
-    }
-
     public function scopeComputedLeadType($query, $leadTypeId)
     {
-        switch ($leadTypeId) {
-            case 1: // active / enrolled students
-                return $query->whereHas('enrollments', function ($query) {
-                    return $query->whereHas('course', function ($q) {
-                        $q->where('period_id', Period::get_default_period()->id);
-                    });
+        return match ($leadTypeId) {
+            1 => $query->whereHas('enrollments', function ($query) {
+                return $query->whereHas('course', function ($q) {
+                    $q->where('period_id', Period::get_default_period()->id);
                 });
+            }),
 
-            case 2: // custom lead status
-            case 3:
-                return $query->where('lead_type_id', $leadTypeId);
+            2, 3 => $query->where('lead_type_id', $leadTypeId),
 
-            case 4: // old students who have at least one enrollment
-                return $query
-                    ->where('lead_type_id', $leadTypeId)
-                    ->orWhere(function ($query) {
-                        $query
-                            ->whereNull('lead_type_id')
-                            ->whereHas('enrollments', function ($query) {
-                                return $query
-                                    ->whereHas('course', function ($q) {
-                                        $q->where('period_id', '!=', Period::get_default_period()->id);
-                                    });
-                            })
-                            ->whereDoesntHave('enrollments', function ($query) {
-                                return $query
-                                    ->whereHas('course', function ($q) {
-                                        $q->where('period_id', Period::get_default_period()->id);
-                                    });
-                            });
-                    });
-            default:
-                return $query;
-        }
+            4 => $query
+                ->where('lead_type_id', $leadTypeId)
+                ->orWhere(function ($query) {
+                    $query
+                        ->whereNull('lead_type_id')
+                        ->whereHas('enrollments', function ($query) {
+                            return $query
+                                ->whereHas('course', function ($q) {
+                                    $q->where('period_id', '!=', Period::get_default_period()->id);
+                                });
+                        })
+                        ->whereDoesntHave('enrollments', function ($query) {
+                            return $query
+                                ->whereHas('course', function ($q) {
+                                    $q->where('period_id', Period::get_default_period()->id);
+                                });
+                        });
+                }),
+
+            default => $query,
+        };
     }
 
     public function registerMediaConversions(Media $media = null): void

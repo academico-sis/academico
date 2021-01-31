@@ -6,19 +6,21 @@ use App\Events\CourseCreated;
 use App\Events\CourseUpdated;
 use App\Models\Event;
 use App\Services\ApolearnService;
+use App\Traits\ApolearnApi;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
 class SyncCourseToLMS
 {
-    public function __construct()
-    {
-        $this->lms = new ApolearnService();
-    }
+    use ApolearnApi;
 
     public function handle($event)
     {
         $course = $event->course;
+
+        if (! $course->sync_to_lms) {
+            return ;
+        }
 
         // if the course doesn't exist on the LMS yet, create it
         if (!$course->lms_id) {
@@ -27,6 +29,5 @@ class SyncCourseToLMS
             // otherwise, update it.
             $this->lms->updateCourse($course);
         }
-
     }
 }

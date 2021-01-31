@@ -277,14 +277,18 @@ class CourseCrudController extends CrudController
                 'type' => 'checkbox',
                 'tab' => __('Course info'),
             ],
+        ]);
 
-            [
+        if (config('services.apolearn.sync_enabled')) {
+            CRUD::addField([
                 'name' => 'sync_to_lms', // The db column name
                 'label' => __('Sync to LMS'), // Table column heading
                 'type' => 'checkbox',
                 'tab' => __('Course info'),
-            ],
+            ]);
+        }
 
+        CRUD::addFields([
             [
                 'name' => 'color', // The db column name
                 'label' => __('Color'), // Table column heading
