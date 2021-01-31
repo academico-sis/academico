@@ -31,8 +31,8 @@ class PeriodCrudController extends CrudController
         CRUD::setColumns([
             [
                 'label'     => __('Year'),
-                'type'      => 'select',
-                'entity'    => 'year',
+                'type'      => 'relationship',
+                'name'    => 'year',
                 'attribute' => 'name',
             ],
 

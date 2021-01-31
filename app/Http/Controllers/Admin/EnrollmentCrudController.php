@@ -122,10 +122,9 @@ class EnrollmentCrudController extends CrudController
 
             [
                 // n-n relationship (with pivot table)
-                'label' => __('Phone'), // Table column heading
+                'label' => __('Phone number'), // Table column heading
                 'type' => 'select_multiple',
                 'name' => 'student.phone', // the method that defines the relationship in your Model
-                'entity' => 'student.phone', // the method that defines the relationship in your Model
                 'attribute' => 'phone_number', // foreign key attribute that is shown to user
                 'model' => PhoneNumber::class, // foreign key model
             ],
@@ -141,7 +140,7 @@ class EnrollmentCrudController extends CrudController
         },
         function ($values) {
             // if the filter is active
-            foreach (json_decode($values) as $key => $value) {
+            foreach (json_decode($values) as $value) {
                 CRUD::addClause('orWhere', 'status_id', $value);
             }
         });

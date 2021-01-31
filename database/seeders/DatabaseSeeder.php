@@ -61,15 +61,6 @@ class DatabaseSeeder extends Seeder
             ],
         ]);
 
-        EnrollmentStatusType::create([
-            'id' => 3,
-            'name' => [
-                'es' => 'ANULADA',
-                'en' => 'CANCELED',
-                'fr' => 'ANNULÉ',
-            ],
-        ]);
-
         ResultType::create([
             'id' => 1,
             'name' => [
@@ -100,21 +91,6 @@ class DatabaseSeeder extends Seeder
             ],
         ]);
 
-        ResultType::create([
-            'id' => 3,
-            'name' => [
-                'fr' => 'VOIR COORD. PEDA',
-                'es' => 'VER COORD. PEDA',
-                'en' => 'SEE DIR.',
-
-            ],
-            'description' => [
-                'fr' => 'Vérifier le résultat avec la direction pédagogique',
-                'es' => 'Ver con la dirección pedagógica',
-                'en' => 'Check results with the Pedagogy department',
-            ],
-        ]);
-
         EvaluationType::create([
             'id' => 1,
             'name' => [
@@ -124,14 +100,6 @@ class DatabaseSeeder extends Seeder
             ],
         ]);
 
-        EvaluationType::create([
-            'id' => 2,
-            'name' => [
-                'fr' => 'COMPÉTENCES',
-                'es' => 'COMPETENCIAS',
-                'en' => 'SKILLS',
-            ],
-        ]);
 
         AttendanceType::create([
             'id' => 1,
@@ -454,9 +422,9 @@ class DatabaseSeeder extends Seeder
                 $p1course3->times()->create(['day' => 6, 'start' => '09:00:00', 'end' => '13:00:00']);
                 $p1course3->times()->create(['day' => 0, 'start' => '09:00:00', 'end' => '13:00:00']);
 
-                // create some "random" enrollments so that reports apear to have real data
+                // create some "random" enrollments so that reports appear to have real data
 
-                /*for ($i = 0; $i < random_int(2, 8); $i++) {
+                for ($i = 0; $i < random_int(2, 8); $i++) {
                     $student = factory(Student::class)->create();
                     $student->enroll($p1course1);
                     $student->enroll($p1course2);
@@ -466,7 +434,7 @@ class DatabaseSeeder extends Seeder
                     $student = factory(Student::class)->create();
                     $student->enroll($p1course2);
                     $student->enroll($p1course3);
-                }*/
+                }
             }
         }
     }
