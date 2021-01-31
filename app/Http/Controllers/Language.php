@@ -32,7 +32,6 @@ class Language extends Controller
      * Set locale and return home url.
      *
      * @param string                   $locale
-     * @param \Illuminate\Http\Request $request
      *
      * @return string
      **/
@@ -49,7 +48,6 @@ class Language extends Controller
      * Set locale and return back.
      *
      * @param string                   $locale
-     * @param \Illuminate\Http\Request $request
      *
      * @return string
      **/

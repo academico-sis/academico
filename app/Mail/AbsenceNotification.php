@@ -14,9 +14,6 @@ class AbsenceNotification extends Mailable
 {
     use Queueable;
     use SerializesModels;
-
-    public $event;
-    public $student;
     public $enrollment;
 
     /**
@@ -24,10 +21,8 @@ class AbsenceNotification extends Mailable
      *
      * @return void
      */
-    public function __construct(Event $event, User $student)
+    public function __construct(public Event $event, public User $student)
     {
-        $this->event = $event;
-        $this->student = $student;
         $nstudent = Student::where('id', $student->id)->first();
         $this->enrollment = Enrollment::where('student_id', $nstudent->id)->where('course_id', $event->course_id)->first();
     }

@@ -35,7 +35,7 @@ class ReportController extends Controller
         $data = [];
         $years = [];
 
-        foreach ($periods as $i => $data_period) {
+        foreach ($periods as $data_period) {
             $data[$data_period->id]['period'] = $data_period->name;
             $data[$data_period->id]['year_id'] = $data_period->year_id;
 

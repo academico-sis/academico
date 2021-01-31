@@ -48,7 +48,7 @@ class CourseSkillController extends Controller
         $level = '';
         $type = '';
 
-        foreach ($course->skills->sortBy('skill_type_id') as $s => $skill) {
+        foreach ($course->skills->sortBy('skill_type_id') as $skill) {
             if ($skill->level->name != $level) {
                 $level = $skill->level->name;
 

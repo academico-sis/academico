@@ -78,7 +78,7 @@ class StudentCrudController extends CrudController
                 'label'     => __('Last Name'), // Table column heading
                 'type'      => 'select',
                 'name'      => 'lastname', // the column that contains the ID of that connected entity;
-                'entity'    => 'user', // the method that defines the relationship in your Model
+                'name'    => 'user', // the method that defines the relationship in your Model
                 'attribute' => 'lastname', // foreign key attribute that is shown to user
                 'model'     => 'App\Models\User', // foreign key model
                 'orderable' => true,
@@ -98,7 +98,7 @@ class StudentCrudController extends CrudController
                 'label'     => __('First Name'), // Table column heading
                 'type'      => 'select',
                 'name'      => 'firstname', // the column that contains the ID of that connected entity;
-                'entity'    => 'user', // the method that defines the relationship in your Model
+                'name'    => 'user', // the method that defines the relationship in your Model
                 'attribute' => 'firstname', // foreign key attribute that is shown to user
                 'model'     => 'App\Models\User', // foreign key model
                 'orderable' => true,
@@ -118,7 +118,7 @@ class StudentCrudController extends CrudController
                 'label'     => __('Email'), // Table column heading
                 'type'      => 'select',
                 'name'      => 'email', // the column that contains the ID of that connected entity;
-                'entity'    => 'user', // the method that defines the relationship in your Model
+                'name'    => 'user', // the method that defines the relationship in your Model
                 'attribute' => 'email', // foreign key attribute that is shown to user
                 'model'     => 'App\Models\User', // foreign key model
                 'orderable' => true,
@@ -138,7 +138,6 @@ class StudentCrudController extends CrudController
                 'label' => __('Phone number'), // Table column heading
                 'type' => 'select_multiple',
                 'name' => 'phone', // the method that defines the relationship in your Model
-                'entity' => 'phone', // the method that defines the relationship in your Model
                 'attribute' => 'phone_number', // foreign key attribute that is shown to user
                 'model' => PhoneNumber::class, // foreign key model
             ],
@@ -168,7 +167,7 @@ class StudentCrudController extends CrudController
         ], function () { // the options that show up in the select2
             return Period::all()->pluck('name', 'id')->toArray();
         }, function ($values) { // if the filter is active
-            foreach (json_decode($values) as $key => $value) {
+            foreach (json_decode($values) as $value) {
                 $this->crud->query = $this->crud->query->whereDoesntHave('enrollments', function ($query) use ($value) {
                     return $query->whereHas('course', function ($q) use ($value) {
                         $q->where('period_id', $value);

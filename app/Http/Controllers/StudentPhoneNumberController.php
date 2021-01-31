@@ -28,7 +28,6 @@ class StudentPhoneNumberController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\PhoneNumber  $phoneNumber
      * @return \Illuminate\Http\Response
      */
     public function destroy(PhoneNumber $phoneNumber)

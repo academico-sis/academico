@@ -32,8 +32,8 @@ class RoomCrudController extends CrudController
             [
                 // 1-n relationship
                 'label' => 'Campus',
-                'type' => 'select',
-                'entity' => 'campus',
+                'type' => 'relationship',
+                'name' => 'campus',
                 'attribute' => 'name',
             ],
 
