@@ -71,6 +71,5 @@ Route::group([
     Route::crud('leave', 'LeaveCrudController');
     Route::crud('leadtype', 'LeadTypeCrudController');
     Route::crud('book', 'BookCrudController');
-    Route::crud('courseevaluation', 'CourseEvaluationCrudController');
     Route::crud('gradetypecategory', 'GradeTypeCategoryCrudController');
 }); // this should be the absolute last line of this file

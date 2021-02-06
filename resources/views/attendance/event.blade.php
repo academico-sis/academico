@@ -4,7 +4,7 @@
 @section('content')
 
 <div class="row">
-    
+
     <div class="col-lg-8 col-lg-offset-2">
         <div class="card">
             <div class="card-header">
@@ -14,7 +14,7 @@
                     <a href="/attendance/course/{{ $event->course_id }}">@lang('Back to course')</a>
                 </div>
             </div><!-- /.card-header -->
-            
+
             <div class="card-body">
                 <div id="app">
                 <table class="table table-striped">
@@ -32,7 +32,7 @@
                                 route="{{ route('storeAttendance') }}">
                             </tr>
                         @endforeach
-                        
+
                     </tbody>
                 </table>
                 </div>
@@ -55,7 +55,9 @@
 
 @include('partials.enrollment_modal', ['course_id' => $event->course->parent])
 
-<script src="/js/app.js"></script>
+    <script src="{{ mix('/js/app.js') }}"></script>
+    <script src="{{ mix('/js/manifest.js') }}"></script>
+    <script src="{{ mix('/js/vendor.js') }}"></script>
 
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />

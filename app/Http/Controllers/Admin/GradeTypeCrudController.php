@@ -6,6 +6,7 @@ use App\Http\Requests\GradeTypeRequest;
 // VALIDATION: change the requests to match your own file names if you need form validation
 use App\Models\GradeType;
 use App\Models\GradeTypeCategory;
+use App\Models\Year;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
@@ -19,6 +20,7 @@ class GradeTypeCrudController extends CrudController
     use CreateOperation;
     use UpdateOperation;
     use DeleteOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
 
     public function setup()
     {
@@ -51,19 +53,38 @@ class GradeTypeCrudController extends CrudController
             ],
         ]);
 
-        CRUD::addFields([
-            ['name' => 'name', 'label' => 'Name', 'type' => 'text'],
-            ['name' => 'total', 'label' => 'Total', 'type' => 'text'],
-            [  // Select
-                'label'     => 'Category',
-                'type'      => 'select',
-                'name'      => 'grade_type_category_id', // the db column for the foreign key
-                'entity'    => 'category', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model'     => GradeTypeCategory::class,
-            ],
-        ]);
+    }
 
+    protected function setupCreateOperation()
+    {
+        CRUD::addFields([
+            [
+                'name' => 'name',
+                'label' => 'Name',
+                'type' => 'text',
+            ],
+
+            [
+                'name' => 'total',
+                'label' => 'Total',
+                'type' => 'text',
+            ],
+
+            [
+                'label' => 'Category',
+                'type' => "relationship",
+                'name' => 'category', // the method on your model that defines the relationship
+                'ajax' => true,
+                'inline_create' => [ // specify the entity in singular
+                    'entity' => 'gradetypecategory', // the entity in singular
+                    // OPTIONALS
+                    'force_select' => true, // should the inline-created entry be immediately selected?
+                    'modal_class' => 'modal-dialog modal-xl', // use modal-sm, modal-lg to change width
+                    'modal_route' => route('gradetypecategory-inline-create'), // InlineCreate::getInlineCreateModal()
+                    'create_route' =>  route('gradetypecategory-inline-create-save'), // InlineCreate::storeInlineCreate()
+                ]
+            ]
+        ]);
     }
 
     protected function setupCreateOperation()
@@ -77,5 +98,11 @@ class GradeTypeCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
+        CRUD::setRequiredFields(UpdateRequest::class, 'edit');
+    }
+
+    protected function fetchCategory()
+    {
+        return $this->fetch(GradeTypeCategory::class);
     }
 }

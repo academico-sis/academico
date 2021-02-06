@@ -8,6 +8,7 @@ use App\Models\Book;
 // VALIDATION: change the requests to match your own file names if you need form validation
 use App\Models\Course;
 use App\Models\Enrollment;
+use App\Models\EvaluationType;
 use App\Models\Event;
 use App\Models\Level;
 use App\Models\Period;
@@ -68,6 +69,7 @@ class CourseCrudController extends CrudController
 
         if (backpack_user()->hasRole('admin')) {
             CRUD::enableExportButtons();
+            CRUD::addButtonFromView('line', 'evaluation', 'evaluation', 'end');
         }
 
         CRUD::addButtonFromView('top', 'courses-view-switcher', 'courses-view-switcher', 'end');
@@ -349,7 +351,16 @@ class CourseCrudController extends CrudController
                 'model' => Book::class, // foreign key model
                 'pivot' => true, // on create&update, do you need to add/delete pivot table entries?
                 'tab' => __('Pedagogy'),
+            ],
 
+            [
+                'label' => __('Evaluation method'), // Table column heading
+                'type' => 'select2',
+                'name' => 'evaluationType', // the method that defines the relationship in your Model
+                'entity' => 'evaluationType', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model' => EvaluationType::class, // foreign key model
+                'tab' => __('Pedagogy'),
             ],
 
             [

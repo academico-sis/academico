@@ -34,6 +34,33 @@ class EvaluationTypeCrudController extends CrudController
     protected function setupCreateOperation()
     {
         CRUD::addField(['name' => 'name', 'label' => 'Name', 'type' => 'text']);
+
+        CRUD::addField([    // Select2Multiple = n-n relationship (with pivot table)
+            'label'     => __('Grade Types'),
+            'type'      => 'select2_multiple',
+            'name'      => 'gradeTypes', // the method that defines the relationship in your Model
+
+            // optional
+            'entity'    => 'gradeTypes', // the method that defines the relationship in your Model
+            'model'     => "App\Models\GradeType", // foreign key model
+            'attribute' => 'complete_name', // foreign key attribute that is shown to user
+            'pivot'     => true, // on create&update, do you need to add/delete pivot table entries?
+            'select_all' => true, // show Select All and Clear buttons?
+        ]);
+
+        CRUD::addField([    // Select2Multiple = n-n relationship (with pivot table)
+            'label'     => __('Skills'),
+            'type'      => 'select2_multiple',
+            'name'      => 'skills', // the method that defines the relationship in your Model
+
+            // optional
+            'entity'    => 'skills', // the method that defines the relationship in your Model
+            'model'     => "App\Models\Skills\Skill", // foreign key model
+            'attribute' => 'complete_name', // foreign key attribute that is shown to user
+            'pivot'     => true, // on create&update, do you need to add/delete pivot table entries?
+            'select_all' => true, // show Select All and Clear buttons?
+        ]);
+
         CRUD::setValidation(StoreRequest::class);
     }
 

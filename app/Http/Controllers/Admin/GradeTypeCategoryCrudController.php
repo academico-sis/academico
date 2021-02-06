@@ -20,6 +20,7 @@ class GradeTypeCategoryCrudController extends CrudController
 {
     use ListOperation;
     use CreateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\InlineCreateOperation;
     use UpdateOperation;
     use DeleteOperation;
     use ShowOperation;

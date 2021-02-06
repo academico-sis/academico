@@ -25,7 +25,6 @@ class GradeController extends Controller
             'course_grade_types' => $course->grade_types->sortBy('id'),
             'grades' => $course->grades,
             'course' => $course,
-            'available_grade_types' => GradeType::whereNotIn('id', $course->grade_types->pluck('id')->toArray())->get(),
         ]);
     }
 
@@ -42,29 +41,6 @@ class GradeController extends Controller
         ]);
         $grade->grade = $request->input('value');
         $grade->save();
-    }
-
-    public function addGradeTypeToCourse(Request $request)
-    {
-        $course = Course::findOrFail($request->input('course_id'));
-
-        $this->checkAccessForCourse($course);
-
-        $gradeType = GradeType::findOrFail($request->input('grade_type_id'));
-
-        if (! $course->grade_types->contains($gradeType->id)) {
-            $course->grade_types()->attach($gradeType->id);
-        }
-
-        return redirect()->back();
-    }
-
-    public function removeGradeTypeFromCourse(Course $course, GradeType $gradetype)
-    {
-        $this->checkAccessForCourse($course);
-
-        $course->grade_types()->detach($gradetype->id);
-        $course->grades()->where('grade_type_id', $gradetype->id)->delete();
     }
 
     public function getEnrollmentTotal(Request $request)

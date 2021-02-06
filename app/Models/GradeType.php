@@ -11,14 +11,24 @@ class GradeType extends Model
 
     protected $guarded = ['id'];
     protected $with = ['category'];
-
-    public function courses()
-    {
-        return $this->belongsToMany(Course::class, 'course_grade_type', 'grade_type_id', 'course_id');
-    }
+    protected $appends = ['complete_name'];
 
     public function category()
     {
         return $this->belongsTo(GradeTypeCategory::class, 'grade_type_category_id');
+    }
+
+    public function presets()
+    {
+        return $this->morphToMany(EvaluationType::class, 'presettable', 'evaluation_type_presets');
+    }
+
+    public function getCompleteNameAttribute()
+    {
+        if ($this->category) {
+            return '[' . $this->category->name . '] ' . $this->name;
+        }
+
+        return null;
     }
 }
