@@ -85,10 +85,7 @@ class GradeTypeCrudController extends CrudController
                 ]
             ]
         ]);
-    }
 
-    protected function setupCreateOperation()
-    {
         // add asterisk for fields that are required in GradeTypeRequest
         CRUD::setRequiredFields(GradeTypeRequest::class);
 
@@ -98,7 +95,7 @@ class GradeTypeCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
-        CRUD::setRequiredFields(UpdateRequest::class, 'edit');
+        CRUD::setRequiredFields(GradeTypeRequest::class);
     }
 
     protected function fetchCategory()
