@@ -124,6 +124,7 @@ class AttendanceController extends Controller
         }
 
         $enrollments = $course->enrollments()->with('student')->get();
+        $attendances = [];
 
         foreach ($enrollments as $enrollment) {
             foreach ($events as $event) {

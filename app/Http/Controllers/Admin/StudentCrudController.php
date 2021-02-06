@@ -76,8 +76,7 @@ class StudentCrudController extends CrudController
             [
                 // 1-n relationship
                 'label'     => __('Last Name'), // Table column heading
-                'type'      => 'select',
-                'name'      => 'lastname', // the column that contains the ID of that connected entity;
+                'type'      => 'relationship',
                 'name'    => 'user', // the method that defines the relationship in your Model
                 'attribute' => 'lastname', // foreign key attribute that is shown to user
                 'model'     => 'App\Models\User', // foreign key model
@@ -96,8 +95,7 @@ class StudentCrudController extends CrudController
             [
                 // 1-n relationship
                 'label'     => __('First Name'), // Table column heading
-                'type'      => 'select',
-                'name'      => 'firstname', // the column that contains the ID of that connected entity;
+                'type'      => 'relationship',
                 'name'    => 'user', // the method that defines the relationship in your Model
                 'attribute' => 'firstname', // foreign key attribute that is shown to user
                 'model'     => 'App\Models\User', // foreign key model
@@ -116,8 +114,7 @@ class StudentCrudController extends CrudController
             [
                 // 1-n relationship
                 'label'     => __('Email'), // Table column heading
-                'type'      => 'select',
-                'name'      => 'email', // the column that contains the ID of that connected entity;
+                'type'      => 'relationship',
                 'name'    => 'user', // the method that defines the relationship in your Model
                 'attribute' => 'email', // foreign key attribute that is shown to user
                 'model'     => 'App\Models\User', // foreign key model
@@ -149,7 +146,7 @@ class StudentCrudController extends CrudController
             'type' => 'select2',
             'label'=> __('Is Enrolled in'),
         ], function () {
-            return Period::all()->pluck('name', 'id')->toArray();
+            return Period::all(['name', 'id'])->toArray();
         }, function ($value) { // if the filter is active
             $this->crud->query = $this->crud->query->whereHas('enrollments', function ($query) use ($value) {
                 return $query->whereHas('course', function ($q) use ($value) {
@@ -165,7 +162,7 @@ class StudentCrudController extends CrudController
             'type' => 'select2_multiple',
             'label'=> __('Is Not Enrolled in'),
         ], function () { // the options that show up in the select2
-            return Period::all()->pluck('name', 'id')->toArray();
+            return Period::all(['name', 'id'])->toArray();
         }, function ($values) { // if the filter is active
             foreach (json_decode($values) as $value) {
                 $this->crud->query = $this->crud->query->whereDoesntHave('enrollments', function ($query) use ($value) {
@@ -182,7 +179,7 @@ class StudentCrudController extends CrudController
             'type'  => 'select2',
             'label' => __('Institution'),
         ], function () {
-            return Institution::all()->pluck('name', 'id')->toArray();
+            return Institution::all(['name', 'id'])->toArray();
         }, function ($value) { // if the filter is active
             $this->crud->addClause('where', 'institution_id', $value);
         });
@@ -192,7 +189,7 @@ class StudentCrudController extends CrudController
             'type'  => 'select2',
             'label' => __('Lead Status'),
         ], function () {
-            return LeadType::all()->pluck('name', 'id')->toArray();
+            return LeadType::all(['name', 'id'])->toArray();
         }, function ($value) {
             $this->crud->addClause('computedLeadType', $value);
         });

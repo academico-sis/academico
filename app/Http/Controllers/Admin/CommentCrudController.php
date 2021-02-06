@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\CommentRequest as UpdateRequest;
+use App\Http\Requests\CommentRequest;
 // VALIDATION: change the requests to match your own file names if you need form validation
 use App\Models\Comment;
 use App\Models\Enrollment;
@@ -41,7 +41,6 @@ class CommentCrudController extends CrudController
         CRUD::setModel(Comment::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/comment');
         CRUD::setEntityNameStrings(__('comment'), __('comments'));
-        CRUD::setRequiredFields(UpdateRequest::class, 'edit');
     }
 
     /*
@@ -120,5 +119,7 @@ class CommentCrudController extends CrudController
             ['label' => 'Comment', 'type' => 'text', 'name' => 'body'],
             ['label' => 'Action', 'type' => 'checkbox', 'name' => 'action'],
         ]);
+
+        CRUD::setRequiredFields(CommentRequest::class);
     }
 }

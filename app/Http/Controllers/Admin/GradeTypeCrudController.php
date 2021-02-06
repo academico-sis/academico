@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\GradeTypeRequest as StoreRequest;
-use App\Http\Requests\GradeTypeRequest as UpdateRequest;
+use App\Http\Requests\GradeTypeRequest;
 // VALIDATION: change the requests to match your own file names if you need form validation
 use App\Models\GradeType;
 use App\Models\GradeTypeCategory;
@@ -65,14 +64,14 @@ class GradeTypeCrudController extends CrudController
             ],
         ]);
 
-        // add asterisk for fields that are required in GradeTypeRequest
-        CRUD::setRequiredFields(StoreRequest::class, 'create');
-        CRUD::setRequiredFields(UpdateRequest::class, 'edit');
     }
 
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(StoreRequest::class);
+        // add asterisk for fields that are required in GradeTypeRequest
+        CRUD::setRequiredFields(GradeTypeRequest::class);
+
+        CRUD::setValidation(GradeTypeRequest::class);
     }
 
     protected function setupUpdateOperation()
