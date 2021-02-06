@@ -60,6 +60,7 @@ Route::group([
     Route::crud('year', 'YearCrudController');
     Route::crud('campus', 'CampusCrudController');
     Route::crud('teacher', 'TeacherCrudController');
+    Route::crud('user', 'UserCrudController');
     Route::crud('evaluationtype', 'EvaluationTypeCrudController');
     Route::crud('gradetype', 'GradeTypeCrudController');
     Route::crud('skill', 'SkillCrudController');

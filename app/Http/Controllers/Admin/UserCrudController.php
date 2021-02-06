@@ -63,7 +63,7 @@ class UserCrudController extends CrudController
                 'type'  => 'dropdown',
                 'label' => trans('backpack::permissionmanager.role'),
             ],
-            config('permission.models.role')::all()->pluck('name', 'id')->toArray(),
+            config('permission.models.role')::all(['name', 'id'])->toArray(),
             function ($value) {
                 // if the filter is active
                 $this->crud->addClause('whereHas', 'roles', function ($query) use ($value) {
@@ -92,7 +92,7 @@ class UserCrudController extends CrudController
     {
         $this->handlePasswordInput($request);
 
-        return $this->traitStore($request);
+        return $this->traitStore();
     }
 
     /**
@@ -102,7 +102,7 @@ class UserCrudController extends CrudController
     {
         $this->handlePasswordInput($request);
 
-        return $this->traitUpdate($request);
+        return $this->traitUpdate();
     }
 
     /**

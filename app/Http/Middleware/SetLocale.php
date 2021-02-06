@@ -11,8 +11,6 @@ class SetLocale
 {
     /**
      * This function checks if language to set is an allowed lang of config.
-     *
-     * @param string $locale
      */
     private function setLocale(string $locale)
     {
@@ -74,7 +72,6 @@ class SetLocale
      * Handle an incoming request.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \Closure                 $next
      *
      * @return mixed
      */

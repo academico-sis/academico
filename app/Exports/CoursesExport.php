@@ -7,11 +7,8 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 
 class CoursesExport implements FromCollection
 {
-    protected $course;
-
-    public function __construct(Course $course)
+    public function __construct(protected Course $course)
     {
-        $this->course = $course;
     }
 
     /**

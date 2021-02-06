@@ -177,7 +177,7 @@ class CourseCrudController extends CrudController
             // if the filter is NOT active (the GET parameter "checkbox" does not exit)
         });
 
-        CRUD::addFilter([ // select2 filter
+        CRUD::addFilter([
             'name' => 'teacher_id',
             'type' => 'select2',
             'label'=> __('Teacher'),
@@ -191,7 +191,7 @@ class CourseCrudController extends CrudController
             // if the filter is NOT active (the GET parameter "checkbox" does not exit)
         });
 
-        CRUD::addFilter([ // select2 filter
+        CRUD::addFilter([
             'name' => 'level_id',
             'type' => 'select2',
             'label'=> __('Level'),
@@ -205,22 +205,35 @@ class CourseCrudController extends CrudController
             // if the filter is NOT active (the GET parameter "checkbox" does not exit)
         });
 
-        CRUD::addFilter([ // select2 filter
+        CRUD::addFilter([
             'name' => 'period_id',
             'type' => 'select2',
             'label'=> __('Period'),
-        ], function () {
-            return Period::all()->sortByDesc('id')->pluck('name', 'id')->toArray();
-        }, function ($value) {
-            // if the filter is active
+        ],
+            function () {
+            return \App\Models\Period::all()->sortByDesc('id')->pluck('name', 'id')->toArray();
+        },
+            function ($value) { // if the filter is active
             CRUD::addClause('where', 'period_id', $value);
         },
-        function () {
-            // if the filter is NOT active (the GET parameter "checkbox" does not exit)
-            $period = Period::get_default_period()->id;
-            CRUD::addClause('where', 'period_id', $period);
-            $this->crud->getRequest()->request->add(['period_id' => $period]); // to make the filter look active
-        });
+            function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
+              $period = \App\Models\Period::get_default_period()->id;
+              CRUD::addClause('where', 'period_id', $period);
+              $this->crud->getRequest()->request->add(['period_id' => $period]); // to make the filter look active
+          }
+        );
+
+        CRUD::addFilter(
+            [ // add a "simple" filter called Draft
+            'type' => 'simple',
+            'name' => 'parent',
+            'label'=> __('Hide Children Courses'),
+        ],
+            false,
+            function () {
+              CRUD::addClause('parent');
+          }
+        );
     }
 
     protected function setupCreateOperation()
@@ -279,7 +292,18 @@ class CourseCrudController extends CrudController
                 'type' => 'checkbox',
                 'tab' => __('Course info'),
             ],
+        ]);
 
+        if (config('services.apolearn.sync_enabled')) {
+            CRUD::addField([
+                'name' => 'sync_to_lms', // The db column name
+                'label' => __('Sync to LMS'), // Table column heading
+                'type' => 'checkbox',
+                'tab' => __('Course info'),
+            ]);
+        }
+
+        CRUD::addFields([
             [
                 'name' => 'color', // The db column name
                 'label' => __('Color'), // Table column heading
@@ -348,6 +372,7 @@ class CourseCrudController extends CrudController
                 'attribute' => 'name', // foreign key attribute that is shown to user
                 'model' => Period::class, // foreign key model
                 'tab' => __('Schedule'),
+                'default' => Period::get_enrollments_period()->id,
             ],
 
             [
@@ -356,6 +381,7 @@ class CourseCrudController extends CrudController
                 'type' => 'date',
                 // 'format' => 'l j F Y', // use something else than the base.default_date_format config value
                 'tab' => __('Schedule'),
+                'default' => Period::get_enrollments_period()->start,
 
             ],
 
@@ -365,44 +391,7 @@ class CourseCrudController extends CrudController
                 'type' => 'date',
                 // 'format' => 'l j F Y', // use something else than the base.default_date_format config value
                 'tab' => __('Schedule'),
-            ],
 
-            [   // repeatable
-                'name'  => 'times',
-                'label' => __('Course Schedule'),
-                'type'  => 'repeatable',
-                'fields' => [
-                    [
-                        'name'    => 'day',
-                        'label'    => __('Day'),
-                        'type'        => 'select_from_array',
-                        'options'     => [
-                            0 => __('Sunday'),
-                            1 => __('Monday'),
-                            2 => __('Tuesday'),
-                            3 => __('Wednesday'),
-                            4 => __('Thursday'),
-                            5 => __('Friday'),
-                            6 => __('Saturday'),
-                        ],
-                        'allows_null' => false,
-                        'default'     => 1,
-                        'wrapper' => ['class' => 'form-group col-md-4'],
-                    ],
-                    [
-                        'name'    => 'start',
-                        'type'    => 'time',
-                        'label'   => __('Start'),
-                        'wrapper' => ['class' => 'form-group col-md-4'],
-                    ],
-                    [
-                        'name'    => 'end',
-                        'type'    => 'time',
-                        'label'   => __('End'),
-                        'wrapper' => ['class' => 'form-group col-md-4'],
-                    ],
-                ],
-                'tab' => __('Schedule'),
             ],
 
         ]);

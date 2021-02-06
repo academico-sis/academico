@@ -43,5 +43,4 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
 
 # License
-This software is based on Laravel and Backpack for Laravel. You will need to [acquire a Backpack license](https://backpackforlaravel.com/pricing) if you decide to use it for _commercial_ use. This is the recommended solution and Backpack does provide a nice, clean and easy CRUD panels throughout the application. Backpack for Laravel is kind enough to issue free licences for non-commercial projects. A SaaS solution including hosting, consulting and extra features development is offered at https://academico.thomasdebay.com
-
+This software is based on Laravel and Backpack for Laravel. **You will need to [acquire a Backpack license](https://backpackforlaravel.com/pricing) if you decide to use it for commercial use.** If you want to use this software for a non-commercial project, you may be eligible for a free license, please visit Backpack for Laravel's pricing page for details. A SaaS solution for this software including the Backpack licence, managed hosting, consulting and extra features development is offered at https://academico.thomasdebay.com

@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use App\Events\CourseCreated;
 use App\Events\CourseUpdated;
 use App\Models\Skills\Skill;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class Course extends Model
@@ -16,6 +18,7 @@ class Course extends Model
 
     protected $dispatchesEvents = [
         'updated' => CourseUpdated::class,
+        'created' => CourseCreated::class,
     ];
 
     /*
@@ -335,6 +338,16 @@ class Course extends Model
         } else {
             return '-';
         }
+    }
+
+    public function getShortnameAttribute()
+    {
+        return Str::slug($this->name);
+    }
+
+    public function getDescriptionAttribute()
+    {
+        return '[' . $this->course_period_name . '] - ' . $this->name;
     }
 
     public function getChildrenCountAttribute()

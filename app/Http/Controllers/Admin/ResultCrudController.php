@@ -46,7 +46,7 @@ class ResultCrudController extends CrudController
                 // STUDENT NAME
                 'label' => __('Student'), // Table column heading
                 'type' => 'select',
-                'entity' => 'student', // the method that defines the relationship in your Model
+                'name' => 'student', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
                 'searchLogic' => function ($query, $column, $searchTerm) {
                     $query->orWhereHas('student', function ($q) use ($searchTerm) {
@@ -62,9 +62,8 @@ class ResultCrudController extends CrudController
             [
                 // COURSE NAME
                 'label' => __('Course'), // Table column heading
-                'type' => 'select',
-                'name' => 'course_id', // the column that contains the ID of that connected entity;
-                'entity' => 'course', // the method that defines the relationship in your Model
+                'type' => 'relationship',
+                'name' => 'course', // the column that contains the ID of that connected entity;
                 'attribute' => 'name', // foreign key attribute that is shown to user
                 'model' => Course::class, // foreign key model
             ],
@@ -76,8 +75,8 @@ class ResultCrudController extends CrudController
             [
                 // RESULT
                 'label' => __('Result'), // Table column heading
-                'type' => 'select',
-                'entity' => 'result', // the method that defines the relationship in your Model
+                'type' => 'relationship',
+                'name' => 'result', // the method that defines the relationship in your Model
                 'attribute' => 'result_type', // foreign key attribute that is shown to user
                 'model' => Result::class, // foreign key model
             ],

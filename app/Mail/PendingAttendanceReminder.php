@@ -13,18 +13,13 @@ class PendingAttendanceReminder extends Mailable implements ShouldQueue
     use Queueable;
     use SerializesModels;
 
-    public $teacher;
-    public $events;
-
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Teacher $teacher, $events)
+    public function __construct(public Teacher $teacher, public $events)
     {
-        $this->teacher = $teacher;
-        $this->events = $events;
     }
 
     /**

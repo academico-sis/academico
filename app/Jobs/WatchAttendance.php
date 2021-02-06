@@ -17,13 +17,10 @@ class WatchAttendance implements ShouldQueue
     use InteractsWithQueue;
     use Queueable;
     use SerializesModels;
-
-    protected $attendance;
     public $tries = 5;
 
-    public function __construct(Attendance $attendance)
+    public function __construct(protected Attendance $attendance)
     {
-        $this->attendance = $attendance;
     }
 
     /**

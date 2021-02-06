@@ -12,18 +12,13 @@ class ResultNotification extends Mailable
     use Queueable;
     use SerializesModels;
 
-    public $course;
-    public $student;
-
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Course $course, $student)
+    public function __construct(public Course $course, public $student)
     {
-        $this->course = $course;
-        $this->student = $student;
     }
 
     /**
