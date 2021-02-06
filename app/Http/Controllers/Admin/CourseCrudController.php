@@ -23,7 +23,6 @@ use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Support\Facades\Gate;
 use Prologue\Alerts\Facades\Alert;
-use App\Models\Period;
 
 class CourseCrudController extends CrudController
 {
