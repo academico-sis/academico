@@ -394,6 +394,45 @@ class CourseCrudController extends CrudController
 
             ],
 
+            [   // repeatable
+                'name'  => 'times',
+                'label' => __('Course Schedule'),
+                'type'  => 'repeatable',
+                'fields' => [
+                    [
+                        'name'    => 'day',
+                        'label'    => __('Day'),
+                        'type'        => 'select_from_array',
+                        'options'     => [
+                            0 => __('Sunday'),
+                            1 => __('Monday'),
+                            2 => __('Tuesday'),
+                            3 => __('Wednesday'),
+                            4 => __('Thursday'),
+                            5 => __('Friday'),
+                            6 => __('Saturday'),
+                        ],
+                        'allows_null' => false,
+                        'default'     => 1,
+                        'wrapper' => ['class' => 'form-group col-md-4'],
+                    ],
+                    [
+                        'name'    => 'start',
+                        'type'    => 'time',
+                        'label'   => __('Start'),
+                        'wrapper' => ['class' => 'form-group col-md-4'],
+                    ],
+                    [
+                        'name'    => 'end',
+                        'type'    => 'time',
+                        'label'   => __('End'),
+                        'wrapper' => ['class' => 'form-group col-md-4'],
+                    ],
+                ],
+                'init_rows' => 0, // number of empty rows to be initialized, by default 1
+                'tab' => __('Schedule'),
+            ],
+
         ]);
 
         // add asterisk for fields that are required in CourseRequest

@@ -21,8 +21,6 @@ const i18n = new VueInternationalization({
     messages
 });
 
-Vue.component('course-time-component', require('./components/CourseTimeComponent.vue').default);
-
 Vue.component('cart-component', require('./components/CartComponent.vue').default);
 
 Vue.component('event-attendance-component', require('./components/EventAttendanceComponent.vue').default);
