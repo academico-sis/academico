@@ -4,7 +4,11 @@
 
 		<section class="section">
         <div class="container has-text-centered has-text-link is-size-4">
-        	{{ $t('profile_picture') }}
+            <p>{{ $t('profile_picture') }}</p>
+
+            <b-button type="is-primary" @click="validateBeforeSubmit()">
+                {{$t("Skip and do not add a picture")}}
+            </b-button>
         </div>
         </section>
 
@@ -125,26 +129,7 @@ export default {
     	},
 
         async validateBeforeSubmit() {
-
-    		if(this.validateBase64(this.userPicture.substring(23))){
-    				this.updateData();
-    		}else{
-                this.$buefy.toast.open({
-                    // Couldn't think of something better.
-                    message:
-                        "Something went wrong. Try again.",
-                    type: "is-danger",
-                    position: "is-bottom",
-                });
-    		}
-        },
-
-        // This checks if the base64 string has only valid base64 string
-        // elements.
-        validateBase64(string64) {
-        	var base64regex = /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/;
-
-        	return base64regex.test(string64);
+            this.updateData();
         },
 
         // Asks the user for permission to use their attached media and
@@ -198,15 +183,9 @@ export default {
         updateData() {
         	if(this.userPicture != null) {
         		store.updatePictureData(this.userPicture);
-        		EventBus.$emit("moveToNextStep");
-        	}else {
-                this.$buefy.toast.open({
-                    message:
-                        "Please provide a profile picture.",
-                    type: "is-danger",
-                    position: "is-bottom",
-                });
         	}
+
+            EventBus.$emit("moveToNextStep");
         },
 
     },

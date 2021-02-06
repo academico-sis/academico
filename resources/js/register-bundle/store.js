@@ -11,7 +11,6 @@ export const store = {
         address: null,
         phonenumber: null,
         tc_consent: false,
-        address: null,
         birthdate: null,
         profession: null,
         institution: null,

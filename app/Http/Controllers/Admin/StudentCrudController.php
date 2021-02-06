@@ -36,6 +36,21 @@ class StudentCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix').'/student');
         CRUD::setEntityNameStrings(__('student'), __('students'));
 
+        $permissions = backpack_user()->getAllPermissions();
+
+        if ($permissions->contains('name', 'enrollments.edit')) {
+            CRUD::addButtonFromView('line', 'selectCourse', 'selectCourse', 'beginning');
+            $this->crud->addButtonFromView('top', 'createStudent', 'createStudent', 'start');
+        }
+
+        if ($permissions->contains('enrollments.view')) {
+            CRUD::enableExportButtons();
+        }
+    }
+
+    public function setupListOperation()
+    {
+
         // display lead status counts on page top
         foreach (LeadType::all() as $leadType) {
             $count = Student::computedLeadType($leadType->id)->count();
@@ -52,20 +67,6 @@ class StudentCrudController extends CrudController
             }
         }
 
-        $permissions = backpack_user()->getAllPermissions();
-
-        if ($permissions->contains('name', 'enrollments.edit')) {
-            CRUD::addButtonFromView('line', 'selectCourse', 'selectCourse', 'beginning');
-            $this->crud->addButtonFromView('top', 'createStudent', 'createStudent', 'start');
-        }
-
-        if ($permissions->contains('enrollments.view')) {
-            CRUD::enableExportButtons();
-        }
-    }
-
-    public function setupListOperation()
-    {
         // Columns.
         CRUD::setColumns([
             [
@@ -146,7 +147,7 @@ class StudentCrudController extends CrudController
             'type' => 'select2',
             'label'=> __('Is Enrolled in'),
         ], function () {
-            return Period::all(['name', 'id'])->toArray();
+            return Period::all()->pluck(['name', 'id'])->toArray();
         }, function ($value) { // if the filter is active
             $this->crud->query = $this->crud->query->whereHas('enrollments', function ($query) use ($value) {
                 return $query->whereHas('course', function ($q) use ($value) {
@@ -162,7 +163,7 @@ class StudentCrudController extends CrudController
             'type' => 'select2_multiple',
             'label'=> __('Is Not Enrolled in'),
         ], function () { // the options that show up in the select2
-            return Period::all(['name', 'id'])->toArray();
+            return Period::all()->pluck(['name', 'id'])->toArray();
         }, function ($values) { // if the filter is active
             foreach (json_decode($values) as $value) {
                 $this->crud->query = $this->crud->query->whereDoesntHave('enrollments', function ($query) use ($value) {
@@ -179,7 +180,7 @@ class StudentCrudController extends CrudController
             'type'  => 'select2',
             'label' => __('Institution'),
         ], function () {
-            return Institution::all(['name', 'id'])->toArray();
+            return Institution::all()->pluck(['name', 'id'])->toArray();
         }, function ($value) { // if the filter is active
             $this->crud->addClause('where', 'institution_id', $value);
         });
@@ -189,7 +190,7 @@ class StudentCrudController extends CrudController
             'type'  => 'select2',
             'label' => __('Lead Status'),
         ], function () {
-            return LeadType::all(['name', 'id'])->toArray();
+            return LeadType::all()->pluck(['name', 'id'])->toArray();
         }, function ($value) {
             $this->crud->addClause('computedLeadType', $value);
         });
