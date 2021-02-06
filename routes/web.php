@@ -242,3 +242,9 @@ Route::group([
     Route::put('/student/{student}', 'StudentController@update')->name('student.update');
     Route::post('/student', 'StudentController@store')->name('student.store');
 });
+
+Route::group([
+    'middleware' => ['web', 'role:admin', 'language'],
+], function () {
+    Route::get('launchapi', 'LMSController@createUser');
+});

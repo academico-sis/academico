@@ -175,7 +175,7 @@ class CourseCrudController extends CrudController
             // if the filter is NOT active (the GET parameter "checkbox" does not exit)
         });
 
-        CRUD::addFilter([ // select2 filter
+        CRUD::addFilter([
             'name' => 'teacher_id',
             'type' => 'select2',
             'label'=> __('Teacher'),
@@ -189,7 +189,7 @@ class CourseCrudController extends CrudController
             // if the filter is NOT active (the GET parameter "checkbox" does not exit)
         });
 
-        CRUD::addFilter([ // select2 filter
+        CRUD::addFilter([
             'name' => 'level_id',
             'type' => 'select2',
             'label'=> __('Level'),
@@ -203,7 +203,7 @@ class CourseCrudController extends CrudController
             // if the filter is NOT active (the GET parameter "checkbox" does not exit)
         });
 
-        CRUD::addFilter([ // select2 filter
+        CRUD::addFilter([
             'name' => 'period_id',
             'type' => 'select2',
             'label'=> __('Period'),
@@ -290,7 +290,18 @@ class CourseCrudController extends CrudController
                 'type' => 'checkbox',
                 'tab' => __('Course info'),
             ],
+        ]);
 
+        if (config('services.apolearn.sync_enabled')) {
+            CRUD::addField([
+                'name' => 'sync_to_lms', // The db column name
+                'label' => __('Sync to LMS'), // Table column heading
+                'type' => 'checkbox',
+                'tab' => __('Course info'),
+            ]);
+        }
+
+        CRUD::addFields([
             [
                 'name' => 'color', // The db column name
                 'label' => __('Color'), // Table column heading

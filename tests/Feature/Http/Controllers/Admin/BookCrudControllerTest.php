@@ -96,18 +96,6 @@ class BookCrudControllerTest extends TestCase
     /**
      * @test
      */
-    public function show_details_row_returns_an_ok_response()
-    {
-        \Auth::guard(backpack_guard_name())->login($this->user);
-        $entity = factory($this->model)->create();
-        $response = $this->get(route($this->entityname.'.showDetailsRow', ['id' => $entity->id]));
-
-        $response->assertOk();
-    }
-
-    /**
-     * @test
-     */
     public function store_returns_an_ok_response()
     {
         \Auth::guard(backpack_guard_name())->login($this->user);
