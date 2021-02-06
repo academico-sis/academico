@@ -4,7 +4,7 @@ namespace App\Listeners;
 
 use App\Events\EnrollmentCreated;
 use App\Events\EnrollmentUpdated;
-use App\Events\StudentCreated;
+use App\Events\UserCreated;
 use App\Events\StudentDeleting;
 use App\Events\StudentUpdated;
 use App\Models\Enrollment;

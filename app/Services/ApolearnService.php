@@ -8,6 +8,7 @@ use App\Models\Level;
 use App\Models\Rhythm;
 use App\Models\Student;
 use App\Models\User;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -34,7 +35,7 @@ class ApolearnService implements LMSInterface
         return $response['result'];
     }
 
-    public function createUser(User $user) : void
+    public function createUser(User $user, ?string $password = null) : void
     {
         Log::info('checking if user exists for local ID ' . $user->id);
         // first check if the user already exists (email)
@@ -50,14 +51,20 @@ class ApolearnService implements LMSInterface
         } else {
             // otherwise create them
             Log::info('user not found, creating them on the remote API now');
-            $response = Http::post(config('services.apolearn.url') . '/users', [
+            $data = [
                 'firstname' => $user->firstname,
                 'lastname' => $user->lastname,
                 'email' => $user->email,
-                'password' => 'secret',
                 'auth_token' => $this->token,
                 'api_key' => $this->apiKey,
-            ]);
+            ];
+
+            if ($password !== '') {
+                $data = Arr::add($data, 'password', $password);
+            }
+
+            $response = Http::post(config('services.apolearn.url') . '/users', $data);
+
             if ($this->actionSucceeded($response)) {
                 $user->update(['lms_id' => $response->json()['result']['id']]);
             } else {
@@ -66,20 +73,25 @@ class ApolearnService implements LMSInterface
         }
     }
 
-    public function updateUser(User $user) : void
+    public function updateUser(User $user, string $password = null) : void
     {
         // if the user has no remote id, create them
         if ($user->lms_id == null) {
             $this->createUser($user);
         } else {
-            $response = Http::put(config('services.apolearn.url') . '/users/' . $user->lms_id, [
+            $data = [
                 'firstname' => $user->firstname,
                 'lastname' => $user->lastname,
                 'email' => $user->email,
-                'password' => 'secret',
                 'auth_token' => $this->token,
                 'api_key' => $this->apiKey,
-            ]);
+            ];
+
+            if ($password !== '') {
+                $data = Arr::add($data, 'password', $password);
+            }
+
+            $response = Http::put(config('services.apolearn.url') . '/users/' . $user->lms_id, $data);
         }
     }
 
@@ -138,11 +150,6 @@ class ApolearnService implements LMSInterface
             'api_key' => $this->apiKey,
         ]);
 
-        // if the course has no teacher, stop
-        if (!$course->teacher) {
-            Log::alert('The course has no teacher on local system, aborting execution now');
-            die();
-        }
 
         Log::info('updating the course teacher');
         // ensure the teacher is up to date
@@ -155,18 +162,26 @@ class ApolearnService implements LMSInterface
             $teachers = collect($response->json()['result']['users']);
             Log::info('found these teachers IDs on LMS:' . implode(', ', $teachers->pluck('id')->toArray()));
 
-            // check if remote course teachers are still valid
-            foreach ($teachers as $teacher) {
-                Log::info('comparing ' . $teacher['id'] . ' and ' . $course->teacher->user->lms_id);
-                if ($teacher['id'] !== $course->teacher->user->lms_id) {
-                    Log::info('Removing teacher ' . $teacher['id'] . ' from course');
+            // if the course has no teacher, stop
+            if (!$course->teacher) {
+                Log::alert('The course has no teacher on local system, removing all teachers from remote');
+                foreach ($teachers as $teacher) {
                     $this->removeTeacher($course->lms_id, $teacher['id']);
                 }
-            }
+            } else {
+                // check if remote course teachers are still valid
+                foreach ($teachers as $teacher) {
+                    Log::info('comparing ' . $teacher['id'] . ' and ' . $course->teacher->user->lms_id);
+                    if ($teacher['id'] !== $course->teacher->user->lms_id) {
+                        Log::info('Removing teacher ' . $teacher['id'] . ' from course');
+                        $this->removeTeacher($course->lms_id, $teacher['id']);
+                    }
+                }
 
-            if (!$course->teacher->user->lms_id || !$teachers->contains('id', $course->teacher->user->lms_id)) {
-                Log::info('the course teacher has changed, need to update it');
-                $this->addTeacher($course);
+                if (!$course->teacher->user->lms_id || !$teachers->contains('id', $course->teacher->user->lms_id)) {
+                    Log::info('the course teacher has changed, need to update it');
+                    $this->addTeacher($course);
+                }
             }
         }
     }

@@ -2,9 +2,6 @@
 
 namespace App\Models;
 
-use App\Events\CourseCreated;
-use App\Events\CourseUpdated;
-use App\Events\StudentCreated;
 use App\Events\StudentDeleting;
 use App\Events\StudentUpdated;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
@@ -26,8 +23,6 @@ class Student extends Model implements HasMedia
 
     protected $dispatchesEvents = [
         'deleting' => StudentDeleting::class,
-        'created' => StudentCreated::class,
-        'updated' => StudentUpdated::class,
     ];
 
     public $timestamps = true;

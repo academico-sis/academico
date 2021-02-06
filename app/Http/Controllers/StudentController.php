@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\StudentUpdated;
+use App\Events\UserCreated;
 use App\Models\Institution;
 use App\Models\Profession;
 use App\Models\Student;
@@ -67,6 +69,8 @@ class StudentController extends Controller
             'password' => Hash::make(Str::random(12)),
         ]);
 
+        UserCreated::dispatch($user);
+
         // update the student info
 
         $student = Student::create([
@@ -120,6 +124,8 @@ class StudentController extends Controller
             'lastname' => $request->lastname,
             'email' => $request->email,
         ]);
+
+        StudentUpdated::dispatch($student);
 
         // update the student info
 

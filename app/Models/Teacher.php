@@ -2,11 +2,6 @@
 
 namespace App\Models;
 
-use App\Events\StudentCreated;
-use App\Events\StudentDeleting;
-use App\Events\StudentUpdated;
-use App\Events\TeacherCreated;
-use App\Events\TeacherUpdated;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -26,11 +21,6 @@ class Teacher extends Model
     protected $with = ['user'];
     protected $appends = ['firstname', 'lastname', 'name', 'email'];
     protected static $logUnguarded = true;
-
-    protected $dispatchesEvents = [
-        'created' => TeacherCreated::class,
-        'updated' => TeacherUpdated::class,
-    ];
 
     /** relations */
     public function user()

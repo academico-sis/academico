@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\UserCreated;
+use App\Events\UserUpdated;
 use App\Http\Requests\UserStoreCrudRequest as StoreRequest;
 use App\Http\Requests\UserUpdateCrudRequest as UpdateRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -63,7 +65,7 @@ class UserCrudController extends CrudController
                 'type'  => 'dropdown',
                 'label' => trans('backpack::permissionmanager.role'),
             ],
-            config('permission.models.role')::all(['name', 'id'])->toArray(),
+            config('permission.models.role')::all()->pluck(['name', 'id'])->toArray(),
             function ($value) {
                 // if the filter is active
                 $this->crud->addClause('whereHas', 'roles', function ($query) use ($value) {
@@ -91,8 +93,12 @@ class UserCrudController extends CrudController
     public function store(StoreRequest $request)
     {
         $this->handlePasswordInput($request);
+        $response = $this->traitStore();
 
-        return $this->traitStore();
+        $user = $this->crud->getCurrentEntry();
+        UserCreated::dispatch($user, $request->input('password'));
+
+        return $response;
     }
 
     /**
@@ -101,6 +107,8 @@ class UserCrudController extends CrudController
     public function update(UpdateRequest $request)
     {
         $this->handlePasswordInput($request);
+        $user = $this->crud->getCurrentEntry();
+        UserUpdated::dispatch($user, $request->input('password'));
 
         return $this->traitUpdate();
     }

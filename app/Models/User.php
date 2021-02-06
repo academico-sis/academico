@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Events\StudentCreated;
+use App\Events\UserCreated;
 use App\Events\StudentDeleting;
 use App\Events\StudentUpdated;
 use App\Events\UserDeleting;
@@ -36,7 +36,6 @@ class User extends Authenticatable
 
     protected $dispatchesEvents = [
         'deleting' => UserDeleting::class,
-        'updated' => UserUpdated::class,
     ];
 
     /**

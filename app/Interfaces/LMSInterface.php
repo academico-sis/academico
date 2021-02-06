@@ -12,9 +12,9 @@ interface LMSInterface
 {
     public function authenticate() : string;
 
-    public function createUser(User $user) : void;
+    public function createUser(User $user, ?string $password) : void;
 
-    public function updateUser(User $user) : void;
+    public function updateUser(User $user, ?string $password) : void;
 
     public function createCourse(Course $course) : void;
 

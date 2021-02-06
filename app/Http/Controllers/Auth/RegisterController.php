@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\UserCreated;
 use App\Models\Contact;
 use App\Models\Institution;
 use App\Models\PhoneNumber;
@@ -90,6 +91,8 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
         ]);
 
         Log::info('New user created with ID '.$user->id);
+
+        UserCreated::dispatch($user, $data['password']);
 
         // create the student
 
