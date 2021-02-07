@@ -80,7 +80,7 @@ return [
     |
     */
 
-    'locale' => 'es',
+    'locale' => 'fr',
 
     /*
     |--------------------------------------------------------------------------
@@ -126,6 +126,8 @@ return [
     */
 
     'key' => env('APP_KEY'),
+
+    'admin_email' => env('ADMIN_EMAIL'),
 
     'cipher' => 'AES-256-CBC',
 
