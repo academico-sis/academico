@@ -223,17 +223,6 @@ class CourseCrudController extends CrudController
           }
         );
 
-        CRUD::addFilter(
-            [ // add a "simple" filter called Draft
-            'type' => 'simple',
-            'name' => 'parent',
-            'label'=> __('Hide Children Courses'),
-        ],
-            false,
-            function () {
-              CRUD::addClause('parent');
-          }
-        );
     }
 
     protected function setupCreateOperation()
@@ -391,7 +380,7 @@ class CourseCrudController extends CrudController
                 'type' => 'date',
                 // 'format' => 'l j F Y', // use something else than the base.default_date_format config value
                 'tab' => __('Schedule'),
-
+                'default' => Period::get_enrollments_period()->end,
             ],
 
             [   // repeatable
