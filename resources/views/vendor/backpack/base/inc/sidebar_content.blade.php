@@ -85,7 +85,6 @@
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('period') }}'><i class='la la-calendar'></i> <span>@lang('periods')</span></a></li>
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('level') }}'><i class='la la-star'></i> <span>@lang('levels')</span></a></li>
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('room') }}'><i class='la la-star'></i> <span>@lang('rooms')</span></a></li>
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('campus') }}'><i class='la la-star'></i> <span>@lang('campuses')</span></a></li>
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('rhythm') }}'><i class='la la-star'></i> <span>@lang('rhythms')</span></a></li>
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('year') }}'><i class='la la-star'></i> <span>@lang('Years')</span></a></li>
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('book') }}'><i class='la la-book'></i> <span>@lang('Books')</span></a></li>

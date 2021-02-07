@@ -29,12 +29,15 @@ class LevelCrudController extends CrudController
     protected function setupListOperation()
     {
         CRUD::addColumn(['name' => 'name', 'label' => 'Name']);
+        CRUD::addColumn(['name' => 'lms_id', 'label' => 'LMS code', 'type' => 'text'],);
+        
     }
 
     protected function setupCreateOperation()
     {
         CRUD::setValidation(StoreRequest::class);
         CRUD::addField(['name' => 'name', 'label' => 'Name', 'type' => 'text']);
+        CRUD::addField(['name' => 'lms_id', 'label' => 'LMS code', 'type' => 'text'],);
     }
 
     protected function setupUpdateOperation()

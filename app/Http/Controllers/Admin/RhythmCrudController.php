@@ -32,6 +32,7 @@ class RhythmCrudController extends CrudController
             ['name' => 'name', 'label' => 'Name'],
             ['name' => 'default_volume', 'label' => 'Default volume'],
             ['name' => 'product_code', 'label' => 'Product code'],
+            ['name' => 'lms_id', 'label' => 'LMS code', 'type' => 'text'],
         ]);
     }
 
@@ -42,6 +43,7 @@ class RhythmCrudController extends CrudController
             ['name' => 'name', 'label' => 'Name', 'type' => 'text'],
             ['name' => 'default_volume', 'label' => 'Default volume', 'type' => 'text'],
             ['name' => 'product_code', 'label' => 'Product code', 'type' => 'text'],
+            ['name' => 'lms_id', 'label' => 'LMS code', 'type' => 'text'],
         ]);
     }
 

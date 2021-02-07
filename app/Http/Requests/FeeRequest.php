@@ -27,7 +27,6 @@ class FeeRequest extends FormRequest
         return [
             'name' => 'required|min:5|max:255|unique:fees',
             'price' => 'required|numeric|min:0',
-            'product_code' => 'required|string',
         ];
     }
 
