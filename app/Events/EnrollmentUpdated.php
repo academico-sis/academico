@@ -2,12 +2,9 @@
 
 namespace App\Events;
 
-use App\Models\Enrollment;
-use Illuminate\Broadcasting\Channel;
+use App\Models\Course;
+use App\Models\Student;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
@@ -15,7 +12,8 @@ class EnrollmentUpdated
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public function __construct(public Enrollment $enrollment)
+    // the ids must refer to lms_id (not the local ones)
+    public function __construct(public Student $student, public Course $previousCourse, public Course $newCourse)
     {
         //
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\EnrollmentUpdated;
 use App\Http\Requests\StoreEnrollmentRequest;
 use App\Models\Attendance;
 use App\Models\Course;
@@ -51,6 +52,7 @@ class EnrollmentController extends Controller
     public function update(Enrollment $enrollment, Request $request)
     {
         $course = Course::findOrFail($request->input('course_id'));
+        $previousCourse = $enrollment->course;
 
         // if enrollment has children, delete them
         Enrollment::where('parent_id', $enrollment->id)->delete();
@@ -83,6 +85,9 @@ class EnrollmentController extends Controller
         }
 
         // TODO delete grades and/or skills
+
+        // update LMS
+        EnrollmentUpdated::dispatch($enrollment->student, $previousCourse, $course);
 
         // display a confirmation message and redirect to enrollment details
         Alert::success(__('The enrollment has been updated'))->flash();

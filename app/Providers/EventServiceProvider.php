@@ -18,6 +18,7 @@ use App\Listeners\DeleteUserData;
 use App\Listeners\DeleteStudentFromLMS;
 use App\Listeners\SyncCourseToLMS;
 use App\Listeners\SyncEnrollmentToLMS;
+use App\Listeners\UpdateEnrollmentInLMS;
 use App\Listeners\SyncUserToLMS;
 use App\Listeners\UpdateCourseEvents;
 use Illuminate\Auth\Events\Registered;
@@ -63,7 +64,7 @@ class EventServiceProvider extends ServiceProvider
         ],
 
         EnrollmentDeleted::class => [
-            SyncEnrollmentToLMS::class,
+            DeleteEnrollmentFromLMS::class,
         ],
 
         EnrollmentCreated::class => [
@@ -72,7 +73,7 @@ class EventServiceProvider extends ServiceProvider
         ],
 
         EnrollmentUpdated::class => [
-            //DeleteEnrollmentFromLMS::class,
+            UpdateEnrollmentInLMS::class
         ],
     ];
 

@@ -25,7 +25,6 @@ class Enrollment extends Model
     protected $dispatchesEvents = [
         'deleted' => \App\Events\EnrollmentDeleted::class,
         'created' => \App\Events\EnrollmentCreated::class,
-        'updated' => \App\Events\EnrollmentUpdated::class,
     ];
 
     /**
