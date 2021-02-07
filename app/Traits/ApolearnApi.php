@@ -14,10 +14,8 @@ trait ApolearnApi
      */
     public function __construct()
     {
-        if (! config('services.apolearn.sync_enabled')) {
-            die();
+        if (config('services.apolearn.sync_enabled')) {
+            $this->lms = new ApolearnService();
         }
-
-        $this->lms = new ApolearnService();
     }
 }
