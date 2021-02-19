@@ -187,7 +187,7 @@ class Student extends Model implements HasMedia
     public function getNameAttribute()
     {
         if ($this->user) {
-            return ($this->title ? ($this->title . ' ') : '') . $this->firstname.' '.$this->lastname;
+            return ($this->title ? ($this->title->title . ' ') : '') . $this->firstname.' '.$this->lastname;
         }
     }
 
