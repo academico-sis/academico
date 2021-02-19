@@ -28,7 +28,7 @@ class Student extends Model implements HasMedia
     public $timestamps = true;
     protected $guarded = [];
     public $incrementing = false;
-    protected $with = ['user', 'phone', 'institution', 'profession'];
+    protected $with = ['user', 'phone', 'institution', 'profession', 'title'];
     protected $appends = ['email', 'name', 'firstname', 'lastname', 'student_age', 'student_birthdate', 'lead_status', 'is_enrolled'];
     protected static $logUnguarded = true;
 
@@ -157,6 +157,11 @@ class Student extends Model implements HasMedia
         return $this->belongsTo(Profession::class);
     }
 
+    public function title()
+    {
+        return $this->belongsTo(Title::class);
+    }
+
     /** attributes */
     public function getFirstnameAttribute()
     {
@@ -182,7 +187,7 @@ class Student extends Model implements HasMedia
     public function getNameAttribute()
     {
         if ($this->user) {
-            return $this->firstname.' '.$this->lastname;
+            return ($this->title ? ($this->title . ' ') : '') . $this->firstname.' '.$this->lastname;
         }
     }
 
