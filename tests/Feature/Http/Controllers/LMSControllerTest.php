@@ -53,8 +53,8 @@ class LMSControllerTest extends TestCase
         ]);
 
         $response = Http::get("apolearnapi.com/users/getbyemail/$user->email", [
-            'auth_token' => config('services.apolearn.token'),
-            'api_key' => config('services.apolearn.api_key'),
+            'auth_token' => config('lms.apolearn.token'),
+            'api_key' => config('lms.apolearn.api_key'),
         ]);
 
         // the user should not be found and be created.

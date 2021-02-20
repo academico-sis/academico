@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Interfaces\LMSInterface;
 use App\Models\ContactRelationship;
 use App\Models\Period;
 use App\Models\Room;
@@ -49,6 +50,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $syncTo = config('lms.sync_to');
+        if ($syncTo) {
+            $lms = config("lms.{$syncTo}.class");
+
+            $this->app->bind(
+                LMSInterface::class,
+                $lms
+            );
+        }
     }
 }

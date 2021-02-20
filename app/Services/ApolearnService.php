@@ -19,17 +19,17 @@ class ApolearnService implements LMSInterface
 
     public function __construct()
     {
-        $this->apiKey = config('services.apolearn.api_key');
+        $this->apiKey = config('lms.apolearn.api_key');
         $this->token = $this->authenticate();
     }
 
     public function authenticate() : string
     {
         Log::info('launching API');
-        $response = Http::post(config('services.apolearn.url') . '/auth.gettoken', [
+        $response = Http::post(config('lms.apolearn.url') . '/auth.gettoken', [
               'api_key' => $this->apiKey,
-              'username' => config('services.apolearn.username'),
-              'password' => config('services.apolearn.password'),
+              'username' => config('lms.apolearn.username'),
+              'password' => config('lms.apolearn.password'),
         ]);
 
         return $response['result'];
@@ -39,7 +39,7 @@ class ApolearnService implements LMSInterface
     {
         Log::info('checking if user exists for local ID ' . $user->id);
         // first check if the user already exists (email)
-        $response = Http::get(config('services.apolearn.url') . "/users/getbyemail/$user->email", [
+        $response = Http::get(config('lms.apolearn.url') . "/users/getbyemail/$user->email", [
             'auth_token' => $this->token,
             'api_key' => $this->apiKey,
         ]);
@@ -63,7 +63,7 @@ class ApolearnService implements LMSInterface
                 $data = Arr::add($data, 'password', $password);
             }
 
-            $response = Http::post(config('services.apolearn.url') . '/users', $data);
+            $response = Http::post(config('lms.apolearn.url') . '/users', $data);
 
             if ($this->actionSucceeded($response)) {
                 $user->update(['lms_id' => $response->json()['result']['id']]);
@@ -91,7 +91,7 @@ class ApolearnService implements LMSInterface
                 $data = Arr::add($data, 'password', $password);
             }
 
-            $response = Http::put(config('services.apolearn.url') . '/users/' . $user->lms_id, $data);
+            $response = Http::put(config('lms.apolearn.url') . '/users/' . $user->lms_id, $data);
         }
     }
 
@@ -103,14 +103,14 @@ class ApolearnService implements LMSInterface
         }
 
         Log::info('pushing local course ' . $course->id . ' to API');
-        $response = Http::post(config('services.apolearn.url') . '/classrooms', [
+        $response = Http::post(config('lms.apolearn.url') . '/classrooms', [
             "name" => $course->name,
             "shortname" => $course->shortname,
             "description" => $course->description,
             "start_date" => strtotime($course->start_date),
             "end_date" => strtotime($course->end_date),
-            "category_id" => $course->rhythm->lms_id ?? config('services.apolearn.default_category_id'),
-            "level_id" => $course->level->lms_id ?? config('services.apolearn.default_level_id'),
+            "category_id" => $course->rhythm->lms_id ?? config('lms.apolearn.default_category_id'),
+            "level_id" => $course->level->lms_id ?? config('lms.apolearn.default_level_id'),
             'auth_token' => $this->token,
             'api_key' => $this->apiKey,
         ]);
@@ -121,8 +121,8 @@ class ApolearnService implements LMSInterface
         $course->update(['lms_id' => $courseId]);
 
         // assign an admin to the new class
-        $response = Http::post(config('services.apolearn.url') . "/classrooms/addadmin/$courseId", [
-            'user_id' => config('services.apolearn.admin_user_id'),
+        $response = Http::post(config('lms.apolearn.url') . "/classrooms/addadmin/$courseId", [
+            'user_id' => config('lms.apolearn.admin_user_id'),
             'auth_token' => $this->token,
             'api_key' => $this->apiKey,
         ]);
@@ -138,14 +138,14 @@ class ApolearnService implements LMSInterface
         }
 
         Log::info('updating course with locale ID' . $course->id);
-        $response = Http::put(config('services.apolearn.url') . "/classrooms/$course->lms_id", [
+        $response = Http::put(config('lms.apolearn.url') . "/classrooms/$course->lms_id", [
             "name" => $course->name,
             "shortname" => $course->shortname,
             "description" => $course->description,
             "start_date" => strtotime($course->start_date),
             "end_date" => strtotime($course->end_date),
-            "category_id" => $course->rhythm->lms_id ?? config('services.apolearn.default_category_id'),
-            "level_id" => $course->level->lms_id ?? config('services.apolearn.default_level_id'),
+            "category_id" => $course->rhythm->lms_id ?? config('lms.apolearn.default_category_id'),
+            "level_id" => $course->level->lms_id ?? config('lms.apolearn.default_level_id'),
             'auth_token' => $this->token,
             'api_key' => $this->apiKey,
         ]);
@@ -153,7 +153,7 @@ class ApolearnService implements LMSInterface
 
         Log::info('updating the course teacher');
         // ensure the teacher is up to date
-        $response = Http::get(config('services.apolearn.url') . "/classrooms/teachers/$course->lms_id", [
+        $response = Http::get(config('lms.apolearn.url') . "/classrooms/teachers/$course->lms_id", [
             'auth_token' => $this->token,
             'api_key' => $this->apiKey,
         ]);
@@ -199,7 +199,7 @@ class ApolearnService implements LMSInterface
             $this->createUser($student->user);
         }
 
-        $response = Http::post(config('services.apolearn.url') . "/classrooms/addstudent/$courseId", [
+        $response = Http::post(config('lms.apolearn.url') . "/classrooms/addstudent/$courseId", [
             'user_id' => $student->user->lms_id,
             'auth_token' => $this->token,
             'api_key' => $this->apiKey,
@@ -227,7 +227,7 @@ class ApolearnService implements LMSInterface
 
         // then sync to API
         Log::info('pushing course user to API');
-        $response = Http::post(config('services.apolearn.url')."/classrooms/addteacher/$course->lms_id", [
+        $response = Http::post(config('lms.apolearn.url')."/classrooms/addteacher/$course->lms_id", [
             'user_id' => $course->teacher->user->lms_id,
             'auth_token' => $this->token,
             'api_key' => $this->apiKey,
@@ -237,7 +237,7 @@ class ApolearnService implements LMSInterface
     protected function removeTeacher($courseId, $teacherId): void
     {
         Log::info('Removing teacher ' . $teacherId . ' from course ' . $courseId);
-        $response = Http::put(config('services.apolearn.url')."/classrooms/removeteacher/$courseId", [
+        $response = Http::put(config('lms.apolearn.url')."/classrooms/removeteacher/$courseId", [
             'user_id' => $teacherId,
             'auth_token' => $this->token,
             'api_key' => $this->apiKey,
@@ -250,7 +250,7 @@ class ApolearnService implements LMSInterface
     public function removeStudent($courseId, $userId): void
     {
         Log::info('removing user id ' . $userId . ' from course ' . $courseId);
-        $response = Http::put(config('services.apolearn.url')."/classrooms/removestudent/$courseId", [
+        $response = Http::put(config('lms.apolearn.url')."/classrooms/removestudent/$courseId", [
             'user_id' => $userId,
             'auth_token' => $this->token,
             'api_key' => $this->apiKey,

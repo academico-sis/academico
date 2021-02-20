@@ -283,7 +283,7 @@ class CourseCrudController extends CrudController
             ],
         ]);
 
-        if (config('services.apolearn.sync_enabled')) {
+        if (config('lms.sync_to') == 'apolearn') {
             CRUD::addField([
                 'name' => 'sync_to_lms', // The db column name
                 'label' => __('Sync to LMS'), // Table column heading

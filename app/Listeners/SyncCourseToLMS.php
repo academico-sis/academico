@@ -2,18 +2,15 @@
 
 namespace App\Listeners;
 
-use App\Events\CourseCreated;
-use App\Events\CourseUpdated;
-use App\Models\Event;
-use App\Services\ApolearnService;
-use App\Traits\ApolearnApi;
-use Carbon\Carbon;
+use App\Interfaces\LMSInterface;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Log;
 
 class SyncCourseToLMS implements ShouldQueue
 {
-    use ApolearnApi;
+    public function __construct(public LMSInterface $lms)
+    {
+    }
 
     public function handle($event)
     {

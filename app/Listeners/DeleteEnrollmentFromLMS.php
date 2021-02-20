@@ -4,14 +4,15 @@ namespace App\Listeners;
 
 use App\Events\EnrollmentDeleted;
 use App\Events\EnrollmentUpdated;
-use App\Events\StudentUpdated;
-use App\Traits\ApolearnApi;
+use App\Interfaces\LMSInterface;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
 class DeleteEnrollmentFromLMS implements ShouldQueue
 {
-    use ApolearnApi;
+    public function __construct(public LMSInterface $lms)
+    {
+    }
 
     public function handle(EnrollmentDeleted|EnrollmentUpdated $event) : void
     {

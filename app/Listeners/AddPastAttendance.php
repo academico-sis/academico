@@ -3,12 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\EnrollmentCreated;
-use App\Events\EnrollmentUpdated;
-use App\Events\UserCreated;
-use App\Events\StudentDeleting;
-use App\Events\StudentUpdated;
-use App\Models\Enrollment;
-use App\Traits\ApolearnApi;
+use App\Interfaces\LMSInterface;
 use Carbon\Carbon;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;

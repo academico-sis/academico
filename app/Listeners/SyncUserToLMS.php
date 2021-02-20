@@ -4,14 +4,16 @@ namespace App\Listeners;
 
 use App\Events\UserCreated;
 use App\Events\UserUpdated;
-use App\Traits\ApolearnApi;
+use App\Interfaces\LMSInterface;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Log;
 
 class SyncUserToLMS implements ShouldQueue
 {
-    use ApolearnApi;
+    public function __construct(public LMSInterface $lms)
+    {
+    }
 
     public function handle(UserUpdated|UserCreated $event) : void
     {

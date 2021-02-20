@@ -3,15 +3,21 @@
 namespace App\Listeners;
 
 use App\Events\StudentDeleting;
-use App\Events\UserDeleting;
-use App\Traits\ApolearnApi;
+use App\Interfaces\LMSInterface;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Log;
 
 class DeleteStudentFromLMS implements ShouldQueue
 {
-    use ApolearnApi;
+
+    /**
+     * DeleteStudentFromLMS constructor.
+     * @param LMSInterface $lms
+     */
+    public function __construct(public LMSInterface $lms)
+    {
+    }
 
     public function handle(StudentDeleting $event) : void
     {

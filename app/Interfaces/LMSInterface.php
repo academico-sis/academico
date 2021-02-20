@@ -3,10 +3,9 @@
 namespace App\Interfaces;
 
 use App\Models\Course;
-use App\Models\Level;
-use App\Models\Rhythm;
 use App\Models\Student;
 use App\Models\User;
+
 
 interface LMSInterface
 {
@@ -21,4 +20,6 @@ interface LMSInterface
     public function updateCourse(Course $course) : void;
 
     public function enrollStudent(Course $course, Student $student) : void;
+
+    public function removeStudent($courseId, $userId): void;
 }

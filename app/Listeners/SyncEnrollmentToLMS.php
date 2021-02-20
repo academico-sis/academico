@@ -4,17 +4,16 @@ namespace App\Listeners;
 
 use App\Events\EnrollmentCreated;
 use App\Events\EnrollmentUpdated;
-use App\Events\UserCreated;
-use App\Events\StudentDeleting;
-use App\Events\StudentUpdated;
-use App\Traits\ApolearnApi;
+use App\Interfaces\LMSInterface;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Log;
 
 class SyncEnrollmentToLMS implements ShouldQueue
 {
-    use ApolearnApi;
+    public function __construct(public LMSInterface $lms)
+    {
+    }
 
     public function handle(EnrollmentCreated|EnrollmentUpdated $event) : void
     {
