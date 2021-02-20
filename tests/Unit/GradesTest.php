@@ -21,26 +21,6 @@ class GradesTest extends TestCase
         $this->seed('TestSeeder');
     }
 
-    public function testCourseCanHaveGradeTypes()
-    {
-        // given a course
-        $course = factory(Course::class)->create();
-
-        // it is possible to attach one or several grade types to this course, ie. criteria to receive grades
-        $gradeType1 = factory(GradeType::class)->create();
-        $course->grade_types()->attach($gradeType1);
-        $course->refresh();
-        $this->assertTrue($course->grade_types->contains($gradeType1));
-
-        $gradeType2 = factory(GradeType::class)->create();
-        $course->grade_types()->attach($gradeType2);
-        $course->refresh();
-        $this->assertTrue($course->grade_types->contains($gradeType2));
-
-        // the reverse should also be true
-        $this->assertTrue($gradeType1->courses->contains($course));
-        $this->assertTrue($gradeType2->courses->contains($course));
-    }
 
     public function testGradesHaveCategoryNames()
     {

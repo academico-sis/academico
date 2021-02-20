@@ -264,8 +264,7 @@ class CourseTest extends TestCase
         $evaluationMethod = factory(EvaluationType::class)->create();
 
         // an evaluation method can be attached
-        $course->evaluationType()->attach($evaluationMethod);
-        $this->assertContains($evaluationMethod->id, $course->evaluation_types->pluck(['id']));
-        $this->assertContains($course->id, $evaluationMethod->courses->pluck('id'));
+        $course->evaluationType()->associate($evaluationMethod);
+        $this->assertEquals($evaluationMethod->id, $course->evaluationType->id);
     }
 }
