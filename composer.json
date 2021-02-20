@@ -16,7 +16,6 @@
         "fideloper/proxy": "^4.4.0",
         "guzzlehttp/guzzle": "^7.2",
         "intervention/image": "^2.5.1",
-        "kkomelin/laravel-translatable-string-exporter": "^1.10.1",
         "laravel/framework": "^8.0",
         "laravel/legacy-factories": "^1.0",
         "laravel/telescope": "^4.0",

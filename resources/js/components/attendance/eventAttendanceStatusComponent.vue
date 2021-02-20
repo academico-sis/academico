@@ -39,7 +39,7 @@ export default {
                     this.attendanceEnabled = !response.data
                     new Noty({
                     type: "success",
-                    text: 'Attendance status has been saved for this event',
+                        text: this.$t('Your changes were successful'),
                 }).show();
                 })
                 .catch(e => {
@@ -47,7 +47,7 @@ export default {
                     this.attendanceEnabled = status
                     new Noty({
                     type: "error",
-                    text: 'Unable to change attendance status. The event has not been modified',
+                    text: this.$t('Your changes could not be saved'),
                 }).show();
                 })
         }

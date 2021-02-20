@@ -1,59 +1,30 @@
 {
-  "_from": "@fullcalendar/core@4.4.2",
-  "_id": "@fullcalendar/core@4.4.2",
-  "_inBundle": false,
-  "_integrity": "sha512-vq7KQGuAJ1ieFG5tUqwxwUwmXYtblFOTjHaLAVHo6iEPB52mS7DS45VJfkhaQmX4+5/+BHRpg82G1qkuAINwtg==",
-  "_location": "/@fullcalendar/core",
-  "_phantomChildren": {},
-  "_requested": {
-    "type": "version",
-    "registry": true,
-    "raw": "@fullcalendar/core@4.4.2",
-    "name": "@fullcalendar/core",
-    "escapedName": "@fullcalendar%2fcore",
-    "scope": "@fullcalendar",
-    "rawSpec": "4.4.2",
-    "saveSpec": null,
-    "fetchSpec": "4.4.2"
-  },
-  "_requiredBy": [
-    "#USER",
-    "/"
-  ],
-  "_resolved": "https://registry.npmjs.org/@fullcalendar/core/-/core-4.4.2.tgz",
-  "_shasum": "864abe98cce4497a163c01a8fc30389f15d3d4e1",
-  "_spec": "@fullcalendar/core@4.4.2",
-  "_where": "/home/thomas/academico",
-  "author": {
-    "name": "Adam Shaw",
-    "email": "arshaw@arshaw.com",
-    "url": "http://arshaw.com/"
-  },
-  "bugs": {
-    "url": "https://fullcalendar.io/reporting-bugs"
-  },
-  "bundleDependencies": false,
-  "copyright": "2019 Adam Shaw",
-  "deprecated": false,
+  "name": "@fullcalendar/core",
+  "version": "4.4.2",
+  "title": "FullCalendar Core Package",
   "description": "Provides core functionality, including the Calendar class",
-  "docs": "https://fullcalendar.io/docs/initialize-es6",
-  "homepage": "https://fullcalendar.io/",
   "keywords": [
     "calendar",
     "event",
     "full-sized"
   ],
-  "license": "MIT",
-  "main": "main.js",
-  "module": "main.esm.js",
-  "name": "@fullcalendar/core",
+  "homepage": "https://fullcalendar.io/",
+  "docs": "https://fullcalendar.io/docs/initialize-es6",
+  "bugs": "https://fullcalendar.io/reporting-bugs",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fullcalendar/fullcalendar.git",
+    "url": "https://github.com/fullcalendar/fullcalendar.git",
     "homepage": "https://github.com/fullcalendar/fullcalendar"
   },
-  "title": "FullCalendar Core Package",
-  "types": "main.d.ts",
+  "license": "MIT",
+  "author": {
+    "name": "Adam Shaw",
+    "email": "arshaw@arshaw.com",
+    "url": "http://arshaw.com/"
+  },
+  "copyright": "2019 Adam Shaw",
+  "main": "main.js",
+  "module": "main.esm.js",
   "unpkg": "main.min.js",
-  "version": "4.4.2"
+  "types": "main.d.ts"
 }

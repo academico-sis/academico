@@ -18,7 +18,8 @@
                                         v-for="period in this.periods"
                                         :key="period.id"
                                         :value="period.id"
-                                        >{{ period.name }}</option
+                                    >{{ period.name }}
+                                    </option
                                     >
                                 </select>
                             </div>
@@ -27,10 +28,10 @@
 
                     <div class="col-md-6">
                         <div
-                            class="card"
                             :class="{
                                 ' border-primary': selectedTeacher !== '',
                             }"
+                            class="card"
                         >
                             <div class="card-header">
                                 {{ $t("Teacher") }}
@@ -51,14 +52,16 @@
                                     @change="getCoursesResults()"
                                 >
                                     <option value="">{{
-                                        $t("All teachers")
-                                    }}</option>
+                                            $t("All teachers")
+                                        }}
+                                    </option>
                                     <option
                                         v-for="teacher in this.teachers"
                                         :key="teacher.id"
                                         :value="teacher.id"
-                                        >{{ teacher.user.firstname }}
-                                        {{ teacher.user.lastname }}</option
+                                    >{{ teacher.user.firstname }}
+                                        {{ teacher.user.lastname }}
+                                    </option
                                     >
                                 </select>
                             </div>
@@ -69,10 +72,10 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div
-                            class="card"
                             :class="{
                                 ' border-primary': selectedRhythms.length > 0,
                             }"
+                            class="card"
                         >
                             <div class="card-header">
                                 {{ $t("Rhythm") }}
@@ -94,15 +97,15 @@
                                         <input
                                             :id="rhythm.id"
                                             v-model="selectedRhythms"
+                                            :value="rhythm.id"
                                             class="form-check-input"
                                             type="checkbox"
-                                            :value="rhythm.id"
                                             @change="getCoursesResults()"
                                         />
                                         <label
-                                            class="form-check-label"
                                             :for="rhythm.id"
-                                            >{{ rhythm.name }}</label
+                                            class="form-check-label"
+                                        >{{ rhythm.name }}</label
                                         >
                                     </div>
                                 </div>
@@ -112,10 +115,10 @@
 
                     <div class="col-md-6">
                         <div
-                            class="card"
                             :class="{
                                 ' border-primary': selectedLevels.length > 0,
                             }"
+                            class="card"
                         >
                             <div class="card-header">
                                 {{ $t("Level") }}
@@ -137,15 +140,15 @@
                                         <input
                                             :id="level.id"
                                             v-model="selectedLevels"
+                                            :value="level.id"
                                             class="form-check-input"
                                             type="checkbox"
-                                            :value="level.id"
                                             @change="getCoursesResults()"
                                         />
                                         <label
-                                            class="form-check-label"
                                             :for="level.id"
-                                            >{{ level.name }}</label
+                                            class="form-check-label"
+                                        >{{ level.name }}</label
                                         >
                                     </div>
                                 </div>
@@ -173,31 +176,34 @@
                 v-if="isLoading === false && hasErrors === false"
                 class="col-md-8"
             >
-            <div class="row" v-if="this.mode === 'enroll'">
+                <div v-if="this.mode === 'enroll'" class="row">
                     <div class="col-md-6">
                         <div class="card">
-                        <div class="card-header">
-                            {{ $t("Student") }}
-                        </div>
-                        <div class="card-body">
-                            {{ this.student.name }}
-                        </div>
+                            <div class="card-header">
+                                {{ $t("Student") }}
+                            </div>
+                            <div class="card-body">
+                                {{ this.student.name }}
+                            </div>
                         </div>
                     </div>
 
                     <div class="col-md-6">
                         <div class="card">
-                        <div class="card-header">
-                            {{ $t("Last enrollment") }}
-                        </div>
-                        <div class="card-body" v-if="this.student.enrollments.length > 0">
-                            <p>{{ this.student.enrollments.slice(-1)[0].course.name }} ({{ this.student.enrollments.slice(-1)[0].course.course_period_name }})</p>
-                            <label class="label-info">{{ this.student.enrollments.slice(-1)[0].result_name }}</label>
-                        </div>
+                            <div class="card-header">
+                                {{ $t("Last enrollment") }}
+                            </div>
+                            <div v-if="this.student.enrollments.length > 0" class="card-body">
+                                <p>{{ this.student.enrollments.slice(-1)[0].course.name }}
+                                    ({{ this.student.enrollments.slice(-1)[0].course.course_period_name }})</p>
+                                <label class="label-info">{{
+                                        this.student.enrollments.slice(-1)[0].result_name
+                                    }}</label>
+                            </div>
                         </div>
                     </div>
 
-            </div>
+                </div>
                 <div class="row">
                     <p v-if="sortedCourses.length === 0">
                         {{ $t("noresults") }}
@@ -208,7 +214,6 @@
                         class="col-md-4"
                     >
                         <div
-                            class="card"
                             :class="{
                                 'border-danger':
                                     course.spots > 0 &&
@@ -219,24 +224,25 @@
                                     course.teacher_id == null ||
                                     course.room_id == null,
                             }"
+                            class="card"
+                            @mouseleave="highlightedSortableId = null"
                             @mouseover="
                                 highlightedSortableId = course.sortable_id
                             "
-                            @mouseleave="highlightedSortableId = null"
                         >
                             <div class="card-body">
                                 <div v-if="mode === 'view'" class="btn-group float-right">
                                     <a
-                                        class="btn"
-                                        :href="`course/${course.id}/show`">
+                                        :href="`course/${course.id}/show`"
+                                        class="btn">
                                         <i class="la la-eye"></i>
                                     </a>
                                     <button
-                                        class="btn dropdown-toggle p-0"
-                                        type="button"
-                                        data-toggle="dropdown"
-                                        aria-haspopup="true"
                                         aria-expanded="false"
+                                        aria-haspopup="true"
+                                        class="btn dropdown-toggle p-0"
+                                        data-toggle="dropdown"
+                                        type="button"
                                     >
                                         <i class="la la-gear"></i>
                                     </button>
@@ -251,30 +257,30 @@
                                                 course.course_enrollments_count >
                                                     0
                                             "
-                                            class="dropdown-item"
                                             :href="`attendance/course/${course.id}`"
-                                            ><i class="la la-calendar"></i>
+                                            class="dropdown-item"
+                                        ><i class="la la-calendar"></i>
                                             {{ $t("Attendance") }}</a
                                         >
                                         <a
                                             v-if="editable === 1"
-                                            class="dropdown-item"
                                             :href="`course/${course.id}/edit`"
-                                            ><i class="la la-edit"></i>
+                                            class="dropdown-item"
+                                        ><i class="la la-edit"></i>
                                             {{ $t("Edit") }}</a
                                         >
 
                                         <a
                                             v-if="course.evaluation_type && course.evaluation_type.skills.length > 0 && course.course_enrollments_count > 0"
-                                            class="dropdown-item"
-                                           :href="`course/${course.id}/skillsevaluation`">
+                                            :href="`course/${course.id}/skillsevaluation`"
+                                            class="dropdown-item">
                                             <i class="la la-th"></i> {{ $t('Evaluate skills') }}
                                         </a>
 
                                         <a
                                             v-if="course.evaluation_type && course.evaluation_type.grade_types.length > 0 && course.course_enrollments_count > 0"
-                                            class="dropdown-item"
-                                            :href="`course/${course.id}/grades`">
+                                            :href="`course/${course.id}/grades`"
+                                            class="dropdown-item">
                                             <i class="la la-th"></i> {{ $t('Manage grades') }}
                                         </a>
 
@@ -293,12 +299,13 @@
                                     </div>
                                 </div>
 
-                                <div v-if="mode === 'enroll' && course.spots - course.course_enrollments_count > 0" class="btn-group float-right">
+                                <div v-if="mode === 'enroll' && course.spots - course.course_enrollments_count > 0"
+                                     class="btn-group float-right">
                                     <a
                                         class="btn"
                                         href='#'
                                         @click="enrollStudent(course.id)"
-                                        ><i class="la la-user-plus"></i
+                                    ><i class="la la-user-plus"></i
                                     ></a>
                                 </div>
 
@@ -307,7 +314,7 @@
                                         class="btn"
                                         href='#'
                                         @click="updateEnrollment(course.id)"
-                                        ><i class="la la-user-plus"></i
+                                    ><i class="la la-user-plus"></i
                                     ></a>
                                 </div>
                                 <h5 class="coursename">{{ course.name }}</h5>
@@ -345,7 +352,7 @@
                                         Math.max(
                                             0,
                                             course.spots -
-                                                course.course_enrollments_count
+                                            course.course_enrollments_count
                                         )
                                     }}
                                     {{ $t("spots left") }}
@@ -445,19 +452,19 @@ export default {
 
         deleteCourse(id) {
             swal({
-                title: "DANGER",
-                text: "Realmente quiere eliminar este curso?",
+                title: this.$t('Warning'),
+                text: this.$t('Do you really want to delete this course?'),
                 icon: "danger",
                 buttons: {
                     cancel: {
-                        text: "No",
+                        text: this.$t('Cancel'),
                         value: null,
                         visible: true,
                         className: "bg-secondary",
                         closeModal: true,
                     },
                     delete: {
-                        text: "Si",
+                        text: this.$t('Delete'),
                         value: true,
                         visible: true,
                         className: "bg-danger",
@@ -472,8 +479,8 @@ export default {
                             if (result !== 1) {
                                 // Show an error alert
                                 swal({
-                                    title: "Error",
-                                    text: "Impossible to delete this course",
+                                    title: this.$t('Error'),
+                                    text: this.$t('Your changes could not be saved'),
                                     icon: "error",
                                     timer: 2000,
                                     buttons: false,
@@ -481,8 +488,8 @@ export default {
                             } else {
                                 // Show a success message
                                 swal({
-                                    title: "Success",
-                                    text: "The course has been deleted",
+                                    title: this.$t('Success'),
+                                    text: this.$t('The course has been deleted'),
                                     icon: "success",
                                     timer: 4000,
                                     buttons: false,
@@ -493,8 +500,8 @@ export default {
                         error: result => {
                             // Show an alert with the result
                             swal({
-                                title: "Error",
-                                text: "Impossible to delete this course",
+                                title: this.$t('Error'),
+                                text: this.$t('Impossible to delete this course'),
                                 icon: "error",
                                 timer: 4000,
                                 buttons: false,
@@ -504,35 +511,33 @@ export default {
                 }
             });
         },
-        enrollStudent(course_id)
-        {
+        enrollStudent(course_id) {
             this.mode = 'blocked'
             new Noty({
                 type: "info",
-                text: 'Matricula en curso...',
+                text: this.$t('Enrollment in progress...'),
             }).show();
             axios.post('/student/enroll', {
                 student_id: this.student.id,
                 course_id
             })
-            .then(response => {
-                window.location.href=response.data
-            })
+                .then(response => {
+                    window.location.href = response.data
+                })
         },
-        updateEnrollment(course_id)
-        {
+        updateEnrollment(course_id) {
             this.mode = 'blocked'
             new Noty({
                 type: "info",
-                text: 'Cambiando de curso...',
+                text: this.$t('Enrollment in progress...'),
             }).show();
             axios.post(`/enrollment/${this.enrollment_id}/changeCourse`, {
                 student_id: this.student.id,
                 course_id
             })
-            .then(response => {
-                window.location.href=response.data
-            })
+                .then(response => {
+                    window.location.href = response.data
+                })
         },
     },
 };

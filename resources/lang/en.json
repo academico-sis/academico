@@ -377,6 +377,19 @@
     "Average": "Average",
     "Switch to list view": "Switch to list view",
     "Switch to block view": "Switch to block view",
-    "Sync with LMS" : "Sync with LMS",
-    "LMS code": "LMS code"
+    "Sync to LMS" : "Sync with LMS",
+    "LMS code": "LMS code",
+    "Warning": "Warning",
+    "Do you really want to delete this phone number?": "Do you really want to delete this phone number?",
+    "Do you really want to delete this contact?": "Do you really want to delete this contact?",
+    "Do you really want to delete this course?": "Do you really want to delete this course?",
+    "Your changes could not be saved": "Your changes could not be saved",
+    "Your changes were successful": "Your changes were successful",
+    "Error": "Error",
+    "Success":"Success",
+    "The course has been deleted": "The course has been deleted",
+    "Impossible to delete this course": "Impossible to delete this course",
+    "Enrollment in progress...": "Enrollment in progress...",
+    "Enable": "Enable",
+    "Disable": "Disable"
 }

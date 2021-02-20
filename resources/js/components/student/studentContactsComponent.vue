@@ -61,7 +61,7 @@
 
         <div class="tab-pane fade" v-for="contact in this.contactsData" v-bind:key="contact.id" v-bind:id="`contact-${contact.id}-pane`" role="tabpanel" :aria-labelledby="`${contact.id}-tab`">
             <div><strong>{{ $t('name') }}:</strong> {{ contact.firstname }} {{ contact.lastname }}</div>
-            <div><strong>{{ $t('ID nnumber') }}:</strong> {{ contact.idnumber }}</div>
+            <div><strong>{{ $t('ID number') }}:</strong> {{ contact.idnumber }}</div>
             <div><strong>{{ $t('Address') }}:</strong> {{ contact.address }}</div>
                 <div><strong>{{ $t('Phone Number') }}:</strong>
                     <button class="btn btn-sm btn-primary" @click="addingNumberToContact = true" v-if="writeaccess">
@@ -126,19 +126,19 @@ export default {
     methods: {
         removePhoneNumber(list, phone) {
             swal({
-                title: 'Attention',
-                text: "Voulez-vous vraiment supprimer ce numéro de téléphone ?",
+                title: this.$t('Warning'),
+                text: this.$t('Do you really want to delete this phone number?'),
                 icon: "warning",
                 buttons: {
                     cancel: {
-                    text: "Annuler",
+                    text: this.$t('Cancel'),
                     value: null,
                     visible: true,
                     className: "bg-secondary",
                     closeModal: true,
                     },
                     delete: {
-                    text: "Supprimer",
+                    text: this.$t('Delete'),
                     value: true,
                     visible: true,
                     className: "bg-danger",
@@ -169,7 +169,7 @@ export default {
                 .catch(errors =>
                     new Noty({
                         type: "error",
-                        text: 'Unable to save your change',
+                        text: this.$t('Your changes could not be saved'),
                     }).show())
         },
 
@@ -187,28 +187,28 @@ export default {
                 .catch(errors =>
                     new Noty({
                         type: "error",
-                        text: 'Unable to save your change',
+                        text: this.$t('Your changes could not be saved'),
                     }).show())
         },
         deleteContact(contact) {
             swal({
-                title: "Attention",
-                text: "Voulez-vous vraiment supprimer ce contact ?",
+                title: this.$t('Warning'),
+                text: this.$t('Do you really want to delete this contact?'),
                 icon: "warning",
                 buttons: {
                     cancel: {
-                        text: "Annuler",
+                        text: this.$t('Cancel'),
                         value: null,
                         visible: true,
                         className: "bg-secondary",
                         closeModal: true,
                     },
                     delete: {
-                        text: "Supprimer",
+                        text: this.$t('Delete'),
                         value: true,
                         visible: true,
                         className: "bg-danger",
-                    },
+                    }
                 },
             }).then(value => {
                 if (value) {
@@ -218,7 +218,7 @@ export default {
                         .catch(err =>
                             new Noty({
                                 type: "error",
-                                text: 'Unable to delete contact',
+                                text: this.$t('Your changes could not be saved'),
                             }).show());
                 }
             });

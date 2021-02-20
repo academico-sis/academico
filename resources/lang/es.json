@@ -374,6 +374,19 @@
     "Average": "Promedio",
     "Switch to list view": "Ver como tabla",
     "Switch to block view": "Ver como cuadros",
-    "Sync with LMS" : "Sincronisar con plataforma LMS",
-    "LMS code": "Codigo LMS"
+    "Sync to LMS" : "Sincronisar con plataforma LMS",
+    "LMS code": "Codigo LMS",
+    "Warning": "Atencion",
+    "Do you really want to delete this phone number?": "Confirma que quiere quitar este numero de telefono?",
+    "Do you really want to delete this contact?": "Confirma que quiere quitar este contacto?",
+    "Do you really want to delete this course?": "Confirma que quiere quitar este curso?",
+    "Your changes could not be saved": "Sus cambios no pueden ser guardados",
+    "Your changes were successful": "Sus cambios han sido guardados",
+    "Error": "Error",
+    "Success": "Exito",
+    "The course has been deleted": "El curso fue eliminado",
+    "Impossible to delete this course": "Este curso no puede ser eliminado",
+    "Enrollment in progress...": "Matricula en curso...",
+    "Enable": "Habilitar",
+    "Disable": "Deshabilitar"
 }

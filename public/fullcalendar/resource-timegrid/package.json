@@ -1,67 +1,38 @@
 {
-  "_from": "@fullcalendar/resource-timegrid@4.4.2",
-  "_id": "@fullcalendar/resource-timegrid@4.4.2",
-  "_inBundle": false,
-  "_integrity": "sha512-QI6gn8I4uYi7lIgA68k/EDLNTSiSBD3+HZUziCP7ivPx/AwrL38PY2OZVep/uDjYWG/In44Laf6SSWRdWTkOQA==",
-  "_location": "/@fullcalendar/resource-timegrid",
-  "_phantomChildren": {},
-  "_requested": {
-    "type": "version",
-    "registry": true,
-    "raw": "@fullcalendar/resource-timegrid@4.4.2",
-    "name": "@fullcalendar/resource-timegrid",
-    "escapedName": "@fullcalendar%2fresource-timegrid",
-    "scope": "@fullcalendar",
-    "rawSpec": "4.4.2",
-    "saveSpec": null,
-    "fetchSpec": "4.4.2"
-  },
-  "_requiredBy": [
-    "#USER",
-    "/"
-  ],
-  "_resolved": "https://registry.npmjs.org/@fullcalendar/resource-timegrid/-/resource-timegrid-4.4.2.tgz",
-  "_shasum": "eb361469efee0818f240d656f82b80ac95f31e0c",
-  "_spec": "@fullcalendar/resource-timegrid@4.4.2",
-  "_where": "/home/thomas/academico",
-  "author": {
-    "name": "Adam Shaw",
-    "email": "arshaw@arshaw.com",
-    "url": "http://arshaw.com/"
-  },
-  "bugs": {
-    "url": "https://fullcalendar.io/reporting-bugs"
-  },
-  "bundleDependencies": false,
-  "copyright": "2019 Adam Shaw",
-  "dependencies": {
-    "@fullcalendar/resource-common": "~4.4.0",
-    "@fullcalendar/resource-daygrid": "~4.4.0",
-    "@fullcalendar/timegrid": "~4.4.0"
-  },
-  "deprecated": false,
+  "name": "@fullcalendar/resource-timegrid",
+  "version": "4.4.2",
+  "title": "FullCalendar Resource Time Grid Plugin",
   "description": "Displays events on a vertical resource view with time slots",
-  "docs": "https://fullcalendar.io/docs/vertical-resource-view",
-  "homepage": "https://fullcalendar.io/scheduler",
   "keywords": [
     "calendar",
     "event",
     "full-sized"
   ],
+  "homepage": "https://fullcalendar.io/scheduler",
+  "docs": "https://fullcalendar.io/docs/vertical-resource-view",
+  "bugs": "https://fullcalendar.io/reporting-bugs",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fullcalendar/fullcalendar-scheduler.git",
+    "homepage": "https://github.com/fullcalendar/fullcalendar-scheduler"
+  },
   "license": "SEE LICENSE IN LICENSE.md",
-  "main": "main.js",
-  "module": "main.esm.js",
-  "name": "@fullcalendar/resource-timegrid",
+  "author": {
+    "name": "Adam Shaw",
+    "email": "arshaw@arshaw.com",
+    "url": "http://arshaw.com/"
+  },
+  "copyright": "2019 Adam Shaw",
+  "dependencies": {
+    "@fullcalendar/resource-common": "~4.4.0",
+    "@fullcalendar/timegrid": "~4.4.0",
+    "@fullcalendar/resource-daygrid": "~4.4.0"
+  },
   "peerDependencies": {
     "@fullcalendar/core": "~4.4.0"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/fullcalendar/fullcalendar-scheduler.git",
-    "homepage": "https://github.com/fullcalendar/fullcalendar-scheduler"
-  },
-  "title": "FullCalendar Resource Time Grid Plugin",
-  "types": "main.d.ts",
+  "main": "main.js",
+  "module": "main.esm.js",
   "unpkg": "main.min.js",
-  "version": "4.4.2"
+  "types": "main.d.ts"
 }

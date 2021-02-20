@@ -1,65 +1,33 @@
 {
-  "_from": "@fullcalendar/resource-common@4.4.2",
-  "_id": "@fullcalendar/resource-common@4.4.2",
-  "_inBundle": false,
-  "_integrity": "sha512-aypS0cu1pao5iRzhDkSGCSpizqDIFELcMyxZTzkzv9dozccU9wCgDK3rM6qFnSldn7CdOdGRgrUDAAvb3OmzFQ==",
-  "_location": "/@fullcalendar/resource-common",
-  "_phantomChildren": {},
-  "_requested": {
-    "type": "version",
-    "registry": true,
-    "raw": "@fullcalendar/resource-common@4.4.2",
-    "name": "@fullcalendar/resource-common",
-    "escapedName": "@fullcalendar%2fresource-common",
-    "scope": "@fullcalendar",
-    "rawSpec": "4.4.2",
-    "saveSpec": null,
-    "fetchSpec": "4.4.2"
-  },
-  "_requiredBy": [
-    "#USER",
-    "/",
-    "/@fullcalendar/resource-daygrid",
-    "/@fullcalendar/resource-timegrid",
-    "/@fullcalendar/resource-timeline"
-  ],
-  "_resolved": "https://registry.npmjs.org/@fullcalendar/resource-common/-/resource-common-4.4.2.tgz",
-  "_shasum": "fd317d68d8790083e0ed5b99545bd2618bf0b489",
-  "_spec": "@fullcalendar/resource-common@4.4.2",
-  "_where": "/home/thomas/academico",
-  "author": {
-    "name": "Adam Shaw",
-    "email": "arshaw@arshaw.com",
-    "url": "http://arshaw.com/"
-  },
-  "bugs": {
-    "url": "https://fullcalendar.io/reporting-bugs"
-  },
-  "bundleDependencies": false,
-  "copyright": "2019 Adam Shaw",
-  "deprecated": false,
+  "name": "@fullcalendar/resource-common",
+  "version": "4.4.2",
+  "title": "FullCalendar Resources Common Plugin",
   "description": "Offers base support for resources. Required for all resource-related plugins.",
-  "docs": "https://fullcalendar.io/docs/scheduler",
-  "homepage": "https://fullcalendar.io/scheduler",
   "keywords": [
     "calendar",
     "event",
     "full-sized"
   ],
+  "homepage": "https://fullcalendar.io/scheduler",
+  "docs": "https://fullcalendar.io/docs/scheduler",
+  "bugs": "https://fullcalendar.io/reporting-bugs",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fullcalendar/fullcalendar-scheduler.git",
+    "homepage": "https://github.com/fullcalendar/fullcalendar-scheduler"
+  },
   "license": "SEE LICENSE IN LICENSE.md",
-  "main": "main.js",
-  "module": "main.esm.js",
-  "name": "@fullcalendar/resource-common",
+  "author": {
+    "name": "Adam Shaw",
+    "email": "arshaw@arshaw.com",
+    "url": "http://arshaw.com/"
+  },
+  "copyright": "2019 Adam Shaw",
   "peerDependencies": {
     "@fullcalendar/core": "~4.4.0"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/fullcalendar/fullcalendar-scheduler.git",
-    "homepage": "https://github.com/fullcalendar/fullcalendar-scheduler"
-  },
-  "title": "FullCalendar Resources Common Plugin",
-  "types": "main.d.ts",
+  "main": "main.js",
+  "module": "main.esm.js",
   "unpkg": "main.min.js",
-  "version": "4.4.2"
+  "types": "main.d.ts"
 }
