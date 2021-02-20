@@ -8,7 +8,7 @@
                 </button>
 
                 <b-dropdown-item
-                    v-for="(lang, i) in langs"
+                    v-for="(lang, i) in this.langs"
                     :key="`Lang${i}`"
                     :value="lang"
                     aria-role="listitem"
@@ -57,7 +57,7 @@ import { store } from "./store.js";
 import { EventBus } from "./eventBus.js";
 
 export default {
-    props: ['institutions'],
+    props: ['institutions', 'langs'],
     data() {
         return {
             storeState: store.state,
@@ -65,7 +65,6 @@ export default {
             isAnimated: true,
             hasNavigation: false,
             isStepsClickable: false,
-            langs: ["fr", "en", "es"],
         };
     },
 

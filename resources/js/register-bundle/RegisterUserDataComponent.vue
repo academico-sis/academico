@@ -2,87 +2,41 @@
     <div>
         <ValidationObserver ref="observer" v-slot="{ valid }">
              <b-field :label="$t('firstname')">
-                <ValidationProvider
-                    v-slot="{ errors }"
-                    name="nombres"
-                    rules="required"
-                >
-                    <b-input
-                        v-model="formdata.firstname"
-                        :placeholder="$t('firstname')"
-                        required
-                    ></b-input>
+                <ValidationProvider v-slot="{ errors }" name="firstname" rules="required">
+                    <b-input v-model="formdata.firstname" :placeholder="$t('firstname')" required></b-input>
                     <p class="help is-danger">{{ errors[0] }}</p>
                 </ValidationProvider>
             </b-field>
 
             <b-field :label="$t('lastname')">
-                <ValidationProvider
-                    v-slot="{ errors }"
-                    name="apellidos"
-                    rules="required"
-                >
-                    <b-input
-                        v-model="formdata.lastname"
-                        :placeholder="$t('lastname')"
-                        required
-                    ></b-input>
+                <ValidationProvider v-slot="{ errors }" name="lastname" rules="required">
+                    <b-input v-model="formdata.lastname" :placeholder="$t('lastname')" required></b-input>
                     <p class="help is-danger">{{ errors[0] }}</p>
                 </ValidationProvider>
             </b-field>
 
             <b-field :label="$t('email')">
-                <ValidationProvider
-                    v-slot="{ errors }"
-                    name="correo electrónico"
-                    rules="required|email"
-                >
-                    <b-input
-                        v-model="formdata.email"
-                        type="email"
-                        :placeholder="$t('email')"
-                        required
-                    ></b-input>
+                <ValidationProvider v-slot="{ errors }" name="email" rules="required|email">
+                    <b-input v-model="formdata.email" type="email" :placeholder="$t('email')" required></b-input>
                     <p class="help is-danger">{{ errors[0] }}</p>
                 </ValidationProvider>
             </b-field>
 
-            <b-field
-                v-if="formdata.idnumber_type === 'passport'"
-                rules="required"
-                :label="$t('passport_number')"
-            >
-                <ValidationProvider
-                    v-slot="{ errors }"
-                    name="número de pasaporte"
-                    rules="required"
-                >
-                    <b-input
-                        v-model="formdata.idnumber"
-                        maxlength="12"
-                    ></b-input>
+            <b-field :label="$t('iddocument')">
+                <ValidationProvider v-slot="{ errors }" name="ID Number" rules="required">
+                    <b-input v-model="formdata.idnumber" maxlength="12" required></b-input>
                     <p class="help is-danger">{{ errors[0] }}</p>
                 </ValidationProvider>
             </b-field>
 
             <b-field :label="$t('password')">
-                <ValidationProvider
-                    v-slot="{ errors }"
-                    name="contraseña"
-                    rules="required|min:6"
-                >
-                    <b-input
-                        v-model="formdata.password"
-                        type="password"
-                        password-reveal
-                    ></b-input>
+                <ValidationProvider v-slot="{ errors }" name="password" rules="required|min:6">
+                    <b-input v-model="formdata.password" type="password" password-reveal></b-input>
                     <p class="help is-danger">{{ errors[0] }}</p>
                 </ValidationProvider>
             </b-field>
 
-            <b-button type="is-primary" @click="validateBeforeSubmit()">{{
-                $t("next")
-            }}</b-button>
+            <b-button type="is-primary" @click="validateBeforeSubmit()">{{ $t("next") }}</b-button>
         </ValidationObserver>
     </div>
 </template>
@@ -126,8 +80,7 @@ export default {
                 //this.updateData()
             } else {
                 this.$buefy.toast.open({
-                    message:
-                        "El formulario no esta completo! Por favor verifique los campos en rojo.",
+                    message: this.$t('The form is invalid, please check the fields marked in red and try again'),
                     type: "is-danger",
                     position: "is-bottom",
                 });
@@ -154,8 +107,7 @@ export default {
                 this.updateData();
             } else {
                 this.$buefy.toast.open({
-                    message:
-                        "Ya existe una cuenta registrada con este correo electrónico",
+                    message: this.$t('An account with this email already exists.'),
                     type: "is-danger",
                     position: "is-bottom",
                 });

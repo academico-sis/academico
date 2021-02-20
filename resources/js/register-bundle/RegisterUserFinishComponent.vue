@@ -172,7 +172,7 @@ export default {
                 .then(response => {
                     this.$buefy.toast.open({
                         duration: 5000,
-                        message: "La cuenta ha sido creada con éxito",
+                        message: this.$t('The account was created successfully'),
                         type: "is-success",
                         position: "is-bottom",
                     });
@@ -184,7 +184,7 @@ export default {
                 .catch(e => {
                     this.errors.push(e);
                     this.$buefy.toast.open({
-                        message: "Error al crear la cuenta",
+                        message: this.$t('The user could not be created. Please get in touch with an administrator.'),
                         type: "is-danger",
                         position: "is-bottom",
                     });

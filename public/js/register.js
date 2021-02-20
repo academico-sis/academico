@@ -71,15 +71,14 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(buefy__WEBPACK_IMPORTED_MODULE_1_
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['institutions'],
+  props: ['institutions', 'langs'],
   data: function data() {
     return {
       storeState: _store_js__WEBPACK_IMPORTED_MODULE_3__["store"].state,
       activeStep: 0,
       isAnimated: true,
       hasNavigation: false,
-      isStepsClickable: false,
-      langs: ["fr", "en", "es"]
+      isStepsClickable: false
     };
   },
   created: function created() {
@@ -117,63 +116,6 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -326,7 +268,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this.updateData();
                 } else {
                   _this.$buefy.toast.open({
-                    message: "El formulario no esta completo! Por favor verifique los campos en rojo.",
+                    message: _this.$t('The form is invalid, please check the fields marked in red and try again'),
                     type: "is-danger",
                     position: "is-bottom"
                   });
@@ -369,52 +311,6 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -513,7 +409,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 8:
                 _this.$buefy.toast.open({
-                  message: "El formulario no esta completo! Por favor verifique los campos en rojo.",
+                  message: _this.$t('The form is invalid, please check the fields marked in red and try again'),
                   type: "is-danger",
                   position: "is-bottom"
                 });
@@ -555,7 +451,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this2.updateData();
                 } else {
                   _this2.$buefy.toast.open({
-                    message: "Ya existe una cuenta registrada con este correo electrónico",
+                    message: _this2.$t('An account with this email already exists.'),
                     type: "is-danger",
                     position: "is-bottom"
                   });
@@ -758,7 +654,7 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         _this.$buefy.toast.open({
           duration: 5000,
-          message: "La cuenta ha sido creada con éxito",
+          message: _this.$t('The account was created successfully'),
           type: "is-success",
           position: "is-bottom"
         });
@@ -770,7 +666,7 @@ __webpack_require__.r(__webpack_exports__);
         _this.errors.push(e);
 
         _this.$buefy.toast.open({
-          message: "Error al crear la cuenta",
+          message: _this.$t('The user could not be created. Please get in touch with an administrator.'),
           type: "is-danger",
           position: "is-bottom"
         });
@@ -803,45 +699,6 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -949,13 +806,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     dropPhoneNumber: function dropPhoneNumber(index) {
       this.formdata.phonenumbers.splice(index, 1);
     },
-    getFilteredInstitutions: function getFilteredInstitutions(text) {
-      this.filteredInstitutions = this.institutionslist.filter(function (option) {
-        return option.toString().toLowerCase().indexOf(text.toLowerCase()) >= 0;
+    showAddInstitution: function showAddInstitution() {
+      var _this = this;
+
+      this.$buefy.dialog.prompt({
+        message: "Fruit",
+        inputAttrs: {
+          placeholder: 'e.g. Watermelon',
+          maxlength: 20,
+          value: this.name
+        },
+        confirmText: 'Add',
+        onConfirm: function onConfirm(value) {
+          _this.institutionslist.push(value);
+
+          _this.$refs.autocomplete.setSelected(value);
+        }
       });
     },
     validateBeforeSubmit: function validateBeforeSubmit() {
-      var _this = this;
+      var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
         var isValid;
@@ -964,16 +834,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _this.$refs.observer.validate();
+                return _this2.$refs.observer.validate();
 
               case 2:
                 isValid = _context.sent;
 
                 if (isValid) {
-                  _this.updateData();
+                  _this2.updateData();
                 } else {
-                  _this.$buefy.toast.open({
-                    message: "El formulario no esta completo! Por favor verifique los campos en rojo.",
+                  _this2.$buefy.toast.open({
+                    message: _this2.$t('The form is invalid, please check the fields marked in red and try again'),
                     type: "is-danger",
                     position: "is-bottom"
                   });
@@ -1562,7 +1432,7 @@ var render = function() {
                 1
               ),
               _vm._v(" "),
-              _vm._l(_vm.langs, function(lang, i) {
+              _vm._l(this.langs, function(lang, i) {
                 return _c(
                   "b-dropdown-item",
                   {
@@ -1720,7 +1590,7 @@ var render = function() {
                               expression: "contact.invoiceable"
                             }
                           },
-                          [_vm._v(_vm._s(_vm.$t("Facturar a este nombre")))]
+                          [_vm._v(_vm._s(_vm.$t("Use this data for invoices")))]
                         ),
                         _vm._v(" "),
                         _c(
@@ -1728,7 +1598,7 @@ var render = function() {
                           { attrs: { label: _vm.$t("firstname") } },
                           [
                             _c("ValidationProvider", {
-                              attrs: { name: "nombres", rules: "required" },
+                              attrs: { name: "firstname", rules: "required" },
                               scopedSlots: _vm._u(
                                 [
                                   {
@@ -1752,7 +1622,6 @@ var render = function() {
                                             expression: "contact.firstname"
                                           }
                                         }),
-                                        _vm._v(" "),
                                         _c(
                                           "p",
                                           { staticClass: "help is-danger" },
@@ -1775,7 +1644,7 @@ var render = function() {
                           { attrs: { label: _vm.$t("lastname") } },
                           [
                             _c("ValidationProvider", {
-                              attrs: { name: "apellidos", rules: "required" },
+                              attrs: { name: "lastname", rules: "required" },
                               scopedSlots: _vm._u(
                                 [
                                   {
@@ -1795,7 +1664,6 @@ var render = function() {
                                             expression: "contact.lastname"
                                           }
                                         }),
-                                        _vm._v(" "),
                                         _c(
                                           "p",
                                           { staticClass: "help is-danger" },
@@ -1818,10 +1686,7 @@ var render = function() {
                           { attrs: { label: _vm.$t("email") } },
                           [
                             _c("ValidationProvider", {
-                              attrs: {
-                                name: "correo electrónico",
-                                rules: "required|email"
-                              },
+                              attrs: { name: "email", rules: "required|email" },
                               scopedSlots: _vm._u(
                                 [
                                   {
@@ -1832,7 +1697,8 @@ var render = function() {
                                         _c("b-input", {
                                           attrs: {
                                             type: "email",
-                                            placeholder: _vm.$t("email")
+                                            placeholder: _vm.$t("email"),
+                                            required: ""
                                           },
                                           model: {
                                             value: contact.email,
@@ -1865,10 +1731,7 @@ var render = function() {
                           { attrs: { label: "Número de pasaporte" } },
                           [
                             _c("ValidationProvider", {
-                              attrs: {
-                                name: "número de pasaporte",
-                                rules: "required"
-                              },
+                              attrs: { name: "ID Number", rules: "required" },
                               scopedSlots: _vm._u(
                                 [
                                   {
@@ -1908,7 +1771,7 @@ var render = function() {
                           { attrs: { label: _vm.$t("address") } },
                           [
                             _c("ValidationProvider", {
-                              attrs: { name: "dirección", rules: "required" },
+                              attrs: { name: "address", rules: "required" },
                               scopedSlots: _vm._u(
                                 [
                                   {
@@ -1959,7 +1822,7 @@ var render = function() {
                             {
                               key: numberindex,
                               attrs: {
-                                label: "Teléfono #" + (numberindex + 1),
+                                label: "Phone #" + (numberindex + 1),
                                 grouped: "",
                                 "label-position": "on-border"
                               }
@@ -2174,7 +2037,7 @@ var render = function() {
                   { attrs: { label: _vm.$t("firstname") } },
                   [
                     _c("ValidationProvider", {
-                      attrs: { name: "nombres", rules: "required" },
+                      attrs: { name: "firstname", rules: "required" },
                       scopedSlots: _vm._u(
                         [
                           {
@@ -2216,7 +2079,7 @@ var render = function() {
                   { attrs: { label: _vm.$t("lastname") } },
                   [
                     _c("ValidationProvider", {
-                      attrs: { name: "apellidos", rules: "required" },
+                      attrs: { name: "lastname", rules: "required" },
                       scopedSlots: _vm._u(
                         [
                           {
@@ -2258,10 +2121,7 @@ var render = function() {
                   { attrs: { label: _vm.$t("email") } },
                   [
                     _c("ValidationProvider", {
-                      attrs: {
-                        name: "correo electrónico",
-                        rules: "required|email"
-                      },
+                      attrs: { name: "email", rules: "required|email" },
                       scopedSlots: _vm._u(
                         [
                           {
@@ -2299,65 +2159,51 @@ var render = function() {
                   1
                 ),
                 _vm._v(" "),
-                _vm.formdata.idnumber_type === "passport"
-                  ? _c(
-                      "b-field",
-                      {
-                        attrs: {
-                          rules: "required",
-                          label: _vm.$t("passport_number")
-                        }
-                      },
-                      [
-                        _c("ValidationProvider", {
-                          attrs: {
-                            name: "número de pasaporte",
-                            rules: "required"
-                          },
-                          scopedSlots: _vm._u(
-                            [
-                              {
-                                key: "default",
-                                fn: function(ref) {
-                                  var errors = ref.errors
-                                  return [
-                                    _c("b-input", {
-                                      attrs: { maxlength: "12" },
-                                      model: {
-                                        value: _vm.formdata.idnumber,
-                                        callback: function($$v) {
-                                          _vm.$set(
-                                            _vm.formdata,
-                                            "idnumber",
-                                            $$v
-                                          )
-                                        },
-                                        expression: "formdata.idnumber"
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c("p", { staticClass: "help is-danger" }, [
-                                      _vm._v(_vm._s(errors[0]))
-                                    ])
-                                  ]
-                                }
-                              }
-                            ],
-                            null,
-                            true
-                          )
-                        })
-                      ],
-                      1
-                    )
-                  : _vm._e(),
+                _c(
+                  "b-field",
+                  { attrs: { label: _vm.$t("iddocument") } },
+                  [
+                    _c("ValidationProvider", {
+                      attrs: { name: "ID Number", rules: "required" },
+                      scopedSlots: _vm._u(
+                        [
+                          {
+                            key: "default",
+                            fn: function(ref) {
+                              var errors = ref.errors
+                              return [
+                                _c("b-input", {
+                                  attrs: { maxlength: "12", required: "" },
+                                  model: {
+                                    value: _vm.formdata.idnumber,
+                                    callback: function($$v) {
+                                      _vm.$set(_vm.formdata, "idnumber", $$v)
+                                    },
+                                    expression: "formdata.idnumber"
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("p", { staticClass: "help is-danger" }, [
+                                  _vm._v(_vm._s(errors[0]))
+                                ])
+                              ]
+                            }
+                          }
+                        ],
+                        null,
+                        true
+                      )
+                    })
+                  ],
+                  1
+                ),
                 _vm._v(" "),
                 _c(
                   "b-field",
                   { attrs: { label: _vm.$t("password") } },
                   [
                     _c("ValidationProvider", {
-                      attrs: { name: "contraseña", rules: "required|min:6" },
+                      attrs: { name: "password", rules: "required|min:6" },
                       scopedSlots: _vm._u(
                         [
                           {
@@ -2806,7 +2652,7 @@ var render = function() {
                   { attrs: { label: _vm.$t("birthdate") } },
                   [
                     _c("ValidationProvider", {
-                      attrs: { name: "fecha de nacimiento", rules: "required" },
+                      attrs: { name: "birthdate", rules: "required" },
                       scopedSlots: _vm._u(
                         [
                           {
@@ -2817,7 +2663,7 @@ var render = function() {
                                 _c("b-datepicker", {
                                   attrs: {
                                     "show-week-number": false,
-                                    placeholder: "Haz click para seleccionar",
+                                    placeholder: _vm.$t("Click to pick a date"),
                                     icon: "calendar-today"
                                   },
                                   model: {
@@ -2849,7 +2695,7 @@ var render = function() {
                   { attrs: { label: _vm.$t("address") } },
                   [
                     _c("ValidationProvider", {
-                      attrs: { name: "dirección", rules: "required" },
+                      attrs: { name: "addresse", rules: "required" },
                       scopedSlots: _vm._u(
                         [
                           {
@@ -2900,10 +2746,7 @@ var render = function() {
                     },
                     [
                       _c("ValidationProvider", {
-                        attrs: {
-                          name: "número de teléfono",
-                          rules: "required"
-                        },
+                        attrs: { name: "phone number", rules: "required" },
                         scopedSlots: _vm._u(
                           [
                             {
@@ -2991,7 +2834,7 @@ var render = function() {
                   { attrs: { label: _vm.$t("profesion") } },
                   [
                     _c("ValidationProvider", {
-                      attrs: { name: "profesión", rules: "required" },
+                      attrs: { name: "profesion" },
                       scopedSlots: _vm._u(
                         [
                           {
@@ -3032,7 +2875,7 @@ var render = function() {
                   { attrs: { label: _vm.$t("institution") } },
                   [
                     _c("ValidationProvider", {
-                      attrs: { name: "institución", rules: "required" },
+                      attrs: { name: "institution" },
                       scopedSlots: _vm._u(
                         [
                           {
@@ -3040,37 +2883,62 @@ var render = function() {
                             fn: function(ref) {
                               var errors = ref.errors
                               return [
-                                _c(
-                                  "b-taginput",
-                                  {
-                                    attrs: {
-                                      data: _vm.filteredInstitutions,
-                                      autocomplete: "",
-                                      "allow-new": true,
-                                      "open-on-focus": true,
-                                      maxtags: "1",
-                                      placeholder: _vm.$t("institution_example")
-                                    },
-                                    on: { typing: _vm.getFilteredInstitutions },
-                                    model: {
-                                      value: _vm.formdata.institution,
-                                      callback: function($$v) {
-                                        _vm.$set(
-                                          _vm.formdata,
-                                          "institution",
-                                          $$v
-                                        )
-                                      },
-                                      expression: "formdata.institution"
+                                _c("b-autocomplete", {
+                                  ref: "autocomplete",
+                                  attrs: {
+                                    data: _vm.filteredInstitutions,
+                                    "allow-new": true,
+                                    "open-on-focus": true,
+                                    maxtags: "1",
+                                    placeholder: _vm.$t("institution_example")
+                                  },
+                                  on: {
+                                    select: function(option) {
+                                      return (_vm.selected = option)
                                     }
                                   },
-                                  [
-                                    _c("template", { slot: "empty" }, [
-                                      _vm._v(_vm._s(_vm.$t("institution_save")))
-                                    ])
-                                  ],
-                                  2
-                                ),
+                                  scopedSlots: _vm._u(
+                                    [
+                                      {
+                                        key: "header",
+                                        fn: function() {
+                                          return [
+                                            _c(
+                                              "a",
+                                              {
+                                                on: {
+                                                  click: _vm.showAddInstitution
+                                                }
+                                              },
+                                              [
+                                                _c("span", [
+                                                  _vm._v(" Add new... ")
+                                                ])
+                                              ]
+                                            )
+                                          ]
+                                        },
+                                        proxy: true
+                                      },
+                                      {
+                                        key: "empty",
+                                        fn: function() {
+                                          return [_vm._v("No results ")]
+                                        },
+                                        proxy: true
+                                      }
+                                    ],
+                                    null,
+                                    true
+                                  ),
+                                  model: {
+                                    value: _vm.formdata.institution,
+                                    callback: function($$v) {
+                                      _vm.$set(_vm.formdata, "institution", $$v)
+                                    },
+                                    expression: "formdata.institution"
+                                  }
+                                }),
                                 _vm._v(" "),
                                 _c("p", { staticClass: "help is-danger" }, [
                                   _vm._v(_vm._s(errors[0]))
@@ -3973,7 +3841,7 @@ var store = {
     this.state.userPicture = data;
   },
   updateInfoData: function updateInfoData(data) {
-    this.state.address = data.address, this.state.birthdate = moment__WEBPACK_IMPORTED_MODULE_0___default()(data.birthdate).format(), this.state.profession = data.profession, this.state.institution = data.institution[0], this.state.phonenumbers = data.phonenumbers;
+    this.state.address = data.address, this.state.birthdate = moment__WEBPACK_IMPORTED_MODULE_0___default()(data.birthdate).format(), this.state.profession = data.profession, this.state.institution = data.institution, this.state.phonenumbers = data.phonenumbers;
   },
   updateContactsData: function updateContactsData(data) {
     this.state.contacts = data;
@@ -4033,7 +3901,13 @@ __webpack_require__.r(__webpack_exports__);
     "profile_picture": "Select a profile picture or take a picture.",
     "take_picture": "Take a picture",
     "snap_picture": "Capture",
-    "click_upload": "Click to upload"
+    "click_upload": "Click to upload",
+    "Use this data for invoices": "Use this data for invoices",
+    "The form is invalid, please check the fields marked in red and try again": "The form is invalid, please check the fields marked in red and try again",
+    "An account with this email already exists.": "An account with this email already exists.",
+    "The user could not be created. Please get in touch with an administrator.": "The user could not be created. Please get in touch with an administrator.",
+    "The account was created successfully": "The account was created successfully",
+    "Click to pick a date": "Click to pick a date"
   },
   "es": {
     "step1": "Datos del estudiante",
@@ -4076,7 +3950,13 @@ __webpack_require__.r(__webpack_exports__);
     "profile_picture": "Seleccione una foto de perfil o tome una foto",
     "take_picture": "Toma una foto",
     "snap_picture": "Capturar",
-    "click_upload": "Haga clic para cargar"
+    "click_upload": "Haga clic para cargar",
+    "Use this data for invoices": "Facturar a este nombre",
+    "The form is invalid, please check the fields marked in red and try again": "El formulario no esta completo! Por favor verifique los campos en rojo.",
+    "An account with this email already exists.": "Ya existe una cuenta registrada con este correo electrónico",
+    "The user could not be created. Please get in touch with an administrator.": "Error al crear la cuenta.",
+    "The account was created successfully": "La cuenta fue creada con exito.",
+    "Click to pick a date": "Haz click para seleccionar una fecha"
   },
   "fr": {
     "step1": "Informations de l'étudiant",
@@ -4119,7 +3999,13 @@ __webpack_require__.r(__webpack_exports__);
     "profile_picture": "Sélectionnez une photo de profil ou prenez une photo.",
     "take_picture": "Prendre une photo",
     "snap_picture": "Capturer",
-    "click_upload": "Cliquez pour télécharger"
+    "click_upload": "Cliquez pour télécharger",
+    "Use this data for invoices": "Utiliser ces données pour les factures",
+    "The form is invalid, please check the fields marked in red and try again": "Le formulaire est incomplet, vérifiez les champ en rouge et réessayez.",
+    "An account with this email already exists.": "Il existe déjà un compte avec cette adresse mail.",
+    "The user could not be created. Please get in touch with an administrator.": "Le compte n'a pas pu être créé. Veuillez contacter un administrateur.",
+    "The account was created successfully": "Le compte a été créé avec succès",
+    "Click to pick a date": "Cliquez pour choisir une date"
   }
 });
 

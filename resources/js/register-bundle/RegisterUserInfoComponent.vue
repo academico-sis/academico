@@ -2,32 +2,15 @@
     <div>
         <ValidationObserver ref="observer" v-slot="{ valid }">
             <b-field :label="$t('birthdate')">
-                <ValidationProvider
-                    v-slot="{ errors }"
-                    name="fecha de nacimiento"
-                    rules="required"
-                >
-                    <b-datepicker
-                        v-model="formdata.birthdate"
-                        :show-week-number="false"
-                        placeholder="Haz click para seleccionar"
-                        icon="calendar-today"
-                    >
-                    </b-datepicker>
+                <ValidationProvider v-slot="{ errors }" name="birthdate" rules="required">
+                    <b-datepicker v-model="formdata.birthdate" :show-week-number="false" :placeholder="$t('Click to pick a date')" icon="calendar-today"></b-datepicker>
                     <p class="help is-danger">{{ errors[0] }}</p>
                 </ValidationProvider>
             </b-field>
 
             <b-field :label="$t('address')">
-                <ValidationProvider
-                    v-slot="{ errors }"
-                    name="dirección"
-                    rules="required"
-                >
-                    <b-input
-                        v-model="formdata.address"
-                        :placeholder="$t('address')"
-                    ></b-input>
+                <ValidationProvider v-slot="{ errors }" name="addresse" rules="required">
+                    <b-input v-model="formdata.address" :placeholder="$t('address')"></b-input>
                     <p class="help is-danger">{{ errors[0] }}</p>
                 </ValidationProvider>
             </b-field>
@@ -39,23 +22,11 @@
                 :key="index"
                 :label="`${$t('phonenumber')} #${index + 1}`"
                 grouped
-                label-position="on-border"
-            >
-                <ValidationProvider
-                    v-slot="{ errors }"
-                    name="número de teléfono"
-                    rules="required"
-                >
-                    <b-input
-                        v-model="number.number"
-                        :placeholder="$t('phonenumber')"
-                    ></b-input>
+                label-position="on-border">
+                <ValidationProvider v-slot="{ errors }" name="phone number" rules="required">
+                    <b-input v-model="number.number" :placeholder="$t('phonenumber')"></b-input>
                     <p class="control">
-                        <b-button
-                            v-if="index > 0"
-                            @click="dropPhoneNumber(index)"
-                            >{{ $t("delete") }}</b-button
-                        >
+                        <b-button v-if="index > 0" @click="dropPhoneNumber(index)">{{ $t("delete") }}</b-button>
                     </p>
                     <p class="help is-danger">{{ errors[0] }}</p>
                 </ValidationProvider>
@@ -67,45 +38,35 @@
             </p>
 
             <b-field :label="$t('profesion')">
-                <ValidationProvider
-                    v-slot="{ errors }"
-                    name="profesión"
-                    rules="required"
-                >
-                    <b-input
-                        v-model="formdata.profession"
-                        :placeholder="$t('profesion_example')"
-                    >
-                    </b-input>
+                <ValidationProvider v-slot="{ errors }" name="profesion">
+                    <b-input v-model="formdata.profession" :placeholder="$t('profesion_example')"></b-input>
                     <p class="help is-danger">{{ errors[0] }}</p>
                 </ValidationProvider>
             </b-field>
 
             <b-field :label="$t('institution')">
-                <ValidationProvider
-                    v-slot="{ errors }"
-                    name="institución"
-                    rules="required"
-                >
-                <b-taginput
-                v-model="formdata.institution"
-                :data="filteredInstitutions"
-                autocomplete
-                :allow-new=true
-                :open-on-focus=true
-                maxtags="1"
-                :placeholder="$t('institution_example')"
-                @typing="getFilteredInstitutions">
-                <template slot="empty">{{$t('institution_save')}}</template>
-            </b-taginput>
-
+                <ValidationProvider v-slot="{ errors }" name="institution">
+                    <b-autocomplete
+                        v-model="formdata.institution"
+                        :data="filteredInstitutions"
+                        ref="autocomplete"
+                        :allow-new=true
+                        :open-on-focus=true
+                        maxtags="1"
+                        :placeholder="$t('institution_example')"
+                        @select="option => selected = option">
+                        <template #header>
+                            <a @click="showAddInstitution">
+                                <span> Add new... </span>
+                            </a>
+                        </template>
+                        <template #empty>No results </template>
+                    </b-autocomplete>
                     <p class="help is-danger">{{ errors[0] }}</p>
                 </ValidationProvider>
             </b-field>
 
-            <b-button type="is-primary" @click="validateBeforeSubmit()">{{
-                $t("next")
-            }}</b-button>
+            <b-button type="is-primary" @click="validateBeforeSubmit()">{{ $t("next") }}</b-button>
         </ValidationObserver>
     </div>
 </template>
@@ -150,12 +111,20 @@ export default {
         dropPhoneNumber(index) {
             this.formdata.phonenumbers.splice(index, 1);
         },
-        getFilteredInstitutions(text) {
-            this.filteredInstitutions = this.institutionslist.filter(option =>
-                option
-                    .toString()
-                    .toLowerCase()
-                    .indexOf(text.toLowerCase()) >= 0)
+        showAddInstitution() {
+            this.$buefy.dialog.prompt({
+                message: `Fruit`,
+                inputAttrs: {
+                    placeholder: 'e.g. Watermelon',
+                    maxlength: 20,
+                    value: this.name
+                },
+                confirmText: 'Add',
+                onConfirm: (value) => {
+                    this.institutionslist.push(value)
+                    this.$refs.autocomplete.setSelected(value)
+                }
+            })
         },
         async validateBeforeSubmit() {
             const isValid = await this.$refs.observer.validate();
@@ -164,8 +133,7 @@ export default {
                 this.updateData();
             } else {
                 this.$buefy.toast.open({
-                    message:
-                        "El formulario no esta completo! Por favor verifique los campos en rojo.",
+                    message: this.$t('The form is invalid, please check the fields marked in red and try again'),
                     type: "is-danger",
                     position: "is-bottom",
                 });

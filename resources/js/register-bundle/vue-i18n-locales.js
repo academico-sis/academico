@@ -40,8 +40,14 @@ export default {
         "profile_picture": "Select a profile picture or take a picture.",
         "take_picture": "Take a picture",
         "snap_picture": "Capture",
-        "click_upload": "Click to upload"
-    },
+        "click_upload": "Click to upload",
+        "Use this data for invoices": "Use this data for invoices",
+        "The form is invalid, please check the fields marked in red and try again": "The form is invalid, please check the fields marked in red and try again",
+        "An account with this email already exists.": "An account with this email already exists.",
+        "The user could not be created. Please get in touch with an administrator.": "The user could not be created. Please get in touch with an administrator.",
+        "The account was created successfully": "The account was created successfully",
+        "Click to pick a date": "Click to pick a date"
+},
     "es": {
         "step1": "Datos del estudiante",
         "step2": "Informacion addicional",
@@ -83,7 +89,13 @@ export default {
         "profile_picture": "Seleccione una foto de perfil o tome una foto",
         "take_picture": "Toma una foto",
         "snap_picture": "Capturar",
-        "click_upload": "Haga clic para cargar"
+        "click_upload": "Haga clic para cargar",
+        "Use this data for invoices": "Facturar a este nombre",
+        "The form is invalid, please check the fields marked in red and try again": "El formulario no esta completo! Por favor verifique los campos en rojo.",
+        "An account with this email already exists.": "Ya existe una cuenta registrada con este correo electrónico",
+        "The user could not be created. Please get in touch with an administrator." : "Error al crear la cuenta.",
+        "The account was created successfully": "La cuenta fue creada con exito.",
+        "Click to pick a date": "Haz click para seleccionar una fecha"
     },
     "fr": {
         "step1": "Informations de l'étudiant",
@@ -126,6 +138,12 @@ export default {
         "profile_picture": "Sélectionnez une photo de profil ou prenez une photo.",
         "take_picture": "Prendre une photo",
         "snap_picture": "Capturer",
-        "click_upload": "Cliquez pour télécharger"
+        "click_upload": "Cliquez pour télécharger",
+        "Use this data for invoices": "Utiliser ces données pour les factures",
+        "The form is invalid, please check the fields marked in red and try again" : "Le formulaire est incomplet, vérifiez les champ en rouge et réessayez.",
+        "An account with this email already exists.": "Il existe déjà un compte avec cette adresse mail.",
+        "The user could not be created. Please get in touch with an administrator.": "Le compte n'a pas pu être créé. Veuillez contacter un administrateur.",
+        "The account was created successfully": "Le compte a été créé avec succès",
+        "Click to pick a date": "Cliquez pour choisir une date"
     }
 }

@@ -138,21 +138,26 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
         Log::info('Phone numbers added to the student profile');
 
         // add profession and institution
-        $profession = Profession::firstOrCreate([
-            'name' => $request->data['profession'],
-        ]);
+        if ($request->data['institution']) {
+            $profession = Profession::firstOrCreate([
+                'name' => $request->data['profession'],
+            ]);
 
-        $student->update([
-            'profession_id' => $profession->id,
-        ]);
+            $student->update([
+                'profession_id' => $profession->id,
+            ]);
+        }
 
-        $institution = Institution::firstOrCreate([
-            'name' => $request->data['institution'],
-        ]);
+        if ($request->data['institution'])
+        {
+            $institution = Institution::firstOrCreate([
+                'name' => $request->data['institution'],
+            ]);
 
-        $student->update([
-            'institution_id' => $institution->id,
-        ]);
+            $student->update([
+                'institution_id' => $institution->id,
+            ]);
+        }
 
         Log::info('Profession and institution added to the student profile');
 

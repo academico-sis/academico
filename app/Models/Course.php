@@ -143,7 +143,11 @@ class Course extends Model
     /** the different grade types associated to the course, ie. criteria that will receive the grades */
     public function grade_types()
     {
-        return $this->evaluationType->gradeTypes()->orderBy('order');
+        if ($this->evaluationType) {
+            return $this->evaluationType->gradeTypes()->orderBy('order');
+        }
+
+        return GradeType::query();
     }
 
     /** in the case of skills-based evaluation, Skill models are attached to the course

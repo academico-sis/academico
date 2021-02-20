@@ -7,8 +7,8 @@
         <title>@yield('title')</title>
 
         <!-- Fonts -->
-        <link rel="dns-prefetch" href="//fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet">
 
         <!-- Styles -->
         <style>
@@ -48,22 +48,23 @@
     <body>
         <div class="flex-center position-ref full-height">
             <div class="content">
+                <img src="{{ asset('logo.png') }}" alt="Academico logo">
+
                 <div class="title">
                     @yield('message')
                 </div>
+
+                <p>@lang("If you don't understand why you're seeing this error, please report it so it can be fixed")</p>
+                <p>@lang('Send an email and describe your issue:')
+                    <a href="mailto:incoming+thdebay-academico-site-17656010-issue-@incoming.gitlab.com">incoming+thdebay-academico-site-17656010-issue-@incoming.gitlab.com</a>
+                </p>
+
+                <a href="{{ app('router')->has('home') ? route('home') : url('/') }}">
+                    <button class="bg-transparent text-grey-darkest font-bold uppercase tracking-wide py-3 px-6 border-2 border-grey-light hover:border-grey rounded-lg">
+                        {{ __('Go Home') }}
+                    </button>
+                </a>
             </div>
         </div>
-
-        @if(app()->bound('sentry') && app('sentry')->getLastEventId())
-            <script src="https://browser.sentry-cdn.com/5.7.1/bundle.min.js" integrity="sha384-KMv6bBTABABhv0NI+rVWly6PIRvdippFEgjpKyxUcpEmDWZTkDOiueL5xW+cztZZ" crossorigin="anonymous"></script>
-            <script>
-                Sentry.init({ dsn: '{{ config('settings.sentry_laravel_dsn') }}' });
-                Sentry.showReportDialog({
-                    eventId: '{{ Sentry::getLastEventID() }}',
-                    lang: 'es',
-                });
-            </script>
-        @endif
-
     </body>
 </html>

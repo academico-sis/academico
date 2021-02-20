@@ -33,18 +33,6 @@ class CourseEvaluationCrudControllerTest extends TestCase
         // TODO: perform additional assertions
     }
 
-    /**
-     * @test
-     */
-    public function index_returns_an_ok_response()
-    {
-
-        $response = $this->get(route('courseevaluation.index'));
-
-        $response->assertOk();
-
-        // TODO: perform additional assertions
-    }
 
     /**
      * @test
