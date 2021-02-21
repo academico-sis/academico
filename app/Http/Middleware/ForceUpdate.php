@@ -18,7 +18,7 @@ class ForceUpdate
         if (Request::isMethod('post')) {
             return $next($request);
         }
-
+        
         // if the current user has a forceupdate field set, we check that they can only access this route or a lower forceupdate step
 
         if (backpack_user() != null) {

@@ -9,9 +9,12 @@ use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Facades\Log;
+use App\Traits\HandlesAttendance;
 
 class Kernel extends ConsoleKernel
 {
+    use HandlesAttendance;
+    
     /**
      * The Artisan commands provided by your application.
      *
@@ -30,7 +33,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->call(function () {
             Log::info('Sending attendance reminders');
-            (new Attendance())->remindPendingAttendance();
+            $this->remindPendingAttendance();
         })->dailyAt('08:15');
 
         $schedule->call(function () {

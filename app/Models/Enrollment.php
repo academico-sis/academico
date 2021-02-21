@@ -97,6 +97,12 @@ class Enrollment extends Model
         }
     }
 
+    public function isPaid()
+    {
+        return $this->status_id == 2;
+    }
+
+
     public function markAsUnpaid()
     {
         $this->status_id = 1;
@@ -109,9 +115,16 @@ class Enrollment extends Model
         }
     }
 
-    public function isPaid()
+    public function addScholarship(Scholarship $scholarship)
     {
-        return $this->status_id == 2;
+        $this->scholarships()->sync($scholarship);
+        $this->markAsPaid();
+    }
+
+    public function removeScholarship($scholarship)
+    {
+        $this->scholarships()->detach($scholarship);
+        $this->markAsUnpaid();
     }
 
     /** RELATIONS */
@@ -135,9 +148,19 @@ class Enrollment extends Model
         return $this->hasMany(Payment::class);
     }
 
+    public function pre_invoice()
+    {
+        return $this->belongsToMany(PreInvoice::class, 'enrollment_pre_invoice', 'enrollment_id', 'pre_invoice_id');
+    }
+
     public function comments()
     {
         return $this->morphMany(Comment::class, 'commentable');
+    }
+
+    public function scholarships()
+    {
+        return $this->belongsToMany(Scholarship::class);
     }
 
     public function result()
@@ -269,7 +292,7 @@ class Enrollment extends Model
     public function cancel()
     {
         // if the enrollment had children, delete them entirely
-        if ($this->childrenEnrollments && ($this->childrenEnrollments->count() > 0)) {
+        if ($this->childrenEnrollments && $this->childrenEnrollments->count() > 0) {
             foreach ($this->childrenEnrollments as $child) {
                 $child->delete();
             }

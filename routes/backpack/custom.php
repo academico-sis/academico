@@ -17,6 +17,7 @@ Route::group(
         Route::crud('result', 'Admin\ResultCrudController');
         Route::crud('student', 'Admin\StudentCrudController');
         Route::crud('course', 'Admin\CourseCrudController');
+        Route::crud('externalcourse', 'Admin\ExternalCourseCrudController');
         Route::crud('comment', 'Admin\CommentCrudController');
     }
 );
@@ -43,6 +44,7 @@ Route::group([
     Route::crud('coupon', 'CouponCrudController');
     Route::crud('paymentmethod', 'PaymentmethodCrudController');
     Route::crud('institution', 'InstitutionCrudController');
+    Route::crud('scholarship', 'ScholarshipCrudController');
 });
 
 /* Admin routes - Backpack's CRUD panels, accessible only to administrators */
@@ -72,4 +74,6 @@ Route::group([
     Route::crud('leadtype', 'LeadTypeCrudController');
     Route::crud('book', 'BookCrudController');
     Route::crud('gradetypecategory', 'GradeTypeCategoryCrudController');
+    Route::crud('partner', 'PartnerCrudController');
+    Route::crud('schedulepreset', 'SchedulePresetCrudController');
 }); // this should be the absolute last line of this file

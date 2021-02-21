@@ -1,12 +1,5 @@
 @extends('backpack::blank')
 
-@section('header')
-<section class="container-fluid">
-    <h2>@lang('Human Resources')</h2>
-</section>
-@endsection
-
-
 @section('content')
 
 <div class="row">
@@ -28,7 +21,7 @@
                             </div>
                         </div>
 
-                        <div class="col">
+{{--                        <div class="col">
                             <label for="report_start_date">Début : </label>
                             <input class="form-control" type="date" name="report_start_date" value="{{$start}}">
                         </div>
@@ -40,7 +33,7 @@
 
                         <div class="col align-bottom">
                             <button id="sumbit" style="position: absolute; bottom: 0;" class="btn btn-primary" type="submit">OK</button>
-                        </div>
+                        </div>--}}
 
                     </div>
                 </form>
@@ -52,7 +45,8 @@
                     <thead>
                         <tr>
                             <th data-orderable="true">@lang('Teacher')</th>
-                            <th data-orderable="true">@lang('Worked Hours')</th>
+                            <th>@lang('Planned Hours')</th>
+                            <th><strong>@lang('Period Total')</strong></th>
                         </tr>
                     </thead>
 
@@ -60,7 +54,14 @@
                         @foreach ($teachers as $teacher)
                         <tr>
                             <td>{{ $teacher->name }}</td>
-                            <td>{{ number_format($teacher->plannedHoursInPeriod($start, $end), 2, '.', ',') }} h</td>
+                            <td>
+                                <p>@lang('Remote') : {{ number_format($teacher->remoteVolume, 2, '.', ',') }} h</p>
+                                <p>@lang('Face-to-face') : {{ number_format($teacher->volume, 2, '.', ',') }} h</p>
+                            </td>
+
+                            <td>
+                                <strong>{{ number_format($teacher->volume + $teacher->remoteVolume, 2, '.', ',') }} h</strong>
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>

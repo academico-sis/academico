@@ -5,8 +5,12 @@ namespace App\Http\Controllers;
 use App\Events\EnrollmentUpdated;
 use App\Http\Requests\StoreEnrollmentRequest;
 use App\Models\Attendance;
+use App\Models\Book;
 use App\Models\Course;
+use App\Models\Discount;
 use App\Models\Enrollment;
+use App\Models\Fee;
+use App\Models\Paymentmethod;
 use App\Models\Student;
 use App\Traits\PeriodSelection;
 use Illuminate\Http\Request;
@@ -93,6 +97,27 @@ class EnrollmentController extends Controller
         Alert::success(__('The enrollment has been updated'))->flash();
 
         return "enrollment/$enrollment->id/show";
+    }
+
+    /**
+     * Create a new cart with the specified enrollment
+     * and display the cart.
+     */
+    public function bill(Enrollment $enrollment)
+    {
+        Log::info(backpack_user()->firstname.' is generating a preinvoice');
+
+        $enrollments = Enrollment::where('id', $enrollment->id)->with('course.rhythm')->get();
+        $books = $enrollment->course->books ?? [];
+        $fees = Fee::first()->get(); // todo issue #119
+
+        $availableBooks = Book::all();
+        $availableFees = Fee::all();
+        $availableDiscounts = Discount::all();
+        $contactData = $enrollment->student->contacts;
+        $availablePaymentMethods = Paymentmethod::all();
+
+        return view('carts.show', compact('enrollments', 'fees', 'books', 'availableBooks', 'availableFees', 'availableDiscounts', 'contactData', 'availablePaymentMethods'));
     }
 
     public function markaspaid(Enrollment $enrollment)

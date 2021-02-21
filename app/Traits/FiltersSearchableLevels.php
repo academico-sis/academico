@@ -11,9 +11,10 @@ class FiltersSearchableLevels implements Filter
     {
         $value = collect($value)->toArray();
         $query->where(function (Builder $query) use ($value) {
-            $query->whereIn('level_id', $value)->orWhereHas('children', function (Builder $query) use ($value) {
-                $query->whereIn('level_id', $value);
-            });
+            $query->whereIn('level_id', $value)
+                ->orWhereHas('children', function (Builder $query) use ($value) {
+                    $query->whereIn('level_id', $value);
+                });
         });
     }
 }

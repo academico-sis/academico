@@ -10,7 +10,7 @@ class ConfigController extends Controller
 {
     public function get()
     {
-        if (! backpack_user()->hasPermissionTo('enrollments.edit')) {
+        if (! backpack_user()->hasPermissionTo('courses.edit')) {
             abort(403);
         }
 

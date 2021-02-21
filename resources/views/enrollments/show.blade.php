@@ -62,6 +62,7 @@
         </student-comments>
 
     </div>
+    
 
 
 
@@ -86,6 +87,9 @@
 
                 @endif
 
+                @foreach ($enrollment->scholarships as $scholarship)
+                    {{ $scholarship->name }} (<a href="#" onclick="if(confirm('Voulez-vous vraiment retirer cette bourse ?')) removeScholarship({{ $enrollment->id }}, {{ $scholarship->id }})">{{ __('Cancel') }}</a>)
+                @endforeach
             </div>
 
                 @if(backpack_user()->can('enrollments.edit'))
@@ -110,7 +114,8 @@
                 <div class="form-group">
                     <a class="btn btn-sm btn-warning" href="{{ route('get-courses-list', ['mode' => 'update', 'enrollment_id' => $enrollment->id]) }}">@lang('Change course')</a>
                 </div>
-
+                <scholarship-modal-component enrollment_id="{{ $enrollment->id }}" :scholarships="{{ $scholarships }}"></scholarship-modal-component>
+                
             @else
                 {{ $enrollment->enrollmentStatus->name }}
             @endif
@@ -121,6 +126,10 @@
 
 
 </div>
+
+@if ($enrollment->pre_invoice()->count() > 0 && backpack_user()->can('enrollments.edit'))
+    @include('invoices.show')
+@endif
 
 
 @endsection
@@ -140,6 +149,19 @@
                 .catch(error => console.log(error));
         }
 
+        function removeScholarship(enrollment, scholarship)
+        {
+            axios
+            .post(`/enrollment/${enrollment}/scholarships/remove`, {
+                scholarship_id: scholarship
+            })
+            .then(function (response) {
+                window.location.href=`/enrollment/${enrollment}/show`
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        }
 
         function markaspaid(enrollment)
         {

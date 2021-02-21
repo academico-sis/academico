@@ -14,7 +14,7 @@
         </div>
         @endif
         
-        @if (backpack_user()->hasPermissionTo('enrollments.edit'))
+        @if (backpack_user()->hasPermissionTo('courses.edit'))
         <div>
             <div class="text-value"><a class="btn" href="{{ route('get-default-periods-screen') }}"><i class="la la-edit"></i></a></div>
             <div class="text-uppercase text-muted small">@lang('Edit')</div>

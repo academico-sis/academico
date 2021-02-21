@@ -26,10 +26,15 @@ class HRController extends Controller
     {
         $period = $this->selectPeriod($request);
 
+        $teachers = Teacher::with('remote_events')->with('events')->with('courses')->get();
+
         $report_start_date = $request->report_start_date ?? $period->start;
         $report_end_date = $request->report_end_date ?? $period->end;
 
-        $teachers = Teacher::all();
+        foreach ($teachers as $teacher) {
+            $teacher->remoteVolume = $teacher->courses()->whereNull('parent_course_id')->where('period_id', $period->id)->sum('remote_volume');
+            $teacher->volume = $teacher->courses()->whereNull('parent_course_id')->where('period_id', $period->id)->sum('volume');
+        }
 
         Log::info('HR Dahsboard viewed by '.backpack_user()->firstname);
 

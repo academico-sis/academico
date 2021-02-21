@@ -42,7 +42,7 @@ class WatchAttendance implements ShouldQueue
             }
 
             if (config('settings.manager_email') !== null) {
-                array_push($otherRecipients, ['email' => config('settings.manager_email')]);
+                array_push($otherRecipients, ['email' => explode(',', config('settings.manager_email'))]);
             }
 
             // also send to the student's contacts

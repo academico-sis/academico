@@ -9,7 +9,6 @@ use App\Models\Room;
 use App\Models\Teacher;
 use Faker\Generator as Faker;
 
-/* @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(Course::class, function (Faker $faker) {
     return [
         'name' => 'TEST COURSE LEVEL '.$faker->randomDigit,

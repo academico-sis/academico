@@ -8,10 +8,149 @@ use App\Models\Year;
 use App\Traits\PeriodSelection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use App\Models\Course;
+use Carbon\Carbon;
+use App\Models\Partner;
 
 class ReportController extends Controller
 {
     use PeriodSelection;
+
+    public function index()
+    {
+        $currentPeriod = Period::get_default_period();
+        $enrollmentsPeriod = Period::get_enrollments_period();
+
+        return view('reports.index', [
+            'currentPeriod' => $currentPeriod,
+            'enrollmentsPeriod' => $enrollmentsPeriod,
+            'pending_enrollment_count' => $currentPeriod->pending_enrollments_count,
+            'paid_enrollment_count' => $currentPeriod->paid_enrollments_count,
+            'total_enrollment_count' => $currentPeriod->internal_enrollments_count,
+            'students_count' => $currentPeriod->students_count,
+        ]);
+    }
+
+    public function external2(Request $request)
+    {
+        $report_start_date = $request->report_start_date ?? Carbon::parse('2019-01-01');
+        $report_end_date = $request->report_end_date ?? Carbon::now();
+
+        $courses = Course::external()->where('end_date', '>', $report_start_date)->where('start_date', '<', $report_end_date)->get();
+
+        $data['courses'] = $courses->count();
+        $data['enrollments'] = $courses->sum('head_count');
+        $data['students'] = $courses->sum('new_students');
+        $data['taught_hours'] = $courses->where('parent_course_id', null)->sum('total_volume');
+        $total = 0;
+        foreach ($courses->where('parent_course_id', null) as $course) {
+            $total += $course->total_volume * $course->head_count;
+        }
+        $data['sold_hours'] = $total;
+
+        return view('reports.external2', [
+            'start' => Carbon::parse($report_start_date)->format('Y-m-d'),
+            'end' => Carbon::parse($report_end_date)->format('Y-m-d'),
+            'data' => $data,
+            'courses' => $courses,
+        ]);
+    }
+
+    public function external(Request $request)
+    {
+        $data = [];
+        $year_data = [];
+        $years = []; // New array
+
+        if (! isset($request->period)) {
+            $startperiod = Period::first();
+        } else {
+            $startperiod = Period::find($request->period);
+        }
+
+        $periods = Period::where('id', '>=', $startperiod->id)->get();
+
+        $current_year_id = $startperiod->year_id;
+        $year_data[$current_year_id] = [];
+        $year_data[$current_year_id]['year_name'] = Year::find($current_year_id)->name;
+        $year_data[$current_year_id]['students'] = 0;
+        $year_data[$current_year_id]['enrollments'] = 0;
+        $year_data[$current_year_id]['taught_hours'] = 0;
+        $year_data[$current_year_id]['sold_hours'] = 0;
+
+        foreach ($periods as $i => $data_period) {
+            $data[$data_period->id]['period'] = $data_period->name;
+            $data[$data_period->id]['year_id'] = $data_period->year_id;
+            $data[$data_period->id]['courses'] = $data_period->external_courses_count;
+            $data[$data_period->id]['partnerships'] = $data_period->partnerships_count;
+            $data[$data_period->id]['enrollments'] = $data_period->external_enrollments_count;
+            $data[$data_period->id]['students'] = $data_period->external_students_count;
+            $data[$data_period->id]['taught_hours'] = $data_period->external_taught_hours_count;
+            $data[$data_period->id]['sold_hours'] = $data_period->external_sold_hours_count;
+
+            // if we are starting a new year, push the year data to the array
+            if ($current_year_id != $data_period->year_id) {
+                $current_year_id = $data_period->year_id;
+
+                $year_data[$current_year_id] = [];
+                $year_data[$current_year_id]['year_name'] = Year::find($current_year_id)->name;
+                $year_data[$current_year_id]['students'] = 0;
+                $year_data[$current_year_id]['enrollments'] = 0;
+                $year_data[$current_year_id]['taught_hours'] = 0;
+                $year_data[$current_year_id]['sold_hours'] = 0;
+            }
+
+            $year_data[$current_year_id]['students'] += $data_period->external_students_count;
+            $year_data[$current_year_id]['enrollments'] += $data_period->external_enrollments_count;
+            $year_data[$current_year_id]['taught_hours'] += $data_period->external_taught_hours_count;
+            $year_data[$current_year_id]['sold_hours'] += $data_period->external_sold_hours_count;
+
+            $year = Year::find($data_period->year_id)->append('partnerships');
+            $years[$data_period->year_id]['year'] = $year->name; // New array using the Model
+            $years[$data_period->year_id]['partnerships'] = $year->partnerships;
+        }
+
+        Log::info('Reports viewed by '.backpack_user()->firstname);
+
+        return view('reports.external', [
+            'selected_period' => $startperiod,
+            'data' => $data,
+            'year_data' => $year_data, // Existing array
+            'years' => $years,
+        ]);
+    }
+
+    public function external3()
+    {
+        return view('reports.external3', [
+            'partners' => Partner::all(),
+        ]);
+    }
+
+    public function partner(Partner $partner, Request $request)
+    {
+        $report_start_date = $request->report_start_date ?? Carbon::parse('2019-01-01');
+        $report_end_date = $request->report_end_date ?? Carbon::now();
+
+        $courses = Course::external()->where('partner_id', $partner->id)->where('end_date', '>', $report_start_date)->where('start_date', '<', $report_end_date)->get();
+
+        $data['courses'] = $courses->count();
+        $data['enrollments'] = $courses->sum('head_count');
+        $data['students'] = $courses->sum('new_students');
+        $data['taught_hours'] = $courses->where('parent_course_id', null)->sum('total_volume');
+        $total = 0;
+        foreach ($courses->where('parent_course_id', null) as $course) {
+            $total += $course->total_volume * $course->head_count;
+        }
+        $data['sold_hours'] = $total;
+
+        return view('reports.partner', [
+            'partner' => $partner,
+            'start' => Carbon::parse($report_start_date)->format('Y-m-d'),
+            'end' => Carbon::parse($report_end_date)->format('Y-m-d'),
+            'data' => $data,
+        ]);
+    }
 
     /**
      * The reports dashboard
@@ -76,7 +215,7 @@ class ReportController extends Controller
         $data = [];
 
         foreach ($count as $i => $course) {
-            $data[$i]['rhythm'] = $course[0]->rhythm->name;
+            $data[$i]['rhythm'] = $course[0]->rhythm->name ?? 'Other';
             $data[$i]['enrollment_count'] = $course->sum('enrollments_count');
         }
 
@@ -115,13 +254,13 @@ class ReportController extends Controller
         $data = [];
 
         foreach ($count as $i => $coursegroup) {
-            $data[$i]['level'] = $coursegroup[0]->level->reference;
+            $data[$i]['level'] = $coursegroup[0]->level->reference ?? "Other";
             $data[$i]['enrollment_count'] = $coursegroup->sum('enrollments_count');
-            $data[$i]['taught_hours_count'] = $coursegroup->sum('volume');
+            $data[$i]['taught_hours_count'] = $coursegroup->sum('total_volume');
 
             $total = 0;
             foreach ($coursegroup as $course) {
-                $total += $course->volume * $course->real_enrollments->count();
+                $total += $course->total_volume * $course->real_enrollments->count();
             }
 
             $data[$i]['sold_hours_count'] = $total;

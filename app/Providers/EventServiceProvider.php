@@ -24,6 +24,10 @@ use App\Listeners\UpdateCourseEvents;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use App\Events\ExternalCoursesReportEvent;
+use App\Listeners\SendExternalCoursesReport;
+use App\Events\ExpiringPartnershipsEvent;
+use App\Listeners\SendExpiringPartnershipsAlerts;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -75,6 +79,12 @@ class EventServiceProvider extends ServiceProvider
         EnrollmentUpdated::class => [
             UpdateEnrollmentInLMS::class
         ],
+        ExternalCoursesReportEvent::class => [
+            SendExternalCoursesReport::class
+        ],
+        ExpiringPartnershipsEvent::class => [
+            SendExpiringPartnershipsAlerts::class
+        ]
     ];
 
     /**

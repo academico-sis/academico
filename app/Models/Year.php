@@ -5,6 +5,7 @@ namespace App\Models;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use App\Models\Course;
 
 class Year extends Model
 {
@@ -37,6 +38,11 @@ class Year extends Model
     public function periods()
     {
         return $this->hasMany(Period::class);
+    }
+
+    public function getPartnershipsAttribute()
+    {
+        return Course::whereIn('period_id', $this->periods->pluck('id'))->pluck('partner_id')->unique()->count();
     }
 
     /*

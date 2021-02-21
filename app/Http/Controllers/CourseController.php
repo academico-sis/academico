@@ -10,6 +10,7 @@ use App\Models\Student;
 use App\Traits\FiltersSearchableLevels;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\Filters\Filter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class CourseController extends Controller
@@ -65,12 +66,10 @@ class CourseController extends Controller
         switch ($request->view) {
             case 'blocks':
                 backpack_user()->update(['preferred_course_view' => 'blocks']);
-
                 return redirect(route('get-courses-list'));
 
             default:
                 backpack_user()->update(['preferred_course_view' => 'list']);
-
                 return redirect(route('course.index'));
         }
     }

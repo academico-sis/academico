@@ -27,7 +27,7 @@ class AddStylingColumnToResultTypesTable extends Migration
     public function down()
     {
         Schema::table('result_types', function (Blueprint $table) {
-            //
+            $table->dropColumn(['class', 'icon']);
         });
     }
 }

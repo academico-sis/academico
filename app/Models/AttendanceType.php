@@ -1,7 +1,5 @@
 <?php
 
-/** @noinspection Annotator */
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;

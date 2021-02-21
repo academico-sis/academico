@@ -58,22 +58,6 @@ class Attendance extends Model
 
     /** METHODS */
 
-    /** Send email reminders to all teachers who have classes with incomplete attendance records */
-    public function remindPendingAttendance()
-    {
-        $period = Period::get_default_period();
-        foreach (Teacher::all() as $teacher) {
-            $events = $teacher->events_with_pending_attendance($period)
-            ->where('start', '<', (Carbon::parse('24 hours ago'))->toDateTimeString());
-
-            if ($events->count() > 0) {
-                Mail::to($teacher->email)
-                ->locale('fr')
-                ->queue(new PendingAttendanceReminder($teacher, $events));
-            }
-        }
-    }
-
     /**
      * get absences count per student
      * this is useful for monitoring the absences.

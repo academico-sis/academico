@@ -55,11 +55,16 @@ class HomeController extends Controller
         $teacher = Teacher::where('id', backpack_user()->id)->first();
         Log::info($teacher->name.' accessed the student dashboard');
 
+        $remoteVolume = $teacher->courses()->whereNull('parent_course_id')->where('period_id', $period->id)->sum('remote_volume');
+        $presentialVolume = $teacher->courses()->whereNull('parent_course_id')->where('period_id', $period->id)->sum('volume');
         return view('teacher.dashboard', [
             'teacher' => $teacher,
             'courses' => $teacher->period_courses($period),
             'pending_attendance' => $teacher->events_with_pending_attendance($period),
             'selected_period' => $period,
+            'remoteVolume' => $remoteVolume,
+            'volume' => $presentialVolume,
+            'totalVolume' => $remoteVolume + $presentialVolume,
         ]);
     }
 

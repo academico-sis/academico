@@ -21,9 +21,7 @@
                     @if ($course->accepts_new_students)
                         <button class="btn btn-primary" data-toggle="modal" data-target="#myModal">@lang('Enroll new student')</button>
                     @endif
-                </div>
 
-                <div class="card-header-actions">
                     <a href="/course/{{ $course->id }}/show/roster" class="btn btn-primary mr-3">{{__('Photo Roster')}}</a>
                 </div>
 

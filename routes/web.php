@@ -15,7 +15,6 @@ Route::group(
         Route::get('/', 'HomeController@index')->middleware('forceupdate');
         Route::get('/admin', 'HomeController@admin')->name('admin');
         Route::get('dashboard/teacher', 'HomeController@teacher')->name('teacherDashboard');
-        Route::get('dashboard/teacher/{teacher}/hours', 'HRController@teacher')->name('teacherHours');
 
         Route::get('dashboard/student', 'HomeController@student')->name('studentDashboard')->middleware('forceupdate');
     }
@@ -150,7 +149,14 @@ Route::group(
 Route::group(
     ['middleware' => ['web', 'permission:reports.view', 'language']],
     function () {
+        Route::get('/report', 'ReportController@index')->name('allReports');
+
         Route::get('/report/internal', 'ReportController@internal')->name('homeReport');
+        Route::get('/report/external', 'ReportController@external')->name('externalReport');
+        Route::get('/report/external2', 'ReportController@external2')->name('externalReport2');
+        Route::get('/report/external3', 'ReportController@external3')->name('externalReport3');
+        Route::get('/report/partner/{partner}', 'ReportController@partner')->name('partnerReport');
+
         Route::get('/report/courses', 'ReportController@courses')->name('courseReport');
         Route::get('/report/rhythms', 'ReportController@rhythms')->name('rhythmReport');
         Route::get('/report/levels', 'ReportController@levels')->name('levelReport');

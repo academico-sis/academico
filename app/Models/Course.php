@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Events\CourseCreated;
 use App\Events\CourseUpdated;
-use App\Models\Skills\Skill;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -62,15 +61,39 @@ class Course extends Model
         return $query->where('parent_course_id', '!=', null);
     }
 
-    /** unused, needed because some reference might still be present in other modules */
     public function scopeInternal($query)
     {
-        return $query;
+        return $query->where('campus_id', 1);
+    }
+
+    public function scopeExternal($query)
+    {
+        return $query->where('campus_id', 2);
     }
 
     public function scopeRealcourses($query)
     {
         return $query->doesntHave('children');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | FUNCTIONS
+    |--------------------------------------------------------------------------
+    */
+
+    /** returns all courses that are open for enrollments */
+    public static function get_available_courses(Period $period)
+    {
+        return self::where('period_id', $period->id)
+        ->where('campus_id', 1)
+        ->with('times')
+        ->with('teacher')
+        ->with('room')
+        ->with('rhythm')
+        ->with('level')
+        ->withCount('enrollments')
+        ->get();
     }
 
     /*
@@ -237,6 +260,12 @@ class Course extends Model
         ->where('parent_id', null);
     }
 
+    public function partner()
+    {
+        return $this->belongsTo(Partner::class);
+    }
+
+
     public function saveCourseTimes($newCourseTimes)
     {
 
@@ -278,7 +307,10 @@ class Course extends Model
     |--------------------------------------------------------------------------
     */
 
-    /** returns the course repeating schedule */
+    /**
+     * returns the course repeating schedule
+     * todo improve this method.
+     */
     public function getCourseTimesAttribute()
     {
         $parsedCourseTimes = [];
@@ -418,6 +450,10 @@ class Course extends Model
         } else {
             return $this->id;
         }
+    }
+
+    public function getTotalVolumeAttribute() {
+        return $this->volume + $this->remote_volume;
     }
 
     /*

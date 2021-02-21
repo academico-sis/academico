@@ -7,10 +7,11 @@ use App\Events\StudentUpdated;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Image\Manipulations;
+use Illuminate\Support\Facades\App;
+use App\Models\LeadType;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -31,6 +32,7 @@ class Student extends Model implements HasMedia
     protected $with = ['user', 'phone', 'institution', 'profession', 'title'];
     protected $appends = ['email', 'name', 'firstname', 'lastname', 'student_age', 'student_birthdate', 'lead_status', 'is_enrolled'];
     protected static $logUnguarded = true;
+
 
     public function scopeComputedLeadType($query, $leadTypeId)
     {
@@ -70,7 +72,7 @@ class Student extends Model implements HasMedia
     {
         $this->addMediaConversion('thumb')
             ->fit(Manipulations::FIT_MAX, 1200, 1200)
-            ->optimize()->nonQueued();
+            ->optimize();
     }
 
     /** relations */

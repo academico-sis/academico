@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Admin\Operations\ShowStudentPhotoRosterOperation;
-use App\Http\Requests\CourseRequest as StoreRequest;
+use App\Http\Requests\CourseRequest;
 use App\Models\Book;
 // VALIDATION: change the requests to match your own file names if you need form validation
 use App\Models\Course;
@@ -24,6 +24,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Support\Facades\Gate;
 use Prologue\Alerts\Facades\Alert;
+use App\Models\SchedulePreset;
 
 class CourseCrudController extends CrudController
 {
@@ -52,6 +53,7 @@ class CourseCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix').'/course');
         CRUD::setEntityNameStrings(__('course'), __('courses'));
 
+        CRUD::addClause('internal');
         $permissions = backpack_user()->getAllPermissions();
 
         if (! $permissions->contains('name', 'courses.edit')) {
@@ -62,6 +64,8 @@ class CourseCrudController extends CrudController
         if ($permissions->contains('name', 'courses.view')) {
             CRUD::allowAccess('show');
         }
+
+        CRUD::addButtonFromView('line', 'children_badge', 'children_badge', 'beginning');
 
         if (! $permissions->contains('name', 'courses.delete')) {
             CRUD::denyAccess('delete');
@@ -105,7 +109,13 @@ class CourseCrudController extends CrudController
 
             [
                 'name' => 'volume', // The db column name
-                'label' => __('Volume'), // Table column heading
+                'label' => __('Presential volume'), // Table column heading
+                'suffix' => 'h',
+            ],
+
+            [
+                'name' => 'remote_volume', // The db column name
+                'label' => __('Remote volume'), // Table column heading
                 'suffix' => 'h',
             ],
 
@@ -223,6 +233,17 @@ class CourseCrudController extends CrudController
           }
         );
 
+        CRUD::addFilter(
+            [ // add a "simple" filter called Draft
+            'type' => 'simple',
+            'name' => 'parent',
+            'label'=> __('Hide Children Courses'),
+        ],
+            false,
+            function () {
+              CRUD::addClause('parent');
+          }
+        );
     }
 
     protected function setupCreateOperation()
@@ -264,7 +285,14 @@ class CourseCrudController extends CrudController
 
             [
                 'name' => 'volume', // The db column name
-                'label' => __('Volume'), // Table column heading
+                'label' => __('Presential volume'), // Table column heading
+                'suffix' => 'h',
+                'tab' => __('Course info'),
+            ],
+
+            [
+                'name' => 'remote_volume', // The db column name
+                'label' => __('Remote volume'), // Table column heading
                 'suffix' => 'h',
                 'tab' => __('Course info'),
             ],
@@ -280,6 +308,60 @@ class CourseCrudController extends CrudController
                 'label' => __('Exempt Attendance'), // Table column heading
                 'type' => 'checkbox',
                 'tab' => __('Course info'),
+            ],
+
+
+            [   // repeatable
+                'name'  => 'sublevels',
+                'label' => __('Course sublevels'),
+                'type'  => 'repeatable',
+                'fields' => [
+                    [
+                        'name' => 'name', // The db column name
+                        'label' => __('Name'), // Table column heading
+                    ],
+                    [
+                        'name'    => 'level_id',
+                        'label'    => __('Level'),
+                        'type' => 'select',
+                        'entity' => 'level', // the method that defines the relationship in your Model
+                        'attribute' => 'name', // foreign key attribute that is shown to user
+                        'model' => Level::class, // foreign key model
+                        'allows_null' => true,
+                        'wrapper' => ['class' => 'form-group col-md-4'],
+                    ],
+                    [
+                        'name' => 'price', // The db column name
+                        'label' => __('Price'), // Table column heading
+                    ],
+                   [
+                        'name' => 'volume', // The db column name
+                        'label' => __('Presential volume'), // Table column heading
+                        'suffix' => 'h',
+                    ],
+
+                    [
+                        'name' => 'remote_volume', // The db column name
+                        'label' => __('Remote volume'), // Table column heading
+                        'suffix' => 'h',
+                    ],
+
+                    [
+                        'name'    => 'start_date',
+                        'type'    => 'date',
+                        'label'   => __('Start Date'),
+                        'wrapper' => ['class' => 'form-group col-md-4'],
+                    ],
+                    [
+                        'name'    => 'end_date',
+                        'type'    => 'date',
+                        'label'   => __('End Date'),
+                        'wrapper' => ['class' => 'form-group col-md-4'],
+                    ],
+                ],
+                'tab' => __('Course sublevels'),
+                'init_rows' => 0, // number of empty rows to be initialized, by default 1
+
             ],
         ]);
 
@@ -418,19 +500,238 @@ class CourseCrudController extends CrudController
                         'wrapper' => ['class' => 'form-group col-md-4'],
                     ],
                 ],
-                'init_rows' => 0, // number of empty rows to be initialized, by default 1
+                'init_rows' => 0,
+                'tab' => __('Schedule'),
+            ],
+
+            [   // view
+                'name' => 'custom-ajax-button',
+                'type' => 'view',
+                'view' => 'courses/schedule-preset-alert',
+                'tab' => __('Schedule'),
+            ],
+
+            [   // select_from_array
+                'name'        => 'schedulepreset',
+                'label'       => __('Schedule Preset'),
+                'type'        => 'select_from_array',
+                'options'     => array_column(SchedulePreset::all()->toArray(), 'name', 'presets'),
+                'allows_null' => true,
                 'tab' => __('Schedule'),
             ],
 
         ]);
 
         // add asterisk for fields that are required in CourseRequest
-        CRUD::setValidation(StoreRequest::class);
+        CRUD::setValidation(CourseRequest::class);
     }
 
     protected function setupUpdateOperation()
     {
-        $this->setupCreateOperation(); // since this calls the methods above, no need to do anything here
+        if ($this->crud->getCurrentEntry()->children->count() > 0) {
+            CRUD::addField([   // view
+                'name' => 'custom-ajax-button',
+                'type' => 'view',
+                'view' => 'courses/parent-course-alert'
+            ]);
+        }
+
+        if ($this->crud->getCurrentEntry()->parent_course_id !== null) {
+            CRUD::addField([   // view
+                'name' => 'custom-ajax-button',
+                'type' => 'view',
+                'view' => 'courses/child-course-alert'
+            ]);
+        }
+
+        CRUD::addField([
+            // RYTHM
+            'label' => __('Rhythm'), // Table column heading
+            'type' => 'select',
+            'name' => 'rhythm_id', // the column that contains the ID of that connected entity;
+            'entity' => 'rhythm', // the method that defines the relationship in your Model
+            'attribute' => 'name', // foreign key attribute that is shown to user
+            'model' => Rhythm::class, // foreign key model
+            'tab' => __('Course info'),
+        ]);
+
+        // unless the course has children, show the level field
+        if ($this->crud->getCurrentEntry()->children->count() == 0) {
+            CRUD::addField([
+                // LEVEL
+                'label' => __('Level'), // Table column heading
+                'type' => 'select',
+                'name' => 'level_id', // the column that contains the ID of that connected entity;
+                'entity' => 'level', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model' => Level::class, // foreign key model
+                'tab' => __('Course info'),
+            ]);
+        }
+
+        CRUD::addFields([
+            [
+                'name' => 'name', // The db column name
+                'label' => __('Name'), // Table column heading
+                'tab' => __('Course info'),
+            ],
+
+            [
+                'name' => 'price', // The db column name
+                'label' => __('Price'), // Table column heading
+                'tab' => __('Course info'),
+            ],
+
+            [
+                'name' => 'volume', // The db column name
+                'label' => __('Presential volume'), // Table column heading
+                'suffix' => 'h',
+                'tab' => __('Course info'),
+            ],
+
+            [
+                'name' => 'remote_volume', // The db column name
+                'label' => __('Remote volume'), // Table column heading
+                'suffix' => 'h',
+                'tab' => __('Course info'),
+            ],
+
+            [
+                'name' => 'spots', // The db column name
+                'label' => __('Spots'), // Table column heading
+                'tab' => __('Course info'),
+            ],
+
+            [
+                'name' => 'exempt_attendance', // The db column name
+                'label' => __('Exempt Attendance'), // Table column heading
+                'type' => 'checkbox',
+                'tab' => __('Course info'),
+            ],
+        ]);
+
+        // unless the course has children, show the resources tab
+        if ($this->crud->getCurrentEntry()->children->count() == 0) {
+            CRUD::addFields([
+                [
+                    // TEACHER
+                    'label' => __('Teacher'), // Table column heading
+                    'type' => 'select',
+                    'name' => 'teacher_id', // the column that contains the ID of that connected entity;
+                    'entity' => 'teacher', // the method that defines the relationship in your Model
+                    'attribute' => 'name', // foreign key attribute that is shown to user
+                    'model' => Teacher::class, // foreign key model
+                    'tab' => __('Resources'),
+                ],
+
+                [
+                    // ROOM
+                    'label' => __('Room'), // Table column heading
+                    'type' => 'select',
+                    'name' => 'room_id', // the column that contains the ID of that connected entity;
+                    'entity' => 'room', // the method that defines the relationship in your Model
+                    'attribute' => 'name', // foreign key attribute that is shown to user
+                    'model' => Room::class, // foreign key model
+                    'tab' => __('Resources'),
+                ],
+            ]);
+        }
+
+        CRUD::addFields([
+            [
+                // CAMPUS
+                'label' => __('Campus'), // Table column heading
+                'type' => 'hidden',
+                'name' => 'campus_id', // the column that contains the ID of that connected entity;
+                'value' => 1,
+            ],
+            [
+                // n-n relationship (with pivot table)
+                'label' => __('Books'), // Table column heading
+                'type' => 'select_multiple',
+                'name' => 'books', // the method that defines the relationship in your Model
+                'entity' => 'books', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model' => Book::class, // foreign key model
+                'pivot' => true, // on create&update, do you need to add/delete pivot table entries?
+                'tab' => __('Pedagogy'),
+
+            ],
+
+            [
+                // PERIOD
+                'label' => __('Period'), // Table column heading
+                'type' => 'select',
+                'name' => 'period_id', // the column that contains the ID of that connected entity;
+                'entity' => 'period', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model' => Period::class, // foreign key model
+                'tab' => __('Schedule'),
+            ],
+
+            [
+                'name' => 'start_date', // The db column name
+                'label' => __('Start Date'),
+                'type' => 'date',
+                // 'format' => 'l j F Y', // use something else than the base.default_date_format config value
+                'tab' => __('Schedule'),
+
+            ],
+
+            [
+                'name' => 'end_date', // The db column name
+                'label' => __('End Date'), // Table column heading
+                'type' => 'date',
+                // 'format' => 'l j F Y', // use something else than the base.default_date_format config value
+                'tab' => __('Schedule'),
+            ],
+
+        ]);
+
+        // unless the course has children, show the coursetimes tab
+        if ($this->crud->getCurrentEntry()->children->count() == 0) {
+            CRUD::addField([
+                'name' => 'times',
+                'label' => __('Course Schedule'),
+                'type' => 'repeatable',
+                'fields' => [
+                    [
+                        'name' => 'day',
+                        'label' => __('Day'),
+                        'type' => 'select_from_array',
+                        'options' => [
+                            0 => __('Sunday'),
+                            1 => __('Monday'),
+                            2 => __('Tuesday'),
+                            3 => __('Wednesday'),
+                            4 => __('Thursday'),
+                            5 => __('Friday'),
+                            6 => __('Saturday'),
+                        ],
+                        'allows_null' => false,
+                        'default' => 1,
+                        'wrapper' => ['class' => 'form-group col-md-4'],
+                    ],
+                    [
+                        'name' => 'start',
+                        'type' => 'time',
+                        'label' => __('Start'),
+                        'wrapper' => ['class' => 'form-group col-md-4'],
+                    ],
+                    [
+                        'name' => 'end',
+                        'type' => 'time',
+                        'label' => __('End'),
+                        'wrapper' => ['class' => 'form-group col-md-4'],
+                    ],
+                ],
+                'tab' => __('Schedule'),
+                'init_rows' => 0, // number of empty rows to be initialized, by default 1
+            ]);
+        }
+
+        // add asterisk for fields that are required in CourseRequest
+        CRUD::setValidation(CourseRequest::class);
     }
 
     public function show($course)
@@ -447,6 +748,34 @@ class CourseCrudController extends CrudController
         return view('courses/show', compact('course', 'enrollments'));
     }
 
+    protected function createSublevels($course, $sublevels, $courseTimes, $teacherId, $roomId) : void
+    {
+        foreach ($sublevels as $sublevel) {
+            // create the subcourse and link it to the parent
+            $childCourse = Course::create([
+                'campus_id' => $course->campus_id,
+                'rhythm_id' => $course->rhythm_id,
+                'level_id' => $sublevel->level_id,
+                'volume' => $sublevel->volume,
+                'remote_volume' => $sublevel->remote_volume,
+                'name' => $sublevel->name,
+                'price' => $sublevel->price,
+                'start_date' => $sublevel->start_date,
+                'end_date' => $sublevel->end_date,
+                'room_id' => $roomId,
+                'teacher_id' => $teacherId,
+                'parent_course_id' => $course->id,
+                'exempt_attendance' => $course->exempt_attendance,
+                'period_id' => $course->period_id,
+                'opened' => $course->opened,
+                'spots' => $course->spots,
+            ]);
+
+            $childCourse->saveCourseTimes($courseTimes);
+            $childCourse->books()->attach($course->books);
+        }
+    }
+
     public function update()
     {
         $course = $this->crud->getCurrentEntry();
@@ -461,11 +790,43 @@ class CourseCrudController extends CrudController
 
     public function store()
     {
-        $response = $this->traitStore();
+        $teacherId = $this->crud->getRequest()->input('teacher_id');
+        $roomId = $this->crud->getRequest()->input('room_id');
 
+        // if a schedule preset was applied, use it
+        if ($this->crud->getRequest()->input('schedulepreset') !== null) {
+            $courseTimes = collect(json_decode($this->crud->getRequest()->input('schedulepreset')));
+        } else {
+            // otherwise, use any user-defined course times
+            $courseTimes = collect(json_decode($this->crud->getRequest()->input('times')));
+        }
+
+        $sublevels = collect(json_decode($this->crud->getRequest()->input('sublevels')));
+
+        // if subcourses were added
+        if ($sublevels->count() > 0)
+        {
+            // do not persist level on parent
+            $this->crud->getRequest()->request->remove('level_id');
+
+            // do not persist resources on parent but on children
+            $this->crud->getRequest()->request->remove('teacher_id');
+            $this->crud->getRequest()->request->remove('room_id');
+
+            // do not persist course times on parent but on children
+            $this->crud->getRequest()->request->remove('times');
+        }
+
+        $response = $this->traitStore();
         $course = $this->crud->getCurrentEntry();
-        $newCourseTimes = collect(json_decode($this->crud->getRequest()->input('times')));
-        $course->saveCourseTimes($newCourseTimes);
+
+        if ($sublevels->count() > 0) {
+            // create sublevels and apply coursetimes to them
+            $this->createSublevels($course, $sublevels, $courseTimes, $teacherId, $roomId);
+        } else {
+            // otherwise, apply course times to the parent.
+            $course->saveCourseTimes($courseTimes);
+        }
 
         return $response;
     }
