@@ -33,7 +33,16 @@ class Course extends Model
     // protected $hidden = [];
     protected $dates = ['start_date', 'end_date'];
     protected $with = ['evaluationType'];
-    protected $appends = ['course_times', 'course_teacher_name', 'course_period_name', 'course_enrollments_count', 'sortable_id'];
+    protected $appends = [
+        'course_times',
+        'course_teacher_name',
+        'course_period_name',
+        'course_enrollments_count',
+        'accepts_new_students',
+        'takes_attendance',
+        'sortable_id'
+    ];
+
     protected static $logUnguarded = true;
 
     /*
@@ -367,6 +376,21 @@ class Course extends Model
     public function getCourseEnrollmentsCountAttribute()
     {
         return $this->enrollments()->count();
+    }
+
+
+    public function getAcceptsNewStudentsAttribute(): bool
+    {
+        if (! $this->spots || $this->spots == 0) {
+            return true;
+        }
+
+        return $this->spots - $this->course_enrollments_count > 0;
+    }
+
+    public function getTakesAttendanceAttribute(): bool
+    {
+        return $this->events_count > 0 && $this->exempt_attendance !== 1 && $this->course_enrollments_count > 0;
     }
 
     public function getParentAttribute()

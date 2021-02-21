@@ -18,7 +18,9 @@
         <div class="card">
             <div class="card-header">
                 <div class="card-header-actions">
-                    <button class="btn btn-primary" data-toggle="modal" data-target="#myModal">@lang('Enroll new student')</button>
+                    @if ($course->accepts_new_students)
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#myModal">@lang('Enroll new student')</button>
+                    @endif
                 </div>
 
                 <div class="card-header-actions">
