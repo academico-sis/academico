@@ -31,8 +31,8 @@
                 <register-user-info-component :institutions="institutions"></register-user-info-component>
             </b-step-item>
 
-            <b-step-item :label="$t('step3')" :clickable="activeStep > 2">
-                <register-user-picture-component></register-user-picture-component>
+            <b-step-item v-if="pictureallowed" :label="$t('step3')" :clickable="activeStep > 2">
+                <register-user-picture-component :picturemandatory="picturemandatory"></register-user-picture-component>
             </b-step-item>
 
             <b-step-item :label="$t('step4')" :clickable="activeStep > 3">
@@ -57,7 +57,7 @@ import { store } from "./store.js";
 import { EventBus } from "./eventBus.js";
 
 export default {
-    props: ['institutions', 'langs'],
+    props: ['institutions', 'langs', 'pictureallowed', 'picturemandatory'],
     data() {
         return {
             storeState: store.state,

@@ -46,7 +46,8 @@ export default {
         "An account with this email already exists.": "An account with this email already exists.",
         "The user could not be created. Please get in touch with an administrator.": "The user could not be created. Please get in touch with an administrator.",
         "The account was created successfully": "The account was created successfully",
-        "Click to pick a date": "Click to pick a date"
+        "Click to pick a date": "Click to pick a date",
+        "Skip without adding a picture": "Skip without adding a picture"
 },
     "es": {
         "step1": "Datos del estudiante",
@@ -95,7 +96,8 @@ export default {
         "An account with this email already exists.": "Ya existe una cuenta registrada con este correo electrónico",
         "The user could not be created. Please get in touch with an administrator." : "Error al crear la cuenta.",
         "The account was created successfully": "La cuenta fue creada con exito.",
-        "Click to pick a date": "Haz click para seleccionar una fecha"
+        "Click to pick a date": "Haz click para seleccionar una fecha",
+        "Skip without adding a picture": "Continuar sin foto"
     },
     "fr": {
         "step1": "Informations de l'étudiant",
@@ -144,6 +146,7 @@ export default {
         "An account with this email already exists.": "Il existe déjà un compte avec cette adresse mail.",
         "The user could not be created. Please get in touch with an administrator.": "Le compte n'a pas pu être créé. Veuillez contacter un administrateur.",
         "The account was created successfully": "Le compte a été créé avec succès",
-        "Click to pick a date": "Cliquez pour choisir une date"
+        "Click to pick a date": "Cliquez pour choisir une date",
+        "Skip without adding a picture": "Passer cette étape sans ajouter de photo"
     }
 }

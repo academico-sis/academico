@@ -52,26 +52,7 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
             'birthdate'                            => 'required',
             'profession'                           => 'required',
             'institution'                          => 'required',
-            'userPicture'                          => 'required',
-            function ($attribute, $value, $fail) {
-                $size = strlen(base64_decode($value));
-
-                if ($size > 3145728) {
-                    $fail($attribute.' image too large');
-                }
-
-                $img = imagecreatefromstring($value);
-
-                if (! $img) {
-                    $fail($attribute.'Invalid image');
-                }
-
-                $size = getimagesizefromstring($value);
-
-                if (! $size || ($size[0] == 0) || ($size[1] == 0) || ! $size['mime']) {
-                    $fail($attribute.'is invalid');
-                }
-            },
+            'userPicture'                          => 'image|nullable',
         ]);
     }
 
@@ -162,13 +143,14 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
         Log::info('Profession and institution added to the student profile');
 
         // add photo
+        if($request->data['userPicture']) {
+            $student
+               ->addMediaFromBase64($request->data['userPicture'])
+               ->usingFileName('profilePicture.jpg')
+               ->toMediaCollection('profile-picture');
 
-        $student
-           ->addMediaFromBase64($request->data['userPicture'])
-           ->usingFileName('profilePicture.jpg')
-           ->toMediaCollection('profile-picture');
-
-        Log::info('Profile picture added to the student profile');
+            Log::info('Profile picture added to the student profile');
+        }
 
         // add contact(s)
         foreach ($request->data['contacts'] as $contact) {

@@ -6,8 +6,8 @@
         <div class="container has-text-centered has-text-link is-size-4">
             <p>{{ $t('profile_picture') }}</p>
 
-            <b-button type="is-primary" @click="validateBeforeSubmit()">
-                {{$t("Skip and do not add a picture")}}
+            <b-button v-if="!picturemandatory" type="is-primary" @click="validateBeforeSubmit()">
+                {{$t("Skip without adding a picture")}}
             </b-button>
         </div>
         </section>
@@ -81,6 +81,7 @@ import { EventBus } from "./eventBus.js";
 import { ValidationObserver } from "vee-validate";
 
 export default {
+    props: ['picturemandatory'],
 
     components: {
         ValidationObserver,
@@ -106,7 +107,6 @@ export default {
 	},
 
     methods: {
-
 
     	// Checks the image size then sets the userPicture variable to the uploaded picture
     	onFileChange(e) {

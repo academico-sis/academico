@@ -17,7 +17,7 @@ class CreateTeachersTable extends Migration
             //$table->increments('id');
             $table->integer('id')->unsigned()->unique();
             $table->timestamp('hired_at')->nullable();
-            $table->decimal('max_week_hours', 4, 2);
+            $table->decimal('max_week_hours', 4, 2)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
