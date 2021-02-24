@@ -31,16 +31,12 @@ class Teacher extends Model
     /** attributes */
     public function getFirstnameAttribute()
     {
-        if ($this->user) {
-            return $this->user->firstname;
-        }
+        return $this?->user?->firstname;
     }
 
     public function getLastnameAttribute()
     {
-        if ($this->user) {
-            return $this->user->lastname;
-        }
+        return $this?->user?->lastname;
     }
 
     public function getEmailAttribute()

@@ -19,7 +19,7 @@ class Enrollment extends Model
 
     protected $guarded = ['id'];
     protected $appends = ['result_name', 'product_code', 'price'];
-    protected $with = ['student', 'course', 'childrenEnrollments', 'payments'];
+    protected $with = ['student', 'course', 'childrenEnrollments'];
     protected static $logUnguarded = true;
 
     protected $dispatchesEvents = [
@@ -272,21 +272,8 @@ class Enrollment extends Model
         if ($this->total_price !== null) {
             return $this->total_price;
         } else {
-            // otherwise retrieve the default price category for the student
-            $price_category = $this->student->price_category ?? 'priceA';
-
-            return $this->course->$price_category ?? 0;
+            return $this->course->price ?? 0;
         }
-    }
-
-    public function getBalanceAttribute()
-    {
-        $balance = $this->price;
-        foreach ($this->payments as $payment) {
-            $balance -= $payment->value;
-        }
-
-        return $balance;
     }
 
     public function cancel()

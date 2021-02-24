@@ -45,17 +45,18 @@
                                         <a href="{{ route('monitorCourseAttendance', ['course' => $course->id]) }}" class="btn btn-default btn-xs"><i class="la la-calendar"></i></a>
                                     @endif
 
-                                    @if($course->evaluationTypes === 1)
+                                    @if($course->evaluationType && $course->evaluationType->skills->count() > 0 && $course->course_enrollments_count > 0)
+                                        <a href="{{ route('courseSkillsEvaluation', ['course' => $course->id]) }}" class="btn btn-xs btn-default">
+                                            <i class="la la-th"></i>  {{ __('Evaluate skills') }}
+                                        </a>
+                                    @endif
+
+                                    @if($course->evaluationType && $course->evaluationType->gradeTypes->count() > 0 && $course->course_enrollments_count > 0)
                                         <a href="/course/{{$course->id}}/grades" class="btn btn-xs btn-default">
                                             <i class="la la-percent"></i> {{ __('Manage grades') }}
                                         </a>
                                     @endif
 
-                                    @if($course->evaluationTypes === 2)
-                                        <a href="{{ route('courseSkillsEvaluation', ['course' => $course->id]) }}" class="btn btn-xs btn-default">
-                                            <i class="la la-th"></i>  {{ __('Evaluate skills') }}
-                                        </a>
-                                    @endif
                                 </div>
                             </div>
 

@@ -4,11 +4,14 @@ namespace App\Models;
 
 use App\Events\CourseCreated;
 use App\Events\CourseUpdated;
+use App\Models\Skills\Skill;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Spatie\Activitylog\Traits\LogsActivity;
+use App\Models\Partner;
 
 class Course extends Model
 {
@@ -379,7 +382,7 @@ class Course extends Model
     public function getCourseTeacherNameAttribute()
     {
         if ($this->teacher_id) {
-            return $this->teacher->firstname.' '.$this->teacher->lastname;
+            return $this->teacher?->name;
         } else {
             return '-';
         }

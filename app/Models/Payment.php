@@ -36,9 +36,9 @@ class Payment extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function enrollment()
+    public function pre_invoice()
     {
-        return $this->belongsTo(Enrollment::class);
+        return $this->belongsTo(PreInvoice::class);
     }
 
     /*

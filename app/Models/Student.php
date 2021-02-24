@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Events\StudentDeleting;
 use App\Events\StudentUpdated;
+use App\Traits\PeriodSelection;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -21,6 +22,7 @@ class Student extends Model implements HasMedia
     use CrudTrait;
     use InteractsWithMedia;
     use LogsActivity;
+    use PeriodSelection;
 
     protected $dispatchesEvents = [
         'deleting' => StudentDeleting::class,
@@ -258,7 +260,7 @@ class Student extends Model implements HasMedia
         // if the course has children, enroll in children as well.
         if ($course->children_count > 0) {
             foreach ($course->children as $children_course) {
-                $child_enrollment = Enrollment::firstOrCreate([
+                Enrollment::firstOrCreate([
                     'student_id' =>  $this->id,
                     'course_id' => $children_course->id,
                     'parent_id' => $enrollment->id,

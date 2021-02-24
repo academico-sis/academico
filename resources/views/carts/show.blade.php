@@ -14,12 +14,18 @@
 
 <div id="app">
 
-    <cart-component
-        :enrollment="{{ json_encode($enrollment) }}"
-        :contactdata="{{ json_encode($contactData) }}"
-        :availablepaymentmethods="{{ json_encode($availablePaymentMethods) }}"
-        :previouspayments="{{ json_encode($previouspayments) }}"
-    ></cart-component>
+        <cart-component
+            :enrollmentslist="{{ json_encode($enrollments) }}"
+            :bookslist="{{ json_encode($books) }}"
+            :feeslist="{{ json_encode($fees) }}"
+            :availablebooks="{{ json_encode($availableBooks) }}"
+            :availablefees="{{ json_encode($availableFees) }}"
+            :availablediscounts="{{ json_encode($availableDiscounts) }}"
+            :contactdata="{{ json_encode($contactData) }}"
+            :availablepaymentmethods="{{ json_encode($availablePaymentMethods) }}"
+            :externalaccountingenabled="{{ json_encode(config('settings.external_accounting_enabled')) }}"
+        >
+        </cart-component>
 
 </div>
 
@@ -30,11 +36,3 @@
     <script src="{{ mix('/js/manifest.js') }}"></script>
     <script src="{{ mix('/js/vendor.js') }}"></script>
 @endsection
-
-
-<!-- include field specific select2 js-->
-@push('crud_fields_scripts')
-<script>
-    jQuery(document).ready($ => $('.js-example-basic-single').select2());
-</script>
-@endpush
