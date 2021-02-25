@@ -143,14 +143,9 @@ class Enrollment extends Model
         return $this->belongsTo(Course::class, 'course_id');
     }
 
-    public function payments()
+    public function invoice()
     {
-        return $this->hasMany(Payment::class);
-    }
-
-    public function pre_invoice()
-    {
-        return $this->belongsToMany(PreInvoice::class, 'enrollment_pre_invoice', 'enrollment_id', 'pre_invoice_id');
+        return $this->belongsTo(Invoice::class);
     }
 
     public function comments()

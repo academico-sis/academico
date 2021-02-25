@@ -190,7 +190,7 @@ class Course extends Model
      */
     public function skills()
     {
-        return $this->evaluationType->skills()->orderBy('order');
+        return $this->evaluationType?->skills()->orderBy('order');
     }
 
     public function books()

@@ -9,7 +9,7 @@ use App\Models\User;
 
 interface LMSInterface
 {
-    public function authenticate() : string;
+    public function authenticate() : ?string;
 
     public function createUser(User $user, ?string $password) : void;
 

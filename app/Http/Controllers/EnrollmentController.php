@@ -105,19 +105,29 @@ class EnrollmentController extends Controller
      */
     public function bill(Enrollment $enrollment)
     {
-        Log::info(backpack_user()->firstname.' is generating a preinvoice');
+        // if the enrollment has already been invoiced, continue with the same invoice
+        if ($enrollment->invoice) {
+            return view('carts.payment', [
+                'invoice' => $enrollment->invoice,
+                'availablePaymentMethods' => Paymentmethod::all(),
+            ]);
+        }
 
-        $enrollments = Enrollment::where('id', $enrollment->id)->with('course.rhythm')->get();
-        $books = $enrollment->course->books ?? [];
-        $fees = Fee::first()->get(); // todo issue #119
+        // otherwise create a new one.
+        Log::info('User # '.backpack_user()->id.' is generating a invoice');
 
-        $availableBooks = Book::all();
-        $availableFees = Fee::all();
-        $availableDiscounts = Discount::all();
-        $contactData = $enrollment->student->contacts;
-        $availablePaymentMethods = Paymentmethod::all();
+        $fees = Fee::all(); // TODO
 
-        return view('carts.show', compact('enrollments', 'fees', 'books', 'availableBooks', 'availableFees', 'availableDiscounts', 'contactData', 'availablePaymentMethods'));
+        return view('carts.show', [
+            'enrollment' => $enrollment,
+            'fees' => $fees,
+            'books' => $enrollment->course->books ?? [],
+            'availableBooks' => Book::all(),
+            'availableFees' => Fee::all(),
+            'availableDiscounts' => Discount::all(),
+            'contactData' => $enrollment->student->contacts,
+            'availablePaymentMethods' => Paymentmethod::all(),
+        ]);
     }
 
     public function markaspaid(Enrollment $enrollment)

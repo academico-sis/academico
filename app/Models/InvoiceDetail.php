@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class PreInvoiceDetail extends Model
+class InvoiceDetail extends Model
 {
     use SoftDeletes;
     use LogsActivity;
@@ -14,8 +14,8 @@ class PreInvoiceDetail extends Model
     protected $guarded = ['id'];
     protected static $logUnguarded = true;
 
-    public function pre_invoice()
+    public function invoice()
     {
-        return $this->belongsTo(PreInvoice::class);
+        return $this->belongsTo(Invoice::class);
     }
 }

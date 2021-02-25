@@ -4,7 +4,7 @@
 
 use Faker\Generator as Faker;
 
-$factory->define(App\Models\PreInvoice::class, function (Faker $faker) {
+$factory->define(App\Models\Invoice::class, function (Faker $faker) {
     return [
         'client_name' => $faker->word,
         'client_idnumber' => $faker->word,
@@ -13,6 +13,6 @@ $factory->define(App\Models\PreInvoice::class, function (Faker $faker) {
         'client_phone' => $faker->word,
         'total_price' => $faker->randomFloat(),
         'company_id' => $faker->randomNumber(),
-        'invoice_number' => $faker->word,
+        'receipt_number' => $faker->word,
     ];
 });

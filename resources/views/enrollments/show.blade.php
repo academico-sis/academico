@@ -62,7 +62,7 @@
         </student-comments>
 
     </div>
-    
+
 
 
 
@@ -120,7 +120,7 @@
                     <a class="btn btn-sm btn-warning" href="{{ route('get-courses-list', ['mode' => 'update', 'enrollment_id' => $enrollment->id]) }}">@lang('Change course')</a>
                 </div>
                 <scholarship-modal-component enrollment_id="{{ $enrollment->id }}" :scholarships="{{ $scholarships }}"></scholarship-modal-component>
-                
+
             @else
                 {{ $enrollment->enrollmentStatus->name }}
             @endif
@@ -128,22 +128,16 @@
             </div>
         </div>
     </div>
-
-
 </div>
 
-@if ($enrollment->pre_invoice()->count() > 0 && backpack_user()->can('enrollments.edit'))
-    @include('invoices.show')
+@if ($enrollment->invoice && backpack_user()->can('enrollments.edit'))
+    @include('invoices.show', ['invoice' => $enrollment->invoice])
 @endif
 
 
 @endsection
 
-
 @section('before_scripts')
-
-
-
 <script>
     function cancel(enrollment)
         {
@@ -179,7 +173,7 @@
 @endsection
 
 @section('after_scripts')
-        <script src="{{ mix('/js/app.js') }}"></script>
+    <script src="{{ mix('/js/app.js') }}"></script>
     <script src="{{ mix('/js/manifest.js') }}"></script>
     <script src="{{ mix('/js/vendor.js') }}"></script>
 @endsection

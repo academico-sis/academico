@@ -4,9 +4,9 @@
 
 use Faker\Generator as Faker;
 
-$factory->define(App\Models\PreInvoiceDetail::class, function (Faker $faker) {
+$factory->define(App\Models\InvoiceDetail::class, function (Faker $faker) {
     return [
-        'pre_invoice_id' => factory(App\Models\PreInvoice::class),
+        'invoice_id' => factory(App\Models\Invoice::class),
         'product_name' => $faker->word,
         'product_code' => $faker->word,
         'product_id' => $faker->randomNumber(),

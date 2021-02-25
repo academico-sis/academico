@@ -3,8 +3,6 @@
 namespace App\Models;
 
 use App\Events\StudentDeleting;
-use App\Events\StudentUpdated;
-use App\Traits\PeriodSelection;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -12,7 +10,6 @@ use Illuminate\Support\Str;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Image\Manipulations;
 use Illuminate\Support\Facades\App;
-use App\Models\LeadType;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -22,17 +19,37 @@ class Student extends Model implements HasMedia
     use CrudTrait;
     use InteractsWithMedia;
     use LogsActivity;
-    use PeriodSelection;
 
     protected $dispatchesEvents = [
         'deleting' => StudentDeleting::class,
     ];
 
     public $timestamps = true;
-    protected $guarded = [];
+
+    protected $fillable = [
+        'id',
+        'idnumber',
+        'address',
+        'city',
+        'state',
+        'country',
+        'title_id',
+        'birthdate',
+        'terms_accepted_at',
+        'created_at',
+        'updated_at',
+        'lead_type_id',
+        'force_update',
+        'profession_id',
+        'institution_id'
+    ];
+
     public $incrementing = false;
+
     protected $with = ['user', 'phone', 'institution', 'profession', 'title'];
+
     protected $appends = ['email', 'name', 'firstname', 'lastname', 'student_age', 'student_birthdate', 'lead_status', 'is_enrolled'];
+
     protected static $logUnguarded = true;
 
 
@@ -91,7 +108,7 @@ class Student extends Model implements HasMedia
     public function periodAbsences(Period $period = null)
     {
         if ($period == null) {
-            $period = $this->currentPeriod;
+            $period = Period::get_default_period();
         }
 
         return $this->hasMany(Attendance::class)

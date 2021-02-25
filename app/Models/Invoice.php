@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class PreInvoice extends Model
+class Invoice extends Model
 {
     use SoftDeletes;
     use CrudTrait;
@@ -16,19 +16,24 @@ class PreInvoice extends Model
     protected $guarded = ['id'];
     protected static $logUnguarded = true;
 
-    public function pre_invoice_details()
+    public function invoiceDetails()
     {
-        return $this->hasMany(PreInvoiceDetail::class);
+        return $this->hasMany(InvoiceDetail::class);
     }
 
-    public function payment()
+    public function payments()
     {
         return $this->hasMany(Payment::class);
     }
 
+    public function paidTotal()
+    {
+        return $this->payments->sum('value');
+    }
+
     public function enrollments()
     {
-        return $this->belongsToMany(Enrollment::class, 'enrollment_pre_invoice', 'pre_invoice_id', 'enrollment_id');
+        return $this->hasMany(Enrollment::class);
     }
 
     public function comments()

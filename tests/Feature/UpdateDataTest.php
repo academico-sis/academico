@@ -15,7 +15,7 @@ class UpdateDataTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        //$this->seed('DatabaseSeeder');
+        $this->seed('TestSeeder');
         $this->student = factory(Student::class)->create();
     }
 

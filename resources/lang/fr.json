@@ -99,7 +99,7 @@
     "Edit contact": "Modifier le contact",
     "Edit Course Skills": "Modifier les compétences du cours",
     "Edit Grades": "Modifier les notes",
-    "Edit Invoice Number": "Editer le numéro de facture",
+    "Edit Receipt Number": "Editer le numéro du reçu",
     "Edit schedule": "Editer les horaires",
     "Edit Student Skills": "Modifier les compétences de l'étudiant",
     "email": "email",
@@ -419,5 +419,6 @@
     "Impossible to delete this course": "Impossible de supprimer ce cours",
     "Enrollment in progress...": "Inscription en cours...",
     "Enable": "Activer",
-    "Disable": "Désactiver"
+    "Disable": "Désactiver",
+    "Send invoice to external accounting system": "Transmettre la facture au système comptable"
 }

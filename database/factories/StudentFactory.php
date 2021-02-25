@@ -1,10 +1,9 @@
 <?php
 
-use App\Models\Student;
 use App\Models\User;
 use Faker\Generator as Faker;
 
-$factory->define(Student::class, function (Faker $faker) {
+$factory->define(App\Models\Student::class, function (Faker $faker) {
     return [
         'idnumber' => $faker->randomNumber($nbDigits = 8),
         'address' => $faker->streetAddress,

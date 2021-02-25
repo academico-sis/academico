@@ -11,7 +11,9 @@ trait PeriodSelection
 
     public function __construct()
     {
-        $this->currentPeriod = Period::get_default_period()->id;
+        if (Period::count() > 0) {
+            $this->currentPeriod = Period::get_default_period()->id;
+        }
     }
 
     protected function selectPeriod(Request $request)

@@ -12,9 +12,9 @@ use App\Models\User;
 class LMSLogService implements LMSInterface
 {
 
-    public function authenticate(): string
+    public function authenticate(): ?string
     {
-        // TODO: Implement authenticate() method.
+        return null;
     }
 
     public function createUser(User $user, ?string $password): void

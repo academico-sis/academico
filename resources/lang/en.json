@@ -99,7 +99,7 @@
     "Edit contact": "Edit contact",
     "Edit Course Skills": "Edit Course Skills",
     "Edit Grades": "Edit Grades",
-    "Edit Invoice Number": "Edit Invoice Number",
+    "Edit Receipt Number": "Edit Receipt Number",
     "Edit schedule": "Edit schedule",
     "Edit Student Skills": "Edit Student Skills",
     "Email": "Email",
@@ -427,5 +427,6 @@
     "Impossible to delete this course": "Impossible to delete this course",
     "Enrollment in progress...": "Enrollment in progress...",
     "Enable": "Enable",
-    "Disable": "Disable"
+    "Disable": "Disable",
+    "Send invoice to external accounting system": "Send invoice to external accounting system"
 }

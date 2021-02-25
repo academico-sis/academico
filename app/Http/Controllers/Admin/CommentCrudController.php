@@ -6,7 +6,7 @@ use App\Http\Requests\CommentRequest;
 // VALIDATION: change the requests to match your own file names if you need form validation
 use App\Models\Comment;
 use App\Models\Enrollment;
-use App\Models\PreInvoice;
+use App\Models\Invoice;
 use App\Models\Result;
 use App\Models\Student;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -104,7 +104,7 @@ class CommentCrudController extends CrudController
             [
             Student::class => 'Student',
             Enrollment::class => 'Enrollments',
-            PreInvoice::class => 'PreInvoice',
+            Invoice::class => 'Invoice',
             Result::class => 'Result',
 
         ], function ($value) { // if the filter is active

@@ -27,13 +27,19 @@ class Period extends Model
      */
     public static function get_default_period()
     {
-        $selected_period = Config::where('name', 'current_period')->first()->value;
+        $configPeriod = Config::where('name', 'current_period');
 
-        if (self::where('id', $selected_period)->count() > 0) {
-            return self::find($selected_period);
-        } else {
-            return self::where('end', '>=', date('Y-m-d'))->first();
+        if($configPeriod->exists()) {
+            $currentPeriod = $configPeriod->first()->value;
+
+            if (self::where('id', $currentPeriod)->count() > 0) {
+                return self::find($currentPeriod);
+            } else {
+                return self::where('end', '>=', date('Y-m-d'))->first();
+            }
         }
+
+        return Period::first();
     }
 
     /**

@@ -132,7 +132,7 @@ class AttendanceController extends Controller
                     $attendances[$enrollment->student->id][]['attendance'] = '';
                 } else {
                     $attendances[$enrollment->student->id]['student'] = $enrollment->student->firstname.' '.$enrollment->student->lastname;
-                    $attendances[$enrollment->student->id][]['attendance'] = $event->attendance->where('student_id', $enrollment->student->id)->first();
+                    $attendances[$enrollment->student->id][]['attendance'] = $event->attendance->where('student_id', $enrollment->student_id)->first();
                 }
             }
         }

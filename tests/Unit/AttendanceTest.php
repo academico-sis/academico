@@ -9,6 +9,7 @@ use App\Models\Enrollment;
 use App\Models\Period;
 use App\Models\Student;
 use App\Models\Teacher;
+use App\Traits\HandlesAttendance;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -18,6 +19,7 @@ use Tests\TestCase;
 class AttendanceTest extends TestCase
 {
     use RefreshDatabase;
+    use HandlesAttendance;
 
     public function setUp(): void
     {
@@ -97,7 +99,7 @@ class AttendanceTest extends TestCase
         ]);
 
         // a notification email is sent to the teacher of this event
-        (new Attendance)->remindPendingAttendance();
+        $this->remindPendingAttendance();
 
         Mail::assertQueued(PendingAttendanceReminder::class);
     }
