@@ -655,7 +655,16 @@ class CourseCrudController extends CrudController
                 'model' => Book::class, // foreign key model
                 'pivot' => true, // on create&update, do you need to add/delete pivot table entries?
                 'tab' => __('Pedagogy'),
+            ],
 
+            [
+                'label' => __('Evaluation method'), // Table column heading
+                'type' => 'select2',
+                'name' => 'evaluationType', // the method that defines the relationship in your Model
+                'entity' => 'evaluationType', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model' => EvaluationType::class, // foreign key model
+                'tab' => __('Pedagogy'),
             ],
 
             [

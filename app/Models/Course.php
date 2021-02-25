@@ -366,7 +366,7 @@ class Course extends Model
 
     public function getCourseLevelNameAttribute()
     {
-        return $this->level->name;
+        return $this?->level?->name;
     }
 
     public function getCourseRhythmNameAttribute()

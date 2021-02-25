@@ -44,7 +44,7 @@
 
 document.addEventListener('DOMContentLoaded', () => { // page is now ready...
     var calendarEl = document.getElementById('calendar'); // grab element reference
-    
+
     var calendar = new FullCalendar.Calendar(calendarEl, {
         schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
         plugins: [ 'resourceTimeline', 'interaction' ],
@@ -56,7 +56,11 @@ document.addEventListener('DOMContentLoaded', () => { // page is now ready...
         hiddenDays: [ 0 ], // TODO make this customizable
         firstDay: 1,
         slotWidth: 20,
-        eventRender: info => $(info.el).tooltip({title: info.event.title}),
+        eventRender: function (info) {
+            tippy(info.el, {
+                content: info.event.title,
+            });
+        },
         resourceAreaWidth: 150,
         eventSources: [
             {
@@ -101,4 +105,7 @@ document.addEventListener('DOMContentLoaded', () => { // page is now ready...
 </script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.js" integrity="sha256-XmdRbTre/3RulhYk/cOBUMpYlaAp2Rpo/s556u0OIKk=" crossorigin="anonymous"></script>
+
+<script src="https://unpkg.com/@popperjs/core@2"></script>
+<script src="https://unpkg.com/tippy.js@6"></script>
 @endsection

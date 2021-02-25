@@ -13,7 +13,6 @@ class EvaluationType extends Model
     use HasTranslations;
 
     public $timestamps = false;
-
     protected $guarded = ['id'];
     protected $with = ['gradeTypes', 'skills'];
     public $translatable = ['name'];

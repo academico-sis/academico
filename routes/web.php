@@ -47,6 +47,9 @@ Route::group(
 
         Route::get('invoice/{invoice}', 'InvoiceController@show')->name('invoice-show');
         Route::post('enrollment/{enrollment}/markaspaid', 'EnrollmentController@markaspaid'); // display the cart to checkout the enrollment
+        Route::get('accountingservice/status', 'PreInvoiceController@accountingServiceStatus');
+        Route::post('enrollment/{enrollment}/scholarships/add', 'EnrollmentScholarshipController@store')->name('add-scholarship'); // update the invoice number
+        Route::post('enrollment/{enrollment}/scholarships/remove', 'EnrollmentScholarshipController@destroy')->name('remove-scholarship'); // update the invoice number
     }
 );
 

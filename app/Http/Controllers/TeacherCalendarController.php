@@ -22,14 +22,14 @@ class TeacherCalendarController extends Controller
     public function index()
     {
         // Do not fetch all events but only those closest to current date. TODO optimize this.
-        $events = Event::with('course')->where('start', '>', Carbon::now()->subDays(90))->where('end', '<', Carbon::now()->addDays(90))->orderBy('id', 'desc')->get()->toArray();
+        $events = Event::with('course')->where('start', '>', Carbon::now()->subDays(30))->where('end', '<', Carbon::now()->addDays(30))->orderBy('id', 'desc')->get()->toArray();
 
-        $teachers = Teacher::with('user')->get()->toArray();
+        $teachers = Teacher::all()->toArray();
 
         $teachers = array_map(function ($teacher) {
             return [
                 'id' => $teacher['id'],
-                'title' => $teacher['user']['firstname'],
+                'title' => $teacher['name'] ?? '',
             ];
         }, $teachers);
 
@@ -37,7 +37,7 @@ class TeacherCalendarController extends Controller
 
         $events = array_map(function ($event) {
             return [
-                'title' => $event['name'],
+                'title' => $event['name'] ?? '',
                 'resourceId' => $event['teacher_id'],
                 'start' => $event['start'],
                 'end' => $event['end'],
@@ -51,7 +51,7 @@ class TeacherCalendarController extends Controller
 
         $unassigned_events = array_map(function ($event) {
             return [
-                'title' => $event['name'],
+                'title' => $event['name'] ?? '',
                 'resourceId' => 'tbd',
                 'start' => $event['start'],
                 'end' => $event['end'],
