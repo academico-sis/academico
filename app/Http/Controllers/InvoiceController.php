@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Interfaces\InvoicingInterface;
 use App\Models\Book;
 use App\Models\Comment;
+use App\Models\Discount;
 use App\Models\Enrollment;
 use App\Models\Fee;
 use App\Models\Payment;
@@ -87,6 +88,16 @@ class InvoiceController extends Controller
                 'product_id' => $book['id'],
                 'product_type' => Book::class,
                 'price' => $book['price'],
+            ]);
+        }
+
+        foreach ($request->discounts as $d => $discount) {
+            InvoiceDetail::create([
+                'invoice_id' => $invoice->id,
+                'product_name' => $discount['name'],
+                'product_id' => $discount['id'],
+                'product_type' => Discount::class,
+                'price' => - $discount['value'],
             ]);
         }
 

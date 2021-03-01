@@ -146,9 +146,9 @@ class EnrollmentController extends Controller
 
     public function savePrice(Enrollment $enrollment, Request $request)
     {
-        $enrollment->update(['total_price' => $request->total_price]);
+        $request->validate(['price' => 'required|numeric']);
 
-        // persist the default price category for student
-        $enrollment->student->update(['price_category' =>$request->price_category]);
+        $enrollment->update(['total_price' => $request->price]);
+        return $enrollment->fresh();
     }
 }

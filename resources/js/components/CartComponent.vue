@@ -641,6 +641,7 @@ export default {
                     client_email: this.clientemail,
                     total_price: this.shoppingCartTotal,
                     comment: this.comment,
+                    discounts: this.discounts,
                     sendinvoice: this.sendInvoiceToAccounting,
                 })
                 .then(response => {

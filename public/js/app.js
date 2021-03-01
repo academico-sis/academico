@@ -613,6 +613,7 @@ __webpack_require__.r(__webpack_exports__);
         client_email: this.clientemail,
         total_price: this.shoppingCartTotal,
         comment: this.comment,
+        discounts: this.discounts,
         sendinvoice: this.sendInvoiceToAccounting
       }).then(function (response) {
         // handle success
@@ -1255,6 +1256,57 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         return "btn btn-secondary";
       }
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/EnrollmentPriceField.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/EnrollmentPriceField.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ["enrollment"],
+  data: function data() {
+    return {
+      editable: false,
+      price: this.enrollment.price
+    };
+  },
+  computed: {},
+  mounted: function mounted() {},
+  methods: {
+    savePrice: function savePrice() {
+      var _this = this;
+
+      axios.put("/enrollment/".concat(this.enrollment.id, "/price"), {
+        price: this.price
+      }).then(function (response) {
+        _this.price = response.data.total_price;
+        _this.editable = false;
+      })["catch"](function (error) {
+        console.error(error);
+      });
     }
   }
 });
@@ -5743,6 +5795,89 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/EnrollmentPriceField.vue?vue&type=template&id=75a56dc0&":
+/*!***********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/EnrollmentPriceField.vue?vue&type=template&id=75a56dc0& ***!
+  \***********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _vm.editable
+      ? _c("div", [
+          _vm.editable
+            ? _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.price,
+                    expression: "price"
+                  }
+                ],
+                staticClass: "input",
+                attrs: { type: "text" },
+                domProps: { value: _vm.price },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.price = $event.target.value
+                  }
+                }
+              })
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.editable
+            ? _c(
+                "button",
+                {
+                  staticClass: "btn btn-success",
+                  on: { click: _vm.savePrice }
+                },
+                [_vm._v(_vm._s(_vm.$t("Save")))]
+              )
+            : _vm._e()
+        ])
+      : _c("div", [
+          _vm._v(
+            "\n        " +
+              _vm._s(_vm.$t("Price")) +
+              ": $" +
+              _vm._s(_vm.price) +
+              "\n        "
+          ),
+          _c(
+            "a",
+            {
+              attrs: { href: "#" },
+              on: {
+                click: function($event) {
+                  _vm.editable = true
+                }
+              }
+            },
+            [_vm._v(" " + _vm._s(_vm.$t("Edit")) + " ")]
+          )
+        ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/EnrollmentStatusButton.vue?vue&type=template&id=725e6b13&":
 /*!*************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/EnrollmentStatusButton.vue?vue&type=template&id=725e6b13& ***!
@@ -8292,6 +8427,7 @@ var i18n = new vue_i18n__WEBPACK_IMPORTED_MODULE_0__["default"]({
 Vue.component('cart-component', __webpack_require__(/*! ./components/CartComponent.vue */ "./resources/js/components/CartComponent.vue")["default"]);
 Vue.component('payment-component', __webpack_require__(/*! ./components/PaymentComponent.vue */ "./resources/js/components/PaymentComponent.vue")["default"]);
 Vue.component('enrollment-status-button', __webpack_require__(/*! ./components/EnrollmentStatusButton.vue */ "./resources/js/components/EnrollmentStatusButton.vue")["default"]);
+Vue.component('enrollment-price-field', __webpack_require__(/*! ./components/EnrollmentPriceField.vue */ "./resources/js/components/EnrollmentPriceField.vue")["default"]);
 Vue.component('event-attendance-component', __webpack_require__(/*! ./components/EventAttendanceComponent.vue */ "./resources/js/components/EventAttendanceComponent.vue")["default"]);
 Vue.component('course-attendance-component', __webpack_require__(/*! ./components/CourseAttendanceComponent.vue */ "./resources/js/components/CourseAttendanceComponent.vue")["default"]);
 Vue.component('student-comments', __webpack_require__(/*! ./components/StudentCommentComponent.vue */ "./resources/js/components/StudentCommentComponent.vue")["default"]);
@@ -8717,6 +8853,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CourseResultComponent_vue_vue_type_template_id_764dd7ea___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CourseResultComponent_vue_vue_type_template_id_764dd7ea___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/EnrollmentPriceField.vue":
+/*!**********************************************************!*\
+  !*** ./resources/js/components/EnrollmentPriceField.vue ***!
+  \**********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _EnrollmentPriceField_vue_vue_type_template_id_75a56dc0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EnrollmentPriceField.vue?vue&type=template&id=75a56dc0& */ "./resources/js/components/EnrollmentPriceField.vue?vue&type=template&id=75a56dc0&");
+/* harmony import */ var _EnrollmentPriceField_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EnrollmentPriceField.vue?vue&type=script&lang=js& */ "./resources/js/components/EnrollmentPriceField.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _EnrollmentPriceField_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _EnrollmentPriceField_vue_vue_type_template_id_75a56dc0___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _EnrollmentPriceField_vue_vue_type_template_id_75a56dc0___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/EnrollmentPriceField.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/EnrollmentPriceField.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************!*\
+  !*** ./resources/js/components/EnrollmentPriceField.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EnrollmentPriceField_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./EnrollmentPriceField.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/EnrollmentPriceField.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EnrollmentPriceField_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/EnrollmentPriceField.vue?vue&type=template&id=75a56dc0&":
+/*!*****************************************************************************************!*\
+  !*** ./resources/js/components/EnrollmentPriceField.vue?vue&type=template&id=75a56dc0& ***!
+  \*****************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EnrollmentPriceField_vue_vue_type_template_id_75a56dc0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./EnrollmentPriceField.vue?vue&type=template&id=75a56dc0& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/EnrollmentPriceField.vue?vue&type=template&id=75a56dc0&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EnrollmentPriceField_vue_vue_type_template_id_75a56dc0___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EnrollmentPriceField_vue_vue_type_template_id_75a56dc0___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
