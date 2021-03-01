@@ -22,6 +22,8 @@ const i18n = new VueInternationalization({
 });
 
 Vue.component('cart-component', require('./components/CartComponent.vue').default);
+Vue.component('payment-component', require('./components/PaymentComponent.vue').default);
+Vue.component('enrollment-status-button', require('./components/EnrollmentStatusButton.vue').default);
 
 Vue.component('event-attendance-component', require('./components/EventAttendanceComponent.vue').default);
 

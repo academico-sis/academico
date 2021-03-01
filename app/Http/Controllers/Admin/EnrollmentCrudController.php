@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\EnrollmentStatusType;
+use App\Models\Paymentmethod;
 use App\Models\Period;
 use App\Models\Scholarship;
 use App\Models\PhoneNumber;
@@ -202,8 +203,12 @@ class EnrollmentCrudController extends CrudController
 
         $scholarships = Scholarship::all();
 
+        $availablePaymentMethods = Paymentmethod::all();
+
+        $enrollment->load('invoice')->load('invoice.payments');
+
         // then load the page
-        return view('enrollments.show', compact('enrollment', 'products', 'comments', 'scholarships'));
+        return view('enrollments.show', compact('enrollment', 'products', 'comments', 'scholarships', 'availablePaymentMethods'));
     }
 
     public function destroy($enrollment)

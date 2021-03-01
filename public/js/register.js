@@ -4035,7 +4035,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/vagrant/academico/resources/js/register-bundle/register.js */"./resources/js/register-bundle/register.js");
+module.exports = __webpack_require__(/*! /home/thomas/academico-sis/academico/resources/js/register-bundle/register.js */"./resources/js/register-bundle/register.js");
 
 
 /***/ })

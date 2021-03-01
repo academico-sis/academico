@@ -473,7 +473,7 @@ export default {
                     total += parseFloat(payment.value);
                 });
             }
-            return total;
+            return Math.round(total * 100) / 100;
         },
 
         totalDiscount() {

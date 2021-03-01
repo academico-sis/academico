@@ -140,6 +140,29 @@ class InvoiceController extends Controller
         return redirect()->back();
     }
 
+    public function savePayments(Request $request, Invoice $invoice)
+    {
+        $invoice->payments()->delete();
+
+        foreach ($request->payments as $payment)
+        {
+            $invoice->payments()->create([
+                'payment_method' => $payment['payment_method'],
+                'value' => $payment['value'],
+                'responsable_id' => backpack_user()->id
+            ]);
+        }
+
+        // if the payments match the enrollment price, mark as paid.
+        foreach ($invoice->enrollments as $enrollment) {
+            if ($invoice->total_price == $invoice->paidTotal()) {
+                $enrollment->markAsPaid();
+            }
+        }
+
+        return $invoice->fresh()->payments;
+    }
+
     public function show(Invoice $invoice)
     {
         return view('invoices.show', compact('invoice'));

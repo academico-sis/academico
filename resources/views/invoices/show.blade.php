@@ -46,24 +46,7 @@
                     </tbody>
                 </table>
 
-                <table class="table">
-                    <thead>
-                    <th>@lang('Payment')</th>
-                    <th>@lang('Value')</th>
-                    </thead>
-                    <tbody>
-                    @foreach($invoice->payments as $payment)
-                        <tr>
-                            <td>{{ $payment->created_at }}</td>
-                            <td>${{ $payment->value }}</td>
-                        </tr>
-                    @endforeach
-                    <tr style="font-weight: bold">
-                        <td>@lang('TOTAL')</td>
-                        <td>${{ $invoice->paidTotal() }}</td>
-                    </tr>
-                    </tbody>
-                </table>
+                <payment-component :invoice="{{ json_encode($invoice) }}" :availablepaymentmethods="{{ json_encode($availablePaymentMethods) }}" editable="{{ $editable }}"></payment-component>
 
             </div>
         </div>

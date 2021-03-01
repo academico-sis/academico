@@ -11,7 +11,8 @@
 
 @section('content')
 
-<div class="row" id="app">
+<div id="app">
+<div class="row">
 
     <div class="col-md-4">
         <div class="card">
@@ -63,10 +64,7 @@
 
     </div>
 
-
-
-
-<div class="col-md-4">
+    <div class="col-md-4">
         <div class="card">
             <div class="card-header">@lang('Status')</div>
 
@@ -85,7 +83,7 @@
                         {{ $enrollment->enrollmentStatus->name }}
                     </div>
 
-                    @if(backpack_user()->can('enrollments.edit') && $enrollment->parent_id == null)
+                    @if(backpack_user()->can('enrollments.edit') && $enrollment->parent_id == null && !$enrollment->invoice)
 
                         <div class="form-group">
                             <a href="/enrollment/{{ $enrollment->id }}/bill" class="btn btn-primary">@lang('Checkout enrollment')</a>
@@ -102,23 +100,21 @@
 
                 @if(backpack_user()->can('enrollments.edit'))
 
-                    {{-- todo translate and improve the confirmation message --}}
                     <div class="form-group">
-
+                        {{-- todo translate and improve the confirmation message --}}
                         <button class="btn btn-danger" onclick="if(confirm('Voulez-vous vraiment supprimer cette inscription ?')) cancel({{ $enrollment->id }})">
                             @lang('Delete Enrollment')
                         </button>
+                    </div>
 
-                    @if($enrollment->status_id != 2)
-                    <button class="btn btn-info" onclick="if(confirm('Voulez-vous vraiment marquer cette inscription comme payée ?')) markaspaid({{ $enrollment->id }})">
-                        @lang('Mark as paid')
-                    </button>
-                    @endif
+                <div class="form-group">
+                    <enrollment-status-button :enrollment="{{json_encode($enrollment)}}"></enrollment-status-button>
                 </div>
 
                 <div class="form-group">
                     <a class="btn btn-sm btn-warning" href="{{ route('get-courses-list', ['mode' => 'update', 'enrollment_id' => $enrollment->id]) }}">@lang('Change course')</a>
                 </div>
+
                 <scholarship-modal-component enrollment_id="{{ $enrollment->id }}" :scholarships="{{ $scholarships }}"></scholarship-modal-component>
 
             @else
@@ -131,13 +127,15 @@
 </div>
 
 @if ($enrollment->invoice && backpack_user()->can('enrollments.edit'))
-    @include('invoices.show', ['invoice' => $enrollment->invoice])
+    @include('invoices.show', ['editable' => $enrollment->status_id !== 2, 'invoice' => $enrollment->invoice])
 @endif
 
+</div>
 
 @endsection
 
 @section('before_scripts')
+
 <script>
     function cancel(enrollment)
         {
@@ -160,13 +158,6 @@
             .catch(function (error) {
                 console.log(error);
             });
-        }
-
-        function markaspaid(enrollment)
-        {
-            axios.post(`/enrollment/${enrollment}/markaspaid`)
-                .then(response => window.location.reload())
-                .catch(error => console.log(error));
         }
 </script>
 

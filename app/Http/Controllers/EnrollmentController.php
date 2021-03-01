@@ -137,6 +137,13 @@ class EnrollmentController extends Controller
         return redirect()->back();
     }
 
+    public function markasunpaid(Enrollment $enrollment)
+    {
+        $enrollment->update(['status_id' => 1]);
+
+        return redirect()->back();
+    }
+
     public function savePrice(Enrollment $enrollment, Request $request)
     {
         $enrollment->update(['total_price' => $request->total_price]);

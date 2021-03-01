@@ -344,7 +344,7 @@ export default {
             swal({
                 title: this.$t('Warning'),
                 text: this.$t('Do you really want to delete this course?'),
-                icon: "danger",
+                icon: "warning",
                 buttons: {
                     cancel: {
                         text: this.$t('Cancel'),
