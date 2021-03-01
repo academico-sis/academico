@@ -1,11 +1,11 @@
 <template>
     <div>
         <div v-if="editable">
-            <input v-if="editable" class="input" type="text" v-model="price" />
-            <button v-if="editable" class="btn btn-success" @click="savePrice">{{ $t('Save') }}</button>
+            <input v-if="editable" class="input" type="text" v-model="number" />
+            <button v-if="editable" class="btn btn-success" @click="save()">{{ $t('Save') }}</button>
         </div>
         <div v-else>
-            {{ $t('Price') }}: ${{ price }}
+            {{ $t('Receipt Number') }}: {{ this.number }}
             <a href="#" @click="editable = true"> {{ $t('Edit') }} </a>
         </div>
 
@@ -15,13 +15,13 @@
 <script>
 export default {
     props: [
-        "enrollment"
+        "invoice"
     ],
 
     data() {
         return {
             editable: false,
-            price: this.enrollment.price,
+            number: this.invoice.receipt_number,
         };
     },
     computed: {
@@ -33,15 +33,25 @@ export default {
     },
 
     methods: {
-        savePrice() {
-            axios.put(`/enrollment/${this.enrollment.id}/price`, {
-                price: this.price,
+        save() {
+            axios.post(`/invoice/${this.invoice.id}/receipt`, {
+                number: this.number,
             })
             .then(response => {
-                this.price = response.data.total_price;
+                this.number = response.data.receipt_number;
                 this.editable = false;
+                new Noty({
+                    title: this.$t("Operation successful"),
+                    text: this.$t('Your changes were successful'),
+                    type: "success",
+                }).show();
             })
-            .catch(error => { console.error (error) })
+            .catch(error => {
+                new Noty({
+                    type: "error",
+                    text: this.$t('Your changes could not be saved'),
+                }).show();
+            })
         }
     },
 };

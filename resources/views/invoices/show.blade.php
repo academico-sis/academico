@@ -6,9 +6,8 @@
             </div>
 
             <div class="card-body">
-                <p>
-                    @lang('Receipt Number') : {{ $invoice->receipt_number }}
-                </p>
+                <invoice-receipt-number-field :invoice="{{ json_encode($invoice) }}"></invoice-receipt-number-field>
+
                 <p>@lang('Date') : {{ $invoice->created_at }}</p>
                 <p>@lang('Client name') : {{ $invoice->client_name }}</p>
                 <p>@lang('Client email') : {{ $invoice->client_email }}</p>

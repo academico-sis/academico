@@ -25,6 +25,7 @@ Vue.component('cart-component', require('./components/CartComponent.vue').defaul
 Vue.component('payment-component', require('./components/PaymentComponent.vue').default);
 Vue.component('enrollment-status-button', require('./components/EnrollmentStatusButton.vue').default);
 Vue.component('enrollment-price-field', require('./components/EnrollmentPriceField.vue').default);
+Vue.component('invoice-receipt-number-field', require('./components/InvoiceReceiptNumberField.vue').default);
 
 Vue.component('event-attendance-component', require('./components/EventAttendanceComponent.vue').default);
 
