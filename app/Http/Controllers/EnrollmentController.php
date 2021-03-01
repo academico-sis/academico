@@ -107,10 +107,8 @@ class EnrollmentController extends Controller
     {
         // if the enrollment has already been invoiced, continue with the same invoice
         if ($enrollment->invoice) {
-            return view('carts.payment', [
-                'invoice' => $enrollment->invoice,
-                'availablePaymentMethods' => Paymentmethod::all(),
-            ]);
+            Alert::success(__('This enrollment has already been invoiced'))->flash();
+            return redirect()->back();
         }
 
         // otherwise create a new one.
