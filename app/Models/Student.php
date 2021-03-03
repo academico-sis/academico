@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\LeadStatusUpdatedEvent;
 use App\Events\StudentDeleting;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
@@ -289,6 +290,14 @@ class Student extends Model implements HasMedia
         }
 
         $this->update(['lead_type_id' => null]); // fallback to default (converted)
+
+        // to subscribe the student to mailing lists and so on
+        LeadStatusUpdatedEvent::dispatch($this);
+
+        foreach ($this->contacts as $contact)
+        {
+            LeadStatusUpdatedEvent::dispatch($contact);
+        }
 
         return $enrollment->id;
     }

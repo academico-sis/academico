@@ -13,6 +13,7 @@
         "backpack/crud": "4.1.*",
         "backpack/permissionmanager": "^6.0.0",
         "curl/curl": "^2.3.0",
+        "mailerlite/mailerlite-api-v2-php-sdk": "dev-master",
         "fideloper/proxy": "^4.4.0",
         "guzzlehttp/guzzle": "^7.2",
         "intervention/image": "^2.5.1",
@@ -66,6 +67,12 @@
             "database/factories"
         ]
     },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../mailerlite-api-v2-php-sdk"
+        }
+    ],
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/"

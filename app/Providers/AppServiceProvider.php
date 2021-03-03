@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Interfaces\InvoicingInterface;
 use App\Interfaces\LMSInterface;
+use App\Interfaces\MailingSystemInterface;
 use App\Models\ContactRelationship;
 use App\Models\Period;
 use App\Models\Room;
@@ -70,6 +71,17 @@ class AppServiceProvider extends ServiceProvider
             $this->app->bind(
                 InvoicingInterface::class,
                 $invoicingService
+            );
+        }
+
+        $mailngSystem = config('mailing-system.mailing_system');
+
+        if ($mailngSystem) {
+            $mailingService = config("mailing-system.{$mailngSystem}.class");
+
+            $this->app->bind(
+                MailingSystemInterface::class,
+                $mailingService
             );
         }
     }
