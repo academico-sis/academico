@@ -83,6 +83,15 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "quieneslatern",
+      "name": "quieneslatern",
+      "avatar_url": "https://avatars.githubusercontent.com/u/57142715?v=4",
+      "profile": "https://github.com/quieneslatern",
+      "contributions": [
+        "translation"
+      ]
     }
   ],
   "contributorsPerLine": 7,
