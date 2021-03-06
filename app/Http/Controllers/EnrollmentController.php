@@ -114,7 +114,7 @@ class EnrollmentController extends Controller
         // otherwise create a new one.
         Log::info('User # '.backpack_user()->id.' is generating a invoice');
 
-        $fees = Fee::all(); // TODO
+        $fees = Fee::where('default', 1)->get();
 
         return view('carts.show', [
             'enrollment' => $enrollment,
