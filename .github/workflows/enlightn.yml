@@ -37,7 +37,6 @@ jobs:
           ENLIGHTN_USERNAME: ${{ secrets.ENLIGHTN_USERNAME }}
           ENLIGHTN_API_TOKEN: ${{ secrets.ENLIGHTN_API_TOKEN }}
           ENLIGHTN_GITHUB_REPO: ${{ github.repository }}
-      - name: Copy .env
         run: php -r "file_exists('.env') || copy('.env.testing', '.env');"
       - name: Generate key
         run: php artisan key:generate
