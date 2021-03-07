@@ -1,31 +1,42 @@
-# This is a basic workflow to help you get started with Actions
+name: Enlightn Checks
 
-name: CI
+on: [pull_request]
 
-# Controls when the action will run. 
-on:
-  # Triggers the workflow on push or pull request events but only for the master branch
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  tests:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: [8.0]
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    name: P${{ matrix.php }}
+
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-      - name: Run Enlightn Checks
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, libxml, mbstring, zip, json
+          coverage: none
+
+      - name: Install dependencies
+        env:
+          ENLIGHTN_USERNAME: ${{ secrets.ENLIGHTN_USERNAME }}
+          ENLIGHTN_API_TOKEN: ${{ secrets.ENLIGHTN_API_TOKEN }}
+        run: |
+          composer config http-basic.satis.laravel-enlightn.com "$ENLIGHTN_USERNAME" "$ENLIGHTN_API_TOKEN"
+          composer install --prefer-dist --no-interaction --no-progress --no-scripts
+
+      - name: Run Enlightn Checks and Trigger the Enlightn Bot
+        if: ${{ github.event_name == 'pull_request' }}
+        env:
+          ENLIGHTN_USERNAME: ${{ secrets.ENLIGHTN_USERNAME }}
+          ENLIGHTN_API_TOKEN: ${{ secrets.ENLIGHTN_API_TOKEN }}
+          ENLIGHTN_GITHUB_REPO: ${{ github.repository }}
         run: |
           cp .env.example .env
-          php artisan enlightn --ci
-
+          php artisan enlightn --ci --report --review --issue=${{ github.event.number }}
