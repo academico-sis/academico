@@ -292,11 +292,12 @@ class Student extends Model implements HasMedia
         $this->update(['lead_type_id' => null]); // fallback to default (converted)
 
         // to subscribe the student to mailing lists and so on
-        LeadStatusUpdatedEvent::dispatch($this);
+        $listId = config('mailing-system.mailerlite.activeStudentsListId');
+        LeadStatusUpdatedEvent::dispatch($this, $listId);
 
         foreach ($this->contacts as $contact)
         {
-            LeadStatusUpdatedEvent::dispatch($contact);
+            LeadStatusUpdatedEvent::dispatch($contact, $listId);
         }
 
         return $enrollment->id;

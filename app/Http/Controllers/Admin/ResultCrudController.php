@@ -68,9 +68,10 @@ class ResultCrudController extends CrudController
                 'model' => Course::class, // foreign key model
             ],
             [
-                'name' => 'course.period.name',
+                'name' => 'course.period',
                 'label' => __('Period'),
-                'type' => 'text',
+                'type' => 'relationship',
+                'attribute' => 'name'
             ],
             [
                 // RESULT
