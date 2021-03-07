@@ -37,6 +37,15 @@ jobs:
           ENLIGHTN_USERNAME: ${{ secrets.ENLIGHTN_USERNAME }}
           ENLIGHTN_API_TOKEN: ${{ secrets.ENLIGHTN_API_TOKEN }}
           ENLIGHTN_GITHUB_REPO: ${{ github.repository }}
+      - name: Copy .env
+        run: php -r "file_exists('.env') || copy('.env.testing', '.env');"
+      - name: Generate key
+        run: php artisan key:generate
+      - name: Permissions
+        run: chmod -R 777 storage bootstrap/cache
+      - name: Create Database
         run: |
-          cp .env.example .env
-          php artisan enlightn --ci --report --review --issue=${{ github.event.number }}
+          mkdir -p database
+          touch database/database.sqlite
+      - name: Enlightn pipeline
+        run: php artisan enlightn --ci --report --review --issue=${{ github.event.number }}
