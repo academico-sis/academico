@@ -111,12 +111,14 @@ class CourseCrudController extends CrudController
                 'name' => 'volume', // The db column name
                 'label' => __('Presential volume'), // Table column heading
                 'suffix' => 'h',
+                'type' => 'number'
             ],
 
             [
                 'name' => 'remote_volume', // The db column name
                 'label' => __('Remote volume'), // Table column heading
                 'suffix' => 'h',
+                'type' => 'number'
             ],
 
             [
@@ -840,19 +842,4 @@ class CourseCrudController extends CrudController
         return $response;
     }
 
-    public function destroy($id)
-    {
-        CRUD::hasAccessOrFail('delete');
-        $course = Course::find($id);
-        if ($course->enrollments->count() > 0) {
-            Alert::add('error', 'The course has enrollments, impossible to delete');
-        }
-
-        if ($course->enrollments->count() == 0) {
-            Event::where('course_id', $id)->forceDelete();
-            Enrollment::where('course_id', $id)->forceDelete();
-
-            return CRUD::delete($id);
-        }
-    }
 }

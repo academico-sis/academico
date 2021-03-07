@@ -364,7 +364,7 @@
 
                             <div class="col-md-6" style="text-align: center;">
                                 <div class="form-group">
-                                    <button class="btn btn-lg btn-success" :disabled="loading" @click="finish()">
+                                    <button class="btn btn-lg btn-success" :disabled="loading || payments.length === 0" @click="finish()">
                                         <span v-if="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                         <i class="la la-check"></i
                                         >{{ $t("Checkout") }}

@@ -63,7 +63,7 @@ class ReportController extends Controller
         $years = []; // New array
 
         if (! isset($request->period)) {
-            $startperiod = Period::first();
+            $startperiod = Period::find(Config::where('name', 'first_external_period')->first()->value ?? Period::first()->id);
         } else {
             $startperiod = Period::find($request->period);
         }

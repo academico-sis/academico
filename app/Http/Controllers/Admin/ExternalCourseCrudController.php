@@ -91,12 +91,14 @@ class ExternalCourseCrudController extends CrudController
                 'name' => 'volume', // The db column name
                 'label' => __('Volume'), // Table column heading
                 'suffix' => 'h',
+                'type' => 'number'
             ],
 
             [
                 'name' => 'hourly_price', // The db column name
                 'label' => __('Hourly Price'), // Table column heading
                 'prefix' => '$',
+                'type' => 'number'
             ],
 
             [

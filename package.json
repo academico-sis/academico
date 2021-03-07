@@ -34,7 +34,6 @@
     "@fullcalendar/resource-daygrid": "^4.4.2",
     "@fullcalendar/resource-timegrid": "^4.4.2",
     "@fullcalendar/resource-timeline": "^4.4.2",
-    "@vee-validate/i18n": "^4.1.19",
     "axios": "^0.21.1",
     "buefy": "^0.8.20",
     "chart.js": "^2.9.4",

@@ -71,9 +71,11 @@ class EnrollmentCrudController extends CrudController
             ],
 
             [
-                'name' => 'user.lastname',
+                'name' => 'user',
+                'key'       => 'user_lastname',
+                'attribute' => 'lastname',
                 'label' => __('Last Name'),
-                'type' => 'text',
+                'type' => 'relationship',
                 'searchLogic' => function ($query, $column, $searchTerm) {
                     $query->orWhereHas('student', function ($q) use ($searchTerm) {
                         $q->whereHas('user', function ($q) use ($searchTerm) {
@@ -84,9 +86,11 @@ class EnrollmentCrudController extends CrudController
             ],
 
             [
-                'name' => 'user.firstname',
+                'name' => 'user',
+                'key'       => 'user_firstname',
+                'attribute' => 'firstname',
                 'label' => __('First Name'),
-                'type' => 'text',
+                'type' => 'relationship',
                 'searchLogic' => function ($query, $column, $searchTerm) {
                     $query->orWhereHas('student', function ($q) use ($searchTerm) {
                         $q->whereHas('user', function ($q) use ($searchTerm) {
@@ -107,20 +111,12 @@ class EnrollmentCrudController extends CrudController
             ],
 
             [
-                'name' => 'course.period.name',
+                'type' => 'relationship',
+                'name' => 'course.period',
                 'label' => __('Period'),
-                'type' => 'text',
+                'attribute' => 'name',
             ],
 
-            [
-                // STATUS
-                'label' => __('Status'), // Table column heading
-                'type' => 'select',
-                'name' => 'status_id', // the column that contains the ID of that connected entity;
-                'entity' => 'enrollmentStatus', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => EnrollmentStatusType::class, // foreign key model
-            ],
 
             [
                 // any type of relationship
