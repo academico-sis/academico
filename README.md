@@ -3,6 +3,8 @@
 [![All Contributors](https://img.shields.io/badge/all_contributors-9-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/academico-sis/academico/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/academico-sis/academico/?branch=master)
+
 Academico is an open-source, Lavarel-based school management platform. Its main features include course management, enrolments management, resources scheduling, reports and stats. It is primarily targeted at small and medium-sized institutions who need a simple and affordable solution to manage their school and courses.
 
 If you're using this software, please be get in touch with project maintener to receive security updates and be notified if breaking changes are published. I usually write migrations for the installations I manage, but do not always publish them or write official release notes - but I'll gladly share these with you if you ask. Just send an email to academico@thomasdebay.com to let me know that you start using this application in production and I'll notify you when a non-trivial update is published.
