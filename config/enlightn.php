@@ -17,9 +17,6 @@ return [
     // If you wish to skip running some analyzers, list the classes in the array below.
     'exclude_analyzers' => [],
 
-    // If you wish to skip running some analyzers in CI mode, list the classes below.
-    'ci_mode_exclude_analyzers' => [],
-
     /*
     |--------------------------------------------------------------------------
     | Enlightn Analyzer Paths
@@ -92,19 +89,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Ignoring Errors
-    |--------------------------------------------------------------------------
-    |
-    | Use this config option to ignore specific errors. The key of this array
-    | would be the analyzer class and the value would be an associative
-    | array with path and details. Run php artisan enlightn:baseline
-    | to auto-generate this. Patterns are supported in details.
-    |
-    */
-    'ignore_errors' => [],
-
-    /*
-    |--------------------------------------------------------------------------
     | Analyzer Configurations
     |--------------------------------------------------------------------------
     |
@@ -116,27 +100,8 @@ return [
     'license_whitelist' => [
         'Apache-2.0', 'Apache2', 'BSD-2-Clause', 'BSD-3-Clause', 'LGPL-2.1-only', 'LGPL-2.1',
         'LGPL-2.1-or-later', 'LGPL-3.0', 'LGPL-3.0-only', 'LGPL-3.0-or-later', 'MIT', 'ISC',
-        'CC0-1.0', 'Unlicense', 'WTFPL',
+        'CC0-1.0', 'Unlicense',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Credentials
-    |--------------------------------------------------------------------------
-    |
-    | The following credentials are used to share your Enlightn report with
-    | the Enlightn Github Bot. This allows the bot to compile the report
-    | and add review comments on your pull requests.
-    |
-    */
-    'credentials' => [
-        'username' => env('ENLIGHTN_USERNAME'),
-        'api_token' => env('ENLIGHTN_API_TOKEN'),
-    ],
-
-    // Set this value to your Github repo for integrating with the Enlightn Github Bot
-    // Format: "myorg/myrepo" like "laravel/framework".
-    'github_repo' => env('ENLIGHTN_GITHUB_REPO'),
 
     // Set to true to restrict the max number of files displayed in the enlightn
     // command for each check. Set to false to display all files.
@@ -169,4 +134,22 @@ return [
         storage_path(),
         app()->bootstrapPath('cache'),
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Telescope Analyzer Configurations
+    |--------------------------------------------------------------------------
+    |
+    | The following configuration options pertain to Telescope analyzers.
+    | These are recommended options but feel free to customize them
+    | based on your application needs.
+    |
+    */
+    'disk_usage_threshold' => 90, // %
+
+    'hydration_limit' => 50,
+
+    'request_memory_limit' => 50, // MB
+
+    'slow_response_threshold' => 500, // ms
 ];

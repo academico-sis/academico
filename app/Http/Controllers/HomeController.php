@@ -124,8 +124,13 @@ class HomeController extends Controller
             'currentPeriod' => $currentPeriod,
             'enrollmentsPeriod' => $enrollmentsPeriod,
             'total_enrollment_count' => $currentPeriod->internal_enrollments_count,
+            'pending_attendance' => $currentPeriod->courses_with_pending_attendance,  // optimize
+            'unassigned_events' => (new Event)->unassigned_teacher->count(),
+            'upcoming_leaves' => Leave::upcoming_leaves(),
             'resources' => $teachers,
             'events' => $events,
+            'pending_leads' => LeadType::find(4)->students()->count(),
+            'action_comments' => Comment::where('action', 1)->count(),
         ]);
     }
 }

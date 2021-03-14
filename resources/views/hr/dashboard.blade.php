@@ -21,7 +21,7 @@
                             </div>
                         </div>
 
-{{--                        <div class="col">
+                        <div class="col">
                             <label for="report_start_date">Début : </label>
                             <input class="form-control" type="date" name="report_start_date" value="{{$start}}">
                         </div>
@@ -33,7 +33,7 @@
 
                         <div class="col align-bottom">
                             <button id="sumbit" style="position: absolute; bottom: 0;" class="btn btn-primary" type="submit">OK</button>
-                        </div>--}}
+                        </div>
 
                     </div>
                 </form>
@@ -47,6 +47,7 @@
                             <th data-orderable="true">@lang('Teacher')</th>
                             <th>@lang('Planned Hours')</th>
                             <th><strong>@lang('Period Total')</strong></th>
+                            <th>@lang('Hours on schedule')</th>
                         </tr>
                     </thead>
 
@@ -62,6 +63,8 @@
                             <td>
                                 <strong>{{ number_format($teacher->volume + $teacher->remoteVolume, 2, '.', ',') }} h</strong>
                             </td>
+
+                            <td>{{ number_format($teacher->period_planned_hours($selected_period), 2, '.', ',') }} h</td>
                         </tr>
                         @endforeach
                     </tbody>

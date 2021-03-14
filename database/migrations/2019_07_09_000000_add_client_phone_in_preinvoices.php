@@ -23,6 +23,8 @@ class AddClientPhoneInPreinvoices extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('pre_invoices', function ($table) {
+            $table->dropColumn('client_phone');
+        });
     }
 }

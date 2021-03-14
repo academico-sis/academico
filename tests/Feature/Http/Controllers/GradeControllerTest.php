@@ -60,7 +60,7 @@ class GradeControllerTest extends TestCase
     {
         $this->logAdmin();
         $course = factory(Course::class)->create();
-        $course->evaluationType()->associate(EvaluationType::find(1));
+        $course->evaluationType()->save(EvaluationType::find(1));
         $response = $this->get(route('editCourseGrades', ['course' => $course->id]));
         $response->assertSeeText($course->name);
     }
@@ -71,7 +71,7 @@ class GradeControllerTest extends TestCase
         $teacher = factory(Teacher::class)->create();
         \Auth::guard(backpack_guard_name())->login($teacher->user);
         $course = factory(Course::class)->create(['teacher_id' => $teacher->id]);
-        $course->evaluationType()->associate(EvaluationType::find(1));
+        $course->evaluationType()->save(EvaluationType::find(1));
         $response = $this->get(route('editCourseGrades', ['course' => $course->id]));
         $response->assertSeeText($course->name);
     }
@@ -80,7 +80,7 @@ class GradeControllerTest extends TestCase
     public function grades_edit_screen_is_not_available_to_guests()
     {
         $course = factory(Course::class)->create();
-        $course->evaluationType()->associate(EvaluationType::find(1));
+        $course->evaluationType()->save(EvaluationType::find(1));
         $response = $this->get(route('editCourseGrades', ['course' => $course->id]));
         $response->assertRedirect('/login');
     }
@@ -94,7 +94,7 @@ class GradeControllerTest extends TestCase
 
         $course = factory(Course::class)->create();
         $this->assertNotEquals($teacher->id, $course->teacher_id);
-        $course->evaluationType()->associate(EvaluationType::find(1));
+        $course->evaluationType()->save(EvaluationType::find(1));
         $response = $this->get(route('editCourseGrades', ['course' => $course->id]));
         $response->assertStatus(403);
     }
@@ -102,11 +102,10 @@ class GradeControllerTest extends TestCase
     /** @test */
     public function gradetypes_can_be_added_to_course_by_authorized_users()
     {
-        $this->markTestIncomplete('Test awaiting update to reflect new structure and logic');
         $teacher = factory(Teacher::class)->create();
         \Auth::guard(backpack_guard_name())->login($teacher->user);
         $course = factory(Course::class)->create(['teacher_id' => $teacher->id]);
-        $course->evaluationType()->associate(EvaluationType::find(1));
+        $course->evaluationType()->save(EvaluationType::find(1));
         $gradetype1 = factory(GradeType::class)->create();
         $course->grade_types()->save($gradetype1);
         $response = $this->get(route('editCourseGrades', ['course' => $course->id]));

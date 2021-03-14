@@ -9,6 +9,9 @@ use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Facades\Log;
+use App\Events\ExternalCoursesReportEvent;
+use App\Events\ExpiringPartnershipsEvent;
+use App\Models\Partner;
 use App\Traits\HandlesAttendance;
 
 class Kernel extends ConsoleKernel
@@ -52,6 +55,27 @@ class Kernel extends ConsoleKernel
                 Config::where('name', 'default_enrollment_period')->update(['value' => null]);
             }
         })->dailyAt('00:00');
+
+        $schedule->call(function () {
+            Log::info('Checking expired partnerships');
+
+            // if one of the partnerships is expiring soon, send an email
+            $partners = Partner::where(function ($query) {
+                $query->whereNotNull('expired_on')->where('expired_on', '<', Carbon::now()->addDays(28));
+            })
+            ->where(function ($query) {
+                $query->whereNull('last_alert_sent_at')->orWhere('last_alert_sent_at', '>', Carbon::now()->subDays(28))->get();
+            });
+
+            if ($partners->count() > 0) {
+                event(new ExpiringPartnershipsEvent($partners->get()));
+            }
+        })->dailyAt('02:05');
+
+        $schedule->call(function () {
+            Log::info('Sending external courses reports');
+            event(new ExternalCoursesReportEvent());
+        })->dailyAt('02:10');
 
         $schedule->command('activitylog:clean')->daily();
 

@@ -9,6 +9,17 @@
     color: #ff0000;
 }
 
+.tab-container .nav-tabs-custom {
+	padding-bottom: 0;
+	margin-bottom: 0;
+	background: none;
+}
+
+.tab-content {
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
 .help-block {
 	margin-top: .25rem;
 	margin-bottom: .25rem;
@@ -16,6 +27,6 @@
     font-size: 0.9em;
 }
 
-.nav-tabs-custom  .nav-tabs .nav-link:hover {
-	border-bottom: 1px solid #fff;
+.nav-tabs .nav-link:hover {
+	border-bottom: none;
 }

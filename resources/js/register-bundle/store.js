@@ -6,7 +6,7 @@ export const store = {
         lastname: null,
         email: null,
         password: null,
-        idnumber_type: 'passport',
+        idnumber_type: 'cedula',
         idnumber: null,
         address: null,
         phonenumber: null,

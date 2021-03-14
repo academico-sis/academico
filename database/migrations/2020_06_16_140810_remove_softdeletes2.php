@@ -2,9 +2,10 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-class AddOrderToCourseSkillsTable extends Migration
+class RemoveSoftdeletes2 extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +14,14 @@ class AddOrderToCourseSkillsTable extends Migration
      */
     public function up()
     {
-        Schema::table('course_skill', function (Blueprint $table) {
-            $table->string('order')->nullable()->after('weight');
+        DB::table('courses')->whereNotNull('deleted_at')->delete();
+
+        Schema::table('courses', function ($table) {
+            $table->dropColumn('deleted_at');
+        });
+
+        Schema::table('events', function (Blueprint $table) {
+            $table->timestamps();
         });
     }
 
@@ -25,5 +32,6 @@ class AddOrderToCourseSkillsTable extends Migration
      */
     public function down()
     {
+        //
     }
 }

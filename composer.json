@@ -13,7 +13,7 @@
         "backpack/crud": "4.1.*",
         "backpack/permissionmanager": "^6.0.0",
         "curl/curl": "^2.3.0",
-        "enlightn/enlightn": "^1.16",
+        "mailerlite/mailerlite-api-v2-php-sdk": "dev-master",
         "fideloper/proxy": "^4.4.0",
         "guzzlehttp/guzzle": "^7.2",
         "intervention/image": "^2.5.1",
@@ -67,6 +67,12 @@
             "database/factories"
         ]
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/thdebay/mailerlite-api-v2-php-sdk.git"
+        }
+    ],
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/"
@@ -83,8 +89,7 @@
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
         "post-create-project-cmd": [
-            "@php artisan key:generate --ansi",
-            "php artisan vendor:publish --provider='Backpack\\CRUD\\BackpackServiceProvider' --tag=public --force"
+            "@php artisan key:generate --ansi"
         ]
     }
 }

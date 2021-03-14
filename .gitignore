@@ -11,11 +11,5 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 .idea
-deploy.php
-phpcs.xml
-
-phpmd-ruleset.xml
-
-phpmd.html
-
-phpstan.neon
+deploy_old.php
+.php_cs.cache

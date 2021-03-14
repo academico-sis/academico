@@ -1,21 +1,19 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 
-class AddOrderToCourseSkillsTable extends Migration
+class CreateCartsTable extends Migration
 {
     /**
      * Run the migrations.
+     *
+     * This table stores the pending carts for each user
      *
      * @return void
      */
     public function up()
     {
-        Schema::table('course_skill', function (Blueprint $table) {
-            $table->string('order')->nullable()->after('weight');
-        });
+        // this migration has been removed but the file is kept to prevent errors in production sites where the migration has already been ran
     }
 
     /**

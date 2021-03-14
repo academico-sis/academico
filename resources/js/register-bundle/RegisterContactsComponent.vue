@@ -11,49 +11,134 @@
                     <button class="delete" @click="dropContact(index)"></button>
                 </div>
                 <div class="message-body">
-                    <b-checkbox v-model="contact.invoiceable" native-value="0">{{ $t('Use this data for invoices') }}</b-checkbox>
+                    <b-checkbox
+                        v-model="contact.invoiceable"
+                        native-value="0"
+                        >{{ $t('Facturar a este nombre') }}</b-checkbox>
                     <b-field :label="$t('firstname')">
-                        <ValidationProvider v-slot="{ errors }" name="firstname" rules="required">
-                            <b-input v-model="contact.firstname" :placeholder="$t('firstname')"></b-input><p class="help is-danger">{{ errors[0] }}</p>
+                        <ValidationProvider
+                            v-slot="{ errors }"
+                            name="nombres"
+                            rules="required"
+                        >
+                            <b-input
+                                v-model="contact.firstname"
+                                :placeholder="$t('firstname')"
+                            ></b-input>
+                            <p class="help is-danger">{{ errors[0] }}</p>
                         </ValidationProvider>
                     </b-field>
 
                     <b-field :label="$t('lastname')">
-                        <ValidationProvider v-slot="{ errors }" name="lastname" rules="required">
-                            <b-input v-model="contact.lastname" :placeholder="$t('lastname')"></b-input><p class="help is-danger">{{ errors[0] }}</p>
+                        <ValidationProvider
+                            v-slot="{ errors }"
+                            name="apellidos"
+                            rules="required"
+                        >
+                            <b-input
+                                v-model="contact.lastname"
+                                :placeholder="$t('lastname')"
+                            ></b-input>
+                            <p class="help is-danger">{{ errors[0] }}</p>
                         </ValidationProvider>
                     </b-field>
 
                     <b-field :label="$t('email')">
-                        <ValidationProvider v-slot="{ errors }" name="email" rules="required|email">
-                            <b-input v-model="contact.email" type="email" :placeholder="$t('email')" required></b-input>
+                        <ValidationProvider
+                            v-slot="{ errors }"
+                            name="correo electrónico"
+                            rules="required|email"
+                        >
+                            <b-input
+                                v-model="contact.email"
+                                type="email"
+                                :placeholder="$t('email')"
+                            ></b-input>
+                            <p class="help is-danger">{{ errors[0] }}</p>
+                        </ValidationProvider>
+                    </b-field>
+
+                    <b-field label="Documento de identificación">
+                        <div class="block">
+                            <b-radio
+                                v-model="contact.idnumber_type"
+                                native-value="cédula"
+                                >Cédula</b-radio
+                            >
+                            <b-radio
+                                v-model="contact.idnumber_type"
+                                native-value="pasaporte"
+                                >Pasaporte</b-radio
+                            >
+                        </div>
+                    </b-field>
+
+                    <b-field
+                        v-if="contact.idnumber_type == 'cédula'"
+                        label="Número de cédula"
+                    >
+                        <ValidationProvider
+                            v-slot="{ errors }"
+                            name="número de cédula"
+                            rules="required|cedula|length:10"
+                        >
+                            <b-input v-model="contact.idnumber"></b-input>
                             <p class="help is-danger">{{ errors[0] }}</p>
                         </ValidationProvider>
                     </b-field>
 
                     <b-field
+                        v-if="contact.idnumber_type == 'pasaporte'"
                         label="Número de pasaporte"
                     >
-                        <ValidationProvider v-slot="{ errors }" name="ID Number" rules="required">
+                        <ValidationProvider
+                            v-slot="{ errors }"
+                            name="número de pasaporte"
+                            rules="required"
+                        >
                             <b-input v-model="contact.idnumber"></b-input>
                             <p class="help is-danger">{{ errors[0] }}</p>
                         </ValidationProvider>
                     </b-field>
 
                     <b-field :label="$t('address')">
-                        <ValidationProvider v-slot="{ errors }" name="address" rules="required">
-                            <b-input v-model="contact.address" :placeholder="$t('address')"></b-input>
+                        <ValidationProvider
+                            v-slot="{ errors }"
+                            name="dirección"
+                            rules="required"
+                        >
+                            <b-input
+                                v-model="contact.address"
+                                :placeholder="$t('address')"
+                            ></b-input>
                             <p class="help is-danger">{{ errors[0] }}</p>
                         </ValidationProvider>
                     </b-field>
 
                     <p class="label">{{ $t("phonenumber") }}</p>
 
-                    <b-field v-for="(number, numberindex) in contact.phonenumbers" :key="numberindex" :label="`Phone #${numberindex + 1}`" grouped label-position="on-border">
-                        <ValidationProvider v-slot="{ errors }" name="número de teléfono" rules="required">
-                            <b-input v-model="number.number" :placeholder="$t('phonenumber')"></b-input>
+                    <b-field
+                        v-for="(number, numberindex) in contact.phonenumbers"
+                        :key="numberindex"
+                        :label="'Teléfono #' + (numberindex + 1)"
+                        grouped
+                        label-position="on-border"
+                    >
+                        <ValidationProvider
+                            v-slot="{ errors }"
+                            name="número de teléfono"
+                            rules="required"
+                        >
+                            <b-input
+                                v-model="number.number"
+                                :placeholder="$t('phonenumber')"
+                            ></b-input>
                             <p class="control">
-                                <b-button v-if="numberindex > 0" @click="dropPhoneNumber(index, numberindex)">{{ $t("delete") }}</b-button>
+                                <b-button
+                                    v-if="numberindex > 0"
+                                    @click="dropPhoneNumber(index, numberindex)"
+                                    >{{ $t("delete") }}</b-button
+                                >
                             </p>
                             <p class="help is-danger">{{ errors[0] }}</p>
                         </ValidationProvider>
@@ -118,6 +203,8 @@ export default {
                 firstname: null,
                 lastname: null,
                 email: null,
+                idnumber_type: "cédula",
+                cedula_check: null,
                 idnumber: null,
                 address: null,
                 phonenumbers: [{ number: null }],
