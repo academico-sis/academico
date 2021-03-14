@@ -28,7 +28,7 @@
 <div class="card">
     <div class="card-body p-3 d-flex align-items-center"><i class="la la-exclamation-triangle bg-danger p-3 font-2xl mr-3"></i>
         <div>
-            <div class="text-value-sm text-danger">{{ $teacher->period_planned_hours($selected_period) }}h</div>
+            <div class="text-value-sm text-danger">{{ $teacher->plannedHoursInPeriod($selected_period->start, $selected_period->end) }}h</div>
             <div class="text-muted text-uppercase font-weight-bold small">@lang('Hours on schedule')</div>
         </div>
     </div>

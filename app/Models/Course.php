@@ -117,6 +117,11 @@ class Course extends Model
         return $this->hasMany(Event::class)->orderBy('start');
     }
 
+    public function remoteEvents()
+    {
+        return $this->hasMany(RemoteEvent::class);
+    }
+
     /** may be null if the teacher is not yet assigned */
     public function teacher()
     {
@@ -271,7 +276,6 @@ class Course extends Model
 
     public function saveCourseTimes($newCourseTimes)
     {
-
         // before updating, retrieve existing course times
         $oldCourseTimes = $this->times;
 
@@ -303,6 +307,20 @@ class Course extends Model
             }
         }
     }
+
+    public function saveRemoteEvents($events)
+    {
+        $this->remoteEvents()->delete();
+        foreach ($events as $event)
+        {
+            $this->remoteEvents()->create([
+                'name' => $event->name ?? $this->name,
+                'worked_hours' => $event->worked_hours,
+            ]);
+        }
+    }
+
+
 
     /*
     |--------------------------------------------------------------------------

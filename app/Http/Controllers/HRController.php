@@ -28,21 +28,28 @@ class HRController extends Controller
 
         $teachers = Teacher::with('remote_events')->with('events')->with('courses')->get();
 
-        $report_start_date = $request->report_start_date ?? $period->start;
-        $report_end_date = $request->report_end_date ?? $period->end;
+        $report_start_date = $request->report_start_date ? Carbon::parse($request->report_start_date) : Carbon::parse($period->start);
+        $report_end_date = $request->report_end_date ? Carbon::parse($request->report_end_date) : Carbon::parse($period->end);
 
-        foreach ($teachers as $teacher) {
-            $teacher->remoteVolume = $teacher->courses()->whereNull('parent_course_id')->where('period_id', $period->id)->sum('remote_volume');
-            $teacher->volume = $teacher->courses()->whereNull('parent_course_id')->where('period_id', $period->id)->sum('volume');
+        // if we are dealing with a complete period, add theoretical volumes
+        if (! $request->report_start_date && ! $request->report_end_date) {
+            // ensure the report end date is not before the end date to avoid inconsistent results.
+            $report_end_date = $report_start_date->max($report_end_date);
+
+            foreach ($teachers as $teacher) {
+                $teacher->remoteVolume = $teacher->courses()->realcourses()->where('period_id', $period->id)->sum('remote_volume');
+                $teacher->volume = $teacher->courses()->realcourses()->where('period_id', $period->id)->sum('volume');
+            }
         }
+
 
         Log::info('HR Dahsboard viewed by '.backpack_user()->firstname);
 
         return view('hr.dashboard', [
             'selected_period' => $period,
             'teachers' => $teachers,
-            'start' => Carbon::parse($report_start_date)->format('Y-m-d'),
-            'end' => Carbon::parse($report_end_date)->format('Y-m-d'),
+            'start' => $report_start_date->format('Y-m-d'),
+            'end' => $report_end_date->format('Y-m-d'),
         ]);
     }
 

@@ -21,7 +21,7 @@
                             </div>
                         </div>
 
-{{--                        <div class="col">
+                        <div class="col">
                             <label for="report_start_date">Début : </label>
                             <input class="form-control" type="date" name="report_start_date" value="{{$start}}">
                         </div>
@@ -33,7 +33,7 @@
 
                         <div class="col align-bottom">
                             <button id="sumbit" style="position: absolute; bottom: 0;" class="btn btn-primary" type="submit">OK</button>
-                        </div>--}}
+                        </div>
 
                     </div>
                 </form>
@@ -46,7 +46,7 @@
                         <tr>
                             <th data-orderable="true">@lang('Teacher')</th>
                             <th>@lang('Planned Hours')</th>
-                            <th><strong>@lang('Period Total')</strong></th>
+                            <th>@lang('Hours on schedule')</th>
                         </tr>
                     </thead>
 
@@ -55,12 +55,24 @@
                         <tr>
                             <td>{{ $teacher->name }}</td>
                             <td>
-                                <p>@lang('Remote') : {{ number_format($teacher->remoteVolume, 2, '.', ',') }} h</p>
-                                <p>@lang('Face-to-face') : {{ number_format($teacher->volume, 2, '.', ',') }} h</p>
+                                @if ($teacher->remoteVolume)
+                                    <p>@lang('Remote') : {{ number_format($teacher->remoteVolume, 2, '.', ',') }} h</p>
+                                @endif
+
+                                @if ($teacher->volume)
+                                    <p>@lang('Face-to-face') : {{ number_format($teacher->volume, 2, '.', ',') }} h</p>
+                                @endif
+
+                                @if ($teacher->volume && $teacher->remoteVolume)
+                                    <p>
+                                        <strong>@lang('Total:') {{ number_format($teacher->volume + $teacher->remoteVolume, 2, '.', ',') }} h</strong>
+                                    </p>
+                                @endif
                             </td>
 
                             <td>
-                                <strong>{{ number_format($teacher->volume + $teacher->remoteVolume, 2, '.', ',') }} h</strong>
+                                <p>@lang('Face-to-face') : {{ number_format($teacher->plannedHoursInPeriod($start, $end), 2, '.', ',') }} h</p>
+                                <p>@lang('Remote') : {{ number_format($teacher->plannedRemoteHoursInPeriod($start, $end), 2, '.', ',') }} h</p>
                             </td>
                         </tr>
                         @endforeach

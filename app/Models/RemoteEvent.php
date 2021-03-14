@@ -20,6 +20,11 @@ class RemoteEvent extends Model
         return $this->belongsTo(Teacher::class);
     }
 
+    public function course()
+    {
+        return $this->belongsTo(Course::class);
+    }
+
     public function period()
     {
         return $this->belongsTo(Period::class);

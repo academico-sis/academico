@@ -506,6 +506,30 @@ class CourseCrudController extends CrudController
                 'tab' => __('Schedule'),
             ],
 
+            [
+                'name' => 'remoteevents',
+                'label' => __('Remote events'),
+                'type' => 'repeatable',
+                'fields' => [
+                    [
+                        'name' => 'name',
+                        'type' => 'text',
+                        'label' => __('Name'),
+                        'wrapper' => ['class' => 'form-group col-md-6'],
+                    ],
+                    [
+                        'name' => 'worked_hours',
+                        'type' => 'number',
+                        'attributes' => ["step" => "0.25"],
+                        'suffix'     => "h",
+                        'label' => __('Weekly Volume'),
+                        'wrapper' => ['class' => 'form-group col-md-6'],
+                    ],
+                ],
+                'tab' => __('Schedule'),
+                'init_rows' => 0, // number of empty rows to be initialized, by default 1
+            ],
+
             [   // view
                 'name' => 'custom-ajax-button',
                 'type' => 'view',
@@ -739,6 +763,33 @@ class CourseCrudController extends CrudController
                 'tab' => __('Schedule'),
                 'init_rows' => 0, // number of empty rows to be initialized, by default 1
             ]);
+
+            if ($this->crud->getCurrentEntry()->children->count() == 0) {
+                CRUD::addField([
+                    'name' => 'remoteevents',
+                    'label' => __('Remote events'),
+                    'type' => 'repeatable',
+                    'fields' => [
+                        [
+                            'name' => 'name',
+                            'type' => 'text',
+                            'label' => __('Name'),
+                            'wrapper' => ['class' => 'form-group col-md-6'],
+                        ],
+                        [
+                            'name' => 'worked_hours',
+                            'type' => 'number',
+                            'attributes' => ["step" => "0.25"],
+                            'suffix'     => "h",
+                            'label' => __('Weekly Volume'),
+                            'wrapper' => ['class' => 'form-group col-md-6'],
+                        ],
+                    ],
+                    'tab' => __('Schedule'),
+                    'init_rows' => 0, // number of empty rows to be initialized, by default 1
+                ]);
+            }
+
         }
 
         // add asterisk for fields that are required in CourseRequest
@@ -793,6 +844,9 @@ class CourseCrudController extends CrudController
         $newCourseTimes = collect(json_decode($this->crud->getRequest()->input('times')));
         $course->saveCourseTimes($newCourseTimes);
 
+        $remoteEvents = collect(json_decode($this->crud->getRequest()->input('remoteevents')));
+        $course->saveRemoteEvents($remoteEvents);
+
         // update model
         $response = $this->traitUpdate();
 
@@ -811,6 +865,8 @@ class CourseCrudController extends CrudController
             // otherwise, use any user-defined course times
             $courseTimes = collect(json_decode($this->crud->getRequest()->input('times')));
         }
+
+        $course->saveRemoteEvents($remoteEvents);
 
         $sublevels = collect(json_decode($this->crud->getRequest()->input('sublevels')));
 

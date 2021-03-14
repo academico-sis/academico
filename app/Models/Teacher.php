@@ -142,6 +142,33 @@ class Teacher extends Model
             ->sum('length');
     }
 
+    public function plannedRemoteHoursInPeriod($start, $end)
+    {
+        $total = 0;
+        // retrieve courses within period
+        foreach ($this->courses()->realcourses()->whereDate('start_date', '<=', $end)->get() as $course)
+        {
+
+            // the number of days (selected period) overlapping the course length
+            // latest of course and report start dates.
+            $startDate = Carbon::parse($course->start_date)->max($start);
+
+            // only process if the course ends AFTER the start date
+            if ($startDate <= $course->end_date)
+            {
+                $endDate = Carbon::parse($course->end_date)->min($end);
+
+                // add 1 to include current week.
+                $numberOfWeeks = $startDate->diffInWeeks($endDate) + 1;
+
+                $total += $course->remoteEvents->sum('worked_hours') * $numberOfWeeks;
+            }
+
+        }
+
+        return $total;
+    }
+
     /* Return the events with incomplete attendance for this teacher */
     public function events_with_pending_attendance(Period $period)
     {
