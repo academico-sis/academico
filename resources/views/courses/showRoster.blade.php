@@ -13,35 +13,34 @@
 @include('partials.course_info')
 
 <div class="row">
-	<div class="card">
-		<div class="card-header">
-		    <div class="card-header-actions">
-		        <button class="btn btn-primary" data-toggle="modal" data-target="#myModal">@lang('Enroll new student')</button>
-		    </div>
-		    <div class="card-header-actions">
-		    	 <a href="/course/{{ $course->id }}/show/" class="btn btn-primary mr-3">Student List</a>
-		    </div>
-		</div>
-	</div>
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <button class="btn btn-primary" data-toggle="modal" data-target="#myModal">@lang('Enroll new student')</button>
+                 <a href="/course/{{ $course->id }}/show/" class="btn btn-primary mr-3">Student List</a>
+            </div>
+        </div>
+    </div>
 </div>
 
 
 <div class="row">
 	@foreach ($enrollments as $enrollment)
-	<div class="col-md-3">
-		<div class="card">
-			@if ($enrollment->student->getMedia('profile-picture')->count() > 0)
-				<img class="card-img-top" src="{{ $enrollment->student->getMedia('profile-picture')->last()->getUrl('thumb') }}"/>
-			@endif
-			<div class="card-body">
-				<a href="{{ route('student.show', ['id' => $enrollment->student_id]) }}">
-					<h5>{{$enrollment->student->name}}</h5>
-				</a>
-			</div>
-		</div>
-	</div>
-	@endforeach
-
+	<div class="col-sm-6 col-md-3 col-lg-2">
+        <div class="card">
+            @if ($enrollment->student->getMedia('profile-picture')->count() > 0)
+                <img class="card-img-top" src="{{ $enrollment->student->getMedia('profile-picture')->last()->getUrl('thumb') }}"/>
+            @else
+                <img class="card-img-top" src="{{ asset('user-icon-placeholder.png') }}"/>
+            @endif
+            <div class="card-body">
+            <a href="{{ route('student.show', ['id' => $enrollment->student_id]) }}">
+                <h5>{{$enrollment->student->name}}</h5>
+            </a>
+            </div>
+        </div>
+    </div>
+@endforeach
 </div>
 
 @endsection
