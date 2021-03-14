@@ -11,5 +11,5 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 .idea
-deploy_old.php
+deploy.php
 .php_cs.cache
