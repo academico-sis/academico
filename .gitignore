@@ -17,5 +17,6 @@ phpcs.xml
 phpmd-ruleset.xml
 
 phpmd.html
-
+/dockerfiles
 phpstan.neon
+docker-compose.yml
