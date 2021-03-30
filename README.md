@@ -36,7 +36,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/TanoRojas"><img src="https://avatars0.githubusercontent.com/u/7780437?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Tano Rojas</b></sub></a><br /><a href="https://github.com/academico-sis/academico/commits?author=TanoRojas" title="Tests">⚠️</a> <a href="https://github.com/academico-sis/academico/commits?author=TanoRojas" title="Code">💻</a></td>
   </tr>
   <tr>
-    <td align="center"><a href="https://cirkovic.me"><img src="https://avatars0.githubusercontent.com/u/32557332?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Nikola Cirkovic</b></sub></a><br /><a href="https://github.com/academico-sis/academico/issues?q=author%3ACirkaN" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://cirkovic.me"><img src="https://avatars0.githubusercontent.com/u/32557332?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Nikola Cirkovic</b></sub></a><br /><a href="https://github.com/academico-sis/academico/issues?q=author%3ACirkaN" title="Bug reports">🐛</a> <a href="#maintenance-CirkaN" title="Maintenance">🚧</a></td>
     <td align="center"><a href="https://github.com/quieneslatern"><img src="https://avatars.githubusercontent.com/u/57142715?v=4?s=100" width="100px;" alt=""/><br /><sub><b>quieneslatern</b></sub></a><br /><a href="#translation-quieneslatern" title="Translation">🌍</a></td>
   </tr>
 </table>
