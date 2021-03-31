@@ -33,6 +33,12 @@ class GradeController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'grade_type_id' => 'required|numeric',
+            'enrollment_id' => 'required|numeric',
+            'value' => 'required|numeric|min:0'
+        ]);
+        
         $enrollment = Enrollment::findOrFail($request->input('enrollment_id'));
         $this->checkAccessForCourse($enrollment->course);
         $grade = Grade::firstOrNew([
