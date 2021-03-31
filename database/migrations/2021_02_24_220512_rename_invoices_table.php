@@ -18,12 +18,18 @@ class RenameInvoicesTable extends Migration
         Schema::rename('pre_invoice_details', 'invoice_details');
 
         Schema::table('invoice_details', function (Blueprint $table) {
-            $table->dropForeign('pre_invoice_details_pre_invoice_id_foreign');
+            if (DB::connection()->getPDO()->getAttribute(PDO::ATTR_DRIVER_NAME) !== 'sqlite') {
+                $table->dropForeign('pre_invoice_details_pre_invoice_id_foreign');
+            }
+
             $table->renameColumn('pre_invoice_id', 'invoice_id');
         });
 
         Schema::table('payments', function (Blueprint $table) {
-            $table->dropForeign('payments_pre_invoice_id_foreign');
+            if (DB::connection()->getPDO()->getAttribute(PDO::ATTR_DRIVER_NAME) !== 'sqlite') {
+                $table->dropForeign('payments_pre_invoice_id_foreign');
+            }
+            
             $table->renameColumn('pre_invoice_id', 'invoice_id');
         });
     }
