@@ -78,6 +78,7 @@ class StudentCrudController extends CrudController
                 // 1-n relationship
                 'label'     => __('Last Name'), // Table column heading
                 'type'      => 'relationship',
+                'key'  => 'lastname',
                 'name'    => 'user', // the method that defines the relationship in your Model
                 'attribute' => 'lastname', // foreign key attribute that is shown to user
                 'model'     => 'App\Models\User', // foreign key model
@@ -97,6 +98,7 @@ class StudentCrudController extends CrudController
                 // 1-n relationship
                 'label'     => __('First Name'), // Table column heading
                 'type'      => 'relationship',
+                'key'  => 'firstname',
                 'name'    => 'user', // the method that defines the relationship in your Model
                 'attribute' => 'firstname', // foreign key attribute that is shown to user
                 'model'     => 'App\Models\User', // foreign key model
