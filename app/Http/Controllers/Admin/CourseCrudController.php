@@ -858,6 +858,9 @@ class CourseCrudController extends CrudController
         $teacherId = $this->crud->getRequest()->input('teacher_id');
         $roomId = $this->crud->getRequest()->input('room_id');
 
+        $response = $this->traitStore();
+        $course = $this->crud->getCurrentEntry();
+
         // if a schedule preset was applied, use it
         if ($this->crud->getRequest()->input('schedulepreset') !== null) {
             $courseTimes = collect(json_decode($this->crud->getRequest()->input('schedulepreset')));
@@ -884,9 +887,6 @@ class CourseCrudController extends CrudController
             // do not persist course times on parent but on children
             $this->crud->getRequest()->request->remove('times');
         }
-
-        $response = $this->traitStore();
-        $course = $this->crud->getCurrentEntry();
 
         if ($sublevels->count() > 0) {
             // create sublevels and apply coursetimes to them
