@@ -866,6 +866,7 @@ class CourseCrudController extends CrudController
             $courseTimes = collect(json_decode($this->crud->getRequest()->input('times')));
         }
 
+        $remoteEvents = collect(json_decode($this->crud->getRequest()->input('remoteevents')));
         $course->saveRemoteEvents($remoteEvents);
 
         $sublevels = collect(json_decode($this->crud->getRequest()->input('sublevels')));
