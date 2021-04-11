@@ -214,24 +214,24 @@ class ApolearnService implements LMSInterface
     protected function addTeacher(Course $course) : void
     {
         Log::info('adding teacher');
-        // if the course has no teacher, abort
-        if (! $course->teacher_id) {
-            abort (422, "The course has no teacher");
-        }
 
-        // if the teacher doesn't exist on LMS, create them
-        if (! $course->teacher->user->lms_id) {
-            Log::info('creating user now');
-            $this->createUser($course->teacher->user);
-        }
+        // only process if the course has a teacher
+        if ($course->teacher_id)
+        {
+            // if the teacher doesn't exist on LMS, create them
+            if (! $course->teacher->user->lms_id) {
+                Log::info('creating user now');
+                $this->createUser($course->teacher->user);
+            }
 
-        // then sync to API
-        Log::info('pushing course user to API');
-        $response = Http::post(config('lms.apolearn.url')."/classrooms/addteacher/$course->lms_id", [
-            'user_id' => $course->teacher->user->lms_id,
-            'auth_token' => $this->token,
-            'api_key' => $this->apiKey,
-        ]);
+            // then sync to API
+            Log::info('pushing course user to API');
+            $response = Http::post(config('lms.apolearn.url')."/classrooms/addteacher/$course->lms_id", [
+                'user_id' => $course->teacher->user->lms_id,
+                'auth_token' => $this->token,
+                'api_key' => $this->apiKey,
+            ]);
+        }
     }
 
     protected function removeTeacher($courseId, $teacherId): void
