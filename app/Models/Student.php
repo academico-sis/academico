@@ -42,7 +42,10 @@ class Student extends Model implements HasMedia
         'lead_type_id',
         'force_update',
         'profession_id',
-        'institution_id'
+        'institution_id',
+        'zip_code',
+        'iban',
+        'bic',
     ];
 
     public $incrementing = false;
