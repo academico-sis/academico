@@ -57,7 +57,7 @@ class InvoiceController extends Controller
             'product_code' => $enrollment->course->product_code,
             'product_id' => $enrollment->id,
             'product_type' => Enrollment::class,
-            'price' => $enrollment->course->price,
+            'price' => $enrollment->course->price ?? 0,
         ]);
 
         if (isset($request->comment)) {

@@ -250,6 +250,12 @@ class CourseCrudController extends CrudController
 
     protected function setupCreateOperation()
     {
+        if (config('app.currency_position' === 'before')) {
+            $currency = array('prefix' => config('app.currency_symbol'));
+        } else {
+            $currency = array('suffix' => config('app.currency_symbol'));
+        }
+
         CRUD::addFields([
             [
                 // RYTHM
@@ -279,11 +285,12 @@ class CourseCrudController extends CrudController
                 'tab' => __('Course info'),
             ],
 
-            [
+            array_merge([
                 'name' => 'price', // The db column name
                 'label' => __('Price'), // Table column heading
                 'tab' => __('Course info'),
-            ],
+                'type' => 'number'
+            ], $currency),
 
             [
                 'name' => 'volume', // The db column name
@@ -332,10 +339,13 @@ class CourseCrudController extends CrudController
                         'allows_null' => true,
                         'wrapper' => ['class' => 'form-group col-md-4'],
                     ],
-                    [
+
+                    array_merge([
                         'name' => 'price', // The db column name
                         'label' => __('Price'), // Table column heading
-                    ],
+                        'type' => 'number'
+                    ], $currency),
+
                    [
                         'name' => 'volume', // The db column name
                         'label' => __('Presential volume'), // Table column heading
@@ -554,6 +564,12 @@ class CourseCrudController extends CrudController
 
     protected function setupUpdateOperation()
     {
+        if (config('app.currency_position' === 'before')) {
+            $currency = array('prefix' => config('app.currency_symbol'));
+        } else {
+            $currency = array('suffix' => config('app.currency_symbol'));
+        }
+
         if ($this->crud->getCurrentEntry()->children->count() > 0) {
             CRUD::addField([   // view
                 'name' => 'custom-ajax-button',
@@ -602,11 +618,12 @@ class CourseCrudController extends CrudController
                 'tab' => __('Course info'),
             ],
 
-            [
+            array_merge([
                 'name' => 'price', // The db column name
                 'label' => __('Price'), // Table column heading
                 'tab' => __('Course info'),
-            ],
+                'type' => 'number'
+            ], $currency),
 
             [
                 'name' => 'volume', // The db column name

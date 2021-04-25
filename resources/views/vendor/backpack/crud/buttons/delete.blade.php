@@ -18,7 +18,7 @@
 
             swal({
                 title: "{!! trans('backpack::base.warning') !!}",
-                text: "{!! trans('backpack::crud.delete_confirm') !!} \n @lang('The associated enrollments and events will be DELETED!')",
+                text: "{!! trans('backpack::crud.delete_confirm') !!}",
                 icon: "warning",
                 buttons: ["{!! trans('backpack::crud.cancel') !!}", "{!! trans('backpack::crud.delete') !!}"],
                 dangerMode: true,
