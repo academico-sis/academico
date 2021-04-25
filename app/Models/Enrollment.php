@@ -18,7 +18,7 @@ class Enrollment extends Model
     use LogsActivity;
 
     protected $guarded = ['id'];
-    protected $appends = ['result_name', 'product_code', 'price'];
+    protected $appends = ['result_name', 'product_code', 'price', 'price_with_currency'];
     protected $with = ['student', 'course', 'childrenEnrollments'];
     protected static $logUnguarded = true;
 
@@ -269,6 +269,16 @@ class Enrollment extends Model
         } else {
             return $this->course->price ?? 0;
         }
+    }
+
+    public function getPriceWithCurrencyAttribute()
+    {
+        if (config('app.currency_position') === 'before')
+        {
+            return config('app.currency_symbol') . " ". $this->price;
+        }
+
+        return $this->price . " " . config('app.currency_symbol');
     }
 
     public function cancel()

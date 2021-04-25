@@ -17,6 +17,7 @@ class Book extends Model
     // protected $primaryKey = 'id';
     public $timestamps = false;
     protected $guarded = ['id'];
+    protected $appends = ['price_with_currency'];
     // protected $fillable = [];
     // protected $hidden = [];
     // protected $dates = [];
@@ -44,6 +45,16 @@ class Book extends Model
     | ACCESORS
     |--------------------------------------------------------------------------
     */
+
+    public function getPriceWithCurrencyAttribute()
+    {
+        if (config('app.currency_position') === 'before')
+        {
+            return config('app.currency_symbol') . " ". $this->price;
+        }
+
+        return $this->price . " " . config('app.currency_symbol');
+    }
 
     /*
     |--------------------------------------------------------------------------

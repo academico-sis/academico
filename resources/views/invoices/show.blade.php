@@ -45,7 +45,13 @@
                     </tbody>
                 </table>
 
-                <payment-component :invoice="{{ json_encode($invoice) }}" :availablepaymentmethods="{{ json_encode($availablePaymentMethods) }}" editable="{{ $editable }}"></payment-component>
+                <payment-component
+                    :invoice="{{ json_encode($invoice) }}"
+                    :availablepaymentmethods="{{ json_encode($availablePaymentMethods) }}"
+                    editable="{{ $editable }}"
+                    currency="{{ config('app.currency_symbol') }}"
+                    currencyposition="{{ config('app.currency_position') }}"
+                ></payment-component>
 
             </div>
         </div>

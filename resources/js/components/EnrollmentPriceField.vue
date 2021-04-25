@@ -1,11 +1,27 @@
 <template>
     <div>
         <div v-if="editable">
-            <input v-if="editable" class="input" type="text" v-model="price" />
-            <button v-if="editable" class="btn btn-success" @click="savePrice">{{ $t('Save') }}</button>
+            <div class="input-group" v-if="this.currencyposition === 'before'">
+                <div class="input-group-append">
+                    <span class="input-group-text">{{ this.currency }}</span>
+                </div>
+                <input v-if="editable" step="0.01" class="form-control" type="number" v-model="price" />
+            </div>
+
+            <div class="input-group" v-else>
+                <input v-if="editable" step="0.01" class="form-control" type="number" v-model="price" />
+                <div v-if="this.currencyposition === 'after'" class="input-group-append">
+                    <span class="input-group-text">{{ this.currency }}</span>
+                </div>
+
+                <button v-if="editable" class="btn btn-success" @click="savePrice">{{ $t('Save') }}</button>
+            </div>
         </div>
         <div v-else>
-            {{ $t('Price') }}: ${{ price }}
+            {{ $t('Price') }}:
+            <span v-if="this.currencyposition === 'before'">{{ this.currency }} </span>
+            {{ price }}
+            <span v-if="this.currencyposition === 'after'">{{ this.currency }} </span>
             <a href="#" @click="editable = true"> {{ $t('Edit') }} </a>
         </div>
 
@@ -15,7 +31,9 @@
 <script>
 export default {
     props: [
-        "enrollment"
+        "enrollment",
+        "currency",
+        "currencyposition",
     ],
 
     data() {

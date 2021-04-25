@@ -38,7 +38,11 @@
         <tr>
             <td></td>
             <td>{{ $t("Total received amount") }}</td>
-            <td>$ {{ paidTotal }}</td>
+            <td>
+                <span v-if="this.currencyposition === 'before'">{{ this.currency }} </span>
+                {{ paidTotal }}
+                <span v-if="this.currencyposition === 'after'">{{ this.currency }} </span>
+            </td>
         </tr>
 
         <tr v-if="editable">
@@ -71,7 +75,9 @@ export default {
     props: [
         "invoice",
         "availablepaymentmethods",
-        "editable"
+        "editable",
+        "currency",
+        "currencyposition",
     ],
 
     data() {

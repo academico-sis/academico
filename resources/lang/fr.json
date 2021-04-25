@@ -89,6 +89,8 @@
     "Date range": "Dates",
     "Default Periods Selection": "Sélection des cycles par défaut",
     "Delete": "Supprimer",
+    "Select": "Sélectionner",
+    "Client Phone Number": "Téléphone du client",
     "Delete Enrollment": "Annuler l'inscription",
     "discount": "réduction",
     "Discount Value": "Valeur de la réduction",
@@ -214,10 +216,10 @@
     "Paid Enrollments": "Inscriptions payées",
     "Partial presence (arrived late or left early)": "Présence partielle (retard ou départ anticipé)",
     "Password": "Mot de passe",
-    "payment method": "méthode de paiement",
-    "payment methods": "méthodes de paiement",
+    "Payment method": "Moyen de paiement",
     "Payment methods": "Moyens de paiement",
     "Payments": "Paiements",
+    "Payment": "Paiement",
     "Pedagogy": "Pedagogie",
     "Pending": "Impayés",
     "Pending Attendance": "Présences en attente",
@@ -355,6 +357,7 @@
     "Weekly workable hours": "Volume de travail hebdomadaire",
     "When everything is ready, please confirm that your data is up-to-date": "Lorsque toutes les données sont à jour, vous pouvez valider et terminer le processus",
     "Worked Hours": "Heures travaillées",
+    "Confirm": "Confirmer",
     "year": "année",
     "Year": "Année",
     "Years": "Années",
@@ -420,5 +423,7 @@
     "Enrollment in progress...": "Inscription en cours...",
     "Enable": "Activer",
     "Disable": "Désactiver",
-    "Send invoice to external accounting system": "Transmettre la facture au système comptable"
+    "Send invoice to external accounting system": "Transmettre la facture au système comptable",
+    "Total received amount": "Montant total perçu",
+    "Total price": "Montant total"
 }

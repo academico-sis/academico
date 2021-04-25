@@ -24,6 +24,8 @@
             :contactdata="{{ json_encode($contactData) }}"
             :availablepaymentmethods="{{ json_encode($availablePaymentMethods) }}"
             :accountingenabled="{{ json_encode(config('invoicing.accounting_enabled')) }}"
+            currency="{{ config('app.currency_symbol') }}"
+            currencyposition="{{ config('app.currency_position') }}"
         >
         </cart-component>
 

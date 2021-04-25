@@ -12,7 +12,7 @@
             </li>
         </ol>
 
-        <div v-if="step == 1" class="row">
+        <div v-if="step === 1" class="row">
             <div class="col col-md-8">
                 <div class="card">
                     <div class="card-header">
@@ -22,9 +22,11 @@
                     <div class="card-body">
                         <table class="table">
                             <thead>
-                                <th>{{ $t("Product") }}</th>
-                                <th>{{ $t("Price") }}</th>
-                                <th>{{ $t("Actions") }}</th>
+                                <tr>
+                                    <th>{{ $t("Product") }}</th>
+                                    <th>{{ $t("Price") }}</th>
+                                    <th>{{ $t("Actions") }}</th>
+                                </tr>
                             </thead>
                             <tbody>
                                 <tr>
@@ -34,7 +36,7 @@
                                         {{ this.enrollment.student.name }}
                                     </td>
                                     <td>
-                                        $ {{ this.enrollment.price }}
+                                        {{ this.enrollment.price_with_currency }}
                                         <span v-if="discount(this.enrollment.price) > 0" class="label label-info"> - ${{discount(this.enrollment.price)}}</span>
                                     </td>
                                     <td></td>
@@ -42,7 +44,7 @@
 
                                 <tr v-for="(book, index) in books" :key="book.id">
                                     <td>{{ book.name }}</td>
-                                    <td>$ {{ book.price }}</td>
+                                    <td>{{ book.price_with_currency }}</td>
                                     <td>
                                         <button class="btn btn-xs btn-danger" @click="removeBookFromCart(index)">
                                             <i class="la la-trash"></i>
@@ -52,7 +54,7 @@
 
                                 <tr v-for="(fee, index) in fees" :key="fee.id">
                                     <td>{{ fee.name }}</td>
-                                    <td>$ {{ fee.price }}</td>
+                                    <td>{{ fee.price_with_currency }}</td>
                                     <td>
                                         <button class="btn btn-xs btn-danger" @click="removeFeeFromCart(index)">
                                             <i class="la la-trash"></i>
@@ -67,8 +69,9 @@
                 <div class="card">
                     <div class="card-body text-center">
                         <h4>
-                            {{ $t("Total price") }}: $
+                            {{ $t("Total price") }}: <span v-if="currencyposition === 'before'">{{ currency }} </span>
                             {{ shoppingCartTotal }}
+                            <span v-if="currencyposition === 'after'">{{ currency }} </span>
                         </h4>
                         <button class="btn btn-success" @click="step = 2">
                             <i class="la la-check"></i>{{ $t("Confirm") }}
@@ -144,7 +147,7 @@
             </div>
         </div>
 
-        <div v-if="step == 2" class="row">
+        <div v-if="step === 2" class="row">
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-header">
@@ -222,7 +225,7 @@
             </div>
         </div>
 
-        <div v-if="step == 3" class="row">
+        <div v-if="step === 3" class="row">
             <div class="col col-md-6">
                 <div class="card">
                     <div class="card-header">
@@ -241,19 +244,19 @@
                                         {{ this.enrollment.course.name }} {{ $t("for") }} {{ this.enrollment.student.name }}
                                     </td>
                                     <td>
-                                        $ {{ this.enrollment.price }}
+                                        {{ this.enrollment.price_with_currency }}
                                         <span v-if="discount(this.enrollment.price) > 0" class="label label-info"> - ${{ discount(this.enrollment.price)}}</span>
                                     </td>
                                 </tr>
 
                                 <tr v-for="book in books" :key="book.id + '-book'">
                                     <td>{{ book.name }}</td>
-                                    <td>$ {{ book.price }}</td>
+                                    <td>{{ book.price_with_currency }}</td>
                                 </tr>
 
                                 <tr v-for="fee in fees" :key="fee.id + '-fee'">
                                     <td>{{ fee.name }}</td>
-                                    <td>$ {{ fee.price }}</td>
+                                    <td>{{ fee.price_with_currency }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -281,8 +284,9 @@
                 <div class="card">
                     <div class="card-body text-center">
                         <h4>
-                            {{ $t("Total price") }}: $
+                            {{ $t("Total price") }}: <span v-if="currencyposition === 'before'">{{ currency }} </span>
                             {{ shoppingCartTotal }}
+                            <span v-if="currencyposition === 'after'">{{ currency }} </span>
                         </h4>
                     </div>
                 </div>
@@ -311,8 +315,13 @@
 
                                     <td>
                                         <div class="input-group">
-                                            <span class="input-group-addon">$</span>
+                                            <div class="input-group-append" v-if="currencyposition === 'before'">
+                                                <span class="input-group-text">{{ currency }}</span>
+                                            </div>
                                             <input v-model="payment.value" type="number" step="0.01" class="form-control" />
+                                            <div class="input-group-append" v-if="currencyposition === 'after'">
+                                                <span class="input-group-text">{{ currency }}</span>
+                                            </div>
                                         </div>
                                     </td>
 
@@ -345,8 +354,9 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <h4>
-                                        {{ $t("Total received amount") }}:
-                                        $ {{ paidTotal }}
+                                        {{ $t("Total received amount") }}: <span v-if="currencyposition === 'before'">{{ currency }} </span>
+                                        {{ paidTotal }}
+                                        <span v-if="currencyposition === 'after'">{{ currency }} </span>
                                     </h4>
                                 </div>
 
@@ -421,6 +431,8 @@ export default {
         "contactdata",
         "availablepaymentmethods",
         "accountingenabled",
+        "currency",
+        "currencyposition",
     ],
 
     data() {
@@ -442,6 +454,8 @@ export default {
             sendInvoiceToAccounting: this.accountingenabled,
             accountingServiceIsUp: false,
             loading: false,
+            currency: this.currency,
+            currencyposition: this.currencyposition,
         };
     },
     computed: {
