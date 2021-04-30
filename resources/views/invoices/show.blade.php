@@ -35,12 +35,12 @@
                         @foreach($invoice->invoiceDetails as $product)
                             <tr>
                                 <td>{{ $product->product_name }}</td>
-                                <td>${{ $product->price }}</td>
+                                <td>{{ $product->price_with_currency }}</td>
                             </tr>
                         @endforeach
                         <tr style="font-weight: bold">
                             <td>@lang('TOTAL')</td>
-                            <td>${{ $invoice->total_price }}</td>
+                            <td>{{ $invoice->total_price_with_currency }}</td>
                         </tr>
                     </tbody>
                 </table>

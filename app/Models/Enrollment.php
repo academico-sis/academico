@@ -108,9 +108,12 @@ class Enrollment extends Model
         $this->status_id = 1;
         $this->save();
 
+        $this->invoice()->delete();
+
         // also mark children as unpaid
         foreach ($this->childrenEnrollments as $child) {
             $child->status_id = 1;
+            $child->invoice()->delete();
             $child->save();
         }
     }

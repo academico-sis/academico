@@ -17,16 +17,21 @@
 
             <td v-else>{{ payment.payment_method }}</td>
 
-            <td>{{ payment.date }}</td>
+            <td>{{ payment.date_for_humans }}</td>
 
             <td v-if="editable" >
                 <div class="input-group">
-                    <span class="input-group-addon">$</span>
+                    <span v-if="this.currencyposition === 'before'" class="input-group-addon">{{ this.currency }} </span>
                     <input v-model="payment.value" type="number" step="0.01" class="form-control" />
+                    <span v-if="this.currencyposition === 'after'" class="input-group-addon"> {{ this.currency }}</span>
                 </div>
             </td>
 
-            <td v-else>${{ payment.value }}</td>
+            <td v-else>
+                <span v-if="this.currencyposition === 'before'" class="input-group-addon">{{ this.currency }} </span>
+                {{ payment.value }}
+                <span v-if="this.currencyposition === 'after'" class="input-group-addon"> {{ this.currency }}</span>
+            </td>
 
             <td>
                 <button v-if="editable" class="btn btn-sm btn-ghost-danger" @click="removePayment(payment)">
