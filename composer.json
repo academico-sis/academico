@@ -14,6 +14,7 @@
         "backpack/permissionmanager": "^6.0.0",
         "curl/curl": "^2.3.0",
         "enlightn/enlightn": "^1.16",
+        "enlightn/enlightnpro": "^1.16",
         "fideloper/proxy": "^4.4.0",
         "guzzlehttp/guzzle": "^7.2",
         "intervention/image": "^2.5.1",
@@ -73,6 +74,12 @@
             "Tests\\": "tests/"
         }
     },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://satis.laravel-enlightn.com"
+        }
+    ],
     "minimum-stability": "dev",
     "prefer-stable": true,
     "scripts": {
@@ -85,6 +92,10 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi",
+            "php artisan vendor:publish --provider='Backpack\\CRUD\\BackpackServiceProvider' --tag=public --force"
+        ],
+        "post-update-cmd": [
+            "@php artisan telescope:publish --ansi",
             "php artisan vendor:publish --provider='Backpack\\CRUD\\BackpackServiceProvider' --tag=public --force"
         ]
     }
