@@ -22,7 +22,7 @@
             <span v-if="this.currencyposition === 'before'">{{ this.currency }} </span>
             {{ price }}
             <span v-if="this.currencyposition === 'after'">{{ this.currency }} </span>
-            <a href="#" @click="editable = true"> {{ $t('Edit') }} </a>
+            <a v-if="writeaccess" href="#" @click="editable = true"> {{ $t('Edit') }} </a>
         </div>
 
     </div>
@@ -34,6 +34,7 @@ export default {
         "enrollment",
         "currency",
         "currencyposition",
+        "writeaccess",
     ],
 
     data() {
