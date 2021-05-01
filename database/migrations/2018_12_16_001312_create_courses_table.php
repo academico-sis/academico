@@ -20,7 +20,7 @@ class CreateCoursesTable extends Migration
             $table->integer('level_id')->nullable()->unsigned();
             $table->integer('volume')->nullable();
             $table->string('name');
-            $table->decimal('price', 8, 2)->nullable();
+            $table->bigInteger('price')->nullable();
             $table->date('start_date');
             $table->date('end_date');
             $table->integer('room_id')->unsigned()->nullable();

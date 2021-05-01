@@ -15,7 +15,7 @@ class SimplifyInvoicingTables extends Migration
     {
         Schema::table('enrollments', function (Blueprint $table) {
             /* we create a price column directly in the enrollments table */
-            $table->decimal('total_price', 8, 2)->after('status_id')->nullable();
+            $table->bigInteger('total_price')->after('status_id')->nullable();
         });
     }
 
