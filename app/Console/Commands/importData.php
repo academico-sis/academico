@@ -36,6 +36,44 @@ class importData extends Command
             // if the course already exists, retrieve it
             $period = Period::firstWhere('name', $record['year']);
 
+            // Retrieve or create the student
+            $email = $record['email'] !== "" ? $record['email'] : $this->stripAccents($record['firstname']) . "." . $this->stripAccents($record['name']) . "@academico.afsantiago.es";
+
+            if (User::where('email', $email)->count() > 0) {
+                $user = User::where('email', $email)->first();
+                if (($user->firstname !== trim($record['firstname']) || $user->lastname !== trim($record['name'])))
+                {
+                    $email = $this->stripAccents($record['firstname']) . "." . $this->stripAccents($record['name']) . "@academico.afsantiago.es";
+                }
+            }
+
+            $user = User::firstOrCreate([
+                'firstname' => trim($record['firstname']),
+                'lastname' => trim($record['name']),
+                'locale' => 'es',
+                'email' => $email,
+            ], [
+                'password' => Hash::make(Str::random(12)),
+            ]);
+
+            $student = Student::firstOrCreate(
+                ['id' => $user->id],
+                [
+                    'idnumber' => $record['idnumber'] !== "" ? $record['idnumber'] : null,
+                    'address' => $record['address'] !== "" ? $record['address'] : null,
+                    'city' => $record['city'] !== "" ? $record['city'] : null,
+                    'birthdate' => $record['birthdate'] !== "" ? Carbon::createFromFormat("d/m/Y", $record['birthdate'])->toDateString() : null,
+                    'zip_code' => $record['zip_code'] !== "" ? $record['zip_code'] : null,
+                    'iban' => $record['IBAN'] !== "" ? $record['IBAN'] : null,
+                    'bic' => $record['bic_code'] !== "" ? $record['bic_code'] : null,
+                ]
+            );
+
+            // add phone number
+            if ($record['phone'] !== "" && $student->phone()->where('phone_number', $record['phone'])->count() == 0) {
+                $student->phone()->create(['phone_number' => $record['phone']]);
+            }
+
             if ($period) {
                 $course = Course::where('period_id', $period->id)->where('name', $record['course_name']);
                 if ($course->exists()) {
@@ -71,39 +109,9 @@ class importData extends Command
                     unset($rhythmID);
                     unset($levelID);
                 }
-            }
-
-            // Retrieve or create the student
-            $email = $record['email'] !== "" ? $record['email'] : $this->stripAccents($record['firstname']) . "." . $this->stripAccents($record['name']) . "@academico.site";
-
-            $user = User::firstOrCreate([
-                'firstname' => trim($record['firstname']),
-                'lastname' => trim($record['name']),
-                'locale' => 'es',
-                'email' => $email,
-            ], [
-                'password' => Hash::make(Str::random(12)),
-            ]);
-
-            $student = Student::firstOrCreate(
-                ['id' => $user->id],
-                [
-                    'idnumber' => $record['idnumber'] !== "" ? $record['idnumber'] : null,
-                    'address' => $record['address'] !== "" ? $record['address'] : null,
-                    'city' => $record['city'] !== "" ? $record['city'] : null,
-                    'birthdate' => $record['birthdate'] !== "" ? Carbon::createFromFormat("d/m/Y", $record['birthdate'])->toDateString() : null,
-                    'zip_code' => $record['zip_code'] !== "" ? $record['zip_code'] : null,
-                    'iban' => $record['IBAN'] !== "" ? $record['IBAN'] : null,
-                    'bic' => $record['bic_code'] !== "" ? $record['bic_code'] : null,
-                ]
-            );
-
-            // add phone number
-            if ($record['phone'] !== "" && $student->phone()->where('phone_number', $record['phone'])->count() == 0) {
-                $student->phone()->create(['phone_number' => $record['phone']]);
-            }
-
             $student->enroll($course);
+            }
+
         }
 
 
