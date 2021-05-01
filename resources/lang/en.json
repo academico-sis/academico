@@ -432,5 +432,13 @@
     "Enrollment in progress...": "Enrollment in progress...",
     "Enable": "Enable",
     "Disable": "Disable",
-    "Send invoice to external accounting system": "Send invoice to external accounting system"
+    "Send invoice to external accounting system": "Send invoice to external accounting system",
+    "First payment date": "First payment date",
+    "Number of payments": "Number of payments",
+    "Scheduled Payments": "Scheduled Payments",
+    "Value": "Value",
+    "Receipt Number":  "Receipt Number",
+    "Total paid amount does not match the invoice total price": "Total paid amount does not match the invoice total price",
+    "Continue": "Continue",
+    "Mark as pending": "Mark as pending"
 }

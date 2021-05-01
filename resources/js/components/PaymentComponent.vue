@@ -21,16 +21,16 @@
 
             <td v-if="editable" >
                 <div class="input-group">
-                    <span v-if="this.currencyposition === 'before'" class="input-group-addon">{{ this.currency }} </span>
+                    <span v-if="currencyposition === 'before'" class="input-group-addon">{{ currency }} </span>
                     <input v-model="payment.value" type="number" step="0.01" class="form-control" />
-                    <span v-if="this.currencyposition === 'after'" class="input-group-addon"> {{ this.currency }}</span>
+                    <span v-if="currencyposition === 'after'" class="input-group-addon"> {{ currency }}</span>
                 </div>
             </td>
 
             <td v-else>
-                <span v-if="this.currencyposition === 'before'" class="input-group-addon">{{ this.currency }} </span>
+                <span v-if="currencyposition === 'before'" class="input-group-addon">{{ currency }} </span>
                 {{ payment.value }}
-                <span v-if="this.currencyposition === 'after'" class="input-group-addon"> {{ this.currency }}</span>
+                <span v-if="currencyposition === 'after'" class="input-group-addon"> {{ currency }}</span>
             </td>
 
             <td>
@@ -44,9 +44,9 @@
             <td></td>
             <td>{{ $t("Total received amount") }}</td>
             <td>
-                <span v-if="this.currencyposition === 'before'">{{ this.currency }} </span>
+                <span v-if="currencyposition === 'before'">{{ currency }} </span>
                 {{ paidTotal }}
-                <span v-if="this.currencyposition === 'after'">{{ this.currency }} </span>
+                <span v-if="currencyposition === 'after'">{{ currency }} </span>
             </td>
         </tr>
 

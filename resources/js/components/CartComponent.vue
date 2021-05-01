@@ -291,16 +291,41 @@
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card card-solid card-primary">
+                            <div class="card-header">
+                                {{ $t("Scheduled Payments") }}
+                            </div>
+                            <div class="card-body">
+
+                                <div class="mb-3 row">
+                                    <label class="col-sm-4 col-form-label" for="paymentsCount">{{ $t('Number of payments') }}</label>
+                                    <div class="col-sm-8">
+                                        <input id="paymentsCount" v-model="paymentsCount" class="form-control" type="number" step="1" min="1" decimal="0">
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label class="col-sm-4 col-form-label" for="firstPaymentDate">{{ $t('First payment date') }}</label>
+                                    <div class="col-sm-8">
+                                        <input id="firstPaymentDate" v-model="firstPaymentDate" class="form-control" type="date">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
                 <div class="card card-solid card-primary">
                     <div class="card-header">
-                        {{ $t("Payment method") }}
+                        {{ $t("Scheduled Payments") }}
                     </div>
                     <div class="card-body">
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>{{ $t("Payment method") }}</th>
-                                    <th>{{ $t("Amount received") }}</th>
+                                    <th>{{ $t("Date") }}</th>
+                                    <th>{{ $t("Value") }}</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -308,9 +333,9 @@
                             <tbody>
                                 <tr v-for="payment in payments" :key="payment.id">
                                     <td>
-                                        <select v-model="payment.method" class="form-control" name="method">
-                                            <option v-for="paymentmethod in availablepaymentmethods" :key="paymentmethod.id" :value="paymentmethod.code">{{paymentmethod.name}}</option>
-                                        </select>
+                                        <div class="form-group">
+                                            <input class="input-group-text" type="date" v-model="payment.date">
+                                        </div>
                                     </td>
 
                                     <td>
@@ -333,67 +358,64 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <div class="btn-group">
-                                            <div class="dropdown">
-                                                <button id="dropdownMenuButton" class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    {{ $t("Add") }}
-                                                </button>
-                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    <a v-for="paymentmethod in availablepaymentmethods" :key="paymentmethod.id" class="dropdown-item" href="#" @click="addPayment(paymentmethod.code)">
-                                                        {{ paymentmethod.name }}
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <button @click="addPayment()" class="btn btn-secondary" type="button">
+                                            {{ $t("Add") }}
+                                        </button>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
 
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <h4>
-                                        {{ $t("Total received amount") }}: <span v-if="currencyposition === 'before'">{{ currency }} </span>
-                                        {{ paidTotal }}
-                                        <span v-if="currencyposition === 'after'">{{ currency }} </span>
-                                    </h4>
-                                </div>
 
-                                <div class="form-group">
-                                    <label for="comment">{{ $t("Comment") }}</label>
-                                    <textarea
-                                        id="comment"
-                                        v-model="comment"
-                                        name="comment"
-                                        cols="50"
-                                        rows="2"
-                                    ></textarea>
-                                </div>
-                            </div>
+                    </div>
+                </div>
+                </div>
+                </div>
+            </div>
 
-                            <div class="col-md-6" style="text-align: center;">
-                                <div class="form-group">
-                                    <button class="btn btn-lg btn-success" :disabled="loading || payments.length === 0" @click="finish()">
-                                        <span v-if="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                        <i class="la la-check"></i
-                                        >{{ $t("Checkout") }}
-                                    </button>
-                                </div>
-                                <div v-if="this.accountingenabled" class="form-group" style="display: flex;">
-                                    <div v-if="this.accountingServiceIsUp">
-                                        <label class="switch switch-pill switch-success">
-                                            <input v-model="sendInvoiceToAccounting" class="switch-input" type="checkbox" /><span class="switch-slider"></span>
-                                        </label>
-                                        <span v-if="sendInvoiceToAccounting">
-                                            {{ $t( 'Send invoice to external accounting system' ) }}</span>
-                                        <span v-if="!sendInvoiceToAccounting">{{ $t("Mark this enrollment as paid but do not send to accounting system") }}</span>
-                                    </div>
-                                    <span v-else class="alert alert-danger">
-                                        {{ $t("Unable to communicate with Accounting Service. This invoice will NOT be sent automatically to the Accounting system") }}
-                                        <a href="#" @click="checkAccountingStatus()">{{ $t('Refresh status') }}</a></span>
-                                </div>
+            <div class="col-md-12">
+                <div class="card card-solid card-primary">
+                    <div class="card-body text-center">
+
+                        <div class="form-group">
+                            <h4>
+                                {{ $t("Total received amount") }}: <span v-if="currencyposition === 'before'">{{ currency }} </span>
+                                {{ paidTotal }}
+                                <span v-if="currencyposition === 'after'">{{ currency }} </span>
+                            </h4>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="comment" class="form-label">{{ $t("Comment") }}</label>
+                            <textarea
+                                class="form-control"
+                                id="comment"
+                                v-model="comment"
+                                name="comment"
+                                rows="2"
+                            ></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <button class="btn btn-lg btn-success" :disabled="loading || payments.length === 0" @click="checkTotal()">
+                                <span v-if="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                <i class="la la-check"></i
+                                >{{ $t("Checkout") }}
+                            </button>
+                        </div>
+
+                        <div v-if="this.accountingenabled" class="form-group" style="display: flex;">
+                            <div v-if="this.accountingServiceIsUp">
+                                <label class="switch switch-pill switch-success">
+                                    <input v-model="sendInvoiceToAccounting" class="switch-input" type="checkbox" /><span class="switch-slider"></span>
+                                </label>
+                                <span v-if="sendInvoiceToAccounting">
+                                                {{ $t( 'Send invoice to external accounting system' ) }}</span>
+                                <span v-if="!sendInvoiceToAccounting">{{ $t("Mark this enrollment as paid but do not send to accounting system") }}</span>
                             </div>
+                            <span v-else class="alert alert-danger">
+                                            {{ $t("Unable to communicate with Accounting Service. This invoice will NOT be sent automatically to the Accounting system") }}
+                                            <a href="#" @click="checkAccountingStatus()">{{ $t('Refresh status') }}</a></span>
                         </div>
                     </div>
                 </div>
@@ -442,7 +464,7 @@ export default {
             totalPrice: 0,
             errors: [],
             discounts: [],
-            step: 1,
+            step: 3,
             clientname: "",
             clientphone: "",
             clientaddress: "",
@@ -454,8 +476,8 @@ export default {
             sendInvoiceToAccounting: this.accountingenabled,
             accountingServiceIsUp: false,
             loading: false,
-            currency: this.currency,
-            currencyposition: this.currencyposition,
+            paymentsCount: 1,
+            firstPaymentDate: new Date().toISOString().substr(0, 10),
         };
     },
     computed: {
@@ -504,6 +526,8 @@ export default {
 
     mounted() {
         this.checkAccountingStatus();
+
+        this.addPayment(this.shoppingCartTotal)
     },
 
     methods: {
@@ -589,10 +613,18 @@ export default {
             this.step = 3;
         },
 
-        addPayment(method) {
+        addPayment(value) {
+            if (this.payments.length > 0) {
+                let previousPaymentDate = new Date(this.payments[this.payments.length - 1].date);
+                var nextPaymentDate = new Date(previousPaymentDate.setMonth(previousPaymentDate.getMonth()+1));
+            }
+            else {
+                var nextPaymentDate = new Date(this.firstPaymentDate);
+            }
+
             let payment = {
-                method,
-                value: this.shoppingCartTotal,
+                value,
+                date: nextPaymentDate.toISOString().substr(0, 10),
             };
 
             this.payments.push(payment);
@@ -601,6 +633,39 @@ export default {
         removePayment(payment) {
             var index = this.payments.indexOf(payment);
             if (index !== -1) this.payments.splice(index, 1);
+        },
+
+        checkTotal() {
+            if (this.paidTotal !== this.shoppingCartTotal) {
+                swal({
+                    title: this.$t('Warning'),
+                    text: this.$t('Total paid amount does not match the invoice total price'),
+                    icon: "warning",
+                    buttons: {
+                        cancel: {
+                            text: this.$t('Cancel'),
+                            value: null,
+                            visible: true,
+                            className: "bg-secondary",
+                            closeModal: true,
+                        },
+                        delete: {
+                            text: this.$t('Continue'),
+                            value: true,
+                            visible: true,
+                            className: "bg-danger",
+                        }
+                    },
+                }).then(value => {
+                    if (value) {
+                        this.finish();
+                    }
+                });
+            }
+            else {
+                this.finish();
+            }
+
         },
 
         finish() {
@@ -679,6 +744,21 @@ export default {
                     }).show();
                 });
         },
+    },
+    watch: {
+        paymentsCount: function () {
+            // empty payments array
+            this.payments.length = 0;
+
+            var i = 0;
+            while (i < this.paymentsCount) {
+                this.addPayment(this.shoppingCartTotal / this.paymentsCount);
+                i++
+            }
+        },
+        payments: function () {
+            this.paymentsCount = this.payments.length;
+        }
     },
 };
 </script>

@@ -16,7 +16,7 @@ class CreatePaymentsTable extends Migration
             $table->increments('id');
             $table->integer('responsable_id')->unsigned();
             $table->integer('pre_invoice_id')->unsigned();
-            $table->string('payment_method');
+            $table->string('payment_method')->nullable();
             $table->decimal('value', 8, 2);
             $table->string('comment')->nullable();
             $table->timestamps();

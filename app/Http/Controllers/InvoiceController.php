@@ -105,7 +105,7 @@ class InvoiceController extends Controller
             Payment::create([
                 'responsable_id' => backpack_user()->id,
                 'invoice_id' => $invoice->id,
-                'payment_method' => $payment['method'],
+                'payment_method' => isset($payment['method']) ? $payment['method'] : null ,
                 'value' => $payment['value'],
             ]);
         }

@@ -431,5 +431,13 @@
     "Enrollment in progress...": "Matricula en curso...",
     "Enable": "Habilitar",
     "Disable": "Deshabilitar",
-    "Send invoice to external accounting system": "Mandar datos al sistema contable para generar factura"
+    "Send invoice to external accounting system": "Mandar datos al sistema contable para generar factura",
+    "First payment date": "Fecha de inicio",
+    "Number of payments": "Cantidad de pagos",
+    "Scheduled Payments": "Calendario de pagos",
+    "Value": "Valor",
+    "Receipt Number":  "Número de recibo",
+    "Total paid amount does not match the invoice total price": "El valor total recibido no corresponde al valor total de la factura",
+    "Continue": "Continuar",
+    "Mark as pending": "Marcar como pendiente"
 }

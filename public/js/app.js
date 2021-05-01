@@ -430,6 +430,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["enrollment", "feeslist", "bookslist", "availablebooks", "availablefees", "availablediscounts", "contactdata", "availablepaymentmethods", "accountingenabled", "currency", "currencyposition"],
   data: function data() {
@@ -439,7 +461,7 @@ __webpack_require__.r(__webpack_exports__);
       totalPrice: 0,
       errors: [],
       discounts: [],
-      step: 1,
+      step: 3,
       clientname: "",
       clientphone: "",
       clientaddress: "",
@@ -451,8 +473,8 @@ __webpack_require__.r(__webpack_exports__);
       sendInvoiceToAccounting: this.accountingenabled,
       accountingServiceIsUp: false,
       loading: false,
-      currency: this.currency,
-      currencyposition: this.currencyposition
+      paymentsCount: 1,
+      firstPaymentDate: new Date().toISOString().substr(0, 10)
     };
   },
   computed: {
@@ -499,6 +521,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     this.checkAccountingStatus();
+    this.addPayment(this.shoppingCartTotal);
   },
   methods: {
     checkAccountingStatus: function checkAccountingStatus() {
@@ -561,10 +584,17 @@ __webpack_require__.r(__webpack_exports__);
     confirmInvoiceData: function confirmInvoiceData() {
       this.step = 3;
     },
-    addPayment: function addPayment(method) {
+    addPayment: function addPayment(value) {
+      if (this.payments.length > 0) {
+        var previousPaymentDate = new Date(this.payments[this.payments.length - 1].date);
+        var nextPaymentDate = new Date(previousPaymentDate.setMonth(previousPaymentDate.getMonth() + 1));
+      } else {
+        var nextPaymentDate = new Date(this.firstPaymentDate);
+      }
+
       var payment = {
-        method: method,
-        value: this.shoppingCartTotal
+        value: value,
+        date: nextPaymentDate.toISOString().substr(0, 10)
       };
       this.payments.push(payment);
     },
@@ -572,11 +602,43 @@ __webpack_require__.r(__webpack_exports__);
       var index = this.payments.indexOf(payment);
       if (index !== -1) this.payments.splice(index, 1);
     },
+    checkTotal: function checkTotal() {
+      var _this2 = this;
+
+      if (this.paidTotal !== this.shoppingCartTotal) {
+        swal({
+          title: this.$t('Warning'),
+          text: this.$t('Total paid amount does not match the invoice total price'),
+          icon: "warning",
+          buttons: {
+            cancel: {
+              text: this.$t('Cancel'),
+              value: null,
+              visible: true,
+              className: "bg-secondary",
+              closeModal: true
+            },
+            "delete": {
+              text: this.$t('Continue'),
+              value: true,
+              visible: true,
+              className: "bg-danger"
+            }
+          }
+        }).then(function (value) {
+          if (value) {
+            _this2.finish();
+          }
+        });
+      } else {
+        this.finish();
+      }
+    },
     finish: function finish() {
       var _this$enrollment$cour,
           _this$enrollment$cour2,
           _this$enrollment$cour3,
-          _this2 = this;
+          _this3 = this;
 
       this.loading = true;
       this.products = [];
@@ -598,7 +660,7 @@ __webpack_require__.r(__webpack_exports__);
 
         };
 
-        _this2.products.push(book);
+        _this3.products.push(book);
       });
       this.fees.forEach(function (element) {
         var fee = {
@@ -610,7 +672,7 @@ __webpack_require__.r(__webpack_exports__);
 
         };
 
-        _this2.products.push(fee);
+        _this3.products.push(fee);
       });
       axios.post("/checkout", {
         enrollment_id: this.enrollment.id,
@@ -629,17 +691,17 @@ __webpack_require__.r(__webpack_exports__);
         sendinvoice: this.sendInvoiceToAccounting
       }).then(function (response) {
         // handle success
-        _this2.step = 4;
-        window.location.href = "/enrollment/".concat(_this2.enrollment.id, "/show");
+        _this3.step = 4;
+        window.location.href = "/enrollment/".concat(_this3.enrollment.id, "/show");
         new Noty({
           title: "Operation successful",
           text: "The enrollment has been paid",
           type: "success"
         }).show();
       })["catch"](function (e) {
-        _this2.loading = false;
+        _this3.loading = false;
 
-        _this2.errors.push(e);
+        _this3.errors.push(e);
 
         new Noty({
           title: "Error",
@@ -647,6 +709,21 @@ __webpack_require__.r(__webpack_exports__);
           type: "error"
         }).show();
       });
+    }
+  },
+  watch: {
+    paymentsCount: function paymentsCount() {
+      // empty payments array
+      this.payments.length = 0;
+      var i = 0;
+
+      while (i < this.paymentsCount) {
+        this.addPayment(this.shoppingCartTotal / this.paymentsCount);
+        i++;
+      }
+    },
+    payments: function payments() {
+      this.paymentsCount = this.payments.length;
     }
   }
 });
@@ -1314,7 +1391,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["enrollment", "currency", "currencyposition"],
+  props: ["enrollment", "currency", "currencyposition", "writeaccess"],
   data: function data() {
     return {
       editable: false,
@@ -1668,6 +1745,11 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
 //
 //
 //
@@ -4376,465 +4458,465 @@ var render = function() {
               ])
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "card card-solid card-primary" }, [
-              _c("div", { staticClass: "card-header" }, [
-                _vm._v(
-                  "\n                    " +
-                    _vm._s(_vm.$t("Payment method")) +
-                    "\n                "
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "card-body" }, [
-                _c("table", { staticClass: "table" }, [
-                  _c("thead", [
-                    _c("tr", [
-                      _c("th", [_vm._v(_vm._s(_vm.$t("Payment method")))]),
-                      _vm._v(" "),
-                      _c("th", [_vm._v(_vm._s(_vm.$t("Amount received")))]),
-                      _vm._v(" "),
-                      _c("th")
-                    ])
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-6" }, [
+                _c("div", { staticClass: "card card-solid card-primary" }, [
+                  _c("div", { staticClass: "card-header" }, [
+                    _vm._v(
+                      "\n                            " +
+                        _vm._s(_vm.$t("Scheduled Payments")) +
+                        "\n                        "
+                    )
                   ]),
                   _vm._v(" "),
-                  _c(
-                    "tbody",
-                    [
-                      _vm._l(_vm.payments, function(payment) {
-                        return _c("tr", { key: payment.id }, [
-                          _c("td", [
-                            _c(
-                              "select",
-                              {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: payment.method,
-                                    expression: "payment.method"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: { name: "method" },
-                                on: {
-                                  change: function($event) {
-                                    var $$selectedVal = Array.prototype.filter
-                                      .call($event.target.options, function(o) {
-                                        return o.selected
-                                      })
-                                      .map(function(o) {
-                                        var val =
-                                          "_value" in o ? o._value : o.value
-                                        return val
-                                      })
-                                    _vm.$set(
-                                      payment,
-                                      "method",
-                                      $event.target.multiple
-                                        ? $$selectedVal
-                                        : $$selectedVal[0]
-                                    )
-                                  }
-                                }
-                              },
-                              _vm._l(_vm.availablepaymentmethods, function(
-                                paymentmethod
-                              ) {
-                                return _c(
-                                  "option",
-                                  {
-                                    key: paymentmethod.id,
-                                    domProps: { value: paymentmethod.code }
-                                  },
-                                  [_vm._v(_vm._s(paymentmethod.name))]
-                                )
-                              }),
-                              0
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _c("div", { staticClass: "input-group" }, [
-                              _vm.currencyposition === "before"
-                                ? _c(
-                                    "div",
-                                    { staticClass: "input-group-append" },
-                                    [
-                                      _c(
-                                        "span",
-                                        { staticClass: "input-group-text" },
-                                        [_vm._v(_vm._s(_vm.currency))]
-                                      )
-                                    ]
-                                  )
-                                : _vm._e(),
-                              _vm._v(" "),
-                              _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: payment.value,
-                                    expression: "payment.value"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: { type: "number", step: "0.01" },
-                                domProps: { value: payment.value },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.$set(
-                                      payment,
-                                      "value",
-                                      $event.target.value
-                                    )
-                                  }
-                                }
-                              }),
-                              _vm._v(" "),
-                              _vm.currencyposition === "after"
-                                ? _c(
-                                    "div",
-                                    { staticClass: "input-group-append" },
-                                    [
-                                      _c(
-                                        "span",
-                                        { staticClass: "input-group-text" },
-                                        [_vm._v(_vm._s(_vm.currency))]
-                                      )
-                                    ]
-                                  )
-                                : _vm._e()
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _c(
-                              "button",
-                              {
-                                staticClass: "btn btn-sm btn-ghost-danger",
-                                on: {
-                                  click: function($event) {
-                                    return _vm.removePayment(payment)
-                                  }
-                                }
-                              },
-                              [_c("i", { staticClass: "la la-times" })]
-                            )
-                          ])
-                        ])
-                      }),
+                  _c("div", { staticClass: "card-body" }, [
+                    _c("div", { staticClass: "mb-3 row" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-sm-4 col-form-label",
+                          attrs: { for: "paymentsCount" }
+                        },
+                        [_vm._v(_vm._s(_vm.$t("Number of payments")))]
+                      ),
                       _vm._v(" "),
-                      _c("tr", [
-                        _c("td", [
-                          _c("div", { staticClass: "btn-group" }, [
-                            _c("div", { staticClass: "dropdown" }, [
+                      _c("div", { staticClass: "col-sm-8" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.paymentsCount,
+                              expression: "paymentsCount"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            id: "paymentsCount",
+                            type: "number",
+                            step: "1",
+                            min: "1",
+                            decimal: "0"
+                          },
+                          domProps: { value: _vm.paymentsCount },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.paymentsCount = $event.target.value
+                            }
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "mb-3 row" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-sm-4 col-form-label",
+                          attrs: { for: "firstPaymentDate" }
+                        },
+                        [_vm._v(_vm._s(_vm.$t("First payment date")))]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-sm-8" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.firstPaymentDate,
+                              expression: "firstPaymentDate"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { id: "firstPaymentDate", type: "date" },
+                          domProps: { value: _vm.firstPaymentDate },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.firstPaymentDate = $event.target.value
+                            }
+                          }
+                        })
+                      ])
+                    ])
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-6" }, [
+                _c("div", { staticClass: "card card-solid card-primary" }, [
+                  _c("div", { staticClass: "card-header" }, [
+                    _vm._v(
+                      "\n                    " +
+                        _vm._s(_vm.$t("Scheduled Payments")) +
+                        "\n                "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "card-body" }, [
+                    _c("table", { staticClass: "table" }, [
+                      _c("thead", [
+                        _c("tr", [
+                          _c("th", [_vm._v(_vm._s(_vm.$t("Date")))]),
+                          _vm._v(" "),
+                          _c("th", [_vm._v(_vm._s(_vm.$t("Value")))]),
+                          _vm._v(" "),
+                          _c("th")
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "tbody",
+                        [
+                          _vm._l(_vm.payments, function(payment) {
+                            return _c("tr", { key: payment.id }, [
+                              _c("td", [
+                                _c("div", { staticClass: "form-group" }, [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: payment.date,
+                                        expression: "payment.date"
+                                      }
+                                    ],
+                                    staticClass: "input-group-text",
+                                    attrs: { type: "date" },
+                                    domProps: { value: payment.date },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          payment,
+                                          "date",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _c("div", { staticClass: "input-group" }, [
+                                  _vm.currencyposition === "before"
+                                    ? _c(
+                                        "div",
+                                        { staticClass: "input-group-append" },
+                                        [
+                                          _c(
+                                            "span",
+                                            { staticClass: "input-group-text" },
+                                            [_vm._v(_vm._s(_vm.currency))]
+                                          )
+                                        ]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: payment.value,
+                                        expression: "payment.value"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: { type: "number", step: "0.01" },
+                                    domProps: { value: payment.value },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          payment,
+                                          "value",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _vm.currencyposition === "after"
+                                    ? _c(
+                                        "div",
+                                        { staticClass: "input-group-append" },
+                                        [
+                                          _c(
+                                            "span",
+                                            { staticClass: "input-group-text" },
+                                            [_vm._v(_vm._s(_vm.currency))]
+                                          )
+                                        ]
+                                      )
+                                    : _vm._e()
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-sm btn-ghost-danger",
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.removePayment(payment)
+                                      }
+                                    }
+                                  },
+                                  [_c("i", { staticClass: "la la-times" })]
+                                )
+                              ])
+                            ])
+                          }),
+                          _vm._v(" "),
+                          _c("tr", [
+                            _c("td", [
                               _c(
                                 "button",
                                 {
-                                  staticClass:
-                                    "btn btn-secondary dropdown-toggle",
-                                  attrs: {
-                                    id: "dropdownMenuButton",
-                                    type: "button",
-                                    "data-toggle": "dropdown",
-                                    "aria-haspopup": "true",
-                                    "aria-expanded": "false"
+                                  staticClass: "btn btn-secondary",
+                                  attrs: { type: "button" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.addPayment()
+                                    }
                                   }
                                 },
                                 [
                                   _vm._v(
-                                    "\n                                                " +
+                                    "\n                                        " +
                                       _vm._s(_vm.$t("Add")) +
-                                      "\n                                            "
+                                      "\n                                    "
                                   )
                                 ]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                {
-                                  staticClass: "dropdown-menu",
-                                  attrs: {
-                                    "aria-labelledby": "dropdownMenuButton"
-                                  }
-                                },
-                                _vm._l(_vm.availablepaymentmethods, function(
-                                  paymentmethod
-                                ) {
-                                  return _c(
-                                    "a",
-                                    {
-                                      key: paymentmethod.id,
-                                      staticClass: "dropdown-item",
-                                      attrs: { href: "#" },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.addPayment(
-                                            paymentmethod.code
-                                          )
-                                        }
-                                      }
-                                    },
-                                    [
-                                      _vm._v(
-                                        "\n                                                    " +
-                                          _vm._s(paymentmethod.name) +
-                                          "\n                                                "
-                                      )
-                                    ]
-                                  )
-                                }),
-                                0
                               )
                             ])
                           ])
-                        ])
-                      ])
+                        ],
+                        2
+                      )
+                    ])
+                  ])
+                ])
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-12" }, [
+            _c("div", { staticClass: "card card-solid card-primary" }, [
+              _c("div", { staticClass: "card-body text-center" }, [
+                _c("div", { staticClass: "form-group" }, [
+                  _c("h4", [
+                    _vm._v(
+                      "\n                            " +
+                        _vm._s(_vm.$t("Total received amount")) +
+                        ": "
+                    ),
+                    _vm.currencyposition === "before"
+                      ? _c("span", [_vm._v(_vm._s(_vm.currency) + " ")])
+                      : _vm._e(),
+                    _vm._v(
+                      "\n                            " +
+                        _vm._s(_vm.paidTotal) +
+                        "\n                            "
+                    ),
+                    _vm.currencyposition === "after"
+                      ? _c("span", [_vm._v(_vm._s(_vm.currency) + " ")])
+                      : _vm._e()
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c(
+                    "label",
+                    { staticClass: "form-label", attrs: { for: "comment" } },
+                    [_vm._v(_vm._s(_vm.$t("Comment")))]
+                  ),
+                  _vm._v(" "),
+                  _c("textarea", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.comment,
+                        expression: "comment"
+                      }
                     ],
-                    2
+                    staticClass: "form-control",
+                    attrs: { id: "comment", name: "comment", rows: "2" },
+                    domProps: { value: _vm.comment },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.comment = $event.target.value
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-lg btn-success",
+                      attrs: {
+                        disabled: _vm.loading || _vm.payments.length === 0
+                      },
+                      on: {
+                        click: function($event) {
+                          return _vm.checkTotal()
+                        }
+                      }
+                    },
+                    [
+                      _vm.loading
+                        ? _c("span", {
+                            staticClass: "spinner-border spinner-border-sm",
+                            attrs: { role: "status", "aria-hidden": "true" }
+                          })
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c("i", { staticClass: "la la-check" }),
+                      _vm._v(
+                        _vm._s(_vm.$t("Checkout")) +
+                          "\n                        "
+                      )
+                    ]
                   )
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col-md-6" }, [
-                    _c("div", { staticClass: "form-group" }, [
-                      _c("h4", [
-                        _vm._v(
-                          "\n                                    " +
-                            _vm._s(_vm.$t("Total received amount")) +
-                            ": "
-                        ),
-                        _vm.currencyposition === "before"
-                          ? _c("span", [_vm._v(_vm._s(_vm.currency) + " ")])
-                          : _vm._e(),
-                        _vm._v(
-                          "\n                                    " +
-                            _vm._s(_vm.paidTotal) +
-                            "\n                                    "
-                        ),
-                        _vm.currencyposition === "after"
-                          ? _c("span", [_vm._v(_vm._s(_vm.currency) + " ")])
-                          : _vm._e()
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group" }, [
-                      _c("label", { attrs: { for: "comment" } }, [
-                        _vm._v(_vm._s(_vm.$t("Comment")))
-                      ]),
-                      _vm._v(" "),
-                      _c("textarea", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.comment,
-                            expression: "comment"
-                          }
-                        ],
-                        attrs: {
-                          id: "comment",
-                          name: "comment",
-                          cols: "50",
-                          rows: "2"
-                        },
-                        domProps: { value: _vm.comment },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.comment = $event.target.value
-                          }
-                        }
-                      })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    {
-                      staticClass: "col-md-6",
-                      staticStyle: { "text-align": "center" }
-                    },
-                    [
-                      _c("div", { staticClass: "form-group" }, [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-lg btn-success",
-                            attrs: {
-                              disabled: _vm.loading || _vm.payments.length === 0
-                            },
-                            on: {
-                              click: function($event) {
-                                return _vm.finish()
-                              }
-                            }
-                          },
-                          [
-                            _vm.loading
-                              ? _c("span", {
+                this.accountingenabled
+                  ? _c(
+                      "div",
+                      {
+                        staticClass: "form-group",
+                        staticStyle: { display: "flex" }
+                      },
+                      [
+                        this.accountingServiceIsUp
+                          ? _c("div", [
+                              _c(
+                                "label",
+                                {
                                   staticClass:
-                                    "spinner-border spinner-border-sm",
-                                  attrs: {
-                                    role: "status",
-                                    "aria-hidden": "true"
-                                  }
-                                })
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _c("i", { staticClass: "la la-check" }),
-                            _vm._v(
-                              _vm._s(_vm.$t("Checkout")) +
-                                "\n                                "
-                            )
-                          ]
-                        )
-                      ]),
-                      _vm._v(" "),
-                      this.accountingenabled
-                        ? _c(
-                            "div",
-                            {
-                              staticClass: "form-group",
-                              staticStyle: { display: "flex" }
-                            },
-                            [
-                              this.accountingServiceIsUp
-                                ? _c("div", [
-                                    _c(
-                                      "label",
+                                    "switch switch-pill switch-success"
+                                },
+                                [
+                                  _c("input", {
+                                    directives: [
                                       {
-                                        staticClass:
-                                          "switch switch-pill switch-success"
-                                      },
-                                      [
-                                        _c("input", {
-                                          directives: [
-                                            {
-                                              name: "model",
-                                              rawName: "v-model",
-                                              value:
-                                                _vm.sendInvoiceToAccounting,
-                                              expression:
-                                                "sendInvoiceToAccounting"
-                                            }
-                                          ],
-                                          staticClass: "switch-input",
-                                          attrs: { type: "checkbox" },
-                                          domProps: {
-                                            checked: Array.isArray(
-                                              _vm.sendInvoiceToAccounting
-                                            )
-                                              ? _vm._i(
-                                                  _vm.sendInvoiceToAccounting,
-                                                  null
-                                                ) > -1
-                                              : _vm.sendInvoiceToAccounting
-                                          },
-                                          on: {
-                                            change: function($event) {
-                                              var $$a =
-                                                  _vm.sendInvoiceToAccounting,
-                                                $$el = $event.target,
-                                                $$c = $$el.checked
-                                                  ? true
-                                                  : false
-                                              if (Array.isArray($$a)) {
-                                                var $$v = null,
-                                                  $$i = _vm._i($$a, $$v)
-                                                if ($$el.checked) {
-                                                  $$i < 0 &&
-                                                    (_vm.sendInvoiceToAccounting = $$a.concat(
-                                                      [$$v]
-                                                    ))
-                                                } else {
-                                                  $$i > -1 &&
-                                                    (_vm.sendInvoiceToAccounting = $$a
-                                                      .slice(0, $$i)
-                                                      .concat(
-                                                        $$a.slice($$i + 1)
-                                                      ))
-                                                }
-                                              } else {
-                                                _vm.sendInvoiceToAccounting = $$c
-                                              }
-                                            }
-                                          }
-                                        }),
-                                        _c("span", {
-                                          staticClass: "switch-slider"
-                                        })
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _vm.sendInvoiceToAccounting
-                                      ? _c("span", [
-                                          _vm._v(
-                                            "\n                                        " +
-                                              _vm._s(
-                                                _vm.$t(
-                                                  "Send invoice to external accounting system"
-                                                )
-                                              )
-                                          )
-                                        ])
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    !_vm.sendInvoiceToAccounting
-                                      ? _c("span", [
-                                          _vm._v(
-                                            _vm._s(
-                                              _vm.$t(
-                                                "Mark this enrollment as paid but do not send to accounting system"
-                                              )
-                                            )
-                                          )
-                                        ])
-                                      : _vm._e()
-                                  ])
-                                : _c(
-                                    "span",
-                                    { staticClass: "alert alert-danger" },
-                                    [
-                                      _vm._v(
-                                        "\n                                    " +
-                                          _vm._s(
-                                            _vm.$t(
-                                              "Unable to communicate with Accounting Service. This invoice will NOT be sent automatically to the Accounting system"
-                                            )
-                                          ) +
-                                          "\n                                    "
-                                      ),
-                                      _c(
-                                        "a",
-                                        {
-                                          attrs: { href: "#" },
-                                          on: {
-                                            click: function($event) {
-                                              return _vm.checkAccountingStatus()
-                                            }
-                                          }
-                                        },
-                                        [
-                                          _vm._v(
-                                            _vm._s(_vm.$t("Refresh status"))
-                                          )
-                                        ]
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.sendInvoiceToAccounting,
+                                        expression: "sendInvoiceToAccounting"
+                                      }
+                                    ],
+                                    staticClass: "switch-input",
+                                    attrs: { type: "checkbox" },
+                                    domProps: {
+                                      checked: Array.isArray(
+                                        _vm.sendInvoiceToAccounting
                                       )
-                                    ]
-                                  )
-                            ]
-                          )
-                        : _vm._e()
-                    ]
-                  )
-                ])
+                                        ? _vm._i(
+                                            _vm.sendInvoiceToAccounting,
+                                            null
+                                          ) > -1
+                                        : _vm.sendInvoiceToAccounting
+                                    },
+                                    on: {
+                                      change: function($event) {
+                                        var $$a = _vm.sendInvoiceToAccounting,
+                                          $$el = $event.target,
+                                          $$c = $$el.checked ? true : false
+                                        if (Array.isArray($$a)) {
+                                          var $$v = null,
+                                            $$i = _vm._i($$a, $$v)
+                                          if ($$el.checked) {
+                                            $$i < 0 &&
+                                              (_vm.sendInvoiceToAccounting = $$a.concat(
+                                                [$$v]
+                                              ))
+                                          } else {
+                                            $$i > -1 &&
+                                              (_vm.sendInvoiceToAccounting = $$a
+                                                .slice(0, $$i)
+                                                .concat($$a.slice($$i + 1)))
+                                          }
+                                        } else {
+                                          _vm.sendInvoiceToAccounting = $$c
+                                        }
+                                      }
+                                    }
+                                  }),
+                                  _c("span", { staticClass: "switch-slider" })
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _vm.sendInvoiceToAccounting
+                                ? _c("span", [
+                                    _vm._v(
+                                      "\n                                            " +
+                                        _vm._s(
+                                          _vm.$t(
+                                            "Send invoice to external accounting system"
+                                          )
+                                        )
+                                    )
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              !_vm.sendInvoiceToAccounting
+                                ? _c("span", [
+                                    _vm._v(
+                                      _vm._s(
+                                        _vm.$t(
+                                          "Mark this enrollment as paid but do not send to accounting system"
+                                        )
+                                      )
+                                    )
+                                  ])
+                                : _vm._e()
+                            ])
+                          : _c("span", { staticClass: "alert alert-danger" }, [
+                              _vm._v(
+                                "\n                                        " +
+                                  _vm._s(
+                                    _vm.$t(
+                                      "Unable to communicate with Accounting Service. This invoice will NOT be sent automatically to the Accounting system"
+                                    )
+                                  ) +
+                                  "\n                                        "
+                              ),
+                              _c(
+                                "a",
+                                {
+                                  attrs: { href: "#" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.checkAccountingStatus()
+                                    }
+                                  }
+                                },
+                                [_vm._v(_vm._s(_vm.$t("Refresh status")))]
+                              )
+                            ])
+                      ]
+                    )
+                  : _vm._e()
               ])
             ])
           ])
@@ -6054,18 +6136,20 @@ var render = function() {
             ? _c("span", [_vm._v(_vm._s(this.currency) + " ")])
             : _vm._e(),
           _vm._v(" "),
-          _c(
-            "a",
-            {
-              attrs: { href: "#" },
-              on: {
-                click: function($event) {
-                  _vm.editable = true
-                }
-              }
-            },
-            [_vm._v(" " + _vm._s(_vm.$t("Edit")) + " ")]
-          )
+          _vm.writeaccess
+            ? _c(
+                "a",
+                {
+                  attrs: { href: "#" },
+                  on: {
+                    click: function($event) {
+                      _vm.editable = true
+                    }
+                  }
+                },
+                [_vm._v(" " + _vm._s(_vm.$t("Edit")) + " ")]
+              )
+            : _vm._e()
         ])
   ])
 }
@@ -6435,14 +6519,16 @@ var render = function() {
                 ])
               : _c("td", [_vm._v(_vm._s(payment.payment_method))]),
             _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(payment.date))]),
+            _c("td", [_vm._v(_vm._s(payment.date_for_humans))]),
             _vm._v(" "),
             _vm.editable
               ? _c("td", [
                   _c("div", { staticClass: "input-group" }, [
-                    _c("span", { staticClass: "input-group-addon" }, [
-                      _vm._v("$")
-                    ]),
+                    _vm.currencyposition === "before"
+                      ? _c("span", { staticClass: "input-group-addon" }, [
+                          _vm._v(_vm._s(_vm.currency) + " ")
+                        ])
+                      : _vm._e(),
                     _vm._v(" "),
                     _c("input", {
                       directives: [
@@ -6464,10 +6550,30 @@ var render = function() {
                           _vm.$set(payment, "value", $event.target.value)
                         }
                       }
-                    })
+                    }),
+                    _vm._v(" "),
+                    _vm.currencyposition === "after"
+                      ? _c("span", { staticClass: "input-group-addon" }, [
+                          _vm._v(" " + _vm._s(_vm.currency))
+                        ])
+                      : _vm._e()
                   ])
                 ])
-              : _c("td", [_vm._v("$" + _vm._s(payment.value))]),
+              : _c("td", [
+                  _vm.currencyposition === "before"
+                    ? _c("span", { staticClass: "input-group-addon" }, [
+                        _vm._v(_vm._s(_vm.currency) + " ")
+                      ])
+                    : _vm._e(),
+                  _vm._v(
+                    "\n            " + _vm._s(payment.value) + "\n            "
+                  ),
+                  _vm.currencyposition === "after"
+                    ? _c("span", { staticClass: "input-group-addon" }, [
+                        _vm._v(" " + _vm._s(_vm.currency))
+                      ])
+                    : _vm._e()
+                ]),
             _vm._v(" "),
             _c("td", [
               _vm.editable
@@ -6494,12 +6600,12 @@ var render = function() {
           _c("td", [_vm._v(_vm._s(_vm.$t("Total received amount")))]),
           _vm._v(" "),
           _c("td", [
-            this.currencyposition === "before"
-              ? _c("span", [_vm._v(_vm._s(this.currency) + " ")])
+            _vm.currencyposition === "before"
+              ? _c("span", [_vm._v(_vm._s(_vm.currency) + " ")])
               : _vm._e(),
             _vm._v("\n            " + _vm._s(_vm.paidTotal) + "\n            "),
-            this.currencyposition === "after"
-              ? _c("span", [_vm._v(_vm._s(this.currency) + " ")])
+            _vm.currencyposition === "after"
+              ? _c("span", [_vm._v(_vm._s(_vm.currency) + " ")])
               : _vm._e()
           ])
         ]),
@@ -10364,10 +10470,10 @@ __webpack_require__.r(__webpack_exports__);
 /*!********************************!*\
   !*** ./resources/lang/en.json ***!
   \********************************/
-/*! exports provided: % of period max, Absence Notification, absences, Account Data, Acquisition Rate, Actionable Comments, Actions, actions, Add, Add a new contact, Add a new course time, Add a new grade type to course, Add all, Add discount, Add Grade Type to Course, Add products, Add scholarship, Additional Contact, Additional Contacts, Additional Data, Address, City, State, Country, ADMINISTRATION, age, all, All teachers, Amount received, Attendance, Attendance Ratio, Attendance Status, Attendance status, Available skills, Back to course, Best regards,, Birthdate, birthdate, book, Books, books, Calendar for, CALENDARS, Campus, campus, campuses, Cancel, Cart Details, Change course, Checkout, Checkout enrollment, Children enrollments, Classes without teacher, Client address, Client email, Client ID Number, Client name, Close, comment, comments, Comments, config, configs, Contact Type, Continue without uploading a profile picture, coupon, coupons, Course, course, Course :, Course Details, Course Evaluation, course evaluation, course evaluations, Course info, Course result, Course Result Details, Course Schedule, Course skills, courses, COURSES, Courses, Courses (list), Create another Contact, Create subcourse, Current Period, Date, Date range, Default Periods Selection, Delete, Select, Client Phone Number, Delete Enrollment, discount, Discount Value, Discount Value (0-100%), Discounts, discounts, Edit, Edit contact, Edit Course Skills, Edit Grades, Edit Receipt Number, Edit schedule, Edit Student Skills, Email, email, End, End Date, Enroll, Enroll new student, enrollment, Enrollment date, Enrollment Details, Enrollment ID, Enrollment Info, Enrollment number, Enrollment successfully created, Enrollments, enrollments, Enrollments per Course, Enrollments per Rhythm, Enrollments Period, errorfetchingcourses, Evaluate skills, EVALUATION, Evaluation method, evaluation type, evaluation types, Evaluation Types, event, Event, events, Events, Events with no course, Events with no teacher, Exempt Attendance, Export Course syllabus, Export skills, External, External Course, External Courses, External Courses Report, Face-to-face, fee, fees, Fees, Finish update, First Name, Firstname, for, Friday, Go Home, grade type, Grade Type Categories, Grade Types, grade types, Grades, Hi, Hide Children, Hide Children Courses, Hide Parents, Hire Date, hours, Hours Sold, Hours Taught, HR, Human Resources, ID number, ID Number, Import skills, Incomplete Attendance, Institution, Institutions, Internal Courses, Invoice, Invoice Data, Invoice ID, Invoices, Invoicing, Is Enrolled in, Is Not Enrolled in, justified absence, Justified Absence, Last Name, Lastname, Lead Status, lead type, lead types, Leave, leave, leaves, Length, Level, level, levels, Loading..., Manage grades, Manage leaves, Manage skills, Mark this enrollment as paid but do not send to accounting system, Members, Missing attendance, Monday, My Hours, My Schedule, Name, name, New student, New Students, No Result, noresults, Number of Absences, Number of Courses, Oh no, on, or, Overview, Paid Enrollments, Partial presence (arrived late or left early), Password, Payment method, Payment methods, Payments, Payment, Pedagogy, Pending, Pending Attendance, Pending leads, Per course, Per rhythm, Period, period, Period Classes, Period Max, Period Total, periods, Phone, Phone Number, Phone number, Phone Numbers, Planned Hours, Please check the additional contact data associated to your account, Please check your personal phone number(s), Please chose an image on your computer to update your profile picture, Please fill in your profession and your institution (school, workplace)., Pre-invoice ID, Present, Price, Product, Products, Profession, Profile Picture, Project, Refresh status, Remote, remote event, remote events, Remote Events, Remote Work, Remote hours, Remote volume, Presential volume, Presential hours, Total hours, Hours on schedule, Remove all, REPORTS, resource Calendars, Resources, result, Result, Result Notification, result type, Result Types, results, Results, rhythm, Rhythm, rhythms, Roles, Room, room, rooms, Saturday, Sunday, Save, Save new Contact, Schedule, Scholarship, scholarship, Scholarships, scholarships, Selected Period, Settings, SETTINGS, share of students from previous period who were re-enrolled, Since the beginning of this course, you have:, skill, skill scale, Skill Scales, skill scales, skill type, skill types, Skill Types, skills, Skills, Skillset File, Spots, spots left, Start, Start Date, Start from period:, Status, Status is, Status is not, Student, student, Student :, Student Attendance Overview, Student Attendance Report, Student details for, Students, students, Students to count in year total, Students under 18, please add contact data from your legal representatives, teacher, TEACHER, Teacher, Teacher Dashboard, Teacher Leaves, Teachers, teachers, The attendance record is incomplete for the following classes:, The enrollment has been updated, The information has successfully been saved, The invoice has been generated, The invoice number has been saved, The selected teacher is not available on this date, This comment requires an action, This course has no skills yet, This enrollment belongs to, This is an absence notification for, This is important, so that we can reach you in case of an emergency, This will erase all skills currently associated to the course, Thursday, Total, TOTAL, Total price, Total received amount, Tuesday, Unable to communicate with Accounting Service. This invoice will NOT be sent automatically to the Accounting system, Unjustified Absence, unjustified absence, Upcoming Leaves, Upload skillset file, Users, View, View Skills for Group, Volume, Wednesday, Weekly workable hours, When everything is ready, please confirm that your data is up-to-date, Worked Hours, Confirm, Year, year, Years, years, You also need to add the invoice information here, You may log in to view your results, and the comments from your teacher, if any, Your comment has been saved, Your course result is available for, Your data has been saved, Your picture has been saved, Attendance Monitor, Mark as paid, years old, Remaining balance, New payment, Save and go back, Comment, Generate grade report, Generate diploma, Enrollments per Level, Per level, Per period, Per date, Per institution, Partnerships, partnership, partnerships, Number of Partnerships, Partnership Report, Tacit renewal, Hourly Price, Send report on ... of the month, Teachers overview, Rooms overview, Day, Sun, Mon, Tue, Wed, Thu, Fri, Sat, Grades report (PDF), Takings, Average, Switch to list view, Switch to block view, Course sublevels, The course you are editing is a sub-course of, Please remember to update the parent and its other children courses accordingly, The course you are editing is the parent of these sub-courses:, Editable fields for the parent course are limited. Please update children courses accordingly, If you assign a schedule preset, the coursetimes above will be ignored., Sync to LMS, LMS code, Warning, Do you really want to delete this phone number?, Do you really want to delete this contact?, Do you really want to delete this course?, Your changes could not be saved, Your changes were successful, Error, Success, The course has been deleted, Impossible to delete this course, Enrollment in progress..., Enable, Disable, Send invoice to external accounting system, default */
+/*! exports provided: % of period max, Absence Notification, absences, Account Data, Acquisition Rate, Actionable Comments, Actions, actions, Add, Add a new contact, Add a new course time, Add a new grade type to course, Add all, Add discount, Add Grade Type to Course, Add products, Add scholarship, Additional Contact, Additional Contacts, Additional Data, Address, City, State, Country, ADMINISTRATION, age, all, All teachers, Amount received, Attendance, Attendance Ratio, Attendance Status, Attendance status, Available skills, Back to course, Best regards,, Birthdate, birthdate, book, Books, books, Calendar for, CALENDARS, Campus, campus, campuses, Cancel, Cart Details, Change course, Checkout, Checkout enrollment, Children enrollments, Classes without teacher, Client address, Client email, Client ID Number, Client name, Close, comment, comments, Comments, config, configs, Contact Type, Continue without uploading a profile picture, coupon, coupons, Course, course, Course :, Course Details, Course Evaluation, course evaluation, course evaluations, Course info, Course result, Course Result Details, Course Schedule, Course skills, courses, COURSES, Courses, Courses (list), Create another Contact, Create subcourse, Current Period, Date, Date range, Default Periods Selection, Delete, Select, Client Phone Number, Delete Enrollment, discount, Discount Value, Discount Value (0-100%), Discounts, discounts, Edit, Edit contact, Edit Course Skills, Edit Grades, Edit Receipt Number, Edit schedule, Edit Student Skills, Email, email, End, End Date, Enroll, Enroll new student, enrollment, Enrollment date, Enrollment Details, Enrollment ID, Enrollment Info, Enrollment number, Enrollment successfully created, Enrollments, enrollments, Enrollments per Course, Enrollments per Rhythm, Enrollments Period, errorfetchingcourses, Evaluate skills, EVALUATION, Evaluation method, evaluation type, evaluation types, Evaluation Types, event, Event, events, Events, Events with no course, Events with no teacher, Exempt Attendance, Export Course syllabus, Export skills, External, External Course, External Courses, External Courses Report, Face-to-face, fee, fees, Fees, Finish update, First Name, Firstname, for, Friday, Go Home, grade type, Grade Type Categories, Grade Types, grade types, Grades, Hi, Hide Children, Hide Children Courses, Hide Parents, Hire Date, hours, Hours Sold, Hours Taught, HR, Human Resources, ID number, ID Number, Import skills, Incomplete Attendance, Institution, Institutions, Internal Courses, Invoice, Invoice Data, Invoice ID, Invoices, Invoicing, Is Enrolled in, Is Not Enrolled in, justified absence, Justified Absence, Last Name, Lastname, Lead Status, lead type, lead types, Leave, leave, leaves, Length, Level, level, levels, Loading..., Manage grades, Manage leaves, Manage skills, Mark this enrollment as paid but do not send to accounting system, Members, Missing attendance, Monday, My Hours, My Schedule, Name, name, New student, New Students, No Result, noresults, Number of Absences, Number of Courses, Oh no, on, or, Overview, Paid Enrollments, Partial presence (arrived late or left early), Password, Payment method, Payment methods, Payments, Payment, Pedagogy, Pending, Pending Attendance, Pending leads, Per course, Per rhythm, Period, period, Period Classes, Period Max, Period Total, periods, Phone, Phone Number, Phone number, Phone Numbers, Planned Hours, Please check the additional contact data associated to your account, Please check your personal phone number(s), Please chose an image on your computer to update your profile picture, Please fill in your profession and your institution (school, workplace)., Pre-invoice ID, Present, Price, Product, Products, Profession, Profile Picture, Project, Refresh status, Remote, remote event, remote events, Remote Events, Remote Work, Remote hours, Remote volume, Presential volume, Presential hours, Total hours, Hours on schedule, Remove all, REPORTS, resource Calendars, Resources, result, Result, Result Notification, result type, Result Types, results, Results, rhythm, Rhythm, rhythms, Roles, Room, room, rooms, Saturday, Sunday, Save, Save new Contact, Schedule, Scholarship, scholarship, Scholarships, scholarships, Selected Period, Settings, SETTINGS, share of students from previous period who were re-enrolled, Since the beginning of this course, you have:, skill, skill scale, Skill Scales, skill scales, skill type, skill types, Skill Types, skills, Skills, Skillset File, Spots, spots left, Start, Start Date, Start from period:, Status, Status is, Status is not, Student, student, Student :, Student Attendance Overview, Student Attendance Report, Student details for, Students, students, Students to count in year total, Students under 18, please add contact data from your legal representatives, teacher, TEACHER, Teacher, Teacher Dashboard, Teacher Leaves, Teachers, teachers, The attendance record is incomplete for the following classes:, The enrollment has been updated, The information has successfully been saved, The invoice has been generated, The invoice number has been saved, The selected teacher is not available on this date, This comment requires an action, This course has no skills yet, This enrollment belongs to, This is an absence notification for, This is important, so that we can reach you in case of an emergency, This will erase all skills currently associated to the course, Thursday, Total, TOTAL, Total price, Total received amount, Tuesday, Unable to communicate with Accounting Service. This invoice will NOT be sent automatically to the Accounting system, Unjustified Absence, unjustified absence, Upcoming Leaves, Upload skillset file, Users, View, View Skills for Group, Volume, Wednesday, Weekly workable hours, When everything is ready, please confirm that your data is up-to-date, Worked Hours, Confirm, Year, year, Years, years, You also need to add the invoice information here, You may log in to view your results, and the comments from your teacher, if any, Your comment has been saved, Your course result is available for, Your data has been saved, Your picture has been saved, Attendance Monitor, Mark as paid, years old, Remaining balance, New payment, Save and go back, Comment, Generate grade report, Generate diploma, Enrollments per Level, Per level, Per period, Per date, Per institution, Partnerships, partnership, partnerships, Number of Partnerships, Partnership Report, Tacit renewal, Hourly Price, Send report on ... of the month, Teachers overview, Rooms overview, Day, Sun, Mon, Tue, Wed, Thu, Fri, Sat, Grades report (PDF), Takings, Average, Switch to list view, Switch to block view, Course sublevels, The course you are editing is a sub-course of, Please remember to update the parent and its other children courses accordingly, The course you are editing is the parent of these sub-courses:, Editable fields for the parent course are limited. Please update children courses accordingly, If you assign a schedule preset, the coursetimes above will be ignored., Sync to LMS, LMS code, Warning, Do you really want to delete this phone number?, Do you really want to delete this contact?, Do you really want to delete this course?, Your changes could not be saved, Your changes were successful, Error, Success, The course has been deleted, Impossible to delete this course, Enrollment in progress..., Enable, Disable, Send invoice to external accounting system, First payment date, Number of payments, Scheduled Payments, Value, Receipt Number, Total paid amount does not match the invoice total price, Continue, Mark as pending, default */
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"% of period max\":\"% of period max\",\"Absence Notification\":\"Absence Notification\",\"absences\":\"absences\",\"Account Data\":\"Account Data\",\"Acquisition Rate\":\"Acquisition Rate\",\"Actionable Comments\":\"Actionable Comments\",\"Actions\":\"Actions\",\"actions\":\"actions\",\"Add\":\"Add\",\"Add a new contact\":\"Add a new contact\",\"Add a new course time\":\"Add a new course time\",\"Add a new grade type to course\":\"Add a new grade type to course\",\"Add all\":\"Add all\",\"Add discount\":\"Add discount\",\"Add Grade Type to Course\":\"Add Grade Type to Course\",\"Add products\":\"Add products\",\"Add scholarship\":\"Add scholarship\",\"Additional Contact\":\"Additional Contact\",\"Additional Contacts\":\"Additional Contacts\",\"Additional Data\":\"Additional Data\",\"Address\":\"Address\",\"City\":\"City\",\"State\":\"State\",\"Country\":\"Country\",\"ADMINISTRATION\":\"ADMINISTRATION\",\"age\":\"age\",\"all\":\"all\",\"All teachers\":\"All teachers\",\"Amount received\":\"Amount received\",\"Attendance\":\"Attendance\",\"Attendance Ratio\":\"Attendance Ratio\",\"Attendance Status\":\"Attendance Status\",\"Attendance status\":\"Attendance status\",\"Available skills\":\"Available skills\",\"Back to course\":\"Back to course\",\"Best regards,\":\"Best regards,\",\"Birthdate\":\"Birthdate\",\"birthdate\":\"birthdate\",\"book\":\"book\",\"Books\":\"Books\",\"books\":\"books\",\"Calendar for\":\"Calendar for\",\"CALENDARS\":\"CALENDARS\",\"Campus\":\"Campus\",\"campus\":\"campus\",\"campuses\":\"campuses\",\"Cancel\":\"Cancel\",\"Cart Details\":\"Cart Details\",\"Change course\":\"Change course\",\"Checkout\":\"Checkout\",\"Checkout enrollment\":\"Checkout enrollment\",\"Children enrollments\":\"Children enrollments\",\"Classes without teacher\":\"Classes without teacher\",\"Client address\":\"Client address\",\"Client email\":\"Client email\",\"Client ID Number\":\"Client ID Number\",\"Client name\":\"Client name\",\"Close\":\"Close\",\"comment\":\"comment\",\"comments\":\"comments\",\"Comments\":\"Comments\",\"config\":\"config\",\"configs\":\"configs\",\"Contact Type\":\"Contact Type\",\"Continue without uploading a profile picture\":\"Continue without uploading a profile picture\",\"coupon\":\"coupon\",\"coupons\":\"coupons\",\"Course\":\"Course\",\"course\":\"course\",\"Course :\":\"Course :\",\"Course Details\":\"Course Details\",\"Course Evaluation\":\"Course Evaluation\",\"course evaluation\":\"course evaluation\",\"course evaluations\":\"course evaluations\",\"Course info\":\"Course info\",\"Course result\":\"Course result\",\"Course Result Details\":\"Course Result Details\",\"Course Schedule\":\"Course Schedule\",\"Course skills\":\"Course skills\",\"courses\":\"courses\",\"COURSES\":\"COURSES\",\"Courses\":\"Courses\",\"Courses (list)\":\"Courses (list)\",\"Create another Contact\":\"Create another Contact\",\"Create subcourse\":\"Create subcourse\",\"Current Period\":\"Current Period\",\"Date\":\"Date\",\"Date range\":\"Date range\",\"Default Periods Selection\":\"Default Periods Selection\",\"Delete\":\"Delete\",\"Select\":\"Select\",\"Client Phone Number\":\"Client Phone Number\",\"Delete Enrollment\":\"Delete Enrollment\",\"discount\":\"discount\",\"Discount Value\":\"Discount Value\",\"Discount Value (0-100%)\":\"Discount Value (0-100%)\",\"Discounts\":\"Discounts\",\"discounts\":\"discounts\",\"Edit\":\"Edit\",\"Edit contact\":\"Edit contact\",\"Edit Course Skills\":\"Edit Course Skills\",\"Edit Grades\":\"Edit Grades\",\"Edit Receipt Number\":\"Edit Receipt Number\",\"Edit schedule\":\"Edit schedule\",\"Edit Student Skills\":\"Edit Student Skills\",\"Email\":\"Email\",\"email\":\"email\",\"End\":\"End\",\"End Date\":\"End Date\",\"Enroll\":\"Enroll\",\"Enroll new student\":\"Enroll new student\",\"enrollment\":\"enrollment\",\"Enrollment date\":\"Enrollment date\",\"Enrollment Details\":\"Enrollment Details\",\"Enrollment ID\":\"Enrollment ID\",\"Enrollment Info\":\"Enrollment Info\",\"Enrollment number\":\"Enrollment number\",\"Enrollment successfully created\":\"Enrollment successfully created\",\"Enrollments\":\"Enrollments\",\"enrollments\":\"enrollments\",\"Enrollments per Course\":\"Enrollments per Course\",\"Enrollments per Rhythm\":\"Enrollments per Rhythm\",\"Enrollments Period\":\"Enrollments Period\",\"errorfetchingcourses\":\"Unable to fetch courses. Try to refresh the page!\",\"Evaluate skills\":\"Evaluate skills\",\"EVALUATION\":\"EVALUATION\",\"Evaluation method\":\"Evaluation method\",\"evaluation type\":\"evaluation type\",\"evaluation types\":\"evaluation types\",\"Evaluation Types\":\"Evaluation Types\",\"event\":\"event\",\"Event\":\"Event\",\"events\":\"events\",\"Events\":\"Events\",\"Events with no course\":\"Events with no course\",\"Events with no teacher\":\"Events with no teacher\",\"Exempt Attendance\":\"Exempt Attendance\",\"Export Course syllabus\":\"Export Course syllabus\",\"Export skills\":\"Export skills\",\"External\":\"External\",\"External Course\":\"External Course\",\"External Courses\":\"External Courses\",\"External Courses Report\":\"External Courses Report\",\"Face-to-face\":\"Face-to-face\",\"fee\":\"fee\",\"fees\":\"fees\",\"Fees\":\"Fees\",\"Finish update\":\"Finish update\",\"First Name\":\"First Name\",\"Firstname\":\"Firstname\",\"for\":\"for\",\"Friday\":\"Friday\",\"Go Home\":\"Go Home\",\"grade type\":\"grade type\",\"Grade Type Categories\":\"Grade Type Categories\",\"Grade Types\":\"Grade Types\",\"grade types\":\"grade types\",\"Grades\":\"Grades\",\"Hi\":\"Hi\",\"Hide Children\":\"Hide Children\",\"Hide Children Courses\":\"Hide Children Courses\",\"Hide Parents\":\"Hide Parents\",\"Hire Date\":\"Hire Date\",\"hours\":\"hours\",\"Hours Sold\":\"Hours Sold\",\"Hours Taught\":\"Hours Taught\",\"HR\":\"HR\",\"Human Resources\":\"Human Resources\",\"ID number\":\"ID number\",\"ID Number\":\"ID Number\",\"Import skills\":\"Import skills\",\"Incomplete Attendance\":\"Incomplete Attendance\",\"Institution\":\"Institution\",\"Institutions\":\"Institutions\",\"Internal Courses\":\"Internal Courses\",\"Invoice\":\"Invoice\",\"Invoice Data\":\"Invoice Data\",\"Invoice ID\":\"Invoice ID\",\"Invoices\":\"Invoices\",\"Invoicing\":\"Invoicing\",\"Is Enrolled in\":\"Is Enrolled in\",\"Is Not Enrolled in\":\"Is Not Enrolled in\",\"justified absence\":\"justified absence\",\"Justified Absence\":\"Justified Absence\",\"Last Name\":\"Last Name\",\"Lastname\":\"Lastname\",\"Lead Status\":\"Lead Status\",\"lead type\":\"lead type\",\"lead types\":\"lead types\",\"Leave\":\"Leave\",\"leave\":\"leave\",\"leaves\":\"leaves\",\"Length\":\"Length\",\"Level\":\"Level\",\"level\":\"level\",\"levels\":\"levels\",\"Loading...\":\"Loading...\",\"Manage grades\":\"Manage grades\",\"Manage leaves\":\"Manage leaves\",\"Manage skills\":\"Manage skills\",\"Mark this enrollment as paid but do not send to accounting system\":\"Mark this enrollment as paid but do not send to accounting system\",\"Members\":\"Members\",\"Missing attendance\":\"Missing attendance\",\"Monday\":\"Monday\",\"My Hours\":\"My Hours\",\"My Schedule\":\"My Schedule\",\"Name\":\"Name\",\"name\":\"name\",\"New student\":\"New student\",\"New Students\":\"New Students\",\"No Result\":\"No Result\",\"noresults\":\"No courses with the selected filers\",\"Number of Absences\":\"Number of Absences\",\"Number of Courses\":\"Number of Courses\",\"Oh no\":\"Oh no\",\"on\":\"on\",\"or\":\"or\",\"Overview\":\"Overview\",\"Paid Enrollments\":\"Paid Enrollments\",\"Partial presence (arrived late or left early)\":\"Partial presence (arrived late or left early)\",\"Password\":\"Password\",\"Payment method\":\"Payment method\",\"Payment methods\":\"Payment methods\",\"Payments\":\"Payments\",\"Payment\":\"Payment\",\"Pedagogy\":\"Pedagogy\",\"Pending\":\"Pending\",\"Pending Attendance\":\"Pending Attendance\",\"Pending leads\":\"Pending leads\",\"Per course\":\"Per course\",\"Per rhythm\":\"Per rhythm\",\"Period\":\"Period\",\"period\":\"period\",\"Period Classes\":\"Period Classes\",\"Period Max\":\"Period Max\",\"Period Total\":\"Period Total\",\"periods\":\"periods\",\"Phone\":\"Phone\",\"Phone Number\":\"Phone Number\",\"Phone number\":\"Phone number\",\"Phone Numbers\":\"Phone Numbers\",\"Planned Hours\":\"Planned Hours\",\"Please check the additional contact data associated to your account\":\"Please check the additional contact data associated to your account\",\"Please check your personal phone number(s)\":\"Please check your personal phone number(s)\",\"Please chose an image on your computer to update your profile picture\":\"Please chose an image on your computer to update your profile picture\",\"Please fill in your profession and your institution (school, workplace).\":\"Please fill in your profession and your institution (school, workplace).\",\"Pre-invoice ID\":\"Pre-invoice ID\",\"Present\":\"Present\",\"Price\":\"Price\",\"Product\":\"Product\",\"Products\":\"Products\",\"Profession\":\"Profession\",\"Profile Picture\":\"Profile Picture\",\"Project\":\"Project\",\"Refresh status\":\"Refresh status\",\"Remote\":\"Remote\",\"remote event\":\"remote event\",\"remote events\":\"remote events\",\"Remote Events\":\"Remote Events\",\"Remote Work\":\"Remote Work\",\"Remote hours\":\"Remote hours\",\"Remote volume\":\"Remote volume\",\"Presential volume\":\"Presential volume\",\"Presential hours\":\"Presential hours\",\"Total hours\":\"Total hours\",\"Hours on schedule\":\"Hours on schedule\",\"Remove all\":\"Remove all\",\"REPORTS\":\"REPORTS\",\"resource Calendars\":\"resource Calendars\",\"Resources\":\"Resources\",\"result\":\"result\",\"Result\":\"Result\",\"Result Notification\":\"Result Notification\",\"result type\":\"result type\",\"Result Types\":\"Result Types\",\"results\":\"results\",\"Results\":\"Results\",\"rhythm\":\"rhythm\",\"Rhythm\":\"Rhythm\",\"rhythms\":\"rhythms\",\"Roles\":\"Roles\",\"Room\":\"Room\",\"room\":\"room\",\"rooms\":\"rooms\",\"Saturday\":\"Saturday\",\"Sunday\":\"Sunday\",\"Save\":\"Save\",\"Save new Contact\":\"Save new Contact\",\"Schedule\":\"Schedule\",\"Scholarship\":\"Scholarship\",\"scholarship\":\"scholarship\",\"Scholarships\":\"Scholarships\",\"scholarships\":\"scholarships\",\"Selected Period\":\"Selected Period\",\"Settings\":\"Settings\",\"SETTINGS\":\"SETTINGS\",\"share of students from previous period who were re-enrolled\":\"share of students from previous period who were re-enrolled\",\"Since the beginning of this course, you have:\":\"Since the beginning of this course, you have:\",\"skill\":\"skill\",\"skill scale\":\"skill scale\",\"Skill Scales\":\"Skill Scales\",\"skill scales\":\"skill scales\",\"skill type\":\"skill type\",\"skill types\":\"skill types\",\"Skill Types\":\"Skill Types\",\"skills\":\"skills\",\"Skills\":\"Skills\",\"Skillset File\":\"Skillset File\",\"Spots\":\"Spots\",\"spots left\":\"spots left\",\"Start\":\"Start\",\"Start Date\":\"Start Date\",\"Start from period:\":\"Start from period:\",\"Status\":\"Status\",\"Status is\":\"Status is\",\"Status is not\":\"Status is not\",\"Student\":\"Student\",\"student\":\"student\",\"Student :\":\"Student :\",\"Student Attendance Overview\":\"Student Attendance Overview\",\"Student Attendance Report\":\"Student Attendance Report\",\"Student details for\":\"Student details for\",\"Students\":\"Students\",\"students\":\"students\",\"Students to count in year total\":\"Students to count in year total\",\"Students under 18, please add contact data from your legal representatives\":\"Students under 18, please add contact data from your legal representatives\",\"teacher\":\"teacher\",\"TEACHER\":\"TEACHER\",\"Teacher\":\"Teacher\",\"Teacher Dashboard\":\"Teacher Dashboard\",\"Teacher Leaves\":\"Teacher Leaves\",\"Teachers\":\"Teachers\",\"teachers\":\"teachers\",\"The attendance record is incomplete for the following classes:\":\"The attendance record is incomplete for the following classes:\",\"The enrollment has been updated\":\"The enrollment has been updated\",\"The information has successfully been saved\":\"The information has successfully been saved\",\"The invoice has been generated\":\"The invoice has been generated\",\"The invoice number has been saved\":\"The invoice number has been saved\",\"The selected teacher is not available on this date\":\"The selected teacher is not available on this date\",\"This comment requires an action\":\"This comment requires an action\",\"This course has no skills yet\":\"This course has no skills yet\",\"This enrollment belongs to\":\"This enrollment belongs to\",\"This is an absence notification for\":\"This is an absence notification for\",\"This is important, so that we can reach you in case of an emergency\":\"This is important, so that we can reach you in case of an emergency\",\"This will erase all skills currently associated to the course\":\"This will erase all skills currently associated to the course\",\"Thursday\":\"Thursday\",\"Total\":\"Total\",\"TOTAL\":\"TOTAL\",\"Total price\":\"Total price\",\"Total received amount\":\"Total received amount\",\"Tuesday\":\"Tuesday\",\"Unable to communicate with Accounting Service. This invoice will NOT be sent automatically to the Accounting system\":\"Unable to communicate with Accounting Service. This invoice will NOT be sent automatically to the Accounting system\",\"Unjustified Absence\":\"Unjustified Absence\",\"unjustified absence\":\"unjustified absence\",\"Upcoming Leaves\":\"Upcoming Leaves\",\"Upload skillset file\":\"Upload skillset file\",\"Users\":\"Users\",\"View\":\"View\",\"View Skills for Group\":\"View Skills for Group\",\"Volume\":\"Volume\",\"Wednesday\":\"Wednesday\",\"Weekly workable hours\":\"Weekly workable hours\",\"When everything is ready, please confirm that your data is up-to-date\":\"When everything is ready, please confirm that your data is up-to-date\",\"Worked Hours\":\"Worked Hours\",\"Confirm\":\"Confirm\",\"Year\":\"Year\",\"year\":\"year\",\"Years\":\"Years\",\"years\":\"years\",\"You also need to add the invoice information here\":\"You also need to add the invoice information here\",\"You may log in to view your results, and the comments from your teacher, if any\":\"You may log in to view your results, and the comments from your teacher, if any\",\"Your comment has been saved\":\"Your comment has been saved\",\"Your course result is available for\":\"Your course result is available for\",\"Your data has been saved\":\"Your data has been saved\",\"Your picture has been saved\":\"Your picture has been saved\",\"Attendance Monitor\":\"Attendance Monitor\",\"Mark as paid\":\"Mark as paid\",\"years old\":\"years old\",\"Remaining balance\":\"Remaining balance\",\"New payment\":\"New payment\",\"Save and go back\":\"Save and go back\",\"Comment\":\"Comment\",\"Generate grade report\":\"Generate grade report\",\"Generate diploma\":\"Generate diploma\",\"Enrollments per Level\":\"Enrollments per Level\",\"Per level\":\"Per level\",\"Per period\":\"Per session\",\"Per date\":\"Per date\",\"Per institution\":\"Per institution\",\"Partnerships\":\"Partnerships\",\"partnership\":\"partnership\",\"partnerships\":\"partnerships\",\"Number of Partnerships\":\"Number of Partnerships\",\"Partnership Report\":\"Partnership Report\",\"Tacit renewal\":\"Tacit renewal\",\"Hourly Price\":\"Hourly Price\",\"Send report on ... of the month\":\"Send report on ... of the month\",\"Teachers overview\":\"Teachers overview\",\"Rooms overview\":\"Rooms overview\",\"Day\":\"Day\",\"Sun\":\"Sun\",\"Mon\":\"Mon\",\"Tue\":\"Tue\",\"Wed\":\"Wed\",\"Thu\":\"Thu\",\"Fri\":\"Fri\",\"Sat\":\"Sat\",\"Grades report (PDF)\":\"Grades report (PDF)\",\"Takings\":\"Takings\",\"Average\":\"Average\",\"Switch to list view\":\"Switch to list view\",\"Switch to block view\":\"Switch to block view\",\"Course sublevels\":\"Course sublevels\",\"The course you are editing is a sub-course of\":\"The course you are editing is a sub-course of\",\"Please remember to update the parent and its other children courses accordingly\":\"Please remember to update the parent and its other children courses accordingly\",\"The course you are editing is the parent of these sub-courses:\":\"The course you are editing is the parent of these sub-courses:\",\"Editable fields for the parent course are limited. Please update children courses accordingly\":\"Editable fields for the parent course are limited. Please update children courses accordingly\",\"If you assign a schedule preset, the coursetimes above will be ignored.\":\"If you assign a schedule preset, the coursetimes above will be ignored.\",\"Sync to LMS\":\"Sync with LMS\",\"LMS code\":\"LMS code\",\"Warning\":\"Warning\",\"Do you really want to delete this phone number?\":\"Do you really want to delete this phone number?\",\"Do you really want to delete this contact?\":\"Do you really want to delete this contact?\",\"Do you really want to delete this course?\":\"Do you really want to delete this course?\",\"Your changes could not be saved\":\"Your changes could not be saved\",\"Your changes were successful\":\"Your changes were successful\",\"Error\":\"Error\",\"Success\":\"Success\",\"The course has been deleted\":\"The course has been deleted\",\"Impossible to delete this course\":\"Impossible to delete this course\",\"Enrollment in progress...\":\"Enrollment in progress...\",\"Enable\":\"Enable\",\"Disable\":\"Disable\",\"Send invoice to external accounting system\":\"Send invoice to external accounting system\"}");
+module.exports = JSON.parse("{\"% of period max\":\"% of period max\",\"Absence Notification\":\"Absence Notification\",\"absences\":\"absences\",\"Account Data\":\"Account Data\",\"Acquisition Rate\":\"Acquisition Rate\",\"Actionable Comments\":\"Actionable Comments\",\"Actions\":\"Actions\",\"actions\":\"actions\",\"Add\":\"Add\",\"Add a new contact\":\"Add a new contact\",\"Add a new course time\":\"Add a new course time\",\"Add a new grade type to course\":\"Add a new grade type to course\",\"Add all\":\"Add all\",\"Add discount\":\"Add discount\",\"Add Grade Type to Course\":\"Add Grade Type to Course\",\"Add products\":\"Add products\",\"Add scholarship\":\"Add scholarship\",\"Additional Contact\":\"Additional Contact\",\"Additional Contacts\":\"Additional Contacts\",\"Additional Data\":\"Additional Data\",\"Address\":\"Address\",\"City\":\"City\",\"State\":\"State\",\"Country\":\"Country\",\"ADMINISTRATION\":\"ADMINISTRATION\",\"age\":\"age\",\"all\":\"all\",\"All teachers\":\"All teachers\",\"Amount received\":\"Amount received\",\"Attendance\":\"Attendance\",\"Attendance Ratio\":\"Attendance Ratio\",\"Attendance Status\":\"Attendance Status\",\"Attendance status\":\"Attendance status\",\"Available skills\":\"Available skills\",\"Back to course\":\"Back to course\",\"Best regards,\":\"Best regards,\",\"Birthdate\":\"Birthdate\",\"birthdate\":\"birthdate\",\"book\":\"book\",\"Books\":\"Books\",\"books\":\"books\",\"Calendar for\":\"Calendar for\",\"CALENDARS\":\"CALENDARS\",\"Campus\":\"Campus\",\"campus\":\"campus\",\"campuses\":\"campuses\",\"Cancel\":\"Cancel\",\"Cart Details\":\"Cart Details\",\"Change course\":\"Change course\",\"Checkout\":\"Checkout\",\"Checkout enrollment\":\"Checkout enrollment\",\"Children enrollments\":\"Children enrollments\",\"Classes without teacher\":\"Classes without teacher\",\"Client address\":\"Client address\",\"Client email\":\"Client email\",\"Client ID Number\":\"Client ID Number\",\"Client name\":\"Client name\",\"Close\":\"Close\",\"comment\":\"comment\",\"comments\":\"comments\",\"Comments\":\"Comments\",\"config\":\"config\",\"configs\":\"configs\",\"Contact Type\":\"Contact Type\",\"Continue without uploading a profile picture\":\"Continue without uploading a profile picture\",\"coupon\":\"coupon\",\"coupons\":\"coupons\",\"Course\":\"Course\",\"course\":\"course\",\"Course :\":\"Course :\",\"Course Details\":\"Course Details\",\"Course Evaluation\":\"Course Evaluation\",\"course evaluation\":\"course evaluation\",\"course evaluations\":\"course evaluations\",\"Course info\":\"Course info\",\"Course result\":\"Course result\",\"Course Result Details\":\"Course Result Details\",\"Course Schedule\":\"Course Schedule\",\"Course skills\":\"Course skills\",\"courses\":\"courses\",\"COURSES\":\"COURSES\",\"Courses\":\"Courses\",\"Courses (list)\":\"Courses (list)\",\"Create another Contact\":\"Create another Contact\",\"Create subcourse\":\"Create subcourse\",\"Current Period\":\"Current Period\",\"Date\":\"Date\",\"Date range\":\"Date range\",\"Default Periods Selection\":\"Default Periods Selection\",\"Delete\":\"Delete\",\"Select\":\"Select\",\"Client Phone Number\":\"Client Phone Number\",\"Delete Enrollment\":\"Delete Enrollment\",\"discount\":\"discount\",\"Discount Value\":\"Discount Value\",\"Discount Value (0-100%)\":\"Discount Value (0-100%)\",\"Discounts\":\"Discounts\",\"discounts\":\"discounts\",\"Edit\":\"Edit\",\"Edit contact\":\"Edit contact\",\"Edit Course Skills\":\"Edit Course Skills\",\"Edit Grades\":\"Edit Grades\",\"Edit Receipt Number\":\"Edit Receipt Number\",\"Edit schedule\":\"Edit schedule\",\"Edit Student Skills\":\"Edit Student Skills\",\"Email\":\"Email\",\"email\":\"email\",\"End\":\"End\",\"End Date\":\"End Date\",\"Enroll\":\"Enroll\",\"Enroll new student\":\"Enroll new student\",\"enrollment\":\"enrollment\",\"Enrollment date\":\"Enrollment date\",\"Enrollment Details\":\"Enrollment Details\",\"Enrollment ID\":\"Enrollment ID\",\"Enrollment Info\":\"Enrollment Info\",\"Enrollment number\":\"Enrollment number\",\"Enrollment successfully created\":\"Enrollment successfully created\",\"Enrollments\":\"Enrollments\",\"enrollments\":\"enrollments\",\"Enrollments per Course\":\"Enrollments per Course\",\"Enrollments per Rhythm\":\"Enrollments per Rhythm\",\"Enrollments Period\":\"Enrollments Period\",\"errorfetchingcourses\":\"Unable to fetch courses. Try to refresh the page!\",\"Evaluate skills\":\"Evaluate skills\",\"EVALUATION\":\"EVALUATION\",\"Evaluation method\":\"Evaluation method\",\"evaluation type\":\"evaluation type\",\"evaluation types\":\"evaluation types\",\"Evaluation Types\":\"Evaluation Types\",\"event\":\"event\",\"Event\":\"Event\",\"events\":\"events\",\"Events\":\"Events\",\"Events with no course\":\"Events with no course\",\"Events with no teacher\":\"Events with no teacher\",\"Exempt Attendance\":\"Exempt Attendance\",\"Export Course syllabus\":\"Export Course syllabus\",\"Export skills\":\"Export skills\",\"External\":\"External\",\"External Course\":\"External Course\",\"External Courses\":\"External Courses\",\"External Courses Report\":\"External Courses Report\",\"Face-to-face\":\"Face-to-face\",\"fee\":\"fee\",\"fees\":\"fees\",\"Fees\":\"Fees\",\"Finish update\":\"Finish update\",\"First Name\":\"First Name\",\"Firstname\":\"Firstname\",\"for\":\"for\",\"Friday\":\"Friday\",\"Go Home\":\"Go Home\",\"grade type\":\"grade type\",\"Grade Type Categories\":\"Grade Type Categories\",\"Grade Types\":\"Grade Types\",\"grade types\":\"grade types\",\"Grades\":\"Grades\",\"Hi\":\"Hi\",\"Hide Children\":\"Hide Children\",\"Hide Children Courses\":\"Hide Children Courses\",\"Hide Parents\":\"Hide Parents\",\"Hire Date\":\"Hire Date\",\"hours\":\"hours\",\"Hours Sold\":\"Hours Sold\",\"Hours Taught\":\"Hours Taught\",\"HR\":\"HR\",\"Human Resources\":\"Human Resources\",\"ID number\":\"ID number\",\"ID Number\":\"ID Number\",\"Import skills\":\"Import skills\",\"Incomplete Attendance\":\"Incomplete Attendance\",\"Institution\":\"Institution\",\"Institutions\":\"Institutions\",\"Internal Courses\":\"Internal Courses\",\"Invoice\":\"Invoice\",\"Invoice Data\":\"Invoice Data\",\"Invoice ID\":\"Invoice ID\",\"Invoices\":\"Invoices\",\"Invoicing\":\"Invoicing\",\"Is Enrolled in\":\"Is Enrolled in\",\"Is Not Enrolled in\":\"Is Not Enrolled in\",\"justified absence\":\"justified absence\",\"Justified Absence\":\"Justified Absence\",\"Last Name\":\"Last Name\",\"Lastname\":\"Lastname\",\"Lead Status\":\"Lead Status\",\"lead type\":\"lead type\",\"lead types\":\"lead types\",\"Leave\":\"Leave\",\"leave\":\"leave\",\"leaves\":\"leaves\",\"Length\":\"Length\",\"Level\":\"Level\",\"level\":\"level\",\"levels\":\"levels\",\"Loading...\":\"Loading...\",\"Manage grades\":\"Manage grades\",\"Manage leaves\":\"Manage leaves\",\"Manage skills\":\"Manage skills\",\"Mark this enrollment as paid but do not send to accounting system\":\"Mark this enrollment as paid but do not send to accounting system\",\"Members\":\"Members\",\"Missing attendance\":\"Missing attendance\",\"Monday\":\"Monday\",\"My Hours\":\"My Hours\",\"My Schedule\":\"My Schedule\",\"Name\":\"Name\",\"name\":\"name\",\"New student\":\"New student\",\"New Students\":\"New Students\",\"No Result\":\"No Result\",\"noresults\":\"No courses with the selected filers\",\"Number of Absences\":\"Number of Absences\",\"Number of Courses\":\"Number of Courses\",\"Oh no\":\"Oh no\",\"on\":\"on\",\"or\":\"or\",\"Overview\":\"Overview\",\"Paid Enrollments\":\"Paid Enrollments\",\"Partial presence (arrived late or left early)\":\"Partial presence (arrived late or left early)\",\"Password\":\"Password\",\"Payment method\":\"Payment method\",\"Payment methods\":\"Payment methods\",\"Payments\":\"Payments\",\"Payment\":\"Payment\",\"Pedagogy\":\"Pedagogy\",\"Pending\":\"Pending\",\"Pending Attendance\":\"Pending Attendance\",\"Pending leads\":\"Pending leads\",\"Per course\":\"Per course\",\"Per rhythm\":\"Per rhythm\",\"Period\":\"Period\",\"period\":\"period\",\"Period Classes\":\"Period Classes\",\"Period Max\":\"Period Max\",\"Period Total\":\"Period Total\",\"periods\":\"periods\",\"Phone\":\"Phone\",\"Phone Number\":\"Phone Number\",\"Phone number\":\"Phone number\",\"Phone Numbers\":\"Phone Numbers\",\"Planned Hours\":\"Planned Hours\",\"Please check the additional contact data associated to your account\":\"Please check the additional contact data associated to your account\",\"Please check your personal phone number(s)\":\"Please check your personal phone number(s)\",\"Please chose an image on your computer to update your profile picture\":\"Please chose an image on your computer to update your profile picture\",\"Please fill in your profession and your institution (school, workplace).\":\"Please fill in your profession and your institution (school, workplace).\",\"Pre-invoice ID\":\"Pre-invoice ID\",\"Present\":\"Present\",\"Price\":\"Price\",\"Product\":\"Product\",\"Products\":\"Products\",\"Profession\":\"Profession\",\"Profile Picture\":\"Profile Picture\",\"Project\":\"Project\",\"Refresh status\":\"Refresh status\",\"Remote\":\"Remote\",\"remote event\":\"remote event\",\"remote events\":\"remote events\",\"Remote Events\":\"Remote Events\",\"Remote Work\":\"Remote Work\",\"Remote hours\":\"Remote hours\",\"Remote volume\":\"Remote volume\",\"Presential volume\":\"Presential volume\",\"Presential hours\":\"Presential hours\",\"Total hours\":\"Total hours\",\"Hours on schedule\":\"Hours on schedule\",\"Remove all\":\"Remove all\",\"REPORTS\":\"REPORTS\",\"resource Calendars\":\"resource Calendars\",\"Resources\":\"Resources\",\"result\":\"result\",\"Result\":\"Result\",\"Result Notification\":\"Result Notification\",\"result type\":\"result type\",\"Result Types\":\"Result Types\",\"results\":\"results\",\"Results\":\"Results\",\"rhythm\":\"rhythm\",\"Rhythm\":\"Rhythm\",\"rhythms\":\"rhythms\",\"Roles\":\"Roles\",\"Room\":\"Room\",\"room\":\"room\",\"rooms\":\"rooms\",\"Saturday\":\"Saturday\",\"Sunday\":\"Sunday\",\"Save\":\"Save\",\"Save new Contact\":\"Save new Contact\",\"Schedule\":\"Schedule\",\"Scholarship\":\"Scholarship\",\"scholarship\":\"scholarship\",\"Scholarships\":\"Scholarships\",\"scholarships\":\"scholarships\",\"Selected Period\":\"Selected Period\",\"Settings\":\"Settings\",\"SETTINGS\":\"SETTINGS\",\"share of students from previous period who were re-enrolled\":\"share of students from previous period who were re-enrolled\",\"Since the beginning of this course, you have:\":\"Since the beginning of this course, you have:\",\"skill\":\"skill\",\"skill scale\":\"skill scale\",\"Skill Scales\":\"Skill Scales\",\"skill scales\":\"skill scales\",\"skill type\":\"skill type\",\"skill types\":\"skill types\",\"Skill Types\":\"Skill Types\",\"skills\":\"skills\",\"Skills\":\"Skills\",\"Skillset File\":\"Skillset File\",\"Spots\":\"Spots\",\"spots left\":\"spots left\",\"Start\":\"Start\",\"Start Date\":\"Start Date\",\"Start from period:\":\"Start from period:\",\"Status\":\"Status\",\"Status is\":\"Status is\",\"Status is not\":\"Status is not\",\"Student\":\"Student\",\"student\":\"student\",\"Student :\":\"Student :\",\"Student Attendance Overview\":\"Student Attendance Overview\",\"Student Attendance Report\":\"Student Attendance Report\",\"Student details for\":\"Student details for\",\"Students\":\"Students\",\"students\":\"students\",\"Students to count in year total\":\"Students to count in year total\",\"Students under 18, please add contact data from your legal representatives\":\"Students under 18, please add contact data from your legal representatives\",\"teacher\":\"teacher\",\"TEACHER\":\"TEACHER\",\"Teacher\":\"Teacher\",\"Teacher Dashboard\":\"Teacher Dashboard\",\"Teacher Leaves\":\"Teacher Leaves\",\"Teachers\":\"Teachers\",\"teachers\":\"teachers\",\"The attendance record is incomplete for the following classes:\":\"The attendance record is incomplete for the following classes:\",\"The enrollment has been updated\":\"The enrollment has been updated\",\"The information has successfully been saved\":\"The information has successfully been saved\",\"The invoice has been generated\":\"The invoice has been generated\",\"The invoice number has been saved\":\"The invoice number has been saved\",\"The selected teacher is not available on this date\":\"The selected teacher is not available on this date\",\"This comment requires an action\":\"This comment requires an action\",\"This course has no skills yet\":\"This course has no skills yet\",\"This enrollment belongs to\":\"This enrollment belongs to\",\"This is an absence notification for\":\"This is an absence notification for\",\"This is important, so that we can reach you in case of an emergency\":\"This is important, so that we can reach you in case of an emergency\",\"This will erase all skills currently associated to the course\":\"This will erase all skills currently associated to the course\",\"Thursday\":\"Thursday\",\"Total\":\"Total\",\"TOTAL\":\"TOTAL\",\"Total price\":\"Total price\",\"Total received amount\":\"Total received amount\",\"Tuesday\":\"Tuesday\",\"Unable to communicate with Accounting Service. This invoice will NOT be sent automatically to the Accounting system\":\"Unable to communicate with Accounting Service. This invoice will NOT be sent automatically to the Accounting system\",\"Unjustified Absence\":\"Unjustified Absence\",\"unjustified absence\":\"unjustified absence\",\"Upcoming Leaves\":\"Upcoming Leaves\",\"Upload skillset file\":\"Upload skillset file\",\"Users\":\"Users\",\"View\":\"View\",\"View Skills for Group\":\"View Skills for Group\",\"Volume\":\"Volume\",\"Wednesday\":\"Wednesday\",\"Weekly workable hours\":\"Weekly workable hours\",\"When everything is ready, please confirm that your data is up-to-date\":\"When everything is ready, please confirm that your data is up-to-date\",\"Worked Hours\":\"Worked Hours\",\"Confirm\":\"Confirm\",\"Year\":\"Year\",\"year\":\"year\",\"Years\":\"Years\",\"years\":\"years\",\"You also need to add the invoice information here\":\"You also need to add the invoice information here\",\"You may log in to view your results, and the comments from your teacher, if any\":\"You may log in to view your results, and the comments from your teacher, if any\",\"Your comment has been saved\":\"Your comment has been saved\",\"Your course result is available for\":\"Your course result is available for\",\"Your data has been saved\":\"Your data has been saved\",\"Your picture has been saved\":\"Your picture has been saved\",\"Attendance Monitor\":\"Attendance Monitor\",\"Mark as paid\":\"Mark as paid\",\"years old\":\"years old\",\"Remaining balance\":\"Remaining balance\",\"New payment\":\"New payment\",\"Save and go back\":\"Save and go back\",\"Comment\":\"Comment\",\"Generate grade report\":\"Generate grade report\",\"Generate diploma\":\"Generate diploma\",\"Enrollments per Level\":\"Enrollments per Level\",\"Per level\":\"Per level\",\"Per period\":\"Per session\",\"Per date\":\"Per date\",\"Per institution\":\"Per institution\",\"Partnerships\":\"Partnerships\",\"partnership\":\"partnership\",\"partnerships\":\"partnerships\",\"Number of Partnerships\":\"Number of Partnerships\",\"Partnership Report\":\"Partnership Report\",\"Tacit renewal\":\"Tacit renewal\",\"Hourly Price\":\"Hourly Price\",\"Send report on ... of the month\":\"Send report on ... of the month\",\"Teachers overview\":\"Teachers overview\",\"Rooms overview\":\"Rooms overview\",\"Day\":\"Day\",\"Sun\":\"Sun\",\"Mon\":\"Mon\",\"Tue\":\"Tue\",\"Wed\":\"Wed\",\"Thu\":\"Thu\",\"Fri\":\"Fri\",\"Sat\":\"Sat\",\"Grades report (PDF)\":\"Grades report (PDF)\",\"Takings\":\"Takings\",\"Average\":\"Average\",\"Switch to list view\":\"Switch to list view\",\"Switch to block view\":\"Switch to block view\",\"Course sublevels\":\"Course sublevels\",\"The course you are editing is a sub-course of\":\"The course you are editing is a sub-course of\",\"Please remember to update the parent and its other children courses accordingly\":\"Please remember to update the parent and its other children courses accordingly\",\"The course you are editing is the parent of these sub-courses:\":\"The course you are editing is the parent of these sub-courses:\",\"Editable fields for the parent course are limited. Please update children courses accordingly\":\"Editable fields for the parent course are limited. Please update children courses accordingly\",\"If you assign a schedule preset, the coursetimes above will be ignored.\":\"If you assign a schedule preset, the coursetimes above will be ignored.\",\"Sync to LMS\":\"Sync with LMS\",\"LMS code\":\"LMS code\",\"Warning\":\"Warning\",\"Do you really want to delete this phone number?\":\"Do you really want to delete this phone number?\",\"Do you really want to delete this contact?\":\"Do you really want to delete this contact?\",\"Do you really want to delete this course?\":\"Do you really want to delete this course?\",\"Your changes could not be saved\":\"Your changes could not be saved\",\"Your changes were successful\":\"Your changes were successful\",\"Error\":\"Error\",\"Success\":\"Success\",\"The course has been deleted\":\"The course has been deleted\",\"Impossible to delete this course\":\"Impossible to delete this course\",\"Enrollment in progress...\":\"Enrollment in progress...\",\"Enable\":\"Enable\",\"Disable\":\"Disable\",\"Send invoice to external accounting system\":\"Send invoice to external accounting system\",\"First payment date\":\"First payment date\",\"Number of payments\":\"Number of payments\",\"Scheduled Payments\":\"Scheduled Payments\",\"Value\":\"Value\",\"Receipt Number\":\"Receipt Number\",\"Total paid amount does not match the invoice total price\":\"Total paid amount does not match the invoice total price\",\"Continue\":\"Continue\",\"Mark as pending\":\"Mark as pending\"}");
 
 /***/ }),
 
@@ -10375,10 +10481,10 @@ module.exports = JSON.parse("{\"% of period max\":\"% of period max\",\"Absence 
 /*!********************************!*\
   !*** ./resources/lang/es.json ***!
   \********************************/
-/*! exports provided: % of period max, Absence Notification, absences, Account Data, Acquisition Rate, Actionable Comments, Actions, actions, Add, Add a new contact, Add a new course time, Add a new grade type to course, Add all, Add discount, Add Grade Type to Course, Add products, Add scholarship, Additional Contact, Additional Contacts, Additional Data, Address, City, Country, ADMINISTRATION, age, all, All teachers, Amount received, Attendance, Attendance Ratio, Attendance Status, Attendance status, Available skills, Back to course, Best regards,, Birthdate, birthdate, book, Books, books, Calendar for, CALENDARS, Campus, campus, campuses, Cancel, Cart Details, Change course, Checkout, Checkout enrollment, Children enrollments, Classes without teacher, Client address, Client email, Client ID Number, Client name, Close, comment, comments, Comments, config, configs, Contact Type, Continue without uploading a profile picture, coupon, coupons, Course, course, Course :, Course Details, course evaluation, Course Evaluation, course evaluations, Course info, Course result, Course Result Details, Course Schedule, Course skills, courses, Courses, COURSES, Courses (list), Create another Contact, Current Period, Date, Date range, Default Periods Selection, Delete Enrollment, Delete, Select, Client Phone Number, discount, Discount Value, Discount Value (0-100%), discounts, Discounts, Edit, Edit contact, Edit Course Skills, Edit Grades, Edit Receipt Number, Edit schedule, Edit Student Skills, email, Email, End, End Date, Enroll, Enroll new student, enrollment, Enrollment date, Enrollment Details, Enrollment ID, Enrollment Info, Enrollment number, Enrollment successfully created, Enrollments, enrollments, Enrollments per Course, Enrollments per Rhythm, Enrollments Period, Evaluate skills, EVALUATION, Evaluation method, evaluation type, evaluation types, Evaluation Types, Event, event, Events, events, Events with no course, Events with no teacher, Exempt Attendance, Export Course syllabus, Export skills, External, External Course, External Courses, External Courses Report, Face-to-face, fee, Fees, fees, Finish update, First Name, Firstname, for, Friday, Go Home, grade type, Grade Type Categories, grade types, Grade Types, Grades, Head Count, Hi, Hide Children, Hide Children Courses, Hide Parents, Hire Date, hours, Hours Sold, Hours Taught, HR, Human Resources, ID number, ID Number, Import skills, Incomplete Attendance, Institution, Institutions, Internal Courses, Invoice, Invoice Data, Invoice ID, Invoices, Invoicing, Is Enrolled in, Is Not Enrolled in, justified absence, Justified Absence, Last Name, Lastname, Lead Status, lead type, lead types, Leave, leave, leaves, Length, level, Level, levels, Loading..., Manage grades, Manage leaves, Manage skills, Mark this enrollment as paid but do not send to accounting system, Members, Missing attendance, Monday, My Hours, My Schedule, name, Name, New Students, No Result, noresults, Number of Absences, Number of Courses, Oh no, on, or, Overview, Paid Enrollments, Partial presence (arrived late or left early), Password, Payment method, Payment methods, Payments, Payment, Pedagogy, Pending, Pending Attendance, Pending leads, Per course, Per rhythm, Period, period, Period Classes, Period Max, Period Total, periods, Phone, Phone number, Phone Number, Phone Numbers, Planned Hours, Please check the additional contact data associated to your account, Please check your personal phone number(s), Please chose an image on your computer to update your profile picture, Please fill in your profession and your institution (school, workplace)., Pre-invoice ID, Present, Price, Product, Products, Profession, Profile Picture, Project, Refresh status, Remote, remote event, remote events, Remote Events, Remote Work, Remote hours, Remote volume, Presential volume, Presential hours, Total hours, Hours on schedule, Remove all, REPORTS, resource Calendars, Resources, result, Result, Result Notification, result type, Result Types, Results, results, rhythm, Rhythm, rhythms, Roles, room, Room, rooms, Saturday, Sunday, Save, Save new Contact, Schedule, Scholarship, scholarship, Scholarships, scholarships, Selected Period, SETTINGS, Settings, share of students from previous period who were re-enrolled, Since the beginning of this course, you have:, skill, skill scale, skill scales, Skill Scales, skill type, Skill Types, skill types, skills, Skills, Skillset File, Spots, spots left, Start, Start Date, Start from period:, State, Status, Status is, Status is not, Student, student, Student :, Student Attendance Overview, Student Attendance Report, Student details for, Students, students, Students to count in year total, Students under 18, please add contact data from your legal representatives, TEACHER, Teacher, teacher, Teacher Dashboard, Teacher Leaves, teachers, Teachers, The attendance record is incomplete for the following classes:, The enrollment has been updated, The information has successfully been saved, The invoice has been generated, The invoice number has been saved, The selected teacher is not available on this date, This comment requires an action, This course has no skills yet, This enrollment belongs to, This is an absence notification for, This is important, so that we can reach you in case of an emergency, This will erase all skills currently associated to the course, Thursday, Total, TOTAL, Total price, Total received amount, Tuesday, Unable to communicate with Accounting Service. This invoice will NOT be sent automatically to the Accounting system, Unjustified Absence, unjustified absence, Upcoming Leaves, Upload skillset file, Users, View, View Skills for Group, Volume, Wednesday, Weekly workable hours, When everything is ready, please confirm that your data is up-to-date, Worked Hours, year, Confirm, Year, Year Students, years, Years, You also need to add the invoice information here, You may log in to view your results, and the comments from your teacher, if any, Your comment has been saved, Your course result is available for, Your data has been saved, Your picture has been saved, Attendance Monitor, Mark as paid, years old, Remaining balance, New payment, Save and go back, Comment, Generate grade report, Generate diploma, Enrollments per Level, Per level, Per period, Per date, Per institution, Partnerships, partnership, partnerships, Number of Partnerships, Partnership Report, Tacit renewal, Hourly Price, Send report on ... of the month, Teachers overview, Rooms overview, Day, Sun, Mon, Tue, Wed, Thu, Fri, Sat, Grades report (PDF), Takings, Average, Switch to list view, Switch to block view, Course sublevels, The course you are editing is a sub-course of, Please remember to update the parent and its other children courses accordingly, The course you are editing is the parent of these sub-courses:, Editable fields for the parent course are limited. Please update children courses accordingly, If you assign a schedule preset, the coursetimes above will be ignored., Sync to LMS, LMS code, Warning, Do you really want to delete this phone number?, Do you really want to delete this contact?, Do you really want to delete this course?, Your changes could not be saved, Your changes were successful, Error, Success, The course has been deleted, Impossible to delete this course, Enrollment in progress..., Enable, Disable, Send invoice to external accounting system, default */
+/*! exports provided: % of period max, Absence Notification, absences, Account Data, Acquisition Rate, Actionable Comments, Actions, actions, Add, Add a new contact, Add a new course time, Add a new grade type to course, Add all, Add discount, Add Grade Type to Course, Add products, Add scholarship, Additional Contact, Additional Contacts, Additional Data, Address, City, Country, ADMINISTRATION, age, all, All teachers, Amount received, Attendance, Attendance Ratio, Attendance Status, Attendance status, Available skills, Back to course, Best regards,, Birthdate, birthdate, book, Books, books, Calendar for, CALENDARS, Campus, campus, campuses, Cancel, Cart Details, Change course, Checkout, Checkout enrollment, Children enrollments, Classes without teacher, Client address, Client email, Client ID Number, Client name, Close, comment, comments, Comments, config, configs, Contact Type, Continue without uploading a profile picture, coupon, coupons, Course, course, Course :, Course Details, course evaluation, Course Evaluation, course evaluations, Course info, Course result, Course Result Details, Course Schedule, Course skills, courses, Courses, COURSES, Courses (list), Create another Contact, Current Period, Date, Date range, Default Periods Selection, Delete Enrollment, Delete, Select, Client Phone Number, discount, Discount Value, Discount Value (0-100%), discounts, Discounts, Edit, Edit contact, Edit Course Skills, Edit Grades, Edit Receipt Number, Edit schedule, Edit Student Skills, email, Email, End, End Date, Enroll, Enroll new student, enrollment, Enrollment date, Enrollment Details, Enrollment ID, Enrollment Info, Enrollment number, Enrollment successfully created, Enrollments, enrollments, Enrollments per Course, Enrollments per Rhythm, Enrollments Period, Evaluate skills, EVALUATION, Evaluation method, evaluation type, evaluation types, Evaluation Types, Event, event, Events, events, Events with no course, Events with no teacher, Exempt Attendance, Export Course syllabus, Export skills, External, External Course, External Courses, External Courses Report, Face-to-face, fee, Fees, fees, Finish update, First Name, Firstname, for, Friday, Go Home, grade type, Grade Type Categories, grade types, Grade Types, Grades, Head Count, Hi, Hide Children, Hide Children Courses, Hide Parents, Hire Date, hours, Hours Sold, Hours Taught, HR, Human Resources, ID number, ID Number, Import skills, Incomplete Attendance, Institution, Institutions, Internal Courses, Invoice, Invoice Data, Invoice ID, Invoices, Invoicing, Is Enrolled in, Is Not Enrolled in, justified absence, Justified Absence, Last Name, Lastname, Lead Status, lead type, lead types, Leave, leave, leaves, Length, level, Level, levels, Loading..., Manage grades, Manage leaves, Manage skills, Mark this enrollment as paid but do not send to accounting system, Members, Missing attendance, Monday, My Hours, My Schedule, name, Name, New Students, No Result, noresults, Number of Absences, Number of Courses, Oh no, on, or, Overview, Paid Enrollments, Partial presence (arrived late or left early), Password, Payment method, Payment methods, Payments, Payment, Pedagogy, Pending, Pending Attendance, Pending leads, Per course, Per rhythm, Period, period, Period Classes, Period Max, Period Total, periods, Phone, Phone number, Phone Number, Phone Numbers, Planned Hours, Please check the additional contact data associated to your account, Please check your personal phone number(s), Please chose an image on your computer to update your profile picture, Please fill in your profession and your institution (school, workplace)., Pre-invoice ID, Present, Price, Product, Products, Profession, Profile Picture, Project, Refresh status, Remote, remote event, remote events, Remote Events, Remote Work, Remote hours, Remote volume, Presential volume, Presential hours, Total hours, Hours on schedule, Remove all, REPORTS, resource Calendars, Resources, result, Result, Result Notification, result type, Result Types, Results, results, rhythm, Rhythm, rhythms, Roles, room, Room, rooms, Saturday, Sunday, Save, Save new Contact, Schedule, Scholarship, scholarship, Scholarships, scholarships, Selected Period, SETTINGS, Settings, share of students from previous period who were re-enrolled, Since the beginning of this course, you have:, skill, skill scale, skill scales, Skill Scales, skill type, Skill Types, skill types, skills, Skills, Skillset File, Spots, spots left, Start, Start Date, Start from period:, State, Status, Status is, Status is not, Student, student, Student :, Student Attendance Overview, Student Attendance Report, Student details for, Students, students, Students to count in year total, Students under 18, please add contact data from your legal representatives, TEACHER, Teacher, teacher, Teacher Dashboard, Teacher Leaves, teachers, Teachers, The attendance record is incomplete for the following classes:, The enrollment has been updated, The information has successfully been saved, The invoice has been generated, The invoice number has been saved, The selected teacher is not available on this date, This comment requires an action, This course has no skills yet, This enrollment belongs to, This is an absence notification for, This is important, so that we can reach you in case of an emergency, This will erase all skills currently associated to the course, Thursday, Total, TOTAL, Total price, Total received amount, Tuesday, Unable to communicate with Accounting Service. This invoice will NOT be sent automatically to the Accounting system, Unjustified Absence, unjustified absence, Upcoming Leaves, Upload skillset file, Users, View, View Skills for Group, Volume, Wednesday, Weekly workable hours, When everything is ready, please confirm that your data is up-to-date, Worked Hours, year, Confirm, Year, Year Students, years, Years, You also need to add the invoice information here, You may log in to view your results, and the comments from your teacher, if any, Your comment has been saved, Your course result is available for, Your data has been saved, Your picture has been saved, Attendance Monitor, Mark as paid, years old, Remaining balance, New payment, Save and go back, Comment, Generate grade report, Generate diploma, Enrollments per Level, Per level, Per period, Per date, Per institution, Partnerships, partnership, partnerships, Number of Partnerships, Partnership Report, Tacit renewal, Hourly Price, Send report on ... of the month, Teachers overview, Rooms overview, Day, Sun, Mon, Tue, Wed, Thu, Fri, Sat, Grades report (PDF), Takings, Average, Switch to list view, Switch to block view, Course sublevels, The course you are editing is a sub-course of, Please remember to update the parent and its other children courses accordingly, The course you are editing is the parent of these sub-courses:, Editable fields for the parent course are limited. Please update children courses accordingly, If you assign a schedule preset, the coursetimes above will be ignored., Sync to LMS, LMS code, Warning, Do you really want to delete this phone number?, Do you really want to delete this contact?, Do you really want to delete this course?, Your changes could not be saved, Your changes were successful, Error, Success, The course has been deleted, Impossible to delete this course, Enrollment in progress..., Enable, Disable, Send invoice to external accounting system, First payment date, Number of payments, Scheduled Payments, Value, Receipt Number, Total paid amount does not match the invoice total price, Continue, Mark as pending, default */
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"% of period max\":\"% del máx. para la sesión\",\"Absence Notification\":\"Notificacion de ausencia\",\"absences\":\"ausencias\",\"Account Data\":\"Datos de la cuenta\",\"Acquisition Rate\":\"Tasa de conservación de alumnos\",\"Actionable Comments\":\"Requiere acción\",\"Actions\":\"Acciones\",\"actions\":\"acciones\",\"Add\":\"Agregar\",\"Add a new contact\":\"Añadir un contacto\",\"Add a new course time\":\"Agregar un horario\",\"Add a new grade type to course\":\"Añadir un criterio de evaluación al curso\",\"Add all\":\"Agregar todas\",\"Add discount\":\"Agregar descuento\",\"Add Grade Type to Course\":\"Añadir un criterio de evaluación al curso\",\"Add products\":\"Agregar productos\",\"Add scholarship\":\"Agregar una beca\",\"Additional Contact\":\"Contacto addicional\",\"Additional Contacts\":\"Contactos\",\"Additional Data\":\"Datos del estudiante\",\"Address\":\"Dirección\",\"City\":\"Ciudad\",\"Country\":\"Pais\",\"ADMINISTRATION\":\"Administración\",\"age\":\"edad\",\"all\":\"todos\",\"All teachers\":\"Todos los profesores\",\"Amount received\":\"Valor recibida\",\"Attendance\":\"Asistencia\",\"Attendance Ratio\":\"Percentaje de asistencia\",\"Attendance Status\":\"Asistencia\",\"Attendance status\":\"Asistencia\",\"Available skills\":\"Competencias disponibles\",\"Back to course\":\"Volver al curso\",\"Best regards,\":\"Saludos cordiales,\",\"Birthdate\":\"Fecha de nacimiento\",\"birthdate\":\"fecha de nacimiento\",\"book\":\"libro\",\"Books\":\"Libros\",\"books\":\"libros\",\"Calendar for\":\"Calendario de\",\"CALENDARS\":\"CALENDARIOS\",\"Campus\":\"Sede\",\"campus\":\"sede\",\"campuses\":\"sedes\",\"Cancel\":\"Cancelar\",\"Cart Details\":\"Detalles del carrito\",\"Change course\":\"Cambiar curso\",\"Checkout\":\"Facturar\",\"Checkout enrollment\":\"Facturar la matricula\",\"Children enrollments\":\"Matriculas hijas\",\"Classes without teacher\":\"Clases sin profesor\",\"Client address\":\"Dirección del cliente\",\"Client email\":\"Correo electrónico del cliente\",\"Client ID Number\":\"Cédula del cliente\",\"Client name\":\"Nombre del cliente\",\"Close\":\"Cerrar\",\"comment\":\"commentario\",\"comments\":\"commentarios\",\"Comments\":\"Commentarios\",\"config\":\"opción\",\"configs\":\"opciones\",\"Contact Type\":\"Tipo de contacto\",\"Continue without uploading a profile picture\":\"Seguir sin subir una foto\",\"coupon\":\"cupón\",\"coupons\":\"cupón\",\"Course\":\"Curso\",\"course\":\"curso\",\"Course :\":\"Curso :\",\"Course Details\":\"Detalles del curso\",\"course evaluation\":\"evaluación de los cursos\",\"Course Evaluation\":\"Evaluación de los cursos\",\"course evaluations\":\"evaluaciones de los cursos\",\"Course info\":\"Información del curso\",\"Course result\":\"Resultado del curso\",\"Course Result Details\":\"Detalles del resultado\",\"Course Schedule\":\"Horarios del curso\",\"Course skills\":\"Competencias del curso\",\"courses\":\"cursos\",\"Courses\":\"Cursos\",\"COURSES\":\"CURSOS\",\"Courses (list)\":\"Cursos (listado)\",\"Create another Contact\":\"Agregar otro contacto\",\"Current Period\":\"Sesión actual\",\"Date\":\"Fecha\",\"Date range\":\"Fechas\",\"Default Periods Selection\":\"Seleccionar la sesión por defecto\",\"Delete Enrollment\":\"Eliminar la matricula\",\"Delete\":\"Eliminar\",\"Select\":\"Seleccionar\",\"Client Phone Number\":\"Número de teléfono del cliente\",\"discount\":\"descuento\",\"Discount Value\":\"Valor del descuento\",\"Discount Value (0-100%)\":\"Valor del descuento (0-100%)\",\"discounts\":\"descuentos\",\"Discounts\":\"Descuentos\",\"Edit\":\"Editar\",\"Edit contact\":\"Editar contacto\",\"Edit Course Skills\":\"Modificar las competencias del curso\",\"Edit Grades\":\"Modificar notas\",\"Edit Receipt Number\":\"Editar numero de factura contable\",\"Edit schedule\":\"Editar horarios\",\"Edit Student Skills\":\"Evaluar las competencias del estudiante\",\"email\":\"correo electrónico\",\"Email\":\"Correo electrónico\",\"End\":\"Fin\",\"End Date\":\"Fecha de fin\",\"Enroll\":\"Matricular\",\"Enroll new student\":\"Matricular nuevo estudiante\",\"enrollment\":\"matricula\",\"Enrollment date\":\"Fecha de matricula\",\"Enrollment Details\":\"Detalles de la matricula\",\"Enrollment ID\":\"Número de la matricula\",\"Enrollment Info\":\"Info de la matricula\",\"Enrollment number\":\"Matricula #\",\"Enrollment successfully created\":\"La matricula ha sido creada con éxito\",\"Enrollments\":\"Matriculas\",\"enrollments\":\"matriculas\",\"Enrollments per Course\":\"Matriculas por curso\",\"Enrollments per Rhythm\":\"Matriculas por modalidad\",\"Enrollments Period\":\"Sesión de matriculas\",\"Evaluate skills\":\"Evaluar competencias skills\",\"EVALUATION\":\"EVALUACIÓN\",\"Evaluation method\":\"Tipo de evaluación\",\"evaluation type\":\"tipo de evaluación\",\"evaluation types\":\"tipos de evaluación\",\"Evaluation Types\":\"Tipos de evaluación\",\"Event\":\"Clase\",\"event\":\"clase\",\"Events\":\"Clases\",\"events\":\"clases\",\"Events with no course\":\"Clases sin curso\",\"Events with no teacher\":\"Clases sin profesor\",\"Exempt Attendance\":\"Exentar Asistencia\",\"Export Course syllabus\":\"Exportar el silabo\",\"Export skills\":\"Exportar las competencias\",\"External\":\"Externo\",\"External Course\":\"Curso externo\",\"External Courses\":\"Cursos externos\",\"External Courses Report\":\"Reporte de los cursos externos\",\"Face-to-face\":\"Presencial\",\"fee\":\"gasto administrativo\",\"Fees\":\"Gastos administrativos\",\"fees\":\"gastos administrativos\",\"Finish update\":\"Finalizar actualización\",\"First Name\":\"Nombres\",\"Firstname\":\"Nombres\",\"for\":\"para\",\"Friday\":\"Viernes\",\"Go Home\":\"Pagina principal\",\"grade type\":\"tipo de notas\",\"Grade Type Categories\":\"Categorias de tipos de nota\",\"grade types\":\"tipos de notas\",\"Grade Types\":\"Tipos de notas\",\"Grades\":\"Notas\",\"Head Count\":\"Cantidad des estudiantes\",\"Hi\":\"Hola\",\"Hide Children\":\"Ocultar los cursos hijos\",\"Hide Children Courses\":\"Ocultar los cursos hijos\",\"Hide Parents\":\"Ocultar los cursos padres\",\"Hire Date\":\"Fecha de contratación\",\"hours\":\"horas\",\"Hours Sold\":\"Horas-estudiantes\",\"Hours Taught\":\"Horas-profesores\",\"HR\":\"RRHH\",\"Human Resources\":\"Recursos Humanos\",\"ID number\":\"Cédula\",\"ID Number\":\"Cédula\",\"Import skills\":\"Importar competencias\",\"Incomplete Attendance\":\"Asistencia pendiente\",\"Institution\":\"Institución\",\"Institutions\":\"Instituciones\",\"Internal Courses\":\"Cursos internos\",\"Invoice\":\"Factura\",\"Invoice Data\":\"Datos de la factura\",\"Invoice ID\":\"Numero de factura\",\"Invoices\":\"Factura(s)\",\"Invoicing\":\"Facturación\",\"Is Enrolled in\":\"Matriculado en\",\"Is Not Enrolled in\":\"No matriculado en\",\"justified absence\":\"ausencia justificada\",\"Justified Absence\":\"Ausencia justificada\",\"Last Name\":\"Apellidos\",\"Lastname\":\"Apellidos\",\"Lead Status\":\"Estado de client\",\"lead type\":\"tipo de cliente\",\"lead types\":\"tipos de clientes\",\"Leave\":\"Vacaciones\",\"leave\":\"vacación\",\"leaves\":\"vacaciones\",\"Length\":\"Tiempo\",\"level\":\"nivel\",\"Level\":\"Nivel\",\"levels\":\"niveles\",\"Loading...\":\"Cargando...\",\"Manage grades\":\"Modificar notas\",\"Manage leaves\":\"Gestion de vacaciones\",\"Manage skills\":\"Modificar competencias\",\"Mark this enrollment as paid but do not send to accounting system\":\"La matricula sera marcada como pagada sin generar la factura en el sistema contable\",\"Members\":\"Socios\",\"Missing attendance\":\"Asistencia incompleta\",\"Monday\":\"Lunes\",\"My Hours\":\"Mis horas\",\"My Schedule\":\"Mi calendario\",\"name\":\"Nombre\",\"Name\":\"Nombre\",\"New Students\":\"Nuevos estudiantes\",\"No Result\":\"No hay resultado\",\"noresults\":\"No hay cursos con los criterios seleccionados\",\"Number of Absences\":\"Número de ausencias\",\"Number of Courses\":\"Nombre de cours\",\"Oh no\":\"Oh no\",\"on\":\"el\",\"or\":\"o\",\"Overview\":\"Vista general\",\"Paid Enrollments\":\"Matriculas pagadas\",\"Partial presence (arrived late or left early)\":\"Presencia parcial (llegó tarde o salió temprano)\",\"Password\":\"Contrasena\",\"Payment method\":\"Forma de pago\",\"Payment methods\":\"Formas de pago\",\"Payments\":\"Pagos\",\"Payment\":\"Pago\",\"Pedagogy\":\"Pedagogía\",\"Pending\":\"Pendientes\",\"Pending Attendance\":\"Asistencia pendiente\",\"Pending leads\":\"Clientes potenciales\",\"Per course\":\"Por curso\",\"Per rhythm\":\"Por modalidad\",\"Period\":\"Sesión\",\"period\":\"sesión\",\"Period Classes\":\"Clases de la sesión\",\"Period Max\":\"Máximo por sesión\",\"Period Total\":\"Total por sesión\",\"periods\":\"sessiones\",\"Phone\":\"Teléfono\",\"Phone number\":\"Número de teléfono\",\"Phone Number\":\"Número de teléfono\",\"Phone Numbers\":\"Números de télefono\",\"Planned Hours\":\"Horas previstas\",\"Please check the additional contact data associated to your account\":\"Por favor, verifique los datos de contacto addicional vinculados a su cuenta\",\"Please check your personal phone number(s)\":\"Por favor verifique su(s) numero(s) de teléfono\",\"Please chose an image on your computer to update your profile picture\":\"Por favor sube una foto para su perfil\",\"Please fill in your profession and your institution (school, workplace).\":\"Por favor indique su profesión y institución (escuela, trabajo)\",\"Pre-invoice ID\":\"Número de prefactura\",\"Present\":\"Presente\",\"Price\":\"Precio\",\"Product\":\"Producto\",\"Products\":\"Productos\",\"Profession\":\"Profesión\",\"Profile Picture\":\"Foto de perfil\",\"Project\":\"Proyecto\",\"Refresh status\":\"Tratar otra vez\",\"Remote\":\"A distancia\",\"remote event\":\"trabajo a distancia\",\"remote events\":\"trabajo a distancia\",\"Remote Events\":\"Trabajo a distancia\",\"Remote Work\":\"Trabajo a distancia\",\"Remote hours\":\"Horas a distancia\",\"Remote volume\":\"Volumen a distancia\",\"Presential volume\":\"Volumen en presencial\",\"Presential hours\":\"Horas en presencial\",\"Total hours\":\"Total de horas\",\"Hours on schedule\":\"Horas en el calendario\",\"Remove all\":\"Quitar todas\",\"REPORTS\":\"REPORTES\",\"resource Calendars\":\"Calendarios de recursos\",\"Resources\":\"Recursos\",\"result\":\"resultado\",\"Result\":\"Resultado\",\"Result Notification\":\"Notificación de resultado\",\"result type\":\"tipo de resultado\",\"Result Types\":\"Tipos de resultados\",\"Results\":\"Resultados\",\"results\":\"resultados\",\"rhythm\":\"modalidad\",\"Rhythm\":\"Modalidad\",\"rhythms\":\"modalidades\",\"Roles\":\"Papeles\",\"room\":\"aula\",\"Room\":\"Aula\",\"rooms\":\"aulas\",\"Saturday\":\"Sábado\",\"Sunday\":\"Domingo\",\"Save\":\"Guardar\",\"Save new Contact\":\"Guardar el contacto\",\"Schedule\":\"Horarios\",\"Scholarship\":\"Beca\",\"scholarship\":\"beca\",\"Scholarships\":\"Becas\",\"scholarships\":\"becas\",\"Selected Period\":\"Sesión\",\"SETTINGS\":\"OPCIONES\",\"Settings\":\"Opciones\",\"share of students from previous period who were re-enrolled\":\"porcentaje de los estudiantes de la sesión anterior matriculados en esta sesión\",\"Since the beginning of this course, you have:\":\"Desde el inicio del curso, tiene:\",\"skill\":\"competencia\",\"skill scale\":\"escala de competencia\",\"skill scales\":\"escalas de competencia\",\"Skill Scales\":\"Escalas de competencia\",\"skill type\":\"tipo de competencia\",\"Skill Types\":\"Tipos de competencia\",\"skill types\":\"tipos de competencia\",\"skills\":\"competencias\",\"Skills\":\"Competencias\",\"Skillset File\":\"Archivo de competencias\",\"Spots\":\"Cupos\",\"spots left\":\"cupos disponibles\",\"Start\":\"Inicio\",\"Start Date\":\"Fecha de inicio\",\"Start from period:\":\"Inicar con sesión:\",\"State\":\"Provincia\",\"Status\":\"Estado\",\"Status is\":\"Estado es\",\"Status is not\":\"Estado no es\",\"Student\":\"Estudiante\",\"student\":\"estudiante\",\"Student :\":\"Estudiante :\",\"Student Attendance Overview\":\"Reporte de asistencia del estudiante\",\"Student Attendance Report\":\"Reporte de asistencia del estudiante\",\"Student details for\":\"Detalles del estudiante\",\"Students\":\"Estudiantes\",\"students\":\"estudiantes\",\"Students to count in year total\":\"Students to count in year total\",\"Students under 18, please add contact data from your legal representatives\":\"Estudiantes menores de edad, por favor agregar los datos de sus representates legales\",\"TEACHER\":\"PROFESOR\",\"Teacher\":\"Profesor\",\"teacher\":\"profesor\",\"Teacher Dashboard\":\"Panel del Profesor\",\"Teacher Leaves\":\"Vacaciones\",\"teachers\":\"profesores\",\"Teachers\":\"Profesores\",\"The attendance record is incomplete for the following classes:\":\"La asistancia esta incompleta para las clases siguientes:\",\"The enrollment has been updated\":\"La matricula ha sido guardada\",\"The information has successfully been saved\":\"La información ha sido guardada\",\"The invoice has been generated\":\"La factura ha sido generada\",\"The invoice number has been saved\":\"El número de factura ha sido guardado\",\"The selected teacher is not available on this date\":\"Este profesor no está disponibles para estas fechas\",\"This comment requires an action\":\"Este comentario necesita accion\",\"This course has no skills yet\":\"Este curso no tiene competencias\",\"This enrollment belongs to\":\"Esta matricula esta relacionada con\",\"This is an absence notification for\":\"Este es una notifiación de ausencia para\",\"This is important, so that we can reach you in case of an emergency\":\"Eso es importante para poder recibir mensajes importantes en caso de emergencia\",\"This will erase all skills currently associated to the course\":\"Las competencias asociadas al curso serán elimidadas\",\"Thursday\":\"Jueves\",\"Total\":\"Total\",\"TOTAL\":\"TOTAL\",\"Total price\":\"Precio total\",\"Total received amount\":\"Valor total recibida\",\"Tuesday\":\"Martes\",\"Unable to communicate with Accounting Service. This invoice will NOT be sent automatically to the Accounting system\":\"El servidor contable no contesta. La factura NO sera generada automaticamente\",\"Unjustified Absence\":\"Ausencia no justificada\",\"unjustified absence\":\"ausencia no justificada\",\"Upcoming Leaves\":\"Proximas vacaciones\",\"Upload skillset file\":\"Cargar archivo de competencias\",\"Users\":\"Usuarios\",\"View\":\"Ver\",\"View Skills for Group\":\"Ver las competencias del grupo\",\"Volume\":\"Volumen\",\"Wednesday\":\"Miércoles\",\"Weekly workable hours\":\"Horas por semana\",\"When everything is ready, please confirm that your data is up-to-date\":\"Cuando todos los datos estan correctos, confirme y finalize el tramite\",\"Worked Hours\":\"Horas enseñadas\",\"year\":\"año\",\"Confirm\":\"Confirmar\",\"Year\":\"Año\",\"Year Students\":\"Year Students\",\"years\":\"años\",\"Years\":\"Años\",\"You also need to add the invoice information here\":\"También tiene que agregar los datos de facturación que quiere\",\"You may log in to view your results, and the comments from your teacher, if any\":\"Puede conectarse a la plataforma para ver su resultado y el comentario de su profesor\",\"Your comment has been saved\":\"Su comentario ha sido guardado\",\"Your course result is available for\":\"El resultado es disponible para su curso\",\"Your data has been saved\":\"Los datos han sido guardados\",\"Your picture has been saved\":\"Su foto ha sido guardada\",\"Attendance Monitor\":\"Control de las ausencias\",\"Mark as paid\":\"Marcar como pagado\",\"years old\":\"años\",\"Remaining balance\":\"Saldo por pagar\",\"New payment\":\"Nuevo pago\",\"Save and go back\":\"Guardar y salir\",\"Comment\":\"Commentario\",\"Generate grade report\":\"Generar reporte de notas\",\"Generate diploma\":\"Generar diploma\",\"Enrollments per Level\":\"Matriculas por nivel\",\"Per level\":\"Por nivel\",\"Per period\":\"Por sesión\",\"Per date\":\"Por fechas\",\"Per institution\":\"Por institución\",\"Partnerships\":\"Convenios\",\"partnership\":\"convenio\",\"partnerships\":\"convenios\",\"Number of Partnerships\":\"Convenios\",\"Partnership Report\":\"Reporte del convenio\",\"Tacit renewal\":\"Renovación tácita\",\"Hourly Price\":\"Precio por hora\",\"Send report on ... of the month\":\"Enviar informe el dia ... del mes\",\"Teachers overview\":\"Todos los profesores\",\"Rooms overview\":\"Todas las aulas\",\"Day\":\"Dia\",\"Sun\":\"Dom.\",\"Mon\":\"Lun.\",\"Tue\":\"Mar.\",\"Wed\":\"Mie.\",\"Thu\":\"Jue.\",\"Fri\":\"Vie.\",\"Sat\":\"Sab.\",\"Grades report (PDF)\":\"Reporte de notas (PDF)\",\"Takings\":\"Ingresos\",\"Average\":\"Promedio\",\"Switch to list view\":\"Ver como tabla\",\"Switch to block view\":\"Ver como cuadros\",\"Course sublevels\":\"Subniveles\",\"The course you are editing is a sub-course of\":\"Este curso es un modulo del curso\",\"Please remember to update the parent and its other children courses accordingly\":\"Si quiere cambiar los otros modulos, tiene que editar el curso que corresponde\",\"The course you are editing is the parent of these sub-courses:\":\"Este curso tiene los sub-modulos siguientes:\",\"Editable fields for the parent course are limited. Please update children courses accordingly\":\"Algunos datos no pueden ser modificadas. Por favor, realice los otros cambios directamente en los sub-modulos\",\"If you assign a schedule preset, the coursetimes above will be ignored.\":\"Si selecciona un modelo, los horarios manuales no seran guardados.\",\"Sync to LMS\":\"Sincronisar con plataforma LMS\",\"LMS code\":\"Codigo LMS\",\"Warning\":\"Atencion\",\"Do you really want to delete this phone number?\":\"Confirma que quiere quitar este numero de telefono?\",\"Do you really want to delete this contact?\":\"Confirma que quiere quitar este contacto?\",\"Do you really want to delete this course?\":\"Confirma que quiere quitar este curso?\",\"Your changes could not be saved\":\"Sus cambios no pueden ser guardados\",\"Your changes were successful\":\"Sus cambios han sido guardados\",\"Error\":\"Error\",\"Success\":\"Exito\",\"The course has been deleted\":\"El curso fue eliminado\",\"Impossible to delete this course\":\"Este curso no puede ser eliminado\",\"Enrollment in progress...\":\"Matricula en curso...\",\"Enable\":\"Habilitar\",\"Disable\":\"Deshabilitar\",\"Send invoice to external accounting system\":\"Mandar datos al sistema contable para generar factura\"}");
+module.exports = JSON.parse("{\"% of period max\":\"% del máx. para la sesión\",\"Absence Notification\":\"Notificacion de ausencia\",\"absences\":\"ausencias\",\"Account Data\":\"Datos de la cuenta\",\"Acquisition Rate\":\"Tasa de conservación de alumnos\",\"Actionable Comments\":\"Requiere acción\",\"Actions\":\"Acciones\",\"actions\":\"acciones\",\"Add\":\"Agregar\",\"Add a new contact\":\"Añadir un contacto\",\"Add a new course time\":\"Agregar un horario\",\"Add a new grade type to course\":\"Añadir un criterio de evaluación al curso\",\"Add all\":\"Agregar todas\",\"Add discount\":\"Agregar descuento\",\"Add Grade Type to Course\":\"Añadir un criterio de evaluación al curso\",\"Add products\":\"Agregar productos\",\"Add scholarship\":\"Agregar una beca\",\"Additional Contact\":\"Contacto addicional\",\"Additional Contacts\":\"Contactos\",\"Additional Data\":\"Datos del estudiante\",\"Address\":\"Dirección\",\"City\":\"Ciudad\",\"Country\":\"Pais\",\"ADMINISTRATION\":\"Administración\",\"age\":\"edad\",\"all\":\"todos\",\"All teachers\":\"Todos los profesores\",\"Amount received\":\"Valor recibida\",\"Attendance\":\"Asistencia\",\"Attendance Ratio\":\"Percentaje de asistencia\",\"Attendance Status\":\"Asistencia\",\"Attendance status\":\"Asistencia\",\"Available skills\":\"Competencias disponibles\",\"Back to course\":\"Volver al curso\",\"Best regards,\":\"Saludos cordiales,\",\"Birthdate\":\"Fecha de nacimiento\",\"birthdate\":\"fecha de nacimiento\",\"book\":\"libro\",\"Books\":\"Libros\",\"books\":\"libros\",\"Calendar for\":\"Calendario de\",\"CALENDARS\":\"CALENDARIOS\",\"Campus\":\"Sede\",\"campus\":\"sede\",\"campuses\":\"sedes\",\"Cancel\":\"Cancelar\",\"Cart Details\":\"Detalles del carrito\",\"Change course\":\"Cambiar curso\",\"Checkout\":\"Facturar\",\"Checkout enrollment\":\"Facturar la matricula\",\"Children enrollments\":\"Matriculas hijas\",\"Classes without teacher\":\"Clases sin profesor\",\"Client address\":\"Dirección del cliente\",\"Client email\":\"Correo electrónico del cliente\",\"Client ID Number\":\"Cédula del cliente\",\"Client name\":\"Nombre del cliente\",\"Close\":\"Cerrar\",\"comment\":\"commentario\",\"comments\":\"commentarios\",\"Comments\":\"Commentarios\",\"config\":\"opción\",\"configs\":\"opciones\",\"Contact Type\":\"Tipo de contacto\",\"Continue without uploading a profile picture\":\"Seguir sin subir una foto\",\"coupon\":\"cupón\",\"coupons\":\"cupón\",\"Course\":\"Curso\",\"course\":\"curso\",\"Course :\":\"Curso :\",\"Course Details\":\"Detalles del curso\",\"course evaluation\":\"evaluación de los cursos\",\"Course Evaluation\":\"Evaluación de los cursos\",\"course evaluations\":\"evaluaciones de los cursos\",\"Course info\":\"Información del curso\",\"Course result\":\"Resultado del curso\",\"Course Result Details\":\"Detalles del resultado\",\"Course Schedule\":\"Horarios del curso\",\"Course skills\":\"Competencias del curso\",\"courses\":\"cursos\",\"Courses\":\"Cursos\",\"COURSES\":\"CURSOS\",\"Courses (list)\":\"Cursos (listado)\",\"Create another Contact\":\"Agregar otro contacto\",\"Current Period\":\"Sesión actual\",\"Date\":\"Fecha\",\"Date range\":\"Fechas\",\"Default Periods Selection\":\"Seleccionar la sesión por defecto\",\"Delete Enrollment\":\"Eliminar la matricula\",\"Delete\":\"Eliminar\",\"Select\":\"Seleccionar\",\"Client Phone Number\":\"Número de teléfono del cliente\",\"discount\":\"descuento\",\"Discount Value\":\"Valor del descuento\",\"Discount Value (0-100%)\":\"Valor del descuento (0-100%)\",\"discounts\":\"descuentos\",\"Discounts\":\"Descuentos\",\"Edit\":\"Editar\",\"Edit contact\":\"Editar contacto\",\"Edit Course Skills\":\"Modificar las competencias del curso\",\"Edit Grades\":\"Modificar notas\",\"Edit Receipt Number\":\"Editar numero de factura contable\",\"Edit schedule\":\"Editar horarios\",\"Edit Student Skills\":\"Evaluar las competencias del estudiante\",\"email\":\"correo electrónico\",\"Email\":\"Correo electrónico\",\"End\":\"Fin\",\"End Date\":\"Fecha de fin\",\"Enroll\":\"Matricular\",\"Enroll new student\":\"Matricular nuevo estudiante\",\"enrollment\":\"matricula\",\"Enrollment date\":\"Fecha de matricula\",\"Enrollment Details\":\"Detalles de la matricula\",\"Enrollment ID\":\"Número de la matricula\",\"Enrollment Info\":\"Info de la matricula\",\"Enrollment number\":\"Matricula #\",\"Enrollment successfully created\":\"La matricula ha sido creada con éxito\",\"Enrollments\":\"Matriculas\",\"enrollments\":\"matriculas\",\"Enrollments per Course\":\"Matriculas por curso\",\"Enrollments per Rhythm\":\"Matriculas por modalidad\",\"Enrollments Period\":\"Sesión de matriculas\",\"Evaluate skills\":\"Evaluar competencias skills\",\"EVALUATION\":\"EVALUACIÓN\",\"Evaluation method\":\"Tipo de evaluación\",\"evaluation type\":\"tipo de evaluación\",\"evaluation types\":\"tipos de evaluación\",\"Evaluation Types\":\"Tipos de evaluación\",\"Event\":\"Clase\",\"event\":\"clase\",\"Events\":\"Clases\",\"events\":\"clases\",\"Events with no course\":\"Clases sin curso\",\"Events with no teacher\":\"Clases sin profesor\",\"Exempt Attendance\":\"Exentar Asistencia\",\"Export Course syllabus\":\"Exportar el silabo\",\"Export skills\":\"Exportar las competencias\",\"External\":\"Externo\",\"External Course\":\"Curso externo\",\"External Courses\":\"Cursos externos\",\"External Courses Report\":\"Reporte de los cursos externos\",\"Face-to-face\":\"Presencial\",\"fee\":\"gasto administrativo\",\"Fees\":\"Gastos administrativos\",\"fees\":\"gastos administrativos\",\"Finish update\":\"Finalizar actualización\",\"First Name\":\"Nombres\",\"Firstname\":\"Nombres\",\"for\":\"para\",\"Friday\":\"Viernes\",\"Go Home\":\"Pagina principal\",\"grade type\":\"tipo de notas\",\"Grade Type Categories\":\"Categorias de tipos de nota\",\"grade types\":\"tipos de notas\",\"Grade Types\":\"Tipos de notas\",\"Grades\":\"Notas\",\"Head Count\":\"Cantidad des estudiantes\",\"Hi\":\"Hola\",\"Hide Children\":\"Ocultar los cursos hijos\",\"Hide Children Courses\":\"Ocultar los cursos hijos\",\"Hide Parents\":\"Ocultar los cursos padres\",\"Hire Date\":\"Fecha de contratación\",\"hours\":\"horas\",\"Hours Sold\":\"Horas-estudiantes\",\"Hours Taught\":\"Horas-profesores\",\"HR\":\"RRHH\",\"Human Resources\":\"Recursos Humanos\",\"ID number\":\"Cédula\",\"ID Number\":\"Cédula\",\"Import skills\":\"Importar competencias\",\"Incomplete Attendance\":\"Asistencia pendiente\",\"Institution\":\"Institución\",\"Institutions\":\"Instituciones\",\"Internal Courses\":\"Cursos internos\",\"Invoice\":\"Factura\",\"Invoice Data\":\"Datos de la factura\",\"Invoice ID\":\"Numero de factura\",\"Invoices\":\"Factura(s)\",\"Invoicing\":\"Facturación\",\"Is Enrolled in\":\"Matriculado en\",\"Is Not Enrolled in\":\"No matriculado en\",\"justified absence\":\"ausencia justificada\",\"Justified Absence\":\"Ausencia justificada\",\"Last Name\":\"Apellidos\",\"Lastname\":\"Apellidos\",\"Lead Status\":\"Estado de client\",\"lead type\":\"tipo de cliente\",\"lead types\":\"tipos de clientes\",\"Leave\":\"Vacaciones\",\"leave\":\"vacación\",\"leaves\":\"vacaciones\",\"Length\":\"Tiempo\",\"level\":\"nivel\",\"Level\":\"Nivel\",\"levels\":\"niveles\",\"Loading...\":\"Cargando...\",\"Manage grades\":\"Modificar notas\",\"Manage leaves\":\"Gestion de vacaciones\",\"Manage skills\":\"Modificar competencias\",\"Mark this enrollment as paid but do not send to accounting system\":\"La matricula sera marcada como pagada sin generar la factura en el sistema contable\",\"Members\":\"Socios\",\"Missing attendance\":\"Asistencia incompleta\",\"Monday\":\"Lunes\",\"My Hours\":\"Mis horas\",\"My Schedule\":\"Mi calendario\",\"name\":\"Nombre\",\"Name\":\"Nombre\",\"New Students\":\"Nuevos estudiantes\",\"No Result\":\"No hay resultado\",\"noresults\":\"No hay cursos con los criterios seleccionados\",\"Number of Absences\":\"Número de ausencias\",\"Number of Courses\":\"Nombre de cours\",\"Oh no\":\"Oh no\",\"on\":\"el\",\"or\":\"o\",\"Overview\":\"Vista general\",\"Paid Enrollments\":\"Matriculas pagadas\",\"Partial presence (arrived late or left early)\":\"Presencia parcial (llegó tarde o salió temprano)\",\"Password\":\"Contrasena\",\"Payment method\":\"Forma de pago\",\"Payment methods\":\"Formas de pago\",\"Payments\":\"Pagos\",\"Payment\":\"Pago\",\"Pedagogy\":\"Pedagogía\",\"Pending\":\"Pendientes\",\"Pending Attendance\":\"Asistencia pendiente\",\"Pending leads\":\"Clientes potenciales\",\"Per course\":\"Por curso\",\"Per rhythm\":\"Por modalidad\",\"Period\":\"Sesión\",\"period\":\"sesión\",\"Period Classes\":\"Clases de la sesión\",\"Period Max\":\"Máximo por sesión\",\"Period Total\":\"Total por sesión\",\"periods\":\"sessiones\",\"Phone\":\"Teléfono\",\"Phone number\":\"Número de teléfono\",\"Phone Number\":\"Número de teléfono\",\"Phone Numbers\":\"Números de télefono\",\"Planned Hours\":\"Horas previstas\",\"Please check the additional contact data associated to your account\":\"Por favor, verifique los datos de contacto addicional vinculados a su cuenta\",\"Please check your personal phone number(s)\":\"Por favor verifique su(s) numero(s) de teléfono\",\"Please chose an image on your computer to update your profile picture\":\"Por favor sube una foto para su perfil\",\"Please fill in your profession and your institution (school, workplace).\":\"Por favor indique su profesión y institución (escuela, trabajo)\",\"Pre-invoice ID\":\"Número de prefactura\",\"Present\":\"Presente\",\"Price\":\"Precio\",\"Product\":\"Producto\",\"Products\":\"Productos\",\"Profession\":\"Profesión\",\"Profile Picture\":\"Foto de perfil\",\"Project\":\"Proyecto\",\"Refresh status\":\"Tratar otra vez\",\"Remote\":\"A distancia\",\"remote event\":\"trabajo a distancia\",\"remote events\":\"trabajo a distancia\",\"Remote Events\":\"Trabajo a distancia\",\"Remote Work\":\"Trabajo a distancia\",\"Remote hours\":\"Horas a distancia\",\"Remote volume\":\"Volumen a distancia\",\"Presential volume\":\"Volumen en presencial\",\"Presential hours\":\"Horas en presencial\",\"Total hours\":\"Total de horas\",\"Hours on schedule\":\"Horas en el calendario\",\"Remove all\":\"Quitar todas\",\"REPORTS\":\"REPORTES\",\"resource Calendars\":\"Calendarios de recursos\",\"Resources\":\"Recursos\",\"result\":\"resultado\",\"Result\":\"Resultado\",\"Result Notification\":\"Notificación de resultado\",\"result type\":\"tipo de resultado\",\"Result Types\":\"Tipos de resultados\",\"Results\":\"Resultados\",\"results\":\"resultados\",\"rhythm\":\"modalidad\",\"Rhythm\":\"Modalidad\",\"rhythms\":\"modalidades\",\"Roles\":\"Papeles\",\"room\":\"aula\",\"Room\":\"Aula\",\"rooms\":\"aulas\",\"Saturday\":\"Sábado\",\"Sunday\":\"Domingo\",\"Save\":\"Guardar\",\"Save new Contact\":\"Guardar el contacto\",\"Schedule\":\"Horarios\",\"Scholarship\":\"Beca\",\"scholarship\":\"beca\",\"Scholarships\":\"Becas\",\"scholarships\":\"becas\",\"Selected Period\":\"Sesión\",\"SETTINGS\":\"OPCIONES\",\"Settings\":\"Opciones\",\"share of students from previous period who were re-enrolled\":\"porcentaje de los estudiantes de la sesión anterior matriculados en esta sesión\",\"Since the beginning of this course, you have:\":\"Desde el inicio del curso, tiene:\",\"skill\":\"competencia\",\"skill scale\":\"escala de competencia\",\"skill scales\":\"escalas de competencia\",\"Skill Scales\":\"Escalas de competencia\",\"skill type\":\"tipo de competencia\",\"Skill Types\":\"Tipos de competencia\",\"skill types\":\"tipos de competencia\",\"skills\":\"competencias\",\"Skills\":\"Competencias\",\"Skillset File\":\"Archivo de competencias\",\"Spots\":\"Cupos\",\"spots left\":\"cupos disponibles\",\"Start\":\"Inicio\",\"Start Date\":\"Fecha de inicio\",\"Start from period:\":\"Inicar con sesión:\",\"State\":\"Provincia\",\"Status\":\"Estado\",\"Status is\":\"Estado es\",\"Status is not\":\"Estado no es\",\"Student\":\"Estudiante\",\"student\":\"estudiante\",\"Student :\":\"Estudiante :\",\"Student Attendance Overview\":\"Reporte de asistencia del estudiante\",\"Student Attendance Report\":\"Reporte de asistencia del estudiante\",\"Student details for\":\"Detalles del estudiante\",\"Students\":\"Estudiantes\",\"students\":\"estudiantes\",\"Students to count in year total\":\"Students to count in year total\",\"Students under 18, please add contact data from your legal representatives\":\"Estudiantes menores de edad, por favor agregar los datos de sus representates legales\",\"TEACHER\":\"PROFESOR\",\"Teacher\":\"Profesor\",\"teacher\":\"profesor\",\"Teacher Dashboard\":\"Panel del Profesor\",\"Teacher Leaves\":\"Vacaciones\",\"teachers\":\"profesores\",\"Teachers\":\"Profesores\",\"The attendance record is incomplete for the following classes:\":\"La asistancia esta incompleta para las clases siguientes:\",\"The enrollment has been updated\":\"La matricula ha sido guardada\",\"The information has successfully been saved\":\"La información ha sido guardada\",\"The invoice has been generated\":\"La factura ha sido generada\",\"The invoice number has been saved\":\"El número de factura ha sido guardado\",\"The selected teacher is not available on this date\":\"Este profesor no está disponibles para estas fechas\",\"This comment requires an action\":\"Este comentario necesita accion\",\"This course has no skills yet\":\"Este curso no tiene competencias\",\"This enrollment belongs to\":\"Esta matricula esta relacionada con\",\"This is an absence notification for\":\"Este es una notifiación de ausencia para\",\"This is important, so that we can reach you in case of an emergency\":\"Eso es importante para poder recibir mensajes importantes en caso de emergencia\",\"This will erase all skills currently associated to the course\":\"Las competencias asociadas al curso serán elimidadas\",\"Thursday\":\"Jueves\",\"Total\":\"Total\",\"TOTAL\":\"TOTAL\",\"Total price\":\"Precio total\",\"Total received amount\":\"Valor total recibida\",\"Tuesday\":\"Martes\",\"Unable to communicate with Accounting Service. This invoice will NOT be sent automatically to the Accounting system\":\"El servidor contable no contesta. La factura NO sera generada automaticamente\",\"Unjustified Absence\":\"Ausencia no justificada\",\"unjustified absence\":\"ausencia no justificada\",\"Upcoming Leaves\":\"Proximas vacaciones\",\"Upload skillset file\":\"Cargar archivo de competencias\",\"Users\":\"Usuarios\",\"View\":\"Ver\",\"View Skills for Group\":\"Ver las competencias del grupo\",\"Volume\":\"Volumen\",\"Wednesday\":\"Miércoles\",\"Weekly workable hours\":\"Horas por semana\",\"When everything is ready, please confirm that your data is up-to-date\":\"Cuando todos los datos estan correctos, confirme y finalize el tramite\",\"Worked Hours\":\"Horas enseñadas\",\"year\":\"año\",\"Confirm\":\"Confirmar\",\"Year\":\"Año\",\"Year Students\":\"Year Students\",\"years\":\"años\",\"Years\":\"Años\",\"You also need to add the invoice information here\":\"También tiene que agregar los datos de facturación que quiere\",\"You may log in to view your results, and the comments from your teacher, if any\":\"Puede conectarse a la plataforma para ver su resultado y el comentario de su profesor\",\"Your comment has been saved\":\"Su comentario ha sido guardado\",\"Your course result is available for\":\"El resultado es disponible para su curso\",\"Your data has been saved\":\"Los datos han sido guardados\",\"Your picture has been saved\":\"Su foto ha sido guardada\",\"Attendance Monitor\":\"Control de las ausencias\",\"Mark as paid\":\"Marcar como pagado\",\"years old\":\"años\",\"Remaining balance\":\"Saldo por pagar\",\"New payment\":\"Nuevo pago\",\"Save and go back\":\"Guardar y salir\",\"Comment\":\"Commentario\",\"Generate grade report\":\"Generar reporte de notas\",\"Generate diploma\":\"Generar diploma\",\"Enrollments per Level\":\"Matriculas por nivel\",\"Per level\":\"Por nivel\",\"Per period\":\"Por sesión\",\"Per date\":\"Por fechas\",\"Per institution\":\"Por institución\",\"Partnerships\":\"Convenios\",\"partnership\":\"convenio\",\"partnerships\":\"convenios\",\"Number of Partnerships\":\"Convenios\",\"Partnership Report\":\"Reporte del convenio\",\"Tacit renewal\":\"Renovación tácita\",\"Hourly Price\":\"Precio por hora\",\"Send report on ... of the month\":\"Enviar informe el dia ... del mes\",\"Teachers overview\":\"Todos los profesores\",\"Rooms overview\":\"Todas las aulas\",\"Day\":\"Dia\",\"Sun\":\"Dom.\",\"Mon\":\"Lun.\",\"Tue\":\"Mar.\",\"Wed\":\"Mie.\",\"Thu\":\"Jue.\",\"Fri\":\"Vie.\",\"Sat\":\"Sab.\",\"Grades report (PDF)\":\"Reporte de notas (PDF)\",\"Takings\":\"Ingresos\",\"Average\":\"Promedio\",\"Switch to list view\":\"Ver como tabla\",\"Switch to block view\":\"Ver como cuadros\",\"Course sublevels\":\"Subniveles\",\"The course you are editing is a sub-course of\":\"Este curso es un modulo del curso\",\"Please remember to update the parent and its other children courses accordingly\":\"Si quiere cambiar los otros modulos, tiene que editar el curso que corresponde\",\"The course you are editing is the parent of these sub-courses:\":\"Este curso tiene los sub-modulos siguientes:\",\"Editable fields for the parent course are limited. Please update children courses accordingly\":\"Algunos datos no pueden ser modificadas. Por favor, realice los otros cambios directamente en los sub-modulos\",\"If you assign a schedule preset, the coursetimes above will be ignored.\":\"Si selecciona un modelo, los horarios manuales no seran guardados.\",\"Sync to LMS\":\"Sincronisar con plataforma LMS\",\"LMS code\":\"Codigo LMS\",\"Warning\":\"Atencion\",\"Do you really want to delete this phone number?\":\"Confirma que quiere quitar este numero de telefono?\",\"Do you really want to delete this contact?\":\"Confirma que quiere quitar este contacto?\",\"Do you really want to delete this course?\":\"Confirma que quiere quitar este curso?\",\"Your changes could not be saved\":\"Sus cambios no pueden ser guardados\",\"Your changes were successful\":\"Sus cambios han sido guardados\",\"Error\":\"Error\",\"Success\":\"Exito\",\"The course has been deleted\":\"El curso fue eliminado\",\"Impossible to delete this course\":\"Este curso no puede ser eliminado\",\"Enrollment in progress...\":\"Matricula en curso...\",\"Enable\":\"Habilitar\",\"Disable\":\"Deshabilitar\",\"Send invoice to external accounting system\":\"Mandar datos al sistema contable para generar factura\",\"First payment date\":\"Fecha de inicio\",\"Number of payments\":\"Cantidad de pagos\",\"Scheduled Payments\":\"Calendario de pagos\",\"Value\":\"Valor\",\"Receipt Number\":\"Número de recibo\",\"Total paid amount does not match the invoice total price\":\"El valor total recibido no corresponde al valor total de la factura\",\"Continue\":\"Continuar\",\"Mark as pending\":\"Marcar como pendiente\"}");
 
 /***/ }),
 
@@ -10386,10 +10492,10 @@ module.exports = JSON.parse("{\"% of period max\":\"% del máx. para la sesión\
 /*!********************************!*\
   !*** ./resources/lang/fr.json ***!
   \********************************/
-/*! exports provided: % of period max, Absence Notification, absences, Account Data, Acquisition Rate, Actionable Comments, Actions, actions, Add, Add a new contact, Add a new course time, Add a new grade type to course, Add all, Add discount, Add Grade Type to Course, Add products, Add scholarship, Additional Contact, Additional Contacts, Additional Data, Address, City, State, Country, ADMINISTRATION, age, all, All teachers, Amount received, Attendance, Attendance Ratio, Attendance status, Attendance Status, Available skills, Back to course, Best regards,, birthdate, Birthdate, book, Books, books, Calendar for, CALENDARS, Campus, campus, campuses, Cancel, Cart Details, Change course, Checkout, Checkout enrollment, Children enrollments, Classes without teacher, Client address, Client email, Client ID Number, Client name, Close, comment, comments, Comments, config, configs, Contact Type, Continue without uploading a profile picture, coupon, coupons, Course, course, Course :, Course Details, Course Evaluation, course evaluation, course evaluations, Course info, Course result, Course Result Details, Course Schedule, Course skills, Courses, courses, COURSES, Courses (list), Create another Contact, Create subcourse, Current Period, Date, Date range, Default Periods Selection, Delete, Select, Client Phone Number, Delete Enrollment, discount, Discount Value, Discount Value (0-100%), Discounts, discounts, Edit, Edit contact, Edit Course Skills, Edit Grades, Edit Receipt Number, Edit schedule, Edit Student Skills, email, Email, End, End Date, Enroll, Enroll new student, enrollment, Enrollment date, Enrollment Details, Enrollment ID, Enrollment Info, Enrollment number, Enrollment successfully created, enrollments, Enrollments, Enrollments per Course, Enrollments per Rhythm, Enrollments Period, errorfetchingcourses, Evaluate skills, EVALUATION, Evaluation method, evaluation type, evaluation types, Evaluation Types, Event, event, Events, events, Events with no course, Events with no teacher, Exempt Attendance, Export Course syllabus, Export skills, External, External Course, External Courses, External Courses Report, Face-to-face, fee, fees, Fees, Finish update, First Name, Firstname, for, Friday, Go Home, grade type, Grade Type Categories, Grade Types, grade types, Grades, Hi, Hide Parents, Hire Date, hours, Hours Sold, Hours Taught, HR, Human Resources, ID number, ID Number, Import skills, Incomplete Attendance, Institution, Institutions, Invoice, Invoice Data, Invoice ID, Invoices, Invoicing, Is Enrolled in, Is Not Enrolled in, justified absence, Justified Absence, Last Name, Lastname, Lead Status, lead type, lead types, Leave, leave, leaves, Length, Level, level, levels, Loading..., Manage grades, Manage leaves, Manage skills, Mark this enrollment as paid but do not send to accounting system, Members, Missing attendance, Monday, Tuesday, My Hours, My Schedule, Name, name, New Students, No Result, noresults, Number of Absences, Oh no, on, or, Overview, Paid Enrollments, Partial presence (arrived late or left early), Password, Payment method, Payment methods, Payments, Payment, Pedagogy, Pending, Pending Attendance, Pending leads, Per course, Per period, Per date, Per institution, Per rhythm, Period, period, Period Classes, Period Max, Period Total, periods, Phone, Phone Number, Phone Numbers, Planned Hours, Please check the additional contact data associated to your account, Please check your personal phone number(s), Please chose an image on your computer to update your profile picture, Please fill in your profession and your institution (school, workplace)., Pre-invoice ID, Present, Price, Product, Products, Profession, Profile Picture, Project, Refresh status, Remote, remote event, remote events, Remote Events, Remote Work, Remote hours, Remote volume, Presential volume, Presential hours, Total hours, Hours on schedule, Remove all, REPORTS, resource Calendars, Resources, Result, result, Result Notification, result type, Result Types, Results, results, rhythm, Rhythm, rhythms, Roles, room, Room, rooms, Saturday, Sunday, Save, Save new Contact, Schedule, scholarship, Scholarship, scholarships, Scholarships, Selected Period, SETTINGS, Settings, share of students from previous period who were re-enrolled, Since the beginning of this course, you have:, skill, skill scale, Skill Scales, skill scales, skill type, Skill Types, skill types, Skills, skills, Skillset File, Spots, spots left, Start, Start Date, Start from period:, Status, Status is, Status is not, Student, student, Student :, Student Attendance Overview, Student Attendance Report, Student details for, Students, students, Students under 18, please add contact data from your legal representatives, TEACHER, Teacher, teacher, Teacher Dashboard, Teacher Leaves, teachers, Teachers, The attendance record is incomplete for the following classes:, The enrollment has been updated, The information has successfully been saved, The invoice has been generated, The invoice number has been saved, The selected teacher is not available on this date, This comment requires an action, This course has no skills yet, This enrollment belongs to, This is an absence notification for, This is important, so that we can reach you in case of an emergency, This will erase all skills currently associated to the course, Thursday, Total, TOTAL, Unable to communicate with Accounting Service. This invoice will NOT be sent automatically to the Accounting system, unjustified absence, Unjustified Absence, Upcoming Leaves, Upload skillset file, Users, View, View Skills for Group, Volume, Wednesday, Weekly workable hours, When everything is ready, please confirm that your data is up-to-date, Worked Hours, Confirm, year, Year, Years, years, You also need to add the invoice information here, You may log in to view your results, and the comments from your teacher, if any, Your comment has been saved, Your course result is available for, Your data has been saved, Your picture has been saved, Attendance Monitor, years old, Remaining balance, New payment, Save and go back, Comment, Generate grade report, Generate diploma, Enrollments per Level, Per level, Mark as paid, Partnerships, partnership, partnerships, Number of Partnerships, Partnership Report, Tacit renewal, Hourly Price, Send report on ... of the month, Teachers overview, Rooms overview, Day, Sun, Mon, Tue, Wed, Thu, Fri, Sat, Course sublevels, The course you are editing is a sub-course of, Please remember to update the parent and its other children courses accordingly, The course you are editing is the parent of these sub-courses:, Editable fields for the parent course are limited. Please update children courses accordingly, If you assign a schedule preset, the coursetimes above will be ignored., Grades report (PDF), Takings, Average, Switch to list view, Switch to block view, Sync to LMS, LMS code, Warning, Do you really want to delete this phone number?, Do you really want to delete this contact?, Do you really want to delete this course?, Your changes could not be saved, Your changes were successful, Error, Success, The course has been deleted, Impossible to delete this course, Enrollment in progress..., Enable, Disable, Send invoice to external accounting system, Total received amount, Total price, default */
+/*! exports provided: % of period max, Absence Notification, absences, Account Data, Acquisition Rate, Actionable Comments, Actions, actions, Add, Add a new contact, Add a new course time, Add a new grade type to course, Add all, Add discount, Add Grade Type to Course, Add products, Add scholarship, Additional Contact, Additional Contacts, Additional Data, Address, City, State, Country, ADMINISTRATION, age, all, All teachers, Amount received, Attendance, Attendance Ratio, Attendance status, Attendance Status, Available skills, Back to course, Best regards,, birthdate, Birthdate, book, Books, books, Calendar for, CALENDARS, Campus, campus, campuses, Cancel, Cart Details, Change course, Checkout, Checkout enrollment, Children enrollments, Classes without teacher, Client address, Client email, Client ID Number, Client name, Close, comment, comments, Comments, config, configs, Contact Type, Continue without uploading a profile picture, coupon, coupons, Course, course, Course :, Course Details, Course Evaluation, course evaluation, course evaluations, Course info, Course result, Course Result Details, Course Schedule, Course skills, Courses, courses, COURSES, Courses (list), Create another Contact, Create subcourse, Current Period, Date, Date range, Default Periods Selection, Delete, Select, Client Phone Number, Delete Enrollment, discount, Discount Value, Discount Value (0-100%), Discounts, discounts, Edit, Edit contact, Edit Course Skills, Edit Grades, Edit Receipt Number, Edit schedule, Edit Student Skills, email, Email, End, End Date, Enroll, Enroll new student, enrollment, Enrollment date, Enrollment Details, Enrollment ID, Enrollment Info, Enrollment number, Enrollment successfully created, enrollments, Enrollments, Enrollments per Course, Enrollments per Rhythm, Enrollments Period, errorfetchingcourses, Evaluate skills, EVALUATION, Evaluation method, evaluation type, evaluation types, Evaluation Types, Event, event, Events, events, Events with no course, Events with no teacher, Exempt Attendance, Export Course syllabus, Export skills, External, External Course, External Courses, External Courses Report, Face-to-face, fee, fees, Fees, Finish update, First Name, Firstname, for, Friday, Go Home, grade type, Grade Type Categories, Grade Types, grade types, Grades, Hi, Hide Parents, Hire Date, hours, Hours Sold, Hours Taught, HR, Human Resources, ID number, ID Number, Import skills, Incomplete Attendance, Institution, Institutions, Invoice, Invoice Data, Invoice ID, Invoices, Invoicing, Is Enrolled in, Is Not Enrolled in, justified absence, Justified Absence, Last Name, Lastname, Lead Status, lead type, lead types, Leave, leave, leaves, Length, Level, level, levels, Loading..., Manage grades, Manage leaves, Manage skills, Mark this enrollment as paid but do not send to accounting system, Members, Missing attendance, Monday, Tuesday, My Hours, My Schedule, Name, name, New Students, No Result, noresults, Number of Absences, Oh no, on, or, Overview, Paid Enrollments, Partial presence (arrived late or left early), Password, Payment method, Payment methods, Payments, Payment, Pedagogy, Pending, Pending Attendance, Pending leads, Per course, Per period, Per date, Per institution, Per rhythm, Period, period, Period Classes, Period Max, Period Total, periods, Phone, Phone Number, Phone Numbers, Planned Hours, Please check the additional contact data associated to your account, Please check your personal phone number(s), Please chose an image on your computer to update your profile picture, Please fill in your profession and your institution (school, workplace)., Pre-invoice ID, Present, Price, Product, Products, Profession, Profile Picture, Project, Refresh status, Remote, remote event, remote events, Remote Events, Remote Work, Remote hours, Remote volume, Presential volume, Presential hours, Total hours, Hours on schedule, Remove all, REPORTS, resource Calendars, Resources, Result, result, Result Notification, result type, Result Types, Results, results, rhythm, Rhythm, rhythms, Roles, room, Room, rooms, Saturday, Sunday, Save, Save new Contact, Schedule, scholarship, Scholarship, scholarships, Scholarships, Selected Period, SETTINGS, Settings, share of students from previous period who were re-enrolled, Since the beginning of this course, you have:, skill, skill scale, Skill Scales, skill scales, skill type, Skill Types, skill types, Skills, skills, Skillset File, Spots, spots left, Start, Start Date, Start from period:, Status, Status is, Status is not, Student, student, Student :, Student Attendance Overview, Student Attendance Report, Student details for, Students, students, Students under 18, please add contact data from your legal representatives, TEACHER, Teacher, teacher, Teacher Dashboard, Teacher Leaves, teachers, Teachers, The attendance record is incomplete for the following classes:, The enrollment has been updated, The information has successfully been saved, The invoice has been generated, The invoice number has been saved, The selected teacher is not available on this date, This comment requires an action, This course has no skills yet, This enrollment belongs to, This is an absence notification for, This is important, so that we can reach you in case of an emergency, This will erase all skills currently associated to the course, Thursday, Total, TOTAL, Unable to communicate with Accounting Service. This invoice will NOT be sent automatically to the Accounting system, unjustified absence, Unjustified Absence, Upcoming Leaves, Upload skillset file, Users, View, View Skills for Group, Volume, Wednesday, Weekly workable hours, When everything is ready, please confirm that your data is up-to-date, Worked Hours, Confirm, year, Year, Years, years, You also need to add the invoice information here, You may log in to view your results, and the comments from your teacher, if any, Your comment has been saved, Your course result is available for, Your data has been saved, Your picture has been saved, Attendance Monitor, years old, Remaining balance, New payment, Save and go back, Comment, Generate grade report, Generate diploma, Enrollments per Level, Per level, Mark as paid, Partnerships, partnership, partnerships, Number of Partnerships, Partnership Report, Tacit renewal, Hourly Price, Send report on ... of the month, Teachers overview, Rooms overview, Day, Sun, Mon, Tue, Wed, Thu, Fri, Sat, Course sublevels, The course you are editing is a sub-course of, Please remember to update the parent and its other children courses accordingly, The course you are editing is the parent of these sub-courses:, Editable fields for the parent course are limited. Please update children courses accordingly, If you assign a schedule preset, the coursetimes above will be ignored., Grades report (PDF), Takings, Average, Switch to list view, Switch to block view, Sync to LMS, LMS code, Warning, Do you really want to delete this phone number?, Do you really want to delete this contact?, Do you really want to delete this course?, Your changes could not be saved, Your changes were successful, Error, Success, The course has been deleted, Impossible to delete this course, Enrollment in progress..., Enable, Disable, Send invoice to external accounting system, Total received amount, Total price, First payment date, Number of payments, Scheduled Payments, Value, Receipt Number, Total paid amount does not match the invoice total price, Continue, Mark as pending, default */
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"% of period max\":\"% du maximum\",\"Absence Notification\":\"Notification d'absence\",\"absences\":\"absences\",\"Account Data\":\"Informations du compte\",\"Acquisition Rate\":\"Taux de fidélisation\",\"Actionable Comments\":\"Action requise\",\"Actions\":\"Actions\",\"actions\":\"actions\",\"Add\":\"Ajouter\",\"Add a new contact\":\"Ajouter un contact\",\"Add a new course time\":\"Ajouter un horaire de cours\",\"Add a new grade type to course\":\"Ajouter un critère\",\"Add all\":\"Tout ajouter\",\"Add discount\":\"Ajouter une réduction\",\"Add Grade Type to Course\":\"Ajouter un critère\",\"Add products\":\"Ajouter un produit\",\"Add scholarship\":\"Ajouter une bourse\",\"Additional Contact\":\"Autre contact\",\"Additional Contacts\":\"Contacts\",\"Additional Data\":\"Informations de l'étudiant(e)\",\"Address\":\"Adresse\",\"City\":\"Ville\",\"State\":\"Province\",\"Country\":\"Pays\",\"ADMINISTRATION\":\"ADMINISTRATION\",\"age\":\"âge\",\"all\":\"tous\",\"All teachers\":\"Tous les enseignants\",\"Amount received\":\"Valeur perçue\",\"Attendance\":\"Présences\",\"Attendance Ratio\":\"Pourcentage de présence\",\"Attendance status\":\"Présence\",\"Attendance Status\":\"Présence\",\"Available skills\":\"Compétences disponibles\",\"Back to course\":\"Revenir au cours\",\"Best regards,\":\"Cordialement,\",\"birthdate\":\"date de naissance\",\"Birthdate\":\"Date de naissance\",\"book\":\"livre\",\"Books\":\"Livres\",\"books\":\"livres\",\"Calendar for\":\"Calendrier de\",\"CALENDARS\":\"CALENDRIERS\",\"Campus\":\"Campus\",\"campus\":\"campus\",\"campuses\":\"campus\",\"Cancel\":\"Annuler\",\"Cart Details\":\"Détails du panier\",\"Change course\":\"Changer de cours\",\"Checkout\":\"Facturer\",\"Checkout enrollment\":\"Facturer cette inscription\",\"Children enrollments\":\"Inscriptions liées\",\"Classes without teacher\":\"Classes sans enseignant\",\"Client address\":\"Adresse du Client\",\"Client email\":\"Email du client\",\"Client ID Number\":\"Numéro d'identité du client\",\"Client name\":\"Nom du client\",\"Close\":\"Fermer\",\"comment\":\"commentaire\",\"comments\":\"commentaires\",\"Comments\":\"Commentaires\",\"config\":\"option\",\"configs\":\"options\",\"Contact Type\":\"Type de contact\",\"Continue without uploading a profile picture\":\"Continuer sans photo de profil\",\"coupon\":\"coupon\",\"coupons\":\"coupons\",\"Course\":\"Cours\",\"course\":\"cours\",\"Course :\":\"Cours :\",\"Course Details\":\"Détails du cours\",\"Course Evaluation\":\"Gérer l'évaluation\",\"course evaluation\":\"évaluation des cours\",\"course evaluations\":\"évaluations des cours\",\"Course info\":\"Informations du cours\",\"Course result\":\"Résultat du cours\",\"Course Result Details\":\"Résultat du cours\",\"Course Schedule\":\"Horaires du cours\",\"Course skills\":\"Compétences du cours\",\"Courses\":\"Cours\",\"courses\":\"cours\",\"COURSES\":\"COURS\",\"Courses (list)\":\"Cours (liste)\",\"Create another Contact\":\"Créer un autre contact\",\"Create subcourse\":\"Créer un sous-cours\",\"Current Period\":\"Cycle en cours\",\"Date\":\"Date\",\"Date range\":\"Dates\",\"Default Periods Selection\":\"Sélection des cycles par défaut\",\"Delete\":\"Supprimer\",\"Select\":\"Sélectionner\",\"Client Phone Number\":\"Téléphone du client\",\"Delete Enrollment\":\"Annuler l'inscription\",\"discount\":\"réduction\",\"Discount Value\":\"Valeur de la réduction\",\"Discount Value (0-100%)\":\"Valeur de la réduction (0-100%)\",\"Discounts\":\"Réductions\",\"discounts\":\"réductions\",\"Edit\":\"Editer\",\"Edit contact\":\"Modifier le contact\",\"Edit Course Skills\":\"Modifier les compétences du cours\",\"Edit Grades\":\"Modifier les notes\",\"Edit Receipt Number\":\"Editer le numéro du reçu\",\"Edit schedule\":\"Editer les horaires\",\"Edit Student Skills\":\"Modifier les compétences de l'étudiant\",\"email\":\"email\",\"Email\":\"Email\",\"End\":\"Fin\",\"End Date\":\"Date de fin\",\"Enroll\":\"Inscrire\",\"Enroll new student\":\"Inscrire un étudiant\",\"enrollment\":\"inscription\",\"Enrollment date\":\"Date d'inscription\",\"Enrollment Details\":\"Détails de l'inscription\",\"Enrollment ID\":\"Numéro d'inscription\",\"Enrollment Info\":\"Informations sur l'inscription\",\"Enrollment number\":\"Inscription #\",\"Enrollment successfully created\":\"Inscription enregistrée\",\"enrollments\":\"inscriptions\",\"Enrollments\":\"Inscriptions\",\"Enrollments per Course\":\"Inscriptions par cours\",\"Enrollments per Rhythm\":\"Inscriptions par modalité\",\"Enrollments Period\":\"Cycle d'inscription\",\"errorfetchingcourses\":\"Erreur lors du chargement. Veuillez actualiser la page\",\"Evaluate skills\":\"Évaluer les compétences\",\"EVALUATION\":\"ÉVALUATION\",\"Evaluation method\":\"Type d'évaluation\",\"evaluation type\":\"type d'évaluation\",\"evaluation types\":\"types d'évaluation\",\"Evaluation Types\":\"Types d'évaluation\",\"Event\":\"Classe\",\"event\":\"classe\",\"Events\":\"Classes\",\"events\":\"classes\",\"Events with no course\":\"Classes sans cours\",\"Events with no teacher\":\"Classes sans professeur\",\"Exempt Attendance\":\"Dispenser de fiche de présence\",\"Export Course syllabus\":\"Exporter le syllabus\",\"Export skills\":\"Exporter les compétences\",\"External\":\"Externe\",\"External Course\":\"Cours externe\",\"External Courses\":\"Cours externes\",\"External Courses Report\":\"Rapport des cours externes\",\"Face-to-face\":\"Présentiel\",\"fee\":\"frais administratif\",\"fees\":\"frais administratifs\",\"Fees\":\"Frais administratifs\",\"Finish update\":\"Terminer la mise à jour\",\"First Name\":\"Prénom\",\"Firstname\":\"Prénom\",\"for\":\"pour\",\"Friday\":\"Vendredi\",\"Go Home\":\"Page d'accueil\",\"grade type\":\"Type de note\",\"Grade Type Categories\":\"Catégories de critères\",\"Grade Types\":\"Critères\",\"grade types\":\"Types de notes\",\"Grades\":\"Notes\",\"Hi\":\"Bonjour\",\"Hide Parents\":\"Cacher les cours parents\",\"Hire Date\":\"Date d'embauche\",\"hours\":\"heures\",\"Hours Sold\":\"Heures vendues\",\"Hours Taught\":\"Henres enseignées\",\"HR\":\"RH\",\"Human Resources\":\"Ressources Humaines\",\"ID number\":\"Numéro d'identité\",\"ID Number\":\"Numéro d'identité\",\"Import skills\":\"Importer les compétences\",\"Incomplete Attendance\":\"Fiches de présence incomplètes\",\"Institution\":\"Institution\",\"Institutions\":\"Institutions\",\"Invoice\":\"Facture\",\"Invoice Data\":\"Coordonnées de facturation\",\"Invoice ID\":\"ID de facture\",\"Invoices\":\"Factures\",\"Invoicing\":\"Facturation\",\"Is Enrolled in\":\"Inscrit en\",\"Is Not Enrolled in\":\"Non-inscrit en\",\"justified absence\":\"absence justifée\",\"Justified Absence\":\"Absence justifiée\",\"Last Name\":\"Nom\",\"Lastname\":\"Nom\",\"Lead Status\":\"État client\",\"lead type\":\"catégorie Client\",\"lead types\":\"catégories Client\",\"Leave\":\"Vacances\",\"leave\":\"vacance\",\"leaves\":\"vacances\",\"Length\":\"Durée\",\"Level\":\"Niveau\",\"level\":\"niveau\",\"levels\":\"niveaux\",\"Loading...\":\"Chargement...\",\"Manage grades\":\"Gérer les notes\",\"Manage leaves\":\"Gestion des vacances\",\"Manage skills\":\"Ajouter des compétences\",\"Mark this enrollment as paid but do not send to accounting system\":\"Marquer cette inscription comme payée mais ne pas transmettre les données au système comptable\",\"Members\":\"Membres\",\"Missing attendance\":\"Présences incomplètes\",\"Monday\":\"Lundi\",\"Tuesday\":\"Mardi\",\"My Hours\":\"Mes heures\",\"My Schedule\":\"Mon emploi du temps\",\"Name\":\"Nom\",\"name\":\"nom\",\"New Students\":\"Nouveaux étudiants\",\"No Result\":\"Pas de résultat\",\"noresults\":\"Pas de cours avec les filtres sélectionnés\",\"Number of Absences\":\"Nombre d'absences\",\"Oh no\":\"Aïe...\",\"on\":\"le\",\"or\":\"ou\",\"Overview\":\"Vue générale\",\"Paid Enrollments\":\"Inscriptions payées\",\"Partial presence (arrived late or left early)\":\"Présence partielle (retard ou départ anticipé)\",\"Password\":\"Mot de passe\",\"Payment method\":\"Moyen de paiement\",\"Payment methods\":\"Moyens de paiement\",\"Payments\":\"Paiements\",\"Payment\":\"Paiement\",\"Pedagogy\":\"Pedagogie\",\"Pending\":\"Impayés\",\"Pending Attendance\":\"Présences en attente\",\"Pending leads\":\"Clients potentiels\",\"Per course\":\"Par cours\",\"Per period\":\"Par cycle\",\"Per date\":\"Par date\",\"Per institution\":\"Par institution\",\"Per rhythm\":\"Par modalité\",\"Period\":\"Cycle\",\"period\":\"cycle\",\"Period Classes\":\"Cours ce cycle\",\"Period Max\":\"Max. pour le cycle\",\"Period Total\":\"Total ce cycle\",\"periods\":\"cycles\",\"Phone\":\"Téléphone\",\"Phone Number\":\"Téléphone\",\"Phone Numbers\":\"Numéros de téléphone\",\"Planned Hours\":\"Heures prévues\",\"Please check the additional contact data associated to your account\":\"Vérifiez les contacts associés à votre compte\",\"Please check your personal phone number(s)\":\"Merci de vérifier vos numéros de téléphone\",\"Please chose an image on your computer to update your profile picture\":\"Veuillez choisir une photo de profil\",\"Please fill in your profession and your institution (school, workplace).\":\"Merci d'indiquer votre profession et votre institution (école, travail)\",\"Pre-invoice ID\":\"Numéro de pré-facture\",\"Present\":\"Présent\",\"Price\":\"Prix\",\"Product\":\"Produit\",\"Products\":\"Produits\",\"Profession\":\"Profession\",\"Profile Picture\":\"Photo de profil\",\"Project\":\"Projet\",\"Refresh status\":\"Vérifier à nouveau\",\"Remote\":\"À distance\",\"remote event\":\"travail à distance\",\"remote events\":\"travaux à distance\",\"Remote Events\":\"Travaux à distance\",\"Remote Work\":\"Travail à distance\",\"Remote hours\":\"Heures à distance\",\"Remote volume\":\"Volume à distance\",\"Presential volume\":\"Volume en présenciel\",\"Presential hours\":\"Heures en présenciel\",\"Total hours\":\"Total des heures\",\"Hours on schedule\":\"Heures sur le calendrier\",\"Remove all\":\"Tout retirer\",\"REPORTS\":\"RAPPORTS\",\"resource Calendars\":\"Calendriers des ressources\",\"Resources\":\"Ressources\",\"Result\":\"Résultat\",\"result\":\"résultat\",\"Result Notification\":\"Notification de résultat\",\"result type\":\"type de résultat\",\"Result Types\":\"Échelles de résultat\",\"Results\":\"Résultats\",\"results\":\"résultats\",\"rhythm\":\"modalité\",\"Rhythm\":\"Modalité\",\"rhythms\":\"modalités\",\"Roles\":\"Rôles\",\"room\":\"salle\",\"Room\":\"Salle\",\"rooms\":\"salles\",\"Saturday\":\"Samedi\",\"Sunday\":\"Dimanche\",\"Save\":\"Enregistrer\",\"Save new Contact\":\"Enregistrer le contact\",\"Schedule\":\"Horaires\",\"scholarship\":\"bourse\",\"Scholarship\":\"Bourse\",\"scholarships\":\"bourses\",\"Scholarships\":\"Bourses\",\"Selected Period\":\"Période sélectionnée\",\"SETTINGS\":\"PARAMÈTRES\",\"Settings\":\"Paramètres\",\"share of students from previous period who were re-enrolled\":\"part des étudiants du cycle précédent qui se sont réinscrits\",\"Since the beginning of this course, you have:\":\"Depuis le début du cours, vous avez\",\"skill\":\"compétence\",\"skill scale\":\"échelle de compétence\",\"Skill Scales\":\"Échelles de compétences\",\"skill scales\":\"échelles de compétences\",\"skill type\":\"type de compétence\",\"Skill Types\":\"Types de compétences\",\"skill types\":\"types de compétences\",\"Skills\":\"Compétences\",\"skills\":\"compétences\",\"Skillset File\":\"Fichier de compétences\",\"Spots\":\"Places\",\"spots left\":\"places disponibles\",\"Start\":\"Début\",\"Start Date\":\"Date de début\",\"Start from period:\":\"Commencer au cycle :\",\"Status\":\"État\",\"Status is\":\"Statut client est\",\"Status is not\":\"Statut client n'est pas\",\"Student\":\"Étudiant\",\"student\":\"Étudiant\",\"Student :\":\"Étudiant :\",\"Student Attendance Overview\":\"Présences de l'étudiant\",\"Student Attendance Report\":\"Présences de l'étudiant\",\"Student details for\":\"Informations de l'étudiant\",\"Students\":\"Étudiants\",\"students\":\"étudiants\",\"Students under 18, please add contact data from your legal representatives\":\"Les étudiants mineurs doivent ajouter le contact de leurs représentants légaux\",\"TEACHER\":\"ENSEIGNANT(E)\",\"Teacher\":\"Enseignant(e)\",\"teacher\":\"enseignant(e)\",\"Teacher Dashboard\":\"Tableau de bord enseignant\",\"Teacher Leaves\":\"Congés\",\"teachers\":\"enseignants\",\"Teachers\":\"Enseignants\",\"The attendance record is incomplete for the following classes:\":\"La fiche de présence est incomplète pour les classes suivantes :\",\"The enrollment has been updated\":\"L'inscription a été mise à jour\",\"The information has successfully been saved\":\"L'information a été enregistrée\",\"The invoice has been generated\":\"La facture a été générée avec succès\",\"The invoice number has been saved\":\"Le numéro de facture a été enregistré\",\"The selected teacher is not available on this date\":\"Cet enseigant n'est pas disponible à ces dates\",\"This comment requires an action\":\"Ce commentaire demande une action\",\"This course has no skills yet\":\"Ce cours ne comporte aucune compétence\",\"This enrollment belongs to\":\"Cette inscription est liée à\",\"This is an absence notification for\":\"Ce message est une notification d'absence pour\",\"This is important, so that we can reach you in case of an emergency\":\"Ceci est important car cela nous permet de vous contacter en cas d'urgence\",\"This will erase all skills currently associated to the course\":\"Vous allez écraser les compétences associées au cours\",\"Thursday\":\"Jeudi\",\"Total\":\"Total\",\"TOTAL\":\"TOTAL\",\"Unable to communicate with Accounting Service. This invoice will NOT be sent automatically to the Accounting system\":\"Impossible de contacter le serveur comptable. Les données de facturation ne seront PAS transmises automatiquement\",\"unjustified absence\":\"absence non-justifiée\",\"Unjustified Absence\":\"Absence non justifiée\",\"Upcoming Leaves\":\"Prochaines vacances\",\"Upload skillset file\":\"Charger un fichier de compétences\",\"Users\":\"Utilisateurs\",\"View\":\"Voir\",\"View Skills for Group\":\"Voir les compétences du groupe\",\"Volume\":\"Volume\",\"Wednesday\":\"Mercredi\",\"Weekly workable hours\":\"Volume de travail hebdomadaire\",\"When everything is ready, please confirm that your data is up-to-date\":\"Lorsque toutes les données sont à jour, vous pouvez valider et terminer le processus\",\"Worked Hours\":\"Heures travaillées\",\"Confirm\":\"Confirmer\",\"year\":\"année\",\"Year\":\"Année\",\"Years\":\"Années\",\"years\":\"années\",\"You also need to add the invoice information here\":\"Vous devez aussi créer un contact pour la facture\",\"You may log in to view your results, and the comments from your teacher, if any\":\"Pour voir votre résultat et le commentaire de votre professeur, connectez-vous à la plateforme\",\"Your comment has been saved\":\"Votre commentaire a été enregistré\",\"Your course result is available for\":\"Le résultat est disponible pour votre cours\",\"Your data has been saved\":\"Les informations ont été enregistrées\",\"Your picture has been saved\":\"Votre photo a été enregistrée\",\"Attendance Monitor\":\"Absences à surveiller\",\"years old\":\"ans\",\"Remaining balance\":\"Reste à payer\",\"New payment\":\"Nouveau paiement\",\"Save and go back\":\"Enregistrer et retour\",\"Comment\":\"Commentaire\",\"Generate grade report\":\"Générer le bulletin\",\"Generate diploma\":\"Générer le diplôme\",\"Enrollments per Level\":\"Inscriptions par niveau\",\"Per level\":\"Par niveau\",\"Mark as paid\":\"Marquer comme payé\",\"Partnerships\":\"Partenariats\",\"partnership\":\"partenariat\",\"partnerships\":\"partenariats\",\"Number of Partnerships\":\"Nombre de partenariats\",\"Partnership Report\":\"Rapport statistique du partenariat\",\"Tacit renewal\":\"Reconduction tacite\",\"Hourly Price\":\"Prix horaire\",\"Send report on ... of the month\":\"Envoyer le rapport le ... du mois\",\"Teachers overview\":\"Tous les enseignants\",\"Rooms overview\":\"Toutes les salles\",\"Day\":\"Jour\",\"Sun\":\"Dim.\",\"Mon\":\"Lun.\",\"Tue\":\"Mar.\",\"Wed\":\"Mer.\",\"Thu\":\"Jeu.\",\"Fri\":\"Ven.\",\"Sat\":\"Sam.\",\"Course sublevels\":\"Sous-niveaux\",\"The course you are editing is a sub-course of\":\"Ce cours est un sous-module du cours\",\"Please remember to update the parent and its other children courses accordingly\":\"Vous devez mettre à jour le cours parent et tous ses sous-modules de manière indépendante.\",\"The course you are editing is the parent of these sub-courses:\":\"Ce cours est le parent des sous-modules suivants:\",\"Editable fields for the parent course are limited. Please update children courses accordingly\":\"Les champs modifiables sont limités. Veuillez modifier les sous-modules directement\",\"If you assign a schedule preset, the coursetimes above will be ignored.\":\"Si vous choisissez une préselection, les horaires ci-dessus ne seront pas pris en compte.\",\"Grades report (PDF)\":\"Bulletin de notes (PDF)\",\"Takings\":\"Recettes\",\"Average\":\"Moyenne\",\"Switch to list view\":\"Passer à la vue en liste\",\"Switch to block view\":\"Passer à la vue en blocs\",\"Sync to LMS\":\"Synchroniser avec le LMS\",\"LMS code\":\"Code LMS\",\"Warning\":\"Avertissement\",\"Do you really want to delete this phone number?\":\"Souhaitez-vous vraiment supprimer ce numéro de téléphone ?\",\"Do you really want to delete this contact?\":\"Souhaitez-vous vraiment supprimer ce contact?\",\"Do you really want to delete this course?\":\"Souhaitez-vous vraiment supprimer ce cours?\",\"Your changes could not be saved\":\"Vos modifications n'ont pas pu être sauvegardées\",\"Your changes were successful\":\"Vos changements ont été effectuées avec succès\",\"Error\":\"Erreur\",\"Success\":\"OK !\",\"The course has been deleted\":\"Le cours a été supprimé\",\"Impossible to delete this course\":\"Impossible de supprimer ce cours\",\"Enrollment in progress...\":\"Inscription en cours...\",\"Enable\":\"Activer\",\"Disable\":\"Désactiver\",\"Send invoice to external accounting system\":\"Transmettre la facture au système comptable\",\"Total received amount\":\"Montant total perçu\",\"Total price\":\"Montant total\"}");
+module.exports = JSON.parse("{\"% of period max\":\"% du maximum\",\"Absence Notification\":\"Notification d'absence\",\"absences\":\"absences\",\"Account Data\":\"Informations du compte\",\"Acquisition Rate\":\"Taux de fidélisation\",\"Actionable Comments\":\"Action requise\",\"Actions\":\"Actions\",\"actions\":\"actions\",\"Add\":\"Ajouter\",\"Add a new contact\":\"Ajouter un contact\",\"Add a new course time\":\"Ajouter un horaire de cours\",\"Add a new grade type to course\":\"Ajouter un critère\",\"Add all\":\"Tout ajouter\",\"Add discount\":\"Ajouter une réduction\",\"Add Grade Type to Course\":\"Ajouter un critère\",\"Add products\":\"Ajouter un produit\",\"Add scholarship\":\"Ajouter une bourse\",\"Additional Contact\":\"Autre contact\",\"Additional Contacts\":\"Contacts\",\"Additional Data\":\"Informations de l'étudiant(e)\",\"Address\":\"Adresse\",\"City\":\"Ville\",\"State\":\"Province\",\"Country\":\"Pays\",\"ADMINISTRATION\":\"ADMINISTRATION\",\"age\":\"âge\",\"all\":\"tous\",\"All teachers\":\"Tous les enseignants\",\"Amount received\":\"Valeur perçue\",\"Attendance\":\"Présences\",\"Attendance Ratio\":\"Pourcentage de présence\",\"Attendance status\":\"Présence\",\"Attendance Status\":\"Présence\",\"Available skills\":\"Compétences disponibles\",\"Back to course\":\"Revenir au cours\",\"Best regards,\":\"Cordialement,\",\"birthdate\":\"date de naissance\",\"Birthdate\":\"Date de naissance\",\"book\":\"livre\",\"Books\":\"Livres\",\"books\":\"livres\",\"Calendar for\":\"Calendrier de\",\"CALENDARS\":\"CALENDRIERS\",\"Campus\":\"Campus\",\"campus\":\"campus\",\"campuses\":\"campus\",\"Cancel\":\"Annuler\",\"Cart Details\":\"Détails du panier\",\"Change course\":\"Changer de cours\",\"Checkout\":\"Facturer\",\"Checkout enrollment\":\"Facturer cette inscription\",\"Children enrollments\":\"Inscriptions liées\",\"Classes without teacher\":\"Classes sans enseignant\",\"Client address\":\"Adresse du Client\",\"Client email\":\"Email du client\",\"Client ID Number\":\"Numéro d'identité du client\",\"Client name\":\"Nom du client\",\"Close\":\"Fermer\",\"comment\":\"commentaire\",\"comments\":\"commentaires\",\"Comments\":\"Commentaires\",\"config\":\"option\",\"configs\":\"options\",\"Contact Type\":\"Type de contact\",\"Continue without uploading a profile picture\":\"Continuer sans photo de profil\",\"coupon\":\"coupon\",\"coupons\":\"coupons\",\"Course\":\"Cours\",\"course\":\"cours\",\"Course :\":\"Cours :\",\"Course Details\":\"Détails du cours\",\"Course Evaluation\":\"Gérer l'évaluation\",\"course evaluation\":\"évaluation des cours\",\"course evaluations\":\"évaluations des cours\",\"Course info\":\"Informations du cours\",\"Course result\":\"Résultat du cours\",\"Course Result Details\":\"Résultat du cours\",\"Course Schedule\":\"Horaires du cours\",\"Course skills\":\"Compétences du cours\",\"Courses\":\"Cours\",\"courses\":\"cours\",\"COURSES\":\"COURS\",\"Courses (list)\":\"Cours (liste)\",\"Create another Contact\":\"Créer un autre contact\",\"Create subcourse\":\"Créer un sous-cours\",\"Current Period\":\"Cycle en cours\",\"Date\":\"Date\",\"Date range\":\"Dates\",\"Default Periods Selection\":\"Sélection des cycles par défaut\",\"Delete\":\"Supprimer\",\"Select\":\"Sélectionner\",\"Client Phone Number\":\"Téléphone du client\",\"Delete Enrollment\":\"Annuler l'inscription\",\"discount\":\"réduction\",\"Discount Value\":\"Valeur de la réduction\",\"Discount Value (0-100%)\":\"Valeur de la réduction (0-100%)\",\"Discounts\":\"Réductions\",\"discounts\":\"réductions\",\"Edit\":\"Editer\",\"Edit contact\":\"Modifier le contact\",\"Edit Course Skills\":\"Modifier les compétences du cours\",\"Edit Grades\":\"Modifier les notes\",\"Edit Receipt Number\":\"Editer le numéro du reçu\",\"Edit schedule\":\"Editer les horaires\",\"Edit Student Skills\":\"Modifier les compétences de l'étudiant\",\"email\":\"email\",\"Email\":\"Email\",\"End\":\"Fin\",\"End Date\":\"Date de fin\",\"Enroll\":\"Inscrire\",\"Enroll new student\":\"Inscrire un étudiant\",\"enrollment\":\"inscription\",\"Enrollment date\":\"Date d'inscription\",\"Enrollment Details\":\"Détails de l'inscription\",\"Enrollment ID\":\"Numéro d'inscription\",\"Enrollment Info\":\"Informations sur l'inscription\",\"Enrollment number\":\"Inscription #\",\"Enrollment successfully created\":\"Inscription enregistrée\",\"enrollments\":\"inscriptions\",\"Enrollments\":\"Inscriptions\",\"Enrollments per Course\":\"Inscriptions par cours\",\"Enrollments per Rhythm\":\"Inscriptions par modalité\",\"Enrollments Period\":\"Cycle d'inscription\",\"errorfetchingcourses\":\"Erreur lors du chargement. Veuillez actualiser la page\",\"Evaluate skills\":\"Évaluer les compétences\",\"EVALUATION\":\"ÉVALUATION\",\"Evaluation method\":\"Type d'évaluation\",\"evaluation type\":\"type d'évaluation\",\"evaluation types\":\"types d'évaluation\",\"Evaluation Types\":\"Types d'évaluation\",\"Event\":\"Classe\",\"event\":\"classe\",\"Events\":\"Classes\",\"events\":\"classes\",\"Events with no course\":\"Classes sans cours\",\"Events with no teacher\":\"Classes sans professeur\",\"Exempt Attendance\":\"Dispenser de fiche de présence\",\"Export Course syllabus\":\"Exporter le syllabus\",\"Export skills\":\"Exporter les compétences\",\"External\":\"Externe\",\"External Course\":\"Cours externe\",\"External Courses\":\"Cours externes\",\"External Courses Report\":\"Rapport des cours externes\",\"Face-to-face\":\"Présentiel\",\"fee\":\"frais administratif\",\"fees\":\"frais administratifs\",\"Fees\":\"Frais administratifs\",\"Finish update\":\"Terminer la mise à jour\",\"First Name\":\"Prénom\",\"Firstname\":\"Prénom\",\"for\":\"pour\",\"Friday\":\"Vendredi\",\"Go Home\":\"Page d'accueil\",\"grade type\":\"Type de note\",\"Grade Type Categories\":\"Catégories de critères\",\"Grade Types\":\"Critères\",\"grade types\":\"Types de notes\",\"Grades\":\"Notes\",\"Hi\":\"Bonjour\",\"Hide Parents\":\"Cacher les cours parents\",\"Hire Date\":\"Date d'embauche\",\"hours\":\"heures\",\"Hours Sold\":\"Heures vendues\",\"Hours Taught\":\"Henres enseignées\",\"HR\":\"RH\",\"Human Resources\":\"Ressources Humaines\",\"ID number\":\"Numéro d'identité\",\"ID Number\":\"Numéro d'identité\",\"Import skills\":\"Importer les compétences\",\"Incomplete Attendance\":\"Fiches de présence incomplètes\",\"Institution\":\"Institution\",\"Institutions\":\"Institutions\",\"Invoice\":\"Facture\",\"Invoice Data\":\"Coordonnées de facturation\",\"Invoice ID\":\"ID de facture\",\"Invoices\":\"Factures\",\"Invoicing\":\"Facturation\",\"Is Enrolled in\":\"Inscrit en\",\"Is Not Enrolled in\":\"Non-inscrit en\",\"justified absence\":\"absence justifée\",\"Justified Absence\":\"Absence justifiée\",\"Last Name\":\"Nom\",\"Lastname\":\"Nom\",\"Lead Status\":\"État client\",\"lead type\":\"catégorie Client\",\"lead types\":\"catégories Client\",\"Leave\":\"Vacances\",\"leave\":\"vacance\",\"leaves\":\"vacances\",\"Length\":\"Durée\",\"Level\":\"Niveau\",\"level\":\"niveau\",\"levels\":\"niveaux\",\"Loading...\":\"Chargement...\",\"Manage grades\":\"Gérer les notes\",\"Manage leaves\":\"Gestion des vacances\",\"Manage skills\":\"Ajouter des compétences\",\"Mark this enrollment as paid but do not send to accounting system\":\"Marquer cette inscription comme payée mais ne pas transmettre les données au système comptable\",\"Members\":\"Membres\",\"Missing attendance\":\"Présences incomplètes\",\"Monday\":\"Lundi\",\"Tuesday\":\"Mardi\",\"My Hours\":\"Mes heures\",\"My Schedule\":\"Mon emploi du temps\",\"Name\":\"Nom\",\"name\":\"nom\",\"New Students\":\"Nouveaux étudiants\",\"No Result\":\"Pas de résultat\",\"noresults\":\"Pas de cours avec les filtres sélectionnés\",\"Number of Absences\":\"Nombre d'absences\",\"Oh no\":\"Aïe...\",\"on\":\"le\",\"or\":\"ou\",\"Overview\":\"Vue générale\",\"Paid Enrollments\":\"Inscriptions payées\",\"Partial presence (arrived late or left early)\":\"Présence partielle (retard ou départ anticipé)\",\"Password\":\"Mot de passe\",\"Payment method\":\"Moyen de paiement\",\"Payment methods\":\"Moyens de paiement\",\"Payments\":\"Paiements\",\"Payment\":\"Paiement\",\"Pedagogy\":\"Pedagogie\",\"Pending\":\"Impayés\",\"Pending Attendance\":\"Présences en attente\",\"Pending leads\":\"Clients potentiels\",\"Per course\":\"Par cours\",\"Per period\":\"Par cycle\",\"Per date\":\"Par date\",\"Per institution\":\"Par institution\",\"Per rhythm\":\"Par modalité\",\"Period\":\"Cycle\",\"period\":\"cycle\",\"Period Classes\":\"Cours ce cycle\",\"Period Max\":\"Max. pour le cycle\",\"Period Total\":\"Total ce cycle\",\"periods\":\"cycles\",\"Phone\":\"Téléphone\",\"Phone Number\":\"Téléphone\",\"Phone Numbers\":\"Numéros de téléphone\",\"Planned Hours\":\"Heures prévues\",\"Please check the additional contact data associated to your account\":\"Vérifiez les contacts associés à votre compte\",\"Please check your personal phone number(s)\":\"Merci de vérifier vos numéros de téléphone\",\"Please chose an image on your computer to update your profile picture\":\"Veuillez choisir une photo de profil\",\"Please fill in your profession and your institution (school, workplace).\":\"Merci d'indiquer votre profession et votre institution (école, travail)\",\"Pre-invoice ID\":\"Numéro de pré-facture\",\"Present\":\"Présent\",\"Price\":\"Prix\",\"Product\":\"Produit\",\"Products\":\"Produits\",\"Profession\":\"Profession\",\"Profile Picture\":\"Photo de profil\",\"Project\":\"Projet\",\"Refresh status\":\"Vérifier à nouveau\",\"Remote\":\"À distance\",\"remote event\":\"travail à distance\",\"remote events\":\"travaux à distance\",\"Remote Events\":\"Travaux à distance\",\"Remote Work\":\"Travail à distance\",\"Remote hours\":\"Heures à distance\",\"Remote volume\":\"Volume à distance\",\"Presential volume\":\"Volume en présenciel\",\"Presential hours\":\"Heures en présenciel\",\"Total hours\":\"Total des heures\",\"Hours on schedule\":\"Heures sur le calendrier\",\"Remove all\":\"Tout retirer\",\"REPORTS\":\"RAPPORTS\",\"resource Calendars\":\"Calendriers des ressources\",\"Resources\":\"Ressources\",\"Result\":\"Résultat\",\"result\":\"résultat\",\"Result Notification\":\"Notification de résultat\",\"result type\":\"type de résultat\",\"Result Types\":\"Échelles de résultat\",\"Results\":\"Résultats\",\"results\":\"résultats\",\"rhythm\":\"modalité\",\"Rhythm\":\"Modalité\",\"rhythms\":\"modalités\",\"Roles\":\"Rôles\",\"room\":\"salle\",\"Room\":\"Salle\",\"rooms\":\"salles\",\"Saturday\":\"Samedi\",\"Sunday\":\"Dimanche\",\"Save\":\"Enregistrer\",\"Save new Contact\":\"Enregistrer le contact\",\"Schedule\":\"Horaires\",\"scholarship\":\"bourse\",\"Scholarship\":\"Bourse\",\"scholarships\":\"bourses\",\"Scholarships\":\"Bourses\",\"Selected Period\":\"Période sélectionnée\",\"SETTINGS\":\"PARAMÈTRES\",\"Settings\":\"Paramètres\",\"share of students from previous period who were re-enrolled\":\"part des étudiants du cycle précédent qui se sont réinscrits\",\"Since the beginning of this course, you have:\":\"Depuis le début du cours, vous avez\",\"skill\":\"compétence\",\"skill scale\":\"échelle de compétence\",\"Skill Scales\":\"Échelles de compétences\",\"skill scales\":\"échelles de compétences\",\"skill type\":\"type de compétence\",\"Skill Types\":\"Types de compétences\",\"skill types\":\"types de compétences\",\"Skills\":\"Compétences\",\"skills\":\"compétences\",\"Skillset File\":\"Fichier de compétences\",\"Spots\":\"Places\",\"spots left\":\"places disponibles\",\"Start\":\"Début\",\"Start Date\":\"Date de début\",\"Start from period:\":\"Commencer au cycle :\",\"Status\":\"État\",\"Status is\":\"Statut client est\",\"Status is not\":\"Statut client n'est pas\",\"Student\":\"Étudiant\",\"student\":\"Étudiant\",\"Student :\":\"Étudiant :\",\"Student Attendance Overview\":\"Présences de l'étudiant\",\"Student Attendance Report\":\"Présences de l'étudiant\",\"Student details for\":\"Informations de l'étudiant\",\"Students\":\"Étudiants\",\"students\":\"étudiants\",\"Students under 18, please add contact data from your legal representatives\":\"Les étudiants mineurs doivent ajouter le contact de leurs représentants légaux\",\"TEACHER\":\"ENSEIGNANT(E)\",\"Teacher\":\"Enseignant(e)\",\"teacher\":\"enseignant(e)\",\"Teacher Dashboard\":\"Tableau de bord enseignant\",\"Teacher Leaves\":\"Congés\",\"teachers\":\"enseignants\",\"Teachers\":\"Enseignants\",\"The attendance record is incomplete for the following classes:\":\"La fiche de présence est incomplète pour les classes suivantes :\",\"The enrollment has been updated\":\"L'inscription a été mise à jour\",\"The information has successfully been saved\":\"L'information a été enregistrée\",\"The invoice has been generated\":\"La facture a été générée avec succès\",\"The invoice number has been saved\":\"Le numéro de facture a été enregistré\",\"The selected teacher is not available on this date\":\"Cet enseigant n'est pas disponible à ces dates\",\"This comment requires an action\":\"Ce commentaire demande une action\",\"This course has no skills yet\":\"Ce cours ne comporte aucune compétence\",\"This enrollment belongs to\":\"Cette inscription est liée à\",\"This is an absence notification for\":\"Ce message est une notification d'absence pour\",\"This is important, so that we can reach you in case of an emergency\":\"Ceci est important car cela nous permet de vous contacter en cas d'urgence\",\"This will erase all skills currently associated to the course\":\"Vous allez écraser les compétences associées au cours\",\"Thursday\":\"Jeudi\",\"Total\":\"Total\",\"TOTAL\":\"TOTAL\",\"Unable to communicate with Accounting Service. This invoice will NOT be sent automatically to the Accounting system\":\"Impossible de contacter le serveur comptable. Les données de facturation ne seront PAS transmises automatiquement\",\"unjustified absence\":\"absence non-justifiée\",\"Unjustified Absence\":\"Absence non justifiée\",\"Upcoming Leaves\":\"Prochaines vacances\",\"Upload skillset file\":\"Charger un fichier de compétences\",\"Users\":\"Utilisateurs\",\"View\":\"Voir\",\"View Skills for Group\":\"Voir les compétences du groupe\",\"Volume\":\"Volume\",\"Wednesday\":\"Mercredi\",\"Weekly workable hours\":\"Volume de travail hebdomadaire\",\"When everything is ready, please confirm that your data is up-to-date\":\"Lorsque toutes les données sont à jour, vous pouvez valider et terminer le processus\",\"Worked Hours\":\"Heures travaillées\",\"Confirm\":\"Confirmer\",\"year\":\"année\",\"Year\":\"Année\",\"Years\":\"Années\",\"years\":\"années\",\"You also need to add the invoice information here\":\"Vous devez aussi créer un contact pour la facture\",\"You may log in to view your results, and the comments from your teacher, if any\":\"Pour voir votre résultat et le commentaire de votre professeur, connectez-vous à la plateforme\",\"Your comment has been saved\":\"Votre commentaire a été enregistré\",\"Your course result is available for\":\"Le résultat est disponible pour votre cours\",\"Your data has been saved\":\"Les informations ont été enregistrées\",\"Your picture has been saved\":\"Votre photo a été enregistrée\",\"Attendance Monitor\":\"Absences à surveiller\",\"years old\":\"ans\",\"Remaining balance\":\"Reste à payer\",\"New payment\":\"Nouveau paiement\",\"Save and go back\":\"Enregistrer et retour\",\"Comment\":\"Commentaire\",\"Generate grade report\":\"Générer le bulletin\",\"Generate diploma\":\"Générer le diplôme\",\"Enrollments per Level\":\"Inscriptions par niveau\",\"Per level\":\"Par niveau\",\"Mark as paid\":\"Marquer comme payé\",\"Partnerships\":\"Partenariats\",\"partnership\":\"partenariat\",\"partnerships\":\"partenariats\",\"Number of Partnerships\":\"Nombre de partenariats\",\"Partnership Report\":\"Rapport statistique du partenariat\",\"Tacit renewal\":\"Reconduction tacite\",\"Hourly Price\":\"Prix horaire\",\"Send report on ... of the month\":\"Envoyer le rapport le ... du mois\",\"Teachers overview\":\"Tous les enseignants\",\"Rooms overview\":\"Toutes les salles\",\"Day\":\"Jour\",\"Sun\":\"Dim.\",\"Mon\":\"Lun.\",\"Tue\":\"Mar.\",\"Wed\":\"Mer.\",\"Thu\":\"Jeu.\",\"Fri\":\"Ven.\",\"Sat\":\"Sam.\",\"Course sublevels\":\"Sous-niveaux\",\"The course you are editing is a sub-course of\":\"Ce cours est un sous-module du cours\",\"Please remember to update the parent and its other children courses accordingly\":\"Vous devez mettre à jour le cours parent et tous ses sous-modules de manière indépendante.\",\"The course you are editing is the parent of these sub-courses:\":\"Ce cours est le parent des sous-modules suivants:\",\"Editable fields for the parent course are limited. Please update children courses accordingly\":\"Les champs modifiables sont limités. Veuillez modifier les sous-modules directement\",\"If you assign a schedule preset, the coursetimes above will be ignored.\":\"Si vous choisissez une préselection, les horaires ci-dessus ne seront pas pris en compte.\",\"Grades report (PDF)\":\"Bulletin de notes (PDF)\",\"Takings\":\"Recettes\",\"Average\":\"Moyenne\",\"Switch to list view\":\"Passer à la vue en liste\",\"Switch to block view\":\"Passer à la vue en blocs\",\"Sync to LMS\":\"Synchroniser avec le LMS\",\"LMS code\":\"Code LMS\",\"Warning\":\"Avertissement\",\"Do you really want to delete this phone number?\":\"Souhaitez-vous vraiment supprimer ce numéro de téléphone ?\",\"Do you really want to delete this contact?\":\"Souhaitez-vous vraiment supprimer ce contact?\",\"Do you really want to delete this course?\":\"Souhaitez-vous vraiment supprimer ce cours?\",\"Your changes could not be saved\":\"Vos modifications n'ont pas pu être sauvegardées\",\"Your changes were successful\":\"Vos changements ont été effectuées avec succès\",\"Error\":\"Erreur\",\"Success\":\"OK !\",\"The course has been deleted\":\"Le cours a été supprimé\",\"Impossible to delete this course\":\"Impossible de supprimer ce cours\",\"Enrollment in progress...\":\"Inscription en cours...\",\"Enable\":\"Activer\",\"Disable\":\"Désactiver\",\"Send invoice to external accounting system\":\"Transmettre la facture au système comptable\",\"Total received amount\":\"Montant total perçu\",\"Total price\":\"Montant total\",\"First payment date\":\"Date du premier paiement\",\"Number of payments\":\"Nombre de paiements\",\"Scheduled Payments\":\"Paiements programmés\",\"Value\":\"Valeur\",\"Receipt Number\":\"Numéro de reçu\",\"Total paid amount does not match the invoice total price\":\"Le montant total perçu ne correspond pas à la valeur totale de la facture\",\"Continue\":\"Continuer\",\"Mark as pending\":\"Marquer comme non-payé\"}");
 
 /***/ }),
 

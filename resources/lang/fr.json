@@ -425,5 +425,13 @@
     "Disable": "Désactiver",
     "Send invoice to external accounting system": "Transmettre la facture au système comptable",
     "Total received amount": "Montant total perçu",
-    "Total price": "Montant total"
+    "Total price": "Montant total",
+    "First payment date": "Date du premier paiement",
+    "Number of payments": "Nombre de paiements",
+    "Scheduled Payments": "Paiements programmés",
+    "Value": "Valeur",
+    "Receipt Number":  "Numéro de reçu",
+    "Total paid amount does not match the invoice total price": "Le montant total perçu ne correspond pas à la valeur totale de la facture",
+    "Continue": "Continuer",
+    "Mark as pending": "Marquer comme non-payé"
 }
