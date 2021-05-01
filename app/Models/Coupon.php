@@ -45,9 +45,19 @@ class Coupon extends Model
     |--------------------------------------------------------------------------
     */
 
+    public function getPriceAttribute($value)
+    {
+        return $value / 100;
+    }
+
     /*
     |--------------------------------------------------------------------------
     | MUTATORS
     |--------------------------------------------------------------------------
     */
+
+    public function setPriceAttribute($value)
+    {
+        $this->attributes['price'] = $value * 100;
+    }
 }

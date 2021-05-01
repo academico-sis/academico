@@ -57,7 +57,7 @@ export default {
                 price: this.price,
             })
             .then(response => {
-                this.price = response.data.total_price;
+                this.price = response.data.price;
                 this.editable = false;
                 new Noty({
                     title: this.$t("Operation successful"),

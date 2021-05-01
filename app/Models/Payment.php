@@ -53,6 +53,11 @@ class Payment extends Model
     |--------------------------------------------------------------------------
     */
 
+    public function getValueAttribute($value)
+    {
+        return $value / 100;
+    }
+
     public function getEnrollmentNameAttribute(): string
     {
         if ($this->invoice && $this->invoice->enrollment)
@@ -107,4 +112,9 @@ class Payment extends Model
     | MUTATORS
     |--------------------------------------------------------------------------
     */
+
+    public function setValueAttribute($value)
+    {
+        $this->attributes['value'] = $value * 100;
+    }
 }

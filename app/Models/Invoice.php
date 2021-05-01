@@ -59,4 +59,14 @@ class Invoice extends Model
 
         return $this->total_price . " " . config('app.currency_symbol');
     }
+
+    public function getTotalPriceAttribute($value)
+    {
+        return $value / 100;
+    }
+
+    public function setTotalPriceAttribute($value)
+    {
+        $this->attributes['total_price'] = $value * 100;
+    }
 }

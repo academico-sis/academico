@@ -268,10 +268,10 @@ class Enrollment extends Model
     {
         // if the enrollment has a price, we always consider it first
         if ($this->total_price !== null) {
-            return $this->total_price;
-        } else {
-            return $this->course->price ?? 0;
+            return $this->total_price / 100;
         }
+
+        return $this->course->price;
     }
 
     public function getPriceWithCurrencyAttribute()
@@ -307,5 +307,12 @@ class Enrollment extends Model
         }
 
         $this->delete();
+    }
+
+
+
+    public function setTotalPriceAttribute($value)
+    {
+        $this->attributes['total_price'] = $value * 100;
     }
 }

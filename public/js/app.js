@@ -1407,7 +1407,7 @@ __webpack_require__.r(__webpack_exports__);
       axios.put("/enrollment/".concat(this.enrollment.id, "/price"), {
         price: this.price
       }).then(function (response) {
-        _this.price = response.data.total_price;
+        _this.price = response.data.price;
         _this.editable = false;
         new Noty({
           title: _this.$t("Operation successful"),

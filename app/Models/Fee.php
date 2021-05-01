@@ -46,6 +46,11 @@ class Fee extends Model
     |--------------------------------------------------------------------------
     */
 
+    public function getPriceAttribute($value)
+    {
+        return $value / 100;
+    }
+
     public function getPriceWithCurrencyAttribute()
     {
         if (config('app.currency_position') === 'before')
@@ -61,4 +66,9 @@ class Fee extends Model
     | MUTATORS
     |--------------------------------------------------------------------------
     */
+
+    public function setPriceAttribute($value)
+    {
+        $this->attributes['price'] = $value * 100;
+    }
 }
