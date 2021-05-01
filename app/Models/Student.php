@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Events\LeadStatusUpdatedEvent;
 use App\Events\StudentDeleting;
+use App\Events\StudentUpdated;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -23,6 +24,7 @@ class Student extends Model implements HasMedia
 
     protected $dispatchesEvents = [
         'deleting' => StudentDeleting::class,
+        'updated' => StudentUpdated::class,
     ];
 
     public $timestamps = true;
@@ -30,6 +32,9 @@ class Student extends Model implements HasMedia
     protected $fillable = [
         'id',
         'idnumber',
+        'firstname',
+        'lastname',
+        'email',
         'address',
         'city',
         'state',
@@ -188,32 +193,36 @@ class Student extends Model implements HasMedia
     }
 
     /** attributes */
-    public function getFirstnameAttribute()
+    public function getFirstnameAttribute(): string
     {
         if ($this->user) {
             return Str::title($this->user->firstname);
         }
+        return '';
     }
 
-    public function getLastnameAttribute()
+    public function getLastnameAttribute(): string
     {
         if ($this->user) {
             return Str::upper($this->user->lastname);
         }
+        return '';
     }
 
-    public function getEmailAttribute()
+    public function getEmailAttribute(): string
     {
         if ($this->user) {
             return $this->user->email;
         }
+        return '';
     }
 
-    public function getNameAttribute()
+    public function getNameAttribute(): string
     {
         if ($this->user) {
             return ($this->title ? ($this->title->title . ' ') : '') . $this->firstname.' '.$this->lastname;
         }
+        return '';
     }
 
     public function getStudentAgeAttribute()
@@ -309,19 +318,16 @@ class Student extends Model implements HasMedia
     /** SETTERS */
     public function setFirstnameAttribute($value)
     {
-        $this->user->firstname = $value;
-        $this->user->save();
+        $this->user->update(['firstname' => $value]);
     }
 
     public function setLastnameAttribute($value)
     {
-        $this->user->lastname = $value;
-        $this->user->save();
+        $this->user->update(['lastname' => $value]);
     }
 
     public function setEmailAttribute($value)
     {
-        $this->user->email = $value;
-        $this->user->save();
+        $this->user->update(['email' => $value]);
     }
 }

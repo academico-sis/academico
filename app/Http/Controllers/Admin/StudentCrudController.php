@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\StudentRequest;
 use App\Models\Institution;
 use App\Models\LeadType;
 use App\Models\Period;
@@ -11,6 +12,7 @@ use App\Traits\PeriodSelection;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\CRUD\app\Library\Widget;
 use Illuminate\Support\Str;
@@ -21,6 +23,7 @@ class StudentCrudController extends CrudController
     use ShowOperation {
         show as traitShow;
     }
+    use UpdateOperation;
     use PeriodSelection;
 
     public function __construct()
@@ -196,6 +199,27 @@ class StudentCrudController extends CrudController
         }, function ($value) {
             $this->crud->addClause('computedLeadType', $value);
         });
+    }
+
+    public function setupUpdateOperation()
+    {
+        CRUD::setValidation(StudentRequest::class);
+        CRUD::field('firstname')->tab(__('Student Info'));
+        CRUD::field('lastname')->tab(__('Student Info'));
+        CRUD::field('email')->tab(__('Student Info'));
+        CRUD::field('idnumber')->tab(__('Student Info'));
+        CRUD::field('birthdate')->tab(__('Student Info'));
+        CRUD::field('profession')->tab(__('Student Info'));
+        CRUD::field('institution')->tab(__('Student Info'));
+
+        CRUD::field('address')->tab(__('Address'));
+        CRUD::field('zip_code')->tab(__('Address'));
+        CRUD::field('city')->tab(__('Address'));
+        CRUD::field('state')->tab(__('Address'));
+        CRUD::field('country')->tab(__('Address'));
+
+        CRUD::field('iban')->tab(__('Invoicing Info'));
+        CRUD::field('bic')->tab(__('Invoicing Info'));
     }
 
     public function show($student)

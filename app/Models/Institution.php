@@ -9,4 +9,9 @@ class Institution extends Model
 {
     use CrudTrait;
     protected $guarded = ['id'];
+
+    public function identifiableAttribute()
+    {
+        return $this->name;
+    }
 }
