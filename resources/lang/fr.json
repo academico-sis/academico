@@ -221,7 +221,7 @@
     "Payments": "Paiements",
     "Payment": "Paiement",
     "Pedagogy": "Pedagogie",
-    "Pending": "Impayés",
+    "Pending": "Impayé",
     "Pending Attendance": "Présences en attente",
     "Pending leads": "Clients potentiels",
     "Per course": "Par cours",
@@ -433,5 +433,6 @@
     "Receipt Number":  "Numéro de reçu",
     "Total paid amount does not match the invoice total price": "Le montant total perçu ne correspond pas à la valeur totale de la facture",
     "Continue": "Continuer",
-    "Mark as pending": "Marquer comme non-payé"
+    "Mark as pending": "Marquer comme non-payé",
+    "Paid": "Payé"
 }

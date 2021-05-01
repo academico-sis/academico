@@ -19,7 +19,7 @@ class Payment extends Model
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
-    protected $appends = ['date_for_humans', 'value_with_currency'];
+    protected $appends = ['date_for_humans', 'value_with_currency', 'display_status'];
     //protected $fillable = [];
     // protected $hidden = [];
     // protected $dates = [];
@@ -87,8 +87,13 @@ class Payment extends Model
 
         return '';
     }
+
     function getDateForHumansAttribute()
     {
+        if ($this->date)
+        {
+            return Carbon::parse($this->date, 'UTC')->locale(App::getLocale())->isoFormat('LL');
+        }
         return Carbon::parse($this->created_at, 'UTC')->locale(App::getLocale())->isoFormat('LL');
     }
 
@@ -105,6 +110,18 @@ class Payment extends Model
         }
 
         return $this->value . " " . config('app.currency_symbol');
+    }
+
+    public function getDisplayStatusAttribute()
+    {
+        switch ($this->status)
+        {
+            case (null):
+            case (1):
+                return __('Pending');
+            case (2):
+                return __('Paid');
+        }
     }
 
     /*

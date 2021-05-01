@@ -11,6 +11,7 @@ use App\Models\Fee;
 use App\Models\Payment;
 use App\Models\Invoice;
 use App\Models\InvoiceDetail;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -160,15 +161,17 @@ class InvoiceController extends Controller
         foreach ($request->payments as $payment)
         {
             $invoice->payments()->create([
-                'payment_method' => $payment['payment_method'],
+                'payment_method' => isset($payment['payment_method']) ? $payment['payment_method'] : null,
                 'value' => $payment['value'],
-                'responsable_id' => backpack_user()->id
+                'date' => isset($payment['date']) ? $payment['date'] : Carbon::now(),
+                'status' => isset($payment['status']) ? $payment['status'] : null,
+                'responsable_id' => backpack_user()->id,
             ]);
         }
 
         // if the payments match the enrollment price, mark as paid.
         foreach ($invoice->enrollments as $enrollment) {
-            if ($invoice->total_price == $invoice->paidTotal()) {
+            if ($invoice->total_price == $invoice->paidTotal() && $invoice->payments->where('status', '!==', 2)->count() === 0) {
                 $enrollment->markAsPaid();
             }
         }

@@ -340,7 +340,7 @@
 
                                     <td>
                                         <div class="input-group">
-                                            <div class="input-group-append" v-if="currencyposition === 'before'">
+                                            <div class="input-group-prepend" v-if="currencyposition === 'before'">
                                                 <span class="input-group-text">{{ currency }}</span>
                                             </div>
                                             <input v-model="payment.value" type="number" step="0.01" class="form-control" />

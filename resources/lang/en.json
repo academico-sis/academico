@@ -440,5 +440,6 @@
     "Receipt Number":  "Receipt Number",
     "Total paid amount does not match the invoice total price": "Total paid amount does not match the invoice total price",
     "Continue": "Continue",
-    "Mark as pending": "Mark as pending"
+    "Mark as pending": "Mark as pending",
+    "Paid": "Paid"
 }

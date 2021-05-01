@@ -2,7 +2,7 @@
     <div>
         <div v-if="editable">
             <div class="input-group" v-if="this.currencyposition === 'before'">
-                <div class="input-group-append">
+                <div class="input-group-prepend">
                     <span class="input-group-text">{{ this.currency }}</span>
                 </div>
                 <input v-if="editable" step="0.01" class="form-control" type="number" v-model="price" />
@@ -14,8 +14,8 @@
                     <span class="input-group-text">{{ this.currency }}</span>
                 </div>
 
-                <button v-if="editable" class="btn btn-success" @click="savePrice">{{ $t('Save') }}</button>
             </div>
+            <button class="btn btn-success" @click="savePrice">{{ $t('Save') }}</button>
         </div>
         <div v-else>
             {{ $t('Price') }}:
