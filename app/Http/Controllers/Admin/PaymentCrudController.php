@@ -31,6 +31,8 @@ class PaymentCrudController extends CrudController
         CRUD::setModel(\App\Models\Payment::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/payment');
         CRUD::setEntityNameStrings('payment', 'payments');
+
+        $this->crud->enableExportButtons();
     }
 
     /**
@@ -41,8 +43,6 @@ class PaymentCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-
-
         $this->crud->addFilter([
             'type'  => 'date',
             'name'  => 'date',
@@ -62,12 +62,30 @@ class PaymentCrudController extends CrudController
             $currency = array('suffix' => config('app.currency_symbol'));
         }
 
+        CRUD::addColumn([
+            'name' => 'enrollment_name',
+            'type' => 'attribute',
+            'label' => __('Enrollment'),
+        ]);
+
         CRUD::addColumn(array_merge([
             'name'  => 'value',
             'label' => __('Value'),
             'type'  => 'number'], $currency));
 
         CRUD::column('status');
+
+        CRUD::addColumn([
+            'name' => 'iban',
+            'type' => 'attribute',
+            'label' => 'IBAN',
+        ]);
+
+        CRUD::addColumn([
+            'name' => 'bic',
+            'type' => 'attribute',
+            'label' => 'BIC',
+        ]);
     }
 
     /**

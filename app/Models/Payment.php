@@ -52,7 +52,37 @@ class Payment extends Model
     | ACCESORS
     |--------------------------------------------------------------------------
     */
-    public function getDateForHumansAttribute()
+
+    public function getEnrollmentNameAttribute(): string
+    {
+        if ($this->invoice && $this->invoice->enrollment)
+        {
+            return $this->invoice->enrollment->student_name;
+        }
+
+        return '';
+    }
+
+    public function getIbanAttribute(): string
+    {
+        if ($this->invoice && $this->invoice->enrollment)
+        {
+            return $this->invoice->enrollment->student->iban ?? '';
+        }
+
+        return '';
+    }
+
+    public function getBicAttribute(): string
+    {
+        if ($this->invoice && $this->invoice->enrollment)
+        {
+            return $this->invoice->enrollment->student->bic ?? '';
+        }
+
+        return '';
+    }
+    function getDateForHumansAttribute()
     {
         return Carbon::parse($this->created_at, 'UTC')->locale(App::getLocale())->isoFormat('LL');
     }
