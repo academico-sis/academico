@@ -4,7 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\PaymentRequest;
 use App\Models\Payment;
+use App\Models\Paymentmethod;
+use App\Models\Scholarship;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Support\Carbon;
 
@@ -15,11 +19,8 @@ use Illuminate\Support\Carbon;
  */
 class PaymentCrudController extends CrudController
 {
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+    use ListOperation;
+    use ShowOperation { show as traitShow; }
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -88,42 +89,26 @@ class PaymentCrudController extends CrudController
         ]);
     }
 
-    /**
-     * Define what happens when the Create operation is loaded.
-     *
-     * @see https://backpackforlaravel.com/docs/crud-operation-create
-     * @return void
-     */
-    protected function setupCreateOperation()
+    public function show($id)
     {
-        CRUD::setValidation(PaymentRequest::class);
+        $payment = Payment::findOrFail($id);
 
-        CRUD::field('id');
-        CRUD::field('responsable_id');
-        CRUD::field('invoice_id');
-        CRUD::field('payment_method');
-        CRUD::field('date');
-        CRUD::field('value');
-        CRUD::field('status');
-        CRUD::field('comment');
-        CRUD::field('created_at');
-        CRUD::field('updated_at');
+        if (! backpack_user()->can('enrollments.edit')) {
+            abort(403);
+        }
 
-        /**
-         * Fields can be defined using the fluent syntax or array syntax:
-         * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
-         */
-    }
+        if (! $payment->invoice || ! $payment->invoice->enrollment)
+        {
+            abort(404, 'No enrollment found for this payment');
+        }
 
-    /**
-     * Define what happens when the Update operation is loaded.
-     *
-     * @see https://backpackforlaravel.com/docs/crud-operation-update
-     * @return void
-     */
-    protected function setupUpdateOperation()
-    {
-        $this->setupCreateOperation();
+        return view('enrollments.show', [
+            'enrollment' => $payment->invoice->enrollment->load('invoice')->load('invoice.payments'),
+            'products' => $payment->invoice()->with('invoiceDetails')->get(),
+            'comments' => $payment->invoice->enrollment->comments,
+            'scholarships' => Scholarship::all(),
+            'availablePaymentMethods' => Paymentmethod::all(),
+            'writeaccess' => $payment->invoice->enrollment->status_id !== 2 && backpack_user()->can('enrollments.edit'),
+        ]);
     }
 }
