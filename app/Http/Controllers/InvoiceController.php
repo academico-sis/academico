@@ -108,6 +108,7 @@ class InvoiceController extends Controller
                 'invoice_id' => $invoice->id,
                 'payment_method' => isset($payment['method']) ? $payment['method'] : null ,
                 'value' => $payment['value'],
+                'date' => isset($payment['date']) ? Carbon::parse($payment['date']) : Carbon::now(),
             ]);
         }
 
@@ -129,7 +130,7 @@ class InvoiceController extends Controller
         // if the value of payments matches the total due price,
         // mark the invoice and associated enrollments as paid.
         foreach ($invoice->enrollments as $enrollment) {
-            if ($invoice->total_price == $invoice->paidTotal()) {
+            if ($invoice->total_price == $invoice->paidTotal() && $invoice->payments->where('status', '!==', 2)->count() === 0) {
                 $enrollment->markAsPaid();
             }
         }
@@ -163,8 +164,8 @@ class InvoiceController extends Controller
             $invoice->payments()->create([
                 'payment_method' => isset($payment['payment_method']) ? $payment['payment_method'] : null,
                 'value' => $payment['value'],
-                'date' => isset($payment['date']) ? $payment['date'] : Carbon::now(),
-                'status' => isset($payment['status']) ? $payment['status'] : null,
+                'date' => isset($payment['date']) ? Carbon::parse($payment['date']) : Carbon::now(),
+                'status' => isset($payment['status']) ? $payment['status'] : 1,
                 'responsable_id' => backpack_user()->id,
             ]);
         }
