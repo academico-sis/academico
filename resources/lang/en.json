@@ -168,6 +168,7 @@
     "HR": "HR",
     "Human Resources": "Human Resources",
     "ID number": "ID number",
+    "zip": "ZIP Code",
     "ID Number": "ID Number",
     "Import skills": "Import skills",
     "Incomplete Attendance": "Incomplete Attendance",
@@ -441,5 +442,7 @@
     "Total paid amount does not match the invoice total price": "Total paid amount does not match the invoice total price",
     "Continue": "Continue",
     "Mark as pending": "Mark as pending",
-    "Paid": "Paid"
+    "Paid": "Paid",
+    "Student Info": "Student Info",
+    "Invoicing Info": "Invoicing Info"
 }

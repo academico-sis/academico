@@ -21,6 +21,7 @@
     "Additional Data": "Datos del estudiante",
     "Address": "Dirección",
     "City": "Ciudad",
+    "zip": "Código postal",
     "Country": "Pais",
     "ADMINISTRATION": "Administración",
     "age": "edad",
@@ -206,6 +207,7 @@
     "name": "Nombre",
     "Name": "Nombre",
     "New Students": "Nuevos estudiantes",
+    "New student": "Crear estudiante",
     "No Result": "No hay resultado",
     "noresults": "No hay cursos con los criterios seleccionados",
     "Number of Absences": "Número de ausencias",
@@ -440,5 +442,7 @@
     "Total paid amount does not match the invoice total price": "El valor total recibido no corresponde al valor total de la factura",
     "Continue": "Continuar",
     "Mark as pending": "Marcar como pendiente",
-    "Paid": "Pagado"
+    "Paid": "Pagado",
+    "Student Info": "Información del estudiante",
+    "Invoicing Info": "Facturación"
 }

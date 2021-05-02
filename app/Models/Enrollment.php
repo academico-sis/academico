@@ -271,7 +271,7 @@ class Enrollment extends Model
             return $this->total_price / 100;
         }
 
-        return $this->course->price;
+        return $this->course->price ?? 0;
     }
 
     public function getPriceWithCurrencyAttribute()

@@ -190,35 +190,36 @@
                     <div class="card-header">
                         {{ $t("Invoice Data") }}
                         <div class="card-header-actions">
-                            <button v-if="checkForm()" class="btn btn-success" @click="confirmInvoiceData()">
+                            <button :disabled="! checkForm()" class="btn btn-success" @click="confirmInvoiceData()">
                                 <i class="la la-check"></i>{{ $t("Select") }}
                             </button>
+                            <span v-if ="! checkForm()">{{ $t('You need to fill out all fields to continue') }}</span>
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="form-group">
                             <label for="clientname">{{ $t("Client name") }}</label>
-                            <input id="clientname" v-model="clientname" required type="text" class="form-control" />
+                            <input id="clientname" v-model="clientname" :class="{'is-invalid': !clientname || clientname == ''}" required type="text" class="form-control" />
                         </div>
 
                         <div class="form-group">
                             <label for="clientphone">{{ $t("Client Phone Number") }}</label>
-                            <input id="clientphone" v-model="clientphone" required type="text" class="form-control" />
+                            <input id="clientphone" v-model="clientphone" :class="{'is-invalid': !clientphone || clientphone == ''}" required type="text" class="form-control" />
                         </div>
 
                         <div class="form-group">
                             <label for="clientaddress">{{ $t("Client address") }}</label>
-                            <input id="clientaddress" v-model="clientaddress" required type="text" class="form-control" />
+                            <input id="clientaddress" v-model="clientaddress" :class="{'is-invalid': !clientaddress || clientaddress == ''}" required type="text" class="form-control" />
                         </div>
 
                         <div class="form-group">
                             <label for="clientidnumber">{{ $t("Client ID Number") }}</label>
-                            <input v-model="clientidnumber" id="clientidnumber" required type="text" class="form-control" />
+                            <input v-model="clientidnumber" id="clientidnumber" :class="{'is-invalid': !clientidnumber || clientidnumber == ''}" required type="text" class="form-control" />
                         </div>
 
                         <div class="form-group">
                             <label for="clientemail">{{ $t("Client email") }}</label>
-                            <input v-model="clientemail" id="clientemail" required type="text" class="form-control" />
+                            <input v-model="clientemail" id="clientemail" :class="{'is-invalid': !clientemail || clientemail == ''}" required type="text" class="form-control" />
                         </div>
                     </div>
                 </div>
@@ -464,7 +465,7 @@ export default {
             totalPrice: 0,
             errors: [],
             discounts: [],
-            step: 3,
+            step: 1,
             clientname: "",
             clientphone: "",
             clientaddress: "",
@@ -526,6 +527,10 @@ export default {
 
     mounted() {
         this.checkAccountingStatus();
+
+        if (this.contactdata.length === 0) {
+            this.selectStudentData();
+        }
 
         this.addPayment(this.shoppingCartTotal)
     },

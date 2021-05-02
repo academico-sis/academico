@@ -141,6 +141,7 @@
     "External": "Externe",
     "External Course": "Cours externe",
     "External Courses": "Cours externes",
+    "Internal Courses": "Cours internes",
     "External Courses Report": "Rapport des cours externes",
     "Face-to-face": "Présentiel",
     "fee": "frais administratif",
@@ -206,6 +207,7 @@
     "Name": "Nom",
     "name": "nom",
     "New Students": "Nouveaux étudiants",
+    "New student": "Nouvel étudiant",
     "No Result": "Pas de résultat",
     "noresults": "Pas de cours avec les filtres sélectionnés",
     "Number of Absences": "Nombre d'absences",
@@ -434,5 +436,8 @@
     "Total paid amount does not match the invoice total price": "Le montant total perçu ne correspond pas à la valeur totale de la facture",
     "Continue": "Continuer",
     "Mark as pending": "Marquer comme non-payé",
-    "Paid": "Payé"
+    "Paid": "Payé",
+    "Student Info": "Informations personnelles",
+    "Invoicing Info": "Facturation",
+    "zip": "Code postal"
 }
