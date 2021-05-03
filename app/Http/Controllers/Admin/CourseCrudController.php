@@ -246,6 +246,30 @@ class CourseCrudController extends CrudController
               CRUD::addClause('parent');
           }
         );
+
+        $this->crud->addFilter([
+            'type'  => 'date_range',
+            'name'  => 'start_date',
+            'label' => __('Start')
+        ],
+            false,
+            function ($value) { // if the filter is active, apply these constraints
+                $dates = json_decode($value);
+                $this->crud->addClause('where', 'start_date', '>=', $dates->from);
+                $this->crud->addClause('where', 'start_date', '<=', $dates->to . ' 23:59:59');
+            });
+
+        $this->crud->addFilter([
+            'type'  => 'date_range',
+            'name'  => 'end_date',
+            'label' => __('End')
+        ],
+            false,
+            function ($value) { // if the filter is active, apply these constraints
+                $dates = json_decode($value);
+                $this->crud->addClause('where', 'end_date', '>=', $dates->from);
+                $this->crud->addClause('where', 'end_date', '<=', $dates->to . ' 23:59:59');
+            });
     }
 
     protected function setupCreateOperation()
