@@ -301,18 +301,33 @@
                             <div class="card-body">
 
                                 <div class="mb-3 row">
-                                    <label class="col-sm-4 col-form-label" for="paymentsCount">{{ $t('Number of payments') }}</label>
-                                    <div class="col-sm-8">
-                                        <input id="paymentsCount" v-model="paymentsCount" class="form-control" type="number" step="1" min="1" decimal="0">
-                                    </div>
-                                </div>
-                                <div class="mb-3 row">
                                     <label class="col-sm-4 col-form-label" for="firstPaymentDate">{{ $t('First payment date') }}</label>
                                     <div class="col-sm-8">
                                         <input id="firstPaymentDate" v-model="firstPaymentDate" class="form-control" type="date">
                                     </div>
                                 </div>
 
+                                <div class="mb-3 row">
+                                    <label class="col-sm-4 col-form-label" for="paymentsCount">{{ $t('Number of payments') }}</label>
+                                    <div class="col-sm-8">
+                                        <input id="paymentsCount" v-model="paymentsCount" class="form-control" type="number" step="1" min="1" decimal="0">
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 row">
+                                    <label class="col-sm-4 col-form-label" for="firstPaymentDate">{{ $t('Value') }}</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend" v-if="currencyposition === 'before'">
+                                                <span class="input-group-text">{{ currency }}</span>
+                                            </div>
+                                            <input v-model="paymentsDefaultValue" type="number" step="0.01" class="form-control" />
+                                            <div class="input-group-append" v-if="currencyposition === 'after'">
+                                                <span class="input-group-text">{{ currency }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -479,6 +494,7 @@ export default {
             loading: false,
             paymentsCount: 1,
             firstPaymentDate: new Date().toISOString().substr(0, 10),
+            paymentsDefaultValue: null,
         };
     },
     computed: {
@@ -751,19 +767,31 @@ export default {
         },
     },
     watch: {
+        payments: function () {
+            this.paymentsCount = this.payments.length;
+        },
+
         paymentsCount: function () {
             // empty payments array
             this.payments.length = 0;
 
             var i = 0;
             while (i < this.paymentsCount) {
-                this.addPayment(this.shoppingCartTotal / this.paymentsCount);
+                this.addPayment(this.paymentsDefaultValue);
                 i++
             }
         },
-        payments: function () {
-            this.paymentsCount = this.payments.length;
-        }
+
+        paymentsDefaultValue: function () {
+            // empty payments array
+            this.payments.length = 0;
+
+            var i = 0;
+            while (i < this.paymentsCount) {
+                this.addPayment(this.paymentsDefaultValue);
+                i++
+            }
+        },
     },
 };
 </script>
