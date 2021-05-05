@@ -43,10 +43,11 @@ class CourseController extends Controller
         ->with('room')->withCount('events')->withCount('children')->withCount('enrollments')
         ->allowedFilters([
             'name',
-            'period_id',
-            'rhythm_id',
+            AllowedFilter::exact('period_id'),
+            AllowedFilter::exact('rhythm_id'),
             AllowedFilter::custom('searchable_levels', new FiltersSearchableLevels()),
-            'teacher_id', ])
+            AllowedFilter::exact('teacher_id'),
+        ])
         ->get();
     }
 
