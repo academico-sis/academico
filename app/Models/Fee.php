@@ -17,7 +17,7 @@ class Fee extends Model
     // protected $primaryKey = 'id';
     public $timestamps = false;
     protected $guarded = ['id'];
-    protected $appends = ['price_with_currency'];
+    protected $appends = ['price_with_currency', 'type'];
     //protected $fillable = [];
     // protected $hidden = [];
     // protected $dates = [];
@@ -59,6 +59,11 @@ class Fee extends Model
         }
 
         return $this->price . " " . config('app.currency_symbol');
+    }
+
+    public function getTypeAttribute()
+    {
+        return "fee";
     }
 
     /*

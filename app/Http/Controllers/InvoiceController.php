@@ -51,16 +51,6 @@ class InvoiceController extends Controller
         $enrollment->invoice()->associate($invoice);
         $enrollment->save();
 
-        // persist the products
-        InvoiceDetail::create([
-            'invoice_id' => $invoice->id,
-            'product_name' => $enrollment->course->name,
-            'product_code' => $enrollment->course->product_code,
-            'product_id' => $enrollment->id,
-            'product_type' => Enrollment::class,
-            'price' => $enrollment->course->price ?? 0,
-        ]);
-
         if (isset($request->comment)) {
             Comment::create([
                 'commentable_id' => $enrollment->id,
@@ -70,25 +60,21 @@ class InvoiceController extends Controller
             ]);
         }
 
-        foreach ($request->fees as $f => $fee) {
-            InvoiceDetail::create([
-                'invoice_id' => $invoice->id,
-                'product_name' => $fee['name'],
-                'product_code' => $fee['product_code'],
-                'product_id' => $fee['id'],
-                'product_type' => Fee::class,
-                'price' => $fee['price'],
-            ]);
-        }
+        // persist the products
+        foreach ($request->products as $f => $product) {
+            $productType = match ($product['type']) {
+                'enrollment' => Enrollment::class,
+                'fee' => Fee::class,
+                'book' => Book::class,
+            };
 
-        foreach ($request->books as $b => $book) {
             InvoiceDetail::create([
                 'invoice_id' => $invoice->id,
-                'product_name' => $book['name'],
-                'product_code' => $book['product_code'],
-                'product_id' => $book['id'],
-                'product_type' => Book::class,
-                'price' => $book['price'],
+                'product_name' => $product['name'],
+                'product_code' => $product['product_code'],
+                'product_id' => $product['id'],
+                'product_type' => $productType,
+                'price' => $product['price'],
             ]);
         }
 

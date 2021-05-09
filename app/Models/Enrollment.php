@@ -18,7 +18,7 @@ class Enrollment extends Model
     use LogsActivity;
 
     protected $guarded = ['id'];
-    protected $appends = ['result_name', 'product_code', 'price', 'price_with_currency'];
+    protected $appends = ['type', 'name', 'result_name', 'product_code', 'price', 'price_with_currency'];
     protected $with = ['student', 'course', 'childrenEnrollments'];
     protected static $logUnguarded = true;
 
@@ -197,7 +197,17 @@ class Enrollment extends Model
 
     public function getStudentNameAttribute()
     {
-        return $this->student['name'];
+        return $this->student->name ?? "";
+    }
+
+    public function getNameAttribute()
+    {
+        return "Enrollment for " . $this->student_name;
+    }
+
+    public function getTypeAttribute()
+    {
+        return "enrollment";
     }
 
     /*     public function getStudentIdAttribute()
