@@ -439,5 +439,8 @@
     "Paid": "Payé",
     "Student Info": "Informations personnelles",
     "Invoicing Info": "Facturation",
-    "zip": "Code postal"
+    "zip": "Code postal",
+    "You need to fill out all fields to continue": "Veuillez compléter tous les champs pour continuer",
+    "Contact": "Contact",
+    "Invoice Type": "Type de facture"
 }

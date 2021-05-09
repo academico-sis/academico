@@ -444,5 +444,8 @@
     "Mark as pending": "Marcar como pendiente",
     "Paid": "Pagado",
     "Student Info": "Información del estudiante",
-    "Invoicing Info": "Facturación"
+    "Invoicing Info": "Facturación",
+    "You need to fill out all fields to continue": "Tiene que llenar todos los campos para continuar",
+    "Contact": "Contact",
+    "Invoice Type": "Tipo de factura"
 }

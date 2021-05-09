@@ -6,6 +6,7 @@ use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
+use function Symfony\Component\Translation\t;
 
 class Invoice extends Model
 {
@@ -50,6 +51,24 @@ class Invoice extends Model
         return $this->morphMany(Comment::class, 'commentable');
     }
 
+    public function invoiceType()
+    {
+        return $this->belongsTo(InvoiceType::class);
+    }
+
+    public function setNumber()
+    {
+        // retrieve the last entry for the same type / year, and increment
+        $count = Invoice::whereInvoiceTypeId($this->invoice_type_id)->whereYear('created_at', $this->created_at->year)->orderByDesc('invoice_number')->first()->invoice_number;
+
+        $this->update(['invoice_number' => $count + 1]);
+    }
+
+    public function getInvoiceReferenceAttribute() : string
+    {
+        return $this->invoiceType->name . $this->created_at->format('y') . "-" . $this->invoice_number;
+    }
+
     public function getTotalPriceWithCurrencyAttribute()
     {
         if (config('app.currency_position') === 'before')
@@ -68,5 +87,10 @@ class Invoice extends Model
     public function setTotalPriceAttribute($value)
     {
         $this->attributes['total_price'] = $value * 100;
+    }
+
+    public function getFormattedNumberAttribute()
+    {
+        return 'FC' . $this->receipt_number;
     }
 }

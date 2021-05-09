@@ -10,6 +10,7 @@ use App\Models\Course;
 use App\Models\Discount;
 use App\Models\Enrollment;
 use App\Models\Fee;
+use App\Models\InvoiceType;
 use App\Models\Paymentmethod;
 use App\Models\Student;
 use App\Traits\PeriodSelection;
@@ -146,6 +147,7 @@ class EnrollmentController extends Controller
         return view('carts.show', [
             'enrollment' => $enrollment,
             'products' => $products,
+            'invoicetypes' => InvoiceType::all(),
             'clients' => $clients,
             'availableBooks' => Book::all(),
             'availableFees' => Fee::all(),

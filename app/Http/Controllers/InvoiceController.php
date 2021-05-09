@@ -8,6 +8,7 @@ use App\Models\Comment;
 use App\Models\Discount;
 use App\Models\Enrollment;
 use App\Models\Fee;
+use App\Models\InvoiceType;
 use App\Models\Payment;
 use App\Models\Invoice;
 use App\Models\InvoiceDetail;
@@ -46,10 +47,13 @@ class InvoiceController extends Controller
             'client_email' => $request->client_email,
             'client_phone' => $request->client_phone,
             'total_price' => $request->total_price,
+            'invoice_type_id' => $request->invoicetype,
         ]);
 
         $enrollment->invoice()->associate($invoice);
         $enrollment->save();
+
+        $invoice->setNumber();
 
         if (isset($request->comment)) {
             Comment::create([

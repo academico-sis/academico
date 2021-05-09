@@ -18,6 +18,7 @@
             :enrollment="{{ json_encode($enrollment) }}"
             :productslist="{{ json_encode($products) }}"
             :clients="{{ json_encode($clients) }}"
+            :invoicetypes="{{ json_encode($invoicetypes) }}"
             :availablebooks="{{ json_encode($availableBooks) }}"
             :availablefees="{{ json_encode($availableFees) }}"
             :availablediscounts="{{ json_encode($availableDiscounts) }}"

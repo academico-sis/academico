@@ -444,5 +444,8 @@
     "Mark as pending": "Mark as pending",
     "Paid": "Paid",
     "Student Info": "Student Info",
-    "Invoicing Info": "Invoicing Info"
+    "Invoicing Info": "Invoicing Info",
+    "You need to fill out all fields to continue": "You need to fill out all fields to continue",
+    "Contact": "Contact",
+    "Invoice Type": "Invoice Type"
 }

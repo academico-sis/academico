@@ -2,7 +2,7 @@
     <div class="col-md-4">
         <div class="card">
             <div class="card-header">
-                @lang('Invoice') # {{ $invoice->id }}
+                @lang('Invoice') # {{ $invoice->invoice_reference }}
             </div>
 
             <div class="card-body">

@@ -187,7 +187,7 @@
                         </div>
 
                         <div class="form-group">
-                            <button class="btn btn-lg btn-success" :disabled="loading || payments.length === 0" @click="checkTotal()">
+                            <button class="btn btn-lg btn-success" :disabled="loading || payments.length === 0 || ! paidTotal > 0" @click="checkTotal()">
                                 <span v-if="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                 <i class="la la-check"></i
                                 >{{ $t("Checkout") }}
@@ -209,6 +209,10 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div class="col-md-12">
+                <cart-invoice-type-component :invoicetypes="invoicetypes" :selectedInvoiceType="selectedInvoiceType"></cart-invoice-type-component>
             </div>
         </div>
 
@@ -248,6 +252,7 @@ export default {
         "currencyposition",
         "productslist",
         "clients",
+        "invoicetypes",
     ],
 
     data() {
@@ -267,6 +272,7 @@ export default {
             sendInvoiceToAccounting: this.accountingenabled,
             accountingServiceIsUp: false,
             loading: false,
+            selectedInvoiceType: this.invoicetypes[0].id,
         };
     },
     computed: {
@@ -327,6 +333,10 @@ export default {
 
         EventBus.$on("paymentsUpated", (payments) => {
             this.payments = payments;
+        });
+
+        EventBus.$on("setInvoiceType", (id) => {
+            this.selectedInvoiceType = id;
         });
     },
 
@@ -442,6 +452,7 @@ export default {
                     comment: this.comment,
                     discounts: this.discounts,
                     sendinvoice: this.sendInvoiceToAccounting,
+                    invoicetype: this.selectedInvoiceType,
                 })
                 .then(response => {
                     // handle success
