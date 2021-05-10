@@ -12,6 +12,7 @@ use App\Models\InvoiceType;
 use App\Models\Payment;
 use App\Models\Invoice;
 use App\Models\InvoiceDetail;
+use App\Models\Paymentmethod;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -31,13 +32,26 @@ class InvoiceController extends Controller
         return $this->invoicingService->status();
     }
 
+    public function create()
+    {
+        return view('carts.show', [
+            'enrollment' => null,
+            'products' => [],
+            'invoicetypes' => InvoiceType::all(),
+            'clients' => [],
+            'availableBooks' => Book::all(),
+            'availableFees' => Fee::all(),
+            'availableDiscounts' => Discount::all(),
+            'availablePaymentMethods' => Paymentmethod::all(),
+        ]);
+    }
+
     /**
      * Create a invoice based on the cart contents for the specified user
      * Receive in the request: the user ID + the invoice data.
      */
     public function store(Request $request)
     {
-        $enrollment = Enrollment::find($request->enrollment_id);
 
         // receive the client data and create a invoice with status = pending
         $invoice = Invoice::create([
@@ -50,12 +64,19 @@ class InvoiceController extends Controller
             'invoice_type_id' => $request->invoicetype,
         ]);
 
-        $enrollment->invoice()->associate($invoice);
-        $enrollment->save();
+        if ($request->enrollment_id)
+        {
+            $enrollment = Enrollment::find($request->enrollment_id);
+
+            if ($enrollment) {
+                $enrollment->invoice()->associate($invoice);
+                $enrollment->save();
+            }
+        }
 
         $invoice->setNumber();
 
-        if (isset($request->comment)) {
+        if (isset($enrollment) && isset($request->comment)) {
             Comment::create([
                 'commentable_id' => $enrollment->id,
                 'commentable_type' => Enrollment::class,

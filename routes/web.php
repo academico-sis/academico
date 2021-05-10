@@ -238,4 +238,6 @@ Route::group([
 
     Route::get('/student/create', 'StudentController@create')->name('student.create');
     Route::post('/student', 'StudentController@store')->name('student.store');
+
+    Route::get('createinvoice', 'InvoiceController@create')->name('invoice.create');
 });

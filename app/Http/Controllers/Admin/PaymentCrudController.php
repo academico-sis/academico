@@ -22,10 +22,15 @@ class PaymentCrudController extends CrudController
     use ListOperation;
     use ShowOperation { show as traitShow; }
 
+    public function __construct()
+    {
+        parent::__construct();
+        $this->middleware('permission:enrollments.edit');
+    }
+
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
      *
-     * @return void
      */
     public function setup()
     {
@@ -34,13 +39,12 @@ class PaymentCrudController extends CrudController
         CRUD::setEntityNameStrings('payment', 'payments');
 
         $this->crud->enableExportButtons();
+
+        $this->crud->addButtonFromView('top', 'createInvoice', 'createInvoice', 'start');
     }
 
     /**
      * Define what happens when the List operation is loaded.
-     *
-     * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
-     * @return void
      */
     protected function setupListOperation()
     {

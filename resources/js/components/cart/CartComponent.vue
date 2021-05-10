@@ -440,7 +440,7 @@ export default {
 
             axios
                 .post("/checkout", {
-                    enrollment_id: this.enrollment.id,
+                    enrollment_id: this.enrollment? this.enrollment.id : null,
                     products: this.products,
                     payments: this.payments,
                     client_name: this.clientname,
@@ -457,8 +457,7 @@ export default {
                 .then(response => {
                     // handle success
                     this.step = 4;
-                    window.location.href =
-                        `/enrollment/${this.enrollment.id}/show`;
+                    window.location.href = this.enrollment ? `/enrollment/${this.enrollment.id}/show` : "/payment";
                     new Noty({
                         title: this.$t('Success'),
                         text: this.$t("Your changes were successful"),

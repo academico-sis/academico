@@ -447,5 +447,6 @@
     "Invoicing Info": "Facturación",
     "You need to fill out all fields to continue": "Tiene que llenar todos los campos para continuar",
     "Contact": "Contact",
-    "Invoice Type": "Tipo de factura"
+    "Invoice Type": "Tipo de factura",
+    "New invoice": "Nueva factura"
 }
