@@ -77,4 +77,6 @@ Route::group([
     Route::crud('partner', 'PartnerCrudController');
     Route::crud('schedulepreset', 'SchedulePresetCrudController');
     Route::crud('payment', 'PaymentCrudController');
+    Route::crud('tax', 'TaxCrudController');
+    Route::crud('invoice', 'InvoiceCrudController');
 }); // this should be the absolute last line of this file

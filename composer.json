@@ -22,6 +22,7 @@
         "laravel/legacy-factories": "^1.0",
         "laravel/telescope": "^4.0",
         "laravel/tinker": "^2.4.1",
+        "laraveldaily/laravel-invoices": "^2.0",
         "league/csv": "^9.7",
         "maatwebsite/excel": "^3.1.20",
         "phpoffice/phpword": "^0.18.0",

@@ -128,7 +128,7 @@
 </div>
 
 @if ($enrollment->invoice && backpack_user()->can('enrollments.edit'))
-    @include('invoices.show', ['editable' => $enrollment->status_id !== 2, 'invoice' => $enrollment->invoice])
+    @include('invoices.details', ['editable' => $enrollment->status_id !== 2, 'invoice' => $enrollment->invoice])
 @endif
 
 </div>

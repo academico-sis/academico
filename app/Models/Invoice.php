@@ -23,6 +23,16 @@ class Invoice extends Model
         return $this->hasMany(InvoiceDetail::class);
     }
 
+    public function products()
+    {
+        return $this->hasMany(InvoiceDetail::class)->whereIn('product_type', [Enrollment::class, Fee::class]);
+    }
+
+    public function taxes()
+    {
+        return $this->hasMany(InvoiceDetail::class)->where('product_type', Tax::class);
+    }
+
     public function payments()
     {
         return $this->hasMany(Payment::class);
@@ -67,6 +77,11 @@ class Invoice extends Model
     public function getInvoiceReferenceAttribute() : string
     {
         return $this->invoiceType->name . $this->created_at->format('y') . "-" . $this->invoice_number;
+    }
+
+    public function getInvoiceSeriesAttribute() : string
+    {
+        return $this->invoiceType->name . $this->created_at->format('y');
     }
 
     public function getTotalPriceWithCurrencyAttribute()

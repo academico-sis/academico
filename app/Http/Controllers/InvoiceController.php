@@ -11,12 +11,17 @@ use App\Models\Fee;
 use App\Models\InvoiceType;
 use App\Models\Payment;
 use App\Models\Invoice;
+use Illuminate\Support\Facades\App;
+use LaravelDaily\Invoices\Invoice as InvoiceAlias;
 use App\Models\InvoiceDetail;
 use App\Models\Paymentmethod;
+use App\Models\Tax;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use LaravelDaily\Invoices\Classes\Buyer;
+use LaravelDaily\Invoices\Classes\InvoiceItem;
 use Prologue\Alerts\Facades\Alert;
 
 class InvoiceController extends Controller
@@ -42,6 +47,7 @@ class InvoiceController extends Controller
             'availableBooks' => Book::all(),
             'availableFees' => Fee::all(),
             'availableDiscounts' => Discount::all(),
+            'availableTaxes' => Tax::all(),
             'availablePaymentMethods' => Paymentmethod::all(),
         ]);
     }
@@ -100,17 +106,32 @@ class InvoiceController extends Controller
                 'product_id' => $product['id'],
                 'product_type' => $productType,
                 'price' => $product['price'],
+                'tax_rate' => collect($product['taxes'] ?? [])->sum('value'),
             ]);
-        }
 
-        foreach ($request->discounts as $d => $discount) {
-            InvoiceDetail::create([
-                'invoice_id' => $invoice->id,
-                'product_name' => $discount['name'],
-                'product_id' => $discount['id'],
-                'product_type' => Discount::class,
-                'price' => - $discount['value'],
-            ]);
+            if (isset ($product['discounts'])) {
+                foreach ($product['discounts'] as $d => $discount) {
+                    InvoiceDetail::create([
+                        'invoice_id' => $invoice->id,
+                        'product_name' => $discount['name'],
+                        'product_id' => $discount['id'],
+                        'product_type' => Discount::class,
+                        'price' => -$discount['value'],
+                    ]);
+                }
+            }
+
+            if (isset ($product['taxes'])) {
+                foreach ($product['taxes'] as $d => $tax) {
+                    InvoiceDetail::create([
+                        'invoice_id' => $invoice->id,
+                        'product_name' => $tax['name'],
+                        'product_id' => $tax['id'],
+                        'product_type' => Tax::class,
+                        'price' => $tax['value'],
+                    ]);
+                }
+            }
         }
 
         foreach ($request->payments as $p => $payment) {
@@ -152,6 +173,46 @@ class InvoiceController extends Controller
         return view('invoices.edit', compact('invoice'));
     }
 
+    public function download(Invoice $invoice)
+    {
+        $customer = new Buyer([
+            'name'          => $invoice->client_name,
+            'custom_fields' => [
+                'nif/cif' => $invoice->client_idnumber,
+                'domicilio' => $invoice->client_address,
+                'email' => $invoice->client_email,
+            ],
+        ]);
+
+
+        $generatedInvoice = InvoiceAlias::make()
+            ->buyer($customer)
+            ->series($invoice->invoice_series)
+            ->sequence($invoice->invoice_number)
+            ->dateFormat('d/m/Y');
+
+        $taxIsGlobal = $invoice->products->pluck('tax_rate')->unique()->count() === 1;
+        $taxRate = $invoice->products->pluck('tax_rate')->unique()->first();
+
+        foreach ($invoice->invoiceDetails as $product)
+        {
+            $item = (new InvoiceItem())->title($product->product_name)->pricePerUnit($product->price);
+
+            if (!$taxIsGlobal)
+            {
+                $item->taxByPercent($product->tax_rate);
+            }
+
+            $generatedInvoice->addItem($item);
+        }
+
+        if ($taxRate > 0 && $taxIsGlobal)
+        {
+            $generatedInvoice->taxRate($taxRate);
+        }
+
+        return $generatedInvoice->stream();
+    }
     /**
      * Update the specified invoice (with the invoice number).
      */
@@ -193,6 +254,6 @@ class InvoiceController extends Controller
 
     public function show(Invoice $invoice)
     {
-        return view('invoices.show', compact('invoice'));
+        return view('invoices.details', compact('invoice'));
     }
 }

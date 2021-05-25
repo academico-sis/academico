@@ -46,6 +46,7 @@ Route::group(
         Route::post('enrollment/{enrollment}/price', 'EnrollmentController@savePrice');
 
         Route::get('invoice/{invoice}', 'InvoiceController@show')->name('invoice-show');
+        Route::get('invoice/{invoice}/pdf', 'InvoiceController@download');
 
         Route::post('invoice/{invoice}/receipt', 'InvoiceController@saveReceiptNumber');
 
@@ -54,7 +55,7 @@ Route::group(
         Route::put('enrollment/{enrollment}/price', 'EnrollmentController@savePrice'); // display the cart to checkout the enrollment
         Route::post('enrollment/{enrollment}/markaspaid', 'EnrollmentController@markaspaid'); // display the cart to checkout the enrollment
         Route::post('enrollment/{enrollment}/markasunpaid', 'EnrollmentController@markasunpaid'); // display the cart to checkout the enrollment
-        Route::get('accountingservice/status', 'PreInvoiceController@accountingServiceStatus');
+        Route::get('accountingservice/status', 'InvoiceController@accountingServiceStatus');
         Route::post('enrollment/{enrollment}/scholarships/add', 'EnrollmentScholarshipController@store')->name('add-scholarship'); // update the invoice number
         Route::post('enrollment/{enrollment}/scholarships/remove', 'EnrollmentScholarshipController@destroy')->name('remove-scholarship'); // update the invoice number
     }

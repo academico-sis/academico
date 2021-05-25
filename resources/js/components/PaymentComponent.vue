@@ -118,7 +118,7 @@ export default {
                     total += parseFloat(payment.value);
                 });
             }
-            return Math.round(total * 100) / 100;
+            return total;
         },
     },
 

@@ -13,6 +13,7 @@ use App\Models\Fee;
 use App\Models\InvoiceType;
 use App\Models\Paymentmethod;
 use App\Models\Student;
+use App\Models\Tax;
 use App\Traits\PeriodSelection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -153,6 +154,7 @@ class EnrollmentController extends Controller
             'availableFees' => Fee::all(),
             'availableDiscounts' => Discount::all(),
             'availablePaymentMethods' => Paymentmethod::all(),
+            'availableTaxes' => Tax::all(),
         ]);
     }
 
