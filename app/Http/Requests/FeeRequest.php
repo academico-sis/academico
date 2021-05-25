@@ -25,7 +25,7 @@ class FeeRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:5|max:255|unique:fees',
+            'name' => 'required|min:5|max:255',
             'price' => 'required|numeric|min:0',
         ];
     }

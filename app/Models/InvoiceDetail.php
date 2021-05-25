@@ -13,9 +13,21 @@ class InvoiceDetail extends Model
 
     protected $guarded = ['id'];
     protected static $logUnguarded = true;
+    protected $appends = ['price_with_currency'];
+
 
     public function invoice()
     {
         return $this->belongsTo(Invoice::class);
+    }
+
+    public function getPriceWithCurrencyAttribute()
+    {
+        if (config('app.currency_position') === 'before')
+        {
+            return config('app.currency_symbol') . " ". $this->price;
+        }
+
+        return $this->price . " " . config('app.currency_symbol');
     }
 }

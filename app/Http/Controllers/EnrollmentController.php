@@ -10,6 +10,7 @@ use App\Models\Course;
 use App\Models\Discount;
 use App\Models\Enrollment;
 use App\Models\Fee;
+use App\Models\InvoiceType;
 use App\Models\Paymentmethod;
 use App\Models\Student;
 use App\Traits\PeriodSelection;
@@ -114,16 +115,43 @@ class EnrollmentController extends Controller
         // otherwise create a new one.
         Log::info('User # '.backpack_user()->id.' is generating a invoice');
 
-        $fees = Fee::where('default', 1)->get();
+        // build an array with products to include
+        $products = [];
+
+        foreach (Fee::where('default', 1)->get() as $fee)
+        {
+            array_push($products, $fee);
+        }
+
+        array_push($products, $enrollment);
+
+        if ($enrollment->course->books->count() > 0)
+        {
+            array_push($products, $enrollment->course->books);
+        }
+
+
+        // build an array with all contact data
+        $clients = [];
+
+        array_push($clients, [
+            'name' => $enrollment->student_name,
+            'email' => $enrollment->student_email,
+            'idnumber' => $enrollment->student->idnumber,
+        ]);
+
+        foreach ($enrollment->student->contacts as $client) {
+            array_push($clients, $client);
+        }
 
         return view('carts.show', [
             'enrollment' => $enrollment,
-            'fees' => $fees,
-            'books' => $enrollment->course->books ?? [],
+            'products' => $products,
+            'invoicetypes' => InvoiceType::all(),
+            'clients' => $clients,
             'availableBooks' => Book::all(),
             'availableFees' => Fee::all(),
             'availableDiscounts' => Discount::all(),
-            'contactData' => $enrollment->student->contacts,
             'availablePaymentMethods' => Paymentmethod::all(),
         ]);
     }

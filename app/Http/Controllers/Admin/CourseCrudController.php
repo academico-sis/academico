@@ -246,10 +246,40 @@ class CourseCrudController extends CrudController
               CRUD::addClause('parent');
           }
         );
+
+        $this->crud->addFilter([
+            'type'  => 'date_range',
+            'name'  => 'start_date',
+            'label' => __('Start')
+        ],
+            false,
+            function ($value) { // if the filter is active, apply these constraints
+                $dates = json_decode($value);
+                $this->crud->addClause('where', 'start_date', '>=', $dates->from);
+                $this->crud->addClause('where', 'start_date', '<=', $dates->to . ' 23:59:59');
+            });
+
+        $this->crud->addFilter([
+            'type'  => 'date_range',
+            'name'  => 'end_date',
+            'label' => __('End')
+        ],
+            false,
+            function ($value) { // if the filter is active, apply these constraints
+                $dates = json_decode($value);
+                $this->crud->addClause('where', 'end_date', '>=', $dates->from);
+                $this->crud->addClause('where', 'end_date', '<=', $dates->to . ' 23:59:59');
+            });
     }
 
     protected function setupCreateOperation()
     {
+        if (config('app.currency_position' === 'before')) {
+            $currency = array('prefix' => config('app.currency_symbol'));
+        } else {
+            $currency = array('suffix' => config('app.currency_symbol'));
+        }
+
         CRUD::addFields([
             [
                 // RYTHM
@@ -279,11 +309,12 @@ class CourseCrudController extends CrudController
                 'tab' => __('Course info'),
             ],
 
-            [
+            array_merge([
                 'name' => 'price', // The db column name
                 'label' => __('Price'), // Table column heading
                 'tab' => __('Course info'),
-            ],
+                'type' => 'number'
+            ], $currency),
 
             [
                 'name' => 'volume', // The db column name
@@ -332,10 +363,13 @@ class CourseCrudController extends CrudController
                         'allows_null' => true,
                         'wrapper' => ['class' => 'form-group col-md-4'],
                     ],
-                    [
+
+                    array_merge([
                         'name' => 'price', // The db column name
                         'label' => __('Price'), // Table column heading
-                    ],
+                        'type' => 'number'
+                    ], $currency),
+
                    [
                         'name' => 'volume', // The db column name
                         'label' => __('Presential volume'), // Table column heading
@@ -554,6 +588,12 @@ class CourseCrudController extends CrudController
 
     protected function setupUpdateOperation()
     {
+        if (config('app.currency_position' === 'before')) {
+            $currency = array('prefix' => config('app.currency_symbol'));
+        } else {
+            $currency = array('suffix' => config('app.currency_symbol'));
+        }
+
         if ($this->crud->getCurrentEntry()->children->count() > 0) {
             CRUD::addField([   // view
                 'name' => 'custom-ajax-button',
@@ -602,11 +642,12 @@ class CourseCrudController extends CrudController
                 'tab' => __('Course info'),
             ],
 
-            [
+            array_merge([
                 'name' => 'price', // The db column name
                 'label' => __('Price'), // Table column heading
                 'tab' => __('Course info'),
-            ],
+                'type' => 'number'
+            ], $currency),
 
             [
                 'name' => 'volume', // The db column name

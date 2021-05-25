@@ -5,6 +5,8 @@
             <th>{{ $t("Payment") }}</th>
             <th>{{ $t("Date") }}</th>
             <th>{{ $t("Value") }}</th>
+            <th>{{ $t("Status") }}</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -17,16 +19,43 @@
 
             <td v-else>{{ payment.payment_method }}</td>
 
-            <td>{{ payment.date }}</td>
+            <td v-if="editable">
+                <input type="date" class="form-control" v-model="payment.date">
+            </td>
+            <td v-else>
+                {{ payment.date_for_humans }}
+            </td>
 
-            <td v-if="editable" >
-                <div class="input-group">
-                    <span class="input-group-addon">$</span>
+            <td v-if="editable">
+                <div class="input-group" v-if="currencyposition === 'before'">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">{{ currency }}</span>
+                    </div>
                     <input v-model="payment.value" type="number" step="0.01" class="form-control" />
+                </div>
+                <div class="input-group" v-else>
+                    <input v-model="payment.value" type="number" step="0.01" class="form-control" />
+                    <div class="input-group-append">
+                        <span class="input-group-text">{{ currency }}</span>
+                    </div>
                 </div>
             </td>
 
-            <td v-else>${{ payment.value }}</td>
+            <td v-else>
+                <span v-if="currencyposition === 'before'">{{ currency }} </span>
+                {{ payment.value }}
+                <span v-if="currencyposition === 'after'"> {{ currency }}</span>
+            </td>
+
+            <td v-if="editable">
+                <select v-model="payment.status" class="form-control" name="status">
+                    <option value="1" :selected="payment.status === 1">{{ $t('Pending') }}</option>
+                    <option value="2" :selected="payment.status === 2">{{ $t('Paid') }}</option>
+                </select>
+            </td>
+            <td v-else>
+                {{ payment.display_status }}
+            </td>
 
             <td>
                 <button v-if="editable" class="btn btn-sm btn-ghost-danger" @click="removePayment(payment)">
@@ -38,22 +67,21 @@
         <tr>
             <td></td>
             <td>{{ $t("Total received amount") }}</td>
-            <td>$ {{ paidTotal }}</td>
+            <td>
+                <span v-if="currencyposition === 'before'">{{ currency }} </span>
+                {{ paidTotal }}
+                <span v-if="currencyposition === 'after'">{{ currency }} </span>
+            </td>
+            <td></td>
+            <td></td>
         </tr>
 
         <tr v-if="editable">
             <td>
                 <div class="btn-group">
-                    <div class="dropdown">
-                        <button id="dropdownMenuButton" class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{ $t("Add") }}
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a v-for="paymentmethod in availablepaymentmethods" :key="paymentmethod.id" class="dropdown-item" href="#" @click="addPayment(paymentmethod.code)">
-                                {{ paymentmethod.name }}
-                            </a>
-                        </div>
-                    </div>
+                    <button class="btn btn-secondary" type="button" @click="addPayment()">
+                    {{ $t("Add") }}
+                    </button>
                 </div>
 
                 <button class="btn btn-primary" @click="savePayments()" type="button" aria-haspopup="true" aria-expanded="false">
@@ -71,7 +99,9 @@ export default {
     props: [
         "invoice",
         "availablepaymentmethods",
-        "editable"
+        "editable",
+        "currency",
+        "currencyposition",
     ],
 
     data() {
@@ -97,9 +127,8 @@ export default {
     },
 
     methods: {
-        addPayment(method) {
+        addPayment() {
             let payment = {
-                method,
                 value: 0,
             };
 

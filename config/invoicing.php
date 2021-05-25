@@ -2,6 +2,7 @@
 
 use App\Services\Ecuasolutions;
 use App\Services\InternalInvoicingService;
+use App\Services\SepaInvoicingService;
 
 return [
     'accounting_enabled' => env('ACCOUNTING_ENABLED'),
@@ -10,6 +11,10 @@ return [
 
     'internal' => [
         'class' => InternalInvoicingService::class,
+    ],
+
+    'sepa' => [
+        'class' => SepaInvoicingService::class,
     ],
 
     'ecuasolutions' => [

@@ -1,12 +1,28 @@
 <template>
     <div>
         <div v-if="editable">
-            <input v-if="editable" class="input" type="text" v-model="price" />
-            <button v-if="editable" class="btn btn-success" @click="savePrice">{{ $t('Save') }}</button>
+            <div class="input-group" v-if="this.currencyposition === 'before'">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">{{ this.currency }}</span>
+                </div>
+                <input v-if="editable" step="0.01" class="form-control" type="number" v-model="price" />
+            </div>
+
+            <div class="input-group" v-else>
+                <input v-if="editable" step="0.01" class="form-control" type="number" v-model="price" />
+                <div v-if="this.currencyposition === 'after'" class="input-group-append">
+                    <span class="input-group-text">{{ this.currency }}</span>
+                </div>
+
+            </div>
+            <button class="btn btn-success" @click="savePrice">{{ $t('Save') }}</button>
         </div>
         <div v-else>
-            {{ $t('Price') }}: ${{ price }}
-            <a href="#" @click="editable = true"> {{ $t('Edit') }} </a>
+            {{ $t('Price') }}:
+            <span v-if="this.currencyposition === 'before'">{{ this.currency }} </span>
+            {{ price }}
+            <span v-if="this.currencyposition === 'after'">{{ this.currency }} </span>
+            <a v-if="writeaccess" href="#" @click="editable = true"> {{ $t('Edit') }} </a>
         </div>
 
     </div>
@@ -15,7 +31,10 @@
 <script>
 export default {
     props: [
-        "enrollment"
+        "enrollment",
+        "currency",
+        "currencyposition",
+        "writeaccess",
     ],
 
     data() {
@@ -38,7 +57,7 @@ export default {
                 price: this.price,
             })
             .then(response => {
-                this.price = response.data.total_price;
+                this.price = response.data.price;
                 this.editable = false;
                 new Noty({
                     title: this.$t("Operation successful"),

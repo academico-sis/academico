@@ -21,7 +21,15 @@ const i18n = new VueInternationalization({
     messages
 });
 
-Vue.component('cart-component', require('./components/CartComponent.vue').default);
+Vue.component('cart-component', require('./components/cart/CartComponent.vue').default);
+Vue.component('cart-breadcrumbs-component', require('./components/cart/BreadcrumbsComponent.vue').default);
+Vue.component('cart-product-list-component', require('./components/cart/ProductListComponent.vue').default);
+Vue.component('cart-total-price-component', require('./components/cart/TotalPriceComponent.vue').default);
+Vue.component('client-data-component', require('./components/cart/ClientDataComponent.vue').default);
+Vue.component('cart-scheduled-payments-component', require('./components/cart/ScheduledPaymentsComponent.vue').default);
+Vue.component('cart-invoice-type-component', require('./components/cart/InvoiceTypeComponent.vue').default);
+
+
 Vue.component('payment-component', require('./components/PaymentComponent.vue').default);
 Vue.component('enrollment-status-button', require('./components/EnrollmentStatusButton.vue').default);
 Vue.component('enrollment-price-field', require('./components/EnrollmentPriceField.vue').default);

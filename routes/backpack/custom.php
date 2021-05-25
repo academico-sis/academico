@@ -76,4 +76,5 @@ Route::group([
     Route::crud('gradetypecategory', 'GradeTypeCategoryCrudController');
     Route::crud('partner', 'PartnerCrudController');
     Route::crud('schedulepreset', 'SchedulePresetCrudController');
+    Route::crud('payment', 'PaymentCrudController');
 }); // this should be the absolute last line of this file

@@ -18,9 +18,9 @@ class CreateCoursesTable extends Migration
             $table->integer('campus_id')->default(1)->unsigned();
             $table->integer('rhythm_id')->nullable()->unsigned();
             $table->integer('level_id')->nullable()->unsigned();
-            $table->integer('volume')->default(0);
+            $table->integer('volume')->nullable();
             $table->string('name');
-            $table->decimal('price', 8, 2);
+            $table->bigInteger('price')->nullable();
             $table->date('start_date');
             $table->date('end_date');
             $table->integer('room_id')->unsigned()->nullable();

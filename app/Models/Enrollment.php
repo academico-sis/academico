@@ -18,7 +18,7 @@ class Enrollment extends Model
     use LogsActivity;
 
     protected $guarded = ['id'];
-    protected $appends = ['result_name', 'product_code', 'price'];
+    protected $appends = ['type', 'name', 'result_name', 'product_code', 'price', 'price_with_currency'];
     protected $with = ['student', 'course', 'childrenEnrollments'];
     protected static $logUnguarded = true;
 
@@ -108,9 +108,12 @@ class Enrollment extends Model
         $this->status_id = 1;
         $this->save();
 
+        $this->invoice()->delete();
+
         // also mark children as unpaid
         foreach ($this->childrenEnrollments as $child) {
             $child->status_id = 1;
+            $child->invoice()->delete();
             $child->save();
         }
     }
@@ -194,7 +197,17 @@ class Enrollment extends Model
 
     public function getStudentNameAttribute()
     {
-        return $this->student['name'];
+        return $this->student->name ?? "";
+    }
+
+    public function getNameAttribute()
+    {
+        return "Enrollment for " . $this->student_name;
+    }
+
+    public function getTypeAttribute()
+    {
+        return "enrollment";
     }
 
     /*     public function getStudentIdAttribute()
@@ -265,10 +278,20 @@ class Enrollment extends Model
     {
         // if the enrollment has a price, we always consider it first
         if ($this->total_price !== null) {
-            return $this->total_price;
-        } else {
-            return $this->course->price ?? 0;
+            return $this->total_price / 100;
         }
+
+        return $this->course->price ?? 0;
+    }
+
+    public function getPriceWithCurrencyAttribute()
+    {
+        if (config('app.currency_position') === 'before')
+        {
+            return config('app.currency_symbol') . " ". $this->price;
+        }
+
+        return $this->price . " " . config('app.currency_symbol');
     }
 
     public function cancel()
@@ -294,5 +317,12 @@ class Enrollment extends Model
         }
 
         $this->delete();
+    }
+
+
+
+    public function setTotalPriceAttribute($value)
+    {
+        $this->attributes['total_price'] = $value * 100;
     }
 }

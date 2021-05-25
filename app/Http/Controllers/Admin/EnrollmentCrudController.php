@@ -203,8 +203,10 @@ class EnrollmentCrudController extends CrudController
 
         $enrollment->load('invoice')->load('invoice.payments');
 
+        $writeaccess =  $enrollment->status_id !== 2 && backpack_user()->can('enrollments.edit');
+
         // then load the page
-        return view('enrollments.show', compact('enrollment', 'products', 'comments', 'scholarships', 'availablePaymentMethods'));
+        return view('enrollments.show', compact('enrollment', 'products', 'comments', 'scholarships', 'availablePaymentMethods', 'writeaccess'));
     }
 
     public function destroy($enrollment)

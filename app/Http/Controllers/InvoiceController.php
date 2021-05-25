@@ -8,9 +8,12 @@ use App\Models\Comment;
 use App\Models\Discount;
 use App\Models\Enrollment;
 use App\Models\Fee;
+use App\Models\InvoiceType;
 use App\Models\Payment;
 use App\Models\Invoice;
 use App\Models\InvoiceDetail;
+use App\Models\Paymentmethod;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -29,13 +32,26 @@ class InvoiceController extends Controller
         return $this->invoicingService->status();
     }
 
+    public function create()
+    {
+        return view('carts.show', [
+            'enrollment' => null,
+            'products' => [],
+            'invoicetypes' => InvoiceType::all(),
+            'clients' => [],
+            'availableBooks' => Book::all(),
+            'availableFees' => Fee::all(),
+            'availableDiscounts' => Discount::all(),
+            'availablePaymentMethods' => Paymentmethod::all(),
+        ]);
+    }
+
     /**
      * Create a invoice based on the cart contents for the specified user
      * Receive in the request: the user ID + the invoice data.
      */
     public function store(Request $request)
     {
-        $enrollment = Enrollment::find($request->enrollment_id);
 
         // receive the client data and create a invoice with status = pending
         $invoice = Invoice::create([
@@ -45,22 +61,22 @@ class InvoiceController extends Controller
             'client_email' => $request->client_email,
             'client_phone' => $request->client_phone,
             'total_price' => $request->total_price,
+            'invoice_type_id' => $request->invoicetype,
         ]);
 
-        $enrollment->invoice()->associate($invoice);
-        $enrollment->save();
+        if ($request->enrollment_id)
+        {
+            $enrollment = Enrollment::find($request->enrollment_id);
 
-        // persist the products
-        InvoiceDetail::create([
-            'invoice_id' => $invoice->id,
-            'product_name' => $enrollment->course->name,
-            'product_code' => $enrollment->course->product_code,
-            'product_id' => $enrollment->id,
-            'product_type' => Enrollment::class,
-            'price' => $enrollment->course->price,
-        ]);
+            if ($enrollment) {
+                $enrollment->invoice()->associate($invoice);
+                $enrollment->save();
+            }
+        }
 
-        if (isset($request->comment)) {
+        $invoice->setNumber();
+
+        if (isset($enrollment) && isset($request->comment)) {
             Comment::create([
                 'commentable_id' => $enrollment->id,
                 'commentable_type' => Enrollment::class,
@@ -69,25 +85,21 @@ class InvoiceController extends Controller
             ]);
         }
 
-        foreach ($request->fees as $f => $fee) {
-            InvoiceDetail::create([
-                'invoice_id' => $invoice->id,
-                'product_name' => $fee['name'],
-                'product_code' => $fee['product_code'],
-                'product_id' => $fee['id'],
-                'product_type' => Fee::class,
-                'price' => $fee['price'],
-            ]);
-        }
+        // persist the products
+        foreach ($request->products as $f => $product) {
+            $productType = match ($product['type']) {
+                'enrollment' => Enrollment::class,
+                'fee' => Fee::class,
+                'book' => Book::class,
+            };
 
-        foreach ($request->books as $b => $book) {
             InvoiceDetail::create([
                 'invoice_id' => $invoice->id,
-                'product_name' => $book['name'],
-                'product_code' => $book['product_code'],
-                'product_id' => $book['id'],
-                'product_type' => Book::class,
-                'price' => $book['price'],
+                'product_name' => $product['name'],
+                'product_code' => $product['product_code'],
+                'product_id' => $product['id'],
+                'product_type' => $productType,
+                'price' => $product['price'],
             ]);
         }
 
@@ -105,8 +117,9 @@ class InvoiceController extends Controller
             Payment::create([
                 'responsable_id' => backpack_user()->id,
                 'invoice_id' => $invoice->id,
-                'payment_method' => $payment['method'],
+                'payment_method' => isset($payment['method']) ? $payment['method'] : null ,
                 'value' => $payment['value'],
+                'date' => isset($payment['date']) ? Carbon::parse($payment['date']) : Carbon::now(),
             ]);
         }
 
@@ -128,7 +141,7 @@ class InvoiceController extends Controller
         // if the value of payments matches the total due price,
         // mark the invoice and associated enrollments as paid.
         foreach ($invoice->enrollments as $enrollment) {
-            if ($invoice->total_price == $invoice->paidTotal()) {
+            if ($invoice->total_price == $invoice->paidTotal() && $invoice->payments->where('status', '!==', 2)->count() === 0) {
                 $enrollment->markAsPaid();
             }
         }
@@ -160,15 +173,17 @@ class InvoiceController extends Controller
         foreach ($request->payments as $payment)
         {
             $invoice->payments()->create([
-                'payment_method' => $payment['payment_method'],
+                'payment_method' => isset($payment['payment_method']) ? $payment['payment_method'] : null,
                 'value' => $payment['value'],
-                'responsable_id' => backpack_user()->id
+                'date' => isset($payment['date']) ? Carbon::parse($payment['date']) : Carbon::now(),
+                'status' => isset($payment['status']) ? $payment['status'] : 1,
+                'responsable_id' => backpack_user()->id,
             ]);
         }
 
         // if the payments match the enrollment price, mark as paid.
         foreach ($invoice->enrollments as $enrollment) {
-            if ($invoice->total_price == $invoice->paidTotal()) {
+            if ($invoice->total_price == $invoice->paidTotal() && $invoice->payments->where('status', '!==', 2)->count() === 0) {
                 $enrollment->markAsPaid();
             }
         }

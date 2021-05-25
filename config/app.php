@@ -101,6 +101,9 @@ return [
 
     'languages' => ['fr', 'en', 'es'],
 
+    'currency_symbol' => env('CURRENCY_SYMBOL', '€'),
+    'currency_position' => env('CURRENCY_POSITION', 'after'),
+
     /*
     |--------------------------------------------------------------------------
     | Faker Locale

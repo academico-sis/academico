@@ -19,7 +19,7 @@ class Payment extends Model
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
-    protected $appends = ['date'];
+    protected $appends = ['date_for_humans', 'value_with_currency', 'display_status'];
     //protected $fillable = [];
     // protected $hidden = [];
     // protected $dates = [];
@@ -52,9 +52,76 @@ class Payment extends Model
     | ACCESORS
     |--------------------------------------------------------------------------
     */
-    public function getDateAttribute()
+
+    public function getValueAttribute($value)
     {
+        return $value / 100;
+    }
+
+    public function getEnrollmentNameAttribute(): string
+    {
+        if ($this->invoice && $this->invoice->enrollment)
+        {
+            return $this->invoice->enrollment->student_name;
+        }
+
+        return '';
+    }
+
+    public function getIbanAttribute(): string
+    {
+        if ($this->invoice && $this->invoice->enrollment)
+        {
+            return $this->invoice->enrollment->student->iban ?? '';
+        }
+
+        return '';
+    }
+
+    public function getBicAttribute(): string
+    {
+        if ($this->invoice && $this->invoice->enrollment)
+        {
+            return $this->invoice->enrollment->student->bic ?? '';
+        }
+
+        return '';
+    }
+
+    function getDateForHumansAttribute()
+    {
+        if ($this->date)
+        {
+            return Carbon::parse($this->date, 'UTC')->locale(App::getLocale())->isoFormat('LL');
+        }
         return Carbon::parse($this->created_at, 'UTC')->locale(App::getLocale())->isoFormat('LL');
+    }
+
+    public function getMonthAttribute()
+    {
+        return Carbon::parse($this->date)->locale(App::getLocale())->isoFormat('MMMM Y');
+    }
+
+    public function getValueWithCurrencyAttribute()
+    {
+        if (config('app.currency_position') === 'before')
+        {
+            return config('app.currency_symbol') . " ". $this->value;
+        }
+
+        return $this->value . " " . config('app.currency_symbol');
+    }
+
+    public function getDisplayStatusAttribute()
+    {
+        switch ($this->status)
+        {
+            case (null):
+            case (1):
+                return __('Pending');
+            case (2):
+                return __('Paid');
+        }
     }
 
     /*
@@ -62,4 +129,9 @@ class Payment extends Model
     | MUTATORS
     |--------------------------------------------------------------------------
     */
+
+    public function setValueAttribute($value)
+    {
+        $this->attributes['value'] = $value * 100;
+    }
 }

@@ -2,7 +2,7 @@
     <div class="col-md-4">
         <div class="card">
             <div class="card-header">
-                @lang('Invoice') # {{ $invoice->id }}
+                @lang('Invoice') # {{ $invoice->invoice_reference }}
             </div>
 
             <div class="card-body">
@@ -35,17 +35,23 @@
                         @foreach($invoice->invoiceDetails as $product)
                             <tr>
                                 <td>{{ $product->product_name }}</td>
-                                <td>${{ $product->price }}</td>
+                                <td>{{ $product->price_with_currency }}</td>
                             </tr>
                         @endforeach
                         <tr style="font-weight: bold">
                             <td>@lang('TOTAL')</td>
-                            <td>${{ $invoice->total_price }}</td>
+                            <td>{{ $invoice->total_price_with_currency }}</td>
                         </tr>
                     </tbody>
                 </table>
 
-                <payment-component :invoice="{{ json_encode($invoice) }}" :availablepaymentmethods="{{ json_encode($availablePaymentMethods) }}" editable="{{ $editable }}"></payment-component>
+                <payment-component
+                    :invoice="{{ json_encode($invoice) }}"
+                    :availablepaymentmethods="{{ json_encode($availablePaymentMethods) }}"
+                    editable="{{ $editable }}"
+                    currency="{{ config('app.currency_symbol') }}"
+                    currencyposition="{{ config('app.currency_position') }}"
+                ></payment-component>
 
             </div>
         </div>

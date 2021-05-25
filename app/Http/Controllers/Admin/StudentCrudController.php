@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\StudentRequest;
 use App\Models\Institution;
 use App\Models\LeadType;
 use App\Models\Period;
@@ -11,6 +12,7 @@ use App\Traits\PeriodSelection;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\CRUD\app\Library\Widget;
 use Illuminate\Support\Str;
@@ -21,6 +23,7 @@ class StudentCrudController extends CrudController
     use ShowOperation {
         show as traitShow;
     }
+    use UpdateOperation;
     use PeriodSelection;
 
     public function __construct()
@@ -196,6 +199,27 @@ class StudentCrudController extends CrudController
         }, function ($value) {
             $this->crud->addClause('computedLeadType', $value);
         });
+    }
+
+    public function setupUpdateOperation()
+    {
+        CRUD::setValidation(StudentRequest::class);
+        CRUD::field('firstname')->label(__('Firstname'))->tab(__('Student Info'));
+        CRUD::field('lastname')->label(__('Lastname'))->tab(__('Student Info'));
+        CRUD::field('email')->label(__('Email'))->tab(__('Student Info'));
+        CRUD::field('idnumber')->label(__('ID number'))->tab(__('Student Info'));
+        CRUD::field('birthdate')->label(__('Birthdate'))->tab(__('Student Info'));
+        CRUD::field('profession')->label(__('Profession'))->tab(__('Student Info'));
+        CRUD::field('institution')->label(__('Institution'))->tab(__('Student Info'));
+
+        CRUD::field('address')->label(__('Address'))->tab(__('Address'));
+        CRUD::field('zip_code')->label(__('zip'))->tab(__('Address'));
+        CRUD::field('city')->label(__('City'))->tab(__('Address'));
+        CRUD::field('state')->label(__('State'))->tab(__('Address'));
+        CRUD::field('country')->label(__('Country'))->tab(__('Address'));
+
+        CRUD::field('iban')->label('IBAN')->tab(__('Invoicing Info'));
+        CRUD::field('bic')->label('BIC')->tab(__('Invoicing Info'));
     }
 
     public function show($student)
