@@ -191,25 +191,25 @@ class InvoiceController extends Controller
             ->sequence($invoice->invoice_number)
             ->dateFormat('d/m/Y');
 
-        $taxIsGlobal = $invoice->products->pluck('tax_rate')->unique()->count() === 1;
-        $taxRate = $invoice->products->pluck('tax_rate')->unique()->first();
+        //$taxIsGlobal = $invoice->products->pluck('tax_rate')->unique()->count() === 1;
+        //$taxRate = $invoice->taxes->pluck('tax_rate')->unique()->first();
 
         foreach ($invoice->invoiceDetails as $product)
         {
             $item = (new InvoiceItem())->title($product->product_name)->pricePerUnit($product->price);
 
-            if (!$taxIsGlobal)
+            /*if (!$taxIsGlobal)
             {
                 $item->taxByPercent($product->tax_rate);
-            }
+            }*/
 
             $generatedInvoice->addItem($item);
         }
 
-        if ($taxRate > 0 && $taxIsGlobal)
+        /*if ($taxRate > 0 && $taxIsGlobal)
         {
             $generatedInvoice->taxRate($taxRate);
-        }
+        }*/
 
         return $generatedInvoice->stream();
     }
