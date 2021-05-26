@@ -42,6 +42,7 @@ Route::group(
         Route::post('student/enroll', 'EnrollmentController@store')->name('storeEnrollment'); // create a new enrollment
         Route::post('enrollment/{enrollment}/changeCourse', 'EnrollmentController@update')->name('changeCourse');
         Route::get('enrollment/{enrollment}/bill', 'EnrollmentController@bill'); // display the cart to checkout the enrollment
+        Route::get('enrollment/{enrollment}/export', 'EnrollmentController@exportToWord'); // display the cart to checkout the enrollment
         Route::post('checkout', 'InvoiceController@store');
         Route::post('enrollment/{enrollment}/price', 'EnrollmentController@savePrice');
 

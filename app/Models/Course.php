@@ -8,6 +8,7 @@ use App\Models\Skills\Skill;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -490,6 +491,17 @@ class Course extends Model
         }
 
         return $this->price . " " . config('app.currency_symbol');
+    }
+
+
+    public function getFormattedStartDateAttribute()
+    {
+        return Carbon::parse($this->start_date, 'UTC')->locale(App::getLocale())->isoFormat('LL');
+    }
+
+    public function getFormattedEndDateAttribute()
+    {
+        return Carbon::parse($this->end_date, 'UTC')->locale(App::getLocale())->isoFormat('LL');
     }
 
     /*

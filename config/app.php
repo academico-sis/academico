@@ -18,6 +18,7 @@ return [
     'company_address' => env('COMPANY_ADDRESS', ''),
     'company_phone' => env('COMPANY_PHONE', ''),
     'company_id' => env('COMPANY_ID', ''),
+    'company_email' => env('COMPANY_EMAIL', ''),
 
     /*
     |--------------------------------------------------------------------------
