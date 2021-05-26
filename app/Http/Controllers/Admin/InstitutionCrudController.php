@@ -17,6 +17,7 @@ class InstitutionCrudController extends CrudController
 {
     use ListOperation;
     use CreateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\InlineCreateOperation;
     use UpdateOperation;
     use ShowOperation { show as traitShow; }
 

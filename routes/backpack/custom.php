@@ -80,4 +80,5 @@ Route::group([
     Route::crud('tax', 'TaxCrudController');
     Route::crud('invoice', 'InvoiceCrudController');
     Route::crud('config', 'ConfigCrudController');
+    Route::crud('profession', 'ProfessionCrudController');
 }); // this should be the absolute last line of this file

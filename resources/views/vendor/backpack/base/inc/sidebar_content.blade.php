@@ -95,6 +95,7 @@
 <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-link"></i> @lang('Settings')</a>
   <ul class="nav-dropdown-items">
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('institution') }}'><i class='nav-icon la la-building'></i> @lang('Institutions')</a></li>
+      <li class='nav-item'><a class='nav-link' href='{{ backpack_url('profession') }}'><i class='nav-icon la la-question'></i> Professions</a></li>
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('partner') }}'><i class='nav-icon la la-building'></i> @lang('Partnerships')</a></li>
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('scholarship') }}'><i class='nav-icon la la-comment-dollar'></i> @lang('Scholarships')</a></li>
       @if(backpack_user()->hasRole('admin'))

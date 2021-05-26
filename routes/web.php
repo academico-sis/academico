@@ -238,8 +238,5 @@ Route::group([
     Route::post('rhythm/{id}/restore', 'RhythmController@restore');
     Route::post('rhythm/{rhythm}/delete', 'RhythmController@destroy');
 
-    Route::get('/student/create', 'StudentController@create')->name('student.create');
-    Route::post('/student', 'StudentController@store')->name('student.store');
-
     Route::get('createinvoice', 'InvoiceController@create')->name('invoice.create');
 });
