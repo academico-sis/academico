@@ -10,7 +10,7 @@
                 <tr>
                     <th>{{ $t("Product") }}</th>
                     <th>{{ $t("Price") }}</th>
-                    <th>{{ $t("Actions") }}</th>
+                    <th v-if="editsallowed">{{ $t("Actions") }}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -40,16 +40,52 @@
                                 {{ product.price }}
                                 <span v-if="currencyposition === 'after'">{{ currency }} </span>
 
-                                <button class="btn btn-seconday btn-xs" @click="editable=true"><i class="la la-pencil"></i></button>
+                                <button v-if="editsallowed" class="btn btn-seconday btn-xs" @click="editable=true"><i class="la la-pencil"></i></button>
 
-                                <span v-if="product.type === 'enrollment' && discount(product.price) > 0" class="badge badge-info"> - <span v-if="currencyposition === 'before'">{{ currency }} </span> {{ discount(product.price) }} <span v-if="currencyposition === 'after'">{{ currency }} </span></span>
+                                <span v-for="(discount, index) in product.discounts" :key="index">
+                                    <span v-if="editsallowed" class="badge badge-info" @click="removeDiscount(product, index)">{{ discount.name }} (- {{ discount.value }}%) (X)</span>
+                                    <span v-else class="badge badge-info">{{ discount.name }} (- {{ discount.value }}%)</span>
+                                </span>
+
+                                <span v-for="(tax, index) in product.taxes" :key="index">
+                                    <span v-if="editsallowed" class="badge badge-secondary" @click="removeTax(product, index)">{{ tax.name }} ({{ tax.value }}%) (X)</span>
+                                    <span v-else class="badge badge-secondary">{{ tax.name }} ({{ tax.value }}%)</span>
+                                </span>
                             </div>
 
                         </td>
-                        <td>
-                            <button class="btn btn-xs btn-danger" @click="removeFromCart(index)">
-                                <i class="la la-trash"></i>
-                            </button>
+                        <td v-if="editsallowed">
+                            <div class="btn-group">
+
+                                <button class="btn btn-sm btn-danger" @click="removeFromCart(index)">
+                                    <i class="la la-trash"></i>
+                                </button>
+
+                                <div class="dropdown">
+                                    <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-toggle="dropdown">
+                                        <span class="caret"></span>
+                                        {{ $t("Add discount") }}
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <button v-for="availableDiscount in availablediscounts" :key="availableDiscount.id" class="dropdown-item" @click="addDiscount(product, availableDiscount)">
+                                            {{ availableDiscount.name }}
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="dropdown">
+                                    <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-toggle="dropdown">
+                                        <span class="caret"></span>
+                                        {{ $t("Add tax") }}
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <button v-for="availableTax in availabletaxes" :key="availableTax.id" class="dropdown-item" @click="addTax(product, availableTax)">
+                                            {{ availableTax.name }}
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
                         </td>
                     </tr>
 
@@ -63,7 +99,7 @@
 import {EventBus} from "../eventBus";
 
 export default {
-    props: ['products', 'totalDiscount', 'currency', 'currencyposition'],
+    props: ['products', 'currency', 'currencyposition', 'availablediscounts', 'availabletaxes', 'editsallowed'],
     data() {
         return {
             editable: false,
@@ -73,8 +109,31 @@ export default {
         removeFromCart(index) {
             EventBus.$emit("removeFromCart", index);
         },
-        discount(price) {
-            return price * (this.totalDiscount / 100);
+
+        addDiscount(product, discount) {
+            var discounts = product.discounts || [];
+            discounts.push(discount);
+            product.discounts = discounts;
+
+            EventBus.$emit("productsUpated");
+        },
+
+        removeDiscount(product, index) {
+            product.discounts.splice(index, 1);
+            EventBus.$emit("productsUpated");
+        },
+
+        addTax(product, tax) {
+            var taxes = product.taxes || [];
+            taxes.push(tax);
+            product.taxes = taxes;
+
+            EventBus.$emit("productsUpated");
+        },
+
+        removeTax(product, index) {
+            product.taxes.splice(index, 1);
+            EventBus.$emit("productsUpated");
         },
     }
 

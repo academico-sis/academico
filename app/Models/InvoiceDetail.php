@@ -21,6 +21,11 @@ class InvoiceDetail extends Model
         return $this->belongsTo(Invoice::class);
     }
 
+    public function getPriceAttribute($value)
+    {
+        return $value / 100;
+    }
+
     public function getPriceWithCurrencyAttribute()
     {
         if (config('app.currency_position') === 'before')
@@ -29,5 +34,16 @@ class InvoiceDetail extends Model
         }
 
         return $this->price . " " . config('app.currency_symbol');
+    }
+
+    /*
+|--------------------------------------------------------------------------
+| MUTATORS
+|--------------------------------------------------------------------------
+*/
+
+    public function setPriceAttribute($value)
+    {
+        $this->attributes['price'] = $value * 100;
     }
 }

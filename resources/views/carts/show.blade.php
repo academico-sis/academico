@@ -22,6 +22,7 @@
             :availablebooks="{{ json_encode($availableBooks) }}"
             :availablefees="{{ json_encode($availableFees) }}"
             :availablediscounts="{{ json_encode($availableDiscounts) }}"
+            :availabletaxes="{{ json_encode($availableTaxes) }}"
             :availablepaymentmethods="{{ json_encode($availablePaymentMethods) }}"
             :accountingenabled="{{ json_encode(config('invoicing.accounting_enabled')) }}"
             currency="{{ config('app.currency_symbol') }}"

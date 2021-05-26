@@ -2,19 +2,25 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\UserCreated;
 use App\Http\Requests\StudentRequest;
 use App\Models\Institution;
 use App\Models\LeadType;
 use App\Models\Period;
 use App\Models\PhoneNumber;
+use App\Models\Profession;
 use App\Models\Student;
+use App\Models\User;
 use App\Traits\PeriodSelection;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\CRUD\app\Library\Widget;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class StudentCrudController extends CrudController
@@ -24,7 +30,9 @@ class StudentCrudController extends CrudController
         show as traitShow;
     }
     use UpdateOperation;
+    use CreateOperation { store as traitStore; }
     use PeriodSelection;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
 
     public function __construct()
     {
@@ -40,11 +48,6 @@ class StudentCrudController extends CrudController
         CRUD::setEntityNameStrings(__('student'), __('students'));
 
         $permissions = backpack_user()->getAllPermissions();
-
-        if ($permissions->contains('name', 'enrollments.edit')) {
-            CRUD::addButtonFromView('line', 'selectCourse', 'selectCourse', 'beginning');
-            $this->crud->addButtonFromView('top', 'createStudent', 'createStudent', 'start');
-        }
 
         if ($permissions->contains('enrollments.view')) {
             CRUD::enableExportButtons();
@@ -201,7 +204,7 @@ class StudentCrudController extends CrudController
         });
     }
 
-    public function setupUpdateOperation()
+    public function setupCreateOperation()
     {
         CRUD::setValidation(StudentRequest::class);
         CRUD::field('firstname')->label(__('Firstname'))->tab(__('Student Info'));
@@ -209,8 +212,24 @@ class StudentCrudController extends CrudController
         CRUD::field('email')->label(__('Email'))->tab(__('Student Info'));
         CRUD::field('idnumber')->label(__('ID number'))->tab(__('Student Info'));
         CRUD::field('birthdate')->label(__('Birthdate'))->tab(__('Student Info'));
-        CRUD::field('profession')->label(__('Profession'))->tab(__('Student Info'));
-        CRUD::field('institution')->label(__('Institution'))->tab(__('Student Info'));
+
+        CRUD::addField([
+            'type' => "relationship",
+            'name' => 'profession', // the method on your model that defines the relationship
+            'inline_create' => true, // assumes the URL will be "/admin/category/inline/create"
+            'tab' => __('Student Info'),
+            'label' => __('Profession'),
+            'attribute' => 'name',
+        ]);
+
+        CRUD::addField([
+            'type' => "relationship",
+            'name' => 'institution', // the method on your model that defines the relationship
+            'inline_create' => true, // assumes the URL will be "/admin/category/inline/create"
+            'tab' => __('Student Info'),
+            'label' => __('Institution'),
+            'attribute' => 'name',
+        ]);
 
         CRUD::field('address')->label(__('Address'))->tab(__('Address'));
         CRUD::field('zip_code')->label(__('zip'))->tab(__('Address'));
@@ -220,6 +239,65 @@ class StudentCrudController extends CrudController
 
         CRUD::field('iban')->label('IBAN')->tab(__('Invoicing Info'));
         CRUD::field('bic')->label('BIC')->tab(__('Invoicing Info'));
+    }
+
+    public function setupUpdateOperation()
+    {
+        $this->setupCreateOperation();
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'firstname'                            => 'required|max:255',
+            'lastname'                             => 'required|max:255',
+            'email'                                => 'required|unique:users',
+        ]);
+
+        // update the user info
+        $user = User::create([
+            'firstname' => $request->firstname,
+            'lastname' => $request->lastname,
+            'email' => $request->email,
+            'password' => Hash::make(Str::random(12)),
+        ]);
+
+        UserCreated::dispatch($user);
+
+        // update the student info
+
+        $student = Student::create([
+            'id' => $user->id,
+            'idnumber' => $request->idnumber,
+            'address' => $request->address,
+            'city' => $request->city,
+            'state' => $request->state,
+            'country' => $request->country,
+            'birthdate' => $request->birthdate,
+        ]);
+
+        // save profession and institution
+        if ($request->profession) {
+            $profession = Profession::firstOrCreate([
+                'name' => $request->profession,
+            ]);
+
+            $student->update([
+                'profession_id' => $profession->id,
+            ]);
+        }
+
+        if ($request->institution) {
+            $institution = Institution::firstOrCreate([
+                'name' => $request->institution,
+            ]);
+
+            $student->update([
+                'institution_id' => $institution->id,
+            ]);
+        }
+
+        return redirect()->route('student.index');
     }
 
     public function show($student)
@@ -239,5 +317,15 @@ class StudentCrudController extends CrudController
             'attendances' => $student->periodAttendance()->get(),
             'writeaccess' => backpack_user()->can('enrollments.edit') ?? 0,
         ]);
+    }
+
+    protected function fetchInstitution()
+    {
+        return $this->fetch(Institution::class);
+    }
+
+    protected function fetchProfession()
+    {
+        return $this->fetch(Profession::class);
     }
 }

@@ -7,9 +7,17 @@
 
             <div class="col col-md-8">
 
-                <cart-product-list-component :products="products" :totalDiscount="totalDiscount" :currency="currency" :currencyposition="currencyposition"></cart-product-list-component>
+                <cart-product-list-component
+                    :products="products"
+                    :currency="currency"
+                    :currencyposition="currencyposition"
+                    :availablediscounts="this.availablediscounts"
+                    :availabletaxes="this.availabletaxes"
+                    :key="componentKey"
+                    :editsallowed="true"
+                ></cart-product-list-component>
 
-                <cart-total-price-component :value="shoppingCartTotal" :currency="currency" :currencyposition="currencyposition"></cart-total-price-component>
+                <cart-total-price-component :value="shoppingCartTotal()" :currency="currency" :currencyposition="currencyposition"></cart-total-price-component>
 
                 <!-- Button to move forward-->
                 <div class="card">
@@ -22,7 +30,7 @@
 
             </div>
 
-            <!-- Add more products or discounts -->
+            <!-- Add more products -->
             <div class="col col-md-4">
                 <div class="card">
                     <div class="card-header">
@@ -52,37 +60,6 @@
                                 <div class="dropdown-menu">
                                     <button v-for="availableFee in this.availablefees" :key="availableFee.id" class="dropdown-item" @click="addFee(availableFee)">
                                         {{ availableFee.name }}
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        {{ $t("Discounts") }}
-                    </div>
-
-                    <div class="card-body">
-                        <ul>
-                            <li v-for="(discount, index) in discounts" :key="discount.id">
-                                {{ discount.name }} ({{ discount.value }}%)
-                                <button class="btn btn-xs btn-warning" @click="removeDiscount(index)">
-                                    <i class="la la-times"></i>
-                                </button>
-                            </li>
-                        </ul>
-
-                        <div class="form-group">
-                            <div class="dropdown">
-                                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
-                                    <span class="caret"></span>
-                                    {{ $t("Add discount") }}
-                                </button>
-                                <div class="dropdown-menu">
-                                    <button v-for="availableDiscount in this.availablediscounts" :key="availableDiscount.id" class="dropdown-item" @click="addDiscount(availableDiscount)">
-                                        {{ availableDiscount.name }}
                                     </button>
                                 </div>
                             </div>
@@ -141,7 +118,13 @@
 
         <div v-if="step === 3" class="row">
             <div class="col col-md-6">
-                <cart-product-list-component :products="products" :totalDiscount="totalDiscount" :currency="currency" :currencyposition="currencyposition"></cart-product-list-component>
+                <cart-product-list-component
+                    :products="products"
+                    :currency="currency"
+                    :currencyposition="currencyposition"
+                    :key="componentKey"
+                    :editsallowed="false"
+                ></cart-product-list-component>
             </div>
             <div class="col-md-6">
                 <div class="card card-solid card-primary">
@@ -158,7 +141,7 @@
             </div>
 
             <div class="col-md-12">
-                <total-price-component :value="shoppingCartTotal" :currency="currency" :currencyposition="currencyposition"></total-price-component>
+                <total-price-component :value="shoppingCartTotal()" :currency="currency" :currencyposition="currencyposition"></total-price-component>
 
                 <cart-scheduled-payments-component :payments="payments" :currency="currency" :currencyposition="currencyposition"></cart-scheduled-payments-component>
             </div>
@@ -246,6 +229,7 @@ export default {
         "availablebooks",
         "availablefees",
         "availablediscounts",
+        "availabletaxes",
         "availablepaymentmethods",
         "accountingenabled",
         "currency",
@@ -259,7 +243,6 @@ export default {
         return {
             totalPrice: 0,
             errors: [],
-            discounts: [],
             step: 1,
             clientname: "",
             clientphone: "",
@@ -273,25 +256,10 @@ export default {
             accountingServiceIsUp: false,
             loading: false,
             selectedInvoiceType: this.invoicetypes[0].id,
+            componentKey: 0,
         };
     },
     computed: {
-        shoppingCartTotal() {
-            let total = 0;
-
-            if (this.products) {
-                this.products.forEach(product => {
-                    total += parseFloat(product.price);
-
-                    if (product.type === 'enrollment') {
-                        total -= this.discount(parseFloat(product.price));
-                    }
-                });
-            }
-
-            return total;
-        },
-
         paidTotal() {
             let total = 0;
             if (this.payments) {
@@ -299,19 +267,9 @@ export default {
                     total += parseFloat(payment.value);
                 });
             }
-            return Math.round(total * 100) / 100;
-        },
-
-        totalDiscount() {
-            let total = 0;
-            if (this.discounts) {
-                this.discounts.forEach(discount => {
-                    total += parseFloat(discount.value);
-                });
-            }
-
             return total;
         },
+
     },
 
     mounted() {
@@ -333,6 +291,10 @@ export default {
 
         EventBus.$on("paymentsUpated", (payments) => {
             this.payments = payments;
+        });
+
+        EventBus.$on("productsUpated", (products) => {
+            this.componentKey += 1;
         });
 
         EventBus.$on("setInvoiceType", (id) => {
@@ -361,19 +323,6 @@ export default {
             this.products.splice(index, 1);
         },
 
-        addDiscount(discount) {
-            this.discounts.push(discount);
-        },
-
-        removeDiscount(index) {
-            this.discounts.splice(index, 1);
-        },
-
-        discount(price) {
-            return price * (this.totalDiscount / 100);
-        },
-
-
         selectInvoiceData(contact) {
             this.clientname = contact.name ?? "";
             this.clientphone =
@@ -401,9 +350,34 @@ export default {
             this.step = 3;
         },
 
+        shoppingCartTotal() {
+            let total = 0;
+
+            if (this.products) {
+                this.products.forEach(product => {
+                    let productTotal = parseFloat(product.price);
+
+                    if (product.discounts) {
+                        product.discounts.forEach(discount => {
+                            productTotal -= product.price * (discount.value / 100);
+                        });
+                    }
+
+                    if (product.taxes) {
+                        product.taxes.forEach(tax => {
+                            productTotal += product.price * (tax.value / 100);
+                        });
+                    }
+
+                    total += Math.max(0, productTotal)
+                });
+            }
+
+            return total;
+        },
 
         checkTotal() {
-            if (this.paidTotal !== this.shoppingCartTotal) {
+            if (this.paidTotal !== this.shoppingCartTotal()) {
                 swal({
                     title: this.$t('Warning'),
                     text: this.$t('Total paid amount does not match the invoice total price'),
@@ -448,9 +422,8 @@ export default {
                     client_address: this.clientaddress,
                     client_phonenumber: this.clientaddress,
                     client_email: this.clientemail,
-                    total_price: this.shoppingCartTotal,
+                    total_price: this.shoppingCartTotal(),
                     comment: this.comment,
-                    discounts: this.discounts,
                     sendinvoice: this.sendInvoiceToAccounting,
                     invoicetype: this.selectedInvoiceType,
                 })

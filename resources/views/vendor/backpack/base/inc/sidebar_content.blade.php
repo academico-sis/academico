@@ -11,6 +11,7 @@
   <li class='nav-item'><a class='nav-link' href="{{ backpack_url('student') }}"><i class="nav-icon la la-user"></i> <span>@lang('Students')</span></a></li>
   <li class='nav-item'><a class='nav-link' href="{{ backpack_url('enrollment') }}"><i class="nav-icon la la-credit-card"></i> <span>@lang('Enrollments')</span></a></li>
   <li class='nav-item'><a class='nav-link' href='{{ backpack_url('payment') }}'><i class='nav-icon la la-dollar'></i> Payments</a></li>
+  <li class='nav-item'><a class='nav-link' href='{{ backpack_url('invoice') }}'><i class='nav-icon la la-question'></i> Invoices</a></li>
   <li class='nav-item'><a class='nav-link' href="{{ backpack_url('attendance') }}"><i class="nav-icon la la-calendar"></i> <span>@lang('Attendance')</span></a></li>
 
   <li class="nav-title">@lang('CALENDARS')</li>
@@ -94,6 +95,7 @@
 <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-link"></i> @lang('Settings')</a>
   <ul class="nav-dropdown-items">
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('institution') }}'><i class='nav-icon la la-building'></i> @lang('Institutions')</a></li>
+      <li class='nav-item'><a class='nav-link' href='{{ backpack_url('profession') }}'><i class='nav-icon la la-question'></i> Professions</a></li>
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('partner') }}'><i class='nav-icon la la-building'></i> @lang('Partnerships')</a></li>
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('scholarship') }}'><i class='nav-icon la la-comment-dollar'></i> @lang('Scholarships')</a></li>
       @if(backpack_user()->hasRole('admin'))
@@ -110,6 +112,7 @@
       <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-link"></i> @lang('Invoicing')</a>
         <ul class="nav-dropdown-items">
           <li class='nav-item'><a class='nav-link' href='{{ backpack_url('discount') }}'><i class='la la-percent'></i> <span>@lang('Discounts')</span></a></li>
+          <li class='nav-item'><a class='nav-link' href='{{ backpack_url('tax') }}'><i class='nav-icon la la-question'></i> Taxes</a></li>
           <li class='nav-item'><a class='nav-link' href='{{ backpack_url('fee') }}'><i class='la la-dollar'></i> <span>@lang('Fees')</span></a></li>
           <li class='nav-item'><a class='nav-link' href='{{ backpack_url('paymentmethod') }}'><i class='la la-dollar'></i> <span>@lang('Payment methods')</span></a></li>
         </ul>

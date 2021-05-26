@@ -6,6 +6,7 @@ use App\Events\EnrollmentUpdated;
 use App\Http\Requests\StoreEnrollmentRequest;
 use App\Models\Attendance;
 use App\Models\Book;
+use App\Models\Config;
 use App\Models\Course;
 use App\Models\Discount;
 use App\Models\Enrollment;
@@ -13,10 +14,14 @@ use App\Models\Fee;
 use App\Models\InvoiceType;
 use App\Models\Paymentmethod;
 use App\Models\Student;
+use App\Models\Tax;
 use App\Traits\PeriodSelection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
+use PhpOffice\PhpWord\IOFactory;
+use PhpOffice\PhpWord\PhpWord;
 use Prologue\Alerts\Facades\Alert;
 
 class EnrollmentController extends Controller
@@ -153,6 +158,7 @@ class EnrollmentController extends Controller
             'availableFees' => Fee::all(),
             'availableDiscounts' => Discount::all(),
             'availablePaymentMethods' => Paymentmethod::all(),
+            'availableTaxes' => Tax::all(),
         ]);
     }
 
@@ -177,5 +183,92 @@ class EnrollmentController extends Controller
         $enrollment->update(['total_price' => $request->price]);
 
         return $enrollment->fresh();
+    }
+
+    public function exportToWord(Enrollment $enrollment)
+    {
+        $phpWord = new PhpWord();
+
+        // Course general info
+        $section = $phpWord->addSection();
+
+        $section->addText(config('app.company_name'));
+        $section->addText(config('app.company_id'));
+        $section->addText(config('app.company_address'));
+        $section->addText(config('app.company_phone'));
+        $section->addText(config('app.company_email'));
+
+        $section->addTextBreak();
+
+        $section->addText("HOJA DE MATRÍCULA");
+        $section->addText("Fecha de Matriculación: " . $enrollment->date);
+
+        $section->addTextBreak();
+        $section->addText("DATOS PERSONALES DEL ALUMNO (A)");
+
+        $section->addListItem(__('Name') . " : " . $enrollment->student_name);
+        if ($enrollment->student->idnumber) { $section->addListItem(__('ID number') . " : " . $enrollment->student->idnumber); }
+        if ($enrollment->student->phone->first()->phone_number) { $section->addListItem(__('Phone Number') . " : " . $enrollment->student->phone->first()->phone_number); }
+        if ($enrollment->student->email) { $section->addListItem(__('Email') . " : " . $enrollment->student->email); }
+        if ($enrollment->student->address) { $section->addListItem(__('Address') . " : " . $enrollment->student->address); }
+
+        $section->addTextBreak();
+        $section->addText("DATOS DEL CURSO");
+        $section->addText($enrollment->course->name);
+        $section->addText("Fecha inicio de curso" . " : " . $enrollment->course->formatted_start_date);
+        $section->addText("Fecha fin de curso" . " : " . $enrollment->course->formatted_end_date);
+
+        if (config('invoicing.invoicing_system') === 'sepa' && $enrollment->invoice && $enrollment->invoice->payments)
+        {
+            $section->addTextBreak();
+
+            $table = $section->addTable();
+            $table->addRow();
+            $table->addCell(1750)->addText("FECHA DE VENCIMIENTO");
+            $table->addCell(1750)->addText("TOTAL");
+
+            foreach ($enrollment->invoice->payments as $payment)
+            {
+                $table->addRow();
+                $table->addCell(1750)->addText($payment->date_for_humans);
+                $table->addCell(1750)->addText($payment->value_with_currency);
+            }
+        }
+
+        $footer = $section->addFooter();
+        $fontStyle = new \PhpOffice\PhpWord\Style\Font();
+        $fontStyle->setItalic(true);
+        $fontStyle->setName('Tahoma');
+        $fontStyle->setSize(8);
+        $footerText = $footer->addText(Config::firstWhere('name', 'enrollment_sheet_footer')->value);
+        $footerText->setFontStyle($fontStyle);
+
+
+        $section = $phpWord->addSection();
+
+        $html = Config::firstWhere('name', 'enrollment_sheet_terms')->value;
+
+        $html = str_replace('{{ course_name }}', $enrollment->course->name, $html);
+        $html = str_replace("{{ course_volume }}", $enrollment->course->total_volume, $html);
+
+        \PhpOffice\PhpWord\Shared\Html::addHtml($section, $html, false, false);
+
+        $footer = $section->addFooter();
+        $fontStyle = new \PhpOffice\PhpWord\Style\Font();
+        $fontStyle->setItalic(true);
+        $fontStyle->setName('Tahoma');
+        $fontStyle->setSize(8);
+        $footerText = $footer->addText(Config::firstWhere('name', 'enrollment_sheet_footer')->value);
+        $footerText->setFontStyle($fontStyle);
+
+
+        // Saving the document as OOXML file...
+        $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
+        header('Content-type: application/msword');
+        header('Cache-Control: no-store, no-cache');
+        header('Content-Disposition: attachment; filename="document.docx"');
+
+        $objWriter->save('php://output');
+        exit;
     }
 }

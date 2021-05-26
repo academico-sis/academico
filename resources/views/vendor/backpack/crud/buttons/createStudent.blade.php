@@ -1,1 +1,0 @@
-<a href="{{ route('student.create') }}" class="btn btn-primary"><i class="la la-user-plus"></i> {{ __('New student') }}</a>
