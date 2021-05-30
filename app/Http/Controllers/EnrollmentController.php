@@ -247,27 +247,26 @@ class EnrollmentController extends Controller
         {
             $section->addTextBreak();
             $table = $section->addTable();
-        }
 
-        $section->addTextBreak(1);
-        $fancyTableStyleName = 'Fancy Table';
-        $fancyTableStyle = array('borderSize' => 6, 'cellMargin' => 80, 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER, 'cellSpacing' => 50);
-        $fancyTableFirstRowStyle = array('borderBottomSize' => 18, 'borderBottomColor' => '0000FF', 'bgColor' => '66BBFF');
-        $fancyTableCellStyle = array('valign' => 'center');
-        $fancyTableCellBtlrStyle = array('valign' => 'center', 'textDirection' => \PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR);
-        $fancyTableFontStyle = array('bold' => true);
-        $phpWord->addTableStyle($fancyTableStyleName, $fancyTableStyle, $fancyTableFirstRowStyle);
-        $table = $section->addTable($fancyTableStyleName);
+            $section->addTextBreak(1);
+            $fancyTableStyleName = 'Fancy Table';
+            $fancyTableStyle = array('borderSize' => 6, 'cellMargin' => 80, 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER, 'cellSpacing' => 50);
+            $fancyTableFirstRowStyle = array('borderBottomSize' => 18, 'borderBottomColor' => '0000FF', 'bgColor' => '66BBFF');
+            $fancyTableCellStyle = array('valign' => 'center');
+            $fancyTableCellBtlrStyle = array('valign' => 'center', 'textDirection' => \PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR);
+            $fancyTableFontStyle = array('bold' => true);
+            $phpWord->addTableStyle($fancyTableStyleName, $fancyTableStyle, $fancyTableFirstRowStyle);
+            $table = $section->addTable($fancyTableStyleName);
 
-        $table->addRow(500);
-        $table->addCell(4000, $fancyTableCellStyle)->addText(Str::upper(__('Due Date')));
-        $table->addCell(5000, $fancyTableCellStyle)->addText(Str::upper(__('Total')));
-
-        foreach ($enrollment->invoice->payments as $payment)
-        {
             $table->addRow(500);
-            $table->addCell(4000, $fancyTableCellStyle)->addText($payment->date_for_humans);
-            $table->addCell(5000, $fancyTableCellStyle)->addText($payment->value_with_currency);
+            $table->addCell(4000, $fancyTableCellStyle)->addText(Str::upper(__('Due Date')));
+            $table->addCell(5000, $fancyTableCellStyle)->addText(Str::upper(__('Total')));
+
+            foreach ($enrollment->invoice->payments as $payment) {
+                $table->addRow(500);
+                $table->addCell(4000, $fancyTableCellStyle)->addText($payment->date_for_humans);
+                $table->addCell(5000, $fancyTableCellStyle)->addText($payment->value_with_currency);
+            }
         }
 
         $footer = $section->addFooter();
