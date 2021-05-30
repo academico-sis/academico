@@ -233,7 +233,7 @@ class EnrollmentController extends Controller
 
         $section->addTextBreak();
         $section->addTextBreak();
-        $section->addText(__('Student Information'))->setFontStyle($titleStyle);
+        $section->addText(__('Student Info'))->setFontStyle($titleStyle);
 
         $section->addListItem(__('Name') . " : " . $enrollment->student_name);
         if ($enrollment->student->idnumber) { $section->addListItem(__('ID number') . " : " . $enrollment->student->idnumber); }
