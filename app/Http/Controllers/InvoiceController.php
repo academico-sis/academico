@@ -107,7 +107,7 @@ class InvoiceController extends Controller
                 'product_id' => $product['id'],
                 'product_type' => $productType,
                 'price' => $product['price'],
-                'tax_rate' => collect($product['taxes'] ?? [])->sum('value'),
+                //'tax_rate' => collect($product['taxes'] ?? [])->sum('value'),
             ]);
 
             if (isset ($product['discounts'])) {
@@ -129,7 +129,7 @@ class InvoiceController extends Controller
                         'product_name' => $tax['name'],
                         'product_id' => $tax['id'],
                         'product_type' => Tax::class,
-                        'price' => $tax['value'],
+                        'price' => $product['price'] * ($tax['value'] / 100),
                     ]);
                 }
             }
@@ -168,7 +168,6 @@ class InvoiceController extends Controller
             }
         }
 
-        return \Redirect::route('invoice.index');
     }
 
     public function edit(Invoice $invoice)

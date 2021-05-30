@@ -430,7 +430,7 @@ export default {
                 .then(response => {
                     // handle success
                     this.step = 4;
-                    window.location.href = this.enrollment ? `/enrollment/${this.enrollment.id}/show` : "/payment";
+                    window.location.href = this.enrollment ? `/enrollment/${this.enrollment.id}/show` : "/invoice";
                     new Noty({
                         title: this.$t('Success'),
                         text: this.$t("Your changes were successful"),
