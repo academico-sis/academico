@@ -279,7 +279,7 @@ class EnrollmentController extends Controller
         $fontStyle->setItalic(true);
         $fontStyle->setName('Tahoma');
         $fontStyle->setSize(8);
-        $footerText = $footer->addText(Config::firstWhere('name', 'enrollment_sheet_footer')->value);
+        $footerText = $this->utf8_for_xml($footer->addText(Config::firstWhere('name', 'enrollment_sheet_footer')->value));
         $footerText->setFontStyle($fontStyle);
 
 
@@ -290,16 +290,14 @@ class EnrollmentController extends Controller
         $html = str_replace('{{ course_name }}', $enrollment->course->name, $html);
         $html = str_replace("{{ course_volume }}", $enrollment->course->total_volume, $html);
 
-        $html = $this->utf8_for_xml($html);
-
-        \PhpOffice\PhpWord\Shared\Html::addHtml($section, $html, false, false);
+        \PhpOffice\PhpWord\Shared\Html::addHtml($section, $this->utf8_for_xml($html), false, false);
 
         $footer = $section->addFooter();
         $fontStyle = new \PhpOffice\PhpWord\Style\Font();
         $fontStyle->setItalic(true);
         $fontStyle->setName('Tahoma');
         $fontStyle->setSize(8);
-        $footerText = $footer->addText(Config::firstWhere('name', 'enrollment_sheet_footer')->value);
+        $footerText = $this->utf8_for_xml($footer->addText(Config::firstWhere('name', 'enrollment_sheet_footer')->value));
         $footerText->setFontStyle($fontStyle);
 
 
