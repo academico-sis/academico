@@ -168,7 +168,7 @@ class InvoiceController extends Controller
             }
         }
 
-        return \Redirect::route('invoice.show');
+        return \Redirect::route('invoice.index');
     }
 
     public function edit(Invoice $invoice)
