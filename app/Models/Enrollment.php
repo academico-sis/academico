@@ -202,7 +202,7 @@ class Enrollment extends Model
 
     public function getNameAttribute()
     {
-        return "Enrollment for " . $this->student_name;
+        return __("Enrollment for") . ' ' . $this->student_name;
     }
 
     public function getTypeAttribute()

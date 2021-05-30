@@ -167,6 +167,8 @@ class InvoiceController extends Controller
                 $enrollment->markAsPaid();
             }
         }
+
+        return \Redirect::route('invoice.show');
     }
 
     public function edit(Invoice $invoice)
