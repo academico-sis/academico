@@ -276,11 +276,17 @@ class Enrollment extends Model
 
     public function getPriceAttribute()
     {
-        // if the enrollment has a price, we always consider it first
+        // if the enrollment has an invoice, we take this price
+        if ($this->invoice && $this->invoice->total_price !== null) {
+            return $this->invoice->total_price;
+        }
+
+        // otherwise, we seek the enrollment specific price
         if ($this->total_price !== null) {
             return $this->total_price / 100;
         }
 
+        // finally, we default to the course price or 0 (because some screens need a value here, it cannot be null)
         return $this->course->price ?? 0;
     }
 

@@ -450,5 +450,7 @@
     "You need to fill out all fields to continue": "You need to fill out all fields to continue",
     "Contact": "Contact",
     "Invoice Type": "Invoice Type",
-    "New invoice": "New invoice"
+    "New invoice": "New invoice",
+    "Enrollment sheet": "Enrollment sheet",
+    "Due Date": "Due Date"
 }
