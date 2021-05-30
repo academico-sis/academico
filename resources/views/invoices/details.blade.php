@@ -22,6 +22,7 @@
         <div class="card">
             <div class="card-header">
                 @lang('Details')
+                <div class="card-header-actions"><a href="{{ route('export-invoice', ['invoice' => $invoice]) }}">{{ __('Export') }}</a></div>
             </div>
 
             <div class="card-body">

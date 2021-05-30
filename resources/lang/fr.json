@@ -447,5 +447,6 @@
     "Invoice Type": "Type de facture",
     "New invoice": "Nouvelle facture",
     "Enrollment sheet": "Fiche d'inscription (.docx)",
-    "Due Date": "Dû au"
+    "Due Date": "Dû au",
+    "Export": "Exporter"
 }

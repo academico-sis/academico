@@ -66,7 +66,7 @@ class InvoiceCrudController extends CrudController
 
     public function show($id)
     {
-        $invoice = Invoice::findOrFail($id);
+        $invoice = Invoice::findOrFail($id)->load('payments');
 
         if (! backpack_user()->can('enrollments.edit')) {
             abort(403);

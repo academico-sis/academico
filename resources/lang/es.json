@@ -452,5 +452,6 @@
     "Invoice Type": "Tipo de factura",
     "New invoice": "Nueva factura",
     "Enrollment sheet": "Hoja de matricula (.docx)",
-    "Due Date": "Fecha de Vencimiento"
+    "Due Date": "Fecha de Vencimiento",
+    "Export": "Exportar"
 }

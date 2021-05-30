@@ -47,7 +47,7 @@ Route::group(
         Route::post('enrollment/{enrollment}/price', 'EnrollmentController@savePrice');
 
         Route::get('invoice/{invoice}', 'InvoiceController@show')->name('invoice-show');
-        Route::get('invoice/{invoice}/pdf', 'InvoiceController@download');
+        Route::get('invoice/{invoice}/pdf', 'InvoiceController@download')->name('export-invoice');
 
         Route::post('invoice/{invoice}/receipt', 'InvoiceController@saveReceiptNumber');
 
