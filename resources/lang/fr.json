@@ -445,5 +445,8 @@
     "You need to fill out all fields to continue": "Veuillez compléter tous les champs pour continuer",
     "Contact": "Contact",
     "Invoice Type": "Type de facture",
-    "New invoice": "Nouvelle facture"
+    "New invoice": "Nouvelle facture",
+    "Enrollment sheet": "Fiche d'inscription (.docx)",
+    "Due Date": "Dû au",
+    "Export": "Exporter"
 }

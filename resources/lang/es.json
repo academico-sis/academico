@@ -112,12 +112,12 @@
     "Enroll": "Matricular",
     "Enroll new student": "Matricular nuevo estudiante",
     "enrollment": "matricula",
-    "Enrollment date": "Fecha de matricula",
-    "Enrollment Details": "Detalles de la matricula",
-    "Enrollment ID": "Número de la matricula",
-    "Enrollment Info": "Info de la matricula",
-    "Enrollment number": "Matricula #",
-    "Enrollment successfully created": "La matricula ha sido creada con éxito",
+    "Enrollment date": "Fecha de Matriculación",
+    "Enrollment Details": "Detalles de la Matriculación",
+    "Enrollment ID": "Número de la Matriculación",
+    "Enrollment Info": "Info de la Matriculación",
+    "Enrollment number": "Matriculación #",
+    "Enrollment successfully created": "La Matriculación ha sido creada con éxito",
     "Enrollments": "Matriculas",
     "enrollments": "matriculas",
     "Enrollments per Course": "Matriculas por curso",
@@ -450,5 +450,8 @@
     "You need to fill out all fields to continue": "Tiene que llenar todos los campos para continuar",
     "Contact": "Contact",
     "Invoice Type": "Tipo de factura",
-    "New invoice": "Nueva factura"
+    "New invoice": "Nueva factura",
+    "Enrollment sheet": "Hoja de matricula (.docx)",
+    "Due Date": "Fecha de Vencimiento",
+    "Export": "Exportar"
 }

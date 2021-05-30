@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Interfaces\InvoicingInterface;
 use App\Models\Book;
 use App\Models\Comment;
+use App\Models\Config;
 use App\Models\Discount;
 use App\Models\Enrollment;
 use App\Models\Fee;
@@ -185,11 +186,15 @@ class InvoiceController extends Controller
         ]);
 
 
+        $notes = $invoice->invoiceType->notes;
+
         $generatedInvoice = InvoiceAlias::make()
             ->buyer($customer)
             ->series($invoice->invoice_series)
             ->sequence($invoice->invoice_number)
-            ->dateFormat('d/m/Y');
+            ->dateFormat('d/m/Y')
+            ->logo(storage_path('logo2.png'))
+            ->notes($notes);
 
         //$taxIsGlobal = $invoice->products->pluck('tax_rate')->unique()->count() === 1;
         //$taxRate = $invoice->taxes->pluck('tax_rate')->unique()->first();
@@ -210,6 +215,8 @@ class InvoiceController extends Controller
         {
             $generatedInvoice->taxRate($taxRate);
         }*/
+
+        $generatedInvoice->footer = Config::firstWhere('name', 'invoice_footer')->value;
 
         return $generatedInvoice->stream();
     }

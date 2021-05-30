@@ -122,6 +122,7 @@
                 {{ $enrollment->enrollmentStatus->name }}
             @endif
 
+                <a href="{{ route('generate-enrollment-sheet', ['enrollment' => $enrollment]) }}">{{ __('Enrollment sheet') }} (.docx)</a>
             </div>
         </div>
     </div>

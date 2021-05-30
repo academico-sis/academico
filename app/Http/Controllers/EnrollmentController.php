@@ -192,6 +192,24 @@ class EnrollmentController extends Controller
         // Course general info
         $section = $phpWord->addSection();
 
+        $header = $section->addHeader();
+
+        // Image from string
+        //printSeparator($section);
+        $source = storage_path('logo.jpg');
+        $fileContent = file_get_contents($source);
+        $header->addImage($fileContent,    array(
+            'width'            => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(5),
+            //'height'           => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(3),
+            'wrappingStyle'      => 'topAndBottom',
+            'positioning'      => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE,
+            'posHorizontal'    => \PhpOffice\PhpWord\Style\Image::POSITION_HORIZONTAL_CENTER,
+            'posHorizontalRel' => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE_TO_COLUMN,
+            'posVertical'      => \PhpOffice\PhpWord\Style\Image::POSITION_VERTICAL_TOP,
+            //'marginLeft'       => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(15.5),
+            'marginTop'        => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(1.55),
+        ));
+
         $section->addText(config('app.company_name'));
         $section->addText(config('app.company_id'));
         $section->addText(config('app.company_address'));
@@ -200,11 +218,17 @@ class EnrollmentController extends Controller
 
         $section->addTextBreak();
 
-        $section->addText("HOJA DE MATRÍCULA");
-        $section->addText("Fecha de Matriculación: " . $enrollment->date);
+        $titleStyle = new \PhpOffice\PhpWord\Style\Font();
+        $titleStyle->setBold(true);
+        $section->addText(Str::upper(__('Enrollment sheet')))->setFontStyle($titleStyle);
+
+        $normalStyle = new \PhpOffice\PhpWord\Style\Font();
+        $normalStyle->setBold(false);
+        $section->addText(__('Enrollment date') . ": " . $enrollment->date)->setFontStyle($normalStyle);
 
         $section->addTextBreak();
-        $section->addText("DATOS PERSONALES DEL ALUMNO (A)");
+        $section->addTextBreak();
+        $section->addText(__('Student Information'))->setFontStyle($titleStyle);
 
         $section->addListItem(__('Name') . " : " . $enrollment->student_name);
         if ($enrollment->student->idnumber) { $section->addListItem(__('ID number') . " : " . $enrollment->student->idnumber); }
@@ -213,26 +237,37 @@ class EnrollmentController extends Controller
         if ($enrollment->student->address) { $section->addListItem(__('Address') . " : " . $enrollment->student->address); }
 
         $section->addTextBreak();
-        $section->addText("DATOS DEL CURSO");
+        $section->addTextBreak();
+        $section->addText(__('Course Details'))->setFontStyle($titleStyle);
         $section->addText($enrollment->course->name);
-        $section->addText("Fecha inicio de curso" . " : " . $enrollment->course->formatted_start_date);
-        $section->addText("Fecha fin de curso" . " : " . $enrollment->course->formatted_end_date);
+        $section->addText(__('Start Date') . " : " . $enrollment->course->formatted_start_date);
+        $section->addText(__('End Date') . " : " . $enrollment->course->formatted_end_date);
 
         if (config('invoicing.invoicing_system') === 'sepa' && $enrollment->invoice && $enrollment->invoice->payments)
         {
             $section->addTextBreak();
-
             $table = $section->addTable();
-            $table->addRow();
-            $table->addCell(1750)->addText("FECHA DE VENCIMIENTO");
-            $table->addCell(1750)->addText("TOTAL");
+        }
 
-            foreach ($enrollment->invoice->payments as $payment)
-            {
-                $table->addRow();
-                $table->addCell(1750)->addText($payment->date_for_humans);
-                $table->addCell(1750)->addText($payment->value_with_currency);
-            }
+        $section->addTextBreak(1);
+        $fancyTableStyleName = 'Fancy Table';
+        $fancyTableStyle = array('borderSize' => 6, 'cellMargin' => 80, 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER, 'cellSpacing' => 50);
+        $fancyTableFirstRowStyle = array('borderBottomSize' => 18, 'borderBottomColor' => '0000FF', 'bgColor' => '66BBFF');
+        $fancyTableCellStyle = array('valign' => 'center');
+        $fancyTableCellBtlrStyle = array('valign' => 'center', 'textDirection' => \PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR);
+        $fancyTableFontStyle = array('bold' => true);
+        $phpWord->addTableStyle($fancyTableStyleName, $fancyTableStyle, $fancyTableFirstRowStyle);
+        $table = $section->addTable($fancyTableStyleName);
+
+        $table->addRow(500);
+        $table->addCell(4000, $fancyTableCellStyle)->addText(Str::upper(__('Due Date')));
+        $table->addCell(5000, $fancyTableCellStyle)->addText(Str::upper(__('Total')));
+
+        foreach ($enrollment->invoice->payments as $payment)
+        {
+            $table->addRow(500);
+            $table->addCell(4000, $fancyTableCellStyle)->addText($payment->date_for_humans);
+            $table->addCell(5000, $fancyTableCellStyle)->addText($payment->value_with_currency);
         }
 
         $footer = $section->addFooter();

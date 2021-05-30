@@ -131,21 +131,6 @@
         @if($invoice->logo)
             <img src="{{ $invoice->getLogo() }}" alt="logo" height="100">
         @endif
-        <table class="table mt-5">
-            <tbody>
-                <tr>
-                    <td class="border-0 pl-0" width="70%">
-                        <h4 class="text-uppercase">
-                            <strong>{{ $invoice->name }}</strong>
-                        </h4>
-                    </td>
-                    <td class="border-0 pl-0">
-                        <p>{{ __('invoices::invoice.serial') }} <strong>{{ $invoice->getSerialNumber() }}</strong></p>
-                        <p>{{ __('invoices::invoice.date') }}: <strong>{{ $invoice->getDate() }}</strong></p>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
 
         {{-- Seller - Buyer --}}
         <table class="table">
@@ -240,6 +225,10 @@
                 </tr>
             </tbody>
         </table>
+
+        <p>{{ __('invoices::invoice.serial') }} <strong>{{ $invoice->getSerialNumber() }}</strong></p>
+        <p>{{ __('invoices::invoice.date') }}: <strong>{{ $invoice->getDate() }}</strong></p>
+
 
         {{-- Table --}}
         <table class="table">
@@ -350,12 +339,11 @@
             </p>
         @endif
 
-        <p>
-            {{ trans('invoices::invoice.amount_in_words') }}: {{ $invoice->getTotalAmountInWords() }}
-        </p>
-        <p>
-            {{ trans('invoices::invoice.pay_until') }}: {{ $invoice->getPayUntilDate() }}
-        </p>
+        @if($invoice->footer)
+            <div style="position:absolute; bottom: 0">
+                {!! $invoice->footer !!}
+            </div>
+        @endif
 
         <script type="text/php">
             if (isset($pdf) && $PAGE_COUNT > 1) {
