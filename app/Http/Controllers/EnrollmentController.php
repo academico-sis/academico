@@ -185,6 +185,11 @@ class EnrollmentController extends Controller
         return $enrollment->fresh();
     }
 
+    private function utf8_for_xml($string)
+    {
+        return preg_replace ('/[^\x{0009}\x{000a}\x{000d}\x{0020}-\x{D7FF}\x{E000}-\x{FFFD}]+/u', ' ', $string);
+    }
+
     public function exportToWord(Enrollment $enrollment)
     {
         $phpWord = new PhpWord();
@@ -284,6 +289,8 @@ class EnrollmentController extends Controller
 
         $html = str_replace('{{ course_name }}', $enrollment->course->name, $html);
         $html = str_replace("{{ course_volume }}", $enrollment->course->total_volume, $html);
+
+        $html = $this->utf8_for_xml($html);
 
         \PhpOffice\PhpWord\Shared\Html::addHtml($section, $html, false, false);
 
