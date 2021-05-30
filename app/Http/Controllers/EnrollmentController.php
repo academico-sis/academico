@@ -17,6 +17,7 @@ use App\Models\Student;
 use App\Models\Tax;
 use App\Traits\PeriodSelection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -192,6 +193,9 @@ class EnrollmentController extends Controller
 
     public function exportToWord(Enrollment $enrollment)
     {
+
+        App::setLocale(config('app.locale'));
+
         $phpWord = new PhpWord();
 
         // Course general info
@@ -221,18 +225,23 @@ class EnrollmentController extends Controller
         $section->addText(config('app.company_phone'));
         $section->addText(config('app.company_email'));
 
-        $section->addTextBreak();
+        $section->addTextBreak(3);
 
         $titleStyle = new \PhpOffice\PhpWord\Style\Font();
         $titleStyle->setBold(true);
-        $section->addText(Str::upper(__('Enrollment sheet')))->setFontStyle($titleStyle);
+        $titleStyle->setSize(14);
+
+        $phpWord->addParagraphStyle('centered', array('alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER, 'spaceAfter' => 100));
+
+        $section->addText(Str::upper(__('Enrollment sheet')))->setFontStyle($titleStyle, 'centered');
+
+        $section->addTextBreak(2);
 
         $normalStyle = new \PhpOffice\PhpWord\Style\Font();
         $normalStyle->setBold(false);
         $section->addText(__('Enrollment date') . ": " . $enrollment->date)->setFontStyle($normalStyle);
 
-        $section->addTextBreak();
-        $section->addTextBreak();
+        $section->addTextBreak(2);
         $section->addText(__('Student Info'))->setFontStyle($titleStyle);
 
         $section->addListItem(__('Name') . " : " . $enrollment->student_name);
@@ -241,12 +250,14 @@ class EnrollmentController extends Controller
         if ($enrollment->student->email) { $section->addListItem(__('Email') . " : " . $enrollment->student->email); }
         if ($enrollment->student->address) { $section->addListItem(__('Address') . " : " . $enrollment->student->address); }
 
-        $section->addTextBreak();
-        $section->addTextBreak();
+        $section->addTextBreak(2);
+        $courseStyle = new \PhpOffice\PhpWord\Style\Font();
+        $courseStyle->setSize(12);
+
         $section->addText(__('Course Details'))->setFontStyle($titleStyle);
-        $section->addText($enrollment->course->name);
-        $section->addText(__('Start Date') . " : " . $enrollment->course->formatted_start_date);
-        $section->addText(__('End Date') . " : " . $enrollment->course->formatted_end_date);
+        $section->addText($enrollment->course->name)->setFontStyle($courseStyle);
+        $section->addText(__('Start Date') . " : " . $enrollment->course->formatted_start_date)->setFontStyle($courseStyle);
+        $section->addText(__('End Date') . " : " . $enrollment->course->formatted_end_date)->setFontStyle($courseStyle);
 
         if (config('invoicing.invoicing_system') === 'sepa' && $enrollment->invoice && $enrollment->invoice->payments)
         {
@@ -279,7 +290,7 @@ class EnrollmentController extends Controller
         $fontStyle->setItalic(true);
         $fontStyle->setName('Tahoma');
         $fontStyle->setSize(8);
-        $footerText = $this->utf8_for_xml($footer->addText(Config::firstWhere('name', 'enrollment_sheet_footer')->value));
+        $footerText = $footer->addText($this->utf8_for_xml(Config::firstWhere('name', 'enrollment_sheet_footer')->value));
         $footerText->setFontStyle($fontStyle);
 
 
@@ -297,7 +308,7 @@ class EnrollmentController extends Controller
         $fontStyle->setItalic(true);
         $fontStyle->setName('Tahoma');
         $fontStyle->setSize(8);
-        $footerText = $this->utf8_for_xml($footer->addText(Config::firstWhere('name', 'enrollment_sheet_footer')->value));
+        $footerText = $footer->addText($this->utf8_for_xml(Config::firstWhere('name', 'enrollment_sheet_footer')->value));
         $footerText->setFontStyle($fontStyle);
 
 

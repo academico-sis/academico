@@ -176,6 +176,10 @@ class InvoiceController extends Controller
 
     public function download(Invoice $invoice)
     {
+
+        App::setLocale(config('app.locale'));
+
+
         $customer = new Buyer([
             'name'          => $invoice->client_name,
             'custom_fields' => [
@@ -194,7 +198,7 @@ class InvoiceController extends Controller
             ->sequence($invoice->invoice_number)
             ->dateFormat('d/m/Y')
             ->logo(storage_path('logo2.png'))
-            ->notes($notes);
+            ->notes($notes ?? "");
 
         //$taxIsGlobal = $invoice->products->pluck('tax_rate')->unique()->count() === 1;
         //$taxRate = $invoice->taxes->pluck('tax_rate')->unique()->first();
