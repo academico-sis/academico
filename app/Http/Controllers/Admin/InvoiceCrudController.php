@@ -19,6 +19,9 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 class InvoiceCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+
     use ShowOperation { show as traitShow; }
 
     /**
@@ -42,26 +45,38 @@ class InvoiceCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('id');
         CRUD::column('invoice_number');
-        CRUD::column('invoice_type_id');
+        CRUD::addColumn([
+            'name'         => 'invoiceType', // name of relationship method in the model
+            'type'         => 'relationship',
+            'label'        => 'Type',
+            'searchLogic'  => false,
+            'attribute'    => 'name',
+        ]);
         CRUD::column('client_name');
         CRUD::column('client_idnumber');
         CRUD::column('client_address');
         CRUD::column('client_email');
-        CRUD::column('client_phone');
         CRUD::column('total_price');
-        CRUD::column('company_id');
-        CRUD::column('receipt_number');
         CRUD::column('created_at');
-        CRUD::column('updated_at');
-        CRUD::column('deleted_at');
+    }
 
-        /**
-         * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
-         */
+    protected function setupUpdateOperation()
+    {
+        CRUD::setValidation(InvoiceRequest::class);
+        CRUD::field('invoice_number');
+        CRUD::addField([
+            'name'         => 'invoiceType', // name of relationship method in the model
+            'type'         => 'relationship',
+            'label'        => 'Type',
+            'searchLogic'  => false,
+            'attribute'    => 'name',
+        ]);
+        CRUD::field('client_name');
+        CRUD::field('client_idnumber');
+        CRUD::field('client_address');
+        CRUD::field('client_email');
+        CRUD::field('total_price');
     }
 
     public function show($id)
