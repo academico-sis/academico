@@ -246,7 +246,7 @@ class EnrollmentController extends Controller
 
         $section->addListItem(__('Name') . " : " . $enrollment->student_name);
         if ($enrollment->student->idnumber) { $section->addListItem(__('ID number') . " : " . $enrollment->student->idnumber); }
-        if ($enrollment->student->phone->first()->phone_number) { $section->addListItem(__('Phone Number') . " : " . $enrollment->student->phone->first()->phone_number); }
+        if ($enrollment->student->phone->count() > 0 && $enrollment->student->phone->first()->phone_number) { $section->addListItem(__('Phone Number') . " : " . $enrollment->student->phone->first()->phone_number); }
         if ($enrollment->student->email) { $section->addListItem(__('Email') . " : " . $enrollment->student->email); }
         if ($enrollment->student->address) { $section->addListItem(__('Address') . " : " . $enrollment->student->address); }
 
