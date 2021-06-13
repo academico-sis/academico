@@ -242,7 +242,7 @@ class EnrollmentController extends Controller
             $templateProcessor->setComplexBlock('payments', $table);
         }
         else {
-            $templateProcessor->setComplexBlock('payments', '');
+            $templateProcessor->setComplexValue('payments', '');
         }
         $path = $templateProcessor->save();
         return response()->download($path)->deleteFileAfterSend(true);
