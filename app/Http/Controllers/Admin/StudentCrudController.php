@@ -214,6 +214,13 @@ class StudentCrudController extends CrudController
         CRUD::field('birthdate')->label(__('Birthdate'))->tab(__('Student Info'));
 
         CRUD::addField([
+            'type' => "text",
+            'name' => 'phone', // the method on your model that defines the relationship
+            'tab' => __('Student Info'),
+            'label' => __('Phone'),
+        ]);
+
+        CRUD::addField([
             'type' => "relationship",
             'name' => 'profession', // the method on your model that defines the relationship
             'inline_create' => true, // assumes the URL will be "/admin/category/inline/create"
@@ -275,6 +282,17 @@ class StudentCrudController extends CrudController
             'country' => $request->country,
             'birthdate' => $request->birthdate,
         ]);
+
+        // save phone number
+        if ($request->phone) {
+            $phone_number = PhoneNumber::firstOrCreate([
+                'phone_number' => $request->phone,
+                'phoneable_id' => $student->id,
+                'phoneable_type' => Student::class,
+            ]);
+
+            $student->phone()->save($phone_number);
+        }
 
         // save profession and institution
         if ($request->profession) {

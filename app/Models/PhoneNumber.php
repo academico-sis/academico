@@ -13,6 +13,11 @@ class PhoneNumber extends Model
     protected $guarded = ['id'];
     protected static $logUnguarded = true;
 
+    public function identifiableAttribute()
+    {
+        return $this->phone_number;
+    }
+
     public function phoneable()
     {
         return $this->morphTo();
