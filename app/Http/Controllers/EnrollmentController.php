@@ -24,6 +24,7 @@ use Illuminate\Support\Str;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
 use Prologue\Alerts\Facades\Alert;
+use Illuminate\Support\Facades\Storage;
 
 class EnrollmentController extends Controller
 {
@@ -193,132 +194,58 @@ class EnrollmentController extends Controller
 
     public function exportToWord(Enrollment $enrollment)
     {
-
         App::setLocale(config('app.locale'));
+        $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor(storage_path('enrollment.docx'));
 
-        $phpWord = new PhpWord();
+        $templateProcessor->setValue('enrollment_date', $enrollment->date);
+        $templateProcessor->setValue('name', $enrollment->student_name);
 
-        // Course general info
-        $section = $phpWord->addSection();
+        $nif = $enrollment->student->idnumber ? $enrollment->student->idnumber : '';
+        $phone = $enrollment->student->phone->count() > 0 && $enrollment->student->phone->first()->phone_number ? $enrollment->student->phone->first()->phone_number : '';
+        $email = $enrollment->student->email ? $enrollment->student->email : '';
+        $address = $enrollment->student->address ? $enrollment->student->address : '';
+        $city = $enrollment->student->city ? $enrollment->student->city : '';
 
-        $header = $section->addHeader();
+        $templateProcessor->setValue('address', $address);
+        $templateProcessor->setValue('city', $city);
+        $templateProcessor->setValue('phone', $phone);
+        $templateProcessor->setValue('nif', $nif);
+        $templateProcessor->setValue('email', $email);
 
-        // Image from string
-        //printSeparator($section);
-        $source = storage_path('logo.jpg');
-        $fileContent = file_get_contents($source);
-        $header->addImage($fileContent,    array(
-            'width'            => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(5),
-            //'height'           => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(3),
-            'wrappingStyle'      => 'topAndBottom',
-            'positioning'      => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE,
-            'posHorizontal'    => \PhpOffice\PhpWord\Style\Image::POSITION_HORIZONTAL_CENTER,
-            'posHorizontalRel' => \PhpOffice\PhpWord\Style\Image::POSITION_RELATIVE_TO_COLUMN,
-            'posVertical'      => \PhpOffice\PhpWord\Style\Image::POSITION_VERTICAL_TOP,
-            //'marginLeft'       => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(15.5),
-            'marginTop'        => \PhpOffice\PhpWord\Shared\Converter::cmToPixel(1.55),
-        ));
-
-        $section->addText(config('app.company_name'));
-        $section->addText(config('app.company_id'));
-        $section->addText(config('app.company_address'));
-        $section->addText(config('app.company_phone'));
-        $section->addText(config('app.company_email'));
-
-        $section->addTextBreak(3);
-
-        $titleStyle = new \PhpOffice\PhpWord\Style\Font();
-        $titleStyle->setBold(true);
-        $titleStyle->setSize(14);
-
-        $phpWord->addParagraphStyle('centered', array('alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER, 'spaceAfter' => 100));
-
-        $section->addText(Str::upper(__('Enrollment sheet')))->setFontStyle($titleStyle, 'centered');
-
-        $section->addTextBreak(2);
-
-        $normalStyle = new \PhpOffice\PhpWord\Style\Font();
-        $normalStyle->setBold(false);
-        $section->addText(__('Enrollment date') . ": " . $enrollment->date)->setFontStyle($normalStyle);
-
-        $section->addTextBreak(2);
-        $section->addText(__('Student Info'))->setFontStyle($titleStyle);
-
-        $section->addListItem(__('Name') . " : " . $enrollment->student_name);
-        if ($enrollment->student->idnumber) { $section->addListItem(__('ID number') . " : " . $enrollment->student->idnumber); }
-        if ($enrollment->student->phone->count() > 0 && $enrollment->student->phone->first()->phone_number) { $section->addListItem(__('Phone Number') . " : " . $enrollment->student->phone->first()->phone_number); }
-        if ($enrollment->student->email) { $section->addListItem(__('Email') . " : " . $enrollment->student->email); }
-        if ($enrollment->student->address) { $section->addListItem(__('Address') . " : " . $enrollment->student->address); }
-
-        $section->addTextBreak(2);
-        $courseStyle = new \PhpOffice\PhpWord\Style\Font();
-        $courseStyle->setSize(12);
-
-        $section->addText(__('Course Details'))->setFontStyle($titleStyle);
-        $section->addText($enrollment->course->name)->setFontStyle($courseStyle);
-        $section->addText(__('Start Date') . " : " . $enrollment->course->formatted_start_date)->setFontStyle($courseStyle);
-        $section->addText(__('End Date') . " : " . $enrollment->course->formatted_end_date)->setFontStyle($courseStyle);
+        $templateProcessor->setValue('description', $enrollment->course->name);
+        $templateProcessor->setValue('start_date', $enrollment->course->formatted_start_date);
+        $templateProcessor->setValue('end_date', $enrollment->course->formatted_end_date);
+        $templateProcessor->setValue('volume', $enrollment->course->volume);
 
         if (config('invoicing.invoicing_system') === 'sepa' && $enrollment->invoice && $enrollment->invoice->payments)
         {
-            $section->addTextBreak();
-            $table = $section->addTable();
+            $table = new \PhpOffice\PhpWord\Element\Table([
+                'borderSize' => 8,
+                'borderColor' => 'black',
+                'cellMargin' => 80,
+                'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
+                'cellSpacing' => 50,
+                'width' => 100 * 50,
+            ]);
 
-            $section->addTextBreak(1);
-            $fancyTableStyleName = 'Fancy Table';
-            $fancyTableStyle = array('borderSize' => 6, 'cellMargin' => 80, 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER, 'cellSpacing' => 50);
-            $fancyTableFirstRowStyle = array('borderBottomSize' => 18, 'borderBottomColor' => '0000FF', 'bgColor' => '66BBFF');
-            $fancyTableCellStyle = array('valign' => 'center');
-            $fancyTableCellBtlrStyle = array('valign' => 'center', 'textDirection' => \PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR);
-            $fancyTableFontStyle = array('bold' => true);
-            $phpWord->addTableStyle($fancyTableStyleName, $fancyTableStyle, $fancyTableFirstRowStyle);
-            $table = $section->addTable($fancyTableStyleName);
+            $firstRowStyle = array('bgColor' => 'd9d9d9');
 
-            $table->addRow(500);
-            $table->addCell(4000, $fancyTableCellStyle)->addText(Str::upper(__('Due Date')));
-            $table->addCell(5000, $fancyTableCellStyle)->addText(Str::upper(__('Total')));
+            $table->addRow(500, $firstRowStyle);
+            $table->addCell(4000, $firstRowStyle)->addText(Str::upper(__('Due Date')));
+            $table->addCell(5000, $firstRowStyle)->addText(Str::upper(__('Total')));
 
             foreach ($enrollment->invoice->payments as $payment) {
                 $table->addRow(500);
-                $table->addCell(4000, $fancyTableCellStyle)->addText($payment->date_for_humans);
-                $table->addCell(5000, $fancyTableCellStyle)->addText($payment->value_with_currency);
+                $table->addCell(4000)->addText($payment->date_for_humans);
+                $table->addCell(5000)->addText($payment->value_with_currency);
             }
+            $templateProcessor->setComplexBlock('payments', $table);
         }
+        else {
+            $templateProcessor->setComplexBlock('payments', '');
+        }
+        $path = $templateProcessor->save();
+        return response()->download($path)->deleteFileAfterSend(true);
 
-        $footer = $section->addFooter();
-        $fontStyle = new \PhpOffice\PhpWord\Style\Font();
-        $fontStyle->setItalic(true);
-        $fontStyle->setName('Tahoma');
-        $fontStyle->setSize(8);
-        $footerText = $footer->addText($this->utf8_for_xml(Config::firstWhere('name', 'enrollment_sheet_footer')->value));
-        $footerText->setFontStyle($fontStyle);
-
-
-        $section = $phpWord->addSection();
-
-        $html = Config::firstWhere('name', 'enrollment_sheet_terms')->value;
-
-        $html = str_replace('{{ course_name }}', $enrollment->course->name, $html);
-        $html = str_replace("{{ course_volume }}", $enrollment->course->total_volume, $html);
-
-        \PhpOffice\PhpWord\Shared\Html::addHtml($section, $this->utf8_for_xml($html), false, false);
-
-        $footer = $section->addFooter();
-        $fontStyle = new \PhpOffice\PhpWord\Style\Font();
-        $fontStyle->setItalic(true);
-        $fontStyle->setName('Tahoma');
-        $fontStyle->setSize(8);
-        $footerText = $footer->addText($this->utf8_for_xml(Config::firstWhere('name', 'enrollment_sheet_footer')->value));
-        $footerText->setFontStyle($fontStyle);
-
-
-        // Saving the document as OOXML file...
-        $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
-        header('Content-type: application/msword');
-        header('Cache-Control: no-store, no-cache');
-        header('Content-Disposition: attachment; filename="document.docx"');
-
-        $objWriter->save('php://output');
-        exit;
     }
 }
