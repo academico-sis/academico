@@ -364,8 +364,8 @@ class Course extends Model
 
                 $parsedCourseTimes[$initial][] = sprintf(
                     '%s - %s',
-                    Carbon::parse($courseTime->start)->format('g:i'),
-                    Carbon::parse($courseTime->end)->format('g:i')
+                    Carbon::parse($courseTime->start)->locale(App::getLocale())->isoFormat('LT'),
+                    Carbon::parse($courseTime->end)->locale(App::getLocale())->isoFormat('LT')
                 );
             }
         }
