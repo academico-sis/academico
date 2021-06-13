@@ -4,13 +4,10 @@ namespace App\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
-use function Symfony\Component\Translation\t;
 
 class Invoice extends Model
 {
-    use SoftDeletes;
     use CrudTrait;
     use LogsActivity;
 
