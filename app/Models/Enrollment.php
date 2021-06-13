@@ -7,14 +7,12 @@ use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\App;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class Enrollment extends Model
 {
     use CrudTrait;
-    use SoftDeletes;
     use LogsActivity;
 
     protected $guarded = ['id'];
