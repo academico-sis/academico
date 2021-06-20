@@ -127,6 +127,8 @@ class EnrollmentController extends Controller
 
         foreach (Fee::where('default', 1)->get() as $fee)
         {
+            // Set quantity to 1
+
             array_push($products, $fee);
         }
 
@@ -134,6 +136,8 @@ class EnrollmentController extends Controller
 
         if ($enrollment->course->books->count() > 0)
         {
+            // Set quantity to 1
+
             array_push($products, $enrollment->course->books);
         }
 

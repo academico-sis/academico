@@ -312,10 +312,12 @@ export default {
         },
 
         addBook(book) {
+            book.quantity = 1;
             this.products.push(book);
         },
 
         addFee(fee) {
+            fee.quantity = 1;
             this.products.push(fee);
         },
 
@@ -355,17 +357,18 @@ export default {
 
             if (this.products) {
                 this.products.forEach(product => {
-                    let productTotal = parseFloat(product.price);
+                    let quantity = typeof product.quantity === 'undefined' ? 1 : product.quantity;
+                    let productTotal = parseFloat(product.price) * quantity;
 
                     if (product.discounts) {
                         product.discounts.forEach(discount => {
-                            productTotal -= product.price * (discount.value / 100);
+                            productTotal -= product.price * quantity * (discount.value / 100);
                         });
                     }
 
                     if (product.taxes) {
                         product.taxes.forEach(tax => {
-                            productTotal += product.price * (tax.value / 100);
+                            productTotal += product.price * quantity * (tax.value / 100);
                         });
                     }
 
