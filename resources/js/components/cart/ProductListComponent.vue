@@ -16,7 +16,12 @@
                 <tbody>
 
                     <tr v-for="(product, index) in products" :key="index">
-                        <td>{{ product.name }}</td>
+                        <td>
+                            <div v-if="editable">
+                                <input class="form-control" type="text" v-model="product.name" />
+                            </div>
+                            <div v-else>{{ product.name }}</div>
+                        </td>
                         <td>
                             <div v-if="editable">
                                 <div class="input-group" v-if="currencyposition === 'before'">

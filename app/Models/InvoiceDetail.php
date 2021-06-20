@@ -23,7 +23,7 @@ class InvoiceDetail extends Model
 
     public function getPriceAttribute($value)
     {
-        return $value / 100;
+        return ($value * $this->quantity )/ 100;
     }
 
     public function getPriceWithCurrencyAttribute()
