@@ -28,7 +28,7 @@ class StudentRequest extends FormRequest
             'firstname' => 'required|max:255',
             'lastname' => 'required|max:255',
             'email' => 'required|email',
-            'birthdate' => 'required|date',
+            'birthdate' => 'nullable|date',
         ];
     }
 
