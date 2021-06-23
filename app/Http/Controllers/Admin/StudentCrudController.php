@@ -250,7 +250,39 @@ class StudentCrudController extends CrudController
 
     public function setupUpdateOperation()
     {
-        $this->setupCreateOperation();
+        CRUD::setValidation(StudentRequest::class);
+        CRUD::field('firstname')->label(__('Firstname'))->tab(__('Student Info'));
+        CRUD::field('lastname')->label(__('Lastname'))->tab(__('Student Info'));
+        CRUD::field('email')->label(__('Email'))->tab(__('Student Info'));
+        CRUD::field('idnumber')->label(__('ID number'))->tab(__('Student Info'));
+        CRUD::field('birthdate')->label(__('Birthdate'))->tab(__('Student Info'));
+
+        CRUD::addField([
+            'type' => "relationship",
+            'name' => 'profession', // the method on your model that defines the relationship
+            'inline_create' => true, // assumes the URL will be "/admin/category/inline/create"
+            'tab' => __('Student Info'),
+            'label' => __('Profession'),
+            'attribute' => 'name',
+        ]);
+
+        CRUD::addField([
+            'type' => "relationship",
+            'name' => 'institution', // the method on your model that defines the relationship
+            'inline_create' => true, // assumes the URL will be "/admin/category/inline/create"
+            'tab' => __('Student Info'),
+            'label' => __('Institution'),
+            'attribute' => 'name',
+        ]);
+
+        CRUD::field('address')->label(__('Address'))->tab(__('Address'));
+        CRUD::field('zip_code')->label(__('zip'))->tab(__('Address'));
+        CRUD::field('city')->label(__('City'))->tab(__('Address'));
+        CRUD::field('state')->label(__('State'))->tab(__('Address'));
+        CRUD::field('country')->label(__('Country'))->tab(__('Address'));
+
+        CRUD::field('iban')->label('IBAN')->tab(__('Invoicing Info'));
+        CRUD::field('bic')->label('BIC')->tab(__('Invoicing Info'));
     }
 
     public function store(Request $request)
