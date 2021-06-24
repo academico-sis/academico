@@ -226,19 +226,6 @@ class InvoiceController extends Controller
 
         return $generatedInvoice->stream();
     }
-    /**
-     * Update the specified invoice (with the invoice number).
-     */
-    public function saveReceiptNumber(Invoice $invoice, Request $request)
-    {
-        $request->validate(['number' => 'string|required']);
-
-        $invoice->receipt_number = $request->input('number');
-
-        $invoice->save();
-
-        return $invoice->fresh();
-    }
 
     public function savePayments(Request $request, Invoice $invoice)
     {

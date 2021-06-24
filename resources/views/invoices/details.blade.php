@@ -3,11 +3,14 @@
         <div class="card">
             <div class="card-header">
                 @lang('Invoice') # {{ $invoice->invoice_reference }}
+                <div class="card-header-actions">
+                    <a class="btn btn-sm btn-warning" href="{{ route('invoice.edit', ['id' => $invoice->id]) }}">
+                        {{ __('Edit') }}
+                    </a>
+                </div>
             </div>
 
             <div class="card-body">
-                <invoice-receipt-number-field :invoice="{{ json_encode($invoice) }}"></invoice-receipt-number-field>
-
                 <p>@lang('Date') : {{ $invoice->created_at }}</p>
                 <p>@lang('Client name') : {{ $invoice->client_name }}</p>
                 <p>@lang('Client email') : {{ $invoice->client_email }}</p>
