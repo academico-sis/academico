@@ -4,7 +4,7 @@
  * For LGPL see License.txt in the project root for license information.
  * For commercial licenses see https://www.tiny.cloud/
  *
- * Version: 5.4.2 (2020-08-17)
+ * Version: 5.8.1 (2021-05-20)
  */
 (function () {
     'use strict';
@@ -16,7 +16,7 @@
     var global$2 = tinymce.util.Tools.resolve('tinymce.util.Tools');
 
     var getContentStyle = function (editor) {
-      return editor.getParam('content_style', '');
+      return editor.getParam('content_style', '', 'string');
     };
     var shouldUseContentCssCors = function (editor) {
       return editor.getParam('content_css_cors', false, 'boolean');
@@ -51,13 +51,13 @@
       var encode = editor.dom.encode;
       var contentStyle = getContentStyle(editor);
       headHtml += '<base href="' + encode(editor.documentBaseURI.getURI()) + '">';
-      if (contentStyle) {
-        headHtml += '<style type="text/css">' + contentStyle + '</style>';
-      }
       var cors = shouldUseContentCssCors(editor) ? ' crossorigin="anonymous"' : '';
       global$2.each(editor.contentCSS, function (url) {
         headHtml += '<link type="text/css" rel="stylesheet" href="' + encode(editor.documentBaseURI.toAbsolute(url)) + '"' + cors + '>';
       });
+      if (contentStyle) {
+        headHtml += '<style type="text/css">' + contentStyle + '</style>';
+      }
       var bodyId = getBodyId(editor);
       var bodyClass = getBodyClass(editor);
       var isMetaKeyPressed = global$1.mac ? 'e.metaKey' : 'e.ctrlKey && !e.altKey';

@@ -4,7 +4,7 @@
  * For LGPL see License.txt in the project root for license information.
  * For commercial licenses see https://www.tiny.cloud/
  *
- * Version: 5.4.2 (2020-08-17)
+ * Version: 5.8.1 (2021-05-20)
  */
 (function () {
     'use strict';
@@ -22,6 +22,33 @@
         return t;
       };
       return __assign.apply(this, arguments);
+    };
+
+    var typeOf = function (x) {
+      var t = typeof x;
+      if (x === null) {
+        return 'null';
+      } else if (t === 'object' && (Array.prototype.isPrototypeOf(x) || x.constructor && x.constructor.name === 'Array')) {
+        return 'array';
+      } else if (t === 'object' && (String.prototype.isPrototypeOf(x) || x.constructor && x.constructor.name === 'String')) {
+        return 'string';
+      } else {
+        return t;
+      }
+    };
+    var isType = function (type) {
+      return function (value) {
+        return typeOf(value) === type;
+      };
+    };
+    var isString = isType('string');
+    var isObject = isType('object');
+    var isArray = isType('array');
+    var isNullable = function (a) {
+      return a === null || a === undefined;
+    };
+    var isNonNullable = function (a) {
+      return !isNullable(a);
     };
 
     var noop = function () {
@@ -134,32 +161,11 @@
     var from = function (value) {
       return value === null || value === undefined ? NONE : some(value);
     };
-    var Option = {
+    var Optional = {
       some: some,
       none: none,
       from: from
     };
-
-    var typeOf = function (x) {
-      var t = typeof x;
-      if (x === null) {
-        return 'null';
-      } else if (t === 'object' && (Array.prototype.isPrototypeOf(x) || x.constructor && x.constructor.name === 'Array')) {
-        return 'array';
-      } else if (t === 'object' && (String.prototype.isPrototypeOf(x) || x.constructor && x.constructor.name === 'String')) {
-        return 'string';
-      } else {
-        return t;
-      }
-    };
-    var isType = function (type) {
-      return function (value) {
-        return typeOf(value) === type;
-      };
-    };
-    var isString = isType('string');
-    var isObject = isType('object');
-    var isArray = isType('array');
 
     var nativePush = Array.prototype.push;
     var each = function (xs, f) {
@@ -204,7 +210,7 @@
       }
     };
     var get = function (obj, key) {
-      return has(obj, key) ? Option.from(obj[key]) : Option.none();
+      return has(obj, key) ? Optional.from(obj[key]) : Optional.none();
     };
     var has = function (obj, key) {
       return hasOwnProperty.call(obj, key);
@@ -461,7 +467,7 @@
                 if (data[sources[index]]) {
                   var attrs = [];
                   attrs.map = {};
-                  if (sourceCount < index) {
+                  if (sourceCount <= index) {
                     setAttributes(attrs, {
                       src: data[sources[index]],
                       type: data[sources[index] + 'mime']
@@ -588,7 +594,7 @@
     };
 
     var getIframeHtml = function (data) {
-      var allowFullscreen = data.allowFullscreen ? ' allowFullscreen="1"' : '';
+      var allowFullscreen = data.allowfullscreen ? ' allowFullscreen="1"' : '';
       return '<iframe src="' + data.source + '" width="' + data.width + '" height="' + data.height + '"' + allowFullscreen + '></iframe>';
     };
     var getFlashHtml = function (data) {
@@ -639,7 +645,7 @@
       if (pattern) {
         data.source = pattern.url;
         data.type = pattern.type;
-        data.allowFullscreen = pattern.allowFullscreen;
+        data.allowfullscreen = pattern.allowFullscreen;
         data.width = data.width || String(pattern.w);
         data.height = data.height || String(pattern.h);
       }
@@ -731,20 +737,20 @@
         };
         var getNonEmptyValue = function (c) {
           return get(c, 'value').bind(function (v) {
-            return v.length > 0 ? Option.some(v) : Option.none();
+            return v.length > 0 ? Optional.some(v) : Optional.none();
           });
         };
         var getFromValueFirst = function () {
           return getFromData().bind(function (child) {
             return isObject(child) ? getNonEmptyValue(child).orThunk(getFromMetaData) : getFromMetaData().orThunk(function () {
-              return Option.from(child);
+              return Optional.from(child);
             });
           });
         };
         var getFromMetaFirst = function () {
           return getFromMetaData().orThunk(function () {
             return getFromData().bind(function (child) {
-              return isObject(child) ? getNonEmptyValue(child) : Option.from(child);
+              return isObject(child) ? getNonEmptyValue(child) : Optional.from(child);
             });
           });
         };
@@ -824,7 +830,7 @@
       };
     };
     var selectPlaceholder = function (editor, beforeObjects) {
-      var afterObjects = editor.dom.select('img[data-mce-object]');
+      var afterObjects = editor.dom.select('*[data-mce-object]');
       for (var i = 0; i < beforeObjects.length; i++) {
         for (var y = afterObjects.length - 1; y >= 0; y--) {
           if (beforeObjects[i] === afterObjects[y]) {
@@ -835,7 +841,7 @@
       editor.selection.select(afterObjects[0]);
     };
     var handleInsert = function (editor, html) {
-      var beforeObjects = editor.dom.select('img[data-mce-object]');
+      var beforeObjects = editor.dom.select('*[data-mce-object]');
       editor.insertContent(html);
       selectPlaceholder(editor, beforeObjects);
       editor.nodeChanged();
@@ -996,6 +1002,8 @@
 
     var global$8 = tinymce.util.Tools.resolve('tinymce.Env');
 
+    var global$9 = tinymce.util.Tools.resolve('tinymce.html.DomParser');
+
     var sanitize = function (editor, html) {
       if (shouldFilterHtml(editor) === false) {
         return html;
@@ -1006,13 +1014,19 @@
         validate: false,
         allow_conditional_comments: false,
         comment: function (text) {
-          writer.comment(text);
+          if (!blocked) {
+            writer.comment(text);
+          }
         },
         cdata: function (text) {
-          writer.cdata(text);
+          if (!blocked) {
+            writer.cdata(text);
+          }
         },
         text: function (text, raw) {
-          writer.text(text, raw);
+          if (!blocked) {
+            writer.text(text, raw);
+          }
         },
         start: function (name, attrs, empty) {
           blocked = true;
@@ -1042,14 +1056,49 @@
       return writer.getContent();
     };
 
+    var isLiveEmbedNode = function (node) {
+      var name = node.name;
+      return name === 'iframe' || name === 'video' || name === 'audio';
+    };
+    var getDimension = function (node, styles, dimension, defaultValue) {
+      if (defaultValue === void 0) {
+        defaultValue = null;
+      }
+      var value = node.attr(dimension);
+      if (isNonNullable(value)) {
+        return value;
+      } else if (!has(styles, dimension)) {
+        return defaultValue;
+      } else {
+        return null;
+      }
+    };
+    var setDimensions = function (node, previewNode, styles) {
+      var useDefaults = previewNode.name === 'img' || node.name === 'video';
+      var defaultWidth = useDefaults ? '300' : null;
+      var fallbackHeight = node.name === 'audio' ? '30' : '150';
+      var defaultHeight = useDefaults ? fallbackHeight : null;
+      previewNode.attr({
+        width: getDimension(node, styles, 'width', defaultWidth),
+        height: getDimension(node, styles, 'height', defaultHeight)
+      });
+    };
+    var appendNodeContent = function (editor, nodeName, previewNode, html) {
+      var newNode = global$9({
+        forced_root_block: false,
+        validate: false
+      }, editor.schema).parse(html, { context: nodeName });
+      while (newNode.firstChild) {
+        previewNode.append(newNode.firstChild);
+      }
+    };
     var createPlaceholderNode = function (editor, node) {
       var name = node.name;
       var placeHolder = new global$7('img', 1);
       placeHolder.shortEnded = true;
       retainAttributesAndInnerHtml(editor, node, placeHolder);
+      setDimensions(node, placeHolder, {});
       placeHolder.attr({
-        'width': node.attr('width') || '300',
-        'height': node.attr('height') || (name === 'audio' ? '30' : '150'),
         'style': node.attr('style'),
         'src': global$8.transparentSrc,
         'data-mce-object': name,
@@ -1057,7 +1106,7 @@
       });
       return placeHolder;
     };
-    var createPreviewIframeNode = function (editor, node) {
+    var createPreviewNode = function (editor, node) {
       var name = node.name;
       var previewWrapper = new global$7('span', 1);
       previewWrapper.attr({
@@ -1067,16 +1116,37 @@
         'class': 'mce-preview-object mce-object-' + name
       });
       retainAttributesAndInnerHtml(editor, node, previewWrapper);
+      var styles = editor.dom.parseStyle(node.attr('style'));
       var previewNode = new global$7(name, 1);
+      setDimensions(node, previewNode, styles);
       previewNode.attr({
         src: node.attr('src'),
-        allowfullscreen: node.attr('allowfullscreen'),
         style: node.attr('style'),
-        class: node.attr('class'),
-        width: node.attr('width'),
-        height: node.attr('height'),
-        frameborder: '0'
+        class: node.attr('class')
       });
+      if (name === 'iframe') {
+        previewNode.attr({
+          allowfullscreen: node.attr('allowfullscreen'),
+          frameborder: '0'
+        });
+      } else {
+        var attrs = [
+          'controls',
+          'crossorigin',
+          'currentTime',
+          'loop',
+          'muted',
+          'poster',
+          'preload'
+        ];
+        each(attrs, function (attrName) {
+          previewNode.attr(attrName, node.attr(attrName));
+        });
+        var sanitizedHtml = previewWrapper.attr('data-mce-html');
+        if (isNonNullable(sanitizedHtml)) {
+          appendNodeContent(editor, name, previewNode, sanitizedHtml);
+        }
+      }
       var shimNode = new global$7('span', 1);
       shimNode.attr('class', 'mce-shim');
       previewWrapper.append(previewNode);
@@ -1084,14 +1154,11 @@
       return previewWrapper;
     };
     var retainAttributesAndInnerHtml = function (editor, sourceNode, targetNode) {
-      var attrName;
-      var attrValue;
-      var ai;
       var attribs = sourceNode.attributes;
-      ai = attribs.length;
+      var ai = attribs.length;
       while (ai--) {
-        attrName = attribs[ai].name;
-        attrValue = attribs[ai].value;
+        var attrName = attribs[ai].name;
+        var attrValue = attribs[ai].value;
         if (attrName !== 'width' && attrName !== 'height' && attrName !== 'style') {
           if (attrName === 'data' || attrName === 'src') {
             attrValue = editor.convertURL(attrValue, attrName);
@@ -1144,9 +1211,9 @@
               node.attr('height', videoScript.height.toString());
             }
           }
-          if (node.name === 'iframe' && hasLiveEmbeds(editor) && global$8.ceFalse) {
+          if (isLiveEmbedNode(node) && hasLiveEmbeds(editor) && global$8.ceFalse) {
             if (!isWithinEmbedWrapper(node)) {
-              node.replace(createPreviewIframeNode(editor, node));
+              node.replace(createPreviewNode(editor, node));
             }
           } else {
             if (!isWithinEmbedWrapper(node)) {
@@ -1252,7 +1319,7 @@
       });
       editor.on('ObjectSelected', function (e) {
         var objectType = e.target.getAttribute('data-mce-object');
-        if (objectType === 'audio' || objectType === 'script') {
+        if (objectType === 'script') {
           e.preventDefault();
         }
       });

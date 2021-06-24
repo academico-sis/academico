@@ -54,10 +54,7 @@
 	}
 
   /*  DataTables Loading State Visual Improvements  */
-	table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>td.dtr-control:before, 
-	table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th.dtr-control:before,
-	#crudTable.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>td:first-child:before,
-	#crudTable.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first-child:before {
+  	#crudTable.dataTable.dtr-inline.collapsed>tbody>tr>.dtr-control:before {
 		background-color: transparent;
 		color: #636161;
 		font-family: 'Line Awesome Free';
@@ -66,7 +63,7 @@
 		content: "\f142";
 		font-size: 21px;
 		box-shadow: none;
-		/*margin-top: 8px;*/
+		margin-top: -12px;
 		border: none;
 	}
 
@@ -80,6 +77,10 @@
 
 	#crudTable td {
 		outline: none;
+		vertical-align: middle;
+	}
+
+	#crudTable td > span {
 		vertical-align: middle;
 	}
 
