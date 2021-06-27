@@ -61,7 +61,7 @@ export default {
     data() {
         return {
             storeState: store.state,
-            activeStep: 2,
+            activeStep: 0,
             isAnimated: true,
             hasNavigation: false,
             isStepsClickable: false,

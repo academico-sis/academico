@@ -22,4 +22,6 @@ return [
         'url' => env('ECUASOLUTIONS_URL'),
         'key' => env('ECUASOLUTIONS_KEY'),
     ],
+
+    'allow_scheduled_payments' => env('ALLOW_SCHEDULED_PAYMENTS', false),
 ];

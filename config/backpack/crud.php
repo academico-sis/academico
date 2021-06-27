@@ -500,7 +500,7 @@ return [
         // "es_CO" => "Spanish (Colombia)",
         // "es_CR" => "Spanish (Costa Rica)",
         // "es_DO" => "Spanish (Dominican Republic)",
-        // 'es_EC' => 'Spanish (Ecuador)',
+        'es_EC' => 'Spanish (Ecuador)',
         // "es_SV" => "Spanish (El Salvador)",
         // "es_GQ" => "Spanish (Equatorial Guinea)",
         // "es_GT" => "Spanish (Guatemala)",

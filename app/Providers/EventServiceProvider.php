@@ -8,6 +8,7 @@ use App\Events\EnrollmentCreated;
 use App\Events\EnrollmentDeleted;
 use App\Events\EnrollmentUpdated;
 use App\Events\LeadStatusUpdatedEvent;
+use App\Events\MonthlyReportEvent;
 use App\Events\UserCreated;
 use App\Events\StudentDeleting;
 use App\Events\UserDeleting;
@@ -17,6 +18,7 @@ use App\Listeners\DeleteEnrollmentFromLMS;
 use App\Listeners\DeleteStudentData;
 use App\Listeners\DeleteUserData;
 use App\Listeners\DeleteStudentFromLMS;
+use App\Listeners\SendMonthlyReport;
 use App\Listeners\SyncCourseToLMS;
 use App\Listeners\SyncEnrollmentToLMS;
 use App\Listeners\SyncUserWithMailingSystem;
@@ -86,6 +88,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         ExpiringPartnershipsEvent::class => [
             SendExpiringPartnershipsAlerts::class
+        ],
+        MonthlyReportEvent::class => [
+            SendMonthlyReport::class
         ],
 
         LeadStatusUpdatedEvent::class => [

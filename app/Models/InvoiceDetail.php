@@ -21,6 +21,11 @@ class InvoiceDetail extends Model
         return $this->belongsTo(Invoice::class);
     }
 
+    public function product()
+    {
+        return $this->morphTo();
+    }
+
     public function getPriceAttribute($value)
     {
         return ($value * $this->quantity )/ 100;

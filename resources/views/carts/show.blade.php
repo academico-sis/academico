@@ -27,6 +27,7 @@
             :accountingenabled="{{ json_encode(config('invoicing.accounting_enabled')) }}"
             currency="{{ config('app.currency_symbol') }}"
             currencyposition="{{ config('app.currency_position') }}"
+            :scheduledpayments="{{ json_encode(config('invoicing.allow_scheduled_payments')) }}"
         >
         </cart-component>
 

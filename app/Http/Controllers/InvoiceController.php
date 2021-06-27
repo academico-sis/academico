@@ -107,7 +107,7 @@ class InvoiceController extends Controller
                 'product_id' => $product['id'],
                 'product_type' => $productType,
                 'price' => $product['price'],
-                'quantity' => $product['quantity'],
+                'quantity' => $product['quantity'] ?? 1,
                 //'tax_rate' => collect($product['taxes'] ?? [])->sum('value'),
             ]);
 
@@ -222,7 +222,7 @@ class InvoiceController extends Controller
             $generatedInvoice->taxRate($taxRate);
         }*/
 
-        $generatedInvoice->footer = Config::firstWhere('name', 'invoice_footer')->value;
+        $generatedInvoice->footer = Config::firstWhere('name', 'invoice_footer')->value ?? "";
 
         return $generatedInvoice->stream();
     }

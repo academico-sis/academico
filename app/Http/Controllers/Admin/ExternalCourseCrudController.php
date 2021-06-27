@@ -109,6 +109,7 @@ class ExternalCourseCrudController extends CrudController
                 'entity' => 'teacher', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
                 'model' => \App\Models\Teacher::class, // foreign key model
+		'searchLogic' => false,
             ],
 
             [
