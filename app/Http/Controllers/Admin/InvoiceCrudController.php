@@ -90,7 +90,7 @@ class InvoiceCrudController extends CrudController
         return view('invoices.show', [
             'invoice' => $invoice,
             'availablePaymentMethods' => Paymentmethod::all(),
-            'editable' => false,
+            'editable' => true,
         ]);
     }
 }
