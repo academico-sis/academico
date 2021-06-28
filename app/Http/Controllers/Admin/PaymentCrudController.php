@@ -104,18 +104,11 @@ class PaymentCrudController extends CrudController
             abort(403);
         }
 
-        if (! $payment->invoice || ! $payment->invoice->enrollment)
+        if (! $payment->invoice)
         {
             abort(404, 'No enrollment found for this payment');
         }
 
-        return view('enrollments.show', [
-            'enrollment' => $payment->invoice->enrollment->load('invoice')->load('invoice.payments'),
-            'products' => $payment->invoice()->with('invoiceDetails')->get(),
-            'comments' => $payment->invoice->enrollment->comments,
-            'scholarships' => Scholarship::all(),
-            'availablePaymentMethods' => Paymentmethod::all(),
-            'writeaccess' => $payment->invoice->enrollment->status_id !== 2 && backpack_user()->can('enrollments.edit'),
-        ]);
+        return \Redirect::route('invoice.show', ['id' => $payment->invoice_id]);
     }
 }
