@@ -207,7 +207,7 @@ class InvoiceController extends Controller
 
         foreach ($invoice->invoiceDetails as $product)
         {
-            $item = (new InvoiceItem())->title($product->product_name)->pricePerUnit($product->price);
+            $item = (new InvoiceItem())->title($product->product_name)->pricePerUnit($product->price)->quantity($product->quantity);
 
             /*if (!$taxIsGlobal)
             {

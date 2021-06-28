@@ -40,7 +40,7 @@
                             <tr>
                                 <td>{{ $product->product_name }}</td>
                                 <td>
-                                    {{ $product->price_with_currency }}
+                                    {{ $product->quantity }} x {{ $product->price_with_currency }}
                                     @if ($product->tax_rate > 0)
                                         <span class="badge badge-secondary">{{ __('Tax:') }} {{ $product->tax_rate }}%</span>
                                     @endif
