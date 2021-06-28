@@ -199,6 +199,7 @@ class InvoiceController extends Controller
             ->series($invoice->invoice_series)
             ->sequence($invoice->invoice_number)
             ->dateFormat('d/m/Y')
+            ->date($invoice->created_at)
             ->logo(storage_path('logo2.png'))
             ->notes($notes ?? "");
 
