@@ -194,6 +194,7 @@ class InvoiceController extends Controller
 
         $notes = $invoice->invoiceType->notes;
 
+        $currencyFormat = config('app.currency_position') === 'before' ? '{SYMBOL}{VALUE}' : '{VALUE}{SYMBOL}';
         $generatedInvoice = InvoiceAlias::make()
             ->buyer($customer)
             ->series($invoice->invoice_series)
@@ -201,6 +202,9 @@ class InvoiceController extends Controller
             ->dateFormat('d/m/Y')
             ->date($invoice->created_at)
             ->logo(storage_path('logo2.png'))
+            ->currencySymbol(config('app.currency_symbol'))
+            ->currencyCode(config('app.currency_code'))
+            ->currencyFormat($currencyFormat)
             ->notes($notes ?? "");
 
         //$taxIsGlobal = $invoice->products->pluck('tax_rate')->unique()->count() === 1;
