@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -20,6 +21,15 @@ class Period extends Model
     // protected $hidden = [];
     // protected $dates = [];
     protected static $logUnguarded = true;
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('order', function (Builder $builder) {
+            $builder->orderByDesc('year_id')->orderByDesc('order')->orderByDesc('id');
+        });
+    }
 
     /**
      * Return the current period to be used as a default system-wide.
