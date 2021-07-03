@@ -195,7 +195,7 @@
 
 <script>
 $(document).ready(() => {
-var data = @json($data);
+var data = @json(array_values($data));
 
 var chartData = {
   labels: [],
