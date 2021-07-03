@@ -37,11 +37,6 @@ class ApolearnService implements LMSInterface
 
     public function createUser(User $user, ?string $password = null) : void
     {
-        if ($this->$this->token === '')
-        {
-            return;
-        }
-
         Log::info('checking if user exists for local ID ' . $user->id);
         // first check if the user already exists (email)
         $response = Http::get(config('lms.apolearn.url') . "/users/getbyemail/$user->email", [
@@ -80,11 +75,6 @@ class ApolearnService implements LMSInterface
 
     public function updateUser(User $user, string $password = null) : void
     {
-        if ($this->$this->token === '')
-        {
-            return;
-        }
-
         // if the user has no remote id, create them
         if ($user->lms_id == null) {
             $this->createUser($user);
@@ -107,11 +97,6 @@ class ApolearnService implements LMSInterface
 
     public function createCourse(Course $course) : void
     {
-        if ($this->$this->token === '')
-        {
-            return;
-        }
-
         // first check if the course already has an ID (meaning it exists on the remote lms)
         if ($course->lms_id) {
             abort(422, 'This course already exists on the remote platform');
@@ -148,11 +133,6 @@ class ApolearnService implements LMSInterface
 
     public function updateCourse(Course $course) : void
     {
-        if ($this->$this->token === '')
-        {
-            return;
-        }
-
         if (!$course->lms_id) {
             $this->createCourse($course);
         }
@@ -208,11 +188,6 @@ class ApolearnService implements LMSInterface
 
     public function enrollStudent(Course $course, Student $student): void
     {
-        if ($this->$this->token === '')
-        {
-            return;
-        }
-
         if (!$course->lms_id) {
             abort(404, 'This course is not synced with external LMS');
         }
@@ -274,11 +249,6 @@ class ApolearnService implements LMSInterface
 
     public function removeStudent($courseId, $userId): void
     {
-        if ($this->$this->token === '')
-        {
-            return;
-        }
-
         Log::info('removing user id ' . $userId . ' from course ' . $courseId);
         $response = Http::put(config('lms.apolearn.url')."/classrooms/removestudent/$courseId", [
             'user_id' => $userId,
