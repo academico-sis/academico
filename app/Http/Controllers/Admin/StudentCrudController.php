@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Events\UserCreated;
+use App\Exceptions\UserSyncException;
 use App\Http\Requests\StudentRequest;
 use App\Models\Institution;
 use App\Models\LeadType;
@@ -22,6 +23,7 @@ use Backpack\CRUD\app\Library\Widget;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use mysql_xdevapi\Exception;
 
 class StudentCrudController extends CrudController
 {
@@ -301,7 +303,11 @@ class StudentCrudController extends CrudController
             'password' => Hash::make(Str::random(12)),
         ]);
 
-        UserCreated::dispatch($user);
+        try {
+            UserCreated::dispatch($user);
+        } catch (\Exception) {
+            throw new UserSyncException();
+        }
 
         // update the student info
 
