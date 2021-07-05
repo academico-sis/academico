@@ -45,14 +45,22 @@ class InvoiceCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('invoice_number');
-        CRUD::addColumn([
-            'name'         => 'invoiceType', // name of relationship method in the model
-            'type'         => 'relationship',
-            'label'        => 'Type',
-            'searchLogic'  => false,
-            'attribute'    => 'name',
-        ]);
+        if (config('invoicing.invoice_numbering') === 'manual')
+        {
+            CRUD::column('receipt_number');
+        } else
+        {
+            CRUD::column('invoice_number');
+
+            CRUD::addColumn([
+                'name'         => 'invoiceType', // name of relationship method in the model
+                'type'         => 'relationship',
+                'label'        => 'Type',
+                'searchLogic'  => false,
+                'attribute'    => 'name',
+            ]);
+
+        }
         CRUD::column('client_name');
         CRUD::column('client_idnumber');
         CRUD::column('client_address');
@@ -64,14 +72,22 @@ class InvoiceCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         CRUD::setValidation(InvoiceRequest::class);
-        CRUD::field('invoice_number');
-        CRUD::addField([
-            'name'         => 'invoiceType', // name of relationship method in the model
-            'type'         => 'relationship',
-            'label'        => 'Type',
-            'searchLogic'  => false,
-            'attribute'    => 'name',
-        ]);
+
+        if (config('invoicing.invoice_numbering') === 'manual')
+        {
+            CRUD::field('receipt_number');
+        } else {
+            CRUD::field('invoice_number');
+
+            CRUD::addField([
+                'name'         => 'invoiceType', // name of relationship method in the model
+                'type'         => 'relationship',
+                'label'        => 'Type',
+                'searchLogic'  => false,
+                'attribute'    => 'name',
+            ]);
+        }
+
         CRUD::field('client_name');
         CRUD::field('client_idnumber');
         CRUD::field('client_address');

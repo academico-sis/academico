@@ -24,4 +24,6 @@ return [
     ],
 
     'allow_scheduled_payments' => env('ALLOW_SCHEDULED_PAYMENTS', false),
+
+    'invoice_numbering' => env('INVOICE_NUMBERING', 'auto'),
 ];

@@ -71,8 +71,13 @@ class Invoice extends Model
         $this->update(['invoice_number' => $count + 1]);
     }
 
-    public function getInvoiceReferenceAttribute() : string
+    public function getInvoiceReferenceAttribute()
     {
+        if (config('invoicing.invoice_numbering') === 'manual')
+        {
+            return $this->receipt_number;
+        }
+
         return $this->invoiceType->name . $this->created_at->format('y') . "-" . $this->invoice_number;
     }
 
@@ -103,6 +108,11 @@ class Invoice extends Model
 
     public function getFormattedNumberAttribute()
     {
+        if (config('invoicing.invoice_numbering') === 'manual')
+        {
+            return $this->receipt_number;
+        }
+
         return 'FC' . $this->receipt_number;
     }
 }
