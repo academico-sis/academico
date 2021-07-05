@@ -29,7 +29,7 @@ class AppServiceProvider extends ServiceProvider
             $firstPeriod = Period::find(Config::where('name', 'first_period')->first()->value);
 
             if ($firstPeriod) {
-                $periods = Period::where('id', '>=', $firstPeriod->id);
+                $periods = Period::where('id', '>=', $firstPeriod->id)->get();
             }
             else {
                 $periods = Period::all();
