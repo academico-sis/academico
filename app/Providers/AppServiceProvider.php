@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
 
         if (\Schema::hasTable('periods') && \Schema::hasTable('config')) {
-            $firstPeriod = Config::where('name', 'first_period')->first();
+            $firstPeriod = Period::find(Config::where('name', 'first_period')->first()->value);
 
             if ($firstPeriod) {
                 $periods = Period::where('id', '>=', $firstPeriod->value);
