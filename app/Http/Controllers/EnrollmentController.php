@@ -149,6 +149,8 @@ class EnrollmentController extends Controller
             'name' => $enrollment->student_name,
             'email' => $enrollment->student_email,
             'idnumber' => $enrollment->student->idnumber,
+            'address' => $enrollment->student->address,
+            'phone' => $enrollment->student->phone,
         ]);
 
         foreach ($enrollment->student->contacts as $client) {
