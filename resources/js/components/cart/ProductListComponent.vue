@@ -84,6 +84,7 @@
                                         <span class="caret"></span>
                                         {{ $t("Add discount") }}
                                     </button>
+
                                     <div class="dropdown-menu">
                                         <button v-for="availableDiscount in availablediscounts" :key="availableDiscount.id" class="dropdown-item" @click="addDiscount(product, availableDiscount)">
                                             {{ availableDiscount.name }}
@@ -159,5 +160,8 @@ export default {
 </script>
 
 <style scoped>
-
+.dropdown-menu {
+    max-height: 400px;
+    overflow-y: auto;
+}
 </style>

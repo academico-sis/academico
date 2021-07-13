@@ -102,3 +102,11 @@
 </script>
 @endsection
 
+@push('before_styles')
+    <style>
+        .dropdown-menu {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+    </style>
+@endpush

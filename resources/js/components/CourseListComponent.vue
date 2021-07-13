@@ -438,4 +438,9 @@ export default {
     text-transform: uppercase;
     font-weight: bold;
 }
+
+.dropdown-menu {
+    max-height: 400px;
+    overflow-y: auto;
+}
 </style>

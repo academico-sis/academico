@@ -110,5 +110,8 @@ export default {
 </script>
 
 <style scoped>
-
+.dropdown-menu {
+    max-height: 400px;
+    overflow-y: auto;
+}
 </style>
