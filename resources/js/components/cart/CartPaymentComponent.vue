@@ -66,7 +66,7 @@ import {EventBus} from "../eventBus";
 
 export default {
     name: "CartPaymentComponent",
-    props: ['currency', 'currencyposition', 'shoppingCartTotal', 'availablepaymentmethods'],
+    props: ['currency', 'currencyposition', 'shoppingCartTotal', 'availablepaymentmethods', 'totalPrice'],
     data() {
         return {
             paymentsCount: 1,
@@ -76,7 +76,7 @@ export default {
         };
     },
     mounted() {
-        this.addPayment(this.shoppingCartTotal)
+        this.addPayment(this.totalPrice)
     },
     methods: {
         addPayment(value) {
@@ -86,6 +86,10 @@ export default {
             }
             else {
                 var nextPaymentDate = new Date(this.firstPaymentDate);
+            }
+
+            if (value === undefined) {
+                value = this.totalPrice;
             }
 
             let payment = {

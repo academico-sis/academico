@@ -2375,7 +2375,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "CartPaymentComponent",
-  props: ['currency', 'currencyposition', 'shoppingCartTotal', 'availablepaymentmethods'],
+  props: ['currency', 'currencyposition', 'shoppingCartTotal', 'availablepaymentmethods', 'totalPrice'],
   data: function data() {
     return {
       paymentsCount: 1,
@@ -2385,7 +2385,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    this.addPayment(this.shoppingCartTotal);
+    this.addPayment(this.totalPrice);
   },
   methods: {
     addPayment: function addPayment(value) {
@@ -2394,6 +2394,10 @@ __webpack_require__.r(__webpack_exports__);
         var nextPaymentDate = new Date(previousPaymentDate.setMonth(previousPaymentDate.getMonth() + 1));
       } else {
         var nextPaymentDate = new Date(this.firstPaymentDate);
+      }
+
+      if (value === undefined) {
+        value = this.totalPrice;
       }
 
       var payment = {
@@ -7264,7 +7268,8 @@ var render = function() {
                       attrs: {
                         availablepaymentmethods: _vm.availablepaymentmethods,
                         currency: _vm.currency,
-                        currencyposition: _vm.currencyposition
+                        currencyposition: _vm.currencyposition,
+                        totalPrice: _vm.shoppingCartTotal()
                       }
                     })
               ],

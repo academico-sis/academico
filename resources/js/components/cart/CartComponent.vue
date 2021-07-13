@@ -144,7 +144,7 @@
                 <total-price-component :value="shoppingCartTotal()" :currency="currency" :currencyposition="currencyposition"></total-price-component>
 
                 <cart-scheduled-payments-component v-if="this.scheduledpayments" :payments="payments" :currency="currency" :currencyposition="currencyposition"></cart-scheduled-payments-component>
-                <cart-payment-component v-else :availablepaymentmethods="availablepaymentmethods" :currency="currency" :currencyposition="currencyposition"></cart-payment-component>
+                <cart-payment-component v-else :availablepaymentmethods="availablepaymentmethods" :currency="currency" :currencyposition="currencyposition" :totalPrice="shoppingCartTotal()"></cart-payment-component>
             </div>
 
             <div class="col-md-12">
