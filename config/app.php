@@ -110,6 +110,8 @@ return [
     'currency_code' => env('CURRENCY_CODE', 'EUR'),
     'currency_position' => env('CURRENCY_POSITION', 'after'),
 
+    'enrollment_sheet' => env('ENROLLMENT_SHEET', false),
+
     /*
     |--------------------------------------------------------------------------
     | Faker Locale
