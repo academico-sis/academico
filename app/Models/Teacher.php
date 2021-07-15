@@ -209,4 +209,20 @@ class Teacher extends Model
 
         return collect($eventsWithMissingAttendance);
     }
+
+    // SETTERS
+    public function setFirstnameAttribute($value)
+    {
+        $this->user->update(['firstname' => $value]);
+    }
+
+    public function setLastnameAttribute($value)
+    {
+        $this->user->update(['lastname' => $value]);
+    }
+
+    public function setEmailAttribute($value)
+    {
+        $this->user->update(['email' => $value]);
+    }
 }
