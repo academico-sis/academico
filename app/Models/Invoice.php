@@ -45,17 +45,9 @@ class Invoice extends Model
         return $this->payments->sum('value');
     }
 
-    /**
-     * Will be deleted in the future, since we decided that one invoice only covers one enrollment?
-     */
     public function enrollments()
     {
-        return $this->hasMany(Enrollment::class);
-    }
-
-    public function enrollment()
-    {
-        return $this->hasOne(Enrollment::class);
+        return $this->belongsToMany(Enrollment::class);
     }
 
     public function comments()

@@ -12,6 +12,7 @@ use App\Models\Fee;
 use App\Models\InvoiceType;
 use App\Models\Payment;
 use App\Models\Invoice;
+use App\Models\ScheduledPayment;
 use Illuminate\Support\Facades\App;
 use LaravelDaily\Invoices\Invoice as InvoiceAlias;
 use App\Models\InvoiceDetail;
@@ -69,16 +70,8 @@ class InvoiceController extends Controller
             'client_phone' => $request->client_phone,
             'total_price' => $request->total_price,
             'invoice_type_id' => $request->invoicetype,
+            'date' => $request->has('date') ? Carbon::parse($request->date) : Carbon::now(),
         ]);
-
-        if ($request->enrollment_id)
-        {
-            $enrollment = Enrollment::find($request->enrollment_id);
-
-            if ($enrollment) {
-                $enrollment->invoices()->attach($invoice);
-            }
-        }
 
         $invoice->setNumber();
 
@@ -95,9 +88,23 @@ class InvoiceController extends Controller
         foreach ($request->products as $f => $product) {
             $productType = match ($product['type']) {
                 'enrollment' => Enrollment::class,
+                'scheduledPayment' => Enrollment::class,
                 'fee' => Fee::class,
                 'book' => Book::class,
             };
+
+            if ($product['type'] === 'enrollment')
+            {
+                Enrollment::find($product['id'])->invoices()->attach($invoice, ['scheduled_payment_id' => $request->scheduled_payment_id ?? null]);
+            }
+
+            if ($product['type'] === 'scheduledPayment')
+            {
+                $scheduledPayment = ScheduledPayment::find($product['id']);
+                $scheduledPayment->enrollment->invoices()->attach($invoice, ['scheduled_payment_id' => $product['id']]);
+                // Reset status to default value
+                $scheduledPayment->update(['status' => null]);
+            }
 
             InvoiceDetail::create([
                 'invoice_id' => $invoice->id,

@@ -40,6 +40,11 @@ class ScheduledPayment extends Model
         return $this->belongsTo(Enrollment::class);
     }
 
+    public function invoices()
+    {
+        return $this->belongsToMany(Invoice::class, 'enrollment_invoice', 'scheduled_payment_id', 'invoice_id');
+    }
+
     /*
     |--------------------------------------------------------------------------
     | SCOPES
@@ -57,6 +62,16 @@ class ScheduledPayment extends Model
         return $value / 100;
     }
 
+    public function getValueWithCurrencyAttribute()
+    {
+        if (config('app.currency_position') === 'before')
+        {
+            return config('app.currency_symbol') . " ". $this->value;
+        }
+
+        return $this->value . " " . config('app.currency_symbol');
+    }
+
     function getDateForHumansAttribute()
     {
         if ($this->date)
@@ -66,9 +81,21 @@ class ScheduledPayment extends Model
         return Carbon::parse($this->created_at, 'UTC')->locale(App::getLocale())->isoFormat('LL');
     }
 
-    public function getDisplayStatusAttribute()
+    public function computedStatus(): int
     {
-        switch ($this->status)
+        // if there is a custom status, always take it
+        if ($this->status)
+        {
+            return $this->status;
+        }
+
+        // otherwise, check if the scheduled payment has invoices
+        return $this->invoices->count() > 0 ? 2 : 1;
+    }
+
+    public function getDisplayStatusAttribute() : string
+    {
+        switch ($this->computedStatus())
         {
             case (null):
             case (1):

@@ -60,9 +60,9 @@ class Payment extends Model
 
     public function getEnrollmentNameAttribute(): string
     {
-        if ($this->invoice && $this->invoice->enrollment)
+        if ($this->invoice && $this->invoices->first()->enrollment)
         {
-            return $this->invoice->enrollment->student_name;
+            return $this->invoices->first()->enrollment->student_name;
         }
 
         return '';
@@ -70,9 +70,9 @@ class Payment extends Model
 
     public function getIbanAttribute(): string
     {
-        if ($this->invoice && $this->invoice->enrollment)
+        if ($this->invoice && $this->invoices->first()->enrollment)
         {
-            return $this->invoice->enrollment->student->iban ?? '';
+            return $this->invoices->first()->enrollment->student->iban ?? '';
         }
 
         return '';
@@ -80,9 +80,9 @@ class Payment extends Model
 
     public function getBicAttribute(): string
     {
-        if ($this->invoice && $this->invoice->enrollment)
+        if ($this->invoice && $this->invoices->first()->enrollment)
         {
-            return $this->invoice->enrollment->student->bic ?? '';
+            return $this->invoices->first()->enrollment->student->bic ?? '';
         }
 
         return '';

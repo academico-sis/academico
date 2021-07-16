@@ -137,34 +137,9 @@
         </div>
     </div>
 
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-header">@lang('Scheduled Payments')
-                <div class="card-header-actions">
-                    @if ($enrollment->scheduledPayments->count() === 0)
-                        <a class="btn btn-sm btn-warning" href="{{ route('enrollment-scheduled-payments', ['enrollment' => $enrollment->id]) }}">
-                            {{ __('Create') }}
-                        </a>
-                    @else
-                        <a class="btn btn-sm btn-warning" href="{{ route('enrollment.edit', ['id' => $enrollment->id]) }}">
-                            {{ __('Edit') }}
-                        </a>
-                    @endif
-                </div>
-            </div>
-
-            <div class="card-body">
-
-                <ul>
-                    @foreach($enrollment->scheduledPayments as $scheduledPayment)
-                        <li>{{ $scheduledPayment->date }} - {{ $scheduledPayment->value }} - <a href="#">Create invoice</a></li>
-                    @endforeach
-                </ul>
-
-            </div>
-        </div>
-    </div>
-
+    @if(config('invoicing.allow_scheduled_payments'))
+        @include('enrollments.scheduled-payments')
+    @endif
 
 </div>
 

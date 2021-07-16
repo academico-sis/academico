@@ -54,10 +54,10 @@ class ScheduledPaymentController extends Controller
         array_push($products, [
             'name' => $enrollment->name,
             'product_code' => $enrollment->product_code,
-            'type' => 'enrollment',
+            'type' => 'scheduledPayment',
             'price' => $scheduledPayment->value,
             'quantity' => 1,
-            'id' => $enrollment->id,
+            'id' => $scheduledPayment->id,
         ]);
 
         // build an array with all contact data

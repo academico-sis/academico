@@ -79,11 +79,6 @@ class PaymentCrudController extends CrudController
             'type'  => 'number'], $currency));
 
         CRUD::addColumn([
-            'name' => 'display_status',
-            'type' => 'attribute',
-            'label' => __('Status'),
-        ]);
-        CRUD::addColumn([
             'name' => 'iban',
             'type' => 'attribute',
             'label' => 'IBAN',

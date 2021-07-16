@@ -18,7 +18,7 @@ class AddScheduledPaymentsTable extends Migration
             $table->unsignedBigInteger('enrollment_id')->references('id')->on('enrollments')->onDelete('cascade');
             $table->bigInteger('value');
             $table->date('date');
-            $table->integer('status')->default(1);
+            $table->integer('status')->nullable();
             $table->timestamps();
         });
 
