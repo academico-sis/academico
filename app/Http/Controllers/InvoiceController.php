@@ -170,11 +170,6 @@ class InvoiceController extends Controller
 
     }
 
-    public function edit(Invoice $invoice)
-    {
-        return view('invoices.edit', compact('invoice'));
-    }
-
     public function download(Invoice $invoice)
     {
 
@@ -254,10 +249,5 @@ class InvoiceController extends Controller
         }
 
         return $invoice->fresh()->payments;
-    }
-
-    public function show(Invoice $invoice)
-    {
-        return view('invoices.details', compact('invoice'));
     }
 }

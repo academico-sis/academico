@@ -924,17 +924,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["invoice", "availablepaymentmethods", "editable", "currency", "currencyposition"],
   data: function data() {
@@ -5289,8 +5278,6 @@ var render = function() {
         _vm._v(" "),
         _c("th", [_vm._v(_vm._s(_vm.$t("Value")))]),
         _vm._v(" "),
-        _c("th", [_vm._v(_vm._s(_vm.$t("Status")))]),
-        _vm._v(" "),
         _c("th")
       ])
     ]),
@@ -5460,70 +5447,6 @@ var render = function() {
                   _vm.currencyposition === "after"
                     ? _c("span", [_vm._v(" " + _vm._s(_vm.currency))])
                     : _vm._e()
-                ]),
-            _vm._v(" "),
-            _vm.editable
-              ? _c("td", [
-                  _c(
-                    "select",
-                    {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: payment.status,
-                          expression: "payment.status"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: { name: "status" },
-                      on: {
-                        change: function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.$set(
-                            payment,
-                            "status",
-                            $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          )
-                        }
-                      }
-                    },
-                    [
-                      _c(
-                        "option",
-                        {
-                          attrs: { value: "1" },
-                          domProps: { selected: payment.status === 1 }
-                        },
-                        [_vm._v(_vm._s(_vm.$t("Pending")))]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "option",
-                        {
-                          attrs: { value: "2" },
-                          domProps: { selected: payment.status === 2 }
-                        },
-                        [_vm._v(_vm._s(_vm.$t("Paid")))]
-                      )
-                    ]
-                  )
-                ])
-              : _c("td", [
-                  _vm._v(
-                    "\n            " +
-                      _vm._s(payment.display_status) +
-                      "\n        "
-                  )
                 ]),
             _vm._v(" "),
             _c("td", [
