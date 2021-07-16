@@ -13,6 +13,7 @@ class Contact extends Model
 
     protected $fillable = ['firstname', 'lastname', 'idnumber', 'address', 'email', 'relationship_id', 'profession_id', 'student_id'];
     protected $with = ['phone', 'relationship', 'profession'];
+    protected $appends = ['name'];
     protected static $logUnguarded = true;
 
     public function phone()
