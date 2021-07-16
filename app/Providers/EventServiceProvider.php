@@ -9,6 +9,7 @@ use App\Events\EnrollmentDeleted;
 use App\Events\EnrollmentCourseUpdated;
 use App\Events\LeadStatusUpdatedEvent;
 use App\Events\MonthlyReportEvent;
+use App\Events\StudentDeleted;
 use App\Events\UserCreated;
 use App\Events\StudentDeleting;
 use App\Events\UserDeleting;
