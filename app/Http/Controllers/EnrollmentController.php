@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\EnrollmentUpdated;
+use App\Events\EnrollmentCourseUpdated;
 use App\Http\Requests\StoreEnrollmentRequest;
 use App\Models\Attendance;
 use App\Models\Book;
@@ -99,7 +99,7 @@ class EnrollmentController extends Controller
         // TODO delete grades and/or skills
 
         // update LMS
-        EnrollmentUpdated::dispatch($enrollment->student, $previousCourse, $course);
+        EnrollmentCourseUpdated::dispatch($enrollment->student, $previousCourse, $course);
 
         // display a confirmation message and redirect to enrollment details
         Alert::success(__('The enrollment has been updated'))->flash();
@@ -113,13 +113,6 @@ class EnrollmentController extends Controller
      */
     public function bill(Enrollment $enrollment)
     {
-        // if the enrollment has already been invoiced, continue with the same invoice
-        if ($enrollment->invoice) {
-            Alert::success(__('This enrollment has already been invoiced'))->flash();
-            return redirect()->back();
-        }
-
-        // otherwise create a new one.
         Log::info('User # '.backpack_user()->id.' is generating a invoice');
 
         // build an array with products to include

@@ -2,19 +2,40 @@
 
 namespace App\Events;
 
-use App\Models\Course;
-use App\Models\Student;
+use App\Models\Enrollment;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 class EnrollmentUpdated
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable;
+    use InteractsWithSockets;
+    use SerializesModels;
 
-    // the ids must refer to lms_id (not the local ones)
-    public function __construct(public Student $student, public Course $previousCourse, public Course $newCourse)
+    public function __construct(public Enrollment $enrollment)
     {
-        //
+        // If the status has changed to paid, also update children
+        if ($enrollment->isDirty('status_id'))
+        {
+            foreach ($enrollment->childrenEnrollments as $child) {
+                $child->status_id = $this->enrollment->status_id;
+                $child->save();
+            }
+        }
+
+        if ($this->enrollment->isDirty('course_id'))
+        {
+            // if the new course has children, create an enrollment as well
+            foreach ($enrollment->course->children as $children_course) {
+                $child_enrollment = Enrollment::firstOrNew([
+                    'student_id' =>  $enrollment->student_id,
+                    'course_id' => $children_course->id,
+                    'parent_id' => $enrollment->id,
+                ]);
+                $child_enrollment->responsible_id = $enrollment->responsible_id;
+                $child_enrollment->save();
+            }
+        }
     }
 }

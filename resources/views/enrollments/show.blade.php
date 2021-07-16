@@ -14,9 +14,14 @@
 <div id="app">
 <div class="row">
 
-    <div class="col-md-4">
+    <div class="col-md-6">
         <div class="card">
             <div class="card-header">@lang('Enrollment Info')
+                <div class="card-header-actions">
+                    <a class="btn btn-sm btn-warning" href="{{ route('enrollment.edit', ['id' => $enrollment->id]) }}">
+                        {{ __('Edit') }}
+                    </a>
+                </div>
             </div>
 
             <div class="card-body">
@@ -26,35 +31,38 @@
                 <p>@lang('Enrollment date'): {{ $enrollment->date }}</p>
                 <p>@lang('Enrollment ID'): {{ $enrollment->id }}</p>
                 <p>@lang('Course'): <a href="{{ route('course.show', ['id' => $enrollment->course_id]) }}">{{ $enrollment->course->name }}</a></p>
-                <enrollment-price-field writeaccess="{{ $writeaccess }}" :enrollment="{{ json_encode($enrollment) }}" currency="{{ config('app.currency_symbol') }}" currencyposition="{{ config('app.currency_position') }}"></enrollment-price-field>
                 <p>@lang('Period'): {{ $enrollment->course->period->name }}</p>
 
-                    @if ($enrollment->children_count > 0)
-                        <p>@lang('Children enrollments'):</p>
-                        <ul>
-                        @foreach ($enrollment->children as $children)
-                            <li>
-                                <a href="/enrollment/{{ $children->id }}/show">{{ $children->course->name }}</a> ({{ $children->course->period->name }})
-                            </li>
-                        @endforeach
-                        </ul>
-                    @elseif ($enrollment->parent_id !== null)
-                        @lang('This enrollment belongs to') <a href="/enrollment/{{ $enrollment->parent_id }}/show">{{ $enrollment->parent_id }}</a>
-                    @endif
-
-                    @if(isset($enrollment->result))
-                        <p>
-                            <a href="/result/{{ $enrollment->id }}/show" class="btn btn-sm btn-info">
-                                <i class="la la-eye"></i> {{ $enrollment->result['result_name']['name'] }}
-                            </a>
-                        </p>
-                    @endif
+                <div class="form-group">
+                    <a class="btn btn-sm btn-warning" href="{{ route('get-courses-list', ['mode' => 'update', 'enrollment_id' => $enrollment->id]) }}">@lang('Change course')</a>
                 </div>
+
+                @if ($enrollment->children_count > 0)
+                    <p>@lang('Children enrollments'):</p>
+                    <ul>
+                    @foreach ($enrollment->children as $children)
+                        <li>
+                            <a href="/enrollment/{{ $children->id }}/show">{{ $children->course->name }}</a> ({{ $children->course->period->name }})
+                        </li>
+                    @endforeach
+                    </ul>
+                @elseif ($enrollment->parent_id !== null)
+                    @lang('This enrollment belongs to') <a href="/enrollment/{{ $enrollment->parent_id }}/show">{{ $enrollment->parent_id }}</a>
+                @endif
+
+                @if(isset($enrollment->result))
+                    <p>
+                        <a href="/result/{{ $enrollment->id }}/show" class="btn btn-sm btn-info">
+                            <i class="la la-eye"></i> {{ $enrollment->result['result_name']['name'] }}
+                        </a>
+                    </p>
+                @endif
             </div>
         </div>
+    </div>
 
 
-    <div class="col-md-4">
+    <div class="col-md-6">
 
         <student-comments
             :comments="{{ json_encode($enrollment->comments) }}"
@@ -65,73 +73,101 @@
 
     </div>
 
-    <div class="col-md-4">
+</div>
+
+<div class="row">
+    <div class="col-md-6">
         <div class="card">
-            <div class="card-header">@lang('Status')</div>
+            <div class="card-header">@lang('Invoicing')</div>
 
             <div class="card-body">
 
-            <div class="form-group">
+                <p><enrollment-price-field writeaccess="{{ $writeaccess }}" :enrollment="{{ json_encode($enrollment) }}" currency="{{ config('app.currency_symbol') }}" currencyposition="{{ config('app.currency_position') }}"></enrollment-price-field></p>
 
-                @if($enrollment->status_id == 2)
+                <div class="form-group">
 
-                    <div class="label label-primary">
-                        {{ $enrollment->enrollmentStatus->name }}
-                    </div>
+                    @if($enrollment->status_id == 2)
 
-                @elseif($enrollment->status_id == 1)
-                    <div class="label label-warning">
-                        {{ $enrollment->enrollmentStatus->name }}
-                    </div>
-
-                    @if(backpack_user()->can('enrollments.edit') && $enrollment->parent_id == null && !$enrollment->invoice)
-
-                        <div class="form-group">
-                            <a href="/enrollment/{{ $enrollment->id }}/bill" class="btn btn-primary">@lang('Checkout enrollment')</a>
+                        <div class="badge badge-primary">
+                            {{ $enrollment->status }}
                         </div>
+
+                    @elseif($enrollment->status_id == 1)
+                        <div class="badge badge-warning">
+                            {{ $enrollment->status }}
+                        </div>
+                </div>
+                <div class="form-group">
+                    @if(backpack_user()->can('enrollments.edit') && $enrollment->parent_id == null)
+                        <a href="/enrollment/{{ $enrollment->id }}/bill" class="btn btn-primary">@lang('Checkout enrollment')</a>
+                    @endif
 
                     @endif
 
-                @endif
-
-                @foreach ($enrollment->scholarships as $scholarship)
-                    {{ $scholarship->name }} (<a href="#" onclick="if(confirm('Voulez-vous vraiment retirer cette bourse ?')) removeScholarship({{ $enrollment->id }}, {{ $scholarship->id }})">{{ __('Cancel') }}</a>)
-                @endforeach
-            </div>
+                    @foreach ($enrollment->scholarships as $scholarship)
+                        {{ $scholarship->name }} (<a href="#" onclick="if(confirm('Voulez-vous vraiment retirer cette bourse ?')) removeScholarship({{ $enrollment->id }}, {{ $scholarship->id }})">{{ __('Cancel') }}</a>)
+                    @endforeach
+                </div>
 
                 @if(backpack_user()->can('enrollments.edit'))
 
                     <div class="form-group">
                         {{-- todo translate and improve the confirmation message --}}
-                        <button class="btn btn-danger" onclick="if(confirm('Voulez-vous vraiment supprimer cette inscription ?')) cancel({{ $enrollment->id }})">
+                        <button class="btn btn-sm btn-danger" onclick="if(confirm('Voulez-vous vraiment supprimer cette inscription ?')) cancel({{ $enrollment->id }})">
                             @lang('Delete Enrollment')
                         </button>
                     </div>
 
-                <div class="form-group">
-                    <enrollment-status-button :enrollment="{{json_encode($enrollment)}}"></enrollment-status-button>
-                </div>
+                    <scholarship-modal-component enrollment_id="{{ $enrollment->id }}" :scholarships="{{ $scholarships }}"></scholarship-modal-component>
 
-                <div class="form-group">
-                    <a class="btn btn-sm btn-warning" href="{{ route('get-courses-list', ['mode' => 'update', 'enrollment_id' => $enrollment->id]) }}">@lang('Change course')</a>
-                </div>
+                <h3>@lang('Invoices')</h3>
+                <ul>
+                    @foreach($enrollment->invoices as $invoice)
+                        <li><a href="{{ route('invoice-show', ['invoice' => $invoice->id]) }}">{{ $invoice->invoice_reference }} - {{ $invoice->formatted_date }}</a></li>
+                    @endforeach
+                </ul>
+                @else
+                    {{ $enrollment->status }}
+                @endif
 
-                <scholarship-modal-component enrollment_id="{{ $enrollment->id }}" :scholarships="{{ $scholarships }}"></scholarship-modal-component>
-
-            @else
-                {{ $enrollment->enrollmentStatus->name }}
-            @endif
-            @if(config('app.enrollment_sheet'))
-                <a href="{{ route('generate-enrollment-sheet', ['enrollment' => $enrollment]) }}">{{ __('Enrollment sheet') }} (.docx)</a>
-            @endif
+                @if(config('app.enrollment_sheet'))
+                    <a href="{{ route('generate-enrollment-sheet', ['enrollment' => $enrollment]) }}">{{ __('Enrollment sheet') }} (.docx)</a>
+                @endif
             </div>
         </div>
     </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">@lang('Scheduled Payments')
+                <div class="card-header-actions">
+                    @if ($enrollment->scheduledPayments->count() === 0)
+                        <a class="btn btn-sm btn-warning" href="{{ route('enrollment-scheduled-payments', ['enrollment' => $enrollment->id]) }}">
+                            {{ __('Create') }}
+                        </a>
+                    @else
+                        <a class="btn btn-sm btn-warning" href="{{ route('enrollment.edit', ['id' => $enrollment->id]) }}">
+                            {{ __('Edit') }}
+                        </a>
+                    @endif
+                </div>
+            </div>
+
+            <div class="card-body">
+
+                <ul>
+                    @foreach($enrollment->scheduledPayments as $scheduledPayment)
+                        <li>{{ $scheduledPayment->date }} - {{ $scheduledPayment->value }} - <a href="#">Create invoice</a></li>
+                    @endforeach
+                </ul>
+
+            </div>
+        </div>
+    </div>
+
+
 </div>
 
-@if ($enrollment->invoice && backpack_user()->can('enrollments.edit'))
-    @include('invoices.details', ['editable' => $enrollment->status_id !== 2, 'invoice' => $enrollment->invoice])
-@endif
 
 </div>
 

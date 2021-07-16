@@ -76,8 +76,7 @@ class InvoiceController extends Controller
             $enrollment = Enrollment::find($request->enrollment_id);
 
             if ($enrollment) {
-                $enrollment->invoice()->associate($invoice);
-                $enrollment->save();
+                $enrollment->invoices()->attach($invoice);
             }
         }
 
@@ -200,7 +199,7 @@ class InvoiceController extends Controller
             ->series($invoice->invoice_series)
             ->sequence($invoice->invoice_number)
             ->dateFormat('d/m/Y')
-            ->date($invoice->created_at)
+            ->date($invoice->date)
             ->logo(storage_path('logo2.png'))
             ->currencySymbol(config('app.currency_symbol'))
             ->currencyCode(config('app.currency_code'))

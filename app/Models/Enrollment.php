@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
 use Spatie\Activitylog\Traits\LogsActivity;
+use App\Models\ScheduledPayment;
 
 class Enrollment extends Model
 {
@@ -23,6 +24,8 @@ class Enrollment extends Model
     protected $dispatchesEvents = [
         'deleted' => \App\Events\EnrollmentDeleted::class,
         'created' => \App\Events\EnrollmentCreated::class,
+        'updating' => \App\Events\EnrollmentUpdating::class,
+        'updated' => \App\Events\EnrollmentUpdated::class,
     ];
 
     /**
@@ -106,7 +109,7 @@ class Enrollment extends Model
         $this->status_id = 1;
         $this->save();
 
-        $this->invoice()->delete();
+        $this->invoices()->delete();
 
         // also mark children as unpaid
         foreach ($this->childrenEnrollments as $child) {
@@ -146,7 +149,13 @@ class Enrollment extends Model
 
     public function invoice()
     {
-        return $this->belongsTo(Invoice::class);
+        // TEMPORARY METHOD
+        return $this->invoices->first();
+    }
+
+    public function invoices()
+    {
+        return $this->belongsToMany(Invoice::class);
     }
 
     public function comments()
@@ -179,6 +188,24 @@ class Enrollment extends Model
     public function grades()
     {
         return $this->hasMany(Grade::class);
+    }
+
+    public function scheduledPayments()
+    {
+        return $this->hasMany(ScheduledPayment::class);
+    }
+
+    public function saveScheduledPayments($payments)
+    {
+        $this->scheduledPayments()->delete();
+        foreach ($payments as $payment)
+        {
+            $this->scheduledPayments()->create([
+                'date' => $payment->date,
+                'value' => $payment->value,
+                'status' => $payment->status,
+            ]);
+        }
     }
 
     /* Accessors */
@@ -274,12 +301,6 @@ class Enrollment extends Model
 
     public function getPriceAttribute()
     {
-        // if the enrollment has an invoice, we take this price
-        if ($this->invoice && $this->invoice->total_price !== null) {
-            return $this->invoice->total_price;
-        }
-
-        // otherwise, we seek the enrollment specific price
         if ($this->total_price !== null) {
             return $this->total_price / 100;
         }

@@ -1,4 +1,16 @@
-<div class="row">
+@extends('backpack::blank')
+
+@section('header')
+    <section class="container-fluid">
+        <h2>
+            @lang('Invoice Details')
+        </h2>
+    </section>
+@endsection
+
+
+@section('content')
+<div class="row" id="app">
     <div class="col-md-4">
         <div class="card">
             <div class="card-header">
@@ -11,7 +23,7 @@
             </div>
 
             <div class="card-body">
-                <p>@lang('Date') : {{ $invoice->created_at }}</p>
+                <p>@lang('Date') : {{ $invoice->formatted_date }}</p>
                 <p>@lang('Client name') : {{ $invoice->client_name }}</p>
                 <p>@lang('Client email') : {{ $invoice->client_email }}</p>
                 <p>@lang('Client address') : {{ $invoice->client_address }}</p>
@@ -56,8 +68,8 @@
 
                 <payment-component
                     :invoice="{{ json_encode($invoice) }}"
-                    :availablepaymentmethods="{{ json_encode($availablePaymentMethods) }}"
-                    editable="{{ $editable }}"
+                    :availablepaymentmethods="{{ json_encode($availablePaymentMethods ?? []) }}"
+                    editable="{{ $editable ?? false }}"
                     currency="{{ config('app.currency_symbol') }}"
                     currencyposition="{{ config('app.currency_position') }}"
                 ></payment-component>
@@ -68,3 +80,4 @@
 
 </div>
 
+@endsection

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -13,7 +14,11 @@ class Invoice extends Model
 
     protected $guarded = ['id'];
     protected static $logUnguarded = true;
-    protected $appends = ['total_price_with_currency'];
+    protected $appends = ['total_price_with_currency', 'formatted_date'];
+
+    protected $casts = [
+        'date' => 'date',
+    ];
 
     public function invoiceDetails()
     {
@@ -114,5 +119,10 @@ class Invoice extends Model
         }
 
         return 'FC' . $this->receipt_number;
+    }
+
+    public function getFormattedDateAttribute()
+    {
+        return Carbon::parse($this->date)->locale(app()->getLocale())->isoFormat('Do MMMM YYYY');
     }
 }

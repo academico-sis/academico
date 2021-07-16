@@ -61,7 +61,7 @@ class PaymentCrudController extends CrudController
 
         CRUD::column('month');
 
-        if (config('app.currency_position' === 'before')) {
+        if (config('app.currency_position') === 'before') {
             $currency = array('prefix' => config('app.currency_symbol'));
         } else {
             $currency = array('suffix' => config('app.currency_symbol'));

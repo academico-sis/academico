@@ -41,8 +41,10 @@ Route::group(
     function () {
         Route::post('student/enroll', 'EnrollmentController@store')->name('storeEnrollment'); // create a new enrollment
         Route::post('enrollment/{enrollment}/changeCourse', 'EnrollmentController@update')->name('changeCourse');
-        Route::get('enrollment/{enrollment}/bill', 'EnrollmentController@bill'); // display the cart to checkout the enrollment
-        Route::get('enrollment/{enrollment}/export', 'EnrollmentController@exportToWord')->name('generate-enrollment-sheet'); // display the cart to checkout the enrollment
+        Route::get('enrollment/{enrollment}/bill', 'EnrollmentController@bill');
+        Route::get('scheduledpayment/{scheduledPayment}/bill', 'ScheduledPaymentController@bill');
+
+        Route::get('enrollment/{enrollment}/export', 'EnrollmentController@exportToWord')->name('generate-enrollment-sheet');
         Route::post('checkout', 'InvoiceController@store');
         Route::post('enrollment/{enrollment}/price', 'EnrollmentController@savePrice');
 
@@ -51,9 +53,11 @@ Route::group(
 
         Route::post('invoice/{invoice}/payments', 'InvoiceController@savePayments')->name('invoice-save-payments');
 
-        Route::put('enrollment/{enrollment}/price', 'EnrollmentController@savePrice'); // display the cart to checkout the enrollment
-        Route::post('enrollment/{enrollment}/markaspaid', 'EnrollmentController@markaspaid'); // display the cart to checkout the enrollment
-        Route::post('enrollment/{enrollment}/markasunpaid', 'EnrollmentController@markasunpaid'); // display the cart to checkout the enrollment
+        Route::put('enrollment/{enrollment}/price', 'EnrollmentController@savePrice');
+        Route::post('enrollment/{enrollment}/markaspaid', 'EnrollmentController@markaspaid');
+        Route::post('enrollment/{enrollment}/markasunpaid', 'EnrollmentController@markasunpaid');
+        Route::get('enrollment/{enrollment}/scheduled-payments', 'ScheduledPaymentController@create')->name('enrollment-scheduled-payments');
+        Route::post('enrollment/{enrollment}/scheduled-payments', 'ScheduledPaymentController@store')->name('enrollment-save-scheduled-payments');
         Route::get('accountingservice/status', 'InvoiceController@accountingServiceStatus');
         Route::post('enrollment/{enrollment}/scholarships/add', 'EnrollmentScholarshipController@store')->name('add-scholarship'); // update the invoice number
         Route::post('enrollment/{enrollment}/scholarships/remove', 'EnrollmentScholarshipController@destroy')->name('remove-scholarship'); // update the invoice number
