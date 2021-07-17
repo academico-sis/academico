@@ -110,6 +110,8 @@ class Ecuasolutions implements InvoicingInterface
             $code = json_decode(preg_replace('/[\\x00-\\x1F\\x80-\\xFF]/', '', $response->getBody()), true);
         }
 
+        Log::info($response->getBody());
+
         return isset($code['mensaje']) ? $code['mensaje'] : null;
     }
 }

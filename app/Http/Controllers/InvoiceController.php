@@ -81,7 +81,7 @@ class InvoiceController extends Controller
             }
         }
 
-        $invoice->setNumber();
+        $invoice->setNumber(); // TODO extract this to model events.
 
         if (isset($enrollment) && isset($request->comment)) {
             Comment::create([
@@ -151,22 +151,35 @@ class InvoiceController extends Controller
         if ($request->sendinvoice == true && config('invoicing.invoicing_system')) {
             try {
                 $invoiceNumber = $this->invoicingService->saveInvoice($invoice);
-                if ($invoiceNumber) {
+                Log::info($invoiceNumber);
+                if ($invoiceNumber !== null) {
                     $invoice->receipt_number = $invoiceNumber;
                     $invoice->save();
+                    $success = true;
+                } else {
+                    Invoice::where('id', $invoice->id)->delete();
+                    abort(500);
                 }
             } catch (Exception $exception) {
                 Log::error('Data could not be sent to accounting');
                 Log::error($exception);
             }
+        } else {
+            $success = true;
         }
 
-        // if the value of payments matches the total due price,
-        // mark the invoice and associated enrollments as paid.
-        foreach ($invoice->enrollments as $enrollment) {
-            if ($invoice->total_price == $invoice->paidTotal() && $invoice->payments->where('status', '!==', 2)->count() === 0) {
-                $enrollment->markAsPaid();
+        if (isset($success))
+        {
+            // if the value of payments matches the total due price,
+            // mark the invoice and associated enrollments as paid.
+            foreach ($invoice->enrollments as $enrollment) {
+                if ($invoice->total_price == $invoice->paidTotal() && $invoice->payments->where('status', '!==', 2)->count() === 0) {
+                    $enrollment->markAsPaid();
+                }
             }
+        } else {
+            Invoice::where('id', $invoice->id)->delete();
+            abort(500);
         }
 
     }
