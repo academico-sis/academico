@@ -118,7 +118,7 @@ class InvoiceController extends Controller
                         'product_name' => $discount['name'],
                         'product_id' => $discount['id'],
                         'product_type' => Discount::class,
-                        'price' => -$discount['value'] * $product['quantity'] ?? 1,
+                        'price' => -$discount['value'] * ($product['quantity'] ?? 1),
                     ]);
                 }
             }
@@ -130,7 +130,7 @@ class InvoiceController extends Controller
                         'product_name' => $tax['name'],
                         'product_id' => $tax['id'],
                         'product_type' => Tax::class,
-                        'price' => $product['price'] * ($tax['value'] / 100) * $product['quantity'] ?? 1,
+                        'price' => $product['price'] * ($tax['value'] / 100) * ($product['quantity'] ?? 1),
                     ]);
                 }
             }
