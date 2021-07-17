@@ -120,12 +120,13 @@
 
                     <scholarship-modal-component enrollment_id="{{ $enrollment->id }}" :scholarships="{{ $scholarships }}"></scholarship-modal-component>
 
-                <h3>@lang('Invoices')</h3>
-                <ul>
-                    @foreach($enrollment->invoices as $invoice)
-                        <li><a href="{{ route('invoice.show', ['id' => $invoice->id]) }}">{{ $invoice->invoice_reference }} - {{ $invoice->formatted_date }}</a></li>
-                    @endforeach
-                </ul>
+                    @if ($enrollment->invoices->count() > 0)<h3>@lang('Invoices')</h3>
+                        <ul>
+                            @foreach($enrollment->invoices as $invoice)
+                                <li><a href="{{ route('invoice.show', ['id' => $invoice->id]) }}">{{ $invoice->invoice_reference }} - {{ $invoice->formatted_date }}</a></li>
+                            @endforeach
+                        </ul>
+                    @endif
                 @else
                     {{ $enrollment->status }}
                 @endif

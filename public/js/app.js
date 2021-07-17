@@ -1974,7 +1974,7 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     TotalPriceComponent: _TotalPriceComponent__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
-  props: ["enrollment", "availablebooks", "availablefees", "availablediscounts", "availabletaxes", "availablepaymentmethods", "accountingenabled", "currency", "currencyposition", "productslist", "clients", "invoicetypes"],
+  props: ["enrollment", "availablebooks", "availablefees", "availablediscounts", "availabletaxes", "availablepaymentmethods", "accountingenabled", "currency", "currencyposition", "productslist", "clients", "invoicetypes", "allowemptypaymentmethods"],
   data: function data() {
     return {
       totalPrice: 0,
@@ -2006,6 +2006,15 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       return total;
+    },
+    readyForInvoice: function readyForInvoice() {
+      if (this.allowemptypaymentmethods) {
+        return !(this.loading || this.payments.length === 0 || !this.paidTotal > 0);
+      } else {
+        return !(this.loading || this.payments.length === 0 || !this.paidTotal > 0 || this.payments.every(function (payment) {
+          return payment.method === undefined;
+        }));
+      }
     }
   },
   mounted: function mounted() {
@@ -7115,12 +7124,7 @@ var render = function() {
                       "button",
                       {
                         staticClass: "btn btn-lg btn-success",
-                        attrs: {
-                          disabled:
-                            _vm.loading ||
-                            _vm.payments.length === 0 ||
-                            !_vm.paidTotal > 0
-                        },
+                        attrs: { disabled: !_vm.readyForInvoice },
                         on: {
                           click: function($event) {
                             return _vm.checkTotal()

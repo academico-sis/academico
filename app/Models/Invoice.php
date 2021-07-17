@@ -35,6 +35,11 @@ class Invoice extends Model
         return $this->hasMany(InvoiceDetail::class)->where('product_type', Tax::class);
     }
 
+    public function scheduledPayments()
+    {
+        return $this->belongsToMany(ScheduledPayment::class, 'enrollment_invoice', 'invoice_id', 'scheduled_payment_id');
+    }
+
     public function payments()
     {
         return $this->hasMany(Payment::class);

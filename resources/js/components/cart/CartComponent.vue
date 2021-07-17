@@ -170,7 +170,7 @@
                         </div>
 
                         <div class="form-group">
-                            <button class="btn btn-lg btn-success" :disabled="loading || payments.length === 0 || ! paidTotal > 0" @click="checkTotal()">
+                            <button class="btn btn-lg btn-success" :disabled="!readyForInvoice" @click="checkTotal()">
                                 <span v-if="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                 <i class="la la-check"></i
                                 >{{ $t("Checkout") }}
@@ -237,6 +237,7 @@ export default {
         "productslist",
         "clients",
         "invoicetypes",
+        "allowemptypaymentmethods"
     ],
 
     data() {
@@ -268,6 +269,14 @@ export default {
                 });
             }
             return total;
+        },
+
+        readyForInvoice() {
+            if (this.allowemptypaymentmethods) {
+                return ! (this.loading || this.payments.length === 0 || ! this.paidTotal > 0);
+            } else {
+                return ! ( this.loading || this.payments.length === 0 || ! this.paidTotal > 0 || this.payments.every(payment => payment.method === undefined));
+            }
         },
 
     },

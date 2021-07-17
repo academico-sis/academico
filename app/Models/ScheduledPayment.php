@@ -22,6 +22,7 @@ class ScheduledPayment extends Model
     // protected $fillable = [];
     // protected $hidden = [];
     // protected $dates = [];
+    protected $appends = ['computed_status'];
 
     /*
     |--------------------------------------------------------------------------
@@ -81,7 +82,7 @@ class ScheduledPayment extends Model
         return Carbon::parse($this->created_at, 'UTC')->locale(App::getLocale())->isoFormat('LL');
     }
 
-    public function computedStatus(): int
+    public function getComputedStatusAttribute()
     {
         // if there is a custom status, always take it
         if ($this->status)

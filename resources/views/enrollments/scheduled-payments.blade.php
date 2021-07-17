@@ -20,7 +20,7 @@
                 @foreach($enrollment->scheduledPayments as $scheduledPayment)
                     <li>
                         {{ $scheduledPayment->date_for_humans }} &middot; {{ $scheduledPayment->value_with_currency }} &middot;
-                        @if($scheduledPayment->computedStatus() === 2)
+                        @if($scheduledPayment->computed_status === 2)
                             <span class="badge badge-primary">{{ __('Paid') }}</span>
                         @else
                             <span class="badge badge-warning">{{ __('Pending') }}</span>
