@@ -68,26 +68,24 @@ class Teacher extends Model
     }
 
     /** attributes */
-    public function getFirstnameAttribute()
+    public function getFirstnameAttribute() : string
     {
-        return $this?->user?->firstname;
+        return $this->user->firstname;
     }
 
-    public function getLastnameAttribute()
+    public function getLastnameAttribute() : string
     {
-        return $this?->user?->lastname;
+        return $this->user->lastname;
     }
 
-    public function getEmailAttribute()
+    public function getEmailAttribute() : string
     {
         return $this->user->email ?? "";
     }
 
-    public function getNameAttribute()
+    public function getNameAttribute() : string
     {
-        if ($this->user) {
-            return $this->user->firstname.' '.$this->user->lastname;
-        }
+        return $this->user->firstname.' '.$this->user->lastname;
     }
 
     public function period_courses(Period $period)

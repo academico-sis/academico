@@ -72,8 +72,8 @@ class Skill extends Model
     }
 
 
-    public function getCompleteNameAttribute()
+    public function getCompleteNameAttribute() : string
     {
-        return '[' . ($this->level ? $this->level->name : '') . '] ' . ($this->skill_type ? $this->skill_type->shortname : '') . ' - ' . $this->name ?? '';
+        return '[' . ($this->level->name ?? '') . '] ' . ($this->skill_type->shortname ?? '') . ' - ' . $this->name ?? '';
     }
 }

@@ -20,7 +20,6 @@ use Illuminate\Support\Facades\App;
  * @property-read Enrollment $enrollment
  * @property-read mixed $computed_status
  * @property-read mixed $date_for_humans
- * @property-read string $display_status
  * @property-read mixed $value_with_currency
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Invoice[] $invoices
  * @property-read int|null $invoices_count
@@ -121,18 +120,6 @@ class ScheduledPayment extends Model
 
         // otherwise, check if the scheduled payment has invoices
         return $this->invoices->count() > 0 ? 2 : 1;
-    }
-
-    public function getDisplayStatusAttribute() : string
-    {
-        switch ($this->computedStatus())
-        {
-            case (null):
-            case (1):
-                return __('Pending');
-            case (2):
-                return __('Paid');
-        }
     }
 
     /*

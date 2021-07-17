@@ -496,9 +496,13 @@ class Course extends Model
         return strtoupper($this->room->name);
     }
 
-    public function getCourseLevelNameAttribute()
+    public function getCourseLevelNameAttribute() : string
     {
-        return $this?->level?->name;
+        if ($this->level->exists()) {
+            return $this->level->name;
+        }
+
+        return '';
     }
 
     public function getCourseRhythmNameAttribute()

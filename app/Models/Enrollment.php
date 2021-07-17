@@ -187,7 +187,7 @@ class Enrollment extends Model
         // also mark children as unpaid
         foreach ($this->childrenEnrollments as $child) {
             $child->status_id = 1;
-            $child->invoice()->delete();
+            $child->invoices()->delete();
             $child->save();
         }
     }
@@ -309,7 +309,7 @@ class Enrollment extends Model
 
     public function getStudentAgeAttribute()
     {
-        return $this->student->age;
+        return $this->student->student_age;
     }
 
     public function getStudentBirthdateAttribute()
@@ -389,7 +389,7 @@ class Enrollment extends Model
     public function cancel()
     {
         // if the enrollment had children, delete them entirely
-        if ($this->childrenEnrollments && $this->childrenEnrollments->count() > 0) {
+        if ($this->childrenEnrollments->count() > 0) {
             foreach ($this->childrenEnrollments as $child) {
                 $child->delete();
             }
