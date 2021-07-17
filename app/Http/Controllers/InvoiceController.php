@@ -219,7 +219,7 @@ class InvoiceController extends Controller
         $generatedInvoice = InvoiceAlias::make()
             ->buyer($customer)
             ->series($invoice->invoice_series)
-            ->sequence($invoice->invoice_number)
+            ->sequence($invoice->invoice_number ?? $invoice->id)
             ->dateFormat('d/m/Y')
             ->date($invoice->date)
             ->logo(storage_path('logo2.png'))
