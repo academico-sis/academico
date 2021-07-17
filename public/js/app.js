@@ -1974,7 +1974,7 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     TotalPriceComponent: _TotalPriceComponent__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
-  props: ["enrollment", "availablebooks", "availablefees", "availablediscounts", "availabletaxes", "availablepaymentmethods", "accountingenabled", "currency", "currencyposition", "productslist", "clients", "invoicetypes", "allowemptypaymentmethods"],
+  props: ["enrollment", "availablebooks", "availablefees", "availablediscounts", "availabletaxes", "availablepaymentmethods", "accountingenabled", "currency", "currencyposition", "productslist", "clients", "invoicetypes", "allowemptypaymentmethods", "allowedblankfields"],
   data: function data() {
     return {
       totalPrice: 0,
@@ -2071,7 +2071,7 @@ __webpack_require__.r(__webpack_exports__);
       this.clientemail = (_contact$email = contact.email) !== null && _contact$email !== void 0 ? _contact$email : "";
     },
     checkForm: function checkForm(e) {
-      if (this.clientname && this.clientphone && this.clientaddress && this.clientidnumber && this.clientemail) {
+      if (this.clientname && (this.clientphone || this.allowedblankfields.includes('phone')) && (this.clientaddress || this.allowedblankfields.includes('address')) && (this.clientidnumber || this.allowedblankfields.includes('idnumber')) && (this.clientemail || this.allowedblankfields.includes('email'))) {
         return true;
       }
     },

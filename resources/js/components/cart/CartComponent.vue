@@ -237,7 +237,8 @@ export default {
         "productslist",
         "clients",
         "invoicetypes",
-        "allowemptypaymentmethods"
+        "allowemptypaymentmethods",
+        "allowedblankfields",
     ],
 
     data() {
@@ -348,10 +349,10 @@ export default {
         checkForm: function (e) {
             if (
                 this.clientname &&
-                this.clientphone &&
-                this.clientaddress &&
-                this.clientidnumber &&
-                this.clientemail
+                (this.clientphone || this.allowedblankfields.includes('phone')) &&
+                (this.clientaddress || this.allowedblankfields.includes('address')) &&
+                (this.clientidnumber || this.allowedblankfields.includes('idnumber')) &&
+                (this.clientemail || this.allowedblankfields.includes('email'))
             ) {
                 return true;
             }
