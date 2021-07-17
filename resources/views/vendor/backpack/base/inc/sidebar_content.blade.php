@@ -17,8 +17,7 @@
     <li class="nav-title">{{ Str::upper(trans('Invoicing')) }}</li>
         <li class='nav-item'><a class='nav-link' href="{{ backpack_url('/enrollment?status_id=["1"]&hidechildren=true') }}"><i class="nav-icon la la-credit-card"></i> <span>@lang('Pending')</span></a></li>
         <li class='nav-item'><a class='nav-link' href="{{ backpack_url('/enrollment?scholarship=all&hidechildren=true') }}"><i class="nav-icon la la-comment-dollar"></i> <span>@lang('Scholarships')</span></a></li>
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('payment') }}'><i class='nav-icon la la-dollar'></i> @lang('Payments')</a></li>
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('invoice') }}'><i class='nav-icon la la-question'></i> @lang('Invoices')</a></li>
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('invoice') }}'><i class='nav-icon la la-dollar'></i> @lang('Invoices')</a></li>
 
     <li class="nav-title">@lang('CALENDARS')</li>
         <li class='nav-item'><a class='nav-link' href="{{ route('teachersCalendar') }}"><i class="nav-icon la la-binoculars"></i><span>@lang('Teachers overview')</span></a></li>
