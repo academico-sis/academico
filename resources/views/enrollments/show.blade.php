@@ -57,6 +57,10 @@
                         </a>
                     </p>
                 @endif
+
+                @if(config('app.enrollment_sheet'))
+                    <a href="{{ route('generate-enrollment-sheet', ['enrollment' => $enrollment]) }}">{{ __('Enrollment sheet') }} (.docx)</a>
+                @endif
             </div>
         </div>
     </div>
@@ -129,10 +133,6 @@
                     @endif
                 @else
                     {{ $enrollment->status }}
-                @endif
-
-                @if(config('app.enrollment_sheet'))
-                    <a href="{{ route('generate-enrollment-sheet', ['enrollment' => $enrollment]) }}">{{ __('Enrollment sheet') }} (.docx)</a>
                 @endif
             </div>
         </div>
