@@ -10,6 +10,33 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Activitylog\Traits\LogsActivity;
 
+/**
+ * App\Models\Attendance
+ *
+ * @property int $id
+ * @property int $student_id
+ * @property int $event_id
+ * @property int $attendance_type_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
+ * @property-read \App\Models\AttendanceType $attendance_type
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Contact[] $contacts
+ * @property-read int|null $contacts_count
+ * @property-read \App\Models\Event $event
+ * @property-read \App\Models\Student $student
+ * @method static \Illuminate\Database\Eloquent\Builder|Attendance newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Attendance newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Attendance query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Attendance whereAttendanceTypeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Attendance whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Attendance whereEventId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Attendance whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Attendance whereStudentId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Attendance whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class Attendance extends Model
 {
     use LogsActivity;

@@ -11,6 +11,79 @@ use Illuminate\Support\Facades\App;
 use Spatie\Activitylog\Traits\LogsActivity;
 use App\Models\ScheduledPayment;
 
+/**
+ * App\Models\Enrollment
+ *
+ * @property int $id
+ * @property int $student_id
+ * @property int $responsible_id
+ * @property int $course_id
+ * @property int $status_id
+ * @property string|null $total_price
+ * @property int|null $parent_id
+ * @property int|null $invoice_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|Enrollment[] $childrenEnrollments
+ * @property-read int|null $children_enrollments_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
+ * @property-read int|null $comments_count
+ * @property-read \App\Models\Course $course
+ * @property-read \App\Models\EnrollmentStatusType $enrollmentStatus
+ * @property-read mixed $absence_count
+ * @property-read mixed $attendance_ratio
+ * @property-read mixed $children
+ * @property-read mixed $children_count
+ * @property-read mixed $date
+ * @property-read mixed $name
+ * @property-read mixed $price
+ * @property-read mixed $price_with_currency
+ * @property-read mixed $product_code
+ * @property-read mixed $result_name
+ * @property-read mixed $status
+ * @property-read mixed $student_age
+ * @property-read mixed $student_birthdate
+ * @property-read mixed $student_email
+ * @property-read mixed $student_name
+ * @property-read mixed $type
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Grade[] $grades
+ * @property-read int|null $grades_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Invoice[] $invoices
+ * @property-read int|null $invoices_count
+ * @property-read \App\Models\Result|null $result
+ * @property-read \Illuminate\Database\Eloquent\Collection|ScheduledPayment[] $scheduledPayments
+ * @property-read int|null $scheduled_payments_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Scholarship[] $scholarships
+ * @property-read int|null $scholarships_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|SkillEvaluation[] $skill_evaluations
+ * @property-read int|null $skill_evaluations_count
+ * @property-read \App\Models\Student $student
+ * @property-read \App\Models\User $user
+ * @method static Builder|Enrollment newModelQuery()
+ * @method static Builder|Enrollment newQuery()
+ * @method static Builder|Enrollment noresult()
+ * @method static Builder|Enrollment parent()
+ * @method static Builder|Enrollment pending()
+ * @method static Builder|Enrollment period($period)
+ * @method static Builder|Enrollment query()
+ * @method static Builder|Enrollment real()
+ * @method static Builder|Enrollment whereCourseId($value)
+ * @method static Builder|Enrollment whereCreatedAt($value)
+ * @method static Builder|Enrollment whereDeletedAt($value)
+ * @method static Builder|Enrollment whereId($value)
+ * @method static Builder|Enrollment whereInvoiceId($value)
+ * @method static Builder|Enrollment whereParentId($value)
+ * @method static Builder|Enrollment whereResponsibleId($value)
+ * @method static Builder|Enrollment whereStatusId($value)
+ * @method static Builder|Enrollment whereStudentId($value)
+ * @method static Builder|Enrollment whereTotalPrice($value)
+ * @method static Builder|Enrollment whereUpdatedAt($value)
+ * @method static Builder|Enrollment withoutChildren()
+ * @mixin \Eloquent
+ */
 class Enrollment extends Model
 {
     use CrudTrait;

@@ -9,6 +9,45 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
 
+/**
+ * App\Models\Teacher
+ *
+ * @property int $id
+ * @property string|null $hired_at
+ * @property string|null $max_week_hours
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Course[] $courses
+ * @property-read int|null $courses_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Event[] $events
+ * @property-read int|null $events_count
+ * @property mixed $email
+ * @property mixed $firstname
+ * @property mixed $lastname
+ * @property-read mixed $name
+ * @property-read mixed $upcoming_leaves
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Leave[] $leaves
+ * @property-read int|null $leaves_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\RemoteEvent[] $remote_events
+ * @property-read int|null $remote_events_count
+ * @property-read \App\Models\User $user
+ * @method static Builder|Teacher newModelQuery()
+ * @method static Builder|Teacher newQuery()
+ * @method static \Illuminate\Database\Query\Builder|Teacher onlyTrashed()
+ * @method static Builder|Teacher query()
+ * @method static Builder|Teacher whereCreatedAt($value)
+ * @method static Builder|Teacher whereDeletedAt($value)
+ * @method static Builder|Teacher whereHiredAt($value)
+ * @method static Builder|Teacher whereId($value)
+ * @method static Builder|Teacher whereMaxWeekHours($value)
+ * @method static Builder|Teacher whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|Teacher withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Teacher withoutTrashed()
+ * @mixin \Eloquent
+ */
 class Teacher extends Model
 {
     use CrudTrait;

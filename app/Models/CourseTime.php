@@ -6,6 +6,29 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
+/**
+ * App\Models\CourseTime
+ *
+ * @property int $id
+ * @property int $course_id
+ * @property int $day
+ * @property string $start
+ * @property string $end
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
+ * @property-read \App\Models\Course $course
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Event[] $events
+ * @property-read int|null $events_count
+ * @method static \Illuminate\Database\Eloquent\Builder|CourseTime newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|CourseTime newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|CourseTime query()
+ * @method static \Illuminate\Database\Eloquent\Builder|CourseTime whereCourseId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CourseTime whereDay($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CourseTime whereEnd($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CourseTime whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CourseTime whereStart($value)
+ * @mixin \Eloquent
+ */
 class CourseTime extends Model
 {
     use LogsActivity;

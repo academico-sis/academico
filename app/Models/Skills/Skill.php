@@ -8,6 +8,39 @@ use App\Models\Level;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\Skills\Skill
+ *
+ * @property int $id
+ * @property string $name
+ * @property int $default_weight
+ * @property int $level_id
+ * @property int $skill_type_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string|null $deleted_at
+ * @property int|null $order
+ * @property-read mixed $complete_name
+ * @property-read Level $level
+ * @property-read \Illuminate\Database\Eloquent\Collection|EvaluationType[] $presets
+ * @property-read int|null $presets_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Skills\SkillEvaluation[] $skill_evaluations
+ * @property-read int|null $skill_evaluations_count
+ * @property-read \App\Models\Skills\SkillType $skill_type
+ * @method static \Illuminate\Database\Eloquent\Builder|Skill newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Skill newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Skill query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Skill whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Skill whereDefaultWeight($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Skill whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Skill whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Skill whereLevelId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Skill whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Skill whereOrder($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Skill whereSkillTypeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Skill whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class Skill extends Model
 {
     use CrudTrait;

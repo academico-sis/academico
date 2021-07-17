@@ -6,6 +6,20 @@ use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Backpack\CRUD\app\Models\Traits\SpatieTranslatable\HasTranslations;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\GradeTypeCategory
+ *
+ * @property int $id
+ * @property array $name
+ * @property-read mixed $translated_name
+ * @property-read array $translations
+ * @method static \Illuminate\Database\Eloquent\Builder|GradeTypeCategory newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|GradeTypeCategory newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|GradeTypeCategory query()
+ * @method static \Illuminate\Database\Eloquent\Builder|GradeTypeCategory whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GradeTypeCategory whereName($value)
+ * @mixin \Eloquent
+ */
 class GradeTypeCategory extends Model
 {
     use CrudTrait;

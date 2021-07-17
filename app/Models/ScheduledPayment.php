@@ -7,6 +7,35 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Enrollment;
 use Illuminate\Support\Facades\App;
 
+/**
+ * App\Models\ScheduledPayment
+ *
+ * @property int $id
+ * @property int $enrollment_id
+ * @property int $value
+ * @property string $date
+ * @property int|null $status
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read Enrollment $enrollment
+ * @property-read mixed $computed_status
+ * @property-read mixed $date_for_humans
+ * @property-read string $display_status
+ * @property-read mixed $value_with_currency
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Invoice[] $invoices
+ * @property-read int|null $invoices_count
+ * @method static \Illuminate\Database\Eloquent\Builder|ScheduledPayment newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ScheduledPayment newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ScheduledPayment query()
+ * @method static \Illuminate\Database\Eloquent\Builder|ScheduledPayment whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ScheduledPayment whereDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ScheduledPayment whereEnrollmentId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ScheduledPayment whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ScheduledPayment whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ScheduledPayment whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ScheduledPayment whereValue($value)
+ * @mixin \Eloquent
+ */
 class ScheduledPayment extends Model
 {
     /*
