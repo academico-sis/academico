@@ -61,7 +61,7 @@ class PaymentCrudController extends CrudController
 
         CRUD::column('month');
 
-        if (config('app.currency_position' === 'before')) {
+        if (config('app.currency_position') === 'before') {
             $currency = array('prefix' => config('app.currency_symbol'));
         } else {
             $currency = array('suffix' => config('app.currency_symbol'));
@@ -78,11 +78,6 @@ class PaymentCrudController extends CrudController
             'label' => __('Value'),
             'type'  => 'number'], $currency));
 
-        CRUD::addColumn([
-            'name' => 'display_status',
-            'type' => 'attribute',
-            'label' => __('Status'),
-        ]);
         CRUD::addColumn([
             'name' => 'iban',
             'type' => 'attribute',

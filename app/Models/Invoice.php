@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -13,7 +14,11 @@ class Invoice extends Model
 
     protected $guarded = ['id'];
     protected static $logUnguarded = true;
-    protected $appends = ['total_price_with_currency'];
+    protected $appends = ['total_price_with_currency', 'formatted_date'];
+
+    protected $casts = [
+        'date' => 'date',
+    ];
 
     public function invoiceDetails()
     {
@@ -30,6 +35,11 @@ class Invoice extends Model
         return $this->hasMany(InvoiceDetail::class)->where('product_type', Tax::class);
     }
 
+    public function scheduledPayments()
+    {
+        return $this->belongsToMany(ScheduledPayment::class, 'enrollment_invoice', 'invoice_id', 'scheduled_payment_id');
+    }
+
     public function payments()
     {
         return $this->hasMany(Payment::class);
@@ -40,17 +50,9 @@ class Invoice extends Model
         return $this->payments->sum('value');
     }
 
-    /**
-     * Will be deleted in the future, since we decided that one invoice only covers one enrollment?
-     */
     public function enrollments()
     {
-        return $this->hasMany(Enrollment::class);
-    }
-
-    public function enrollment()
-    {
-        return $this->hasOne(Enrollment::class);
+        return $this->belongsToMany(Enrollment::class);
     }
 
     public function comments()
@@ -114,5 +116,10 @@ class Invoice extends Model
         }
 
         return 'FC' . $this->receipt_number;
+    }
+
+    public function getFormattedDateAttribute()
+    {
+        return Carbon::parse($this->date)->locale(app()->getLocale())->isoFormat('Do MMMM YYYY');
     }
 }

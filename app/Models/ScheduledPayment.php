@@ -2,27 +2,27 @@
 
 namespace App\Models;
 
-use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Enrollment;
 use Illuminate\Support\Facades\App;
 
-class Payment extends Model
+class ScheduledPayment extends Model
 {
-    use CrudTrait;
-
     /*
     |--------------------------------------------------------------------------
     | GLOBAL VARIABLES
     |--------------------------------------------------------------------------
     */
+
+    protected $table = 'scheduled_payments';
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
-    protected $appends = ['date_for_humans', 'value_with_currency', 'display_status'];
-    //protected $fillable = [];
+    // protected $fillable = [];
     // protected $hidden = [];
     // protected $dates = [];
+    protected $appends = ['computed_status'];
 
     /*
     |--------------------------------------------------------------------------
@@ -36,9 +36,14 @@ class Payment extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function invoice()
+    public function enrollment()
     {
-        return $this->belongsTo(Invoice::class);
+        return $this->belongsTo(Enrollment::class);
+    }
+
+    public function invoices()
+    {
+        return $this->belongsToMany(Invoice::class, 'enrollment_invoice', 'scheduled_payment_id', 'invoice_id');
     }
 
     /*
@@ -49,57 +54,13 @@ class Payment extends Model
 
     /*
     |--------------------------------------------------------------------------
-    | ACCESORS
+    | ACCESSORS
     |--------------------------------------------------------------------------
     */
 
     public function getValueAttribute($value)
     {
         return $value / 100;
-    }
-
-    public function getEnrollmentNameAttribute(): string
-    {
-        if ($this->invoice && $this->invoices->first()->enrollment)
-        {
-            return $this->invoices->first()->enrollment->student_name;
-        }
-
-        return '';
-    }
-
-    public function getIbanAttribute(): string
-    {
-        if ($this->invoice && $this->invoices->first()->enrollment)
-        {
-            return $this->invoices->first()->enrollment->student->iban ?? '';
-        }
-
-        return '';
-    }
-
-    public function getBicAttribute(): string
-    {
-        if ($this->invoice && $this->invoices->first()->enrollment)
-        {
-            return $this->invoices->first()->enrollment->student->bic ?? '';
-        }
-
-        return '';
-    }
-
-    function getDateForHumansAttribute()
-    {
-        if ($this->date)
-        {
-            return Carbon::parse($this->date, 'UTC')->locale(App::getLocale())->isoFormat('LL');
-        }
-        return Carbon::parse($this->created_at, 'UTC')->locale(App::getLocale())->isoFormat('LL');
-    }
-
-    public function getMonthAttribute()
-    {
-        return Carbon::parse($this->date)->locale(App::getLocale())->isoFormat('MMMM Y');
     }
 
     public function getValueWithCurrencyAttribute()
@@ -112,9 +73,30 @@ class Payment extends Model
         return $this->value . " " . config('app.currency_symbol');
     }
 
-    public function getDisplayStatusAttribute()
+    function getDateForHumansAttribute()
     {
-        switch ($this->status)
+        if ($this->date)
+        {
+            return Carbon::parse($this->date, 'UTC')->locale(App::getLocale())->isoFormat('LL');
+        }
+        return Carbon::parse($this->created_at, 'UTC')->locale(App::getLocale())->isoFormat('LL');
+    }
+
+    public function getComputedStatusAttribute()
+    {
+        // if there is a custom status, always take it
+        if ($this->status)
+        {
+            return $this->status;
+        }
+
+        // otherwise, check if the scheduled payment has invoices
+        return $this->invoices->count() > 0 ? 2 : 1;
+    }
+
+    public function getDisplayStatusAttribute() : string
+    {
+        switch ($this->computedStatus())
         {
             case (null):
             case (1):

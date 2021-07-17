@@ -25,9 +25,10 @@
             :availabletaxes="{{ json_encode($availableTaxes) }}"
             :availablepaymentmethods="{{ json_encode($availablePaymentMethods) }}"
             :accountingenabled="{{ json_encode(config('invoicing.accounting_enabled')) }}"
+            :allowemptypaymentmethods="{{ json_encode(config('invoicing.allow_empty_payment_methods')) }}"
+            :allowedblankfields="{{ json_encode(config('invoicing.allowed_blank_fields')) }}"
             currency="{{ config('app.currency_symbol') }}"
             currencyposition="{{ config('app.currency_position') }}"
-            :scheduledpayments="{{ json_encode(config('invoicing.allow_scheduled_payments')) }}"
         >
         </cart-component>
 

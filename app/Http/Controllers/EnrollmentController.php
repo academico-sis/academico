@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\EnrollmentUpdated;
+use App\Events\EnrollmentCourseUpdated;
 use App\Http\Requests\StoreEnrollmentRequest;
 use App\Models\Attendance;
 use App\Models\Book;
@@ -99,7 +99,7 @@ class EnrollmentController extends Controller
         // TODO delete grades and/or skills
 
         // update LMS
-        EnrollmentUpdated::dispatch($enrollment->student, $previousCourse, $course);
+        EnrollmentCourseUpdated::dispatch($enrollment->student, $previousCourse, $course);
 
         // display a confirmation message and redirect to enrollment details
         Alert::success(__('The enrollment has been updated'))->flash();
@@ -113,13 +113,6 @@ class EnrollmentController extends Controller
      */
     public function bill(Enrollment $enrollment)
     {
-        // if the enrollment has already been invoiced, continue with the same invoice
-        if ($enrollment->invoice) {
-            Alert::success(__('This enrollment has already been invoiced'))->flash();
-            return redirect()->back();
-        }
-
-        // otherwise create a new one.
         Log::info('User # '.backpack_user()->id.' is generating a invoice');
 
         // build an array with products to include
@@ -223,33 +216,28 @@ class EnrollmentController extends Controller
         $templateProcessor->setValue('end_date', $enrollment->course->formatted_end_date);
         $templateProcessor->setValue('volume', $enrollment->course->volume);
 
-        if (config('invoicing.invoicing_system') === 'sepa' && $enrollment->invoice && $enrollment->invoice->payments)
-        {
-            $table = new \PhpOffice\PhpWord\Element\Table([
-                'borderSize' => 8,
-                'borderColor' => 'black',
-                'cellMargin' => 80,
-                'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
-                'cellSpacing' => 50,
-                'width' => 100 * 50,
-            ]);
+        $table = new \PhpOffice\PhpWord\Element\Table([
+            'borderSize' => 8,
+            'borderColor' => 'black',
+            'cellMargin' => 80,
+            'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER,
+            'cellSpacing' => 50,
+            'width' => 100 * 50,
+        ]);
 
-            $firstRowStyle = array('bgColor' => 'd9d9d9');
+        $firstRowStyle = array('bgColor' => 'd9d9d9');
 
-            $table->addRow(500, $firstRowStyle);
-            $table->addCell(4000, $firstRowStyle)->addText(Str::upper(__('Due Date')));
-            $table->addCell(5000, $firstRowStyle)->addText(Str::upper(__('Total')));
+        $table->addRow(500, $firstRowStyle);
+        $table->addCell(4000, $firstRowStyle)->addText(Str::upper(__('Due Date')));
+        $table->addCell(5000, $firstRowStyle)->addText(Str::upper(__('Total')));
 
-            foreach ($enrollment->invoice->payments as $payment) {
-                $table->addRow(500);
-                $table->addCell(4000)->addText($payment->date_for_humans);
-                $table->addCell(5000)->addText($payment->value_with_currency);
-            }
-            $templateProcessor->setComplexBlock('payments', $table);
+        foreach ($enrollment->scheduledPayments as $payment) {
+            $table->addRow(500);
+            $table->addCell(4000)->addText($payment->date_for_humans);
+            $table->addCell(5000)->addText($payment->value_with_currency);
         }
-        else {
-            $templateProcessor->setValue('payments', '');
-        }
+        $templateProcessor->setComplexBlock('payments', $table);
+
         $path = $templateProcessor->save();
         return response()->download($path)->deleteFileAfterSend(true);
 

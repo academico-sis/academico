@@ -5,7 +5,6 @@
             <th>{{ $t("Payment") }}</th>
             <th>{{ $t("Date") }}</th>
             <th>{{ $t("Value") }}</th>
-            <th>{{ $t("Status") }}</th>
             <th></th>
         </tr>
         </thead>
@@ -45,16 +44,6 @@
                 <span v-if="currencyposition === 'before'">{{ currency }} </span>
                 {{ payment.value }}
                 <span v-if="currencyposition === 'after'"> {{ currency }}</span>
-            </td>
-
-            <td v-if="editable">
-                <select v-model="payment.status" class="form-control" name="status">
-                    <option value="1" :selected="payment.status === 1">{{ $t('Pending') }}</option>
-                    <option value="2" :selected="payment.status === 2">{{ $t('Paid') }}</option>
-                </select>
-            </td>
-            <td v-else>
-                {{ payment.display_status }}
             </td>
 
             <td>

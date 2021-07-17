@@ -284,7 +284,7 @@ class CourseCrudController extends CrudController
 
     protected function setupCreateOperation()
     {
-        if (config('app.currency_position' === 'before')) {
+        if (config('app.currency_position') === 'before') {
             $currency = array('prefix' => config('app.currency_symbol'));
         } else {
             $currency = array('suffix' => config('app.currency_symbol'));
@@ -598,7 +598,7 @@ class CourseCrudController extends CrudController
 
     protected function setupUpdateOperation()
     {
-        if (config('app.currency_position' === 'before')) {
+        if (config('app.currency_position') === 'before') {
             $currency = array('prefix' => config('app.currency_symbol'));
         } else {
             $currency = array('suffix' => config('app.currency_symbol'));

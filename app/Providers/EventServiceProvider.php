@@ -6,7 +6,7 @@ use App\Events\CourseCreated;
 use App\Events\CourseUpdated;
 use App\Events\EnrollmentCreated;
 use App\Events\EnrollmentDeleted;
-use App\Events\EnrollmentUpdated;
+use App\Events\EnrollmentCourseUpdated;
 use App\Events\LeadStatusUpdatedEvent;
 use App\Events\MonthlyReportEvent;
 use App\Events\UserCreated;
@@ -80,7 +80,7 @@ class EventServiceProvider extends ServiceProvider
             SyncEnrollmentToLMS::class,
         ],
 
-        EnrollmentUpdated::class => [
+        EnrollmentCourseUpdated::class => [
             UpdateEnrollmentInLMS::class
         ],
         ExternalCoursesReportEvent::class => [

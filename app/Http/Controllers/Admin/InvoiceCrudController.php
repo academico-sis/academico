@@ -73,6 +73,8 @@ class InvoiceCrudController extends CrudController
     {
         CRUD::setValidation(InvoiceRequest::class);
 
+        CRUD::field('date');
+
         if (config('invoicing.invoice_numbering') === 'manual')
         {
             CRUD::field('receipt_number');

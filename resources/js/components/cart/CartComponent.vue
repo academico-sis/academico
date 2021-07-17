@@ -143,8 +143,7 @@
             <div class="col-md-12">
                 <total-price-component :value="shoppingCartTotal()" :currency="currency" :currencyposition="currencyposition"></total-price-component>
 
-                <cart-scheduled-payments-component v-if="this.scheduledpayments" :payments="payments" :currency="currency" :currencyposition="currencyposition"></cart-scheduled-payments-component>
-                <cart-payment-component v-else :availablepaymentmethods="availablepaymentmethods" :currency="currency" :currencyposition="currencyposition" :totalPrice="shoppingCartTotal()"></cart-payment-component>
+                <cart-payment-component :availablepaymentmethods="availablepaymentmethods" :currency="currency" :currencyposition="currencyposition" :totalPrice="shoppingCartTotal()"></cart-payment-component>
             </div>
 
             <div class="col-md-12">
@@ -171,7 +170,7 @@
                         </div>
 
                         <div class="form-group">
-                            <button class="btn btn-lg btn-success" :disabled="loading || payments.length === 0 || ! paidTotal > 0" @click="checkTotal()">
+                            <button class="btn btn-lg btn-success" :disabled="!readyForInvoice" @click="checkTotal()">
                                 <span v-if="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                 <i class="la la-check"></i
                                 >{{ $t("Checkout") }}
@@ -238,7 +237,8 @@ export default {
         "productslist",
         "clients",
         "invoicetypes",
-        "scheduledpayments",
+        "allowemptypaymentmethods",
+        "allowedblankfields",
     ],
 
     data() {
@@ -270,6 +270,14 @@ export default {
                 });
             }
             return total;
+        },
+
+        readyForInvoice() {
+            if (this.allowemptypaymentmethods) {
+                return ! (this.loading || this.payments.length === 0 || ! this.paidTotal > 0);
+            } else {
+                return ! ( this.loading || this.payments.length === 0 || ! this.paidTotal > 0 || this.payments.every(payment => payment.method === undefined));
+            }
         },
 
     },
@@ -341,10 +349,10 @@ export default {
         checkForm: function (e) {
             if (
                 this.clientname &&
-                this.clientphone &&
-                this.clientaddress &&
-                this.clientidnumber &&
-                this.clientemail
+                (this.clientphone || this.allowedblankfields.includes('phone')) &&
+                (this.clientaddress || this.allowedblankfields.includes('address')) &&
+                (this.clientidnumber || this.allowedblankfields.includes('idnumber')) &&
+                (this.clientemail || this.allowedblankfields.includes('email'))
             ) {
                 return true;
             }

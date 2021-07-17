@@ -27,10 +27,6 @@
                     @endif
 
                     <p>@lang('Status') : {{ $enrollment->status }}</p>
-
-                    @if($enrollment->invoice)
-                        <p>@lang('Invoice') : {{ $enrollment->invoice->receipt_number }}</p>
-                    @endif
                 </div>
             </div>
         </div>

@@ -12,6 +12,7 @@ use App\Models\Fee;
 use App\Models\InvoiceType;
 use App\Models\Payment;
 use App\Models\Invoice;
+use App\Models\ScheduledPayment;
 use Illuminate\Support\Facades\App;
 use LaravelDaily\Invoices\Invoice as InvoiceAlias;
 use App\Models\InvoiceDetail;
@@ -69,17 +70,8 @@ class InvoiceController extends Controller
             'client_phone' => $request->client_phone,
             'total_price' => $request->total_price,
             'invoice_type_id' => $request->invoicetype,
+            'date' => $request->has('date') ? Carbon::parse($request->date) : Carbon::now(),
         ]);
-
-        if ($request->enrollment_id)
-        {
-            $enrollment = Enrollment::find($request->enrollment_id);
-
-            if ($enrollment) {
-                $enrollment->invoice()->associate($invoice);
-                $enrollment->save();
-            }
-        }
 
         $invoice->setNumber(); // TODO extract this to model events.
 
@@ -96,9 +88,23 @@ class InvoiceController extends Controller
         foreach ($request->products as $f => $product) {
             $productType = match ($product['type']) {
                 'enrollment' => Enrollment::class,
+                'scheduledPayment' => Enrollment::class,
                 'fee' => Fee::class,
                 'book' => Book::class,
             };
+
+            if ($product['type'] === 'enrollment')
+            {
+                Enrollment::find($product['id'])->invoices()->attach($invoice, ['scheduled_payment_id' => $request->scheduled_payment_id ?? null]);
+            }
+
+            if ($product['type'] === 'scheduledPayment')
+            {
+                $scheduledPayment = ScheduledPayment::find($product['id']);
+                $scheduledPayment->enrollment->invoices()->attach($invoice, ['scheduled_payment_id' => $product['id']]);
+                // Reset status to default value
+                $scheduledPayment->update(['status' => null]);
+            }
 
             InvoiceDetail::create([
                 'invoice_id' => $invoice->id,
@@ -173,7 +179,9 @@ class InvoiceController extends Controller
             // if the value of payments matches the total due price,
             // mark the invoice and associated enrollments as paid.
             foreach ($invoice->enrollments as $enrollment) {
-                if ($invoice->total_price == $invoice->paidTotal() && $invoice->payments->where('status', '!==', 2)->count() === 0) {
+            if ($enrollment->total_price == $invoice->paidTotal()) {
+                $enrollment->markAsPaid();
+            } elseif ($enrollment->scheduledPayments->where('computed_status', '!==', 2)->count() === 0) {
                     $enrollment->markAsPaid();
                 }
             }
@@ -213,7 +221,7 @@ class InvoiceController extends Controller
             ->series($invoice->invoice_series)
             ->sequence($invoice->invoice_number)
             ->dateFormat('d/m/Y')
-            ->date($invoice->created_at)
+            ->date($invoice->date)
             ->logo(storage_path('logo2.png'))
             ->currencySymbol(config('app.currency_symbol'))
             ->currencyCode(config('app.currency_code'))
@@ -268,10 +276,5 @@ class InvoiceController extends Controller
         }
 
         return $invoice->fresh()->payments;
-    }
-
-    public function show(Invoice $invoice)
-    {
-        return view('invoices.details', compact('invoice'));
     }
 }

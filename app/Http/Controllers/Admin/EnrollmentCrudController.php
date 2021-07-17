@@ -14,8 +14,10 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Support\Facades\Log;
+use App\Models\Student;
 
 /**
  * Class EnrollmentCrudController
@@ -26,6 +28,7 @@ class EnrollmentCrudController extends CrudController
 {
     use ListOperation;
     use ShowOperation;
+    use UpdateOperation { update as traitUpdate; }
     use DeleteOperation;
 
     public function __construct()
@@ -190,7 +193,7 @@ class EnrollmentCrudController extends CrudController
         $enrollment = Enrollment::findOrFail($enrollment);
 
         // load the products from the invoice tables
-        $products = $enrollment->invoice()
+        $products = $enrollment->invoices()
             ->with('invoiceDetails')
             ->get();
 
@@ -201,12 +204,98 @@ class EnrollmentCrudController extends CrudController
 
         $availablePaymentMethods = Paymentmethod::all();
 
-        $enrollment->load('invoice')->load('invoice.payments');
+        //$enrollment->load('invoices')->load('invoices.payments');
 
-        $writeaccess =  $enrollment->status_id !== 2 && backpack_user()->can('enrollments.edit') && ! $enrollment->has('invoice');
+        $writeaccess =  $enrollment->status_id !== 2 && backpack_user()->can('enrollments.edit');
 
         // then load the page
         return view('enrollments.show', compact('enrollment', 'products', 'comments', 'scholarships', 'availablePaymentMethods', 'writeaccess'));
+    }
+
+    protected function setupUpdateOperation()
+    {
+        CRUD::addField([
+            'label'     => __("Course"),
+            'type'      => 'select2',
+            'name'      => 'course_id', // the db column for the foreign key
+
+            'entity'    => 'course', // the method that defines the relationship in your Model
+            'model'     => "App\Models\Course", // foreign key model
+            'attribute' => 'name', // foreign key attribute that is shown to user
+
+            'options'   => (function ($query) {
+                return $query->orderBy('level_id', 'ASC')->where('period_id', $this->crud->getCurrentEntry()->course->period_id)->get();
+            }),
+        ]);
+
+        if (config('app.currency_position') === 'before') {
+            $currency = array('prefix' => config('app.currency_symbol'));
+        } else {
+            $currency = array('suffix' => config('app.currency_symbol'));
+        }
+
+        CRUD::addField(array_merge([
+            'name' => 'price', // The db column name
+            'label' => __('Price'), // Table column heading
+            'type' => 'number'
+        ], $currency));
+
+        CRUD::addField([
+            'name'  => 'scheduledPayments',
+            'label' => __('Scheduled Payments'),
+            'type'  => 'repeatable',
+            'fields' => [
+                [
+                    'name'    => 'date',
+                    'type'    => 'date',
+                    'label'   => __('Date'),
+                    'wrapper' => ['class' => 'form-group col-md-4'],
+                ],
+                array_merge(
+                [
+                    'name'    => 'value',
+                    'type'    => 'number',
+                    'attributes' => ["step" => 0.01, "min" => 0],
+                    'label'   => __('Value'),
+                    'wrapper' => ['class' => 'form-group col-md-4'],
+                ], $currency),
+                [
+                    'name'    => 'status',
+                    'type'    => 'radio',
+                    'label'   => __('Status'),
+                    'wrapper' => ['class' => 'form-group col-md-4'],
+                    'options'     => [
+                        1 => __("Pending"),
+                        2 => __("Paid"),
+                    ],
+                    'inline'      => true,
+                ],
+            ],
+        ]);
+
+        CRUD::addField([
+            'label'     => __("Status"),
+            'type'      => 'select',
+            'name'      => 'status_id', // the db column for the foreign key
+
+            // optional
+            // 'entity' should point to the method that defines the relationship in your Model
+            // defining entity will make Backpack guess 'model' and 'attribute'
+            'entity'    => 'enrollmentStatus',
+
+            // optional - manually specify the related model and attribute
+            'model'     => "App\Models\EnrollmentStatusType", // related model
+            'attribute' => 'name', // foreign key attribute that is shown to user
+        ]);
+    }
+
+    public function update()
+    {
+        $enrollment = $this->crud->getCurrentEntry();
+        $newScheduledPayments = collect(json_decode($this->crud->getRequest()->input('scheduledPayments')));
+        $enrollment->saveScheduledPayments($newScheduledPayments);
+        $response = $this->traitUpdate();
+        return $response;
     }
 
     public function destroy($enrollment)

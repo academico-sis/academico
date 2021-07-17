@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Events\EnrollmentUpdated;
+use App\Events\EnrollmentCourseUpdated;
 use App\Interfaces\LMSInterface;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -14,7 +14,7 @@ class UpdateEnrollmentInLMS implements ShouldQueue
     {
     }
 
-    public function handle(EnrollmentUpdated $event) : void
+    public function handle(EnrollmentCourseUpdated $event) : void
     {
         // remove student from initial course
         if ($event->student->user->lms_id) {
