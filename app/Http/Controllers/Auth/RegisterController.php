@@ -25,6 +25,20 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
         return response('OK', 204);
     }
 
+    protected function generateUsername($fullName) : string
+    {
+        $username_parts = array_filter(explode(" ", strtolower($fullName)));
+        $username_parts = array_slice($username_parts, -2);
+
+        $part1 = (!empty($username_parts[0]))?substr($username_parts[0], 0,3):"";
+        $part2 = (!empty($username_parts[1]))?substr($username_parts[1], 0,8):"";
+        $part3 = rand(999, 9999);
+
+        $username = $part1. $part2. $part3; //str_shuffle to randomly shuffle all characters
+
+        return $username;
+    }
+
     /**
      * Get a validator for an incoming registration request.
      *
@@ -41,7 +55,8 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
         return Validator::make($data, [
             'firstname'                            => 'required|max:255',
             'lastname'                             => 'required|max:255',
-            backpack_authentication_column()       => 'required|'.$email_validation.'max:255|unique:'.$users_table,
+            'username'                             => 'required|max:255|unique:'.$users_table,
+            'email'                                => 'required|email',
             'password'                             => 'required|min:6',
             'rules'                                => 'required',
             'idnumber_type'                        => 'required',
@@ -63,11 +78,20 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
     {
         Log::info('Starting student registration process');
 
+        if (User::where('email', $data['email'])->count() === 0)
+        {
+            $username = $data['email'];
+        }
+        else {
+            $username = $this->generateUsername($data['firstname'] . ' ' . $data['lastname']);
+        }
+
         // create the user
         $user = User::create([
             'firstname'                            => $data['firstname'],
             'lastname'                             => $data['lastname'],
-            backpack_authentication_column()       => $data[backpack_authentication_column()],
+            'email'                                => $data['email'],
+            'username'                             => $username,
             'password'                             => bcrypt($data['password']),
         ]);
 
@@ -86,7 +110,7 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
 
         Log::info('New student created with ID '.$student->id);
 
-        return $user;
+        return $student;
     }
 
     /**

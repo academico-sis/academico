@@ -15,6 +15,7 @@
     "Add discount": "Ajouter une réduction",
     "Add tax": "Ajouter une taxe",
     "Tax: ": "Taxe :",
+    "Taxes": "Taxes",
     "Add Grade Type to Course": "Ajouter un critère",
     "Add products": "Ajouter un produit",
     "Add scholarship": "Ajouter une bourse",
@@ -113,6 +114,7 @@
     "Enroll": "Inscrire",
     "Enroll new student": "Inscrire un étudiant",
     "enrollment": "inscription",
+    "Enrollment for": "Inscription pour",
     "Enrollment date": "Date d'inscription",
     "Enrollment Details": "Détails de l'inscription",
     "Enrollment ID": "Numéro d'inscription",
@@ -155,6 +157,7 @@
     "for": "pour",
     "Friday": "Vendredi",
     "Go Home": "Page d'accueil",
+    "Home": "Page d'accueil",
     "grade type": "Type de note",
     "Grade Type Categories": "Catégories de critères",
     "Grade Types": "Critères",
@@ -253,6 +256,7 @@
     "Product": "Produit",
     "Products": "Produits",
     "Profession": "Profession",
+    "Professions": "Professions",
     "Profile Picture": "Photo de profil",
     "Project": "Projet",
     "Refresh status": "Vérifier à nouveau",
@@ -446,7 +450,8 @@
     "Contact": "Contact",
     "Invoice Type": "Type de facture",
     "New invoice": "Nouvelle facture",
-    "Enrollment sheet": "Fiche d'inscription (.docx)",
+    "Enrollment sheet": "Fiche d'inscription",
     "Due Date": "Dû au",
-    "Export": "Exporter"
+    "Export": "Exporter",
+    "Quantity": "Quantité"
 }

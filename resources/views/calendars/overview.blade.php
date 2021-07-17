@@ -55,6 +55,12 @@ document.addEventListener('DOMContentLoaded', () => { // page is now ready...
         nowIndicator: true,
         hiddenDays: [ 0 ], // TODO make this customizable
         firstDay: 1,
+        slotLabelFormat: {
+            hour: '2-digit',
+            minute: '2-digit',
+            meridiem: 'short',
+            hour12: false,
+        },
         slotWidth: 20,
         eventRender: function (info) {
             tippy(info.el, {

@@ -3,6 +3,9 @@
 namespace App\Services;
 
 use App\Interfaces\InvoicingInterface;
+use App\Models\Book;
+use App\Models\Enrollment;
+use App\Models\Fee;
 use App\Models\Invoice;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
@@ -32,15 +35,44 @@ class Ecuasolutions implements InvoicingInterface
         }
 
         foreach ($invoice->invoiceDetails as $p => $product) {
-            $ivkardex[$p] = [
-                'codinventario' => $product->product_code,
-                'codbodega' => 'MAT',
-                'cantidad' => 1,
-                'descuento' => $product->discount,
-                'iva' => 0,
-                'preciototal' => $product->price,
-                'valoriva' => 0,
-            ];
+            if ($product->product instanceof Enrollment)
+            {
+                $discounts = $invoice->discounts ? $invoice->discounts->sum('price') : 0;
+
+                $ivkardex[$p] = [
+                    'codinventario' => $product->product_code,
+                    'codbodega' => 'MAT',
+                    'cantidad' => 1,
+                    'descuento' => 0,
+                    'iva' => 0,
+                    'preciototal' => $product->price + ($product->price * ($discounts / 100)),
+                    'valoriva' => 0,
+                ];
+            }
+            elseif ($product->product instanceof Fee)
+            {
+                $ivkardex[$p] = [
+                    'codinventario' => $product->product_code,
+                    'codbodega' => 'MAT',
+                    'cantidad' => 1,
+                    'descuento' => 0,
+                    'iva' => 0,
+                    'preciototal' => $product->price,
+                    'valoriva' => 0,
+                ];
+            }
+            elseif ($product->product instanceof Book)
+            {
+                $ivkardex[$p] = [
+                    'codinventario' => $product->product_code,
+                    'codbodega' => 'MAT',
+                    'cantidad' => 1,
+                    'descuento' => 0,
+                    'iva' => 0,
+                    'preciototal' => $product->price,
+                    'valoriva' => 0,
+                ];
+            }
         }
 
         $body = [
@@ -77,6 +109,8 @@ class Ecuasolutions implements InvoicingInterface
         if ($response->getBody()) {
             $code = json_decode(preg_replace('/[\\x00-\\x1F\\x80-\\xFF]/', '', $response->getBody()), true);
         }
+
+        Log::info($response->getBody());
 
         return isset($code['mensaje']) ? $code['mensaje'] : null;
     }

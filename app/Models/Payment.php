@@ -7,6 +7,42 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
 
+/**
+ * App\Models\Payment
+ *
+ * @property int $id
+ * @property int $responsable_id
+ * @property int $invoice_id
+ * @property string $payment_method
+ * @property string|null $date
+ * @property string $value
+ * @property int|null $status
+ * @property string|null $comment
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read string $bic
+ * @property-read mixed $date_for_humans
+ * @property-read mixed $display_status
+ * @property-read string $enrollment_name
+ * @property-read string $iban
+ * @property-read mixed $month
+ * @property-read mixed $value_with_currency
+ * @property-read \App\Models\Invoice $invoice
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment whereComment($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment whereDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment whereInvoiceId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment wherePaymentMethod($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment whereResponsableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment whereValue($value)
+ * @mixin \Eloquent
+ */
 class Payment extends Model
 {
     use CrudTrait;
@@ -60,9 +96,9 @@ class Payment extends Model
 
     public function getEnrollmentNameAttribute(): string
     {
-        if ($this->invoice && $this->invoice->enrollment)
+        if ($this->invoice->enrollments()->exists())
         {
-            return $this->invoice->enrollment->student_name;
+            return $this->invoice->enrollments->first()->student_name;
         }
 
         return '';
@@ -70,9 +106,9 @@ class Payment extends Model
 
     public function getIbanAttribute(): string
     {
-        if ($this->invoice && $this->invoice->enrollment)
+        if ($this->invoice->enrollments()->exists())
         {
-            return $this->invoice->enrollment->student->iban ?? '';
+            return $this->invoices->enrollments->first()->student->iban ?? '';
         }
 
         return '';
@@ -80,9 +116,9 @@ class Payment extends Model
 
     public function getBicAttribute(): string
     {
-        if ($this->invoice && $this->invoice->enrollment)
+        if ($this->invoice->enrollments()->exists())
         {
-            return $this->invoice->enrollment->student->bic ?? '';
+            return $this->invoices->enrollments->first()->student->bic ?? '';
         }
 
         return '';

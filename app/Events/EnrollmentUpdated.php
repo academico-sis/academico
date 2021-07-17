@@ -2,18 +2,18 @@
 
 namespace App\Events;
 
-use App\Models\Course;
-use App\Models\Student;
+use App\Models\Enrollment;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 class EnrollmentUpdated
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable;
+    use InteractsWithSockets;
+    use SerializesModels;
 
-    // the ids must refer to lms_id (not the local ones)
-    public function __construct(public Student $student, public Course $previousCourse, public Course $newCourse)
+    public function __construct(public Enrollment $enrollment)
     {
         //
     }

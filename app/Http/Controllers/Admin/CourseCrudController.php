@@ -90,6 +90,7 @@ class CourseCrudController extends CrudController
                 'entity' => 'rhythm', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
                 'model' => Rhythm::class, // foreign key model
+                'searchLogic' => false,
             ],
 
             [
@@ -100,6 +101,7 @@ class CourseCrudController extends CrudController
                 'entity' => 'level', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
                 'model' => Level::class, // foreign key model
+                'searchLogic' => false,
             ],
 
             [
@@ -111,14 +113,16 @@ class CourseCrudController extends CrudController
                 'name' => 'volume', // The db column name
                 'label' => __('Presential volume'), // Table column heading
                 'suffix' => 'h',
-                'type' => 'number'
+                'type' => 'number',
+                'searchLogic' => false,
             ],
 
             [
                 'name' => 'remote_volume', // The db column name
                 'label' => __('Remote volume'), // Table column heading
                 'suffix' => 'h',
-                'type' => 'number'
+                'type' => 'number',
+                'searchLogic' => false,
             ],
 
             [
@@ -129,6 +133,7 @@ class CourseCrudController extends CrudController
                 'entity' => 'teacher', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
                 'model' => Teacher::class, // foreign key model
+                'searchLogic' => false,
             ],
 
             [
@@ -139,6 +144,7 @@ class CourseCrudController extends CrudController
                 'entity' => 'room', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
                 'model' => Room::class, // foreign key model
+                'searchLogic' => false,
             ],
 
             // COURSE SCHEDULED TIMES
@@ -148,6 +154,7 @@ class CourseCrudController extends CrudController
                 'type' => 'model_function',
                 'function_name' => 'getCourseTimesAttribute', // the method in your Model
                 'limit' => 150, // Limit the number of characters shown
+                'searchLogic' => false,
             ],
 
             // ENROLLMENTS COUNT
@@ -157,6 +164,7 @@ class CourseCrudController extends CrudController
                 'type' => 'model_function',
                 'function_name' => 'getCourseEnrollmentsCountAttribute', // the method in your Model
                 // 'limit' => 100, // Limit the number of characters shown
+                'searchLogic' => false,
             ],
 
             [
@@ -164,6 +172,7 @@ class CourseCrudController extends CrudController
                 'label' => __('Start Date'), // Table column heading
                 'type' => 'date',
                 // 'format' => 'l j F Y', // use something else than the base.default_date_format config value
+                'searchLogic' => false,
             ],
 
             [
@@ -171,6 +180,7 @@ class CourseCrudController extends CrudController
                 'label' => __('End Date'), // Table column heading
                 'type' => 'date',
                 // 'format' => 'l j F Y', // use something else than the base.default_date_format config value
+                'searchLogic' => false,
             ],
 
         ]);
@@ -274,7 +284,7 @@ class CourseCrudController extends CrudController
 
     protected function setupCreateOperation()
     {
-        if (config('app.currency_position' === 'before')) {
+        if (config('app.currency_position') === 'before') {
             $currency = array('prefix' => config('app.currency_symbol'));
         } else {
             $currency = array('suffix' => config('app.currency_symbol'));
@@ -588,7 +598,7 @@ class CourseCrudController extends CrudController
 
     protected function setupUpdateOperation()
     {
-        if (config('app.currency_position' === 'before')) {
+        if (config('app.currency_position') === 'before') {
             $currency = array('prefix' => config('app.currency_symbol'));
         } else {
             $currency = array('suffix' => config('app.currency_symbol'));

@@ -51,7 +51,7 @@ class WatchAttendance implements ShouldQueue
             }
 
             Mail::to($student->user->email)
-            ->locale($student->locale)
+            ->locale($student->user->locale)
             ->cc($otherRecipients)
             ->queue(new AbsenceNotification($this->attendance->event, $student->user));
         }

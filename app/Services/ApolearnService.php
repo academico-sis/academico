@@ -32,7 +32,7 @@ class ApolearnService implements LMSInterface
               'password' => config('lms.apolearn.password'),
         ]);
 
-        return $response['result'];
+        return $response['result'] ?? "";
     }
 
     public function createUser(User $user, ?string $password = null) : void

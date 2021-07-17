@@ -12,6 +12,7 @@ use App\Models\Fee;
 use App\Models\InvoiceType;
 use App\Models\Payment;
 use App\Models\Invoice;
+use App\Models\ScheduledPayment;
 use Illuminate\Support\Facades\App;
 use LaravelDaily\Invoices\Invoice as InvoiceAlias;
 use App\Models\InvoiceDetail;
@@ -69,19 +70,10 @@ class InvoiceController extends Controller
             'client_phone' => $request->client_phone,
             'total_price' => $request->total_price,
             'invoice_type_id' => $request->invoicetype,
+            'date' => $request->has('date') ? Carbon::parse($request->date) : Carbon::now(),
         ]);
 
-        if ($request->enrollment_id)
-        {
-            $enrollment = Enrollment::find($request->enrollment_id);
-
-            if ($enrollment) {
-                $enrollment->invoice()->associate($invoice);
-                $enrollment->save();
-            }
-        }
-
-        $invoice->setNumber();
+        $invoice->setNumber(); // TODO extract this to model events.
 
         if (isset($enrollment) && isset($request->comment)) {
             Comment::create([
@@ -96,9 +88,23 @@ class InvoiceController extends Controller
         foreach ($request->products as $f => $product) {
             $productType = match ($product['type']) {
                 'enrollment' => Enrollment::class,
+                'scheduledPayment' => Enrollment::class,
                 'fee' => Fee::class,
                 'book' => Book::class,
             };
+
+            if ($product['type'] === 'enrollment')
+            {
+                Enrollment::find($product['id'])->invoices()->attach($invoice, ['scheduled_payment_id' => $request->scheduled_payment_id ?? null]);
+            }
+
+            if ($product['type'] === 'scheduledPayment')
+            {
+                $scheduledPayment = ScheduledPayment::find($product['id']);
+                $scheduledPayment->enrollment->invoices()->attach($invoice, ['scheduled_payment_id' => $product['id']]);
+                // Reset status to default value
+                $scheduledPayment->update(['status' => null]);
+            }
 
             InvoiceDetail::create([
                 'invoice_id' => $invoice->id,
@@ -107,7 +113,8 @@ class InvoiceController extends Controller
                 'product_id' => $product['id'],
                 'product_type' => $productType,
                 'price' => $product['price'],
-                'tax_rate' => collect($product['taxes'] ?? [])->sum('value'),
+                'quantity' => $product['quantity'] ?? 1,
+                //'tax_rate' => collect($product['taxes'] ?? [])->sum('value'),
             ]);
 
             if (isset ($product['discounts'])) {
@@ -117,7 +124,7 @@ class InvoiceController extends Controller
                         'product_name' => $discount['name'],
                         'product_id' => $discount['id'],
                         'product_type' => Discount::class,
-                        'price' => -$discount['value'],
+                        'price' => -$discount['value'] * ($product['quantity'] ?? 1),
                     ]);
                 }
             }
@@ -129,7 +136,7 @@ class InvoiceController extends Controller
                         'product_name' => $tax['name'],
                         'product_id' => $tax['id'],
                         'product_type' => Tax::class,
-                        'price' => $tax['value'],
+                        'price' => $product['price'] * ($tax['value'] / 100) * ($product['quantity'] ?? 1),
                     ]);
                 }
             }
@@ -150,23 +157,39 @@ class InvoiceController extends Controller
         if ($request->sendinvoice == true && config('invoicing.invoicing_system')) {
             try {
                 $invoiceNumber = $this->invoicingService->saveInvoice($invoice);
-                if ($invoiceNumber) {
+                Log::info($invoiceNumber);
+                if ($invoiceNumber !== null) {
                     $invoice->receipt_number = $invoiceNumber;
                     $invoice->save();
+                    $success = true;
+                } else {
+                    Invoice::where('id', $invoice->id)->delete();
+                    abort(500);
                 }
             } catch (Exception $exception) {
                 Log::error('Data could not be sent to accounting');
                 Log::error($exception);
             }
+        } else {
+            $success = true;
         }
 
-        // if the value of payments matches the total due price,
-        // mark the invoice and associated enrollments as paid.
-        foreach ($invoice->enrollments as $enrollment) {
-            if ($invoice->total_price == $invoice->paidTotal() && $invoice->payments->where('status', '!==', 2)->count() === 0) {
+        if (isset($success))
+        {
+            // if the value of payments matches the total due price,
+            // mark the invoice and associated enrollments as paid.
+            foreach ($invoice->enrollments as $enrollment) {
+            if ($enrollment->total_price == $invoice->paidTotal()) {
                 $enrollment->markAsPaid();
+            } elseif ($enrollment->scheduledPayments->where('computed_status', '!==', 2)->count() === 0) {
+                    $enrollment->markAsPaid();
+                }
             }
+        } else {
+            Invoice::where('id', $invoice->id)->delete();
+            abort(500);
         }
+
     }
 
     public function edit(Invoice $invoice)
@@ -176,6 +199,10 @@ class InvoiceController extends Controller
 
     public function download(Invoice $invoice)
     {
+
+        App::setLocale(config('app.locale'));
+
+
         $customer = new Buyer([
             'name'          => $invoice->client_name,
             'custom_fields' => [
@@ -188,20 +215,25 @@ class InvoiceController extends Controller
 
         $notes = $invoice->invoiceType->notes;
 
+        $currencyFormat = config('app.currency_position') === 'before' ? '{SYMBOL}{VALUE}' : '{VALUE}{SYMBOL}';
         $generatedInvoice = InvoiceAlias::make()
             ->buyer($customer)
             ->series($invoice->invoice_series)
-            ->sequence($invoice->invoice_number)
+            ->sequence($invoice->invoice_number ?? $invoice->id)
             ->dateFormat('d/m/Y')
+            ->date($invoice->date)
             ->logo(storage_path('logo2.png'))
-            ->notes($notes);
+            ->currencySymbol(config('app.currency_symbol'))
+            ->currencyCode(config('app.currency_code'))
+            ->currencyFormat($currencyFormat)
+            ->notes($notes ?? "");
 
         //$taxIsGlobal = $invoice->products->pluck('tax_rate')->unique()->count() === 1;
         //$taxRate = $invoice->taxes->pluck('tax_rate')->unique()->first();
 
         foreach ($invoice->invoiceDetails as $product)
         {
-            $item = (new InvoiceItem())->title($product->product_name)->pricePerUnit($product->price);
+            $item = (new InvoiceItem())->title($product->product_name)->pricePerUnit($product->price)->quantity($product->quantity);
 
             /*if (!$taxIsGlobal)
             {
@@ -216,22 +248,9 @@ class InvoiceController extends Controller
             $generatedInvoice->taxRate($taxRate);
         }*/
 
-        $generatedInvoice->footer = Config::firstWhere('name', 'invoice_footer')->value;
+        $generatedInvoice->footer = Config::firstWhere('name', 'invoice_footer')->value ?? "";
 
         return $generatedInvoice->stream();
-    }
-    /**
-     * Update the specified invoice (with the invoice number).
-     */
-    public function saveReceiptNumber(Invoice $invoice, Request $request)
-    {
-        $request->validate(['number' => 'string|required']);
-
-        $invoice->receipt_number = $request->input('number');
-
-        $invoice->save();
-
-        return $invoice->fresh();
     }
 
     public function savePayments(Request $request, Invoice $invoice)
@@ -257,10 +276,5 @@ class InvoiceController extends Controller
         }
 
         return $invoice->fresh()->payments;
-    }
-
-    public function show(Invoice $invoice)
-    {
-        return view('invoices.details', compact('invoice'));
     }
 }

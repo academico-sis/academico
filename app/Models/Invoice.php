@@ -3,20 +3,82 @@
 namespace App\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
-use function Symfony\Component\Translation\t;
 
+/**
+ * App\Models\Invoice
+ *
+ * @property int $id
+ * @property int|null $invoice_number
+ * @property int|null $invoice_type_id
+ * @property string|null $client_name
+ * @property string|null $client_idnumber
+ * @property string|null $client_address
+ * @property string|null $client_email
+ * @property string|null $client_phone
+ * @property string|null $total_price
+ * @property int $company_id
+ * @property string|null $receipt_number
+ * @property \Illuminate\Support\Carbon|null $date
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
+ * @property-read int|null $comments_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Enrollment[] $enrollments
+ * @property-read int|null $enrollments_count
+ * @property-read mixed $formatted_date
+ * @property-read mixed $formatted_number
+ * @property-read mixed $invoice_reference
+ * @property-read string $invoice_series
+ * @property-read mixed $total_price_with_currency
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\InvoiceDetail[] $invoiceDetails
+ * @property-read int|null $invoice_details_count
+ * @property-read \App\Models\InvoiceType|null $invoiceType
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Payment[] $payments
+ * @property-read int|null $payments_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\InvoiceDetail[] $products
+ * @property-read int|null $products_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ScheduledPayment[] $scheduledPayments
+ * @property-read int|null $scheduled_payments_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\InvoiceDetail[] $taxes
+ * @property-read int|null $taxes_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereClientAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereClientEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereClientIdnumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereClientName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereClientPhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereCompanyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereInvoiceNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereInvoiceTypeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereReceiptNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereTotalPrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class Invoice extends Model
 {
-    use SoftDeletes;
     use CrudTrait;
     use LogsActivity;
 
     protected $guarded = ['id'];
     protected static $logUnguarded = true;
-    protected $appends = ['total_price_with_currency'];
+    protected $appends = ['total_price_with_currency', 'formatted_date'];
+
+    protected $casts = [
+        'date' => 'date',
+    ];
 
     public function invoiceDetails()
     {
@@ -33,6 +95,11 @@ class Invoice extends Model
         return $this->hasMany(InvoiceDetail::class)->where('product_type', Tax::class);
     }
 
+    public function scheduledPayments()
+    {
+        return $this->belongsToMany(ScheduledPayment::class, 'enrollment_invoice', 'invoice_id', 'scheduled_payment_id');
+    }
+
     public function payments()
     {
         return $this->hasMany(Payment::class);
@@ -43,17 +110,9 @@ class Invoice extends Model
         return $this->payments->sum('value');
     }
 
-    /**
-     * Will be deleted in the future, since we decided that one invoice only covers one enrollment?
-     */
     public function enrollments()
     {
-        return $this->hasMany(Enrollment::class);
-    }
-
-    public function enrollment()
-    {
-        return $this->hasOne(Enrollment::class);
+        return $this->belongsToMany(Enrollment::class);
     }
 
     public function comments()
@@ -74,8 +133,13 @@ class Invoice extends Model
         $this->update(['invoice_number' => $count + 1]);
     }
 
-    public function getInvoiceReferenceAttribute() : string
+    public function getInvoiceReferenceAttribute()
     {
+        if (config('invoicing.invoice_numbering') === 'manual')
+        {
+            return $this->receipt_number;
+        }
+
         return $this->invoiceType->name . $this->created_at->format('y') . "-" . $this->invoice_number;
     }
 
@@ -106,6 +170,16 @@ class Invoice extends Model
 
     public function getFormattedNumberAttribute()
     {
+        if (config('invoicing.invoice_numbering') === 'manual')
+        {
+            return $this->receipt_number;
+        }
+
         return 'FC' . $this->receipt_number;
+    }
+
+    public function getFormattedDateAttribute()
+    {
+        return Carbon::parse($this->date)->locale(app()->getLocale())->isoFormat('Do MMMM YYYY');
     }
 }

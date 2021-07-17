@@ -4,9 +4,9 @@
  * For LGPL see License.txt in the project root for license information.
  * For commercial licenses see https://www.tiny.cloud/
  *
- * Version: 5.4.2 (2020-08-17)
+ * Version: 5.8.1 (2021-05-20)
  */
-(function (domGlobals) {
+(function () {
     'use strict';
 
     var Cell = function (initial) {
@@ -84,10 +84,10 @@
       var headerFragment = parseHeader(head);
       var data = {};
       var elm, matches;
-      function getAttr(elm, name) {
+      var getAttr = function (elm, name) {
         var value = elm.attr(name);
         return value || '';
-      }
+      };
       data.fontface = getDefaultFontFamily(editor);
       data.fontsize = getDefaultFontSize(editor);
       elm = headerFragment.firstChild;
@@ -142,16 +142,16 @@
     var dataToHtml = function (editor, data, head) {
       var headElement, elm, value;
       var dom = editor.dom;
-      function setAttr(elm, name, value) {
+      var setAttr = function (elm, name, value) {
         elm.attr(name, value ? value : undefined);
-      }
-      function addHeadNode(node) {
+      };
+      var addHeadNode = function (node) {
         if (headElement.firstChild) {
           headElement.insert(node, headElement.firstChild);
         } else {
           headElement.append(node);
         }
-      }
+      };
       var headerFragment = parseHeader(head);
       headElement = headerFragment.getAll('head')[0];
       if (!headElement) {
@@ -446,7 +446,7 @@
       var headElm = editor.getDoc().getElementsByTagName('head')[0];
       if (styles) {
         var styleElm = dom.add(headElm, 'style', { id: 'fullpage_styles' });
-        styleElm.appendChild(domGlobals.document.createTextNode(styles));
+        styleElm.appendChild(document.createTextNode(styles));
       }
       var currentStyleSheetsMap = {};
       global$1.each(headElm.getElementsByTagName('link'), function (stylesheet) {
@@ -500,7 +500,7 @@
       return header;
     };
     var handleGetContent = function (editor, head, foot, evt) {
-      if (!evt.selection && (!evt.source_view || !shouldHideInSourceView(editor))) {
+      if (evt.format === 'html' && !evt.selection && (!evt.source_view || !shouldHideInSourceView(editor))) {
         evt.content = unprotectHtml(global$1.trim(head) + '\n' + global$1.trim(evt.content) + '\n' + global$1.trim(foot));
       }
     };
@@ -541,4 +541,4 @@
 
     Plugin();
 
-}(window));
+}());

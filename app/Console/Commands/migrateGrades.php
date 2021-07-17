@@ -43,6 +43,7 @@ class migrateGrades extends Command
         foreach (DB::table('course_grade_type')->get() as $entry)
         {
             $course = Course::find($entry->course_id);
+            $matchFound = false;
 
             echo "\nMigrating grades from course " . $course->id;
 
@@ -53,11 +54,12 @@ class migrateGrades extends Command
                 if ($courseGradeTypes->diff($evaluationType->gradeTypes->pluck('id'))->count() == 0) {
                     echo "match with eval type " . $evaluationType->id;
                     $course->update(['evaluation_type_id' => $evaluationType->id]);
+                    $matchFound = true;
                 }
             }
 
             // if no match has been found
-            if ($course->evaluation_type_id == null) {
+            if (!$matchFound) {
                 echo "no match; creating new eval type";
                 $evalType = EvaluationType::create(['name' => 'cours ' . $entry->course_id]);
                 $evalType->gradeTypes()->sync($courseGradeTypes);
@@ -66,9 +68,11 @@ class migrateGrades extends Command
             echo "\n";
         }
 
+        
         foreach (DB::table('course_skill')->get() as $entry)
         {
             $course = Course::find($entry->course_id);
+            $matchFound = false;
 
             echo "\nMigrating skills from course " . $course->id;
 
@@ -79,12 +83,14 @@ class migrateGrades extends Command
             foreach (EvaluationType::has('skills')->get() as $evaluationType) {
                 if ($courseSkills->diff($evaluationType->skills->pluck('id'))->count() == 0) {
                     $course->update(['evaluation_type_id' => $evaluationType->id]);
+                    $matchFound = true;
                 }
             }
 
             // if no match has been found
-            if ($course->evaluation_type_id == null) {
-                $evalType = EvaluationType::create(['name' => 'Niveau ' . $course->level->name]);
+            if (!$matchFound) {
+                $levelName = isset($course->level) ? $course->level->name : $course->id; 
+                $evalType = EvaluationType::create(['name' => 'Niveau ' . $levelName]);
                 $evalType->skills()->sync($courseSkills);
             }
         }

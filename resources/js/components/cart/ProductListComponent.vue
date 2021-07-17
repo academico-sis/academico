@@ -8,6 +8,7 @@
             <table class="table">
                 <thead>
                 <tr>
+                    <th>{{ $t("Quantity") }}</th>
                     <th>{{ $t("Product") }}</th>
                     <th>{{ $t("Price") }}</th>
                     <th v-if="editsallowed">{{ $t("Actions") }}</th>
@@ -16,7 +17,24 @@
                 <tbody>
 
                     <tr v-for="(product, index) in products" :key="index">
-                        <td>{{ product.name }}</td>
+                        <td>
+                            <div v-if="editable && product.type !== 'enrollment'" class="form-group">
+                                <input class="form-control" type="number" min="1" step="1" v-model="product.quantity" />
+                            </div>
+                            <div v-else-if="product.type !== 'enrollment'">
+                                {{ product.quantity }}
+                                <button v-if="editsallowed" class="btn btn-seconday btn-xs" @click="editable=true"><i class="la la-pencil"></i></button>
+                            </div>
+                        </td>
+                        <td>
+                            <div v-if="editable" class="form-group">
+                                <input class="form-control" type="text" v-model="product.name" />
+                            </div>
+                            <div v-else>
+                                {{ product.name }}
+                                <button v-if="editsallowed" class="btn btn-seconday btn-xs" @click="editable=true"><i class="la la-pencil"></i></button>
+                            </div>
+                        </td>
                         <td>
                             <div v-if="editable">
                                 <div class="input-group" v-if="currencyposition === 'before'">
@@ -66,6 +84,7 @@
                                         <span class="caret"></span>
                                         {{ $t("Add discount") }}
                                     </button>
+
                                     <div class="dropdown-menu">
                                         <button v-for="availableDiscount in availablediscounts" :key="availableDiscount.id" class="dropdown-item" @click="addDiscount(product, availableDiscount)">
                                             {{ availableDiscount.name }}
@@ -141,5 +160,8 @@ export default {
 </script>
 
 <style scoped>
-
+.dropdown-menu {
+    max-height: 400px;
+    overflow-y: auto;
+}
 </style>

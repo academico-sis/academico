@@ -4,10 +4,60 @@ namespace App\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Spatie\Activitylog\Traits\LogsActivity;
 
+/**
+ * App\Models\Period
+ *
+ * @property int $id
+ * @property string $name
+ * @property string $start
+ * @property string $end
+ * @property int $year_id
+ * @property int|null $order
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Course[] $courses
+ * @property-read int|null $courses_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Enrollment[] $enrollments
+ * @property-read int|null $enrollments_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Course[] $external_courses
+ * @property-read int|null $external_courses_count
+ * @property-read mixed $acquisition_rate
+ * @property-read mixed $courses_with_pending_attendance
+ * @property-read mixed $external_enrollments_count
+ * @property-read mixed $external_sold_hours_count
+ * @property-read mixed $external_students_count
+ * @property-read mixed $external_taught_hours_count
+ * @property-read mixed $internal_enrollments_count
+ * @property-read mixed $new_students_count
+ * @property-read mixed $next_period
+ * @property-read mixed $paid_enrollments_count
+ * @property-read mixed $partnerships_count
+ * @property-read mixed $pending_enrollments_count
+ * @property-read mixed $period_sold_hours_count
+ * @property-read mixed $period_taught_hours_count
+ * @property-read mixed $previous_period
+ * @property-read mixed $students_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Course[] $internal_courses
+ * @property-read int|null $internal_courses_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Enrollment[] $real_enrollments
+ * @property-read int|null $real_enrollments_count
+ * @property-read \App\Models\Year $year
+ * @method static Builder|Period newModelQuery()
+ * @method static Builder|Period newQuery()
+ * @method static Builder|Period query()
+ * @method static Builder|Period whereEnd($value)
+ * @method static Builder|Period whereId($value)
+ * @method static Builder|Period whereName($value)
+ * @method static Builder|Period whereOrder($value)
+ * @method static Builder|Period whereStart($value)
+ * @method static Builder|Period whereYearId($value)
+ * @mixin \Eloquent
+ */
 class Period extends Model
 {
     use CrudTrait;
@@ -20,6 +70,15 @@ class Period extends Model
     // protected $hidden = [];
     // protected $dates = [];
     protected static $logUnguarded = true;
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('order', function (Builder $builder) {
+            $builder->orderBy('year_id')->orderBy('order')->orderBy('id');
+        });
+    }
 
     /**
      * Return the current period to be used as a default system-wide.

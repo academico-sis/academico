@@ -24,7 +24,7 @@
             :has-navigation="hasNavigation"
         >
             <b-step-item :label="$t('step1')" :clickable="activeStep > 0">
-                <register-user-data-component></register-user-data-component>
+                <register-user-data-component :checkemailunicity="checkemailunicity"></register-user-data-component>
             </b-step-item>
 
             <b-step-item :label="$t('step2')" :clickable="activeStep > 1">
@@ -57,7 +57,8 @@ import { store } from "./store.js";
 import { EventBus } from "./eventBus.js";
 
 export default {
-    props: ['institutions', 'langs', 'pictureallowed', 'picturemandatory'],
+    props: ['institutions', 'langs', 'pictureallowed', 'picturemandatory', 'checkemailunicity'],
+
     data() {
         return {
             storeState: store.state,

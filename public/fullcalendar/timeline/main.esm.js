@@ -1,5 +1,5 @@
 /*!
-FullCalendar Timeline Plugin v4.4.2
+FullCalendar Timeline Plugin v4.4.3
 Docs & License: https://fullcalendar.io/scheduler
 (c) 2019 Adam Shaw
 */
@@ -1454,6 +1454,7 @@ var TimeAxis = /** @class */ (function (_super) {
         if (nonLastSlotWidth !== '') {
             this.header.slatColEls.slice(0, -1).concat(this.slats.slatColEls.slice(0, -1)).forEach(function (el) {
                 el.style.width = nonLastSlotWidth + 'px';
+                el.style.minWidth = '0'; // prevent the browser from using the actual min-width (issue #6338)
             });
         }
     };

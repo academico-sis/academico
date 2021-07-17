@@ -143,7 +143,7 @@
             <div class="col-md-12">
                 <total-price-component :value="shoppingCartTotal()" :currency="currency" :currencyposition="currencyposition"></total-price-component>
 
-                <cart-scheduled-payments-component :payments="payments" :currency="currency" :currencyposition="currencyposition"></cart-scheduled-payments-component>
+                <cart-payment-component :availablepaymentmethods="availablepaymentmethods" :currency="currency" :currencyposition="currencyposition" :totalPrice="shoppingCartTotal()"></cart-payment-component>
             </div>
 
             <div class="col-md-12">
@@ -170,7 +170,7 @@
                         </div>
 
                         <div class="form-group">
-                            <button class="btn btn-lg btn-success" :disabled="loading || payments.length === 0 || ! paidTotal > 0" @click="checkTotal()">
+                            <button class="btn btn-lg btn-success" :disabled="!readyForInvoice" @click="checkTotal()">
                                 <span v-if="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                 <i class="la la-check"></i
                                 >{{ $t("Checkout") }}
@@ -237,6 +237,8 @@ export default {
         "productslist",
         "clients",
         "invoicetypes",
+        "allowemptypaymentmethods",
+        "allowedblankfields",
     ],
 
     data() {
@@ -268,6 +270,14 @@ export default {
                 });
             }
             return total;
+        },
+
+        readyForInvoice() {
+            if (this.allowemptypaymentmethods) {
+                return ! (this.loading || this.payments.length === 0 || ! this.paidTotal > 0);
+            } else {
+                return ! ( this.loading || this.payments.length === 0 || ! this.paidTotal > 0 || this.payments.every(payment => payment.method === undefined));
+            }
         },
 
     },
@@ -312,10 +322,12 @@ export default {
         },
 
         addBook(book) {
+            book.quantity = 1;
             this.products.push(book);
         },
 
         addFee(fee) {
+            fee.quantity = 1;
             this.products.push(fee);
         },
 
@@ -337,10 +349,10 @@ export default {
         checkForm: function (e) {
             if (
                 this.clientname &&
-                this.clientphone &&
-                this.clientaddress &&
-                this.clientidnumber &&
-                this.clientemail
+                (this.clientphone || this.allowedblankfields.includes('phone')) &&
+                (this.clientaddress || this.allowedblankfields.includes('address')) &&
+                (this.clientidnumber || this.allowedblankfields.includes('idnumber')) &&
+                (this.clientemail || this.allowedblankfields.includes('email'))
             ) {
                 return true;
             }
@@ -355,17 +367,18 @@ export default {
 
             if (this.products) {
                 this.products.forEach(product => {
-                    let productTotal = parseFloat(product.price);
+                    let quantity = typeof product.quantity === 'undefined' ? 1 : product.quantity;
+                    let productTotal = parseFloat(product.price) * quantity;
 
                     if (product.discounts) {
                         product.discounts.forEach(discount => {
-                            productTotal -= product.price * (discount.value / 100);
+                            productTotal -= product.price * quantity * (discount.value / 100);
                         });
                     }
 
                     if (product.taxes) {
                         product.taxes.forEach(tax => {
-                            productTotal += product.price * (tax.value / 100);
+                            productTotal += product.price * quantity * (tax.value / 100);
                         });
                     }
 
@@ -430,7 +443,7 @@ export default {
                 .then(response => {
                     // handle success
                     this.step = 4;
-                    window.location.href = this.enrollment ? `/enrollment/${this.enrollment.id}/show` : "/payment";
+                    window.location.href = this.enrollment ? `/enrollment/${this.enrollment.id}/show` : "/invoice";
                     new Noty({
                         title: this.$t('Success'),
                         text: this.$t("Your changes were successful"),

@@ -169,7 +169,7 @@ class ReportController extends Controller
             $startperiod = Period::find($request->period);
         }
 
-        $periods = Period::where('id', '>=', $startperiod->id)->get();
+        $periods = Period::orderBy('year_id')->orderBy('order')->orderBy('id')->where('id', '>=', $startperiod->id)->get();
 
         $data = [];
         $years = [];

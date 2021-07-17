@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Events\UserCreated;
+use App\Exceptions\UserSyncException;
 use App\Http\Requests\StudentRequest;
 use App\Models\Institution;
 use App\Models\LeadType;
@@ -14,6 +15,7 @@ use App\Models\User;
 use App\Traits\PeriodSelection;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
@@ -22,6 +24,7 @@ use Backpack\CRUD\app\Library\Widget;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use mysql_xdevapi\Exception;
 
 class StudentCrudController extends CrudController
 {
@@ -32,6 +35,7 @@ class StudentCrudController extends CrudController
     use UpdateOperation;
     use CreateOperation { store as traitStore; }
     use PeriodSelection;
+    use DeleteOperation { destroy as traitDelete; }
     use \Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
 
     public function __construct()
@@ -140,6 +144,17 @@ class StudentCrudController extends CrudController
             ],
 
             [
+                'label'     => __('Username'), // Table column heading
+                'type'      => 'relationship',
+                'key'  => 'username',
+                'name'    => 'user', // the method that defines the relationship in your Model
+                'attribute' => 'username', // foreign key attribute that is shown to user
+                'model'     => 'App\Models\User', // foreign key model
+                'orderable' => false,
+                'searchLogic' => false,
+            ],
+
+            [
                 // n-n relationship (with pivot table)
                 'label' => __('Phone number'), // Table column heading
                 'type' => 'select_multiple',
@@ -214,6 +229,13 @@ class StudentCrudController extends CrudController
         CRUD::field('birthdate')->label(__('Birthdate'))->tab(__('Student Info'));
 
         CRUD::addField([
+            'type' => "text",
+            'name' => 'phone', // the method on your model that defines the relationship
+            'tab' => __('Student Info'),
+            'label' => __('Phone'),
+        ]);
+
+        CRUD::addField([
             'type' => "relationship",
             'name' => 'profession', // the method on your model that defines the relationship
             'inline_create' => true, // assumes the URL will be "/admin/category/inline/create"
@@ -243,7 +265,53 @@ class StudentCrudController extends CrudController
 
     public function setupUpdateOperation()
     {
-        $this->setupCreateOperation();
+        CRUD::setValidation(StudentRequest::class);
+        CRUD::field('firstname')->label(__('Firstname'))->tab(__('Student Info'));
+        CRUD::field('lastname')->label(__('Lastname'))->tab(__('Student Info'));
+        CRUD::field('email')->label(__('Email'))->tab(__('Student Info'));
+        CRUD::field('idnumber')->label(__('ID number'))->tab(__('Student Info'));
+        CRUD::field('birthdate')->label(__('Birthdate'))->tab(__('Student Info'));
+
+        CRUD::addField([
+            'type' => "relationship",
+            'name' => 'profession', // the method on your model that defines the relationship
+            'inline_create' => true, // assumes the URL will be "/admin/category/inline/create"
+            'tab' => __('Student Info'),
+            'label' => __('Profession'),
+            'attribute' => 'name',
+        ]);
+
+        CRUD::addField([
+            'type' => "relationship",
+            'name' => 'institution', // the method on your model that defines the relationship
+            'inline_create' => true, // assumes the URL will be "/admin/category/inline/create"
+            'tab' => __('Student Info'),
+            'label' => __('Institution'),
+            'attribute' => 'name',
+        ]);
+
+        CRUD::field('address')->label(__('Address'))->tab(__('Address'));
+        CRUD::field('zip_code')->label(__('zip'))->tab(__('Address'));
+        CRUD::field('city')->label(__('City'))->tab(__('Address'));
+        CRUD::field('state')->label(__('State'))->tab(__('Address'));
+        CRUD::field('country')->label(__('Country'))->tab(__('Address'));
+
+        CRUD::field('iban')->label('IBAN')->tab(__('Invoicing Info'));
+        CRUD::field('bic')->label('BIC')->tab(__('Invoicing Info'));
+    }
+
+    protected function generateUsername($fullName) : string
+    {
+        $username_parts = array_filter(explode(" ", strtolower($fullName)));
+        $username_parts = array_slice($username_parts, -2);
+
+        $part1 = (!empty($username_parts[0]))?substr($username_parts[0], 0,3):"";
+        $part2 = (!empty($username_parts[1]))?substr($username_parts[1], 0,8):"";
+        $part3 = rand(999, 9999);
+
+        $username = $part1. $part2. $part3; //str_shuffle to randomly shuffle all characters
+
+        return $username;
     }
 
     public function store(Request $request)
@@ -251,18 +319,31 @@ class StudentCrudController extends CrudController
         $request->validate([
             'firstname'                            => 'required|max:255',
             'lastname'                             => 'required|max:255',
-            'email'                                => 'required|unique:users',
+            'email'                                => 'required',
         ]);
+
+        if (User::where('email', $request->email)->count() === 0)
+        {
+            $username = $request->email;
+        }
+        else {
+            $username = $this->generateUsername($request->firstname . ' ' . $request->lastname);
+        }
 
         // update the user info
         $user = User::create([
             'firstname' => $request->firstname,
             'lastname' => $request->lastname,
             'email' => $request->email,
+            'username' => $username,
             'password' => Hash::make(Str::random(12)),
         ]);
 
-        UserCreated::dispatch($user);
+        try {
+            UserCreated::dispatch($user);
+        } catch (\Exception) {
+            throw new UserSyncException();
+        }
 
         // update the student info
 
@@ -275,6 +356,17 @@ class StudentCrudController extends CrudController
             'country' => $request->country,
             'birthdate' => $request->birthdate,
         ]);
+
+        // save phone number
+        if ($request->phone) {
+            $phone_number = PhoneNumber::firstOrCreate([
+                'phone_number' => $request->phone,
+                'phoneable_id' => $student->id,
+                'phoneable_type' => Student::class,
+            ]);
+
+            $student->phone()->save($phone_number);
+        }
 
         // save profession and institution
         if ($request->profession) {
@@ -317,6 +409,17 @@ class StudentCrudController extends CrudController
             'attendances' => $student->periodAttendance()->get(),
             'writeaccess' => backpack_user()->can('enrollments.edit') ?? 0,
         ]);
+    }
+
+    public function destroy($id)
+    {
+        $this->crud->hasAccessOrFail('delete');
+
+        // get entry ID from Request (makes sure its the last ID for nested resources)
+        $id = $this->crud->getCurrentEntryId() ?? $id;
+
+        User::where('id', $id)->delete();
+        return $this->crud->delete($id);
     }
 
     protected function fetchInstitution()

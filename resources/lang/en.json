@@ -15,6 +15,7 @@
     "Add discount": "Add discount",
     "Add tax": "Add tax",
     "Tax: ": "Tax:",
+    "Taxes": "Taxes",
     "Add Grade Type to Course": "Add Grade Type to Course",
     "Add products": "Add products",
     "Add scholarship": "Add scholarship",
@@ -113,6 +114,7 @@
     "Enroll": "Enroll",
     "Enroll new student": "Enroll new student",
     "enrollment": "enrollment",
+    "Enrollment for": "Enrollment for",
     "Enrollment date": "Enrollment date",
     "Enrollment Details": "Enrollment Details",
     "Enrollment ID": "Enrollment ID",
@@ -154,6 +156,7 @@
     "for": "for",
     "Friday": "Friday",
     "Go Home": "Go Home",
+    "Home": "Home",
     "grade type": "grade type",
     "Grade Type Categories": "Grade Type Categories",
     "Grade Types": "Grade Types",
@@ -254,6 +257,7 @@
     "Product": "Product",
     "Products": "Products",
     "Profession": "Profession",
+    "Professions": "Professions",
     "Profile Picture": "Profile Picture",
     "Project": "Project",
     "Refresh status": "Refresh status",
@@ -453,5 +457,6 @@
     "New invoice": "New invoice",
     "Enrollment sheet": "Enrollment sheet",
     "Due Date": "Due Date",
-    "Export": "Export"
+    "Export": "Export",
+    "Quantity": "Quantity"
 }

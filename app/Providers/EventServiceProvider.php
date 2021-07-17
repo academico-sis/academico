@@ -6,22 +6,23 @@ use App\Events\CourseCreated;
 use App\Events\CourseUpdated;
 use App\Events\EnrollmentCreated;
 use App\Events\EnrollmentDeleted;
+use App\Events\EnrollmentCourseUpdated;
 use App\Events\EnrollmentUpdated;
+use App\Events\EnrollmentUpdating;
 use App\Events\LeadStatusUpdatedEvent;
+use App\Events\MonthlyReportEvent;
+use App\Events\StudentDeleted;
 use App\Events\UserCreated;
 use App\Events\StudentDeleting;
 use App\Events\UserDeleting;
 use App\Events\UserUpdated;
 use App\Listeners\AddPastAttendance;
-use App\Listeners\DeleteEnrollmentFromLMS;
+use App\Listeners\CleanChildrenEnrollments;
 use App\Listeners\DeleteStudentData;
 use App\Listeners\DeleteUserData;
-use App\Listeners\DeleteStudentFromLMS;
-use App\Listeners\SyncCourseToLMS;
-use App\Listeners\SyncEnrollmentToLMS;
+use App\Listeners\SendMonthlyReport;
 use App\Listeners\SyncUserWithMailingSystem;
-use App\Listeners\UpdateEnrollmentInLMS;
-use App\Listeners\SyncUserToLMS;
+use App\Listeners\UpdateChildrenEnrollments;
 use App\Listeners\UpdateCourseEvents;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -43,49 +44,40 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
 
-        CourseCreated::class => [
-            SyncCourseToLMS::class,
-        ],
-
         CourseUpdated::class => [
             UpdateCourseEvents::class,
-            SyncCourseToLMS::class,
         ],
 
-        UserCreated::class => [
-            SyncUserToLMS::class,
+        EnrollmentUpdating::class => [
+            CleanChildrenEnrollments::class,
         ],
 
-        UserUpdated::class => [
-            SyncUserToLMS::class,
+        EnrollmentUpdated::class => [
+            UpdateChildrenEnrollments::class,
         ],
 
         StudentDeleting::class => [
             DeleteStudentData::class,
-            DeleteStudentFromLMS::class,
         ],
 
         UserDeleting::class => [
             DeleteUserData::class,
         ],
 
-        EnrollmentDeleted::class => [
-            DeleteEnrollmentFromLMS::class,
-        ],
-
         EnrollmentCreated::class => [
             AddPastAttendance::class,
-            SyncEnrollmentToLMS::class,
         ],
 
-        EnrollmentUpdated::class => [
-            UpdateEnrollmentInLMS::class
-        ],
         ExternalCoursesReportEvent::class => [
             SendExternalCoursesReport::class
         ],
+
         ExpiringPartnershipsEvent::class => [
             SendExpiringPartnershipsAlerts::class
+        ],
+
+        MonthlyReportEvent::class => [
+            SendMonthlyReport::class
         ],
 
         LeadStatusUpdatedEvent::class => [

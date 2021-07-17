@@ -184,8 +184,8 @@ return [
     // Username column for authentication
     // The Backpack default is the same as the Laravel default (email)
     // If you need to switch to username, you also need to create that column in your db
-    'authentication_column'      => 'email',
-    'authentication_column_name' => 'Email',
+    'authentication_column'      => 'username',
+    'authentication_column_name' => 'Username',
 
     // The guard that protects the Backpack admin panel.
     // If null, the config.auth.defaults.guard value will be used.

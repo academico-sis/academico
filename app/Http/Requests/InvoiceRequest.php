@@ -25,7 +25,11 @@ class InvoiceRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'name' => 'required|min:5|max:255'
+            'client_name' => 'required',
+            'client_idnumber' => 'required',
+            'client_address' => 'required',
+            'client_email' => 'required',
+            'total_price' => 'required',
         ];
     }
 
