@@ -40,10 +40,9 @@ class MyAccountController extends Controller
         $request->validate([
             'firstname' => 'required',
             'lastname' => 'required',
-            'email' => 'required|email',
         ]);
 
-        $result = $this->guard()->user()->update($request->except(['_token']));
+        $result = $this->guard()->user()->update($request->except(['_token', 'username']));
         if ($result) {
             Alert::success(trans('backpack::base.account_updated'))->flash();
 

@@ -15,6 +15,7 @@ use App\Models\User;
 use App\Traits\PeriodSelection;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
@@ -34,6 +35,7 @@ class StudentCrudController extends CrudController
     use UpdateOperation;
     use CreateOperation { store as traitStore; }
     use PeriodSelection;
+    use DeleteOperation { destroy as traitDelete; }
     use \Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
 
     public function __construct()
@@ -139,6 +141,17 @@ class StudentCrudController extends CrudController
                         $q->where('email', 'like', '%'.$searchTerm.'%');
                     });
                 },
+            ],
+
+            [
+                'label'     => __('Username'), // Table column heading
+                'type'      => 'relationship',
+                'key'  => 'username',
+                'name'    => 'user', // the method that defines the relationship in your Model
+                'attribute' => 'username', // foreign key attribute that is shown to user
+                'model'     => 'App\Models\User', // foreign key model
+                'orderable' => false,
+                'searchLogic' => false,
             ],
 
             [
@@ -287,19 +300,42 @@ class StudentCrudController extends CrudController
         CRUD::field('bic')->label('BIC')->tab(__('Invoicing Info'));
     }
 
+    protected function generateUsername($fullName) : string
+    {
+        $username_parts = array_filter(explode(" ", strtolower($fullName)));
+        $username_parts = array_slice($username_parts, -2);
+
+        $part1 = (!empty($username_parts[0]))?substr($username_parts[0], 0,3):"";
+        $part2 = (!empty($username_parts[1]))?substr($username_parts[1], 0,8):"";
+        $part3 = rand(999, 9999);
+
+        $username = $part1. $part2. $part3; //str_shuffle to randomly shuffle all characters
+
+        return $username;
+    }
+
     public function store(Request $request)
     {
         $request->validate([
             'firstname'                            => 'required|max:255',
             'lastname'                             => 'required|max:255',
-            'email'                                => 'required|unique:users',
+            'email'                                => 'required',
         ]);
+
+        if (User::where('email', $request->email)->count() === 0)
+        {
+            $username = $request->email;
+        }
+        else {
+            $username = $this->generateUsername($request->firstname . ' ' . $request->lastname);
+        }
 
         // update the user info
         $user = User::create([
             'firstname' => $request->firstname,
             'lastname' => $request->lastname,
             'email' => $request->email,
+            'username' => $username,
             'password' => Hash::make(Str::random(12)),
         ]);
 
@@ -373,6 +409,17 @@ class StudentCrudController extends CrudController
             'attendances' => $student->periodAttendance()->get(),
             'writeaccess' => backpack_user()->can('enrollments.edit') ?? 0,
         ]);
+    }
+
+    public function destroy($id)
+    {
+        $this->crud->hasAccessOrFail('delete');
+
+        // get entry ID from Request (makes sure its the last ID for nested resources)
+        $id = $this->crud->getCurrentEntryId() ?? $id;
+
+        User::where('id', $id)->delete();
+        return $this->crud->delete($id);
     }
 
     protected function fetchInstitution()

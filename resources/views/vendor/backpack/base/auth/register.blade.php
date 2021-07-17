@@ -27,8 +27,10 @@
                 <register-component
                     :langs="{{ json_encode(config('language.allowed')) }}"
                     :pictureallowed="{{ json_encode(config('registration.picture.enabled')) }}"
+                    :checkemailunicity="{{ json_encode(config('registration.ensure_email_unicity')) }}"
                     :picturemandatory="{{ json_encode(config('registration.picture.mandatory')) }}"
-                    :institutions="{{ \App\Models\Institution::all()->pluck('name') }}"></register-component>
+                    :institutions="{{ \App\Models\Institution::all()->pluck('name') }}"
+                ></register-component>
             </div>
         </div>
     </section>

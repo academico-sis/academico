@@ -21,7 +21,7 @@ class DeleteStudentFromLMS implements ShouldQueue
 
     public function handle(StudentDeleting $event) : void
     {
-        Log::alert('The user ' . $event->student->user->id . ' has been deleted');
+        Log::alert('The user ' . $event?->student?->user?->id . ' has been deleted');
 
         // remove student from every course they are enrolled in
         foreach ($event->student->enrollments as $enrollment) {

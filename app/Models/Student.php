@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Events\LeadStatusUpdatedEvent;
+use App\Events\StudentDeleted;
 use App\Events\StudentDeleting;
 use App\Events\StudentUpdated;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;

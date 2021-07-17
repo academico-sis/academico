@@ -18,7 +18,7 @@
 
         		<div class="tile is-child">
                     <b-field class="file is-primary" :class="{'has-name': !!userPicture}">
-                        <b-upload v-model="userPicture" class="file-label" accept="image/png, image/jpeg">
+                        <b-upload v-model="userPictureFile" @input="onFileChange" class="file-label" accept="image/png, image/jpeg">
                             <span class="file-cta">
                                 <b-icon class="file-icon" icon="upload"></b-icon>
                                 <span class="file-label">{{ $t('click_upload') }}</span>
@@ -87,6 +87,7 @@ export default {
 				canvas: null,
 				context: null,
 	            userPicture: null,
+	            userPictureFile: null,
                 showPreview: false,
 		};
     },
@@ -101,6 +102,15 @@ export default {
 	},
 
     methods: {
+
+        // Checks the image size then sets the userPicture variable to the uploaded picture
+        onFileChange(e) {
+            const reader = new FileReader();
+            reader.readAsDataURL(e);
+            reader.onload = e =>{
+                this.userPicture = e.target.result;
+            };
+        },
 
         async validateBeforeSubmit() {
             this.updateData();
