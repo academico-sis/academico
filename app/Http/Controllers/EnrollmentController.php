@@ -188,7 +188,7 @@ class EnrollmentController extends Controller
 
     private function utf8_for_xml($string)
     {
-        return preg_replace ('/[^\x{0009}\x{000a}\x{000d}\x{0020}-\x{D7FF}\x{E000}-\x{FFFD}]+/u', ' ', $string);
+        return preg_replace('/\P{L}+/u', ' ', $string);
     }
 
     public function exportToWord(Enrollment $enrollment)
@@ -211,7 +211,7 @@ class EnrollmentController extends Controller
         $templateProcessor->setValue('nif', $nif);
         $templateProcessor->setValue('email', $email);
 
-        $templateProcessor->setValue('description', $enrollment->course->name);
+        $templateProcessor->setValue('description', $this->utf8_for_xml($enrollment->course->name ?? ""));
         $templateProcessor->setValue('start_date', $enrollment->course->formatted_start_date);
         $templateProcessor->setValue('end_date', $enrollment->course->formatted_end_date);
         $templateProcessor->setValue('volume', $enrollment->course->volume);
@@ -231,12 +231,16 @@ class EnrollmentController extends Controller
         $table->addCell(4000, $firstRowStyle)->addText(Str::upper(__('Due Date')));
         $table->addCell(5000, $firstRowStyle)->addText(Str::upper(__('Total')));
 
-        foreach ($enrollment->scheduledPayments as $payment) {
-            $table->addRow(500);
-            $table->addCell(4000)->addText($payment->date_for_humans);
-            $table->addCell(5000)->addText($payment->value_with_currency);
+        if ($enrollment->scheduledPayments->count() > 0) {
+            foreach ($enrollment->scheduledPayments as $payment) {
+                $table->addRow(500);
+                $table->addCell(4000)->addText($payment->date_for_humans);
+                $table->addCell(5000)->addText($payment->value_with_currency);
+            }
+            $templateProcessor->setComplexBlock('payments', $table);
+        } else {
+            $templateProcessor->setValue('payments', '');
         }
-        $templateProcessor->setComplexBlock('payments', $table);
 
         $path = $templateProcessor->save();
         return response()->download($path)->deleteFileAfterSend(true);
