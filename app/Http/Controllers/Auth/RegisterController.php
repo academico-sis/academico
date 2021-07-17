@@ -110,7 +110,7 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
 
         Log::info('New student created with ID '.$student->id);
 
-        return $user;
+        return $student;
     }
 
     /**

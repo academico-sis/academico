@@ -71,7 +71,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(buefy__WEBPACK_IMPORTED_MODULE_1_
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['institutions', 'langs', 'pictureallowed', 'picturemandatory'],
+  props: ['institutions', 'langs', 'pictureallowed', 'picturemandatory', 'checkemailunicity'],
   data: function data() {
     return {
       storeState: _store_js__WEBPACK_IMPORTED_MODULE_3__["store"].state,
@@ -361,7 +361,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   components: {
     ValidationObserver: vee_validate__WEBPACK_IMPORTED_MODULE_3__["ValidationObserver"]
   },
-  props: [],
+  props: ['checkemailunicity'],
   data: function data() {
     return {
       errors: [],
@@ -396,25 +396,37 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 isValid = _context.sent;
 
                 if (!isValid) {
-                  _context.next = 8;
+                  _context.next = 12;
                   break;
                 }
 
-                _context.next = 6;
+                if (!_this.checkemailunicity) {
+                  _context.next = 9;
+                  break;
+                }
+
+                _context.next = 7;
                 return _this.checkEmailUnicity();
 
-              case 6:
-                _context.next = 9;
+              case 7:
+                _context.next = 10;
                 break;
 
-              case 8:
+              case 9:
+                _this.updateData();
+
+              case 10:
+                _context.next = 13;
+                break;
+
+              case 12:
                 _this.$buefy.toast.open({
                   message: _this.$t('The form is invalid, please check the fields marked in red and try again'),
                   type: "is-danger",
                   position: "is-bottom"
                 });
 
-              case 9:
+              case 13:
               case "end":
                 return _context.stop();
             }
@@ -784,7 +796,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       errors: [],
       institutionslist: this.institutions,
-      filteredInstitutions: this.institutionslist,
+      filteredinstitutions: this.institutions,
       formdata: {
         address: null,
         birthdate: null,
@@ -970,6 +982,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       canvas: null,
       context: null,
       userPicture: null,
+      userPictureFile: null,
       showPreview: false
     };
   },
@@ -980,15 +993,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     this.context = this.canvas.getContext('2d');
   },
   methods: {
-    validateBeforeSubmit: function validateBeforeSubmit() {
+    // Checks the image size then sets the userPicture variable to the uploaded picture
+    onFileChange: function onFileChange(e) {
       var _this = this;
+
+      var reader = new FileReader();
+      reader.readAsDataURL(e);
+
+      reader.onload = function (e) {
+        _this.userPicture = e.target.result;
+      };
+    },
+    validateBeforeSubmit: function validateBeforeSubmit() {
+      var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _this.updateData();
+                _this2.updateData();
 
               case 1:
               case "end":
@@ -1001,7 +1025,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     // Asks the user for permission to use their attached media and
     // activates the video stream.
     enableUserToTakePicture: function enableUserToTakePicture() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.showPreview = false; // Specifying the media to request, along with the requirements.
 
@@ -1014,7 +1038,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }; // Asks the user for permission and starts the stream.
 
       navigator.mediaDevices.getUserMedia(constraints).then(function (stream) {
-        _this2.player.srcObject = stream;
+        _this3.player.srcObject = stream;
       }); // Shows the capture button
 
       document.getElementById('captureButton').style.display = "block";
@@ -1446,7 +1470,11 @@ var render = function() {
             {
               attrs: { label: _vm.$t("step1"), clickable: _vm.activeStep > 0 }
             },
-            [_c("register-user-data-component")],
+            [
+              _c("register-user-data-component", {
+                attrs: { checkemailunicity: _vm.checkemailunicity }
+              })
+            ],
             1
           ),
           _vm._v(" "),
@@ -2870,7 +2898,7 @@ var render = function() {
                                 _c("b-autocomplete", {
                                   ref: "autocomplete",
                                   attrs: {
-                                    data: _vm.filteredInstitutions,
+                                    data: _vm.filteredinstitutions,
                                     "allow-new": true,
                                     "open-on-focus": true,
                                     maxtags: "1",
@@ -3053,12 +3081,13 @@ var render = function() {
                                   {
                                     staticClass: "file-label",
                                     attrs: { accept: "image/png, image/jpeg" },
+                                    on: { input: _vm.onFileChange },
                                     model: {
-                                      value: _vm.userPicture,
+                                      value: _vm.userPictureFile,
                                       callback: function($$v) {
-                                        _vm.userPicture = $$v
+                                        _vm.userPictureFile = $$v
                                       },
-                                      expression: "userPicture"
+                                      expression: "userPictureFile"
                                     }
                                   },
                                   [

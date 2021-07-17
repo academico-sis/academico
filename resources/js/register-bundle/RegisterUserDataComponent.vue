@@ -50,7 +50,7 @@ export default {
     components: {
         ValidationObserver,
     },
-    props: [],
+    props: ['checkemailunicity'],
 
     data() {
         return {
@@ -76,8 +76,11 @@ export default {
             const isValid = await this.$refs.observer.validate();
 
             if (isValid) {
-                await this.checkEmailUnicity();
-                //this.updateData()
+                if (this.checkemailunicity) {
+                    await this.checkEmailUnicity();
+                } else {
+                    this.updateData();
+                }
             } else {
                 this.$buefy.toast.open({
                     message: this.$t('The form is invalid, please check the fields marked in red and try again'),
