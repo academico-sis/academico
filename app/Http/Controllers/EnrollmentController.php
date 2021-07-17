@@ -98,9 +98,6 @@ class EnrollmentController extends Controller
 
         // TODO delete grades and/or skills
 
-        // update LMS
-        EnrollmentCourseUpdated::dispatch($enrollment->student, $previousCourse, $course);
-
         // display a confirmation message and redirect to enrollment details
         Alert::success(__('The enrollment has been updated'))->flash();
 

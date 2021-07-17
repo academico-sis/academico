@@ -15,15 +15,8 @@ class UserDeleting
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    /**
-     * Create a new event instance.
-     *
-     * @param User $user
-     */
     public function __construct(public User $user)
     {
         //
     }
-
-
 }

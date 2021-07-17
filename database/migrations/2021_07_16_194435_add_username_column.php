@@ -10,12 +10,16 @@ class AddUsernameColumn extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('username')->after('id');
+            $table->string('username')->after('id')->nullable();
             $table->dropUnique(['email']);
             $table->string('email')->nullable()->change();
         });
 
         DB::statement("update users SET username = email");
+
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('username')->unique()->change();
+        });
     }
 
     public function down()
