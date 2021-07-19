@@ -72,6 +72,11 @@ class InvoiceDetail extends Model
         return $value / 100;
     }
 
+    public function getFinalPriceAttribute($value)
+    {
+        return $value ? $value / 100 : $this->price;
+    }
+
     public function getTotalPriceAttribute($value)
     {
         return ($value * $this->quantity )/ 100;

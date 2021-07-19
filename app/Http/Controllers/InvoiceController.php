@@ -93,6 +93,8 @@ class InvoiceController extends Controller
                 'book' => Book::class,
             };
 
+            $productFinalPrice = 0; // used to compute the final price with taxes and discounts
+
             if ($product['type'] === 'enrollment')
             {
                 Enrollment::find($product['id'])->invoices()->attach($invoice, ['scheduled_payment_id' => $request->scheduled_payment_id ?? null]);
@@ -106,19 +108,12 @@ class InvoiceController extends Controller
                 $scheduledPayment->update(['status' => null]);
             }
 
-            InvoiceDetail::create([
-                'invoice_id' => $invoice->id,
-                'product_name' => $product['name'],
-                'product_code' => $product['product_code'],
-                'product_id' => $product['id'],
-                'product_type' => $productType,
-                'price' => $product['price'],
-                'quantity' => $product['quantity'] ?? 1,
-                //'tax_rate' => collect($product['taxes'] ?? [])->sum('value'),
-            ]);
+            $productFinalPrice += $product['price'] * ($product['quantity'] ?? 1) * 100;
 
             if (isset ($product['discounts'])) {
                 foreach ($product['discounts'] as $d => $discount) {
+                    $productFinalPrice -= (($discount['value']) * $product['price']) * ($product['quantity'] ?? 1); // no need to multiply by 100 because discount is in %
+
                     InvoiceDetail::create([
                         'invoice_id' => $invoice->id,
                         'product_name' => $discount['name'],
@@ -131,6 +126,8 @@ class InvoiceController extends Controller
 
             if (isset ($product['taxes'])) {
                 foreach ($product['taxes'] as $d => $tax) {
+                    $productFinalPrice += (($tax['value']) * $product['price']) * ($product['quantity'] ?? 1); // no need to multiply by 100 because discount is in %
+
                     InvoiceDetail::create([
                         'invoice_id' => $invoice->id,
                         'product_name' => $tax['name'],
@@ -140,6 +137,18 @@ class InvoiceController extends Controller
                     ]);
                 }
             }
+
+            InvoiceDetail::create([
+                'invoice_id' => $invoice->id,
+                'product_name' => $product['name'],
+                'product_code' => $product['product_code'],
+                'product_id' => $product['id'],
+                'product_type' => $productType,
+                'price' => $product['price'],
+                'final_price' => $productFinalPrice,
+                'quantity' => $product['quantity'] ?? 1,
+                //'tax_rate' => collect($product['taxes'] ?? [])->sum('value'),
+            ]);
         }
 
         foreach ($request->payments as $p => $payment) {
@@ -189,7 +198,6 @@ class InvoiceController extends Controller
             Invoice::where('id', $invoice->id)->delete();
             abort(500);
         }
-
     }
 
     public function edit(Invoice $invoice)

@@ -36,16 +36,14 @@ class Ecuasolutions implements InvoicingInterface
 
         foreach ($invoice->invoiceDetails as $p => $product) {
             if ($product->product instanceof Enrollment)
-            {
-                $discounts = $invoice->discounts ? $invoice->discounts->sum('price') : 0;
-
+            {   
                 $ivkardex[$p] = [
                     'codinventario' => $product->product_code,
                     'codbodega' => 'MAT',
                     'cantidad' => 1,
                     'descuento' => 0,
                     'iva' => 0,
-                    'preciototal' => $product->price + ($product->price * ($discounts / 100)),
+                    'preciototal' => $product->final_price,
                     'valoriva' => 0,
                 ];
             }
@@ -57,7 +55,7 @@ class Ecuasolutions implements InvoicingInterface
                     'cantidad' => 1,
                     'descuento' => 0,
                     'iva' => 0,
-                    'preciototal' => $product->price,
+                    'preciototal' => $product->final_price,
                     'valoriva' => 0,
                 ];
             }
@@ -69,7 +67,7 @@ class Ecuasolutions implements InvoicingInterface
                     'cantidad' => 1,
                     'descuento' => 0,
                     'iva' => 0,
-                    'preciototal' => $product->price,
+                    'preciototal' => $product->final_price,
                     'valoriva' => 0,
                 ];
             }
