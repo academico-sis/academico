@@ -275,22 +275,34 @@ class Student extends Model implements HasMedia
     /** attributes */
     public function getFirstnameAttribute(): string
     {
-        return Str::title($this->user->firstname);
+        if ($this->user) {
+            return Str::title($this->user->firstname);
+        }
+        return '';
     }
 
     public function getLastnameAttribute(): string
     {
-        return Str::upper($this->user->lastname);
+        if ($this->user) {
+            return Str::upper($this->user->lastname);
+        }
+        return '';
     }
 
     public function getEmailAttribute(): string
     {
-        return $this->user->email ?? "";
+        if ($this->user) {
+            return $this->user->email;
+        }
+        return '';
     }
 
     public function getNameAttribute(): string
     {
-        return ($this->title ? ($this->title->title . ' ') : '') . $this->firstname.' '.$this->lastname;
+        if ($this->user) {
+            return ($this->title ? ($this->title->title . ' ') : '') . $this->firstname.' '.$this->lastname;
+        }
+        return '';
     }
 
     public function getStudentAgeAttribute()
