@@ -50,12 +50,7 @@ class StudentCrudController extends CrudController
         CRUD::setModel(Student::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/student');
         CRUD::setEntityNameStrings(__('student'), __('students'));
-
-        $permissions = backpack_user()->getAllPermissions();
-
-        if ($permissions->contains('enrollments.view')) {
-            CRUD::enableExportButtons();
-        }
+        CRUD::enableExportButtons();
     }
 
     public function setupListOperation()
