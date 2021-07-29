@@ -34,10 +34,10 @@ class Ecuasolutions implements InvoicingInterface
             ];
         }
 
-        foreach ($invoice->invoiceDetails as $p => $product) {
+        foreach ($invoice->invoiceDetails as $po => $product) {
             if ($product->product instanceof Enrollment)
             {   
-                $ivkardex[$p] = [
+                $ivkardex[] = [
                     'codinventario' => $product->product_code,
                     'codbodega' => 'MAT',
                     'cantidad' => 1,
@@ -49,7 +49,7 @@ class Ecuasolutions implements InvoicingInterface
             }
             elseif ($product->product instanceof Fee)
             {
-                $ivkardex[$p] = [
+                $ivkardex[] = [
                     'codinventario' => $product->product_code,
                     'codbodega' => 'MAT',
                     'cantidad' => 1,
@@ -61,7 +61,7 @@ class Ecuasolutions implements InvoicingInterface
             }
             elseif ($product->product instanceof Book)
             {
-                $ivkardex[$p] = [
+                $ivkardex[] = [
                     'codinventario' => $product->product_code,
                     'codbodega' => 'MAT',
                     'cantidad' => 1,
@@ -93,6 +93,8 @@ class Ecuasolutions implements InvoicingInterface
         $client = new Client(['debug' => true, 'connect_timeout' => 20]);
 
         $serverurl = config('invoicing.ecuasolutions.url');
+
+        Log::info($body);
 
         $response = $client->post($serverurl, [
             'headers' => [
