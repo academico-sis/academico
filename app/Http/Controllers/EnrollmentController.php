@@ -128,7 +128,9 @@ class EnrollmentController extends Controller
         {
             // Set quantity to 1
 
-            array_push($products, $enrollment->course->books);
+            foreach ($enrollment->course->books as $book) {
+                array_push($products, $book);
+            }
         }
 
 
