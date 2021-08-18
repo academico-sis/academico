@@ -17,6 +17,7 @@ use App\Models\Rhythm;
 use App\Models\Room;
 use App\Models\Skills\SkillScale;
 use App\Models\User;
+use App\Models\Year;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Permission;
@@ -327,10 +328,14 @@ class TestSeeder extends Seeder
         factory(Level::class)->create(['name' => 'Intermediate']);
         factory(Level::class)->create(['name' => 'Advanced']);
 
-        $periodStartDate = now()->subDays(rand(1, 30));
+        Year::create(['name' => 'test1']);
+        
+        $periodStartDate = now()->subDays(rand(1, 30))->format('Y-m-d');
         factory(Period::class)->create([
             'start' => $periodStartDate,
             'end' => $periodStartDate->addDays(90),
+            'year_id' => 1,
+            'order' => 1
         ]);
     }
 }
