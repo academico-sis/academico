@@ -161,10 +161,19 @@ class TeacherCrudController extends CrudController
 
     public function store(Request $request)
     {
+        if (User::where('email', $request->email)->count() === 0)
+        {
+            $username = $request->email;
+        }
+        else {
+            $username = $this->generateUsername($request->firstname . ' ' . $request->lastname);
+        }
+
         $user = User::create([
             'firstname' => $request->firstname,
             'lastname' => $request->lastname,
             'email' => $request->email,
+            'username' => $username,
             'password' => Hash::make(Str::random(12)),
         ]);
 
@@ -175,5 +184,19 @@ class TeacherCrudController extends CrudController
         ]);
 
         return redirect()->route('teacher.index');
+    }
+
+    protected function generateUsername($fullName) : string
+    {
+        $username_parts = array_filter(explode(" ", strtolower($fullName)));
+        $username_parts = array_slice($username_parts, -2);
+
+        $part1 = (!empty($username_parts[0]))?substr($username_parts[0], 0,3):"";
+        $part2 = (!empty($username_parts[1]))?substr($username_parts[1], 0,8):"";
+        $part3 = rand(999, 9999);
+
+        $username = $part1. $part2. $part3; //str_shuffle to randomly shuffle all characters
+
+        return $username;
     }
 }
