@@ -93,6 +93,15 @@
       "contributions": [
         "translation"
       ]
+    },
+    {
+      "login": "vitormicillo",
+      "name": "Vitor Micillo",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1921806?v=4",
+      "profile": "https://bit.ly/doode-website",
+      "contributions": [
+        "maintenance"
+      ]
     }
   ],
   "contributorsPerLine": 7,
