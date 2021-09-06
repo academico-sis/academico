@@ -9,8 +9,6 @@ class AddStylingToSkillScalesTable extends Migration
     public function up()
     {
         Schema::table('skill_scales', function (Blueprint $table) {
-            $table->decimal('min_value', 2, 1); // decimal number between 0 and 1
-            $table->decimal('max_value', 2, 1); // decimal number between 0 and 1
             $table->string('classes');
         });
     }

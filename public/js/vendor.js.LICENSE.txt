@@ -12,13 +12,13 @@
  */
 
 /*!
- * vue-i18n v8.24.5 
+ * vue-i18n v8.25.0 
  * (c) 2021 kazuya kawaguchi
  * Released under the MIT License.
  */
 
 /**
-  * vee-validate v3.4.10
+  * vee-validate v3.4.12
   * (c) 2021 Abdelrahman Awad
   * @license MIT
   */
