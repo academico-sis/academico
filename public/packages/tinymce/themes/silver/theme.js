@@ -4,7 +4,7 @@
  * For LGPL see License.txt in the project root for license information.
  * For commercial licenses see https://www.tiny.cloud/
  *
- * Version: 5.8.1 (2021-05-20)
+ * Version: 5.8.2 (2021-06-23)
  */
 (function () {
     'use strict';
@@ -27548,15 +27548,18 @@
         setupEvents$1(editor, targetElm, ui, toolbarPersist);
         editor.nodeChanged();
       };
+      var delayedRender = function () {
+        return global$2.setEditorTimeout(editor, render, 0);
+      };
       editor.on('show', render);
       editor.on('hide', ui.hide);
       if (!toolbarPersist) {
-        editor.on('focus', render);
+        editor.on('focus', delayedRender);
         editor.on('blur', ui.hide);
       }
       editor.on('init', function () {
         if (editor.hasFocus() || toolbarPersist) {
-          render();
+          delayedRender();
         }
       });
       setupReadonlyModeSwitch(editor, uiComponents);

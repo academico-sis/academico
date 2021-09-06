@@ -4,7 +4,7 @@
  * For LGPL see License.txt in the project root for license information.
  * For commercial licenses see https://www.tiny.cloud/
  *
- * Version: 5.8.1 (2021-05-20)
+ * Version: 5.8.2 (2021-06-23)
  */
 (function () {
     'use strict';
@@ -6019,6 +6019,7 @@
     };
     var getValidStartAddress = function (currentStartAddress, grid, lockedColumns) {
       var gridColLength = cellLength(grid[0]);
+      var adjustedRowAddress = extractGridDetails(grid).cols.length + currentStartAddress.row;
       var possibleColAddresses = range(gridColLength - currentStartAddress.column, function (num) {
         return num + currentStartAddress.column;
       });
@@ -6027,7 +6028,10 @@
           return col !== num;
         });
       }).getOr(gridColLength - 1);
-      return __assign(__assign({}, currentStartAddress), { column: validColAddress });
+      return {
+        row: adjustedRowAddress,
+        column: validColAddress
+      };
     };
     var getLockedColumnsWithinBounds = function (startAddress, grid, lockedColumns) {
       return filter(lockedColumns, function (colNum) {
@@ -6037,14 +6041,15 @@
     var merge$1 = function (startAddress, gridA, gridB, generator, comparator) {
       var lockedColumns = getLockedColumnsFromGrid(gridA);
       var validStartAddress = getValidStartAddress(startAddress, gridA, lockedColumns);
-      var lockedColumnsWithinBounds = getLockedColumnsWithinBounds(validStartAddress, gridB, lockedColumns);
-      var result = measure(validStartAddress, gridA, gridB);
+      var gridBRows = extractGridDetails(gridB).rows;
+      var lockedColumnsWithinBounds = getLockedColumnsWithinBounds(validStartAddress, gridBRows, lockedColumns);
+      var result = measure(validStartAddress, gridA, gridBRows);
       return result.map(function (diff) {
         var delta = __assign(__assign({}, diff), { colDelta: diff.colDelta - lockedColumnsWithinBounds.length });
         var fittedGrid = tailor(gridA, delta, generator);
         var newLockedColumns = getLockedColumnsFromGrid(fittedGrid);
-        var newLockedColumnsWithinBounds = getLockedColumnsWithinBounds(validStartAddress, gridB, newLockedColumns);
-        return mergeTables(validStartAddress, fittedGrid, gridB, generator, comparator, newLockedColumnsWithinBounds);
+        var newLockedColumnsWithinBounds = getLockedColumnsWithinBounds(validStartAddress, gridBRows, newLockedColumns);
+        return mergeTables(validStartAddress, fittedGrid, gridBRows, generator, comparator, newLockedColumnsWithinBounds);
       });
     };
     var insertCols = function (index, gridA, gridB, generator, comparator) {

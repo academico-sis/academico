@@ -1,6 +1,6 @@
-# FixedHeader for DataTables with styling for [Bootstrap 4](http://getbootstrap.com/)
+# FixedHeader for DataTables with styling for [Bootstrap4](https://getbootstrap.com/docs/4.6/getting-started/introduction/)
 
-This package contains distribution files required to style [FixedHeader extension](https://datatables.net/extensions/fixedheader) for [DataTables](https://datatables.net/) with styling for [Bootstrap 4](http://getbootstrap.com/).
+This package contains a built distribution of the [FixedHeader extension](https://datatables.net/extensions/FixedHeader) for [DataTables](https://datatables.net/) with styling for [Bootstrap4](https://getbootstrap.com/docs/4.6/getting-started/introduction/).
 
 When displaying large amounts of data in a table, it can often be useful for the end user to have the column titles always visible. This is particularly true if using DataTables with pagination disabled, or the display length is set to a high value. The FixedHeader extension provides this ability.
 
@@ -17,9 +17,15 @@ For inclusion of this library using a standard `<script>` tag, rather than using
 npm install datatables.net-fixedheader-bs4
 ```
 
+ES3 Syntax
 ```
 var $ = require( 'jquery' );
-require( 'datatables.net-fixedheader-bs4' )( $ );
+var dt = require( 'datatables.net-fixedheader-bs4' )( window, $ );
+```
+
+ES6 Syntax
+```
+import 'datatables.net-fixedheader-bs4'
 ```
 
 ### bower
@@ -32,7 +38,7 @@ bower install --save datatables.net-fixedheader-bs4
 
 ## Documentation
 
-Full documentation of the DataTables options, API and plug-in interface are available on the DOCS_LINK. The site also contains information on the wide variety of plug-ins that are available for DataTables, which can be used to enhance and customise your table even further.
+Full documentation and examples for FixedHeader can be found [on the website](https://datatables.net/extensions/fixedheader).
 
 
 ## Bug / Support
@@ -48,3 +54,4 @@ If you are thinking of contributing code to DataTables, first of all, thank you!
 ## License
 
 This software is released under the [MIT license](//datatables.net/license). You are free to use, modify and distribute this software, but all copyright information must remain.
+

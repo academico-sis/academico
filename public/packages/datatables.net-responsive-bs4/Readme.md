@@ -1,6 +1,6 @@
-# Responsive for DataTables with styling for [Bootstrap 4](http://getbootstrap.com/)
+# Responsive for DataTables with styling for [Bootstrap4](https://getbootstrap.com/docs/4.6/getting-started/introduction/)
 
-This package contains distribution files required to style [Responsive extension](https://datatables.net/extensions/responsive) for [DataTables](https://datatables.net/) with styling for [Bootstrap 4](http://getbootstrap.com/).
+This package contains a built distribution of the [Responsive extension](https://datatables.net/extensions/Responsive) for [DataTables](https://datatables.net/) with styling for [Bootstrap4](https://getbootstrap.com/docs/4.6/getting-started/introduction/).
 
 In the modern world of responsive web design tables can often cause a particular problem for designers due to their row based layout. Responsive is an extension for DataTables that resolves that problem by optimising the table's layout for different screen sizes through the dynamic insertion and removal of columns from the table.
 
@@ -17,9 +17,15 @@ For inclusion of this library using a standard `<script>` tag, rather than using
 npm install datatables.net-responsive-bs4
 ```
 
+ES3 Syntax
 ```
 var $ = require( 'jquery' );
-require( 'datatables.net-responsive-bs4' )( $ );
+var dt = require( 'datatables.net-responsive-bs4' )( window, $ );
+```
+
+ES6 Syntax
+```
+import 'datatables.net-responsive-bs4'
 ```
 
 ### bower
@@ -32,7 +38,7 @@ bower install --save datatables.net-responsive-bs4
 
 ## Documentation
 
-Full documentation of the DataTables options, API and plug-in interface are available on the DOCS_LINK. The site also contains information on the wide variety of plug-ins that are available for DataTables, which can be used to enhance and customise your table even further.
+Full documentation and examples for Responsive can be found [on the website](https://datatables.net/extensions/responsive).
 
 
 ## Bug / Support
@@ -48,3 +54,4 @@ If you are thinking of contributing code to DataTables, first of all, thank you!
 ## License
 
 This software is released under the [MIT license](//datatables.net/license). You are free to use, modify and distribute this software, but all copyright information must remain.
+

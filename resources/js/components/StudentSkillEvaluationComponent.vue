@@ -32,21 +32,7 @@
                                     >
                                         <button
                                             class="btn btn-secondary"
-                                            :class="{
-                                                'btn-success':
-                                                    skillScale.value > 0.75 &&
-                                                    skill.status ===
-                                                        skillScale.id,
-                                                'btn-warning':
-                                                    0.4 <= skillScale.value &&
-                                                    0.75 >= skillScale.value &&
-                                                    skill.status ===
-                                                        skillScale.id,
-                                                'btn-danger':
-                                                    skillScale.value < 0.4 &&
-                                                    skill.status ===
-                                                        skillScale.id,
-                                            }"
+                                            :class="(skill.status === skillScale.id) ? skillScale.classes : 'btn-secondary'"
                                             @click="
                                                 saveSkillStatus(
                                                     skill,
@@ -54,7 +40,7 @@
                                                 )
                                             "
                                         >
-                                            {{ skillScale.name.fr }}
+                                            {{ skillScale.scale_name }}
                                         </button>
                                     </div>
                                 </div>

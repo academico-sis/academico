@@ -40,21 +40,10 @@ class SkillScale extends Model
 
     public $translatable = ['shortname', 'name'];
 
+    protected $appends = ['scale_name'];
+
     public function getScaleNameAttribute()
     {
         return $this->name;
-    }
-
-    public function getStyleAttribute()
-    {
-        if ($this->value > 0.75) {
-            return 'success';
-        }
-
-        if ((0.4 <= $this->value) && (0.75 >= $this->value)) {
-            return 'warning';
-        }
-
-        return 'danger';
     }
 }
