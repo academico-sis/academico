@@ -3,7 +3,10 @@
 @section('header')
 <section class="container-fluid">
     <h2>
-        @lang('Course Details')
+        {{ $course->name ?? '' }}<br>
+        <span class="text-muted text-uppercase font-weight-bold small">{{ $course->rhythm->name ?? '-' . ' ' . $course->level->name ?? '-' }}</span>
+         |
+        @if ($course->start_date && $course->end_date) <span class="text-muted small">{{ $course->formatted_start_date }} - {{ $course->formatted_end_date }}</span>@endif
     </h2>
 </section>
 @endsection
@@ -32,12 +35,38 @@
                 <table id="studentsTable" class="table table-striped responsive" style="width:100%">
                     <thead>
                         <tr>
-                            <th>@lang('Last Name')</th>
-                            <th>@lang('First Name')</th>
-                            <th>@lang('age')</th>
-                            <th>@lang('birthdate')</th>
-                            <th>@lang('email')</th>
-                            <th>@lang('Phone Number')</th>
+                            @if (in_array('lastname', config('app.course_view_columns')))
+                                <th>@lang('Last Name')</th>
+                            @endif
+
+                            @if (in_array('firstname', config('app.course_view_columns')))
+                                <th>@lang('First Name')</th>
+                            @endif
+
+                            @if (in_array('age', config('app.course_view_columns')))
+                                <th>@lang('age')</th>
+                            @endif
+
+                            @if (in_array('status', config('app.course_view_columns')))
+                                <th>@lang('Status')</th>
+                            @endif
+
+                            @if (in_array('birthdate', config('app.course_view_columns')))
+                                <th>@lang('birthdate')</th>
+                            @endif
+
+                            @if (in_array('email', config('app.course_view_columns')))
+                                <th>@lang('email')</th>
+                            @endif
+
+                            @if (in_array('phone', config('app.course_view_columns')))
+                                <th>@lang('Phone Number')</th>
+                            @endif
+
+                            @if (in_array('book', config('app.course_view_columns')))
+                                <th>@lang('Book')</th>
+                            @endif
+
                             <th>@lang('actions')</th>
                         </tr>
                     </thead>
@@ -45,18 +74,42 @@
                     <tbody>
                         @foreach ($enrollments as $enrollment)
                         <tr>
-                            <td>{{ $enrollment->student->lastname }}</td>
-                            <td>{{ $enrollment->student->firstname }}</td>
-                            <td>{{ $enrollment->student->student_age }}</td>
-                            <td>{{ $enrollment->student->student_birthdate }}</td>
-                            <td>{{ $enrollment->student->email }}</td>
-                            <td>@foreach ($enrollment->student->phone as $phone) {{ $phone->phone_number }} - @endforeach</td>
+                            @if (in_array('lastname', config('app.course_view_columns')))
+                                <td>{{ $enrollment->student->lastname }}</td>
+                            @endif
+
+                            @if (in_array('firstname', config('app.course_view_columns')))
+                                <td>{{ $enrollment->student->firstname }}</td>
+                            @endif
+
+                            @if (in_array('age', config('app.course_view_columns')))
+                                <td>{{ $enrollment->student->student_age }}</td>
+                            @endif
+
+                            @if (in_array('age', config('app.course_view_columns')))
+                                <td>{{ $enrollment->status }}</td>
+                            @endif
+
+                            @if (in_array('birthdate', config('app.course_view_columns')))
+                                <td>{{ $enrollment->student->student_birthdate }}</td>
+                            @endif
+
+                            @if (in_array('email', config('app.course_view_columns')))
+                                <td>{{ $enrollment->student->email }}</td>
+                            @endif
+
+                            @if (in_array('phone', config('app.course_view_columns')))
+                                <td>{{ $enrollment->student->phone->implode('phone_number', ' - ') }}</td>
+                            @endif
+
+                            @if (in_array('book', config('app.course_view_columns')))
+                                <td>{{ $enrollment->has_book_for_course }}</td>
+                            @endif
 
                             <td><!-- available actions -->
                                 <a href="/student/{{ $enrollment->student_id }}/show" class='btn btn-sm btn-secondary'>
                                     <i class='la la-briefcase'></i>
                                 </a>
-
                             </td>
                         </tr>
                         @endforeach

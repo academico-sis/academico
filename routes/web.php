@@ -70,6 +70,10 @@ Route::group(
         Route::get('phonenumber/student/{student}', 'StudentPhoneNumberController@get');
         Route::post('phonenumber/student/{student}', 'StudentPhoneNumberController@store');
         Route::delete('phonenumber/{phoneNumber}', 'StudentPhoneNumberController@destroy');
+
+        Route::post('user/addbook', 'BookController@store')->name('addBook');
+        Route::put('bookstudent', 'BookController@update');
+        Route::delete('bookstudent', 'BookController@destroy');
     }
 );
 
@@ -106,6 +110,9 @@ Route::group(
 );
 
 Route::post('store-result', 'ResultController@store')->name('storeResult');
+Route::get('enrollment/{enrollment}/export-result', 'ResultController@exportResult')->name('enrollment-export-result');
+Route::get('enrollment/{enrollment}/export-certificate', 'ResultController@exportCertificate')->name('enrollment-export-certificate');
+Route::get('course/{course}/export-course-results', 'ResultController@exportCourseResults')->name('course-export-results');
 
 // COURSE EDITION ROUTES
 Route::group(

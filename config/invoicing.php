@@ -30,4 +30,6 @@ return [
     'allow_empty_payment_methods' => env('ALLOW_EMPTY_PAYMENT_METHODS', false),
 
     'allowed_blank_fields' => explode(',', env('ALLOWED_EMPTY_INVOICE_FIELDS', '')),
+
+    'adding_scholarship_marks_as_paid' => env('ADDING_SCHOLARSHIPS_MARKS_AS_PAID', false),
 ];

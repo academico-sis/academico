@@ -42,8 +42,8 @@
 
                     <table class="table">
                         <thead>
-                        <th>@lang('Product')</th>
-                        <th>@lang('Price')</th>
+                            <th>@lang('Product')</th>
+                            <th>@lang('Price')</th>
                         </thead>
                         <tbody>
                         @foreach($invoice->invoiceDetails as $product)

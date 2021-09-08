@@ -8,6 +8,7 @@ use App\Events\StudentDeleting;
 use App\Events\StudentUpdated;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -176,6 +177,11 @@ class Student extends Model implements HasMedia
         };
     }
 
+    public function scopeNewInPeriod(Builder $query, $period)
+    {
+        return $query->whereIn('id', Period::find($period)->newStudents()->pluck(['student_id'])->toArray());
+    }
+
     public function registerMediaConversions(Media $media = null): void
     {
         $this->addMediaConversion('thumb')
@@ -265,6 +271,11 @@ class Student extends Model implements HasMedia
     public function profession()
     {
         return $this->belongsTo(Profession::class);
+    }
+
+    public function books()
+    {
+        return $this->belongsToMany(Book::class)->withPivot('id', 'code', 'status_id', 'expiry_date');
     }
 
     public function title()

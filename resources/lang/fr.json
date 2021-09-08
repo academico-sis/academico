@@ -456,5 +456,14 @@
     "Enrollment sheet": "Fiche d'inscription",
     "Due Date": "Dû au",
     "Export": "Exporter",
-    "Quantity": "Quantité"
+    "Quantity": "Quantité",
+    "Photo Roster": "Trombinoscope",
+    "Students List": "Liste des étudiants",
+    "Book": "Livre",
+    "Code": "Code",
+    "Expiry Date": "Date d'expiration",
+    "New In": "Nouvel(le) étudiant(e) dans le cycle...",
+    "The enrollment is unpaid": "L'export des bulletins est interdit, car l'inscription est impayée",
+    "Last enrollment": "Dernière inscription",
+    "Evaluation ready": "Evaluation terminée"
 }

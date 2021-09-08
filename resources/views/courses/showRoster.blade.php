@@ -17,7 +17,7 @@
         <div class="card">
             <div class="card-header">
                 <button class="btn btn-primary" data-toggle="modal" data-target="#myModal">@lang('Enroll new student')</button>
-                 <a href="/course/{{ $course->id }}/show/" class="btn btn-primary mr-3">Student List</a>
+                 <a href="/course/{{ $course->id }}/show/" class="btn btn-primary mr-3">@lang('Students List')</a>
             </div>
         </div>
     </div>

@@ -5,8 +5,10 @@ namespace App\Providers;
 use App\Interfaces\InvoicingInterface;
 use App\Interfaces\LMSInterface;
 use App\Interfaces\MailingSystemInterface;
+use App\Models\Book;
 use App\Models\Config;
 use App\Models\ContactRelationship;
+use App\Models\EnrollmentStatusType;
 use App\Models\Period;
 use App\Models\Room;
 use App\Models\Teacher;
@@ -52,6 +54,11 @@ class AppServiceProvider extends ServiceProvider
             ['partials.create_new_contact', 'students.edit-contact'], function ($view) {
                 $view->with('contact_types', ContactRelationship::all());
             });
+
+        View::composer('partials.add_book_to_student', function ($view) {
+            $view->with('books', Book::all());
+            $view->with('statuses', EnrollmentStatusType::all());
+        });
     }
 
     /**

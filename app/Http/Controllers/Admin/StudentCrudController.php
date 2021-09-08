@@ -51,6 +51,11 @@ class StudentCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix').'/student');
         CRUD::setEntityNameStrings(__('student'), __('students'));
         CRUD::enableExportButtons();
+
+        $permissions = backpack_user()->getAllPermissions();
+        if ($permissions->contains('name', 'enrollments.edit')) {
+            CRUD::addButtonFromView('line', 'selectCourse', 'selectCourse', 'beginning');
+        }
     }
 
     public function setupListOperation()
@@ -191,6 +196,19 @@ class StudentCrudController extends CrudController
                 });
             }
         });
+
+        CRUD::addFilter([
+                'name' => 'new_students',
+                'type' => 'select2',
+                'label'=> __('New In'),
+            ],
+            function () {
+                return Period::all()->pluck('name', 'id')->toArray();
+            },
+            function ($value) { // if the filter is active
+                CRUD::addClause('newInPeriod', $value);
+            }
+        );
 
         // select2 filter
         $this->crud->addFilter([

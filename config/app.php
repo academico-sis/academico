@@ -112,6 +112,8 @@ return [
 
     'enrollment_sheet' => env('ENROLLMENT_SHEET', false),
 
+    'books_module' => env('BOOKS_MODULE_ENABLED', false),
+    'course_view_columns' => explode(',', env('COLUMNS_IN_COURSE_VIEW', 'lastname,firstname,email')),
     /*
     |--------------------------------------------------------------------------
     | Faker Locale

@@ -33,7 +33,6 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @property-read mixed $external_students_count
  * @property-read mixed $external_taught_hours_count
  * @property-read mixed $internal_enrollments_count
- * @property-read mixed $new_students_count
  * @property-read mixed $next_period
  * @property-read mixed $paid_enrollments_count
  * @property-read mixed $partnerships_count
@@ -253,7 +252,7 @@ class Period extends Model
         return number_format((100 * $acquired_students->count()) / max($previous_period_student_ids->count(), 1), 1).'%';
     }
 
-    public function getNewStudentsCountAttribute()
+    public function newStudents()
     {
         // get students IDs enrolled in all previous periods
         $previous_period_student_ids = DB::table('enrollments')->join('courses', 'enrollments.course_id', 'courses.id')->where('period_id', '<', $this->id)->pluck('enrollments.student_id');
@@ -262,7 +261,7 @@ class Period extends Model
         $current_students_ids = $this->real_enrollments->unique('student_id');
 
         // students in period P who have never been enrolled in previous periods
-        return $current_students_ids->whereNotIn('student_id', $previous_period_student_ids)->count();
+        return $current_students_ids->whereNotIn('student_id', $previous_period_student_ids);
     }
 
     public function getPeriodTaughtHoursCountAttribute()

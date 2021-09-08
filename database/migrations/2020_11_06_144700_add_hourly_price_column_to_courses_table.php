@@ -14,7 +14,7 @@ class AddHourlyPriceColumnToCoursesTable extends Migration
     public function up()
     {
         Schema::table('courses', function (Blueprint $table) {
-            $table->decimal('hourly_price', 8, 2)->nullable()->after('price');
+            $table->decimal('hourly_price', 8, 2)->nullable();
         });
     }
 

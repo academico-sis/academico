@@ -5,6 +5,7 @@
             <th>{{ $t("Payment") }}</th>
             <th>{{ $t("Date") }}</th>
             <th>{{ $t("Value") }}</th>
+            <td>{{ $t('Comment') }}</td>
             <th></th>
         </tr>
         </thead>
@@ -46,6 +47,9 @@
                 <span v-if="currencyposition === 'after'"> {{ currency }}</span>
             </td>
 
+            <td>
+                {{ payment.comment }}
+            </td>
             <td>
                 <button v-if="editable" class="btn btn-sm btn-ghost-danger" @click="removePayment(payment)">
                     <i class="la la-times"></i>

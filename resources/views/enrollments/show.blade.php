@@ -21,6 +21,12 @@
                     <a class="btn btn-sm btn-warning" href="{{ route('enrollment.edit', ['id' => $enrollment->id]) }}">
                         {{ __('Edit') }}
                     </a>
+
+                    <a class="btn btn-sm btn-warning" href="{{ route('get-courses-list', ['mode' => 'update', 'enrollment_id' => $enrollment->id]) }}">@lang('Change course')</a>
+
+                    <button class="btn btn-sm btn-danger" onclick="if(confirm('Voulez-vous vraiment supprimer cette inscription ?')) cancel({{ $enrollment->id }})">
+                        @lang('Delete Enrollment')
+                    </button>
                 </div>
             </div>
 
@@ -32,10 +38,27 @@
                 <p>@lang('Enrollment ID'): {{ $enrollment->id }}</p>
                 <p>@lang('Course'): <a href="{{ route('course.show', ['id' => $enrollment->course_id]) }}">{{ $enrollment->course->name }}</a></p>
                 <p>@lang('Period'): {{ $enrollment->course->period->name }}</p>
+                <p><enrollment-price-field writeaccess="{{ $writeaccess }}" :enrollment="{{ json_encode($enrollment) }}" currency="{{ config('app.currency_symbol') }}" currencyposition="{{ config('app.currency_position') }}"></enrollment-price-field></p>
 
                 <div class="form-group">
-                    <a class="btn btn-sm btn-warning" href="{{ route('get-courses-list', ['mode' => 'update', 'enrollment_id' => $enrollment->id]) }}">@lang('Change course')</a>
+                    @if($enrollment->status_id === 2)
+                        <div class="badge badge-primary">{{ $enrollment->status }}</div>
+                    @elseif($enrollment->status_id === 1)
+                        <div class="badge badge-warning">{{ $enrollment->status }}</div>
+                    @else
+                        {{ $enrollment->status }}
+                    @endif
                 </div>
+
+                <div class="form-group">
+                    @foreach ($enrollment->scholarships as $scholarship)
+                        {{ $scholarship->name }} (<a href="#" onclick="if(confirm('Voulez-vous vraiment retirer cette bourse ?')) removeScholarship({{ $enrollment->id }}, {{ $scholarship->id }})">{{ __('Cancel') }}</a>)
+                    @endforeach
+                </div>
+
+                @if(backpack_user()->can('enrollments.edit'))
+                    <scholarship-modal-component enrollment_id="{{ $enrollment->id }}" :scholarships="{{ $scholarships }}"></scholarship-modal-component>
+                @endif
 
                 @if ($enrollment->children_count > 0)
                     <p>@lang('Children enrollments'):</p>
@@ -82,58 +105,50 @@
 <div class="row">
     <div class="col-md-6">
         <div class="card">
-            <div class="card-header">@lang('Invoicing')</div>
+            <div class="card-header">
+                @lang('Invoicing')
+                <div class="card-header-actions">
+                    @if(backpack_user()->can('enrollments.edit') && $enrollment->parent_id == null)
+                        <a href="/enrollment/{{ $enrollment->id }}/bill" class="btn btn-primary btn-sm">@lang('Checkout enrollment')</a>
+                    @endif
+                </div>
+            </div>
 
             <div class="card-body">
 
-                <p><enrollment-price-field writeaccess="{{ $writeaccess }}" :enrollment="{{ json_encode($enrollment) }}" currency="{{ config('app.currency_symbol') }}" currencyposition="{{ config('app.currency_position') }}"></enrollment-price-field></p>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>@lang('Date')</th>
+                            <th>@lang('Invoice') #</th>
+                            <th>@lang('Value')</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($enrollment->invoices as $invoice)
+                            <tr>
+                                <td>{{ $invoice->formatted_date }}</td>
+                                <td><a href="{{ route('invoice.show', ['id' => $invoice->id]) }}">{{ $invoice->invoice_reference }}</a></td>
+                                <td>{{ $invoice->total_price_with_currency }}</td>
+                            </tr>
 
-                <div class="form-group">
+                                @foreach($invoice->payments as $payment)
+                                    <tr style="font-size: small; font-style: italic;">
+                                        <td>Paiement du {{ $payment->date_for_humans }}</td>
+                                        <td></td>
+                                        <td>
+                                            {{ $payment->value_with_currency }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                        @empty
+                            <tr>
+                                <td>Pas encore de facture pour cette inscription.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
 
-                    @if($enrollment->status_id == 2)
-
-                        <div class="badge badge-primary">
-                            {{ $enrollment->status }}
-                        </div>
-
-                    @elseif($enrollment->status_id == 1)
-                        <div class="badge badge-warning">
-                            {{ $enrollment->status }}
-                        </div>
-                </div>
-                <div class="form-group">
-                    @if(backpack_user()->can('enrollments.edit') && $enrollment->parent_id == null)
-                        <a href="/enrollment/{{ $enrollment->id }}/bill" class="btn btn-primary">@lang('Checkout enrollment')</a>
-                    @endif
-
-                    @endif
-
-                    @foreach ($enrollment->scholarships as $scholarship)
-                        {{ $scholarship->name }} (<a href="#" onclick="if(confirm('Voulez-vous vraiment retirer cette bourse ?')) removeScholarship({{ $enrollment->id }}, {{ $scholarship->id }})">{{ __('Cancel') }}</a>)
-                    @endforeach
-                </div>
-
-                @if(backpack_user()->can('enrollments.edit'))
-
-                    <div class="form-group">
-                        {{-- todo translate and improve the confirmation message --}}
-                        <button class="btn btn-sm btn-danger" onclick="if(confirm('Voulez-vous vraiment supprimer cette inscription ?')) cancel({{ $enrollment->id }})">
-                            @lang('Delete Enrollment')
-                        </button>
-                    </div>
-
-                    <scholarship-modal-component enrollment_id="{{ $enrollment->id }}" :scholarships="{{ $scholarships }}"></scholarship-modal-component>
-
-                    @if ($enrollment->invoices->count() > 0)<h3>@lang('Invoices')</h3>
-                        <ul>
-                            @foreach($enrollment->invoices as $invoice)
-                                <li><a href="{{ route('invoice.show', ['id' => $invoice->id]) }}">{{ $invoice->invoice_reference }} - {{ $invoice->formatted_date }}</a></li>
-                            @endforeach
-                        </ul>
-                    @endif
-                @else
-                    {{ $enrollment->status }}
-                @endif
             </div>
         </div>
     </div>

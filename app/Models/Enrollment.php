@@ -195,13 +195,17 @@ class Enrollment extends Model
     public function addScholarship(Scholarship $scholarship)
     {
         $this->scholarships()->sync($scholarship);
-        $this->markAsPaid();
+        if (config('invoicing.adding_scholarship_marks_as_paid')) {
+            $this->markAsPaid();
+        }
     }
 
     public function removeScholarship($scholarship)
     {
         $this->scholarships()->detach($scholarship);
-        $this->markAsUnpaid();
+        if (config('invoicing.adding_scholarship_marks_as_paid')) {
+            $this->markAsUnpaid();
+        }
     }
 
     /** RELATIONS */
@@ -386,6 +390,20 @@ class Enrollment extends Model
         return $this->price . " " . config('app.currency_symbol');
     }
 
+    public function getBalanceAttribute()
+    {
+        $balance = $this->price;
+        $paidAmount = 0;
+
+        foreach($this->invoices as $invoice) {
+            $paidAmount += $invoice->payments?->sum('value') ?? 0;
+        }
+
+        $balance -= $paidAmount;
+
+        return number_format($balance, 2);
+    }
+
     public function cancel()
     {
         // if the enrollment had children, delete them entirely
@@ -416,5 +434,25 @@ class Enrollment extends Model
     public function setTotalPriceAttribute($value)
     {
         $this->attributes['total_price'] = $value * 100;
+    }
+
+    public function getHasBookForCourseAttribute()
+    {
+        if ($this->course->books->count() > 0) {
+            foreach ($this->course->books as $book) {
+                // if the student doesn't have one of the course books
+                if ($this->student->books->where('id', $book->id)->count() == 0) {
+                    return false;
+                }
+
+                // if one book is expired
+                if ($this->student && $this->student->books->where('id', $book->id)->filter(function ($book) {
+                        return $book->pivot->expiry_date  == null || $book->pivot->expiry_date > Carbon::now();
+                    })->count() == 0) {
+                    return "EXP";
+                }
+            }
+            return "OK";
+        }
     }
 }

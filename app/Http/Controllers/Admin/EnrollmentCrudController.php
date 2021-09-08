@@ -67,7 +67,13 @@ class EnrollmentCrudController extends CrudController
 
     public function setupListOperation()
     {
-        CRUD::setColumns([
+        if (config('app.currency_position') === 'before') {
+            $currency = array('prefix' => config('app.currency_symbol'));
+        } else {
+            $currency = array('suffix' => config('app.currency_symbol'));
+        }
+
+        CRUD::addColumns([
 
             [
                 'name' => 'id',
@@ -122,14 +128,32 @@ class EnrollmentCrudController extends CrudController
             ],
 
             [
-                // any type of relationship
-                'name'         => 'scheduledPayments', // name of relationship method in the model
-                'type'         => 'relationship',
-                'label'        => __('Scheduled Payments'),
-                // OPTIONAL
-                'attribute'    => 'date',
-                'model'     => ScheduledPayment::class, // foreign key model
+                // STATUS
+                'label' => __('Status'), // Table column heading
+                'type' => 'select',
+                'name' => 'status_id', // the column that contains the ID of that connected entity;
+                'entity' => 'enrollmentStatus', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model' => \App\Models\EnrollmentStatusType::class, // foreign key model
             ],
+
+            array_merge([
+                'name' => 'balance',
+                'label' => __('Balance'),
+                'type' => 'number',
+            ],
+            $currency),
+        ]);
+
+        if (config('invoicing.allow_scheduled_payments')) {
+            CRUD::addColumn([
+                'name' => 'scheduledPayments', // name of relationship method in the model
+                'type' => 'relationship', 'label' => __('Scheduled Payments'), // OPTIONAL
+                'attribute' => 'date', 'model' => ScheduledPayment::class, // foreign key model
+            ]);
+        }
+
+        CRUD::addColumns([
 
             [
                 // any type of relationship
@@ -231,6 +255,12 @@ class EnrollmentCrudController extends CrudController
 
     protected function setupUpdateOperation()
     {
+        if (config('app.currency_position') === 'before') {
+            $currency = array('prefix' => config('app.currency_symbol'));
+        } else {
+            $currency = array('suffix' => config('app.currency_symbol'));
+        }
+
         CRUD::addField([
             'label'     => __("Course"),
             'type'      => 'select2',
@@ -244,12 +274,6 @@ class EnrollmentCrudController extends CrudController
                 return $query->orderBy('level_id', 'ASC')->where('period_id', $this->crud->getCurrentEntry()->course->period_id)->get();
             }),
         ]);
-
-        if (config('app.currency_position') === 'before') {
-            $currency = array('prefix' => config('app.currency_symbol'));
-        } else {
-            $currency = array('suffix' => config('app.currency_symbol'));
-        }
 
         CRUD::addField(array_merge([
             'name' => 'price', // The db column name

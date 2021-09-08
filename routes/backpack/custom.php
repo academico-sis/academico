@@ -74,6 +74,7 @@ Route::group([
     Route::crud('leadtype', 'LeadTypeCrudController');
     Route::crud('book', 'BookCrudController');
     Route::crud('gradetypecategory', 'GradeTypeCategoryCrudController');
+    Route::crud('member', 'MemberCrudController');
     Route::crud('partner', 'PartnerCrudController');
     Route::crud('schedulepreset', 'SchedulePresetCrudController');
     Route::crud('payment', 'PaymentCrudController');

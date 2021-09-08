@@ -13,9 +13,11 @@ class AddTaxRateColumnToInvoiceDetailsTable extends Migration
      */
     public function up()
     {
-        Schema::table('invoice_details', function (Blueprint $table) {
-            $table->decimal('tax_rate', 8, 2)->after('price')->default(0);
-        });
+        if (Schema::hasTable('invoice_details')) {
+            Schema::table('invoice_details', function (Blueprint $table) {
+                $table->decimal('tax_rate', 8, 2)->after('price')->default(0);
+            });
+        }
     }
 
     /**

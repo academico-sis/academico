@@ -744,6 +744,12 @@ class CourseCrudController extends CrudController
             ],
 
             [
+                'label' => __('Evaluation ready'),
+                'name' => 'marked',
+                'tab' => __('Pedagogy'),
+            ],
+
+            [
                 // PERIOD
                 'label' => __('Period'), // Table column heading
                 'type' => 'select',
