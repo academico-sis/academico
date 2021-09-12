@@ -187,13 +187,14 @@ class EnrollmentController extends Controller
 
     private function utf8_for_xml($string)
     {
-        return preg_replace('/\P{L}+/u', ' ', $string);
+        return preg_replace('/^[\p{L}\p{N}_-]+$/u', ' ', $string);
     }
 
     public function exportToWord(Enrollment $enrollment)
     {
         App::setLocale(config('app.locale'));
         $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor(storage_path('enrollment.docx'));
+
 
         $templateProcessor->setValue('enrollment_date', $enrollment->date);
         $templateProcessor->setValue('name', $enrollment->student_name);
@@ -233,8 +234,8 @@ class EnrollmentController extends Controller
         if ($enrollment->scheduledPayments->count() > 0) {
             foreach ($enrollment->scheduledPayments as $payment) {
                 $table->addRow(500);
-                $table->addCell(4000)->addText($payment->date_for_humans);
-                $table->addCell(5000)->addText($payment->value_with_currency);
+                $table->addCell(4000)->addText($payment->date_for_humans, [], ['spaceAfter' => 0]);
+                $table->addCell(5000)->addText($payment->value_with_currency, [], ['spaceAfter' => 0]);
             }
             $templateProcessor->setComplexBlock('payments', $table);
         } else {
