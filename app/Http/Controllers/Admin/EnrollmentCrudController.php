@@ -133,6 +133,13 @@ class EnrollmentCrudController extends CrudController
             ],
 
             [
+                'label'     => __('Email'), // Table column heading
+                'name' => 'user',
+                'attribute' => 'email',
+                'type' => 'relationship',
+            ],
+
+            [
                 'label'     => __('Phone number'), // Table column heading
                 'type'      => 'select_multiple',
                 'name'      => 'student.phone', // the method that defines the relationship in your Model
