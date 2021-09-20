@@ -18,6 +18,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Support\Facades\Log;
 use App\Models\Student;
+use App\Models\ScheduledPayment;
 
 /**
  * Class EnrollmentCrudController
@@ -120,6 +121,15 @@ class EnrollmentCrudController extends CrudController
                 'attribute' => 'name',
             ],
 
+            [
+                // any type of relationship
+                'name'         => 'scheduledPayments', // name of relationship method in the model
+                'type'         => 'relationship',
+                'label'        => __('Scheduled Payments'),
+                // OPTIONAL
+                'attribute'    => 'date',
+                'model'     => ScheduledPayment::class, // foreign key model
+            ],
 
             [
                 // any type of relationship

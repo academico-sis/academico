@@ -82,7 +82,7 @@ class Invoice extends Model
 
     public function invoiceDetails()
     {
-        return $this->hasMany(InvoiceDetail::class);
+        return $this->hasMany(InvoiceDetail::class)->orderByRaw("CASE WHEN product_type like '%Enrollment' THEN 10 WHEN product_type like '%Fee' THEN 5 ELSE 0 END desc");
     }
 
     public function products()
