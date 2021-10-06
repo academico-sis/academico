@@ -61,10 +61,8 @@ document.addEventListener('DOMContentLoaded', () => { // page is now ready...
         schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
         resources: @json($resources),
         height: "auto",
-        minTime: "07:00:00",
-        maxTime: "21:00:00",
         nowIndicator: true,
-        locale: 'fr',
+        locale: "{{ backpack_user()->locale }}",
         events: @json($events),
         titleFormat: { // will produce something like "Tuesday, September 18, 2018"
             month: 'long',

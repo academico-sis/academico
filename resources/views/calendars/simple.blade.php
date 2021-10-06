@@ -45,11 +45,10 @@ var calendarEl = document.getElementById('calendar'); // grab element reference
 var calendar = new FullCalendar.Calendar(calendarEl, {
     plugins: [ 'timeGrid' ],
     defaultView: 'timeGridWeek',
-    minTime: "06:00:00",
-    maxTime: "23:00:00",
     nowIndicator: true,
     hiddenDays: [ 0 ], // TODO make this customizable
     firstDay: 1,
+    locale: "{{ backpack_user()->locale }}",
     eventSources: [
             {
                 events: @json($events),
