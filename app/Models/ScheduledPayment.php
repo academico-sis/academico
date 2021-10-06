@@ -37,6 +37,7 @@ use Illuminate\Support\Facades\App;
  */
 class ScheduledPayment extends Model
 {
+    use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     /*
     |--------------------------------------------------------------------------
     | GLOBAL VARIABLES

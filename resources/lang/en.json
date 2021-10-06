@@ -443,6 +443,8 @@
     "First payment date": "First payment date",
     "Number of payments": "Number of payments",
     "Scheduled Payments": "Scheduled Payments",
+    "scheduled payment": "scheduled payment",
+    "scheduled payments": "scheduled payments",
     "Value": "Value",
     "Receipt Number":  "Receipt Number",
     "Total paid amount does not match the invoice total price": "Total paid amount does not match the invoice total price",

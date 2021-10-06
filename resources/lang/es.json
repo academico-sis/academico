@@ -443,6 +443,8 @@
     "First payment date": "Fecha de inicio",
     "Number of payments": "Cantidad de pagos",
     "Scheduled Payments": "Calendario de pagos",
+    "scheduled payment": "Pagos programados",
+    "scheduled payments": "pagos programados",
     "Value": "Valor",
     "Receipt Number":  "Número de recibo",
     "Total paid amount does not match the invoice total price": "El valor total recibido no corresponde al valor total de la factura",
