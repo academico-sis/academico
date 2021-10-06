@@ -122,6 +122,11 @@ class ScheduledPayment extends Model
         return $this->invoices->count() > 0 ? 2 : 1;
     }
 
+    public function identifiableAttribute()
+    {
+        return $this->date . " (" . $this->value_with_currency . ")";
+    }
+
     /*
     |--------------------------------------------------------------------------
     | MUTATORS
