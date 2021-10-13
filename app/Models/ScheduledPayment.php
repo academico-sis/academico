@@ -75,6 +75,11 @@ class ScheduledPayment extends Model
         return $this->belongsToMany(Invoice::class, 'enrollment_invoice', 'scheduled_payment_id', 'invoice_id');
     }
 
+    public function statusType()
+    {
+        return $this->belongsTo(EnrollmentStatusType::class, 'status');
+    }
+
     /*
     |--------------------------------------------------------------------------
     | SCOPES
@@ -126,6 +131,11 @@ class ScheduledPayment extends Model
     public function identifiableAttribute()
     {
         return $this->date . " (" . $this->value_with_currency . ")";
+    }
+
+    public function getStatusTypeNameAttribute()
+    {
+        return $this->statusType->name;
     }
 
     /*

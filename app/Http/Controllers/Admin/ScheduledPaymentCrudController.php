@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\ScheduledPaymentRequest;
+use App\Models\EnrollmentStatusType;
 use App\Models\Invoice;
 use App\Models\Paymentmethod;
 use App\Models\ScheduledPayment;
@@ -99,13 +100,24 @@ class ScheduledPaymentCrudController extends CrudController
             'label' => __('Value'),
             'type'  => 'number'], $currency));
 
+        CRUD::addColumn([
+            'name' => 'status_name',
+            'type' => 'model_function',
+            'function_name' => 'getStatusTypeNameAttribute',
+        ]);
+
         CRUD::column('date');
 
-        /**
-         * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
-         */
+        CRUD::addFilter([
+            'name' => 'status_id',
+            'type' => 'select2',
+            'label'=> __('Status'),
+        ], function () {
+            return EnrollmentStatusType::all()->pluck('name', 'id')->toArray();
+        },
+            function ($value) { // if the filter is active
+                CRUD::addClause('where', 'status', $value);
+            });
     }
 
     /**

@@ -87,7 +87,7 @@
                     <tbody>
                         @foreach($absences as $absence)
                             <tr>
-                                <td><a href="{{ route('studentAttendance', ['student' => $absence->first()->student_id]) }}?course_id={{ $absence->first()->event->course_id }}">{{ $absence->first()->student->name }}</a></td>
+                                <td><a href="{{ route('studentAttendance', ['student' => $absence->first()->student_id]) }}?course_id={{ $absence->first()->event->course_id }}">{{ $absence->first()->student_name }}</a></td>
                                 <td>{{ $absence->first()->event->course->name }}</td>
                                 <td>{{ $absence->first()->event->course->course_teacher_name }}</td>
                                 <td>
