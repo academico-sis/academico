@@ -113,10 +113,13 @@ class ScheduledPaymentCrudController extends CrudController
             'type' => 'select2',
             'label'=> __('Status'),
         ], function () {
-            return EnrollmentStatusType::all()->pluck('name', 'id')->toArray();
+            return [
+                1 => __('Pending'),
+                2 => __('Paid'),
+            ];
         },
             function ($value) { // if the filter is active
-                CRUD::addClause('where', 'status', $value);
+                CRUD::addClause('status', $value);
             });
     }
 

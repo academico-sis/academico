@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Enrollment;
 use Illuminate\Support\Facades\App;
@@ -58,6 +59,15 @@ class ScheduledPayment extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
+
+    public function scopeStatus(Builder $query, $status)
+    {
+        return match ($status) {
+            "2" => $query->where('status', 2)->orWhereHas('invoices'),
+            "1" => $query->where('status', 1)->orWhereDoesntHave('invoices'),
+            default => $query,
+        };
+    }
 
     /*
     |--------------------------------------------------------------------------
@@ -135,7 +145,11 @@ class ScheduledPayment extends Model
 
     public function getStatusTypeNameAttribute()
     {
-        return $this->statusType->name;
+        return match($this->computed_status) {
+            2 => __('Paid'),
+            1 => __('Pending'),
+            default => '-',
+        };
     }
 
     /*
