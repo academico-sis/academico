@@ -483,12 +483,42 @@ class Course extends Model
             }
         }
 
-        $result = '';
+        $parsed = [];
+        $times = '';
+        $group = 1;
+        $dayTimes = [];
+
         foreach ($parsedCourseTimes as $day => $times) {
-            $result .= $day.' '.implode(' / ', $times).' | ';
+            $dayTimes[] = [
+                'day' => $day,
+                'time' => implode(' / ', $times),
+            ];
         }
 
-        return trim($result, ' | ');
+        // grouping by time
+        foreach ($dayTimes as $key => $value) {
+            if ($value['time'] == $times || !$times) {
+                $parsed[$group][] = $value;
+            } else {
+                $group++;
+                $parsed[$group][] = $value;
+            }
+            $times = $value['time'];
+        }
+
+        // handle for case Mon - Friday 9:00am - 5:00pm but on the Wed 10:00am - 2:00pm, so will split up like so [Mon - Tue 9:00am - 5:00pm | Wed 10:00am -2:00pm | Thur - Friday 9:00am - 5:00pm]
+        $result = collect($parsed)->map(function ($value) {
+            $value = collect($value);
+            $day = $value->first()['day'];
+            $times = $value->first()['time'];
+            if ($value->count() > 1) {
+                $day .= ' - ' . $value->last()['day'];
+            }
+
+            return "$day $times";
+        })->implode(' | ');
+
+        return $result;
     }
 
     public function getCourseRoomNameAttribute()
