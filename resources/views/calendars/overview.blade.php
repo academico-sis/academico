@@ -47,21 +47,45 @@ document.addEventListener('DOMContentLoaded', () => { // page is now ready...
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
         schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
-        plugins: [ 'resourceTimeline', 'interaction' ],
-        defaultView: 'resourceTimelineWeek',
+        plugins: [ 'resourceTimeline', 'interaction', 'dayGrid', 'resourceTimeGrid' ],
+        defaultView: 'timeGridWeek',
+        header: {
+            center: 'timeGridWeek,timeGridTwoDay,timeGridDay'
+        },
+        views: {
+            timeGridWeek: {
+            type: 'resourceTimeline',
+            duration: { days: 7 },
+            buttonText: 'Semaine'
+            },
+            timeGridTwoDay: {
+            type: 'resourceTimeline',
+            duration: { days: 2 },
+            buttonText: '2 jours'
+            },
+            timeGridDay: {
+            type: 'resourceTimeGridDay',
+            buttonText: '1 jour'
+            }
+        },
         resources: @json($resources),
         height: "auto",
         slotLabelInterval: {hours:4},
+        slotMinTime: "05:00:00",
+        slotMaxTime: "23:00:00",
+        locale: "{{ backpack_user()->locale }}",
         nowIndicator: true,
         hiddenDays: [ 0 ], // TODO make this customizable
         firstDay: 1,
-        slotLabelFormat: {
-            hour: '2-digit',
-            minute: '2-digit',
-            meridiem: 'short',
-            hour12: false,
-        },
-        slotWidth: 20,
+        slotLabelFormat: [
+            { weekday: 'short'},
+            { hour: '2-digit',
+                minute: '2-digit',
+                meridiem: 'short',
+                hour12: false,
+            }
+        ],
+        slotWidth: 50,
         eventRender: function (info) {
             tippy(info.el, {
                 content: info.event.title,
@@ -83,6 +107,8 @@ document.addEventListener('DOMContentLoaded', () => { // page is now ready...
         ],
 
         editable:true,
+        eventDurationEditable: false,
+        eventStartEditable: false,
 
         eventDrop: info =>
             axios.patch(window.location.href, {
