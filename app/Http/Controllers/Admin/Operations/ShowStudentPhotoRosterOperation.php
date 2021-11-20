@@ -29,7 +29,7 @@ trait ShowStudentPhotoRosterOperation
      */
     protected function setupShowStudentPhotoRosterDefaults()
     {
-        $this->crud->allowAccess('showstudentphotoroster');
+        $this->crud->allowAccess(['showstudentphotoroster']);
         $this->crud->setOperationSetting('setFromDb', true);
 
         $this->crud->operation('showstudentphotoroster', function () {

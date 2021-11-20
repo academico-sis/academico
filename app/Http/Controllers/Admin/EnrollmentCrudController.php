@@ -50,9 +50,9 @@ class EnrollmentCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix').'/enrollment');
         CRUD::setEntityNameStrings(__('enrollment'), __('enrollments'));
 
-        CRUD::allowAccess('show');
+        CRUD::allowAccess(['show']);
 
-        CRUD::denyAccess('delete'); // hide the button from the list view
+        CRUD::denyAccess(['delete']); // hide the button from the list view
 
         if (backpack_user()->hasRole('admin')) {
             CRUD::enableExportButtons();

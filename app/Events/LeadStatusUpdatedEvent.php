@@ -15,6 +15,7 @@ class LeadStatusUpdatedEvent
     public $email;
     public $name;
     public $firstname;
+    public $lastname;
     public $listId;
 
     public function __construct(Student|Contact $user, $listId = null)

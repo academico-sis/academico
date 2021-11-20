@@ -75,15 +75,6 @@ class InvoiceController extends Controller
 
         $invoice->setNumber(); // TODO extract this to model events.
 
-        if (isset($enrollment) && isset($request->comment)) {
-            Comment::create([
-                'commentable_id' => $enrollment->id,
-                'commentable_type' => Enrollment::class,
-                'body' => $request->comment,
-                'author_id' => backpack_user()->id,
-            ]);
-        }
-
         // persist the products
         foreach ($request->products as $f => $product) {
             $productType = match ($product['type']) {
@@ -188,10 +179,18 @@ class InvoiceController extends Controller
             // if the value of payments matches the total due price,
             // mark the invoice and associated enrollments as paid.
             foreach ($invoice->enrollments as $enrollment) {
-            if ($enrollment->total_price == $invoice->paidTotal()) {
-                $enrollment->markAsPaid();
-            } elseif ($enrollment->scheduledPayments->where('computed_status', '!==', 2)->count() === 0) {
+                if ($enrollment->total_price == $invoice->paidTotal()) {
                     $enrollment->markAsPaid();
+                } elseif ($enrollment->scheduledPayments->where('computed_status', '!==', 2)->count() === 0) {
+                        $enrollment->markAsPaid();
+                }
+                if (isset($request->comment)) {
+                    Comment::create([
+                        'commentable_id' => $enrollment->id,
+                        'commentable_type' => Enrollment::class,
+                        'body' => $request->comment,
+                        'author_id' => backpack_user()->id,
+                    ]);
                 }
             }
         } else {
