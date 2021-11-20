@@ -1,6 +1,6 @@
-# DataTables for jQuery with styling for [Bootstrap 4](http://getbootstrap.com/)
+# DataTables for jQuery with styling for [Bootstrap4](https://getbootstrap.com/docs/4.6/getting-started/introduction/)
 
-This package contains distribution files required to style [DataTables library](https://datatables.net) for [jQuery](http://jquery.com/) with styling for [Bootstrap 4](http://getbootstrap.com/).
+This package contains distribution files required to style [DataTables library](https://datatables.net) for [jQuery](http://jquery.com/) with styling for [Bootstrap4](https://getbootstrap.com/docs/4.6/getting-started/introduction/).
 
 DataTables is a table enhancing library which adds features such as paging, ordering, search, scrolling and many more to a static HTML page. A comprehensive API is also available that can be used to manipulate the table. Please refer to the [DataTables web-site](//datatables.net) for a full range of documentation and examples.
 
@@ -17,9 +17,15 @@ For inclusion of this library using a standard `<script>` tag, rather than using
 npm install datatables.net-bs4
 ```
 
+ES3 Syntax
 ```
 var $ = require( 'jquery' );
-require( 'datatables.net-bs4' )( $ );
+require( 'datatables.net-bs4' )( window, $ );
+```
+
+ES6 Syntax
+```
+import 'datatables.net-bs4'
 ```
 
 ### bower
@@ -32,7 +38,7 @@ bower install --save datatables.net-bs4
 
 ## Documentation
 
-Full documentation of the DataTables options, API and plug-in interface are available on the DOCS_LINK. The site also contains information on the wide variety of plug-ins that are available for DataTables, which can be used to enhance and customise your table even further.
+Full documentation of the DataTables options, API and plug-in interface are available on the [website](https://datatables.net/reference/index). The site also contains information on the wide variety of plug-ins that are available for DataTables, which can be used to enhance and customise your table even further.
 
 
 ## Bug / Support
@@ -48,3 +54,4 @@ If you are thinking of contributing code to DataTables, first of all, thank you!
 ## License
 
 This software is released under the [MIT license](//datatables.net/license). You are free to use, modify and distribute this software, but all copyright information must remain.
+

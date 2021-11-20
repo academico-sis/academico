@@ -1,6 +1,6 @@
 # FixedHeader for DataTables with styling for [Bootstrap4](https://getbootstrap.com/docs/4.6/getting-started/introduction/)
 
-This package contains a built distribution of the [FixedHeader extension](https://datatables.net/extensions/FixedHeader) for [DataTables](https://datatables.net/) with styling for [Bootstrap4](https://getbootstrap.com/docs/4.6/getting-started/introduction/).
+This package contains a built distribution of the [FixedHeader extension](https://datatables.net/extensions/fixedheader) for [DataTables](https://datatables.net/) with styling for [Bootstrap4](https://getbootstrap.com/docs/4.6/getting-started/introduction/).
 
 When displaying large amounts of data in a table, it can often be useful for the end user to have the column titles always visible. This is particularly true if using DataTables with pagination disabled, or the display length is set to a high value. The FixedHeader extension provides this ability.
 
