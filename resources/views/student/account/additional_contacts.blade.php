@@ -20,7 +20,7 @@
 @endsection
 
 @section('content')
-    <div id="app">
+    <div>
         <div class="row">
             <div class="col-md-4">
                 @include('student.account.sidemenu')
@@ -122,11 +122,6 @@
 
 @section('after_scripts')
     @include('partials.create_new_contact', ['student' => $user->student])
-
-        <script src="{{ mix('/js/app.js') }}"></script>
-    <script src="{{ mix('/js/manifest.js') }}"></script>
-    <script src="{{ mix('/js/vendor.js') }}"></script>
-
 
     <script>
         function deleteContact(contact) {

@@ -16,7 +16,6 @@
             </div><!-- /.card-header -->
 
             <div class="card-body">
-                <div id="app">
                 <table class="table table-striped">
                     <thead>
                         <td>Student</td>
@@ -35,7 +34,6 @@
 
                     </tbody>
                 </table>
-                </div>
             </div>
         </div>
     </div>
@@ -54,11 +52,6 @@
 @section('after_scripts')
 
 @include('partials.enrollment_modal', ['course_id' => $event->course->parent])
-
-    <script src="{{ mix('/js/app.js') }}"></script>
-    <script src="{{ mix('/js/manifest.js') }}"></script>
-    <script src="{{ mix('/js/vendor.js') }}"></script>
-
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>

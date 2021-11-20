@@ -11,7 +11,7 @@
 
 @section('content')
 
-<div class="row" id="app">
+<div class="row">
     <student-skills-component
         :saved_skills="{{ json_encode($skills) }}"
         :enrollment="{{ json_encode($enrollment) }}"
@@ -46,11 +46,4 @@
 
 @section('before_scripts')
 
-@endsection
-
-
-@section('after_scripts')
-        <script src="{{ mix('/js/app.js') }}"></script>
-    <script src="{{ mix('/js/manifest.js') }}"></script>
-    <script src="{{ mix('/js/vendor.js') }}"></script>
 @endsection

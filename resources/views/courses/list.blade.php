@@ -18,7 +18,7 @@
 
 @section('content')
 
-<div id="app" class="row">
+<div class="row">
 <div class="col-md-12">
     <course-list-component
         :defaultperiod="{{ $defaultPeriod }}"
@@ -34,10 +34,4 @@
 </div>
 </div>
 
-@endsection
-
-@section('before_scripts')
-    <script src="{{ mix('/js/app.js') }}"></script>
-    <script src="{{ mix('/js/manifest.js') }}"></script>
-    <script src="{{ mix('/js/vendor.js') }}"></script>
 @endsection

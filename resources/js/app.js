@@ -30,6 +30,10 @@ Vue.component('cart-scheduled-payments-component', require('./components/cart/Sc
 Vue.component('cart-payment-component', require('./components/cart/CartPaymentComponent.vue').default);
 Vue.component('cart-invoice-type-component', require('./components/cart/InvoiceTypeComponent.vue').default);
 
+Vue.component('dashboard-calendar', require('./components/calendar/DashboardCalendar.vue').default);
+Vue.component('simple-calendar', require('./components/calendar/SimpleCalendar.vue').default);
+Vue.component('overview-calendar', require('./components/calendar/OverviewCalendar.vue').default);
+
 
 Vue.component('payment-component', require('./components/PaymentComponent.vue').default);
 Vue.component('enrollment-price-field', require('./components/EnrollmentPriceField.vue').default);
