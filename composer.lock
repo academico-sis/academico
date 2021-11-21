@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d868c4d6928a9fadc2d3e469fb0a00ca",
+    "content-hash": "01b00b4397a5803bd1302de65b85a800",
     "packages": [
         {
-            "name": "akaunting/language",
-            "version": "1.0.17",
+            "name": "akaunting/laravel-language",
+            "version": "1.0.18",
             "source": {
                 "type": "git",
-                "url": "https://github.com/akaunting/language.git",
-                "reference": "de4915505a5d516d87307f864cc54aaebcb7c780"
+                "url": "https://github.com/akaunting/laravel-language.git",
+                "reference": "19fc3e12ce8e5c052eda5ca6ecd3ae2b0f9952d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/akaunting/language/zipball/de4915505a5d516d87307f864cc54aaebcb7c780",
-                "reference": "de4915505a5d516d87307f864cc54aaebcb7c780",
+                "url": "https://api.github.com/repos/akaunting/laravel-language/zipball/19fc3e12ce8e5c052eda5ca6ecd3ae2b0f9952d3",
+                "reference": "19fc3e12ce8e5c052eda5ca6ecd3ae2b0f9952d3",
                 "shasum": ""
             },
             "require": {
@@ -56,18 +56,17 @@
                     "role": "Developer"
                 }
             ],
-            "description": "Language switcher package for Laravel.",
+            "description": "Language switcher package for Laravel",
             "keywords": [
                 "language",
                 "laravel",
                 "switcher"
             ],
             "support": {
-                "issues": "https://github.com/akaunting/language/issues",
-                "source": "https://github.com/akaunting/language/tree/1.0.17"
+                "issues": "https://github.com/akaunting/laravel-language/issues",
+                "source": "https://github.com/akaunting/laravel-language/tree/1.0.18"
             },
-            "abandoned": "akaunting/laravel-language",
-            "time": "2020-09-09T13:16:09+00:00"
+            "time": "2021-03-05T11:15:14+00:00"
         },
         {
             "name": "backpack/crud",
@@ -13847,5 +13846,5 @@
         "php": "^8.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }

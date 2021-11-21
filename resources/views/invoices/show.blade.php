@@ -8,7 +8,7 @@
 
 
 @section('content')
-    <div class="row" id="app">
+    <div class="row">
         <div class="col-md-4">
             <div class="card">
                 <div class="card-header">
@@ -78,10 +78,4 @@
 
     </div>
 
-@endsection
-
-@section('after_scripts')
-    <script src="{{ mix('/js/app.js') }}"></script>
-    <script src="{{ mix('/js/manifest.js') }}"></script>
-    <script src="{{ mix('/js/vendor.js') }}"></script>
 @endsection

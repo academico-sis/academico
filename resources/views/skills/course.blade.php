@@ -32,7 +32,7 @@
                     </div>
                 </div>
 
-                <div class="card-body" id="app">
+                <div class="card-body">
 
                     <skills-list :course=@json($course->id)></skills-list>
 
@@ -73,10 +73,4 @@
             </div>
         </div>
     </div>
-
-        <script src="{{ mix('/js/app.js') }}"></script>
-    <script src="{{ mix('/js/manifest.js') }}"></script>
-    <script src="{{ mix('/js/vendor.js') }}"></script>
-
-
 @endsection

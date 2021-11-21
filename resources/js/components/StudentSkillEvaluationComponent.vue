@@ -31,8 +31,8 @@
                                         role="group"
                                     >
                                         <button
-                                            class="btn btn-secondary"
-                                            :class="(skill.status === skillScale.id) ? skillScale.classes : 'btn-secondary'"
+                                            class="btn"
+                                            :class="(skill.status === skillScale.id) ? 'btn-'+skillScale.classes : 'btn-secondary'"
                                             @click="
                                                 saveSkillStatus(
                                                     skill,

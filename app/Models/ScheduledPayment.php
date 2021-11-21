@@ -35,6 +35,9 @@ use Illuminate\Support\Facades\App;
  * @method static \Illuminate\Database\Eloquent\Builder|ScheduledPayment whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ScheduledPayment whereValue($value)
  * @mixin \Eloquent
+ * @property-read mixed $status_type_name
+ * @property-read \App\Models\EnrollmentStatusType|null $statusType
+ * @method static Builder|ScheduledPayment status($status)
  */
 class ScheduledPayment extends Model
 {

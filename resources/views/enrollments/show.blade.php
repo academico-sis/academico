@@ -11,7 +11,7 @@
 
 @section('content')
 
-<div id="app">
+<div>
 <div class="row">
 
     <div class="col-md-6">
@@ -176,10 +176,4 @@
         }
 </script>
 
-@endsection
-
-@section('after_scripts')
-    <script src="{{ mix('/js/app.js') }}"></script>
-    <script src="{{ mix('/js/manifest.js') }}"></script>
-    <script src="{{ mix('/js/vendor.js') }}"></script>
 @endsection

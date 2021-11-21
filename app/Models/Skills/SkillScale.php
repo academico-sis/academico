@@ -30,6 +30,8 @@ use Spatie\Translatable\HasTranslations;
  * @method static \Illuminate\Database\Eloquent\Builder|SkillScale whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SkillScale whereValue($value)
  * @mixin \Eloquent
+ * @property string $classes
+ * @method static \Illuminate\Database\Eloquent\Builder|SkillScale whereClasses($value)
  */
 class SkillScale extends Model
 {

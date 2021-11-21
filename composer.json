@@ -9,7 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.0",
-        "akaunting/language": "^1.0.16",
+        "akaunting/laravel-language": "^1.0",
         "backpack/crud": "^4.1",
         "backpack/permissionmanager": "^6.0.0",
         "curl/curl": "^2.3.0",

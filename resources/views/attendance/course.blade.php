@@ -15,7 +15,7 @@
         <div class="card">
             <div class="card-header">@lang('Attendance')</div>
             <div class="card-body">
-                <div id="app" style="overflow-x:auto;">
+                <div style="overflow-x:auto;">
                 <table class="table">
                     <thead>
                         <td></td>
@@ -50,12 +50,4 @@
 
 </div>
 
-@endsection
-
-
-
-@section('after_scripts')
-        <script src="{{ mix('/js/app.js') }}"></script>
-    <script src="{{ mix('/js/manifest.js') }}"></script>
-    <script src="{{ mix('/js/vendor.js') }}"></script>
 @endsection
