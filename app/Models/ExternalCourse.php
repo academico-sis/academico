@@ -98,6 +98,26 @@ use App\Events\CourseUpdated;
  * @method static Builder|ExternalCourse whereUpdatedAt($value)
  * @method static Builder|ExternalCourse whereVolume($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Attendance[] $attendance
+ * @property-read int|null $attendance_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
+ * @property-read int|null $books_count
+ * @property-read \App\Models\Campus $campus
+ * @property-read \App\Models\EvaluationType|null $evaluationType
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Event[] $events
+ * @property-read int|null $events_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Grade[] $grades
+ * @property-read int|null $grades_count
+ * @property-read \App\Models\Level|null $level
+ * @property-read \App\Models\Partner|null $partner
+ * @property-read \App\Models\Period $period
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\RemoteEvent[] $remoteEvents
+ * @property-read int|null $remote_events_count
+ * @property-read \App\Models\Rhythm|null $rhythm
+ * @property-read \App\Models\Room|null $room
+ * @property-read \App\Models\Teacher|null $teacher
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\CourseTime[] $times
+ * @property-read int|null $times_count
  */
 class ExternalCourse extends Course
 {

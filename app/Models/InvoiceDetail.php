@@ -46,6 +46,8 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @method static \Illuminate\Database\Query\Builder|InvoiceDetail withTrashed()
  * @method static \Illuminate\Database\Query\Builder|InvoiceDetail withoutTrashed()
  * @mixin \Eloquent
+ * @property int|null $final_price
+ * @method static \Illuminate\Database\Eloquent\Builder|InvoiceDetail whereFinalPrice($value)
  */
 class InvoiceDetail extends Model
 {

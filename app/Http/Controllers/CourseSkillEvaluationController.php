@@ -59,23 +59,20 @@ class CourseSkillEvaluationController extends Controller
     /**
      * Show the form for editing a specific student's skills for the specified course.
      */
-    public function edit(Course $course, Student $student)
+    public function edit(Enrollment $enrollment)
     {
-        if (Gate::forUser(backpack_user())->denies('view-course', $course)) {
+        if (Gate::forUser(backpack_user())->denies('view-enrollment', $enrollment)) {
             abort(403);
         }
 
-        $enrollment = Enrollment::where('student_id', $student->id)->where('course_id', $course->id)->first();
-
         $student_skills = $enrollment->skill_evaluations;
 
+        $course = Course::with('evaluationType')->find($enrollment->course_id);
+        
         $skills = $course->skills->map(function ($skill, $key) use ($student_skills) {
             $skill['status'] = $student_skills->where('skill_id', $skill->id)->first()->skill_scale_id ?? null;
-
             return $skill;
-        });
-
-        $skills = $skills->groupBy('skill_type_id');
+        })->groupBy('skill_type_id');
 
         $result = Result::where(['enrollment_id' => $enrollment->id])->with('result_name')->first();
 

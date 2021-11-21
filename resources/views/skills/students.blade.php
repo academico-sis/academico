@@ -33,7 +33,7 @@
                             @foreach ($enrollments as $enrollment)
                                 <tr>
                                     <td>
-                                        <a href="{{ route('studentSkillsEvaluation', ['course' => $course->id, 'student' => $enrollment->student->id]) }}">
+                                        <a href="{{ route('studentSkillsEvaluation', ['enrollment' => $enrollment->id]) }}">
                                             {{ $enrollment->student->user->firstname }} {{ $enrollment->student->user->lastname }}
                                         </a>
                                     </td>

@@ -34,7 +34,7 @@ class CourseSkillEvaluationControllerTest extends TestCase
         $student = factory(Student::class)->create();
         $student->enroll($course);
 
-        $response = $this->get(route('studentSkillsEvaluation', [$course, $student]));
+        $response = $this->get(route('studentSkillsEvaluation', [$enrollment]));
 
         $response->assertOk();
         $response->assertViewIs('skills.student');
