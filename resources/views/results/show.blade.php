@@ -113,8 +113,13 @@
     <div class="col-md-6">
         <div class="card">
             <div class="card-header with-border">
-                <div class="card-title">
-                    @lang('Skills')
+                @lang('Skills')
+                <div class="card-header-actions">
+                    @if($enrollment->course->evaluationType && $enrollment->course->evaluationType->skills->count() > 0 && $enrollment->course->course_enrollments_count > 0)
+                        <a href="{{ route('studentSkillsEvaluation', ['enrollment' => $enrollment->id]) }}" class="btn btn-sm btn-link">
+                            <i class="la la-th"></i> {{ __('Evaluate skills') }}
+                        </a>
+                        @endif
                 </div>
             </div>
 
@@ -123,15 +128,7 @@
                         @foreach ($skills as $skill)
                         <tr>
                             <td>{{ $skill->skill->name }}</td>
-                            @if($skill->skill_scale->id == 1)
-                                <td class="bg-danger">{{ $skill->skill_scale->shortname }}</td>
-                            @elseif ($skill->skill_scale->id == 2)
-                                <td class="bg-warning">{{ $skill->skill_scale->shortname }}</td>
-                            @elseif ($skill->skill_scale->id == 3)
-                                <td class="bg-success">{{ $skill->skill_scale->shortname }}</td>
-                            @else
-                                <td>{{ $skill->skill_scale }}</td>
-                            @endif
+                            <td class="bg-{{ $skill->skill_scale->classes }}">{{ $skill->skill_scale->shortname }}</td>
                         </tr>
                         @endforeach
                     </table>

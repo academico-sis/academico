@@ -3,7 +3,10 @@
 @section('header')
 <section class="container-fluid">
     <h2>
-        @lang('Edit Student Skills')
+        @lang('Edit Student Skills') : {{ $enrollment->student_name }}
+    </h2>
+    <h2>
+        {{ $enrollment->course->name }}
     </h2>
 </section>
 @endsection

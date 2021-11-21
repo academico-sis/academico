@@ -77,7 +77,7 @@ class CourseSkillEvaluationController extends Controller
         $result = Result::where(['enrollment_id' => $enrollment->id])->with('result_name')->first();
 
         $results = ResultType::all();
-        $skillScales = SkillScale::all();
+        $skillScales = SkillScale::orderBy('value')->get();
         $writeaccess = config('settings.teachers_can_edit_result') || backpack_user()->can('enrollments.edit') ?? 0;
 
         return view('skills.student', compact('enrollment', 'skills', 'skillScales', 'result', 'enrollment', 'results', 'writeaccess'));
