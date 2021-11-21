@@ -10,7 +10,7 @@
 
 
 @section('content')
-<div id="app">
+<div>
 
 <div class="row">
 
@@ -142,10 +142,4 @@
 
 @include('partials.create_new_contact')
 
-@endsection
-
-@section('after_scripts')
-    <script src="{{ mix('/js/app.js') }}"></script>
-    <script src="{{ mix('/js/manifest.js') }}"></script>
-    <script src="{{ mix('/js/vendor.js') }}"></script>
 @endsection

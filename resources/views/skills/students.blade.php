@@ -20,7 +20,7 @@
                 @lang('View Skills for Group')
             </div>
 
-            <div class="card-body" id="app">
+            <div class="card-body">
                     <div class="table-responsive" style="overflow: auto">
                         <table class="table">
                             <tr>
@@ -33,7 +33,7 @@
                             @foreach ($enrollments as $enrollment)
                                 <tr>
                                     <td>
-                                        <a href="{{ route('studentSkillsEvaluation', ['course' => $course->id, 'student' => $enrollment->student->id]) }}">
+                                        <a href="{{ route('studentSkillsEvaluation', ['enrollment' => $enrollment->id]) }}">
                                             {{ $enrollment->student->user->firstname }} {{ $enrollment->student->user->lastname }}
                                         </a>
                                     </td>
@@ -60,13 +60,5 @@
 
 
 @section('before_scripts')
-
-@endsection
-
-
-@section('after_scripts')
-    <script src="{{ mix('/js/app.js') }}"></script>
-    <script src="{{ mix('/js/manifest.js') }}"></script>
-    <script src="{{ mix('/js/vendor.js') }}"></script>
 
 @endsection

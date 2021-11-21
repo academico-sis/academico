@@ -98,7 +98,7 @@ Route::group(
 
         // Skills Evaluation
         Route::get('course/{course}/skillsevaluation', 'CourseSkillEvaluationController@index')->name('courseSkillsEvaluation');
-        Route::get('course/{course}/skillsevaluation/{student}', 'CourseSkillEvaluationController@edit')->name('studentSkillsEvaluation');
+        Route::get('enrollment/{enrollment}/skillsevaluation', 'CourseSkillEvaluationController@edit')->name('studentSkillsEvaluation');
         Route::post('skillsevaluation', 'CourseSkillEvaluationController@store')->name('storeSkillEvaluation');
 
         Route::get('course/{course}/syllabus', 'CourseSkillController@exportCourseSyllabus')->name('exportCourseSyllabus');

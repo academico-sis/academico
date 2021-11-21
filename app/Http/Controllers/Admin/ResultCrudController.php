@@ -33,6 +33,10 @@ class ResultCrudController extends CrudController
         CRUD::setModel(Enrollment::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/result');
         CRUD::setEntityNameStrings(__('result'), __('results'));
+
+        if (backpack_user()->hasRole('admin')) {
+            CRUD::addButtonFromView('line', 'editResult', 'editResult', 'end');
+        }
     }
 
     public function setupListOperation()

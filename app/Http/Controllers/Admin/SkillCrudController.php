@@ -56,7 +56,7 @@ class SkillCrudController extends CrudController
             ],
         ]);
 
-        CRUD::enableBulkActions();
+        CRUD::enableExportButtons();
 
         CRUD::addFilter([ // select2 filter
             'name' => 'level_id',

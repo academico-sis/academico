@@ -36,6 +36,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @method static \Illuminate\Database\Eloquent\Builder|Attendance whereStudentId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Attendance whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read string $student_name
  */
 class Attendance extends Model
 {
