@@ -90,7 +90,7 @@ class EvaluationTypeCrudController extends CrudController
     public function update()
     {
         $value = $this->crud->getRequest()->input('name');
-        $response = $this->traitStore();
+        $response = $this->traitUpdate();
         $entry = $this->crud->getCurrentEntry();
         
         $this->overrideTranslations($entry, $value);
