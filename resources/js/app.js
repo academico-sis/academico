@@ -29,6 +29,7 @@ Vue.component('client-data-component', require('./components/cart/ClientDataComp
 Vue.component('cart-scheduled-payments-component', require('./components/cart/ScheduledPaymentsComponent.vue').default);
 Vue.component('cart-payment-component', require('./components/cart/CartPaymentComponent.vue').default);
 Vue.component('cart-invoice-type-component', require('./components/cart/InvoiceTypeComponent.vue').default);
+Vue.component('cart-price-categories-component', require('./components/cart/PriceCategoriesComponent').default);
 
 Vue.component('dashboard-calendar', require('./components/calendar/DashboardCalendar.vue').default);
 Vue.component('simple-calendar', require('./components/calendar/SimpleCalendar.vue').default);

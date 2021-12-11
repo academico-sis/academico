@@ -14,119 +14,6 @@ use Illuminate\Support\Str;
 use Spatie\Activitylog\Traits\LogsActivity;
 use App\Models\Partner;
 
-/**
- * App\Models\Course
- *
- * @property int $id
- * @property int $campus_id
- * @property int|null $rhythm_id
- * @property int|null $level_id
- * @property int $volume
- * @property string $name
- * @property string $price
- * @property string|null $hourly_price
- * @property \Illuminate\Support\Carbon $start_date
- * @property \Illuminate\Support\Carbon $end_date
- * @property int|null $room_id
- * @property int|null $teacher_id
- * @property int|null $parent_course_id
- * @property int|null $exempt_attendance
- * @property int $period_id
- * @property int|null $opened
- * @property int|null $spots
- * @property int|null $head_count
- * @property int|null $new_students
- * @property string|null $color
- * @property int|null $evaluation_type_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property int|null $partner_id
- * @property string|null $remote_volume
- * @property int|null $sync_to_lms
- * @property int|null $lms_id
- * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
- * @property-read int|null $activities_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Attendance[] $attendance
- * @property-read int|null $attendance_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
- * @property-read int|null $books_count
- * @property-read \App\Models\Campus $campus
- * @property-read \Illuminate\Database\Eloquent\Collection|Course[] $children
- * @property-read int|null $children_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Enrollment[] $enrollments
- * @property-read int|null $enrollments_count
- * @property-read \App\Models\EvaluationType|null $evaluationType
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Event[] $events
- * @property-read int|null $events_count
- * @property-read bool $accepts_new_students
- * @property-read mixed $course_enrollments_count
- * @property-read mixed $course_level_name
- * @property-read mixed $course_period_name
- * @property-read mixed $course_rhythm_name
- * @property-read mixed $course_room_name
- * @property-read mixed $course_teacher_name
- * @property-read mixed $course_times
- * @property-read mixed $description
- * @property-read mixed $formatted_end_date
- * @property-read mixed $formatted_start_date
- * @property-read Course|null $parent
- * @property-read mixed $pending_attendance
- * @property-read mixed $price_with_currency
- * @property-read mixed $shortname
- * @property-read mixed $sortable_id
- * @property-read bool $takes_attendance
- * @property-read mixed $total_volume
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Grade[] $grades
- * @property-read int|null $grades_count
- * @property-read \App\Models\Level|null $level
- * @property-read Partner|null $partner
- * @property-read \App\Models\Period $period
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Enrollment[] $real_enrollments
- * @property-read int|null $real_enrollments_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\RemoteEvent[] $remoteEvents
- * @property-read int|null $remote_events_count
- * @property-read \App\Models\Rhythm|null $rhythm
- * @property-read \App\Models\Room|null $room
- * @property-read \App\Models\Teacher|null $teacher
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\CourseTime[] $times
- * @property-read int|null $times_count
- * @method static \Illuminate\Database\Eloquent\Builder|Course children()
- * @method static \Illuminate\Database\Eloquent\Builder|Course external()
- * @method static \Illuminate\Database\Eloquent\Builder|Course internal()
- * @method static \Illuminate\Database\Eloquent\Builder|Course newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Course newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Course parent()
- * @method static \Illuminate\Database\Eloquent\Builder|Course query()
- * @method static \Illuminate\Database\Eloquent\Builder|Course realcourses()
- * @method static \Illuminate\Database\Eloquent\Builder|Course whereCampusId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Course whereColor($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Course whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Course whereEndDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Course whereEvaluationTypeId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Course whereExemptAttendance($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Course whereHeadCount($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Course whereHourlyPrice($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Course whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Course whereLevelId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Course whereLmsId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Course whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Course whereNewStudents($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Course whereOpened($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Course whereParentCourseId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Course wherePartnerId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Course wherePeriodId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Course wherePrice($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Course whereRemoteVolume($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Course whereRhythmId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Course whereRoomId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Course whereSpots($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Course whereStartDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Course whereSyncToLms($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Course whereTeacherId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Course whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Course whereVolume($value)
- * @mixin \Eloquent
- */
 class Course extends Model
 {
     use CrudTrait;
@@ -610,6 +497,15 @@ class Course extends Model
         return $this->price . " " . config('app.currency_symbol');
     }
 
+    public function getPriceBAttribute($value)
+    {
+        return $value / 100;
+    }
+
+    public function getPriceCAttribute($value)
+    {
+        return $value / 100;
+    }
 
     public function getFormattedStartDateAttribute()
     {
@@ -630,5 +526,15 @@ class Course extends Model
     public function setPriceAttribute($value)
     {
         $this->attributes['price'] = $value * 100;
+    }
+
+    public function setPriceBAttribute($value)
+    {
+        $this->attributes['price_b'] = $value * 100;
+    }
+
+    public function setPriceCAttribute($value)
+    {
+        $this->attributes['price_c'] = $value * 100;
     }
 }

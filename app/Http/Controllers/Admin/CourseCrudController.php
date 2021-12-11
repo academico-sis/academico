@@ -324,7 +324,25 @@ class CourseCrudController extends CrudController
                 'tab' => __('Course info'),
                 'type' => 'number'
             ], $currency),
+        ]);
 
+        if (config('invoicing.price_categories_enabled')) {
+            CRUD::addFields([
+                array_merge([
+                    'name' => 'price_b',
+                    'label' => __('Price B'),
+                    'tab' => __('Course info'), 'type' => 'number'
+                ], $currency),
+
+                array_merge([
+                    'name' => 'price_c',
+                    'label' => __('PriceC'),
+                    'tab' => __('Course info'), 'type' => 'number'
+                ], $currency),
+            ]);
+        }
+
+        CRUD::addFields([
             [
                 'name' => 'volume', // The db column name
                 'label' => __('Presential volume'), // Table column heading
@@ -657,7 +675,25 @@ class CourseCrudController extends CrudController
                 'tab' => __('Course info'),
                 'type' => 'number'
             ], $currency),
+        ]);
 
+        if (config('invoicing.price_categories_enabled')) {
+            CRUD::addFields([
+                array_merge([
+                    'name' => 'price_b',
+                    'label' => __('Price B'),
+                    'tab' => __('Course info'), 'type' => 'number'
+                ], $currency),
+
+                array_merge([
+                    'name' => 'price_c',
+                    'label' => __('PriceC'),
+                    'tab' => __('Course info'), 'type' => 'number'
+                ], $currency),
+            ]);
+        }
+
+        CRUD::addFields([
             [
                 'name' => 'volume', // The db column name
                 'label' => __('Presential volume'), // Table column heading

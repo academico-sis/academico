@@ -29,6 +29,8 @@
         :allowedblankfields="{{ json_encode(config('invoicing.allowed_blank_fields')) }}"
         currency="{{ config('app.currency_symbol') }}"
         currencyposition="{{ config('app.currency_position') }}"
+        :pricecategories="{{ json_encode($priceCategories) }}"
+        :studentpricecategory="{{ json_encode($studentPriceCategory) }}"
     >
     </cart-component>
 

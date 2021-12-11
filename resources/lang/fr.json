@@ -465,5 +465,6 @@
     "New In": "Nouvel(le) étudiant(e) dans le cycle...",
     "The enrollment is unpaid": "L'export des bulletins est interdit, car l'inscription est impayée",
     "Last enrollment": "Dernière inscription",
-    "Evaluation ready": "Evaluation terminée"
+    "Evaluation ready": "Evaluation terminée",
+    "View Invoice": "Détails de la facture"
 }
