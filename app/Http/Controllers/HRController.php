@@ -42,7 +42,6 @@ class HRController extends Controller
             }
         }
 
-
         Log::info('HR Dahsboard viewed by '.backpack_user()->firstname);
 
         return view('hr.dashboard', [

@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Config;
+use App\Models\Course;
+use App\Models\Partner;
 use App\Models\Period;
 use App\Models\Year;
 use App\Traits\PeriodSelection;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use App\Models\Course;
-use Carbon\Carbon;
-use App\Models\Partner;
 
 class ReportController extends Controller
 {
@@ -256,7 +256,7 @@ class ReportController extends Controller
         $data = [];
 
         foreach ($count as $i => $coursegroup) {
-            $data[$i]['level'] = $coursegroup[0]->level->reference ?? "Other";
+            $data[$i]['level'] = $coursegroup[0]->level->reference ?? 'Other';
             $data[$i]['enrollment_count'] = $coursegroup->sum('enrollments_count');
             $data[$i]['taught_hours_count'] = $coursegroup->sum('total_volume');
 

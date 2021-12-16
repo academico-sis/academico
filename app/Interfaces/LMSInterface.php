@@ -6,7 +6,6 @@ use App\Models\Course;
 use App\Models\Student;
 use App\Models\User;
 
-
 interface LMSInterface
 {
     public function authenticate() : ?string;

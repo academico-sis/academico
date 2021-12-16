@@ -26,11 +26,9 @@ class migratePayments extends Command
     public function handle() : void
     {
         foreach (Enrollment::all() as $enrollment) {
-
             $payments = DB::table('payments')->where('enrollment_id', $enrollment->id)->get();
 
             if ($payments->count() > 0) {
-
                 foreach ($payments as $payment) {
                     // generate an Invoice
                     $invoice = Invoice::create([
@@ -47,10 +45,7 @@ class migratePayments extends Command
 
                     DB::table('payments')->where('id', $payment->id)->update(['invoice_id' => $invoice->id]);
                 }
-
-
             }
         }
-
     }
 }

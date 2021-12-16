@@ -33,7 +33,6 @@ class CourseEvaluationCrudControllerTest extends TestCase
         // TODO: perform additional assertions
     }
 
-
     /**
      * @test
      */

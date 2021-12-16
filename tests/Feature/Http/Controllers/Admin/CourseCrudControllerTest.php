@@ -159,7 +159,6 @@ class CourseCrudControllerTest extends TestCase
      */
     public function index_returns_an_ok_response()
     {
-
         $response = $this->get(route('course.index'));
 
         $response->assertOk();

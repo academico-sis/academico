@@ -13,7 +13,6 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
  * Class ScheduledPaymentCrudController
- * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
 class ScheduledPaymentCrudController extends CrudController
@@ -30,7 +29,7 @@ class ScheduledPaymentCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\ScheduledPayment::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/scheduled-payment');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/scheduled-payment');
         CRUD::setEntityNameStrings(__('scheduled payment'), __('scheduled payments'));
         CRUD::enableExportButtons();
     }
@@ -73,7 +72,6 @@ class ScheduledPaymentCrudController extends CrudController
             },
         ]);
 
-
         CRUD::addColumn([
             'name' => 'enrollment.student',
             'key'       => 'student_email',
@@ -90,15 +88,15 @@ class ScheduledPaymentCrudController extends CrudController
         ]);
 
         if (config('app.currency_position') === 'before') {
-            $currency = array('prefix' => config('app.currency_symbol'));
+            $currency = ['prefix' => config('app.currency_symbol')];
         } else {
-            $currency = array('suffix' => config('app.currency_symbol'));
+            $currency = ['suffix' => config('app.currency_symbol')];
         }
 
         CRUD::addColumn(array_merge([
             'name'  => 'value',
             'label' => __('Value'),
-            'type'  => 'number'], $currency));
+            'type'  => 'number', ], $currency));
 
         CRUD::addColumn([
             'name' => 'status_name',

@@ -21,7 +21,6 @@ class AddScheduledPaymentsTable extends Migration
             $table->integer('status')->nullable();
             $table->timestamps();
         });
-
     }
 
     /**

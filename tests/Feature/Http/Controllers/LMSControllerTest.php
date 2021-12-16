@@ -34,22 +34,22 @@ class LMSControllerTest extends TestCase
 
             // Stub a string response for all other endpoints...
             'apolearnapi.com/users' => Http::response([
-                "success" => true,
-                "id" => 1,
-                "firstname" => "string",
-                "lastname" => "string",
-                "email" => "string",
-                "usertype" => "string",
-                "usertype_id" => 0,
-                "gender" => "male",
-                "job" => "string",
-                "company" => "string",
-                "city" => "string",
-                "country" => "string",
-                "language" => "fr",
-                "admin" => 0,
-                "disabled" => 0,
-                "url" => "string"], 200, ['Headers']),
+                'success' => true,
+                'id' => 1,
+                'firstname' => 'string',
+                'lastname' => 'string',
+                'email' => 'string',
+                'usertype' => 'string',
+                'usertype_id' => 0,
+                'gender' => 'male',
+                'job' => 'string',
+                'company' => 'string',
+                'city' => 'string',
+                'country' => 'string',
+                'language' => 'fr',
+                'admin' => 0,
+                'disabled' => 0,
+                'url' => 'string', ], 200, ['Headers']),
         ]);
 
         $response = Http::get("apolearnapi.com/users/getbyemail/$user->email", [
@@ -59,7 +59,6 @@ class LMSControllerTest extends TestCase
 
         // the user should not be found and be created.
         $this->markTestIncomplete();
-
     }
 
     // test cases...

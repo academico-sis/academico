@@ -7,28 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
- * App\Models\Leave
- *
- * @property int $id
- * @property int $teacher_id
- * @property string $date
- * @property int $leave_type_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
- * @property-read int|null $activities_count
- * @property-read \App\Models\LeaveType $leaveType
- * @property-read \App\Models\Teacher $teacher
- * @method static \Illuminate\Database\Eloquent\Builder|Leave newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Leave newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Leave query()
- * @method static \Illuminate\Database\Eloquent\Builder|Leave whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Leave whereDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Leave whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Leave whereLeaveTypeId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Leave whereTeacherId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Leave whereUpdatedAt($value)
- * @mixin \Eloquent
+ * @mixin IdeHelperLeave
  */
 class Leave extends Model
 {
@@ -36,7 +15,9 @@ class Leave extends Model
     use LogsActivity;
 
     protected $guarded = ['id'];
+
     protected $with = ['leaveType'];
+
     protected static $logUnguarded = true;
 
     protected static function boot()

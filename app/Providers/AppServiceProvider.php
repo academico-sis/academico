@@ -32,8 +32,7 @@ class AppServiceProvider extends ServiceProvider
 
             if ($firstPeriod) {
                 $periods = Period::where('id', '>=', $firstPeriod->id)->get();
-            }
-            else {
+            } else {
                 $periods = Period::all();
             }
 

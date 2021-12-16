@@ -8,8 +8,10 @@ use App\Models\Enrollment;
 use App\Models\EnrollmentStatusType;
 use App\Models\Paymentmethod;
 use App\Models\Period;
-use App\Models\Scholarship;
 use App\Models\PhoneNumber;
+use App\Models\ScheduledPayment;
+use App\Models\Scholarship;
+use App\Models\Student;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
@@ -18,8 +20,6 @@ use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\CRUD\app\Library\Widget;
 use Illuminate\Support\Facades\Log;
-use App\Models\Student;
-use App\Models\ScheduledPayment;
 
 /**
  * Class EnrollmentCrudController
@@ -62,7 +62,7 @@ class EnrollmentCrudController extends CrudController
         if ($this->crud->getRequest()->period_id) {
             $period = Period::find($this->crud->getRequest()->period_id);
         } else {
-            $period =  Period::get_default_period();
+            $period = Period::get_default_period();
         }
 
         $pendingBalanceForPeriod = $period->real_enrollments->sum('balance');
@@ -90,9 +90,9 @@ class EnrollmentCrudController extends CrudController
     public function setupListOperation()
     {
         if (config('app.currency_position') === 'before') {
-            $currency = array('prefix' => config('app.currency_symbol'));
+            $currency = ['prefix' => config('app.currency_symbol')];
         } else {
-            $currency = array('suffix' => config('app.currency_symbol'));
+            $currency = ['suffix' => config('app.currency_symbol')];
         }
 
         CRUD::addColumns([
@@ -232,22 +232,22 @@ class EnrollmentCrudController extends CrudController
 
         CRUD::addFilter(
             [
-            'name' => 'scholarship',
-            'type' => 'select2',
-            'label'=> __('Scholarship'),
-        ],
+                'name' => 'scholarship',
+                'type' => 'select2',
+                'label'=> __('Scholarship'),
+            ],
             function () {
-            return Scholarship::all()->pluck('name', 'id')->toArray();
-        },
+                return Scholarship::all()->pluck('name', 'id')->toArray();
+            },
             function ($value) { // if the filter is active
-              if ($value == 'all') {
-                  CRUD::addClause('whereHas', 'scholarships');
-              } else {
-                  CRUD::addClause('whereHas', 'scholarships', function ($q) use ($value) {
-                      $q->where('scholarships.id', $value);
-                  });
-              }
-          }
+                if ($value == 'all') {
+                    CRUD::addClause('whereHas', 'scholarships');
+                } else {
+                    CRUD::addClause('whereHas', 'scholarships', function ($q) use ($value) {
+                        $q->where('scholarships.id', $value);
+                    });
+                }
+            }
         );
     }
 
@@ -269,7 +269,7 @@ class EnrollmentCrudController extends CrudController
 
         //$enrollment->load('invoices')->load('invoices.payments');
 
-        $writeaccess =  $enrollment->status_id !== 2 && backpack_user()->can('enrollments.edit');
+        $writeaccess = $enrollment->status_id !== 2 && backpack_user()->can('enrollments.edit');
 
         // then load the page
         return view('enrollments.show', compact('enrollment', 'products', 'comments', 'scholarships', 'availablePaymentMethods', 'writeaccess'));
@@ -278,13 +278,13 @@ class EnrollmentCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         if (config('app.currency_position') === 'before') {
-            $currency = array('prefix' => config('app.currency_symbol'));
+            $currency = ['prefix' => config('app.currency_symbol')];
         } else {
-            $currency = array('suffix' => config('app.currency_symbol'));
+            $currency = ['suffix' => config('app.currency_symbol')];
         }
 
         CRUD::addField([
-            'label'     => __("Course"),
+            'label'     => __('Course'),
             'type'      => 'select2',
             'name'      => 'course_id', // the db column for the foreign key
 
@@ -300,15 +300,15 @@ class EnrollmentCrudController extends CrudController
         CRUD::addField(array_merge([
             'name' => 'price', // The db column name
             'label' => __('Price'), // Table column heading
-            'type' => 'number'
+            'type' => 'number',
         ], $currency));
 
         if (config('invoicing.allow_scheduled_payments')) {
-            CRUD::addField(['name' => 'scheduledPayments', 'label' => __('Scheduled Payments'), 'type' => 'repeatable', 'fields' => [['name' => 'date', 'type' => 'date', 'label' => __('Date'), 'wrapper' => ['class' => 'form-group col-md-4'],], array_merge(['name' => 'value', 'type' => 'number', 'attributes' => ["step" => 0.01, "min" => 0], 'label' => __('Value'), 'wrapper' => ['class' => 'form-group col-md-4'],], $currency), ['name' => 'status', 'type' => 'radio', 'label' => __('Status'), 'wrapper' => ['class' => 'form-group col-md-4'], 'options' => [1 => __("Pending"), 2 => __("Paid"),], 'inline' => true,],],]);
+            CRUD::addField(['name' => 'scheduledPayments', 'label' => __('Scheduled Payments'), 'type' => 'repeatable', 'fields' => [['name' => 'date', 'type' => 'date', 'label' => __('Date'), 'wrapper' => ['class' => 'form-group col-md-4']], array_merge(['name' => 'value', 'type' => 'number', 'attributes' => ['step' => 0.01, 'min' => 0], 'label' => __('Value'), 'wrapper' => ['class' => 'form-group col-md-4']], $currency), ['name' => 'status', 'type' => 'radio', 'label' => __('Status'), 'wrapper' => ['class' => 'form-group col-md-4'], 'options' => [1 => __('Pending'), 2 => __('Paid')], 'inline' => true]]]);
         }
 
         CRUD::addField([
-            'label'     => __("Status"),
+            'label'     => __('Status'),
             'type'      => 'select',
             'name'      => 'status_id', // the db column for the foreign key
 
@@ -329,6 +329,7 @@ class EnrollmentCrudController extends CrudController
         $newScheduledPayments = collect(json_decode($this->crud->getRequest()->input('scheduledPayments')));
         $enrollment->saveScheduledPayments($newScheduledPayments);
         $response = $this->traitUpdate();
+
         return $response;
     }
 

@@ -6,6 +6,9 @@ use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
 
+/**
+ * @mixin IdeHelperSkillScale
+ */
 class SkillScale extends Model
 {
     use CrudTrait;

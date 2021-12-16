@@ -2,59 +2,24 @@
 
 namespace App\Models;
 
+use App\Models\Enrollment;
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Enrollment;
 use Illuminate\Support\Facades\App;
 
 /**
- * App\Models\ScheduledPayment
- *
- * @property int $id
- * @property int $enrollment_id
- * @property int $value
- * @property string $date
- * @property int|null $status
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read Enrollment $enrollment
- * @property-read mixed $computed_status
- * @property-read mixed $date_for_humans
- * @property-read mixed $value_with_currency
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Invoice[] $invoices
- * @property-read int|null $invoices_count
- * @method static \Illuminate\Database\Eloquent\Builder|ScheduledPayment newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|ScheduledPayment newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|ScheduledPayment query()
- * @method static \Illuminate\Database\Eloquent\Builder|ScheduledPayment whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ScheduledPayment whereDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ScheduledPayment whereEnrollmentId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ScheduledPayment whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ScheduledPayment whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ScheduledPayment whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ScheduledPayment whereValue($value)
- * @mixin \Eloquent
- * @property-read mixed $status_type_name
- * @property-read \App\Models\EnrollmentStatusType|null $statusType
- * @method static Builder|ScheduledPayment status($status)
+ * @mixin IdeHelperScheduledPayment
  */
 class ScheduledPayment extends Model
 {
-    use \Backpack\CRUD\app\Models\Traits\CrudTrait;
-    /*
-    |--------------------------------------------------------------------------
-    | GLOBAL VARIABLES
-    |--------------------------------------------------------------------------
-    */
+    use CrudTrait;
 
     protected $table = 'scheduled_payments';
-    // protected $primaryKey = 'id';
-    // public $timestamps = false;
+
     protected $guarded = ['id'];
-    // protected $fillable = [];
-    // protected $hidden = [];
-    // protected $dates = [];
+
     protected $appends = ['computed_status'];
 
     /*
@@ -66,8 +31,8 @@ class ScheduledPayment extends Model
     public function scopeStatus(Builder $query, $status)
     {
         return match ($status) {
-            "2" => $query->where('status', 2)->orWhereHas('invoices'),
-            "1" => $query->where('status', 1)->orWhereDoesntHave('invoices'),
+            '2' => $query->where('status', 2)->orWhereHas('invoices'),
+            '1' => $query->where('status', 1)->orWhereDoesntHave('invoices'),
             default => $query,
         };
     }
@@ -112,28 +77,26 @@ class ScheduledPayment extends Model
 
     public function getValueWithCurrencyAttribute()
     {
-        if (config('app.currency_position') === 'before')
-        {
-            return config('app.currency_symbol') . " ". $this->value;
+        if (config('app.currency_position') === 'before') {
+            return config('app.currency_symbol').' '.$this->value;
         }
 
-        return $this->value . " " . config('app.currency_symbol');
+        return $this->value.' '.config('app.currency_symbol');
     }
 
-    function getDateForHumansAttribute()
+    public function getDateForHumansAttribute()
     {
-        if ($this->date)
-        {
+        if ($this->date) {
             return Carbon::parse($this->date, 'UTC')->locale(App::getLocale())->isoFormat('LL');
         }
+
         return Carbon::parse($this->created_at, 'UTC')->locale(App::getLocale())->isoFormat('LL');
     }
 
     public function getComputedStatusAttribute()
     {
         // if there is a custom status, always take it
-        if ($this->status)
-        {
+        if ($this->status) {
             return $this->status;
         }
 
@@ -143,12 +106,12 @@ class ScheduledPayment extends Model
 
     public function identifiableAttribute()
     {
-        return $this->date . " (" . $this->value_with_currency . ")";
+        return $this->date.' ('.$this->value_with_currency.')';
     }
 
     public function getStatusTypeNameAttribute()
     {
-        return match($this->computed_status) {
+        return match ($this->computed_status) {
             2 => __('Paid'),
             1 => __('Pending'),
             default => '-',

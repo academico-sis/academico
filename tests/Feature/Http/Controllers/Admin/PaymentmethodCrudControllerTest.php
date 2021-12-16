@@ -18,7 +18,7 @@ class PaymentmethodCrudControllerTest extends TestCase
         $this->seed('TestSeeder');
         $this->logAdmin();
     }
-    
+
     /**
      * @test
      */
@@ -67,7 +67,6 @@ class PaymentmethodCrudControllerTest extends TestCase
      */
     public function index_returns_an_ok_response()
     {
-
         $response = $this->get(route('paymentmethod.index'));
 
         $response->assertOk();

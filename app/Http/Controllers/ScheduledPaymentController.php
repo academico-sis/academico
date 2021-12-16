@@ -2,24 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Book;
+use App\Models\Discount;
 use App\Models\Enrollment;
+use App\Models\Fee;
+use App\Models\InvoiceType;
 use App\Models\Payment;
+use App\Models\Paymentmethod;
+use App\Models\ScheduledPayment;
+use App\Models\Tax;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Models\ScheduledPayment;
 use Illuminate\Support\Facades\Log;
-use App\Models\InvoiceType;
-use App\Models\Book;
-use App\Models\Fee;
-use App\Models\Discount;
-use App\Models\Paymentmethod;
-use App\Models\Tax;
 
 class ScheduledPaymentController extends Controller
 {
     public function create(Enrollment $enrollment)
     {
-        return view ('invoices.create_scheduled_payments', [
+        return view('invoices.create_scheduled_payments', [
             'enrollment' => $enrollment,
         ]);
     }

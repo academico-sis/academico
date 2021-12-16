@@ -57,6 +57,7 @@ class HomeController extends Controller
 
         $remoteVolume = $teacher->courses()->whereNull('parent_course_id')->where('period_id', $period->id)->sum('remote_volume');
         $presentialVolume = $teacher->courses()->whereNull('parent_course_id')->where('period_id', $period->id)->sum('volume');
+
         return view('teacher.dashboard', [
             'teacher' => $teacher,
             'courses' => $teacher->period_courses($period),

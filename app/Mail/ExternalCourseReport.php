@@ -12,7 +12,9 @@ class ExternalCourseReport extends Mailable
     use Queueable, SerializesModels;
 
     public $period_start;
+
     public $period_end;
+
     public $data;
 
     public function __construct($period_start, $period_end, $data)
@@ -24,6 +26,6 @@ class ExternalCourseReport extends Mailable
 
     public function build()
     {
-        return $this->subject('Facturation ' . $this->data['partner_name'])->view('emails.external_courses_report');
+        return $this->subject('Facturation '.$this->data['partner_name'])->view('emails.external_courses_report');
     }
 }

@@ -83,7 +83,7 @@ class EventCrudController extends CrudController
                 'entity' => 'teacher', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
                 'model' => Teacher::class, // foreign key model
-		'searchLogic' => false,
+                'searchLogic' => false,
             ],
 
             [

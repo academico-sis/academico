@@ -14,7 +14,6 @@ use Illuminate\Support\Carbon;
 
 /**
  * Class PaymentCrudController
- * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
 class PaymentCrudController extends CrudController
@@ -30,12 +29,11 @@ class PaymentCrudController extends CrudController
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
-     *
      */
     public function setup()
     {
         CRUD::setModel(\App\Models\Payment::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/payment');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/payment');
         CRUD::setEntityNameStrings('payment', 'payments');
 
         $this->crud->enableExportButtons();
@@ -62,9 +60,9 @@ class PaymentCrudController extends CrudController
         CRUD::column('month');
 
         if (config('app.currency_position') === 'before') {
-            $currency = array('prefix' => config('app.currency_symbol'));
+            $currency = ['prefix' => config('app.currency_symbol')];
         } else {
-            $currency = array('suffix' => config('app.currency_symbol'));
+            $currency = ['suffix' => config('app.currency_symbol')];
         }
 
         CRUD::addColumn([
@@ -76,7 +74,7 @@ class PaymentCrudController extends CrudController
         CRUD::addColumn(array_merge([
             'name'  => 'value',
             'label' => __('Value'),
-            'type'  => 'number'], $currency));
+            'type'  => 'number', ], $currency));
 
         CRUD::addColumn([
             'name' => 'iban',
@@ -99,8 +97,7 @@ class PaymentCrudController extends CrudController
             abort(403);
         }
 
-        if (! $payment->invoice)
-        {
+        if (! $payment->invoice) {
             abort(404, 'No enrollment found for this payment');
         }
 

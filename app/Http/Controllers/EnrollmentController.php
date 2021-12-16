@@ -15,17 +15,17 @@ use App\Models\InvoiceType;
 use App\Models\Paymentmethod;
 use App\Models\Student;
 use App\Models\Tax;
+use App\Services\EnrollmentSheetService;
 use App\Traits\PeriodSelection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
 use Prologue\Alerts\Facades\Alert;
-use Illuminate\Support\Facades\Storage;
-use App\Services\EnrollmentSheetService;
 
 class EnrollmentController extends Controller
 {
@@ -119,8 +119,7 @@ class EnrollmentController extends Controller
         // build an array with products to include
         $products = [];
 
-        foreach (Fee::where('default', 1)->get() as $fee)
-        {
+        foreach (Fee::where('default', 1)->get() as $fee) {
             // Set quantity to 1
 
             array_push($products, $fee);
@@ -128,15 +127,13 @@ class EnrollmentController extends Controller
 
         array_push($products, $enrollment);
 
-        if ($enrollment->course->books->count() > 0)
-        {
+        if ($enrollment->course->books->count() > 0) {
             // Set quantity to 1
 
             foreach ($enrollment->course->books as $book) {
                 array_push($products, $book);
             }
         }
-
 
         // build an array with all contact data
         $clients = [];
@@ -194,7 +191,6 @@ class EnrollmentController extends Controller
 
         return $enrollment->fresh();
     }
-
 
     public function exportToWord(Enrollment $enrollment)
     {

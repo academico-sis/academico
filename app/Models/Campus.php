@@ -8,22 +8,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
 
 /**
- * App\Models\Campus
+ * NOTE: In the current configuration, the campus with the ID of 1 represent the school itself
+ * the campus model with the ID of 2 represents all external courses
  *
- * @property int $id
- * @property array $name
- * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property-read array $translations
- * @method static \Illuminate\Database\Eloquent\Builder|Campus newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Campus newQuery()
- * @method static \Illuminate\Database\Query\Builder|Campus onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder|Campus query()
- * @method static \Illuminate\Database\Eloquent\Builder|Campus whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Campus whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Campus whereName($value)
- * @method static \Illuminate\Database\Query\Builder|Campus withTrashed()
- * @method static \Illuminate\Database\Query\Builder|Campus withoutTrashed()
- * @mixin \Eloquent
+ * @mixin IdeHelperCampus
  */
 class Campus extends Model
 {
@@ -31,15 +19,9 @@ class Campus extends Model
     use SoftDeletes;
     use HasTranslations;
 
-    public $translatable = ['name'];
-    // protected $primaryKey = 'id';
-    public $timestamps = false;
-    // protected $guarded = ['id'];
-    protected $fillable = ['name'];
-    // protected $hidden = [];
-    // protected $dates = [];
+    public array $translatable = ['name'];
 
-    /* in the current configuration, the campus with the ID of 1 represent the school itself
-     * the campus model with the ID of 2 represents all external courses
-     */
+    public $timestamps = false;
+
+    protected $fillable = ['name'];
 }

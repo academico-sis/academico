@@ -8,7 +8,6 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
  * Class SchedulePresetCrudController
- * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
 class SchedulePresetCrudController extends CrudController
@@ -21,19 +20,19 @@ class SchedulePresetCrudController extends CrudController
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
-     * 
+     *
      * @return void
      */
     public function setup()
     {
         CRUD::setModel(\App\Models\SchedulePreset::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/schedulepreset');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/schedulepreset');
         CRUD::setEntityNameStrings('Schedule Preset', 'Schedule Presets');
     }
 
     /**
      * Define what happens when the List operation is loaded.
-     * 
+     *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
      * @return void
      */
@@ -46,7 +45,7 @@ class SchedulePresetCrudController extends CrudController
 
     /**
      * Define what happens when the Create operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
      * @return void
      */
@@ -56,7 +55,7 @@ class SchedulePresetCrudController extends CrudController
 
         CRUD::field('name')->type('text');
 
-         CRUD::addfield([
+        CRUD::addfield([
             'name'  => 'presets',
             'label' => __('Course Schedule'),
             'type'  => 'repeatable',
@@ -96,7 +95,7 @@ class SchedulePresetCrudController extends CrudController
 
     /**
      * Define what happens when the Update operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
      * @return void
      */

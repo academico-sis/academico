@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\ExternalCourseRequest as StoreRequest;
 use App\Http\Requests\ExternalCourseRequest as UpdateRequest;
+use App\Models\Period;
+use App\Models\SchedulePreset;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\CRUD\CrudPanel;
-use App\Models\SchedulePreset;
-use App\Models\Period;
 
 /**
  * Class ExternalCourseCrudController.
@@ -90,14 +90,14 @@ class ExternalCourseCrudController extends CrudController
                 'name' => 'volume', // The db column name
                 'label' => __('Volume'), // Table column heading
                 'suffix' => 'h',
-                'type' => 'number'
+                'type' => 'number',
             ],
 
             [
                 'name' => 'hourly_price', // The db column name
                 'label' => __('Hourly Price'), // Table column heading
                 'prefix' => '$',
-                'type' => 'number'
+                'type' => 'number',
             ],
 
             [
@@ -108,7 +108,7 @@ class ExternalCourseCrudController extends CrudController
                 'entity' => 'teacher', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
                 'model' => \App\Models\Teacher::class, // foreign key model
-		'searchLogic' => false,
+                'searchLogic' => false,
             ],
 
             [
@@ -158,69 +158,69 @@ class ExternalCourseCrudController extends CrudController
 
         CRUD::addFilter(
             [ // select2 filter
-            'name' => 'rhythm_id',
-            'type' => 'select2',
-            'label'=> __('Rhythm'),
-        ],
+                'name' => 'rhythm_id',
+                'type' => 'select2',
+                'label'=> __('Rhythm'),
+            ],
             function () {
-            return \App\Models\Rhythm::all()->pluck('name', 'id')->toArray();
-        },
+                return \App\Models\Rhythm::all()->pluck('name', 'id')->toArray();
+            },
             function ($value) { // if the filter is active
-            CRUD::addClause('where', 'rhythm_id', $value);
-        },
+                CRUD::addClause('where', 'rhythm_id', $value);
+            },
             function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
-          }
+            }
         );
 
         CRUD::addFilter(
             [ // select2 filter
-            'name' => 'teacher_id',
-            'type' => 'select2',
-            'label'=> __('Teacher'),
-        ],
+                'name' => 'teacher_id',
+                'type' => 'select2',
+                'label'=> __('Teacher'),
+            ],
             function () {
-            return \App\Models\Teacher::all()->pluck('name', 'id')->toArray();
-        },
+                return \App\Models\Teacher::all()->pluck('name', 'id')->toArray();
+            },
             function ($value) { // if the filter is active
-            CRUD::addClause('where', 'teacher_id', $value);
-        },
+                CRUD::addClause('where', 'teacher_id', $value);
+            },
             function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
-          }
+            }
         );
 
         CRUD::addFilter(
             [ // select2 filter
-            'name' => 'level_id',
-            'type' => 'select2',
-            'label'=> __('Level'),
-        ],
+                'name' => 'level_id',
+                'type' => 'select2',
+                'label'=> __('Level'),
+            ],
             function () {
-            return \App\Models\Level::all()->pluck('name', 'id')->toArray();
-        },
+                return \App\Models\Level::all()->pluck('name', 'id')->toArray();
+            },
             function ($value) { // if the filter is active
-            CRUD::addClause('where', 'level_id', $value);
-        },
+                CRUD::addClause('where', 'level_id', $value);
+            },
             function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
-          }
+            }
         );
 
         CRUD::addFilter(
             [ // select2 filter
-            'name' => 'period_id',
-            'type' => 'select2',
-            'label'=> __('Period'),
-        ],
+                'name' => 'period_id',
+                'type' => 'select2',
+                'label'=> __('Period'),
+            ],
             function () {
-            return Period::all()->pluck('name', 'id')->toArray();
-        },
+                return Period::all()->pluck('name', 'id')->toArray();
+            },
             function ($value) { // if the filter is active
-            CRUD::addClause('where', 'period_id', $value);
-        },
+                CRUD::addClause('where', 'period_id', $value);
+            },
             function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
-              $period = Period::get_default_period()->id;
-              CRUD::addClause('where', 'period_id', $period);
-              $this->crud->getRequest()->request->add(['period_id' => $period]); // to make the filter look active
-          }
+                $period = Period::get_default_period()->id;
+                CRUD::addClause('where', 'period_id', $period);
+                $this->crud->getRequest()->request->add(['period_id' => $period]); // to make the filter look active
+            }
         );
     }
 
@@ -406,7 +406,7 @@ class ExternalCourseCrudController extends CrudController
                 'type' => 'view',
                 'view' => 'courses/schedule-preset-alert',
                 'tab' => __('Schedule'),
-            ]
+            ],
         ]);
 
         CRUD::addField([

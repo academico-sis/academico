@@ -102,12 +102,12 @@ class CommentCrudController extends CrudController
             'label'=> 'Type',
         ],
             [
-            Student::class => 'Student',
-            Enrollment::class => 'Enrollments',
-            Invoice::class => 'Invoice',
-            Result::class => 'Result',
+                Student::class => 'Student',
+                Enrollment::class => 'Enrollments',
+                Invoice::class => 'Invoice',
+                Result::class => 'Result',
 
-        ], function ($value) { // if the filter is active
+            ], function ($value) { // if the filter is active
             CRUD::addClause('where', 'commentable_type', '=', $value);
         },
               function () { // if the filter is not active

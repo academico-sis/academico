@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Events\CourseCreated;
 use App\Events\CourseUpdated;
+use App\Models\Partner;
 use App\Models\Skills\Skill;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
@@ -12,8 +13,10 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Spatie\Activitylog\Traits\LogsActivity;
-use App\Models\Partner;
 
+/**
+ * @mixin IdeHelperCourse
+ */
 class Course extends Model
 {
     use CrudTrait;
@@ -31,11 +34,15 @@ class Course extends Model
     */
     // protected $primaryKey = 'id';
     public $timestamps = true;
+
     protected $guarded = ['id'];
+
     //protected $fillable = [];
     // protected $hidden = [];
     protected $dates = ['start_date', 'end_date'];
+
     protected $with = ['evaluationType'];
+
     protected $appends = [
         'course_times',
         'course_teacher_name',
@@ -43,7 +50,7 @@ class Course extends Model
         'course_enrollments_count',
         'accepts_new_students',
         'takes_attendance',
-        'sortable_id'
+        'sortable_id',
     ];
 
     protected static $logUnguarded = true;
@@ -274,7 +281,6 @@ class Course extends Model
         return $this->belongsTo(Partner::class);
     }
 
-
     public function saveCourseTimes($newCourseTimes)
     {
         // before updating, retrieve existing course times
@@ -312,16 +318,13 @@ class Course extends Model
     public function saveRemoteEvents($events)
     {
         $this->remoteEvents()->delete();
-        foreach ($events as $event)
-        {
+        foreach ($events as $event) {
             $this->remoteEvents()->create([
                 'name' => $event->name ?? $this->name,
                 'worked_hours' => $event->worked_hours,
             ]);
         }
     }
-
-
 
     /*
     |--------------------------------------------------------------------------
@@ -418,7 +421,7 @@ class Course extends Model
 
     public function getDescriptionAttribute()
     {
-        return '[' . $this->course_period_name . '] - ' . $this->name;
+        return '['.$this->course_period_name.'] - '.$this->name;
     }
 
     public function getChildrenCountAttribute()
@@ -435,7 +438,6 @@ class Course extends Model
     {
         return $this->enrollments()->count();
     }
-
 
     public function getAcceptsNewStudentsAttribute(): bool
     {
@@ -478,7 +480,8 @@ class Course extends Model
         }
     }
 
-    public function getTotalVolumeAttribute() {
+    public function getTotalVolumeAttribute()
+    {
         return $this->volume + $this->remote_volume;
     }
 
@@ -489,12 +492,11 @@ class Course extends Model
 
     public function getPriceWithCurrencyAttribute()
     {
-        if (config('app.currency_position') === 'before')
-        {
-            return config('app.currency_symbol') . " ". $this->price;
+        if (config('app.currency_position') === 'before') {
+            return config('app.currency_symbol').' '.$this->price;
         }
 
-        return $this->price . " " . config('app.currency_symbol');
+        return $this->price.' '.config('app.currency_symbol');
     }
 
     public function getPriceBAttribute($value)

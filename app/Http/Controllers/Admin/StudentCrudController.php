@@ -198,10 +198,10 @@ class StudentCrudController extends CrudController
         });
 
         CRUD::addFilter([
-                'name' => 'new_students',
-                'type' => 'select2',
-                'label'=> __('New In'),
-            ],
+            'name' => 'new_students',
+            'type' => 'select2',
+            'label'=> __('New In'),
+        ],
             function () {
                 return Period::all()->pluck('name', 'id')->toArray();
             },
@@ -242,14 +242,14 @@ class StudentCrudController extends CrudController
         CRUD::field('birthdate')->label(__('Birthdate'))->tab(__('Student Info'));
 
         CRUD::addField([
-            'type' => "text",
+            'type' => 'text',
             'name' => 'phone', // the method on your model that defines the relationship
             'tab' => __('Student Info'),
             'label' => __('Phone'),
         ]);
 
         CRUD::addField([
-            'type' => "relationship",
+            'type' => 'relationship',
             'name' => 'profession', // the method on your model that defines the relationship
             'inline_create' => true, // assumes the URL will be "/admin/category/inline/create"
             'tab' => __('Student Info'),
@@ -258,7 +258,7 @@ class StudentCrudController extends CrudController
         ]);
 
         CRUD::addField([
-            'type' => "relationship",
+            'type' => 'relationship',
             'name' => 'institution', // the method on your model that defines the relationship
             'inline_create' => true, // assumes the URL will be "/admin/category/inline/create"
             'tab' => __('Student Info'),
@@ -286,7 +286,7 @@ class StudentCrudController extends CrudController
         CRUD::field('birthdate')->label(__('Birthdate'))->tab(__('Student Info'));
 
         CRUD::addField([
-            'type' => "relationship",
+            'type' => 'relationship',
             'name' => 'profession', // the method on your model that defines the relationship
             'inline_create' => true, // assumes the URL will be "/admin/category/inline/create"
             'tab' => __('Student Info'),
@@ -295,7 +295,7 @@ class StudentCrudController extends CrudController
         ]);
 
         CRUD::addField([
-            'type' => "relationship",
+            'type' => 'relationship',
             'name' => 'institution', // the method on your model that defines the relationship
             'inline_create' => true, // assumes the URL will be "/admin/category/inline/create"
             'tab' => __('Student Info'),
@@ -315,14 +315,14 @@ class StudentCrudController extends CrudController
 
     protected function generateUsername($fullName) : string
     {
-        $username_parts = array_filter(explode(" ", strtolower($fullName)));
+        $username_parts = array_filter(explode(' ', strtolower($fullName)));
         $username_parts = array_slice($username_parts, -2);
 
-        $part1 = (!empty($username_parts[0]))?substr($username_parts[0], 0,3):"";
-        $part2 = (!empty($username_parts[1]))?substr($username_parts[1], 0,8):"";
+        $part1 = (! empty($username_parts[0])) ? substr($username_parts[0], 0, 3) : '';
+        $part2 = (! empty($username_parts[1])) ? substr($username_parts[1], 0, 8) : '';
         $part3 = rand(999, 9999);
 
-        $username = $part1. $part2. $part3; //str_shuffle to randomly shuffle all characters
+        $username = $part1.$part2.$part3; //str_shuffle to randomly shuffle all characters
 
         return $username;
     }
@@ -335,12 +335,10 @@ class StudentCrudController extends CrudController
             'email'                                => 'required',
         ]);
 
-        if (User::where('email', $request->email)->count() === 0)
-        {
+        if (User::where('email', $request->email)->count() === 0) {
             $username = $request->email;
-        }
-        else {
-            $username = $this->generateUsername($request->firstname . ' ' . $request->lastname);
+        } else {
+            $username = $this->generateUsername($request->firstname.' '.$request->lastname);
         }
 
         // update the user info
@@ -432,6 +430,7 @@ class StudentCrudController extends CrudController
         $id = $this->crud->getCurrentEntryId() ?? $id;
 
         User::where('id', $id)->delete();
+
         return $this->crud->delete($id);
     }
 

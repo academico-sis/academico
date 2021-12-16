@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Events\LeadStatusUpdatedEvent;
+use App\Models\Config;
 use App\Models\Student;
 use Illuminate\Http\Request;
-use App\Models\Config;
 
 class LeadStatusController extends Controller
 {
@@ -18,7 +18,6 @@ class LeadStatusController extends Controller
 
         // if the sync with external mailing system is enabled
         if (config('mailing-system.external_mailing_enabled') == true) {
-
             match ($request->input('status')) {
                 1 => $listId = config('mailing-system.mailerlite.activeStudentsListId'),
                 2, 3 => $listId = config('mailing-system.mailerlite.inactiveStudentsListId'),

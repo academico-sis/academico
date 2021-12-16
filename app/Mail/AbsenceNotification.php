@@ -14,6 +14,7 @@ class AbsenceNotification extends Mailable
 {
     use Queueable;
     use SerializesModels;
+
     public $enrollment;
 
     /**

@@ -18,8 +18,7 @@ class AddDateColumnToInvoicesTable extends Migration
             $table->date('date')->after('receipt_number')->nullable();
         });
 
-        foreach (Invoice::all() as $invoice)
-        {
+        foreach (Invoice::all() as $invoice) {
             $invoice->date = $invoice->created_at;
             $invoice->save();
         }

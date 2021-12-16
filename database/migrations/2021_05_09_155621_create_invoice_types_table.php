@@ -8,7 +8,7 @@ class CreateInvoiceTypesTable extends Migration
 {
     public function up()
     {
-        if (!Schema::hasTable('invoice_types')) {
+        if (! Schema::hasTable('invoice_types')) {
             Schema::create('invoice_types', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->string('name');

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Services;
-
 
 use App\Interfaces\LMSInterface;
 use App\Models\Course;
@@ -11,7 +9,6 @@ use App\Models\User;
 
 class LMSLogService implements LMSInterface
 {
-
     public function authenticate(): ?string
     {
         return null;

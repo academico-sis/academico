@@ -1,6 +1,5 @@
 <?php
 
-
 return [
     'external_mailing_enabled' => env('EXTERNAL_MAILING_ENABLED', false),
 

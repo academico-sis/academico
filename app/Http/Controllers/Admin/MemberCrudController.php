@@ -8,7 +8,6 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
  * Class MemberCrudController
- * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
 class MemberCrudController extends CrudController
@@ -27,7 +26,7 @@ class MemberCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\Member::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/member');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/member');
         CRUD::setEntityNameStrings('member', 'members');
     }
 

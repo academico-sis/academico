@@ -18,7 +18,6 @@ class EnrollmentSheetService
         App::setLocale(config('app.locale'));
         $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor(storage_path('enrollment.docx'));
 
-
         $templateProcessor->setValue('enrollment_date', $enrollment->date);
         $templateProcessor->setValue('name', $enrollment->student_name);
 
@@ -34,14 +33,14 @@ class EnrollmentSheetService
         $templateProcessor->setValue('nif', $nif);
         $templateProcessor->setValue('email', $email);
 
-        $templateProcessor->setValue('description', $this->utf8_for_xml($enrollment->course->name ?? ""));
+        $templateProcessor->setValue('description', $this->utf8_for_xml($enrollment->course->name ?? ''));
         $templateProcessor->setValue('start_date', $enrollment->course->formatted_start_date);
         $templateProcessor->setValue('end_date', $enrollment->course->formatted_end_date);
         $templateProcessor->setValue('volume', $enrollment->course->volume);
 
-        $table = new \PhpOffice\PhpWord\Element\Table(['borderSize' => 8, 'borderColor' => 'black', 'cellMargin' => 80, 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER, 'cellSpacing' => 50, 'width' => 100 * 50,]);
+        $table = new \PhpOffice\PhpWord\Element\Table(['borderSize' => 8, 'borderColor' => 'black', 'cellMargin' => 80, 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER, 'cellSpacing' => 50, 'width' => 100 * 50]);
 
-        $firstRowStyle = array('bgColor' => 'd9d9d9');
+        $firstRowStyle = ['bgColor' => 'd9d9d9'];
 
         $table->addRow(500, $firstRowStyle);
         $table->addCell(4000, $firstRowStyle)->addText(Str::upper(__('Due Date')));
@@ -59,7 +58,7 @@ class EnrollmentSheetService
         }
 
         $path = $templateProcessor->save();
-        return response()->download($path)->deleteFileAfterSend(true);
 
+        return response()->download($path)->deleteFileAfterSend(true);
     }
 }

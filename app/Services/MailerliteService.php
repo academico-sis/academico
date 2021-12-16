@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Services;
-
 
 use App\Models\Config;
 use App\Models\User;
@@ -10,6 +8,7 @@ use App\Models\User;
 class MailerliteService implements \App\Interfaces\MailingSystemInterface
 {
     public $groupsApi;
+
     public $subscribersApi;
 
     public function __construct()
@@ -25,7 +24,7 @@ class MailerliteService implements \App\Interfaces\MailingSystemInterface
         $subscriberGroups = $this->subscribersApi->getGroups($email); // returns array of group objects subscriber belongs to
 
         foreach ($subscriberGroups as $group) {
-            $groupId = $array = json_decode(json_encode($group),true);
+            $groupId = $array = json_decode(json_encode($group), true);
             $this->groupsApi->removeSubscriber($groupId['id'], $email); // returns empty response
         }
 

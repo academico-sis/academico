@@ -106,7 +106,7 @@ class SkillCrudController extends CrudController
             ],
             [
                 'label' => __('Skill Type'),
-                'type' => "relationship",
+                'type' => 'relationship',
                 'name' => 'skill_type', // the method on your model that defines the relationship
                 'ajax' => true,
                 'inline_create' => [ // specify the entity in singular
@@ -116,8 +116,8 @@ class SkillCrudController extends CrudController
                     'modal_class' => 'modal-dialog modal-xl', // use modal-sm, modal-lg to change width
                     'modal_route' => route('skilltype-inline-create'), // InlineCreate::getInlineCreateModal()
                     'create_route' =>  route('skilltype-inline-create-save'), // InlineCreate::storeInlineCreate()
-                ]
-            ]
+                ],
+            ],
         ]);
     }
 

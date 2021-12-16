@@ -4,58 +4,13 @@ namespace App\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Prologue\Alerts\Facades\Alert;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Illuminate\Database\Eloquent\Builder;
 
 /**
- * App\Models\Event
- *
- * @property int $id
- * @property int|null $course_id
- * @property int|null $teacher_id
- * @property int|null $room_id
- * @property string $start
- * @property string $end
- * @property string $name
- * @property int|null $course_time_id
- * @property int|null $exempt_attendance
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
- * @property-read int|null $activities_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Attendance[] $attendance
- * @property-read int|null $attendance_count
- * @property-read \App\Models\Course|null $course
- * @property-read \App\Models\CourseTime $coursetime
- * @property-read mixed $color
- * @property-read mixed $end_time
- * @property-read mixed $event_length
- * @property-read mixed $formatted_date
- * @property-read mixed $length
- * @property-read mixed $period
- * @property-read mixed $short_date
- * @property-read mixed $start_time
- * @property-read mixed $unassigned_teacher
- * @property-read mixed $volume
- * @property-read \App\Models\Room|null $room
- * @property-read \App\Models\Teacher|null $teacher
- * @method static Builder|Event newModelQuery()
- * @method static Builder|Event newQuery()
- * @method static Builder|Event query()
- * @method static Builder|Event whereCourseId($value)
- * @method static Builder|Event whereCourseTimeId($value)
- * @method static Builder|Event whereCreatedAt($value)
- * @method static Builder|Event whereEnd($value)
- * @method static Builder|Event whereExemptAttendance($value)
- * @method static Builder|Event whereId($value)
- * @method static Builder|Event whereName($value)
- * @method static Builder|Event whereRoomId($value)
- * @method static Builder|Event whereStart($value)
- * @method static Builder|Event whereTeacherId($value)
- * @method static Builder|Event whereUpdatedAt($value)
- * @mixin \Eloquent
+ * @mixin IdeHelperEvent
  */
 class Event extends Model
 {
@@ -80,20 +35,13 @@ class Event extends Model
         });
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | GLOBAL VARIABLES
-    |--------------------------------------------------------------------------
-    */
-    // protected $primaryKey = 'id';
     public $timestamps = true;
+
     protected $guarded = ['id'];
-    //protected $fillable = [];
-    // protected $hidden = [];
-    // protected $dates = [];
+
     protected $appends = ['length'];
-    //protected $with = ['course'];
-    protected static $logUnguarded = true;
+
+    protected static bool $logUnguarded = true;
 
     /*
     |--------------------------------------------------------------------------

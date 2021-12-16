@@ -14,6 +14,7 @@ use App\Models\Level;
 use App\Models\Period;
 use App\Models\Rhythm;
 use App\Models\Room;
+use App\Models\SchedulePreset;
 use App\Models\Teacher;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -24,7 +25,6 @@ use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Support\Facades\Gate;
 use Prologue\Alerts\Facades\Alert;
-use App\Models\SchedulePreset;
 
 class CourseCrudController extends CrudController
 {
@@ -232,61 +232,61 @@ class CourseCrudController extends CrudController
             'label'=> __('Period'),
         ],
             function () {
-            return \App\Models\Period::all()->sortByDesc('id')->pluck('name', 'id')->toArray();
-        },
+                return \App\Models\Period::all()->sortByDesc('id')->pluck('name', 'id')->toArray();
+            },
             function ($value) { // if the filter is active
-            CRUD::addClause('where', 'period_id', $value);
-        },
+                CRUD::addClause('where', 'period_id', $value);
+            },
             function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
-              $period = \App\Models\Period::get_default_period()->id;
-              CRUD::addClause('where', 'period_id', $period);
-              $this->crud->getRequest()->request->add(['period_id' => $period]); // to make the filter look active
-          }
+                $period = \App\Models\Period::get_default_period()->id;
+                CRUD::addClause('where', 'period_id', $period);
+                $this->crud->getRequest()->request->add(['period_id' => $period]); // to make the filter look active
+            }
         );
 
         CRUD::addFilter(
             [ // add a "simple" filter called Draft
-            'type' => 'simple',
-            'name' => 'parent',
-            'label'=> __('Hide Children Courses'),
-        ],
+                'type' => 'simple',
+                'name' => 'parent',
+                'label'=> __('Hide Children Courses'),
+            ],
             false,
             function () {
-              CRUD::addClause('parent');
-          }
+                CRUD::addClause('parent');
+            }
         );
 
         $this->crud->addFilter([
             'type'  => 'date_range',
             'name'  => 'start_date',
-            'label' => __('Start')
+            'label' => __('Start'),
         ],
             false,
             function ($value) { // if the filter is active, apply these constraints
                 $dates = json_decode($value);
                 $this->crud->addClause('where', 'start_date', '>=', $dates->from);
-                $this->crud->addClause('where', 'start_date', '<=', $dates->to . ' 23:59:59');
+                $this->crud->addClause('where', 'start_date', '<=', $dates->to.' 23:59:59');
             });
 
         $this->crud->addFilter([
             'type'  => 'date_range',
             'name'  => 'end_date',
-            'label' => __('End')
+            'label' => __('End'),
         ],
             false,
             function ($value) { // if the filter is active, apply these constraints
                 $dates = json_decode($value);
                 $this->crud->addClause('where', 'end_date', '>=', $dates->from);
-                $this->crud->addClause('where', 'end_date', '<=', $dates->to . ' 23:59:59');
+                $this->crud->addClause('where', 'end_date', '<=', $dates->to.' 23:59:59');
             });
     }
 
     protected function setupCreateOperation()
     {
         if (config('app.currency_position') === 'before') {
-            $currency = array('prefix' => config('app.currency_symbol'));
+            $currency = ['prefix' => config('app.currency_symbol')];
         } else {
-            $currency = array('suffix' => config('app.currency_symbol'));
+            $currency = ['suffix' => config('app.currency_symbol')];
         }
 
         CRUD::addFields([
@@ -322,7 +322,7 @@ class CourseCrudController extends CrudController
                 'name' => 'price', // The db column name
                 'label' => __('Price'), // Table column heading
                 'tab' => __('Course info'),
-                'type' => 'number'
+                'type' => 'number',
             ], $currency),
         ]);
 
@@ -331,13 +331,13 @@ class CourseCrudController extends CrudController
                 array_merge([
                     'name' => 'price_b',
                     'label' => __('Price B'),
-                    'tab' => __('Course info'), 'type' => 'number'
+                    'tab' => __('Course info'), 'type' => 'number',
                 ], $currency),
 
                 array_merge([
                     'name' => 'price_c',
                     'label' => __('PriceC'),
-                    'tab' => __('Course info'), 'type' => 'number'
+                    'tab' => __('Course info'), 'type' => 'number',
                 ], $currency),
             ]);
         }
@@ -370,7 +370,6 @@ class CourseCrudController extends CrudController
                 'tab' => __('Course info'),
             ],
 
-
             [   // repeatable
                 'name'  => 'sublevels',
                 'label' => __('Course sublevels'),
@@ -394,10 +393,10 @@ class CourseCrudController extends CrudController
                     array_merge([
                         'name' => 'price', // The db column name
                         'label' => __('Price'), // Table column heading
-                        'type' => 'number'
+                        'type' => 'number',
                     ], $currency),
 
-                   [
+                    [
                         'name' => 'volume', // The db column name
                         'label' => __('Presential volume'), // Table column heading
                         'suffix' => 'h',
@@ -581,8 +580,8 @@ class CourseCrudController extends CrudController
                     [
                         'name' => 'worked_hours',
                         'type' => 'number',
-                        'attributes' => ["step" => "0.25"],
-                        'suffix'     => "h",
+                        'attributes' => ['step' => '0.25'],
+                        'suffix'     => 'h',
                         'label' => __('Weekly Volume'),
                         'wrapper' => ['class' => 'form-group col-md-6'],
                     ],
@@ -616,16 +615,16 @@ class CourseCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         if (config('app.currency_position') === 'before') {
-            $currency = array('prefix' => config('app.currency_symbol'));
+            $currency = ['prefix' => config('app.currency_symbol')];
         } else {
-            $currency = array('suffix' => config('app.currency_symbol'));
+            $currency = ['suffix' => config('app.currency_symbol')];
         }
 
         if ($this->crud->getCurrentEntry()->children->count() > 0) {
             CRUD::addField([   // view
                 'name' => 'custom-ajax-button',
                 'type' => 'view',
-                'view' => 'courses/parent-course-alert'
+                'view' => 'courses/parent-course-alert',
             ]);
         }
 
@@ -633,7 +632,7 @@ class CourseCrudController extends CrudController
             CRUD::addField([   // view
                 'name' => 'custom-ajax-button',
                 'type' => 'view',
-                'view' => 'courses/child-course-alert'
+                'view' => 'courses/child-course-alert',
             ]);
         }
 
@@ -673,7 +672,7 @@ class CourseCrudController extends CrudController
                 'name' => 'price', // The db column name
                 'label' => __('Price'), // Table column heading
                 'tab' => __('Course info'),
-                'type' => 'number'
+                'type' => 'number',
             ], $currency),
         ]);
 
@@ -682,13 +681,13 @@ class CourseCrudController extends CrudController
                 array_merge([
                     'name' => 'price_b',
                     'label' => __('Price B'),
-                    'tab' => __('Course info'), 'type' => 'number'
+                    'tab' => __('Course info'), 'type' => 'number',
                 ], $currency),
 
                 array_merge([
                     'name' => 'price_c',
                     'label' => __('PriceC'),
-                    'tab' => __('Course info'), 'type' => 'number'
+                    'tab' => __('Course info'), 'type' => 'number',
                 ], $currency),
             ]);
         }
@@ -871,8 +870,8 @@ class CourseCrudController extends CrudController
                         [
                             'name' => 'worked_hours',
                             'type' => 'number',
-                            'attributes' => ["step" => "0.25"],
-                            'suffix'     => "h",
+                            'attributes' => ['step' => '0.25'],
+                            'suffix'     => 'h',
                             'label' => __('Weekly Volume'),
                             'wrapper' => ['class' => 'form-group col-md-6'],
                         ],
@@ -881,7 +880,6 @@ class CourseCrudController extends CrudController
                     'init_rows' => 0, // number of empty rows to be initialized, by default 1
                 ]);
             }
-
         }
 
         // add asterisk for fields that are required in CourseRequest
@@ -967,8 +965,7 @@ class CourseCrudController extends CrudController
         $sublevels = collect(json_decode($this->crud->getRequest()->input('sublevels')));
 
         // if subcourses were added
-        if ($sublevels->count() > 0)
-        {
+        if ($sublevels->count() > 0) {
             // do not persist level on parent
             $this->crud->getRequest()->request->remove('level_id');
 
@@ -990,5 +987,4 @@ class CourseCrudController extends CrudController
 
         return $response;
     }
-
 }

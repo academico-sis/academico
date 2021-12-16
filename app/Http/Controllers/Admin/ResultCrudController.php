@@ -75,7 +75,7 @@ class ResultCrudController extends CrudController
                 'name' => 'course.period',
                 'label' => __('Period'),
                 'type' => 'relationship',
-                'attribute' => 'name'
+                'attribute' => 'name',
             ],
             [
                 // RESULT
@@ -100,14 +100,14 @@ class ResultCrudController extends CrudController
 
         CRUD::addFilter(
             [
-            'type' => 'simple',
-            'name' => 'hideparents',
-            'label'=> __('Hide Parents'),
-        ],
+                'type' => 'simple',
+                'name' => 'hideparents',
+                'label'=> __('Hide Parents'),
+            ],
             false,
             function () {
-              CRUD::addClause('real');
-          }
+                CRUD::addClause('real');
+            }
         );
 
         CRUD::addFilter([

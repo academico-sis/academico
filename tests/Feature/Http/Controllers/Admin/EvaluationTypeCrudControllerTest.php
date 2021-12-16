@@ -2,10 +2,10 @@
 
 namespace Tests\Feature\Http\Controllers\Admin;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 use App\Models\EvaluationType;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 /**
  * @see \App\Http\Controllers\Admin\EvaluationTypeCrudController
@@ -15,7 +15,9 @@ class EvaluationTypeCrudControllerTest extends TestCase
     use RefreshDatabase;
 
     public $user;
+
     public $model;
+
     public $table;
 
     public function setUp(): void

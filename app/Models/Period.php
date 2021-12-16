@@ -10,64 +10,17 @@ use Illuminate\Support\Facades\DB;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
- * App\Models\Period
- *
- * @property int $id
- * @property string $name
- * @property string $start
- * @property string $end
- * @property int $year_id
- * @property int|null $order
- * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
- * @property-read int|null $activities_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Course[] $courses
- * @property-read int|null $courses_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Enrollment[] $enrollments
- * @property-read int|null $enrollments_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Course[] $external_courses
- * @property-read int|null $external_courses_count
- * @property-read mixed $acquisition_rate
- * @property-read mixed $courses_with_pending_attendance
- * @property-read mixed $external_enrollments_count
- * @property-read mixed $external_sold_hours_count
- * @property-read mixed $external_students_count
- * @property-read mixed $external_taught_hours_count
- * @property-read mixed $internal_enrollments_count
- * @property-read mixed $next_period
- * @property-read mixed $paid_enrollments_count
- * @property-read mixed $partnerships_count
- * @property-read mixed $pending_enrollments_count
- * @property-read mixed $period_sold_hours_count
- * @property-read mixed $period_taught_hours_count
- * @property-read mixed $previous_period
- * @property-read mixed $students_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Course[] $internal_courses
- * @property-read int|null $internal_courses_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Enrollment[] $real_enrollments
- * @property-read int|null $real_enrollments_count
- * @property-read \App\Models\Year $year
- * @method static Builder|Period newModelQuery()
- * @method static Builder|Period newQuery()
- * @method static Builder|Period query()
- * @method static Builder|Period whereEnd($value)
- * @method static Builder|Period whereId($value)
- * @method static Builder|Period whereName($value)
- * @method static Builder|Period whereOrder($value)
- * @method static Builder|Period whereStart($value)
- * @method static Builder|Period whereYearId($value)
- * @mixin \Eloquent
+ * @mixin IdeHelperPeriod
  */
 class Period extends Model
 {
     use CrudTrait;
     use LogsActivity;
 
-    // protected $primaryKey = 'id';
     public $timestamps = false;
-    // protected $guarded = ['id'];
+
     protected $fillable = ['name', 'year_id', 'start', 'end'];
-    // protected $hidden = [];
-    // protected $dates = [];
+
     protected static $logUnguarded = true;
 
     protected static function boot()
@@ -87,7 +40,7 @@ class Period extends Model
     {
         $configPeriod = Config::where('name', 'current_period');
 
-        if($configPeriod->exists()) {
+        if ($configPeriod->exists()) {
             $currentPeriod = $configPeriod->first()->value;
 
             if (self::where('id', $currentPeriod)->count() > 0) {
@@ -97,7 +50,7 @@ class Period extends Model
             }
         }
 
-        return Period::first();
+        return self::first();
     }
 
     /**
@@ -240,11 +193,9 @@ class Period extends Model
     {
         // get students enrolled in period P-1
         $previous_period_student_ids = $this->previous_period->real_enrollments->pluck('student_id');
-        //dump($previous_period_student_ids);
 
         // and students enrolled in period P
         $current_students_ids = $this->real_enrollments->pluck('student_id');
-        //dump($current_students_ids);
 
         // students both in period p-1 and period p
         $acquired_students = $previous_period_student_ids->intersect($current_students_ids);

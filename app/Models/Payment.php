@@ -8,57 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
 
 /**
- * App\Models\Payment
- *
- * @property int $id
- * @property int $responsable_id
- * @property int $invoice_id
- * @property string $payment_method
- * @property string|null $date
- * @property string $value
- * @property int|null $status
- * @property string|null $comment
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read string $bic
- * @property-read mixed $date_for_humans
- * @property-read mixed $display_status
- * @property-read string $enrollment_name
- * @property-read string $iban
- * @property-read mixed $month
- * @property-read mixed $value_with_currency
- * @property-read \App\Models\Invoice $invoice
- * @method static \Illuminate\Database\Eloquent\Builder|Payment newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Payment newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Payment query()
- * @method static \Illuminate\Database\Eloquent\Builder|Payment whereComment($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Payment whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Payment whereDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Payment whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Payment whereInvoiceId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Payment wherePaymentMethod($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Payment whereResponsableId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Payment whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Payment whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Payment whereValue($value)
- * @mixin \Eloquent
+ * @mixin IdeHelperPayment
  */
 class Payment extends Model
 {
     use CrudTrait;
 
-    /*
-    |--------------------------------------------------------------------------
-    | GLOBAL VARIABLES
-    |--------------------------------------------------------------------------
-    */
-    // protected $primaryKey = 'id';
-    // public $timestamps = false;
     protected $guarded = ['id'];
+
     protected $appends = ['date_for_humans', 'value_with_currency', 'display_status'];
-    //protected $fillable = [];
-    // protected $hidden = [];
-    // protected $dates = [];
 
     /*
     |--------------------------------------------------------------------------
@@ -96,8 +54,7 @@ class Payment extends Model
 
     public function getEnrollmentNameAttribute(): string
     {
-        if ($this->invoice->enrollments()->exists())
-        {
+        if ($this->invoice->enrollments()->exists()) {
             return $this->invoice->enrollments->first()->student_name;
         }
 
@@ -106,8 +63,7 @@ class Payment extends Model
 
     public function getIbanAttribute(): string
     {
-        if ($this->invoice->enrollments()->exists())
-        {
+        if ($this->invoice->enrollments()->exists()) {
             return $this->invoices->enrollments->first()->student->iban ?? '';
         }
 
@@ -116,20 +72,19 @@ class Payment extends Model
 
     public function getBicAttribute(): string
     {
-        if ($this->invoice->enrollments()->exists())
-        {
+        if ($this->invoice->enrollments()->exists()) {
             return $this->invoices->enrollments->first()->student->bic ?? '';
         }
 
         return '';
     }
 
-    function getDateForHumansAttribute()
+    public function getDateForHumansAttribute()
     {
-        if ($this->date)
-        {
+        if ($this->date) {
             return Carbon::parse($this->date, 'UTC')->locale(App::getLocale())->isoFormat('LL');
         }
+
         return Carbon::parse($this->created_at, 'UTC')->locale(App::getLocale())->isoFormat('LL');
     }
 
@@ -140,22 +95,20 @@ class Payment extends Model
 
     public function getValueWithCurrencyAttribute()
     {
-        if (config('app.currency_position') === 'before')
-        {
-            return config('app.currency_symbol') . " ". $this->value;
+        if (config('app.currency_position') === 'before') {
+            return config('app.currency_symbol').' '.$this->value;
         }
 
-        return $this->value . " " . config('app.currency_symbol');
+        return $this->value.' '.config('app.currency_symbol');
     }
 
     public function getDisplayStatusAttribute()
     {
-        switch ($this->status)
-        {
-            case (null):
-            case (1):
+        switch ($this->status) {
+            case null:
+            case 1:
                 return __('Pending');
-            case (2):
+            case 2:
                 return __('Paid');
         }
     }

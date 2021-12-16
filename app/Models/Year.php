@@ -2,42 +2,21 @@
 
 namespace App\Models;
 
+use App\Models\Course;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use App\Models\Course;
 
 /**
- * App\Models\Year
- *
- * @property int $id
- * @property string $name
- * @property-read mixed $partnerships
- * @property-read mixed $year_distinct_students_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Period[] $periods
- * @property-read int|null $periods_count
- * @method static \Illuminate\Database\Eloquent\Builder|Year newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Year newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Year query()
- * @method static \Illuminate\Database\Eloquent\Builder|Year whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Year whereName($value)
- * @mixin \Eloquent
+ * @mixin IdeHelperYear
  */
 class Year extends Model
 {
     use CrudTrait;
 
-    /*
-    |--------------------------------------------------------------------------
-    | GLOBAL VARIABLES
-    |--------------------------------------------------------------------------
-    */
-    // protected $primaryKey = 'id';
     public $timestamps = false;
+
     protected $guarded = ['id'];
-    //protected $fillable = [];
-    // protected $hidden = [];
-    // protected $dates = [];
 
     /*
     |--------------------------------------------------------------------------

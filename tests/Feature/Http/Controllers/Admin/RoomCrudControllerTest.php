@@ -18,7 +18,7 @@ class RoomCrudControllerTest extends TestCase
         $this->seed('TestSeeder');
         $this->logAdmin();
     }
-    
+
     /**
      * @test
      */
@@ -67,7 +67,6 @@ class RoomCrudControllerTest extends TestCase
      */
     public function index_returns_an_ok_response()
     {
-
         $response = $this->get(route('room.index'));
 
         $response->assertOk();

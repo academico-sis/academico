@@ -2,6 +2,11 @@
 
 namespace App\Models;
 
+use App\Events\EnrollmentCreated;
+use App\Events\EnrollmentDeleted;
+use App\Events\EnrollmentUpdated;
+use App\Events\EnrollmentUpdating;
+use App\Models\ScheduledPayment;
 use App\Models\Skills\SkillEvaluation;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
@@ -9,80 +14,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
 use Spatie\Activitylog\Traits\LogsActivity;
-use App\Models\ScheduledPayment;
 
 /**
- * App\Models\Enrollment
- *
- * @property int $id
- * @property int $student_id
- * @property int $responsible_id
- * @property int $course_id
- * @property int $status_id
- * @property string|null $total_price
- * @property int|null $parent_id
- * @property int|null $invoice_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property string|null $deleted_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
- * @property-read int|null $activities_count
- * @property-read \Illuminate\Database\Eloquent\Collection|Enrollment[] $childrenEnrollments
- * @property-read int|null $children_enrollments_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
- * @property-read int|null $comments_count
- * @property-read \App\Models\Course $course
- * @property-read \App\Models\EnrollmentStatusType $enrollmentStatus
- * @property-read mixed $absence_count
- * @property-read mixed $attendance_ratio
- * @property-read mixed $children
- * @property-read mixed $children_count
- * @property-read mixed $date
- * @property-read mixed $name
- * @property-read mixed $price
- * @property-read mixed $price_with_currency
- * @property-read mixed $product_code
- * @property-read mixed $result_name
- * @property-read mixed $status
- * @property-read mixed $student_age
- * @property-read mixed $student_birthdate
- * @property-read mixed $student_email
- * @property-read mixed $student_name
- * @property-read mixed $type
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Grade[] $grades
- * @property-read int|null $grades_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Invoice[] $invoices
- * @property-read int|null $invoices_count
- * @property-read \App\Models\Result|null $result
- * @property-read \Illuminate\Database\Eloquent\Collection|ScheduledPayment[] $scheduledPayments
- * @property-read int|null $scheduled_payments_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Scholarship[] $scholarships
- * @property-read int|null $scholarships_count
- * @property-read \Illuminate\Database\Eloquent\Collection|SkillEvaluation[] $skill_evaluations
- * @property-read int|null $skill_evaluations_count
- * @property-read \App\Models\Student $student
- * @property-read \App\Models\User $user
- * @method static Builder|Enrollment newModelQuery()
- * @method static Builder|Enrollment newQuery()
- * @method static Builder|Enrollment noresult()
- * @method static Builder|Enrollment parent()
- * @method static Builder|Enrollment pending()
- * @method static Builder|Enrollment period($period)
- * @method static Builder|Enrollment query()
- * @method static Builder|Enrollment real()
- * @method static Builder|Enrollment whereCourseId($value)
- * @method static Builder|Enrollment whereCreatedAt($value)
- * @method static Builder|Enrollment whereDeletedAt($value)
- * @method static Builder|Enrollment whereId($value)
- * @method static Builder|Enrollment whereInvoiceId($value)
- * @method static Builder|Enrollment whereParentId($value)
- * @method static Builder|Enrollment whereResponsibleId($value)
- * @method static Builder|Enrollment whereStatusId($value)
- * @method static Builder|Enrollment whereStudentId($value)
- * @method static Builder|Enrollment whereTotalPrice($value)
- * @method static Builder|Enrollment whereUpdatedAt($value)
- * @method static Builder|Enrollment withoutChildren()
- * @mixin \Eloquent
+ * @mixin IdeHelperEnrollment
  */
 class Enrollment extends Model
 {
@@ -90,15 +24,18 @@ class Enrollment extends Model
     use LogsActivity;
 
     protected $guarded = ['id'];
+
     protected $appends = ['type', 'name', 'result_name', 'product_code', 'price', 'price_with_currency'];
+
     protected $with = ['student', 'course', 'childrenEnrollments'];
-    protected static $logUnguarded = true;
+
+    protected static bool $logUnguarded = true;
 
     protected $dispatchesEvents = [
-        'deleted' => \App\Events\EnrollmentDeleted::class,
-        'created' => \App\Events\EnrollmentCreated::class,
-        'updating' => \App\Events\EnrollmentUpdating::class,
-        'updated' => \App\Events\EnrollmentUpdated::class,
+        'deleted' => EnrollmentDeleted::class,
+        'created' => EnrollmentCreated::class,
+        'updating' => EnrollmentUpdating::class,
+        'updated' => EnrollmentUpdated::class,
     ];
 
     /**
@@ -175,7 +112,6 @@ class Enrollment extends Model
     {
         return $this->status_id == 2;
     }
-
 
     public function markAsUnpaid()
     {
@@ -269,8 +205,7 @@ class Enrollment extends Model
     public function saveScheduledPayments($payments)
     {
         $this->scheduledPayments()->delete();
-        foreach ($payments as $payment)
-        {
+        foreach ($payments as $payment) {
             $this->scheduledPayments()->create([
                 'date' => $payment->date,
                 'value' => $payment->value,
@@ -293,17 +228,17 @@ class Enrollment extends Model
 
     public function getStudentNameAttribute()
     {
-        return $this->student->name ?? "";
+        return $this->student->name ?? '';
     }
 
     public function getNameAttribute()
     {
-        return __("Enrollment for") . ' ' . $this->student_name;
+        return __('Enrollment for').' '.$this->student_name;
     }
 
     public function getTypeAttribute()
     {
-        return "enrollment";
+        return 'enrollment';
     }
 
     /*     public function getStudentIdAttribute()
@@ -382,12 +317,11 @@ class Enrollment extends Model
 
     public function getPriceWithCurrencyAttribute()
     {
-        if (config('app.currency_position') === 'before')
-        {
-            return config('app.currency_symbol') . " ". $this->price;
+        if (config('app.currency_position') === 'before') {
+            return config('app.currency_symbol').' '.$this->price;
         }
 
-        return $this->price . " " . config('app.currency_symbol');
+        return $this->price.' '.config('app.currency_symbol');
     }
 
     public function getBalanceAttribute()
@@ -395,7 +329,7 @@ class Enrollment extends Model
         $balance = $this->price;
         $paidAmount = 0;
 
-        foreach($this->invoices as $invoice) {
+        foreach ($this->invoices as $invoice) {
             $paidAmount += $invoice->payments?->sum('value') ?? 0;
         }
 
@@ -435,6 +369,7 @@ class Enrollment extends Model
         foreach ($this->invoices as $invoice) {
             $total += $invoice->total_price;
         }
+
         return $total;
     }
 
@@ -454,12 +389,13 @@ class Enrollment extends Model
 
                 // if one book is expired
                 if ($this->student && $this->student->books->where('id', $book->id)->filter(function ($book) {
-                        return $book->pivot->expiry_date  == null || $book->pivot->expiry_date > Carbon::now();
-                    })->count() == 0) {
-                    return "EXP";
+                    return $book->pivot->expiry_date == null || $book->pivot->expiry_date > Carbon::now();
+                })->count() == 0) {
+                    return 'EXP';
                 }
             }
-            return "OK";
+
+            return 'OK';
         }
     }
 }

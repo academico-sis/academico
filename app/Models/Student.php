@@ -9,14 +9,17 @@ use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Image\Manipulations;
-use Illuminate\Support\Facades\App;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
+/**
+ * @mixin IdeHelperStudent
+ */
 class Student extends Model implements HasMedia
 {
     use CrudTrait;
@@ -30,29 +33,7 @@ class Student extends Model implements HasMedia
 
     public $timestamps = true;
 
-    protected $fillable = [
-        'id',
-        'idnumber',
-        'firstname',
-        'lastname',
-        'email',
-        'address',
-        'city',
-        'state',
-        'country',
-        'title_id',
-        'birthdate',
-        'terms_accepted_at',
-        'created_at',
-        'updated_at',
-        'lead_type_id',
-        'force_update',
-        'profession_id',
-        'institution_id',
-        'zip_code',
-        'iban',
-        'bic',
-    ];
+    protected $guarded = ['id'];
 
     public $incrementing = false;
 
@@ -61,7 +42,6 @@ class Student extends Model implements HasMedia
     protected $appends = ['email', 'name', 'firstname', 'lastname', 'student_age', 'student_birthdate', 'lead_status', 'is_enrolled'];
 
     protected static $logUnguarded = true;
-
 
     public function scopeComputedLeadType($query, $leadTypeId)
     {
@@ -91,7 +71,8 @@ class Student extends Model implements HasMedia
                                     $q->where('period_id', Period::get_default_period()->id);
                                 });
                         });
-                }),
+                }
+            ),
 
             default => $query,
         };
@@ -209,6 +190,7 @@ class Student extends Model implements HasMedia
         if ($this->user) {
             return Str::title($this->user->firstname);
         }
+
         return '';
     }
 
@@ -217,6 +199,7 @@ class Student extends Model implements HasMedia
         if ($this->user) {
             return Str::upper($this->user->lastname);
         }
+
         return '';
     }
 
@@ -225,14 +208,16 @@ class Student extends Model implements HasMedia
         if ($this->user) {
             return $this->user->email;
         }
+
         return '';
     }
 
     public function getNameAttribute(): string
     {
         if ($this->user) {
-            return ($this->title ? ($this->title->title . ' ') : '') . $this->firstname.' '.$this->lastname;
+            return ($this->title ? ($this->title->title.' ') : '').$this->firstname.' '.$this->lastname;
         }
+
         return '';
     }
 
@@ -318,8 +303,7 @@ class Student extends Model implements HasMedia
         $listId = config('mailing-system.mailerlite.activeStudentsListId');
         LeadStatusUpdatedEvent::dispatch($this, $listId);
 
-        foreach ($this->contacts as $contact)
-        {
+        foreach ($this->contacts as $contact) {
             LeadStatusUpdatedEvent::dispatch($contact, $listId);
         }
 
