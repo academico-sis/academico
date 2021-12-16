@@ -42,8 +42,8 @@ class TeacherCalendarController extends Controller
                 'start' => $event['start'],
                 'end' => $event['end'],
                 'groupId' => $event['course_id'],
-                'backgroundColor' => $event['course']['color'] ?? ('#'.substr(md5($event['course_id'] ?? '0'), 0, 6)),
-                'borderColor' => $event['course']['color'] ?? ('#'.substr(md5($event['course_id'] ?? '0'), 0, 6)),
+                'backgroundColor' => $event['color'],
+                'borderColor' => $event['color'],
             ];
         }, $events);
 
@@ -56,8 +56,8 @@ class TeacherCalendarController extends Controller
                 'start' => $event['start'],
                 'end' => $event['end'],
                 'groupId' => $event['course_id'],
-                'backgroundColor' => $event['course']['color'] ?? ('#'.substr(md5($event['course_id'] ?? '0'), 0, 6)),
-                'borderColor' => $event['course']['color'] ?? ('#'.substr(md5($event['course_id'] ?? '0'), 0, 6)),
+                'backgroundColor' => $event['color'],
+                'borderColor' => $event['color'],
             ];
         }, $unassigned_events);
 
@@ -97,8 +97,8 @@ class TeacherCalendarController extends Controller
                 'title' => $event['name'],
                 'start' => $event['start'],
                 'end' => $event['end'],
-                'backgroundColor' => $event['course']['color'] ?? ('#'.substr(md5($event['course_id'] ?? '0'), 0, 6)),
-                'borderColor' => $event['course']['color'] ?? ('#'.substr(md5($event['course_id'] ?? '0'), 0, 6)),
+                'backgroundColor' => $event['color'],
+                'borderColor' => $event['color'],
             ];
         }, $events);
 
