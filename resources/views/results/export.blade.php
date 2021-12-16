@@ -32,7 +32,7 @@
 <body>
 
 <div style="text-align: center; margin-bottom: 1cm;">
-    <img src="{{ public_path('logo.jpg') }}" alt="Alianza Francesa Loja">
+    <img src="{{ storage_path('logo.jpg') }}" alt="Logo">
 </div>
 
 <div class="row">
@@ -44,7 +44,7 @@
             <td style="text-align: center;"><span class="t16b">REPORTE DE NOTAS DE:</span></td>
             <td class="t14">{{ Str::upper($enrollment->student->lastname) }} {{ $enrollment->student->firstname }}</td>
         </tr>
-        
+
         <tr>
             <td style="text-align: center;"><span class="t16b">MÓDULO:</span></td>
             <td class="t14b">{{ $enrollment->course->level->name }}</td>
@@ -55,7 +55,7 @@
             <td class="t12">{{ \Carbon\Carbon::now(config('settings.courses_timezone'))->format('d/m/Y') }}</td>
         </tr>
     </table>
-    
+
 </div>
 
     <p class="t14b" style="text-align: center;">Periodo pedagogico: {{ $enrollment->course->period->name }}</p>
@@ -96,7 +96,7 @@
                                 <td><strong>{{ $cat_grade }} / {{ $cat_total }}</strong></td>
                                 <td style="width: 5cm;"></td>
                             </tr>
-                            
+
                             @php $all_grade += $cat_grade; @endphp
                             @php $all_total += $cat_total; @endphp
                             <tr><td></td></tr>

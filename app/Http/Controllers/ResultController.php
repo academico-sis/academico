@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Result;
+use App\Services\CertificatesService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
@@ -32,5 +34,21 @@ class ResultController extends Controller
         Log::info('Enrollment result saved by user '.backpack_user()->id);
 
         return $result;
+    }
+
+
+    public function exportResult(Enrollment $enrollment, CertificatesService $certificatesService)
+    {
+        $certificatesService->exportResult($enrollment);
+    }
+
+    public function exportCourseResults(Course $course, CertificatesService $certificatesService)
+    {
+        $certificatesService->exportCourseResults($course);
+    }
+
+    public function exportCertificate(Enrollment $enrollment, CertificatesService $certificatesService)
+    {
+        $certificatesService->exportCertificate($enrollment);
     }
 }

@@ -12,6 +12,7 @@ use App\Models\EnrollmentStatusType;
 use App\Models\Period;
 use App\Models\Room;
 use App\Models\Teacher;
+use App\Services\CertificatesService;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -88,6 +89,19 @@ class AppServiceProvider extends ServiceProvider
                 $invoicingService
             );
         }
+
+
+        $certificatesStyle = config('certificates-generation.style');
+
+        if ($certificatesStyle) {
+            $certificatesService = config("certificates-generation.{$certificatesStyle}.class");
+            $this->app->bind(
+                CertificatesService::class,
+                $certificatesService
+            );
+        }
+
+
 
         $mailngSystem = config('mailing-system.mailing_system');
 

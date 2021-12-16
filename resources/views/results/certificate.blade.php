@@ -28,7 +28,7 @@
         }
 
         @page {
-            background:url('/watermark.png') no-repeat 0 0;
+            background:url({{ storage_path('aflola/watemark.png') }}) no-repeat 0 0;
             background-image-resize: 3;
         }
 
@@ -39,18 +39,18 @@
 </head>
 <body>
     <div class="center">
-        <img src="{{ public_path('logo2.png') }}" alt="Alianza Francesa Loja" style="height: 3cm;">
+        <img src="{{ storage_path('logo2.png') }}" alt="Logo" style="height: 3cm;">
     </div>
 
 <div class="center" style="margin-top: 0.5cm;">
     <span class="t18">Otorga el siguiente</span><br>
     <span class="t18">CERTIFICADO DE APROBACIÓN DE MÓDULO</span><br>
     <span class="t24">- {{ Str::upper($enrollment->course->level->name) }} -</span><br>
-    
+
     <span class="t14">Luego de haber cursado con éxito {{ $enrollment->course->volume}} horas de francés</span>
 
     <p class="t28">a: {{ Str::upper($enrollment->student->lastname) }} {{ $enrollment->student->firstname }}</p>
-     
+
 </div>
 <div style="margin-top: 0.1cm; text-align: center;">
     <table style="margin: 0 auto 0 auto; width: 20cm;">
@@ -61,14 +61,14 @@
             <td class="center">
                 <p style="font-family:frenchscript; font-size: 20pt;">¡Felicitaciones, siga adelante!</p>
                 <div>
-                    <img src="{{ public_path('sig_camille.png') }}" style="width: 4cm; margin-bottom: 0.5cm; ">
+                    <img src="{{ storage_path('afloja/sig_camille.png') }}" style="width: 4cm; margin-bottom: 0.5cm; ">
                     <p class="t14">Sra. Camille Hannequart</p>
                     <p class="t11">Directora</p>
                 </div>
             </td>
         </tr>
     </table>
-    
+
 </div>
 
 </div>

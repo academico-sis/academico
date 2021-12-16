@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.0",
+        "ext-gd": "*",
         "akaunting/laravel-language": "^1.0",
         "backpack/crud": "^4.1",
         "backpack/permissionmanager": "^6.0.0",
@@ -24,6 +25,7 @@
         "league/csv": "^9.7",
         "maatwebsite/excel": "^3.1.20",
         "mailerlite/mailerlite-api-v2-php-sdk": "^0.3.2",
+        "mpdf/mpdf": "^8.0",
         "phpoffice/phpword": "^0.18.0",
         "sentry/sentry-laravel": "^2.10",
         "spatie/laravel-activitylog": "^3.14.2",

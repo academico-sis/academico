@@ -147,4 +147,7 @@
 
 @include('partials.create_new_contact')
 
+@if (config('app.books_module'))
+    @include('partials.add_book_to_student')
+@endif
 @endsection

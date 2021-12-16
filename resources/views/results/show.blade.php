@@ -24,6 +24,12 @@
                 <a href="{{ route('course.show', ['id' => $enrollment->course_id]) }}">
                     <p>{{ $enrollment->course->name }} ({{ $enrollment->course->period->name }})</p>
                 </a>
+
+                @if (config('certificates-generation.style') === 'afloja' && $enrollment->result && backpack_user()->hasRole(['admin', 'secretary']))
+                    <a href="{{ route('enrollment-export-result', ['enrollment' => $enrollment->id]) }}" class="btn btn-primary @if ($enrollment->enrollmentStatus->id === 1) disabled @endif">@lang('Generate grade report')</a>
+                    <a href="{{ route('enrollment-export-certificate', ['enrollment' => $enrollment->id]) }}" class="btn btn-primary @if ($enrollment->enrollmentStatus->id === 1) disabled @endif">@lang('Generate diploma')</a>
+                    @if ($enrollment->enrollmentStatus->id === 1) {{__('The enrollment is unpaid') }} @endif
+                @endif
             </div>
         </div>
     </div>

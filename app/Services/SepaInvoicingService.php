@@ -2,9 +2,10 @@
 
 namespace App\Services;
 
+use App\Interfaces\InvoicingInterface;
 use App\Models\Invoice;
 
-class SepaInvoicingService implements \App\Interfaces\InvoicingInterface
+class SepaInvoicingService implements InvoicingInterface
 {
     public function status(): bool
     {

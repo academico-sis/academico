@@ -45,6 +45,10 @@ Route::group(
         Route::get('scheduledpayment/{scheduledPayment}/bill', 'ScheduledPaymentController@bill')->name('checkout-scheduled-payment');
 
         Route::get('enrollment/{enrollment}/export', 'EnrollmentController@exportToWord')->name('generate-enrollment-sheet');
+
+        Route::get('enrollment/{enrollment}/export-result', 'ResultController@exportResult')->name('enrollment-export-result');
+        Route::get('enrollment/{enrollment}/export-certificate', 'ResultController@exportCertificate')->name('enrollment-export-certificate');
+
         Route::post('checkout', 'InvoiceController@store');
         Route::post('enrollment/{enrollment}/price', 'EnrollmentController@savePrice');
 
@@ -72,6 +76,7 @@ Route::group(
         Route::delete('phonenumber/{phoneNumber}', 'StudentPhoneNumberController@destroy');
 
         Route::post('user/addbook', 'BookController@store')->name('addBook');
+        Route::get('bookstudent', 'BookController@exportCode');
         Route::put('bookstudent', 'BookController@update');
         Route::delete('bookstudent', 'BookController@destroy');
     }
