@@ -11,7 +11,6 @@
                     <button class="delete" @click="dropContact(index)"></button>
                 </div>
                 <div class="message-body">
-                    <b-checkbox v-model="contact.invoiceable" native-value="0">{{ $t('Use this data for invoices') }}</b-checkbox>
                     <b-field :label="$t('firstname')">
                         <ValidationProvider v-slot="{ errors }" name="firstname" rules="required">
                             <b-input v-model="contact.firstname" :placeholder="$t('firstname')"></b-input><p class="help is-danger">{{ errors[0] }}</p>
@@ -121,7 +120,6 @@ export default {
                 idnumber: null,
                 address: null,
                 phonenumbers: [{ number: null }],
-                invoiceable: 0,
             });
         },
         dropContact(index) {
