@@ -179,7 +179,7 @@ class InvoiceController extends Controller
             // if the value of payments matches the total due price,
             // mark the invoice and associated enrollments as paid.
             foreach ($invoice->enrollments as $enrollment) {
-                if ($enrollment->total_price == $invoice->paidTotal()) {
+                if ($enrollment->price == $invoice->paidTotal()) {
                     $enrollment->markAsPaid();
                 } elseif ($enrollment->scheduledPayments->where('computed_status', '!==', 2)->count() === 0) {
                         $enrollment->markAsPaid();

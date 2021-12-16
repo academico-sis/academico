@@ -184,6 +184,8 @@ class ReportController extends Controller
             $data[$data_period->id]['new_students'] = $data_period->newStudents()->count();
             $data[$data_period->id]['taught_hours'] = $data_period->period_taught_hours_count;
             $data[$data_period->id]['sold_hours'] = $data_period->period_sold_hours_count;
+            $data[$data_period->id]['takings'] = $data_period->takings;
+            $data[$data_period->id]['avg_takings'] = $data_period->takings / $data_period->period_taught_hours_count;
             $years[$data_period->year_id] = Year::find($data_period->year_id); // New array using the Model
         }
 

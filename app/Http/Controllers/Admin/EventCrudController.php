@@ -148,7 +148,7 @@ class EventCrudController extends CrudController
         ],
           false,
           function ($value) { // if the filter is active, apply these constraints
-              $this->crud->query->where('teacher_id', null);
+              CRUD::addClause('unassigned');
           });
 
         CRUD::addFilter([ // select2 filter

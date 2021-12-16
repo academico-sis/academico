@@ -429,7 +429,14 @@ class Enrollment extends Model
         $this->delete();
     }
 
-
+    public function getTotalPaidPriceAttribute()
+    {
+        $total = 0;
+        foreach ($this->invoices as $invoice) {
+            $total += $invoice->total_price;
+        }
+        return $total;
+    }
 
     public function setTotalPriceAttribute($value)
     {

@@ -16,6 +16,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Backpack\CRUD\app\Library\Widget;
 use Illuminate\Support\Facades\Log;
 use App\Models\Student;
 use App\Models\ScheduledPayment;
@@ -57,6 +58,27 @@ class EnrollmentCrudController extends CrudController
         if (backpack_user()->hasRole('admin')) {
             CRUD::enableExportButtons();
         }
+
+        if ($this->crud->getRequest()->period_id) {
+            $period = Period::find($this->crud->getRequest()->period_id);
+        } else {
+            $period =  Period::get_default_period();
+        }
+
+        $pendingBalanceForPeriod = $period->real_enrollments->sum('balance');
+        $periodIncome = $period->enrollments->sum('price');
+
+        Widget::add()
+            ->type('view')
+            ->view('enrollments.total_balance_widget')
+            ->value($pendingBalanceForPeriod)
+            ->to('before_content');
+
+        Widget::add()
+            ->type('view')
+            ->view('enrollments.total_income_widget')
+            ->value($periodIncome)
+            ->to('before_content');
     }
 
     /*

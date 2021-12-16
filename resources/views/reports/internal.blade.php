@@ -45,6 +45,8 @@
                             <th>@lang('New Students')</th>
                             <th>@lang('Hours Taught')</th>
                             <th>@lang('Hours Sold')</th>
+                            <th>@lang('Takings')</th>
+                            <th>@lang('Average takings per hour taught')</th>
                         </thead>
 
                         @php
@@ -52,7 +54,8 @@
                             $i = 0;
                             $year_enrollments = 0;
                             $year_taught_hours = 0;
-                            $year_sold_hours = 0
+                            $year_sold_hours = 0;
+                            $year_takings = 0;
                         @endphp
 
                         <tbody>
@@ -89,13 +92,30 @@
                                     <td>
                                         {{ number_format($year_sold_hours ?? '0') }}
                                     </td>
+
+                                    <td>
+                                        @if (config('app.currency_position') === 'before')
+                                            {{ config('app.currency_symbol') }} {{ number_format($year_takings) }}
+                                        @else
+                                            {{ number_format($year_takings) }} {{ config('app.currency_symbol') }}
+                                        @endif
+                                    </td>
+
+                                    <td>
+                                        @if (config('app.currency_position') === 'before')
+                                            {{ config('app.currency_symbol') }} {{ number_format($year_takings / $year_taught_hours, 2) }}
+                                        @else
+                                            {{ number_format($year_takings / $year_taught_hours, 2) }} {{ config('app.currency_symbol') }}
+                                        @endif
+                                    </td>
                                 </tr>
 
                                 @php
                                     $i ++;
                                     $year_enrollments = 0;
                                     $year_taught_hours = 0;
-                                    $year_sold_hours = 0
+                                    $year_sold_hours = 0;
+                                    $year_takings = 0;
                                 @endphp
 
                             @endif
@@ -103,7 +123,8 @@
                             @php
                                 $year_enrollments += $data_period['enrollments'];
                                 $year_taught_hours += $data_period['taught_hours'];
-                                $year_sold_hours += $data_period['sold_hours']
+                                $year_sold_hours += $data_period['sold_hours'];
+                                $year_takings += $data_period['takings'];
                             @endphp
 
                                 <tr>
@@ -133,6 +154,22 @@
 
                                     <td>
                                         {{ number_format($data_period['sold_hours'] ?? '0') }}
+                                    </td>
+
+                                    <td>
+                                        @if (config('app.currency_position') === 'before')
+                                            {{ config('app.currency_symbol') }} {{ number_format($data_period['takings'] ?? '-') }}
+                                        @else
+                                            {{ number_format($data_period['takings'] ?? '-') }} {{ config('app.currency_symbol') }}
+                                        @endif
+                                    </td>
+
+                                    <td>
+                                        @if (config('app.currency_position') === 'before')
+                                            {{ config('app.currency_symbol') }} {{ number_format($data_period['avg_takings'] ?? '-', 2) }}
+                                        @else
+                                            {{ number_format($data_period['avg_takings'] ?? '-', 2) }} {{ config('app.currency_symbol') }}
+                                        @endif
                                     </td>
                                 </tr>
 
@@ -169,6 +206,24 @@
 
                                     <td>
                                         {{ number_format($year_sold_hours ?? '0') }}
+                                    </td>
+
+                                    <td>
+                                        @if (config('app.currency_position') === 'before')
+                                            {{ config('app.currency_symbol') }} {{ number_format($year_takings ?? '-') }}
+                                        @else
+                                            {{ number_format($year_takings ?? '-') }} {{ config('app.currency_symbol') }}
+                                        @endif
+
+                                    </td>
+
+                                    <td>
+                                        @if (config('app.currency_position') === 'before')
+                                            {{ config('app.currency_symbol') }} {{ number_format($year_takings / $year_taught_hours, 2) }}
+                                        @else
+                                            {{ number_format($year_takings / $year_taught_hours, 2) }} {{ config('app.currency_symbol') }}
+                                        @endif
+
                                     </td>
                                 </tr>
 

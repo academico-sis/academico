@@ -148,6 +148,11 @@ class Event extends Model
     |--------------------------------------------------------------------------
     */
 
+    public function scopeUnassigned($query)
+    {
+        return $query->whereNull('teacher_id');
+    }
+
     /*
     |--------------------------------------------------------------------------
     | ACCESORS
@@ -167,15 +172,6 @@ class Event extends Model
     public function getAttendanceCountAttribute()
     {
         return $this->attendance->count();
-    }
-
-    public function getUnassignedTeacherAttribute()
-    {
-        return $this
-            ->whereNull('teacher_id')
-            ->where('start', '>', Carbon::now())
-            ->where('start', '<', Carbon::parse('+1 month'))
-            ->get();
     }
 
     public function getFormattedDateAttribute()

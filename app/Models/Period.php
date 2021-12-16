@@ -280,6 +280,11 @@ class Period extends Model
         return $total;
     }
 
+    public function getTakingsAttribute()
+    {
+        return $this->real_enrollments->sum('total_paid_price');
+    }
+
     public function getExternalTaughtHoursCountAttribute()
     {
         // return the sum of all courses' volume for period
