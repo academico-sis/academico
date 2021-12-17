@@ -263,13 +263,13 @@ class Student extends Model implements HasMedia
 
         // if the student has a special status, return it
         if ($this->lead_type_id == 3 || $this->lead_type_id == 2) {
-            return $this->lead_type_id;
+            return $this->leadType->value();
         }
         // if the student was previously enrolled, they must be potential students
         elseif ($this->has('enrollments')) {
             return 4;
         } else {
-            return 3;
+            return;
         }
         // otherwise, their status cannot be determined and should be left blank
     }
