@@ -141,7 +141,6 @@ class Student extends Model implements HasMedia
 
     protected static $logUnguarded = true;
 
-
     public function scopeComputedLeadType($query, $leadTypeId)
     {
         return match ($leadTypeId) {
@@ -338,14 +337,14 @@ class Student extends Model implements HasMedia
         }
 
         // if the student has a special status, return it
-        if ($this->leadType != null) {
-            return $this->leadType->id;
+        if ($this->lead_type_id == 3 || $this->lead_type_id == 2) {
+            return $this->lead_type_id;
         }
         // if the student was previously enrolled, they must be potential students
         elseif ($this->has('enrollments')) {
             return 4;
         } else {
-            return;
+            return 3;
         }
         // otherwise, their status cannot be determined and should be left blank
     }
@@ -381,7 +380,7 @@ class Student extends Model implements HasMedia
             }
         }
 
-        $this->update(['lead_type_id' => null]); // fallback to default (converted)
+        //$this->update(['lead_type_id' => null]); // fallback to default (converted)
 
         // to subscribe the student to mailing lists and so on
         $listId = config('mailing-system.mailerlite.activeStudentsListId');

@@ -96,11 +96,12 @@ class Enrollment extends Model
 
     protected $dispatchesEvents = [
         'deleted' => \App\Events\EnrollmentDeleted::class,
+        'deleting' => \App\Events\EnrollmentDeleting::class,
         'created' => \App\Events\EnrollmentCreated::class,
         'updating' => \App\Events\EnrollmentUpdating::class,
         'updated' => \App\Events\EnrollmentUpdated::class,
     ];
-
+    
     /**
      * return all pending enrollments, without the child enrollments.
      */
