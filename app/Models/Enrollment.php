@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
 use Spatie\Activitylog\Traits\LogsActivity;
+use App\Models\ScheduledPayment;
 
 /**
  * @mixin IdeHelperEnrollment
@@ -33,6 +34,7 @@ class Enrollment extends Model
 
     protected $dispatchesEvents = [
         'deleted' => EnrollmentDeleted::class,
+        'deleting' => \App\Events\EnrollmentDeleting::class,
         'created' => EnrollmentCreated::class,
         'updating' => EnrollmentUpdating::class,
         'updated' => EnrollmentUpdated::class,
