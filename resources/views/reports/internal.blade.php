@@ -59,7 +59,7 @@
                         @endphp
 
                         <tbody>
-                            @foreach($data as $data_period)
+                            @foreach($data as $d => $data_period)
 
                             {{-- if we are starting a new year, display previous year's totals first --}}
                             @if ($current_year_id != $data_period['year_id'])
@@ -78,11 +78,11 @@
                                     </td>
 
                                     <td>
-                                        {{ $data_period['acquisition_rate'] ?? '-' }}
+                                        -
                                     </td>
 
                                     <td>
-                                        {{ $data_period['new_students'] ?? '-' }}
+                                        -
                                     </td>
 
                                     <td>
@@ -145,7 +145,9 @@
                                     </td>
 
                                     <td>
-                                        {{ $data_period['new_students'] ?? '-' }}
+                                        <a href="{{ route('student.index', ['new_students' => $d]) }}">
+                                            {{ $data_period['new_students'] ?? '-' }}
+                                        </a>
                                     </td>
 
                                     <td>
@@ -193,11 +195,11 @@
                                     </td>
 
                                     <td>
-                                        {{ $data_period['acquisition_rate'] ?? '-' }}
+                                        -
                                     </td>
 
                                     <td>
-                                        {{ $data_period['new_students'] ?? '-' }}
+                                        -
                                     </td>
 
                                     <td>

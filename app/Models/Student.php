@@ -78,9 +78,9 @@ class Student extends Model implements HasMedia
         };
     }
 
-    public function scopeNewInPeriod(Builder $query, $period)
+    public function scopeNewInPeriod(Builder $query, int $periodId)
     {
-        return $query->whereIn('id', Period::find($period)->newStudents()->pluck(['student_id'])->toArray());
+        return $query->whereIn('id', Period::find($periodId)->newStudents()->pluck(['student_id'])->toArray());
     }
 
     public function registerMediaConversions(Media $media = null): void
@@ -223,12 +223,18 @@ class Student extends Model implements HasMedia
 
     public function getStudentAgeAttribute()
     {
-        return Carbon::parse($this->birthdate)->age ?? '';
+        if ($this->birthdate) {
+            return Carbon::parse($this->birthdate)->age . " " . __('years old');
+        }
+        return "";
     }
 
     public function getStudentBirthdateAttribute()
     {
-        return Carbon::parse($this->birthdate)->locale(App::getLocale())->isoFormat('LL');
+        if ($this->birthdate) {
+            return Carbon::parse($this->birthdate)->locale(App::getLocale())->isoFormat('LL');
+        }
+        return '';
     }
 
     public function getIsEnrolledAttribute()
