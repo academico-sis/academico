@@ -14,7 +14,7 @@ class AddQuantityColumnToInvoiceDetailsTable extends Migration
     public function up()
     {
         Schema::table('invoice_details', function (Blueprint $table) {
-            $table->integer('quantity')->default(1)->after('product_type');
+            $table->decimal('quantity')->default(1)->after('product_type');
         });
     }
 

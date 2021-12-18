@@ -903,7 +903,6 @@ class CourseCrudController extends CrudController
                 'parent_course_id' => $course->id,
                 'exempt_attendance' => $course->exempt_attendance,
                 'period_id' => $course->period_id,
-                'opened' => $course->opened,
                 'spots' => $course->spots,
             ]);
 

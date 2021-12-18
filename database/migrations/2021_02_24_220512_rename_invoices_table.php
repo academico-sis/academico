@@ -25,6 +25,7 @@ class RenameInvoicesTable extends Migration
                 $table->string('client_idnumber')->nullable(); // client passport.
                 $table->string('client_address')->nullable(); // client address.
                 $table->string('client_email')->nullable(); // client email.
+                $table->string('client_phone')->nullable(); // client email.
                 $table->bigInteger('total_price')->nullable(); // final invoice price.
 
                 $table->integer('company_id')->default(1); // link to copany details: name, legal number... - todo

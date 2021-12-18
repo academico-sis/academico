@@ -18,7 +18,6 @@ class CreateStudentsTable extends Migration
             $table->integer('id')->unsigned()->unique();
             $table->string('idnumber')->nullable();
             $table->string('address')->nullable();
-            $table->integer('title_id')->nullable();
             $table->integer('gender_id')->nullable();
             $table->date('birthdate')->nullable();
             $table->timestamp('terms_accepted_at')->nullable();

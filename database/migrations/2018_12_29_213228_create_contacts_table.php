@@ -18,8 +18,8 @@ class CreateContactsTable extends Migration
             $table->integer('student_id')->unsigned();
             $table->string('firstname');
             $table->string('lastname');
-            $table->string('idnumber');
-            $table->string('address');
+            $table->string('idnumber')->nullable();
+            $table->string('address')->nullable();
             $table->string('email')->nullable(); // if null; look in the users table
             $table->integer('relationship_id')->nullable()->unsigned();
             $table->timestamps();
