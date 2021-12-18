@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Admin\Operations\ShowStudentPhotoRosterOperation;
 use App\Http\Requests\CourseRequest;
 use App\Models\Book;
-// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\EvaluationType;
@@ -29,7 +28,6 @@ use Prologue\Alerts\Facades\Alert;
 class CourseCrudController extends CrudController
 {
     use ListOperation;
-    use ShowOperation;
     use CreateOperation { store as traitStore; }
     use UpdateOperation { update as traitUpdate; }
     use DeleteOperation;
@@ -61,7 +59,7 @@ class CourseCrudController extends CrudController
         }
 
         if ($permissions->contains('name', 'courses.view')) {
-            CRUD::allowAccess(['show']);
+            CRUD::addButtonFromView('line', 'showEnrollments', 'showEnrollmentsForCourse');
         }
 
         CRUD::addButtonFromView('line', 'children_badge', 'children_badge', 'beginning');
@@ -884,20 +882,6 @@ class CourseCrudController extends CrudController
 
         // add asterisk for fields that are required in CourseRequest
         CRUD::setValidation(CourseRequest::class);
-    }
-
-    public function show($course)
-    {
-        $course = Course::findOrFail($course);
-
-        // The current is not allowed to view the page
-        if (Gate::forUser(backpack_user())->denies('view-course', $course)) {
-            abort(403);
-        }
-
-        $enrollments = $course->enrollments()->with('student')->get();
-
-        return view('courses/show', compact('course', 'enrollments'));
     }
 
     protected function createSublevels($course, $sublevels, $courseTimes, $teacherId, $roomId) : void

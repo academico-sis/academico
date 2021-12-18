@@ -174,7 +174,7 @@
                 >
                     <div class="card-body">
                         <div v-if="mode === 'view'" class="btn-group float-right">
-                            <a :href="`course/${course.id}/show`" class="btn">
+                            <a :href="`enrollment?course_id=${course.id}`" class="btn">
                                 <i class="la la-eye"></i>
                             </a>
                             <button aria-expanded="false" aria-haspopup="true" class="btn dropdown-toggle p-0" data-toggle="dropdown" type="button">

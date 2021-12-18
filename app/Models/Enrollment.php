@@ -82,11 +82,16 @@ class Enrollment extends Model
         return $query->doesntHave('result');
     }
 
-    public function scopePeriod(Builder $query, $period)
+    public function scopePeriod(Builder $query, int $periodId)
     {
-        return $query->whereHas('course', function ($q) use ($period) {
-            $q->where('period_id', $period);
+        return $query->whereHas('course', function ($q) use ($periodId) {
+            $q->where('period_id', $periodId);
         });
+    }
+
+    public function scopeCourse(Builder $query, int $courseId)
+    {
+        return $query->where('course_id', $courseId);
     }
 
     /** FUNCTIONS */

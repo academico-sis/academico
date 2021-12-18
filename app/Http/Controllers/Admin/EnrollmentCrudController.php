@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
+use App\Http\Controllers\EnrollmentController;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\EnrollmentStatusType;
@@ -11,15 +12,16 @@ use App\Models\Period;
 use App\Models\PhoneNumber;
 use App\Models\ScheduledPayment;
 use App\Models\Scholarship;
-use App\Models\Student;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
-use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\CRUD\app\Library\Widget;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redirect;
+use Route;
 
 /**
  * Class EnrollmentCrudController
@@ -29,9 +31,11 @@ use Illuminate\Support\Facades\Log;
 class EnrollmentCrudController extends CrudController
 {
     use ListOperation;
-    use ShowOperation;
+    use ShowOperation { show as traitShow; }
     use UpdateOperation { update as traitUpdate; }
-    use DeleteOperation;
+
+    protected $mode = 'global';
+    protected ?Course $course = null;
 
     public function __construct()
     {
@@ -42,18 +46,24 @@ class EnrollmentCrudController extends CrudController
 
     public function setup()
     {
-        /*
-        |--------------------------------------------------------------------------
-        | CrudPanel Basic Information
-        |--------------------------------------------------------------------------
-        */
         CRUD::setModel(Enrollment::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/enrollment');
         CRUD::setEntityNameStrings(__('enrollment'), __('enrollments'));
 
-        CRUD::allowAccess(['show']);
+        if ($this->crud->getRequest()->has('course_id')) {
+            $this->mode = 'course';
+            $this->course = Course::findOrFail($this->crud->getRequest()->course_id);
 
-        CRUD::denyAccess(['delete']); // hide the button from the list view
+            if (Gate::forUser(backpack_user())->denies('view-course', $this->course)) {
+                abort(403);
+            }
+
+            CRUD::addClause('course', $this->course->id);
+        }
+
+        if ($this->mode === 'course') {
+            CRUD::denyAccess(['create', 'update', 'delete']);
+        }
 
         if (backpack_user()->hasRole('admin')) {
             CRUD::enableExportButtons();
@@ -68,17 +78,18 @@ class EnrollmentCrudController extends CrudController
         $pendingBalanceForPeriod = $period->real_enrollments->sum('balance');
         $periodIncome = $period->enrollments->sum('price');
 
-        Widget::add()
-            ->type('view')
-            ->view('enrollments.total_balance_widget')
-            ->value($pendingBalanceForPeriod)
-            ->to('before_content');
+        if ($this->mode === 'global') {
+            Widget::add()->type('view')->view('enrollments.total_balance_widget')->value($pendingBalanceForPeriod)->to('before_content');
 
-        Widget::add()
-            ->type('view')
-            ->view('enrollments.total_income_widget')
-            ->value($periodIncome)
-            ->to('before_content');
+            Widget::add()->type('view')->view('enrollments.total_income_widget')->value($periodIncome)->to('before_content');
+        }
+
+        if ($this->mode === 'course') {
+            Widget::add(['type' => 'view', 'view' => 'partials.course_info', 'course' => $this->course])->to('before_content');
+
+            CRUD::denyAccess(['show']);
+            CRUD::addButtonFromView('line', 'showStudent', 'showStudentForEnrollment');
+        }
     }
 
     /*
@@ -100,6 +111,12 @@ class EnrollmentCrudController extends CrudController
             [
                 'name' => 'id',
                 'label' => 'ID',
+            ],
+
+            [
+                'label' => __('ID number'),
+                'type' => 'text',
+                'name' => 'student.idnumber',
             ],
 
             [
@@ -133,22 +150,29 @@ class EnrollmentCrudController extends CrudController
             ],
 
             [
-                // COURSE NAME
+                'label' => __('Age'),
+                'name' => 'student_age',
+            ],
+
+            [
+                'label' => __('Birthdate'),
+                'name' => 'student_birthdate',
+            ],
+]);
+
+        if ($this->mode === 'global') {
+            CRUD::addColumns([[// COURSE NAME
                 'label' => __('Course'), // Table column heading
-                'type' => 'select',
-                'name' => 'course_id', // the column that contains the ID of that connected entity;
+                'type' => 'select', 'name' => 'course_id', // the column that contains the ID of that connected entity;
                 'entity' => 'course', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
                 'model' => Course::class, // foreign key model
             ],
 
-            [
-                'type' => 'relationship',
-                'name' => 'course.period',
-                'label' => __('Period'),
-                'attribute' => 'name',
-            ],
+                ['type' => 'relationship', 'name' => 'course.period', 'label' => __('Period'), 'attribute' => 'name',],]);
+        }
 
+        CRUD::addColumns([
             [
                 // STATUS
                 'label' => __('Status'), // Table column heading
@@ -156,7 +180,7 @@ class EnrollmentCrudController extends CrudController
                 'name' => 'status_id', // the column that contains the ID of that connected entity;
                 'entity' => 'enrollmentStatus', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\EnrollmentStatusType::class, // foreign key model
+                'model' => EnrollmentStatusType::class, // foreign key model
             ],
 
             array_merge([
@@ -205,54 +229,57 @@ class EnrollmentCrudController extends CrudController
 
         ]);
 
-        CRUD::addFilter([
-            'name' => 'status_id',
-            'type' => 'select2_multiple',
-            'label'=> __('Status'),
-        ], function () {
-            return EnrollmentStatusType::all()->pluck('name', 'id')->toArray();
-        },
-        function ($values) {
-            // if the filter is active
-            foreach (json_decode($values) as $value) {
-                CRUD::addClause('orWhere', 'status_id', $value);
-            }
-        });
-
-        CRUD::addFilter([
-            'name' => 'period_id',
-            'type' => 'select2',
-            'label'=> __('Period'),
-        ], function () {
-            return Period::all()->pluck('name', 'id')->toArray();
-        }, function ($value) {
-            // if the filter is active
-            CRUD::addClause('period', $value);
-        });
-
-        CRUD::addFilter(
-            [
-                'name' => 'scholarship',
-                'type' => 'select2',
-                'label'=> __('Scholarship'),
-            ],
-            function () {
-                return Scholarship::all()->pluck('name', 'id')->toArray();
+        if ($this->mode === 'global') {
+            CRUD::addFilter([
+                'name' => 'status_id',
+                'type' => 'select2_multiple',
+                'label'=> __('Status'),
+            ], function () {
+                return EnrollmentStatusType::all()->pluck('name', 'id')->toArray();
             },
-            function ($value) { // if the filter is active
-                if ($value == 'all') {
-                    CRUD::addClause('whereHas', 'scholarships');
-                } else {
-                    CRUD::addClause('whereHas', 'scholarships', function ($q) use ($value) {
-                        $q->where('scholarships.id', $value);
-                    });
+            function ($values) {
+                // if the filter is active
+                foreach (json_decode($values) as $value) {
+                    CRUD::addClause('orWhere', 'status_id', $value);
                 }
-            }
-        );
+            });
+
+            CRUD::addFilter([
+                'name' => 'period_id',
+                'type' => 'select2',
+                'label'=> __('Period'),
+            ], function () {
+                return Period::all()->pluck('name', 'id')->toArray();
+            }, function ($value) {
+                // if the filter is active
+                CRUD::addClause('period', $value);
+            });
+
+            CRUD::addFilter(
+                [
+                    'name' => 'scholarship',
+                    'type' => 'select2',
+                    'label'=> __('Scholarship'),
+                ],
+                function () {
+                    return Scholarship::all()->pluck('name', 'id')->toArray();
+                },
+                function ($value) { // if the filter is active
+                    if ($value == 'all') {
+                        CRUD::addClause('whereHas', 'scholarships');
+                    } else {
+                        CRUD::addClause('whereHas', 'scholarships', function ($q) use ($value) {
+                            $q->where('scholarships.id', $value);
+                        });
+                    }
+                }
+            );
+        }
     }
 
     public function show($enrollment)
     {
+        // if mode is global, display enrollment
         $enrollment = Enrollment::findOrFail($enrollment);
 
         // load the products from the invoice tables

@@ -16,6 +16,7 @@ use App\Traits\PeriodSelection;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
@@ -24,19 +25,16 @@ use Backpack\CRUD\app\Library\Widget;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-use mysql_xdevapi\Exception;
 
 class StudentCrudController extends CrudController
 {
     use ListOperation;
-    use ShowOperation {
-        show as traitShow;
-    }
+    use ShowOperation { show as traitShow; }
     use UpdateOperation;
     use CreateOperation { store as traitStore; }
     use PeriodSelection;
     use DeleteOperation { destroy as traitDelete; }
-    use \Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
+    use FetchOperation;
 
     public function __construct()
     {
@@ -152,6 +150,16 @@ class StudentCrudController extends CrudController
                 'model'     => 'App\Models\User', // foreign key model
                 'orderable' => false,
                 'searchLogic' => false,
+            ],
+
+            [
+                'label' => __('Age'),
+                'name' => 'student_age',
+            ],
+
+            [
+                'label' => __('Birthdate'),
+                'name' => 'student_birthdate',
             ],
 
             [

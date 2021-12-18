@@ -26,7 +26,6 @@ class CourseRequest extends FormRequest
     {
         return [
             'campus_id' => 'required',
-            'volume' => 'required|numeric',
             'name' => 'required|string|max:255',
             'price' => 'required|numeric',
             'start_date' => 'required|date',
