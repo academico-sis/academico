@@ -4,9 +4,9 @@ namespace App\Models;
 
 use App\Events\EnrollmentCreated;
 use App\Events\EnrollmentDeleted;
+use App\Events\EnrollmentDeleting;
 use App\Events\EnrollmentUpdated;
 use App\Events\EnrollmentUpdating;
-use App\Models\ScheduledPayment;
 use App\Models\Skills\SkillEvaluation;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
@@ -14,7 +14,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
 use Spatie\Activitylog\Traits\LogsActivity;
-use App\Models\ScheduledPayment;
 
 /**
  * @mixin IdeHelperEnrollment
@@ -34,7 +33,7 @@ class Enrollment extends Model
 
     protected $dispatchesEvents = [
         'deleted' => EnrollmentDeleted::class,
-        'deleting' => \App\Events\EnrollmentDeleting::class,
+        'deleting' => EnrollmentDeleting::class,
         'created' => EnrollmentCreated::class,
         'updating' => EnrollmentUpdating::class,
         'updated' => EnrollmentUpdated::class,

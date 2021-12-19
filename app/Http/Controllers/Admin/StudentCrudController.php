@@ -244,7 +244,12 @@ class StudentCrudController extends CrudController
         ], function () {
             return LeadType::all()->pluck('name', 'id')->toArray();
         }, function ($value) {
-            $this->crud->addClause('where','lead_type_id', $value);
+            if ($value === '4') {
+                $this->crud->query = $this->crud->query->where('lead_type_id', $value)->orWhere('lead_type_id', null);
+            }
+            else {
+                $this->crud->addClause('where', 'lead_type_id', $value);
+            }
         });
     }
 

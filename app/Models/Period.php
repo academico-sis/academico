@@ -41,10 +41,10 @@ class Period extends Model
         $configPeriod = Config::where('name', 'current_period');
 
         if ($configPeriod->exists()) {
-            $currentPeriod = $configPeriod->first()->value;
+            $currentPeriodId = $configPeriod->first()->value;
 
-            if (self::where('id', $currentPeriod)->count() > 0) {
-                return self::find($currentPeriod);
+            if (self::where('id', $currentPeriodId)->count() > 0) {
+                return self::find($currentPeriodId);
             } else {
                 return self::where('end', '>=', date('Y-m-d'))->first();
             }
