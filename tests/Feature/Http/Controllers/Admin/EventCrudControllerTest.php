@@ -18,7 +18,7 @@ class EventCrudControllerTest extends TestCase
         $this->seed('TestSeeder');
         $this->logAdmin();
     }
-    
+
     /**
      * @test
      */

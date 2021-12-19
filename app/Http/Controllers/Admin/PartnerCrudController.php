@@ -8,7 +8,6 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
  * Class PartnerCrudController
- * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
 class PartnerCrudController extends CrudController
@@ -27,7 +26,7 @@ class PartnerCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\Partner::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/partner');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/partner');
         CRUD::setEntityNameStrings(__('partnership'), __('partnerships'));
     }
 
@@ -56,7 +55,7 @@ class PartnerCrudController extends CrudController
             'label' => __('End Date'),
             'type' => 'date',
         ]);
-        
+
         CRUD::addColumn([
             'name' => 'send_report_on',
             'label' => __('Send report on ... of the month'),
@@ -79,13 +78,13 @@ class PartnerCrudController extends CrudController
     protected function setupCreateOperation()
     {
         CRUD::setValidation(PartnerRequest::class);
-        
+
         CRUD::addField([
             'name' => 'name',
             'label' => __('Name'),
             'type' => 'text',
         ]);
-        
+
         CRUD::addField([
             'name' => 'started_on',
             'label' => __('Start Date'),
@@ -101,7 +100,7 @@ class PartnerCrudController extends CrudController
         CRUD::addField([   // Checkbox
             'name'  => 'auto_renewal',
             'label' => __('Tacit renewal'),
-            'type'  => 'checkbox'
+            'type'  => 'checkbox',
         ]);
 
         CRUD::addField([

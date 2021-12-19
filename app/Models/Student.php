@@ -3,98 +3,22 @@
 namespace App\Models;
 
 use App\Events\LeadStatusUpdatedEvent;
-use App\Events\StudentDeleted;
 use App\Events\StudentDeleting;
 use App\Events\StudentUpdated;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Image\Manipulations;
-use Illuminate\Support\Facades\App;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
- * App\Models\Student
- *
- * @property int $id
- * @property string $idnumber
- * @property string $address
- * @property string|null $zip_code
- * @property string|null $city
- * @property string|null $state
- * @property string|null $country
- * @property int|null $genre_id
- * @property string $birthdate
- * @property string|null $terms_accepted_at
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property int|null $lead_type_id
- * @property string|null $how_did_you_know_us
- * @property int|null $force_update
- * @property int|null $profession_id
- * @property int|null $institution_id
- * @property string|null $account_holder
- * @property string|null $iban
- * @property string|null $bic
- * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
- * @property-read int|null $activities_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Attendance[] $attendance
- * @property-read int|null $attendance_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
- * @property-read int|null $comments_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Contact[] $contacts
- * @property-read int|null $contacts_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Enrollment[] $enrollments
- * @property-read int|null $enrollments_count
- * @property string $email
- * @property string $firstname
- * @property-read mixed $is_enrolled
- * @property string $lastname
- * @property-read mixed $lead_status
- * @property-read mixed $lead_status_name
- * @property-read string $name
- * @property-read mixed $student_age
- * @property-read mixed $student_birthdate
- * @property-read \App\Models\Institution|null $institution
- * @property-read \App\Models\LeadType|null $leadType
- * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|Media[] $media
- * @property-read int|null $media_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\PhoneNumber[] $phone
- * @property-read int|null $phone_count
- * @property-read \App\Models\Profession|null $profession
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Enrollment[] $real_enrollments
- * @property-read int|null $real_enrollments_count
- * @property-read \App\Models\Title $title
- * @property-read \App\Models\User $user
- * @method static \Illuminate\Database\Eloquent\Builder|Student computedLeadType($leadTypeId)
- * @method static \Illuminate\Database\Eloquent\Builder|Student newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Student newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Student query()
- * @method static \Illuminate\Database\Eloquent\Builder|Student whereAccountHolder($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Student whereAddress($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Student whereBic($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Student whereBirthdate($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Student whereCity($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Student whereCountry($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Student whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Student whereForceUpdate($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Student whereGenreId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Student whereHowDidYouKnowUs($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Student whereIban($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Student whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Student whereIdnumber($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Student whereInstitutionId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Student whereLeadTypeId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Student whereProfessionId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Student whereState($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Student whereTermsAcceptedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Student whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Student whereZipCode($value)
- * @mixin \Eloquent
+ * @mixin IdeHelperStudent
  */
 class Student extends Model implements HasMedia
 {
@@ -109,29 +33,7 @@ class Student extends Model implements HasMedia
 
     public $timestamps = true;
 
-    protected $fillable = [
-        'id',
-        'idnumber',
-        'firstname',
-        'lastname',
-        'email',
-        'address',
-        'city',
-        'state',
-        'country',
-        'title_id',
-        'birthdate',
-        'terms_accepted_at',
-        'created_at',
-        'updated_at',
-        'lead_type_id',
-        'force_update',
-        'profession_id',
-        'institution_id',
-        'zip_code',
-        'iban',
-        'bic',
-    ];
+    protected $guarded = [];
 
     public $incrementing = false;
 
@@ -140,7 +42,6 @@ class Student extends Model implements HasMedia
     protected $appends = ['email', 'name', 'firstname', 'lastname', 'student_age', 'student_birthdate', 'lead_status', 'is_enrolled'];
 
     protected static $logUnguarded = true;
-
 
     public function scopeComputedLeadType($query, $leadTypeId)
     {
@@ -170,10 +71,16 @@ class Student extends Model implements HasMedia
                                     $q->where('period_id', Period::get_default_period()->id);
                                 });
                         });
-                }),
+                }
+            ),
 
             default => $query,
         };
+    }
+
+    public function scopeNewInPeriod(Builder $query, int $periodId)
+    {
+        return $query->whereIn('id', Period::find($periodId)->newStudents()->pluck(['student_id'])->toArray());
     }
 
     public function registerMediaConversions(Media $media = null): void
@@ -267,6 +174,11 @@ class Student extends Model implements HasMedia
         return $this->belongsTo(Profession::class);
     }
 
+    public function books()
+    {
+        return $this->belongsToMany(Book::class)->withPivot('id', 'code', 'status_id', 'expiry_date');
+    }
+
     public function title()
     {
         return $this->belongsTo(Title::class);
@@ -278,6 +190,7 @@ class Student extends Model implements HasMedia
         if ($this->user) {
             return Str::title($this->user->firstname);
         }
+
         return '';
     }
 
@@ -286,6 +199,7 @@ class Student extends Model implements HasMedia
         if ($this->user) {
             return Str::upper($this->user->lastname);
         }
+
         return '';
     }
 
@@ -294,25 +208,35 @@ class Student extends Model implements HasMedia
         if ($this->user) {
             return $this->user->email;
         }
+
         return '';
     }
 
     public function getNameAttribute(): string
     {
         if ($this->user) {
-            return ($this->title ? ($this->title->title . ' ') : '') . $this->firstname.' '.$this->lastname;
+            return ($this->title ? ($this->title->title.' ') : '').$this->firstname.' '.$this->lastname;
         }
+
         return '';
     }
 
     public function getStudentAgeAttribute()
     {
-        return Carbon::parse($this->birthdate)->age ?? '';
+        if ($this->birthdate) {
+            return Carbon::parse($this->birthdate)->age.' '.__('years old');
+        }
+
+        return '';
     }
 
     public function getStudentBirthdateAttribute()
     {
-        return Carbon::parse($this->birthdate)->locale(App::getLocale())->isoFormat('LL');
+        if ($this->birthdate) {
+            return Carbon::parse($this->birthdate)->locale(App::getLocale())->isoFormat('LL');
+        }
+
+        return '';
     }
 
     public function getIsEnrolledAttribute()
@@ -387,8 +311,7 @@ class Student extends Model implements HasMedia
         $listId = config('mailing-system.mailerlite.activeStudentsListId');
         LeadStatusUpdatedEvent::dispatch($this, $listId);
 
-        foreach ($this->contacts as $contact)
-        {
+        foreach ($this->contacts as $contact) {
             LeadStatusUpdatedEvent::dispatch($contact, $listId);
         }
 

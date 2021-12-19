@@ -21,13 +21,13 @@ class importData extends Command
 
     protected $description = 'Command description';
 
-    private function stripAccents($str) {
+    private function stripAccents($str)
+    {
         return str_replace(' ', '', strtr(utf8_decode($str), utf8_decode('àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ'), 'aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY'));
     }
 
     public function handle()
     {
-
         $reader = Reader::createFromPath(\Storage::path('enrollments.csv'), 'r');
         $reader->setHeaderOffset(0);
         $records = $reader->getRecords();
@@ -37,13 +37,12 @@ class importData extends Command
             $period = Period::firstWhere('name', $record['year']);
 
             // Retrieve or create the student
-            $email = $record['email'] !== "" ? $record['email'] : $this->stripAccents($record['firstname']) . "." . $this->stripAccents($record['name']) . "@academico.afsantiago.es";
+            $email = $record['email'] !== '' ? $record['email'] : $this->stripAccents($record['firstname']).'.'.$this->stripAccents($record['name']).'@academico.afsantiago.es';
 
             if (User::where('email', $email)->count() > 0) {
                 $user = User::where('email', $email)->first();
-                if (($user->firstname !== trim($record['firstname']) || $user->lastname !== trim($record['name'])))
-                {
-                    $email = $this->stripAccents($record['firstname']) . "." . $this->stripAccents($record['name']) . "@academico.afsantiago.es";
+                if (($user->firstname !== trim($record['firstname']) || $user->lastname !== trim($record['name']))) {
+                    $email = $this->stripAccents($record['firstname']).'.'.$this->stripAccents($record['name']).'@academico.afsantiago.es';
                 }
             }
 
@@ -59,18 +58,18 @@ class importData extends Command
             $student = Student::firstOrCreate(
                 ['id' => $user->id],
                 [
-                    'idnumber' => $record['idnumber'] !== "" ? $record['idnumber'] : null,
-                    'address' => $record['address'] !== "" ? $record['address'] : null,
-                    'city' => $record['city'] !== "" ? $record['city'] : null,
-                    'birthdate' => $record['birthdate'] !== "" ? Carbon::createFromFormat("d/m/Y", $record['birthdate'])->toDateString() : null,
-                    'zip_code' => $record['zip_code'] !== "" ? $record['zip_code'] : null,
-                    'iban' => $record['IBAN'] !== "" ? $record['IBAN'] : null,
-                    'bic' => $record['bic_code'] !== "" ? $record['bic_code'] : null,
+                    'idnumber' => $record['idnumber'] !== '' ? $record['idnumber'] : null,
+                    'address' => $record['address'] !== '' ? $record['address'] : null,
+                    'city' => $record['city'] !== '' ? $record['city'] : null,
+                    'birthdate' => $record['birthdate'] !== '' ? Carbon::createFromFormat('d/m/Y', $record['birthdate'])->toDateString() : null,
+                    'zip_code' => $record['zip_code'] !== '' ? $record['zip_code'] : null,
+                    'iban' => $record['IBAN'] !== '' ? $record['IBAN'] : null,
+                    'bic' => $record['bic_code'] !== '' ? $record['bic_code'] : null,
                 ]
             );
 
             // add phone number
-            if ($record['phone'] !== "" && $student->phone()->where('phone_number', $record['phone'])->count() == 0) {
+            if ($record['phone'] !== '' && $student->phone()->where('phone_number', $record['phone'])->count() == 0) {
                 $student->phone()->create(['phone_number' => $record['phone']]);
             }
 
@@ -109,11 +108,9 @@ class importData extends Command
                     unset($rhythmID);
                     unset($levelID);
                 }
-            $student->enroll($course);
+                $student->enroll($course);
             }
-
         }
-
 
         /*$reader = Reader::createFromPath(\Storage::path('years.csv'), 'r');
         $records = $reader->getRecords();

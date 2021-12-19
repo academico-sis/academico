@@ -83,7 +83,7 @@ class EventCrudController extends CrudController
                 'entity' => 'teacher', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
                 'model' => Teacher::class, // foreign key model
-		'searchLogic' => false,
+                'searchLogic' => false,
             ],
 
             [
@@ -148,7 +148,7 @@ class EventCrudController extends CrudController
         ],
           false,
           function ($value) { // if the filter is active, apply these constraints
-              $this->crud->query->where('teacher_id', null);
+              CRUD::addClause('unassigned');
           });
 
         CRUD::addFilter([ // select2 filter

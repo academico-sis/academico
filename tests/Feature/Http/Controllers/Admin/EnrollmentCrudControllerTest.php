@@ -18,7 +18,7 @@ class EnrollmentCrudControllerTest extends TestCase
         $this->seed('TestSeeder');
         $this->logAdmin();
     }
-    
+
     /**
      * @test
      */
@@ -39,7 +39,6 @@ class EnrollmentCrudControllerTest extends TestCase
      */
     public function index_returns_an_ok_response()
     {
-
         $response = $this->get(route('enrollment.index'));
 
         $response->assertOk();

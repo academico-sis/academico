@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Log;
 class ApolearnService implements LMSInterface
 {
     public $apiKey;
+
     private $token;
 
     public function __construct()
@@ -26,20 +27,20 @@ class ApolearnService implements LMSInterface
     public function authenticate() : string
     {
         Log::info('launching API');
-        $response = Http::post(config('lms.apolearn.url') . '/auth.gettoken', [
-              'api_key' => $this->apiKey,
-              'username' => config('lms.apolearn.username'),
-              'password' => config('lms.apolearn.password'),
+        $response = Http::post(config('lms.apolearn.url').'/auth.gettoken', [
+            'api_key' => $this->apiKey,
+            'username' => config('lms.apolearn.username'),
+            'password' => config('lms.apolearn.password'),
         ]);
 
-        return $response['result'] ?? "";
+        return $response['result'] ?? '';
     }
 
     public function createUser(User $user, ?string $password = null) : void
     {
-        Log::info('checking if user exists for local ID ' . $user->id);
+        Log::info('checking if user exists for local ID '.$user->id);
         // first check if the user already exists (email)
-        $response = Http::get(config('lms.apolearn.url') . "/users/getbyemail/$user->email", [
+        $response = Http::get(config('lms.apolearn.url')."/users/getbyemail/$user->email", [
             'auth_token' => $this->token,
             'api_key' => $this->apiKey,
         ]);
@@ -63,7 +64,7 @@ class ApolearnService implements LMSInterface
                 $data = Arr::add($data, 'password', $password);
             }
 
-            $response = Http::post(config('lms.apolearn.url') . '/users', $data);
+            $response = Http::post(config('lms.apolearn.url').'/users', $data);
 
             if ($this->actionSucceeded($response)) {
                 $user->update(['lms_id' => $response->json()['result']['id']]);
@@ -91,7 +92,7 @@ class ApolearnService implements LMSInterface
                 $data = Arr::add($data, 'password', $password);
             }
 
-            $response = Http::put(config('lms.apolearn.url') . '/users/' . $user->lms_id, $data);
+            $response = Http::put(config('lms.apolearn.url').'/users/'.$user->lms_id, $data);
         }
     }
 
@@ -102,15 +103,15 @@ class ApolearnService implements LMSInterface
             abort(422, 'This course already exists on the remote platform');
         }
 
-        Log::info('pushing local course ' . $course->id . ' to API');
-        $response = Http::post(config('lms.apolearn.url') . '/classrooms', [
-            "name" => $course->name,
-            "shortname" => $course->shortname,
-            "description" => $course->description,
-            "start_date" => strtotime($course->start_date),
-            "end_date" => strtotime($course->end_date),
-            "category_id" => $course->rhythm->lms_id ?? config('lms.apolearn.default_category_id'),
-            "level_id" => $course->level->lms_id ?? config('lms.apolearn.default_level_id'),
+        Log::info('pushing local course '.$course->id.' to API');
+        $response = Http::post(config('lms.apolearn.url').'/classrooms', [
+            'name' => $course->name,
+            'shortname' => $course->shortname,
+            'description' => $course->description,
+            'start_date' => strtotime($course->start_date),
+            'end_date' => strtotime($course->end_date),
+            'category_id' => $course->rhythm->lms_id ?? config('lms.apolearn.default_category_id'),
+            'level_id' => $course->level->lms_id ?? config('lms.apolearn.default_level_id'),
             'auth_token' => $this->token,
             'api_key' => $this->apiKey,
         ]);
@@ -121,7 +122,7 @@ class ApolearnService implements LMSInterface
         $course->update(['lms_id' => $courseId]);
 
         // assign an admin to the new class
-        $response = Http::post(config('lms.apolearn.url') . "/classrooms/addadmin/$courseId", [
+        $response = Http::post(config('lms.apolearn.url')."/classrooms/addadmin/$courseId", [
             'user_id' => config('lms.apolearn.admin_user_id'),
             'auth_token' => $this->token,
             'api_key' => $this->apiKey,
@@ -133,37 +134,36 @@ class ApolearnService implements LMSInterface
 
     public function updateCourse(Course $course) : void
     {
-        if (!$course->lms_id) {
+        if (! $course->lms_id) {
             $this->createCourse($course);
         }
 
-        Log::info('updating course with locale ID' . $course->id);
-        $response = Http::put(config('lms.apolearn.url') . "/classrooms/$course->lms_id", [
-            "name" => $course->name,
-            "shortname" => $course->shortname,
-            "description" => $course->description,
-            "start_date" => strtotime($course->start_date),
-            "end_date" => strtotime($course->end_date),
-            "category_id" => $course->rhythm->lms_id ?? config('lms.apolearn.default_category_id'),
-            "level_id" => $course->level->lms_id ?? config('lms.apolearn.default_level_id'),
+        Log::info('updating course with locale ID'.$course->id);
+        $response = Http::put(config('lms.apolearn.url')."/classrooms/$course->lms_id", [
+            'name' => $course->name,
+            'shortname' => $course->shortname,
+            'description' => $course->description,
+            'start_date' => strtotime($course->start_date),
+            'end_date' => strtotime($course->end_date),
+            'category_id' => $course->rhythm->lms_id ?? config('lms.apolearn.default_category_id'),
+            'level_id' => $course->level->lms_id ?? config('lms.apolearn.default_level_id'),
             'auth_token' => $this->token,
             'api_key' => $this->apiKey,
         ]);
 
-
         Log::info('updating the course teacher');
         // ensure the teacher is up to date
-        $response = Http::get(config('lms.apolearn.url') . "/classrooms/teachers/$course->lms_id", [
+        $response = Http::get(config('lms.apolearn.url')."/classrooms/teachers/$course->lms_id", [
             'auth_token' => $this->token,
             'api_key' => $this->apiKey,
         ]);
 
         if ($this->actionSucceeded($response)) {
             $teachers = collect($response->json()['result']['users']);
-            Log::info('found these teachers IDs on LMS:' . implode(', ', $teachers->pluck('id')->toArray()));
+            Log::info('found these teachers IDs on LMS:'.implode(', ', $teachers->pluck('id')->toArray()));
 
             // if the course has no teacher, stop
-            if (!$course->teacher) {
+            if (! $course->teacher) {
                 Log::alert('The course has no teacher on local system, removing all teachers from remote');
                 foreach ($teachers as $teacher) {
                     $this->removeTeacher($course->lms_id, $teacher['id']);
@@ -171,14 +171,14 @@ class ApolearnService implements LMSInterface
             } else {
                 // check if remote course teachers are still valid
                 foreach ($teachers as $teacher) {
-                    Log::info('comparing ' . $teacher['id'] . ' and ' . $course->teacher->user->lms_id);
+                    Log::info('comparing '.$teacher['id'].' and '.$course->teacher->user->lms_id);
                     if ($teacher['id'] !== $course->teacher->user->lms_id) {
-                        Log::info('Removing teacher ' . $teacher['id'] . ' from course');
+                        Log::info('Removing teacher '.$teacher['id'].' from course');
                         $this->removeTeacher($course->lms_id, $teacher['id']);
                     }
                 }
 
-                if (!$course->teacher->user->lms_id || !$teachers->contains('id', $course->teacher->user->lms_id)) {
+                if (! $course->teacher->user->lms_id || ! $teachers->contains('id', $course->teacher->user->lms_id)) {
                     Log::info('the course teacher has changed, need to update it');
                     $this->addTeacher($course);
                 }
@@ -188,18 +188,18 @@ class ApolearnService implements LMSInterface
 
     public function enrollStudent(Course $course, Student $student): void
     {
-        if (!$course->lms_id) {
+        if (! $course->lms_id) {
             abort(404, 'This course is not synced with external LMS');
         }
 
         $courseId = $course->lms_id;
 
         // if the student is not synced with the LMS, create them
-        if (!$student->user->lms_id) {
+        if (! $student->user->lms_id) {
             $this->createUser($student->user);
         }
 
-        $response = Http::post(config('lms.apolearn.url') . "/classrooms/addstudent/$courseId", [
+        $response = Http::post(config('lms.apolearn.url')."/classrooms/addstudent/$courseId", [
             'user_id' => $student->user->lms_id,
             'auth_token' => $this->token,
             'api_key' => $this->apiKey,
@@ -216,8 +216,7 @@ class ApolearnService implements LMSInterface
         Log::info('adding teacher');
 
         // only process if the course has a teacher
-        if ($course->teacher_id)
-        {
+        if ($course->teacher_id) {
             // if the teacher doesn't exist on LMS, create them
             if (! $course->teacher->user->lms_id) {
                 Log::info('creating user now');
@@ -236,7 +235,7 @@ class ApolearnService implements LMSInterface
 
     protected function removeTeacher($courseId, $teacherId): void
     {
-        Log::info('Removing teacher ' . $teacherId . ' from course ' . $courseId);
+        Log::info('Removing teacher '.$teacherId.' from course '.$courseId);
         $response = Http::put(config('lms.apolearn.url')."/classrooms/removeteacher/$courseId", [
             'user_id' => $teacherId,
             'auth_token' => $this->token,
@@ -249,7 +248,7 @@ class ApolearnService implements LMSInterface
 
     public function removeStudent($courseId, $userId): void
     {
-        Log::info('removing user id ' . $userId . ' from course ' . $courseId);
+        Log::info('removing user id '.$userId.' from course '.$courseId);
         $response = Http::put(config('lms.apolearn.url')."/classrooms/removestudent/$courseId", [
             'user_id' => $userId,
             'auth_token' => $this->token,

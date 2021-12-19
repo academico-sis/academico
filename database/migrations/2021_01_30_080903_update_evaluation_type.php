@@ -24,8 +24,7 @@ class UpdateEvaluationType extends Migration
         });
 
         // We need to migrate the old course_evaluation_type contents to this new format.
-        foreach (DB::table('course_evaluation_type')->get() as $course_eval)
-        {
+        foreach (DB::table('course_evaluation_type')->get() as $course_eval) {
             Course::find($course_eval->course_id)->update(['evaluation_type_id' => $course_eval->evaluation_type_id]);
         }
 
@@ -36,7 +35,6 @@ class UpdateEvaluationType extends Migration
 
         // same process for skills
         // then you can delete course_skill manually
-
     }
 
     /**

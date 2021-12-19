@@ -67,10 +67,12 @@ class CourseController extends Controller
         switch ($request->view) {
             case 'blocks':
                 backpack_user()->update(['preferred_course_view' => 'blocks']);
+
                 return redirect(route('get-courses-list'));
 
             default:
                 backpack_user()->update(['preferred_course_view' => 'list']);
+
                 return redirect(route('course.index'));
         }
     }

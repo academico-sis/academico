@@ -68,9 +68,10 @@ class CourseSkillEvaluationController extends Controller
         $student_skills = $enrollment->skill_evaluations;
 
         $course = Course::with('evaluationType')->find($enrollment->course_id);
-        
+
         $skills = $course->skills->map(function ($skill, $key) use ($student_skills) {
             $skill['status'] = $student_skills->where('skill_id', $skill->id)->first()->skill_scale_id ?? null;
+
             return $skill;
         })->groupBy('skill_type_id');
 

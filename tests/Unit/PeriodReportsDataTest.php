@@ -232,6 +232,6 @@ class PeriodReportsDataTest extends TestCase
         $student6->enroll($courseForPeriod3);
 
         // this stuent should be counted
-        $this->assertEquals(1, $period3->new_students_count);
+        $this->assertEquals(1, $period3->newStudents()->count());
     }
 }

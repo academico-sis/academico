@@ -132,7 +132,12 @@
                 </div>
             </div>
 
-</div>
+</div>{{-- end of enrollments row --}}
+
+@if(backpack_user()->can('enrollments.edit') && config('app.books_module'))
+    <student-books-component :student="{{ json_encode($student) }}" :books="{{ json_encode($student->books) }}"></student-books-component>
+@endif
+
 </div>
 
 
@@ -142,4 +147,7 @@
 
 @include('partials.create_new_contact')
 
+@if (config('app.books_module'))
+    @include('partials.add_book_to_student')
+@endif
 @endsection

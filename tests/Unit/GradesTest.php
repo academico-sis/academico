@@ -21,7 +21,6 @@ class GradesTest extends TestCase
         $this->seed('TestSeeder');
     }
 
-
     public function testGradesHaveCategoryNames()
     {
         $gradeCategory = factory(GradeTypeCategory::class)->create();

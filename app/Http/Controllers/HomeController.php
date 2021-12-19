@@ -57,6 +57,7 @@ class HomeController extends Controller
 
         $remoteVolume = $teacher->courses()->whereNull('parent_course_id')->where('period_id', $period->id)->sum('remote_volume');
         $presentialVolume = $teacher->courses()->whereNull('parent_course_id')->where('period_id', $period->id)->sum('volume');
+
         return view('teacher.dashboard', [
             'teacher' => $teacher,
             'courses' => $teacher->period_courses($period),
@@ -95,7 +96,19 @@ class HomeController extends Controller
         Log::info(backpack_user()->firstname.' '.backpack_user()->lastname.' accessed the admin dashboard');
 
         // todo optimize this !!
-        $events = Event::where('start', '>', Carbon::now()->subDays(15))->where('end', '<', Carbon::now()->addDays(15))->orderBy('id', 'desc')->get()->toArray();
+        $events = Event::where('start', '>', Carbon::now()->subDays(15))->where('end', '<', Carbon::now()->addDays(15))->orderBy('id', 'desc')
+            ->get()
+            ->map(function ($event) {
+                return [
+                    'title' => $event['name'],
+                    'resourceId' => $event['teacher_id'],
+                    'start' => $event['start'],
+                    'end' => $event['end'],
+                    'backgroundColor' => $event['color'],
+                    'borderColor' => $event['color'],
+                ];
+            })
+            ->toArray();
 
         $teachers = Teacher::with('user')->get()->toArray();
 
@@ -106,17 +119,6 @@ class HomeController extends Controller
             ];
         }, $teachers);
 
-        $events = array_map(function ($event) {
-            return [
-                'title' => $event['name'],
-                'resourceId' => $event['teacher_id'],
-                'start' => $event['start'],
-                'end' => $event['end'],
-                'backgroundColor' => $event['course']['color'] ?? ('#'.substr(md5($event['course_id'] ?? '0'), 0, 6)),
-                'borderColor' => $event['course']['color'] ?? ('#'.substr(md5($event['course_id'] ?? '0'), 0, 6)),
-            ];
-        }, $events);
-
         return view('admin.dashboard', [
             'pending_enrollment_count' => $currentPeriod->pending_enrollments_count,
             'paid_enrollment_count' => $currentPeriod->paid_enrollments_count,
@@ -126,6 +128,9 @@ class HomeController extends Controller
             'total_enrollment_count' => $currentPeriod->internal_enrollments_count,
             'resources' => $teachers,
             'events' => $events,
+            'pending_attendance' => $currentPeriod->courses_with_pending_attendance,  // todo: optimize
+            'unassigned_events' => Event::unassigned()->count(),
+            'pending_leads' => LeadType::find(4)->students()->count(),
         ]);
     }
 }

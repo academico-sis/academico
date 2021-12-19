@@ -154,7 +154,16 @@ export default {
             product.taxes.splice(index, 1);
             EventBus.$emit("productsUpated");
         },
-    }
+    },
+    created() {
+        EventBus.$on("setEnrollmentPrice", (price) => {
+            this.products.forEach((product) => {
+                if (product.type === 'enrollment') {
+                    product.price = price
+                }
+            });
+        });
+    },
 
 }
 </script>

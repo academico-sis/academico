@@ -18,8 +18,7 @@ class CleanChildrenEnrollments
         $enrollment = $event->enrollment;
 
         // If the course was changed, also update children
-        if ($enrollment->isDirty('course_id'))
-        {
+        if ($enrollment->isDirty('course_id')) {
             // if enrollment has children, delete them
             Enrollment::where('parent_id', $enrollment->id)->delete();
 
@@ -39,8 +38,7 @@ class CleanChildrenEnrollments
         }
 
         // If the status has changed to paid, also update children
-        if ($enrollment->isDirty('status_id'))
-        {
+        if ($enrollment->isDirty('status_id')) {
             foreach ($enrollment->childrenEnrollments as $child) {
                 $child->status_id = $enrollment->status_id;
                 $child->save();

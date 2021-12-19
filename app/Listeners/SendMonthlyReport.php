@@ -30,7 +30,7 @@ class SendMonthlyReport
     public function handle(MonthlyReportEvent $event)
     {
         $recipients = [];
-        
+
         if (config('settings.reports_email') !== null) {
             array_push($recipients, ['email' => explode(',', config('settings.reports_email'))]);
         }

@@ -61,7 +61,7 @@ class PeriodCrudController extends CrudController
     {
         CRUD::addFields([
             [
-                'type' => "relationship",
+                'type' => 'relationship',
                 'name' => 'year_id', // the method on your model that defines the relationship
                 'inline_create' => true, // assumes the URL will be "/admin/category/inline/create"
             ],

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Interfaces\CertificatesInterface;
+use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Result;
 use Illuminate\Http\Request;
@@ -32,5 +34,20 @@ class ResultController extends Controller
         Log::info('Enrollment result saved by user '.backpack_user()->id);
 
         return $result;
+    }
+
+    public function exportResult(Enrollment $enrollment, CertificatesInterface $certificatesService)
+    {
+        $certificatesService->exportResult($enrollment);
+    }
+
+    public function exportCourseResults(Course $course, CertificatesInterface $certificatesService)
+    {
+        $certificatesService->exportCourseResults($course);
+    }
+
+    public function exportCertificate(Enrollment $enrollment, CertificatesInterface $certificatesService)
+    {
+        $certificatesService->exportCertificate($enrollment);
     }
 }

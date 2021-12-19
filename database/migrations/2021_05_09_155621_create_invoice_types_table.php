@@ -8,18 +8,22 @@ class CreateInvoiceTypesTable extends Migration
 {
     public function up()
     {
-        Schema::create('invoice_types', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('name');
-            $table->text('description')->nullable();
-            $table->string('icon')->nullable();
-            $table->timestamps();
-        });
+        if (! Schema::hasTable('invoice_types')) {
+            Schema::create('invoice_types', function (Blueprint $table) {
+                $table->bigIncrements('id');
+                $table->string('name');
+                $table->text('description')->nullable();
+                $table->string('icon')->nullable();
+                $table->timestamps();
+            });
+        }
 
-        Schema::table('invoices', function (Blueprint $table) {
-            $table->bigInteger('invoice_type_id')->nullable()->after('id');
-            $table->bigInteger('invoice_number')->nullable()->after('id');
-        });
+        if (Schema::hasTable('invoices')) {
+            Schema::table('invoices', function (Blueprint $table) {
+                $table->bigInteger('invoice_type_id')->nullable()->after('id');
+                $table->bigInteger('invoice_number')->nullable()->after('id');
+            });
+        }
     }
 
     public function down()

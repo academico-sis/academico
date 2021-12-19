@@ -30,8 +30,8 @@
 
             </div>
 
-            <!-- Add more products -->
             <div class="col col-md-4">
+                <!-- Add more products -->
                 <div class="card">
                     <div class="card-header">
                         {{ $t("Add products") }}
@@ -66,6 +66,14 @@
                         </div>
                     </div>
                 </div>
+
+                <cart-price-categories-component
+                    :pricecategories="pricecategories"
+                    :studentpricecategory="studentpricecategory"
+                    :currency="currency"
+                    :currencyposition="currencyposition"
+                >
+                </cart-price-categories-component>
             </div>
         </div>
 
@@ -239,6 +247,8 @@ export default {
         "invoicetypes",
         "allowemptypaymentmethods",
         "allowedblankfields",
+        "pricecategories",
+        "studentpricecategory",
     ],
 
     data() {
@@ -309,6 +319,10 @@ export default {
 
         EventBus.$on("setInvoiceType", (id) => {
             this.selectedInvoiceType = id;
+        });
+
+        EventBus.$on("setEnrollmentPrice", (price) => {
+            this.enrollmentPrice = price;
         });
     },
 

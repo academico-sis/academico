@@ -15,8 +15,8 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 class EvaluationTypeCrudController extends CrudController
 {
     use ListOperation;
-    use CreateOperation {store as traitStore;}
-    use UpdateOperation {update as traitUpdate;}
+    use CreateOperation {store as traitStore; }
+    use UpdateOperation {update as traitUpdate; }
     use DeleteOperation;
 
     public function setup()
@@ -76,11 +76,12 @@ class EvaluationTypeCrudController extends CrudController
         $entry = $this->crud->getCurrentEntry();
 
         $this->overrideTranslations($entry, $value);
-        
+
         return $response;
     }
 
-    private function overrideTranslations($entry, $value) {
+    private function overrideTranslations($entry, $value)
+    {
         foreach (config('app.languages') as $i => $locale) {
             $entry->setTranslation('name', $locale, $value);
         }
@@ -92,7 +93,7 @@ class EvaluationTypeCrudController extends CrudController
         $value = $this->crud->getRequest()->input('name');
         $response = $this->traitUpdate();
         $entry = $this->crud->getCurrentEntry();
-        
+
         $this->overrideTranslations($entry, $value);
 
         return $response;

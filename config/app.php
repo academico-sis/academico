@@ -1,5 +1,10 @@
 <?php
 
+$enrollmentSheetSupported = match (env('ENROLLMENT_SHEET_STYLE')) {
+    'afsantiago' => true,
+    default => false,
+};
+
 return [
 
     /*
@@ -110,8 +115,20 @@ return [
     'currency_code' => env('CURRENCY_CODE', 'EUR'),
     'currency_position' => env('CURRENCY_POSITION', 'after'),
 
-    'enrollment_sheet' => env('ENROLLMENT_SHEET', false),
+    'enrollment_sheet' => $enrollmentSheetSupported,
 
+    'style' => env('CERTIFICATES_STYLE', 'none'),
+
+    'none' => [
+        'class' => GenericCertificatesService::class,
+    ],
+
+    'afloja' => [
+        'class' => AFLojaCertificatesService::class,
+    ],
+
+    'books_module' => env('BOOKS_MODULE_ENABLED', false),
+    'course_view_columns' => explode(',', env('COLUMNS_IN_COURSE_VIEW', 'lastname,firstname,email')),
     /*
     |--------------------------------------------------------------------------
     | Faker Locale

@@ -8,7 +8,6 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
  * Class ProfessionCrudController
- * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
 class ProfessionCrudController extends CrudController
@@ -26,7 +25,7 @@ class ProfessionCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\Profession::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/profession');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/profession');
         CRUD::setEntityNameStrings('profession', 'professions');
     }
 

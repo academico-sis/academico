@@ -17,6 +17,6 @@ class SyncUserWithMailingSystem
     {
         if (config('mailing-system.external_mailing_enabled') == true && $event->email && $event->firstname && $event->lastname && $event->listId) {
             $this->mailingSystem->subscribeUser($event->email, $event->firstname, $event->lastname, $event->listId);
-    }
+        }
     }
 }

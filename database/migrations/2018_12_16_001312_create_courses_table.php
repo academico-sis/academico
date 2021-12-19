@@ -28,7 +28,6 @@ class CreateCoursesTable extends Migration
             $table->integer('parent_course_id')->unsigned()->nullable();
             $table->boolean('exempt_attendance')->nullable();
             $table->integer('period_id')->unsigned();
-            $table->boolean('opened')->nullable();
             $table->integer('spots')->nullable();
             //$table->softDeletes();
             $table->timestamps();

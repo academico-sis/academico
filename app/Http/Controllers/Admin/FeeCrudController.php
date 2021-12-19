@@ -40,7 +40,7 @@ class FeeCrudController extends CrudController
             ['name' => 'name', 'label' => 'Name'],
             ['name' => 'price', 'label' => 'Price'],
             ['name' => 'product_code', 'label' => 'Product Code'],
-            ['name' => 'default', 'label' => 'Add automatically to every order', 'type'  => 'check']
+            ['name' => 'default', 'label' => 'Add automatically to every order', 'type'  => 'check'],
         ]);
     }
 
@@ -51,7 +51,7 @@ class FeeCrudController extends CrudController
             ['name' => 'name', 'label' => 'Name', 'type' => 'text'],
             ['name' => 'price', 'label' => 'Price', 'type' => 'text'],
             ['name' => 'product_code', 'label' => 'Product Code', 'type' => 'text'],
-            ['name' => 'default', 'label' => 'Add automatically to every order', 'type' => 'checkbox']
+            ['name' => 'default', 'label' => 'Add automatically to every order', 'type' => 'checkbox'],
         ]);
     }
 

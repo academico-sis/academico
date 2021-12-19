@@ -2,15 +2,15 @@
 
 namespace App\Listeners;
 
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
-use App\Models\ExternalCourse;
-use Illuminate\Database\Eloquent\Builder;
-use Carbon\Carbon;
 use App\Mail\ExternalCourseReport;
-use Illuminate\Support\Facades\Mail;
-use App\Models\Partner;
 use App\Models\Event;
+use App\Models\ExternalCourse;
+use App\Models\Partner;
+use Carbon\Carbon;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Mail;
 
 class SendExternalCoursesReport
 {
@@ -28,7 +28,7 @@ class SendExternalCoursesReport
     {
         $period_start = Carbon::parse('first day of this month');
         $period_end = Carbon::parse('last day of this month');
-        
+
         // foreach partner with an alert set for this day of month
         foreach (Partner::where('send_report_on', Carbon::now()->day)->get() as $partner) {
             // get all courses
@@ -41,7 +41,7 @@ class SendExternalCoursesReport
             if ($courses->count() == 0) {
                 return;
             }
-            
+
             $data = [];
 
             $partner_balance = 0;

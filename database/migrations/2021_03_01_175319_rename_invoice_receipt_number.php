@@ -8,9 +8,11 @@ class RenameInvoiceReceiptNumber extends Migration
 {
     public function up()
     {
-        Schema::table('invoices', function (Blueprint $table) {
-            $table->renameColumn('invoice_number', 'receipt_number');
-        });
+        if (Schema::hasColumn('invoices', 'invoice_number')) {
+            Schema::table('invoices', function (Blueprint $table) {
+                $table->renameColumn('invoice_number', 'receipt_number');
+            });
+        }
     }
 
     public function down()

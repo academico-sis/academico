@@ -52,7 +52,6 @@ class GradeTypeCrudController extends CrudController
                 'model'     => GradeTypeCategory::class,
             ],
         ]);
-
     }
 
     protected function setupCreateOperation()
@@ -72,7 +71,7 @@ class GradeTypeCrudController extends CrudController
 
             [
                 'label' => 'Category',
-                'type' => "relationship",
+                'type' => 'relationship',
                 'name' => 'category', // the method on your model that defines the relationship
                 'ajax' => true,
                 'inline_create' => [ // specify the entity in singular
@@ -82,8 +81,8 @@ class GradeTypeCrudController extends CrudController
                     'modal_class' => 'modal-dialog modal-xl', // use modal-sm, modal-lg to change width
                     'modal_route' => route('gradetypecategory-inline-create'), // InlineCreate::getInlineCreateModal()
                     'create_route' =>  route('gradetypecategory-inline-create-save'), // InlineCreate::storeInlineCreate()
-                ]
-            ]
+                ],
+            ],
         ]);
 
         // add asterisk for fields that are required in GradeTypeRequest

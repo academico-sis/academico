@@ -8,7 +8,6 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
  * Class TaxCrudController
- * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
 class TaxCrudController extends CrudController
@@ -27,7 +26,7 @@ class TaxCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\Tax::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/tax');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/tax');
         CRUD::setEntityNameStrings('tax', 'taxes');
     }
 

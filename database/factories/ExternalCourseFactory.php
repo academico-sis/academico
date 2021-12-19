@@ -19,7 +19,6 @@ $factory->define(App\Models\ExternalCourse::class, function (Faker $faker) {
         'parent_course_id' => factory(App\Models\Course::class),
         'exempt_attendance' => $faker->boolean,
         'period_id' => factory(App\Models\Period::class),
-        'opened' => $faker->boolean,
         'spots' => $faker->randomNumber(),
         'head_count' => $faker->randomNumber(),
         'new_students' => $faker->randomNumber(),

@@ -100,7 +100,6 @@ class ProdSeeder extends Seeder
             ],
         ]);
 
-
         AttendanceType::create([
             'id' => 1,
             'name' => ['fr' => 'PRÉSENT(E)', 'es' => 'PRESENTE', 'en' => 'PRESENT'],

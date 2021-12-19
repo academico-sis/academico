@@ -4,22 +4,26 @@ namespace App\Providers;
 
 use App\Events\CourseCreated;
 use App\Events\CourseUpdated;
+use App\Events\EnrollmentCourseUpdated;
 use App\Events\EnrollmentCreated;
 use App\Events\EnrollmentDeleted;
-use App\Events\EnrollmentCourseUpdated;
 use App\Events\EnrollmentUpdated;
 use App\Events\EnrollmentUpdating;
+use App\Events\ExpiringPartnershipsEvent;
+use App\Events\ExternalCoursesReportEvent;
 use App\Events\LeadStatusUpdatedEvent;
 use App\Events\MonthlyReportEvent;
 use App\Events\StudentDeleted;
-use App\Events\UserCreated;
 use App\Events\StudentDeleting;
+use App\Events\UserCreated;
 use App\Events\UserDeleting;
 use App\Events\UserUpdated;
 use App\Listeners\AddPastAttendance;
 use App\Listeners\CleanChildrenEnrollments;
 use App\Listeners\DeleteStudentData;
 use App\Listeners\DeleteUserData;
+use App\Listeners\SendExpiringPartnershipsAlerts;
+use App\Listeners\SendExternalCoursesReport;
 use App\Listeners\SendMonthlyReport;
 use App\Listeners\SyncUserWithMailingSystem;
 use App\Listeners\UpdateChildrenEnrollments;
@@ -27,10 +31,6 @@ use App\Listeners\UpdateCourseEvents;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use App\Events\ExternalCoursesReportEvent;
-use App\Listeners\SendExternalCoursesReport;
-use App\Events\ExpiringPartnershipsEvent;
-use App\Listeners\SendExpiringPartnershipsAlerts;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -69,20 +69,20 @@ class EventServiceProvider extends ServiceProvider
         ],
 
         ExternalCoursesReportEvent::class => [
-            SendExternalCoursesReport::class
+            SendExternalCoursesReport::class,
         ],
 
         ExpiringPartnershipsEvent::class => [
-            SendExpiringPartnershipsAlerts::class
+            SendExpiringPartnershipsAlerts::class,
         ],
 
         MonthlyReportEvent::class => [
-            SendMonthlyReport::class
+            SendMonthlyReport::class,
         ],
 
         LeadStatusUpdatedEvent::class => [
-            SyncUserWithMailingSystem::class
-        ]
+            SyncUserWithMailingSystem::class,
+        ],
     ];
 
     /**

@@ -4,24 +4,19 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\InvoiceRequest;
 use App\Models\Invoice;
-use App\Models\Payment;
 use App\Models\Paymentmethod;
-use App\Models\Scholarship;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
-/**
- * Class InvoiceCrudController
- * @package App\Http\Controllers\Admin
- * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
- */
 class InvoiceCrudController extends CrudController
 {
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-
+    use ListOperation;
+    use UpdateOperation;
+    use DeleteOperation;
     use ShowOperation { show as traitShow; }
 
     /**
@@ -31,10 +26,12 @@ class InvoiceCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\Invoice::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/invoice');
+        CRUD::setModel(Invoice::class);
+        CRUD::setRoute(config('backpack.base.route_prefix').'/invoice');
         CRUD::setEntityNameStrings('invoice', 'invoices');
-        $this->crud->addButtonFromView('top', 'createInvoice', 'createInvoice', 'start');
+        if (! config('invoicing.price_categories_enabled')) {
+            $this->crud->addButtonFromView('top', 'createInvoice', 'createInvoice', 'start');
+        }
     }
 
     /**
@@ -45,11 +42,9 @@ class InvoiceCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        if (config('invoicing.invoice_numbering') === 'manual')
-        {
+        if (config('invoicing.invoice_numbering') === 'manual') {
             CRUD::column('receipt_number');
-        } else
-        {
+        } else {
             CRUD::column('invoice_number');
 
             CRUD::addColumn([
@@ -59,7 +54,6 @@ class InvoiceCrudController extends CrudController
                 'searchLogic'  => false,
                 'attribute'    => 'name',
             ]);
-
         }
         CRUD::column('client_name');
         CRUD::column('client_idnumber');
@@ -75,8 +69,7 @@ class InvoiceCrudController extends CrudController
 
         CRUD::field('date');
 
-        if (config('invoicing.invoice_numbering') === 'manual')
-        {
+        if (config('invoicing.invoice_numbering') === 'manual') {
             CRUD::field('receipt_number');
         } else {
             CRUD::field('invoice_number');

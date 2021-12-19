@@ -27,14 +27,14 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
 
     protected function generateUsername($fullName) : string
     {
-        $username_parts = array_filter(explode(" ", strtolower($fullName)));
+        $username_parts = array_filter(explode(' ', strtolower($fullName)));
         $username_parts = array_slice($username_parts, -2);
 
-        $part1 = (!empty($username_parts[0]))?substr($username_parts[0], 0,3):"";
-        $part2 = (!empty($username_parts[1]))?substr($username_parts[1], 0,8):"";
+        $part1 = (! empty($username_parts[0])) ? substr($username_parts[0], 0, 3) : '';
+        $part2 = (! empty($username_parts[1])) ? substr($username_parts[1], 0, 8) : '';
         $part3 = rand(999, 9999);
 
-        $username = $part1. $part2. $part3; //str_shuffle to randomly shuffle all characters
+        $username = $part1.$part2.$part3; //str_shuffle to randomly shuffle all characters
 
         return $username;
     }
@@ -78,12 +78,10 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
     {
         Log::info('Starting student registration process');
 
-        if (User::where('email', $data['email'])->count() === 0)
-        {
+        if (User::where('email', $data['email'])->count() === 0) {
             $username = $data['email'];
-        }
-        else {
-            $username = $this->generateUsername($data['firstname'] . ' ' . $data['lastname']);
+        } else {
+            $username = $this->generateUsername($data['firstname'].' '.$data['lastname']);
         }
 
         // create the user
@@ -153,8 +151,7 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
             ]);
         }
 
-        if ($request->data['institution'])
-        {
+        if ($request->data['institution']) {
             $institution = Institution::firstOrCreate([
                 'name' => $request->data['institution'],
             ]);
@@ -167,7 +164,7 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
         Log::info('Profession and institution added to the student profile');
 
         // add photo
-        if($request->data['userPicture']) {
+        if ($request->data['userPicture']) {
             $student
                ->addMediaFromBase64($request->data['userPicture'])
                ->usingFileName('profilePicture.jpg')
@@ -185,7 +182,6 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
                 'idnumber' => $contact['idnumber'],
                 'address' => $contact['address'],
                 'email' => $contact['email'],
-                'invoiceable' => $contact['invoiceable'],
             ]);
 
             foreach ($contact['phonenumbers'] as $number) {

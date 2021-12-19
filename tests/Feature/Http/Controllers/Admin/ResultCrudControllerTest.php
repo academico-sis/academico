@@ -18,13 +18,12 @@ class ResultCrudControllerTest extends TestCase
         $this->seed('TestSeeder');
         $this->logAdmin();
     }
-    
+
     /**
      * @test
      */
     public function index_returns_an_ok_response()
     {
-
         $response = $this->get(route('result.index'));
 
         $response->assertOk();

@@ -27,7 +27,7 @@ class StudentRequest extends FormRequest
         return [
             'firstname' => 'required|max:255',
             'lastname' => 'required|max:255',
-            'email' => 'required|email',
+            'email' => 'nullable|email',
             'birthdate' => 'nullable|date',
         ];
     }

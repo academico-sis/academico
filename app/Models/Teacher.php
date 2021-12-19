@@ -10,43 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
- * App\Models\Teacher
- *
- * @property int $id
- * @property string|null $hired_at
- * @property string|null $max_week_hours
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
- * @property-read int|null $activities_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Course[] $courses
- * @property-read int|null $courses_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Event[] $events
- * @property-read int|null $events_count
- * @property mixed $email
- * @property mixed $firstname
- * @property mixed $lastname
- * @property-read mixed $name
- * @property-read mixed $upcoming_leaves
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Leave[] $leaves
- * @property-read int|null $leaves_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\RemoteEvent[] $remote_events
- * @property-read int|null $remote_events_count
- * @property-read \App\Models\User $user
- * @method static Builder|Teacher newModelQuery()
- * @method static Builder|Teacher newQuery()
- * @method static \Illuminate\Database\Query\Builder|Teacher onlyTrashed()
- * @method static Builder|Teacher query()
- * @method static Builder|Teacher whereCreatedAt($value)
- * @method static Builder|Teacher whereDeletedAt($value)
- * @method static Builder|Teacher whereHiredAt($value)
- * @method static Builder|Teacher whereId($value)
- * @method static Builder|Teacher whereMaxWeekHours($value)
- * @method static Builder|Teacher whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|Teacher withTrashed()
- * @method static \Illuminate\Database\Query\Builder|Teacher withoutTrashed()
- * @mixin \Eloquent
+ * @mixin IdeHelperTeacher
  */
 class Teacher extends Model
 {
@@ -55,10 +19,15 @@ class Teacher extends Model
     use LogsActivity;
 
     public $timestamps = true;
+
     protected $guarded = [];
+
     public $incrementing = false;
+
     protected $with = ['user'];
+
     protected $appends = ['firstname', 'lastname', 'name', 'email'];
+
     protected static $logUnguarded = true;
 
     /** relations */
@@ -80,7 +49,7 @@ class Teacher extends Model
 
     public function getEmailAttribute() : ?string
     {
-        return $this?->user?->email ?? "";
+        return $this?->user?->email ?? '';
     }
 
     public function getNameAttribute() : ?string
@@ -183,16 +152,14 @@ class Teacher extends Model
     {
         $total = 0;
         // retrieve courses within period
-        foreach ($this->courses()->realcourses()->whereDate('start_date', '<=', $end)->get() as $course)
-        {
+        foreach ($this->courses()->realcourses()->whereDate('start_date', '<=', $end)->get() as $course) {
 
             // the number of days (selected period) overlapping the course length
             // latest of course and report start dates.
             $startDate = Carbon::parse($course->start_date)->max($start);
 
             // only process if the course ends AFTER the start date
-            if ($startDate <= $course->end_date)
-            {
+            if ($startDate <= $course->end_date) {
                 $endDate = Carbon::parse($course->end_date)->min($end);
 
                 // add 1 to include current week.
@@ -200,7 +167,6 @@ class Teacher extends Model
 
                 $total += $course->remoteEvents->sum('worked_hours') * $numberOfWeeks;
             }
-
         }
 
         return $total;

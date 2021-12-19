@@ -6,7 +6,7 @@
 <div class="row">
 
     <div class="col-md-12">
-    @include('partials.course_info')
+    @include('partials.course_info', ['widget' => ['course' => $course]])
 
 @if ($course->exempt_attendance == 1)
     <div class="alert alert-warning" role="alert">La prise de présence est désactivée pour ce cours. Les fiches de présences en retard ne s'afficheront pas dans les tableaux de bord.</div>

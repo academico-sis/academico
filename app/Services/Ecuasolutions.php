@@ -35,8 +35,7 @@ class Ecuasolutions implements InvoicingInterface
         }
 
         foreach ($invoice->invoiceDetails as $po => $product) {
-            if ($product->product instanceof Enrollment)
-            {   
+            if ($product->product instanceof Enrollment) {
                 $ivkardex[] = [
                     'codinventario' => $product->product_code,
                     'codbodega' => 'MAT',
@@ -46,9 +45,7 @@ class Ecuasolutions implements InvoicingInterface
                     'preciototal' => $product->final_price,
                     'valoriva' => 0,
                 ];
-            }
-            elseif ($product->product instanceof Fee)
-            {
+            } elseif ($product->product instanceof Fee) {
                 $ivkardex[] = [
                     'codinventario' => $product->product_code,
                     'codbodega' => 'MAT',
@@ -58,9 +55,7 @@ class Ecuasolutions implements InvoicingInterface
                     'preciototal' => $product->final_price,
                     'valoriva' => 0,
                 ];
-            }
-            elseif ($product->product instanceof Book)
-            {
+            } elseif ($product->product instanceof Book) {
                 $ivkardex[] = [
                     'codinventario' => $product->product_code,
                     'codbodega' => 'MAT',

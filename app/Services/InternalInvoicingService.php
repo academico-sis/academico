@@ -1,14 +1,12 @@
 <?php
 
-
 namespace App\Services;
 
-
+use App\Interfaces\InvoicingInterface;
 use App\Models\Invoice;
 
-class InternalInvoicingService implements \App\Interfaces\InvoicingInterface
+class InternalInvoicingService implements InvoicingInterface
 {
-
     public function status(): bool
     {
         return true;

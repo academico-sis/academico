@@ -2,17 +2,17 @@
 
 namespace App\Console;
 
+use App\Events\ExpiringPartnershipsEvent;
+use App\Events\ExternalCoursesReportEvent;
 use App\Events\MonthlyReportEvent;
 use App\Models\Config;
+use App\Models\Partner;
 use App\Models\Period;
+use App\Traits\HandlesAttendance;
 use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Facades\Log;
-use App\Events\ExternalCoursesReportEvent;
-use App\Events\ExpiringPartnershipsEvent;
-use App\Models\Partner;
-use App\Traits\HandlesAttendance;
 
 class Kernel extends ConsoleKernel
 {

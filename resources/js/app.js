@@ -29,6 +29,7 @@ Vue.component('client-data-component', require('./components/cart/ClientDataComp
 Vue.component('cart-scheduled-payments-component', require('./components/cart/ScheduledPaymentsComponent.vue').default);
 Vue.component('cart-payment-component', require('./components/cart/CartPaymentComponent.vue').default);
 Vue.component('cart-invoice-type-component', require('./components/cart/InvoiceTypeComponent.vue').default);
+Vue.component('cart-price-categories-component', require('./components/cart/PriceCategoriesComponent').default);
 
 Vue.component('dashboard-calendar', require('./components/calendar/DashboardCalendar.vue').default);
 Vue.component('simple-calendar', require('./components/calendar/SimpleCalendar.vue').default);
@@ -58,6 +59,7 @@ Vue.component('contact-phone-number-update-component', require('./components/Con
 Vue.component('course-attendance-status-component', require('./components/attendance/courseAttendanceStatusComponent.vue').default);
 Vue.component('event-attendance-status-component', require('./components/attendance/eventAttendanceStatusComponent.vue').default);
 Vue.component('student-contacts-component', require('./components/student/studentContactsComponent.vue').default);
+Vue.component('student-books-component', require('./components/student/studentBooksComponent.vue').default);
 
 Vue.component('course-list-component', require('./components/CourseListComponent.vue').default);
 

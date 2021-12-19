@@ -20,14 +20,11 @@ class CreateEnrollmentInvoiceTable extends Migration
             $table->unsignedInteger('invoice_id')->references('id')->on('invoices')->onDelete('cascade');
         });
 
-        foreach (\App\Models\Enrollment::all() as $enrollment)
-        {
+        foreach (\App\Models\Enrollment::all() as $enrollment) {
             $invoices = Invoice::whereId($enrollment->invoice_id);
 
-            if ($invoices->count() > 0)
-            {
-                foreach ($invoices->get() as $invoice)
-                {
+            if ($invoices->count() > 0) {
+                foreach ($invoices->get() as $invoice) {
                     $enrollment->invoices()->attach($invoice);
                 }
             }

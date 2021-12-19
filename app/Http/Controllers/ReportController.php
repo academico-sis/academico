@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Config;
+use App\Models\Course;
+use App\Models\Partner;
 use App\Models\Period;
 use App\Models\Year;
 use App\Traits\PeriodSelection;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use App\Models\Course;
-use Carbon\Carbon;
-use App\Models\Partner;
 
 class ReportController extends Controller
 {
@@ -181,9 +181,11 @@ class ReportController extends Controller
             $data[$data_period->id]['enrollments'] = $data_period->internal_enrollments_count;
             $data[$data_period->id]['students'] = $data_period->students_count;
             $data[$data_period->id]['acquisition_rate'] = $data_period->acquisition_rate;
-            $data[$data_period->id]['new_students'] = $data_period->new_students_count;
+            $data[$data_period->id]['new_students'] = $data_period->newStudents()->count();
             $data[$data_period->id]['taught_hours'] = $data_period->period_taught_hours_count;
             $data[$data_period->id]['sold_hours'] = $data_period->period_sold_hours_count;
+            $data[$data_period->id]['takings'] = $data_period->takings;
+            $data[$data_period->id]['avg_takings'] = $data_period->takings / $data_period->period_taught_hours_count;
             $years[$data_period->year_id] = Year::find($data_period->year_id); // New array using the Model
         }
 
@@ -254,7 +256,7 @@ class ReportController extends Controller
         $data = [];
 
         foreach ($count as $i => $coursegroup) {
-            $data[$i]['level'] = $coursegroup[0]->level->reference ?? "Other";
+            $data[$i]['level'] = $coursegroup[0]->level->reference ?? 'Other';
             $data[$i]['enrollment_count'] = $coursegroup->sum('enrollments_count');
             $data[$i]['taught_hours_count'] = $coursegroup->sum('total_volume');
 

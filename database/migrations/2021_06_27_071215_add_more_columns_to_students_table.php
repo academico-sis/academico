@@ -16,7 +16,6 @@ class AddMoreColumnsToStudentsTable extends Migration
         Schema::table('students', function (Blueprint $table) {
             $table->text('how_did_you_know_us')->nullable()->after('lead_type_id');
             $table->string('account_holder')->nullable()->after('institution_id');
-
         });
     }
 

@@ -19,6 +19,7 @@ class PeriodCrudControllerTest extends TestCase
         $this->seed('TestSeeder');
         $this->logAdmin();
     }
+
     /**
      * @test
      */
@@ -54,7 +55,6 @@ class PeriodCrudControllerTest extends TestCase
      */
     public function index_returns_an_ok_response()
     {
-
         $response = $this->get(route('period.index'));
 
         $response->assertOk();
