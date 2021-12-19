@@ -81,7 +81,7 @@
                     </p>
                 @endif
 
-                @if(config('app.enrollment_sheet'))
+                @if(config('enrollment-sheet.supported'))
                     <a href="{{ route('generate-enrollment-sheet', ['enrollment' => $enrollment]) }}">{{ __('Enrollment sheet') }} (.docx)</a>
                 @endif
             </div>

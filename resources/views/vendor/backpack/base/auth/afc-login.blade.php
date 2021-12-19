@@ -10,11 +10,11 @@
 
     <div class="container bg-gray-100 mx-auto">
         <div class="grid grid-cols-1 gap-16 md:grid-cols-2 min-h-screen ">
-        
+
             <div class="flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 mt-8 mb-8 rounded overflow-hidden shadow-lg">
                 <div class="pt-6 max-w-md w-full">
                     <div>
-                        <img class="mx-auto h-12 w-auto" src="af.png" alt="Plataforma AFC" />
+                        <img class="mx-auto h-12 w-auto" src="{{ storage_path('afcuenca/af.png') }}" alt="Plataforma AFC" />
                         <h2 class="mt-6 text-center text-3xl leading-9 font-extrabold text-gray-900">
                             Estudiantes de la Alianza&nbsp;Francesa
                         </h2>
@@ -38,7 +38,7 @@
                                 <input aria-label="Constraseña" name="password" type="password" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5" placeholder="Constraseña" />
                             </div>
                         </div>
-                        
+
                         <div class="mt-6 flex items-center justify-between">
                             <div class="flex items-center">
                                 <input id="remember" type="checkbox" class="form-checkbox h-4 w-4 text-red-600 transition duration-150 ease-in-out" />
@@ -46,14 +46,14 @@
                                     Recordar mis datos
                                 </label>
                             </div>
-                            
+
                             <div class="text-sm leading-5">
                                 <a href="/password/reset" class="font-medium text-red-600 hover:text-red-500 focus:outline-none focus:underline transition ease-in-out duration-150">
                                     Olvidasté tu constraseña?
                                 </a>
                             </div>
                         </div>
-                        
+
                         <p class="mt-20 mb-8 block text-md leading-5 text-gray-900 text-center font-medium">Acceder a:</p>
                         <div class="mt-6 flex">
                             <div class="w-1/2 pr-2">
@@ -73,17 +73,17 @@
                         </div>
 
 
-                        
+
                     </form>
                 </div>
-                
-                
+
+
             </div>
-            
+
             <div class="flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 mt-8 mb-8 rounded overflow-hidden shadow-lg">
                 <div class="max-w-md w-full">
                     <div>
-                        <img class="mx-auto h-12 w-auto" src="sphere.png" alt="Plataforma SPHERE" />
+                        <img class="mx-auto h-12 w-auto" src="{{ storage_path('afcuenca/sphere.png') }}" alt="Plataforma SPHERE" />
                         <h2 class="mt-6 text-center text-3xl leading-9 font-extrabold text-gray-900">
                             Estudiantes externos
                         </h2>
@@ -103,7 +103,7 @@
                                 <input aria-label="Constraseña" name="password" type="password" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5" placeholder="Constraseña" />
                             </div>
                         </div>
-                        
+
                         <div class="mt-6 flex items-center justify-between">
                             <div class="flex items-center">
                                 <input id="rememberusername" name="rememberusername" type="checkbox" class="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out" />
@@ -111,14 +111,14 @@
                                     Recordar mis datos
                                 </label>
                             </div>
-                            
+
                             <div class="text-sm leading-5">
                                 <a href="https://moodle.afcuenca.org.ec/login/forgot_password.php" class="font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:underline transition ease-in-out duration-150">
                                     Olvidasté tu constraseña?
                                 </a>
                             </div>
                         </div>
-                        
+
                         <div class="mt-16">
                             <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-red active:bg-indigo-700 transition duration-150 ease-in-out">
                                 Acceder a la plataforma SPHERE
@@ -127,8 +127,8 @@
                         </div>
                     </form>
                 </div>
-                
-                
+
+
             </div>
         </div>
     </div>
@@ -139,6 +139,6 @@ function DoSubmit(){
   document.internalstudent.email.value = document.internalstudent.username.value;
   return true;
 }
-    
+
 </script>
 </html>

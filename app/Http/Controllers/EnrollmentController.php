@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\EnrollmentCourseUpdated;
 use App\Http\Requests\StoreEnrollmentRequest;
+use App\Interfaces\EnrollmentSheetInterface;
 use App\Models\Attendance;
 use App\Models\Book;
 use App\Models\Config;
@@ -15,7 +16,7 @@ use App\Models\InvoiceType;
 use App\Models\Paymentmethod;
 use App\Models\Student;
 use App\Models\Tax;
-use App\Services\EnrollmentSheetService;
+use App\Services\AFSantiagoEnrollmentSheetService;
 use App\Traits\PeriodSelection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -32,7 +33,7 @@ class EnrollmentController extends Controller
 {
     use PeriodSelection;
 
-    private EnrollmentSheetService $enrollmentSheetService;
+    private EnrollmentSheetInterface $enrollmentSheetService;
 
     public function __construct()
     {
@@ -41,7 +42,7 @@ class EnrollmentController extends Controller
         // these methods are reserved to administrators or staff members.
         // Only the store method can also be called by teachers to enroll students in their courses
         $this->middleware('permission:enrollments.edit', ['except' => 'store']);
-        $this->enrollmentSheetService = new EnrollmentSheetService($this);
+        $this->enrollmentSheetService = new AFSantiagoEnrollmentSheetService($this);
     }
 
     /**

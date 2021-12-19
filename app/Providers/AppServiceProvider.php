@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Interfaces\EnrollmentSheetInterface;
 use App\Interfaces\InvoicingInterface;
 use App\Interfaces\LMSInterface;
 use App\Interfaces\MailingSystemInterface;
@@ -12,7 +13,7 @@ use App\Models\EnrollmentStatusType;
 use App\Models\Period;
 use App\Models\Room;
 use App\Models\Teacher;
-use App\Services\CertificatesService;
+use App\Interfaces\CertificatesInterface;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -91,22 +92,30 @@ class AppServiceProvider extends ServiceProvider
         }
 
 
-        $certificatesStyle = config('certificates-generation.style');
+        $enrollmentSheetsStyle = config('certificates-generation.style');
 
-        if ($certificatesStyle) {
-            $certificatesService = config("certificates-generation.{$certificatesStyle}.class");
+        if ($enrollmentSheetsStyle) {
+            $enrollmentSheetService = config("certificates-generation.{$enrollmentSheetsStyle}.class");
             $this->app->bind(
-                CertificatesService::class,
-                $certificatesService
+                CertificatesInterface::class,
+                $enrollmentSheetService
             );
         }
 
+        $enrollmentSheetsStyle = config('enrollment-sheet.style');
 
+        if ($enrollmentSheetsStyle) {
+            $enrollmentSheetService = config("enrollment-sheet.{$enrollmentSheetsStyle}.class");
+            $this->app->bind(
+                EnrollmentSheetInterface::class,
+                $enrollmentSheetService
+            );
+        }
 
-        $mailngSystem = config('mailing-system.mailing_system');
+        $mailingSystem = config('mailing-system.mailing_system');
 
-        if ($mailngSystem) {
-            $mailingService = config("mailing-system.{$mailngSystem}.class");
+        if ($mailingSystem) {
+            $mailingService = config("mailing-system.{$mailingSystem}.class");
 
             $this->app->bind(
                 MailingSystemInterface::class,

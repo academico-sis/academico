@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Interfaces\CertificatesInterface;
 use App\Models\Course;
 use App\Models\Enrollment;
 use Illuminate\Support\Facades\App;
@@ -10,7 +11,7 @@ use Mpdf\Config\ConfigVariables;
 use Mpdf\Config\FontVariables;
 use Mpdf\Mpdf;
 
-class AFLojaCertificatesService implements CertificatesService
+class AFLojaCertificatesService implements CertificatesInterface
 {
     public function __construct()
     {

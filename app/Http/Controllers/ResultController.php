@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Result;
-use App\Services\CertificatesService;
+use App\Interfaces\CertificatesInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
@@ -37,17 +37,17 @@ class ResultController extends Controller
     }
 
 
-    public function exportResult(Enrollment $enrollment, CertificatesService $certificatesService)
+    public function exportResult(Enrollment $enrollment, CertificatesInterface $certificatesService)
     {
         $certificatesService->exportResult($enrollment);
     }
 
-    public function exportCourseResults(Course $course, CertificatesService $certificatesService)
+    public function exportCourseResults(Course $course, CertificatesInterface $certificatesService)
     {
         $certificatesService->exportCourseResults($course);
     }
 
-    public function exportCertificate(Enrollment $enrollment, CertificatesService $certificatesService)
+    public function exportCertificate(Enrollment $enrollment, CertificatesInterface $certificatesService)
     {
         $certificatesService->exportCertificate($enrollment);
     }

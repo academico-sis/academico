@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Services;
+namespace App\Interfaces;
 
 use App\Models\Course;
 use App\Models\Enrollment;
 
-interface CertificatesService
+interface CertificatesInterface
 {
     public function exportCertificate(Enrollment $enrollment);
     public function exportCourseResults(Course $course);

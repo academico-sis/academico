@@ -2,12 +2,22 @@
 
 namespace App\Services;
 
+use App\Interfaces\EnrollmentSheetInterface;
 use App\Models\Enrollment;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
+use PhpOffice\PhpWord\Element\Table;
+use PhpOffice\PhpWord\TemplateProcessor;
 
-class EnrollmentSheetService
+class AFSantiagoEnrollmentSheetService implements EnrollmentSheetInterface
 {
+    public function __construct()
+    {
+        if (config('enrollment-sheet.style' !== 'afsantiago')) {
+            abort(403);
+        }
+    }
+
     private function utf8_for_xml($string)
     {
         return preg_replace('/^[\p{L}\p{N}_-]+$/u', ' ', $string);
@@ -16,16 +26,16 @@ class EnrollmentSheetService
     public function exportToWord(Enrollment $enrollment)
     {
         App::setLocale(config('app.locale'));
-        $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor(storage_path('enrollment.docx'));
+        $templateProcessor = new TemplateProcessor(storage_path('afsantiago/enrollment.docx'));
 
         $templateProcessor->setValue('enrollment_date', $enrollment->date);
         $templateProcessor->setValue('name', $enrollment->student_name);
 
-        $nif = $enrollment->student->idnumber ? $enrollment->student->idnumber : '';
+        $nif = $enrollment->student->idnumber ?: '';
         $phone = $enrollment->student->phone->count() > 0 && $enrollment->student->phone->first()->phone_number ? $enrollment->student->phone->first()->phone_number : '';
-        $email = $enrollment->student->email ? $enrollment->student->email : '';
-        $address = $enrollment->student->address ? $enrollment->student->address : '';
-        $city = $enrollment->student->city ? $enrollment->student->city : '';
+        $email = $enrollment->student->email ?: '';
+        $address = $enrollment->student->address ?: '';
+        $city = $enrollment->student->city ?: '';
 
         $templateProcessor->setValue('address', $address);
         $templateProcessor->setValue('city', $city);
@@ -38,7 +48,7 @@ class EnrollmentSheetService
         $templateProcessor->setValue('end_date', $enrollment->course->formatted_end_date);
         $templateProcessor->setValue('volume', $enrollment->course->volume);
 
-        $table = new \PhpOffice\PhpWord\Element\Table(['borderSize' => 8, 'borderColor' => 'black', 'cellMargin' => 80, 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER, 'cellSpacing' => 50, 'width' => 100 * 50]);
+        $table = new Table(['borderSize' => 8, 'borderColor' => 'black', 'cellMargin' => 80, 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER, 'cellSpacing' => 50, 'width' => 100 * 50]);
 
         $firstRowStyle = ['bgColor' => 'd9d9d9'];
 
