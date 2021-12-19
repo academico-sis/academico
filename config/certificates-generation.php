@@ -6,7 +6,7 @@ use App\Services\GenericCertificatesService;
 return [
     'style' => env('CERTIFICATES_STYLE', 'none'),
 
-    'supported' => match(env('CERTIFICATES_STYLE')) {
+    'supported' => match (env('CERTIFICATES_STYLE')) {
         'afloja' => true,
         default => false,
     },

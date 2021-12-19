@@ -1,6 +1,6 @@
 <?php
 
-$enrollmentSheetSupported = match(env('ENROLLMENT_SHEET_STYLE')) {
+$enrollmentSheetSupported = match (env('ENROLLMENT_SHEET_STYLE')) {
     'afsantiago' => true,
     default => false,
 };

@@ -6,7 +6,7 @@ use App\Services\GenericEnrollmentSheetService;
 return [
     'style' => env('ENROLLMENT_SHEET_STYLE', 'none'),
 
-    'supported' => match(env('ENROLLMENT_SHEET_STYLE')) {
+    'supported' => match (env('ENROLLMENT_SHEET_STYLE')) {
         'afsantiago' => true,
         default => false,
     },
@@ -17,5 +17,5 @@ return [
 
     'none' => [
         'class' => GenericEnrollmentSheetService::class,
-    ]
+    ],
 ];

@@ -167,14 +167,15 @@ class EnrollmentController extends Controller
         if (config('invoicing.price_categories_enabled')) {
             $data = [...$data,
                 [
-                'priceCategories' => collect([
-                    'priceA' => $enrollment->course->price,
-                    'priceB' => $enrollment->course->price_b,
-                    'priceC' => $enrollment->course->price_c,
-                ]),
-                'studentPriceCategory' => $enrollment->student?->price_category,]
+                    'priceCategories' => collect([
+                        'priceA' => $enrollment->course->price,
+                        'priceB' => $enrollment->course->price_b,
+                        'priceC' => $enrollment->course->price_c,
+                    ]),
+                    'studentPriceCategory' => $enrollment->student?->price_category, ],
             ];
         }
+
         return view('carts.show', $data);
     }
 

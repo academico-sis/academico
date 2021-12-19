@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Interfaces\CertificatesInterface;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Result;
-use App\Interfaces\CertificatesInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
@@ -35,7 +35,6 @@ class ResultController extends Controller
 
         return $result;
     }
-
 
     public function exportResult(Enrollment $enrollment, CertificatesInterface $certificatesService)
     {

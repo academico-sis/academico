@@ -94,9 +94,10 @@ class ScheduledPaymentController extends Controller
                         'priceB' => $enrollment->course->price_b,
                         'priceC' => $enrollment->course->price_c,
                     ]),
-                    'studentPriceCategory' => $enrollment->student?->price_category,]
+                    'studentPriceCategory' => $enrollment->student?->price_category, ],
             ];
         }
+
         return view('carts.show', $data);
     }
 }

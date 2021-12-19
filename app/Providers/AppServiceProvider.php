@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Interfaces\CertificatesInterface;
 use App\Interfaces\EnrollmentSheetInterface;
 use App\Interfaces\InvoicingInterface;
 use App\Interfaces\LMSInterface;
@@ -13,7 +14,6 @@ use App\Models\EnrollmentStatusType;
 use App\Models\Period;
 use App\Models\Room;
 use App\Models\Teacher;
-use App\Interfaces\CertificatesInterface;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -90,7 +90,6 @@ class AppServiceProvider extends ServiceProvider
                 $invoicingService
             );
         }
-
 
         $enrollmentSheetsStyle = config('certificates-generation.style');
 

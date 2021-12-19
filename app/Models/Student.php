@@ -224,9 +224,10 @@ class Student extends Model implements HasMedia
     public function getStudentAgeAttribute()
     {
         if ($this->birthdate) {
-            return Carbon::parse($this->birthdate)->age . " " . __('years old');
+            return Carbon::parse($this->birthdate)->age.' '.__('years old');
         }
-        return "";
+
+        return '';
     }
 
     public function getStudentBirthdateAttribute()
@@ -234,6 +235,7 @@ class Student extends Model implements HasMedia
         if ($this->birthdate) {
             return Carbon::parse($this->birthdate)->locale(App::getLocale())->isoFormat('LL');
         }
+
         return '';
     }
 

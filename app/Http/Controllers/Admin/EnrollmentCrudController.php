@@ -35,6 +35,7 @@ class EnrollmentCrudController extends CrudController
     use UpdateOperation { update as traitUpdate; }
 
     protected $mode = 'global';
+
     protected ?Course $course = null;
 
     public function __construct()
@@ -70,7 +71,6 @@ class EnrollmentCrudController extends CrudController
         }
 
         if ($this->mode === 'global' && $this->crud->getOperation() === 'list') {
-
             $pendingBalance = Enrollment::pending()->sum('balance');
 
             Widget::add()->type('view')->view('enrollments.total_balance_widget')->value($pendingBalance)->to('before_content');
@@ -85,7 +85,6 @@ class EnrollmentCrudController extends CrudController
 
             CRUD::addButtonFromView('top', 'enroll-student-in-course', 'enroll-student-in-course', 'end');
             CRUD::addButtonFromView('top', 'switch-to-photo-roster', 'switch-to-photo-roster', 'end');
-
         }
     }
 
@@ -155,7 +154,7 @@ class EnrollmentCrudController extends CrudController
                 'label' => __('Birthdate'),
                 'name' => 'student_birthdate',
             ],
-]);
+        ]);
 
         if ($this->mode === 'global') {
             CRUD::addColumns([[// COURSE NAME
@@ -166,7 +165,7 @@ class EnrollmentCrudController extends CrudController
                 'model' => Course::class, // foreign key model
             ],
 
-                ['type' => 'relationship', 'name' => 'course.period', 'label' => __('Period'), 'attribute' => 'name',],]);
+                ['type' => 'relationship', 'name' => 'course.period', 'label' => __('Period'), 'attribute' => 'name'], ]);
         }
 
         CRUD::addColumns([

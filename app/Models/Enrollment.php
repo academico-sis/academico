@@ -319,6 +319,7 @@ class Enrollment extends Model
         // if enabled, retrieve the default price category for the student
         if (config('invoicing.price_categories_enabled') && $this->student?->price_category) {
             $price_category = $this->student->price_category;
+
             return $this->course->$price_category ?? 0;
         }
 

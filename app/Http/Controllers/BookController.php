@@ -54,7 +54,6 @@ class BookController extends Controller
 
     public function exportCode(Request $request)
     {
-
         $request->validate([
             'book_student_id' => 'required',
         ]);
@@ -68,31 +67,31 @@ class BookController extends Controller
 
         // First line of text
         $font_size = 42;
-        $text = "Alumno:";
+        $text = 'Alumno:';
         $angle = 0;
         $width = imagesx($image);
         $centerX = $width / 2;
-        list($left, , $right, , , ) = imageftbbox($font_size, $angle, $font, $text);
+        list($left, , $right) = imageftbbox($font_size, $angle, $font, $text);
         $left_offset = ($right - $left) / 2;
         $x = $centerX - $left_offset;
         imagettftext($image, $font_size, $angle, $x, 450, $black, $font, $text);
 
         // Name of student
-        $text = $student->lastname . " " . $student->firstname;
+        $text = $student->lastname.' '.$student->firstname;
         $angle = 0;
         $width = imagesx($image);
         $centerX = $width / 2;
-        list($left, , $right, , , ) = imageftbbox($font_size, $angle, $font, $text);
+        list($left, , $right) = imageftbbox($font_size, $angle, $font, $text);
         $left_offset = ($right - $left) / 2;
         $x = $centerX - $left_offset;
         imagettftext($image, $font_size, $angle, $x, 525, $black, $font, $text);
 
         // First line of text
-        $text = "Código Premium:";
+        $text = 'Código Premium:';
         $angle = 0;
         $width = imagesx($image);
         $centerX = $width / 2;
-        list($left, , $right, , , ) = imageftbbox($font_size, $angle, $font, $text);
+        list($left, , $right) = imageftbbox($font_size, $angle, $font, $text);
         $left_offset = ($right - $left) / 2;
         $x = $centerX - $left_offset;
         imagettftext($image, $font_size, $angle, $x, 620, $black, $font, $text);
@@ -102,21 +101,20 @@ class BookController extends Controller
         $angle = 0;
         $width = imagesx($image);
         $centerX = $width / 2;
-        list($left, , $right, , , ) = imageftbbox($font_size, $angle, $font, $text);
+        list($left, , $right) = imageftbbox($font_size, $angle, $font, $text);
         $left_offset = ($right - $left) / 2;
         $x = $centerX - $left_offset;
         imagettftext($image, $font_size, $angle, $x, 690, $black, $font, $text);
 
-
         // last line of text
         $font = storage_path('afloja/fonts/OpenSans-Light.ttf');
         $font_size = 30;
-        $expiry_date = Carbon::parse($book->expiry_date)->format("j/m/Y");
+        $expiry_date = Carbon::parse($book->expiry_date)->format('j/m/Y');
         $text = "(Valido hasta el $expiry_date)";
         $angle = 0;
         $width = imagesx($image);
         $centerX = $width / 2;
-        list($left, , $right, , , ) = imageftbbox($font_size, $angle, $font, $text);
+        list($left, , $right) = imageftbbox($font_size, $angle, $font, $text);
         $left_offset = ($right - $left) / 2;
         $x = $centerX - $left_offset;
         imagettftext($image, $font_size, $angle, $x, 755, $black, $font, $text);
@@ -131,7 +129,7 @@ class BookController extends Controller
         header('Pragma: public');
         ob_start();
         imagepng($image);
-        header("Content-Disposition: attachment; filename=vignette.jpg");
+        header('Content-Disposition: attachment; filename=vignette.jpg');
         imagedestroy($image);
     }
 }
