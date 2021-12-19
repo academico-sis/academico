@@ -21,7 +21,7 @@
                     </a>
                 </div>
             <div class="card-body">
-                <a href="{{ route('course.show', ['id' => $enrollment->course_id]) }}">
+                <a href="{{ route('enrollment.index', ['course_id' => $enrollment->course_id]) }}">
                     <p>{{ $enrollment->course->name }} ({{ $enrollment->course->period->name }})</p>
                 </a>
 

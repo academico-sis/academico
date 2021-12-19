@@ -471,5 +471,6 @@
     "The enrollment is unpaid": "La matricula esta pendiente",
     "Last enrollment": "Ultima matricula",
     "Evaluation ready": "Evaluaciones finalizadas",
-    "View Invoice": "Detalles de la factura"
+    "View Invoice": "Detalles de la factura",
+    "Pending balance (all periods)": "Valor total pendiente (todos los ciclos)"
 }

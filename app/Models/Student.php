@@ -33,7 +33,7 @@ class Student extends Model implements HasMedia
 
     public $timestamps = true;
 
-    protected $guarded = ['id'];
+    protected $guarded = [];
 
     public $incrementing = false;
 

@@ -171,6 +171,14 @@ class StudentCrudController extends CrudController
                 'model' => PhoneNumber::class, // foreign key model
             ],
 
+            [
+                // 1-n relationship
+                'label' => __('Status'), // Table column heading
+                'type' => 'text',
+                'name' => 'lead_status_name', // the column that contains the ID of that connected entity;
+                'orderable' => false,
+            ],
+
         ]);
 
         CRUD::addFilter([ // select2 filter
@@ -340,10 +348,10 @@ class StudentCrudController extends CrudController
         $request->validate([
             'firstname'                            => 'required|max:255',
             'lastname'                             => 'required|max:255',
-            'email'                                => 'required',
+            'email'                                => 'nullable|email',
         ]);
 
-        if (User::where('email', $request->email)->count() === 0) {
+        if ($request->email && User::where('email', $request->email)->count() === 0) {
             $username = $request->email;
         } else {
             $username = $this->generateUsername($request->firstname.' '.$request->lastname);
@@ -353,7 +361,7 @@ class StudentCrudController extends CrudController
         $user = User::create([
             'firstname' => $request->firstname,
             'lastname' => $request->lastname,
-            'email' => $request->email,
+            'email' => $request->email ?? null,
             'username' => $username,
             'password' => Hash::make(Str::random(12)),
         ]);

@@ -165,6 +165,7 @@
     "Grades": "Notes",
     "Hi": "Bonjour",
     "Hide Parents": "Cacher les cours parents",
+    "Hide Children Courses": "Masquer les sous-cours",
     "Hire Date": "Date d'embauche",
     "hours": "heures",
     "Hours": "Heures",
@@ -466,5 +467,6 @@
     "The enrollment is unpaid": "L'export des bulletins est interdit, car l'inscription est impayée",
     "Last enrollment": "Dernière inscription",
     "Evaluation ready": "Evaluation terminée",
-    "View Invoice": "Détails de la facture"
+    "View Invoice": "Détails de la facture",
+    "Pending balance (all periods)": "Total des impayés (tous les cycles)"
 }

@@ -36,7 +36,7 @@
                 </p>
                 <p>@lang('Enrollment date'): {{ $enrollment->date }}</p>
                 <p>@lang('Enrollment ID'): {{ $enrollment->id }}</p>
-                <p>@lang('Course'): <a href="{{ route('course.show', ['id' => $enrollment->course_id]) }}">{{ $enrollment->course->name }}</a></p>
+                <p>@lang('Course'): <a href="{{ route('enrollment.index', ['course_id' => $enrollment->course_id]) }}">{{ $enrollment->course->name }}</a></p>
                 <p>@lang('Period'): {{ $enrollment->course->period->name }}</p>
                 <p><enrollment-price-field writeaccess="{{ $writeaccess }}" :enrollment="{{ json_encode($enrollment) }}" currency="{{ config('app.currency_symbol') }}" currencyposition="{{ config('app.currency_position') }}"></enrollment-price-field></p>
 

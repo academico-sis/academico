@@ -69,19 +69,12 @@ class EnrollmentCrudController extends CrudController
             CRUD::enableExportButtons();
         }
 
-        if ($this->crud->getRequest()->period_id) {
-            $period = Period::find($this->crud->getRequest()->period_id);
-        } else {
-            $period = Period::get_default_period();
-        }
+        if ($this->mode === 'global' && $this->crud->getOperation() === 'list') {
 
-        $pendingBalanceForPeriod = $period->real_enrollments->sum('balance');
-        $periodIncome = $period->enrollments->sum('price');
+            $pendingBalance = Enrollment::pending()->sum('balance');
 
-        if ($this->mode === 'global') {
-            Widget::add()->type('view')->view('enrollments.total_balance_widget')->value($pendingBalanceForPeriod)->to('before_content');
-
-            Widget::add()->type('view')->view('enrollments.total_income_widget')->value($periodIncome)->to('before_content');
+            Widget::add()->type('view')->view('enrollments.total_balance_widget')->value($pendingBalance)->to('before_content');
+//            Widget::add()->type('view')->view('enrollments.total_income_widget')->value($periodIncome)->to('before_content');
         }
 
         if ($this->mode === 'course') {
@@ -89,6 +82,10 @@ class EnrollmentCrudController extends CrudController
 
             CRUD::denyAccess(['show']);
             CRUD::addButtonFromView('line', 'showStudent', 'showStudentForEnrollment');
+
+            CRUD::addButtonFromView('top', 'enroll-student-in-course', 'enroll-student-in-course', 'end');
+            CRUD::addButtonFromView('top', 'switch-to-photo-roster', 'switch-to-photo-roster', 'end');
+
         }
     }
 

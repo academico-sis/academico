@@ -10,14 +10,14 @@
 
 @section('content')
 
-@include('partials.course_info')
+@include('partials.course_info', ['widget' => ['course' => $course]])
 
 <div class="row">
     <div class="col-12">
         <div class="card">
             <div class="card-header">
                 <button class="btn btn-primary" data-toggle="modal" data-target="#myModal">@lang('Enroll new student')</button>
-                 <a href="/course/{{ $course->id }}/show/" class="btn btn-primary mr-3">@lang('Students List')</a>
+                 <a href="/enrollment?course_id={{ $course->id }}" class="btn btn-primary mr-3">@lang('Students List')</a>
             </div>
         </div>
     </div>

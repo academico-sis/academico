@@ -41,17 +41,11 @@ class InvoiceController extends Controller
 
     public function create()
     {
-        return view('carts.show', [
-            'enrollment' => null,
-            'products' => [],
-            'invoicetypes' => InvoiceType::all(),
-            'clients' => [],
-            'availableBooks' => Book::all(),
-            'availableFees' => Fee::all(),
-            'availableDiscounts' => Discount::all(),
-            'availableTaxes' => Tax::all(),
-            'availablePaymentMethods' => Paymentmethod::all(),
-        ]);
+        $data = ['enrollment' => null, 'products' => [], 'invoicetypes' => InvoiceType::all(), 'clients' => [], 'availableBooks' => Book::all(), 'availableFees' => Fee::all(), 'availableDiscounts' => Discount::all(), 'availableTaxes' => Tax::all(), 'availablePaymentMethods' => Paymentmethod::all(),];
+        if (config('invoicing.price_categories_enabled')) {
+            abort(403, 'Unable to create an invoice because price categories are enabled in your setup.');
+        }
+        return view('carts.show', $data);
     }
 
     /**

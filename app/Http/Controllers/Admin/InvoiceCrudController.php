@@ -4,22 +4,19 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\InvoiceRequest;
 use App\Models\Invoice;
-use App\Models\Payment;
 use App\Models\Paymentmethod;
-use App\Models\Scholarship;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
-/**
- * Class InvoiceCrudController
- * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
- */
 class InvoiceCrudController extends CrudController
 {
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+    use ListOperation;
+    use UpdateOperation;
+    use DeleteOperation;
     use ShowOperation { show as traitShow; }
 
     /**
@@ -29,10 +26,12 @@ class InvoiceCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\Invoice::class);
+        CRUD::setModel(Invoice::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/invoice');
         CRUD::setEntityNameStrings('invoice', 'invoices');
-        $this->crud->addButtonFromView('top', 'createInvoice', 'createInvoice', 'start');
+        if (! config('invoicing.price_categories_enabled')) {
+            $this->crud->addButtonFromView('top', 'createInvoice', 'createInvoice', 'start');
+        }
     }
 
     /**

@@ -5,8 +5,9 @@
 @if(backpack_user()->hasRole(['admin', 'secretary']))
     <li class="nav-title">@lang('COURSES')</li>
         <li class='nav-item'><a class='nav-link' href="{{ route('course-view-find') }}"><i class="nav-icon la la-book"></i> <span>@lang('Internal Courses')</span></a></li>
-        <li class='nav-item'><a class='nav-link' href="{{ backpack_url('externalcourse') }}"><i class="nav-icon la la-bus"></i> <span>@lang('External Courses')</span></a></li>
-
+        @if (config('settings.external_courses_enabled'))
+            <li class='nav-item'><a class='nav-link' href="{{ backpack_url('externalcourse') }}"><i class="nav-icon la la-bus"></i> <span>@lang('External Courses')</span></a></li>
+        @endif
     <li class="nav-title">@lang('ADMINISTRATION')</li>
         <li class='nav-item'><a class='nav-link' href="{{ backpack_url('student') }}"><i class="nav-icon la la-user"></i> <span>@lang('Students')</span></a></li>
         <li class='nav-item'><a class='nav-link' href="{{ backpack_url('enrollment') }}"><i class="nav-icon la la-credit-card"></i> <span>@lang('Enrollments')</span></a></li>
@@ -17,8 +18,9 @@
     <li class="nav-title">{{ Str::upper(trans('Invoicing')) }}</li>
         <li class='nav-item'><a class='nav-link' href="{{ backpack_url('/enrollment?status_id=["1"]&hidechildren=true') }}"><i class="nav-icon la la-credit-card"></i> <span>@lang('Pending')</span></a></li>
         <li class='nav-item'><a class='nav-link' href="{{ backpack_url('/enrollment?scholarship=all&hidechildren=true') }}"><i class="nav-icon la la-comment-dollar"></i> <span>@lang('Scholarships')</span></a></li>
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('invoice') }}'><i class='nav-icon la la-dollar'></i> @lang('Invoices')</a></li>
-
+        @if(! config('invoicing.price_categories_enabled'))
+            <li class='nav-item'><a class='nav-link' href='{{ backpack_url('invoice') }}'><i class='nav-icon la la-dollar'></i> @lang('Invoices')</a></li>
+        @endif
         @if (config('invoicing.allow_scheduled_payments'))
             <li class='nav-item'><a class='nav-link' href='{{ backpack_url('scheduled-payment') }}'><i class='nav-icon la la-question'></i> @lang('Scheduled Payments')</a></li>
         @endif

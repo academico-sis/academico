@@ -21,8 +21,21 @@ class TeacherCalendarController extends Controller
      */
     public function index()
     {
-        // Do not fetch all events but only those closest to current date. TODO optimize this.
-        $events = Event::with('course')->where('start', '>', Carbon::now()->subDays(30))->where('end', '<', Carbon::now()->addDays(30))->orderBy('id', 'desc')->get()->toArray();
+        // Do not fetch all events but only those closest to current date.
+        $events = Event::with('course')
+            ->where('start', '>', Carbon::now()->subDays(30))->where('end', '<', Carbon::now()->addDays(30))->orderBy('id', 'desc') // TODO optimize this.
+            ->get()
+            ->map(function ($event) {
+                return [
+                    'title' => $event['name'] ?? '',
+                    'resourceId' => $event['teacher_id'],
+                    'start' => $event['start'],
+                    'end' => $event['end'],
+                    'groupId' => $event['course_id'],
+                    'backgroundColor' => $event['color'],
+                    'borderColor' => $event['color'],
+                ];
+            });
 
         $teachers = Teacher::all()->toArray();
 
@@ -35,21 +48,7 @@ class TeacherCalendarController extends Controller
 
         array_push($teachers, ['id' => 'tbd', 'title' => 'Unassigned']);
 
-        $events = array_map(function ($event) {
-            return [
-                'title' => $event['name'] ?? '',
-                'resourceId' => $event['teacher_id'],
-                'start' => $event['start'],
-                'end' => $event['end'],
-                'groupId' => $event['course_id'],
-                'backgroundColor' => $event['color'],
-                'borderColor' => $event['color'],
-            ];
-        }, $events);
-
-        $unassigned_events = Event::where('teacher_id', null)->get()->toArray();
-
-        $unassigned_events = array_map(function ($event) {
+        $unassigned_events = Event::unassigned()->get()->map(function ($event) {
             return [
                 'title' => $event['name'] ?? '',
                 'resourceId' => 'tbd',
@@ -59,11 +58,9 @@ class TeacherCalendarController extends Controller
                 'backgroundColor' => $event['color'],
                 'borderColor' => $event['color'],
             ];
-        }, $unassigned_events);
+        });
 
-        $leaves = Leave::orderBy('date', 'desc')->limit(10000)->get()->toArray();
-
-        $leaves = array_map(function ($event) {
+        $leaves = Leave::orderBy('date', 'desc')->limit(10000)->get()->map(function ($event) {
             return [
                 'title' => $event->leaveType->name ?? 'ABS', // todo fix
                 'resourceId' => $event['teacher_id'],
@@ -71,7 +68,7 @@ class TeacherCalendarController extends Controller
                 'allDay' => true,
                 'resourceEditable' => false,
             ];
-        }, $leaves);
+        });
 
         return view('calendars.overview', [
             'events' => $events,
@@ -91,8 +88,7 @@ class TeacherCalendarController extends Controller
             abort(403);
         }
 
-        $events = $teacher->events->toArray();
-        $events = array_map(function ($event) {
+        $events = $teacher->events->map(function ($event) {
             return [
                 'title' => $event['name'],
                 'start' => $event['start'],
@@ -100,16 +96,15 @@ class TeacherCalendarController extends Controller
                 'backgroundColor' => $event['color'],
                 'borderColor' => $event['color'],
             ];
-        }, $events);
+        });
 
-        $leaves = $teacher->leaves->toArray();
-        $leaves = array_map(function ($event) {
+        $leaves = $teacher->leaves->map(function ($event) {
             return [
                 'title' => $event->leaveType->name ?? 'vacances',  // todo fix
                 'start' => $event['date'],
                 'allDay' => true,
             ];
-        }, $leaves);
+        });
 
         return view('calendars.simple', [
             'events' => $events,

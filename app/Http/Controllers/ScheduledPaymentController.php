@@ -75,7 +75,7 @@ class ScheduledPaymentController extends Controller
             array_push($clients, $client);
         }
 
-        return view('carts.show', [
+        $data = [
             'enrollment' => $enrollment,
             'products' => $products,
             'invoicetypes' => InvoiceType::all(),
@@ -85,6 +85,18 @@ class ScheduledPaymentController extends Controller
             'availableDiscounts' => Discount::all(),
             'availablePaymentMethods' => Paymentmethod::all(),
             'availableTaxes' => Tax::all(),
-        ]);
+        ];
+        if (config('invoicing.price_categories_enabled')) {
+            $data = [...$data,
+                [
+                    'priceCategories' => collect([
+                        'priceA' => $enrollment->course->price,
+                        'priceB' => $enrollment->course->price_b,
+                        'priceC' => $enrollment->course->price_c,
+                    ]),
+                    'studentPriceCategory' => $enrollment->student?->price_category,]
+            ];
+        }
+        return view('carts.show', $data);
     }
 }

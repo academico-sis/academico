@@ -35,9 +35,6 @@ class AFLojaCertificatesService implements CertificatesService
 
         $mpdf = new Mpdf(['mode' => 'utf-8', 'format' => 'a4', 'orientation' => 'L', 'margin_left' => 25, 'margin_right' => 25, 'margin_top' => 25, 'margin_bottom' => 25, 'margin_header' => 0, 'margin_footer' => 0, 'tempDir' => storage_path('temp'), 'fontDir' => array_merge($fontDirs, [storage_path('afloja/fonts'),]), 'fontdata' => $fontData + ['bodoni' => ['R' => 'BOD_R.TTF', 'B' => 'BOD_B.TTF',], 'frenchscript' => ['R' => 'FRSCRIPT.TTF',]], 'default_font' => 'bodoni']);
 
-        $mpdf->SetWatermarkImage(storage_path('afloja/watermark.png'));
-        $mpdf->showWatermarkImage = true;
-
         $mpdf->WriteHTML(view('results.certificate', ['enrollment' => $enrollment,])->render());
         $mpdf->Output();
     }
