@@ -4,9 +4,19 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\ExternalCourseRequest as StoreRequest;
 use App\Http\Requests\ExternalCourseRequest as UpdateRequest;
+use App\Models\Course;
+use App\Models\Level;
+use App\Models\Partner;
 use App\Models\Period;
+use App\Models\Rhythm;
+use App\Models\Room;
 use App\Models\SchedulePreset;
+use App\Models\Teacher;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\CRUD\CrudPanel;
 
@@ -16,10 +26,10 @@ use Backpack\CRUD\CrudPanel;
  */
 class ExternalCourseCrudController extends CrudController
 {
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation { store as traitStore; }
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation { update as traitUpdate; }
-    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+    use ListOperation;
+    use CreateOperation { store as traitStore; }
+    use UpdateOperation { update as traitUpdate; }
+    use DeleteOperation;
 
     public function __construct()
     {
@@ -34,9 +44,10 @@ class ExternalCourseCrudController extends CrudController
         | CrudPanel Basic Information
         |--------------------------------------------------------------------------
         */
-        CRUD::setModel(\App\Models\ExternalCourse::class);
+        CRUD::setModel(Course::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/externalcourse');
         CRUD::setEntityNameStrings(__('External Course'), __('External Courses'));
+        CRUD::addClause('external');
         $permissions = backpack_user()->getAllPermissions();
 
         CRUD::enableExportButtons();
@@ -58,7 +69,7 @@ class ExternalCourseCrudController extends CrudController
                 'name' => 'partner_id', // the column that contains the ID of that connected entity;
                 'entity' => 'partner', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\Partner::class, // foreign key model
+                'model' => Partner::class, // foreign key model
             ],
 
             [
@@ -68,7 +79,7 @@ class ExternalCourseCrudController extends CrudController
                 'name' => 'rhythm_id', // the column that contains the ID of that connected entity;
                 'entity' => 'rhythm', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\Rhythm::class, // foreign key model
+                'model' => Rhythm::class, // foreign key model
             ],
 
             [
@@ -78,7 +89,7 @@ class ExternalCourseCrudController extends CrudController
                 'name' => 'level_id', // the column that contains the ID of that connected entity;
                 'entity' => 'level', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\Level::class, // foreign key model
+                'model' => Level::class, // foreign key model
             ],
 
             [
@@ -107,7 +118,7 @@ class ExternalCourseCrudController extends CrudController
                 'name' => 'teacher_id', // the column that contains the ID of that connected entity;
                 'entity' => 'teacher', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\Teacher::class, // foreign key model
+                'model' => Teacher::class, // foreign key model
                 'searchLogic' => false,
             ],
 
@@ -118,7 +129,7 @@ class ExternalCourseCrudController extends CrudController
                 'name' => 'room_id', // the column that contains the ID of that connected entity;
                 'entity' => 'room', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\Room::class, // foreign key model
+                'model' => Room::class, // foreign key model
             ],
 
             // COURSE SCHEDULED TIMES
@@ -163,7 +174,7 @@ class ExternalCourseCrudController extends CrudController
                 'label'=> __('Rhythm'),
             ],
             function () {
-                return \App\Models\Rhythm::all()->pluck('name', 'id')->toArray();
+                return Rhythm::all()->pluck('name', 'id')->toArray();
             },
             function ($value) { // if the filter is active
                 CRUD::addClause('where', 'rhythm_id', $value);
@@ -179,7 +190,7 @@ class ExternalCourseCrudController extends CrudController
                 'label'=> __('Teacher'),
             ],
             function () {
-                return \App\Models\Teacher::all()->pluck('name', 'id')->toArray();
+                return Teacher::all()->pluck('name', 'id')->toArray();
             },
             function ($value) { // if the filter is active
                 CRUD::addClause('where', 'teacher_id', $value);
@@ -195,7 +206,7 @@ class ExternalCourseCrudController extends CrudController
                 'label'=> __('Level'),
             ],
             function () {
-                return \App\Models\Level::all()->pluck('name', 'id')->toArray();
+                return Level::all()->pluck('name', 'id')->toArray();
             },
             function ($value) { // if the filter is active
                 CRUD::addClause('where', 'level_id', $value);
@@ -236,7 +247,7 @@ class ExternalCourseCrudController extends CrudController
                 'name' => 'partner_id', // the column that contains the ID of that connected entity;
                 'entity' => 'partner', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\Partner::class, // foreign key model
+                'model' => Partner::class, // foreign key model
                 'tab' => __('Course info'),
             ],
 
@@ -247,7 +258,7 @@ class ExternalCourseCrudController extends CrudController
                 'name' => 'rhythm_id', // the column that contains the ID of that connected entity;
                 'entity' => 'rhythm', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\Rhythm::class, // foreign key model
+                'model' => Rhythm::class, // foreign key model
                 'tab' => __('Course info'),
             ],
 
@@ -258,7 +269,7 @@ class ExternalCourseCrudController extends CrudController
                 'name' => 'level_id', // the column that contains the ID of that connected entity;
                 'entity' => 'level', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\Level::class, // foreign key model
+                'model' => Level::class, // foreign key model
                 'tab' => __('Course info'),
             ],
 
@@ -289,7 +300,7 @@ class ExternalCourseCrudController extends CrudController
                 'name' => 'teacher_id', // the column that contains the ID of that connected entity;
                 'entity' => 'teacher', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\Teacher::class, // foreign key model
+                'model' => Teacher::class, // foreign key model
                 'tab' => __('Course info'),
             ],
 
@@ -300,7 +311,7 @@ class ExternalCourseCrudController extends CrudController
                 'name' => 'room_id', // the column that contains the ID of that connected entity;
                 'entity' => 'room', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\Room::class, // foreign key model
+                'model' => Room::class, // foreign key model
                 'tab' => __('Course info'),
             ],
 
@@ -429,7 +440,7 @@ class ExternalCourseCrudController extends CrudController
                 'name' => 'partner_id', // the column that contains the ID of that connected entity;
                 'entity' => 'partner', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\Partner::class, // foreign key model
+                'model' => Partner::class, // foreign key model
                 'tab' => __('Course info'),
             ],
 
@@ -440,7 +451,7 @@ class ExternalCourseCrudController extends CrudController
                 'name' => 'rhythm_id', // the column that contains the ID of that connected entity;
                 'entity' => 'rhythm', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\Rhythm::class, // foreign key model
+                'model' => Rhythm::class, // foreign key model
                 'tab' => __('Course info'),
             ],
 
@@ -451,7 +462,7 @@ class ExternalCourseCrudController extends CrudController
                 'name' => 'level_id', // the column that contains the ID of that connected entity;
                 'entity' => 'level', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\Level::class, // foreign key model
+                'model' => Level::class, // foreign key model
                 'tab' => __('Course info'),
             ],
 
@@ -482,7 +493,7 @@ class ExternalCourseCrudController extends CrudController
                 'name' => 'teacher_id', // the column that contains the ID of that connected entity;
                 'entity' => 'teacher', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\Teacher::class, // foreign key model
+                'model' => Teacher::class, // foreign key model
                 'tab' => __('Course info'),
             ],
 
@@ -493,7 +504,7 @@ class ExternalCourseCrudController extends CrudController
                 'name' => 'room_id', // the column that contains the ID of that connected entity;
                 'entity' => 'room', // the method that defines the relationship in your Model
                 'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => \App\Models\Room::class, // foreign key model
+                'model' => Room::class, // foreign key model
                 'tab' => __('Course info'),
             ],
 

@@ -4,7 +4,7 @@
 
 use Faker\Generator as Faker;
 
-$factory->define(App\Models\ExternalCourse::class, function (Faker $faker) {
+$factory->define(App\Models\Course::class, function (Faker $faker) {
     return [
         'campus_id' => factory(App\Models\Campus::class),
         'rhythm_id' => factory(App\Models\Rhythm::class),

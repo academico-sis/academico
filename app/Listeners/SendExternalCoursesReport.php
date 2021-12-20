@@ -3,13 +3,9 @@
 namespace App\Listeners;
 
 use App\Mail\ExternalCourseReport;
-use App\Models\Event;
-use App\Models\ExternalCourse;
 use App\Models\Partner;
 use Carbon\Carbon;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Mail;
 
 class SendExternalCoursesReport
