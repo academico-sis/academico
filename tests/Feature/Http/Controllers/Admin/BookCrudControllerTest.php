@@ -106,7 +106,7 @@ class BookCrudControllerTest extends TestCase
             'price' => 12,
         ]);
 
-        $this->assertTrue(Book::where('name', 'My Book')->where('price', 12)->count() == 1);
+        $this->assertEquals(1, Book::where('name', 'My Book')->where('price', 1200)->count());
     }
 
     /**

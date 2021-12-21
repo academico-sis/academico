@@ -34,7 +34,7 @@ class UserTest extends TestCase
             'birthdate' => Carbon::parse('128 months ago'),
         ]);
 
-        $this->assertEquals('10', $student->student_age);
+        $this->assertStringContainsString('10', $student->student_age);
     }
 
     /** @test */

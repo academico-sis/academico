@@ -9,7 +9,7 @@ class AddStylingToSkillScalesTable extends Migration
     public function up()
     {
         Schema::table('skill_scales', function (Blueprint $table) {
-            $table->string('classes');
+            $table->string('classes')->nullable();
         });
     }
 

@@ -330,10 +330,9 @@ class TestSeeder extends Seeder
 
         Year::create(['name' => 'test1']);
 
-        $periodStartDate = now()->subDays(rand(1, 30))->format('Y-m-d');
         factory(Period::class)->create([
-            'start' => $periodStartDate,
-            'end' => $periodStartDate->addDays(90),
+            'start' => now()->subDays(rand(1, 30))->format('Y-m-d'),
+            'end' => now()->addDays(rand(10, 90))->format('Y-m-d'),
             'year_id' => 1,
             'order' => 1,
         ]);
