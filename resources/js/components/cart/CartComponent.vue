@@ -22,7 +22,7 @@
                 <!-- Button to move forward-->
                 <div class="card">
                     <div class="card-body text-center">
-                    <button :disabled="products.length === 0" class="btn btn-success" @click="step = 2">
+                    <button :disabled="products.length === 0" class="btn btn-success" @click="confirmProductsStep()">
                         <i class="la la-check"></i>{{ $t("Confirm") }}
                     </button>
                     </div>
@@ -68,6 +68,7 @@
                 </div>
 
                 <cart-price-categories-component
+                    v-if="this.invoicingMode === 'priceCategories'"
                     :pricecategories="pricecategories"
                     :studentpricecategory="studentpricecategory"
                     :currency="currency"
@@ -233,6 +234,7 @@ import TotalPriceComponent from "./TotalPriceComponent";
 export default {
     components: {TotalPriceComponent},
     props: [
+        "invoicingMode",
         "enrollment",
         "availablebooks",
         "availablefees",
@@ -249,6 +251,7 @@ export default {
         "allowedblankfields",
         "pricecategories",
         "studentpricecategory",
+        "skipDataStep",
     ],
 
     data() {
@@ -436,6 +439,15 @@ export default {
 
         },
 
+        confirmProductsStep() {
+            if (this.skipDataStep && this.clients[0] !== undefined) {
+                this.selectInvoiceData(this.clients[0]);
+                this.step = 3;
+            }
+            else {
+                this.step = 2;
+            }
+        },
         finish() {
             this.loading = true;
 
