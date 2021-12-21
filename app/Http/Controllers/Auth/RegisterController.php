@@ -32,7 +32,7 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
 
         $part1 = (! empty($username_parts[0])) ? substr($username_parts[0], 0, 3) : '';
         $part2 = (! empty($username_parts[1])) ? substr($username_parts[1], 0, 8) : '';
-        $part3 = rand(999, 9999);
+        $part3 = random_int(999, 9999);
 
         $username = $part1.$part2.$part3; //str_shuffle to randomly shuffle all characters
 

@@ -5,8 +5,6 @@ namespace App\Listeners;
 use App\Events\StudentDeleting;
 use App\Models\Attendance;
 use App\Models\Enrollment;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 
 class DeleteStudentData
 {

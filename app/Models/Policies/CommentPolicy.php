@@ -26,8 +26,6 @@ class CommentPolicy
      */
     public function store_student_comment(User $user, Student $student)
     {
-        return ($student->enrollments()->whereHas('course', function ($q) use ($user) {
-            return $q->where('teacher_id', $user->teacher_id);
-        })->count() > 0) || $user->can('comments.edit');
+        return ($student->enrollments()->whereHas('course', fn ($q) => $q->where('teacher_id', $user->teacher_id))->count() > 0) || $user->can('comments.edit');
     }
 }

@@ -4,8 +4,6 @@ namespace App\Services;
 
 use App\Interfaces\LMSInterface;
 use App\Models\Course;
-use App\Models\Level;
-use App\Models\Rhythm;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Support\Arr;
@@ -16,7 +14,7 @@ class ApolearnService implements LMSInterface
 {
     public $apiKey;
 
-    private $token;
+    private string $token;
 
     public function __construct()
     {

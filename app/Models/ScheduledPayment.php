@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Enrollment;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;

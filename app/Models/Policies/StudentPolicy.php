@@ -27,8 +27,6 @@ class StudentPolicy
     {
         // if the student is enrolled in any class by the user
 
-        return $student->enrollments()->whereHas('course', function ($q) use ($user) {
-            return $q->where('teacher_id', $user->id);
-        })->count() > 0;
+        return $student->enrollments()->whereHas('course', fn ($q) => $q->where('teacher_id', $user->id))->count() > 0;
     }
 }

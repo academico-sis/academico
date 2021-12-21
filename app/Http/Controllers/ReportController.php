@@ -33,6 +33,7 @@ class ReportController extends Controller
 
     public function external2(Request $request)
     {
+        $data = [];
         $report_start_date = $request->report_start_date ?? Carbon::parse('2019-01-01');
         $report_end_date = $request->report_end_date ?? Carbon::now();
 
@@ -129,6 +130,7 @@ class ReportController extends Controller
 
     public function partner(Partner $partner, Request $request)
     {
+        $data = [];
         $report_start_date = $request->report_start_date ?? Carbon::parse('2019-01-01');
         $report_end_date = $request->report_end_date ?? Carbon::now();
 

@@ -13,6 +13,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Http\Requests\CrudRequest;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Backpack\PermissionManager\app\Models\Role;
 
 class UserCrudController extends CrudController
 {
@@ -146,7 +147,7 @@ class UserCrudController extends CrudController
                 'name'      => 'roles',
                 'entity'    => 'roles',
                 'attribute' => 'name',
-                'model'     => 'Backpack\\PermissionManager\\app\\Models\\Role',
+                'model'     => Role::class,
                 'pivot'     => true,
             ],
         ]);

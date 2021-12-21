@@ -3,10 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\MonthlyReportEvent;
-use App\Mail\ExpiringPartnershipAlert;
 use App\Mail\MonthlyReport;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Mail;
 
 class SendMonthlyReport
@@ -24,7 +21,6 @@ class SendMonthlyReport
     /**
      * Handle the event.
      *
-     * @param  MonthlyReportEvent  $event
      * @return void
      */
     public function handle(MonthlyReportEvent $event)

@@ -112,9 +112,7 @@ class AttendanceController extends Controller
         }
 
         // get past events for the course
-        $events = $course->events->filter(function ($value, $key) {
-            return Carbon::parse($value->start) < Carbon::now();
-        })->sortByDesc('start');
+        $events = $course->events->filter(fn ($value, $key) => Carbon::parse($value->start) < Carbon::now())->sortByDesc('start');
 
         // if the course has any past events
         if (($events->count() == 0) || ($course->enrollments()->count() == 0)) {

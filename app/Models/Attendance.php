@@ -3,11 +3,7 @@
 namespace App\Models;
 
 use App\Jobs\WatchAttendance;
-use App\Mail\PendingAttendanceReminder;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
@@ -21,7 +17,7 @@ class Attendance extends Model
 
     protected $with = ['attendance_type'];
 
-    protected static $logUnguarded = true;
+    protected static bool $logUnguarded = true;
 
     protected static function boot()
     {

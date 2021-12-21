@@ -3,11 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\ScheduledPaymentRequest;
-use App\Models\EnrollmentStatusType;
-use App\Models\Invoice;
-use App\Models\Paymentmethod;
-use App\Models\ScheduledPayment;
-use App\Models\Teacher;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
@@ -110,12 +105,10 @@ class ScheduledPaymentCrudController extends CrudController
             'name' => 'status_id',
             'type' => 'select2',
             'label'=> __('Status'),
-        ], function () {
-            return [
-                1 => __('Pending'),
-                2 => __('Paid'),
-            ];
-        },
+        ], fn () => [
+            1 => __('Pending'),
+            2 => __('Paid'),
+        ],
             function ($value) { // if the filter is active
                 CRUD::addClause('status', $value);
             });

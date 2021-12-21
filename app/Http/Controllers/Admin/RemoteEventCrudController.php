@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\RemoteEventRequest;
 use App\Models\Period;
 use App\Models\RemoteEvent;

@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
@@ -11,16 +10,13 @@ class ExpiringPartnershipAlert extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $partner;
-
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($partner)
+    public function __construct(public $partner)
     {
-        $this->partner = $partner;
     }
 
     public function build()

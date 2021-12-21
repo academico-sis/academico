@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\TeacherRequest as StoreRequest;
-// VALIDATION: change the requests to match your own file names if you need form validation
-use App\Models\PhoneNumber;
 use App\Models\Teacher;
 use App\Models\User;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -46,12 +44,10 @@ class TeacherCrudController extends CrudController
                 'key'  => 'lastname',
                 'name'    => 'user', // the method that defines the relationship in your Model
                 'attribute' => 'lastname', // foreign key attribute that is shown to user
-                'model'     => 'App\Models\User', // foreign key model
+                'model'     => \App\Models\User::class, // foreign key model
                 'orderable' => true,
-                'orderLogic' => function ($query, $column, $columnDirection) {
-                    return $query->leftJoin('users', 'users.id', '=', 'students.id')
-                        ->orderBy('users.lastname', $columnDirection)->select('students.*');
-                },
+                'orderLogic' => fn ($query, $column, $columnDirection) => $query->leftJoin('users', 'users.id', '=', 'students.id')
+                    ->orderBy('users.lastname', $columnDirection)->select('students.*'),
                 'searchLogic' => function ($query, $column, $searchTerm) {
                     $query->orWhereHas('user', function ($q) use ($searchTerm) {
                         $q->where('lastname', 'like', '%'.$searchTerm.'%');
@@ -66,12 +62,10 @@ class TeacherCrudController extends CrudController
                 'key'  => 'firstname',
                 'name'    => 'user', // the method that defines the relationship in your Model
                 'attribute' => 'firstname', // foreign key attribute that is shown to user
-                'model'     => 'App\Models\User', // foreign key model
+                'model'     => \App\Models\User::class, // foreign key model
                 'orderable' => true,
-                'orderLogic' => function ($query, $column, $columnDirection) {
-                    return $query->leftJoin('users', 'users.id', '=', 'teachers.id')
-                        ->orderBy('users.firstname', $columnDirection)->select('teachers.*');
-                },
+                'orderLogic' => fn ($query, $column, $columnDirection) => $query->leftJoin('users', 'users.id', '=', 'teachers.id')
+                    ->orderBy('users.firstname', $columnDirection)->select('teachers.*'),
                 'searchLogic' => function ($query, $column, $searchTerm) {
                     $query->orWhereHas('user', function ($q) use ($searchTerm) {
                         $q->where('firstname', 'like', '%'.$searchTerm.'%');
@@ -85,12 +79,10 @@ class TeacherCrudController extends CrudController
                 'type'      => 'relationship',
                 'name'    => 'user', // the method that defines the relationship in your Model
                 'attribute' => 'email', // foreign key attribute that is shown to user
-                'model'     => 'App\Models\User', // foreign key model
+                'model'     => \App\Models\User::class, // foreign key model
                 'orderable' => true,
-                'orderLogic' => function ($query, $column, $columnDirection) {
-                    return $query->leftJoin('users', 'users.id', '=', 'teachers.id')
-                        ->orderBy('users.email', $columnDirection)->select('teachers.*');
-                },
+                'orderLogic' => fn ($query, $column, $columnDirection) => $query->leftJoin('users', 'users.id', '=', 'teachers.id')
+                    ->orderBy('users.email', $columnDirection)->select('teachers.*'),
                 'searchLogic' => function ($query, $column, $searchTerm) {
                     $query->orWhereHas('user', function ($q) use ($searchTerm) {
                         $q->where('email', 'like', '%'.$searchTerm.'%');
@@ -191,7 +183,7 @@ class TeacherCrudController extends CrudController
 
         $part1 = (! empty($username_parts[0])) ? substr($username_parts[0], 0, 3) : '';
         $part2 = (! empty($username_parts[1])) ? substr($username_parts[1], 0, 8) : '';
-        $part3 = rand(999, 9999);
+        $part3 = random_int(999, 9999);
 
         $username = $part1.$part2.$part3; //str_shuffle to randomly shuffle all characters
 

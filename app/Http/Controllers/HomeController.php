@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Comment;
 use App\Models\Event;
 use App\Models\LeadType;
-use App\Models\Leave;
 use App\Models\Period;
 use App\Models\Student;
 use App\Models\Teacher;
@@ -98,26 +96,22 @@ class HomeController extends Controller
         // todo optimize this !!
         $events = Event::where('start', '>', Carbon::now()->subDays(15))->where('end', '<', Carbon::now()->addDays(15))->orderBy('id', 'desc')
             ->get()
-            ->map(function ($event) {
-                return [
-                    'title' => $event['name'],
-                    'resourceId' => $event['teacher_id'],
-                    'start' => $event['start'],
-                    'end' => $event['end'],
-                    'backgroundColor' => $event['color'],
-                    'borderColor' => $event['color'],
-                ];
-            })
+            ->map(fn ($event) => [
+                'title' => $event['name'],
+                'resourceId' => $event['teacher_id'],
+                'start' => $event['start'],
+                'end' => $event['end'],
+                'backgroundColor' => $event['color'],
+                'borderColor' => $event['color'],
+            ])
             ->toArray();
 
         $teachers = Teacher::with('user')->get()->toArray();
 
-        $teachers = array_map(function ($teacher) {
-            return [
-                'id' => $teacher['id'],
-                'title' => $teacher['user']['firstname'],
-            ];
-        }, $teachers);
+        $teachers = array_map(fn ($teacher) => [
+            'id' => $teacher['id'],
+            'title' => $teacher['user']['firstname'],
+        ], $teachers);
 
         return view('admin.dashboard', [
             'pending_enrollment_count' => $currentPeriod->pending_enrollments_count,

@@ -41,16 +41,14 @@ class Student extends Model implements HasMedia
 
     protected $appends = ['email', 'name', 'firstname', 'lastname', 'student_age', 'student_birthdate', 'lead_status', 'is_enrolled'];
 
-    protected static $logUnguarded = true;
+    protected static bool $logUnguarded = true;
 
     public function scopeComputedLeadType($query, $leadTypeId)
     {
         return match ($leadTypeId) {
-            1 => $query->whereHas('enrollments', function ($query) {
-                return $query->whereHas('course', function ($q) {
-                    $q->where('period_id', Period::get_default_period()->id);
-                });
-            }),
+            1 => $query->whereHas('enrollments', fn ($query) => $query->whereHas('course', function ($q) {
+                $q->where('period_id', Period::get_default_period()->id);
+            })),
 
             2, 3 => $query->where('lead_type_id', $leadTypeId),
 
@@ -59,18 +57,14 @@ class Student extends Model implements HasMedia
                 ->orWhere(function ($query) {
                     $query
                         ->whereNull('lead_type_id')
-                        ->whereHas('enrollments', function ($query) {
-                            return $query
-                                ->whereHas('course', function ($q) {
-                                    $q->where('period_id', '!=', Period::get_default_period()->id);
-                                });
-                        })
-                        ->whereDoesntHave('enrollments', function ($query) {
-                            return $query
-                                ->whereHas('course', function ($q) {
-                                    $q->where('period_id', Period::get_default_period()->id);
-                                });
-                        });
+                        ->whereHas('enrollments', fn ($query) => $query
+                            ->whereHas('course', function ($q) {
+                                $q->where('period_id', '!=', Period::get_default_period()->id);
+                            }))
+                        ->whereDoesntHave('enrollments', fn ($query) => $query
+                            ->whereHas('course', function ($q) {
+                                $q->where('period_id', Period::get_default_period()->id);
+                            }));
                 }
             ),
 
@@ -109,11 +103,7 @@ class Student extends Model implements HasMedia
 
         return $this->hasMany(Attendance::class)
         ->where('attendance_type_id', 4) // absence
-        ->whereHas('event', function ($q) use ($period) {
-            return $q->whereHas('course', function ($c) use ($period) {
-                return $c->where('period_id', $period->id);
-            });
-        });
+        ->whereHas('event', fn ($q) => $q->whereHas('course', fn ($c) => $c->where('period_id', $period->id)));
     }
 
     public function periodAttendance(Period $period = null)
@@ -123,11 +113,7 @@ class Student extends Model implements HasMedia
         }
 
         return $this->hasMany(Attendance::class)
-        ->whereHas('event', function ($q) use ($period) {
-            return $q->whereHas('course', function ($c) use ($period) {
-                return $c->where('period_id', $period->id);
-            });
-        });
+        ->whereHas('event', fn ($q) => $q->whereHas('course', fn ($c) => $c->where('period_id', $period->id)));
     }
 
     public function contacts()
@@ -242,9 +228,7 @@ class Student extends Model implements HasMedia
     public function getIsEnrolledAttribute()
     {
         // if the student is currently enrolled
-        if ($this->enrollments()->whereHas('course', function ($q) {
-            return $q->where('period_id', Period::get_default_period()->id);
-        })->count() > 0) {
+        if ($this->enrollments()->whereHas('course', fn ($q) => $q->where('period_id', Period::get_default_period()->id))->count() > 0) {
             return 1;
         }
     }

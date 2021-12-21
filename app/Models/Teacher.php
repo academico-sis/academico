@@ -28,7 +28,7 @@ class Teacher extends Model
 
     protected $appends = ['firstname', 'lastname', 'name', 'email'];
 
-    protected static $logUnguarded = true;
+    protected static bool $logUnguarded = true;
 
     /** relations */
     public function user()
@@ -98,14 +98,14 @@ class Teacher extends Model
     public function getUpcomingLeavesAttribute()
     {
         $dates = $this->leaves->where('date', '>=', Carbon::now()->format('Y-m-d'))->sortBy('date')->values()->all();
-        if (count($dates) == 0) {
+        if ((is_countable($dates) ? count($dates) : 0) == 0) {
             return [];
         }
         $formatted_leaves = [];
         $range_start = Carbon::parse($dates[0]['date']);
 
         // loop through all leave dates
-        for ($i = 0; $i < count($dates); $i++) {
+        for ($i = 0; $i < (is_countable($dates) ? count($dates) : 0); $i++) {
 
             // if the next date does not touch current range
             if (isset($dates[$i + 1])) {
@@ -184,14 +184,12 @@ class Teacher extends Model
             $query->orWhereNull('exempt_attendance');
         })
         ->where('course_id', '!=', null)
-        ->whereHas('course', function (Builder $query) use ($period) {
-            return $query->where('period_id', $period->id)
-                ->where(function ($query) {
-                    $query->where('exempt_attendance', '!=', true);
-                    $query->where('exempt_attendance', '!=', 1);
-                    $query->orWhereNull('exempt_attendance');
-                });
-        })
+        ->whereHas('course', fn (Builder $query) => $query->where('period_id', $period->id)
+            ->where(function ($query) {
+                $query->where('exempt_attendance', '!=', true);
+                $query->where('exempt_attendance', '!=', 1);
+                $query->orWhereNull('exempt_attendance');
+            }))
         ->with('course')
         ->where('start', '<', Carbon::now(config('settings.courses_timezone'))->addMinutes(20)->toDateTimeString())
         ->get();

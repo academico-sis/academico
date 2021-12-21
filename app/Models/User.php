@@ -2,13 +2,8 @@
 
 namespace App\Models;
 
-use App\Events\StudentDeleting;
-use App\Events\StudentUpdated;
-use App\Events\UserCreated;
 use App\Events\UserDeleting;
-use App\Events\UserUpdated;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
-use Backpack\CRUD\app\Notifications\ResetPasswordNotification as ResetPasswordNotification;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -29,7 +24,7 @@ class User extends Authenticatable
 
     protected $guarded = ['id'];
 
-    protected static $logFillable = true;
+    protected static bool $logFillable = true;
 
     protected $hidden = ['password', 'remember_token'];
 

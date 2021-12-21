@@ -104,13 +104,10 @@ class Payment extends Model
 
     public function getDisplayStatusAttribute()
     {
-        switch ($this->status) {
-            case null:
-            case 1:
-                return __('Pending');
-            case 2:
-                return __('Paid');
-        }
+        return match ($this->status) {
+            null, 1 => __('Pending'),
+            2 => __('Paid'),
+        };
     }
 
     /*

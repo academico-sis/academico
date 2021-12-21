@@ -6,7 +6,6 @@ use App\Events\EnrollmentCreated;
 use App\Events\EnrollmentDeleted;
 use App\Events\EnrollmentUpdated;
 use App\Events\EnrollmentUpdating;
-use App\Models\ScheduledPayment;
 use App\Models\Skills\SkillEvaluation;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
@@ -361,15 +360,11 @@ class Enrollment extends Model
 
         // delete attendance records related to the enrollment
         $attendances = $this->course->attendance->where('student_id', $this->student->id);
-        Attendance::destroy($attendances->map(function ($item, $key) {
-            return $item->id;
-        }));
+        Attendance::destroy($attendances->map(fn ($item, $key) => $item->id));
 
         foreach ($this->course->children as $child) {
             $attendances = $child->attendance->where('student_id', $this->student->id);
-            Attendance::destroy($attendances->map(function ($item, $key) {
-                return $item->id;
-            }));
+            Attendance::destroy($attendances->map(fn ($item, $key) => $item->id));
         }
 
         $this->delete();
@@ -400,9 +395,7 @@ class Enrollment extends Model
                 }
 
                 // if one book is expired
-                if ($this->student && $this->student->books->where('id', $book->id)->filter(function ($book) {
-                    return $book->pivot->expiry_date == null || $book->pivot->expiry_date > Carbon::now();
-                })->count() == 0) {
+                if ($this->student && $this->student->books->where('id', $book->id)->filter(fn ($book) => $book->pivot->expiry_date == null || $book->pivot->expiry_date > Carbon::now())->count() == 0) {
                     return 'EXP';
                 }
             }

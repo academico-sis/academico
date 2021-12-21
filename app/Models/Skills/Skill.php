@@ -2,7 +2,6 @@
 
 namespace App\Models\Skills;
 
-use App\Models\Course;
 use App\Models\EvaluationType;
 use App\Models\Level;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;

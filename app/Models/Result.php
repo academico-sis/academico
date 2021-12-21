@@ -18,7 +18,7 @@ class Result extends Model
 
     protected $guarded = ['id'];
 
-    protected static $logUnguarded = true;
+    protected static bool $logUnguarded = true;
 
     protected static function boot()
     {

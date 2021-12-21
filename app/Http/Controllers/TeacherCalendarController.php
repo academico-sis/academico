@@ -25,50 +25,42 @@ class TeacherCalendarController extends Controller
         $events = Event::with('course')
             ->where('start', '>', Carbon::now()->subDays(30))->where('end', '<', Carbon::now()->addDays(30))->orderBy('id', 'desc') // TODO optimize this.
             ->get()
-            ->map(function ($event) {
-                return [
-                    'title' => $event['name'] ?? '',
-                    'resourceId' => $event['teacher_id'],
-                    'start' => $event['start'],
-                    'end' => $event['end'],
-                    'groupId' => $event['course_id'],
-                    'backgroundColor' => $event['color'],
-                    'borderColor' => $event['color'],
-                ];
-            });
-
-        $teachers = Teacher::all()->toArray();
-
-        $teachers = array_map(function ($teacher) {
-            return [
-                'id' => $teacher['id'],
-                'title' => $teacher['name'] ?? '',
-            ];
-        }, $teachers);
-
-        array_push($teachers, ['id' => 'tbd', 'title' => 'Unassigned']);
-
-        $unassigned_events = Event::unassigned()->get()->map(function ($event) {
-            return [
+            ->map(fn ($event) => [
                 'title' => $event['name'] ?? '',
-                'resourceId' => 'tbd',
+                'resourceId' => $event['teacher_id'],
                 'start' => $event['start'],
                 'end' => $event['end'],
                 'groupId' => $event['course_id'],
                 'backgroundColor' => $event['color'],
                 'borderColor' => $event['color'],
-            ];
-        });
+            ]);
 
-        $leaves = Leave::orderBy('date', 'desc')->limit(10000)->get()->map(function ($event) {
-            return [
-                'title' => $event->leaveType->name ?? 'ABS', // todo fix
-                'resourceId' => $event['teacher_id'],
-                'start' => $event['date'],
-                'allDay' => true,
-                'resourceEditable' => false,
-            ];
-        });
+        $teachers = Teacher::all()->toArray();
+
+        $teachers = array_map(fn ($teacher) => [
+            'id' => $teacher['id'],
+            'title' => $teacher['name'] ?? '',
+        ], $teachers);
+
+        array_push($teachers, ['id' => 'tbd', 'title' => 'Unassigned']);
+
+        $unassigned_events = Event::unassigned()->get()->map(fn ($event) => [
+            'title' => $event['name'] ?? '',
+            'resourceId' => 'tbd',
+            'start' => $event['start'],
+            'end' => $event['end'],
+            'groupId' => $event['course_id'],
+            'backgroundColor' => $event['color'],
+            'borderColor' => $event['color'],
+        ]);
+
+        $leaves = Leave::orderBy('date', 'desc')->limit(10000)->get()->map(fn ($event) => [
+            'title' => $event->leaveType->name ?? 'ABS', // todo fix
+            'resourceId' => $event['teacher_id'],
+            'start' => $event['date'],
+            'allDay' => true,
+            'resourceEditable' => false,
+        ]);
 
         return view('calendars.overview', [
             'events' => $events,
@@ -88,23 +80,19 @@ class TeacherCalendarController extends Controller
             abort(403);
         }
 
-        $events = $teacher->events->map(function ($event) {
-            return [
-                'title' => $event['name'],
-                'start' => $event['start'],
-                'end' => $event['end'],
-                'backgroundColor' => $event['color'],
-                'borderColor' => $event['color'],
-            ];
-        });
+        $events = $teacher->events->map(fn ($event) => [
+            'title' => $event['name'],
+            'start' => $event['start'],
+            'end' => $event['end'],
+            'backgroundColor' => $event['color'],
+            'borderColor' => $event['color'],
+        ]);
 
-        $leaves = $teacher->leaves->map(function ($event) {
-            return [
-                'title' => $event->leaveType->name ?? 'vacances',  // todo fix
-                'start' => $event['date'],
-                'allDay' => true,
-            ];
-        });
+        $leaves = $teacher->leaves->map(fn ($event) => [
+            'title' => $event->leaveType->name ?? 'vacances',  // todo fix
+            'start' => $event['date'],
+            'allDay' => true,
+        ]);
 
         return view('calendars.simple', [
             'events' => $events,

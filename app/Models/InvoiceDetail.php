@@ -16,7 +16,7 @@ class InvoiceDetail extends Model
 
     protected $guarded = ['id'];
 
-    protected static $logUnguarded = true;
+    protected static bool $logUnguarded = true;
 
     protected $appends = ['price_with_currency'];
 

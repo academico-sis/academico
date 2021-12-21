@@ -18,7 +18,7 @@ class RemoteEvent extends Model
 
     protected $guarded = ['id'];
 
-    protected static $logUnguarded = true;
+    protected static bool $logUnguarded = true;
 
     public function teacher()
     {

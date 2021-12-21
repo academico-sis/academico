@@ -8,7 +8,6 @@ use App\Models\Result;
 use App\Models\ResultType;
 use App\Models\Skills\SkillEvaluation;
 use App\Models\Skills\SkillScale;
-use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 

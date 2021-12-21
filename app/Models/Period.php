@@ -21,7 +21,7 @@ class Period extends Model
 
     protected $fillable = ['name', 'year_id', 'start', 'end'];
 
-    protected static $logUnguarded = true;
+    protected static bool $logUnguarded = true;
 
     protected static function boot()
     {

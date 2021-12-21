@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\CommentRequest;
-// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Models\Comment;
 use App\Models\Enrollment;
 use App\Models\Invoice;
@@ -108,8 +107,8 @@ class CommentCrudController extends CrudController
                 Result::class => 'Result',
 
             ], function ($value) { // if the filter is active
-            CRUD::addClause('where', 'commentable_type', '=', $value);
-        },
+                CRUD::addClause('where', 'commentable_type', '=', $value);
+            },
               function () { // if the filter is not active
                   CRUD::addClause('where', 'commentable_type', '=', Student::class);
                   $this->crud->getRequest()->request->add(['commentable_type' => Student::class]); // to make the filter look active

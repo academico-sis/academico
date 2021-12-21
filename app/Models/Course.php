@@ -53,7 +53,7 @@ class Course extends Model
         'sortable_id',
     ];
 
-    protected static $logUnguarded = true;
+    protected static bool $logUnguarded = true;
 
     /*
     |--------------------------------------------------------------------------

@@ -18,7 +18,7 @@ class WatchAttendance implements ShouldQueue
     use Queueable;
     use SerializesModels;
 
-    public $tries = 5;
+    public int $tries = 5;
 
     public function __construct(protected Attendance $attendance)
     {

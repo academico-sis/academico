@@ -13,13 +13,13 @@ class MonthlyReport extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
-    public $monthName;
+    public string $monthName;
 
-    public $year;
+    public int $year;
 
-    public $start;
+    public \Illuminate\Support\Carbon $start;
 
-    public $end;
+    public \Illuminate\Support\Carbon $end;
 
     public $teachers;
 

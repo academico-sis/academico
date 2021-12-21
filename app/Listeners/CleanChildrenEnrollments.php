@@ -2,14 +2,9 @@
 
 namespace App\Listeners;
 
-use App\Events\CourseUpdated;
-use App\Events\EnrollmentUpdated;
 use App\Events\EnrollmentUpdating;
 use App\Models\Attendance;
 use App\Models\Enrollment;
-use App\Models\Event;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
 
 class CleanChildrenEnrollments
 {

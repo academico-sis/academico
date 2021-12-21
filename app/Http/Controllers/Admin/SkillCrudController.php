@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\SkillRequest as StoreRequest;
-// VALIDATION: change the requests to match your own file names if you need form validation
-use App\Models\GradeTypeCategory;
 use App\Models\Level;
 use App\Models\Skills\Skill;
 use App\Models\Skills\SkillType;
@@ -62,9 +60,7 @@ class SkillCrudController extends CrudController
             'name' => 'level_id',
             'type' => 'select2',
             'label'=> 'Level',
-        ], function () {
-            return Level::all()->pluck('name', 'id')->toArray();
-        }, function ($value) { // if the filter is active
+        ], fn () => Level::all()->pluck('name', 'id')->toArray(), function ($value) { // if the filter is active
             CRUD::addClause('where', 'level_id', $value);
         });
 
@@ -72,9 +68,7 @@ class SkillCrudController extends CrudController
             'name' => 'skill_type_id',
             'type' => 'select2',
             'label'=> 'Type',
-        ], function () {
-            return SkillType::all()->pluck('name', 'id')->toArray();
-        }, function ($value) { // if the filter is active
+        ], fn () => SkillType::all()->pluck('name', 'id')->toArray(), function ($value) { // if the filter is active
             CRUD::addClause('where', 'skill_type_id', $value);
         });
     }

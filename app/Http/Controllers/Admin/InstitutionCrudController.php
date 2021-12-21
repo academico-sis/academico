@@ -23,7 +23,7 @@ class InstitutionCrudController extends CrudController
 
     public function setup()
     {
-        $this->crud->setModel('App\Models\Institution');
+        $this->crud->setModel(\App\Models\Institution::class);
         $this->crud->setRoute(config('backpack.base.route_prefix').'/institution');
         $this->crud->setEntityNameStrings('institution', 'institutions');
     }

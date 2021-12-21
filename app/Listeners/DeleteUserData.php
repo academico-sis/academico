@@ -3,11 +3,8 @@
 namespace App\Listeners;
 
 use App\Events\UserDeleting;
-use App\Models\Attendance;
 use App\Models\Student;
 use App\Models\Teacher;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 
 class DeleteUserData
 {

@@ -18,7 +18,7 @@ class Leave extends Model
 
     protected $with = ['leaveType'];
 
-    protected static $logUnguarded = true;
+    protected static bool $logUnguarded = true;
 
     protected static function boot()
     {

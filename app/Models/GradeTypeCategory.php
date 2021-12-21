@@ -20,7 +20,7 @@ class GradeTypeCategory extends Model
 
     protected $guarded = ['id'];
 
-    public $translatable = ['name'];
+    public array $translatable = ['name'];
 
     protected $appends = ['translated_name'];
 

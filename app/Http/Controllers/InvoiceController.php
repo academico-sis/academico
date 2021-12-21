@@ -24,7 +24,6 @@ use Illuminate\Support\Facades\Log;
 use LaravelDaily\Invoices\Classes\Buyer;
 use LaravelDaily\Invoices\Classes\InvoiceItem;
 use LaravelDaily\Invoices\Invoice as InvoiceAlias;
-use Prologue\Alerts\Facades\Alert;
 
 class InvoiceController extends Controller
 {
@@ -139,7 +138,7 @@ class InvoiceController extends Controller
             Payment::create([
                 'responsable_id' => backpack_user()->id,
                 'invoice_id' => $invoice->id,
-                'payment_method' => isset($payment['method']) ? $payment['method'] : null,
+                'payment_method' => $payment['method'] ?? null,
                 'value' => $payment['value'],
                 'date' => isset($payment['date']) ? Carbon::parse($payment['date']) : Carbon::now(),
             ]);
@@ -254,10 +253,10 @@ class InvoiceController extends Controller
 
         foreach ($request->payments as $payment) {
             $invoice->payments()->create([
-                'payment_method' => isset($payment['payment_method']) ? $payment['payment_method'] : null,
+                'payment_method' => $payment['payment_method'] ?? null,
                 'value' => $payment['value'],
                 'date' => isset($payment['date']) ? Carbon::parse($payment['date']) : Carbon::now(),
-                'status' => isset($payment['status']) ? $payment['status'] : 1,
+                'status' => $payment['status'] ?? 1,
                 'responsable_id' => backpack_user()->id,
             ]);
         }

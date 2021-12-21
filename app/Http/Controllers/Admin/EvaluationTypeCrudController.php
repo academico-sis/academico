@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\EvaluationTypeRequest as StoreRequest;
-// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Models\EvaluationType;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -42,7 +41,7 @@ class EvaluationTypeCrudController extends CrudController
 
             // optional
             'entity'    => 'gradeTypes', // the method that defines the relationship in your Model
-            'model'     => "App\Models\GradeType", // foreign key model
+            'model'     => \App\Models\GradeType::class, // foreign key model
             'attribute' => 'complete_name', // foreign key attribute that is shown to user
             'pivot'     => true, // on create&update, do you need to add/delete pivot table entries?
             'select_all' => true, // show Select All and Clear buttons?
@@ -55,7 +54,7 @@ class EvaluationTypeCrudController extends CrudController
 
             // optional
             'entity'    => 'skills', // the method that defines the relationship in your Model
-            'model'     => "App\Models\Skills\Skill", // foreign key model
+            'model'     => \App\Models\Skills\Skill::class, // foreign key model
             'attribute' => 'complete_name', // foreign key attribute that is shown to user
             'pivot'     => true, // on create&update, do you need to add/delete pivot table entries?
             'select_all' => true, // show Select All and Clear buttons?

@@ -89,12 +89,10 @@ class StudentCrudController extends CrudController
                 'key'  => 'lastname',
                 'name'    => 'user', // the method that defines the relationship in your Model
                 'attribute' => 'lastname', // foreign key attribute that is shown to user
-                'model'     => 'App\Models\User', // foreign key model
+                'model'     => \App\Models\User::class, // foreign key model
                 'orderable' => true,
-                'orderLogic' => function ($query, $column, $columnDirection) {
-                    return $query->leftJoin('users', 'users.id', '=', 'students.id')
-                        ->orderBy('users.lastname', $columnDirection)->select('students.*');
-                },
+                'orderLogic' => fn ($query, $column, $columnDirection) => $query->leftJoin('users', 'users.id', '=', 'students.id')
+                    ->orderBy('users.lastname', $columnDirection)->select('students.*'),
                 'searchLogic' => function ($query, $column, $searchTerm) {
                     $query->orWhereHas('user', function ($q) use ($searchTerm) {
                         $q->where('lastname', 'like', '%'.$searchTerm.'%');
@@ -109,12 +107,10 @@ class StudentCrudController extends CrudController
                 'key'  => 'firstname',
                 'name'    => 'user', // the method that defines the relationship in your Model
                 'attribute' => 'firstname', // foreign key attribute that is shown to user
-                'model'     => 'App\Models\User', // foreign key model
+                'model'     => \App\Models\User::class, // foreign key model
                 'orderable' => true,
-                'orderLogic' => function ($query, $column, $columnDirection) {
-                    return $query->leftJoin('users', 'users.id', '=', 'students.id')
-                        ->orderBy('users.firstname', $columnDirection)->select('students.*');
-                },
+                'orderLogic' => fn ($query, $column, $columnDirection) => $query->leftJoin('users', 'users.id', '=', 'students.id')
+                    ->orderBy('users.firstname', $columnDirection)->select('students.*'),
                 'searchLogic' => function ($query, $column, $searchTerm) {
                     $query->orWhereHas('user', function ($q) use ($searchTerm) {
                         $q->where('firstname', 'like', '%'.$searchTerm.'%');
@@ -128,12 +124,10 @@ class StudentCrudController extends CrudController
                 'type'      => 'relationship',
                 'name'    => 'user', // the method that defines the relationship in your Model
                 'attribute' => 'email', // foreign key attribute that is shown to user
-                'model'     => 'App\Models\User', // foreign key model
+                'model'     => \App\Models\User::class, // foreign key model
                 'orderable' => true,
-                'orderLogic' => function ($query, $column, $columnDirection) {
-                    return $query->leftJoin('users', 'users.id', '=', 'students.id')
-                        ->orderBy('users.email', $columnDirection)->select('students.*');
-                },
+                'orderLogic' => fn ($query, $column, $columnDirection) => $query->leftJoin('users', 'users.id', '=', 'students.id')
+                    ->orderBy('users.email', $columnDirection)->select('students.*'),
                 'searchLogic' => function ($query, $column, $searchTerm) {
                     $query->orWhereHas('user', function ($q) use ($searchTerm) {
                         $q->where('email', 'like', '%'.$searchTerm.'%');
@@ -147,7 +141,7 @@ class StudentCrudController extends CrudController
                 'key'  => 'username',
                 'name'    => 'user', // the method that defines the relationship in your Model
                 'attribute' => 'username', // foreign key attribute that is shown to user
-                'model'     => 'App\Models\User', // foreign key model
+                'model'     => \App\Models\User::class, // foreign key model
                 'orderable' => false,
                 'searchLogic' => false,
             ],
@@ -185,14 +179,10 @@ class StudentCrudController extends CrudController
             'name' => 'enrolled',
             'type' => 'select2',
             'label'=> __('Is Enrolled in'),
-        ], function () {
-            return Period::all()->pluck('name', 'id')->toArray();
-        }, function ($value) { // if the filter is active
-            $this->crud->query = $this->crud->query->whereHas('enrollments', function ($query) use ($value) {
-                return $query->whereHas('course', function ($q) use ($value) {
-                    $q->where('period_id', $value);
-                });
-            });
+        ], fn () => Period::all()->pluck('name', 'id')->toArray(), function ($value) { // if the filter is active
+            $this->crud->query = $this->crud->query->whereHas('enrollments', fn ($query) => $query->whereHas('course', function ($q) use ($value) {
+                $q->where('period_id', $value);
+            }));
         },
           function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
           });
@@ -201,15 +191,11 @@ class StudentCrudController extends CrudController
             'name' => 'notenrolled',
             'type' => 'select2_multiple',
             'label'=> __('Is Not Enrolled in'),
-        ], function () { // the options that show up in the select2
-            return Period::all()->pluck('name', 'id')->toArray();
-        }, function ($values) { // if the filter is active
-            foreach (json_decode($values) as $value) {
-                $this->crud->query = $this->crud->query->whereDoesntHave('enrollments', function ($query) use ($value) {
-                    return $query->whereHas('course', function ($q) use ($value) {
-                        $q->where('period_id', $value);
-                    });
-                });
+        ], fn () => Period::all()->pluck('name', 'id')->toArray(), function ($values) { // if the filter is active
+            foreach (json_decode($values, null, 512, JSON_THROW_ON_ERROR) as $value) {
+                $this->crud->query = $this->crud->query->whereDoesntHave('enrollments', fn ($query) => $query->whereHas('course', function ($q) use ($value) {
+                    $q->where('period_id', $value);
+                }));
             }
         });
 
@@ -218,9 +204,7 @@ class StudentCrudController extends CrudController
             'type' => 'select2',
             'label'=> __('New In'),
         ],
-            function () {
-                return Period::all()->pluck('name', 'id')->toArray();
-            },
+            fn () => Period::all()->pluck('name', 'id')->toArray(),
             function ($value) { // if the filter is active
                 CRUD::addClause('newInPeriod', $value);
             }
@@ -231,9 +215,7 @@ class StudentCrudController extends CrudController
             'name'  => 'institution_id',
             'type'  => 'select2',
             'label' => __('Institution'),
-        ], function () {
-            return Institution::all()->pluck('name', 'id')->toArray();
-        }, function ($value) { // if the filter is active
+        ], fn () => Institution::all()->pluck('name', 'id')->toArray(), function ($value) { // if the filter is active
             $this->crud->addClause('where', 'institution_id', $value);
         });
 
@@ -241,9 +223,7 @@ class StudentCrudController extends CrudController
             'name'  => 'status_type_id',
             'type'  => 'select2',
             'label' => __('Lead Status'),
-        ], function () {
-            return LeadType::all()->pluck('name', 'id')->toArray();
-        }, function ($value) {
+        ], fn () => LeadType::all()->pluck('name', 'id')->toArray(), function ($value) {
             $this->crud->addClause('computedLeadType', $value);
         });
     }
@@ -336,7 +316,7 @@ class StudentCrudController extends CrudController
 
         $part1 = (! empty($username_parts[0])) ? substr($username_parts[0], 0, 3) : '';
         $part2 = (! empty($username_parts[1])) ? substr($username_parts[1], 0, 8) : '';
-        $part3 = rand(999, 9999);
+        $part3 = random_int(999, 9999);
 
         $username = $part1.$part2.$part3; //str_shuffle to randomly shuffle all characters
 

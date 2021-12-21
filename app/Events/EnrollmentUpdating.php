@@ -2,7 +2,6 @@
 
 namespace App\Events;
 
-use App\Models\Attendance;
 use App\Models\Enrollment;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;

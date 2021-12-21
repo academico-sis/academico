@@ -186,9 +186,7 @@ class CourseCrudController extends CrudController
             'name' => 'rhythm_id',
             'type' => 'select2',
             'label'=> __('Rhythm'),
-        ], function () {
-            return Rhythm::all()->pluck('name', 'id')->toArray();
-        }, function ($value) {
+        ], fn () => Rhythm::all()->pluck('name', 'id')->toArray(), function ($value) {
             // if the filter is active
             CRUD::addClause('where', 'rhythm_id', $value);
         },
@@ -200,9 +198,7 @@ class CourseCrudController extends CrudController
             'name' => 'teacher_id',
             'type' => 'select2',
             'label'=> __('Teacher'),
-        ], function () {
-            return Teacher::all()->pluck('name', 'id')->toArray();
-        }, function ($value) {
+        ], fn () => Teacher::all()->pluck('name', 'id')->toArray(), function ($value) {
             // if the filter is active
             CRUD::addClause('where', 'teacher_id', $value);
         },
@@ -214,9 +210,7 @@ class CourseCrudController extends CrudController
             'name' => 'level_id',
             'type' => 'select2',
             'label'=> __('Level'),
-        ], function () {
-            return Level::all()->pluck('name', 'id')->toArray();
-        }, function ($value) {
+        ], fn () => Level::all()->pluck('name', 'id')->toArray(), function ($value) {
             // if the filter is active
             CRUD::addClause('where', 'level_id', $value);
         },
@@ -229,9 +223,7 @@ class CourseCrudController extends CrudController
             'type' => 'select2',
             'label'=> __('Period'),
         ],
-            function () {
-                return \App\Models\Period::all()->sortByDesc('id')->pluck('name', 'id')->toArray();
-            },
+            fn () => \App\Models\Period::all()->sortByDesc('id')->pluck('name', 'id')->toArray(),
             function ($value) { // if the filter is active
                 CRUD::addClause('where', 'period_id', $value);
             },
@@ -261,7 +253,7 @@ class CourseCrudController extends CrudController
         ],
             false,
             function ($value) { // if the filter is active, apply these constraints
-                $dates = json_decode($value);
+                $dates = json_decode($value, null, 512, JSON_THROW_ON_ERROR);
                 $this->crud->addClause('where', 'start_date', '>=', $dates->from);
                 $this->crud->addClause('where', 'start_date', '<=', $dates->to.' 23:59:59');
             });
@@ -273,7 +265,7 @@ class CourseCrudController extends CrudController
         ],
             false,
             function ($value) { // if the filter is active, apply these constraints
-                $dates = json_decode($value);
+                $dates = json_decode($value, null, 512, JSON_THROW_ON_ERROR);
                 $this->crud->addClause('where', 'end_date', '>=', $dates->from);
                 $this->crud->addClause('where', 'end_date', '<=', $dates->to.' 23:59:59');
             });
@@ -914,10 +906,10 @@ class CourseCrudController extends CrudController
     public function update()
     {
         $course = $this->crud->getCurrentEntry();
-        $newCourseTimes = collect(json_decode($this->crud->getRequest()->input('times')));
+        $newCourseTimes = collect(json_decode($this->crud->getRequest()->input('times'), null, 512, JSON_THROW_ON_ERROR));
         $course->saveCourseTimes($newCourseTimes);
 
-        $remoteEvents = collect(json_decode($this->crud->getRequest()->input('remoteevents')));
+        $remoteEvents = collect(json_decode($this->crud->getRequest()->input('remoteevents'), null, 512, JSON_THROW_ON_ERROR));
         $course->saveRemoteEvents($remoteEvents);
 
         // update model
@@ -936,16 +928,16 @@ class CourseCrudController extends CrudController
 
         // if a schedule preset was applied, use it
         if ($this->crud->getRequest()->input('schedulepreset') !== null) {
-            $courseTimes = collect(json_decode($this->crud->getRequest()->input('schedulepreset')));
+            $courseTimes = collect(json_decode($this->crud->getRequest()->input('schedulepreset'), null, 512, JSON_THROW_ON_ERROR));
         } else {
             // otherwise, use any user-defined course times
-            $courseTimes = collect(json_decode($this->crud->getRequest()->input('times')));
+            $courseTimes = collect(json_decode($this->crud->getRequest()->input('times'), null, 512, JSON_THROW_ON_ERROR));
         }
 
-        $remoteEvents = collect(json_decode($this->crud->getRequest()->input('remoteevents')));
+        $remoteEvents = collect(json_decode($this->crud->getRequest()->input('remoteevents'), null, 512, JSON_THROW_ON_ERROR));
         $course->saveRemoteEvents($remoteEvents);
 
-        $sublevels = collect(json_decode($this->crud->getRequest()->input('sublevels')));
+        $sublevels = collect(json_decode($this->crud->getRequest()->input('sublevels'), null, 512, JSON_THROW_ON_ERROR));
 
         // if subcourses were added
         if ($sublevels->count() > 0) {

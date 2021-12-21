@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-// VALIDATION: change the requests to match your own file names if you need form validation
-use App\Http\Controllers\EnrollmentController;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\EnrollmentStatusType;
@@ -20,8 +18,6 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\CRUD\app\Library\Widget;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Redirect;
-use Route;
 
 /**
  * Class EnrollmentCrudController
@@ -34,7 +30,7 @@ class EnrollmentCrudController extends CrudController
     use ShowOperation { show as traitShow; }
     use UpdateOperation { update as traitUpdate; }
 
-    protected $mode = 'global';
+    protected string $mode = 'global';
 
     protected ?Course $course = null;
 
@@ -230,12 +226,10 @@ class EnrollmentCrudController extends CrudController
                 'name' => 'status_id',
                 'type' => 'select2_multiple',
                 'label'=> __('Status'),
-            ], function () {
-                return EnrollmentStatusType::all()->pluck('name', 'id')->toArray();
-            },
+            ], fn () => EnrollmentStatusType::all()->pluck('name', 'id')->toArray(),
             function ($values) {
                 // if the filter is active
-                foreach (json_decode($values) as $value) {
+                foreach (json_decode($values, null, 512, JSON_THROW_ON_ERROR) as $value) {
                     CRUD::addClause('orWhere', 'status_id', $value);
                 }
             });
@@ -244,9 +238,7 @@ class EnrollmentCrudController extends CrudController
                 'name' => 'period_id',
                 'type' => 'select2',
                 'label'=> __('Period'),
-            ], function () {
-                return Period::all()->pluck('name', 'id')->toArray();
-            }, function ($value) {
+            ], fn () => Period::all()->pluck('name', 'id')->toArray(), function ($value) {
                 // if the filter is active
                 CRUD::addClause('period', $value);
             });
@@ -257,9 +249,7 @@ class EnrollmentCrudController extends CrudController
                     'type' => 'select2',
                     'label'=> __('Scholarship'),
                 ],
-                function () {
-                    return Scholarship::all()->pluck('name', 'id')->toArray();
-                },
+                fn () => Scholarship::all()->pluck('name', 'id')->toArray(),
                 function ($value) { // if the filter is active
                     if ($value == 'all') {
                         CRUD::addClause('whereHas', 'scholarships');
@@ -312,12 +302,10 @@ class EnrollmentCrudController extends CrudController
             'name'      => 'course_id', // the db column for the foreign key
 
             'entity'    => 'course', // the method that defines the relationship in your Model
-            'model'     => "App\Models\Course", // foreign key model
+            'model'     => \App\Models\Course::class, // foreign key model
             'attribute' => 'name', // foreign key attribute that is shown to user
 
-            'options'   => (function ($query) {
-                return $query->orderBy('level_id', 'ASC')->where('period_id', $this->crud->getCurrentEntry()->course->period_id)->get();
-            }),
+            'options'   => (fn ($query) => $query->orderBy('level_id', 'ASC')->where('period_id', $this->crud->getCurrentEntry()->course->period_id)->get()),
         ]);
 
         CRUD::addField(array_merge([
@@ -341,7 +329,7 @@ class EnrollmentCrudController extends CrudController
             'entity'    => 'enrollmentStatus',
 
             // optional - manually specify the related model and attribute
-            'model'     => "App\Models\EnrollmentStatusType", // related model
+            'model'     => \App\Models\EnrollmentStatusType::class, // related model
             'attribute' => 'name', // foreign key attribute that is shown to user
         ]);
     }
@@ -349,7 +337,7 @@ class EnrollmentCrudController extends CrudController
     public function update()
     {
         $enrollment = $this->crud->getCurrentEntry();
-        $newScheduledPayments = collect(json_decode($this->crud->getRequest()->input('scheduledPayments')));
+        $newScheduledPayments = collect(json_decode($this->crud->getRequest()->input('scheduledPayments'), null, 512, JSON_THROW_ON_ERROR));
         $enrollment->saveScheduledPayments($newScheduledPayments);
         $response = $this->traitUpdate();
 

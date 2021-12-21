@@ -3,10 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\EnrollmentCreated;
-use App\Interfaces\LMSInterface;
 use Carbon\Carbon;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 
 class AddPastAttendance
 {

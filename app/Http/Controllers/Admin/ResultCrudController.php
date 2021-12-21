@@ -114,9 +114,7 @@ class ResultCrudController extends CrudController
             'name' => 'period_id',
             'type' => 'select2',
             'label'=> __('Period'),
-        ], function () {
-            return Period::all()->pluck('name', 'id')->toArray();
-        }, function ($value) { // if the filter is active
+        ], fn () => Period::all()->pluck('name', 'id')->toArray(), function ($value) { // if the filter is active
             CRUD::addClause('period', $value);
         });
 
@@ -124,9 +122,7 @@ class ResultCrudController extends CrudController
             'name' => 'result',
             'type' => 'select2',
             'label'=> __('Result'),
-        ], function () { // the options that show up in the select2
-            return ResultType::all()->pluck('name', 'id')->toArray();
-        }, function ($value) { // if the filter is active
+        ], fn () => ResultType::all()->pluck('name', 'id')->toArray(), function ($value) { // if the filter is active
             $this->crud->query = $this->crud->query->whereHas('result', function ($query) use ($value) {
                 $query->where('result_type_id', $value);
             });

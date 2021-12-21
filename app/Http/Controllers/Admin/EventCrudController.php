@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\EventRequest as StoreRequest;
-// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Models\Course;
 use App\Models\Event;
 use App\Models\Room;
@@ -119,7 +118,7 @@ class EventCrudController extends CrudController
         ],
           false,
           function ($value) { // if the filter is active, apply these constraints
-              $dates = json_decode($value);
+              $dates = json_decode($value, null, 512, JSON_THROW_ON_ERROR);
 
               if ($dates->from) {
                   CRUD::addClause('where', 'start', '>=', $dates->from);
@@ -155,9 +154,7 @@ class EventCrudController extends CrudController
             'name' => 'teacher_id',
             'type' => 'select2',
             'label'=> __('Teacher'),
-        ], function () {
-            return Teacher::all()->pluck('name', 'id')->toArray();
-        }, function ($value) { // if the filter is active
+        ], fn () => Teacher::all()->pluck('name', 'id')->toArray(), function ($value) { // if the filter is active
             CRUD::addClause('where', 'teacher_id', $value);
         },
           function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)

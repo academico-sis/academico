@@ -20,14 +20,10 @@ class LeadStatusUpdatedEvent
 
     public $lastname;
 
-    public $listId;
-
-    public function __construct(Student|Contact $user, $listId = null)
+    public function __construct(Student|Contact $user, public $listId)
     {
-        $listId = $listId ? $listId :
         $this->email = $user->email;
         $this->name = $user->firstname;
         $this->lastname = $user->lastname;
-        $this->listId = $listId;
     }
 }

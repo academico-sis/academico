@@ -2,11 +2,8 @@
 
 namespace App\Providers;
 
-use App\Events\CourseCreated;
 use App\Events\CourseUpdated;
-use App\Events\EnrollmentCourseUpdated;
 use App\Events\EnrollmentCreated;
-use App\Events\EnrollmentDeleted;
 use App\Events\EnrollmentUpdated;
 use App\Events\EnrollmentUpdating;
 use App\Events\ExpiringPartnershipsEvent;
@@ -15,9 +12,7 @@ use App\Events\LeadStatusUpdatedEvent;
 use App\Events\MonthlyReportEvent;
 use App\Events\StudentDeleted;
 use App\Events\StudentDeleting;
-use App\Events\UserCreated;
 use App\Events\UserDeleting;
-use App\Events\UserUpdated;
 use App\Listeners\AddPastAttendance;
 use App\Listeners\CleanChildrenEnrollments;
 use App\Listeners\DeleteStudentData;

@@ -102,11 +102,11 @@ class Ecuasolutions implements InvoicingInterface
         Log::info('Sending data to accounting');
 
         if ($response->getBody()) {
-            $code = json_decode(preg_replace('/[\\x00-\\x1F\\x80-\\xFF]/', '', $response->getBody()), true);
+            $code = json_decode(preg_replace('/[\\x00-\\x1F\\x80-\\xFF]/', '', $response->getBody()), true, 512, JSON_THROW_ON_ERROR);
         }
 
         Log::info($response->getBody());
 
-        return isset($code['mensaje']) ? $code['mensaje'] : null;
+        return $code['mensaje'] ?? null;
     }
 }

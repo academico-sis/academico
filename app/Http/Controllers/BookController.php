@@ -71,7 +71,7 @@ class BookController extends Controller
         $angle = 0;
         $width = imagesx($image);
         $centerX = $width / 2;
-        list($left, , $right) = imageftbbox($font_size, $angle, $font, $text);
+        [$left, , $right] = imageftbbox($font_size, $angle, $font, $text);
         $left_offset = ($right - $left) / 2;
         $x = $centerX - $left_offset;
         imagettftext($image, $font_size, $angle, $x, 450, $black, $font, $text);
@@ -81,7 +81,7 @@ class BookController extends Controller
         $angle = 0;
         $width = imagesx($image);
         $centerX = $width / 2;
-        list($left, , $right) = imageftbbox($font_size, $angle, $font, $text);
+        [$left, , $right] = imageftbbox($font_size, $angle, $font, $text);
         $left_offset = ($right - $left) / 2;
         $x = $centerX - $left_offset;
         imagettftext($image, $font_size, $angle, $x, 525, $black, $font, $text);
@@ -91,7 +91,7 @@ class BookController extends Controller
         $angle = 0;
         $width = imagesx($image);
         $centerX = $width / 2;
-        list($left, , $right) = imageftbbox($font_size, $angle, $font, $text);
+        [$left, , $right] = imageftbbox($font_size, $angle, $font, $text);
         $left_offset = ($right - $left) / 2;
         $x = $centerX - $left_offset;
         imagettftext($image, $font_size, $angle, $x, 620, $black, $font, $text);
@@ -101,7 +101,7 @@ class BookController extends Controller
         $angle = 0;
         $width = imagesx($image);
         $centerX = $width / 2;
-        list($left, , $right) = imageftbbox($font_size, $angle, $font, $text);
+        [$left, , $right] = imageftbbox($font_size, $angle, $font, $text);
         $left_offset = ($right - $left) / 2;
         $x = $centerX - $left_offset;
         imagettftext($image, $font_size, $angle, $x, 690, $black, $font, $text);
@@ -114,7 +114,7 @@ class BookController extends Controller
         $angle = 0;
         $width = imagesx($image);
         $centerX = $width / 2;
-        list($left, , $right) = imageftbbox($font_size, $angle, $font, $text);
+        [$left, , $right] = imageftbbox($font_size, $angle, $font, $text);
         $left_offset = ($right - $left) / 2;
         $x = $centerX - $left_offset;
         imagettftext($image, $font_size, $angle, $x, 755, $black, $font, $text);

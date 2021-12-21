@@ -13,7 +13,7 @@ use Prologue\Alerts\Facades\Alert;
 
 class MyAccountController extends Controller
 {
-    protected $data = [];
+    protected array $data = [];
 
     public function __construct()
     {
