@@ -40,7 +40,6 @@ class Student extends Model implements HasMedia
 
     protected static bool $logUnguarded = true;
 
-
     public function scopeEnrolled($query)
     {
         return $query->whereHas('enrollments', function ($q) {

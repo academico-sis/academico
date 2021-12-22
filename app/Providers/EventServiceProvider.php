@@ -15,6 +15,7 @@ use App\Events\StudentDeleting;
 use App\Events\UserDeleting;
 use App\Listeners\AddPastAttendance;
 use App\Listeners\CleanChildrenEnrollments;
+use App\Listeners\ComputeStudentLeadStatus;
 use App\Listeners\DeleteStudentData;
 use App\Listeners\DeleteUserData;
 use App\Listeners\SendExpiringPartnershipsAlerts;
@@ -26,7 +27,6 @@ use App\Listeners\UpdateCourseEvents;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use App\Listeners\ComputeStudentLeadStatus;
 
 class EventServiceProvider extends ServiceProvider
 {
