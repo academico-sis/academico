@@ -37,12 +37,6 @@ class Attendance extends Model
         return $this->belongsTo(Student::class);
     }
 
-    /** Additional data = contact information associated to the student */
-    public function contacts()
-    {
-        return $this->hasMany(Contact::class, 'student_id', 'id');
-    }
-
     /** event = one instance of the course */
     public function event()
     {

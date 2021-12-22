@@ -6,6 +6,7 @@ use App\Mail\PendingAttendanceReminder;
 use App\Models\Attendance;
 use App\Models\Course;
 use App\Models\Enrollment;
+use App\Models\Event;
 use App\Models\Period;
 use App\Models\Student;
 use App\Models\Teacher;
@@ -203,5 +204,16 @@ class AttendanceTest extends TestCase
         $coursesWithPendingAttendanceCount = Period::get_default_period()->courses_with_pending_attendance;
 
         $this->assertEquals(0, $coursesWithPendingAttendanceCount);
+    }
+
+    public function testStudentNameCanBeAccessed()
+    {
+        $student = factory(Student::class)->create();
+        $attendance = new Attendance([
+            'student_id' => $student->id,
+            'event_id' => new Event(),
+            'attendance_type_id' => 3,
+        ]);
+        $this->assertEquals($student->name, $attendance->student_name);
     }
 }
