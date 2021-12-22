@@ -21,12 +21,12 @@ class Result extends Model
     {
         parent::boot();
 
-        // when a result is added, send a notification
-        static::saved(function (self $result) {
-            Mail::to($result->enrollment->student->user->email)
-            ->locale($result->enrollment->student->user->locale)
-            ->queue(new ResultNotification($result->enrollment->course, $result->enrollment->student->user));
-        });
+        if (config('app.send_emails_for_results')) {
+            // when a result is added, send a notification
+            static::saved(function (self $result) {
+                Mail::to($result->enrollment->student->user->email)->locale($result->enrollment->student->user->locale)->queue(new ResultNotification($result->enrollment->course, $result->enrollment->student->user));
+            });
+        }
     }
 
     public function comments()

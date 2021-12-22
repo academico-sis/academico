@@ -1,5 +1,8 @@
 <?php
 
+use App\Services\AFLojaCertificatesService;
+use App\Services\GenericCertificatesService;
+
 $enrollmentSheetSupported = match (env('ENROLLMENT_SHEET_STYLE')) {
     'afsantiago' => true,
     default => false,
@@ -129,6 +132,12 @@ return [
 
     'books_module' => env('BOOKS_MODULE_ENABLED', false),
     'course_view_columns' => explode(',', env('COLUMNS_IN_COURSE_VIEW', 'lastname,firstname,email')),
+
+    'send_emails_for_absences' => env('SEND_ABSENCE_NOTIFICATIONS', false),
+
+
+    'send_emails_for_results' => env('SEND_RESULTS_NOTIFICATIONS', false),
+
     /*
     |--------------------------------------------------------------------------
     | Faker Locale
