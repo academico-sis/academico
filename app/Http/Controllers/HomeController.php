@@ -78,7 +78,7 @@ class HomeController extends Controller
 
         return view('student.dashboard', [
             'student' => $student,
-            'enrollments' => $student->real_enrollments,
+            'enrollments' => $student->enrollments()->real(),
         ]);
     }
 

@@ -34,7 +34,7 @@ class Student extends Model implements HasMedia
 
     public $incrementing = false;
 
-    protected $with = ['user', 'phone', 'institution', 'profession', 'title'];
+    protected $with = ['user', 'phone', 'institution', 'profession'];
 
     protected $appends = ['email', 'name', 'firstname', 'lastname', 'student_age', 'student_birthdate', 'is_enrolled'];
 
@@ -148,14 +148,6 @@ class Student extends Model implements HasMedia
         return $this->belongsTo(LeadType::class);
     }
 
-    public function real_enrollments()
-    {
-        return $this->hasMany(Enrollment::class)
-            ->with('course')
-            ->whereIn('status_id', ['1', '2'])
-            ->whereDoesntHave('childrenEnrollments');
-    }
-
     public function institution()
     {
         return $this->belongsTo(Institution::class);
@@ -171,19 +163,10 @@ class Student extends Model implements HasMedia
         return $this->belongsToMany(Book::class)->withPivot('id', 'code', 'status_id', 'expiry_date');
     }
 
-    public function title()
-    {
-        return $this->belongsTo(Title::class);
-    }
-
     /** attributes */
     public function getFirstnameAttribute(): string
     {
-        if ($this->user) {
-            return Str::title($this->user->firstname);
-        }
-
-        return '';
+        return $this->user ? Str::title($this->user->firstname) : '';
     }
 
     public function getLastnameAttribute(): string
@@ -202,29 +185,17 @@ class Student extends Model implements HasMedia
 
     public function getNameAttribute(): string
     {
-        if ($this->user) {
-            return ($this->title ? ($this->title->title.' ') : '').$this->firstname.' '.$this->lastname;
-        }
-
-        return '';
+        return $this->user ? "{$this->firstname} {$this->lastname}" : '';
     }
 
     public function getStudentAgeAttribute()
     {
-        if ($this->birthdate) {
-            return Carbon::parse($this->birthdate)->age.' '.__('years old');
-        }
-
-        return '';
+        return $this->birthdate ? Carbon::parse($this->birthdate)->age . ' ' . __('years old') : '';
     }
 
     public function getStudentBirthdateAttribute()
     {
-        if ($this->birthdate) {
-            return Carbon::parse($this->birthdate)->locale(App::getLocale())->isoFormat('LL');
-        }
-
-        return '';
+        return $this->birthdate ? Carbon::parse($this->birthdate)->locale(App::getLocale())->isoFormat('LL') : '';
     }
 
     public function getIsEnrolledAttribute()
@@ -233,6 +204,8 @@ class Student extends Model implements HasMedia
         if ($this->enrollments()->whereHas('course', fn ($q) => $q->where('period_id', Period::get_default_period()->id))->count() > 0) {
             return 1;
         }
+
+        return false;
     }
 
     public function getLeadStatusNameAttribute()

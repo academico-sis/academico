@@ -50,6 +50,7 @@ class Enrollment extends Model
     {
         return $query
             ->whereDoesntHave('childrenEnrollments')
+            ->whereIn('status_id', ['1', '2'])
             ->get();
     }
 

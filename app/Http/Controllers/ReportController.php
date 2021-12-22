@@ -264,7 +264,7 @@ class ReportController extends Controller
 
             $total = 0;
             foreach ($coursegroup as $course) {
-                $total += $course->total_volume * $course->real_enrollments->count();
+                $total += $course->total_volume * $course->enrollments()->real()->count();
             }
 
             $data[$i]['sold_hours_count'] = $total;

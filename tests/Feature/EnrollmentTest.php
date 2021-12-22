@@ -129,7 +129,7 @@ class EnrollmentTest extends TestCase
 
     /** @test
      * if an enrollment is created in a parent course; enrollments are automatically created in children courses as well
-     * The "real_enrollments" method on the student class allows to return student enrollments excluding "meta" enrollments in parent courses
+     * The "real_enrollments" scpe allows to return student enrollments excluding "meta" enrollments in parent courses
      */
     public function access_student_real_enrollments()
     {
@@ -162,7 +162,7 @@ class EnrollmentTest extends TestCase
         $this->assertTrue($course_2_b->enrollments->contains('student_id', $student->id));
 
         // real enrolment returns the children enrollments in second course's children, but not the 'meta' enrollment in the parent course
-        $this->assertFalse($student->real_enrollments->contains('id', $enrollment_2));
+        $this->assertFalse($student->enrollments()->real()->contains('id', $enrollment_2));
     }
 
     /** @test */

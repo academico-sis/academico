@@ -46,7 +46,7 @@ class Teacher extends Model
 
     public function getEmailAttribute() : ?string
     {
-        return $this?->user?->email ?? '';
+        return $this?->user?->email;
     }
 
     public function getNameAttribute() : ?string
