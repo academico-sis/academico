@@ -31,7 +31,7 @@ export default {
     data() {
         return {
             lang: document.documentElement.lang.substr(0, 2),
-            status: this.student.lead_status,
+            status: this.student.lead_type_id,
             isLoading: false,
         };
     },

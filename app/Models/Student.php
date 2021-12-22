@@ -39,9 +39,19 @@ class Student extends Model implements HasMedia
 
     protected $with = ['user', 'phone', 'institution', 'profession', 'title'];
 
-    protected $appends = ['email', 'name', 'firstname', 'lastname', 'student_age', 'student_birthdate', 'lead_status', 'is_enrolled'];
+    protected $appends = ['email', 'name', 'firstname', 'lastname', 'student_age', 'student_birthdate', 'is_enrolled'];
 
     protected static bool $logUnguarded = true;
+
+
+    public function scopeEnrolled($query)
+    {
+        return $query->whereHas('enrollments', function ($q) {
+            return $q->whereHas('course', function ($q) {
+                return $q->where('period_id', Period::get_default_period()->id);
+            });
+        });
+    }
 
     public function scopeComputedLeadType($query, $leadTypeId)
     {
@@ -189,13 +199,9 @@ class Student extends Model implements HasMedia
         return '';
     }
 
-    public function getEmailAttribute(): string
+    public function getEmailAttribute(): ?string
     {
-        if ($this->user) {
-            return $this->user->email;
-        }
-
-        return '';
+        return $this?->user?->email;
     }
 
     public function getNameAttribute(): string
@@ -235,10 +241,10 @@ class Student extends Model implements HasMedia
 
     public function getLeadStatusNameAttribute()
     {
-        return LeadType::find($this->lead_status)->name;
+        return LeadType::find($this->lead_type_id)->name ?? null;
     }
 
-    public function getLeadStatusAttribute()
+    public function lead_status()
     {
         // if the student is currently enrolled, they are CONVERTED
         if ($this->is_enrolled) {
@@ -249,13 +255,14 @@ class Student extends Model implements HasMedia
         if ($this->leadType != null) {
             return $this->leadType->id;
         }
+
         // if the student was previously enrolled, they must be potential students
-        elseif ($this->has('enrollments')) {
+        if ($this->has('enrollments')) {
             return 4;
-        } else {
-            return;
         }
+
         // otherwise, their status cannot be determined and should be left blank
+        return null;
     }
 
     /** functions */

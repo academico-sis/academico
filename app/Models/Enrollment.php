@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Events\EnrollmentCreated;
 use App\Events\EnrollmentDeleted;
+use App\Events\EnrollmentDeleting;
 use App\Events\EnrollmentUpdated;
 use App\Events\EnrollmentUpdating;
 use App\Models\Skills\SkillEvaluation;
@@ -32,6 +33,7 @@ class Enrollment extends Model
 
     protected $dispatchesEvents = [
         'deleted' => EnrollmentDeleted::class,
+        'deleting' => EnrollmentDeleting::class,
         'created' => EnrollmentCreated::class,
         'updating' => EnrollmentUpdating::class,
         'updated' => EnrollmentUpdated::class,
