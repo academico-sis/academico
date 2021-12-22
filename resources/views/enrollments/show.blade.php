@@ -24,9 +24,8 @@
 
                     <a class="btn btn-sm btn-warning" href="{{ route('get-courses-list', ['mode' => 'update', 'enrollment_id' => $enrollment->id]) }}">@lang('Change course')</a>
 
-                    <button class="btn btn-sm btn-danger" onclick="if(confirm('Voulez-vous vraiment supprimer cette inscription ?')) cancel({{ $enrollment->id }})">
-                        @lang('Delete Enrollment')
-                    </button>
+                    @include('partials.delete-button', ['route' => "/enrollment/$enrollment->id", 'redirectRoute' => "/student/$enrollment->student_id/show"])
+
                 </div>
             </div>
 
@@ -185,15 +184,6 @@
 @section('before_scripts')
 
 <script>
-    function cancel(enrollment)
-        {
-            axios.delete(`/enrollment/${enrollment}`)
-                .then(response => {
-                    window.location.href="/enrollment"
-                })
-                .catch(error => console.log(error));
-        }
-
         function removeScholarship(enrollment, scholarship)
         {
             axios

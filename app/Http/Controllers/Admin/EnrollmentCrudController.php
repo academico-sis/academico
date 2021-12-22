@@ -12,6 +12,7 @@ use App\Models\PhoneNumber;
 use App\Models\ScheduledPayment;
 use App\Models\Scholarship;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
@@ -30,6 +31,7 @@ class EnrollmentCrudController extends CrudController
     use ListOperation;
     use ShowOperation { show as traitShow; }
     use UpdateOperation { update as traitUpdate; }
+    use DeleteOperation;
 
     protected string $mode = 'global';
 
