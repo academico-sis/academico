@@ -4,13 +4,13 @@ namespace App\Providers;
 
 use App\Events\CourseUpdated;
 use App\Events\EnrollmentCreated;
+use App\Events\EnrollmentDeleting;
 use App\Events\EnrollmentUpdated;
 use App\Events\EnrollmentUpdating;
 use App\Events\ExpiringPartnershipsEvent;
 use App\Events\ExternalCoursesReportEvent;
 use App\Events\LeadStatusUpdatedEvent;
 use App\Events\MonthlyReportEvent;
-use App\Events\StudentDeleted;
 use App\Events\StudentDeleting;
 use App\Events\UserDeleting;
 use App\Listeners\AddPastAttendance;
@@ -26,6 +26,7 @@ use App\Listeners\UpdateCourseEvents;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use App\Listeners\ComputeStudentLeadStatus;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -49,6 +50,7 @@ class EventServiceProvider extends ServiceProvider
 
         EnrollmentUpdated::class => [
             UpdateChildrenEnrollments::class,
+            ComputeStudentLeadStatus::class,
         ],
 
         StudentDeleting::class => [
@@ -59,8 +61,14 @@ class EventServiceProvider extends ServiceProvider
             DeleteUserData::class,
         ],
 
+        EnrollmentDeleting::class => [
+            ComputeStudentLeadStatus::class,
+        ],
+
         EnrollmentCreated::class => [
             AddPastAttendance::class,
+            ComputeStudentLeadStatus::class,
+
         ],
 
         ExternalCoursesReportEvent::class => [
