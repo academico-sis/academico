@@ -64,6 +64,7 @@ class InvoiceController extends Controller
             'client_phone' => $request->client_phone,
             'total_price' => $request->total_price,
             'invoice_type_id' => $request->invoicetype,
+            'receipt_number' => $request->receiptnumber,
             'date' => $request->has('date') ? Carbon::parse($request->date) : Carbon::now(),
         ]);
 
@@ -165,7 +166,6 @@ class InvoiceController extends Controller
         } else {
             $success = true;
         }
-
         if (isset($success)) {
             // if the value of payments matches the total due price,
             // mark the invoice and associated enrollments as paid.
@@ -177,8 +177,8 @@ class InvoiceController extends Controller
                 }
                 if (isset($request->comment)) {
                     Comment::create([
-                        'commentable_id' => $enrollment->id,
-                        'commentable_type' => Enrollment::class,
+                        'commentable_id' => $invoice->id,
+                        'commentable_type' => Invoice::class,
                         'body' => $request->comment,
                         'author_id' => backpack_user()->id,
                     ]);

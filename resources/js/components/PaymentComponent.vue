@@ -95,6 +95,7 @@ export default {
         "editable",
         "currency",
         "currencyposition",
+        "enrollmentId",
     ],
 
     data() {
@@ -148,6 +149,8 @@ export default {
                         text: this.$t("The payment has been saved"),
                         type: "success",
                     }).show();
+
+                    window.location.href=`/enrollment/${this.enrollmentId}/show`;
                 })
                 .catch(e => {
                     this.loading = false;

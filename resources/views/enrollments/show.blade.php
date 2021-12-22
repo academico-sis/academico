@@ -92,7 +92,7 @@
     <div class="col-md-6">
 
         <student-comments
-            :comments="{{ json_encode($enrollment->comments) }}"
+            :comments="{{ json_encode($comments) }}"
             :id="{{ json_encode($enrollment->id) }}"
             :type="'App\\Models\\Enrollment'"
             route="{{ route('storeComment') }}">
@@ -127,7 +127,13 @@
                     <tbody>
                         @forelse($enrollment->invoices as $invoice)
                             <tr>
-                                <td>{{ $invoice->formatted_date }}</td>
+                                <td>
+                                    @if (!$invoice->invoice_reference)
+                                        <a href="{{ route('invoice.show', ['id' => $invoice->id]) }}">{{ $invoice->formatted_date }}</a>
+                                    @else
+                                        {{ $invoice->formatted_date }}
+                                    @endif
+                                </td>
                                 <td><a href="{{ route('invoice.show', ['id' => $invoice->id]) }}">{{ $invoice->invoice_reference }}</a></td>
                                 <td>{{ $invoice->total_price_with_currency }}</td>
                             </tr>
@@ -146,6 +152,18 @@
                                 <td>Pas encore de facture pour cette inscription.</td>
                             </tr>
                         @endforelse
+
+                        <tr>
+                            <td><strong>{{ __('Balance') }}</strong></td>
+                            <td></td>
+                            <td>
+                                @if (config('app.currency_position') === 'before')
+                                    {{ config('app.currency_symbol') }} <strong>{{ $enrollment->balance }}</strong>
+                                @else
+                                    <strong>{{ $enrollment->balance }}</strong> {{ config('app.currency_symbol') }}
+                                @endif
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
 

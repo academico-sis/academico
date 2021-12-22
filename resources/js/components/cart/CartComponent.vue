@@ -178,6 +178,17 @@
                             ></textarea>
                         </div>
 
+
+                        <div v-if="this.manualInvoiceNumbering" class="form-group">
+                            <label for="receiptnumber" class="form-label">{{ $t("Receipt Number") }}</label>
+                            <input
+                                class="form-control"
+                                id="receiptnumber"
+                                v-model="receiptnumber"
+                                name="receiptnumber"
+                            ></input>
+                        </div>
+
                         <div class="form-group">
                             <button class="btn btn-lg btn-success" :disabled="!readyForInvoice" @click="checkTotal()">
                                 <span v-if="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
@@ -252,6 +263,8 @@ export default {
         "pricecategories",
         "studentpricecategory",
         "skipDataStep",
+        "invoicingMode",
+        "manualInvoiceNumbering",
     ],
 
     data() {
@@ -267,6 +280,7 @@ export default {
             payments: [],
             products: this.productslist,
             comment: "",
+            receiptnumber: "",
             sendInvoiceToAccounting: this.accountingenabled,
             accountingServiceIsUp: false,
             loading: false,
@@ -463,6 +477,7 @@ export default {
                     client_email: this.clientemail,
                     total_price: this.shoppingCartTotal(),
                     comment: this.comment,
+                    receiptnumber: this.receiptnumber,
                     sendinvoice: this.sendInvoiceToAccounting,
                     invoicetype: this.selectedInvoiceType,
                 })

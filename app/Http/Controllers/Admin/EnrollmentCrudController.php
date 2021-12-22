@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\EnrollmentStatusType;
+use App\Models\Invoice;
 use App\Models\Paymentmethod;
 use App\Models\Period;
 use App\Models\PhoneNumber;
@@ -274,7 +275,7 @@ class EnrollmentCrudController extends CrudController
             ->get();
 
         // get related comments
-        $comments = $enrollment->comments;
+        $comments = $enrollment->invoices->map(fn (Invoice $invoice) => $invoice->comments)->flatten()->concat($enrollment->comments);
 
         $scholarships = Scholarship::all();
 

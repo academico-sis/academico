@@ -36,4 +36,7 @@ return [
     'price_categories_enabled' => env('PRICE_GROUPS_ENABLED', false),
 
     'skip_invoice_data_step' => env('SKIP_INVOICE_DATA_STEP', false),
+
+    'add_books_to_invoices' => env('CHECKOUT_BOOKS_WITH_ENROLLMENTS', true),
+
 ];

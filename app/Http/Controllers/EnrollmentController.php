@@ -129,7 +129,7 @@ class EnrollmentController extends Controller
 
         array_push($products, $enrollment);
 
-        if ($enrollment->course->books->count() > 0) {
+        if ($enrollment->course->books->count() > 0 && config('invoicing.add_books_to_invoices')) {
             // Set quantity to 1
 
             foreach ($enrollment->course->books as $book) {
