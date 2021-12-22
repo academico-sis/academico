@@ -7,9 +7,6 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-/**
- * @mixin IdeHelperInvoice
- */
 class Invoice extends Model
 {
     use CrudTrait;

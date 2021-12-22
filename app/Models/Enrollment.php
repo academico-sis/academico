@@ -15,9 +15,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-/**
- * @mixin IdeHelperEnrollment
- */
 class Enrollment extends Model
 {
     use CrudTrait;

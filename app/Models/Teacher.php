@@ -9,9 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-/**
- * @mixin IdeHelperTeacher
- */
 class Teacher extends Model
 {
     use CrudTrait;

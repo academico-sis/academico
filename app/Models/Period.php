@@ -9,9 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-/**
- * @mixin IdeHelperPeriod
- */
 class Period extends Model
 {
     use CrudTrait;

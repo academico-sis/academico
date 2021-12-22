@@ -102,10 +102,12 @@
                                     </td>
 
                                     <td>
-                                        @if (config('app.currency_position') === 'before')
-                                            {{ config('app.currency_symbol') }} {{ number_format($year_takings / $year_taught_hours, 2) }}
-                                        @else
-                                            {{ number_format($year_takings / $year_taught_hours, 2) }} {{ config('app.currency_symbol') }}
+                                        @if ($year_taught_hours > 1)
+                                            @if (config('app.currency_position') === 'before')
+                                                {{ config('app.currency_symbol') }} {{ number_format($year_takings / $year_taught_hours, 2) }}
+                                            @else
+                                                {{ number_format($year_takings / $year_taught_hours, 2) }} {{ config('app.currency_symbol') }}
+                                            @endif
                                         @endif
                                     </td>
                                 </tr>
@@ -220,10 +222,12 @@
                                     </td>
 
                                     <td>
-                                        @if (config('app.currency_position') === 'before')
-                                            {{ config('app.currency_symbol') }} {{ number_format($year_takings / $year_taught_hours, 2) }}
-                                        @else
-                                            {{ number_format($year_takings / $year_taught_hours, 2) }} {{ config('app.currency_symbol') }}
+                                        @if ($year_taught_hours > 1)
+                                            @if (config('app.currency_position') === 'before')
+                                                {{ config('app.currency_symbol') }} {{ number_format($year_takings / $year_taught_hours, 2) }}
+                                            @else
+                                                {{ number_format($year_takings / $year_taught_hours, 2) }} {{ config('app.currency_symbol') }}
+                                            @endif
                                         @endif
 
                                     </td>

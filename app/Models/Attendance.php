@@ -6,9 +6,6 @@ use App\Jobs\WatchAttendance;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-/**
- * @mixin IdeHelperAttendance
- */
 class Attendance extends Model
 {
     use LogsActivity;

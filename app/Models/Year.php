@@ -6,9 +6,6 @@ use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-/**
- * @mixin IdeHelperYear
- */
 class Year extends Model
 {
     use CrudTrait;

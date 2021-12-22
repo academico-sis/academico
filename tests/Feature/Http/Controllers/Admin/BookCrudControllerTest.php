@@ -51,7 +51,8 @@ class BookCrudControllerTest extends TestCase
         \Auth::guard(backpack_guard_name())->login($this->user);
         $response = $this->post(route($this->entityname.'.store'), $entity->toArray());
 
-        $this->assertDatabaseHas($this->table, $entity->toArray());
+        $entity->price = $entity->price * 100;
+        $this->assertDatabaseHas($this->table, $entity->only(['name', 'price', 'product_code']));
     }
 
     /**
@@ -62,12 +63,14 @@ class BookCrudControllerTest extends TestCase
         $entity = factory($this->model)->create();
 
         $response = $this->delete(route($this->entityname.'.destroy', ['id' => $entity->id]));
-        $this->assertDatabaseHas($this->table, $entity->toArray());
+        $this->assertDatabaseHas($this->table, $entity->only(['name', 'product_code']));
 
         \Auth::guard(backpack_guard_name())->login($this->user);
 
         $response = $this->delete(route($this->entityname.'.destroy', ['id' => $entity->id]));
-        $this->assertDatabaseMissing($this->table, $entity->toArray());
+
+        $entity->price = $entity->price * 100;
+        $this->assertDatabaseMissing($this->table, $entity->only(['name', 'price', 'product_code']));
     }
 
     /**

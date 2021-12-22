@@ -10,8 +10,6 @@ use Spatie\Translatable\HasTranslations;
 /**
  * NOTE: In the current configuration, the campus with the ID of 1 represent the school itself
  * the campus model with the ID of 2 represents all external courses
- *
- * @mixin IdeHelperCampus
  */
 class Campus extends Model
 {

@@ -7,9 +7,6 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
 
-/**
- * @mixin IdeHelperPayment
- */
 class Payment extends Model
 {
     use CrudTrait;

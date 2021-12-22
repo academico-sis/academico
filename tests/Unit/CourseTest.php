@@ -181,7 +181,7 @@ class CourseTest extends TestCase
         ]);
         $courseTimeParsed = $course->course_times;
 
-        $this->assertSame('Mon 10:00 - 11:00', $courseTimeParsed);
+        $this->assertSame('Mon 10:00 AM - 11:00 AM', $courseTimeParsed);
     }
 
     /** @test */
@@ -204,7 +204,7 @@ class CourseTest extends TestCase
 
         $courseTimeParsed = $course->course_times;
 
-        $this->assertSame('Mon 10:00 - 11:00 / 11:30 - 12:45', $courseTimeParsed);
+        $this->assertSame('Mon 10:00 AM - 11:00 AM / 11:30 AM - 12:45 PM', $courseTimeParsed);
     }
 
     /** @test */
@@ -227,7 +227,7 @@ class CourseTest extends TestCase
 
         $courseTimeParsed = $course->course_times;
 
-        $this->assertSame('Mon 10:00 - 11:00 | Tue 11:30 - 12:45', $courseTimeParsed);
+        $this->assertSame('Mon 10:00 AM - 11:00 AM | Tue 11:30 AM - 12:45 PM', $courseTimeParsed);
     }
 
     /** @test */
@@ -253,7 +253,7 @@ class CourseTest extends TestCase
 
         $courseTimeParsed = $parentCourse->course_times;
 
-        $this->assertSame('Mon 10:00 - 11:00 | Tue 11:30 - 12:45', $courseTimeParsed);
+        $this->assertSame('Mon 10:00 AM - 11:00 AM | Tue 11:30 AM - 12:45 PM', $courseTimeParsed);
     }
 
     /** @test */

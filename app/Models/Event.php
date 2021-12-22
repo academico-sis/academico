@@ -8,9 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 use Prologue\Alerts\Facades\Alert;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-/**
- * @mixin IdeHelperEvent
- */
 class Event extends Model
 {
     use CrudTrait;

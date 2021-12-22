@@ -7,9 +7,6 @@ use App\Models\Level;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * @mixin IdeHelperSkill
- */
 class Skill extends Model
 {
     use CrudTrait;

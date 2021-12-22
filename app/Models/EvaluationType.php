@@ -7,9 +7,6 @@ use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
 
-/**
- * @mixin IdeHelperEvaluationType
- */
 class EvaluationType extends Model
 {
     use CrudTrait;

@@ -17,9 +17,6 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-/**
- * @mixin IdeHelperStudent
- */
 class Student extends Model implements HasMedia
 {
     use CrudTrait;

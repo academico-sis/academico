@@ -166,66 +166,6 @@ class EnrollmentTest extends TestCase
     }
 
     /** @test */
-    public function an_enrollment_may_be_deleted_by_authorized_users_only()
-    {
-        $admin = factory(User::class)->create();
-
-        $admin->assignRole('admin');
-        backpack_auth()->login($admin, true);
-
-        // Newly created student
-        $student = factory(Student::class)->create();
-
-        // Newly created course
-        $course = factory(Course::class)->create();
-
-        // Enroll the student in the course
-        $this->json('POST', '/student/enroll', [
-            'student_id' => $student->id,
-            'course_id' => $course->id,
-        ]);
-
-        // Retrieving the newly created Enrollment from the database
-        $findEnrollment = Enrollment::where([
-            ['student_id', $student->id],
-            ['course_id', $course->id],
-        ])->first();
-
-        // Hit the EnrollmentCrudController delete path
-
-        $response = $this->delete('enrollment/'.$findEnrollment->id);
-
-        // Asserting that the request went through
-        $response->assertStatus(200);
-
-        // Refreshing the Enrollment model to retrieve new changes
-        $findEnrollment->refresh();
-
-        // Using Laravels ORM trashed method to insure that the Enrollment has been soft deleted.
-        $this->assertTrue($findEnrollment->trashed());
-    }
-
-    // /** @test */
-    // public function an_enrollment_may_be_changed_by_authorized_users()
-    // {
-    //     // given 2 courses
-    //     $courseA = factory(Course::class)->create();
-    //     $courseB = factory(Course::class)->create();
-
-    //     // given an enrollment in course A
-    //     $enrollment = factory(Enrollment::class)->create([
-    //         'course_id' => $courseA->id,
-    //         'student_id' => factory(Student::class)->create(),
-    //     ]);
-
-    //     // if we change the enrollment
-    //     $enrollment->changeCourse($courseB);
-
-    //     // it now belongs to courseB
-    //     $this->assertEquals($courseB->id, $enrollment->course_id);
-    // }
-
-    /** @test */
     public function an_enrollment_may_be_changed_by_authorized_users()
     {
         $admin = factory(User::class)->create();

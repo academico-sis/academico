@@ -8,9 +8,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
 
-/**
- * @mixin IdeHelperScheduledPayment
- */
 class ScheduledPayment extends Model
 {
     use CrudTrait;
