@@ -70,14 +70,16 @@
             <li class='nav-item'><a class='nav-link' href="{{ route('rhythmReport') }}"><i class="nav-icon la la-pie-chart"></i><span>@lang('Per rhythm')</span></a></li>
             <li class='nav-item'><a class='nav-link' href="{{ route('levelReport') }}"><i class="nav-icon la la-pie-chart"></i><span>@lang('Per level')</span></a></li>
             <li class='nav-item'><a class='nav-link' href="{{ route('courseReport') }}"><i class="nav-icon la la-graduation-cap"></i><span>@lang('Per course')</span></a></li>
-        </ul>
+        </ul></li>
 
+        @if (config('settings.external_courses_enabled'))
         <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-link"></i> @lang('External Courses')</a>
         <ul class="nav-dropdown-items">
             <li class='nav-item'><a class='nav-link' href="{{ route('externalReport') }}"><i class="nav-icon la la-bus"></i> <span>@lang('Per period')</span></a></li>
             <li class='nav-item'><a class='nav-link' href="{{ route('externalReport2') }}"><i class="nav-icon la la-bus"></i> <span>@lang('Per date')</span></a></li>
             <li class='nav-item'><a class='nav-link' href="{{ route('externalReport3') }}"><i class="nav-icon la la-bus"></i> <span>@lang('Per institution')</span></a></li>
-        </ul>
+        </ul></li>
+        @endif
 
 @endif
 
