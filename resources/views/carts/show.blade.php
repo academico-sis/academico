@@ -30,7 +30,7 @@
         currency="{{ config('app.currency_symbol') }}"
         currencyposition="{{ config('app.currency_position') }}"
         :pricecategories="{{ json_encode($priceCategories ?? []) }}"
-        :studentpricecategory="{{ json_encode($studentPriceCategory ?? 'priceA') }}"
+        :studentpricecategory="{{ json_encode($studentPriceCategory ?? 'price_a') }}"
         invoicing-mode="{{ config('invoicing.price_categories_enabled') ? 'priceCategories' : 'regular' }}"
         skip-data-step="{{ config('invoicing.skip_invoice_data_step') }}"
         manual-invoice-numbering="{{ config('invoicing.invoice_numbering') === 'manual' }}"

@@ -88,9 +88,9 @@ class ScheduledPaymentController extends Controller
             $data = array_merge($data,
                 [
                     'priceCategories' => collect([
-                        'priceA' => $enrollment->course->price,
-                        'priceB' => $enrollment->course->price_b,
-                        'priceC' => $enrollment->course->price_c,
+                        'price_a' => $enrollment->course->price,
+                        'price_b' => $enrollment->course->price_b,
+                        'price_c' => $enrollment->course->price_c,
                     ]),
                     'studentPriceCategory' => $enrollment->student?->price_category,
                 ]
