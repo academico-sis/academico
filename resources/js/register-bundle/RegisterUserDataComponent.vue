@@ -15,6 +15,15 @@
                 </ValidationProvider>
             </b-field>
 
+            <b-field :label="$t('Gender')">
+                <ValidationProvider v-slot="{ errors }" name="gender" rules="required">
+                    <b-radio v-model="formdata.gender" native-value="0"> {{ $t('Other / Rather not say') }}</b-radio>
+                    <b-radio v-model="formdata.gender" native-value="1"> {{ $t('Female') }}</b-radio>
+                    <b-radio v-model="formdata.gender" native-value="2"> {{ $t('Male') }}</b-radio>
+                    <p class="help is-danger">{{ errors[0] }}</p>
+                </ValidationProvider>
+            </b-field>
+
             <b-field :label="$t('email')">
                 <ValidationProvider v-slot="{ errors }" name="email" rules="required|email">
                     <b-input v-model="formdata.email" type="email" :placeholder="$t('email')" required></b-input>

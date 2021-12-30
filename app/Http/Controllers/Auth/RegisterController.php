@@ -56,6 +56,7 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
             'firstname'                            => 'required|max:255',
             'lastname'                             => 'required|max:255',
             'username'                             => 'required|max:255|unique:'.$users_table,
+            'gender'                               => 'numeric|in:0,1,2',
             'email'                                => 'required|email',
             'password'                             => 'required|min:6',
             'rules'                                => 'required',
@@ -102,6 +103,7 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
         $student = Student::create([
             'id' => $user->id,
             'idnumber'                             => $data['idnumber'],
+            'gender_id'                             => $data['gender'],
             'birthdate'                            => Carbon::parse($data['birthdate'])->toDateTimeString(),
             'address'                              => $data['address'],
         ]);

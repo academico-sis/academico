@@ -15,12 +15,14 @@ export const store = {
         profession: null,
         institution: null,
         userPicture: null,
+        gender: null,
         contacts: []
     },
 
     updateUserData(data) {
         this.state.firstname = data.firstname
         this.state.lastname = data.lastname
+        this.state.gender = data.gender
         this.state.email = data.email
         this.state.password = data.password
         this.state.idnumber_type = data.idnumber_type

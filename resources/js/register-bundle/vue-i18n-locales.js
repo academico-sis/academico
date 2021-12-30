@@ -47,7 +47,11 @@ export default {
         "The user could not be created. Please get in touch with an administrator.": "The user could not be created. Please get in touch with an administrator.",
         "The account was created successfully": "The account was created successfully",
         "Click to pick a date": "Click to pick a date",
-        "Skip without adding a picture": "Skip without adding a picture"
+        "Skip without adding a picture": "Skip without adding a picture",
+        "Other / Rather not say": "Other / Rather not say",
+        "Gender": "Gender",
+        "Female": "Female",
+        "Male": "Male"
 },
     "es": {
         "step1": "Datos del estudiante",
@@ -97,7 +101,11 @@ export default {
         "The user could not be created. Please get in touch with an administrator." : "Error al crear la cuenta.",
         "The account was created successfully": "La cuenta fue creada con exito.",
         "Click to pick a date": "Haz click para seleccionar una fecha",
-        "Skip without adding a picture": "Continuar sin foto"
+        "Skip without adding a picture": "Continuar sin foto",
+        "Other / Rather not say": "Otro / Prefiero no decirlo",
+        "Gender": "Género",
+        "Female": "Femenino",
+        "Male": "Masculino"
     },
     "fr": {
         "step1": "Informations de l'étudiant",
@@ -147,6 +155,10 @@ export default {
         "The user could not be created. Please get in touch with an administrator.": "Le compte n'a pas pu être créé. Veuillez contacter un administrateur.",
         "The account was created successfully": "Le compte a été créé avec succès",
         "Click to pick a date": "Cliquez pour choisir une date",
-        "Skip without adding a picture": "Passer cette étape sans ajouter de photo"
+        "Skip without adding a picture": "Passer cette étape sans ajouter de photo",
+        "Other / Rather not say": "Autre / Non spécifié",
+        "Gender": "Genre",
+        "Female": "Féminin",
+        "Male": "Masculin"
     }
 }

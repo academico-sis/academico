@@ -113,9 +113,9 @@ export default {
         },
         showAddInstitution() {
             this.$buefy.dialog.prompt({
-                message: `Fruit`,
+                message: `Institution`,
                 inputAttrs: {
-                    placeholder: 'e.g. Watermelon',
+                    placeholder: 'e.g. Université Lyon 3',
                     maxlength: 20,
                     value: this.name
                 },

@@ -285,6 +285,19 @@ class StudentCrudController extends CrudController
         CRUD::field('idnumber')->label(__('ID number'))->tab(__('Student Info'));
         CRUD::field('birthdate')->label(__('Birthdate'))->tab(__('Student Info'));
 
+        $this->crud->addField([
+            'name'        => 'gender_id', // the name of the db column
+            'label'       => __('Gender'),
+            'type'        => 'radio',
+            'options'     => [
+                0 => __("Other / Rather not say"),
+                1 => __("Female"),
+                2 => __("Male"),
+            ],
+            'inline'      => true,
+            'tab' => __('Student Info'),
+        ]);
+
         CRUD::addField([
             'type' => 'relationship',
             'name' => 'profession', // the method on your model that defines the relationship
