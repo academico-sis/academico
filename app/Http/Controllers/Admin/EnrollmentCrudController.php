@@ -50,7 +50,7 @@ class EnrollmentCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix').'/enrollment');
         CRUD::setEntityNameStrings(__('enrollment'), __('enrollments'));
 
-        if ($this->crud->getRequest()->has('course_id')) {
+        if ($this->crud->getRequest()->method() === 'GET' && $this->crud->getRequest()->has('course_id')) {
             $this->mode = 'course';
             $this->course = Course::findOrFail($this->crud->getRequest()->course_id);
 
@@ -340,8 +340,10 @@ class EnrollmentCrudController extends CrudController
     public function update()
     {
         $enrollment = $this->crud->getCurrentEntry();
-        $newScheduledPayments = collect(json_decode($this->crud->getRequest()->input('scheduledPayments'), null, 512, JSON_THROW_ON_ERROR));
-        $enrollment->saveScheduledPayments($newScheduledPayments);
+        if ($this->crud->getRequest()->has('scheduledPayments')) {
+            $newScheduledPayments = collect(json_decode($this->crud->getRequest()->input('scheduledPayments'), null, 512, JSON_THROW_ON_ERROR));
+            $enrollment->saveScheduledPayments($newScheduledPayments);
+        }
         $response = $this->traitUpdate();
 
         return $response;
