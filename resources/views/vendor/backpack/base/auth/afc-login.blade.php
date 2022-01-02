@@ -14,7 +14,7 @@
             <div class="flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 mt-8 mb-8 rounded overflow-hidden shadow-lg">
                 <div class="pt-6 max-w-md w-full">
                     <div>
-                        <img class="mx-auto h-12 w-auto" src="{{ public_path('afcuenca/af.png') }}" alt="Plataforma AFC" />
+                        <img class="mx-auto h-12 w-auto" src="{{ asset('afcuenca/af.png') }}" alt="Plataforma AFC" />
                         <h2 class="mt-6 text-center text-3xl leading-9 font-extrabold text-gray-900">
                             Estudiantes de la Alianza&nbsp;Francesa
                         </h2>
@@ -83,7 +83,7 @@
             <div class="flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 mt-8 mb-8 rounded overflow-hidden shadow-lg">
                 <div class="max-w-md w-full">
                     <div>
-                        <img class="mx-auto h-12 w-auto" src="{{ public_path('afcuenca/sphere.png') }}" alt="Plataforma SPHERE" />
+                        <img class="mx-auto h-12 w-auto" src="{{ asset('afcuenca/sphere.png') }}" alt="Plataforma SPHERE" />
                         <h2 class="mt-6 text-center text-3xl leading-9 font-extrabold text-gray-900">
                             Estudiantes externos
                         </h2>
