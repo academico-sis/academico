@@ -116,7 +116,7 @@ class HomeController extends Controller
         return view('admin.dashboard', [
             'pending_enrollment_count' => $currentPeriod->pending_enrollments_count,
             'paid_enrollment_count' => $currentPeriod->paid_enrollments_count,
-            'students_count' => $currentPeriod->students_count,
+            'students_count' => $currentPeriod->studentCount(),
             'currentPeriod' => $currentPeriod,
             'enrollmentsPeriod' => $enrollmentsPeriod,
             'total_enrollment_count' => $currentPeriod->internal_enrollments_count,

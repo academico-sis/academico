@@ -476,5 +476,11 @@
     "Other / Rather not say": "Other / Rather not say",
     "Gender": "Gender",
     "Female": "Female",
-    "Male": "Male"
+    "Male": "Male",
+    "Female students": "Female students",
+    "Male students": "Male students",
+    "Students of unknown gender": "Students of unknown gender",
+    "Insufficient data": "Insufficient data",
+    "% of students in period": "% of students in period",
+    "Per gender": "Per gender"
 }

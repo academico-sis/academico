@@ -27,7 +27,7 @@ class ReportController extends Controller
             'pending_enrollment_count' => $currentPeriod->pending_enrollments_count,
             'paid_enrollment_count' => $currentPeriod->paid_enrollments_count,
             'total_enrollment_count' => $currentPeriod->internal_enrollments_count,
-            'students_count' => $currentPeriod->students_count,
+            'students_count' => $currentPeriod->studentCount(),
         ]);
     }
 
@@ -111,8 +111,6 @@ class ReportController extends Controller
             $years[$data_period->year_id]['partnerships'] = $year->partnerships;
         }
 
-        Log::info('Reports viewed by '.backpack_user()->firstname);
-
         return view('reports.external', [
             'selected_period' => $startperiod,
             'data' => $data,
@@ -165,11 +163,7 @@ class ReportController extends Controller
     {
         $period = Period::get_default_period();
 
-        if (! isset($request->period)) {
-            $startperiod = Period::find(Config::where('name', 'first_period')->first()->value);
-        } else {
-            $startperiod = Period::find($request->period);
-        }
+        $startperiod = $this->getStartperiod($request);
 
         $periods = Period::orderBy('year_id')->orderBy('order')->orderBy('id')->where('id', '>=', $startperiod->id)->get();
 
@@ -181,7 +175,7 @@ class ReportController extends Controller
             $data[$data_period->id]['year_id'] = $data_period->year_id;
 
             $data[$data_period->id]['enrollments'] = $data_period->internal_enrollments_count;
-            $data[$data_period->id]['students'] = $data_period->students_count;
+            $data[$data_period->id]['students'] = $data_period->studentCount();
             $data[$data_period->id]['acquisition_rate'] = $data_period->acquisition_rate;
             $data[$data_period->id]['new_students'] = $data_period->newStudents()->count();
             $data[$data_period->id]['taught_hours'] = $data_period->period_taught_hours_count;
@@ -191,16 +185,51 @@ class ReportController extends Controller
             $years[$data_period->year_id] = Year::find($data_period->year_id); // New array using the Model
         }
 
-        Log::info('Reports viewed by '.backpack_user()->firstname);
-
         return view('reports.internal', [
             'pending_enrollment_count' => $period->pending_enrollments_count,
             'paid_enrollment_count' => $period->paid_enrollments_count,
             'total_enrollment_count' => $period->internal_enrollments_count,
-            'students_count' => $period->students_count,
+            'students_count' => $period->studentCount(),
             'data' => $data,
             'selected_period' => $startperiod,
             'years' => $years, // New array
+        ]);
+    }
+
+    public function genderReport(Request $request)
+    {
+        $startperiod = $this->getStartperiod($request);
+        $data = Period::orderBy('year_id')->orderBy('order')->orderBy('id')
+            ->where('id', '>=', $startperiod->id)
+            ->get()
+            ->groupBy('year_id')
+            ->map(function($yearData) {
+                $yearPeriods = [];
+
+                foreach ($yearData as $period) {
+                    $studentCountInPeriod = $period->studentCount();
+
+                    $yearPeriods[$period->id]['period'] = $period->name;
+                    $yearPeriods[$period->id]['male'] = $studentCountInPeriod > 0 ? 100 * $period->studentCount(2) / $studentCountInPeriod : 0;
+                    $yearPeriods[$period->id]['female'] = $studentCountInPeriod > 0 ? 100 * $period->studentCount(1) / $studentCountInPeriod : 0;
+                    $yearPeriods[$period->id]['unknown'] = $studentCountInPeriod > 0 ? 100 * $period->studentCount(0) / $studentCountInPeriod : 0;
+                }
+
+                $year = $yearData[0]->year;
+                $studentCountInYear = $year->studentCount();
+
+                return [
+                    'year' => $year->name,
+                    'male' => $studentCountInYear > 0 ? 100 * $year->studentCount(2) / $studentCountInYear : 0,
+                    'female' => $studentCountInYear > 0 ? 100 * $year->studentCount(1) / $studentCountInYear : 0,
+                    'unknown' => $studentCountInYear > 0 ? 100 * $year->studentCount(0) / $studentCountInYear : 0,
+                    'periods' => $yearPeriods,
+                ];
+            });
+
+        return view('reports.gender', [
+            'data' => $data,
+            'selected_period' => $startperiod,
         ]);
     }
 
@@ -274,5 +303,15 @@ class ReportController extends Controller
             'selected_period' => $period,
             'data' => $data,
         ]);
+    }
+
+    private function getStartperiod(Request $request)
+    {
+        if (!isset($request->period)) {
+            $startperiod = Period::find(Config::where('name', 'first_period')->first()->value);
+        } else {
+            $startperiod = Period::find($request->period);
+        }
+        return $startperiod;
     }
 }

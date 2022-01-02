@@ -74,7 +74,7 @@
                                     </td>
 
                                     <td>
-                                        {{ $years[$current_year_id]->year_distinct_students_count ?? '-' }}
+                                        {{ $years[$current_year_id]->studentCount() ?? '-' }}
                                     </td>
 
                                     <td>
@@ -193,7 +193,7 @@
                                     </td>
 
                                     <td>
-                                        {{ $years[$current_year_id]->year_distinct_students_count ?? '-' }}
+                                        {{ $years[$current_year_id]->studentCount() ?? '-' }}
                                     </td>
 
                                     <td>

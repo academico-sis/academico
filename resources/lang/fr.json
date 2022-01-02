@@ -472,5 +472,11 @@
     "Other / Rather not say": "Autre / Non spécifié",
     "Gender": "Genre",
     "Female": "Féminin",
-    "Male": "Masculin"
+    "Male": "Masculin",
+    "Female students": "Sexe féminin",
+    "Male students": "Sexe masculin",
+    "Students of unknown gender": "Inconnu",
+    "Insufficient data": "Données insuffisantes",
+    "% of students in period": "% des étudiants sur la période",
+    "Per gender": "Par genre"
 }

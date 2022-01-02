@@ -148,7 +148,7 @@ class PeriodReportsDataTest extends TestCase
         }
 
         // they are only counted once in the total
-        $this->assertEquals(($studentsEnrolledOnce + $studentsEnrolledTwice), $period->students_count);
+        $this->assertEquals(($studentsEnrolledOnce + $studentsEnrolledTwice), $period->studentCount());
     }
 
     /** getAcquisitionRateAttribute

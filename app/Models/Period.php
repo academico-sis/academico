@@ -132,8 +132,36 @@ class Period extends Model
             ->count();
     }
 
-    public function getStudentsCountAttribute()
+    public function studentCount($gender = null)
     {
+        if (in_array($gender, [1,2])) {
+            return DB::table('enrollments')
+                ->join('courses', 'enrollments.course_id', 'courses.id')
+                ->join('students', 'enrollments.student_id', 'students.id')
+                ->where('courses.period_id', $this->id)
+                ->where('enrollments.deleted_at', null)
+                ->where('enrollments.parent_id', null)
+                ->where('students.gender_id', $gender)
+                ->whereIn('enrollments.status_id', ['1', '2']) // filter out cancelled enrollments, todo make this configurable.
+                ->distinct('student_id')
+                ->count('enrollments.student_id');
+        }
+
+        if ($gender === 0) {
+            return DB::table('enrollments')
+                ->join('courses', 'enrollments.course_id', 'courses.id')
+                ->join('students', 'enrollments.student_id', 'students.id')
+                ->where('courses.period_id', $this->id)
+                ->where('enrollments.deleted_at', null)
+                ->where('enrollments.parent_id', null)
+                ->where(function($query) {
+                    return $query->where('students.gender_id', 0)->orWhereNull('students.gender_id');
+                })
+                ->whereIn('enrollments.status_id', ['1', '2']) // filter out cancelled enrollments, todo make this configurable.
+                ->distinct('student_id')
+                ->count('enrollments.student_id');
+        }
+
         return DB::table('enrollments')
             ->join('courses', 'enrollments.course_id', 'courses.id')
             ->where('courses.period_id', $this->id)

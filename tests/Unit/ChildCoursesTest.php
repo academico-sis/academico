@@ -59,6 +59,6 @@ class ChildCoursesTest extends TestCase
 
         $student->enroll($parentCourse);
 
-        $this->assertEquals(1, $period->students_count);
+        $this->assertEquals(1, $period->studentCount());
     }
 }
