@@ -26,13 +26,13 @@ class TeacherCalendarController extends Controller
             ->where('start', '>', Carbon::now()->subDays(30))->where('end', '<', Carbon::now()->addDays(30))->orderBy('id', 'desc') // TODO optimize this.
             ->get()
             ->map(fn ($event) => [
-                'title' => $event['name'] ?? '',
-                'resourceId' => $event['teacher_id'],
-                'start' => $event['start'],
-                'end' => $event['end'],
-                'groupId' => $event['course_id'],
-                'backgroundColor' => $event['color'],
-                'borderColor' => $event['color'],
+                'title' => $event->name ?? '',
+                'resourceId' => $event->teacher_id,
+                'start' => $event->start,
+                'end' => $event->end,
+                'groupId' => $event->course_id,
+                'backgroundColor' => $event->color,
+                'borderColor' => $event->color,
             ]);
 
         $teachers = Teacher::all()->toArray();
@@ -45,13 +45,13 @@ class TeacherCalendarController extends Controller
         array_push($teachers, ['id' => 'tbd', 'title' => 'Unassigned']);
 
         $unassigned_events = Event::unassigned()->get()->map(fn ($event) => [
-            'title' => $event['name'] ?? '',
+            'title' => $event->name ?? '',
             'resourceId' => 'tbd',
-            'start' => $event['start'],
-            'end' => $event['end'],
-            'groupId' => $event['course_id'],
-            'backgroundColor' => $event['color'],
-            'borderColor' => $event['color'],
+            'start' => $event->start,
+            'end' => $event->end,
+            'groupId' => $event->course_id,
+            'backgroundColor' => $event->color,
+            'borderColor' => $event->color,
         ]);
 
         $leaves = Leave::orderBy('date', 'desc')->limit(10000)->get()->map(fn ($event) => [

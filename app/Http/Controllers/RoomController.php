@@ -20,7 +20,20 @@ class RoomController extends Controller
     public function index()
     {
         // Do not fetch all events but only those closest to current date. TODO optimize this.
-        $events = Event::with('course')->where('start', '>', Carbon::now()->subDays(90))->where('end', '<', Carbon::now()->addDays(90))->orderBy('id', 'desc')->get()->toArray();
+        $events = Event::with('course')
+            ->where('start', '>', Carbon::now()->subDays(30))
+            ->where('end', '<', Carbon::now()->addDays(90))
+            ->orderBy('id', 'desc')
+            ->get()
+            ->map(fn ($event) => [
+                'title' => $event->name,
+                'resourceId' => $event->room_id,
+                'start' => $event->start,
+                'end' => $event->end,
+                'groupId' => $event->course_id,
+                'backgroundColor' => $event->color,
+                'borderColor' => $event->color,
+            ]);
 
         $rooms = Room::all()->toArray();
 
@@ -31,27 +44,18 @@ class RoomController extends Controller
 
         array_push($rooms, ['id' => 'tbd', 'title' => 'Unassigned']);
 
-        $events = array_map(fn ($event) => [
-            'title' => $event['name'],
-            'resourceId' => $event['room_id'],
-            'start' => $event['start'],
-            'end' => $event['end'],
-            'groupId' => $event['course_id'],
-            'backgroundColor' => $event['color'],
-            'borderColor' => $event['color'],
-        ], $events);
-
-        $unassigned_events = Event::where('room_id', null)->get()->toArray();
-
-        $unassigned_events = array_map(fn ($event) => [
-            'title' => $event['name'],
-            'resourceId' => 'tbd',
-            'start' => $event['start'],
-            'end' => $event['end'],
-            'groupId' => $event['course_id'],
-            'backgroundColor' => $event['color'],
-            'borderColor' => $event['color'],
-        ], $unassigned_events);
+        $unassigned_events = Event::with('course')
+            ->whereNull('room_id')
+            ->get()
+            ->map(fn ($event) => [
+                'title' => $event->name,
+                'resourceId' => 'tbd',
+                'start' => $event->start,
+                'end' => $event->end,
+                'groupId' => $event->course_id,
+                'backgroundColor' => $event->color,
+                'borderColor' => $event->color,
+            ]);
 
         return view('calendars.overview', [
             'events' => $events,
