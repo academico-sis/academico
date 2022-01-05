@@ -49,15 +49,24 @@ class EnrollmentCrudController extends CrudController
         CRUD::setModel(Enrollment::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/enrollment');
         CRUD::setEntityNameStrings(__('enrollment'), __('enrollments'));
+    }
 
-        if ($this->crud->getRequest()->method() === 'GET' && $this->crud->getRequest()->has('course_id')) {
+    /*
+    |--------------------------------------------------------------------------
+    | CrudPanel Configuration
+    |--------------------------------------------------------------------------
+    */
+
+    public function setupListOperation()
+    {
+
+        if ($this->crud->getRequest()->has('course_id')) {
             $this->mode = 'course';
             $this->course = Course::findOrFail($this->crud->getRequest()->course_id);
 
             if (Gate::forUser(backpack_user())->denies('view-course', $this->course)) {
                 abort(403);
             }
-
             CRUD::addClause('course', $this->course->id);
         }
 
@@ -85,16 +94,7 @@ class EnrollmentCrudController extends CrudController
             CRUD::addButtonFromView('top', 'enroll-student-in-course', 'enroll-student-in-course', 'end');
             CRUD::addButtonFromView('top', 'switch-to-photo-roster', 'switch-to-photo-roster', 'end');
         }
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | CrudPanel Configuration
-    |--------------------------------------------------------------------------
-    */
-
-    public function setupListOperation()
-    {
+        
         if (config('app.currency_position') === 'before') {
             $currency = ['prefix' => config('app.currency_symbol')];
         } else {
