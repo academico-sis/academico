@@ -293,4 +293,25 @@ class Student extends Model implements HasMedia
     {
         $this->user->update(['email' => $value]);
     }
+
+    public function getImageAttribute(): ?string
+    {
+        return $this->getMedia('profile-picture')->last()?->getUrl('thumb');
+    }
+
+    public function setImageAttribute($value)
+    {
+        // if the image was erased
+        if ($value==null) {
+            $this->clearMediaCollection('profile-picture');
+        }
+
+        // if a base64 was sent, store it in the db
+        if (Str::startsWith($value, 'data:image'))
+        {
+            $this->addMediaFromBase64($value)
+                ->usingFileName('profilePicture.jpg')
+                ->toMediaCollection('profile-picture');
+        }
+    }
 }

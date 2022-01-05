@@ -298,6 +298,14 @@ class StudentCrudController extends CrudController
             'tab' => __('Student Info'),
         ]);
 
+        $this->crud->addField([
+            'label' => __("Profile Picture"),
+            'name' => "image",
+            'type' => 'image',
+            'crop' => true, // set to true to allow cropping, false to disable
+            'tab' => __('Student Info'),
+        ]);
+
         CRUD::addField([
             'type' => 'relationship',
             'name' => 'profession', // the method on your model that defines the relationship
