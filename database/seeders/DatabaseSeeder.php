@@ -10,6 +10,7 @@ use App\Models\EvaluationType;
 use App\Models\LeadType;
 use App\Models\LeaveType;
 use App\Models\Paymentmethod;
+use App\Models\Period;
 use App\Models\ResultType;
 use App\Models\Skills\SkillScale;
 use App\Models\User;
@@ -302,5 +303,12 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $admin->assignRole('admin');
+
+        factory(Period::class)->create([
+            'start' => now()->subDays(rand(1, 30))->format('Y-m-d'),
+            'end' => now()->addDays(rand(10, 90))->format('Y-m-d'),
+            'year_id' => 1,
+            'order' => 1,
+        ]);
     }
 }
