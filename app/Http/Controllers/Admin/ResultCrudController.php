@@ -48,10 +48,10 @@ class ResultCrudController extends CrudController
             ],
             [
                 // STUDENT NAME
-                'label' => __('Student'), // Table column heading
+                'label' => __('Student'),
                 'type' => 'select',
-                'name' => 'student', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
+                'name' => 'student',
+                'attribute' => 'name',
                 'searchLogic' => function ($query, $column, $searchTerm) {
                     $query->orWhereHas('student', function ($q) use ($searchTerm) {
                         $q->WhereHas('user', function ($q) use ($searchTerm) {
@@ -65,11 +65,11 @@ class ResultCrudController extends CrudController
             ],
             [
                 // COURSE NAME
-                'label' => __('Course'), // Table column heading
+                'label' => __('Course'),
                 'type' => 'relationship',
-                'name' => 'course', // the column that contains the ID of that connected entity;
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => Course::class, // foreign key model
+                'name' => 'course',
+                'attribute' => 'name',
+                'model' => Course::class,
             ],
             [
                 'name' => 'course.period',
@@ -79,11 +79,11 @@ class ResultCrudController extends CrudController
             ],
             [
                 // RESULT
-                'label' => __('Result'), // Table column heading
+                'label' => __('Result'),
                 'type' => 'relationship',
-                'name' => 'result', // the method that defines the relationship in your Model
-                'attribute' => 'result_type', // foreign key attribute that is shown to user
-                'model' => Result::class, // foreign key model
+                'name' => 'result',
+                'attribute' => 'result_type',
+                'model' => Result::class,
             ],
         ]);
 

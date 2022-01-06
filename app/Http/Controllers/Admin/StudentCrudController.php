@@ -84,12 +84,12 @@ class StudentCrudController extends CrudController
             ],
             [
                 // 1-n relationship
-                'label'     => __('Last Name'), // Table column heading
+                'label'     => __('Last Name'),
                 'type'      => 'relationship',
                 'key'  => 'lastname',
-                'name'    => 'user', // the method that defines the relationship in your Model
-                'attribute' => 'lastname', // foreign key attribute that is shown to user
-                'model'     => \App\Models\User::class, // foreign key model
+                'name'    => 'user',
+                'attribute' => 'lastname',
+                'model'     => \App\Models\User::class,
                 'orderable' => true,
                 'orderLogic' => fn ($query, $column, $columnDirection) => $query->leftJoin('users', 'users.id', '=', 'students.id')
                     ->orderBy('users.lastname', $columnDirection)->select('students.*'),
@@ -102,12 +102,12 @@ class StudentCrudController extends CrudController
 
             [
                 // 1-n relationship
-                'label'     => __('First Name'), // Table column heading
+                'label'     => __('First Name'),
                 'type'      => 'relationship',
                 'key'  => 'firstname',
-                'name'    => 'user', // the method that defines the relationship in your Model
-                'attribute' => 'firstname', // foreign key attribute that is shown to user
-                'model'     => \App\Models\User::class, // foreign key model
+                'name'    => 'user',
+                'attribute' => 'firstname',
+                'model'     => \App\Models\User::class,
                 'orderable' => true,
                 'orderLogic' => fn ($query, $column, $columnDirection) => $query->leftJoin('users', 'users.id', '=', 'students.id')
                     ->orderBy('users.firstname', $columnDirection)->select('students.*'),
@@ -120,11 +120,11 @@ class StudentCrudController extends CrudController
 
             [
                 // 1-n relationship
-                'label'     => __('Email'), // Table column heading
+                'label'     => __('Email'),
                 'type'      => 'relationship',
-                'name'    => 'user', // the method that defines the relationship in your Model
-                'attribute' => 'email', // foreign key attribute that is shown to user
-                'model'     => \App\Models\User::class, // foreign key model
+                'name'    => 'user',
+                'attribute' => 'email',
+                'model'     => \App\Models\User::class,
                 'orderable' => true,
                 'orderLogic' => fn ($query, $column, $columnDirection) => $query->leftJoin('users', 'users.id', '=', 'students.id')
                     ->orderBy('users.email', $columnDirection)->select('students.*'),
@@ -136,12 +136,12 @@ class StudentCrudController extends CrudController
             ],
 
             [
-                'label'     => __('Username'), // Table column heading
+                'label'     => __('Username'),
                 'type'      => 'relationship',
                 'key'  => 'username',
-                'name'    => 'user', // the method that defines the relationship in your Model
-                'attribute' => 'username', // foreign key attribute that is shown to user
-                'model'     => \App\Models\User::class, // foreign key model
+                'name'    => 'user',
+                'attribute' => 'username',
+                'model'     => \App\Models\User::class,
                 'orderable' => false,
                 'searchLogic' => false,
             ],
@@ -158,18 +158,18 @@ class StudentCrudController extends CrudController
 
             [
                 // n-n relationship (with pivot table)
-                'label' => __('Phone number'), // Table column heading
+                'label' => __('Phone number'),
                 'type' => 'select_multiple',
-                'name' => 'phone', // the method that defines the relationship in your Model
-                'attribute' => 'phone_number', // foreign key attribute that is shown to user
-                'model' => PhoneNumber::class, // foreign key model
+                'name' => 'phone',
+                'attribute' => 'phone_number',
+                'model' => PhoneNumber::class,
             ],
 
             [
                 // 1-n relationship
-                'label' => __('Status'), // Table column heading
+                'label' => __('Status'),
                 'type' => 'text',
-                'name' => 'lead_status_name', // the column that contains the ID of that connected entity;
+                'name' => 'lead_status_name',
                 'orderable' => false,
             ],
 

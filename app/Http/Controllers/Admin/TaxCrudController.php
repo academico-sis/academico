@@ -45,13 +45,13 @@ class TaxCrudController extends CrudController
             ],
             [
                 // Discount name
-                'label' => __('Name'), // Table column heading
+                'label' => __('Name'),
                 'type' => 'text',
                 'name' => 'name',
             ],
             [
                 // Value
-                'label' => __('Discount Value'), // Table column heading
+                'label' => __('Discount Value'),
                 'type' => 'decimal',
                 'name' => 'value',
                 'suffix' => '%',
@@ -72,13 +72,13 @@ class TaxCrudController extends CrudController
         CRUD::addFields([
             [
                 // Discount name
-                'label' => __('Name'), // Table column heading
+                'label' => __('Name'),
                 'type' => 'text',
                 'name' => 'name',
             ],
             [
                 // Value
-                'label' => __('Value (0-100%)'), // Table column heading
+                'label' => __('Value (0-100%)'),
                 'type' => 'number',
                 'name' => 'value',
             ],

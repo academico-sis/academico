@@ -37,12 +37,12 @@ class EvaluationTypeCrudController extends CrudController
         CRUD::addField([    // Select2Multiple = n-n relationship (with pivot table)
             'label'     => __('Grade Types'),
             'type'      => 'select2_multiple',
-            'name'      => 'gradeTypes', // the method that defines the relationship in your Model
+            'name'      => 'gradeTypes',
 
             // optional
-            'entity'    => 'gradeTypes', // the method that defines the relationship in your Model
-            'model'     => \App\Models\GradeType::class, // foreign key model
-            'attribute' => 'complete_name', // foreign key attribute that is shown to user
+            'entity'    => 'gradeTypes',
+            'model'     => \App\Models\GradeType::class,
+            'attribute' => 'complete_name',
             'pivot'     => true, // on create&update, do you need to add/delete pivot table entries?
             'select_all' => true, // show Select All and Clear buttons?
         ]);
@@ -50,12 +50,12 @@ class EvaluationTypeCrudController extends CrudController
         CRUD::addField([    // Select2Multiple = n-n relationship (with pivot table)
             'label'     => __('Skills'),
             'type'      => 'select2_multiple',
-            'name'      => 'skills', // the method that defines the relationship in your Model
+            'name'      => 'skills',
 
             // optional
-            'entity'    => 'skills', // the method that defines the relationship in your Model
-            'model'     => \App\Models\Skills\Skill::class, // foreign key model
-            'attribute' => 'complete_name', // foreign key attribute that is shown to user
+            'entity'    => 'skills',
+            'model'     => \App\Models\Skills\Skill::class,
+            'attribute' => 'complete_name',
             'pivot'     => true, // on create&update, do you need to add/delete pivot table entries?
             'select_all' => true, // show Select All and Clear buttons?
         ]);

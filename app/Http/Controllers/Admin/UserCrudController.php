@@ -34,12 +34,12 @@ class UserCrudController extends CrudController
         // Columns.
         CRUD::setColumns([
             [
-                'label' => __('First Name'), // Table column heading
+                'label' => __('First Name'),
                 'type' => 'text',
                 'name' => 'firstname',
             ],
             [
-                'label' => __('Last Name'), // Table column heading
+                'label' => __('Last Name'),
                 'type' => 'text',
                 'name' => 'lastname',
             ],
@@ -49,12 +49,12 @@ class UserCrudController extends CrudController
                 'type'  => 'email',
             ],
             [ // n-n relationship (with pivot table)
-                'label'     => trans('backpack::permissionmanager.roles'), // Table column heading
+                'label'     => trans('backpack::permissionmanager.roles'),
                 'type'      => 'select_multiple',
-                'name'      => 'roles', // the method that defines the relationship in your Model
-                'entity'    => 'roles', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model'     => config('permission.models.role'), // foreign key model
+                'name'      => 'roles',
+                'entity'    => 'roles',
+                'attribute' => 'name',
+                'model'     => config('permission.models.role'),
             ],
 
         ]);

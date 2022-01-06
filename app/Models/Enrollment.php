@@ -346,7 +346,7 @@ class Enrollment extends Model
 
         $balance -= $paidAmount;
 
-        return number_format(- $balance, 2);
+        return $balance;
     }
 
     public function cancel()

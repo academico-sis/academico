@@ -54,34 +54,34 @@ class CommentCrudController extends CrudController
         CRUD::setColumns([
             [
                 // Commentable entity
-                'label' => 'Commentable', // Table column heading
+                'label' => 'Commentable',
                 'type' => 'select',
-                'name' => 'commentable_id', // the column that contains the ID of that connected entity;
-                'entity' => 'commentable', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
+                'name' => 'commentable_id',
+                'entity' => 'commentable',
+                'attribute' => 'name',
             ],
 
             [
                 // Commentable entity
-                'label' => 'Commentable', // Table column heading
+                'label' => 'Commentable',
                 'type' => 'text',
-                'name' => 'body', // the column that contains the ID of that connected entity;
+                'name' => 'body',
             ],
 
             [
                 // Commentable entity
-                'label' => 'Author', // Table column heading
+                'label' => 'Author',
                 'type' => 'select',
-                'name' => 'author_id', // the column that contains the ID of that connected entity;
-                'entity' => 'author', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
+                'name' => 'author_id',
+                'entity' => 'author',
+                'attribute' => 'name',
             ],
 
             [
                 // Commentable entity
-                'label' => 'Action', // Table column heading
+                'label' => 'Action',
                 'type' => 'boolean',
-                'name' => 'action', // the column that contains the ID of that connected entity;
+                'name' => 'action',
             ],
         ]);
 

@@ -48,7 +48,7 @@ class InvoiceCrudController extends CrudController
             CRUD::column('invoice_number');
 
             CRUD::addColumn([
-                'name'         => 'invoiceType', // name of relationship method in the model
+                'name'         => 'invoiceType',
                 'type'         => 'relationship',
                 'label'        => 'Type',
                 'searchLogic'  => false,
@@ -75,7 +75,7 @@ class InvoiceCrudController extends CrudController
             CRUD::field('invoice_number');
 
             CRUD::addField([
-                'name'         => 'invoiceType', // name of relationship method in the model
+                'name'         => 'invoiceType',
                 'type'         => 'relationship',
                 'label'        => 'Type',
                 'searchLogic'  => false,

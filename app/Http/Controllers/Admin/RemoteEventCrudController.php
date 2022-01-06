@@ -32,23 +32,23 @@ class RemoteEventCrudController extends CrudController
         CRUD::setColumns([
             [
                 // 1-n relationship
-                'label' => 'Period', // Table column heading
+                'label' => 'Period',
                 'type' => 'relationship',
-                'name' => 'period', // the column that contains the ID of that connected entity;
-                'attribute' => 'name', // foreign key attribute that is shown to user
+                'name' => 'period',
+                'attribute' => 'name',
             ],
 
             [
                 // 1-n relationship
-                'label' => 'Teacher', // Table column heading
+                'label' => 'Teacher',
                 'type' => 'relationship',
-                'name' => 'teacher', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
+                'name' => 'teacher',
+                'attribute' => 'name',
             ],
 
             [
                 'name' => 'worked_hours', // The db column name
-                'label' => 'Worked Hours', // Table column heading
+                'label' => 'Worked Hours',
                 'type' => 'number',
                 'suffix' => ' h',
                 'decimals' => 2,
@@ -56,7 +56,7 @@ class RemoteEventCrudController extends CrudController
 
             [
                 'name' => 'name', // The db column name
-                'label' => 'Project', // Table column heading
+                'label' => 'Project',
             ],
 
         ]);
@@ -69,27 +69,27 @@ class RemoteEventCrudController extends CrudController
         CRUD::addFields([
             [
                 // 1-n relationship
-                'label' => 'Period', // Table column heading
+                'label' => 'Period',
                 'type' => 'select',
-                'name' => 'period_id', // the column that contains the ID of that connected entity;
-                'entity' => 'period', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => Period::class, // foreign key model
+                'name' => 'period_id',
+                'entity' => 'period',
+                'attribute' => 'name',
+                'model' => Period::class,
             ],
 
             [
                 // 1-n relationship
-                'label' => 'Teacher', // Table column heading
+                'label' => 'Teacher',
                 'type' => 'select',
-                'name' => 'teacher_id', // the column that contains the ID of that connected entity;
-                'entity' => 'teacher', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => Teacher::class, // foreign key model
+                'name' => 'teacher_id',
+                'entity' => 'teacher',
+                'attribute' => 'name',
+                'model' => Teacher::class,
             ],
 
             [
                 'name' => 'worked_hours', // The db column name
-                'label' => 'Worked Hours', // Table column heading
+                'label' => 'Worked Hours',
                 'type' => 'number',
                 'suffix' => ' h',
                 'attributes' => ['step' => '0.01'],
@@ -97,7 +97,7 @@ class RemoteEventCrudController extends CrudController
 
             [
                 'name' => 'name', // The db column name
-                'label' => 'Project', // Table column heading
+                'label' => 'Project',
             ],
 
         ]);

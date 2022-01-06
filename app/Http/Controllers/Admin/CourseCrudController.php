@@ -81,34 +81,34 @@ class CourseCrudController extends CrudController
         CRUD::setColumns([
             [
                 // RYTHM
-                'label' => __('Rhythm'), // Table column heading
+                'label' => __('Rhythm'),
                 'type' => 'select',
-                'name' => 'rhythm_id', // the column that contains the ID of that connected entity;
-                'entity' => 'rhythm', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => Rhythm::class, // foreign key model
+                'name' => 'rhythm_id',
+                'entity' => 'rhythm',
+                'attribute' => 'name',
+                'model' => Rhythm::class,
                 'searchLogic' => false,
             ],
 
             [
                 // LEVEL
-                'label' => __('Level'), // Table column heading
+                'label' => __('Level'),
                 'type' => 'select',
-                'name' => 'level_id', // the column that contains the ID of that connected entity;
-                'entity' => 'level', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => Level::class, // foreign key model
+                'name' => 'level_id',
+                'entity' => 'level',
+                'attribute' => 'name',
+                'model' => Level::class,
                 'searchLogic' => false,
             ],
 
             [
                 'name' => 'name', // The db column name
-                'label' => __('Name'), // Table column heading
+                'label' => __('Name'),
             ],
 
             [
                 'name' => 'volume', // The db column name
-                'label' => __('Presential volume'), // Table column heading
+                'label' => __('Presential volume'),
                 'suffix' => 'h',
                 'type' => 'number',
                 'searchLogic' => false,
@@ -116,7 +116,7 @@ class CourseCrudController extends CrudController
 
             [
                 'name' => 'remote_volume', // The db column name
-                'label' => __('Remote volume'), // Table column heading
+                'label' => __('Remote volume'),
                 'suffix' => 'h',
                 'type' => 'number',
                 'searchLogic' => false,
@@ -124,30 +124,30 @@ class CourseCrudController extends CrudController
 
             [
                 // TEACHER
-                'label' => __('Teacher'), // Table column heading
+                'label' => __('Teacher'),
                 'type' => 'select',
-                'name' => 'teacher_id', // the column that contains the ID of that connected entity;
-                'entity' => 'teacher', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => Teacher::class, // foreign key model
+                'name' => 'teacher_id',
+                'entity' => 'teacher',
+                'attribute' => 'name',
+                'model' => Teacher::class,
                 'searchLogic' => false,
             ],
 
             [
                 // ROOM
-                'label' => __('Room'), // Table column heading
+                'label' => __('Room'),
                 'type' => 'select',
-                'name' => 'room_id', // the column that contains the ID of that connected entity;
-                'entity' => 'room', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => Room::class, // foreign key model
+                'name' => 'room_id',
+                'entity' => 'room',
+                'attribute' => 'name',
+                'model' => Room::class,
                 'searchLogic' => false,
             ],
 
             // COURSE SCHEDULED TIMES
             [
                 'name' => 'times',
-                'label' => __('Schedule'), // Table column heading
+                'label' => __('Schedule'),
                 'type' => 'model_function',
                 'function_name' => 'getCourseTimesAttribute', // the method in your Model
                 'limit' => 150, // Limit the number of characters shown
@@ -157,7 +157,7 @@ class CourseCrudController extends CrudController
             // ENROLLMENTS COUNT
             [
                 'name' => 'enrollments',
-                'label' => __('Enrollments'), // Table column heading
+                'label' => __('Enrollments'),
                 'type' => 'model_function',
                 'function_name' => 'getCourseEnrollmentsCountAttribute', // the method in your Model
                 // 'limit' => 100, // Limit the number of characters shown
@@ -166,7 +166,7 @@ class CourseCrudController extends CrudController
 
             [
                 'name' => 'start_date', // The db column name
-                'label' => __('Start Date'), // Table column heading
+                'label' => __('Start Date'),
                 'type' => 'date',
                 // 'format' => 'l j F Y', // use something else than the base.default_date_format config value
                 'searchLogic' => false,
@@ -174,7 +174,7 @@ class CourseCrudController extends CrudController
 
             [
                 'name' => 'end_date', // The db column name
-                'label' => __('End Date'), // Table column heading
+                'label' => __('End Date'),
                 'type' => 'date',
                 // 'format' => 'l j F Y', // use something else than the base.default_date_format config value
                 'searchLogic' => false,
@@ -282,35 +282,35 @@ class CourseCrudController extends CrudController
         CRUD::addFields([
             [
                 // RYTHM
-                'label' => __('Rhythm'), // Table column heading
+                'label' => __('Rhythm'),
                 'type' => 'select',
-                'name' => 'rhythm_id', // the column that contains the ID of that connected entity;
-                'entity' => 'rhythm', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => Rhythm::class, // foreign key model
+                'name' => 'rhythm_id',
+                'entity' => 'rhythm',
+                'attribute' => 'name',
+                'model' => Rhythm::class,
                 'tab' => __('Course info'),
             ],
 
             [
                 // LEVEL
-                'label' => __('Level'), // Table column heading
+                'label' => __('Level'),
                 'type' => 'select',
-                'name' => 'level_id', // the column that contains the ID of that connected entity;
-                'entity' => 'level', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => Level::class, // foreign key model
+                'name' => 'level_id',
+                'entity' => 'level',
+                'attribute' => 'name',
+                'model' => Level::class,
                 'tab' => __('Course info'),
             ],
 
             [
                 'name' => 'name', // The db column name
-                'label' => __('Name'), // Table column heading
+                'label' => __('Name'),
                 'tab' => __('Course info'),
             ],
 
             array_merge([
                 'name' => 'price', // The db column name
-                'label' => __('Price'), // Table column heading
+                'label' => __('Price'),
                 'tab' => __('Course info'),
                 'type' => 'number',
             ], $currency),
@@ -335,27 +335,27 @@ class CourseCrudController extends CrudController
         CRUD::addFields([
             [
                 'name' => 'volume', // The db column name
-                'label' => __('Presential volume'), // Table column heading
+                'label' => __('Presential volume'),
                 'suffix' => 'h',
                 'tab' => __('Course info'),
             ],
 
             [
                 'name' => 'remote_volume', // The db column name
-                'label' => __('Remote volume'), // Table column heading
+                'label' => __('Remote volume'),
                 'suffix' => 'h',
                 'tab' => __('Course info'),
             ],
 
             [
                 'name' => 'spots', // The db column name
-                'label' => __('Spots'), // Table column heading
+                'label' => __('Spots'),
                 'tab' => __('Course info'),
             ],
 
             [
                 'name' => 'exempt_attendance', // The db column name
-                'label' => __('Exempt Attendance'), // Table column heading
+                'label' => __('Exempt Attendance'),
                 'type' => 'checkbox',
                 'tab' => __('Course info'),
             ],
@@ -367,34 +367,34 @@ class CourseCrudController extends CrudController
                 'fields' => [
                     [
                         'name' => 'name', // The db column name
-                        'label' => __('Name'), // Table column heading
+                        'label' => __('Name'),
                     ],
                     [
                         'name'    => 'level_id',
                         'label'    => __('Level'),
                         'type' => 'select',
-                        'entity' => 'level', // the method that defines the relationship in your Model
-                        'attribute' => 'name', // foreign key attribute that is shown to user
-                        'model' => Level::class, // foreign key model
+                        'entity' => 'level',
+                        'attribute' => 'name',
+                        'model' => Level::class,
                         'allows_null' => true,
                         'wrapper' => ['class' => 'form-group col-md-4'],
                     ],
 
                     array_merge([
                         'name' => 'price', // The db column name
-                        'label' => __('Price'), // Table column heading
+                        'label' => __('Price'),
                         'type' => 'number',
                     ], $currency),
 
                     [
                         'name' => 'volume', // The db column name
-                        'label' => __('Presential volume'), // Table column heading
+                        'label' => __('Presential volume'),
                         'suffix' => 'h',
                     ],
 
                     [
                         'name' => 'remote_volume', // The db column name
-                        'label' => __('Remote volume'), // Table column heading
+                        'label' => __('Remote volume'),
                         'suffix' => 'h',
                     ],
 
@@ -420,7 +420,7 @@ class CourseCrudController extends CrudController
         if (config('lms.sync_to') == 'apolearn') {
             CRUD::addField([
                 'name' => 'sync_to_lms', // The db column name
-                'label' => __('Sync to LMS'), // Table column heading
+                'label' => __('Sync to LMS'),
                 'type' => 'checkbox',
                 'tab' => __('Course info'),
             ]);
@@ -429,71 +429,71 @@ class CourseCrudController extends CrudController
         CRUD::addFields([
             [
                 'name' => 'color', // The db column name
-                'label' => __('Color'), // Table column heading
+                'label' => __('Color'),
                 'tab' => __('Course info'),
                 'type' => 'color_picker',
             ],
 
             [
                 // TEACHER
-                'label' => __('Teacher'), // Table column heading
+                'label' => __('Teacher'),
                 'type' => 'select',
-                'name' => 'teacher_id', // the column that contains the ID of that connected entity;
-                'entity' => 'teacher', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => Teacher::class, // foreign key model
+                'name' => 'teacher_id',
+                'entity' => 'teacher',
+                'attribute' => 'name',
+                'model' => Teacher::class,
                 'tab' => __('Resources'),
             ],
 
             [
                 // ROOM
-                'label' => __('Room'), // Table column heading
+                'label' => __('Room'),
                 'type' => 'select',
-                'name' => 'room_id', // the column that contains the ID of that connected entity;
-                'entity' => 'room', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => Room::class, // foreign key model
+                'name' => 'room_id',
+                'entity' => 'room',
+                'attribute' => 'name',
+                'model' => Room::class,
                 'tab' => __('Resources'),
             ],
 
             [
                 // RYTHM
-                'label' => __('Campus'), // Table column heading
+                'label' => __('Campus'),
                 'type' => 'hidden',
-                'name' => 'campus_id', // the column that contains the ID of that connected entity;
+                'name' => 'campus_id',
                 'value' => 1,
             ],
 
             [
                 // n-n relationship (with pivot table)
-                'label' => __('Books'), // Table column heading
+                'label' => __('Books'),
                 'type' => 'select_multiple',
-                'name' => 'books', // the method that defines the relationship in your Model
-                'entity' => 'books', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => Book::class, // foreign key model
+                'name' => 'books',
+                'entity' => 'books',
+                'attribute' => 'name',
+                'model' => Book::class,
                 'pivot' => true, // on create&update, do you need to add/delete pivot table entries?
                 'tab' => __('Pedagogy'),
             ],
 
             [
-                'label' => __('Evaluation method'), // Table column heading
+                'label' => __('Evaluation method'),
                 'type' => 'select2',
-                'name' => 'evaluationType', // the method that defines the relationship in your Model
-                'entity' => 'evaluationType', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => EvaluationType::class, // foreign key model
+                'name' => 'evaluationType',
+                'entity' => 'evaluationType',
+                'attribute' => 'name',
+                'model' => EvaluationType::class,
                 'tab' => __('Pedagogy'),
             ],
 
             [
                 // PERIOD
-                'label' => __('Period'), // Table column heading
+                'label' => __('Period'),
                 'type' => 'select',
-                'name' => 'period_id', // the column that contains the ID of that connected entity;
-                'entity' => 'period', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => Period::class, // foreign key model
+                'name' => 'period_id',
+                'entity' => 'period',
+                'attribute' => 'name',
+                'model' => Period::class,
                 'tab' => __('Schedule'),
                 'default' => Period::get_enrollments_period()->id,
             ],
@@ -510,7 +510,7 @@ class CourseCrudController extends CrudController
 
             [
                 'name' => 'end_date', // The db column name
-                'label' => __('End Date'), // Table column heading
+                'label' => __('End Date'),
                 'type' => 'date',
                 // 'format' => 'l j F Y', // use something else than the base.default_date_format config value
                 'tab' => __('Schedule'),
@@ -628,12 +628,12 @@ class CourseCrudController extends CrudController
 
         CRUD::addField([
             // RYTHM
-            'label' => __('Rhythm'), // Table column heading
+            'label' => __('Rhythm'),
             'type' => 'select',
-            'name' => 'rhythm_id', // the column that contains the ID of that connected entity;
-            'entity' => 'rhythm', // the method that defines the relationship in your Model
-            'attribute' => 'name', // foreign key attribute that is shown to user
-            'model' => Rhythm::class, // foreign key model
+            'name' => 'rhythm_id',
+            'entity' => 'rhythm',
+            'attribute' => 'name',
+            'model' => Rhythm::class,
             'tab' => __('Course info'),
         ]);
 
@@ -641,12 +641,12 @@ class CourseCrudController extends CrudController
         if ($this->crud->getCurrentEntry()->children->count() == 0) {
             CRUD::addField([
                 // LEVEL
-                'label' => __('Level'), // Table column heading
+                'label' => __('Level'),
                 'type' => 'select',
-                'name' => 'level_id', // the column that contains the ID of that connected entity;
-                'entity' => 'level', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => Level::class, // foreign key model
+                'name' => 'level_id',
+                'entity' => 'level',
+                'attribute' => 'name',
+                'model' => Level::class,
                 'tab' => __('Course info'),
             ]);
         }
@@ -654,13 +654,13 @@ class CourseCrudController extends CrudController
         CRUD::addFields([
             [
                 'name' => 'name', // The db column name
-                'label' => __('Name'), // Table column heading
+                'label' => __('Name'),
                 'tab' => __('Course info'),
             ],
 
             array_merge([
                 'name' => 'price', // The db column name
-                'label' => __('Price'), // Table column heading
+                'label' => __('Price'),
                 'tab' => __('Course info'),
                 'type' => 'number',
             ], $currency),
@@ -685,27 +685,27 @@ class CourseCrudController extends CrudController
         CRUD::addFields([
             [
                 'name' => 'volume', // The db column name
-                'label' => __('Presential volume'), // Table column heading
+                'label' => __('Presential volume'),
                 'suffix' => 'h',
                 'tab' => __('Course info'),
             ],
 
             [
                 'name' => 'remote_volume', // The db column name
-                'label' => __('Remote volume'), // Table column heading
+                'label' => __('Remote volume'),
                 'suffix' => 'h',
                 'tab' => __('Course info'),
             ],
 
             [
                 'name' => 'spots', // The db column name
-                'label' => __('Spots'), // Table column heading
+                'label' => __('Spots'),
                 'tab' => __('Course info'),
             ],
 
             [
                 'name' => 'exempt_attendance', // The db column name
-                'label' => __('Exempt Attendance'), // Table column heading
+                'label' => __('Exempt Attendance'),
                 'type' => 'checkbox',
                 'tab' => __('Course info'),
             ],
@@ -716,23 +716,23 @@ class CourseCrudController extends CrudController
             CRUD::addFields([
                 [
                     // TEACHER
-                    'label' => __('Teacher'), // Table column heading
+                    'label' => __('Teacher'),
                     'type' => 'select',
-                    'name' => 'teacher_id', // the column that contains the ID of that connected entity;
-                    'entity' => 'teacher', // the method that defines the relationship in your Model
-                    'attribute' => 'name', // foreign key attribute that is shown to user
-                    'model' => Teacher::class, // foreign key model
+                    'name' => 'teacher_id',
+                    'entity' => 'teacher',
+                    'attribute' => 'name',
+                    'model' => Teacher::class,
                     'tab' => __('Resources'),
                 ],
 
                 [
                     // ROOM
-                    'label' => __('Room'), // Table column heading
+                    'label' => __('Room'),
                     'type' => 'select',
-                    'name' => 'room_id', // the column that contains the ID of that connected entity;
-                    'entity' => 'room', // the method that defines the relationship in your Model
-                    'attribute' => 'name', // foreign key attribute that is shown to user
-                    'model' => Room::class, // foreign key model
+                    'name' => 'room_id',
+                    'entity' => 'room',
+                    'attribute' => 'name',
+                    'model' => Room::class,
                     'tab' => __('Resources'),
                 ],
             ]);
@@ -741,30 +741,30 @@ class CourseCrudController extends CrudController
         CRUD::addFields([
             [
                 // CAMPUS
-                'label' => __('Campus'), // Table column heading
+                'label' => __('Campus'),
                 'type' => 'hidden',
-                'name' => 'campus_id', // the column that contains the ID of that connected entity;
+                'name' => 'campus_id',
                 'value' => 1,
             ],
             [
                 // n-n relationship (with pivot table)
-                'label' => __('Books'), // Table column heading
+                'label' => __('Books'),
                 'type' => 'select_multiple',
-                'name' => 'books', // the method that defines the relationship in your Model
-                'entity' => 'books', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => Book::class, // foreign key model
+                'name' => 'books',
+                'entity' => 'books',
+                'attribute' => 'name',
+                'model' => Book::class,
                 'pivot' => true, // on create&update, do you need to add/delete pivot table entries?
                 'tab' => __('Pedagogy'),
             ],
 
             [
-                'label' => __('Evaluation method'), // Table column heading
+                'label' => __('Evaluation method'),
                 'type' => 'select2',
-                'name' => 'evaluationType', // the method that defines the relationship in your Model
-                'entity' => 'evaluationType', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => EvaluationType::class, // foreign key model
+                'name' => 'evaluationType',
+                'entity' => 'evaluationType',
+                'attribute' => 'name',
+                'model' => EvaluationType::class,
                 'tab' => __('Pedagogy'),
             ],
 
@@ -776,12 +776,12 @@ class CourseCrudController extends CrudController
 
             [
                 // PERIOD
-                'label' => __('Period'), // Table column heading
+                'label' => __('Period'),
                 'type' => 'select',
-                'name' => 'period_id', // the column that contains the ID of that connected entity;
-                'entity' => 'period', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => Period::class, // foreign key model
+                'name' => 'period_id',
+                'entity' => 'period',
+                'attribute' => 'name',
+                'model' => Period::class,
                 'tab' => __('Schedule'),
             ],
 
@@ -796,7 +796,7 @@ class CourseCrudController extends CrudController
 
             [
                 'name' => 'end_date', // The db column name
-                'label' => __('End Date'), // Table column heading
+                'label' => __('End Date'),
                 'type' => 'date',
                 // 'format' => 'l j F Y', // use something else than the base.default_date_format config value
                 'tab' => __('Schedule'),

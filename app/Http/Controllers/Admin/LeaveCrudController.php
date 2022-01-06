@@ -42,27 +42,27 @@ class LeaveCrudController extends CrudController
         CRUD::setColumns([
             [
                 // 1-n relationship
-                'label' => 'Teacher', // Table column heading
+                'label' => 'Teacher',
                 'type' => 'select',
-                'name' => 'teacher_id', // the column that contains the ID of that connected entity;
-                'entity' => 'teacher', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => Teacher::class, // foreign key model
+                'name' => 'teacher_id',
+                'entity' => 'teacher',
+                'attribute' => 'name',
+                'model' => Teacher::class,
             ],
 
             [
                 // 1-n relationship
-                'label' => 'Type', // Table column heading
+                'label' => 'Type',
                 'type' => 'select',
-                'name' => 'leave_type_id', // the column that contains the ID of that connected entity;
-                'entity' => 'leaveType', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => LeaveType::class, // foreign key model
+                'name' => 'leave_type_id',
+                'entity' => 'leaveType',
+                'attribute' => 'name',
+                'model' => LeaveType::class,
             ],
 
             [
                 'name' => 'date', // The db column name
-                'label' => 'Date', // Table column heading
+                'label' => 'Date',
                 'type' => 'date',
             ],
         ]);
@@ -97,22 +97,22 @@ class LeaveCrudController extends CrudController
         CRUD::addFields([
             [
                 // 1-n relationship
-                'label' => 'Teacher', // Table column heading
+                'label' => 'Teacher',
                 'type' => 'select_multiple',
-                'name' => 'teacher_id', // the column that contains the ID of that connected entity;
-                'entity' => 'teacher', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => Teacher::class, // foreign key model
+                'name' => 'teacher_id',
+                'entity' => 'teacher',
+                'attribute' => 'name',
+                'model' => Teacher::class,
             ],
 
             [
                 // 1-n relationship
-                'label' => 'Type', // Table column heading
+                'label' => 'Type',
                 'type' => 'select',
-                'name' => 'leave_type_id', // the column that contains the ID of that connected entity;
-                'entity' => 'leaveType', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => LeaveType::class, // foreign key model
+                'name' => 'leave_type_id',
+                'entity' => 'leaveType',
+                'attribute' => 'name',
+                'model' => LeaveType::class,
             ],
 
             [   // date_range
@@ -151,12 +151,12 @@ class LeaveCrudController extends CrudController
         CRUD::addFields([
             [
                 // 1-n relationship
-                'label' => 'Type', // Table column heading
+                'label' => 'Type',
                 'type' => 'select',
-                'name' => 'leave_type_id', // the column that contains the ID of that connected entity;
-                'entity' => 'leaveType', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => LeaveType::class, // foreign key model
+                'name' => 'leave_type_id',
+                'entity' => 'leaveType',
+                'attribute' => 'name',
+                'model' => LeaveType::class,
             ],
 
             [   // datepicker

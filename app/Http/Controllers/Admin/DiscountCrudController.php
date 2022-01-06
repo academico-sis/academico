@@ -39,13 +39,13 @@ class DiscountCrudController extends CrudController
             ],
             [
                 // Discount name
-                'label' => __('Name'), // Table column heading
+                'label' => __('Name'),
                 'type' => 'text',
                 'name' => 'name',
             ],
             [
                 // Value
-                'label' => __('Discount Value'), // Table column heading
+                'label' => __('Discount Value'),
                 'type' => 'decimal',
                 'name' => 'value',
                 'suffix' => '%',
@@ -59,13 +59,13 @@ class DiscountCrudController extends CrudController
         CRUD::addFields([
             [
                 // Discount name
-                'label' => __('Name'), // Table column heading
+                'label' => __('Name'),
                 'type' => 'text',
                 'name' => 'name',
             ],
             [
                 // Value
-                'label' => __('Discount Value (0-100%)'), // Table column heading
+                'label' => __('Discount Value (0-100%)'),
                 'type' => 'number',
                 'attributes' => ['step' => '1'],
                 'name' => 'value',

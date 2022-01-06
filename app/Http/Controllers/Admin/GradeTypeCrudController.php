@@ -42,11 +42,11 @@ class GradeTypeCrudController extends CrudController
             ['name' => 'total', 'label' => 'Total'],
             [
                 // 1-n relationship
-                'label'     => 'Category', // Table column heading
+                'label'     => 'Category',
                 'type'      => 'select',
-                'name'      => 'grade_type_category_id', // the column that contains the ID of that connected entity;
-                'entity'    => 'category', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
+                'name'      => 'grade_type_category_id',
+                'entity'    => 'category',
+                'attribute' => 'name',
                 'model'     => GradeTypeCategory::class,
             ],
         ]);

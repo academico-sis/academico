@@ -64,78 +64,78 @@ class ExternalCourseCrudController extends CrudController
         CRUD::setColumns([
             [
                 // RYTHM
-                'label' => __('Partnership'), // Table column heading
+                'label' => __('Partnership'),
                 'type' => 'select',
-                'name' => 'partner_id', // the column that contains the ID of that connected entity;
-                'entity' => 'partner', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => Partner::class, // foreign key model
+                'name' => 'partner_id',
+                'entity' => 'partner',
+                'attribute' => 'name',
+                'model' => Partner::class,
             ],
 
             [
                 // RYTHM
-                'label' => __('Rhythm'), // Table column heading
+                'label' => __('Rhythm'),
                 'type' => 'select',
-                'name' => 'rhythm_id', // the column that contains the ID of that connected entity;
-                'entity' => 'rhythm', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => Rhythm::class, // foreign key model
+                'name' => 'rhythm_id',
+                'entity' => 'rhythm',
+                'attribute' => 'name',
+                'model' => Rhythm::class,
             ],
 
             [
                 // LEVEL
-                'label' => __('Level'), // Table column heading
+                'label' => __('Level'),
                 'type' => 'select',
-                'name' => 'level_id', // the column that contains the ID of that connected entity;
-                'entity' => 'level', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => Level::class, // foreign key model
+                'name' => 'level_id',
+                'entity' => 'level',
+                'attribute' => 'name',
+                'model' => Level::class,
             ],
 
             [
                 'name' => 'name', // The db column name
-                'label' => __('Name'), // Table column heading
+                'label' => __('Name'),
             ],
 
             [
                 'name' => 'volume', // The db column name
-                'label' => __('Volume'), // Table column heading
+                'label' => __('Volume'),
                 'suffix' => 'h',
                 'type' => 'number',
             ],
 
             [
                 'name' => 'hourly_price', // The db column name
-                'label' => __('Hourly Price'), // Table column heading
+                'label' => __('Hourly Price'),
                 'prefix' => '$',
                 'type' => 'number',
             ],
 
             [
                 // TEACHER
-                'label' => __('Teacher'), // Table column heading
+                'label' => __('Teacher'),
                 'type' => 'select',
-                'name' => 'teacher_id', // the column that contains the ID of that connected entity;
-                'entity' => 'teacher', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => Teacher::class, // foreign key model
+                'name' => 'teacher_id',
+                'entity' => 'teacher',
+                'attribute' => 'name',
+                'model' => Teacher::class,
                 'searchLogic' => false,
             ],
 
             [
                 // ROOM
-                'label' => __('Room'), // Table column heading
+                'label' => __('Room'),
                 'type' => 'select',
-                'name' => 'room_id', // the column that contains the ID of that connected entity;
-                'entity' => 'room', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => Room::class, // foreign key model
+                'name' => 'room_id',
+                'entity' => 'room',
+                'attribute' => 'name',
+                'model' => Room::class,
             ],
 
             // COURSE SCHEDULED TIMES
             [
                 'name' => 'times',
-                'label' => __('Schedule'), // Table column heading
+                'label' => __('Schedule'),
                 'type' => 'model_function',
                 'function_name' => 'getCourseTimesAttribute', // the method in your Model
                 'limit' => 150, // Limit the number of characters shown
@@ -155,13 +155,13 @@ class ExternalCourseCrudController extends CrudController
 
             [
                 'name' => 'start_date', // The db column name
-                'label' => __('Start Date'), // Table column heading
+                'label' => __('Start Date'),
                 'type' => 'date',
             ],
 
             [
                 'name' => 'end_date', // The db column name
-                'label' => __('End Date'), // Table column heading
+                'label' => __('End Date'),
                 'type' => 'date',
             ],
 
@@ -234,84 +234,84 @@ class ExternalCourseCrudController extends CrudController
         CRUD::addFields([
             [
                 // RYTHM
-                'label' => __('Partnership'), // Table column heading
+                'label' => __('Partnership'),
                 'type' => 'select',
-                'name' => 'partner_id', // the column that contains the ID of that connected entity;
-                'entity' => 'partner', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => Partner::class, // foreign key model
+                'name' => 'partner_id',
+                'entity' => 'partner',
+                'attribute' => 'name',
+                'model' => Partner::class,
                 'tab' => __('Course info'),
             ],
 
             [
                 // RYTHM
-                'label' => __('Rhythm'), // Table column heading
+                'label' => __('Rhythm'),
                 'type' => 'select',
-                'name' => 'rhythm_id', // the column that contains the ID of that connected entity;
-                'entity' => 'rhythm', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => Rhythm::class, // foreign key model
+                'name' => 'rhythm_id',
+                'entity' => 'rhythm',
+                'attribute' => 'name',
+                'model' => Rhythm::class,
                 'tab' => __('Course info'),
             ],
 
             [
                 // LEVEL
-                'label' => __('Level'), // Table column heading
+                'label' => __('Level'),
                 'type' => 'select',
-                'name' => 'level_id', // the column that contains the ID of that connected entity;
-                'entity' => 'level', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => Level::class, // foreign key model
+                'name' => 'level_id',
+                'entity' => 'level',
+                'attribute' => 'name',
+                'model' => Level::class,
                 'tab' => __('Course info'),
             ],
 
             [
                 'name' => 'name', // The db column name
-                'label' => __('Name'), // Table column heading
+                'label' => __('Name'),
                 'tab' => __('Course info'),
             ],
 
             [
                 'name' => 'volume', // The db column name
-                'label' => __('Volume'), // Table column heading
+                'label' => __('Volume'),
                 'suffix' => 'h',
                 'tab' => __('Course info'),
             ],
 
             [
                 'name' => 'hourly_price', // The db column name
-                'label' => __('Hourly Price'), // Table column heading
+                'label' => __('Hourly Price'),
                 'prefix' => '$',
                 'tab' => __('Course info'),
             ],
 
             [
                 // TEACHER
-                'label' => __('Teacher'), // Table column heading
+                'label' => __('Teacher'),
                 'type' => 'select',
-                'name' => 'teacher_id', // the column that contains the ID of that connected entity;
-                'entity' => 'teacher', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => Teacher::class, // foreign key model
+                'name' => 'teacher_id',
+                'entity' => 'teacher',
+                'attribute' => 'name',
+                'model' => Teacher::class,
                 'tab' => __('Course info'),
             ],
 
             [
                 // ROOM
-                'label' => __('Room'), // Table column heading
+                'label' => __('Room'),
                 'type' => 'select',
-                'name' => 'room_id', // the column that contains the ID of that connected entity;
-                'entity' => 'room', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => Room::class, // foreign key model
+                'name' => 'room_id',
+                'entity' => 'room',
+                'attribute' => 'name',
+                'model' => Room::class,
                 'tab' => __('Course info'),
             ],
 
             [
                 // RYTHM
-                'label' => __('Campus'), // Table column heading
+                'label' => __('Campus'),
                 'type' => 'hidden',
-                'name' => 'campus_id', // the column that contains the ID of that connected entity;
+                'name' => 'campus_id',
                 'value' => 2,
                 'tab' => __('Course info'),
             ],
@@ -325,12 +325,12 @@ class ExternalCourseCrudController extends CrudController
 
             [
                 // PERIOD
-                'label' => __('Period'), // Table column heading
+                'label' => __('Period'),
                 'type' => 'select',
-                'name' => 'period_id', // the column that contains the ID of that connected entity;
-                'entity' => 'period', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => Period::class, // foreign key model
+                'name' => 'period_id',
+                'entity' => 'period',
+                'attribute' => 'name',
+                'model' => Period::class,
                 'tab' => __('Schedule'),
                 'default' => Period::get_enrollments_period()->id,
             ],
@@ -345,7 +345,7 @@ class ExternalCourseCrudController extends CrudController
 
             [
                 'name' => 'end_date', // The db column name
-                'label' => __('End Date'), // Table column heading
+                'label' => __('End Date'),
                 'type' => 'date',
                 'tab' => __('Schedule'),
                 'default' => Period::get_enrollments_period()->end,
@@ -353,14 +353,14 @@ class ExternalCourseCrudController extends CrudController
 
             [
                 'name' => 'head_count', // The db column name
-                'label' => __('Head Count'), // Table column heading
+                'label' => __('Head Count'),
                 'type' => 'number',
                 'tab' => __('Course info'),
             ],
 
             [
                 'name' => 'new_students', // The db column name
-                'label' => __('Students to count in year total'), // Table column heading
+                'label' => __('Students to count in year total'),
                 'type' => 'number',
                 'tab' => __('Course info'),
             ],
@@ -427,84 +427,84 @@ class ExternalCourseCrudController extends CrudController
         CRUD::addFields([
             [
                 // RYTHM
-                'label' => __('Partnership'), // Table column heading
+                'label' => __('Partnership'),
                 'type' => 'select',
-                'name' => 'partner_id', // the column that contains the ID of that connected entity;
-                'entity' => 'partner', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => Partner::class, // foreign key model
+                'name' => 'partner_id',
+                'entity' => 'partner',
+                'attribute' => 'name',
+                'model' => Partner::class,
                 'tab' => __('Course info'),
             ],
 
             [
                 // RYTHM
-                'label' => __('Rhythm'), // Table column heading
+                'label' => __('Rhythm'),
                 'type' => 'select',
-                'name' => 'rhythm_id', // the column that contains the ID of that connected entity;
-                'entity' => 'rhythm', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => Rhythm::class, // foreign key model
+                'name' => 'rhythm_id',
+                'entity' => 'rhythm',
+                'attribute' => 'name',
+                'model' => Rhythm::class,
                 'tab' => __('Course info'),
             ],
 
             [
                 // LEVEL
-                'label' => __('Level'), // Table column heading
+                'label' => __('Level'),
                 'type' => 'select',
-                'name' => 'level_id', // the column that contains the ID of that connected entity;
-                'entity' => 'level', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => Level::class, // foreign key model
+                'name' => 'level_id',
+                'entity' => 'level',
+                'attribute' => 'name',
+                'model' => Level::class,
                 'tab' => __('Course info'),
             ],
 
             [
                 'name' => 'name', // The db column name
-                'label' => __('Name'), // Table column heading
+                'label' => __('Name'),
                 'tab' => __('Course info'),
             ],
 
             [
                 'name' => 'volume', // The db column name
-                'label' => __('Volume'), // Table column heading
+                'label' => __('Volume'),
                 'suffix' => 'h',
                 'tab' => __('Course info'),
             ],
 
             [
                 'name' => 'hourly_price', // The db column name
-                'label' => __('Hourly Price'), // Table column heading
+                'label' => __('Hourly Price'),
                 'prefix' => '$',
                 'tab' => __('Course info'),
             ],
 
             [
                 // TEACHER
-                'label' => __('Teacher'), // Table column heading
+                'label' => __('Teacher'),
                 'type' => 'select',
-                'name' => 'teacher_id', // the column that contains the ID of that connected entity;
-                'entity' => 'teacher', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => Teacher::class, // foreign key model
+                'name' => 'teacher_id',
+                'entity' => 'teacher',
+                'attribute' => 'name',
+                'model' => Teacher::class,
                 'tab' => __('Course info'),
             ],
 
             [
                 // ROOM
-                'label' => __('Room'), // Table column heading
+                'label' => __('Room'),
                 'type' => 'select',
-                'name' => 'room_id', // the column that contains the ID of that connected entity;
-                'entity' => 'room', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => Room::class, // foreign key model
+                'name' => 'room_id',
+                'entity' => 'room',
+                'attribute' => 'name',
+                'model' => Room::class,
                 'tab' => __('Course info'),
             ],
 
             [
                 // RYTHM
-                'label' => __('Campus'), // Table column heading
+                'label' => __('Campus'),
                 'type' => 'hidden',
-                'name' => 'campus_id', // the column that contains the ID of that connected entity;
+                'name' => 'campus_id',
                 'value' => 2,
                 'tab' => __('Course info'),
             ],
@@ -518,12 +518,12 @@ class ExternalCourseCrudController extends CrudController
 
             [
                 // PERIOD
-                'label' => __('Period'), // Table column heading
+                'label' => __('Period'),
                 'type' => 'select',
-                'name' => 'period_id', // the column that contains the ID of that connected entity;
-                'entity' => 'period', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => Period::class, // foreign key model
+                'name' => 'period_id',
+                'entity' => 'period',
+                'attribute' => 'name',
+                'model' => Period::class,
                 'tab' => __('Schedule'),
                 'default' => Period::get_enrollments_period()->id,
             ],
@@ -538,7 +538,7 @@ class ExternalCourseCrudController extends CrudController
 
             [
                 'name' => 'end_date', // The db column name
-                'label' => __('End Date'), // Table column heading
+                'label' => __('End Date'),
                 'type' => 'date',
                 'tab' => __('Schedule'),
                 'default' => Period::get_enrollments_period()->end,
@@ -546,14 +546,14 @@ class ExternalCourseCrudController extends CrudController
 
             [
                 'name' => 'head_count', // The db column name
-                'label' => __('Head Count'), // Table column heading
+                'label' => __('Head Count'),
                 'type' => 'number',
                 'tab' => __('Course info'),
             ],
 
             [
                 'name' => 'new_students', // The db column name
-                'label' => __('Students to count in year total'), // Table column heading
+                'label' => __('Students to count in year total'),
                 'type' => 'number',
                 'tab' => __('Course info'),
             ],

@@ -52,23 +52,23 @@ class EventCrudController extends CrudController
 
             [
                 'name' => 'name', // The db column name
-                'label' => 'Name', // Table column heading
+                'label' => 'Name',
                 'type' => 'text',
             ],
 
             [
                 // ROOM
-                'label' => __('Course'), // Table column heading
+                'label' => __('Course'),
                 'type' => 'select',
-                'name' => 'course_id', // the column that contains the ID of that connected entity;
-                'entity' => 'course', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => Course::class, // foreign key model
+                'name' => 'course_id',
+                'entity' => 'course',
+                'attribute' => 'name',
+                'model' => Course::class,
             ],
 
             [
                 'name' => 'volume',
-                'label' => __('Volume'), // Table column heading
+                'label' => __('Volume'),
                 'type' => 'model_function',
                 'function_name' => 'getVolumeAttribute', // the method in your Model
                 'suffix' => 'h',
@@ -76,35 +76,35 @@ class EventCrudController extends CrudController
 
             [
                 // TEACHER
-                'label' => __('Teacher'), // Table column heading
+                'label' => __('Teacher'),
                 'type' => 'select',
-                'name' => 'teacher_id', // the column that contains the ID of that connected entity;
-                'entity' => 'teacher', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => Teacher::class, // foreign key model
+                'name' => 'teacher_id',
+                'entity' => 'teacher',
+                'attribute' => 'name',
+                'model' => Teacher::class,
                 'searchLogic' => false,
             ],
 
             [
                 // ROOM
-                'label' => __('Room'), // Table column heading
+                'label' => __('Room'),
                 'type' => 'select',
-                'name' => 'room_id', // the column that contains the ID of that connected entity;
-                'entity' => 'room', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => Room::class, // foreign key model
+                'name' => 'room_id',
+                'entity' => 'room',
+                'attribute' => 'name',
+                'model' => Room::class,
             ],
 
             [
                 'name' => 'start', // The db column name
-                'label' => __('Start Date'), // Table column heading
+                'label' => __('Start Date'),
                 'type' => 'datetime',
                 // 'format' => 'l j F Y', // use something else than the base.defauormat config value
             ],
 
             [
                 'name' => 'end', // The db column name
-                'label' => __('End Date'), // Table column heading
+                'label' => __('End Date'),
                 'type' => 'datetime',
                 // 'format' => 'l j F Y', // use something else than the base.default_date_format config value
             ],
@@ -184,40 +184,40 @@ class EventCrudController extends CrudController
 
             [
                 'name' => 'name', // The db column name
-                'label' => 'Name', // Table column heading
+                'label' => 'Name',
                 'type' => 'text',
             ],
 
             [
                 // TEACHER
-                'label' => 'Teacher', // Table column heading
+                'label' => 'Teacher',
                 'type' => 'select',
-                'name' => 'teacher_id', // the column that contains the ID of that connected entity;
-                'entity' => 'teacher', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => Teacher::class, // foreign key model
+                'name' => 'teacher_id',
+                'entity' => 'teacher',
+                'attribute' => 'name',
+                'model' => Teacher::class,
 
             ],
 
             [
                 // ROOM
-                'label' => 'Room', // Table column heading
+                'label' => 'Room',
                 'type' => 'select',
-                'name' => 'room_id', // the column that contains the ID of that connected entity;
-                'entity' => 'room', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => Room::class, // foreign key model
+                'name' => 'room_id',
+                'entity' => 'room',
+                'attribute' => 'name',
+                'model' => Room::class,
             ],
 
             [
                 'name' => 'start', // The db column name
-                'label' => 'Start Date', // Table column heading
+                'label' => 'Start Date',
                 'type' => 'datetime_picker',
             ],
 
             [
                 'name' => 'end', // The db column name
-                'label' => 'End Date', // Table column heading
+                'label' => 'End Date',
                 'type' => 'datetime_picker',
             ],
 

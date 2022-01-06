@@ -39,12 +39,12 @@ class TeacherCrudController extends CrudController
             ],
             [
                 // 1-n relationship
-                'label'     => __('Last Name'), // Table column heading
+                'label'     => __('Last Name'),
                 'type'      => 'relationship',
                 'key'  => 'lastname',
-                'name'    => 'user', // the method that defines the relationship in your Model
-                'attribute' => 'lastname', // foreign key attribute that is shown to user
-                'model'     => \App\Models\User::class, // foreign key model
+                'name'    => 'user',
+                'attribute' => 'lastname',
+                'model'     => \App\Models\User::class,
                 'orderable' => true,
                 'orderLogic' => fn ($query, $column, $columnDirection) => $query->leftJoin('users', 'users.id', '=', 'students.id')
                     ->orderBy('users.lastname', $columnDirection)->select('students.*'),
@@ -57,12 +57,12 @@ class TeacherCrudController extends CrudController
 
             [
                 // 1-n relationship
-                'label'     => __('First Name'), // Table column heading
+                'label'     => __('First Name'),
                 'type'      => 'relationship',
                 'key'  => 'firstname',
-                'name'    => 'user', // the method that defines the relationship in your Model
-                'attribute' => 'firstname', // foreign key attribute that is shown to user
-                'model'     => \App\Models\User::class, // foreign key model
+                'name'    => 'user',
+                'attribute' => 'firstname',
+                'model'     => \App\Models\User::class,
                 'orderable' => true,
                 'orderLogic' => fn ($query, $column, $columnDirection) => $query->leftJoin('users', 'users.id', '=', 'teachers.id')
                     ->orderBy('users.firstname', $columnDirection)->select('teachers.*'),
@@ -75,11 +75,11 @@ class TeacherCrudController extends CrudController
 
             [
                 // 1-n relationship
-                'label'     => __('Email'), // Table column heading
+                'label'     => __('Email'),
                 'type'      => 'relationship',
-                'name'    => 'user', // the method that defines the relationship in your Model
-                'attribute' => 'email', // foreign key attribute that is shown to user
-                'model'     => \App\Models\User::class, // foreign key model
+                'name'    => 'user',
+                'attribute' => 'email',
+                'model'     => \App\Models\User::class,
                 'orderable' => true,
                 'orderLogic' => fn ($query, $column, $columnDirection) => $query->leftJoin('users', 'users.id', '=', 'teachers.id')
                     ->orderBy('users.email', $columnDirection)->select('teachers.*'),

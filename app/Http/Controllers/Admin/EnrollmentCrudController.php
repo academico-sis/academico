@@ -94,7 +94,7 @@ class EnrollmentCrudController extends CrudController
             CRUD::addButtonFromView('top', 'enroll-student-in-course', 'enroll-student-in-course', 'end');
             CRUD::addButtonFromView('top', 'switch-to-photo-roster', 'switch-to-photo-roster', 'end');
         }
-        
+
         if (config('app.currency_position') === 'before') {
             $currency = ['prefix' => config('app.currency_symbol')];
         } else {
@@ -102,16 +102,25 @@ class EnrollmentCrudController extends CrudController
         }
 
         CRUD::addColumns([
-
             [
                 'name' => 'id',
                 'label' => 'ID',
+                'wrapper' => [
+                    'element' => function ($crud, $column, $entry) {
+                        return $entry->status_id > 2 ? 'del' : 'span';
+                    },
+                ],
             ],
 
             [
                 'label' => __('ID number'),
                 'type' => 'text',
                 'name' => 'student.idnumber',
+                'wrapper' => [
+                    'element' => function ($crud, $column, $entry) {
+                        return $entry->status_id > 2 ? 'del' : 'span';
+                    },
+                ],
             ],
 
             [
@@ -120,6 +129,11 @@ class EnrollmentCrudController extends CrudController
                 'attribute' => 'lastname',
                 'label' => __('Last Name'),
                 'type' => 'relationship',
+                'wrapper' => [
+                    'element' => function ($crud, $column, $entry) {
+                        return $entry->status_id > 2 ? 'del' : 'span';
+                    },
+                ],
                 'searchLogic' => function ($query, $column, $searchTerm) {
                     $query->orWhereHas('student', function ($q) use ($searchTerm) {
                         $q->whereHas('user', function ($q) use ($searchTerm) {
@@ -135,6 +149,11 @@ class EnrollmentCrudController extends CrudController
                 'attribute' => 'firstname',
                 'label' => __('First Name'),
                 'type' => 'relationship',
+                'wrapper' => [
+                    'element' => function ($crud, $column, $entry) {
+                        return $entry->status_id > 2 ? 'del' : 'span';
+                    },
+                ],
                 'searchLogic' => function ($query, $column, $searchTerm) {
                     $query->orWhereHas('student', function ($q) use ($searchTerm) {
                         $q->whereHas('user', function ($q) use ($searchTerm) {
@@ -156,31 +175,42 @@ class EnrollmentCrudController extends CrudController
         ]);
 
         if ($this->mode === 'global') {
-            CRUD::addColumns([[// COURSE NAME
-                'label' => __('Course'), // Table column heading
-                'type' => 'select', 'name' => 'course_id', // the column that contains the ID of that connected entity;
-                'entity' => 'course', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => Course::class, // foreign key model
+            CRUD::addColumns([
+                [
+                'label' => __('Course'),
+                'type' => 'select',
+                'name' => 'course_id',
+                'entity' => 'course',
+                'attribute' => 'name',
+                'model' => Course::class,
             ],
-
-                ['type' => 'relationship', 'name' => 'course.period', 'label' => __('Period'), 'attribute' => 'name'], ]);
+            [
+                'type' => 'relationship',
+                'name' => 'course.period',
+                'label' => __('Period'),
+                'attribute' => 'name'],
+            ]);
         }
 
         CRUD::addColumns([
             [
-                // STATUS
-                'label' => __('Status'), // Table column heading
+                'label' => __('Status'),
                 'type' => 'select',
-                'name' => 'status_id', // the column that contains the ID of that connected entity;
-                'entity' => 'enrollmentStatus', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => EnrollmentStatusType::class, // foreign key model
+                'name' => 'status_id',
+                'entity' => 'enrollmentStatus',
+                'attribute' => 'name',
+                'model' => EnrollmentStatusType::class,
+                'wrapper' => [
+                    'element' => 'span',
+                    'class' => function ($crud, $column, $entry) {
+                        return 'badge badge-pill badge-'.$entry->enrollmentStatus->styling();
+                    },
+                ],
             ],
 
             array_merge([
                 'name' => 'balance',
-                'label' => __('Balance'),
+                'label' => __('Remaining balance'),
                 'type' => 'number',
             ],
             $currency),
@@ -188,40 +218,36 @@ class EnrollmentCrudController extends CrudController
 
         if (config('invoicing.allow_scheduled_payments')) {
             CRUD::addColumn([
-                'name' => 'scheduledPayments', // name of relationship method in the model
+                'name' => 'scheduledPayments',
                 'type' => 'relationship', 'label' => __('Scheduled Payments'), // OPTIONAL
-                'attribute' => 'date', 'model' => ScheduledPayment::class, // foreign key model
+                'attribute' => 'date', 'model' => ScheduledPayment::class,
             ]);
         }
 
         CRUD::addColumns([
 
             [
-                // any type of relationship
-                'name'         => 'scholarships', // name of relationship method in the model
+                'name'         => 'scholarships',
                 'type'         => 'relationship',
                 'label'        => __('Scholarship'),
-                // OPTIONAL
-                // 'entity'    => 'tags', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model'     => Scholarship::class, // foreign key model
+                'attribute' => 'name',
+                'model'     => Scholarship::class,
             ],
 
             [
-                'label'     => __('Email'), // Table column heading
+                'label'     => __('Email'),
                 'name' => 'user',
                 'attribute' => 'email',
                 'type' => 'relationship',
             ],
 
             [
-                'label'     => __('Phone number'), // Table column heading
+                'label'     => __('Phone Number'),
                 'type'      => 'select_multiple',
-                'name'      => 'student.phone', // the method that defines the relationship in your Model
-                'attribute' => 'phone_number', // foreign key attribute that is shown to user
-                'model' => PhoneNumber::class, // foreign key model
+                'name'      => 'student.phone',
+                'attribute' => 'phone_number',
+                'model' => PhoneNumber::class,
             ],
-
         ]);
 
         if ($this->mode === 'global') {
@@ -231,7 +257,6 @@ class EnrollmentCrudController extends CrudController
                 'label'=> __('Status'),
             ], fn () => EnrollmentStatusType::all()->pluck('name', 'id')->toArray(),
             function ($values) {
-                // if the filter is active
                 foreach (json_decode($values, null, 512, JSON_THROW_ON_ERROR) as $value) {
                     CRUD::addClause('orWhere', 'status_id', $value);
                 }
@@ -242,7 +267,6 @@ class EnrollmentCrudController extends CrudController
                 'type' => 'select2',
                 'label'=> __('Period'),
             ], fn () => Period::all()->pluck('name', 'id')->toArray(), function ($value) {
-                // if the filter is active
                 CRUD::addClause('period', $value);
             });
 
@@ -304,16 +328,16 @@ class EnrollmentCrudController extends CrudController
             'type'      => 'select2',
             'name'      => 'course_id', // the db column for the foreign key
 
-            'entity'    => 'course', // the method that defines the relationship in your Model
-            'model'     => \App\Models\Course::class, // foreign key model
-            'attribute' => 'name', // foreign key attribute that is shown to user
+            'entity'    => 'course',
+            'model'     => \App\Models\Course::class,
+            'attribute' => 'name',
 
             'options'   => (fn ($query) => $query->orderBy('level_id', 'ASC')->where('period_id', $this->crud->getCurrentEntry()->course->period_id)->get()),
         ]);
 
         CRUD::addField(array_merge([
             'name' => 'price', // The db column name
-            'label' => __('Price'), // Table column heading
+            'label' => __('Price'),
             'type' => 'number',
         ], $currency));
 
@@ -333,7 +357,7 @@ class EnrollmentCrudController extends CrudController
 
             // optional - manually specify the related model and attribute
             'model'     => \App\Models\EnrollmentStatusType::class, // related model
-            'attribute' => 'name', // foreign key attribute that is shown to user
+            'attribute' => 'name',
         ]);
     }
 
