@@ -45,7 +45,7 @@ class Enrollment extends Model
         ->where('parent_id', null)
         ->get();
     }
-
+    
     public function scopeReal($query)
     {
         return $query

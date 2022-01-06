@@ -442,7 +442,7 @@ class Course extends Model
             return true;
         }
 
-        return $this->spots - $this->course_enrollments_count > 0;
+        return $this->spots - $this->enrollments()->whereIn('status_id', [1,2])->count() > 0;
     }
 
     public function getTakesAttendanceAttribute(): bool
