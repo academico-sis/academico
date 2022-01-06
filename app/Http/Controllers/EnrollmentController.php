@@ -18,6 +18,7 @@ use App\Models\Student;
 use App\Models\Tax;
 use App\Services\AFSantiagoEnrollmentSheetService;
 use App\Traits\PeriodSelection;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Gate;
@@ -103,6 +104,15 @@ class EnrollmentController extends Controller
         }
 
         // TODO delete grades and/or skills
+
+        // Create attendance in new course.
+        $events = $course->events->where('start', '<', (new Carbon())->toDateString());
+        foreach ($events as $event) {
+            $event->attendance()->create([
+                'student_id' => $enrollment->student_id,
+                'attendance_type_id' => 3,
+            ]);
+        }
 
         // display a confirmation message and redirect to enrollment details
         Alert::success(__('The enrollment has been updated'))->flash();
