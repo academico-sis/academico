@@ -9,8 +9,6 @@
 
 Academico is an open-source, Lavarel-based school management platform. Its main features include course management, enrolments management, resources scheduling, reports and stats. It is primarily targeted at small and medium-sized institutions who need a simple and affordable solution to manage their school and courses.
 
-If you're using this software, please be get in touch with project maintener to receive security updates and be notified if breaking changes are published. I usually write migrations for the installations I manage, but do not always publish them or write official release notes - but I'll gladly share these with you if you ask. Just send an email to academico@thomasdebay.com to let me know that you start using this application in production and I'll notify you when a non-trivial update is published.
-
 # Documentation
 * Technical documentation (EN), including installation instructions -> https://github.com/laxsmi/academico/wiki
 
@@ -50,4 +48,4 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
 
 # License
-This software is based on Laravel and Backpack for Laravel. **You will need to [acquire a Backpack license](https://backpackforlaravel.com/pricing) if you decide to use it for commercial use.** If you want to use this software for a non-commercial project, you may be eligible for a free license, please visit Backpack for Laravel's pricing page for details. A SaaS solution for this software including the Backpack licence, managed hosting, consulting and extra features development is offered at https://academico.thomasdebay.com
+This software is based on Laravel and Backpack for Laravel. **You will need to [acquire a Backpack license](https://backpackforlaravel.com) if you decide to use it for commercial use** It provides a high-quality framework to build features on and has proven well worth the price of a license. Moreover, non-commercial projects might be eligible for a free license, please visit [Backpack pricing page](https://backpackforlaravel.com/pricing) for details. You may also run the application on localhost without a license.
