@@ -12,11 +12,6 @@ npm-debug.log
 yarn-error.log
 .idea
 deploy.php
-phpcs.xml
-
-phpmd-ruleset.xml
-
-phpmd.html
 /dockerfiles
-phpstan.neon
 docker-compose.yml
+.php-cs-fixer.cache

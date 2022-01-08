@@ -85,7 +85,8 @@ class ScheduledPaymentController extends Controller
             'availableTaxes' => Tax::all(),
         ];
         if (config('invoicing.price_categories_enabled')) {
-            $data = array_merge($data,
+            $data = array_merge(
+                $data,
                 [
                     'priceCategories' => collect([
                         'price_a' => $enrollment->course->price,

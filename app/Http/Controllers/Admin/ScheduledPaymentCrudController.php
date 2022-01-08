@@ -101,17 +101,20 @@ class ScheduledPaymentCrudController extends CrudController
 
         CRUD::column('date');
 
-        CRUD::addFilter([
-            'name' => 'status_id',
-            'type' => 'select2',
-            'label'=> __('Status'),
-        ], fn () => [
-            1 => __('Pending'),
-            2 => __('Paid'),
-        ],
+        CRUD::addFilter(
+            [
+                'name' => 'status_id',
+                'type' => 'select2',
+                'label'=> __('Status'),
+            ],
+            fn () => [
+                1 => __('Pending'),
+                2 => __('Paid'),
+            ],
             function ($value) { // if the filter is active
                 CRUD::addClause('status', $value);
-            });
+            }
+        );
     }
 
     /**

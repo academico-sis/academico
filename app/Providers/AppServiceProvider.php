@@ -52,9 +52,11 @@ class AppServiceProvider extends ServiceProvider
         }
 
         View::composer(
-            ['partials.create_new_contact', 'students.edit-contact'], function ($view) {
+            ['partials.create_new_contact', 'students.edit-contact'],
+            function ($view) {
                 $view->with('contact_types', ContactRelationship::all());
-            });
+            }
+        );
 
         View::composer('partials.add_book_to_student', function ($view) {
             $view->with('books', Book::all());

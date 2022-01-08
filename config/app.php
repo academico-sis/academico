@@ -135,7 +135,6 @@ return [
 
     'send_emails_for_absences' => env('SEND_ABSENCE_NOTIFICATIONS', false),
 
-
     'send_emails_for_results' => env('SEND_RESULTS_NOTIFICATIONS', false),
 
     /*

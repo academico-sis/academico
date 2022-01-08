@@ -15,7 +15,7 @@ class EnrollmentStatusType extends Model
 
     public function styling()
     {
-        return match($this->id) {
+        return match ($this->id) {
             1 => 'warning',
             2 => 'info',
             default => 'danger',

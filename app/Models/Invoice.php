@@ -54,7 +54,7 @@ class Invoice extends Model
 
     public function enrollments()
     {
-        return $this->belongsToMany(Enrollment::class);
+        return $this->hasMany(InvoiceDetail::class)->where('product_type', Enrollment::class);
     }
 
     public function comments()

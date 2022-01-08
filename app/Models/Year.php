@@ -26,7 +26,7 @@ class Year extends Model
 
     public function studentCount($gender = null)
     {
-        if (in_array($gender, [1,2])) {
+        if (in_array($gender, [1, 2])) {
             return DB::table('enrollments')
                 ->join('courses', 'enrollments.course_id', 'courses.id')
                 ->join('periods', 'courses.period_id', 'periods.id')
@@ -46,7 +46,7 @@ class Year extends Model
                 ->where('periods.year_id', $this->id)
                 ->whereIn('enrollments.status_id', ['1', '2']) // filter out cancelled enrollments, todo make this configurable.
                 ->where('enrollments.parent_id', null)->where('enrollments.deleted_at', null)
-                ->where(function($query) {
+                ->where(function ($query) {
                     return $query->where('students.gender_id', 0)->orWhereNull('students.gender_id');
                 })
                 ->distinct('student_id')->count('enrollments.student_id');

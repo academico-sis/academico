@@ -24,11 +24,13 @@ Route::group(
 
 /* enrollments and invoicing */
 
-Route::group([
-    'prefix'     => config('backpack.base.route_prefix'),
-    'middleware' => ['web', 'permission:enrollments.view', 'language'],
-    'namespace'  => 'App\Http\Controllers\Admin',
-], function () {
+Route::group(
+    [
+        'prefix'     => config('backpack.base.route_prefix'),
+        'middleware' => ['web', 'permission:enrollments.view', 'language'],
+        'namespace'  => 'App\Http\Controllers\Admin',
+    ],
+    function () {
     Route::crud('enrollment', 'EnrollmentCrudController');
 }
 );

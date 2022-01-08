@@ -60,7 +60,8 @@ class Student extends Model implements HasMedia
 
             4 => $query
                 ->where('lead_type_id', $leadTypeId)
-                ->orWhere(function ($query) {
+                ->orWhere(
+                    function ($query) {
                     $query
                         ->whereNull('lead_type_id')
                         ->whereHas('enrollments', fn ($query) => $query
@@ -72,7 +73,7 @@ class Student extends Model implements HasMedia
                                 $q->where('period_id', Period::get_default_period()->id);
                             }));
                 }
-            ),
+                ),
 
             default => $query,
         };
@@ -190,7 +191,7 @@ class Student extends Model implements HasMedia
 
     public function getStudentAgeAttribute()
     {
-        return $this->birthdate ? Carbon::parse($this->birthdate)->age . ' ' . __('years old') : '';
+        return $this->birthdate ? Carbon::parse($this->birthdate)->age.' '.__('years old') : '';
     }
 
     public function getStudentBirthdateAttribute()
@@ -243,25 +244,29 @@ class Student extends Model implements HasMedia
     public function enroll(Course $course): int
     {
         // avoid duplicates by retrieving an potential existing enrollment for the same course
-        $enrollment = Enrollment::firstOrCreate([
-            'student_id' =>  $this->id,
-            'course_id' => $course->id,
-        ],
-        [
-            'responsible_id' => backpack_user()->id ?? 1,
-        ]);
+        $enrollment = Enrollment::firstOrCreate(
+            [
+                'student_id' =>  $this->id,
+                'course_id' => $course->id,
+            ],
+            [
+                'responsible_id' => backpack_user()->id ?? 1,
+            ]
+        );
 
         // if the course has children, enroll in children as well.
         if ($course->children_count > 0) {
             foreach ($course->children as $children_course) {
-                Enrollment::firstOrCreate([
-                    'student_id' =>  $this->id,
-                    'course_id' => $children_course->id,
-                    'parent_id' => $enrollment->id,
-                ],
-                [
-                    'responsible_id' => backpack_user()->id ?? 1,
-                ]);
+                Enrollment::firstOrCreate(
+                    [
+                        'student_id' =>  $this->id,
+                        'course_id' => $children_course->id,
+                        'parent_id' => $enrollment->id,
+                    ],
+                    [
+                        'responsible_id' => backpack_user()->id ?? 1,
+                    ]
+                );
             }
         }
 
@@ -302,13 +307,12 @@ class Student extends Model implements HasMedia
     public function setImageAttribute($value)
     {
         // if the image was erased
-        if ($value==null) {
+        if ($value == null) {
             $this->clearMediaCollection('profile-picture');
         }
 
         // if a base64 was sent, store it in the db
-        if (Str::startsWith($value, 'data:image'))
-        {
+        if (Str::startsWith($value, 'data:image')) {
             $this->addMediaFromBase64($value)
                 ->usingFileName('profilePicture.jpg')
                 ->toMediaCollection('profile-picture');

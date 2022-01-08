@@ -87,13 +87,14 @@ class ResultCrudController extends CrudController
             ],
         ]);
 
-        CRUD::addFilter([
-            'type' => 'simple',
-            'name' => 'noresult',
-            'label'=> __('No Result'),
-        ],
-          false,
-          function () {
+        CRUD::addFilter(
+            [
+                'type' => 'simple',
+                'name' => 'noresult',
+                'label'=> __('No Result'),
+            ],
+            false,
+            function () {
               CRUD::addClause('noResult');
           }
         );

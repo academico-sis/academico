@@ -67,27 +67,33 @@ class LeaveCrudController extends CrudController
             ],
         ]);
 
-        CRUD::addFilter([ // select2 filter
-            'name' => 'teacher_id',
-            'type' => 'select2',
-            'label'=> __('Teacher'),
-        ], fn () => Teacher::all()->pluck('name', 'id')->toArray(), function ($value) { // if the filter is active
+        CRUD::addFilter(
+            [ // select2 filter
+                'name' => 'teacher_id',
+                'type' => 'select2',
+                'label'=> __('Teacher'),
+            ],
+            fn () => Teacher::all()->pluck('name', 'id')->toArray(),
+            function ($value) { // if the filter is active
             CRUD::addClause('where', 'teacher_id', $value);
         },
-          function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
-          });
+            function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
+          }
+        );
 
-        CRUD::addFilter([ // daterange filter
-            'type' => 'date_range',
-            'name' => 'from_to',
-            'label'=> __('Date range'),
-        ],
-          false,
-          function ($value) { // if the filter is active, apply these constraints
+        CRUD::addFilter(
+            [ // daterange filter
+                'type' => 'date_range',
+                'name' => 'from_to',
+                'label'=> __('Date range'),
+            ],
+            false,
+            function ($value) { // if the filter is active, apply these constraints
               $dates = json_decode($value, null, 512, JSON_THROW_ON_ERROR);
               CRUD::addClause('where', 'date', '>=', $dates->from);
               CRUD::addClause('where', 'date', '<=', $dates->to.' 23:59:59');
-          });
+          }
+        );
     }
 
     protected function setupCreateOperation()

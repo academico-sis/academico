@@ -203,7 +203,7 @@ class ReportController extends Controller
             ->where('id', '>=', $startperiod->id)
             ->get()
             ->groupBy('year_id')
-            ->map(function($yearData) {
+            ->map(function ($yearData) {
                 $yearPeriods = [];
 
                 foreach ($yearData as $period) {
@@ -307,11 +307,12 @@ class ReportController extends Controller
 
     private function getStartperiod(Request $request)
     {
-        if (!isset($request->period)) {
+        if (! isset($request->period)) {
             $startperiod = Period::find(Config::where('name', 'first_period')->first()->value);
         } else {
             $startperiod = Period::find($request->period);
         }
+
         return $startperiod;
     }
 }

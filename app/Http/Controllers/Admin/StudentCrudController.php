@@ -175,17 +175,21 @@ class StudentCrudController extends CrudController
 
         ]);
 
-        CRUD::addFilter([ // select2 filter
-            'name' => 'enrolled',
-            'type' => 'select2',
-            'label'=> __('Is Enrolled in'),
-        ], fn () => Period::all()->pluck('name', 'id')->toArray(), function ($value) { // if the filter is active
+        CRUD::addFilter(
+            [ // select2 filter
+                'name' => 'enrolled',
+                'type' => 'select2',
+                'label'=> __('Is Enrolled in'),
+            ],
+            fn () => Period::all()->pluck('name', 'id')->toArray(),
+            function ($value) { // if the filter is active
             $this->crud->query = $this->crud->query->whereHas('enrollments', fn ($query) => $query->whereHas('course', function ($q) use ($value) {
                 $q->where('period_id', $value);
             }));
         },
-          function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
-          });
+            function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
+          }
+        );
 
         CRUD::addFilter([ // select2_multiple filter
             'name' => 'notenrolled',
@@ -199,11 +203,12 @@ class StudentCrudController extends CrudController
             }
         });
 
-        CRUD::addFilter([
-            'name' => 'new_students',
-            'type' => 'select2',
-            'label'=> __('New In'),
-        ],
+        CRUD::addFilter(
+            [
+                'name' => 'new_students',
+                'type' => 'select2',
+                'label'=> __('New In'),
+            ],
             fn () => Period::all()->pluck('name', 'id')->toArray(),
             function ($value) { // if the filter is active
                 CRUD::addClause('newInPeriod', $value);
@@ -290,17 +295,17 @@ class StudentCrudController extends CrudController
             'label'       => __('Gender'),
             'type'        => 'radio',
             'options'     => [
-                0 => __("Other / Rather not say"),
-                1 => __("Female"),
-                2 => __("Male"),
+                0 => __('Other / Rather not say'),
+                1 => __('Female'),
+                2 => __('Male'),
             ],
             'inline'      => true,
             'tab' => __('Student Info'),
         ]);
 
         $this->crud->addField([
-            'label' => __("Profile Picture"),
-            'name' => "image",
+            'label' => __('Profile Picture'),
+            'name' => 'image',
             'type' => 'image',
             'crop' => true, // set to true to allow cropping, false to disable
             'tab' => __('Student Info'),

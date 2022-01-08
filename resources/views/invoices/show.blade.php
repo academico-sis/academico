@@ -18,10 +18,7 @@
                             {{ __('Edit') }}
                         </a>
 
-                    @php $enrollmentId = $invoice->enrollments->first()->id; @endphp
-                    @include('partials.delete-button', ['route' => "/invoice/$invoice->id", 'redirectRoute' => "/enrollment/$enrollmentId/show"])
-                    {{-- TODO fix this, an invoice can theoretically contain several enrollments --}}
-
+                        @include('partials.delete-button', ['route' => "/invoice/$invoice->id", 'redirectRoute' => $afterSuccessUrl])
                     </div>
                 </div>
 
@@ -75,7 +72,7 @@
                         editable="{{ $editable ?? false }}"
                         currency="{{ config('app.currency_symbol') }}"
                         currencyposition="{{ config('app.currency_position') }}"
-                        enrollment-id="{{ $invoice->enrollments->first()->id }}" {{-- TODO fix this, an invoice can theoretically contain several enrollments --}}
+                        after-success-url="{{ $afterSuccessUrl }}"
                     ></payment-component>
 
                 </div>

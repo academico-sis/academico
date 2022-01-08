@@ -30,7 +30,7 @@ class GenderReportTest extends TestCase
 
         $this->assertEquals(1, $period->studentCount(1));
         $this->assertEquals(1, $period->studentCount(2));
-        $this->assertEquals(2, $period->studentCount(0));
+        $this->assertEquals(3, $period->studentCount(0));
     }
 
     public function test_view_returns_an_ok_response()
@@ -54,6 +54,7 @@ class GenderReportTest extends TestCase
         // Initial period shall not have any students
         $response->assertViewHas('data', function ($data) use ($period) {
             $data = $data->values();
+
             return
                 $data->first()['periods'][1]['period'] === $period->name &&
                 $data->first()['periods'][1]['male'] === 0 &&
@@ -83,6 +84,7 @@ class GenderReportTest extends TestCase
         // The year shall have the correct total for both periods
         $response->assertViewHas('data', function ($data) use ($otherPeriodInSameYear, $otherPeriod) {
             $year = collect($data->values()[1]);
+
             return
                 $year['year'] == $otherPeriod->year->name &&
                 $year['male'] === 15 &&

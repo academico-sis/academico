@@ -102,6 +102,7 @@ class InvoiceCrudController extends CrudController
             'invoice' => $invoice,
             'availablePaymentMethods' => Paymentmethod::all(),
             'editable' => true,
+            'afterSuccessUrl' => $invoice->enrollments->count() > 0 ? "/enrollment/{$invoice->enrollments->first()->id}/show" : '/invoice', // TODO fix this, an invoice can theoretically contain several enrollments
         ]);
     }
 }

@@ -27,7 +27,7 @@ class UpgradeToMedialibrary8 extends Migration
             function (Media $media) {
                 return $media->update(['uuid' => Str::uuid()]);
             }
-         );
+        );
     }
 
     /**

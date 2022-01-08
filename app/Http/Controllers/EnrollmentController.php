@@ -175,7 +175,8 @@ class EnrollmentController extends Controller
         ];
 
         if (config('invoicing.price_categories_enabled')) {
-            $data = array_merge($data,
+            $data = array_merge(
+                $data,
                 [
                     'priceCategories' => collect([
                         'price_a' => $enrollment->course->price,

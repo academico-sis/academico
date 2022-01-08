@@ -9,6 +9,6 @@ $factory->define(App\Models\Student::class, function (Faker $faker) {
         'address' => $faker->streetAddress,
         'birthdate' => $faker->dateTimeThisCentury->format('Y-m-d'),
         'id' => factory(User::class)->create()->id,
-        'gender_id' => rand(0,2),
+        'gender_id' => rand(0, 2),
     ];
 });

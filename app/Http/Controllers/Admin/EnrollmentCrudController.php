@@ -59,7 +59,6 @@ class EnrollmentCrudController extends CrudController
 
     public function setupListOperation()
     {
-
         if ($this->crud->getRequest()->has('course_id')) {
             $this->mode = 'course';
             $this->course = Course::findOrFail($this->crud->getRequest()->course_id);
@@ -177,18 +176,18 @@ class EnrollmentCrudController extends CrudController
         if ($this->mode === 'global') {
             CRUD::addColumns([
                 [
-                'label' => __('Course'),
-                'type' => 'select',
-                'name' => 'course_id',
-                'entity' => 'course',
-                'attribute' => 'name',
-                'model' => Course::class,
-            ],
-            [
-                'type' => 'relationship',
-                'name' => 'course.period',
-                'label' => __('Period'),
-                'attribute' => 'name'],
+                    'label' => __('Course'),
+                    'type' => 'select',
+                    'name' => 'course_id',
+                    'entity' => 'course',
+                    'attribute' => 'name',
+                    'model' => Course::class,
+                ],
+                [
+                    'type' => 'relationship',
+                    'name' => 'course.period',
+                    'label' => __('Period'),
+                    'attribute' => 'name', ],
             ]);
         }
 
@@ -208,12 +207,14 @@ class EnrollmentCrudController extends CrudController
                 ],
             ],
 
-            array_merge([
-                'name' => 'balance',
-                'label' => __('Remaining balance'),
-                'type' => 'number',
-            ],
-            $currency),
+            array_merge(
+                [
+                    'name' => 'balance',
+                    'label' => __('Remaining balance'),
+                    'type' => 'number',
+                ],
+                $currency
+            ),
         ]);
 
         if (config('invoicing.allow_scheduled_payments')) {
@@ -251,16 +252,19 @@ class EnrollmentCrudController extends CrudController
         ]);
 
         if ($this->mode === 'global') {
-            CRUD::addFilter([
-                'name' => 'status_id',
-                'type' => 'select2_multiple',
-                'label'=> __('Status'),
-            ], fn () => EnrollmentStatusType::all()->pluck('name', 'id')->toArray(),
-            function ($values) {
+            CRUD::addFilter(
+                [
+                    'name' => 'status_id',
+                    'type' => 'select2_multiple',
+                    'label'=> __('Status'),
+                ],
+                fn () => EnrollmentStatusType::all()->pluck('name', 'id')->toArray(),
+                function ($values) {
                 foreach (json_decode($values, null, 512, JSON_THROW_ON_ERROR) as $value) {
                     CRUD::addClause('orWhere', 'status_id', $value);
                 }
-            });
+            }
+            );
 
             CRUD::addFilter([
                 'name' => 'period_id',

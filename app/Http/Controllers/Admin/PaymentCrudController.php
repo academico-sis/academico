@@ -43,16 +43,18 @@ class PaymentCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        $this->crud->addFilter([
-            'type'  => 'date',
-            'name'  => 'date',
-            'label' => __('Due Date'),
-        ],
+        $this->crud->addFilter(
+            [
+                'type'  => 'date',
+                'name'  => 'date',
+                'label' => __('Due Date'),
+            ],
             false,
             function ($value) { // if the filter is active, apply these constraints
                 $this->crud->addClause('where', 'date', '>=', Carbon::parse($value)->firstOfMonth());
                 $this->crud->addClause('where', 'date', '<=', Carbon::parse($value)->lastOfMonth());
-            });
+            }
+        );
 
         CRUD::column('month');
 

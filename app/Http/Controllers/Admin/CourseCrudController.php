@@ -182,47 +182,60 @@ class CourseCrudController extends CrudController
 
         ]);
 
-        CRUD::addFilter([
-            'name' => 'rhythm_id',
-            'type' => 'select2',
-            'label'=> __('Rhythm'),
-        ], fn () => Rhythm::all()->pluck('name', 'id')->toArray(), function ($value) {
+        CRUD::addFilter(
+            [
+                'name' => 'rhythm_id',
+                'type' => 'select2',
+                'label'=> __('Rhythm'),
+            ],
+            fn () => Rhythm::all()->pluck('name', 'id')->toArray(),
+            function ($value) {
             // if the filter is active
             CRUD::addClause('where', 'rhythm_id', $value);
         },
-        function () {
+            function () {
             // if the filter is NOT active (the GET parameter "checkbox" does not exit)
-        });
+        }
+        );
 
-        CRUD::addFilter([
-            'name' => 'teacher_id',
-            'type' => 'select2',
-            'label'=> __('Teacher'),
-        ], fn () => Teacher::all()->pluck('name', 'id')->toArray(), function ($value) {
+        CRUD::addFilter(
+            [
+                'name' => 'teacher_id',
+                'type' => 'select2',
+                'label'=> __('Teacher'),
+            ],
+            fn () => Teacher::all()->pluck('name', 'id')->toArray(),
+            function ($value) {
             // if the filter is active
             CRUD::addClause('where', 'teacher_id', $value);
         },
-        function () {
+            function () {
             // if the filter is NOT active (the GET parameter "checkbox" does not exit)
-        });
+        }
+        );
 
-        CRUD::addFilter([
-            'name' => 'level_id',
-            'type' => 'select2',
-            'label'=> __('Level'),
-        ], fn () => Level::all()->pluck('name', 'id')->toArray(), function ($value) {
+        CRUD::addFilter(
+            [
+                'name' => 'level_id',
+                'type' => 'select2',
+                'label'=> __('Level'),
+            ],
+            fn () => Level::all()->pluck('name', 'id')->toArray(),
+            function ($value) {
             // if the filter is active
             CRUD::addClause('where', 'level_id', $value);
         },
-        function () {
+            function () {
             // if the filter is NOT active (the GET parameter "checkbox" does not exit)
-        });
+        }
+        );
 
-        CRUD::addFilter([
-            'name' => 'period_id',
-            'type' => 'select2',
-            'label'=> __('Period'),
-        ],
+        CRUD::addFilter(
+            [
+                'name' => 'period_id',
+                'type' => 'select2',
+                'label'=> __('Period'),
+            ],
             fn () => \App\Models\Period::all()->sortByDesc('id')->pluck('name', 'id')->toArray(),
             function ($value) { // if the filter is active
                 CRUD::addClause('where', 'period_id', $value);
@@ -246,29 +259,33 @@ class CourseCrudController extends CrudController
             }
         );
 
-        $this->crud->addFilter([
-            'type'  => 'date_range',
-            'name'  => 'start_date',
-            'label' => __('Start'),
-        ],
+        $this->crud->addFilter(
+            [
+                'type'  => 'date_range',
+                'name'  => 'start_date',
+                'label' => __('Start'),
+            ],
             false,
             function ($value) { // if the filter is active, apply these constraints
                 $dates = json_decode($value, null, 512, JSON_THROW_ON_ERROR);
                 $this->crud->addClause('where', 'start_date', '>=', $dates->from);
                 $this->crud->addClause('where', 'start_date', '<=', $dates->to.' 23:59:59');
-            });
+            }
+        );
 
-        $this->crud->addFilter([
-            'type'  => 'date_range',
-            'name'  => 'end_date',
-            'label' => __('End'),
-        ],
+        $this->crud->addFilter(
+            [
+                'type'  => 'date_range',
+                'name'  => 'end_date',
+                'label' => __('End'),
+            ],
             false,
             function ($value) { // if the filter is active, apply these constraints
                 $dates = json_decode($value, null, 512, JSON_THROW_ON_ERROR);
                 $this->crud->addClause('where', 'end_date', '>=', $dates->from);
                 $this->crud->addClause('where', 'end_date', '<=', $dates->to.' 23:59:59');
-            });
+            }
+        );
     }
 
     protected function setupCreateOperation()

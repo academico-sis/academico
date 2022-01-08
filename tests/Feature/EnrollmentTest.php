@@ -187,11 +187,14 @@ class EnrollmentTest extends TestCase
         ]);
 
         // Change Course
-        $response = $this->json('POST',
-        '/enrollment/'.$enrollment->id.'/changeCourse', [
-            'student_id' => $student->id,
-            'course_id' => $courseB->id,
-        ]);
+        $response = $this->json(
+            'POST',
+            '/enrollment/'.$enrollment->id.'/changeCourse',
+            [
+                'student_id' => $student->id,
+                'course_id' => $courseB->id,
+            ]
+        );
 
         // Refresh the Enrollment to retrieve new data
         $enrollment->refresh();

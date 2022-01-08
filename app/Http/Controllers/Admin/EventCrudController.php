@@ -111,13 +111,14 @@ class EventCrudController extends CrudController
 
         ]);
 
-        CRUD::addFilter([ // daterange filter
-            'type' => 'date_range',
-            'name' => 'from_to',
-            'label'=> __('Date range'),
-        ],
-          false,
-          function ($value) { // if the filter is active, apply these constraints
+        CRUD::addFilter(
+            [ // daterange filter
+                'type' => 'date_range',
+                'name' => 'from_to',
+                'label'=> __('Date range'),
+            ],
+            false,
+            function ($value) { // if the filter is active, apply these constraints
               $dates = json_decode($value, null, 512, JSON_THROW_ON_ERROR);
 
               if ($dates->from) {
@@ -126,39 +127,48 @@ class EventCrudController extends CrudController
               if ($dates->to) {
                   CRUD::addClause('where', 'start', '<=', $dates->to.' 23:59:59');
               }
-          });
+          }
+        );
 
-        CRUD::addFilter([
-            'type' => 'simple',
-            'name' => 'orphan',
-            'label'=> __('Events with no course'),
-        ],
-          false,
-          function ($value) { // if the filter is active, apply these constraints
+        CRUD::addFilter(
+            [
+                'type' => 'simple',
+                'name' => 'orphan',
+                'label'=> __('Events with no course'),
+            ],
+            false,
+            function ($value) { // if the filter is active, apply these constraints
               $this->crud->query->where('course_id', null);
           },
-          function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
-          });
+            function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
+          }
+        );
 
-        CRUD::addFilter([
-            'type' => 'simple',
-            'name' => 'unassigned',
-            'label'=> __('Events with no teacher'),
-        ],
-          false,
-          function ($value) { // if the filter is active, apply these constraints
+        CRUD::addFilter(
+            [
+                'type' => 'simple',
+                'name' => 'unassigned',
+                'label'=> __('Events with no teacher'),
+            ],
+            false,
+            function ($value) { // if the filter is active, apply these constraints
               CRUD::addClause('unassigned');
-          });
+          }
+        );
 
-        CRUD::addFilter([ // select2 filter
-            'name' => 'teacher_id',
-            'type' => 'select2',
-            'label'=> __('Teacher'),
-        ], fn () => Teacher::all()->pluck('name', 'id')->toArray(), function ($value) { // if the filter is active
+        CRUD::addFilter(
+            [ // select2 filter
+                'name' => 'teacher_id',
+                'type' => 'select2',
+                'label'=> __('Teacher'),
+            ],
+            fn () => Teacher::all()->pluck('name', 'id')->toArray(),
+            function ($value) { // if the filter is active
             CRUD::addClause('where', 'teacher_id', $value);
         },
-          function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
-          });
+            function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
+          }
+        );
     }
 
     public function store(Request $request)

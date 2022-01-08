@@ -85,34 +85,39 @@ class CommentCrudController extends CrudController
             ],
         ]);
 
-        CRUD::addFilter([ // simple filter
-            'type' => 'simple',
-            'name' => 'action',
-            'label'=> 'Action',
-        ],
-              false,
-              function () { // if the filter is active
+        CRUD::addFilter(
+            [ // simple filter
+                'type' => 'simple',
+                'name' => 'action',
+                'label'=> 'Action',
+            ],
+            false,
+            function () { // if the filter is active
                   CRUD::addClause('where', 'action', true);
-              });
+              }
+        );
 
-        CRUD::addFilter([ // dropdown filter
-            'name' => 'type',
-            'type' => 'dropdown',
-            'label'=> 'Type',
-        ],
+        CRUD::addFilter(
+            [ // dropdown filter
+                'name' => 'type',
+                'type' => 'dropdown',
+                'label'=> 'Type',
+            ],
             [
                 Student::class => 'Student',
                 Enrollment::class => 'Enrollments',
                 Invoice::class => 'Invoice',
                 Result::class => 'Result',
 
-            ], function ($value) { // if the filter is active
+            ],
+            function ($value) { // if the filter is active
                 CRUD::addClause('where', 'commentable_type', '=', $value);
             },
-              function () { // if the filter is not active
+            function () { // if the filter is not active
                   CRUD::addClause('where', 'commentable_type', '=', Student::class);
                   $this->crud->getRequest()->request->add(['commentable_type' => Student::class]); // to make the filter look active
-              });
+              }
+        );
     }
 
     public function setupUpdateOperation()

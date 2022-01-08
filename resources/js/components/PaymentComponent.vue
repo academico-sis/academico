@@ -95,7 +95,7 @@ export default {
         "editable",
         "currency",
         "currencyposition",
-        "enrollmentId",
+        "afterSuccessUrl",
     ],
 
     data() {
@@ -150,7 +150,7 @@ export default {
                         type: "success",
                     }).show();
 
-                    window.location.href=`/enrollment/${this.enrollmentId}/show`;
+                    window.location.href=this.afterSuccessUrl;
                 })
                 .catch(e => {
                     this.loading = false;

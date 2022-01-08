@@ -134,7 +134,7 @@ class Period extends Model
 
     public function studentCount($gender = null)
     {
-        if (in_array($gender, [1,2])) {
+        if (in_array($gender, [1, 2])) {
             return DB::table('enrollments')
                 ->join('courses', 'enrollments.course_id', 'courses.id')
                 ->join('students', 'enrollments.student_id', 'students.id')
@@ -154,7 +154,7 @@ class Period extends Model
                 ->where('courses.period_id', $this->id)
                 ->where('enrollments.deleted_at', null)
                 ->where('enrollments.parent_id', null)
-                ->where(function($query) {
+                ->where(function ($query) {
                     return $query->where('students.gender_id', 0)->orWhereNull('students.gender_id');
                 })
                 ->whereIn('enrollments.status_id', ['1', '2']) // filter out cancelled enrollments, todo make this configurable.
