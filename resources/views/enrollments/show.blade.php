@@ -124,7 +124,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($enrollment->invoices as $invoice)
+                        @forelse($enrollment->relatedInvoices() as $invoice)
                             <tr>
                                 <td>
                                     @if (!$invoice->invoice_reference)
@@ -146,23 +146,23 @@
                                         </td>
                                     </tr>
                                 @endforeach
+
+{{--                            <tr>--}}
+{{--                                <td><strong>{{ __('Remaining balance') }}</strong></td>--}}
+{{--                                <td></td>--}}
+{{--                                <td>--}}
+{{--                                    @if (config('app.currency_position') === 'before')--}}
+{{--                                        {{ config('app.currency_symbol') }} <strong>{{ $invoice->balance }}</strong>--}}
+{{--                                    @else--}}
+{{--                                        <strong>{{ $invoice->balance }}</strong> {{ config('app.currency_symbol') }}--}}
+{{--                                    @endif--}}
+{{--                                </td>--}}
+{{--                            </tr>--}}
                         @empty
                             <tr>
-                                <td>Pas encore de facture pour cette inscription.</td>
+                                <td>{{ __('No invoice for this enrollment') }}</td>
                             </tr>
                         @endforelse
-
-                        <tr>
-                            <td><strong>{{ __('Balance') }}</strong></td>
-                            <td></td>
-                            <td>
-                                @if (config('app.currency_position') === 'before')
-                                    {{ config('app.currency_symbol') }} <strong>{{ $enrollment->balance }}</strong>
-                                @else
-                                    <strong>{{ $enrollment->balance }}</strong> {{ config('app.currency_symbol') }}
-                                @endif
-                            </td>
-                        </tr>
                     </tbody>
                 </table>
 

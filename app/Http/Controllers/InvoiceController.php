@@ -62,7 +62,6 @@ class InvoiceController extends Controller
             'client_address' => $request->client_address,
             'client_email' => $request->client_email,
             'client_phone' => $request->client_phone,
-            'total_price' => $request->total_price,
             'invoice_type_id' => $request->invoicetype,
             'receipt_number' => $request->receiptnumber,
             'date' => $request->has('date') ? Carbon::parse($request->date) : Carbon::now(),
@@ -74,37 +73,27 @@ class InvoiceController extends Controller
         foreach ($request->products as $f => $product) {
             $productType = match ($product['type']) {
                 'enrollment' => Enrollment::class,
-                'scheduledPayment' => Enrollment::class,
+                'scheduledPayment' => ScheduledPayment::class,
                 'fee' => Fee::class,
                 'book' => Book::class,
             };
 
             $productFinalPrice = 0; // used to compute the final price with taxes and discounts
 
-            if ($product['type'] === 'enrollment') {
-                Enrollment::find($product['id'])->invoices()->attach($invoice, ['scheduled_payment_id' => $request->scheduled_payment_id ?? null]);
-            }
-
-            if ($product['type'] === 'scheduledPayment') {
-                $scheduledPayment = ScheduledPayment::find($product['id']);
-                $scheduledPayment->enrollment->invoices()->attach($invoice, ['scheduled_payment_id' => $product['id']]);
-                // Reset status to default value
-                $scheduledPayment->update(['status' => null]);
-            }
-
             $productFinalPrice += $product['price'] * ($product['quantity'] ?? 1) * 100;
 
+            // The front end sends the discounts value as percent, but  for the invoice we want to store their actual value relative to the product they were applied on
             if (isset($product['discounts'])) {
                 foreach ($product['discounts'] as $d => $discount) {
-                    $productFinalPrice -= (($discount['value']) * $product['price']) * ($product['quantity'] ?? 1); // no need to multiply by 100 because discount is in %
-
                     InvoiceDetail::create([
                         'invoice_id' => $invoice->id,
                         'product_name' => $discount['name'],
                         'product_id' => $discount['id'],
                         'product_type' => Discount::class,
-                        'price' => -$discount['value'] * ($product['quantity'] ?? 1),
+                        'price' => -($discount['value'] / 100) * $product['price'] * ($product['quantity'] ?? 1),
                     ]);
+
+                    $productFinalPrice -= (($discount['value']) * $product['price']) * ($product['quantity'] ?? 1); // no need to multiply by 100 because discount is in %
                 }
             }
 
@@ -131,7 +120,6 @@ class InvoiceController extends Controller
                 'price' => $product['price'],
                 'final_price' => $productFinalPrice,
                 'quantity' => $product['quantity'] ?? 1,
-                //'tax_rate' => collect($product['taxes'] ?? [])->sum('value'),
             ]);
         }
 
@@ -167,32 +155,21 @@ class InvoiceController extends Controller
             $success = true;
         }
         if (isset($success)) {
-            // if the value of payments matches the total due price,
-            // mark the invoice and associated enrollments as paid.
-            foreach ($invoice->enrollments as $enrollment) {
-                if ($enrollment->price == $invoice->paidTotal()) {
-                    $enrollment->markAsPaid();
-                } elseif ($enrollment->scheduledPayments->where('computed_status', '!==', 2)->count() === 0) {
-                    $enrollment->markAsPaid();
-                }
-                if (isset($request->comment)) {
-                    Comment::create([
-                        'commentable_id' => $invoice->id,
-                        'commentable_type' => Invoice::class,
-                        'body' => $request->comment,
-                        'author_id' => backpack_user()->id,
-                    ]);
-                }
+
+            $this->ifTheInvoiceIsFullyPaidMarkItsProductsAsSuch($invoice);
+
+            if (isset($request->comment)) {
+                Comment::create([
+                    'commentable_id' => $invoice->id,
+                    'commentable_type' => Invoice::class,
+                    'body' => $request->comment,
+                    'author_id' => backpack_user()->id,
+                ]);
             }
         } else {
             Invoice::where('id', $invoice->id)->delete();
             abort(500);
         }
-    }
-
-    public function edit(Invoice $invoice)
-    {
-        return view('invoices.edit', compact('invoice'));
     }
 
     public function download(Invoice $invoice)
@@ -223,24 +200,11 @@ class InvoiceController extends Controller
             ->currencyFormat($currencyFormat)
             ->notes($notes ?? '');
 
-        //$taxIsGlobal = $invoice->products->pluck('tax_rate')->unique()->count() === 1;
-        //$taxRate = $invoice->taxes->pluck('tax_rate')->unique()->first();
-
         foreach ($invoice->invoiceDetails as $product) {
             $item = (new InvoiceItem())->title($product->product_name)->pricePerUnit($product->price)->quantity($product->quantity);
 
-            /*if (!$taxIsGlobal)
-            {
-                $item->taxByPercent($product->tax_rate);
-            }*/
-
             $generatedInvoice->addItem($item);
         }
-
-        /*if ($taxRate > 0 && $taxIsGlobal)
-        {
-            $generatedInvoice->taxRate($taxRate);
-        }*/
 
         $generatedInvoice->footer = Config::firstWhere('name', 'invoice_footer')->value ?? '';
 
@@ -261,13 +225,28 @@ class InvoiceController extends Controller
             ]);
         }
 
-        // if the payments match the enrollment price, mark as paid.
-        foreach ($invoice->enrollments as $enrollment) {
-            if ($invoice->total_price == $invoice->paidTotal() && $invoice->payments->where('status', '!==', 2)->count() === 0) {
-                $enrollment->markAsPaid();
+        $this->ifTheInvoiceIsFullyPaidMarkItsProductsAsSuch($invoice);
+
+        return $invoice->fresh()->payments;
+    }
+
+    private function ifTheInvoiceIsFullyPaidMarkItsProductsAsSuch(Invoice $invoice): void
+    {
+        foreach ($invoice->scheduledPayments as $scheduledPayment) {
+            if ($invoice->totalPrice() === $invoice->paidTotal()) {
+                $scheduledPayment->product->markAsPaid();
+
+                $relatedEnrollment = $scheduledPayment->product->enrollment;
+                if ($relatedEnrollment && $relatedEnrollment->scheduledPayments->where('status', '!==', 2)->count() === 0) {
+                    $relatedEnrollment->markAsPaid();
+                }
             }
         }
 
-        return $invoice->fresh()->payments;
+        foreach ($invoice->enrollments as $enrollment) {
+            if ($invoice->totalPrice() === $invoice->paidTotal()) {
+                $enrollment->product->markAsPaid();
+            }
+        }
     }
 }

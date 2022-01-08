@@ -180,9 +180,11 @@
     "Institution": "Institution",
     "Institutions": "Institutions",
     "Invoice": "Facture",
+    "invoice": "facture",
     "Invoice Data": "Coordonnées de facturation",
     "Invoice ID": "ID de facture",
     "Invoices": "Factures",
+    "invoices": "factures",
     "Invoicing": "Facturation",
     "Is Enrolled in": "Inscrit en",
     "Is Not Enrolled in": "Non-inscrit en",
@@ -479,5 +481,6 @@
     "Insufficient data": "Données insuffisantes",
     "% of students in period": "% des étudiants sur la période",
     "Per gender": "Par genre",
-    "Students by gender": "Étudiants par genre (h/f)"
+    "Students by gender": "Étudiants par genre (h/f)",
+    "No invoice for this enrollment": "Pas encore de facture pour cette inscription"
 }

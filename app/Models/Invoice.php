@@ -2,11 +2,17 @@
 
 namespace App\Models;
 
+use App\Events\StudentDeleting;
+use App\Events\StudentUpdated;
+use App\Events\InvoiceDeleting;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
+/**
+ * @mixin IdeHelperInvoice
+ */
 class Invoice extends Model
 {
     use CrudTrait;
@@ -22,14 +28,13 @@ class Invoice extends Model
         'date' => 'date',
     ];
 
+    protected $dispatchesEvents = [
+        'deleting' => InvoiceDeleting::class,
+    ];
+
     public function invoiceDetails()
     {
         return $this->hasMany(InvoiceDetail::class)->orderByRaw("CASE WHEN product_type like '%Enrollment' THEN 10 WHEN product_type like '%Fee' THEN 5 ELSE 0 END desc");
-    }
-
-    public function products()
-    {
-        return $this->hasMany(InvoiceDetail::class)->whereIn('product_type', [Enrollment::class, Fee::class]);
     }
 
     public function taxes()
@@ -39,7 +44,7 @@ class Invoice extends Model
 
     public function scheduledPayments()
     {
-        return $this->belongsToMany(ScheduledPayment::class, 'enrollment_invoice', 'invoice_id', 'scheduled_payment_id');
+        return $this->hasMany(InvoiceDetail::class)->where('product_type', ScheduledPayment::class);
     }
 
     public function payments()
@@ -92,20 +97,20 @@ class Invoice extends Model
     public function getTotalPriceWithCurrencyAttribute()
     {
         if (config('app.currency_position') === 'before') {
-            return config('app.currency_symbol').' '.$this->total_price;
+            return config('app.currency_symbol').' '.$this->totalPrice();
         }
 
-        return $this->total_price.' '.config('app.currency_symbol');
+        return $this->totalPrice().' '.config('app.currency_symbol');
     }
 
-    public function getTotalPriceAttribute($value)
+    public function totalPrice()
     {
-        return $value / 100;
+        return $this->invoiceDetails()->sum('price') / 100;
     }
 
-    public function setTotalPriceAttribute($value)
+    public function getTotalPriceAttribute()
     {
-        $this->attributes['total_price'] = $value * 100;
+        return $this->totalPrice();
     }
 
     public function getFormattedNumberAttribute()
@@ -120,5 +125,10 @@ class Invoice extends Model
     public function getFormattedDateAttribute()
     {
         return Carbon::parse($this->date)->locale(app()->getLocale())->isoFormat('Do MMMM YYYY');
+    }
+
+    public function getBalanceAttribute()
+    {
+        return $this->totalPrice() - $this->paidTotal();
     }
 }

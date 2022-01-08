@@ -7,6 +7,9 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
+/**
+ * @mixin IdeHelperComment
+ */
 class Comment extends Model
 {
     use CrudTrait;

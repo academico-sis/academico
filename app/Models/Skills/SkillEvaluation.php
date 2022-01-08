@@ -6,6 +6,9 @@ use App\Models\Enrollment;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin IdeHelperSkillEvaluation
+ */
 class SkillEvaluation extends Model
 {
     protected $guarded = ['id'];

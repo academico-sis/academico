@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
 
+/**
+ * @mixin IdeHelperInvoiceType
+ */
 class InvoiceType extends Model
 {
     use HasTranslations;

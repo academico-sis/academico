@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
 
+/**
+ * @mixin IdeHelperScheduledPayment
+ */
 class ScheduledPayment extends Model
 {
     use CrudTrait;
@@ -15,8 +18,6 @@ class ScheduledPayment extends Model
     protected $table = 'scheduled_payments';
 
     protected $guarded = ['id'];
-
-    protected $appends = ['computed_status'];
 
     /*
     |--------------------------------------------------------------------------
@@ -27,10 +28,16 @@ class ScheduledPayment extends Model
     public function scopeStatus(Builder $query, $status)
     {
         return match ($status) {
-            '2' => $query->where('status', 2)->orWhereHas('invoices'),
-            '1' => $query->where('status', 1)->orWhereDoesntHave('invoices'),
+            '2' => $query->where('status', 2),
+            '1' => $query->where('status', 1),
             default => $query,
         };
+    }
+
+    public function markAsPaid()
+    {
+        $this->status = 2;
+        $this->save();
     }
 
     /*
@@ -44,16 +51,20 @@ class ScheduledPayment extends Model
         return $this->belongsTo(Enrollment::class);
     }
 
-    public function invoices()
-    {
-        return $this->belongsToMany(Invoice::class, 'enrollment_invoice', 'scheduled_payment_id', 'invoice_id');
-    }
-
     public function statusType()
     {
         return $this->belongsTo(EnrollmentStatusType::class, 'status');
     }
 
+    public function invoiceDetails()
+    {
+        return $this->morphMany(InvoiceDetail::class, 'product');
+    }
+
+    public function invoices()
+    {
+        return $this->invoiceDetails->map(fn(InvoiceDetail $invoiceDetail) => $invoiceDetail->invoice)->filter();
+    }
     /*
     |--------------------------------------------------------------------------
     | SCOPES
@@ -89,6 +100,7 @@ class ScheduledPayment extends Model
         return Carbon::parse($this->created_at, 'UTC')->locale(App::getLocale())->isoFormat('LL');
     }
 
+    /** @deprecated  */
     public function getComputedStatusAttribute()
     {
         // if there is a custom status, always take it
@@ -97,7 +109,7 @@ class ScheduledPayment extends Model
         }
 
         // otherwise, check if the scheduled payment has invoices
-        return $this->invoices->count() > 0 ? 2 : 1;
+        return $this->invoices()->count() > 0 ? 2 : 1;
     }
 
     public function identifiableAttribute()
@@ -107,7 +119,7 @@ class ScheduledPayment extends Model
 
     public function getStatusTypeNameAttribute()
     {
-        return match ($this->computed_status) {
+        return match ($this->status) {
             2 => __('Paid'),
             1 => __('Pending'),
             default => '-',

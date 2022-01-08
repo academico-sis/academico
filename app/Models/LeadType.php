@@ -6,6 +6,9 @@ use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
 
+/**
+ * @mixin IdeHelperLeadType
+ */
 class LeadType extends Model
 {
     use CrudTrait;

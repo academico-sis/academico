@@ -28,7 +28,7 @@ class InvoiceCrudController extends CrudController
     {
         CRUD::setModel(Invoice::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/invoice');
-        CRUD::setEntityNameStrings('invoice', 'invoices');
+        CRUD::setEntityNameStrings(__('invoice'), __('invoices'));
         if (! config('invoicing.price_categories_enabled')) {
             $this->crud->addButtonFromView('top', 'createInvoice', 'createInvoice', 'start');
         }
@@ -42,6 +42,12 @@ class InvoiceCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+        if (config('app.currency_position') === 'before') {
+            $currency = ['prefix' => config('app.currency_symbol')];
+        } else {
+            $currency = ['suffix' => config('app.currency_symbol')];
+        }
+
         if (config('invoicing.invoice_numbering') === 'manual') {
             CRUD::column('receipt_number');
         } else {
@@ -50,17 +56,32 @@ class InvoiceCrudController extends CrudController
             CRUD::addColumn([
                 'name'         => 'invoiceType',
                 'type'         => 'relationship',
-                'label'        => 'Type',
+                'label'        => __('Type'),
                 'searchLogic'  => false,
                 'attribute'    => 'name',
             ]);
         }
-        CRUD::column('client_name');
-        CRUD::column('client_idnumber');
-        CRUD::column('client_address');
-        CRUD::column('client_email');
-        CRUD::column('total_price');
-        CRUD::column('created_at');
+        CRUD::column('created_at')->label(__('Date'));
+
+        CRUD::column('client_name')->label(__('Client name'));
+        CRUD::column('client_idnumber')->label(__('Client ID Number'));
+        CRUD::column('client_address')->label(__('Client address'));
+        CRUD::column('client_email')->label(__('Client email'));
+        $this->crud->addColumn(
+            array_merge([
+            'label' => __('Total price'),
+            'type'  => 'model_function',
+            'function_name' => 'totalPrice',
+            ], $currency)
+        );
+
+        $this->crud->addColumn(
+            array_merge([
+                'name' => 'balance',
+                'label' => __('Remaining balance'),
+                'type' => 'number',
+            ], $currency)
+        );
     }
 
     protected function setupUpdateOperation()
@@ -87,7 +108,6 @@ class InvoiceCrudController extends CrudController
         CRUD::field('client_idnumber');
         CRUD::field('client_address');
         CRUD::field('client_email');
-        CRUD::field('total_price');
     }
 
     public function show($id)

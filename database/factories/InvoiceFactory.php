@@ -11,7 +11,6 @@ $factory->define(App\Models\Invoice::class, function (Faker $faker) {
         'client_address' => $faker->word,
         'client_email' => $faker->word,
         'client_phone' => $faker->word,
-        'total_price' => $faker->randomFloat(),
         'company_id' => $faker->randomNumber(),
         'receipt_number' => $faker->word,
     ];

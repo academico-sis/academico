@@ -9,6 +9,7 @@ use App\Events\EnrollmentUpdated;
 use App\Events\EnrollmentUpdating;
 use App\Events\ExpiringPartnershipsEvent;
 use App\Events\ExternalCoursesReportEvent;
+use App\Events\InvoiceDeleting;
 use App\Events\LeadStatusUpdatedEvent;
 use App\Events\MonthlyReportEvent;
 use App\Events\StudentDeleting;
@@ -16,8 +17,10 @@ use App\Events\UserDeleting;
 use App\Listeners\AddPastAttendance;
 use App\Listeners\CleanChildrenEnrollments;
 use App\Listeners\ComputeStudentLeadStatus;
+use App\Listeners\DeleteInvoiceDetails;
 use App\Listeners\DeleteStudentData;
 use App\Listeners\DeleteUserData;
+use App\Listeners\MarkProductsAsUnpaid;
 use App\Listeners\SendExpiringPartnershipsAlerts;
 use App\Listeners\SendExternalCoursesReport;
 use App\Listeners\SendMonthlyReport;
@@ -85,6 +88,11 @@ class EventServiceProvider extends ServiceProvider
 
         LeadStatusUpdatedEvent::class => [
             SyncUserWithMailingSystem::class,
+        ],
+
+        InvoiceDeleting::class => [
+            MarkProductsAsUnpaid::class,
+            DeleteInvoiceDetails::class,
         ],
     ];
 

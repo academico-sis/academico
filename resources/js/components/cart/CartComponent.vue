@@ -417,7 +417,7 @@ export default {
                 });
             }
 
-            return total;
+            return Math.round(total * 100)/100;
         },
 
         checkTotal() {

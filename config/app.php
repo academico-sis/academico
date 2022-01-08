@@ -131,7 +131,6 @@ return [
     ],
 
     'books_module' => env('BOOKS_MODULE_ENABLED', false),
-    'course_view_columns' => explode(',', env('COLUMNS_IN_COURSE_VIEW', 'lastname,firstname,email')),
 
     'send_emails_for_absences' => env('SEND_ABSENCE_NOTIFICATIONS', false),
 

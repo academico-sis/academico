@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
 
+/**
+ * @mixin IdeHelperInvoiceDetail
+ */
 class InvoiceDetail extends Model
 {
     use SoftDeletes;
@@ -22,6 +25,9 @@ class InvoiceDetail extends Model
         return $this->belongsTo(Invoice::class);
     }
 
+    /**
+     * Get the parent invoiceable model
+     */
     public function product()
     {
         return $this->morphTo();

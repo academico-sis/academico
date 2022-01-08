@@ -77,13 +77,6 @@ class EnrollmentCrudController extends CrudController
             CRUD::enableExportButtons();
         }
 
-        if ($this->mode === 'global' && $this->crud->getOperation() === 'list') {
-            $pendingBalance = Enrollment::pending()->sum('balance');
-
-            Widget::add()->type('view')->view('enrollments.total_balance_widget')->value($pendingBalance)->to('before_content');
-//            Widget::add()->type('view')->view('enrollments.total_income_widget')->value($periodIncome)->to('before_content');
-        }
-
         if ($this->mode === 'course') {
             Widget::add(['type' => 'view', 'view' => 'partials.course_info', 'course' => $this->course])->to('before_content');
 
@@ -92,12 +85,6 @@ class EnrollmentCrudController extends CrudController
 
             CRUD::addButtonFromView('top', 'enroll-student-in-course', 'enroll-student-in-course', 'end');
             CRUD::addButtonFromView('top', 'switch-to-photo-roster', 'switch-to-photo-roster', 'end');
-        }
-
-        if (config('app.currency_position') === 'before') {
-            $currency = ['prefix' => config('app.currency_symbol')];
-        } else {
-            $currency = ['suffix' => config('app.currency_symbol')];
         }
 
         CRUD::addColumns([
@@ -206,15 +193,6 @@ class EnrollmentCrudController extends CrudController
                     },
                 ],
             ],
-
-            array_merge(
-                [
-                    'name' => 'balance',
-                    'label' => __('Remaining balance'),
-                    'type' => 'number',
-                ],
-                $currency
-            ),
         ]);
 
         if (config('invoicing.allow_scheduled_payments')) {
@@ -296,27 +274,16 @@ class EnrollmentCrudController extends CrudController
 
     public function show($enrollment)
     {
-        // if mode is global, display enrollment
         $enrollment = Enrollment::findOrFail($enrollment);
 
-        // load the products from the invoice tables
-        $products = $enrollment->invoices()
-            ->with('invoiceDetails')
-            ->get();
-
-        // get related comments
-        $comments = $enrollment->invoices->map(fn (Invoice $invoice) => $invoice->comments)->flatten()->concat($enrollment->comments);
-
-        $scholarships = Scholarship::all();
-
-        $availablePaymentMethods = Paymentmethod::all();
-
-        //$enrollment->load('invoices')->load('invoices.payments');
-
-        $writeaccess = $enrollment->status_id !== 2 && backpack_user()->can('enrollments.edit');
-
         // then load the page
-        return view('enrollments.show', compact('enrollment', 'products', 'comments', 'scholarships', 'availablePaymentMethods', 'writeaccess'));
+        return view('enrollments.show', [
+            'enrollment' => $enrollment,
+            'comments' => $enrollment->comments,
+            'scholarships' => Scholarship::all(),
+            'availablePaymentMethods' => Paymentmethod::all(),
+            'writeaccess' => $enrollment->status_id !== 2 && backpack_user()->can('enrollments.edit'),
+        ]);
     }
 
     protected function setupUpdateOperation()

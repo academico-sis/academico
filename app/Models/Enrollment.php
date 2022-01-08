@@ -15,6 +15,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
 use Spatie\Activitylog\Traits\LogsActivity;
 
+/**
+ * @mixin IdeHelperEnrollment
+ */
 class Enrollment extends Model
 {
     use CrudTrait;
@@ -114,7 +117,7 @@ class Enrollment extends Model
 
     public function isPaid()
     {
-        return $this->status_id == 2;
+        return $this->status_id === 2;
     }
 
     public function markAsUnpaid()
@@ -122,12 +125,12 @@ class Enrollment extends Model
         $this->status_id = 1;
         $this->save();
 
-        $this->invoices()->delete();
+        $this->invoiceDetails()->delete();
 
         // also mark children as unpaid
         foreach ($this->childrenEnrollments as $child) {
             $child->status_id = 1;
-            $child->invoices()->delete();
+            $child->invoiceDetails()->delete();
             $child->save();
         }
     }
@@ -164,9 +167,22 @@ class Enrollment extends Model
         return $this->belongsTo(Course::class, 'course_id');
     }
 
+    public function invoiceDetails()
+    {
+        return $this->morphMany(InvoiceDetail::class, 'product');
+    }
+
     public function invoices()
     {
-        return $this->belongsToMany(Invoice::class);
+        return $this->invoiceDetails->map(fn(InvoiceDetail $invoiceDetail) => $invoiceDetail->invoice)->filter();
+    }
+
+    // also includes invoices for this enrollment's scheduled payments.
+    public function relatedInvoices()
+    {
+        $scheduledPaymentsInvoices = $this->scheduledPayments->map(fn (ScheduledPayment $scheduledPayment) => $scheduledPayment->invoices());
+
+        return $this->invoices()->concat($scheduledPaymentsInvoices)->flatten(1);
     }
 
     public function comments()
@@ -333,20 +349,6 @@ class Enrollment extends Model
         }
 
         return $this->price.' '.config('app.currency_symbol');
-    }
-
-    public function getBalanceAttribute()
-    {
-        $balance = $this->price;
-        $paidAmount = 0;
-
-        foreach ($this->invoices as $invoice) {
-            $paidAmount += $invoice->payments?->sum('value') ?? 0;
-        }
-
-        $balance -= $paidAmount;
-
-        return $balance;
     }
 
     public function cancel()

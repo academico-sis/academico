@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use App\Models\Student;
 use Illuminate\Console\Command;
 
-class migrateLeadStatuses extends Command
+class syncLeadStatuses extends Command
 {
     protected $signature = 'academico:resync-statuses';
 

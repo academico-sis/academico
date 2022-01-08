@@ -5,6 +5,9 @@ namespace App\Models;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin IdeHelperMember
+ */
 class Member extends Model
 {
     use CrudTrait;

@@ -181,10 +181,12 @@
     "Institution": "Institution",
     "Institutions": "Institutions",
     "Internal Courses": "Internal Courses",
+    "invoice": "invoice",
     "Invoice": "Invoice",
     "Invoice Data": "Invoice Data",
     "Invoice ID": "Invoice ID",
     "Invoices": "Invoices",
+    "invoices": "invoices",
     "Invoicing": "Invoicing",
     "Is Enrolled in": "Is Enrolled in",
     "Is Not Enrolled in": "Is Not Enrolled in",
@@ -483,5 +485,6 @@
     "Insufficient data": "Insufficient data",
     "% of students in period": "% of students in period",
     "Per gender": "Per gender",
-    "Students by gender": "Students by gender"
+    "Students by gender": "Students by gender",
+    "No invoice for this enrollment": "No invoice for this enrollment"
 }

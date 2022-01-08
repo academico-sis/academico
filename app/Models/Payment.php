@@ -7,13 +7,16 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
 
+/**
+ * @mixin IdeHelperPayment
+ */
 class Payment extends Model
 {
     use CrudTrait;
 
     protected $guarded = ['id'];
 
-    protected $appends = ['date_for_humans', 'value_with_currency', 'display_status'];
+    protected $appends = ['date_for_humans', 'value_with_currency'];
 
     /*
     |--------------------------------------------------------------------------
@@ -52,7 +55,7 @@ class Payment extends Model
     public function getEnrollmentNameAttribute(): string
     {
         if ($this->invoice->enrollments()->exists()) {
-            return $this->invoice->enrollments->first()->student_name;
+            return $this->invoice->enrollments->first()->student_name; // TODO fix this, an invoice can theoretically contain several enrollments
         }
 
         return '';
@@ -97,14 +100,6 @@ class Payment extends Model
         }
 
         return $this->value.' '.config('app.currency_symbol');
-    }
-
-    public function getDisplayStatusAttribute()
-    {
-        return match ($this->status) {
-            null, 1 => __('Pending'),
-            2 => __('Paid'),
-        };
     }
 
     /*

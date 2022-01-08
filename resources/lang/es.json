@@ -180,9 +180,11 @@
     "Institutions": "Instituciones",
     "Internal Courses": "Cursos internos",
     "Invoice": "Factura",
+    "invoice": "factura",
     "Invoice Data": "Datos de la factura",
     "Invoice ID": "Numero de factura",
     "Invoices": "Facturas",
+    "invoices": "facturas",
     "Invoicing": "Facturación",
     "Is Enrolled in": "Matriculado en",
     "Is Not Enrolled in": "No matriculado en",
@@ -478,5 +480,6 @@
     "Female": "Femenino",
     "Male": "Masculino",
     "Per gender": "Per genero",
-    "Students by gender": "Estudiantes por genero (m/f)"
+    "Students by gender": "Estudiantes por genero (m/f)",
+    "No invoice for this enrollment": "Esta matricula no tiene factura"
 }

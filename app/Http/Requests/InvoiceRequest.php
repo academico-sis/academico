@@ -29,7 +29,6 @@ class InvoiceRequest extends FormRequest
             'client_idnumber' => 'required',
             'client_address' => 'required',
             'client_email' => 'required',
-            'total_price' => 'required',
         ];
     }
 
