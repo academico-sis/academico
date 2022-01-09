@@ -12,7 +12,11 @@ class MarkProductsAsUnpaid
         $invoice = $event->invoice;
 
         foreach ($invoice->enrollments as $enrollment) {
-            $enrollment->product->markAsUnpaid();
+            if ($enrollment->product) {
+                $enrollment->product->markAsUnpaid();
+            } else {
+                \Sentry\captureMessage('Unable to delete invoice for enrollment #'.$enrollment->id);
+            }
         }
 
         foreach ($invoice->scheduledPayments as $scheduledPayment) {

@@ -18,7 +18,7 @@ class compare_invoice_pricesCommand extends Command
         foreach (Invoice::all() as $invoice) {
             if ($invoice->total_price !== $invoice->totalPrice()) {
                 $anomalies++;
-                echo "\ninvoice ".$invoice->id. ' should be ' . $invoice->total_price . ' vs ' . $invoice->totalpricebyproducts() .' real ';
+                echo "\ninvoice ".$invoice->id. ' should be ' . $invoice->total_price . ' vs ' . $invoice->totalPrice() .' real ';
             }
         }
         echo "\n".$anomalies.' anomalies detected';

@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Enrollment;
 use App\Models\Invoice;
+use App\Models\InvoiceDetail;
 use App\Models\ScheduledPayment;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
@@ -16,29 +17,47 @@ class fixIncorrectProductTypesCommand extends Command
 
     public function handle()
     {
-        $fixedAnomaliesCount = 0;
-        $unsolvedMysteries = 0;
 
-        foreach (Invoice::all() as $invoice) {
-            // get enrollments
-            $products = $invoice->invoiceDetails()->where('product_type', Enrollment::class)->get();
+        foreach (Invoice::with('invoiceDetails')->get() as $invoice) {
+            // Supprimer les factures qui ne correspondent à rien (souvent des doublons générés en cas d'erreurs dans la transmission à Ecuasolutions.
+            if ($invoice->enrollments->count() > 0 && DB::table('enrollment_invoice')->where('invoice_id', $invoice->id)->count() === 0) {
+                 DB::table('invoices')->where('id', $invoice->id)->delete();
+                echo "\n facture # $invoice->id supprimée";
+            }
+        }
 
-            foreach ($products as $product) {
-                $validEnrollments = DB::table('enrollment_invoice')->where('invoice_id', $invoice->id)->get();
-                if ($validEnrollments->doesntContain('enrollment_id', $product->product_id)) {
-                    echo "\nmaybe product $product->product_id is not an enrollment";
-                    if ($validEnrollments->contains('scheduled_payment_id', $product->product_id)) {
-                        $product->update(['product_type' => ScheduledPayment::class]);
-                        $fixedAnomaliesCount++;
+        // Vérifier que toutes les factures liées à une inscription ont bien le produit correspondant
+        foreach (DB::table('enrollment_invoice')->get() as $enrollmentInvoicePair) {
+            $invoice = Invoice::find($enrollmentInvoicePair->invoice_id);
+            $enrollment = Enrollment::find($enrollmentInvoicePair->enrollment_id);
+            if ($invoice && $enrollment) {
+                if ($invoice->enrollments->where('product_id', $enrollment->id)->count() === 0) {
+                    $invoiceDetail = InvoiceDetail::where(['invoice_id' => $invoice->id, 'price' => $enrollment->price * 100])->first();
+
+                    if ($invoiceDetail) {
+                        $invoiceDetail->update([
+                            'product_name' => 'Inscription # ' . $enrollment->id,
+                            'product_code' => '',
+                            'product_id' => $enrollment->id,
+                            'product_type' => Enrollment::class,
+                            'quantity' => 1,
+                        ]);
+                        echo "\n inscription # $enrollment->id mise à jour dans la facture # $invoice->id";
                     } else {
-                        $unsolvedMysteries++;
+                        InvoiceDetail::create([
+                            'invoice_id' => $invoice->id,
+                            'product_name' => 'Inscription # ' . $enrollment->id,
+                            'product_code' => '',
+                            'product_id' => $enrollment->id,
+                            'product_type' => Enrollment::class,
+                            'quantity' => 1,
+                            'price' => 0,
+                        ]);
+                        echo "\n Produit vide généré pour lier l'inscription # $enrollment->id à la facture # $invoice->id";
                     }
-                }
-                else {
-                    echo "\nproduct $product->product_id seems to be a valid enrollment";
+
                 }
             }
-}
-        echo "\n".$fixedAnomaliesCount.' inconsistencies fixed and ' . $unsolvedMysteries . ' remaining.';
+        }
     }
 }

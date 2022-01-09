@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Events\StudentDeleting;
-use App\Events\StudentUpdated;
 use App\Events\InvoiceDeleting;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
