@@ -18,13 +18,13 @@ class fixIncorrectProductTypesCommand extends Command
     public function handle()
     {
 
-        foreach (Invoice::with('invoiceDetails')->get() as $invoice) {
-            // Supprimer les factures qui ne correspondent à rien (souvent des doublons générés en cas d'erreurs dans la transmission à Ecuasolutions.
-            if ($invoice->enrollments->count() > 0 && DB::table('enrollment_invoice')->where('invoice_id', $invoice->id)->count() === 0) {
-                 DB::table('invoices')->where('id', $invoice->id)->delete();
-                echo "\n facture # $invoice->id supprimée";
-            }
-        }
+//        foreach (Invoice::with('invoiceDetails')->get() as $invoice) {
+//            // Supprimer les factures qui ne correspondent à rien (souvent des doublons générés en cas d'erreurs dans la transmission à Ecuasolutions.
+//            if ($invoice->enrollments->count() > 0 && DB::table('enrollment_invoice')->where('invoice_id', $invoice->id)->count() === 0) {
+//                 DB::table('invoices')->where('id', $invoice->id)->delete();
+//                echo "\n facture # $invoice->id supprimée";
+//            }
+//        }
 
         // Vérifier que toutes les factures liées à une inscription ont bien le produit correspondant
         foreach (DB::table('enrollment_invoice')->get() as $enrollmentInvoicePair) {
@@ -51,7 +51,7 @@ class fixIncorrectProductTypesCommand extends Command
                             'product_id' => $enrollment->id,
                             'product_type' => Enrollment::class,
                             'quantity' => 1,
-                            'price' => 0,
+                            'price' => $invoice->paidTotal(),
                         ]);
                         echo "\n Produit vide généré pour lier l'inscription # $enrollment->id à la facture # $invoice->id";
                     }
