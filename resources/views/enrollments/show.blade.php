@@ -107,7 +107,7 @@
             <div class="card-header">
                 @lang('Invoicing')
                 <div class="card-header-actions">
-                    @if(backpack_user()->can('enrollments.edit') && $enrollment->parent_id == null)
+                    @if(backpack_user()->can('enrollments.edit') && $enrollment->parent_id == null && ! $enrollment->isPaid())
                         <a href="/enrollment/{{ $enrollment->id }}/bill" class="btn btn-primary btn-sm">@lang('Checkout enrollment')</a>
                     @endif
                 </div>
