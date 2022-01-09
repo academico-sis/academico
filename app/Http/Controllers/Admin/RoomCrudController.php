@@ -59,7 +59,7 @@ class RoomCrudController extends CrudController
                 'label' => 'Campus',
                 'type' => 'select',
                 'entity' => 'campus',
-                'name' => 'campus_id', // the db column for the foreign key
+                'name' => 'campus_id',
                 'attribute' => 'name',
             ],
 

@@ -405,4 +405,17 @@ class Enrollment extends Model
             return 'OK';
         }
     }
+
+    public function getBalanceAttribute()
+    {
+        if (! config('invoicing.invoices_contain_enrollments_only')) {
+            abort(422, 'Configuration options forbid to access this value');
+        }
+
+        $balance = $this->price;
+        foreach ($this->invoices() as $invoice) {
+            $balance -= $invoice->paidTotal();
+        }
+        return number_format($balance, 2);
+    }
 }

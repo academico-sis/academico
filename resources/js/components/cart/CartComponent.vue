@@ -15,6 +15,7 @@
                     :availabletaxes="this.availabletaxes"
                     :key="componentKey"
                     :editsallowed="true"
+                    :invoicesContainEnrollmentsOnly="this.invoicesContainEnrollmentsOnly"
                 ></cart-product-list-component>
 
                 <cart-total-price-component :value="shoppingCartTotal()" :currency="currency" :currencyposition="currencyposition"></cart-total-price-component>
@@ -32,7 +33,7 @@
 
             <div class="col col-md-4">
                 <!-- Add more products -->
-                <div class="card">
+                <div class="card" v-if="! invoicesContainEnrollmentsOnly">
                     <div class="card-header">
                         {{ $t("Add products") }}
                     </div>
@@ -265,6 +266,7 @@ export default {
         "skipDataStep",
         "invoicingMode",
         "manualInvoiceNumbering",
+        "invoicesContainEnrollmentsOnly",
     ],
 
     data() {

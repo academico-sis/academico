@@ -17,9 +17,9 @@ class MonthlyReport extends Mailable implements ShouldQueue
 
     public int $year;
 
-    public \Illuminate\Support\Carbon $start;
+    public Carbon $start;
 
-    public \Illuminate\Support\Carbon $end;
+    public Carbon $end;
 
     public $teachers;
 

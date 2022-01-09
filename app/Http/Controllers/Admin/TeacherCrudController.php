@@ -44,7 +44,7 @@ class TeacherCrudController extends CrudController
                 'key'  => 'lastname',
                 'name'    => 'user',
                 'attribute' => 'lastname',
-                'model'     => \App\Models\User::class,
+                'model'     => User::class,
                 'orderable' => true,
                 'orderLogic' => fn ($query, $column, $columnDirection) => $query->leftJoin('users', 'users.id', '=', 'students.id')
                     ->orderBy('users.lastname', $columnDirection)->select('students.*'),
@@ -62,7 +62,7 @@ class TeacherCrudController extends CrudController
                 'key'  => 'firstname',
                 'name'    => 'user',
                 'attribute' => 'firstname',
-                'model'     => \App\Models\User::class,
+                'model'     => User::class,
                 'orderable' => true,
                 'orderLogic' => fn ($query, $column, $columnDirection) => $query->leftJoin('users', 'users.id', '=', 'teachers.id')
                     ->orderBy('users.firstname', $columnDirection)->select('teachers.*'),
@@ -79,7 +79,7 @@ class TeacherCrudController extends CrudController
                 'type'      => 'relationship',
                 'name'    => 'user',
                 'attribute' => 'email',
-                'model'     => \App\Models\User::class,
+                'model'     => User::class,
                 'orderable' => true,
                 'orderLogic' => fn ($query, $column, $columnDirection) => $query->leftJoin('users', 'users.id', '=', 'teachers.id')
                     ->orderBy('users.email', $columnDirection)->select('teachers.*'),

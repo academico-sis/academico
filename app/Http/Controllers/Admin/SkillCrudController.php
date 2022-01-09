@@ -80,7 +80,7 @@ class SkillCrudController extends CrudController
             [ // skill type
                 'label'     => 'Type',
                 'type' => 'select',
-                'name' => 'skill_type_id', // the db column for the foreign key
+                'name' => 'skill_type_id',
                 'entity' => 'skill_type',
                 'attribute' => 'name',
                 'model' => SkillType::class,
@@ -93,7 +93,7 @@ class SkillCrudController extends CrudController
             [ // skill level
                 'label'     => 'Level',
                 'type' => 'select',
-                'name' => 'level_id', // the db column for the foreign key
+                'name' => 'level_id',
                 'entity' => 'level',
                 'attribute' => 'name',
                 'model' => Level::class,

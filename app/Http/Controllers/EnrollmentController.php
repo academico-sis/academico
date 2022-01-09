@@ -218,4 +218,21 @@ class EnrollmentController extends Controller
     {
         return $this->enrollmentSheetService->exportToWord($enrollment);
     }
+
+    public function getBalance(Request $request)
+    {
+        if (! config('invoicing.invoices_contain_enrollments_only')) {
+            abort(422, 'Configuration options forbid to access this value');
+        }
+
+        $periodId = $request->get('periodId');
+        if ($periodId) {
+            $pendingBalance = Enrollment::period($periodId)->pending()->sum('balance');
+        }
+        else {
+            $pendingBalance = Enrollment::pending()->sum('balance');
+        }
+
+        return number_format($pendingBalance, 2);
+    }
 }

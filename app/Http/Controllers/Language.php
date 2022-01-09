@@ -11,7 +11,7 @@ class Language extends Controller
      * Set locale if it's allowed.
      *
      * @param string                   $locale
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      **/
     private function setLocale($locale, $request)
     {

@@ -29,7 +29,7 @@ class PaymentCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\Payment::class);
+        CRUD::setModel(Payment::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/payment');
         CRUD::setEntityNameStrings('payment', 'payments');
 

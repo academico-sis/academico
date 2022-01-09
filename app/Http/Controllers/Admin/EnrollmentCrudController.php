@@ -87,6 +87,12 @@ class EnrollmentCrudController extends CrudController
             CRUD::addButtonFromView('top', 'switch-to-photo-roster', 'switch-to-photo-roster', 'end');
         }
 
+        if (config('app.currency_position') === 'before') {
+            $currency = ['prefix' => config('app.currency_symbol')];
+        } else {
+            $currency = ['suffix' => config('app.currency_symbol')];
+        }
+
         CRUD::addColumns([
             [
                 'name' => 'id',
@@ -203,6 +209,17 @@ class EnrollmentCrudController extends CrudController
             ]);
         }
 
+        CRUD::addColumn(array_merge([
+            'name' => 'price', // The db column name
+            'label' => __('Price'),
+            'type' => 'number',
+        ], $currency));
+
+
+        if (config('invoicing.invoices_contain_enrollments_only')) {
+            CRUD::addColumn(array_merge(['name' => 'balance', 'label' => __('Balance'), 'type' => 'number',], $currency));
+        }
+
         CRUD::addColumns([
 
             [
@@ -270,6 +287,11 @@ class EnrollmentCrudController extends CrudController
                 }
             );
         }
+
+        if ($this->mode === 'global' && $this->crud->getOperation() === 'list') {
+            Widget::add()->type('view')->view('enrollments.total_balance_widget')->to('before_content');
+        }
+
     }
 
     public function show($enrollment)
@@ -297,10 +319,10 @@ class EnrollmentCrudController extends CrudController
         CRUD::addField([
             'label'     => __('Course'),
             'type'      => 'select2',
-            'name'      => 'course_id', // the db column for the foreign key
+            'name'      => 'course_id',
 
             'entity'    => 'course',
-            'model'     => \App\Models\Course::class,
+            'model'     => Course::class,
             'attribute' => 'name',
 
             'options'   => (fn ($query) => $query->orderBy('level_id', 'ASC')->where('period_id', $this->crud->getCurrentEntry()->course->period_id)->get()),
@@ -319,15 +341,9 @@ class EnrollmentCrudController extends CrudController
         CRUD::addField([
             'label'     => __('Status'),
             'type'      => 'select',
-            'name'      => 'status_id', // the db column for the foreign key
-
-            // optional
-            // 'entity' should point to the method that defines the relationship in your Model
-            // defining entity will make Backpack guess 'model' and 'attribute'
+            'name'      => 'status_id',
             'entity'    => 'enrollmentStatus',
-
-            // optional - manually specify the related model and attribute
-            'model'     => \App\Models\EnrollmentStatusType::class, // related model
+            'model'     => EnrollmentStatusType::class,
             'attribute' => 'name',
         ]);
     }

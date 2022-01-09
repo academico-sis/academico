@@ -75,11 +75,11 @@
                         <td v-if="editsallowed">
                             <div class="btn-group">
 
-                                <button class="btn btn-sm btn-danger" @click="removeFromCart(index)">
+                                <button v-if="products.length > 1" class="btn btn-sm btn-danger" @click="removeFromCart(index)">
                                     <i class="la la-trash"></i>
                                 </button>
 
-                                <div class="dropdown">
+                                <div class="dropdown" v-if="! invoicesContainEnrollmentsOnly">
                                     <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-toggle="dropdown">
                                         <span class="caret"></span>
                                         {{ $t("Add discount") }}
@@ -92,7 +92,7 @@
                                     </div>
                                 </div>
 
-                                <div class="dropdown">
+                                <div class="dropdown" v-if="! invoicesContainEnrollmentsOnly">
                                     <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-toggle="dropdown">
                                         <span class="caret"></span>
                                         {{ $t("Add tax") }}
@@ -118,7 +118,7 @@
 import {EventBus} from "../eventBus";
 
 export default {
-    props: ['products', 'currency', 'currencyposition', 'availablediscounts', 'availabletaxes', 'editsallowed'],
+    props: ['products', 'currency', 'currencyposition', 'availablediscounts', 'availabletaxes', 'editsallowed', 'invoicesContainEnrollmentsOnly'],
     data() {
         return {
             editable: false,

@@ -39,4 +39,5 @@ return [
 
     'add_books_to_invoices' => env('CHECKOUT_BOOKS_WITH_ENROLLMENTS', true),
 
+    'invoices_contain_enrollments_only' => env('INVOICES_CONTAIN_ENROLLMENTS_ONLY', false),
 ];

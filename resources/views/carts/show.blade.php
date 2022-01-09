@@ -34,6 +34,7 @@
         invoicing-mode="{{ config('invoicing.price_categories_enabled') ? 'priceCategories' : 'regular' }}"
         skip-data-step="{{ config('invoicing.skip_invoice_data_step') }}"
         manual-invoice-numbering="{{ config('invoicing.invoice_numbering') === 'manual' }}"
+        invoices-contain-enrollments-only="{{ config('invoicing.invoices_contain_enrollments_only') }}"
     >
     </cart-component>
 

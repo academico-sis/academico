@@ -64,6 +64,9 @@ Route::group(
         Route::get('accountingservice/status', 'InvoiceController@accountingServiceStatus');
         Route::post('enrollment/{enrollment}/scholarships/add', 'EnrollmentScholarshipController@store')->name('add-scholarship'); // update the invoice number
         Route::post('enrollment/{enrollment}/scholarships/remove', 'EnrollmentScholarshipController@destroy')->name('remove-scholarship'); // update the invoice number
+
+        Route::post('getEnrollmentBalance', 'EnrollmentController@getBalance')->middleware('role:admin');
+
     }
 );
 
