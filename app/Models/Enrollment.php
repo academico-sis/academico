@@ -224,9 +224,13 @@ class Enrollment extends Model
 
     public function saveScheduledPayments($payments)
     {
-        $this->scheduledPayments()->delete();
+        $paymentsToDelete = $this->scheduledPayments()->pluck('id')->diff($payments->pluck('id'));
+        ScheduledPayment::whereIn('id', $paymentsToDelete)->delete();
+
         foreach ($payments as $payment) {
-            $this->scheduledPayments()->create([
+            $this->scheduledPayments()->updateOrCreate([
+                'id' => $payment->id
+            ], [
                 'date' => $payment->date,
                 'value' => $payment->value,
                 'status' => $payment->status,

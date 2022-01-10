@@ -224,7 +224,38 @@ class EnrollmentCrudController extends CrudController
         ], $currency));
 
         if (config('invoicing.allow_scheduled_payments')) {
-            CRUD::addField(['name' => 'scheduledPayments', 'label' => __('Scheduled Payments'), 'type' => 'repeatable', 'fields' => [['name' => 'date', 'type' => 'date', 'label' => __('Date'), 'wrapper' => ['class' => 'form-group col-md-4']], array_merge(['name' => 'value', 'type' => 'number', 'attributes' => ['step' => 0.01, 'min' => 0], 'label' => __('Value'), 'wrapper' => ['class' => 'form-group col-md-4']], $currency), ['name' => 'status', 'type' => 'radio', 'label' => __('Status'), 'wrapper' => ['class' => 'form-group col-md-4'], 'options' => [1 => __('Pending'), 2 => __('Paid')], 'inline' => true]]]);
+            CRUD::addField([
+                'name' => 'scheduledPayments',
+                'label' => __('Scheduled Payments'),
+                'type' => 'repeatable',
+                'fields' => [
+                    [
+                        'name' => 'id',
+                        'type' => 'hidden',
+                    ],
+                    [
+                        'name' => 'date',
+                        'type' => 'date',
+                        'label' => __('Date'),
+                        'wrapper' => ['class' => 'form-group col-md-4']
+                    ],
+                    array_merge([
+                        'name' => 'value',
+                        'type' => 'number',
+                        'attributes' => ['step' => 0.01, 'min' => 0],
+                        'label' => __('Value'),
+                        'wrapper' => ['class' => 'form-group col-md-4']
+                    ], $currency),
+                    [
+                        'name' => 'status',
+                        'type' => 'radio',
+                        'label' => __('Status'),
+                        'wrapper' => ['class' => 'form-group col-md-4'],
+                        'options' => [1 => __('Pending'), 2 => __('Paid')],
+                        'inline' => true
+                    ]
+                ]
+            ]);
         }
 
         CRUD::addField([

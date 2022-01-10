@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * @mixin IdeHelperScheduledPayment
@@ -14,10 +15,13 @@ use Illuminate\Support\Facades\App;
 class ScheduledPayment extends Model
 {
     use CrudTrait;
+    use LogsActivity;
 
     protected $table = 'scheduled_payments';
 
     protected $guarded = ['id'];
+
+    protected static bool $logUnguarded = true;
 
     /*
     |--------------------------------------------------------------------------
