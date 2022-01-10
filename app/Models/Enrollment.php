@@ -379,7 +379,7 @@ class Enrollment extends Model
     public function getTotalPaidPriceAttribute()
     {
         $total = 0;
-        foreach ($this->invoices as $invoice) {
+        foreach ($this->invoices() as $invoice) {
             $total += $invoice->total_price;
         }
 
