@@ -61,7 +61,21 @@ class InvoiceCrudController extends CrudController
                 'attribute'    => 'name',
             ]);
         }
-        CRUD::column('created_at')->label(__('Date'));
+
+        $this->crud->addColumn([
+            'name' => 'created_at',
+            'key' => 'year',
+            'label' => __('Year'),
+            'type' => 'date',
+            'format' => 'Y',
+        ]);
+
+        $this->crud->addColumn([
+            'name' => 'created_at',
+            'key' => 'date',
+            'label' => __('Date'),
+            'type' => 'date',
+        ]);
 
         CRUD::column('client_name')->label(__('Client name'));
         CRUD::column('client_idnumber')->label(__('Client ID Number'));
@@ -81,6 +95,25 @@ class InvoiceCrudController extends CrudController
                 'label' => __('Remaining balance'),
                 'type' => 'number',
             ], $currency)
+        );
+
+        CRUD::addFilter(
+            [
+                'type' => 'date_range',
+                'name' => 'from_to',
+                'label'=> __('Date range'),
+            ],
+            false,
+            function ($value) { // if the filter is active, apply these constraints
+                $dates = json_decode($value, null, 512, JSON_THROW_ON_ERROR);
+
+                if ($dates->from) {
+                    CRUD::addClause('where', 'date', '>=', $dates->from);
+                }
+                if ($dates->to) {
+                    CRUD::addClause('where', 'date', '<=', $dates->to.' 23:59:59');
+                }
+            }
         );
     }
 
