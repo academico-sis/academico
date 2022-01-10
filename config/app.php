@@ -136,6 +136,7 @@ return [
 
     'send_emails_for_results' => env('SEND_RESULTS_NOTIFICATIONS', false),
 
+    'include_takings_in_reports' => env('INCLUDE_TAKINGS_IN_REPORTS', false),
     /*
     |--------------------------------------------------------------------------
     | Faker Locale
