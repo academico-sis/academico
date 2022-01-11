@@ -14,7 +14,7 @@ return [
     'login_status'           => 'Login status',
     'logged_in'              => 'You are logged in!',
     'toggle_navigation'      => 'Toggle navigation',
-    'administration'         => 'ADMINISTRATION',
+    'administration'         => 'Administration',
     'user'                   => 'USER',
     'logout'                 => 'Logout',
     'login'                  => 'Login',
@@ -41,13 +41,17 @@ return [
     'cancel'                 => 'Cancel',
     'error'                  => 'Error',
     'success'                => 'Success',
+    'warning'                => 'Warning',
+    'notice'                 => 'Notice',
     'old_password_incorrect' => 'Old password is incorrect.',
     'password_dont_match'    => 'Passwords do not match.',
     'password_empty'         => 'Make sure both password fields are filled out.',
     'password_updated'       => 'Password updated.',
     'account_updated'        => 'Account updated successfully.',
-    'unknown_error'          => 'An unknown error has occured. Please try again.',
+    'unknown_error'          => 'An unknown error has occurred. Please try again.',
     'error_saving'           => 'Error while saving. Please try again.',
+    'welcome'                => 'Welcome!',
+    'use_sidebar'            => 'Use the sidebar to the left to create, edit or delete content.',
 
     'password_reset' => [
         'greeting' => 'Hello!',
@@ -62,4 +66,7 @@ return [
     'confirm_email'        => 'Confirm Email',
     'choose_new_password'  => 'Choose New Password',
     'confirm_new_password' => 'Confirm new password',
+    'throttled'            => 'You have already requested a password reset recently. Please check your email. If you do not receive our email, please retry later.',
+    'throttled_request'    => 'You have exceeded the limit of tries. Please wait a few minutes and try again.',
+
 ];

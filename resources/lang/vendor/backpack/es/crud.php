@@ -14,9 +14,10 @@ return [
     */
 
     // Forms
-    'save_action_save_and_new' => 'Guardar y crear nuevo',
-    'save_action_save_and_edit' => 'Guardar y continuar editando',
-    'save_action_save_and_back' => 'Guardar y regresar',
+    'save_action_save_and_new'         => 'Guardar y crear nuevo',
+    'save_action_save_and_edit'        => 'Guardar y continuar editando',
+    'save_action_save_and_back'        => 'Guardar y regresar',
+    'save_action_save_and_preview'     => 'Guardar y vista previa',
     'save_action_changed_notification' => 'La acción por defecto del botón guardar ha sido modificada.',
 
     // Create form
@@ -29,17 +30,6 @@ return [
     'edit'                 => 'Editar',
     'save'                 => 'Guardar',
 
-    // Revisions
-    'revisions'            => 'Las revisiones',
-    'no_revisions'         => 'No hay revisiones encontradas',
-    'created_this'         => 'creado este',
-    'changed_the'          => 'cambiado el',
-    'restore_this_value'   => 'restaurar este valor',
-    'from'                 => 'de',
-    'to'                   => 'a',
-    'undo'                 => 'Deshacer',
-    'revision_restored'    => 'Revisión restaurada correctamente',
-
     // Translatable models
     'edit_translations' => 'EDITAR TRADUCCIONES',
     'language'          => 'Idioma',
@@ -48,12 +38,16 @@ return [
     'all'                       => 'Todos los registros de ',
     'in_the_database'           => 'en la base de datos',
     'list'                      => 'Listar',
+    'reset'                     => 'Reiniciar',
     'actions'                   => 'Acciones',
     'preview'                   => 'Vista previa',
     'delete'                    => 'Eliminar',
     'admin'                     => 'Admin',
     'details_row'               => 'Esta es la fila de detalles. Modificar a su gusto.',
     'details_row_loading_error' => 'Se ha producido un error al cargar los datos. Por favor, intente de nuevo.',
+    'clone'                     => 'Clonar',
+    'clone_success'             => '<strong>Elemento clonado</strong><br>Se creó un nuevo elemento con la misma información que este.',
+    'clone_failure'             => '<strong>La clonación falló</strong><br>No se puede crear el nuevo elemento. Inténtalo de nuevo.',
 
     // Confirmation messages and bubbles
     'delete_confirm'                              => '¿Está seguro que desea eliminar este elemento?',
@@ -64,17 +58,39 @@ return [
     'delete_confirmation_not_deleted_title'       => 'No se pudo eliminar',
     'delete_confirmation_not_deleted_message'     => 'No ha ocurrido nada. Su elemento está seguro.',
 
+    // Bulk actions
+    'bulk_no_entries_selected_title'   => 'No hay registros seleccionados',
+    'bulk_no_entries_selected_message' => 'Seleccione uno o más registros en los que realizar la operación',
+
+    // Bulk delete
+    'bulk_delete_are_you_sure'   => '¿Estás seguro de que deseas eliminar :number registro/s?',
+    'bulk_delete_sucess_title'   => 'Registros eliminados',
+    'bulk_delete_sucess_message' => ' los registros han sido eliminados',
+    'bulk_delete_error_title'    => 'Registros no eliminados',
+    'bulk_delete_error_message'  => 'No se pudieron eliminar uno o más registros',
+
+    // Bulk clone
+    'bulk_clone_are_you_sure'   => '¿Está seguro de que desea clonar :number registro/s?',
+    'bulk_clone_sucess_title'   => 'Registros clonados',
+    'bulk_clone_sucess_message' => ' registros han sido clonados.',
+    'bulk_clone_error_title'    => 'Registros no clonados',
+    'bulk_clone_error_message'  => 'No se pudieron crear una o más entradas. Inténtalo de nuevo.',
+
+    // Ajax errors
+    'ajax_error_title' => 'Error',
+    'ajax_error_text'  => 'Error al cargar la página. Por favor, vuelva a cargar la página.',
+
     // DataTables translation
     'emptyTable'     => 'No hay datos disponibles en la tabla',
     'info'           => 'Mostrando registros _START_ a _END_ de un total de _TOTAL_ registros',
-    'infoEmpty'      => 'Mostrando 0 registros',
+    'infoEmpty'      => '',
     'infoFiltered'   => '(filtrando de _MAX_ registros totales)',
-    'infoPostFix'    => '',
+    'infoPostFix'    => '.',
     'thousands'      => ',',
     'lengthMenu'     => '_MENU_ elementos por página',
     'loadingRecords' => 'Cargando...',
     'processing'     => 'Procesando...',
-    'search'         => 'Buscar: ',
+    'search'         => 'Buscar',
     'zeroRecords'    => 'No se encontraron elementos',
     'paginate'       => [
         'first'    => 'Primero',
@@ -86,8 +102,8 @@ return [
         'sortAscending'  => ': activar para ordenar ascendentemente',
         'sortDescending' => ': activar para ordenar descendentemente',
     ],
-
     'export' => [
+        'export'            => 'Exportar',
         'copy'              => 'Copiar',
         'excel'             => 'Excel',
         'csv'               => 'CSV',
@@ -98,7 +114,7 @@ return [
 
     // global crud - errors
     'unauthorized_access' => 'Acceso denegado - usted no tiene los permisos necesarios para ver esta página.',
-    'please_fix' => 'Por favor corrija los siguientes errores:',
+    'please_fix'          => 'Por favor corrija los siguientes errores:',
 
     // global crud - success / error notification bubbles
     'insert_success' => 'El elemento ha sido añadido de manera correcta.',
@@ -114,20 +130,51 @@ return [
 
     // CRUD yes/no
     'yes' => 'Sí',
-    'no' => 'No',
+    'no'  => 'No',
+
+    // CRUD filters navbar view
+    'filters'        => 'Filtros',
+    'toggle_filters' => 'Alternar filtros',
+    'remove_filters' => 'Remover filtros',
+    'apply' => 'Apply',
+
+    // filters language strings
+    'today' => 'Hoy',
+    'yesterday' => 'Ayer',
+    'last_7_days' => 'Los últimos 7 días',
+    'last_30_days' => 'Últimos 30 días',
+    'this_month' => 'Este mes',
+    'last_month' => 'El mes pasado',
+    'custom_range' => 'Rango personalizado',
+    'weekLabel' => 'W',
 
     // Fields
-    'browse_uploads' => 'Subir archivos',
-    'clear' => 'Limpiar',
-    'page_link' => 'Enlace',
-    'page_link_placeholder' => 'http://example.com/su-pagina',
-    'internal_link' => 'Enlace interno',
+    'browse_uploads'            => 'Subir archivos',
+    'select_all'                => 'Seleccionar todo',
+    'select_files'              => 'Selecciona archivos',
+    'select_file'               => 'Selecciona un archivo',
+    'clear'                     => 'Limpiar',
+    'page_link'                 => 'Enlace',
+    'page_link_placeholder'     => 'http://example.com/su-pagina',
+    'internal_link'             => 'Enlace interno',
     'internal_link_placeholder' => 'Slug interno. Ejplo: \'admin/page\' (sin comillas) para \':url\'',
-    'external_link' => 'Enlace externo',
+    'external_link'             => 'Enlace externo',
+    'choose_file'               => 'Elegir archivo',
+    'new_item'                  => 'Nuevo elemento',
+    'select_entry'              => 'Selecciona un elemento',
+    'select_entries'            => 'Selecciona elementos',
 
-    // Filtering
-    'filters'           =>  'Filtros',
-    'remove_filters'    =>  'Remover filtros',
-    'toggle_filters'    =>  'Alternar filtros',
+    // Table field
+    'table_cant_add'    => 'No se puede agregar una nueva :entity',
+    'table_max_reached' => 'El número máximo de :max alcanzado',
 
+    // File manager
+    'file_manager' => 'Administrador de archivos',
+
+    // InlineCreateOperation
+    'related_entry_created_success' => 'El elemento relacionado ha sido creado y seleccionado.',
+    'related_entry_created_error' => 'No se pueden crear elementos relacionados.',
+
+    // returned when no translations found in select inputs
+    'empty_translations' => '(vacío)',
 ];

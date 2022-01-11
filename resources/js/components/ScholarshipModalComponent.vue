@@ -37,8 +37,8 @@ export default {
             })
             .then(function (response) {
                 new Noty({
-                        title: "Operation successful",
-                        text: "The scholarship has been successfully added",
+                        title: this.$t("Operation successful"),
+                        text: this.$t("The scholarship has been successfully added"),
                         type: "success",
                     }).show();
                 window.location.reload()
