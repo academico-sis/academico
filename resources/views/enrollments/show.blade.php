@@ -158,7 +158,7 @@
                                 <td></td>
                                 <td>
                                     @if (config('app.currency_position') === 'before')
-                                        {{ config('app.currency_symbol') }} <strong>{{ $invoice->balance }}</strong>
+                                        {{ config('app.currency_symbol') }} <strong>{{ $enrollment->balance }}</strong>
                                     @else
                                         <strong>{{ $enrollment->balance }}</strong> {{ config('app.currency_symbol') }}
                                     @endif
