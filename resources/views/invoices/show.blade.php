@@ -24,6 +24,7 @@
 
                 <div class="card-body">
                     <p>@lang('Date') : {{ $invoice->formatted_date }}</p>
+                    @if ($enrollment) <p>@lang('Enrollment for') : <a href="{{ route('enrollment.show', ['id' => $enrollment->id]) }}">{{ $enrollment->student->firstname }} {{ $enrollment->student->lastname }}</a></p>@endif
                     <p>@lang('Client name') : {{ $invoice->client_name }}</p>
                     <p>@lang('Client email') : {{ $invoice->client_email }}</p>
                     <p>@lang('Client address') : {{ $invoice->client_address }}</p>

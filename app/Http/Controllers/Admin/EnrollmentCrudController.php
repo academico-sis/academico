@@ -103,7 +103,13 @@ class EnrollmentCrudController extends CrudController
 
             ['name' => 'user', 'key' => 'user_lastname', 'attribute' => 'lastname', 'label' => __('Last Name'), 'type' => 'relationship', 'wrapper' => ['element' => function ($crud, $column, $entry) {
                 return $entry->status_id > 2 ? 'del' : 'span';
-            },], 'searchLogic' => function ($query, $column, $searchTerm) {
+            },],
+                'orderable'  => true,
+                'orderLogic' => function ($query, $column, $columnDirection) {
+                    return $query->leftJoin('users', 'enrollments.student_id', '=', 'users.id')
+                        ->orderBy('users.lastname', $columnDirection)->select('enrollments.*');
+                },
+                'searchLogic' => function ($query, $column, $searchTerm) {
                 $query->orWhereHas('student', function ($q) use ($searchTerm) {
                     $q->whereHas('user', function ($q) use ($searchTerm) {
                         $q->where('lastname', 'like', '%' . $searchTerm . '%');
@@ -113,20 +119,34 @@ class EnrollmentCrudController extends CrudController
 
             ['name' => 'user', 'key' => 'user_firstname', 'attribute' => 'firstname', 'label' => __('First Name'), 'type' => 'relationship', 'wrapper' => ['element' => function ($crud, $column, $entry) {
                 return $entry->status_id > 2 ? 'del' : 'span';
-            },], 'searchLogic' => function ($query, $column, $searchTerm) {
+            },],
+                'searchLogic' => function ($query, $column, $searchTerm) {
                 $query->orWhereHas('student', function ($q) use ($searchTerm) {
                     $q->whereHas('user', function ($q) use ($searchTerm) {
                         $q->where('firstname', 'like', '%' . $searchTerm . '%');
                     });
                 });
-            },],
+            },
+                'orderLogic' => function ($query, $column, $columnDirection) {
+                    return $query->leftJoin('users', 'enrollments.student_id', '=', 'users.id')
+                        ->orderBy('users.firstname', $columnDirection)->select('enrollments.*');
+                },
+                'orderable'  => true,
+                ],
 
             ['label' => __('Age'), 'name' => 'student_age',],
 
             ['label' => __('Birthdate'), 'name' => 'student_birthdate',],]);
 
         if ($this->mode === 'global') {
-            CRUD::addColumns([['label' => __('Course'), 'type' => 'select', 'name' => 'course_id', 'entity' => 'course', 'attribute' => 'name', 'model' => Course::class,], ['type' => 'relationship', 'name' => 'course.period', 'label' => __('Period'), 'attribute' => 'name',],]);
+            CRUD::addColumns([['label' => __('Course'), 'type' => 'select', 'name' => 'course_id', 'entity' => 'course', 'attribute' => 'name', 'model' => Course::class,],
+                ['type' => 'relationship', 'name' => 'course.period', 'label' => __('Period'), 'attribute' => 'name',
+                    'orderLogic' => function ($query, $column, $columnDirection) {
+                        return $query->leftJoin('courses', 'enrollments.course_id', '=', 'courses.id')
+                            ->orderBy('courses.period_id', $columnDirection)->select('enrollments.*');
+                    },
+                    'orderable'  => true,
+                    ],]);
         }
 
         CRUD::addColumns([['label' => __('Status'), 'type' => 'select', 'name' => 'status_id', 'entity' => 'enrollmentStatus', 'attribute' => 'name', 'model' => EnrollmentStatusType::class, 'wrapper' => ['element' => 'span', 'class' => function ($crud, $column, $entry) {

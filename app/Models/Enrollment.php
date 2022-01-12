@@ -380,7 +380,7 @@ class Enrollment extends Model
     {
         $total = 0;
         foreach ($this->invoices() as $invoice) {
-            $total += $invoice->total_price;
+            $total += $invoice->paidTotal();
         }
 
         return $total;

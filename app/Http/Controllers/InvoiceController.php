@@ -40,12 +40,11 @@ class InvoiceController extends Controller
 
     public function create()
     {
-        $data = ['enrollment' => null, 'products' => [], 'invoicetypes' => InvoiceType::all(), 'clients' => [], 'availableBooks' => Book::all(), 'availableFees' => Fee::all(), 'availableDiscounts' => Discount::all(), 'availableTaxes' => Tax::all(), 'availablePaymentMethods' => Paymentmethod::all()];
         if (config('invoicing.price_categories_enabled')) {
             abort(403, 'Unable to create an invoice because price categories are enabled in your setup.');
         }
 
-        return view('carts.show', $data);
+        return view('carts.show', ['enrollment' => null, 'products' => [], 'invoicetypes' => InvoiceType::all(), 'clients' => [], 'availableBooks' => Book::all(), 'availableFees' => Fee::all(), 'availableDiscounts' => Discount::all(), 'availableTaxes' => Tax::all(), 'availablePaymentMethods' => Paymentmethod::all()]);
     }
 
     /**
@@ -236,6 +235,7 @@ class InvoiceController extends Controller
             if ($invoice->totalPrice() === $invoice->paidTotal()) {
                 $scheduledPayment->product->markAsPaid();
 
+                /** @var Enrollment $relatedEnrollment */
                 $relatedEnrollment = $scheduledPayment->product->enrollment;
                 if ($relatedEnrollment && $relatedEnrollment->scheduledPayments->where('status', '!==', 2)->count() === 0) {
                     $relatedEnrollment->markAsPaid();
@@ -244,7 +244,7 @@ class InvoiceController extends Controller
         }
 
         foreach ($invoice->enrollments as $enrollment) {
-            if ($invoice->totalPrice() === $invoice->paidTotal()) {
+            if ($invoice->totalPrice() === $invoice->paidTotal() && $enrollment->product->total_price === $enrollment->product->total_paid_price * 100) {
                 $enrollment->product->markAsPaid();
             }
         }
