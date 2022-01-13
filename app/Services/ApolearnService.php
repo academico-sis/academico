@@ -6,6 +6,7 @@ use App\Interfaces\LMSInterface;
 use App\Models\Course;
 use App\Models\Student;
 use App\Models\User;
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -22,7 +23,7 @@ class ApolearnService implements LMSInterface
         $this->token = $this->authenticate();
     }
 
-    public function authenticate() : string
+    public function authenticate(): string
     {
         Log::info('launching API');
         $response = Http::post(config('lms.apolearn.url').'/auth.gettoken', [
@@ -34,7 +35,7 @@ class ApolearnService implements LMSInterface
         return $response['result'] ?? '';
     }
 
-    public function createUser(User $user, ?string $password = null) : void
+    public function createUser(User $user, ?string $password = null): void
     {
         Log::info('checking if user exists for local ID '.$user->id);
         // first check if the user already exists (email)
@@ -72,7 +73,7 @@ class ApolearnService implements LMSInterface
         }
     }
 
-    public function updateUser(User $user, string $password = null) : void
+    public function updateUser(User $user, string $password = null): void
     {
         // if the user has no remote id, create them
         if ($user->lms_id == null) {
@@ -94,7 +95,7 @@ class ApolearnService implements LMSInterface
         }
     }
 
-    public function createCourse(Course $course) : void
+    public function createCourse(Course $course): void
     {
         // first check if the course already has an ID (meaning it exists on the remote lms)
         if ($course->lms_id) {
@@ -130,7 +131,7 @@ class ApolearnService implements LMSInterface
         $this->addTeacher($course);
     }
 
-    public function updateCourse(Course $course) : void
+    public function updateCourse(Course $course): void
     {
         if (! $course->lms_id) {
             $this->createCourse($course);
@@ -204,12 +205,12 @@ class ApolearnService implements LMSInterface
         ]);
     }
 
-    protected function actionSucceeded(\Illuminate\Http\Client\Response $response): bool
+    protected function actionSucceeded(Response $response): bool
     {
         return $response->ok() && array_key_exists('result', $response->json()) && $response->json()['result']['success'] == true;
     }
 
-    protected function addTeacher(Course $course) : void
+    protected function addTeacher(Course $course): void
     {
         Log::info('adding teacher');
 

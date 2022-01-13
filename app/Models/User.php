@@ -32,7 +32,7 @@ class User extends Authenticatable
         'deleting' => UserDeleting::class,
     ];
 
-    public function getEmailForPasswordReset() : string
+    public function getEmailForPasswordReset(): string
     {
         return $this->email;
     }

@@ -31,8 +31,8 @@ Route::group(
         'namespace'  => 'App\Http\Controllers\Admin',
     ],
     function () {
-    Route::crud('enrollment', 'EnrollmentCrudController');
-}
+        Route::crud('enrollment', 'EnrollmentCrudController');
+    }
 );
 
 /* CRUD routes accessible to admins or secretary */

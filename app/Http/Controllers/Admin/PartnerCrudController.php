@@ -3,20 +3,27 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\PartnerRequest;
+use App\Models\Partner;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
  * Class PartnerCrudController
- * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
+ * @property-read CrudPanel $crud
  */
 class PartnerCrudController extends CrudController
 {
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+    use ListOperation;
+    use CreateOperation;
+    use UpdateOperation;
+    use DeleteOperation;
+    use ShowOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -25,7 +32,7 @@ class PartnerCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\Partner::class);
+        CRUD::setModel(Partner::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/partner');
         CRUD::setEntityNameStrings(__('partnership'), __('partnerships'));
     }
@@ -98,16 +105,18 @@ class PartnerCrudController extends CrudController
         ]);
 
         CRUD::addField([   // Checkbox
-            'name'  => 'auto_renewal',
+            'name' => 'auto_renewal',
             'label' => __('Tacit renewal'),
-            'type'  => 'checkbox',
+            'type' => 'checkbox',
         ]);
 
         CRUD::addField([
             'name' => 'send_report_on',
             'label' => __('Send report on ... of the month'),
             'type' => 'number',
-            'attributes' => ['step' => 1, 'min' => 1, 'max' => 28],
+            'attributes' => ['step' => 1,
+                'min' => 1,
+                'max' => 28, ],
         ]);
     }
 

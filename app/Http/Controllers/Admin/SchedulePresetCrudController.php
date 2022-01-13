@@ -3,20 +3,27 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\SchedulePresetRequest;
+use App\Models\SchedulePreset;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
  * Class SchedulePresetCrudController
- * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
+ * @property-read CrudPanel $crud
  */
 class SchedulePresetCrudController extends CrudController
 {
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+    use ListOperation;
+    use CreateOperation;
+    use UpdateOperation;
+    use DeleteOperation;
+    use ShowOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -25,7 +32,7 @@ class SchedulePresetCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\SchedulePreset::class);
+        CRUD::setModel(SchedulePreset::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/schedulepreset');
         CRUD::setEntityNameStrings('Schedule Preset', 'Schedule Presets');
     }
@@ -56,15 +63,15 @@ class SchedulePresetCrudController extends CrudController
         CRUD::field('name')->type('text');
 
         CRUD::addfield([
-            'name'  => 'presets',
+            'name' => 'presets',
             'label' => __('Course Schedule'),
-            'type'  => 'repeatable',
+            'type' => 'repeatable',
             'fields' => [
                 [
-                    'name'    => 'day',
-                    'label'    => __('Day'),
-                    'type'        => 'select_from_array',
-                    'options'     => [
+                    'name' => 'day',
+                    'label' => __('Day'),
+                    'type' => 'select_from_array',
+                    'options' => [
                         0 => __('Sunday'),
                         1 => __('Monday'),
                         2 => __('Tuesday'),
@@ -74,19 +81,19 @@ class SchedulePresetCrudController extends CrudController
                         6 => __('Saturday'),
                     ],
                     'allows_null' => false,
-                    'default'     => 1,
+                    'default' => 1,
                     'wrapper' => ['class' => 'form-group col-md-4'],
                 ],
                 [
-                    'name'    => 'start',
-                    'type'    => 'time',
-                    'label'   => __('Start'),
+                    'name' => 'start',
+                    'type' => 'time',
+                    'label' => __('Start'),
                     'wrapper' => ['class' => 'form-group col-md-4'],
                 ],
                 [
-                    'name'    => 'end',
-                    'type'    => 'time',
-                    'label'   => __('End'),
+                    'name' => 'end',
+                    'type' => 'time',
+                    'label' => __('End'),
                     'wrapper' => ['class' => 'form-group col-md-4'],
                 ],
             ],

@@ -141,8 +141,6 @@ $rules = [
         'elements' => ['method', 'property'],
     ],
     'whitespace_after_comma_in_array' => true,
-    '@PHP74Migration' => true,
-    '@PHP80Migration' => true,
 ];
 
 

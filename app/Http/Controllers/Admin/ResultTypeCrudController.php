@@ -28,8 +28,10 @@ class ResultTypeCrudController extends CrudController
     protected function setupListOperation()
     {
         CRUD::addColumns([
-            ['name' => 'name', 'label' => 'Name'],
-            ['name' => 'description', 'label' => 'Description'],
+            ['name' => 'name',
+                'label' => 'Name', ],
+            ['name' => 'description',
+                'label' => 'Description', ],
         ]);
     }
 
@@ -38,8 +40,12 @@ class ResultTypeCrudController extends CrudController
         CRUD::setValidation(StoreRequest::class);
 
         CRUD::addFields([
-            ['name' => 'name', 'label' => 'Name', 'type' => 'textarea'],
-            ['name' => 'description', 'label' => 'Description', 'type' => 'textarea'],
+            ['name' => 'name',
+                'label' => 'Name',
+                'type' => 'textarea', ],
+            ['name' => 'description',
+                'label' => 'Description',
+                'type' => 'textarea', ],
         ]);
     }
 

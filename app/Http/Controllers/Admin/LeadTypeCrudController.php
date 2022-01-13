@@ -32,13 +32,16 @@ class LeadTypeCrudController extends CrudController
 
     protected function setupListOperation()
     {
-        CRUD::addColumn(['name' => 'name', 'label' => 'Name']);
+        CRUD::addColumn(['name' => 'name',
+            'label' => 'Name', ]);
     }
 
     protected function setupCreateOperation()
     {
         CRUD::setValidation(StoreRequest::class);
-        CRUD::addField(['name' => 'name', 'label' => 'Name', 'type' => 'text']);
+        CRUD::addField(['name' => 'name',
+            'label' => 'Name',
+            'type' => 'text', ]);
     }
 
     protected function setupUpdateOperation()

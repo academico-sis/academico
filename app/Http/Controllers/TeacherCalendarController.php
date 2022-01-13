@@ -42,7 +42,8 @@ class TeacherCalendarController extends Controller
             'title' => $teacher['name'] ?? '',
         ], $teachers);
 
-        array_push($teachers, ['id' => 'tbd', 'title' => 'Unassigned']);
+        array_push($teachers, ['id' => 'tbd',
+            'title' => 'Unassigned', ]);
 
         $unassigned_events = Event::unassigned()->get()->map(fn ($event) => [
             'title' => $event->name ?? '',
@@ -55,7 +56,8 @@ class TeacherCalendarController extends Controller
         ]);
 
         $leaves = Leave::orderBy('date', 'desc')->limit(10000)->get()->map(fn ($event) => [
-            'title' => $event->leaveType->name ?? 'ABS', // todo fix
+            'title' => $event->leaveType->name ?? 'ABS',
+            // todo fix
             'resourceId' => $event['teacher_id'],
             'start' => $event['date'],
             'allDay' => true,
@@ -89,7 +91,8 @@ class TeacherCalendarController extends Controller
         ]);
 
         $leaves = $teacher->leaves->map(fn ($event) => [
-            'title' => $event->leaveType->name ?? 'vacances',  // todo fix
+            'title' => $event->leaveType->name ?? 'vacances',
+            // todo fix
             'start' => $event['date'],
             'allDay' => true,
         ]);

@@ -84,7 +84,7 @@ class EnrollmentController extends Controller
         // if the new course has children, create an enrollment as well
         foreach ($course->children as $children_course) {
             $child_enrollment = Enrollment::firstOrNew([
-                'student_id' =>  $enrollment->student_id,
+                'student_id' => $enrollment->student_id,
                 'course_id' => $children_course->id,
                 'parent_id' => $enrollment->id,
             ]);
@@ -228,8 +228,7 @@ class EnrollmentController extends Controller
         $periodId = $request->get('periodId');
         if ($periodId) {
             $pendingBalance = Enrollment::period($periodId)->pending()->sum('balance');
-        }
-        else {
+        } else {
             $pendingBalance = Enrollment::pending()->sum('balance');
         }
 

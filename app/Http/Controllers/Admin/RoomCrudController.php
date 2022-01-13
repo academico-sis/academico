@@ -37,13 +37,15 @@ class RoomCrudController extends CrudController
             ],
 
             [
-                'name' => 'name', // The db column name
+                'name' => 'name',
+                // The db column name
                 'label' => 'Name',
                 'type' => 'text',
             ],
 
             [
-                'name' => 'capacity', // The db column name
+                'name' => 'capacity',
+                // The db column name
                 'label' => 'Capacity',
                 'type' => 'number',
             ],
@@ -64,13 +66,15 @@ class RoomCrudController extends CrudController
             ],
 
             [
-                'name' => 'name', // The db column name
+                'name' => 'name',
+                // The db column name
                 'label' => 'Name',
                 'type' => 'text',
             ],
 
             [
-                'name' => 'capacity', // The db column name
+                'name' => 'capacity',
+                // The db column name
                 'label' => 'Capacity',
                 'type' => 'number',
             ],

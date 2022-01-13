@@ -7,6 +7,7 @@ use App\Models\Enrollment;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
 use PhpOffice\PhpWord\Element\Table;
+use PhpOffice\PhpWord\SimpleType\JcTable;
 use PhpOffice\PhpWord\TemplateProcessor;
 
 class AFSantiagoEnrollmentSheetService implements EnrollmentSheetInterface
@@ -48,7 +49,12 @@ class AFSantiagoEnrollmentSheetService implements EnrollmentSheetInterface
         $templateProcessor->setValue('end_date', $enrollment->course->formatted_end_date);
         $templateProcessor->setValue('volume', $enrollment->course->volume);
 
-        $table = new Table(['borderSize' => 8, 'borderColor' => 'black', 'cellMargin' => 80, 'alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER, 'cellSpacing' => 50, 'width' => 100 * 50]);
+        $table = new Table(['borderSize' => 8,
+            'borderColor' => 'black',
+            'cellMargin' => 80,
+            'alignment' => JcTable::CENTER,
+            'cellSpacing' => 50,
+            'width' => 100 * 50, ]);
 
         $firstRowStyle = ['bgColor' => 'd9d9d9'];
 

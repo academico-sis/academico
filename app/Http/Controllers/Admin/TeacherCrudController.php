@@ -39,12 +39,12 @@ class TeacherCrudController extends CrudController
             ],
             [
                 // 1-n relationship
-                'label'     => __('Last Name'),
-                'type'      => 'relationship',
-                'key'  => 'lastname',
-                'name'    => 'user',
+                'label' => __('Last Name'),
+                'type' => 'relationship',
+                'key' => 'lastname',
+                'name' => 'user',
                 'attribute' => 'lastname',
-                'model'     => User::class,
+                'model' => User::class,
                 'orderable' => true,
                 'orderLogic' => fn ($query, $column, $columnDirection) => $query->leftJoin('users', 'users.id', '=', 'students.id')
                     ->orderBy('users.lastname', $columnDirection)->select('students.*'),
@@ -57,12 +57,12 @@ class TeacherCrudController extends CrudController
 
             [
                 // 1-n relationship
-                'label'     => __('First Name'),
-                'type'      => 'relationship',
-                'key'  => 'firstname',
-                'name'    => 'user',
+                'label' => __('First Name'),
+                'type' => 'relationship',
+                'key' => 'firstname',
+                'name' => 'user',
                 'attribute' => 'firstname',
-                'model'     => User::class,
+                'model' => User::class,
                 'orderable' => true,
                 'orderLogic' => fn ($query, $column, $columnDirection) => $query->leftJoin('users', 'users.id', '=', 'teachers.id')
                     ->orderBy('users.firstname', $columnDirection)->select('teachers.*'),
@@ -75,11 +75,11 @@ class TeacherCrudController extends CrudController
 
             [
                 // 1-n relationship
-                'label'     => __('Email'),
-                'type'      => 'relationship',
-                'name'    => 'user',
+                'label' => __('Email'),
+                'type' => 'relationship',
+                'name' => 'user',
                 'attribute' => 'email',
-                'model'     => User::class,
+                'model' => User::class,
                 'orderable' => true,
                 'orderLogic' => fn ($query, $column, $columnDirection) => $query->leftJoin('users', 'users.id', '=', 'teachers.id')
                     ->orderBy('users.email', $columnDirection)->select('teachers.*'),
@@ -93,14 +93,14 @@ class TeacherCrudController extends CrudController
 
         CRUD::addColumns([
             [
-                'name'  => 'max_week_hours',
+                'name' => 'max_week_hours',
                 'label' => __('Weekly workable hours'),
-                'type'  => 'number',
+                'type' => 'number',
             ],
             [
-                'name'  => 'hired_at',
+                'name' => 'hired_at',
                 'label' => __('Hire Date'),
-                'type'  => 'date',
+                'type' => 'date',
             ],
         ]);
     }
@@ -115,15 +115,15 @@ class TeacherCrudController extends CrudController
 
         CRUD::addFields([
             [
-                'name'  => 'max_week_hours',
+                'name' => 'max_week_hours',
                 'label' => __('Weekly workable hours'),
-                'type'  => 'number',
+                'type' => 'number',
                 'attributes' => ['step' => '0.01'],
             ],
             [
-                'name'  => 'hired_at',
+                'name' => 'hired_at',
                 'label' => __('Hire Date'),
-                'type'  => 'date',
+                'type' => 'date',
             ],
         ]);
     }
@@ -138,15 +138,15 @@ class TeacherCrudController extends CrudController
 
         CRUD::addFields([
             [
-                'name'  => 'max_week_hours',
+                'name' => 'max_week_hours',
                 'label' => __('Weekly workable hours'),
-                'type'  => 'number',
+                'type' => 'number',
                 'attributes' => ['step' => '0.01'],
             ],
             [
-                'name'  => 'hired_at',
+                'name' => 'hired_at',
                 'label' => __('Hire Date'),
-                'type'  => 'date',
+                'type' => 'date',
             ],
         ]);
     }
@@ -176,7 +176,7 @@ class TeacherCrudController extends CrudController
         return redirect()->route('teacher.index');
     }
 
-    protected function generateUsername($fullName) : string
+    protected function generateUsername($fullName): string
     {
         $username_parts = array_filter(explode(' ', strtolower($fullName)));
         $username_parts = array_slice($username_parts, -2);

@@ -7,6 +7,7 @@ use App\Models\Year;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\InlineCreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -15,7 +16,7 @@ class YearCrudController extends CrudController
 {
     use ListOperation;
     use CreateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\InlineCreateOperation;
+    use InlineCreateOperation;
     use UpdateOperation;
     use DeleteOperation;
 
@@ -28,13 +29,16 @@ class YearCrudController extends CrudController
 
     protected function setupListOperation()
     {
-        CRUD::addColumn(['name' => 'name', 'label' => 'Name']);
+        CRUD::addColumn(['name' => 'name',
+            'label' => 'Name', ]);
     }
 
     protected function setupCreateOperation()
     {
         CRUD::setValidation(StoreRequest::class);
-        CRUD::addField(['name' => 'name', 'label' => 'Name', 'type' => 'text']);
+        CRUD::addField(['name' => 'name',
+            'label' => 'Name',
+            'type' => 'text', ]);
     }
 
     protected function setupUpdateOperation()

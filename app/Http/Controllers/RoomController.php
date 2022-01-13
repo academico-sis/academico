@@ -42,7 +42,8 @@ class RoomController extends Controller
             'title' => $room['name'],
         ], $rooms);
 
-        array_push($rooms, ['id' => 'tbd', 'title' => 'Unassigned']);
+        array_push($rooms, ['id' => 'tbd',
+            'title' => 'Unassigned', ]);
 
         $unassigned_events = Event::with('course')
             ->whereNull('room_id')

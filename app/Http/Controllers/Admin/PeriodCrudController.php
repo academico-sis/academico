@@ -7,6 +7,7 @@ use App\Models\Year;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -17,7 +18,7 @@ class PeriodCrudController extends CrudController
     use CreateOperation;
     use UpdateOperation;
     use DeleteOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
+    use FetchOperation;
 
     public function setup()
     {
@@ -30,9 +31,9 @@ class PeriodCrudController extends CrudController
     {
         CRUD::setColumns([
             [
-                'label'     => __('Year'),
-                'type'      => 'relationship',
-                'name'    => 'year',
+                'label' => __('Year'),
+                'type' => 'relationship',
+                'name' => 'year',
                 'attribute' => 'name',
             ],
 
@@ -61,8 +62,9 @@ class PeriodCrudController extends CrudController
         CRUD::addFields([
             [
                 'type' => 'relationship',
-                'name' => 'year_id', // the method on your model that defines the relationship
-                'inline_create' => true, // assumes the URL will be "/admin/category/inline/create"
+                'name' => 'year_id',
+                'inline_create' => true,
+                // assumes the URL will be "/admin/category/inline/create"
             ],
 
             [

@@ -11,6 +11,7 @@ use App\Models\Student;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
@@ -25,7 +26,7 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
         return response('OK', 204);
     }
 
-    protected function generateUsername($fullName) : string
+    protected function generateUsername($fullName): string
     {
         $username_parts = array_filter(explode(' ', strtolower($fullName)));
         $username_parts = array_slice($username_parts, -2);
@@ -53,22 +54,22 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
         $email_validation = (backpack_authentication_column() == 'email') ? 'email|' : '';
 
         return Validator::make($data, [
-            'firstname'                            => 'required|max:255',
-            'lastname'                             => 'required|max:255',
-            'username'                             => 'required|max:255|unique:'.$users_table,
-            'gender'                               => 'numeric|in:0,1,2',
-            'email'                                => 'required|email',
-            'password'                             => 'required|min:6',
-            'rules'                                => 'required',
-            'idnumber_type'                        => 'required',
-            'idnumber'                             => 'required',
-            'phonenumber'                          => 'required',
-            'tc_consent'                           => 'required',
-            'address'                              => 'required',
-            'birthdate'                            => 'required',
-            'profession'                           => 'required',
-            'institution'                          => 'required',
-            'userPicture'                          => 'image|nullable',
+            'firstname' => 'required|max:255',
+            'lastname' => 'required|max:255',
+            'username' => 'required|max:255|unique:'.$users_table,
+            'gender' => 'numeric|in:0,1,2',
+            'email' => 'required|email',
+            'password' => 'required|min:6',
+            'rules' => 'required',
+            'idnumber_type' => 'required',
+            'idnumber' => 'required',
+            'phonenumber' => 'required',
+            'tc_consent' => 'required',
+            'address' => 'required',
+            'birthdate' => 'required',
+            'profession' => 'required',
+            'institution' => 'required',
+            'userPicture' => 'image|nullable',
         ]);
     }
 
@@ -87,11 +88,11 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
 
         // create the user
         $user = User::create([
-            'firstname'                            => $data['firstname'],
-            'lastname'                             => $data['lastname'],
-            'email'                                => $data['email'],
-            'username'                             => $username,
-            'password'                             => bcrypt($data['password']),
+            'firstname' => $data['firstname'],
+            'lastname' => $data['lastname'],
+            'email' => $data['email'],
+            'username' => $username,
+            'password' => bcrypt($data['password']),
         ]);
 
         Log::info('New user created with ID '.$user->id);
@@ -102,10 +103,10 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
 
         $student = Student::create([
             'id' => $user->id,
-            'idnumber'                             => $data['idnumber'],
-            'gender_id'                             => $data['gender'],
-            'birthdate'                            => Carbon::parse($data['birthdate'])->toDateTimeString(),
-            'address'                              => $data['address'],
+            'idnumber' => $data['idnumber'],
+            'gender_id' => $data['gender'],
+            'birthdate' => Carbon::parse($data['birthdate'])->toDateTimeString(),
+            'address' => $data['address'],
         ]);
 
         Log::info('New student created with ID '.$student->id);
@@ -117,7 +118,7 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
      * Handle a registration request for the application.
      *
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function register(Request $request)
     {

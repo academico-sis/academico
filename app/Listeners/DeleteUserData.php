@@ -8,7 +8,7 @@ use App\Models\Teacher;
 
 class DeleteUserData
 {
-    public function handle(UserDeleting $event) : void
+    public function handle(UserDeleting $event): void
     {
         // Delete student and teacher
         Student::where('id', $event->user->id)->delete();

@@ -3,19 +3,25 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\ProfessionRequest;
+use App\Models\Profession;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\InlineCreateOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
  * Class ProfessionCrudController
- * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
+ * @property-read CrudPanel $crud
  */
 class ProfessionCrudController extends CrudController
 {
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\InlineCreateOperation;
+    use ListOperation;
+    use CreateOperation;
+    use UpdateOperation;
+    use InlineCreateOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -24,7 +30,7 @@ class ProfessionCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\Profession::class);
+        CRUD::setModel(Profession::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/profession');
         CRUD::setEntityNameStrings('profession', 'professions');
     }

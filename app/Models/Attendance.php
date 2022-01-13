@@ -66,7 +66,7 @@ class Attendance extends Model
         return self::with('event.course')->with('student')->whereIn('event_id', $eventsIds)->whereIn('attendance_type_id', [3, 4])->get()->groupBy('student_id');
     }
 
-    public function getStudentNameAttribute() : string
+    public function getStudentNameAttribute(): string
     {
         return $this->student->name ?? '';
     }

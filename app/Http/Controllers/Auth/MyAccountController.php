@@ -7,6 +7,7 @@ use App\Models\ContactRelationship;
 use App\Models\Institution;
 use App\Models\Profession;
 use App\Models\Student;
+use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Prologue\Alerts\Facades\Alert;
@@ -272,7 +273,7 @@ class MyAccountController extends Controller
     /**
      * Get the guard to be used for account manipulation.
      *
-     * @return \Illuminate\Contracts\Auth\StatefulGuard
+     * @return StatefulGuard
      */
     protected function guard()
     {

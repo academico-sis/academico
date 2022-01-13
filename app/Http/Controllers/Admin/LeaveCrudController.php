@@ -61,7 +61,8 @@ class LeaveCrudController extends CrudController
             ],
 
             [
-                'name' => 'date', // The db column name
+                'name' => 'date',
+                // The db column name
                 'label' => 'Date',
                 'type' => 'date',
             ],
@@ -71,28 +72,28 @@ class LeaveCrudController extends CrudController
             [ // select2 filter
                 'name' => 'teacher_id',
                 'type' => 'select2',
-                'label'=> __('Teacher'),
+                'label' => __('Teacher'),
             ],
             fn () => Teacher::all()->pluck('name', 'id')->toArray(),
-            function ($value) { // if the filter is active
-            CRUD::addClause('where', 'teacher_id', $value);
-        },
+            function ($value) {
+                CRUD::addClause('where', 'teacher_id', $value);
+            },
             function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
-          }
+            }
         );
 
         CRUD::addFilter(
             [ // daterange filter
                 'type' => 'date_range',
                 'name' => 'from_to',
-                'label'=> __('Date range'),
+                'label' => __('Date range'),
             ],
             false,
             function ($value) { // if the filter is active, apply these constraints
-              $dates = json_decode($value, null, 512, JSON_THROW_ON_ERROR);
-              CRUD::addClause('where', 'date', '>=', $dates->from);
-              CRUD::addClause('where', 'date', '<=', $dates->to.' 23:59:59');
-          }
+                $dates = json_decode($value, null, 512, JSON_THROW_ON_ERROR);
+                CRUD::addClause('where', 'date', '>=', $dates->from);
+                CRUD::addClause('where', 'date', '<=', $dates->to.' 23:59:59');
+            }
         );
     }
 
@@ -122,10 +123,12 @@ class LeaveCrudController extends CrudController
             ],
 
             [   // date_range
-                'name' => ['start_date', 'end_date'], // db columns for start_date & end_date
+                'name' => ['start_date', 'end_date'],
+                // db columns for start_date & end_date
                 'label' => 'Event Date Range',
                 'type' => 'date_range',
-                'default' => [Carbon::now()->format('Y-m-d 00:00'), Carbon::now()->addDays(2)->format('Y-m-d 00:00')], // default value for start_date and end_date
+                'default' => [Carbon::now()->format('Y-m-d 00:00'), Carbon::now()->addDays(2)->format('Y-m-d 00:00')],
+                // default value for start_date and end_date
             ],
         ]);
     }

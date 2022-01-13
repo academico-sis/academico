@@ -44,17 +44,17 @@ class UserCrudController extends CrudController
                 'name' => 'lastname',
             ],
             [
-                'name'  => 'email',
+                'name' => 'email',
                 'label' => trans('backpack::permissionmanager.email'),
-                'type'  => 'email',
+                'type' => 'email',
             ],
             [ // n-n relationship (with pivot table)
-                'label'     => trans('backpack::permissionmanager.roles'),
-                'type'      => 'select_multiple',
-                'name'      => 'roles',
-                'entity'    => 'roles',
+                'label' => trans('backpack::permissionmanager.roles'),
+                'type' => 'select_multiple',
+                'name' => 'roles',
+                'entity' => 'roles',
                 'attribute' => 'name',
-                'model'     => config('permission.models.role'),
+                'model' => config('permission.models.role'),
             ],
 
         ]);
@@ -62,13 +62,12 @@ class UserCrudController extends CrudController
         // Role Filter
         $this->crud->addFilter(
             [
-                'name'  => 'role',
-                'type'  => 'dropdown',
+                'name' => 'role',
+                'type' => 'dropdown',
                 'label' => trans('backpack::permissionmanager.role'),
             ],
             config('permission.models.role')::all()->pluck(['name', 'id'])->toArray(),
             function ($value) {
-                // if the filter is active
                 $this->crud->addClause('whereHas', 'roles', function ($query) use ($value) {
                     $query->where('role_id', '=', $value);
                 });
@@ -131,24 +130,24 @@ class UserCrudController extends CrudController
                 'name' => 'lastname',
             ],
             [
-                'name'  => 'email',
+                'name' => 'email',
                 'label' => trans('backpack::permissionmanager.email'),
-                'type'  => 'email',
+                'type' => 'email',
             ],
             [
-                'name'  => 'password',
+                'name' => 'password',
                 'label' => trans('password'),
-                'type'  => 'password',
+                'type' => 'password',
             ],
 
             [
-                'label'     => 'Roles',
-                'type'      => 'checklist',
-                'name'      => 'roles',
-                'entity'    => 'roles',
+                'label' => 'Roles',
+                'type' => 'checklist',
+                'name' => 'roles',
+                'entity' => 'roles',
                 'attribute' => 'name',
-                'model'     => Role::class,
-                'pivot'     => true,
+                'model' => Role::class,
+                'pivot' => true,
             ],
         ]);
     }

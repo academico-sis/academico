@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Models\Invoice;
+use function Sentry\captureMessage;
 
 class MarkProductsAsUnpaid
 {
@@ -15,7 +16,7 @@ class MarkProductsAsUnpaid
             if ($enrollment->product) {
                 //$enrollment->product->markAsUnpaid();
             } else {
-                \Sentry\captureMessage('Unable to delete invoice for enrollment #'.$enrollment->id);
+                captureMessage('Unable to delete invoice for enrollment #'.$enrollment->id);
             }
         }
 

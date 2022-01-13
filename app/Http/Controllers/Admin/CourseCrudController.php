@@ -102,12 +102,14 @@ class CourseCrudController extends CrudController
             ],
 
             [
-                'name' => 'name', // The db column name
+                'name' => 'name',
+                // The db column name
                 'label' => __('Name'),
             ],
 
             [
-                'name' => 'volume', // The db column name
+                'name' => 'volume',
+                // The db column name
                 'label' => __('Presential volume'),
                 'suffix' => 'h',
                 'type' => 'number',
@@ -115,7 +117,8 @@ class CourseCrudController extends CrudController
             ],
 
             [
-                'name' => 'remote_volume', // The db column name
+                'name' => 'remote_volume',
+                // The db column name
                 'label' => __('Remote volume'),
                 'suffix' => 'h',
                 'type' => 'number',
@@ -149,8 +152,10 @@ class CourseCrudController extends CrudController
                 'name' => 'times',
                 'label' => __('Schedule'),
                 'type' => 'model_function',
-                'function_name' => 'getCourseTimesAttribute', // the method in your Model
-                'limit' => 150, // Limit the number of characters shown
+                'function_name' => 'getCourseTimesAttribute',
+                // the method in your Model
+                'limit' => 150,
+                // Limit the number of characters shown
                 'searchLogic' => false,
             ],
 
@@ -159,13 +164,15 @@ class CourseCrudController extends CrudController
                 'name' => 'enrollments',
                 'label' => __('Enrollments'),
                 'type' => 'model_function',
-                'function_name' => 'getCourseEnrollmentsCountAttribute', // the method in your Model
+                'function_name' => 'getCourseEnrollmentsCountAttribute',
+                // the method in your Model
                 // 'limit' => 100, // Limit the number of characters shown
                 'searchLogic' => false,
             ],
 
             [
-                'name' => 'start_date', // The db column name
+                'name' => 'start_date',
+                // The db column name
                 'label' => __('Start Date'),
                 'type' => 'date',
                 // 'format' => 'l j F Y', // use something else than the base.default_date_format config value
@@ -173,7 +180,8 @@ class CourseCrudController extends CrudController
             ],
 
             [
-                'name' => 'end_date', // The db column name
+                'name' => 'end_date',
+                // The db column name
                 'label' => __('End Date'),
                 'type' => 'date',
                 // 'format' => 'l j F Y', // use something else than the base.default_date_format config value
@@ -186,58 +194,55 @@ class CourseCrudController extends CrudController
             [
                 'name' => 'rhythm_id',
                 'type' => 'select2',
-                'label'=> __('Rhythm'),
+                'label' => __('Rhythm'),
             ],
             fn () => Rhythm::all()->pluck('name', 'id')->toArray(),
             function ($value) {
-            // if the filter is active
-            CRUD::addClause('where', 'rhythm_id', $value);
-        },
+                CRUD::addClause('where', 'rhythm_id', $value);
+            },
             function () {
-            // if the filter is NOT active (the GET parameter "checkbox" does not exit)
-        }
+                // if the filter is NOT active (the GET parameter "checkbox" does not exit)
+            }
         );
 
         CRUD::addFilter(
             [
                 'name' => 'teacher_id',
                 'type' => 'select2',
-                'label'=> __('Teacher'),
+                'label' => __('Teacher'),
             ],
             fn () => Teacher::all()->pluck('name', 'id')->toArray(),
             function ($value) {
-            // if the filter is active
-            CRUD::addClause('where', 'teacher_id', $value);
-        },
+                CRUD::addClause('where', 'teacher_id', $value);
+            },
             function () {
-            // if the filter is NOT active (the GET parameter "checkbox" does not exit)
-        }
+                // if the filter is NOT active (the GET parameter "checkbox" does not exit)
+            }
         );
 
         CRUD::addFilter(
             [
                 'name' => 'level_id',
                 'type' => 'select2',
-                'label'=> __('Level'),
+                'label' => __('Level'),
             ],
             fn () => Level::all()->pluck('name', 'id')->toArray(),
             function ($value) {
-            // if the filter is active
-            CRUD::addClause('where', 'level_id', $value);
-        },
+                CRUD::addClause('where', 'level_id', $value);
+            },
             function () {
-            // if the filter is NOT active (the GET parameter "checkbox" does not exit)
-        }
+                // if the filter is NOT active (the GET parameter "checkbox" does not exit)
+            }
         );
 
         CRUD::addFilter(
             [
                 'name' => 'period_id',
                 'type' => 'select2',
-                'label'=> __('Period'),
+                'label' => __('Period'),
             ],
             fn () => \App\Models\Period::all()->sortByDesc('id')->pluck('name', 'id')->toArray(),
-            function ($value) { // if the filter is active
+            function ($value) {
                 CRUD::addClause('where', 'period_id', $value);
             },
             function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
@@ -251,7 +256,7 @@ class CourseCrudController extends CrudController
             [ // add a "simple" filter called Draft
                 'type' => 'simple',
                 'name' => 'parent',
-                'label'=> __('Hide Children Courses'),
+                'label' => __('Hide Children Courses'),
             ],
             false,
             function () {
@@ -261,8 +266,8 @@ class CourseCrudController extends CrudController
 
         $this->crud->addFilter(
             [
-                'type'  => 'date_range',
-                'name'  => 'start_date',
+                'type' => 'date_range',
+                'name' => 'start_date',
                 'label' => __('Start'),
             ],
             false,
@@ -275,8 +280,8 @@ class CourseCrudController extends CrudController
 
         $this->crud->addFilter(
             [
-                'type'  => 'date_range',
-                'name'  => 'end_date',
+                'type' => 'date_range',
+                'name' => 'end_date',
                 'label' => __('End'),
             ],
             false,
@@ -320,13 +325,15 @@ class CourseCrudController extends CrudController
             ],
 
             [
-                'name' => 'name', // The db column name
+                'name' => 'name',
+                // The db column name
                 'label' => __('Name'),
                 'tab' => __('Course info'),
             ],
 
             array_merge([
-                'name' => 'price', // The db column name
+                'name' => 'price',
+                // The db column name
                 'label' => __('Price'),
                 'tab' => __('Course info'),
                 'type' => 'number',
@@ -338,57 +345,64 @@ class CourseCrudController extends CrudController
                 array_merge([
                     'name' => 'price_b',
                     'label' => __('Price B'),
-                    'tab' => __('Course info'), 'type' => 'number',
+                    'tab' => __('Course info'),
+                    'type' => 'number',
                 ], $currency),
 
                 array_merge([
                     'name' => 'price_c',
                     'label' => __('PriceC'),
-                    'tab' => __('Course info'), 'type' => 'number',
+                    'tab' => __('Course info'),
+                    'type' => 'number',
                 ], $currency),
             ]);
         }
 
         CRUD::addFields([
             [
-                'name' => 'volume', // The db column name
+                'name' => 'volume',
+                // The db column name
                 'label' => __('Presential volume'),
                 'suffix' => 'h',
                 'tab' => __('Course info'),
             ],
 
             [
-                'name' => 'remote_volume', // The db column name
+                'name' => 'remote_volume',
+                // The db column name
                 'label' => __('Remote volume'),
                 'suffix' => 'h',
                 'tab' => __('Course info'),
             ],
 
             [
-                'name' => 'spots', // The db column name
+                'name' => 'spots',
+                // The db column name
                 'label' => __('Spots'),
                 'tab' => __('Course info'),
             ],
 
             [
-                'name' => 'exempt_attendance', // The db column name
+                'name' => 'exempt_attendance',
+                // The db column name
                 'label' => __('Exempt Attendance'),
                 'type' => 'checkbox',
                 'tab' => __('Course info'),
             ],
 
             [   // repeatable
-                'name'  => 'sublevels',
+                'name' => 'sublevels',
                 'label' => __('Course sublevels'),
-                'type'  => 'repeatable',
+                'type' => 'repeatable',
                 'fields' => [
                     [
-                        'name' => 'name', // The db column name
+                        'name' => 'name',
+                        // The db column name
                         'label' => __('Name'),
                     ],
                     [
-                        'name'    => 'level_id',
-                        'label'    => __('Level'),
+                        'name' => 'level_id',
+                        'label' => __('Level'),
                         'type' => 'select',
                         'entity' => 'level',
                         'attribute' => 'name',
@@ -398,45 +412,50 @@ class CourseCrudController extends CrudController
                     ],
 
                     array_merge([
-                        'name' => 'price', // The db column name
+                        'name' => 'price',
+                        // The db column name
                         'label' => __('Price'),
                         'type' => 'number',
                     ], $currency),
 
                     [
-                        'name' => 'volume', // The db column name
+                        'name' => 'volume',
+                        // The db column name
                         'label' => __('Presential volume'),
                         'suffix' => 'h',
                     ],
 
                     [
-                        'name' => 'remote_volume', // The db column name
+                        'name' => 'remote_volume',
+                        // The db column name
                         'label' => __('Remote volume'),
                         'suffix' => 'h',
                     ],
 
                     [
-                        'name'    => 'start_date',
-                        'type'    => 'date',
-                        'label'   => __('Start Date'),
+                        'name' => 'start_date',
+                        'type' => 'date',
+                        'label' => __('Start Date'),
                         'wrapper' => ['class' => 'form-group col-md-4'],
                     ],
                     [
-                        'name'    => 'end_date',
-                        'type'    => 'date',
-                        'label'   => __('End Date'),
+                        'name' => 'end_date',
+                        'type' => 'date',
+                        'label' => __('End Date'),
                         'wrapper' => ['class' => 'form-group col-md-4'],
                     ],
                 ],
                 'tab' => __('Course sublevels'),
-                'init_rows' => 0, // number of empty rows to be initialized, by default 1
+                'init_rows' => 0,
+                // number of empty rows to be initialized, by default 1
 
             ],
         ]);
 
         if (config('lms.sync_to') == 'apolearn') {
             CRUD::addField([
-                'name' => 'sync_to_lms', // The db column name
+                'name' => 'sync_to_lms',
+                // The db column name
                 'label' => __('Sync to LMS'),
                 'type' => 'checkbox',
                 'tab' => __('Course info'),
@@ -445,7 +464,8 @@ class CourseCrudController extends CrudController
 
         CRUD::addFields([
             [
-                'name' => 'color', // The db column name
+                'name' => 'color',
+                // The db column name
                 'label' => __('Color'),
                 'tab' => __('Course info'),
                 'type' => 'color_picker',
@@ -489,7 +509,8 @@ class CourseCrudController extends CrudController
                 'entity' => 'books',
                 'attribute' => 'name',
                 'model' => Book::class,
-                'pivot' => true, // on create&update, do you need to add/delete pivot table entries?
+                'pivot' => true,
+                // on create&update, do you need to add/delete pivot table entries?
                 'tab' => __('Pedagogy'),
             ],
 
@@ -516,7 +537,8 @@ class CourseCrudController extends CrudController
             ],
 
             [
-                'name' => 'start_date', // The db column name
+                'name' => 'start_date',
+                // The db column name
                 'label' => __('Start Date'),
                 'type' => 'date',
                 // 'format' => 'l j F Y', // use something else than the base.default_date_format config value
@@ -526,7 +548,8 @@ class CourseCrudController extends CrudController
             ],
 
             [
-                'name' => 'end_date', // The db column name
+                'name' => 'end_date',
+                // The db column name
                 'label' => __('End Date'),
                 'type' => 'date',
                 // 'format' => 'l j F Y', // use something else than the base.default_date_format config value
@@ -535,15 +558,15 @@ class CourseCrudController extends CrudController
             ],
 
             [   // repeatable
-                'name'  => 'times',
+                'name' => 'times',
                 'label' => __('Course Schedule'),
-                'type'  => 'repeatable',
+                'type' => 'repeatable',
                 'fields' => [
                     [
-                        'name'    => 'day',
-                        'label'    => __('Day'),
-                        'type'        => 'select_from_array',
-                        'options'     => [
+                        'name' => 'day',
+                        'label' => __('Day'),
+                        'type' => 'select_from_array',
+                        'options' => [
                             0 => __('Sunday'),
                             1 => __('Monday'),
                             2 => __('Tuesday'),
@@ -553,19 +576,19 @@ class CourseCrudController extends CrudController
                             6 => __('Saturday'),
                         ],
                         'allows_null' => false,
-                        'default'     => 1,
+                        'default' => 1,
                         'wrapper' => ['class' => 'form-group col-md-4'],
                     ],
                     [
-                        'name'    => 'start',
-                        'type'    => 'time',
-                        'label'   => __('Start'),
+                        'name' => 'start',
+                        'type' => 'time',
+                        'label' => __('Start'),
                         'wrapper' => ['class' => 'form-group col-md-4'],
                     ],
                     [
-                        'name'    => 'end',
-                        'type'    => 'time',
-                        'label'   => __('End'),
+                        'name' => 'end',
+                        'type' => 'time',
+                        'label' => __('End'),
                         'wrapper' => ['class' => 'form-group col-md-4'],
                     ],
                 ],
@@ -588,13 +611,14 @@ class CourseCrudController extends CrudController
                         'name' => 'worked_hours',
                         'type' => 'number',
                         'attributes' => ['step' => '0.25'],
-                        'suffix'     => 'h',
+                        'suffix' => 'h',
                         'label' => __('Weekly Volume'),
                         'wrapper' => ['class' => 'form-group col-md-6'],
                     ],
                 ],
                 'tab' => __('Schedule'),
-                'init_rows' => 0, // number of empty rows to be initialized, by default 1
+                'init_rows' => 0,
+                // number of empty rows to be initialized, by default 1
             ],
 
             [   // view
@@ -605,10 +629,10 @@ class CourseCrudController extends CrudController
             ],
 
             [   // select_from_array
-                'name'        => 'schedulepreset',
-                'label'       => __('Schedule Preset'),
-                'type'        => 'select_from_array',
-                'options'     => array_column(SchedulePreset::all()->toArray(), 'name', 'presets'),
+                'name' => 'schedulepreset',
+                'label' => __('Schedule Preset'),
+                'type' => 'select_from_array',
+                'options' => array_column(SchedulePreset::all()->toArray(), 'name', 'presets'),
                 'allows_null' => true,
                 'tab' => __('Schedule'),
             ],
@@ -670,13 +694,15 @@ class CourseCrudController extends CrudController
 
         CRUD::addFields([
             [
-                'name' => 'name', // The db column name
+                'name' => 'name',
+                // The db column name
                 'label' => __('Name'),
                 'tab' => __('Course info'),
             ],
 
             array_merge([
-                'name' => 'price', // The db column name
+                'name' => 'price',
+                // The db column name
                 'label' => __('Price'),
                 'tab' => __('Course info'),
                 'type' => 'number',
@@ -688,40 +714,46 @@ class CourseCrudController extends CrudController
                 array_merge([
                     'name' => 'price_b',
                     'label' => __('Price B'),
-                    'tab' => __('Course info'), 'type' => 'number',
+                    'tab' => __('Course info'),
+                    'type' => 'number',
                 ], $currency),
 
                 array_merge([
                     'name' => 'price_c',
                     'label' => __('PriceC'),
-                    'tab' => __('Course info'), 'type' => 'number',
+                    'tab' => __('Course info'),
+                    'type' => 'number',
                 ], $currency),
             ]);
         }
 
         CRUD::addFields([
             [
-                'name' => 'volume', // The db column name
+                'name' => 'volume',
+                // The db column name
                 'label' => __('Presential volume'),
                 'suffix' => 'h',
                 'tab' => __('Course info'),
             ],
 
             [
-                'name' => 'remote_volume', // The db column name
+                'name' => 'remote_volume',
+                // The db column name
                 'label' => __('Remote volume'),
                 'suffix' => 'h',
                 'tab' => __('Course info'),
             ],
 
             [
-                'name' => 'spots', // The db column name
+                'name' => 'spots',
+                // The db column name
                 'label' => __('Spots'),
                 'tab' => __('Course info'),
             ],
 
             [
-                'name' => 'exempt_attendance', // The db column name
+                'name' => 'exempt_attendance',
+                // The db column name
                 'label' => __('Exempt Attendance'),
                 'type' => 'checkbox',
                 'tab' => __('Course info'),
@@ -771,7 +803,8 @@ class CourseCrudController extends CrudController
                 'entity' => 'books',
                 'attribute' => 'name',
                 'model' => Book::class,
-                'pivot' => true, // on create&update, do you need to add/delete pivot table entries?
+                'pivot' => true,
+                // on create&update, do you need to add/delete pivot table entries?
                 'tab' => __('Pedagogy'),
             ],
 
@@ -803,7 +836,8 @@ class CourseCrudController extends CrudController
             ],
 
             [
-                'name' => 'start_date', // The db column name
+                'name' => 'start_date',
+                // The db column name
                 'label' => __('Start Date'),
                 'type' => 'date',
                 // 'format' => 'l j F Y', // use something else than the base.default_date_format config value
@@ -812,7 +846,8 @@ class CourseCrudController extends CrudController
             ],
 
             [
-                'name' => 'end_date', // The db column name
+                'name' => 'end_date',
+                // The db column name
                 'label' => __('End Date'),
                 'type' => 'date',
                 // 'format' => 'l j F Y', // use something else than the base.default_date_format config value
@@ -859,7 +894,8 @@ class CourseCrudController extends CrudController
                     ],
                 ],
                 'tab' => __('Schedule'),
-                'init_rows' => 0, // number of empty rows to be initialized, by default 1
+                'init_rows' => 0,
+                // number of empty rows to be initialized, by default 1
             ]);
 
             if ($this->crud->getCurrentEntry()->children->count() == 0) {
@@ -878,13 +914,14 @@ class CourseCrudController extends CrudController
                             'name' => 'worked_hours',
                             'type' => 'number',
                             'attributes' => ['step' => '0.25'],
-                            'suffix'     => 'h',
+                            'suffix' => 'h',
                             'label' => __('Weekly Volume'),
                             'wrapper' => ['class' => 'form-group col-md-6'],
                         ],
                     ],
                     'tab' => __('Schedule'),
-                    'init_rows' => 0, // number of empty rows to be initialized, by default 1
+                    'init_rows' => 0,
+                    // number of empty rows to be initialized, by default 1
                 ]);
             }
         }
@@ -893,7 +930,7 @@ class CourseCrudController extends CrudController
         CRUD::setValidation(CourseRequest::class);
     }
 
-    protected function createSublevels($course, $sublevels, $courseTimes, $teacherId, $roomId) : void
+    protected function createSublevels($course, $sublevels, $courseTimes, $teacherId, $roomId): void
     {
         foreach ($sublevels as $sublevel) {
             // create the subcourse and link it to the parent

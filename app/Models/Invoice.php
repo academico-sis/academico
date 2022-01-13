@@ -87,7 +87,7 @@ class Invoice extends Model
         return $this->invoiceType->name.$this->created_at->format('y').'-'.$this->invoice_number;
     }
 
-    public function getInvoiceSeriesAttribute() : string
+    public function getInvoiceSeriesAttribute(): string
     {
         return $this->invoiceType->name.$this->created_at->format('y');
     }

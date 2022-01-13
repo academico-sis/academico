@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\PhoneNumber;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class StudentPhoneNumberController extends Controller
 {
@@ -28,7 +29,7 @@ class StudentPhoneNumberController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(PhoneNumber $phoneNumber)
     {

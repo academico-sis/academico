@@ -44,7 +44,15 @@ class InvoiceController extends Controller
             abort(403, 'Unable to create an invoice because price categories are enabled in your setup.');
         }
 
-        return view('carts.show', ['enrollment' => null, 'products' => [], 'invoicetypes' => InvoiceType::all(), 'clients' => [], 'availableBooks' => Book::all(), 'availableFees' => Fee::all(), 'availableDiscounts' => Discount::all(), 'availableTaxes' => Tax::all(), 'availablePaymentMethods' => Paymentmethod::all()]);
+        return view('carts.show', ['enrollment' => null,
+            'products' => [],
+            'invoicetypes' => InvoiceType::all(),
+            'clients' => [],
+            'availableBooks' => Book::all(),
+            'availableFees' => Fee::all(),
+            'availableDiscounts' => Discount::all(),
+            'availableTaxes' => Tax::all(),
+            'availablePaymentMethods' => Paymentmethod::all(), ]);
     }
 
     /**
@@ -154,7 +162,6 @@ class InvoiceController extends Controller
             $success = true;
         }
         if (isset($success)) {
-
             $this->ifTheInvoiceIsFullyPaidMarkItsProductsAsSuch($invoice);
 
             if (isset($request->comment)) {
@@ -176,7 +183,7 @@ class InvoiceController extends Controller
         App::setLocale(config('app.locale'));
 
         $customer = new Buyer([
-            'name'          => $invoice->client_name,
+            'name' => $invoice->client_name,
             'custom_fields' => [
                 'nif/cif' => $invoice->client_idnumber,
                 'domicilio' => $invoice->client_address,

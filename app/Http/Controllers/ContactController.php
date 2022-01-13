@@ -64,9 +64,9 @@ class ContactController extends Controller
         }
 
         $request->validate([
-            'firstname'                            => 'required|max:255',
-            'lastname'                             => 'required|max:255',
-            'email'                                => 'required',
+            'firstname' => 'required|max:255',
+            'lastname' => 'required|max:255',
+            'email' => 'required',
         ]);
 
         $contact->update([
@@ -103,7 +103,7 @@ class ContactController extends Controller
 
         return view('students.edit-contact', [
             'contact' => $contact,
-            'redirect_url' =>url()->previous(),
+            'redirect_url' => url()->previous(),
         ]);
     }
 

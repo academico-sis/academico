@@ -174,7 +174,7 @@ class Enrollment extends Model
 
     public function invoices()
     {
-        return $this->invoiceDetails->map(fn(InvoiceDetail $invoiceDetail) => $invoiceDetail->invoice)->filter();
+        return $this->invoiceDetails->map(fn (InvoiceDetail $invoiceDetail) => $invoiceDetail->invoice)->filter();
     }
 
     // also includes invoices for this enrollment's scheduled payments.
@@ -229,7 +229,7 @@ class Enrollment extends Model
 
         foreach ($payments as $payment) {
             $this->scheduledPayments()->updateOrCreate([
-                'id' => $payment->id
+                'id' => $payment->id,
             ], [
                 'date' => $payment->date,
                 'value' => $payment->value,
@@ -420,6 +420,7 @@ class Enrollment extends Model
         foreach ($this->invoices() as $invoice) {
             $balance -= $invoice->paidTotal();
         }
+
         return number_format($balance, 2);
     }
 }

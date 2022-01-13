@@ -7,6 +7,7 @@ use App\Models\Skills\SkillType;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\InlineCreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -15,7 +16,7 @@ class SkillTypeCrudController extends CrudController
 {
     use ListOperation;
     use CreateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\InlineCreateOperation;
+    use InlineCreateOperation;
     use UpdateOperation;
     use DeleteOperation;
 
@@ -29,8 +30,10 @@ class SkillTypeCrudController extends CrudController
     protected function setupListOperation()
     {
         CRUD::addColumns([
-            ['name' => 'shortname', 'label' => 'Shortname'],
-            ['name' => 'name', 'label' => 'Name'],
+            ['name' => 'shortname',
+                'label' => 'Shortname', ],
+            ['name' => 'name',
+                'label' => 'Name', ],
         ]);
     }
 
@@ -38,8 +41,12 @@ class SkillTypeCrudController extends CrudController
     {
         CRUD::setValidation(StoreRequest::class);
         CRUD::addFields([
-            ['name' => 'shortname', 'label' => 'Shortname', 'type' => 'text'],
-            ['name' => 'name', 'label' => 'Name', 'type' => 'text'],
+            ['name' => 'shortname',
+                'label' => 'Shortname',
+                'type' => 'text', ],
+            ['name' => 'name',
+                'label' => 'Name',
+                'type' => 'text', ],
         ]);
     }
 

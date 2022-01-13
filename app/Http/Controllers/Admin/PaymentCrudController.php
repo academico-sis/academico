@@ -6,12 +6,14 @@ use App\Models\Payment;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Support\Carbon;
+use Redirect;
 
 /**
  * Class PaymentCrudController
- * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
+ * @property-read CrudPanel $crud
  */
 class PaymentCrudController extends CrudController
 {
@@ -45,8 +47,8 @@ class PaymentCrudController extends CrudController
     {
         $this->crud->addFilter(
             [
-                'type'  => 'date',
-                'name'  => 'date',
+                'type' => 'date',
+                'name' => 'date',
                 'label' => __('Due Date'),
             ],
             false,
@@ -71,9 +73,10 @@ class PaymentCrudController extends CrudController
         ]);
 
         CRUD::addColumn(array_merge([
-            'name'  => 'value',
+            'name' => 'value',
             'label' => __('Value'),
-            'type'  => 'number', ], $currency));
+            'type' => 'number',
+        ], $currency));
 
         CRUD::addColumn([
             'name' => 'iban',
@@ -100,6 +103,6 @@ class PaymentCrudController extends CrudController
             abort(404, 'No enrollment found for this payment');
         }
 
-        return \Redirect::route('invoice.show', ['id' => $payment->invoice_id]);
+        return Redirect::route('invoice.show', ['id' => $payment->invoice_id]);
     }
 }

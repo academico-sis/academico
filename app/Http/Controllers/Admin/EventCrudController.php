@@ -51,7 +51,8 @@ class EventCrudController extends CrudController
         CRUD::setColumns([
 
             [
-                'name' => 'name', // The db column name
+                'name' => 'name',
+                // The db column name
                 'label' => 'Name',
                 'type' => 'text',
             ],
@@ -70,7 +71,8 @@ class EventCrudController extends CrudController
                 'name' => 'volume',
                 'label' => __('Volume'),
                 'type' => 'model_function',
-                'function_name' => 'getVolumeAttribute', // the method in your Model
+                'function_name' => 'getVolumeAttribute',
+                // the method in your Model
                 'suffix' => 'h',
             ],
 
@@ -96,14 +98,16 @@ class EventCrudController extends CrudController
             ],
 
             [
-                'name' => 'start', // The db column name
+                'name' => 'start',
+                // The db column name
                 'label' => __('Start Date'),
                 'type' => 'datetime',
                 // 'format' => 'l j F Y', // use something else than the base.defauormat config value
             ],
 
             [
-                'name' => 'end', // The db column name
+                'name' => 'end',
+                // The db column name
                 'label' => __('End Date'),
                 'type' => 'datetime',
                 // 'format' => 'l j F Y', // use something else than the base.default_date_format config value
@@ -115,59 +119,59 @@ class EventCrudController extends CrudController
             [ // daterange filter
                 'type' => 'date_range',
                 'name' => 'from_to',
-                'label'=> __('Date range'),
+                'label' => __('Date range'),
             ],
             false,
             function ($value) { // if the filter is active, apply these constraints
-              $dates = json_decode($value, null, 512, JSON_THROW_ON_ERROR);
+                $dates = json_decode($value, null, 512, JSON_THROW_ON_ERROR);
 
-              if ($dates->from) {
-                  CRUD::addClause('where', 'start', '>=', $dates->from);
-              }
-              if ($dates->to) {
-                  CRUD::addClause('where', 'start', '<=', $dates->to.' 23:59:59');
-              }
-          }
+                if ($dates->from) {
+                    CRUD::addClause('where', 'start', '>=', $dates->from);
+                }
+                if ($dates->to) {
+                    CRUD::addClause('where', 'start', '<=', $dates->to.' 23:59:59');
+                }
+            }
         );
 
         CRUD::addFilter(
             [
                 'type' => 'simple',
                 'name' => 'orphan',
-                'label'=> __('Events with no course'),
+                'label' => __('Events with no course'),
             ],
             false,
             function ($value) { // if the filter is active, apply these constraints
-              $this->crud->query->where('course_id', null);
-          },
+                $this->crud->query->where('course_id', null);
+            },
             function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
-          }
+            }
         );
 
         CRUD::addFilter(
             [
                 'type' => 'simple',
                 'name' => 'unassigned',
-                'label'=> __('Events with no teacher'),
+                'label' => __('Events with no teacher'),
             ],
             false,
             function ($value) { // if the filter is active, apply these constraints
-              CRUD::addClause('unassigned');
-          }
+                CRUD::addClause('unassigned');
+            }
         );
 
         CRUD::addFilter(
             [ // select2 filter
                 'name' => 'teacher_id',
                 'type' => 'select2',
-                'label'=> __('Teacher'),
+                'label' => __('Teacher'),
             ],
             fn () => Teacher::all()->pluck('name', 'id')->toArray(),
-            function ($value) { // if the filter is active
-            CRUD::addClause('where', 'teacher_id', $value);
-        },
+            function ($value) {
+                CRUD::addClause('where', 'teacher_id', $value);
+            },
             function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
-          }
+            }
         );
     }
 
@@ -193,7 +197,8 @@ class EventCrudController extends CrudController
         CRUD::addFields([
 
             [
-                'name' => 'name', // The db column name
+                'name' => 'name',
+                // The db column name
                 'label' => 'Name',
                 'type' => 'text',
             ],
@@ -220,13 +225,15 @@ class EventCrudController extends CrudController
             ],
 
             [
-                'name' => 'start', // The db column name
+                'name' => 'start',
+                // The db column name
                 'label' => 'Start Date',
                 'type' => 'datetime_picker',
             ],
 
             [
-                'name' => 'end', // The db column name
+                'name' => 'end',
+                // The db column name
                 'label' => 'End Date',
                 'type' => 'datetime_picker',
             ],

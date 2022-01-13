@@ -18,8 +18,8 @@ trait ShowStudentPhotoRosterOperation
     protected function setupShowStudentPhotoRosterRoutes($segment, $routeName, $controller)
     {
         Route::get($segment.'/{id}/show/roster', [
-            'as'        => $routeName.'.showstudentphotoroster',
-            'uses'      => $controller.'@showstudentphotoroster',
+            'as' => $routeName.'.showstudentphotoroster',
+            'uses' => $controller.'@showstudentphotoroster',
             'operation' => 'showstudentphotoroster',
         ]);
     }

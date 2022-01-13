@@ -91,19 +91,19 @@ class ResultCrudController extends CrudController
             [
                 'type' => 'simple',
                 'name' => 'noresult',
-                'label'=> __('No Result'),
+                'label' => __('No Result'),
             ],
             false,
             function () {
-              CRUD::addClause('noResult');
-          }
+                CRUD::addClause('noResult');
+            }
         );
 
         CRUD::addFilter(
             [
                 'type' => 'simple',
                 'name' => 'hideparents',
-                'label'=> __('Hide Parents'),
+                'label' => __('Hide Parents'),
             ],
             false,
             function () {
@@ -114,16 +114,16 @@ class ResultCrudController extends CrudController
         CRUD::addFilter([
             'name' => 'period_id',
             'type' => 'select2',
-            'label'=> __('Period'),
-        ], fn () => Period::all()->pluck('name', 'id')->toArray(), function ($value) { // if the filter is active
+            'label' => __('Period'),
+        ], fn () => Period::all()->pluck('name', 'id')->toArray(), function ($value) {
             CRUD::addClause('period', $value);
         });
 
         CRUD::addFilter([ // select2_multiple filter
             'name' => 'result',
             'type' => 'select2',
-            'label'=> __('Result'),
-        ], fn () => ResultType::all()->pluck('name', 'id')->toArray(), function ($value) { // if the filter is active
+            'label' => __('Result'),
+        ], fn () => ResultType::all()->pluck('name', 'id')->toArray(), function ($value) {
             $this->crud->query = $this->crud->query->whereHas('result', function ($query) use ($value) {
                 $query->where('result_type_id', $value);
             });

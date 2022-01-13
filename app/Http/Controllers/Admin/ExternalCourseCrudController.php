@@ -93,19 +93,22 @@ class ExternalCourseCrudController extends CrudController
             ],
 
             [
-                'name' => 'name', // The db column name
+                'name' => 'name',
+                // The db column name
                 'label' => __('Name'),
             ],
 
             [
-                'name' => 'volume', // The db column name
+                'name' => 'volume',
+                // The db column name
                 'label' => __('Volume'),
                 'suffix' => 'h',
                 'type' => 'number',
             ],
 
             [
-                'name' => 'hourly_price', // The db column name
+                'name' => 'hourly_price',
+                // The db column name
                 'label' => __('Hourly Price'),
                 'prefix' => '$',
                 'type' => 'number',
@@ -137,8 +140,10 @@ class ExternalCourseCrudController extends CrudController
                 'name' => 'times',
                 'label' => __('Schedule'),
                 'type' => 'model_function',
-                'function_name' => 'getCourseTimesAttribute', // the method in your Model
-                'limit' => 150, // Limit the number of characters shown
+                'function_name' => 'getCourseTimesAttribute',
+                // the method in your Model
+                'limit' => 150,
+                // Limit the number of characters shown
             ],
 
             // HEAD COUNT
@@ -154,13 +159,15 @@ class ExternalCourseCrudController extends CrudController
             ],
 
             [
-                'name' => 'start_date', // The db column name
+                'name' => 'start_date',
+                // The db column name
                 'label' => __('Start Date'),
                 'type' => 'date',
             ],
 
             [
-                'name' => 'end_date', // The db column name
+                'name' => 'end_date',
+                // The db column name
                 'label' => __('End Date'),
                 'type' => 'date',
             ],
@@ -171,10 +178,10 @@ class ExternalCourseCrudController extends CrudController
             [ // select2 filter
                 'name' => 'rhythm_id',
                 'type' => 'select2',
-                'label'=> __('Rhythm'),
+                'label' => __('Rhythm'),
             ],
             fn () => Rhythm::all()->pluck('name', 'id')->toArray(),
-            function ($value) { // if the filter is active
+            function ($value) {
                 CRUD::addClause('where', 'rhythm_id', $value);
             },
             function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
@@ -185,10 +192,10 @@ class ExternalCourseCrudController extends CrudController
             [ // select2 filter
                 'name' => 'teacher_id',
                 'type' => 'select2',
-                'label'=> __('Teacher'),
+                'label' => __('Teacher'),
             ],
             fn () => Teacher::all()->pluck('name', 'id')->toArray(),
-            function ($value) { // if the filter is active
+            function ($value) {
                 CRUD::addClause('where', 'teacher_id', $value);
             },
             function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
@@ -199,10 +206,10 @@ class ExternalCourseCrudController extends CrudController
             [ // select2 filter
                 'name' => 'level_id',
                 'type' => 'select2',
-                'label'=> __('Level'),
+                'label' => __('Level'),
             ],
             fn () => Level::all()->pluck('name', 'id')->toArray(),
-            function ($value) { // if the filter is active
+            function ($value) {
                 CRUD::addClause('where', 'level_id', $value);
             },
             function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
@@ -213,10 +220,10 @@ class ExternalCourseCrudController extends CrudController
             [ // select2 filter
                 'name' => 'period_id',
                 'type' => 'select2',
-                'label'=> __('Period'),
+                'label' => __('Period'),
             ],
             fn () => Period::all()->pluck('name', 'id')->toArray(),
-            function ($value) { // if the filter is active
+            function ($value) {
                 CRUD::addClause('where', 'period_id', $value);
             },
             function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
@@ -266,20 +273,23 @@ class ExternalCourseCrudController extends CrudController
             ],
 
             [
-                'name' => 'name', // The db column name
+                'name' => 'name',
+                // The db column name
                 'label' => __('Name'),
                 'tab' => __('Course info'),
             ],
 
             [
-                'name' => 'volume', // The db column name
+                'name' => 'volume',
+                // The db column name
                 'label' => __('Volume'),
                 'suffix' => 'h',
                 'tab' => __('Course info'),
             ],
 
             [
-                'name' => 'hourly_price', // The db column name
+                'name' => 'hourly_price',
+                // The db column name
                 'label' => __('Hourly Price'),
                 'prefix' => '$',
                 'tab' => __('Course info'),
@@ -317,7 +327,8 @@ class ExternalCourseCrudController extends CrudController
             ],
 
             [
-                'name' => 'price', // The db column name
+                'name' => 'price',
+                // The db column name
                 'type' => 'hidden',
                 'value' => 0,
                 'tab' => __('Course info'),
@@ -336,7 +347,8 @@ class ExternalCourseCrudController extends CrudController
             ],
 
             [
-                'name' => 'start_date', // The db column name
+                'name' => 'start_date',
+                // The db column name
                 'label' => __('Start Date'),
                 'type' => 'date',
                 'tab' => __('Schedule'),
@@ -344,7 +356,8 @@ class ExternalCourseCrudController extends CrudController
             ],
 
             [
-                'name' => 'end_date', // The db column name
+                'name' => 'end_date',
+                // The db column name
                 'label' => __('End Date'),
                 'type' => 'date',
                 'tab' => __('Schedule'),
@@ -352,29 +365,31 @@ class ExternalCourseCrudController extends CrudController
             ],
 
             [
-                'name' => 'head_count', // The db column name
+                'name' => 'head_count',
+                // The db column name
                 'label' => __('Head Count'),
                 'type' => 'number',
                 'tab' => __('Course info'),
             ],
 
             [
-                'name' => 'new_students', // The db column name
+                'name' => 'new_students',
+                // The db column name
                 'label' => __('Students to count in year total'),
                 'type' => 'number',
                 'tab' => __('Course info'),
             ],
 
             [   // repeatable
-                'name'  => 'times',
+                'name' => 'times',
                 'label' => __('Course Schedule'),
-                'type'  => 'repeatable',
+                'type' => 'repeatable',
                 'fields' => [
                     [
-                        'name'    => 'day',
-                        'label'    => __('Day'),
-                        'type'        => 'select_from_array',
-                        'options'     => [
+                        'name' => 'day',
+                        'label' => __('Day'),
+                        'type' => 'select_from_array',
+                        'options' => [
                             0 => __('Sunday'),
                             1 => __('Monday'),
                             2 => __('Tuesday'),
@@ -384,19 +399,19 @@ class ExternalCourseCrudController extends CrudController
                             6 => __('Saturday'),
                         ],
                         'allows_null' => false,
-                        'default'     => 1,
+                        'default' => 1,
                         'wrapper' => ['class' => 'form-group col-md-4'],
                     ],
                     [
-                        'name'    => 'start',
-                        'type'    => 'time',
-                        'label'   => __('Start'),
+                        'name' => 'start',
+                        'type' => 'time',
+                        'label' => __('Start'),
                         'wrapper' => ['class' => 'form-group col-md-4'],
                     ],
                     [
-                        'name'    => 'end',
-                        'type'    => 'time',
-                        'label'   => __('End'),
+                        'name' => 'end',
+                        'type' => 'time',
+                        'label' => __('End'),
                         'wrapper' => ['class' => 'form-group col-md-4'],
                     ],
                 ],
@@ -413,10 +428,10 @@ class ExternalCourseCrudController extends CrudController
         ]);
 
         CRUD::addField([
-            'name'        => 'schedulepreset',
-            'label'       => __('Schedule Preset'),
-            'type'        => 'select_from_array',
-            'options'     => array_column(SchedulePreset::all()->toArray(), 'name', 'presets'),
+            'name' => 'schedulepreset',
+            'label' => __('Schedule Preset'),
+            'type' => 'select_from_array',
+            'options' => array_column(SchedulePreset::all()->toArray(), 'name', 'presets'),
             'allows_null' => true,
             'tab' => __('Schedule'),
         ]);
@@ -459,20 +474,23 @@ class ExternalCourseCrudController extends CrudController
             ],
 
             [
-                'name' => 'name', // The db column name
+                'name' => 'name',
+                // The db column name
                 'label' => __('Name'),
                 'tab' => __('Course info'),
             ],
 
             [
-                'name' => 'volume', // The db column name
+                'name' => 'volume',
+                // The db column name
                 'label' => __('Volume'),
                 'suffix' => 'h',
                 'tab' => __('Course info'),
             ],
 
             [
-                'name' => 'hourly_price', // The db column name
+                'name' => 'hourly_price',
+                // The db column name
                 'label' => __('Hourly Price'),
                 'prefix' => '$',
                 'tab' => __('Course info'),
@@ -510,7 +528,8 @@ class ExternalCourseCrudController extends CrudController
             ],
 
             [
-                'name' => 'price', // The db column name
+                'name' => 'price',
+                // The db column name
                 'type' => 'hidden',
                 'value' => 0,
                 'tab' => __('Course info'),
@@ -529,7 +548,8 @@ class ExternalCourseCrudController extends CrudController
             ],
 
             [
-                'name' => 'start_date', // The db column name
+                'name' => 'start_date',
+                // The db column name
                 'label' => __('Start Date'),
                 'type' => 'date',
                 'tab' => __('Schedule'),
@@ -537,7 +557,8 @@ class ExternalCourseCrudController extends CrudController
             ],
 
             [
-                'name' => 'end_date', // The db column name
+                'name' => 'end_date',
+                // The db column name
                 'label' => __('End Date'),
                 'type' => 'date',
                 'tab' => __('Schedule'),
@@ -545,29 +566,31 @@ class ExternalCourseCrudController extends CrudController
             ],
 
             [
-                'name' => 'head_count', // The db column name
+                'name' => 'head_count',
+                // The db column name
                 'label' => __('Head Count'),
                 'type' => 'number',
                 'tab' => __('Course info'),
             ],
 
             [
-                'name' => 'new_students', // The db column name
+                'name' => 'new_students',
+                // The db column name
                 'label' => __('Students to count in year total'),
                 'type' => 'number',
                 'tab' => __('Course info'),
             ],
 
             [   // repeatable
-                'name'  => 'times',
+                'name' => 'times',
                 'label' => __('Course Schedule'),
-                'type'  => 'repeatable',
+                'type' => 'repeatable',
                 'fields' => [
                     [
-                        'name'    => 'day',
-                        'label'    => __('Day'),
-                        'type'        => 'select_from_array',
-                        'options'     => [
+                        'name' => 'day',
+                        'label' => __('Day'),
+                        'type' => 'select_from_array',
+                        'options' => [
                             0 => __('Sunday'),
                             1 => __('Monday'),
                             2 => __('Tuesday'),
@@ -577,19 +600,19 @@ class ExternalCourseCrudController extends CrudController
                             6 => __('Saturday'),
                         ],
                         'allows_null' => false,
-                        'default'     => 1,
+                        'default' => 1,
                         'wrapper' => ['class' => 'form-group col-md-4'],
                     ],
                     [
-                        'name'    => 'start',
-                        'type'    => 'time',
-                        'label'   => __('Start'),
+                        'name' => 'start',
+                        'type' => 'time',
+                        'label' => __('Start'),
                         'wrapper' => ['class' => 'form-group col-md-4'],
                     ],
                     [
-                        'name'    => 'end',
-                        'type'    => 'time',
-                        'label'   => __('End'),
+                        'name' => 'end',
+                        'type' => 'time',
+                        'label' => __('End'),
                         'wrapper' => ['class' => 'form-group col-md-4'],
                     ],
                 ],

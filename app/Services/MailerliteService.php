@@ -2,18 +2,23 @@
 
 namespace App\Services;
 
-class MailerliteService implements \App\Interfaces\MailingSystemInterface
-{
-    public \MailerLiteApi\Api\Groups $groupsApi;
+use App\Interfaces\MailingSystemInterface;
+use MailerLiteApi\Api\Groups;
+use MailerLiteApi\Api\Subscribers;
+use MailerLiteApi\MailerLite;
 
-    public \MailerLiteApi\Api\Subscribers $subscribersApi;
+class MailerliteService implements MailingSystemInterface
+{
+    public Groups $groupsApi;
+
+    public Subscribers $subscribersApi;
 
     public function __construct()
     {
         $api_key = config('mailing-system.mailerlite.key');
 
-        $this->groupsApi = (new \MailerLiteApi\MailerLite($api_key))->groups();
-        $this->subscribersApi = (new \MailerLiteApi\MailerLite($api_key))->subscribers();
+        $this->groupsApi = (new MailerLite($api_key))->groups();
+        $this->subscribersApi = (new MailerLite($api_key))->subscribers();
     }
 
     public function subscribeUser($email, $name, $lastname, $listId): void

@@ -8,7 +8,7 @@ use App\Models\Enrollment;
 
 class DeleteStudentData
 {
-    public function handle(StudentDeleting $event) : void
+    public function handle(StudentDeleting $event): void
     {
         Attendance::where('student_id', $event->student->id)->delete();
         Enrollment::where('student_id', $event->student->id)->delete();

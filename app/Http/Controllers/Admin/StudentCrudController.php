@@ -22,6 +22,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\CRUD\app\Library\Widget;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -84,12 +85,12 @@ class StudentCrudController extends CrudController
             ],
             [
                 // 1-n relationship
-                'label'     => __('Last Name'),
-                'type'      => 'relationship',
-                'key'  => 'lastname',
-                'name'    => 'user',
+                'label' => __('Last Name'),
+                'type' => 'relationship',
+                'key' => 'lastname',
+                'name' => 'user',
                 'attribute' => 'lastname',
-                'model'     => User::class,
+                'model' => User::class,
                 'orderable' => true,
                 'orderLogic' => fn ($query, $column, $columnDirection) => $query->leftJoin('users', 'users.id', '=', 'students.id')
                     ->orderBy('users.lastname', $columnDirection)->select('students.*'),
@@ -102,12 +103,12 @@ class StudentCrudController extends CrudController
 
             [
                 // 1-n relationship
-                'label'     => __('First Name'),
-                'type'      => 'relationship',
-                'key'  => 'firstname',
-                'name'    => 'user',
+                'label' => __('First Name'),
+                'type' => 'relationship',
+                'key' => 'firstname',
+                'name' => 'user',
                 'attribute' => 'firstname',
-                'model'     => User::class,
+                'model' => User::class,
                 'orderable' => true,
                 'orderLogic' => fn ($query, $column, $columnDirection) => $query->leftJoin('users', 'users.id', '=', 'students.id')
                     ->orderBy('users.firstname', $columnDirection)->select('students.*'),
@@ -120,11 +121,11 @@ class StudentCrudController extends CrudController
 
             [
                 // 1-n relationship
-                'label'     => __('Email'),
-                'type'      => 'relationship',
-                'name'    => 'user',
+                'label' => __('Email'),
+                'type' => 'relationship',
+                'name' => 'user',
                 'attribute' => 'email',
-                'model'     => User::class,
+                'model' => User::class,
                 'orderable' => true,
                 'orderLogic' => fn ($query, $column, $columnDirection) => $query->leftJoin('users', 'users.id', '=', 'students.id')
                     ->orderBy('users.email', $columnDirection)->select('students.*'),
@@ -136,12 +137,12 @@ class StudentCrudController extends CrudController
             ],
 
             [
-                'label'     => __('Username'),
-                'type'      => 'relationship',
-                'key'  => 'username',
-                'name'    => 'user',
+                'label' => __('Username'),
+                'type' => 'relationship',
+                'key' => 'username',
+                'name' => 'user',
                 'attribute' => 'username',
-                'model'     => User::class,
+                'model' => User::class,
                 'orderable' => false,
                 'searchLogic' => false,
             ],
@@ -179,23 +180,23 @@ class StudentCrudController extends CrudController
             [ // select2 filter
                 'name' => 'enrolled',
                 'type' => 'select2',
-                'label'=> __('Is Enrolled in'),
+                'label' => __('Is Enrolled in'),
             ],
             fn () => Period::all()->pluck('name', 'id')->toArray(),
-            function ($value) { // if the filter is active
-            $this->crud->query = $this->crud->query->whereHas('enrollments', fn ($query) => $query->whereHas('course', function ($q) use ($value) {
-                $q->where('period_id', $value);
-            }));
-        },
+            function ($value) {
+                $this->crud->query = $this->crud->query->whereHas('enrollments', fn ($query) => $query->whereHas('course', function ($q) use ($value) {
+                    $q->where('period_id', $value);
+                }));
+            },
             function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
-          }
+            }
         );
 
         CRUD::addFilter([ // select2_multiple filter
             'name' => 'notenrolled',
             'type' => 'select2_multiple',
-            'label'=> __('Is Not Enrolled in'),
-        ], fn () => Period::all()->pluck('name', 'id')->toArray(), function ($values) { // if the filter is active
+            'label' => __('Is Not Enrolled in'),
+        ], fn () => Period::all()->pluck('name', 'id')->toArray(), function ($values) {
             foreach (json_decode($values, null, 512, JSON_THROW_ON_ERROR) as $value) {
                 $this->crud->query = $this->crud->query->whereDoesntHave('enrollments', fn ($query) => $query->whereHas('course', function ($q) use ($value) {
                     $q->where('period_id', $value);
@@ -207,26 +208,26 @@ class StudentCrudController extends CrudController
             [
                 'name' => 'new_students',
                 'type' => 'select2',
-                'label'=> __('New In'),
+                'label' => __('New In'),
             ],
             fn () => Period::all()->pluck('name', 'id')->toArray(),
-            function ($value) { // if the filter is active
+            function ($value) {
                 CRUD::addClause('newInPeriod', $value);
             }
         );
 
         // select2 filter
         $this->crud->addFilter([
-            'name'  => 'institution_id',
-            'type'  => 'select2',
+            'name' => 'institution_id',
+            'type' => 'select2',
             'label' => __('Institution'),
-        ], fn () => Institution::all()->pluck('name', 'id')->toArray(), function ($value) { // if the filter is active
+        ], fn () => Institution::all()->pluck('name', 'id')->toArray(), function ($value) {
             $this->crud->addClause('where', 'institution_id', $value);
         });
 
         $this->crud->addFilter([
-            'name'  => 'status_type_id',
-            'type'  => 'select2',
+            'name' => 'status_type_id',
+            'type' => 'select2',
             'label' => __('Lead Status'),
         ], fn () => LeadType::all()->pluck('name', 'id')->toArray(), function ($value) {
             if ($value === '4') {
@@ -248,15 +249,15 @@ class StudentCrudController extends CrudController
 
         CRUD::addField([
             'type' => 'text',
-            'name' => 'phone', // the method on your model that defines the relationship
+            'name' => 'phone',
             'tab' => __('Student Info'),
             'label' => __('Phone'),
         ]);
 
         CRUD::addField([
             'type' => 'relationship',
-            'name' => 'profession', // the method on your model that defines the relationship
-            'inline_create' => true, // assumes the URL will be "/admin/category/inline/create"
+            'name' => 'profession',
+            'inline_create' => true,
             'tab' => __('Student Info'),
             'label' => __('Profession'),
             'attribute' => 'name',
@@ -264,8 +265,8 @@ class StudentCrudController extends CrudController
 
         CRUD::addField([
             'type' => 'relationship',
-            'name' => 'institution', // the method on your model that defines the relationship
-            'inline_create' => true, // assumes the URL will be "/admin/category/inline/create"
+            'name' => 'institution',
+            'inline_create' => true,
             'tab' => __('Student Info'),
             'label' => __('Institution'),
             'attribute' => 'name',
@@ -291,15 +292,16 @@ class StudentCrudController extends CrudController
         CRUD::field('birthdate')->label(__('Birthdate'))->tab(__('Student Info'));
 
         $this->crud->addField([
-            'name'        => 'gender_id', // the name of the db column
-            'label'       => __('Gender'),
-            'type'        => 'radio',
-            'options'     => [
+            'name' => 'gender_id',
+            // the name of the db column
+            'label' => __('Gender'),
+            'type' => 'radio',
+            'options' => [
                 0 => __('Other / Rather not say'),
                 1 => __('Female'),
                 2 => __('Male'),
             ],
-            'inline'      => true,
+            'inline' => true,
             'tab' => __('Student Info'),
         ]);
 
@@ -307,14 +309,14 @@ class StudentCrudController extends CrudController
             'label' => __('Profile Picture'),
             'name' => 'image',
             'type' => 'image',
-            'crop' => true, // set to true to allow cropping, false to disable
+            'crop' => true,
             'tab' => __('Student Info'),
         ]);
 
         CRUD::addField([
             'type' => 'relationship',
-            'name' => 'profession', // the method on your model that defines the relationship
-            'inline_create' => true, // assumes the URL will be "/admin/category/inline/create"
+            'name' => 'profession',
+            'inline_create' => true,
             'tab' => __('Student Info'),
             'label' => __('Profession'),
             'attribute' => 'name',
@@ -322,8 +324,12 @@ class StudentCrudController extends CrudController
 
         CRUD::addField([
             'type' => 'relationship',
-            'name' => 'institution', // the method on your model that defines the relationship
-            'inline_create' => true, // assumes the URL will be "/admin/category/inline/create"
+            'name' => 'institution',
+            'inline_create' => [
+                'entity' => 'institution',
+                'force_select' => true,
+                'include_main_form_fields' => ['name'],
+            ],
             'tab' => __('Student Info'),
             'label' => __('Institution'),
             'attribute' => 'name',
@@ -339,7 +345,7 @@ class StudentCrudController extends CrudController
         CRUD::field('bic')->label('BIC')->tab(__('Invoicing Info'));
     }
 
-    protected function generateUsername($fullName) : string
+    protected function generateUsername($fullName): string
     {
         $username_parts = array_filter(explode(' ', strtolower($fullName)));
         $username_parts = array_slice($username_parts, -2);
@@ -356,9 +362,9 @@ class StudentCrudController extends CrudController
     public function store(Request $request)
     {
         $request->validate([
-            'firstname'                            => 'required|max:255',
-            'lastname'                             => 'required|max:255',
-            'email'                                => 'nullable|email',
+            'firstname' => 'required|max:255',
+            'lastname' => 'required|max:255',
+            'email' => 'nullable|email',
         ]);
 
         if ($request->email && User::where('email', $request->email)->count() === 0) {
@@ -378,7 +384,7 @@ class StudentCrudController extends CrudController
 
         try {
             UserCreated::dispatch($user);
-        } catch (\Exception) {
+        } catch (Exception) {
             throw new UserSyncException();
         }
 
@@ -462,11 +468,17 @@ class StudentCrudController extends CrudController
 
     protected function fetchInstitution()
     {
-        return $this->fetch(Institution::class);
+        return $this->fetch([
+            'model' => Institution::class,
+            'searchable_attributes' => ['name'],
+        ]);
     }
 
     protected function fetchProfession()
     {
-        return $this->fetch(Profession::class);
+        return $this->fetch([
+            'model' => Profession::class,
+            'searchable_attributes' => ['name'],
+        ]);
     }
 }

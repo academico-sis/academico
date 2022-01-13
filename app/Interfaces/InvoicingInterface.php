@@ -6,7 +6,7 @@ use App\Models\Invoice;
 
 interface InvoicingInterface
 {
-    public function status() : bool;
+    public function status(): bool;
 
     public function saveInvoice(Invoice $invoice): ?string;
 }

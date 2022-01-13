@@ -36,10 +36,15 @@ class FeeCrudController extends CrudController
     protected function setupListOperation()
     {
         CRUD::addColumns([
-            ['name' => 'name', 'label' => 'Name'],
-            ['name' => 'price', 'label' => 'Price'],
-            ['name' => 'product_code', 'label' => 'Product Code'],
-            ['name' => 'default', 'label' => 'Add automatically to every order', 'type'  => 'check'],
+            ['name' => 'name',
+                'label' => 'Name', ],
+            ['name' => 'price',
+                'label' => 'Price', ],
+            ['name' => 'product_code',
+                'label' => 'Product Code', ],
+            ['name' => 'default',
+                'label' => 'Add automatically to every order',
+                'type' => 'check', ],
         ]);
     }
 
@@ -47,10 +52,18 @@ class FeeCrudController extends CrudController
     {
         CRUD::setValidation(StoreRequest::class);
         CRUD::addFields([
-            ['name' => 'name', 'label' => 'Name', 'type' => 'text'],
-            ['name' => 'price', 'label' => 'Price', 'type' => 'text'],
-            ['name' => 'product_code', 'label' => 'Product Code', 'type' => 'text'],
-            ['name' => 'default', 'label' => 'Add automatically to every order', 'type' => 'checkbox'],
+            ['name' => 'name',
+                'label' => 'Name',
+                'type' => 'text', ],
+            ['name' => 'price',
+                'label' => 'Price',
+                'type' => 'text', ],
+            ['name' => 'product_code',
+                'label' => 'Product Code',
+                'type' => 'text', ],
+            ['name' => 'default',
+                'label' => 'Add automatically to every order',
+                'type' => 'checkbox', ],
         ]);
     }
 

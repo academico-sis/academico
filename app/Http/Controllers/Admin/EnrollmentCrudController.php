@@ -78,7 +78,9 @@ class EnrollmentCrudController extends CrudController
         }
 
         if ($this->mode === 'course') {
-            Widget::add(['type' => 'view', 'view' => 'partials.course_info', 'course' => $this->course])->to('before_content');
+            Widget::add(['type' => 'view',
+                'view' => 'partials.course_info',
+                'course' => $this->course, ])->to('before_content');
 
             CRUD::denyAccess(['show']);
             CRUD::addButtonFromView('line', 'showStudent', 'showStudentForEnrollment');
@@ -93,107 +95,166 @@ class EnrollmentCrudController extends CrudController
             $currency = ['suffix' => config('app.currency_symbol')];
         }
 
-        CRUD::addColumns([['name' => 'id', 'label' => 'ID', 'wrapper' => ['element' => function ($crud, $column, $entry) {
-            return $entry->status_id > 2 ? 'del' : 'span';
-        },],],
-
-            ['label' => __('ID number'), 'type' => 'text', 'name' => 'student.idnumber', 'wrapper' => ['element' => function ($crud, $column, $entry) {
+        CRUD::addColumns([['name' => 'id',
+            'label' => 'ID',
+            'wrapper' => ['element' => function ($crud, $column, $entry) {
                 return $entry->status_id > 2 ? 'del' : 'span';
-            },],],
+            }], ],
 
-            ['name' => 'user', 'key' => 'user_lastname', 'attribute' => 'lastname', 'label' => __('Last Name'), 'type' => 'relationship', 'wrapper' => ['element' => function ($crud, $column, $entry) {
-                return $entry->status_id > 2 ? 'del' : 'span';
-            },],
-                'orderable'  => true,
+            ['label' => __('ID number'),
+                'type' => 'text',
+                'name' => 'student.idnumber',
+                'wrapper' => ['element' => function ($crud, $column, $entry) {
+                    return $entry->status_id > 2 ? 'del' : 'span';
+                }], ],
+
+            ['name' => 'user',
+                'key' => 'user_lastname',
+                'attribute' => 'lastname',
+                'label' => __('Last Name'),
+                'type' => 'relationship',
+                'wrapper' => ['element' => function ($crud, $column, $entry) {
+                    return $entry->status_id > 2 ? 'del' : 'span';
+                }],
+                'orderable' => true,
                 'orderLogic' => function ($query, $column, $columnDirection) {
                     return $query->leftJoin('users', 'enrollments.student_id', '=', 'users.id')
                         ->orderBy('users.lastname', $columnDirection)->select('enrollments.*');
                 },
                 'searchLogic' => function ($query, $column, $searchTerm) {
-                $query->orWhereHas('student', function ($q) use ($searchTerm) {
-                    $q->whereHas('user', function ($q) use ($searchTerm) {
-                        $q->where('lastname', 'like', '%' . $searchTerm . '%');
+                    $query->orWhereHas('student', function ($q) use ($searchTerm) {
+                        $q->whereHas('user', function ($q) use ($searchTerm) {
+                            $q->where('lastname', 'like', '%'.$searchTerm.'%');
+                        });
                     });
-                });
-            },],
+                },
+            ],
 
-            ['name' => 'user', 'key' => 'user_firstname', 'attribute' => 'firstname', 'label' => __('First Name'), 'type' => 'relationship', 'wrapper' => ['element' => function ($crud, $column, $entry) {
-                return $entry->status_id > 2 ? 'del' : 'span';
-            },],
+            ['name' => 'user',
+                'key' => 'user_firstname',
+                'attribute' => 'firstname',
+                'label' => __('First Name'),
+                'type' => 'relationship',
+                'wrapper' => ['element' => function ($crud, $column, $entry) {
+                    return $entry->status_id > 2 ? 'del' : 'span';
+                }],
                 'searchLogic' => function ($query, $column, $searchTerm) {
-                $query->orWhereHas('student', function ($q) use ($searchTerm) {
-                    $q->whereHas('user', function ($q) use ($searchTerm) {
-                        $q->where('firstname', 'like', '%' . $searchTerm . '%');
+                    $query->orWhereHas('student', function ($q) use ($searchTerm) {
+                        $q->whereHas('user', function ($q) use ($searchTerm) {
+                            $q->where('firstname', 'like', '%'.$searchTerm.'%');
+                        });
                     });
-                });
-            },
+                },
                 'orderLogic' => function ($query, $column, $columnDirection) {
                     return $query->leftJoin('users', 'enrollments.student_id', '=', 'users.id')
                         ->orderBy('users.firstname', $columnDirection)->select('enrollments.*');
                 },
-                'orderable'  => true,
-                ],
+                'orderable' => true,
+            ],
 
-            ['label' => __('Age'), 'name' => 'student_age',],
+            ['label' => __('Age'),
+                'name' => 'student_age', ],
 
-            ['label' => __('Birthdate'), 'name' => 'student_birthdate',],]);
+            ['label' => __('Birthdate'),
+                'name' => 'student_birthdate', ], ]);
 
         if ($this->mode === 'global') {
-            CRUD::addColumns([['label' => __('Course'), 'type' => 'select', 'name' => 'course_id', 'entity' => 'course', 'attribute' => 'name', 'model' => Course::class,],
-                ['type' => 'relationship', 'name' => 'course.period', 'label' => __('Period'), 'attribute' => 'name',
+            CRUD::addColumns([['label' => __('Course'),
+                'type' => 'select',
+                'name' => 'course_id',
+                'entity' => 'course',
+                'attribute' => 'name',
+                'model' => Course::class, ],
+                ['type' => 'relationship',
+                    'name' => 'course.period',
+                    'label' => __('Period'),
+                    'attribute' => 'name',
                     'orderLogic' => function ($query, $column, $columnDirection) {
                         return $query->leftJoin('courses', 'enrollments.course_id', '=', 'courses.id')
                             ->orderBy('courses.period_id', $columnDirection)->select('enrollments.*');
                     },
-                    'orderable'  => true,
-                    ],]);
+                    'orderable' => true,
+                ], ]);
         }
 
-        CRUD::addColumns([['label' => __('Status'), 'type' => 'select', 'name' => 'status_id', 'entity' => 'enrollmentStatus', 'attribute' => 'name', 'model' => EnrollmentStatusType::class, 'wrapper' => ['element' => 'span', 'class' => function ($crud, $column, $entry) {
-            return 'badge badge-pill badge-' . $entry->enrollmentStatus->styling();
-        },],],]);
+        CRUD::addColumns([['label' => __('Status'),
+            'type' => 'select',
+            'name' => 'status_id',
+            'entity' => 'enrollmentStatus',
+            'attribute' => 'name',
+            'model' => EnrollmentStatusType::class,
+            'wrapper' => ['element' => 'span',
+                'class' => function ($crud, $column, $entry) {
+                    return 'badge badge-pill badge-'.$entry->enrollmentStatus->styling();
+                }, ], ]]);
 
         if (config('invoicing.allow_scheduled_payments')) {
-            CRUD::addColumn(['name' => 'scheduledPayments', 'type' => 'relationship', 'label' => __('Scheduled Payments'), // OPTIONAL
-                'attribute' => 'date', 'model' => ScheduledPayment::class,]);
+            CRUD::addColumn(['name' => 'scheduledPayments',
+                'type' => 'relationship',
+                'label' => __('Scheduled Payments'),
+                // OPTIONAL
+                'attribute' => 'date',
+                'model' => ScheduledPayment::class,
+            ]);
         }
 
-        CRUD::addColumn(array_merge(['name' => 'price', // The db column name
-            'label' => __('Price'), 'type' => 'number',], $currency));
-
+        CRUD::addColumn(array_merge(['name' => 'price',
+            // The db column name
+            'label' => __('Price'),
+            'type' => 'number',
+        ], $currency));
 
         if (config('invoicing.invoices_contain_enrollments_only')) {
-            CRUD::addColumn(array_merge(['name' => 'balance', 'label' => __('Balance'), 'type' => 'number',], $currency));
+            CRUD::addColumn(array_merge(['name' => 'balance',
+                'label' => __('Balance'),
+                'type' => 'number', ], $currency));
         }
 
         CRUD::addColumns([
 
-            ['name' => 'scholarships', 'type' => 'relationship', 'label' => __('Scholarship'), 'attribute' => 'name', 'model' => Scholarship::class,],
+            ['name' => 'scholarships',
+                'type' => 'relationship',
+                'label' => __('Scholarship'),
+                'attribute' => 'name',
+                'model' => Scholarship::class, ],
 
-            ['label' => __('Email'), 'name' => 'user', 'attribute' => 'email', 'type' => 'relationship',],
+            ['label' => __('Email'),
+                'name' => 'user',
+                'attribute' => 'email',
+                'type' => 'relationship', ],
 
-            ['label' => __('Phone Number'), 'type' => 'select_multiple', 'name' => 'student.phone', 'attribute' => 'phone_number', 'model' => PhoneNumber::class,],]);
+            ['label' => __('Phone Number'),
+                'type' => 'select_multiple',
+                'name' => 'student.phone',
+                'attribute' => 'phone_number',
+                'model' => PhoneNumber::class, ], ]);
 
         if ($this->mode === 'global') {
-            CRUD::addFilter(['name' => 'status_id', 'type' => 'select2_multiple', 'label' => __('Status'),], fn() => EnrollmentStatusType::all()->pluck('name', 'id')->toArray(), function ($values) {
-                foreach (json_decode($values, null, 512, JSON_THROW_ON_ERROR) as $value) {
-                    CRUD::addClause('orWhere', 'status_id', $value);
-                }
-            });
+            CRUD::addFilter(['name' => 'status_id',
+                'type' => 'select2_multiple',
+                'label' => __('Status'), ], fn () => EnrollmentStatusType::all()->pluck('name', 'id')->toArray(), function ($values) {
+                    foreach (json_decode($values, null, 512, JSON_THROW_ON_ERROR) as $value) {
+                        CRUD::addClause('orWhere', 'status_id', $value);
+                    }
+                });
 
-            CRUD::addFilter(['name' => 'period_id', 'type' => 'select2', 'label' => __('Period'),], fn() => Period::all()->pluck('name', 'id')->toArray(), function ($value) {
-                CRUD::addClause('period', $value);
-            });
+            CRUD::addFilter(['name' => 'period_id',
+                'type' => 'select2',
+                'label' => __('Period'), ], fn () => Period::all()->pluck('name', 'id')->toArray(), function ($value) {
+                    CRUD::addClause('period', $value);
+                });
 
-            CRUD::addFilter(['name' => 'scholarship', 'type' => 'select2', 'label' => __('Scholarship'),], fn() => Scholarship::all()->pluck('name', 'id')->toArray(), function ($value) { // if the filter is active
-                if ($value == 'all') {
-                    CRUD::addClause('whereHas', 'scholarships');
-                } else {
-                    CRUD::addClause('whereHas', 'scholarships', function ($q) use ($value) {
-                        $q->where('scholarships.id', $value);
-                    });
-                }
-            });
+            CRUD::addFilter(['name' => 'scholarship',
+                'type' => 'select2',
+                'label' => __('Scholarship'), ], fn () => Scholarship::all()->pluck('name', 'id')->toArray(), function ($value) {
+                    if ($value == 'all') {
+                        CRUD::addClause('whereHas', 'scholarships');
+                    } else {
+                        CRUD::addClause('whereHas', 'scholarships', function ($q) use ($value) {
+                            $q->where('scholarships.id', $value);
+                        });
+                    }
+                });
         }
 
         if ($this->mode === 'global' && $this->crud->getOperation() === 'list' && $this->crud->filters()->where('name', 'status_id')->count() > 0) {
@@ -226,19 +287,20 @@ class EnrollmentCrudController extends CrudController
         }
 
         CRUD::addField([
-            'label'     => __('Course'),
-            'type'      => 'select2',
-            'name'      => 'course_id',
+            'label' => __('Course'),
+            'type' => 'select2',
+            'name' => 'course_id',
 
-            'entity'    => 'course',
-            'model'     => Course::class,
+            'entity' => 'course',
+            'model' => Course::class,
             'attribute' => 'name',
 
-            'options'   => (fn ($query) => $query->orderBy('level_id', 'ASC')->where('period_id', $this->crud->getCurrentEntry()->course->period_id)->get()),
+            'options' => (fn ($query) => $query->orderBy('level_id', 'ASC')->where('period_id', $this->crud->getCurrentEntry()->course->period_id)->get()),
         ]);
 
         CRUD::addField(array_merge([
-            'name' => 'price', // The db column name
+            'name' => 'price',
+            // The db column name
             'label' => __('Price'),
             'type' => 'number',
         ], $currency));
@@ -257,33 +319,35 @@ class EnrollmentCrudController extends CrudController
                         'name' => 'date',
                         'type' => 'date',
                         'label' => __('Date'),
-                        'wrapper' => ['class' => 'form-group col-md-4']
+                        'wrapper' => ['class' => 'form-group col-md-4'],
                     ],
                     array_merge([
                         'name' => 'value',
                         'type' => 'number',
-                        'attributes' => ['step' => 0.01, 'min' => 0],
+                        'attributes' => ['step' => 0.01,
+                            'min' => 0, ],
                         'label' => __('Value'),
-                        'wrapper' => ['class' => 'form-group col-md-4']
+                        'wrapper' => ['class' => 'form-group col-md-4'],
                     ], $currency),
                     [
                         'name' => 'status',
                         'type' => 'radio',
                         'label' => __('Status'),
                         'wrapper' => ['class' => 'form-group col-md-4'],
-                        'options' => [1 => __('Pending'), 2 => __('Paid')],
-                        'inline' => true
-                    ]
-                ]
+                        'options' => [1 => __('Pending'),
+                            2 => __('Paid'), ],
+                        'inline' => true,
+                    ],
+                ],
             ]);
         }
 
         CRUD::addField([
-            'label'     => __('Status'),
-            'type'      => 'select',
-            'name'      => 'status_id',
-            'entity'    => 'enrollmentStatus',
-            'model'     => EnrollmentStatusType::class,
+            'label' => __('Status'),
+            'type' => 'select',
+            'name' => 'status_id',
+            'entity' => 'enrollmentStatus',
+            'model' => EnrollmentStatusType::class,
             'attribute' => 'name',
         ]);
     }

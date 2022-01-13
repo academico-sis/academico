@@ -3,18 +3,23 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\ScheduledPaymentRequest;
+use App\Models\ScheduledPayment;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
  * Class ScheduledPaymentCrudController
- * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
+ * @property-read CrudPanel $crud
  */
 class ScheduledPaymentCrudController extends CrudController
 {
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+    use ListOperation;
+    use UpdateOperation;
+    use DeleteOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -23,7 +28,7 @@ class ScheduledPaymentCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\ScheduledPayment::class);
+        CRUD::setModel(ScheduledPayment::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/scheduled-payment');
         CRUD::setEntityNameStrings(__('scheduled payment'), __('scheduled payments'));
         CRUD::enableExportButtons();
@@ -39,7 +44,7 @@ class ScheduledPaymentCrudController extends CrudController
     {
         CRUD::addColumn([
             'name' => 'enrollment.student',
-            'key'       => 'student_lastname',
+            'key' => 'student_lastname',
             'attribute' => 'lastname',
             'label' => __('Last Name'),
             'type' => 'relationship',
@@ -54,7 +59,7 @@ class ScheduledPaymentCrudController extends CrudController
 
         CRUD::addColumn([
             'name' => 'enrollment.student',
-            'key'       => 'student_firstname',
+            'key' => 'student_firstname',
             'attribute' => 'firstname',
             'label' => __('First Name'),
             'type' => 'relationship',
@@ -69,7 +74,7 @@ class ScheduledPaymentCrudController extends CrudController
 
         CRUD::addColumn([
             'name' => 'enrollment.student',
-            'key'       => 'student_email',
+            'key' => 'student_email',
             'attribute' => 'email',
             'label' => __('Email'),
             'type' => 'relationship',
@@ -89,9 +94,10 @@ class ScheduledPaymentCrudController extends CrudController
         }
 
         CRUD::addColumn(array_merge([
-            'name'  => 'value',
+            'name' => 'value',
             'label' => __('Value'),
-            'type'  => 'number', ], $currency));
+            'type' => 'number',
+        ], $currency));
 
         CRUD::addColumn([
             'name' => 'status_name',
@@ -105,13 +111,13 @@ class ScheduledPaymentCrudController extends CrudController
             [
                 'name' => 'status_id',
                 'type' => 'select2',
-                'label'=> __('Status'),
+                'label' => __('Status'),
             ],
             fn () => [
                 1 => __('Pending'),
                 2 => __('Paid'),
             ],
-            function ($value) { // if the filter is active
+            function ($value) {
                 CRUD::addClause('status', $value);
             }
         );

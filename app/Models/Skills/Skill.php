@@ -43,7 +43,7 @@ class Skill extends Model
         return $this->morphToMany(EvaluationType::class, 'presettable', 'evaluation_type_presets');
     }
 
-    public function getCompleteNameAttribute() : string
+    public function getCompleteNameAttribute(): string
     {
         return '['.($this->level->name ?? '').'] '.($this->skill_type->shortname ?? '').' - '.$this->name ?? '';
     }

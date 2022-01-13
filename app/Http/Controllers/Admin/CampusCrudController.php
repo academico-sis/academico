@@ -35,8 +35,11 @@ class CampusCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
 
-        CRUD::addColumn(['name' => 'name', 'label' => 'Name']);
-        CRUD::addField(['name' => 'name', 'label' => 'Name', 'type' => 'text']);
+        CRUD::addColumn(['name' => 'name',
+            'label' => 'Name', ]);
+        CRUD::addField(['name' => 'name',
+            'label' => 'Name',
+            'type' => 'text', ]);
     }
 
     protected function setupCreateOperation()

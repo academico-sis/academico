@@ -114,7 +114,8 @@ class ReportController extends Controller
         return view('reports.external', [
             'selected_period' => $startperiod,
             'data' => $data,
-            'year_data' => $year_data, // Existing array
+            'year_data' => $year_data,
+            // Existing array
             'years' => $years,
         ]);
     }
@@ -196,7 +197,8 @@ class ReportController extends Controller
             'students_count' => $period->studentCount(),
             'data' => $data,
             'selected_period' => $startperiod,
-            'years' => $years, // New array
+            'years' => $years,
+            // New array
         ]);
     }
 

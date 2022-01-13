@@ -33,8 +33,10 @@ class PaymentmethodCrudController extends CrudController
     protected function setupListOperation()
     {
         CRUD::addColumns([
-            ['name' => 'name', 'label' => 'Name'],
-            ['name' => 'code', 'label' => 'Code'],
+            ['name' => 'name',
+                'label' => 'Name', ],
+            ['name' => 'code',
+                'label' => 'Code', ],
         ]);
     }
 
@@ -42,8 +44,12 @@ class PaymentmethodCrudController extends CrudController
     {
         CRUD::setValidation(StoreRequest::class);
         CRUD::addFields([
-            ['name' => 'name', 'label' => 'Name', 'type' => 'text'],
-            ['name' => 'code', 'label' => 'Code', 'type' => 'text'],
+            ['name' => 'name',
+                'label' => 'Name',
+                'type' => 'text', ],
+            ['name' => 'code',
+                'label' => 'Code',
+                'type' => 'text', ],
         ]);
     }
 

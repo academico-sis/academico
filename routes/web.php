@@ -66,7 +66,6 @@ Route::group(
         Route::post('enrollment/{enrollment}/scholarships/remove', 'EnrollmentScholarshipController@destroy')->name('remove-scholarship'); // update the invoice number
 
         Route::post('getEnrollmentBalance', 'EnrollmentController@getBalance')->middleware('role:admin');
-
     }
 );
 

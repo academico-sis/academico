@@ -7,7 +7,7 @@ use Carbon\Carbon;
 
 class AddPastAttendance
 {
-    public function handle(EnrollmentCreated $event) : void
+    public function handle(EnrollmentCreated $event): void
     {
         $enrollment = $event->enrollment;
         // when creating a new enrollment, also add past attendance

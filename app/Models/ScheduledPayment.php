@@ -67,7 +67,7 @@ class ScheduledPayment extends Model
 
     public function invoices()
     {
-        return $this->invoiceDetails->map(fn(InvoiceDetail $invoiceDetail) => $invoiceDetail->invoice)->filter();
+        return $this->invoiceDetails->map(fn (InvoiceDetail $invoiceDetail) => $invoiceDetail->invoice)->filter();
     }
     /*
     |--------------------------------------------------------------------------

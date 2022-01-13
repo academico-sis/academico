@@ -24,7 +24,7 @@ class UpdateConfigRequest extends FormRequest
     public function rules()
     {
         return [
-            'currentPeriod'     => 'required',
+            'currentPeriod' => 'required',
             'enrollmentsPeriod' => 'required',
         ];
     }

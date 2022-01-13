@@ -65,7 +65,7 @@ class Student extends Model implements HasMedia
                 ->where('lead_type_id', $leadTypeId)
                 ->orWhere(
                     function ($query) {
-                    $query
+                        $query
                         ->whereNull('lead_type_id')
                         ->whereHas('enrollments', fn ($query) => $query
                             ->whereHas('course', function ($q) {
@@ -75,8 +75,8 @@ class Student extends Model implements HasMedia
                             ->whereHas('course', function ($q) {
                                 $q->where('period_id', Period::get_default_period()->id);
                             }));
-                }
-                ),
+                    }
+            ),
 
             default => $query,
         };
@@ -249,7 +249,7 @@ class Student extends Model implements HasMedia
         // avoid duplicates by retrieving an potential existing enrollment for the same course
         $enrollment = Enrollment::firstOrCreate(
             [
-                'student_id' =>  $this->id,
+                'student_id' => $this->id,
                 'course_id' => $course->id,
             ],
             [
@@ -262,7 +262,7 @@ class Student extends Model implements HasMedia
             foreach ($course->children as $children_course) {
                 Enrollment::firstOrCreate(
                     [
-                        'student_id' =>  $this->id,
+                        'student_id' => $this->id,
                         'course_id' => $children_course->id,
                         'parent_id' => $enrollment->id,
                     ],

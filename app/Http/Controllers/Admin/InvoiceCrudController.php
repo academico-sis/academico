@@ -54,11 +54,11 @@ class InvoiceCrudController extends CrudController
             CRUD::column('invoice_number');
 
             CRUD::addColumn([
-                'name'         => 'invoiceType',
-                'type'         => 'relationship',
-                'label'        => __('Type'),
-                'searchLogic'  => false,
-                'attribute'    => 'name',
+                'name' => 'invoiceType',
+                'type' => 'relationship',
+                'label' => __('Type'),
+                'searchLogic' => false,
+                'attribute' => 'name',
             ]);
         }
 
@@ -83,9 +83,9 @@ class InvoiceCrudController extends CrudController
         CRUD::column('client_email')->label(__('Client email'));
         $this->crud->addColumn(
             array_merge([
-            'label' => __('Total price'),
-            'type'  => 'model_function',
-            'function_name' => 'totalPrice',
+                'label' => __('Total price'),
+                'type' => 'model_function',
+                'function_name' => 'totalPrice',
             ], $currency)
         );
 
@@ -101,7 +101,7 @@ class InvoiceCrudController extends CrudController
             [
                 'type' => 'date_range',
                 'name' => 'from_to',
-                'label'=> __('Date range'),
+                'label' => __('Date range'),
             ],
             false,
             function ($value) { // if the filter is active, apply these constraints
@@ -129,11 +129,11 @@ class InvoiceCrudController extends CrudController
             CRUD::field('invoice_number');
 
             CRUD::addField([
-                'name'         => 'invoiceType',
-                'type'         => 'relationship',
-                'label'        => 'Type',
-                'searchLogic'  => false,
-                'attribute'    => 'name',
+                'name' => 'invoiceType',
+                'type' => 'relationship',
+                'label' => 'Type',
+                'searchLogic' => false,
+                'attribute' => 'name',
             ]);
         }
 
@@ -156,7 +156,8 @@ class InvoiceCrudController extends CrudController
             'availablePaymentMethods' => Paymentmethod::all(),
             'editable' => true,
             'enrollment' => $invoice->enrollments->first()?->product,
-            'afterSuccessUrl' => $invoice->enrollments->count() > 0 ? "/enrollment/{$invoice->enrollments->first()->product_id}/show" : '/invoice', // TODO fix this, an invoice can theoretically contain several enrollments
+            'afterSuccessUrl' => $invoice->enrollments->count() > 0 ? "/enrollment/{$invoice->enrollments->first()->product_id}/show" : '/invoice',
+            // TODO fix this, an invoice can theoretically contain several enrollments
         ]);
     }
 }

@@ -12,13 +12,13 @@ use Illuminate\Support\Facades\Log;
 
 class Ecuasolutions implements InvoicingInterface
 {
-    public function status() : bool
+    public function status(): bool
     {
         // TODO : need to find another solution to ping the server before making the request
         return true;
     }
 
-    public function saveInvoice(Invoice $invoice) : ?string
+    public function saveInvoice(Invoice $invoice): ?string
     {
         $ivkardex = [];
         $pckardex = [];
@@ -69,13 +69,15 @@ class Ecuasolutions implements InvoicingInterface
         }
 
         $body = [
-            'codtrans' => 'FE', // was 'OP'
+            'codtrans' => 'FE',
+            // was 'OP'
             'numtrans' => $invoice->id,
             'fechatrans' => $invoice->created_at,
             'horatrans' => $invoice->created_at,
             'descripcion' => 'Facturado desde el academico por '.backpack_user()->firstname.' '.backpack_user()->lastname,
             'codusuario' => 'web',
-            'codprovcli' => $invoice->client_idnumber, // si existe, se busca el cliente. Si no lo creamos.
+            'codprovcli' => $invoice->client_idnumber,
+            // si existe, se busca el cliente. Si no lo creamos.
             'nombre' => $invoice->client_name,
             'direccion' => $invoice->client_address,
             'telefono' => $invoice->client_phone,
@@ -85,7 +87,8 @@ class Ecuasolutions implements InvoicingInterface
             'pckardex' => $pckardex,
         ];
 
-        $client = new Client(['debug' => true, 'connect_timeout' => 20]);
+        $client = new Client(['debug' => true,
+            'connect_timeout' => 20, ]);
 
         $serverurl = config('invoicing.ecuasolutions.url');
 

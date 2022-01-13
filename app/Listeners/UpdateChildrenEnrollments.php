@@ -23,7 +23,7 @@ class UpdateChildrenEnrollments
             // if the new course has children, create an enrollment as well
             foreach ($enrollment->course->children as $children_course) {
                 $child_enrollment = Enrollment::firstOrNew([
-                    'student_id' =>  $enrollment->student_id,
+                    'student_id' => $enrollment->student_id,
                     'course_id' => $children_course->id,
                     'parent_id' => $enrollment->id,
                 ]);

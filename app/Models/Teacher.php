@@ -37,22 +37,22 @@ class Teacher extends Model
     }
 
     /** attributes */
-    public function getFirstnameAttribute() : ?string
+    public function getFirstnameAttribute(): ?string
     {
         return $this?->user?->firstname;
     }
 
-    public function getLastnameAttribute() : ?string
+    public function getLastnameAttribute(): ?string
     {
         return $this?->user?->lastname;
     }
 
-    public function getEmailAttribute() : ?string
+    public function getEmailAttribute(): ?string
     {
         return $this?->user?->email;
     }
 
-    public function getNameAttribute() : ?string
+    public function getNameAttribute(): ?string
     {
         return $this?->user?->firstname.' '.$this?->user?->lastname;
     }

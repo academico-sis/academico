@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\EvaluationTypeRequest as StoreRequest;
 use App\Models\EvaluationType;
+use App\Models\GradeType;
+use App\Models\Skills\Skill;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
@@ -27,37 +29,44 @@ class EvaluationTypeCrudController extends CrudController
 
     protected function setupListOperation()
     {
-        CRUD::addColumn(['name' => 'name', 'label' => 'Name']);
+        CRUD::addColumn(['name' => 'name',
+            'label' => 'Name', ]);
     }
 
     protected function setupCreateOperation()
     {
-        CRUD::addField(['name' => 'name', 'label' => 'Name', 'type' => 'text']);
+        CRUD::addField(['name' => 'name',
+            'label' => 'Name',
+            'type' => 'text', ]);
 
         CRUD::addField([    // Select2Multiple = n-n relationship (with pivot table)
-            'label'     => __('Grade Types'),
-            'type'      => 'select2_multiple',
-            'name'      => 'gradeTypes',
+            'label' => __('Grade Types'),
+            'type' => 'select2_multiple',
+            'name' => 'gradeTypes',
 
             // optional
-            'entity'    => 'gradeTypes',
-            'model'     => \App\Models\GradeType::class,
+            'entity' => 'gradeTypes',
+            'model' => GradeType::class,
             'attribute' => 'complete_name',
-            'pivot'     => true, // on create&update, do you need to add/delete pivot table entries?
-            'select_all' => true, // show Select All and Clear buttons?
+            'pivot' => true,
+            // on create&update, do you need to add/delete pivot table entries?
+            'select_all' => true,
+            // show Select All and Clear buttons?
         ]);
 
         CRUD::addField([    // Select2Multiple = n-n relationship (with pivot table)
-            'label'     => __('Skills'),
-            'type'      => 'select2_multiple',
-            'name'      => 'skills',
+            'label' => __('Skills'),
+            'type' => 'select2_multiple',
+            'name' => 'skills',
 
             // optional
-            'entity'    => 'skills',
-            'model'     => \App\Models\Skills\Skill::class,
+            'entity' => 'skills',
+            'model' => Skill::class,
             'attribute' => 'complete_name',
-            'pivot'     => true, // on create&update, do you need to add/delete pivot table entries?
-            'select_all' => true, // show Select All and Clear buttons?
+            'pivot' => true,
+            // on create&update, do you need to add/delete pivot table entries?
+            'select_all' => true,
+            // show Select All and Clear buttons?
         ]);
 
         CRUD::setValidation(StoreRequest::class);

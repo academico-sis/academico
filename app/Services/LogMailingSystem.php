@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
-class LogMailingSystem implements \App\Interfaces\MailingSystemInterface
+use App\Interfaces\MailingSystemInterface;
+
+class LogMailingSystem implements MailingSystemInterface
 {
     public function subscribeUser(string $email, string $name, ?string $lastname, int $listId): void
     {
