@@ -251,7 +251,7 @@ class InvoiceController extends Controller
         }
 
         foreach ($invoice->enrollments as $enrollment) {
-            if ($invoice->totalPrice() === $invoice->paidTotal() && $enrollment->product->total_price === $enrollment->product->total_paid_price * 100) {
+            if ($invoice->totalPrice() === $invoice->paidTotal() && $enrollment->product->price == $enrollment->product->total_paid_price) {
                 $enrollment->product->markAsPaid();
             }
         }
