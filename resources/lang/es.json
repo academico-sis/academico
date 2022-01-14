@@ -534,5 +534,8 @@
     "Edit student info": "Editar los datos del estudiante",
     "End date": "Fecha de fin",
     "Enrollment": "Matricula",
-    "Evaluation": "Evaluacion"
+    "Evaluation": "Evaluacion",
+    "Do you really want to delete this comment?": "Realmente desea eliminar este comentario?",
+    "No": "No",
+    "No comment yet": "Todavia no hay comentarios aqui"
 }

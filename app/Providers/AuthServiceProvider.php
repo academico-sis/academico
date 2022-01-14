@@ -93,6 +93,16 @@ class AuthServiceProvider extends ServiceProvider
          * teachers are allowed to edit results for their own students
          * as well as users with explicit permission to edit any result
          */
-        Gate::define('edit-result', fn ($user, $enrollment) => ($user->isTeacher() && $user->id == $enrollment->course->teacher_id) || $user->can('evaluation.edit'));
+        Gate::define('edit-result', function ($user, $enrollment) {
+            if ($user->can('evaluation.edit')) {
+                return true;
+            }
+
+            if (config('settings.teachers_can_edit_result')) {
+                return ($user->isTeacher() && $user->id === $enrollment->course->teacher_id);
+            }
+
+            return false;
+        });
     }
 }

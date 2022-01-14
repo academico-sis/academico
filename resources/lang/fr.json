@@ -534,5 +534,8 @@
     "Edit student info": "Modifier les informations de l'\u00e9tudiant",
     "End date": "Date de fin",
     "Enrollment": "Inscription",
-    "Evaluation": "\u00c9valuation"
+    "Evaluation": "\u00c9valuation",
+    "Do you really want to delete this comment?": "Voulez-vous vraiment supprimer ce commentaire ?",
+    "No": "Non",
+    "No comment yet": "Pas encore de commentaire"
 }

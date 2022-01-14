@@ -269,9 +269,18 @@ class EnrollmentCrudController extends CrudController
         $enrollment = Enrollment::findOrFail($enrollment);
 
         // then load the page
+        $commentsIncludingInvoices = $enrollment->comments
+            ->concat($enrollment->invoices()
+                ->map(fn($invoice) => $invoice->comments->map(function ($comment) use ($invoice) {
+                    $comment->prefix = '(' . __('Invoice') . " " . ($invoice->invoice_reference ?? $invoice->id) . ")";
+                    return $comment;
+                }))
+                ->flatten()
+            );
+
         return view('enrollments.show', [
             'enrollment' => $enrollment,
-            'comments' => $enrollment->comments,
+            'comments' => $commentsIncludingInvoices,
             'scholarships' => Scholarship::all(),
             'availablePaymentMethods' => Paymentmethod::all(),
             'writeaccess' => $enrollment->status_id !== 2 && backpack_user()->can('enrollments.edit'),

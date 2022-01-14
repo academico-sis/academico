@@ -10,6 +10,14 @@
 @section('content')
     <div class="row">
         <div class="col-md-4">
+
+            <student-comments
+                    :comments="{{ json_encode($comments) }}"
+                    :id="{{ json_encode($invoice->id) }}"
+                    :type="'App\\Models\\Invoice'"
+                    route="{{ route('storeComment') }}">
+            </student-comments>
+
             <div class="card">
                 <div class="card-header">
                     @lang('Invoice') # {{ $invoice->invoice_reference }}
