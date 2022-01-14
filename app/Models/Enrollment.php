@@ -32,7 +32,6 @@ class Enrollment extends Model
     protected static bool $logUnguarded = true;
 
     protected $dispatchesEvents = [
-        'deleted' => EnrollmentDeleted::class,
         'deleting' => EnrollmentDeleting::class,
         'created' => EnrollmentCreated::class,
         'updating' => EnrollmentUpdating::class,
