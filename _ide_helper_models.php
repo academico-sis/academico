@@ -14,7 +14,6 @@ namespace App\Models{
 /**
  * App\Models\Attendance
  *
- * @mixin IdeHelperAttendance
  * @property int $id
  * @property int $student_id
  * @property int $event_id
@@ -37,14 +36,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Attendance whereStudentId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Attendance whereUpdatedAt($value)
  */
-	class Attendance extends \Eloquent {}
+	class IdeHelperAttendance {}
 }
 
 namespace App\Models{
 /**
  * App\Models\AttendanceType
  *
- * @mixin IdeHelperAttendanceType
  * @property int $id
  * @property array $name
  * @property string|null $class
@@ -59,14 +57,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|AttendanceType whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|AttendanceType whereName($value)
  */
-	class AttendanceType extends \Eloquent {}
+	class IdeHelperAttendanceType {}
 }
 
 namespace App\Models{
 /**
  * App\Models\Book
  *
- * @mixin IdeHelperBook
  * @property int $id
  * @property string $name
  * @property int|null $price
@@ -81,7 +78,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Book wherePrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Book whereProductCode($value)
  */
-	class Book extends \Eloquent {}
+	class IdeHelperBook {}
 }
 
 namespace App\Models{
@@ -89,7 +86,6 @@ namespace App\Models{
  * NOTE: In the current configuration, the campus with the ID of 1 represent the school itself
  * the campus model with the ID of 2 represents all external courses
  *
- * @mixin IdeHelperCampus
  * @property int $id
  * @property array $name
  * @property \Illuminate\Support\Carbon|null $deleted_at
@@ -104,14 +100,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Query\Builder|Campus withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Campus withoutTrashed()
  */
-	class Campus extends \Eloquent {}
+	class IdeHelperCampus {}
 }
 
 namespace App\Models{
 /**
  * App\Models\Comment
  *
- * @mixin IdeHelperComment
  * @property int $id
  * @property int $commentable_id
  * @property string $commentable_type
@@ -137,14 +132,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Comment whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Comment whereUpdatedAt($value)
  */
-	class Comment extends \Eloquent {}
+	class IdeHelperComment {}
 }
 
 namespace App\Models{
 /**
  * App\Models\Config
  *
- * @mixin IdeHelperConfig
  * @property int $id
  * @property string $name
  * @property string|null $value
@@ -159,18 +153,17 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Config whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Config whereValue($value)
  */
-	class Config extends \Eloquent {}
+	class IdeHelperConfig {}
 }
 
 namespace App\Models{
 /**
  * App\Models\Contact
  *
- * @mixin IdeHelperContact
  * @property int $id
  * @property int $student_id
- * @property string $firstname
  * @property string $lastname
+ * @property string $firstname
  * @property string|null $idnumber
  * @property string|null $address
  * @property string|null $email
@@ -203,14 +196,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Contact whereStudentId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Contact whereUpdatedAt($value)
  */
-	class Contact extends \Eloquent {}
+	class IdeHelperContact {}
 }
 
 namespace App\Models{
 /**
  * App\Models\ContactRelationship
  *
- * @mixin IdeHelperContactRelationship
  * @property int $id
  * @property array $name
  * @property-read mixed $translated_name
@@ -221,14 +213,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|ContactRelationship whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ContactRelationship whereName($value)
  */
-	class ContactRelationship extends \Eloquent {}
+	class IdeHelperContactRelationship {}
 }
 
 namespace App\Models{
 /**
  * App\Models\Coupon
  *
- * @mixin IdeHelperCoupon
  * @property int $id
  * @property string $name
  * @property string $value
@@ -244,24 +235,22 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Coupon whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Coupon whereValue($value)
  */
-	class Coupon extends \Eloquent {}
+	class IdeHelperCoupon {}
 }
 
 namespace App\Models{
 /**
  * App\Models\Course
  *
- * @mixin IdeHelperCourse
  * @property int $id
  * @property int $campus_id
  * @property int|null $rhythm_id
  * @property int|null $level_id
  * @property int $volume
  * @property string $name
- * @property int|null $price
- * @property string|null $price_b
- * @property string|null $price_c
- * @property string|null $hourly_price
+ * @property string $price
+ * @property string $price_b
+ * @property string $price_c
  * @property \Illuminate\Support\Carbon $start_date
  * @property \Illuminate\Support\Carbon $end_date
  * @property int|null $room_id
@@ -276,11 +265,12 @@ namespace App\Models{
  * @property int|null $evaluation_type_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int $marked
  * @property int|null $partner_id
- * @property string|null $remote_volume
+ * @property string|null $hourly_price
  * @property int|null $sync_to_lms
  * @property int|null $lms_id
- * @property int $marked
+ * @property string|null $remote_volume
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
  * @property-read int|null $activities_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Attendance[] $attendance
@@ -365,14 +355,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Course whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Course whereVolume($value)
  */
-	class Course extends \Eloquent {}
+	class IdeHelperCourse {}
 }
 
 namespace App\Models{
 /**
  * App\Models\CourseTime
  *
- * @mixin IdeHelperCourseTime
  * @property int $id
  * @property int $course_id
  * @property int $day
@@ -392,14 +381,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|CourseTime whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CourseTime whereStart($value)
  */
-	class CourseTime extends \Eloquent {}
+	class IdeHelperCourseTime {}
 }
 
 namespace App\Models{
 /**
  * App\Models\Discount
  *
- * @mixin IdeHelperDiscount
  * @property int $id
  * @property string $name
  * @property string $value
@@ -414,17 +402,16 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Discount whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Discount whereValue($value)
  */
-	class Discount extends \Eloquent {}
+	class IdeHelperDiscount {}
 }
 
 namespace App\Models{
 /**
  * App\Models\Enrollment
  *
- * @mixin IdeHelperEnrollment
  * @property int $id
  * @property int $student_id
- * @property int $responsible_id
+ * @property int|null $responsible_id
  * @property int $course_id
  * @property int $status_id
  * @property int|null $total_price
@@ -495,14 +482,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Enrollment whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Enrollment withoutChildren()
  */
-	class Enrollment extends \Eloquent {}
+	class IdeHelperEnrollment {}
 }
 
 namespace App\Models{
 /**
  * App\Models\EnrollmentStatusType
  *
- * @mixin IdeHelperEnrollmentStatusType
  * @property int $id
  * @property array $name
  * @property-read array $translations
@@ -512,14 +498,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|EnrollmentStatusType whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|EnrollmentStatusType whereName($value)
  */
-	class EnrollmentStatusType extends \Eloquent {}
+	class IdeHelperEnrollmentStatusType {}
 }
 
 namespace App\Models{
 /**
  * App\Models\EvaluationType
  *
- * @mixin IdeHelperEvaluationType
  * @property int $id
  * @property array $name
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Course[] $courses
@@ -536,14 +521,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|EvaluationType whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|EvaluationType whereName($value)
  */
-	class EvaluationType extends \Eloquent {}
+	class IdeHelperEvaluationType {}
 }
 
 namespace App\Models{
 /**
  * App\Models\Event
  *
- * @mixin IdeHelperEvent
  * @property int $id
  * @property int|null $course_id
  * @property int|null $teacher_id
@@ -588,14 +572,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Event whereTeacherId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Event whereUpdatedAt($value)
  */
-	class Event extends \Eloquent {}
+	class IdeHelperEvent {}
 }
 
 namespace App\Models{
 /**
  * App\Models\Fee
  *
- * @mixin IdeHelperFee
  * @property int $id
  * @property string $name
  * @property int|null $price
@@ -612,14 +595,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Fee wherePrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Fee whereProductCode($value)
  */
-	class Fee extends \Eloquent {}
+	class IdeHelperFee {}
 }
 
 namespace App\Models{
 /**
  * App\Models\Grade
  *
- * @mixin IdeHelperGrade
  * @property int $id
  * @property int $grade_type_id
  * @property int|null $enrollment_id
@@ -643,14 +625,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Grade whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Grade whereUpdatedAt($value)
  */
-	class Grade extends \Eloquent {}
+	class IdeHelperGrade {}
 }
 
 namespace App\Models{
 /**
  * App\Models\GradeType
  *
- * @mixin IdeHelperGradeType
  * @property int $id
  * @property int $grade_type_category_id
  * @property string $name
@@ -673,14 +654,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|GradeType whereTotal($value)
  * @method static \Illuminate\Database\Eloquent\Builder|GradeType whereUpdatedAt($value)
  */
-	class GradeType extends \Eloquent {}
+	class IdeHelperGradeType {}
 }
 
 namespace App\Models{
 /**
  * App\Models\GradeTypeCategory
  *
- * @mixin IdeHelperGradeTypeCategory
  * @property int $id
  * @property array $name
  * @property-read mixed $translated_name
@@ -691,14 +671,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|GradeTypeCategory whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|GradeTypeCategory whereName($value)
  */
-	class GradeTypeCategory extends \Eloquent {}
+	class IdeHelperGradeTypeCategory {}
 }
 
 namespace App\Models{
 /**
  * App\Models\Institution
  *
- * @mixin IdeHelperInstitution
  * @property int $id
  * @property string $name
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -711,23 +690,23 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Institution whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Institution whereUpdatedAt($value)
  */
-	class Institution extends \Eloquent {}
+	class IdeHelperInstitution {}
 }
 
 namespace App\Models{
 /**
  * App\Models\Invoice
  *
- * @mixin IdeHelperInvoice
  * @property int $id
  * @property int|null $invoice_number
  * @property int|null $invoice_type_id
+ * @property int|null $user_id
  * @property string|null $client_name
  * @property string|null $client_idnumber
  * @property string|null $client_address
  * @property string|null $client_email
  * @property string|null $client_phone
- * @property string|null $total_price
+ * @property int|null $total_price
  * @property int $company_id
  * @property string|null $receipt_number
  * @property \Illuminate\Support\Carbon|null $date
@@ -773,25 +752,25 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereReceiptNumber($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereTotalPrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereUserId($value)
  */
-	class Invoice extends \Eloquent {}
+	class IdeHelperInvoice {}
 }
 
 namespace App\Models{
 /**
  * App\Models\InvoiceDetail
  *
- * @mixin IdeHelperInvoiceDetail
  * @property int $id
  * @property int $invoice_id
  * @property string $product_name
+ * @property int $price
+ * @property string $tax_rate
+ * @property int|null $final_price
  * @property string|null $product_code
  * @property int|null $product_id
  * @property string|null $product_type
  * @property string $quantity
- * @property string $price
- * @property string $tax_rate
- * @property int|null $final_price
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
@@ -799,7 +778,7 @@ namespace App\Models{
  * @property-read int|null $activities_count
  * @property-read mixed $price_with_currency
  * @property-read mixed $total_price
- * @property-read \App\Models\Invoice $invoice
+ * @property-read \App\Models\Invoice|null $invoice
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $product
  * @method static \Illuminate\Database\Eloquent\Builder|InvoiceDetail newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|InvoiceDetail newQuery()
@@ -821,14 +800,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Query\Builder|InvoiceDetail withTrashed()
  * @method static \Illuminate\Database\Query\Builder|InvoiceDetail withoutTrashed()
  */
-	class InvoiceDetail extends \Eloquent {}
+	class IdeHelperInvoiceDetail {}
 }
 
 namespace App\Models{
 /**
  * App\Models\InvoiceType
  *
- * @mixin IdeHelperInvoiceType
  * @property int $id
  * @property string $name
  * @property array|null $description
@@ -849,14 +827,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|InvoiceType whereNotes($value)
  * @method static \Illuminate\Database\Eloquent\Builder|InvoiceType whereUpdatedAt($value)
  */
-	class InvoiceType extends \Eloquent {}
+	class IdeHelperInvoiceType {}
 }
 
 namespace App\Models{
 /**
  * App\Models\LeadType
  *
- * @mixin IdeHelperLeadType
  * @property int $id
  * @property array $name
  * @property array|null $description
@@ -877,14 +854,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|LeadType whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|LeadType whereUpdatedAt($value)
  */
-	class LeadType extends \Eloquent {}
+	class IdeHelperLeadType {}
 }
 
 namespace App\Models{
 /**
  * App\Models\Leave
  *
- * @mixin IdeHelperLeave
  * @property int $id
  * @property int $teacher_id
  * @property string $date
@@ -905,14 +881,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Leave whereTeacherId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Leave whereUpdatedAt($value)
  */
-	class Leave extends \Eloquent {}
+	class IdeHelperLeave {}
 }
 
 namespace App\Models{
 /**
  * App\Models\LeaveType
  *
- * @mixin IdeHelperLeaveType
  * @property int $id
  * @property array $name
  * @property-read array $translations
@@ -922,14 +897,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|LeaveType whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|LeaveType whereName($value)
  */
-	class LeaveType extends \Eloquent {}
+	class IdeHelperLeaveType {}
 }
 
 namespace App\Models{
 /**
  * App\Models\Level
  *
- * @mixin IdeHelperLevel
  * @property int $id
  * @property string $name
  * @property string|null $reference
@@ -949,14 +923,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Query\Builder|Level withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Level withoutTrashed()
  */
-	class Level extends \Eloquent {}
+	class IdeHelperLevel {}
 }
 
 namespace App\Models{
 /**
  * App\Models\Member
  *
- * @mixin IdeHelperMember
  * @property int $id
  * @property string $firstname
  * @property string $lastname
@@ -975,23 +948,22 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Member whereLastname($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Member whereUpdatedAt($value)
  */
-	class Member extends \Eloquent {}
+	class IdeHelperMember {}
 }
 
 namespace App\Models{
 /**
  * App\Models\Partner
  *
- * @mixin IdeHelperPartner
  * @property int $id
  * @property string $name
  * @property string|null $started_on
  * @property string|null $expired_on
- * @property int|null $send_report_on
  * @property string|null $last_alert_sent_at
  * @property int|null $auto_renewal
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $send_report_on
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Course[] $courses
  * @property-read int|null $courses_count
  * @property-read mixed $formatted_end_date
@@ -1009,22 +981,22 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Partner whereStartedOn($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Partner whereUpdatedAt($value)
  */
-	class Partner extends \Eloquent {}
+	class IdeHelperPartner {}
 }
 
 namespace App\Models{
 /**
  * App\Models\Payment
  *
- * @mixin IdeHelperPayment
  * @property int $id
  * @property int $responsable_id
- * @property int $invoice_id
- * @property string $payment_method
+ * @property int|null $invoice_id
+ * @property string|null $payment_method
  * @property string|null $date
  * @property int|null $value
  * @property int|null $status
  * @property string|null $comment
+ * @property string|null $receipt_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read string $bic
@@ -1033,7 +1005,7 @@ namespace App\Models{
  * @property-read string $iban
  * @property-read mixed $month
  * @property-read mixed $value_with_currency
- * @property-read \App\Models\Invoice $invoice
+ * @property-read \App\Models\Invoice|null $invoice
  * @method static \Illuminate\Database\Eloquent\Builder|Payment newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Payment newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Payment query()
@@ -1043,19 +1015,19 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Payment whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Payment whereInvoiceId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Payment wherePaymentMethod($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Payment whereReceiptId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Payment whereResponsableId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Payment whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Payment whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Payment whereValue($value)
  */
-	class Payment extends \Eloquent {}
+	class IdeHelperPayment {}
 }
 
 namespace App\Models{
 /**
  * App\Models\Paymentmethod
  *
- * @mixin IdeHelperPaymentmethod
  * @property int $id
  * @property string $name
  * @property string $code
@@ -1070,14 +1042,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Paymentmethod whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Paymentmethod whereUpdatedAt($value)
  */
-	class Paymentmethod extends \Eloquent {}
+	class IdeHelperPaymentmethod {}
 }
 
 namespace App\Models{
 /**
  * App\Models\Period
  *
- * @mixin IdeHelperPeriod
  * @property int $id
  * @property string $name
  * @property string $start
@@ -1122,14 +1093,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Period whereStart($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Period whereYearId($value)
  */
-	class Period extends \Eloquent {}
+	class IdeHelperPeriod {}
 }
 
 namespace App\Models{
 /**
  * App\Models\PhoneNumber
  *
- * @mixin IdeHelperPhoneNumber
  * @property int $id
  * @property int $phoneable_id
  * @property string $phoneable_type
@@ -1145,14 +1115,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|PhoneNumber wherePhoneableId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PhoneNumber wherePhoneableType($value)
  */
-	class PhoneNumber extends \Eloquent {}
+	class IdeHelperPhoneNumber {}
 }
 
 namespace App\Models{
 /**
  * App\Models\Profession
  *
- * @mixin IdeHelperProfession
  * @property int $id
  * @property string $name
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -1165,14 +1134,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Profession whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Profession whereUpdatedAt($value)
  */
-	class Profession extends \Eloquent {}
+	class IdeHelperProfession {}
 }
 
 namespace App\Models{
 /**
  * A RemoteEvent represents hours that do not have a specific date/time, but that should be taken into account in the teacher's total for the month or the period
  *
- * @mixin IdeHelperRemoteEvent
  * @property int $id
  * @property int|null $teacher_id
  * @property string $name
@@ -1198,14 +1166,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|RemoteEvent whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|RemoteEvent whereWorkedHours($value)
  */
-	class RemoteEvent extends \Eloquent {}
+	class IdeHelperRemoteEvent {}
 }
 
 namespace App\Models{
 /**
  * App\Models\Result
  *
- * @mixin IdeHelperResult
  * @property int $id
  * @property int $enrollment_id
  * @property int $result_type_id
@@ -1230,14 +1197,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Result whereResultTypeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Result whereUpdatedAt($value)
  */
-	class Result extends \Eloquent {}
+	class IdeHelperResult {}
 }
 
 namespace App\Models{
 /**
  * App\Models\ResultType
  *
- * @mixin IdeHelperResultType
  * @property int $id
  * @property array $name
  * @property array|null $description
@@ -1259,14 +1225,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|ResultType whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ResultType whereUpdatedAt($value)
  */
-	class ResultType extends \Eloquent {}
+	class IdeHelperResultType {}
 }
 
 namespace App\Models{
 /**
  * App\Models\Rhythm
  *
- * @mixin IdeHelperRhythm
  * @property int $id
  * @property string $name
  * @property int|null $default_volume
@@ -1286,14 +1251,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Query\Builder|Rhythm withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Rhythm withoutTrashed()
  */
-	class Rhythm extends \Eloquent {}
+	class IdeHelperRhythm {}
 }
 
 namespace App\Models{
 /**
  * App\Models\Room
  *
- * @mixin IdeHelperRoom
  * @property int $id
  * @property string $name
  * @property int $campus_id
@@ -1314,14 +1278,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Query\Builder|Room withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Room withoutTrashed()
  */
-	class Room extends \Eloquent {}
+	class IdeHelperRoom {}
 }
 
 namespace App\Models{
 /**
  * App\Models\SchedulePreset
  *
- * @mixin IdeHelperSchedulePreset
  * @property int $id
  * @property string $name
  * @property string $presets
@@ -1336,14 +1299,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|SchedulePreset wherePresets($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SchedulePreset whereUpdatedAt($value)
  */
-	class SchedulePreset extends \Eloquent {}
+	class IdeHelperSchedulePreset {}
 }
 
 namespace App\Models{
 /**
  * App\Models\ScheduledPayment
  *
- * @mixin IdeHelperScheduledPayment
  * @property int $id
  * @property int $enrollment_id
  * @property int $value
@@ -1373,14 +1335,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|ScheduledPayment whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ScheduledPayment whereValue($value)
  */
-	class ScheduledPayment extends \Eloquent {}
+	class IdeHelperScheduledPayment {}
 }
 
 namespace App\Models{
 /**
  * App\Models\Scholarship
  *
- * @mixin IdeHelperScholarship
  * @property int $id
  * @property string $name
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -1400,14 +1361,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Query\Builder|Scholarship withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Scholarship withoutTrashed()
  */
-	class Scholarship extends \Eloquent {}
+	class IdeHelperScholarship {}
 }
 
 namespace App\Models\Skills{
 /**
  * App\Models\Skills\Skill
  *
- * @mixin IdeHelperSkill
  * @property int $id
  * @property string $name
  * @property int $default_weight
@@ -1437,23 +1397,21 @@ namespace App\Models\Skills{
  * @method static \Illuminate\Database\Eloquent\Builder|Skill whereSkillTypeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Skill whereUpdatedAt($value)
  */
-	class Skill extends \Eloquent {}
+	class IdeHelperSkill {}
 }
 
 namespace App\Models\Skills{
 /**
  * App\Models\Skills\SkillEvaluation
  *
- * @mixin IdeHelperSkillEvaluation
  * @property int|null $enrollment_id
  * @property int $skill_scale_id
  * @property int $skill_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string|null $deleted_at
- * @property int $id
  * @property-read \App\Models\Enrollment|null $enrollment
- * @property-read \App\Models\Skills\Skill|null $skill
+ * @property-read \App\Models\Skills\Skill $skill
  * @property-read \App\Models\Skills\SkillScale|null $skill_scale
  * @method static \Illuminate\Database\Eloquent\Builder|SkillEvaluation newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|SkillEvaluation newQuery()
@@ -1461,19 +1419,17 @@ namespace App\Models\Skills{
  * @method static \Illuminate\Database\Eloquent\Builder|SkillEvaluation whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SkillEvaluation whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SkillEvaluation whereEnrollmentId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SkillEvaluation whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SkillEvaluation whereSkillId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SkillEvaluation whereSkillScaleId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SkillEvaluation whereUpdatedAt($value)
  */
-	class SkillEvaluation extends \Eloquent {}
+	class IdeHelperSkillEvaluation {}
 }
 
 namespace App\Models\Skills{
 /**
  * App\Models\Skills\SkillScale
  *
- * @mixin IdeHelperSkillScale
  * @property int $id
  * @property array $shortname
  * @property array $name
@@ -1481,7 +1437,7 @@ namespace App\Models\Skills{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string|null $deleted_at
- * @property string $classes
+ * @property string|null $classes
  * @property-read mixed $scale_name
  * @property-read array $translations
  * @method static \Illuminate\Database\Eloquent\Builder|SkillScale newModelQuery()
@@ -1496,14 +1452,13 @@ namespace App\Models\Skills{
  * @method static \Illuminate\Database\Eloquent\Builder|SkillScale whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SkillScale whereValue($value)
  */
-	class SkillScale extends \Eloquent {}
+	class IdeHelperSkillScale {}
 }
 
 namespace App\Models\Skills{
 /**
  * App\Models\Skills\SkillType
  *
- * @mixin IdeHelperSkillType
  * @property int $id
  * @property string $shortname
  * @property string|null $name
@@ -1520,14 +1475,13 @@ namespace App\Models\Skills{
  * @method static \Illuminate\Database\Eloquent\Builder|SkillType whereShortname($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SkillType whereUpdatedAt($value)
  */
-	class SkillType extends \Eloquent {}
+	class IdeHelperSkillType {}
 }
 
 namespace App\Models{
 /**
  * App\Models\Student
  *
- * @mixin IdeHelperStudent
  * @property int $id
  * @property string|null $idnumber
  * @property string|null $address
@@ -1606,14 +1560,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereZipCode($value)
  */
-	class Student extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
+	class IdeHelperStudent {}
 }
 
 namespace App\Models{
 /**
  * App\Models\Tax
  *
- * @mixin IdeHelperTax
  * @property int $id
  * @property string $name
  * @property string $value
@@ -1630,14 +1583,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Tax whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tax whereValue($value)
  */
-	class Tax extends \Eloquent {}
+	class IdeHelperTax {}
 }
 
 namespace App\Models{
 /**
  * App\Models\Teacher
  *
- * @mixin IdeHelperTeacher
  * @property int $id
  * @property string|null $hired_at
  * @property string|null $max_week_hours
@@ -1673,16 +1625,15 @@ namespace App\Models{
  * @method static \Illuminate\Database\Query\Builder|Teacher withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Teacher withoutTrashed()
  */
-	class Teacher extends \Eloquent {}
+	class IdeHelperTeacher {}
 }
 
 namespace App\Models{
 /**
  * App\Models\User
  *
- * @mixin IdeHelperUser
  * @property int $id
- * @property string $username
+ * @property string|null $username
  * @property string $firstname
  * @property string $lastname
  * @property string|null $email
@@ -1732,14 +1683,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Query\Builder|User withTrashed()
  * @method static \Illuminate\Database\Query\Builder|User withoutTrashed()
  */
-	class User extends \Eloquent {}
+	class IdeHelperUser {}
 }
 
 namespace App\Models{
 /**
  * App\Models\Year
  *
- * @mixin IdeHelperYear
  * @property int $id
  * @property string $name
  * @property-read mixed $partnerships
@@ -1751,6 +1701,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Year whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Year whereName($value)
  */
-	class Year extends \Eloquent {}
+	class IdeHelperYear {}
 }
 

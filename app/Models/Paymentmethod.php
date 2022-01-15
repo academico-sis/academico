@@ -14,6 +14,8 @@ class Paymentmethod extends Model
 
     protected $fillable = ['name', 'code'];
 
+    protected $table = 'paymentmethods';
+
     /*
     |--------------------------------------------------------------------------
     | FUNCTIONS
@@ -25,6 +27,7 @@ class Paymentmethod extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
+
 
     /*
     |--------------------------------------------------------------------------

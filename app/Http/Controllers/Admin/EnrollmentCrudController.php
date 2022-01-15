@@ -342,8 +342,10 @@ class EnrollmentCrudController extends CrudController
                         'type' => 'radio',
                         'label' => __('Status'),
                         'wrapper' => ['class' => 'form-group col-md-4'],
-                        'options' => [1 => __('Pending'),
-                            2 => __('Paid'), ],
+                        'options' => [
+                            1 => __('Pending'),
+                            2 => __('Paid'),
+                        ],
                         'inline' => true,
                     ],
                 ],
