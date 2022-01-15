@@ -16,7 +16,7 @@ class ResultType extends Model
 
     protected $guarded = ['id'];
 
-    public $translatable = ['name', 'description'];
+    public array $translatable = ['name', 'description'];
 
     protected $appends = ['translated_name', 'translated_description'];
 

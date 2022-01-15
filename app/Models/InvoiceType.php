@@ -12,7 +12,7 @@ class InvoiceType extends Model
 {
     use HasTranslations;
 
-    public $translatable = ['description'];
+    public array $translatable = ['description'];
 
     protected $appends = ['translated_name'];
 

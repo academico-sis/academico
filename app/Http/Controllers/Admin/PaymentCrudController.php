@@ -9,7 +9,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Support\Carbon;
-use Redirect;
+use Illuminate\Support\Facades\Redirect;
 
 /**
  * Class PaymentCrudController

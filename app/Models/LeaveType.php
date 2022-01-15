@@ -18,5 +18,5 @@ class LeaveType extends Model
 
     public $timestamps = false;
 
-    public $translatable = ['name'];
+    public array $translatable = ['name'];
 }

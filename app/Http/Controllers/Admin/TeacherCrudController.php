@@ -167,7 +167,7 @@ class TeacherCrudController extends CrudController
             'password' => Hash::make(Str::random(12)),
         ]);
 
-        $teacher = Teacher::create([
+        Teacher::create([
             'id' => $user->id,
             'hired_at' => $request->hired_at,
             'max_week_hours' => $request->max_week_hours,
@@ -185,8 +185,8 @@ class TeacherCrudController extends CrudController
         $part2 = (! empty($username_parts[1])) ? substr($username_parts[1], 0, 8) : '';
         $part3 = random_int(999, 9999);
 
-        $username = $part1.$part2.$part3; //str_shuffle to randomly shuffle all characters
+        //str_shuffle to randomly shuffle all characters
 
-        return $username;
+        return $part1.$part2.$part3;
     }
 }

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\EnrollmentStatusType;
-use App\Models\Invoice;
 use App\Models\Paymentmethod;
 use App\Models\Period;
 use App\Models\PhoneNumber;
@@ -368,9 +367,7 @@ class EnrollmentCrudController extends CrudController
             $newScheduledPayments = collect(json_decode($this->crud->getRequest()->input('scheduledPayments'), null, 512, JSON_THROW_ON_ERROR));
             $enrollment->saveScheduledPayments($newScheduledPayments);
         }
-        $response = $this->traitUpdate();
-
-        return $response;
+        return $this->traitUpdate();
     }
 
     public function destroy($enrollment)

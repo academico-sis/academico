@@ -141,7 +141,7 @@ class EventCrudController extends CrudController
                 'label' => __('Events with no course'),
             ],
             false,
-            function ($value) { // if the filter is active, apply these constraints
+            function () { // if the filter is active, apply these constraints
                 $this->crud->query->where('course_id', null);
             },
             function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
@@ -155,7 +155,7 @@ class EventCrudController extends CrudController
                 'label' => __('Events with no teacher'),
             ],
             false,
-            function ($value) { // if the filter is active, apply these constraints
+            function () { // if the filter is active, apply these constraints
                 CRUD::addClause('unassigned');
             }
         );

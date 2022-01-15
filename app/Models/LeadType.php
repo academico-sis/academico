@@ -16,7 +16,7 @@ class LeadType extends Model
 
     protected $fillable = ['name', 'description'];
 
-    public $translatable = ['name', 'description'];
+    public array $translatable = ['name', 'description'];
 
     protected $appends = ['translated_name'];
 

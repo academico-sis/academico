@@ -17,8 +17,8 @@ use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use Backpack\CRUD\CrudPanel;
 
 /**
  * Class ExternalCourseCrudController.
@@ -48,7 +48,6 @@ class ExternalCourseCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix').'/externalcourse');
         CRUD::setEntityNameStrings(__('External Course'), __('External Courses'));
         CRUD::addClause('external');
-        $permissions = backpack_user()->getAllPermissions();
 
         CRUD::enableExportButtons();
     }
@@ -631,9 +630,7 @@ class ExternalCourseCrudController extends CrudController
         $course->saveCourseTimes($newCourseTimes);
 
         // update model
-        $response = $this->traitUpdate();
-
-        return $response;
+        return $this->traitUpdate();
     }
 
     public function store()

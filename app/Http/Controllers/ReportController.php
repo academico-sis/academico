@@ -10,7 +10,6 @@ use App\Models\Year;
 use App\Traits\PeriodSelection;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class ReportController extends Controller
 {

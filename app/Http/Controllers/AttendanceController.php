@@ -173,10 +173,10 @@ class AttendanceController extends Controller
 
     public function showStudentAttendanceForCourse(Student $student, Request $request)
     {
-        if ($request->query('course_id', null) == null) {
+        if ($request->query('course_id') == null) {
             $selectedCourse = $student->enrollments->last()->course;
         } else {
-            $selectedCourse = Course::find($request->query('course_id', null));
+            $selectedCourse = Course::find($request->query('course_id'));
         }
 
         // If the current is not allowed to view the page

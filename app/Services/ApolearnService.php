@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Log;
 
 class ApolearnService implements LMSInterface
 {
-    public $apiKey;
+    public string $apiKey;
 
     private string $token;
 

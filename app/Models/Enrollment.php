@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Events\EnrollmentCreated;
-use App\Events\EnrollmentDeleted;
 use App\Events\EnrollmentDeleting;
 use App\Events\EnrollmentUpdated;
 use App\Events\EnrollmentUpdating;
@@ -315,8 +314,6 @@ class Enrollment extends Model
         $attendances = $this->student->attendance()->with('event')->get()->whereIn('event_id', $courseEventIds);
         if ($attendances->count() > 0) {
             return round(100 * (($attendances->where('attendance_type_id', 1)->count() + $attendances->where('attendance_type_id', 2)->count() * 0.75) / $attendances->count()));
-        } else {
-            return;
         }
     }
 

@@ -16,7 +16,7 @@ class SkillScale extends Model
 
     protected $guarded = ['id'];
 
-    public $translatable = ['shortname', 'name'];
+    public array $translatable = ['shortname', 'name'];
 
     protected $appends = ['scale_name'];
 
