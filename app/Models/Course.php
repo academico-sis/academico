@@ -41,7 +41,7 @@ class Course extends Model
     // protected $hidden = [];
     protected $dates = ['start_date', 'end_date'];
 
-    protected $with = ['evaluationType'];
+    protected $with = ['times', 'evaluationType'];
 
     protected $appends = [
         'course_times',

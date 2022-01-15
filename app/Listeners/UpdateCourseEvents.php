@@ -14,14 +14,16 @@ class UpdateCourseEvents
         $course = $event->course;
 
         // if course dates have changed, sync all events
-        if (($course->events->count() > 0) && ($course->isDirty('start_date') || $course->isDirty('end_date'))) {
+        if ($course->isDirty('start_date') || $course->isDirty('end_date') ||  $course->relationLoaded('times') && $course->times->isDirty()) {
             Log::info('cleaning the events after course date change');
 
-            // create events before first existing event and after course start
-            $firstEvent = $course->events()->reorder('start')->first();
-            $firstEventDate = Carbon::parse($firstEvent->start)->startOfDay();
-            $lastEvent = $course->events()->reorder('start', 'desc')->first();
-            $lastEventDate = Carbon::parse($lastEvent->start)->endOfDay();
+            if ($course->events->count() > 0) {
+                // create events before first existing event and after course start
+                $firstEvent = $course->events()->reorder('start')->first();
+                $firstEventDate = Carbon::parse($firstEvent->start)->startOfDay();
+                $lastEvent = $course->events()->reorder('start', 'desc')->first();
+                $lastEventDate = Carbon::parse($lastEvent->start)->endOfDay();
+            }
 
             $courseStartDate = Carbon::parse($course->start_date)->startOfDay();
             $courseEndDate = Carbon::parse($course->end_date)->startOfDay();
@@ -34,7 +36,7 @@ class UpdateCourseEvents
             // for each day before the first event
             while ($courseStartDate < $courseEndDate) {
                 // Event already exists
-                if (($firstEventDate <= $courseStartDate) && ($courseStartDate <= $lastEventDate)) {
+                if (isset($firstEventDate) && isset($lastEventDate) && ($firstEventDate <= $courseStartDate) && ($courseStartDate <= $lastEventDate)) {
                     $courseStartDate->addDay();
                     continue;
                 }

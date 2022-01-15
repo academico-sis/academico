@@ -4,6 +4,9 @@
 /storage
 /vendor
 /report
+.env.afcuenca
+.env.afloja
+.env.afsantiago
 .env
 .phpunit.result.cache
 Homestead.json
