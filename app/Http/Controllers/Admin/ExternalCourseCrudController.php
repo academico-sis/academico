@@ -93,13 +93,11 @@ class ExternalCourseCrudController extends CrudController
 
             [
                 'name' => 'name',
-                // The db column name
                 'label' => __('Name'),
             ],
 
             [
                 'name' => 'volume',
-                // The db column name
                 'label' => __('Volume'),
                 'suffix' => 'h',
                 'type' => 'number',
@@ -107,7 +105,6 @@ class ExternalCourseCrudController extends CrudController
 
             [
                 'name' => 'hourly_price',
-                // The db column name
                 'label' => __('Hourly Price'),
                 'prefix' => '$',
                 'type' => 'number',
@@ -140,9 +137,7 @@ class ExternalCourseCrudController extends CrudController
                 'label' => __('Schedule'),
                 'type' => 'model_function',
                 'function_name' => 'getCourseTimesAttribute',
-                // the method in your Model
                 'limit' => 150,
-                // Limit the number of characters shown
             ],
 
             // HEAD COUNT
@@ -159,14 +154,12 @@ class ExternalCourseCrudController extends CrudController
 
             [
                 'name' => 'start_date',
-                // The db column name
                 'label' => __('Start Date'),
                 'type' => 'date',
             ],
 
             [
                 'name' => 'end_date',
-                // The db column name
                 'label' => __('End Date'),
                 'type' => 'date',
             ],
@@ -273,14 +266,12 @@ class ExternalCourseCrudController extends CrudController
 
             [
                 'name' => 'name',
-                // The db column name
                 'label' => __('Name'),
                 'tab' => __('Course info'),
             ],
 
             [
                 'name' => 'volume',
-                // The db column name
                 'label' => __('Volume'),
                 'suffix' => 'h',
                 'tab' => __('Course info'),
@@ -288,7 +279,6 @@ class ExternalCourseCrudController extends CrudController
 
             [
                 'name' => 'hourly_price',
-                // The db column name
                 'label' => __('Hourly Price'),
                 'prefix' => '$',
                 'tab' => __('Course info'),
@@ -327,7 +317,6 @@ class ExternalCourseCrudController extends CrudController
 
             [
                 'name' => 'price',
-                // The db column name
                 'type' => 'hidden',
                 'value' => 0,
                 'tab' => __('Course info'),
@@ -347,7 +336,6 @@ class ExternalCourseCrudController extends CrudController
 
             [
                 'name' => 'start_date',
-                // The db column name
                 'label' => __('Start Date'),
                 'type' => 'date',
                 'tab' => __('Schedule'),
@@ -356,7 +344,6 @@ class ExternalCourseCrudController extends CrudController
 
             [
                 'name' => 'end_date',
-                // The db column name
                 'label' => __('End Date'),
                 'type' => 'date',
                 'tab' => __('Schedule'),
@@ -365,7 +352,6 @@ class ExternalCourseCrudController extends CrudController
 
             [
                 'name' => 'head_count',
-                // The db column name
                 'label' => __('Head Count'),
                 'type' => 'number',
                 'tab' => __('Course info'),
@@ -373,7 +359,6 @@ class ExternalCourseCrudController extends CrudController
 
             [
                 'name' => 'new_students',
-                // The db column name
                 'label' => __('Students to count in year total'),
                 'type' => 'number',
                 'tab' => __('Course info'),
@@ -474,14 +459,12 @@ class ExternalCourseCrudController extends CrudController
 
             [
                 'name' => 'name',
-                // The db column name
                 'label' => __('Name'),
                 'tab' => __('Course info'),
             ],
 
             [
                 'name' => 'volume',
-                // The db column name
                 'label' => __('Volume'),
                 'suffix' => 'h',
                 'tab' => __('Course info'),
@@ -489,7 +472,6 @@ class ExternalCourseCrudController extends CrudController
 
             [
                 'name' => 'hourly_price',
-                // The db column name
                 'label' => __('Hourly Price'),
                 'prefix' => '$',
                 'tab' => __('Course info'),
@@ -528,7 +510,6 @@ class ExternalCourseCrudController extends CrudController
 
             [
                 'name' => 'price',
-                // The db column name
                 'type' => 'hidden',
                 'value' => 0,
                 'tab' => __('Course info'),
@@ -548,7 +529,6 @@ class ExternalCourseCrudController extends CrudController
 
             [
                 'name' => 'start_date',
-                // The db column name
                 'label' => __('Start Date'),
                 'type' => 'date',
                 'tab' => __('Schedule'),
@@ -557,7 +537,6 @@ class ExternalCourseCrudController extends CrudController
 
             [
                 'name' => 'end_date',
-                // The db column name
                 'label' => __('End Date'),
                 'type' => 'date',
                 'tab' => __('Schedule'),
@@ -566,7 +545,6 @@ class ExternalCourseCrudController extends CrudController
 
             [
                 'name' => 'head_count',
-                // The db column name
                 'label' => __('Head Count'),
                 'type' => 'number',
                 'tab' => __('Course info'),
@@ -574,7 +552,6 @@ class ExternalCourseCrudController extends CrudController
 
             [
                 'name' => 'new_students',
-                // The db column name
                 'label' => __('Students to count in year total'),
                 'type' => 'number',
                 'tab' => __('Course info'),

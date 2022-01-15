@@ -62,7 +62,6 @@ class LeaveCrudController extends CrudController
 
             [
                 'name' => 'date',
-                // The db column name
                 'label' => 'Date',
                 'type' => 'date',
             ],

@@ -52,7 +52,6 @@ class EventCrudController extends CrudController
 
             [
                 'name' => 'name',
-                // The db column name
                 'label' => 'Name',
                 'type' => 'text',
             ],
@@ -72,7 +71,6 @@ class EventCrudController extends CrudController
                 'label' => __('Volume'),
                 'type' => 'model_function',
                 'function_name' => 'getVolumeAttribute',
-                // the method in your Model
                 'suffix' => 'h',
             ],
 
@@ -99,7 +97,6 @@ class EventCrudController extends CrudController
 
             [
                 'name' => 'start',
-                // The db column name
                 'label' => __('Start Date'),
                 'type' => 'datetime',
                 // 'format' => 'l j F Y', // use something else than the base.defauormat config value
@@ -107,7 +104,6 @@ class EventCrudController extends CrudController
 
             [
                 'name' => 'end',
-                // The db column name
                 'label' => __('End Date'),
                 'type' => 'datetime',
                 // 'format' => 'l j F Y', // use something else than the base.default_date_format config value
@@ -198,7 +194,6 @@ class EventCrudController extends CrudController
 
             [
                 'name' => 'name',
-                // The db column name
                 'label' => 'Name',
                 'type' => 'text',
             ],
@@ -226,14 +221,12 @@ class EventCrudController extends CrudController
 
             [
                 'name' => 'start',
-                // The db column name
                 'label' => 'Start Date',
                 'type' => 'datetime_picker',
             ],
 
             [
                 'name' => 'end',
-                // The db column name
                 'label' => 'End Date',
                 'type' => 'datetime_picker',
             ],

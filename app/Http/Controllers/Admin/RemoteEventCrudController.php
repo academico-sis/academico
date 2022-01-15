@@ -48,7 +48,6 @@ class RemoteEventCrudController extends CrudController
 
             [
                 'name' => 'worked_hours',
-                // The db column name
                 'label' => 'Worked Hours',
                 'type' => 'number',
                 'suffix' => ' h',
@@ -57,7 +56,6 @@ class RemoteEventCrudController extends CrudController
 
             [
                 'name' => 'name',
-                // The db column name
                 'label' => 'Project',
             ],
 
@@ -91,7 +89,6 @@ class RemoteEventCrudController extends CrudController
 
             [
                 'name' => 'worked_hours',
-                // The db column name
                 'label' => 'Worked Hours',
                 'type' => 'number',
                 'suffix' => ' h',
@@ -100,7 +97,6 @@ class RemoteEventCrudController extends CrudController
 
             [
                 'name' => 'name',
-                // The db column name
                 'label' => 'Project',
             ],
 
