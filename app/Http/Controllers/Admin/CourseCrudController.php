@@ -447,7 +447,6 @@ class CourseCrudController extends CrudController
                 ],
                 'tab' => __('Course sublevels'),
                 'init_rows' => 0,
-                // number of empty rows to be initialized, by default 1
 
             ],
         ]);
@@ -618,7 +617,6 @@ class CourseCrudController extends CrudController
                 ],
                 'tab' => __('Schedule'),
                 'init_rows' => 0,
-                // number of empty rows to be initialized, by default 1
             ],
 
             [   // view
@@ -895,7 +893,6 @@ class CourseCrudController extends CrudController
                 ],
                 'tab' => __('Schedule'),
                 'init_rows' => 0,
-                // number of empty rows to be initialized, by default 1
             ]);
 
             if ($this->crud->getCurrentEntry()->children->count() == 0) {
@@ -921,7 +918,6 @@ class CourseCrudController extends CrudController
                     ],
                     'tab' => __('Schedule'),
                     'init_rows' => 0,
-                    // number of empty rows to be initialized, by default 1
                 ]);
             }
         }

@@ -35,6 +35,10 @@ class Payment extends Model
         return $this->belongsTo(Invoice::class);
     }
 
+    public function paymentmethod() {
+        return $this->belongsTo(Paymentmethod::class, 'payment_method', 'code')->withDefault();
+    }
+
     /*
     |--------------------------------------------------------------------------
     | SCOPES
