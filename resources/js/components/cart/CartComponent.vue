@@ -74,6 +74,7 @@
                     :studentpricecategory="studentpricecategory"
                     :currency="currency"
                     :currencyposition="currencyposition"
+                    :enrollment="enrollment"
                 >
                 </cart-price-categories-component>
             </div>
@@ -158,7 +159,7 @@
 
             <div class="col-md-12">
                 <div class="card card-solid card-primary">
-                    <div class="card-body text-center">
+                    <div class="card-body text-center col-md-8">
 
                         <div class="form-group">
                             <h4>
@@ -169,25 +170,40 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="comment" class="form-label">{{ $t("Comment") }}</label>
+
+                          <div v-if="this.manualInvoiceNumbering">
+
+                            <div class="form-group row">
+
+                              <div class="input-group">
+                                <label for="invoicedate" class="col-sm-2 col-form-label">{{ $t("Date") }}</label>
+                                <input id="invoicedate" type="date" class="form-control col-sm-10" v-model="invoiceDate"></input>
+                              </div>
+                            </div>
+
+                            <div class="form-group row">
+                              <div class="input-group">
+                                <label for="receiptnumber" class="col-sm-2 col-form-label">{{ $t("Receipt Number") }}</label>
+                                <input
+                                    class="form-control col-sm-10"
+                                    id="receiptnumber"
+                                    v-model="receiptnumber"
+                                    name="receiptnumber"
+                                ></input>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="form-group row">
+                          <label for="comment" class="col-sm-2 col-form-label">{{ $t("Comment") }}</label>
                             <textarea
-                                class="form-control"
+                                class="form-control col-sm-10"
                                 id="comment"
                                 v-model="comment"
                                 name="comment"
                                 rows="2"
                             ></textarea>
-                        </div>
-
-
-                        <div v-if="this.manualInvoiceNumbering" class="form-group">
-                            <label for="receiptnumber" class="form-label">{{ $t("Receipt Number") }}</label>
-                            <input
-                                class="form-control"
-                                id="receiptnumber"
-                                v-model="receiptnumber"
-                                name="receiptnumber"
-                            ></input>
+                          </div>
                         </div>
 
                         <div class="form-group">
@@ -279,6 +295,7 @@ export default {
             clientaddress: "",
             clientemail: "",
             clientidnumber: "",
+            invoiceDate: new Date().toISOString().substr(0, 10),
             payments: [],
             products: this.productslist,
             comment: "",
@@ -472,6 +489,7 @@ export default {
                     enrollment_id: this.enrollment? this.enrollment.id : null,
                     products: this.products,
                     payments: this.payments,
+                    date: this.invoiceDate,
                     client_name: this.clientname,
                     client_idnumber: this.clientidnumber,
                     client_address: this.clientaddress,

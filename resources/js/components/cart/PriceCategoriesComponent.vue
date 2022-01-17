@@ -36,6 +36,7 @@ export default {
         "studentpricecategory",
         "currency",
         "currencyposition",
+        "enrollment",
     ],
 
     data() {
@@ -51,7 +52,11 @@ export default {
         },
     },
     mounted() {
+      if (this.enrollment.balance) {
+        EventBus.$emit('setEnrollmentPrice', this.enrollment.balance);
+      } else {
         this.changepricecategory(this.selectedpricecategory, this.pricecategories[this.selectedpricecategory])
+      }
     }
 }
 </script>

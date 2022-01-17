@@ -9,6 +9,7 @@
                 <tr>
                     <th>{{ $t("Payment method") }}</th>
                     <th>{{ $t("Amount received") }}</th>
+                    <th>{{ $t("Date") }}</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -31,6 +32,10 @@
                                 <span class="input-group-text">{{ currency }}</span>
                             </div>
                         </div>
+                    </td>
+
+                    <td>
+                      <input type="date" class="form-control" v-model="payment.date"></input>
                     </td>
 
                     <td>

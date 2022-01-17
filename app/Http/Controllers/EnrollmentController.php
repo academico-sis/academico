@@ -137,6 +137,10 @@ class EnrollmentController extends Controller
             array_push($products, $fee);
         }
 
+        if (config('invoicing.invoices_contain_enrollments_only')) {
+            $enrollment->append('balance');
+        }
+
         array_push($products, $enrollment);
 
         if ($enrollment->course->books->count() > 0 && config('invoicing.add_books_to_invoices')) {
