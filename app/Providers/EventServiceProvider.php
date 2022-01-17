@@ -11,6 +11,8 @@ use App\Events\ExpiringPartnershipsEvent;
 use App\Events\ExternalCoursesReportEvent;
 use App\Events\InvoiceDeleting;
 use App\Events\LeadStatusUpdatedEvent;
+use App\Events\LeaveCreated;
+use App\Events\LeaveUpdated;
 use App\Events\MonthlyReportEvent;
 use App\Events\StudentDeleting;
 use App\Events\UserDeleting;
@@ -28,6 +30,7 @@ use App\Listeners\SendMonthlyReport;
 use App\Listeners\SyncUserWithMailingSystem;
 use App\Listeners\UpdateChildrenEnrollments;
 use App\Listeners\UpdateCourseEvents;
+use App\Listeners\UpdateTeacherEvents;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -95,6 +98,13 @@ class EventServiceProvider extends ServiceProvider
         InvoiceDeleting::class => [
             MarkProductsAsUnpaid::class,
             DeleteInvoiceDetails::class,
+        ],
+
+        LeaveCreated::class => [
+            UpdateTeacherEvents::class,
+        ],
+        LeaveUpdated::class => [
+            UpdateTeacherEvents::class,
         ],
     ];
 
