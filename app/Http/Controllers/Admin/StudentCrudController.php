@@ -62,7 +62,11 @@ class StudentCrudController extends CrudController
 
         // display lead status counts on page top
         foreach (LeadType::all() as $leadType) {
-            $count = Student::computedLeadType($leadType->id)->count();
+            if ($leadType->id === 4) {
+                $count = Student::where('lead_type_id', $leadType->id)->orWhereNull('lead_type_id')->count();
+            } else {
+                $count = Student::where('lead_type_id', $leadType->id)->count();
+            }
             if ($count > 0) {
                 Widget::add([
                     'type' => 'view',
@@ -226,7 +230,7 @@ class StudentCrudController extends CrudController
         });
 
         $this->crud->addFilter([
-            'name' => 'status_type_id',
+            'name' => 'lead_type_id',
             'type' => 'select2',
             'label' => __('Lead Status'),
         ], fn () => LeadType::all()->pluck('name', 'id')->toArray(), function ($value) {
@@ -246,6 +250,19 @@ class StudentCrudController extends CrudController
         CRUD::field('email')->label(__('Email'))->tab(__('Student Info'));
         CRUD::field('idnumber')->label(__('ID number'))->tab(__('Student Info'));
         CRUD::field('birthdate')->label(__('Birthdate'))->tab(__('Student Info'));
+
+        $this->crud->addField([
+            'name' => 'gender_id',
+            'label' => __('Gender'),
+            'type' => 'radio',
+            'options' => [
+                0 => __('Other / Rather not say'),
+                1 => __('Female'),
+                2 => __('Male'),
+            ],
+            'inline' => true,
+            'tab' => __('Student Info'),
+        ]);
 
         CRUD::addField([
             'type' => 'text',
@@ -293,7 +310,6 @@ class StudentCrudController extends CrudController
 
         $this->crud->addField([
             'name' => 'gender_id',
-            // the name of the db column
             'label' => __('Gender'),
             'type' => 'radio',
             'options' => [

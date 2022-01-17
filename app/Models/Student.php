@@ -52,36 +52,6 @@ class Student extends Model implements HasMedia
         });
     }
 
-    public function scopeComputedLeadType($query, $leadTypeId)
-    {
-        return match ($leadTypeId) {
-            1 => $query->whereHas('enrollments', fn ($query) => $query->whereHas('course', function ($q) {
-                $q->where('period_id', Period::get_default_period()->id);
-            })),
-
-            2, 3 => $query->where('lead_type_id', $leadTypeId),
-
-            4 => $query
-                ->where('lead_type_id', $leadTypeId)
-                ->orWhere(
-                    function ($query) {
-                        $query
-                        ->whereNull('lead_type_id')
-                        ->whereHas('enrollments', fn ($query) => $query
-                            ->whereHas('course', function ($q) {
-                                $q->where('period_id', '!=', Period::get_default_period()->id);
-                            }))
-                        ->whereDoesntHave('enrollments', fn ($query) => $query
-                            ->whereHas('course', function ($q) {
-                                $q->where('period_id', Period::get_default_period()->id);
-                            }));
-                    }
-            ),
-
-            default => $query,
-        };
-    }
-
     public function scopeNewInPeriod(Builder $query, int $periodId)
     {
         return $query->whereIn('id', Period::find($periodId)->newStudents()->pluck(['student_id'])->toArray());
@@ -217,7 +187,7 @@ class Student extends Model implements HasMedia
         return LeadType::find($this->lead_type_id)->name ?? null;
     }
 
-    public function lead_status()
+    public function computedLeadStatus()
     {
         // if the student is currently enrolled, they are CONVERTED
         if ($this->is_enrolled) {
