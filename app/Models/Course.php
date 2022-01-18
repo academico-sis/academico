@@ -32,13 +32,10 @@ class Course extends Model
     | GLOBAL VARIABLES
     |--------------------------------------------------------------------------
     */
-    // protected $primaryKey = 'id';
     public $timestamps = true;
 
     protected $guarded = ['id'];
 
-    //protected $fillable = [];
-    // protected $hidden = [];
     protected $dates = ['start_date', 'end_date'];
 
     protected $with = ['times', 'evaluationType'];

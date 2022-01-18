@@ -62,7 +62,7 @@ class AuthServiceProvider extends ServiceProvider
          * teachers are allowed to view their own courses,
          * and users with explicit permission can view all courses
          */
-        Gate::define('view-course', fn ($user, Course $course) => ($user->isTeacher() && $user->id == $course->teacher_id) || $user->can('courses.view'));
+        Gate::define('view-course', fn ($user, Course $course) => ($user->isTeacher() && $user->id === $course->teacher_id) || $user->can('courses.view'));
 
         /*
          * the user is allowed to view the result if they are the student,

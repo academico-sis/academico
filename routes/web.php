@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CourseController;
+
 Route::permanentRedirect('/auth/login', '/');
 Route::permanentRedirect('/dashboard', '/');
 
@@ -32,6 +34,8 @@ Route::group(
         Route::post('attendance', 'AttendanceController@store')->name('storeAttendance');
         Route::post('attendance/event/{event}/toggle', 'AttendanceController@toggleEventAttendanceStatus')->name('toggleEventAttendance');
         Route::post('attendance/course/{course}/toggle', 'AttendanceController@toggleCourseAttendanceStatus')->name('toggleCourseAttendance');
+
+        Route::get('course/{course}/show', [CourseController::class, 'show']);
     }
 );
 

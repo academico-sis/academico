@@ -16,8 +16,12 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <button class="btn btn-primary" data-toggle="modal" data-target="#myModal">@lang('Enroll new student')</button>
-                 <a href="/enrollment?course_id={{ $course->id }}" class="btn btn-primary mr-3">@lang('Students List')</a>
+                @if (backpack_user()->hasRole('admin'))
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#myModal">@lang('Enroll new student')</button>
+                     <a href="/enrollment?course_id={{ $course->id }}" class="btn btn-primary mr-3">@lang('Students List')</a>
+                @else
+                    <a href="/course/{{ $course->id }}/show" class="btn btn-primary mr-3">@lang('Students List')</a>
+                @endif
             </div>
         </div>
     </div>

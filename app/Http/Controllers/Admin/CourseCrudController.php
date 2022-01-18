@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Admin\Operations\ShowStudentPhotoRosterOperation;
+use App\Http\Controllers\Admin\Operations\ShowStudentListOperation;
 use App\Http\Requests\CourseRequest;
 use App\Models\Book;
 use App\Models\Course;
@@ -32,11 +33,12 @@ class CourseCrudController extends CrudController
     use UpdateOperation { update as traitUpdate; }
     use DeleteOperation;
     use ShowStudentPhotoRosterOperation;
+    use ShowStudentListOperation;
 
     public function __construct()
     {
         parent::__construct();
-        $this->middleware('permission:courses.view', ['except' => 'show']);
+        $this->middleware('permission:courses.view', ['except' => ['showstudentlist', 'showstudentphotoroster']]);
         $this->middleware('permission:courses.edit', ['only' => ['update', 'create', 'store', 'destroy']]);
     }
 
