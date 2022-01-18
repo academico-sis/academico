@@ -15,7 +15,10 @@ use App\Events\LeaveCreated;
 use App\Events\LeaveUpdated;
 use App\Events\MonthlyReportEvent;
 use App\Events\StudentDeleting;
+use App\Events\StudentUpdated;
+use App\Events\TeacherUpdated;
 use App\Events\UserDeleting;
+use App\Events\UserUpdated;
 use App\Listeners\AddPastAttendance;
 use App\Listeners\CleanChildrenEnrollments;
 use App\Listeners\ComputeStudentLeadStatus;
@@ -31,6 +34,7 @@ use App\Listeners\SyncUserWithMailingSystem;
 use App\Listeners\UpdateChildrenEnrollments;
 use App\Listeners\UpdateCourseEvents;
 use App\Listeners\UpdateTeacherEvents;
+use App\Listeners\UpdateUsername;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -62,6 +66,14 @@ class EventServiceProvider extends ServiceProvider
 
         StudentDeleting::class => [
             DeleteStudentData::class,
+        ],
+
+        StudentUpdated::class => [
+            UpdateUsername::class,
+        ],
+
+        UserUpdated::class => [
+            UpdateUsername::class,
         ],
 
         UserDeleting::class => [
@@ -103,9 +115,14 @@ class EventServiceProvider extends ServiceProvider
         LeaveCreated::class => [
             UpdateTeacherEvents::class,
         ],
+
         LeaveUpdated::class => [
             UpdateTeacherEvents::class,
         ],
+
+        TeacherUpdated::class => [
+            UpdateUsername::class,
+        ]
     ];
 
     /**

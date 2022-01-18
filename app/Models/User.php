@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Events\UserDeleting;
+use App\Events\UserUpdated;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -30,6 +31,7 @@ class User extends Authenticatable
 
     protected $dispatchesEvents = [
         'deleting' => UserDeleting::class,
+        'updated' => UserUpdated::class,
     ];
 
     public function getEmailForPasswordReset(): string
