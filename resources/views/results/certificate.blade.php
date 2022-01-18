@@ -28,7 +28,7 @@
         }
 
         @page {
-            background:url('watermark.png') no-repeat 0 0;
+            background:url('/watermark.png') no-repeat 0 0;
             background-image-resize: 3;
         }
 
