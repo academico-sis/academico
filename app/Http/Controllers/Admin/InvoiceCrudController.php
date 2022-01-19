@@ -249,6 +249,9 @@ class InvoiceCrudController extends CrudController
 
     public function update()
     {
+        // update model an run validator
+        $response = $this->traitUpdate();
+
         /** @var Invoice $invoice */
         $invoice = $this->crud->getCurrentEntry();
         $newInvoiceDetails = collect(json_decode($this->crud->getRequest()->input('invoiceDetails'), null, 512, JSON_THROW_ON_ERROR));
@@ -256,9 +259,6 @@ class InvoiceCrudController extends CrudController
 
         $this->saveInvoiceDetails($invoice, $newInvoiceDetails);
         $this->savePayments($invoice, $newPaymentsList);
-
-        // update model
-        $response = $this->traitUpdate();
 
         return $response;
     }
