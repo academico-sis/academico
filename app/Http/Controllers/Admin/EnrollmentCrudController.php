@@ -187,6 +187,14 @@ class EnrollmentCrudController extends CrudController
                     return 'badge badge-pill badge-'.$entry->enrollmentStatus->styling();
                 }, ], ]]);
 
+        if (config('app.books_module') && $this->mode === 'course') {
+            CRUD::addColumn(['name' => 'hasBook',
+                'type' => 'model_function',
+                'function_name' => 'getHasBookForCourseAttribute',
+                'label' => __('Book'),
+            ]);
+        }
+
         if (config('invoicing.allow_scheduled_payments')) {
             CRUD::addColumn(['name' => 'scheduledPayments',
                 'type' => 'relationship',
