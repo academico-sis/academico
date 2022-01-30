@@ -723,6 +723,13 @@ class CourseCrudController extends CrudController
                 'type' => 'checkbox',
                 'tab' => __('Course info'),
             ],
+
+            [
+                'name' => 'color',
+                'label' => __('Color'),
+                'tab' => __('Course info'),
+                'type' => 'color_picker',
+            ],
         ]);
 
         // unless the course has children, show the resources tab
