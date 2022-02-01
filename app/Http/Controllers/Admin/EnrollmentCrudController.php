@@ -72,9 +72,7 @@ class EnrollmentCrudController extends CrudController
             CRUD::denyAccess(['create', 'update', 'delete']);
         }
 
-        if (backpack_user()->hasRole('admin')) {
-            CRUD::enableExportButtons();
-        }
+        CRUD::enableExportButtons();
 
         if ($this->mode === 'course') {
             Widget::add(['type' => 'view',
