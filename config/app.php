@@ -81,7 +81,7 @@ return [
     */
 
     'timezone' => env('SERVER_TIMEZONE', 'UTC'),
-
+    'calendar_start' => env('DAY_START_IN_CALENDARS', '06:00:00'),
     /*
     |--------------------------------------------------------------------------
     | Application Locale Configuration

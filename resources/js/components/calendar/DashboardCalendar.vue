@@ -5,7 +5,7 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import resourceTimeGrid from '@fullcalendar/resource-timegrid'
 
 export default {
-  props: ['resources', 'events', 'locale'],
+  props: ['resources', 'events', 'locale', 'calendarStart'],
   components: {
     FullCalendar,
   },
@@ -25,7 +25,8 @@ export default {
             year: 'numeric',
             day: 'numeric',
             weekday: 'long'
-        }
+        },
+        slotMinTime: this.calendarStart,
       }
     }
   }
