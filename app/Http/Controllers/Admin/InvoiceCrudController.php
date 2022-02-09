@@ -157,7 +157,7 @@ class InvoiceCrudController extends CrudController
             'name' => 'invoiceDetails',
             'label' => __('Products'),
             'type' => 'repeatable',
-            'fields' => [
+            'subfields' => [
                 [
                     'name' => 'id',
                     'type' => 'hidden',
@@ -191,7 +191,7 @@ class InvoiceCrudController extends CrudController
             'name' => 'payments',
             'label' => __('Payments'),
             'type' => 'repeatable',
-            'fields' => [
+            'subfields' => [
                 [
                     'name' => 'id',
                     'type' => 'hidden',

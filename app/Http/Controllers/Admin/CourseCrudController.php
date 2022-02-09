@@ -369,11 +369,11 @@ class CourseCrudController extends CrudController
                 'tab' => __('Course info'),
             ],
 
-            [   // repeatable
+            [
                 'name' => 'sublevels',
                 'label' => __('Course sublevels'),
                 'type' => 'repeatable',
-                'fields' => [
+                'subfields' => [
                     [
                         'name' => 'name',
                         // The db column name
@@ -533,7 +533,7 @@ class CourseCrudController extends CrudController
                 'name' => 'times',
                 'label' => __('Course Schedule'),
                 'type' => 'repeatable',
-                'fields' => [
+                'subfields' => [
                     [
                         'name' => 'day',
                         'label' => __('Day'),
@@ -572,7 +572,7 @@ class CourseCrudController extends CrudController
                 'name' => 'remoteevents',
                 'label' => __('Remote events'),
                 'type' => 'repeatable',
-                'fields' => [
+                'subfields' => [
                     [
                         'name' => 'name',
                         'type' => 'text',
@@ -830,7 +830,7 @@ class CourseCrudController extends CrudController
                 'name' => 'times',
                 'label' => __('Course Schedule'),
                 'type' => 'repeatable',
-                'fields' => [
+                'subfields' => [
                     [
                         'name' => 'day',
                         'label' => __('Day'),
@@ -870,7 +870,7 @@ class CourseCrudController extends CrudController
                     'name' => 'remoteevents',
                     'label' => __('Remote events'),
                     'type' => 'repeatable',
-                    'fields' => [
+                    'subfields' => [
                         [
                             'name' => 'name',
                             'type' => 'text',

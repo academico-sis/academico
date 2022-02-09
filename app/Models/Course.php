@@ -27,6 +27,8 @@ class Course extends Model
         'created' => CourseCreated::class,
     ];
 
+    protected $casts = ['children' => 'array'];
+
     /*
     |--------------------------------------------------------------------------
     | GLOBAL VARIABLES

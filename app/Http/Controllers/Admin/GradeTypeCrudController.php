@@ -91,7 +91,6 @@ class GradeTypeCrudController extends CrudController
             ],
         ]);
 
-        // add asterisk for fields that are required in GradeTypeRequest
         CRUD::setRequiredFields(GradeTypeRequest::class);
 
         CRUD::setValidation(GradeTypeRequest::class);

@@ -368,7 +368,7 @@ class ExternalCourseCrudController extends CrudController
                 'name' => 'times',
                 'label' => __('Course Schedule'),
                 'type' => 'repeatable',
-                'fields' => [
+                'subfields' => [
                     [
                         'name' => 'day',
                         'label' => __('Day'),
@@ -561,7 +561,7 @@ class ExternalCourseCrudController extends CrudController
                 'name' => 'times',
                 'label' => __('Course Schedule'),
                 'type' => 'repeatable',
-                'fields' => [
+                'subfields' => [
                     [
                         'name' => 'day',
                         'label' => __('Day'),

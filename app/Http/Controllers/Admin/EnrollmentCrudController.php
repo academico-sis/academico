@@ -324,7 +324,7 @@ class EnrollmentCrudController extends CrudController
                 'name' => 'scheduledPayments',
                 'label' => __('Scheduled Payments'),
                 'type' => 'repeatable',
-                'fields' => [
+                'subfields' => [
                     [
                         'name' => 'id',
                         'type' => 'hidden',

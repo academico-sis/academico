@@ -7,7 +7,8 @@
         "php": "^8.0",
         "ext-gd": "*",
         "akaunting/laravel-language": "^1.0",
-        "backpack/crud": "^4.1",
+        "backpack/crud": "^5.0.0",
+        "backpack/pro": "^1.0.0",
         "backpack/permissionmanager": "^6.0.0",
         "curl/curl": "^2.3.0",
         "fideloper/proxy": "^4.4.0",
@@ -75,6 +76,12 @@
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://repo.backpackforlaravel.com/"
+        }
+    ],
     "scripts": {
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",

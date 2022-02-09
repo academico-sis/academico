@@ -66,7 +66,7 @@ class SchedulePresetCrudController extends CrudController
             'name' => 'presets',
             'label' => __('Course Schedule'),
             'type' => 'repeatable',
-            'fields' => [
+            'subfields' => [
                 [
                     'name' => 'day',
                     'label' => __('Day'),
