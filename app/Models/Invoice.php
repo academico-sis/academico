@@ -103,7 +103,12 @@ class Invoice extends Model
 
     public function totalPrice()
     {
-        return $this->invoiceDetails()->sum('price') / 100;
+        $total = 0;
+        foreach ($this->invoiceDetails as $invoiceDetail) {
+            $total += $invoiceDetail->quantity * $invoiceDetail->price;
+        }
+
+        return $total;
     }
 
     public function getTotalPriceAttribute()
