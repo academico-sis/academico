@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UpdateMediaLibrary9 extends Migration
-{
+return new class extends Migration {
     public function up()
     {
         Schema::table('media', function (Blueprint $table) {
@@ -19,4 +18,4 @@ class UpdateMediaLibrary9 extends Migration
             //
         });
     }
-}
+};

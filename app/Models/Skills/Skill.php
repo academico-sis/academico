@@ -6,6 +6,8 @@ use App\Models\EvaluationType;
 use App\Models\Level;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * @mixin IdeHelperSkill
@@ -13,12 +15,18 @@ use Illuminate\Database\Eloquent\Model;
 class Skill extends Model
 {
     use CrudTrait;
+    use LogsActivity;
 
     protected $guarded = ['id'];
 
     protected $with = ['level', 'skill_type'];
 
     protected $appends = ['complete_name'];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logUnguarded();
+    }
 
     /** The category the skill belongs to */
     public function skill_type()

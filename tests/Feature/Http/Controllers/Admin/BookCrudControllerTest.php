@@ -20,7 +20,7 @@ class BookCrudControllerTest extends TestCase
 
     public $table;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->seed('TestSeeder');

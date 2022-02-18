@@ -15,7 +15,7 @@ class CourseCrudControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->seed('TestSeeder');
@@ -42,7 +42,7 @@ class CourseCrudControllerTest extends TestCase
         $course = factory(Course::class)->create();
         $response = $this->delete(route('course.destroy', ['id' => $course->id]));
         $response->assertOk();
-        $this->assertDeleted($course);
+        $this->assertModelMissing($course);
     }
 
     /**

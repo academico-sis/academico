@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAttendancesTable extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -56,4 +55,4 @@ class CreateAttendancesTable extends Migration
         Schema::dropIfExists('attendances');
         Schema::dropIfExists('attendance_types');
     }
-}
+};

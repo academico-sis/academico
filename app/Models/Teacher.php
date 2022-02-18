@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
@@ -30,11 +31,14 @@ class Teacher extends Model
 
     protected $appends = ['firstname', 'lastname', 'name', 'email'];
 
-    protected static bool $logUnguarded = true;
-
     protected $dispatchesEvents = [
         'updated' => TeacherUpdated::class,
     ];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logUnguarded();
+    }
 
     /** relations */
     public function user()

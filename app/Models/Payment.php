@@ -6,6 +6,8 @@ use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * @mixin IdeHelperPayment
@@ -13,10 +15,16 @@ use Illuminate\Support\Facades\App;
 class Payment extends Model
 {
     use CrudTrait;
+    use LogsActivity;
 
     protected $guarded = ['id'];
 
     protected $appends = ['date_for_humans', 'value_with_currency'];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logUnguarded();
+    }
 
     /*
     |--------------------------------------------------------------------------
@@ -35,7 +43,8 @@ class Payment extends Model
         return $this->belongsTo(Invoice::class);
     }
 
-    public function paymentmethod() {
+    public function paymentmethod()
+    {
         return $this->belongsTo(Paymentmethod::class, 'payment_method', 'code')->withDefault();
     }
 

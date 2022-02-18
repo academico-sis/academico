@@ -12,7 +12,7 @@ class ResultTypeCrudControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->seed('TestSeeder');
@@ -43,7 +43,7 @@ class ResultTypeCrudControllerTest extends TestCase
         $response = $this->delete(route('resulttype.destroy', ['id' => $id]));
 
         $response->assertOk();
-        $this->assertDeleted($resulttype);
+        $this->assertModelMissing($resulttype);
 
         // TODO: perform additional assertions
     }

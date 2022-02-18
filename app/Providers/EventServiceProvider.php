@@ -122,7 +122,7 @@ class EventServiceProvider extends ServiceProvider
 
         TeacherUpdated::class => [
             UpdateUsername::class,
-        ]
+        ],
     ];
 
     /**

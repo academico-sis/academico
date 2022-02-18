@@ -3,8 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\Schema;
 
-class ForceStudentDataUpdate extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -28,4 +27,4 @@ class ForceStudentDataUpdate extends Migration
             $table->dropColumn('force_update');
         });
     }
-}
+};

@@ -3,8 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateSchedulePresetsTable extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -29,4 +28,4 @@ class CreateSchedulePresetsTable extends Migration
     {
         Schema::dropIfExists('schedule_presets');
     }
-}
+};

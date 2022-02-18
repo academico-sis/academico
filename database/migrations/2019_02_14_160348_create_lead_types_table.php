@@ -3,8 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateLeadTypesTable extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -38,4 +37,4 @@ class CreateLeadTypesTable extends Migration
             $table->dropColumn('lead_type_id');
         });
     }
-}
+};

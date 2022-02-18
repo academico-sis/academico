@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGradeTypesTable extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -61,4 +60,4 @@ class CreateGradeTypesTable extends Migration
         Schema::dropIfExists('grade_type_id');
         Schema::dropIfExists('course_grade_type');
     }
-}
+};

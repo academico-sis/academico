@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
@@ -27,7 +28,10 @@ class Course extends Model
         'created' => CourseCreated::class,
     ];
 
-    protected $casts = ['children' => 'array'];
+    protected $casts = [
+        'start_date' => 'datetime',
+        'end_date' => 'datetime', 'children' => 'array',
+    ];
 
     /*
     |--------------------------------------------------------------------------
@@ -37,8 +41,6 @@ class Course extends Model
     public $timestamps = true;
 
     protected $guarded = ['id'];
-
-    protected $dates = ['start_date', 'end_date'];
 
     protected $with = ['times', 'evaluationType'];
 
@@ -52,7 +54,10 @@ class Course extends Model
         'sortable_id',
     ];
 
-    protected static bool $logUnguarded = true;
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logUnguarded();
+    }
 
     /*
     |--------------------------------------------------------------------------

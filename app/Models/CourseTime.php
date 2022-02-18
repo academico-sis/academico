@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
@@ -12,6 +13,9 @@ use Spatie\Activitylog\Traits\LogsActivity;
 class CourseTime extends Model
 {
     use LogsActivity;
+
+    public $timestamps = false;
+    protected $guarded = ['id'];
 
     protected static function boot()
     {
@@ -29,11 +33,10 @@ class CourseTime extends Model
         });
     }
 
-    public $timestamps = false;
-
-    protected $guarded = ['id'];
-
-    protected static bool $logUnguarded = true;
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logUnguarded();
+    }
 
     public function identifiableAttribute()
     {

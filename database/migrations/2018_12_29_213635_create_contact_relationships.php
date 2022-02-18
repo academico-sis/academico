@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateContactRelationships extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -35,4 +34,4 @@ class CreateContactRelationships extends Migration
         Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('contact_relationships');
     }
-}
+};

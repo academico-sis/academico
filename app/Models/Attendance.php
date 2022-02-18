@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Jobs\WatchAttendance;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
@@ -16,8 +17,6 @@ class Attendance extends Model
     protected $guarded = ['id'];
 
     protected $with = ['attendance_type'];
-
-    protected static bool $logUnguarded = true;
 
     protected static function boot()
     {
@@ -32,6 +31,11 @@ class Attendance extends Model
                 ->delay(now()); // todo move to configurable settings
             }
         });
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logUnguarded();
     }
 
     /** RELATIONS */

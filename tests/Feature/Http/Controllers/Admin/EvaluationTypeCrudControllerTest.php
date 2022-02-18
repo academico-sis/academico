@@ -20,7 +20,7 @@ class EvaluationTypeCrudControllerTest extends TestCase
 
     public $table;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->seed('TestSeeder');
@@ -53,7 +53,7 @@ class EvaluationTypeCrudControllerTest extends TestCase
         $response = $this->delete(route('evaluationtype.destroy', ['id' => $id]));
 
         $response->assertOk();
-        $this->assertDeleted($evaluationtype);
+        $this->assertModelMissing($evaluationtype);
 
         // TODO: perform additional assertions
     }

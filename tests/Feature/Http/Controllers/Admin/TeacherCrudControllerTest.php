@@ -12,7 +12,7 @@ class TeacherCrudControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->seed('TestSeeder');
@@ -43,7 +43,7 @@ class TeacherCrudControllerTest extends TestCase
         $response = $this->delete(route('teacher.destroy', ['id' => $id]));
 
         $response->assertOk();
-        $this->assertDeleted($teacher);
+        $this->assertModelMissing($teacher);
 
         // TODO: perform additional assertions
     }

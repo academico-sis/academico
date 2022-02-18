@@ -12,7 +12,7 @@ class RemoteEventCrudControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->seed('TestSeeder');
@@ -43,7 +43,7 @@ class RemoteEventCrudControllerTest extends TestCase
         $response = $this->delete(route('remoteevent.destroy', ['id' => $id]));
 
         $response->assertOk();
-        $this->assertDeleted($remoteevent);
+        $this->assertModelMissing($remoteevent);
 
         // TODO: perform additional assertions
     }
