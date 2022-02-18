@@ -22,7 +22,7 @@ class AttendanceTest extends TestCase
     use RefreshDatabase;
     use HandlesAttendance;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->seed('TestSeeder');
