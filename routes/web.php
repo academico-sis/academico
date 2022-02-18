@@ -10,9 +10,7 @@ Route::post('register', 'Auth\RegisterController@register');
 Route::get('searchstudents', 'StudentController@search');
 
 /* DASHBOARD ROUTES */
-Route::group(
-    ['middleware' => ['web', 'language']],
-    function () {
+Route::middleware('web', 'language')->group(function () {
         Route::get('/home', 'HomeController@index')->name('home')->middleware('forceupdate');
         Route::get('/', 'HomeController@index')->middleware('forceupdate');
         Route::get('/admin', 'HomeController@admin')->name('admin');
@@ -23,9 +21,7 @@ Route::group(
 );
 
 /* ATTENDANCE-RELATED ROUTES */
-Route::group(
-    ['middleware' => ['web', 'language']],
-    function () {
+Route::middleware('web', 'language')->group(function () {
         // Attendance routes
         Route::get('attendance', 'AttendanceController@index')->name('monitorAttendance');
         Route::get('attendance/student/{student}', 'AttendanceController@showStudentAttendanceForCourse')->name('studentAttendance');
@@ -40,9 +36,7 @@ Route::group(
 );
 
 /* ENROLLMENTS-RELATED ROUTES */
-Route::group(
-    ['middleware' => ['web', 'language']],
-    function () {
+Route::middleware('web', 'language')->group(function () {
         Route::post('student/enroll', 'EnrollmentController@store')->name('storeEnrollment'); // create a new enrollment
         Route::post('enrollment/{enrollment}/changeCourse', 'EnrollmentController@update')->name('changeCourse');
         Route::get('enrollment/{enrollment}/bill', 'EnrollmentController@bill');
@@ -74,9 +68,7 @@ Route::group(
 );
 
 /* STUDENTS-RELATED ROUTES */
-Route::group(
-    ['middleware' => ['web', 'language']],
-    function () {
+Route::middleware('web', 'language')->group(function () {
         Route::get('phonenumber/student/{student}', 'StudentPhoneNumberController@get');
         Route::post('phonenumber/student/{student}', 'StudentPhoneNumberController@store');
         Route::delete('phonenumber/{phoneNumber}', 'StudentPhoneNumberController@destroy');
@@ -89,9 +81,7 @@ Route::group(
 );
 
 /* CONTACTS-RELATED ROUTES */
-Route::group(
-    ['middleware' => ['web', 'language']],
-    function () {
+Route::middleware('web', 'language')->group(function () {
         Route::post('user/addcontact', 'ContactController@store')->name('addContact'); // save an additional contact for a student
         Route::get('contact/{contact}/edit', 'ContactController@edit');
         Route::delete('contact/{contact}/delete', 'ContactController@destroy')->name('deleteContact');
@@ -102,9 +92,7 @@ Route::group(
 );
 
 // EVALUATION RELATED ROUTES
-Route::group(
-    ['middleware' => ['web', 'language']],
-    function () {
+Route::middleware('web', 'language')->group(function () {
 
         /* Course grades update */
         Route::get('course/{course}/grades', 'GradeController@edit')->name('editCourseGrades');
@@ -126,9 +114,7 @@ Route::get('enrollment/{enrollment}/export-certificate', 'ResultController@expor
 Route::get('course/{course}/export-course-results', 'ResultController@exportCourseResults')->name('course-export-results');
 
 // COURSE EDITION ROUTES
-Route::group(
-    ['middleware' => ['web', 'permission:courses.edit', 'language']],
-    function () {
+Route::middleware('web', 'permission:courses.edit', 'language')->group(function () {
         // Course Events routes
         Route::get('course/{course}/events/get', 'EventController@getCourseEvents')->name('getCourseEvents'); // todo use route name
         Route::patch('calendar/teacher', 'EventController@update_course_teacher');
@@ -137,9 +123,7 @@ Route::group(
 );
 
 // Comments routes
-Route::group(
-    ['middleware' => ['web', 'permission:comments.edit', 'language']],
-    function () {
+Route::middleware('web', 'permission:comments.edit', 'language')->group(function () {
         Route::put('edit-comment/{comment}', 'CommentController@update');
         Route::delete('comment/{comment}', 'CommentController@destroy');
     }
@@ -148,18 +132,14 @@ Route::group(
 Route::post('comment', 'CommentController@store')->name('storeComment');
 
 /* SETUP ROUTES */
-Route::group(
-    ['middleware' => ['web', 'permission:enrollments.edit', 'language']],
-    function () {
+Route::middleware('web', 'permission:enrollments.edit', 'language')->group(function () {
         Route::get('config/default-periods', 'ConfigController@get')->name('get-default-periods-screen');
         Route::post('config/default-periods', 'ConfigController@update')->name('set-default-periods');
     }
 );
 
 // calendars routes
-Route::group(
-    ['middleware' => ['web', 'language']],
-    function () {
+Route::middleware('web', 'language')->group(function () {
         Route::get('/calendar/room/{room}', 'RoomController@show')->name('roomCalendar');
         Route::get('/calendar/room', 'RoomController@index')->name('roomsCalendar');
         Route::get('/leave/teachers', 'TeacherLeaveController@leaves')->name('teachersLeaves');
@@ -170,17 +150,13 @@ Route::group(
 );
 
 // HR routes
-Route::group(
-    ['middleware' => ['web', 'permission:hr.view', 'language']],
-    function () {
+Route::middleware('web', 'permission:hr.view', 'language')->group(function () {
         Route::get('/hr', 'HRController@index')->name('hrDashboard');
     }
 );
 
 // Reports routes
-Route::group(
-    ['middleware' => ['web', 'permission:reports.view', 'language']],
-    function () {
+Route::middleware('web', 'permission:reports.view', 'language')->group(function () {
         Route::get('/report', 'ReportController@index')->name('allReports');
 
         Route::get('/report/internal', 'ReportController@internal')->name('homeReport');
@@ -199,9 +175,7 @@ Route::group(
 Route::post('leadstatus', 'LeadStatusController@update')->name('postLeadStatus');
 
 // New COURSES module
-Route::group(
-    ['middleware' => ['web', 'language']],
-    function () {
+Route::middleware('web', 'language')->group(function () {
         Route::get('courselist', 'CourseController@index')->name('get-courses-list');
         Route::get('courselist/search', 'CourseController@search')->name('search-courses');
         Route::get('course-user-view', 'CourseController@redirectToUserPreferredView')->name('course-view-find');
@@ -210,13 +184,7 @@ Route::group(
 );
 
 // Registration Routes...
-Route::group(
-    [
-        'namespace'  => '\App\Http\Controllers',
-        'middleware' => ['web', 'loggedin', 'language'],
-        'prefix'     => config('backpack.base.route_prefix'),
-    ],
-    function () {
+Route::namespace('\App\Http\Controllers')->middleware('web', 'loggedin', 'language')->prefix(config('backpack.base.route_prefix'))->group(function () {
         Route::post('edit-account', 'Auth\MyAccountController@postAccountInfoForm')->name('backpack.account.info.store');
         Route::post('edit-student-info', 'Auth\MyAccountController@postStudentInfoForm');
         Route::post('edit-profession', 'Auth\MyAccountController@postAccountProfessionForm');
@@ -227,13 +195,7 @@ Route::group(
     }
 );
 
-Route::group(
-    [
-        'namespace'  => '\App\Http\Controllers',
-        'middleware' => ['web', 'loggedin', 'language', 'forceupdate'],
-        'prefix'     => config('backpack.base.route_prefix'),
-    ],
-    function () {
+Route::namespace('\App\Http\Controllers')->middleware('web', 'loggedin', 'language', 'forceupdate')->prefix(config('backpack.base.route_prefix'))->group(function () {
         // route numbers match the DB forceupdate field
         Route::permanentRedirect('/edit-account-info', '/edit/1')->name('backpack.account.info');
         Route::get('edit/1', 'Auth\MyAccountController@getAccountInfoForm')->name('backpack.account.edit_info');
@@ -246,9 +208,7 @@ Route::group(
     }
 );
 
-Route::group([
-    'middleware' => ['web', 'role:admin', 'language'],
-], function () {
+Route::middleware('web', 'role:admin', 'language')->group(function () {
     Route::post('teacher/{id}/restore', 'TeacherController@restore');
     Route::post('teacher/{teacher}/delete', 'TeacherController@destroy');
 
