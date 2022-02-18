@@ -11,7 +11,7 @@ use Faker\Generator as Faker;
 
 $factory->define(Course::class, function (Faker $faker) {
     return [
-        'name' => 'TEST COURSE LEVEL '.$faker->randomDigit,
+        'name' => 'TEST COURSE LEVEL '.$faker->randomDigit(),
         'campus_id' => factory(Campus::class)->create()->id,
         'rhythm_id' => factory(Rhythm::class)->create()->id,
         'level_id' => factory(Level::class)->create()->id,

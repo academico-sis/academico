@@ -13,6 +13,6 @@ $factory->define(Event::class, function (Faker $faker) {
         'room_id' => factory(Room::class)->create()->id,
         'start' => $faker->dateTime(),
         'end' => $faker->dateTime(),
-        'name' => $faker->word,
+        'name' => $faker->word(),
     ];
 });
