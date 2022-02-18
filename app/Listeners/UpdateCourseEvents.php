@@ -41,7 +41,7 @@ class UpdateCourseEvents
 
             // if there is a coursetime for today, create the event
             if ($course->times->contains('day', $courseStartDate->format('w'))) {
-                Event::create(['course_id' => $course->id, 'teacher_id' => $course->teacher_id, 'room_id' => $course->room_id, 'start' => $courseStartDate->setTimeFromTimeString($course->times->where('day', $courseStartDate->format('w'))->first()->start)->toDateTimeString(), 'end' => $courseStartDate->setTimeFromTimeString($course->times->where('day', $courseStartDate->format('w'))->first()->end)->toDateTimeString(), 'name' => $course->name, 'course_time_id' => $course->times->where('day', $courseStartDate->format('w'))->first()->id, 'exempt_attendance' => $course->exempt_attendance,]);
+                Event::create(['course_id' => $course->id, 'teacher_id' => $course->teacher_id, 'room_id' => $course->room_id, 'start' => $courseStartDate->setTimeFromTimeString($course->times->where('day', $courseStartDate->format('w'))->first()->start)->toDateTimeString(), 'end' => $courseStartDate->setTimeFromTimeString($course->times->where('day', $courseStartDate->format('w'))->first()->end)->toDateTimeString(), 'name' => $course->name, 'course_time_id' => $course->times->where('day', $courseStartDate->format('w'))->first()->id, 'exempt_attendance' => $course->exempt_attendance]);
             }
             $courseStartDate->addDay();
         }

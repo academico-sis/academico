@@ -276,8 +276,9 @@ class EnrollmentCrudController extends CrudController
         // then load the page
         $commentsIncludingInvoices = $enrollment->comments
             ->concat($enrollment->invoices()
-                ->map(fn($invoice) => $invoice->comments->map(function ($comment) use ($invoice) {
-                    $comment->prefix = '(' . __('Invoice') . " " . ($invoice->invoice_reference ?? $invoice->id) . ")";
+                ->map(fn ($invoice) => $invoice->comments->map(function ($comment) use ($invoice) {
+                    $comment->prefix = '('.__('Invoice').' '.($invoice->invoice_reference ?? $invoice->id).')';
+
                     return $comment;
                 }))
                 ->flatten()
@@ -375,6 +376,7 @@ class EnrollmentCrudController extends CrudController
             $newScheduledPayments = collect(json_decode($this->crud->getRequest()->input('scheduledPayments'), null, 512, JSON_THROW_ON_ERROR));
             $enrollment->saveScheduledPayments($newScheduledPayments);
         }
+
         return $this->traitUpdate();
     }
 

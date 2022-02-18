@@ -55,7 +55,7 @@ trait ShowStudentListOperation
         return view('courses/show', [
             'course' => $course,
             'enrollments' => $course->enrollments()->with('student')->get(),
-            'widget' => ['course' => $course ],
+            'widget' => ['course' => $course],
         ]);
     }
 }
