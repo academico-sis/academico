@@ -22,10 +22,10 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
  * @property-read int|null $activities_count
- * @property-read AttendanceType $attendance_type
- * @property-read Event $event
+ * @property-read \App\Models\AttendanceType $attendance_type
+ * @property-read \App\Models\Event $event
  * @property-read string $student_name
- * @property-read Student $student
+ * @property-read \App\Models\Student $student
  * @method static \Illuminate\Database\Eloquent\Builder|Attendance newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Attendance newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Attendance query()
@@ -68,6 +68,8 @@ namespace App\Models{
  * @property string $name
  * @property int|null $price
  * @property string|null $product_code
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
  * @property-read mixed $price_with_currency
  * @property-read mixed $type
  * @method static \Illuminate\Database\Eloquent\Builder|Book newModelQuery()
@@ -117,7 +119,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
  * @property-read int|null $activities_count
- * @property-read User|null $author
+ * @property-read \App\Models\User|null $author
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $commentable
  * @property-read mixed $date
  * @method static \Illuminate\Database\Eloquent\Builder|Comment newModelQuery()
@@ -162,8 +164,8 @@ namespace App\Models{
  *
  * @property int $id
  * @property int $student_id
- * @property string $lastname
  * @property string $firstname
+ * @property string $lastname
  * @property string|null $idnumber
  * @property string|null $address
  * @property string|null $email
@@ -175,11 +177,11 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
  * @property-read int|null $activities_count
  * @property-read mixed $name
- * @property-read \Illuminate\Database\Eloquent\Collection|PhoneNumber[] $phone
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\PhoneNumber[] $phone
  * @property-read int|null $phone_count
- * @property-read Profession|null $profession
- * @property-read ContactRelationship|null $relationship
- * @property-read Student $student
+ * @property-read \App\Models\Profession|null $profession
+ * @property-read \App\Models\ContactRelationship|null $relationship
+ * @property-read \App\Models\Student $student
  * @method static \Illuminate\Database\Eloquent\Builder|Contact newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Contact newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Contact query()
@@ -246,11 +248,12 @@ namespace App\Models{
  * @property int $campus_id
  * @property int|null $rhythm_id
  * @property int|null $level_id
- * @property int $volume
+ * @property int|null $volume
  * @property string $name
- * @property string $price
- * @property string $price_b
- * @property string $price_c
+ * @property int|null $price
+ * @property string|null $price_b
+ * @property string|null $price_c
+ * @property string|null $hourly_price
  * @property \Illuminate\Support\Carbon $start_date
  * @property \Illuminate\Support\Carbon $end_date
  * @property int|null $room_id
@@ -265,25 +268,24 @@ namespace App\Models{
  * @property int|null $evaluation_type_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property int $marked
  * @property int|null $partner_id
- * @property string|null $hourly_price
+ * @property string|null $remote_volume
  * @property int|null $sync_to_lms
  * @property int|null $lms_id
- * @property string|null $remote_volume
+ * @property int $marked
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
  * @property-read int|null $activities_count
- * @property-read \Illuminate\Database\Eloquent\Collection|Attendance[] $attendance
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Attendance[] $attendance
  * @property-read int|null $attendance_count
- * @property-read \Illuminate\Database\Eloquent\Collection|Book[] $books
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
  * @property-read int|null $books_count
- * @property-read Campus $campus
+ * @property-read \App\Models\Campus $campus
  * @property-read \Illuminate\Database\Eloquent\Collection|Course[] $children
  * @property-read int|null $children_count
- * @property-read \Illuminate\Database\Eloquent\Collection|Enrollment[] $enrollments
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Enrollment[] $enrollments
  * @property-read int|null $enrollments_count
- * @property-read EvaluationType|null $evaluationType
- * @property-read \Illuminate\Database\Eloquent\Collection|Event[] $events
+ * @property-read \App\Models\EvaluationType|null $evaluationType
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Event[] $events
  * @property-read int|null $events_count
  * @property-read bool $accepts_new_students
  * @property-read mixed $course_enrollments_count
@@ -303,19 +305,19 @@ namespace App\Models{
  * @property-read mixed $sortable_id
  * @property-read bool $takes_attendance
  * @property-read mixed $total_volume
- * @property-read \Illuminate\Database\Eloquent\Collection|Grade[] $grades
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Grade[] $grades
  * @property-read int|null $grades_count
- * @property-read Level|null $level
- * @property-read Partner|null $partner
- * @property-read Period $period
- * @property-read \Illuminate\Database\Eloquent\Collection|Enrollment[] $real_enrollments
+ * @property-read \App\Models\Level|null $level
+ * @property-read \App\Models\Partner|null $partner
+ * @property-read \App\Models\Period $period
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Enrollment[] $real_enrollments
  * @property-read int|null $real_enrollments_count
- * @property-read \Illuminate\Database\Eloquent\Collection|RemoteEvent[] $remoteEvents
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\RemoteEvent[] $remoteEvents
  * @property-read int|null $remote_events_count
- * @property-read Rhythm|null $rhythm
- * @property-read Room|null $room
- * @property-read Teacher|null $teacher
- * @property-read \Illuminate\Database\Eloquent\Collection|CourseTime[] $times
+ * @property-read \App\Models\Rhythm|null $rhythm
+ * @property-read \App\Models\Room|null $room
+ * @property-read \App\Models\Teacher|null $teacher
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\CourseTime[] $times
  * @property-read int|null $times_count
  * @method static \Illuminate\Database\Eloquent\Builder|Course children()
  * @method static \Illuminate\Database\Eloquent\Builder|Course external()
@@ -369,8 +371,8 @@ namespace App\Models{
  * @property string $end
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
  * @property-read int|null $activities_count
- * @property-read Course $course
- * @property-read \Illuminate\Database\Eloquent\Collection|Event[] $events
+ * @property-read \App\Models\Course $course
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Event[] $events
  * @property-read int|null $events_count
  * @method static \Illuminate\Database\Eloquent\Builder|CourseTime newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|CourseTime newQuery()
@@ -411,7 +413,7 @@ namespace App\Models{
  *
  * @property int $id
  * @property int $student_id
- * @property int|null $responsible_id
+ * @property int $responsible_id
  * @property int $course_id
  * @property int $status_id
  * @property int|null $total_price
@@ -424,10 +426,10 @@ namespace App\Models{
  * @property-read int|null $activities_count
  * @property-read \Illuminate\Database\Eloquent\Collection|Enrollment[] $childrenEnrollments
  * @property-read int|null $children_enrollments_count
- * @property-read \Illuminate\Database\Eloquent\Collection|Comment[] $comments
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
  * @property-read int|null $comments_count
- * @property-read Course $course
- * @property-read EnrollmentStatusType|null $enrollmentStatus
+ * @property-read \App\Models\Course $course
+ * @property-read \App\Models\EnrollmentStatusType|null $enrollmentStatus
  * @property-read mixed $absence_count
  * @property-read mixed $attendance_ratio
  * @property-read mixed $balance
@@ -447,19 +449,19 @@ namespace App\Models{
  * @property-read mixed $student_name
  * @property-read mixed $total_paid_price
  * @property-read mixed $type
- * @property-read \Illuminate\Database\Eloquent\Collection|Grade[] $grades
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Grade[] $grades
  * @property-read int|null $grades_count
- * @property-read \Illuminate\Database\Eloquent\Collection|InvoiceDetail[] $invoiceDetails
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\InvoiceDetail[] $invoiceDetails
  * @property-read int|null $invoice_details_count
- * @property-read Result|null $result
- * @property-read \Illuminate\Database\Eloquent\Collection|ScheduledPayment[] $scheduledPayments
+ * @property-read \App\Models\Result|null $result
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ScheduledPayment[] $scheduledPayments
  * @property-read int|null $scheduled_payments_count
- * @property-read \Illuminate\Database\Eloquent\Collection|Scholarship[] $scholarships
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Scholarship[] $scholarships
  * @property-read int|null $scholarships_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Skills\SkillEvaluation[] $skill_evaluations
  * @property-read int|null $skill_evaluations_count
- * @property-read Student $student
- * @property-read User $user
+ * @property-read \App\Models\Student $student
+ * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|Enrollment course(int $courseId)
  * @method static \Illuminate\Database\Eloquent\Builder|Enrollment newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Enrollment newQuery()
@@ -507,11 +509,11 @@ namespace App\Models{
  *
  * @property int $id
  * @property array $name
- * @property-read \Illuminate\Database\Eloquent\Collection|Course[] $courses
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Course[] $courses
  * @property-read int|null $courses_count
  * @property-read mixed $translated_name
  * @property-read array $translations
- * @property-read \Illuminate\Database\Eloquent\Collection|GradeType[] $gradeTypes
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\GradeType[] $gradeTypes
  * @property-read int|null $grade_types_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Skills\Skill[] $skills
  * @property-read int|null $skills_count
@@ -541,10 +543,10 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
  * @property-read int|null $activities_count
- * @property-read \Illuminate\Database\Eloquent\Collection|Attendance[] $attendance
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Attendance[] $attendance
  * @property-read int|null $attendance_count
- * @property-read Course|null $course
- * @property-read CourseTime|null $coursetime
+ * @property-read \App\Models\Course|null $course
+ * @property-read \App\Models\CourseTime|null $coursetime
  * @property-read mixed $color
  * @property-read mixed $end_time
  * @property-read mixed $event_length
@@ -554,8 +556,8 @@ namespace App\Models{
  * @property-read mixed $short_date
  * @property-read mixed $start_time
  * @property-read mixed $volume
- * @property-read Room|null $room
- * @property-read Teacher|null $teacher
+ * @property-read \App\Models\Room|null $room
+ * @property-read \App\Models\Teacher|null $teacher
  * @method static \Illuminate\Database\Eloquent\Builder|Event newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Event newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Event query()
@@ -611,9 +613,9 @@ namespace App\Models{
  * @property string|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
  * @property-read int|null $activities_count
- * @property-read Enrollment|null $enrollment
+ * @property-read \App\Models\Enrollment|null $enrollment
  * @property-read mixed $grade_type_category
- * @property-read GradeType $grade_type
+ * @property-read \App\Models\GradeType $grade_type
  * @method static \Illuminate\Database\Eloquent\Builder|Grade newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Grade newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Grade query()
@@ -639,9 +641,9 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string|null $deleted_at
- * @property-read GradeTypeCategory|null $category
+ * @property-read \App\Models\GradeTypeCategory|null $category
  * @property-read mixed $complete_name
- * @property-read \Illuminate\Database\Eloquent\Collection|EvaluationType[] $presets
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\EvaluationType[] $presets
  * @property-read int|null $presets_count
  * @method static \Illuminate\Database\Eloquent\Builder|GradeType newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|GradeType newQuery()
@@ -700,13 +702,12 @@ namespace App\Models{
  * @property int $id
  * @property int|null $invoice_number
  * @property int|null $invoice_type_id
- * @property int|null $user_id
  * @property string|null $client_name
  * @property string|null $client_idnumber
  * @property string|null $client_address
  * @property string|null $client_email
  * @property string|null $client_phone
- * @property int|null $total_price
+ * @property string|null $total_price
  * @property int $company_id
  * @property string|null $receipt_number
  * @property \Illuminate\Support\Carbon|null $date
@@ -715,9 +716,9 @@ namespace App\Models{
  * @property string|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
  * @property-read int|null $activities_count
- * @property-read \Illuminate\Database\Eloquent\Collection|Comment[] $comments
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
  * @property-read int|null $comments_count
- * @property-read \Illuminate\Database\Eloquent\Collection|InvoiceDetail[] $enrollments
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\InvoiceDetail[] $enrollments
  * @property-read int|null $enrollments_count
  * @property-read mixed $balance
  * @property-read mixed $formatted_date
@@ -725,14 +726,14 @@ namespace App\Models{
  * @property-read mixed $invoice_reference
  * @property-read string $invoice_series
  * @property-read mixed $total_price_with_currency
- * @property-read \Illuminate\Database\Eloquent\Collection|InvoiceDetail[] $invoiceDetails
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\InvoiceDetail[] $invoiceDetails
  * @property-read int|null $invoice_details_count
- * @property-read InvoiceType|null $invoiceType
- * @property-read \Illuminate\Database\Eloquent\Collection|Payment[] $payments
+ * @property-read \App\Models\InvoiceType|null $invoiceType
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Payment[] $payments
  * @property-read int|null $payments_count
- * @property-read \Illuminate\Database\Eloquent\Collection|InvoiceDetail[] $scheduledPayments
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\InvoiceDetail[] $scheduledPayments
  * @property-read int|null $scheduled_payments_count
- * @property-read \Illuminate\Database\Eloquent\Collection|InvoiceDetail[] $taxes
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\InvoiceDetail[] $taxes
  * @property-read int|null $taxes_count
  * @method static \Illuminate\Database\Eloquent\Builder|Invoice newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Invoice newQuery()
@@ -752,7 +753,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereReceiptNumber($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereTotalPrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereUserId($value)
  */
 	class IdeHelperInvoice {}
 }
@@ -764,13 +764,13 @@ namespace App\Models{
  * @property int $id
  * @property int $invoice_id
  * @property string $product_name
- * @property int $price
- * @property string $tax_rate
- * @property int|null $final_price
  * @property string|null $product_code
  * @property int|null $product_id
  * @property string|null $product_type
  * @property string $quantity
+ * @property string $price
+ * @property string $tax_rate
+ * @property int|null $final_price
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
@@ -778,7 +778,7 @@ namespace App\Models{
  * @property-read int|null $activities_count
  * @property-read mixed $price_with_currency
  * @property-read mixed $total_price
- * @property-read Invoice|null $invoice
+ * @property-read \App\Models\Invoice $invoice
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $product
  * @method static \Illuminate\Database\Eloquent\Builder|InvoiceDetail newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|InvoiceDetail newQuery()
@@ -842,7 +842,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read mixed $translated_name
  * @property-read array $translations
- * @property-read \Illuminate\Database\Eloquent\Collection|Student[] $students
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Student[] $students
  * @property-read int|null $students_count
  * @method static \Illuminate\Database\Eloquent\Builder|LeadType newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|LeadType newQuery()
@@ -869,8 +869,8 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
  * @property-read int|null $activities_count
- * @property-read LeaveType $leaveType
- * @property-read Teacher $teacher
+ * @property-read \App\Models\LeaveType $leaveType
+ * @property-read \App\Models\Teacher $teacher
  * @method static \Illuminate\Database\Eloquent\Builder|Leave newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Leave newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Leave query()
@@ -959,12 +959,12 @@ namespace App\Models{
  * @property string $name
  * @property string|null $started_on
  * @property string|null $expired_on
+ * @property int|null $send_report_on
  * @property string|null $last_alert_sent_at
  * @property int|null $auto_renewal
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property int|null $send_report_on
- * @property-read \Illuminate\Database\Eloquent\Collection|Course[] $courses
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Course[] $courses
  * @property-read int|null $courses_count
  * @property-read mixed $formatted_end_date
  * @property-read mixed $formatted_start_date
@@ -990,22 +990,24 @@ namespace App\Models{
  *
  * @property int $id
  * @property int $responsable_id
- * @property int|null $invoice_id
- * @property string|null $payment_method
+ * @property int $invoice_id
+ * @property string $payment_method
  * @property string|null $date
  * @property int|null $value
  * @property int|null $status
  * @property string|null $comment
- * @property string|null $receipt_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
  * @property-read string $bic
  * @property-read mixed $date_for_humans
  * @property-read string $enrollment_name
  * @property-read string $iban
  * @property-read mixed $month
  * @property-read mixed $value_with_currency
- * @property-read Invoice|null $invoice
+ * @property-read \App\Models\Invoice $invoice
+ * @property-read \App\Models\Paymentmethod|null $paymentmethod
  * @method static \Illuminate\Database\Eloquent\Builder|Payment newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Payment newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Payment query()
@@ -1015,7 +1017,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Payment whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Payment whereInvoiceId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Payment wherePaymentMethod($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Payment whereReceiptId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Payment whereResponsableId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Payment whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Payment whereUpdatedAt($value)
@@ -1057,11 +1058,11 @@ namespace App\Models{
  * @property int|null $order
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
  * @property-read int|null $activities_count
- * @property-read \Illuminate\Database\Eloquent\Collection|Course[] $courses
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Course[] $courses
  * @property-read int|null $courses_count
- * @property-read \Illuminate\Database\Eloquent\Collection|Enrollment[] $enrollments
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Enrollment[] $enrollments
  * @property-read int|null $enrollments_count
- * @property-read \Illuminate\Database\Eloquent\Collection|Course[] $external_courses
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Course[] $external_courses
  * @property-read int|null $external_courses_count
  * @property-read mixed $acquisition_rate
  * @property-read mixed $courses_with_pending_attendance
@@ -1078,11 +1079,11 @@ namespace App\Models{
  * @property-read mixed $period_taught_hours_count
  * @property-read mixed $previous_period
  * @property-read mixed $takings
- * @property-read \Illuminate\Database\Eloquent\Collection|Course[] $internal_courses
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Course[] $internal_courses
  * @property-read int|null $internal_courses_count
- * @property-read \Illuminate\Database\Eloquent\Collection|Enrollment[] $real_enrollments
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Enrollment[] $real_enrollments
  * @property-read int|null $real_enrollments_count
- * @property-read Year $year
+ * @property-read \App\Models\Year $year
  * @method static \Illuminate\Database\Eloquent\Builder|Period newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Period newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Period query()
@@ -1151,9 +1152,9 @@ namespace App\Models{
  * @property int|null $course_id
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
  * @property-read int|null $activities_count
- * @property-read Course|null $course
- * @property-read Period|null $period
- * @property-read Teacher|null $teacher
+ * @property-read \App\Models\Course|null $course
+ * @property-read \App\Models\Period|null $period
+ * @property-read \App\Models\Teacher|null $teacher
  * @method static \Illuminate\Database\Eloquent\Builder|RemoteEvent newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|RemoteEvent newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|RemoteEvent query()
@@ -1180,14 +1181,14 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
  * @property-read int|null $activities_count
- * @property-read \Illuminate\Database\Eloquent\Collection|Comment[] $comments
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
  * @property-read int|null $comments_count
- * @property-read Enrollment $enrollment
+ * @property-read \App\Models\Enrollment $enrollment
  * @property-read mixed $course_name
  * @property-read mixed $course_period
  * @property-read mixed $result_type
  * @property-read mixed $student_name
- * @property-read ResultType $result_name
+ * @property-read \App\Models\ResultType $result_name
  * @method static \Illuminate\Database\Eloquent\Builder|Result newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Result newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Result query()
@@ -1238,6 +1239,8 @@ namespace App\Models{
  * @property string|null $product_code
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property int|null $lms_id
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
  * @method static \Illuminate\Database\Eloquent\Builder|Rhythm newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Rhythm newQuery()
  * @method static \Illuminate\Database\Query\Builder|Rhythm onlyTrashed()
@@ -1263,8 +1266,10 @@ namespace App\Models{
  * @property int $campus_id
  * @property int|null $capacity
  * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property-read Campus $campus
- * @property-read \Illuminate\Database\Eloquent\Collection|Event[] $events
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
+ * @property-read \App\Models\Campus $campus
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Event[] $events
  * @property-read int|null $events_count
  * @method static \Illuminate\Database\Eloquent\Builder|Room newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Room newQuery()
@@ -1290,6 +1295,8 @@ namespace App\Models{
  * @property string $presets
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
  * @method static \Illuminate\Database\Eloquent\Builder|SchedulePreset newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|SchedulePreset newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|SchedulePreset query()
@@ -1315,14 +1322,14 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
  * @property-read int|null $activities_count
- * @property-read Enrollment $enrollment
+ * @property-read \App\Models\Enrollment $enrollment
  * @property-read mixed $computed_status
  * @property-read mixed $date_for_humans
  * @property-read mixed $status_type_name
  * @property-read mixed $value_with_currency
- * @property-read \Illuminate\Database\Eloquent\Collection|InvoiceDetail[] $invoiceDetails
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\InvoiceDetail[] $invoiceDetails
  * @property-read int|null $invoice_details_count
- * @property-read EnrollmentStatusType|null $statusType
+ * @property-read \App\Models\EnrollmentStatusType|null $statusType
  * @method static \Illuminate\Database\Eloquent\Builder|ScheduledPayment newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ScheduledPayment newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ScheduledPayment query()
@@ -1347,7 +1354,9 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property-read \Illuminate\Database\Eloquent\Collection|Enrollment[] $enrollments
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Enrollment[] $enrollments
  * @property-read int|null $enrollments_count
  * @method static \Illuminate\Database\Eloquent\Builder|Scholarship newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Scholarship newQuery()
@@ -1377,13 +1386,15 @@ namespace App\Models\Skills{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string|null $deleted_at
  * @property int|null $order
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
  * @property-read string $complete_name
  * @property-read \App\Models\Level $level
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\EvaluationType[] $presets
  * @property-read int|null $presets_count
- * @property-read \Illuminate\Database\Eloquent\Collection|SkillEvaluation[] $skill_evaluations
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Skills\SkillEvaluation[] $skill_evaluations
  * @property-read int|null $skill_evaluations_count
- * @property-read SkillType $skill_type
+ * @property-read \App\Models\Skills\SkillType $skill_type
  * @method static \Illuminate\Database\Eloquent\Builder|Skill newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Skill newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Skill query()
@@ -1410,15 +1421,19 @@ namespace App\Models\Skills{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string|null $deleted_at
+ * @property int $id
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
  * @property-read \App\Models\Enrollment|null $enrollment
- * @property-read Skill $skill
- * @property-read SkillScale|null $skill_scale
+ * @property-read \App\Models\Skills\Skill|null $skill
+ * @property-read \App\Models\Skills\SkillScale|null $skill_scale
  * @method static \Illuminate\Database\Eloquent\Builder|SkillEvaluation newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|SkillEvaluation newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|SkillEvaluation query()
  * @method static \Illuminate\Database\Eloquent\Builder|SkillEvaluation whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SkillEvaluation whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SkillEvaluation whereEnrollmentId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SkillEvaluation whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SkillEvaluation whereSkillId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SkillEvaluation whereSkillScaleId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SkillEvaluation whereUpdatedAt($value)
@@ -1437,7 +1452,7 @@ namespace App\Models\Skills{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string|null $deleted_at
- * @property string|null $classes
+ * @property string $classes
  * @property-read mixed $scale_name
  * @property-read array $translations
  * @method static \Illuminate\Database\Eloquent\Builder|SkillScale newModelQuery()
@@ -1505,15 +1520,15 @@ namespace App\Models{
  * @property string|null $price_category
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
  * @property-read int|null $activities_count
- * @property-read \Illuminate\Database\Eloquent\Collection|Attendance[] $attendance
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Attendance[] $attendance
  * @property-read int|null $attendance_count
- * @property-read \Illuminate\Database\Eloquent\Collection|Book[] $books
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Book[] $books
  * @property-read int|null $books_count
- * @property-read \Illuminate\Database\Eloquent\Collection|Comment[] $comments
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
  * @property-read int|null $comments_count
- * @property-read \Illuminate\Database\Eloquent\Collection|Contact[] $contacts
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Contact[] $contacts
  * @property-read int|null $contacts_count
- * @property-read \Illuminate\Database\Eloquent\Collection|Enrollment[] $enrollments
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Enrollment[] $enrollments
  * @property-read int|null $enrollments_count
  * @property string|null $email
  * @property string $firstname
@@ -1524,15 +1539,14 @@ namespace App\Models{
  * @property-read string $name
  * @property-read mixed $student_age
  * @property-read mixed $student_birthdate
- * @property-read Institution|null $institution
- * @property-read LeadType|null $leadType
+ * @property-read \App\Models\Institution|null $institution
+ * @property-read \App\Models\LeadType|null $leadType
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
  * @property-read int|null $media_count
- * @property-read \Illuminate\Database\Eloquent\Collection|PhoneNumber[] $phone
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\PhoneNumber[] $phone
  * @property-read int|null $phone_count
- * @property-read Profession|null $profession
- * @property-read User $user
- * @method static \Illuminate\Database\Eloquent\Builder|Student computedLeadType($leadTypeId)
+ * @property-read \App\Models\Profession|null $profession
+ * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|Student enrolled()
  * @method static \Illuminate\Database\Eloquent\Builder|Student newInPeriod(int $periodId)
  * @method static \Illuminate\Database\Eloquent\Builder|Student newModelQuery()
@@ -1573,6 +1587,8 @@ namespace App\Models{
  * @property int $default
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
  * @method static \Illuminate\Database\Eloquent\Builder|Tax newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Tax newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Tax query()
@@ -1598,20 +1614,20 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
  * @property-read int|null $activities_count
- * @property-read \Illuminate\Database\Eloquent\Collection|Course[] $courses
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Course[] $courses
  * @property-read int|null $courses_count
- * @property-read \Illuminate\Database\Eloquent\Collection|Event[] $events
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Event[] $events
  * @property-read int|null $events_count
  * @property string|null $email
  * @property string|null $firstname
  * @property string|null $lastname
  * @property-read string|null $name
  * @property-read mixed $upcoming_leaves
- * @property-read \Illuminate\Database\Eloquent\Collection|Leave[] $leaves
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Leave[] $leaves
  * @property-read int|null $leaves_count
- * @property-read \Illuminate\Database\Eloquent\Collection|RemoteEvent[] $remote_events
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\RemoteEvent[] $remote_events
  * @property-read int|null $remote_events_count
- * @property-read User $user
+ * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|Teacher newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Teacher newQuery()
  * @method static \Illuminate\Database\Query\Builder|Teacher onlyTrashed()
@@ -1633,7 +1649,7 @@ namespace App\Models{
  * App\Models\User
  *
  * @property int $id
- * @property string|null $username
+ * @property string $username
  * @property string $firstname
  * @property string $lastname
  * @property string|null $email
@@ -1657,8 +1673,8 @@ namespace App\Models{
  * @property-read int|null $permissions_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Role[] $roles
  * @property-read int|null $roles_count
- * @property-read Student|null $student
- * @property-read Teacher|null $teacher
+ * @property-read \App\Models\Student|null $student
+ * @property-read \App\Models\Teacher|null $teacher
  * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
  * @method static \Illuminate\Database\Query\Builder|User onlyTrashed()
@@ -1693,7 +1709,7 @@ namespace App\Models{
  * @property int $id
  * @property string $name
  * @property-read mixed $partnerships
- * @property-read \Illuminate\Database\Eloquent\Collection|Period[] $periods
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Period[] $periods
  * @property-read int|null $periods_count
  * @method static \Illuminate\Database\Eloquent\Builder|Year newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Year newQuery()
