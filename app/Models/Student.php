@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
@@ -41,7 +42,10 @@ class Student extends Model implements HasMedia
 
     protected $appends = ['email', 'name', 'firstname', 'lastname', 'student_age', 'student_birthdate', 'is_enrolled'];
 
-    protected static bool $logUnguarded = true;
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logUnguarded();
+    }
 
     public function scopeEnrolled($query)
     {

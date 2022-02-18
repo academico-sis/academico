@@ -8,7 +8,6 @@ use App\Http\Controllers\ConfigController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ContactPhoneNumberController;
 use App\Http\Controllers\CourseController;
-use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CourseSkillController;
 use App\Http\Controllers\CourseSkillEvaluationController;
 use App\Http\Controllers\EnrollmentController;

@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
@@ -21,7 +22,10 @@ class ScheduledPayment extends Model
 
     protected $guarded = ['id'];
 
-    protected static bool $logUnguarded = true;
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logUnguarded();
+    }
 
     /*
     |--------------------------------------------------------------------------

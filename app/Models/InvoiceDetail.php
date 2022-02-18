@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
@@ -16,9 +17,12 @@ class InvoiceDetail extends Model
 
     protected $guarded = ['id'];
 
-    protected static bool $logUnguarded = true;
-
     protected $appends = ['price_with_currency'];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logUnguarded();
+    }
 
     public function invoice()
     {

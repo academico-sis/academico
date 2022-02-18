@@ -11,7 +11,6 @@ use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-use Backpack\CRUD\app\Http\Requests\CrudRequest;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\PermissionManager\app\Models\Role;
 
@@ -66,7 +65,7 @@ class UserCrudController extends CrudController
                 'type' => 'dropdown',
                 'label' => trans('backpack::permissionmanager.role'),
             ],
-            config('permission.models.role')::all()->pluck(['name', 'id'])->toArray(),
+            config('permission.models.role')->pluck(['name', 'id'])->toArray(),
             function ($value) {
                 $this->crud->addClause('whereHas', 'roles', function ($query) use ($value) {
                     $query->where('role_id', '=', $value);
@@ -152,11 +151,6 @@ class UserCrudController extends CrudController
         ]);
     }
 
-    /**
-     * Handle password input fields.
-     *
-     * @param CrudRequest $request
-     */
     protected function handlePasswordInput($request)
     {
         $crud_request = $this->crud->getRequest();

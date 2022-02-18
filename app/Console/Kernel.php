@@ -79,7 +79,7 @@ class Kernel extends ConsoleKernel
             })->monthlyOn(20);
         }
 
-        $schedule->command('activitylog:clean')->daily();
+        $schedule->command('activitylog:clean')->monthly();
 
         $schedule->command('telescope:prune --hours=96')->daily();
     }

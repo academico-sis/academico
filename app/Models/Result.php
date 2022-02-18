@@ -6,6 +6,7 @@ use App\Mail\ResultNotification;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Mail;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
@@ -18,7 +19,10 @@ class Result extends Model
 
     protected $guarded = ['id'];
 
-    protected static bool $logUnguarded = true;
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logUnguarded();
+    }
 
     protected static function boot()
     {

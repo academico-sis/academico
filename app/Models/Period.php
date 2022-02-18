@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
@@ -21,8 +22,6 @@ class Period extends Model
 
     protected $fillable = ['name', 'year_id', 'start', 'end'];
 
-    protected static bool $logUnguarded = true;
-
     protected static function boot()
     {
         parent::boot();
@@ -30,6 +29,11 @@ class Period extends Model
         static::addGlobalScope('order', function (Builder $builder) {
             $builder->orderBy('year_id')->orderBy('order')->orderBy('id');
         });
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logUnguarded();
     }
 
     /**

@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
@@ -28,14 +29,17 @@ class Enrollment extends Model
 
     protected $with = ['student', 'course', 'childrenEnrollments'];
 
-    protected static bool $logUnguarded = true;
-
     protected $dispatchesEvents = [
         'deleting' => EnrollmentDeleting::class,
         'created' => EnrollmentCreated::class,
         'updating' => EnrollmentUpdating::class,
         'updated' => EnrollmentUpdated::class,
     ];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logUnguarded();
+    }
 
     /**
      * return all pending enrollments, without the child enrollments.

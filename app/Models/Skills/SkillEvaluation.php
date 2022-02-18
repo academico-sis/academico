@@ -5,17 +5,26 @@ namespace App\Models\Skills;
 use App\Models\Enrollment;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * @mixin IdeHelperSkillEvaluation
  */
 class SkillEvaluation extends Model
 {
+    use CrudTrait;
+    use LogsActivity;
+
     protected $guarded = ['id'];
 
     protected $with = ['skill', 'skill_scale'];
 
-    use CrudTrait;
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logUnguarded();
+    }
 
     public function skill()
     {

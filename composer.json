@@ -8,9 +8,10 @@
         "ext-gd": "*",
         "akaunting/laravel-language": "^1.0",
         "backpack/crud": "^5.0.0",
-        "backpack/pro": "^1.0.0",
         "backpack/permissionmanager": "^6.0.0",
+        "backpack/pro": "^1.0.0",
         "curl/curl": "^2.3.0",
+        "fruitcake/laravel-cors": "^2.0.5",
         "guzzlehttp/guzzle": "^7.2",
         "intervention/image": "^2.7",
         "laravel/framework": "^9.1",
@@ -28,8 +29,7 @@
         "spatie/laravel-medialibrary": "^10.0",
         "spatie/laravel-query-builder": "^5.0",
         "spatie/laravel-translatable": "^5.2",
-        "symfony/psr-http-message-bridge": "^6.0",
-        "fruitcake/laravel-cors": "^2.0.5"
+        "symfony/psr-http-message-bridge": "^2.1"
     },
     "require-dev": {
         "backpack/generators": "^3.1.3",
