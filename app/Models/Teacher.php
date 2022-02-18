@@ -123,9 +123,9 @@ class Teacher extends Model
                     // push the range to result array
                     $range_end = Carbon::parse($dates[$i]['date']);
                     if ($range_start == $range_end) {
-                        array_push($formatted_leaves, $range_start->format('d/m/Y'));
+                        $formatted_leaves[] = $range_start->format('d/m/Y');
                     } else {
-                        array_push($formatted_leaves, $range_start->format('d/m/Y').' - '.$range_end->format('d/m/Y'));
+                        $formatted_leaves[] = $range_start->format('d/m/Y') . ' - ' . $range_end->format('d/m/Y');
                     }
 
                     $range_start = Carbon::parse($dates[$i + 1]['date']);
@@ -134,9 +134,9 @@ class Teacher extends Model
                 // if there is no further date
                 $range_end = Carbon::parse($dates[$i]['date']);
                 if ($range_start == $range_end) {
-                    array_push($formatted_leaves, $range_start->format('d/m/Y'));
+                    $formatted_leaves[] = $range_start->format('d/m/Y');
                 } else {
-                    array_push($formatted_leaves, $range_start->format('d/m/Y').' - '.$range_end->format('d/m/Y'));
+                    $formatted_leaves[] = $range_start->format('d/m/Y') . ' - ' . $range_end->format('d/m/Y');
                 }
             }
         }

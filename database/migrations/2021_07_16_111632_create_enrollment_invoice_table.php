@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Enrollment;
 use App\Models\Invoice;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -19,7 +20,7 @@ return new class extends Migration {
             $table->unsignedInteger('invoice_id')->references('id')->on('invoices')->onDelete('cascade');
         });
 
-        foreach (\App\Models\Enrollment::all() as $enrollment) {
+        foreach (Enrollment::all() as $enrollment) {
             $invoices = Invoice::whereId($enrollment->invoice_id);
 
             if ($invoices->count() > 0) {

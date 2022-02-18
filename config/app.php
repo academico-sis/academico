@@ -1,12 +1,6 @@
 <?php
 
-use App\Services\AFLojaCertificatesService;
-use App\Services\GenericCertificatesService;
-
-$enrollmentSheetSupported = match (env('ENROLLMENT_SHEET_STYLE')) {
-    'afsantiago' => true,
-    default => false,
-};
+use Illuminate\Support\Facades\Facade;
 
 return [
 
@@ -21,12 +15,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Academico'),
-    'company_name' => env('COMPANY_NAME', 'Academico'),
-    'company_address' => env('COMPANY_ADDRESS', ''),
-    'company_phone' => env('COMPANY_PHONE', ''),
-    'company_id' => env('COMPANY_ID', ''),
-    'company_email' => env('COMPANY_EMAIL', ''),
+    'name' => env('APP_NAME', 'Laravel'),
 
     /*
     |--------------------------------------------------------------------------
@@ -52,7 +41,7 @@ return [
     |
     */
 
-    'debug' => env('APP_DEBUG', false),
+    'debug' => (bool) env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -67,7 +56,7 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
 
-    'asset_url' => env('ASSET_URL', null),
+    'asset_url' => env('ASSET_URL'),
 
     /*
     |--------------------------------------------------------------------------
@@ -80,8 +69,8 @@ return [
     |
     */
 
-    'timezone' => env('SERVER_TIMEZONE', 'UTC'),
-    'calendar_start' => env('DAY_START_IN_CALENDARS', '06:00:00'),
+    'timezone' => 'UTC',
+
     /*
     |--------------------------------------------------------------------------
     | Application Locale Configuration
@@ -109,35 +98,6 @@ return [
     'fallback_locale' => 'en',
 
     /*
-     * available languages
-     */
-
-    'languages' => ['fr', 'en', 'es'],
-
-    'currency_symbol' => env('CURRENCY_SYMBOL', '€'),
-    'currency_code' => env('CURRENCY_CODE', 'EUR'),
-    'currency_position' => env('CURRENCY_POSITION', 'after'),
-
-    'enrollment_sheet' => $enrollmentSheetSupported,
-
-    'style' => env('CERTIFICATES_STYLE', 'none'),
-
-    'none' => [
-        'class' => GenericCertificatesService::class,
-    ],
-
-    'afloja' => [
-        'class' => AFLojaCertificatesService::class,
-    ],
-
-    'books_module' => env('BOOKS_MODULE_ENABLED', false),
-
-    'send_emails_for_absences' => env('SEND_ABSENCE_NOTIFICATIONS', false),
-
-    'send_emails_for_results' => env('SEND_RESULTS_NOTIFICATIONS', false),
-
-    'include_takings_in_reports' => env('INCLUDE_TAKINGS_IN_REPORTS', false),
-    /*
     |--------------------------------------------------------------------------
     | Faker Locale
     |--------------------------------------------------------------------------
@@ -162,8 +122,6 @@ return [
     */
 
     'key' => env('APP_KEY'),
-
-    'admin_email' => env('ADMIN_EMAIL'),
 
     'cipher' => 'AES-256-CBC',
 
@@ -233,44 +191,8 @@ return [
     |
     */
 
-    'aliases' => [
-
-        'App' => Illuminate\Support\Facades\App::class,
-        'Arr' => Illuminate\Support\Arr::class,
-        'Artisan' => Illuminate\Support\Facades\Artisan::class,
-        'Auth' => Illuminate\Support\Facades\Auth::class,
-        'Blade' => Illuminate\Support\Facades\Blade::class,
-        'Broadcast' => Illuminate\Support\Facades\Broadcast::class,
-        'Bus' => Illuminate\Support\Facades\Bus::class,
-        'Cache' => Illuminate\Support\Facades\Cache::class,
-        'Config' => Illuminate\Support\Facades\Config::class,
-        'Cookie' => Illuminate\Support\Facades\Cookie::class,
-        'Crypt' => Illuminate\Support\Facades\Crypt::class,
-        'DB' => Illuminate\Support\Facades\DB::class,
-        'Eloquent' => Illuminate\Database\Eloquent\Model::class,
-        'Event' => Illuminate\Support\Facades\Event::class,
-        'File' => Illuminate\Support\Facades\File::class,
-        'Gate' => Illuminate\Support\Facades\Gate::class,
-        'Hash' => Illuminate\Support\Facades\Hash::class,
-        'Http' => Illuminate\Support\Facades\Http::class,
-        'Lang' => Illuminate\Support\Facades\Lang::class,
-        'Log' => Illuminate\Support\Facades\Log::class,
-        'Mail' => Illuminate\Support\Facades\Mail::class,
-        'Notification' => Illuminate\Support\Facades\Notification::class,
-        'Password' => Illuminate\Support\Facades\Password::class,
-        'Queue' => Illuminate\Support\Facades\Queue::class,
-        'Redirect' => Illuminate\Support\Facades\Redirect::class,
-        'Redis' => Illuminate\Support\Facades\Redis::class,
-        'Request' => Illuminate\Support\Facades\Request::class,
-        'Response' => Illuminate\Support\Facades\Response::class,
-        'Route' => Illuminate\Support\Facades\Route::class,
-        'Schema' => Illuminate\Support\Facades\Schema::class,
-        'Session' => Illuminate\Support\Facades\Session::class,
-        'Storage' => Illuminate\Support\Facades\Storage::class,
-        'Str' => Illuminate\Support\Str::class,
-        'URL' => Illuminate\Support\Facades\URL::class,
-        'Validator' => Illuminate\Support\Facades\Validator::class,
-        'View' => Illuminate\Support\Facades\View::class,
-    ],
+    'aliases' => Facade::defaultAliases()->merge([
+        // ...
+    ])->toArray(),
 
 ];

@@ -12,18 +12,16 @@ class LeadStatusUpdatedEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $email;
+    public ?string $email;
 
-    public $name;
+    public string $firstname;
 
-    public $firstname;
-
-    public $lastname;
+    public string $lastname;
 
     public function __construct(Student|Contact $user, public $listId)
     {
         $this->email = $user->email;
-        $this->name = $user->firstname;
+        $this->firstname = $user->firstname;
         $this->lastname = $user->lastname;
     }
 }

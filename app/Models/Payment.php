@@ -108,11 +108,11 @@ class Payment extends Model
 
     public function getValueWithCurrencyAttribute()
     {
-        if (config('app.currency_position') === 'before') {
-            return config('app.currency_symbol').' '.$this->value;
+        if (config('academico.currency_position') === 'before') {
+            return config('academico.currency_symbol').' '.$this->value;
         }
 
-        return $this->value.' '.config('app.currency_symbol');
+        return $this->value.' '.config('academico.currency_symbol');
     }
 
     /*

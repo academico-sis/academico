@@ -43,7 +43,7 @@ class EnrollmentController extends Controller
         // these methods are reserved to administrators or staff members.
         // Only the store method can also be called by teachers to enroll students in their courses
         $this->middleware('permission:enrollments.edit', ['except' => 'store']);
-        $this->enrollmentSheetService = new AFSantiagoEnrollmentSheetService($this);
+        $this->enrollmentSheetService = new AFSantiagoEnrollmentSheetService();
     }
 
     /**
@@ -134,36 +134,30 @@ class EnrollmentController extends Controller
         foreach (Fee::where('default', 1)->get() as $fee) {
             // Set quantity to 1
 
-            array_push($products, $fee);
+            $products[] = $fee;
         }
 
         if (config('invoicing.invoices_contain_enrollments_only')) {
             $enrollment->append('balance');
         }
 
-        array_push($products, $enrollment);
+        $products[] = $enrollment;
 
         if ($enrollment->course->books->count() > 0 && config('invoicing.add_books_to_invoices')) {
             // Set quantity to 1
 
             foreach ($enrollment->course->books as $book) {
-                array_push($products, $book);
+                $products[] = $book;
             }
         }
 
         // build an array with all contact data
         $clients = [];
 
-        array_push($clients, [
-            'name' => $enrollment->student_name,
-            'email' => $enrollment->student_email,
-            'idnumber' => $enrollment->student->idnumber,
-            'address' => $enrollment->student->address,
-            'phone' => $enrollment->student->phone,
-        ]);
+        $clients[] = ['name' => $enrollment->student_name, 'email' => $enrollment->student_email, 'idnumber' => $enrollment->student->idnumber, 'address' => $enrollment->student->address, 'phone' => $enrollment->student->phone,];
 
         foreach ($enrollment->student->contacts as $client) {
-            array_push($clients, $client);
+            $clients[] = $client;
         }
 
         $data = [

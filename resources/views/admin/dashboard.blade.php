@@ -23,7 +23,7 @@
                                 :resources="{{ json_encode($resources) }}"
                                 :events="{{ json_encode($events) }}"
                                 locale="{{ backpack_user()->locale }}"
-                                :calendar-start="{{ json_encode(config('app.calendar_start')) }}"
+                                :calendar-start="{{ json_encode(config('academico.calendar_start')) }}"
                             ></dashboard-calendar>
                     </div>
                 </div>

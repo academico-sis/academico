@@ -226,12 +226,12 @@ class CourseCrudController extends CrudController
                 'type' => 'select2',
                 'label' => __('Period'),
             ],
-            fn () => \App\Models\Period::all()->sortByDesc('id')->pluck('name', 'id')->toArray(),
+            fn () => Period::all()->sortByDesc('id')->pluck('name', 'id')->toArray(),
             function ($value) {
                 CRUD::addClause('where', 'period_id', $value);
             },
             function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
-                $period = \App\Models\Period::get_default_period()->id;
+                $period = Period::get_default_period()->id;
                 CRUD::addClause('where', 'period_id', $period);
                 $this->crud->getRequest()->request->add(['period_id' => $period]); // to make the filter look active
             }
@@ -280,10 +280,10 @@ class CourseCrudController extends CrudController
 
     protected function setupCreateOperation()
     {
-        if (config('app.currency_position') === 'before') {
-            $currency = ['prefix' => config('app.currency_symbol')];
+        if (config('academico.currency_position') === 'before') {
+            $currency = ['prefix' => config('academico.currency_symbol')];
         } else {
-            $currency = ['suffix' => config('app.currency_symbol')];
+            $currency = ['suffix' => config('academico.currency_symbol')];
         }
 
         CRUD::addFields([
@@ -616,10 +616,10 @@ class CourseCrudController extends CrudController
 
     protected function setupUpdateOperation()
     {
-        if (config('app.currency_position') === 'before') {
-            $currency = ['prefix' => config('app.currency_symbol')];
+        if (config('academico.currency_position') === 'before') {
+            $currency = ['prefix' => config('academico.currency_symbol')];
         } else {
-            $currency = ['suffix' => config('app.currency_symbol')];
+            $currency = ['suffix' => config('academico.currency_symbol')];
         }
 
         if ($this->crud->getCurrentEntry()->children->count() > 0) {
@@ -933,9 +933,7 @@ class CourseCrudController extends CrudController
         $course->saveRemoteEvents($remoteEvents);
 
         // update model
-        $response = $this->traitUpdate();
-
-        return $response;
+        return $this->traitUpdate();
     }
 
     public function store()

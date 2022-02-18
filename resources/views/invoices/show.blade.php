@@ -79,8 +79,8 @@
                         :invoice="{{ json_encode($invoice) }}"
                         :availablepaymentmethods="{{ json_encode($availablePaymentMethods ?? []) }}"
                         editable="{{ $editable ?? false }}"
-                        currency="{{ config('app.currency_symbol') }}"
-                        currencyposition="{{ config('app.currency_position') }}"
+                        currency="{{ config('academico.currency_symbol') }}"
+                        currencyposition="{{ config('academico.currency_position') }}"
                         after-success-url="{{ $afterSuccessUrl }}"
                     ></payment-component>
 

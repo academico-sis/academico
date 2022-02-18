@@ -1,5 +1,7 @@
 <?php
 
+use LaravelDaily\Invoices\Classes\Seller;
+
 return [
     'date' => [
         /**
@@ -72,14 +74,14 @@ return [
          * Must implement LaravelDaily\Invoices\Contracts\PartyContract
          *      or extend LaravelDaily\Invoices\Classes\Party
          */
-        'class' => \LaravelDaily\Invoices\Classes\Seller::class,
+        'class' => Seller::class,
 
         /**
          * Default attributes for Seller::class
          */
         'attributes' => [
-            'name'          => config('app.company_name'),
-            'address'       => config('app.company_address'),
+            'name'          => config('academico.company_name'),
+            'address'       => config('academico.company_address'),
             'custom_fields' => [
                 /**
                  * Custom attributes for Seller::class
@@ -87,8 +89,8 @@ return [
                  * Used to display additional info on Seller section in invoice
                  * attribute => value
                  */
-                'Telf' => config('app.company_phone'),
-                'CIF' => config('app.company_id'),
+                'Telf' => config('academico.company_phone'),
+                'CIF' => config('academico.company_id'),
             ],
         ],
     ],

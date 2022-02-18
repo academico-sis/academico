@@ -49,28 +49,15 @@ class ScheduledPaymentController extends Controller
 
         $enrollment = $scheduledPayment->enrollment;
 
-        array_push($products, [
-            'name' => $enrollment->name,
-            'product_code' => $enrollment->product_code,
-            'type' => 'scheduledPayment',
-            'price' => $scheduledPayment->value,
-            'quantity' => 1,
-            'id' => $scheduledPayment->id,
-        ]);
+        $products[] = ['name' => $enrollment->name, 'product_code' => $enrollment->product_code, 'type' => 'scheduledPayment', 'price' => $scheduledPayment->value, 'quantity' => 1, 'id' => $scheduledPayment->id,];
 
         // build an array with all contact data
         $clients = [];
 
-        array_push($clients, [
-            'name' => $enrollment->student_name,
-            'email' => $enrollment->student_email,
-            'idnumber' => $enrollment->student->idnumber,
-            'address' => $enrollment->student->address,
-            'phone' => $enrollment->student->phone,
-        ]);
+        $clients[] = ['name' => $enrollment->student_name, 'email' => $enrollment->student_email, 'idnumber' => $enrollment->student->idnumber, 'address' => $enrollment->student->address, 'phone' => $enrollment->student->phone,];
 
         foreach ($enrollment->student->contacts as $client) {
-            array_push($clients, $client);
+            $clients[] = $client;
         }
 
         $data = [

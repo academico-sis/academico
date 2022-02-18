@@ -24,7 +24,7 @@ class Attendance extends Model
 
         // when an attendance record is added, we check if this is an absence
         static::saved(function (self $attendance) {
-            if (config('app.send_emails_for_absences') && $attendance->attendance_type_id == 4) { // todo move to configurable settings
+            if (config('academico.send_emails_for_absences') && $attendance->attendance_type_id == 4) { // todo move to configurable settings
                 // Log::info('Absence marked for student '.$attendance->student->name);
                 // will check the record again and send a notification if it hasn't changed
                 WatchAttendance::dispatch($attendance)

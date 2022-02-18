@@ -28,7 +28,7 @@ class SendMonthlyReport
         $recipients = [];
 
         if (config('settings.reports_email') !== null) {
-            array_push($recipients, ['email' => explode(',', config('settings.reports_email'))]);
+            $recipients[] = ['email' => explode(',', config('settings.reports_email'))];
         }
 
         Mail::to($recipients)->queue(new MonthlyReport());

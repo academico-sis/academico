@@ -54,11 +54,11 @@ class InvoiceDetail extends Model
 
     public function getPriceWithCurrencyAttribute()
     {
-        if (config('app.currency_position') === 'before') {
-            return config('app.currency_symbol').' '.$this->price;
+        if (config('academico.currency_position') === 'before') {
+            return config('academico.currency_symbol').' '.$this->price;
         }
 
-        return $this->price.' '.config('app.currency_symbol');
+        return $this->price.' '.config('academico.currency_symbol');
     }
 
     /*

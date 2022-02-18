@@ -264,6 +264,12 @@
 			childLevels = this._getChildLevels(this.helper);
 			newList = document.createElement(o.listType);
 
+	        // dragDirection object is required by jquery.ui.sortable.js 1.13+
+	       	this.dragDirection = {
+		      	vertical: this._getDragVerticalDirection(),
+				horizontal: this._getDragHorizontalDirection()
+	    	};
+
 			//Rearrange
 			for (i = this.items.length - 1; i >= 0; i--) {
 

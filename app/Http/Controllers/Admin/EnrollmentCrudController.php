@@ -86,10 +86,10 @@ class EnrollmentCrudController extends CrudController
             CRUD::addButtonFromView('top', 'switch-to-photo-roster', 'switch-to-photo-roster', 'end');
         }
 
-        if (config('app.currency_position') === 'before') {
-            $currency = ['prefix' => config('app.currency_symbol')];
+        if (config('academico.currency_position') === 'before') {
+            $currency = ['prefix' => config('academico.currency_symbol')];
         } else {
-            $currency = ['suffix' => config('app.currency_symbol')];
+            $currency = ['suffix' => config('academico.currency_symbol')];
         }
 
         CRUD::addColumns([['name' => 'id',
@@ -185,7 +185,7 @@ class EnrollmentCrudController extends CrudController
                     return 'badge badge-pill badge-'.$entry->enrollmentStatus->styling();
                 }, ], ]]);
 
-        if (config('app.books_module') && $this->mode === 'course') {
+        if (config('academico.books_module') && $this->mode === 'course') {
             CRUD::addColumn(['name' => 'hasBook',
                 'type' => 'model_function',
                 'function_name' => 'getHasBookForCourseAttribute',
@@ -295,10 +295,10 @@ class EnrollmentCrudController extends CrudController
 
     protected function setupUpdateOperation()
     {
-        if (config('app.currency_position') === 'before') {
-            $currency = ['prefix' => config('app.currency_symbol')];
+        if (config('academico.currency_position') === 'before') {
+            $currency = ['prefix' => config('academico.currency_symbol')];
         } else {
-            $currency = ['suffix' => config('app.currency_symbol')];
+            $currency = ['suffix' => config('academico.currency_symbol')];
         }
 
         CRUD::addField([

@@ -90,7 +90,7 @@ class EvaluationTypeCrudController extends CrudController
 
     private function overrideTranslations($entry, $value)
     {
-        foreach (config('app.languages') as $i => $locale) {
+        foreach (config('academico.languages') as $i => $locale) {
             $entry->setTranslation('name', $locale, $value);
         }
         $entry->save();

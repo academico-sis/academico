@@ -61,6 +61,6 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
      */
     protected function gate()
     {
-        Gate::define('viewTelescope', fn ($user = null) => backpack_user() && backpack_user()->email === config('app.admin_email'));
+        Gate::define('viewTelescope', fn ($user = null) => backpack_user() && backpack_user()->email === config('academico.admin_email'));
     }
 }

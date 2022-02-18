@@ -1,8 +1,9 @@
 <?php
 
-/* @var $factory \Illuminate\Database\Eloquent\Factory */
+/* @var $factory Factory */
 
 use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factory;
 
 $factory->define(App\Models\PhoneNumber::class, function (Faker $faker) {
     return [

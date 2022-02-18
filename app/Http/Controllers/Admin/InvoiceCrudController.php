@@ -36,10 +36,10 @@ class InvoiceCrudController extends CrudController
             $this->crud->addButtonFromView('top', 'createInvoice', 'createInvoice', 'start');
         }
 
-        if (config('app.currency_position') === 'before') {
-            $this->currency = ['prefix' => config('app.currency_symbol')];
+        if (config('academico.currency_position') === 'before') {
+            $this->currency = ['prefix' => config('academico.currency_symbol')];
         } else {
-            $this->currency = ['suffix' => config('app.currency_symbol')];
+            $this->currency = ['suffix' => config('academico.currency_symbol')];
         }
     }
 

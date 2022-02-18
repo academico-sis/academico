@@ -15,8 +15,8 @@
         <div class="card">
             <cart-scheduled-payments-component
                 v-if="{{ config('invoicing.allow_scheduled_payments') }}"
-                currency="{{ config('app.currency_symbol') }}"
-                currencyposition="{{ config('app.currency_position') }}"
+                currency="{{ config('academico.currency_symbol') }}"
+                currencyposition="{{ config('academico.currency_position') }}"
                 :enrollment="{{ json_encode($enrollment) }}"
             ></cart-scheduled-payments-component>
         </div>

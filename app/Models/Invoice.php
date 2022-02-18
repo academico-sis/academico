@@ -98,11 +98,11 @@ class Invoice extends Model
 
     public function getTotalPriceWithCurrencyAttribute()
     {
-        if (config('app.currency_position') === 'before') {
-            return config('app.currency_symbol').' '.$this->totalPrice();
+        if (config('academico.currency_position') === 'before') {
+            return config('academico.currency_symbol').' '.$this->totalPrice();
         }
 
-        return $this->totalPrice().' '.config('app.currency_symbol');
+        return $this->totalPrice().' '.config('academico.currency_symbol');
     }
 
     public function totalPrice()

@@ -45,7 +45,7 @@
                             <th>@lang('New Students')</th>
                             <th>@lang('Hours Taught')</th>
                             <th>@lang('Hours Sold')</th>
-                            @if (config('app.include_takings_in_reports'))
+                            @if (config('academico.include_takings_in_reports'))
                                 <th>@lang('Takings')</th>
                                 <th>@lang('Average takings per hour taught')</th>
                             @endif
@@ -95,23 +95,23 @@
                                         {{ number_format($year_sold_hours ?? '0') }}
                                     </td>
 
-                                    @if (config('app.include_takings_in_reports'))
+                                    @if (config('academico.include_takings_in_reports'))
                                         <td>
-                                            @if (config('app.currency_position') === 'before')
-                                                {{ config('app.currency_symbol') }} {{ number_format($year_takings) }}
+                                            @if (config('academico.currency_position') === 'before')
+                                                {{ config('academico.currency_symbol') }} {{ number_format($year_takings) }}
                                             @else
-                                                {{ number_format($year_takings) }} {{ config('app.currency_symbol') }}
+                                                {{ number_format($year_takings) }} {{ config('academico.currency_symbol') }}
                                             @endif
                                         </td>
                                     @endif
 
-                                    @if (config('app.include_takings_in_reports'))
+                                    @if (config('academico.include_takings_in_reports'))
                                         <td>
                                             @if ($year_taught_hours > 1)
-                                                @if (config('app.currency_position') === 'before')
-                                                    {{ config('app.currency_symbol') }} {{ number_format($year_takings / $year_taught_hours, 2) }}
+                                                @if (config('academico.currency_position') === 'before')
+                                                    {{ config('academico.currency_symbol') }} {{ number_format($year_takings / $year_taught_hours, 2) }}
                                                 @else
-                                                    {{ number_format($year_takings / $year_taught_hours, 2) }} {{ config('app.currency_symbol') }}
+                                                    {{ number_format($year_takings / $year_taught_hours, 2) }} {{ config('academico.currency_symbol') }}
                                                 @endif
                                             @endif
                                         </td>
@@ -132,7 +132,7 @@
                                 $year_enrollments += $data_period['enrollments'];
                                 $year_taught_hours += $data_period['taught_hours'];
                                 $year_sold_hours += $data_period['sold_hours'];
-                                if (config('app.include_takings_in_reports')) {$year_takings += $data_period['takings']; }
+                                if (config('academico.include_takings_in_reports')) {$year_takings += $data_period['takings']; }
                             @endphp
 
                                 <tr>
@@ -166,20 +166,20 @@
                                         {{ number_format($data_period['sold_hours'] ?? '0') }}
                                     </td>
 
-                                    @if (config('app.include_takings_in_reports'))
+                                    @if (config('academico.include_takings_in_reports'))
                                         <td>
-                                            @if (config('app.currency_position') === 'before')
-                                                {{ config('app.currency_symbol') }} {{ number_format($data_period['takings'] ?? '-') }}
+                                            @if (config('academico.currency_position') === 'before')
+                                                {{ config('academico.currency_symbol') }} {{ number_format($data_period['takings'] ?? '-') }}
                                             @else
-                                                {{ number_format($data_period['takings'] ?? '-') }} {{ config('app.currency_symbol') }}
+                                                {{ number_format($data_period['takings'] ?? '-') }} {{ config('academico.currency_symbol') }}
                                             @endif
                                         </td>
 
                                         <td>
-                                            @if (config('app.currency_position') === 'before')
-                                                {{ config('app.currency_symbol') }} {{ number_format($data_period['avg_takings'] ?? '-', 2) }}
+                                            @if (config('academico.currency_position') === 'before')
+                                                {{ config('academico.currency_symbol') }} {{ number_format($data_period['avg_takings'] ?? '-', 2) }}
                                             @else
-                                                {{ number_format($data_period['avg_takings'] ?? '-', 2) }} {{ config('app.currency_symbol') }}
+                                                {{ number_format($data_period['avg_takings'] ?? '-', 2) }} {{ config('academico.currency_symbol') }}
                                             @endif
                                         </td>
                                     @endif
@@ -220,21 +220,21 @@
                                         {{ number_format($year_sold_hours ?? '0') }}
                                     </td>
 
-                                    @if (config('app.include_takings_in_reports'))
+                                    @if (config('academico.include_takings_in_reports'))
                                         <td>
-                                            @if (config('app.currency_position') === 'before')
-                                                {{ config('app.currency_symbol') }} {{ number_format($year_takings ?? '-') }}
+                                            @if (config('academico.currency_position') === 'before')
+                                                {{ config('academico.currency_symbol') }} {{ number_format($year_takings ?? '-') }}
                                             @else
-                                                {{ number_format($year_takings ?? '-') }} {{ config('app.currency_symbol') }}
+                                                {{ number_format($year_takings ?? '-') }} {{ config('academico.currency_symbol') }}
                                             @endif
                                         </td>
 
                                         <td>
                                             @if ($year_taught_hours > 1)
-                                                @if (config('app.currency_position') === 'before')
-                                                    {{ config('app.currency_symbol') }} {{ number_format($year_takings / $year_taught_hours, 2) }}
+                                                @if (config('academico.currency_position') === 'before')
+                                                    {{ config('academico.currency_symbol') }} {{ number_format($year_takings / $year_taught_hours, 2) }}
                                                 @else
-                                                    {{ number_format($year_takings / $year_taught_hours, 2) }} {{ config('app.currency_symbol') }}
+                                                    {{ number_format($year_takings / $year_taught_hours, 2) }} {{ config('academico.currency_symbol') }}
                                                 @endif
                                             @endif
                                         </td>

@@ -17,7 +17,7 @@ class LeadStatusController extends Controller
         $student->save();
 
         // if the sync with external mailing system is enabled
-        if (config('mailing-system.external_mailing_enabled') == true) {
+        if (config('mailing-system.external_mailing_enabled')) {
             match ($request->input('status')) {
                 1 => $listId = config('mailing-system.mailerlite.activeStudentsListId'),
                 2, 3 => $listId = config('mailing-system.mailerlite.inactiveStudentsListId'),

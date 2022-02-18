@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\Auth;
+use App\Http\Controllers\Auth\MyAccountController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ConfigController;
@@ -214,26 +215,26 @@ Route::middleware('web', 'language')->group(function () {
 
 // Registration Routes...
 Route::namespace('\App\Http\Controllers')->middleware('web', 'loggedin', 'language')->prefix(config('backpack.base.route_prefix'))->group(function () {
-    Route::post('edit-account', [\App\Http\Controllers\Auth\MyAccountController::class, 'postAccountInfoForm'])->name('backpack.account.info.store');
-    Route::post('edit-student-info', [\App\Http\Controllers\Auth\MyAccountController::class, 'postStudentInfoForm']);
-    Route::post('edit-profession', [\App\Http\Controllers\Auth\MyAccountController::class, 'postAccountProfessionForm']);
-    Route::post('edit-phone', [\App\Http\Controllers\Auth\MyAccountController::class, 'postPhoneForm']);
-    Route::post('edit-photo', [\App\Http\Controllers\Auth\MyAccountController::class, 'postPhotoForm']);
-    Route::post('edit-contacts', [\App\Http\Controllers\Auth\MyAccountController::class, 'postContactsForm']);
-    Route::post('change-password', [\App\Http\Controllers\Auth\MyAccountController::class, 'postChangePasswordForm'])->name('backpack.account.password');
+    Route::post('edit-account', [MyAccountController::class, 'postAccountInfoForm'])->name('backpack.account.info.store');
+    Route::post('edit-student-info', [MyAccountController::class, 'postStudentInfoForm']);
+    Route::post('edit-profession', [MyAccountController::class, 'postAccountProfessionForm']);
+    Route::post('edit-phone', [MyAccountController::class, 'postPhoneForm']);
+    Route::post('edit-photo', [MyAccountController::class, 'postPhotoForm']);
+    Route::post('edit-contacts', [MyAccountController::class, 'postContactsForm']);
+    Route::post('change-password', [MyAccountController::class, 'postChangePasswordForm'])->name('backpack.account.password');
 }
 );
 
 Route::namespace('\App\Http\Controllers')->middleware('web', 'loggedin', 'language', 'forceupdate')->prefix(config('backpack.base.route_prefix'))->group(function () {
     // route numbers match the DB forceupdate field
     Route::permanentRedirect('/edit-account-info', '/edit/1')->name('backpack.account.info');
-    Route::get('edit/1', [\App\Http\Controllers\Auth\MyAccountController::class, 'getAccountInfoForm'])->name('backpack.account.edit_info');
-    Route::get('edit/2', [\App\Http\Controllers\Auth\MyAccountController::class, 'getChangePasswordForm'])->name('backpack.account.change_password');
-    Route::get('edit/3', [\App\Http\Controllers\Auth\MyAccountController::class, 'getStudentInfoForm'])->name('backpack.student.info');
-    Route::get('edit/4', [\App\Http\Controllers\Auth\MyAccountController::class, 'getPhoneForm'])->name('backpack.account.phone');
-    Route::get('edit/5', [\App\Http\Controllers\Auth\MyAccountController::class, 'getAccountProfessionForm'])->name('backpack.account.profession');
-    Route::get('edit/6', [\App\Http\Controllers\Auth\MyAccountController::class, 'getPhotoForm'])->name('backpack.account.photo');
-    Route::get('edit/7', [\App\Http\Controllers\Auth\MyAccountController::class, 'getContactsForm'])->name('backpack.account.contacts');
+    Route::get('edit/1', [MyAccountController::class, 'getAccountInfoForm'])->name('backpack.account.edit_info');
+    Route::get('edit/2', [MyAccountController::class, 'getChangePasswordForm'])->name('backpack.account.change_password');
+    Route::get('edit/3', [MyAccountController::class, 'getStudentInfoForm'])->name('backpack.student.info');
+    Route::get('edit/4', [MyAccountController::class, 'getPhoneForm'])->name('backpack.account.phone');
+    Route::get('edit/5', [MyAccountController::class, 'getAccountProfessionForm'])->name('backpack.account.profession');
+    Route::get('edit/6', [MyAccountController::class, 'getPhotoForm'])->name('backpack.account.photo');
+    Route::get('edit/7', [MyAccountController::class, 'getContactsForm'])->name('backpack.account.contacts');
 }
 );
 

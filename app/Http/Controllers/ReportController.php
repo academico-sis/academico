@@ -181,7 +181,7 @@ class ReportController extends Controller
             $data[$data_period->id]['taught_hours'] = $data_period->period_taught_hours_count;
             $data[$data_period->id]['sold_hours'] = $data_period->period_sold_hours_count;
 
-            if (config('app.include_takings_in_reports')) {
+            if (config('academico.include_takings_in_reports')) {
                 $data[$data_period->id]['takings'] = $data_period->takings;
                 $data[$data_period->id]['avg_takings'] = $data_period->takings / max(1, $data_period->period_taught_hours_count);
             }
