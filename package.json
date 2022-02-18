@@ -2,29 +2,29 @@
     "private": true,
     "scripts": {
         "dev": "npm run development",
-        "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-        "watch": "npm run development -- --watch",
+        "development": "mix",
+        "watch": "mix watch",
         "watch-poll": "npm run watch --watch --watch-poll",
-        "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "hot": "mix watch --hot",
         "prod": "npm run production",
-        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+        "production": "mix --production"
     },
     "devDependencies": {
         "babel-eslint": "^10.1.0",
-        "cross-env": "^7.0.3",
         "eslint": "^7.15.0",
         "eslint-config-prettier": "^6.15.0",
         "eslint-loader": "^4.0.2",
         "eslint-plugin-prettier": "^3.3.0",
         "eslint-plugin-vue": "^6.2.2",
-        "laravel-mix": "^5.0.9",
+        "laravel-mix": "^6.0.12",
         "lodash": "^4.17.20",
         "prettier": "^2.2.1",
         "resolve-url-loader": "^3.1.2",
         "sass": "^1.30.0",
         "sass-loader": "^9.0.3",
         "vue-template-compiler": "^2.6.12",
-        "webpack-bundle-analyzer": "^4.4.0"
+        "webpack-bundle-analyzer": "^4.4.0",
+        "postcss": "^8.2.8"
     },
     "dependencies": {
         "@fullcalendar/core": "^5.10.1",
