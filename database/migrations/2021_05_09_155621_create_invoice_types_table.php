@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateInvoiceTypesTable extends Migration
+return new class extends Migration
 {
     public function up()
     {
@@ -30,4 +30,4 @@ class CreateInvoiceTypesTable extends Migration
     {
         Schema::dropIfExists('invoice_types');
     }
-}
+};

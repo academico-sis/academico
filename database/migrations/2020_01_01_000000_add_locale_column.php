@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class AddLocaleColumn extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -35,4 +35,4 @@ class AddLocaleColumn extends Migration
             $table->dropColumn('locale');
         });
     }
-}
+};
