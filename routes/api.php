@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -11,4 +13,4 @@
 |
 */
 
-Route::post('checkemail', '\\App\\Http\\Controllers\\Auth\\RegisterController@checkEmailUnicity');
+Route::post('checkemail', [\App\Http\Controllers\Auth\RegisterController::class, 'checkEmailUnicity']);
