@@ -8,19 +8,19 @@
 
 /* These routes are protected in the controller */
 Route::namespace('\App\Http\Controllers')->middleware('web', 'loggedin', 'language')->prefix(config('backpack.base.route_prefix'))->group(function () {
-        Route::crud('result', 'Admin\ResultCrudController');
-        Route::crud('student', 'Admin\StudentCrudController');
-        Route::crud('course', 'Admin\CourseCrudController');
-        Route::crud('externalcourse', 'Admin\ExternalCourseCrudController');
-        Route::crud('comment', 'Admin\CommentCrudController');
-    }
+    Route::crud('result', 'Admin\ResultCrudController');
+    Route::crud('student', 'Admin\StudentCrudController');
+    Route::crud('course', 'Admin\CourseCrudController');
+    Route::crud('externalcourse', 'Admin\ExternalCourseCrudController');
+    Route::crud('comment', 'Admin\CommentCrudController');
+}
 );
 
 /* enrollments and invoicing */
 
 Route::prefix(config('backpack.base.route_prefix'))->middleware('web', 'permission:enrollments.view', 'language')->namespace('App\Http\Controllers\Admin')->group(function () {
-        Route::crud('enrollment', 'EnrollmentCrudController');
-    }
+    Route::crud('enrollment', 'EnrollmentCrudController');
+}
 );
 
 /* CRUD routes accessible to admins or secretary */

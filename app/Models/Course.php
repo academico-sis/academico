@@ -29,7 +29,7 @@ class Course extends Model
 
     protected $casts = [
         'start_date' => 'datetime',
-        'end_date' => 'datetime','children' => 'array'
+        'end_date' => 'datetime', 'children' => 'array',
     ];
 
     /*
@@ -40,7 +40,6 @@ class Course extends Model
     public $timestamps = true;
 
     protected $guarded = ['id'];
-
 
     protected $with = ['times', 'evaluationType'];
 
