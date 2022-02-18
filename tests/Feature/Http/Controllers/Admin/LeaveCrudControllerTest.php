@@ -43,7 +43,7 @@ class LeaveCrudControllerTest extends TestCase
         $response = $this->delete(route('leave.destroy', ['id' => $id]));
 
         $response->assertOk();
-        $this->assertDeleted($leave);
+        $this->assertModelMissing($leave);
 
         // TODO: perform additional assertions
     }

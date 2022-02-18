@@ -43,7 +43,7 @@ class RhythmCrudControllerTest extends TestCase
         $response = $this->delete(route('rhythm.destroy', ['id' => $id]));
 
         $response->assertOk();
-        $this->assertDeleted($rhythm);
+        $this->assertModelMissing($rhythm);
 
         // TODO: perform additional assertions
     }

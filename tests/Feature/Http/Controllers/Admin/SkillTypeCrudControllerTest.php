@@ -43,7 +43,7 @@ class SkillTypeCrudControllerTest extends TestCase
         $response = $this->delete(route('skilltype.destroy', ['id' => $id]));
 
         $response->assertOk();
-        $this->assertDeleted($skilltype);
+        $this->assertModelMissing($skilltype);
 
         // TODO: perform additional assertions
     }

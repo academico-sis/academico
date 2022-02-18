@@ -43,7 +43,7 @@ class ResultTypeCrudControllerTest extends TestCase
         $response = $this->delete(route('resulttype.destroy', ['id' => $id]));
 
         $response->assertOk();
-        $this->assertDeleted($resulttype);
+        $this->assertModelMissing($resulttype);
 
         // TODO: perform additional assertions
     }

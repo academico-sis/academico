@@ -43,7 +43,7 @@ class UserCrudControllerTest extends TestCase
         $response = $this->delete(route('user.destroy', ['id' => $id]));
 
         $response->assertOk();
-        $this->assertDeleted($user);
+        $this->assertModelMissing($user);
 
         // TODO: perform additional assertions
     }

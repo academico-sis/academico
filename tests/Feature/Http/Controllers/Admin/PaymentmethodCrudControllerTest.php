@@ -43,7 +43,7 @@ class PaymentmethodCrudControllerTest extends TestCase
         $response = $this->delete(route('paymentmethod.destroy', ['id' => $id]));
 
         $response->assertOk();
-        $this->assertDeleted($paymentmethod);
+        $this->assertModelMissing($paymentmethod);
 
         // TODO: perform additional assertions
     }

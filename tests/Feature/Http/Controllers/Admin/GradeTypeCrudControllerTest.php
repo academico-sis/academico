@@ -43,7 +43,7 @@ class GradeTypeCrudControllerTest extends TestCase
         $response = $this->delete(route('gradetype.destroy', ['id' => $id]));
 
         $response->assertOk();
-        $this->assertDeleted($gradetype);
+        $this->assertModelMissing($gradetype);
 
         // TODO: perform additional assertions
     }

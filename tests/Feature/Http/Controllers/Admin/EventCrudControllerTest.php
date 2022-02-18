@@ -43,7 +43,7 @@ class EventCrudControllerTest extends TestCase
         $response = $this->delete(route('event.destroy', ['id' => $id]));
 
         $response->assertOk();
-        $this->assertDeleted($event);
+        $this->assertModelMissing($event);
 
         // TODO: perform additional assertions
     }

@@ -43,7 +43,7 @@ class LeadTypeCrudControllerTest extends TestCase
         $response = $this->delete(route('leadtype.destroy', ['id' => $id]));
 
         $response->assertOk();
-        $this->assertDeleted($leadtype);
+        $this->assertModelMissing($leadtype);
 
         // TODO: perform additional assertions
     }

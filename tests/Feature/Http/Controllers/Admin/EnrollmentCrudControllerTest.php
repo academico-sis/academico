@@ -29,7 +29,7 @@ class EnrollmentCrudControllerTest extends TestCase
         $response = $this->delete(route('enrollment.destroy', ['id' => $id]));
 
         $response->assertOk();
-        $this->assertDeleted($enrollment);
+        $this->assertModelMissing($enrollment);
 
         // TODO: perform additional assertions
     }

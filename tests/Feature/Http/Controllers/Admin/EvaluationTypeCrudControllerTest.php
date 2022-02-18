@@ -53,7 +53,7 @@ class EvaluationTypeCrudControllerTest extends TestCase
         $response = $this->delete(route('evaluationtype.destroy', ['id' => $id]));
 
         $response->assertOk();
-        $this->assertDeleted($evaluationtype);
+        $this->assertModelMissing($evaluationtype);
 
         // TODO: perform additional assertions
     }
