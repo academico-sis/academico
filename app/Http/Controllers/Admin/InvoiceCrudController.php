@@ -58,8 +58,11 @@ class InvoiceCrudController extends CrudController
 
             CRUD::addColumn([
                 'name' => 'invoiceType',
-                'type' => 'relationship',
                 'label' => __('Type'),
+                'type'      => 'select',
+                'entity'    => 'invoiceType',
+                'attribute' => 'name',
+                'model'     => InvoiceType::class,
                 'searchLogic' => false,
                 'attribute' => 'name',
             ]);
@@ -132,9 +135,12 @@ class InvoiceCrudController extends CrudController
             CRUD::field('invoice_number')->tab(__('Invoice'));
 
             CRUD::addField([
-                'name' => 'invoiceType',
-                'type' => 'relationship',
-                'label' => 'Type',
+                'label' => __('Type'),
+                'type'      => 'select',
+                'name' => 'invoice_type_id',
+                'entity'    => 'invoiceType',
+                'model'     => InvoiceType::class,
+                'attribute' => 'description',
                 'searchLogic' => false,
                 'attribute' => 'name',
                 'tab' => __('Invoice'),

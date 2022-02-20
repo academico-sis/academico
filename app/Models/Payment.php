@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\ValueTrait;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +18,7 @@ class Payment extends Model
 {
     use CrudTrait;
     use LogsActivity;
+    use ValueTrait;
 
     protected $guarded = ['id'];
 
@@ -88,23 +90,6 @@ class Payment extends Model
     public function getMonthAttribute()
     {
         return Carbon::parse($this->date)->locale(App::getLocale())->isoFormat('MMMM Y');
-    }
-
-    public function getValueWithCurrencyAttribute()
-    {
-        if (config('academico.currency_position') === 'before') {
-            return config('academico.currency_symbol').' '.$this->value;
-        }
-
-        return $this->value.' '.config('academico.currency_symbol');
-    }
-
-    protected function value(): Attribute
-    {
-        return new Attribute(
-            get: fn ($value) => $value / 100,
-            set: fn ($value) => $value * 100,
-        );
     }
 
     public function identifiableAttribute() {

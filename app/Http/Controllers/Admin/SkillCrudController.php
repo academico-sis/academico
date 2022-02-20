@@ -35,10 +35,10 @@ class SkillCrudController extends CrudController
             [ // skill type
                 'label' => 'Type',
                 'type' => 'select',
-                'name' => 'skill_type',
-                'entity' => 'skill_type',
+                'name' => 'skillType',
+                'entity' => 'skillType',
                 'attribute' => 'name',
-                'model' => 'skill_type',
+                'model' => 'skillType',
             ],
             [
                 'label' => 'Name',
@@ -83,7 +83,7 @@ class SkillCrudController extends CrudController
                 'label' => 'Type',
                 'type' => 'select',
                 'name' => 'skill_type_id',
-                'entity' => 'skill_type',
+                'entity' => 'skillType',
                 'attribute' => 'name',
                 'model' => SkillType::class,
             ],
@@ -104,7 +104,7 @@ class SkillCrudController extends CrudController
             [
                 'label' => __('Skill Type'),
                 'type' => 'select',
-                'name' => 'skill_type',
+                'name' => 'skillType',
                 'ajax' => true,
             ],
         ]);

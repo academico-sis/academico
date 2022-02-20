@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\ValueTrait;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -17,6 +18,7 @@ class ScheduledPayment extends Model
 {
     use CrudTrait;
     use LogsActivity;
+    use ValueTrait;
 
     protected $table = 'scheduled_payments';
 
@@ -26,12 +28,6 @@ class ScheduledPayment extends Model
     {
         return LogOptions::defaults()->logUnguarded();
     }
-
-    /*
-    |--------------------------------------------------------------------------
-    | FUNCTIONS
-    |--------------------------------------------------------------------------
-    */
 
     public function scopeStatus(Builder $query, $status)
     {
@@ -47,12 +43,6 @@ class ScheduledPayment extends Model
         $this->status = 2;
         $this->save();
     }
-
-    /*
-    |--------------------------------------------------------------------------
-    | RELATIONS
-    |--------------------------------------------------------------------------
-    */
 
     public function enrollment()
     {
@@ -72,31 +62,6 @@ class ScheduledPayment extends Model
     public function invoices()
     {
         return $this->invoiceDetails->map(fn (InvoiceDetail $invoiceDetail) => $invoiceDetail->invoice)->filter();
-    }
-    /*
-    |--------------------------------------------------------------------------
-    | SCOPES
-    |--------------------------------------------------------------------------
-    */
-
-    /*
-    |--------------------------------------------------------------------------
-    | ACCESSORS
-    |--------------------------------------------------------------------------
-    */
-
-    public function getValueAttribute($value)
-    {
-        return $value / 100;
-    }
-
-    public function getValueWithCurrencyAttribute()
-    {
-        if (config('academico.currency_position') === 'before') {
-            return config('academico.currency_symbol').' '.$this->value;
-        }
-
-        return $this->value.' '.config('academico.currency_symbol');
     }
 
     public function getDateForHumansAttribute()
@@ -132,16 +97,5 @@ class ScheduledPayment extends Model
             1 => __('Pending'),
             default => '-',
         };
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | MUTATORS
-    |--------------------------------------------------------------------------
-    */
-
-    public function setValueAttribute($value)
-    {
-        $this->attributes['value'] = $value * 100;
     }
 }

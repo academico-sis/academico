@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\PriceTrait;
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 /**
  * @mixin IdeHelperInvoiceDetail
@@ -14,6 +17,8 @@ class InvoiceDetail extends Model
 {
     use SoftDeletes;
     use LogsActivity;
+    use CrudTrait;
+    use PriceTrait;
 
     protected $guarded = ['id'];
 
@@ -37,11 +42,6 @@ class InvoiceDetail extends Model
         return $this->morphTo();
     }
 
-    public function getPriceAttribute($value)
-    {
-        return $value / 100;
-    }
-
     public function getFinalPriceAttribute($value)
     {
         return $value ? $value / 100 : $this->price;
@@ -52,23 +52,7 @@ class InvoiceDetail extends Model
         return ($value * $this->quantity) / 100;
     }
 
-    public function getPriceWithCurrencyAttribute()
-    {
-        if (config('academico.currency_position') === 'before') {
-            return config('academico.currency_symbol').' '.$this->price;
-        }
-
-        return $this->price.' '.config('academico.currency_symbol');
-    }
-
-    /*
-|--------------------------------------------------------------------------
-| MUTATORS
-|--------------------------------------------------------------------------
-*/
-
-    public function setPriceAttribute($value)
-    {
-        $this->attributes['price'] = $value * 100;
+    public function identifiableAttribute() {
+        return $this->id;
     }
 }

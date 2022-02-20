@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Events\TeacherDeleted;
 use App\Events\TeacherUpdated;
+use App\Traits\UserAttributesTrait;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -20,6 +20,7 @@ class Teacher extends Model
     use CrudTrait;
     use SoftDeletes;
     use LogsActivity;
+    use UserAttributesTrait;
 
     public $timestamps = true;
 
@@ -44,27 +45,6 @@ class Teacher extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'id', 'id')->withTrashed();
-    }
-
-    /** attributes */
-    public function getFirstnameAttribute(): ?string
-    {
-        return $this?->user?->firstname;
-    }
-
-    public function getLastnameAttribute(): ?string
-    {
-        return $this?->user?->lastname;
-    }
-
-    public function getEmailAttribute(): ?string
-    {
-        return $this?->user?->email;
-    }
-
-    public function getNameAttribute(): ?string
-    {
-        return $this?->user?->firstname.' '.$this?->user?->lastname;
     }
 
     public function period_courses(Period $period)
@@ -221,19 +201,4 @@ class Teacher extends Model
         return collect($eventsWithMissingAttendance);
     }
 
-    // SETTERS
-    public function setFirstnameAttribute($value)
-    {
-        $this->user->update(['firstname' => $value]);
-    }
-
-    public function setLastnameAttribute($value)
-    {
-        $this->user->update(['lastname' => $value]);
-    }
-
-    public function setEmailAttribute($value)
-    {
-        $this->user->update(['email' => $value]);
-    }
 }

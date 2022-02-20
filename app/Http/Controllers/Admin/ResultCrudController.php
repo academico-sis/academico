@@ -143,7 +143,7 @@ class ResultCrudController extends CrudController
         }
 
         $grades = $enrollment->grades->groupBy('grade_type_category');
-        $skills = $enrollment->skill_evaluations;
+        $skills = $enrollment->skillEvaluations;
         $result = $enrollment->result;
         $results = ResultType::all();
         $writeaccess = Gate::forUser(backpack_user())->check('edit-result', $enrollment);

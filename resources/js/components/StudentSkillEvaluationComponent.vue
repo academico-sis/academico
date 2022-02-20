@@ -6,10 +6,10 @@
             </div>
 
             <div class="card-body">
-                <table id="skillsTable" class="table table-striped" v-for="category in skills" :key="category[0].skill_type.id">
+                <table id="skillsTable" class="table table-striped" v-for="category in skills" :key="category[0].skillType.id">
                     <thead>
                     <tr>
-                        <th>{{ category[0].skill_type.name }}</th>
+                        <th>{{ category[0].skillType.name }}</th>
                         <th></th>
                     </tr>
                     </thead>

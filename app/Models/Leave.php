@@ -21,8 +21,6 @@ class Leave extends Model
 
     protected $with = ['leaveType'];
 
-    protected static bool $logUnguarded = true;
-
     protected $dispatchesEvents = [
         'updated' => LeaveUpdated::class,
         'created' => LeaveCreated::class,

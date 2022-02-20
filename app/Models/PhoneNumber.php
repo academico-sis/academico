@@ -15,7 +15,6 @@ class PhoneNumber extends Model
     use LogsActivity;
     use CrudTrait;
 
-
     public $timestamps = false;
 
     protected $guarded = ['id'];

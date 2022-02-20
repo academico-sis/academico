@@ -5,9 +5,11 @@ namespace App\Models;
 use App\Events\LeadStatusUpdatedEvent;
 use App\Events\StudentDeleting;
 use App\Events\StudentUpdated;
+use App\Traits\UserAttributesTrait;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
@@ -26,6 +28,7 @@ class Student extends Model implements HasMedia
     use CrudTrait;
     use InteractsWithMedia;
     use LogsActivity;
+    use UserAttributesTrait;
 
     protected $dispatchesEvents = [
         'deleting' => StudentDeleting::class,
@@ -72,7 +75,67 @@ class Student extends Model implements HasMedia
             ->optimize();
     }
 
-    /** relations */
+
+    /*
+|--------------------------------------------------------------------------
+| FUNCTIONS
+|--------------------------------------------------------------------------
+*/
+
+    /**
+     * enroll the student in a course.
+     * If the course has any children, we also enroll the student in the children courses.
+     */
+    public function enroll(Course $course): int
+    {
+        // avoid duplicates by retrieving an potential existing enrollment for the same course
+        $enrollment = Enrollment::firstOrCreate(
+            [
+                'student_id' => $this->id,
+                'course_id' => $course->id,
+            ],
+            [
+                'responsible_id' => backpack_user()->id ?? 1,
+            ]
+        );
+
+        // if the course has children, enroll in children as well.
+        if ($course->children_count > 0) {
+            foreach ($course->children as $children_course) {
+                Enrollment::firstOrCreate(
+                    [
+                        'student_id' => $this->id,
+                        'course_id' => $children_course->id,
+                        'parent_id' => $enrollment->id,
+                    ],
+                    [
+                        'responsible_id' => backpack_user()->id ?? 1,
+                    ]
+                );
+            }
+        }
+
+        $this->update(['lead_type_id' => null]); // fallback to default (converted)
+
+        // to subscribe the student to mailing lists and so on
+        $listId = config('mailing-system.mailerlite.activeStudentsListId');
+        LeadStatusUpdatedEvent::dispatch($this, $listId);
+
+        foreach ($this->contacts as $contact) {
+            LeadStatusUpdatedEvent::dispatch($contact, $listId);
+        }
+
+        return $enrollment->id;
+    }
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | RELATIONS
+    |--------------------------------------------------------------------------
+    */
+
     public function user()
     {
         return $this->belongsTo(User::class, 'id', 'id');
@@ -145,31 +208,11 @@ class Student extends Model implements HasMedia
         return $this->belongsToMany(Book::class)->withPivot('id', 'code', 'status_id', 'expiry_date');
     }
 
-    /** attributes */
-    public function getFirstnameAttribute(): string
-    {
-        return $this->user ? Str::title($this->user->firstname) : '';
-    }
-
-    public function getLastnameAttribute(): string
-    {
-        if ($this->user) {
-            return Str::upper($this->user->lastname);
-        }
-
-        return '';
-    }
-
-    public function getEmailAttribute(): ?string
-    {
-        return $this?->user?->email;
-    }
-
-    public function getNameAttribute(): string
-    {
-        return $this->user ? "{$this->firstname} {$this->lastname}" : '';
-    }
-
+    /*
+    |--------------------------------------------------------------------------
+    | ATTRIBUTES
+    |--------------------------------------------------------------------------
+    */
     public function getStudentAgeAttribute()
     {
         return $this->birthdate ? Carbon::parse($this->birthdate)->age.' '.__('years old') : '';
@@ -214,70 +257,6 @@ class Student extends Model implements HasMedia
 
         // otherwise, their status cannot be determined and should be left blank
         return null;
-    }
-
-    /** functions */
-
-    /**
-     * enroll the student in a course.
-     * If the course has any children, we also enroll the student in the children courses.
-     */
-    public function enroll(Course $course): int
-    {
-        // avoid duplicates by retrieving an potential existing enrollment for the same course
-        $enrollment = Enrollment::firstOrCreate(
-            [
-                'student_id' => $this->id,
-                'course_id' => $course->id,
-            ],
-            [
-                'responsible_id' => backpack_user()->id ?? 1,
-            ]
-        );
-
-        // if the course has children, enroll in children as well.
-        if ($course->children_count > 0) {
-            foreach ($course->children as $children_course) {
-                Enrollment::firstOrCreate(
-                    [
-                        'student_id' => $this->id,
-                        'course_id' => $children_course->id,
-                        'parent_id' => $enrollment->id,
-                    ],
-                    [
-                        'responsible_id' => backpack_user()->id ?? 1,
-                    ]
-                );
-            }
-        }
-
-        $this->update(['lead_type_id' => null]); // fallback to default (converted)
-
-        // to subscribe the student to mailing lists and so on
-        $listId = config('mailing-system.mailerlite.activeStudentsListId');
-        LeadStatusUpdatedEvent::dispatch($this, $listId);
-
-        foreach ($this->contacts as $contact) {
-            LeadStatusUpdatedEvent::dispatch($contact, $listId);
-        }
-
-        return $enrollment->id;
-    }
-
-    /** SETTERS */
-    public function setFirstnameAttribute($value)
-    {
-        $this->user->update(['firstname' => $value]);
-    }
-
-    public function setLastnameAttribute($value)
-    {
-        $this->user->update(['lastname' => $value]);
-    }
-
-    public function setEmailAttribute($value)
-    {
-        $this->user->update(['email' => $value]);
     }
 
     public function getImageAttribute(): ?string

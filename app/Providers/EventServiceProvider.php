@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Events\AttendanceSavedEvent;
 use App\Events\CourseUpdated;
 use App\Events\EnrollmentCreated;
 use App\Events\EnrollmentDeleting;
@@ -14,6 +15,7 @@ use App\Events\LeadStatusUpdatedEvent;
 use App\Events\LeaveCreated;
 use App\Events\LeaveUpdated;
 use App\Events\MonthlyReportEvent;
+use App\Events\ResultSavedEvent;
 use App\Events\StudentDeleting;
 use App\Events\StudentUpdated;
 use App\Events\TeacherUpdated;
@@ -27,9 +29,11 @@ use App\Listeners\DeleteInvoiceDetails;
 use App\Listeners\DeleteStudentData;
 use App\Listeners\DeleteUserData;
 use App\Listeners\MarkProductsAsUnpaid;
+use App\Listeners\SendAttendanceNotification;
 use App\Listeners\SendExpiringPartnershipsAlerts;
 use App\Listeners\SendExternalCoursesReport;
 use App\Listeners\SendMonthlyReport;
+use App\Listeners\SendResultNotification;
 use App\Listeners\SyncUserWithMailingSystem;
 use App\Listeners\UpdateChildrenEnrollments;
 use App\Listeners\UpdateCourseEvents;
@@ -122,6 +126,14 @@ class EventServiceProvider extends ServiceProvider
 
         TeacherUpdated::class => [
             UpdateUsername::class,
+        ],
+
+        ResultSavedEvent::class => [
+            SendResultNotification::class,
+        ],
+
+        AttendanceSavedEvent::class => [
+            SendAttendanceNotification::class,
         ],
     ];
 

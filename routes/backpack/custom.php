@@ -58,11 +58,9 @@ Route::prefix(config('backpack.base.route_prefix'))->middleware('web', 'role:adm
     Route::crud('gradetypecategory', 'GradeTypeCategoryCrudController');
     Route::crud('member', 'MemberCrudController');
     Route::crud('partner', 'PartnerCrudController');
-//    Route::crud('schedulepreset', 'SchedulePresetCrudController');
     Route::crud('payment', 'PaymentCrudController');
     Route::crud('tax', 'TaxCrudController');
     Route::crud('invoice', 'InvoiceCrudController');
-    Route::crud('config', 'ConfigCrudController');
     Route::crud('profession', 'ProfessionCrudController');
     Route::crud('scheduled-payment', 'ScheduledPaymentCrudController');
 }); // this should be the absolute last line of this file

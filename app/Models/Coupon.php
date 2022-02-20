@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Traits\PriceTrait;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -11,46 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 class Coupon extends Model
 {
     use CrudTrait;
+    use PriceTrait;
 
     protected $guarded = ['id'];
-
-    /*
-    |--------------------------------------------------------------------------
-    | FUNCTIONS
-    |--------------------------------------------------------------------------
-    */
-
-    /*
-    |--------------------------------------------------------------------------
-    | RELATIONS
-    |--------------------------------------------------------------------------
-    */
-
-    /*
-    |--------------------------------------------------------------------------
-    | SCOPES
-    |--------------------------------------------------------------------------
-    */
-
-    /*
-    |--------------------------------------------------------------------------
-    | ACCESORS
-    |--------------------------------------------------------------------------
-    */
-
-    public function getPriceAttribute($value)
-    {
-        return $value / 100;
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | MUTATORS
-    |--------------------------------------------------------------------------
-    */
-
-    public function setPriceAttribute($value)
-    {
-        $this->attributes['price'] = $value * 100;
-    }
 }

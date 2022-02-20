@@ -79,10 +79,10 @@
                             </tr>
                             @foreach ($category as $grade)
                                 @php $cat_grade += $grade->grade; @endphp
-                                @php $cat_total += $grade->grade_type->total; @endphp
+                                @php $cat_total += $grade->gradeType->total; @endphp
                                 <tr style="font-size: 11pt;">
-                                    <td>{{ $grade->grade_type->name }}</td>
-                                    <td>{{ $grade->grade }} / {{ $grade->grade_type->total }}</td>
+                                    <td>{{ $grade->gradeType->name }}</td>
+                                    <td>{{ $grade->grade }} / {{ $grade->gradeType->total }}</td>
                                     <td style="width: 5cm;"></td>
                                 </tr>
                             @endforeach

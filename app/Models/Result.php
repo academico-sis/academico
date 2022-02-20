@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-use App\Mail\ResultNotification;
+use App\Events\ResultSavedEvent;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Mail;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -19,21 +18,12 @@ class Result extends Model
 
     protected $guarded = ['id'];
 
+    protected $dispatchesEvents = [
+        'saved' => ResultSavedEvent::class,
+    ];
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()->logUnguarded();
-    }
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        if (config('academico.send_emails_for_results')) {
-            // when a result is added, send a notification
-            static::saved(function (self $result) {
-                Mail::to($result->enrollment->student->user->email)->locale($result->enrollment->student->user->locale)->queue(new ResultNotification($result->enrollment->course, $result->enrollment->student->user));
-            });
-        }
     }
 
     public function comments()

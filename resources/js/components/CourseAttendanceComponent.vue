@@ -8,10 +8,10 @@
 
             <label
                 v-if="event.attendance"
-                :class="`badge badge-${event.attendance.attendance_type.class}`"
+                :class="`badge badge-${event.attendance.attendanceType.class}`"
             >
-                <span v-html="event.attendance.attendance_type.icon"></span>
-                {{ event.attendance.attendance_type.translated_name }}
+                <span v-html="event.attendance.attendanceType.icon"></span>
+                {{ event.attendance.attendanceType.translated_name }}
             </label>
 
         </td>

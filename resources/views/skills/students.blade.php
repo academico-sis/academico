@@ -26,7 +26,7 @@
                             <tr>
                                 <td></td>
                                     @foreach ($skills as $category)
-                                        <td> {{ $category[0]->skill_type->name }}</td>
+                                        <td> {{ $category[0]->skillType->name }}</td>
                                     @endforeach
                             </tr>
 
@@ -39,9 +39,9 @@
                                     </td>
                                     @foreach ($skills as $category)
                                         <td>
-                                            <span class="badge badge-danger">{{ $enrollment->skill_evaluations->where('skill.skill_type_id', $category[0]->skill_type_id)->where('skill_scale_id', 1)->count() }}</span> -
-                                            <span class="badge badge-warning">{{ $enrollment->skill_evaluations->where('skill.skill_type_id', $category[0]->skill_type_id)->where('skill_scale_id', 2)->count() }}</span> -
-                                            <span class="badge badge-success">{{ $enrollment->skill_evaluations->where('skill.skill_type_id', $category[0]->skill_type_id)->where('skill_scale_id', 3)->count() }}</span>
+                                            <span class="badge badge-danger">{{ $enrollment->skillEvaluations->where('skill.skill_type_id', $category[0]->skill_type_id)->where('skill_scale_id', 1)->count() }}</span> -
+                                            <span class="badge badge-warning">{{ $enrollment->skillEvaluations->where('skill.skill_type_id', $category[0]->skill_type_id)->where('skill_scale_id', 2)->count() }}</span> -
+                                            <span class="badge badge-success">{{ $enrollment->skillEvaluations->where('skill.skill_type_id', $category[0]->skill_type_id)->where('skill_scale_id', 3)->count() }}</span>
                                         </td>
                                     @endforeach
                                 </tr>

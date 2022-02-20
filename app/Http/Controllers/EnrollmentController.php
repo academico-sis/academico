@@ -207,7 +207,7 @@ class EnrollmentController extends Controller
     {
         $request->validate(['price' => 'required|numeric']);
 
-        $enrollment->update(['total_price' => $request->price]);
+        $enrollment->update(['price' => $request->price]);
 
         return $enrollment->fresh();
     }

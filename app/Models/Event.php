@@ -58,11 +58,6 @@ class Event extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function coursetime()
-    {
-        return $this->belongsTo(CourseTime::class);
-    }
-
     public function course()
     {
         return $this->belongsTo(Course::class)->withCount('enrollments');
@@ -86,11 +81,6 @@ class Event extends Model
     public function room()
     {
         return $this->belongsTo(Room::class)->withTrashed();
-    }
-
-    public function getPeriodAttribute()
-    {
-        return $this->course->period_id;
     }
 
     /*
@@ -154,10 +144,4 @@ class Event extends Model
     {
         return $this?->course->color ?? ('#'.substr(md5($this->course_id ?? '0'), 0, 6));
     }
-
-    /*
-    |--------------------------------------------------------------------------
-    | MUTATORS
-    |--------------------------------------------------------------------------
-    */
 }

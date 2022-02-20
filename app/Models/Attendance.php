@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Events\AttendanceSavedEvent;
+use App\Events\StudentDeleting;
+use App\Events\StudentUpdated;
 use App\Jobs\WatchAttendance;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\LogOptions;
@@ -16,46 +19,31 @@ class Attendance extends Model
 
     protected $guarded = ['id'];
 
-    protected $with = ['attendance_type'];
+    protected $with = ['attendanceType'];
 
-    protected static function boot()
-    {
-        parent::boot();
-
-        // when an attendance record is added, we check if this is an absence
-        static::saved(function (self $attendance) {
-            if (config('academico.send_emails_for_absences') && $attendance->attendance_type_id == 4) { // todo move to configurable settings
-                // Log::info('Absence marked for student '.$attendance->student->name);
-                // will check the record again and send a notification if it hasn't changed
-                WatchAttendance::dispatch($attendance)
-                ->delay(now()); // todo move to configurable settings
-            }
-        });
-    }
+    protected $dispatchesEvents = [
+        'saved' => AttendanceSavedEvent::class,
+    ];
 
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()->logUnguarded();
     }
 
-    /** RELATIONS */
     public function student()
     {
         return $this->belongsTo(Student::class);
     }
 
-    /** event = one instance of the course */
     public function event()
     {
         return $this->belongsTo(Event::class);
     }
 
-    public function attendance_type()
+    public function attendanceType()
     {
         return $this->belongsTo(AttendanceType::class);
     }
-
-    /** METHODS */
 
     /**
      * get absences count per student

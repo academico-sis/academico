@@ -2,15 +2,18 @@
 
 namespace App\Models;
 
+use App\Models\Interfaces\InvoiceableModel;
+use App\Traits\PriceTrait;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * @mixin IdeHelperFee
  */
-class Fee extends Model
+class Fee extends Model implements InvoiceableModel
 {
     use CrudTrait;
+    use PriceTrait;
 
     public $timestamps = false;
 
@@ -18,57 +21,8 @@ class Fee extends Model
 
     protected $appends = ['price_with_currency', 'type'];
 
-    /*
-    |--------------------------------------------------------------------------
-    | FUNCTIONS
-    |--------------------------------------------------------------------------
-    */
-
-    /*
-    |--------------------------------------------------------------------------
-    | RELATIONS
-    |--------------------------------------------------------------------------
-    */
-
-    /*
-    |--------------------------------------------------------------------------
-    | SCOPES
-    |--------------------------------------------------------------------------
-    */
-
-    /*
-    |--------------------------------------------------------------------------
-    | ACCESORS
-    |--------------------------------------------------------------------------
-    */
-
-    public function getPriceAttribute($value)
-    {
-        return $value / 100;
-    }
-
-    public function getPriceWithCurrencyAttribute()
-    {
-        if (config('academico.currency_position') === 'before') {
-            return config('academico.currency_symbol').' '.$this->price;
-        }
-
-        return $this->price.' '.config('academico.currency_symbol');
-    }
-
-    public function getTypeAttribute()
+    public function getTypeAttribute(): string
     {
         return 'fee';
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | MUTATORS
-    |--------------------------------------------------------------------------
-    */
-
-    public function setPriceAttribute($value)
-    {
-        $this->attributes['price'] = $value * 100;
     }
 }

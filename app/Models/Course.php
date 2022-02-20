@@ -33,11 +33,6 @@ class Course extends Model
         'end_date' => 'datetime', 'children' => 'array',
     ];
 
-    /*
-    |--------------------------------------------------------------------------
-    | GLOBAL VARIABLES
-    |--------------------------------------------------------------------------
-    */
     public $timestamps = true;
 
     protected $guarded = ['id'];
@@ -494,7 +489,7 @@ class Course extends Model
         return $value / 100;
     }
 
-    public function getPriceWithCurrencyAttribute()
+    public function getPriceWithCurrencyAttribute(): string
     {
         if (config('academico.currency_position') === 'before') {
             return config('academico.currency_symbol').' '.$this->price;

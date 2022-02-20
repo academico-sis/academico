@@ -40,11 +40,6 @@ class User extends Authenticatable
         return LogOptions::defaults()->logUnguarded();
     }
 
-    public function getEmailForPasswordReset(): string
-    {
-        return $this->email;
-    }
-
     public function isTeacher()
     {
         return Teacher::whereId($this->id)->count() > 0;
@@ -65,17 +60,17 @@ class User extends Authenticatable
         return $this->hasOne(Teacher::class, 'id', 'id');
     }
 
-    public function getFirstnameAttribute($value)
+    public function getFirstnameAttribute($value): string
     {
         return Str::title($value);
     }
 
-    public function getLastnameAttribute($value)
+    public function getLastnameAttribute($value): string
     {
         return Str::upper($value);
     }
 
-    public function getNameAttribute()
+    public function getNameAttribute(): string
     {
         return $this->firstname.' '.$this->lastname;
     }

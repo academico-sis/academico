@@ -2,7 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Interfaces\InvoiceableModel;
+use App\Traits\PriceTrait;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -10,16 +13,11 @@ use Spatie\Activitylog\Traits\LogsActivity;
 /**
  * @mixin IdeHelperBook
  */
-class Book extends Model
+class Book extends Model implements InvoiceableModel
 {
     use CrudTrait;
     use LogsActivity;
-
-    /*
-    |--------------------------------------------------------------------------
-    | GLOBAL VARIABLES
-    |--------------------------------------------------------------------------
-    */
+    use PriceTrait;
 
     public $timestamps = false;
 
@@ -32,57 +30,8 @@ class Book extends Model
         return LogOptions::defaults()->logUnguarded();
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | FUNCTIONS
-    |--------------------------------------------------------------------------
-    */
-
-    /*
-    |--------------------------------------------------------------------------
-    | RELATIONS
-    |--------------------------------------------------------------------------
-    */
-
-    /*
-    |--------------------------------------------------------------------------
-    | SCOPES
-    |--------------------------------------------------------------------------
-    */
-
-    /*
-    |--------------------------------------------------------------------------
-    | ACCESORS
-    |--------------------------------------------------------------------------
-    */
-
-    public function getPriceAttribute($value)
-    {
-        return $value / 100;
-    }
-
-    public function getPriceWithCurrencyAttribute()
-    {
-        if (config('academico.currency_position') === 'before') {
-            return config('academico.currency_symbol').' '.$this->price;
-        }
-
-        return $this->price.' '.config('academico.currency_symbol');
-    }
-
-    public function getTypeAttribute()
+    public function getTypeAttribute(): string
     {
         return 'book';
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | MUTATORS
-    |--------------------------------------------------------------------------
-    */
-
-    public function setPriceAttribute($value)
-    {
-        $this->attributes['price'] = $value * 100;
     }
 }

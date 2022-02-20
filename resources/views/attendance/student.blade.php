@@ -80,9 +80,9 @@
                             <td>{{ $attendance->event->name }}</td>
                             <td>{{ Carbon\Carbon::parse($attendance->event->start)->locale(app()->getLocale())->isoFormat('Do MMM YYYY') }}</td>
                             <td>
-                                <label class="badge badge-{{ $attendance->attendance_type->class }}">
-                                {!! $attendance->attendance_type->icon !!}
-                                {{ $attendance->attendance_type->translated_name }}
+                                <label class="badge badge-{{ $attendance->attendanceType->class }}">
+                                {!! $attendance->attendanceType->icon !!}
+                                {{ $attendance->attendanceType->translated_name }}
                             </td>
                             </tr>
                         @endforeach
