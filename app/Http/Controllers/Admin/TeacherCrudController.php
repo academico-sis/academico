@@ -38,9 +38,8 @@ class TeacherCrudController extends CrudController
                 'name' => 'idnumber',
             ],
             [
-                // 1-n relationship
                 'label' => __('Last Name'),
-                'type' => 'relationship',
+                'type' => 'select',
                 'key' => 'lastname',
                 'name' => 'user',
                 'attribute' => 'lastname',
@@ -56,9 +55,8 @@ class TeacherCrudController extends CrudController
             ],
 
             [
-                // 1-n relationship
                 'label' => __('First Name'),
-                'type' => 'relationship',
+                'type' => 'select',
                 'key' => 'firstname',
                 'name' => 'user',
                 'attribute' => 'firstname',
@@ -74,9 +72,8 @@ class TeacherCrudController extends CrudController
             ],
 
             [
-                // 1-n relationship
                 'label' => __('Email'),
-                'type' => 'relationship',
+                'type' => 'select',
                 'name' => 'user',
                 'attribute' => 'email',
                 'model' => User::class,

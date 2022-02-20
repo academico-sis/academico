@@ -9,6 +9,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * @mixin IdeHelperSchedulePreset
+ * @deprecated
  */
 class SchedulePreset extends Model
 {

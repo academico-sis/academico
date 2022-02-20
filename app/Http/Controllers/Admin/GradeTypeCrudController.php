@@ -44,7 +44,6 @@ class GradeTypeCrudController extends CrudController
             ['name' => 'total',
                 'label' => 'Total', ],
             [
-                // 1-n relationship
                 'label' => 'Category',
                 'type' => 'select',
                 'name' => 'grade_type_category_id',
@@ -69,27 +68,18 @@ class GradeTypeCrudController extends CrudController
                 'label' => 'Total',
                 'type' => 'text',
             ],
-
-            [
-                'label' => 'Category',
-                'type' => 'relationship',
-                'name' => 'category',
-                'ajax' => true,
-                'inline_create' => [ // specify the entity in singular
-                    'entity' => 'gradetypecategory',
-                    // the entity in singular
-                    // OPTIONALS
-                    'force_select' => true,
-                    // should the inline-created entry be immediately selected?
-                    'modal_class' => 'modal-dialog modal-xl',
-                    // use modal-sm, modal-lg to change width
-                    'modal_route' => route('gradetypecategory-inline-create'),
-                    // InlineCreate::getInlineCreateModal()
-                    'create_route' => route('gradetypecategory-inline-create-save'),
-                    // InlineCreate::storeInlineCreate()
-                ],
-            ],
         ]);
+
+        CRUD::addField([
+            'label' => 'Category',
+            'type' => 'select',
+            'name'      => 'grade_type_category_id',
+            'entity'    => 'category',
+            'model'     => GradeTypeCategory::class,
+            'attribute' => 'name',
+            'ajax' => true,
+        ]);
+
 
         CRUD::setRequiredFields(GradeTypeRequest::class);
 

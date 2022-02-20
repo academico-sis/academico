@@ -14,7 +14,6 @@ use App\Models\Level;
 use App\Models\Period;
 use App\Models\Rhythm;
 use App\Models\Room;
-use App\Models\SchedulePreset;
 use App\Models\Teacher;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -599,15 +598,6 @@ class CourseCrudController extends CrudController
                 'tab' => __('Schedule'),
             ],
 
-            [   // select_from_array
-                'name' => 'schedulepreset',
-                'label' => __('Schedule Preset'),
-                'type' => 'select_from_array',
-                'options' => array_column(SchedulePreset::all()->toArray(), 'name', 'presets'),
-                'allows_null' => true,
-                'tab' => __('Schedule'),
-            ],
-
         ]);
 
         // add asterisk for fields that are required in CourseRequest
@@ -944,13 +934,7 @@ class CourseCrudController extends CrudController
         $response = $this->traitStore();
         $course = $this->crud->getCurrentEntry();
 
-        // if a schedule preset was applied, use it
-        if ($this->crud->getRequest()->input('schedulepreset') !== null) {
-            $courseTimes = collect(json_decode($this->crud->getRequest()->input('schedulepreset'), null, 512, JSON_THROW_ON_ERROR));
-        } else {
-            // otherwise, use any user-defined course times
-            $courseTimes = collect(json_decode($this->crud->getRequest()->input('times'), null, 512, JSON_THROW_ON_ERROR));
-        }
+        $courseTimes = collect(json_decode($this->crud->getRequest()->input('times'), null, 512, JSON_THROW_ON_ERROR));
 
         $remoteEvents = collect(json_decode($this->crud->getRequest()->input('remoteevents'), null, 512, JSON_THROW_ON_ERROR));
         $course->saveRemoteEvents($remoteEvents);

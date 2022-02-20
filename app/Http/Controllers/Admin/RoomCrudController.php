@@ -29,9 +29,8 @@ class RoomCrudController extends CrudController
     {
         CRUD::setColumns([
             [
-                // 1-n relationship
                 'label' => 'Campus',
-                'type' => 'relationship',
+                'type' => 'select',
                 'name' => 'campus',
                 'attribute' => 'name',
             ],
@@ -55,7 +54,6 @@ class RoomCrudController extends CrudController
         CRUD::setValidation(StoreRequest::class);
         CRUD::addFields([
             [
-                // 1-n relationship
                 'label' => 'Campus',
                 'type' => 'select',
                 'entity' => 'campus',

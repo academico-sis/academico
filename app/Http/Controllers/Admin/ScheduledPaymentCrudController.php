@@ -47,7 +47,7 @@ class ScheduledPaymentCrudController extends CrudController
             'key' => 'student_lastname',
             'attribute' => 'lastname',
             'label' => __('Last Name'),
-            'type' => 'relationship',
+            'type' => 'select',
             'searchLogic' => function ($query, $column, $searchTerm) {
                 $query->orWhereHas('enrollment', function ($q) use ($searchTerm) {
                     $q->whereHas('user', function ($q) use ($searchTerm) {
@@ -62,7 +62,7 @@ class ScheduledPaymentCrudController extends CrudController
             'key' => 'student_firstname',
             'attribute' => 'firstname',
             'label' => __('First Name'),
-            'type' => 'relationship',
+            'type' => 'select',
             'searchLogic' => function ($query, $column, $searchTerm) {
                 $query->orWhereHas('enrollment', function ($q) use ($searchTerm) {
                     $q->whereHas('user', function ($q) use ($searchTerm) {
@@ -77,7 +77,7 @@ class ScheduledPaymentCrudController extends CrudController
             'key' => 'student_email',
             'attribute' => 'email',
             'label' => __('Email'),
-            'type' => 'relationship',
+            'type' => 'select',
             'searchLogic' => function ($query, $column, $searchTerm) {
                 $query->orWhereHas('enrollment', function ($q) use ($searchTerm) {
                     $q->whereHas('user', function ($q) use ($searchTerm) {

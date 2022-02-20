@@ -41,7 +41,6 @@ class LeaveCrudController extends CrudController
 
         CRUD::setColumns([
             [
-                // 1-n relationship
                 'label' => 'Teacher',
                 'type' => 'select',
                 'name' => 'teacher_id',
@@ -51,7 +50,6 @@ class LeaveCrudController extends CrudController
             ],
 
             [
-                // 1-n relationship
                 'label' => 'Type',
                 'type' => 'select',
                 'name' => 'leave_type_id',
@@ -102,7 +100,6 @@ class LeaveCrudController extends CrudController
 
         CRUD::addFields([
             [
-                // 1-n relationship
                 'label' => 'Teacher',
                 'type' => 'select_multiple',
                 'name' => 'teacher_id',
@@ -112,7 +109,6 @@ class LeaveCrudController extends CrudController
             ],
 
             [
-                // 1-n relationship
                 'label' => 'Type',
                 'type' => 'select',
                 'name' => 'leave_type_id',
@@ -158,7 +154,6 @@ class LeaveCrudController extends CrudController
 
         CRUD::addFields([
             [
-                // 1-n relationship
                 'label' => 'Type',
                 'type' => 'select',
                 'name' => 'leave_type_id',

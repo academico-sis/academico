@@ -109,7 +109,7 @@ class EnrollmentCrudController extends CrudController
                 'key' => 'user_lastname',
                 'attribute' => 'lastname',
                 'label' => __('Last Name'),
-                'type' => 'relationship',
+                'type' => 'select',
                 'wrapper' => ['element' => function ($crud, $column, $entry) {
                     return $entry->status_id > 2 ? 'del' : 'span';
                 }],
@@ -131,7 +131,7 @@ class EnrollmentCrudController extends CrudController
                 'key' => 'user_firstname',
                 'attribute' => 'firstname',
                 'label' => __('First Name'),
-                'type' => 'relationship',
+                'type' => 'select',
                 'wrapper' => ['element' => function ($crud, $column, $entry) {
                     return $entry->status_id > 2 ? 'del' : 'span';
                 }],
@@ -156,13 +156,16 @@ class EnrollmentCrudController extends CrudController
                 'name' => 'student_birthdate', ], ]);
 
         if ($this->mode === 'global') {
-            CRUD::addColumns([['label' => __('Course'),
-                'type' => 'select',
-                'name' => 'course_id',
-                'entity' => 'course',
-                'attribute' => 'name',
-                'model' => Course::class, ],
-                ['type' => 'relationship',
+            CRUD::addColumns([
+                [
+                    'label' => __('Course'),
+                    'type' => 'select',
+                    'name' => 'course_id',
+                    'entity' => 'course',
+                    'attribute' => 'name',
+                    'model' => Course::class,
+                    ],
+                ['type' => 'select',
                     'name' => 'course.period',
                     'label' => __('Period'),
                     'attribute' => 'name',
@@ -194,45 +197,53 @@ class EnrollmentCrudController extends CrudController
         }
 
         if (config('invoicing.allow_scheduled_payments')) {
-            CRUD::addColumn(['name' => 'scheduledPayments',
-                'type' => 'relationship',
+            CRUD::addColumn([
+                'name' => 'scheduledPayments',
+                'type' => 'select',
                 'label' => __('Scheduled Payments'),
-                // OPTIONAL
                 'attribute' => 'date',
                 'model' => ScheduledPayment::class,
             ]);
         }
 
-        CRUD::addColumn(array_merge(['name' => 'price',
-            // The db column name
+        CRUD::addColumn(array_merge([
+            'name' => 'price',
             'label' => __('Price'),
             'type' => 'number',
         ], $currency));
 
         if (config('invoicing.invoices_contain_enrollments_only')) {
-            CRUD::addColumn(array_merge(['name' => 'balance',
+            CRUD::addColumn(array_merge([
+                'name' => 'balance',
                 'label' => __('Balance'),
-                'type' => 'number', ], $currency));
+                'type' => 'number',
+            ], $currency));
         }
 
         CRUD::addColumns([
-
-            ['name' => 'scholarships',
-                'type' => 'relationship',
+            [
+                'name' => 'scholarships',
+                'type' => 'select',
                 'label' => __('Scholarship'),
                 'attribute' => 'name',
-                'model' => Scholarship::class, ],
+                'model' => Scholarship::class,
+                ],
 
-            ['label' => __('Email'),
+            [
+                'label' => __('Email'),
                 'name' => 'user',
                 'attribute' => 'email',
-                'type' => 'relationship', ],
+                'type' => 'select',
+            ],
 
-            ['label' => __('Phone Number'),
+            [
+                'label' => __('Phone Number'),
                 'type' => 'select_multiple',
                 'name' => 'student.phone',
                 'attribute' => 'phone_number',
-                'model' => PhoneNumber::class, ], ]);
+                'model' => PhoneNumber::class,
+            ],
+        ]);
 
         if ($this->mode === 'global') {
             CRUD::addFilter(['name' => 'status_id',

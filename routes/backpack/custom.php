@@ -58,7 +58,7 @@ Route::prefix(config('backpack.base.route_prefix'))->middleware('web', 'role:adm
     Route::crud('gradetypecategory', 'GradeTypeCategoryCrudController');
     Route::crud('member', 'MemberCrudController');
     Route::crud('partner', 'PartnerCrudController');
-    Route::crud('schedulepreset', 'SchedulePresetCrudController');
+//    Route::crud('schedulepreset', 'SchedulePresetCrudController');
     Route::crud('payment', 'PaymentCrudController');
     Route::crud('tax', 'TaxCrudController');
     Route::crud('invoice', 'InvoiceCrudController');

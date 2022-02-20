@@ -31,17 +31,15 @@ class RemoteEventCrudController extends CrudController
     {
         CRUD::setColumns([
             [
-                // 1-n relationship
                 'label' => 'Period',
-                'type' => 'relationship',
+                'type' => 'select',
                 'name' => 'period',
                 'attribute' => 'name',
             ],
 
             [
-                // 1-n relationship
                 'label' => 'Teacher',
-                'type' => 'relationship',
+                'type' => 'select',
                 'name' => 'teacher',
                 'attribute' => 'name',
             ],
@@ -68,7 +66,6 @@ class RemoteEventCrudController extends CrudController
 
         CRUD::addFields([
             [
-                // 1-n relationship
                 'label' => 'Period',
                 'type' => 'select',
                 'name' => 'period_id',
@@ -78,7 +75,6 @@ class RemoteEventCrudController extends CrudController
             ],
 
             [
-                // 1-n relationship
                 'label' => 'Teacher',
                 'type' => 'select',
                 'name' => 'teacher_id',

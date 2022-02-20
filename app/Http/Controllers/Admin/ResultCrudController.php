@@ -47,7 +47,6 @@ class ResultCrudController extends CrudController
                 'label' => 'ID',
             ],
             [
-                // STUDENT NAME
                 'label' => __('Student'),
                 'type' => 'select',
                 'name' => 'student',
@@ -64,9 +63,8 @@ class ResultCrudController extends CrudController
                 },
             ],
             [
-                // COURSE NAME
                 'label' => __('Course'),
-                'type' => 'relationship',
+                'type' => 'select',
                 'name' => 'course',
                 'attribute' => 'name',
                 'model' => Course::class,
@@ -74,13 +72,12 @@ class ResultCrudController extends CrudController
             [
                 'name' => 'course.period',
                 'label' => __('Period'),
-                'type' => 'relationship',
+                'type' => 'select',
                 'attribute' => 'name',
             ],
             [
-                // RESULT
                 'label' => __('Result'),
-                'type' => 'relationship',
+                'type' => 'select',
                 'name' => 'result',
                 'attribute' => 'result_type',
                 'model' => Result::class,

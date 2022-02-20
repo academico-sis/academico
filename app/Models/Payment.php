@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 /**
  * @mixin IdeHelperPayment
@@ -46,23 +47,6 @@ class Payment extends Model
     public function paymentmethod()
     {
         return $this->belongsTo(Paymentmethod::class, 'payment_method', 'code')->withDefault();
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | SCOPES
-    |--------------------------------------------------------------------------
-    */
-
-    /*
-    |--------------------------------------------------------------------------
-    | ACCESORS
-    |--------------------------------------------------------------------------
-    */
-
-    public function getValueAttribute($value)
-    {
-        return $value / 100;
     }
 
     public function getEnrollmentNameAttribute(): string
@@ -115,14 +99,15 @@ class Payment extends Model
         return $this->value.' '.config('academico.currency_symbol');
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | MUTATORS
-    |--------------------------------------------------------------------------
-    */
-
-    public function setValueAttribute($value)
+    protected function value(): Attribute
     {
-        $this->attributes['value'] = $value * 100;
+        return new Attribute(
+            get: fn ($value) => $value / 100,
+            set: fn ($value) => $value * 100,
+        );
+    }
+
+    public function identifiableAttribute() {
+        return $this->id;
     }
 }

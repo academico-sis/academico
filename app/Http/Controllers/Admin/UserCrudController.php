@@ -57,21 +57,6 @@ class UserCrudController extends CrudController
             ],
 
         ]);
-
-        // Role Filter
-        $this->crud->addFilter(
-            [
-                'name' => 'role',
-                'type' => 'dropdown',
-                'label' => trans('backpack::permissionmanager.role'),
-            ],
-            config('permission.models.role')->pluck(['name', 'id'])->toArray(),
-            function ($value) {
-                $this->crud->addClause('whereHas', 'roles', function ($query) use ($value) {
-                    $query->where('role_id', '=', $value);
-                });
-            }
-        );
     }
 
     protected function setupCreateOperation()
