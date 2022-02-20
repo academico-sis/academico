@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\ResultTypeRequest as StoreRequest;
+use App\Http\Requests\ResultTypeRequest;
 use App\Models\ResultType;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -28,24 +28,30 @@ class ResultTypeCrudController extends CrudController
     protected function setupListOperation()
     {
         CRUD::addColumns([
-            ['name' => 'name',
+            [
+                'name' => 'name',
                 'label' => 'Name', ],
-            ['name' => 'description',
+            [
+                'name' => 'description',
                 'label' => 'Description', ],
         ]);
     }
 
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(StoreRequest::class);
+        CRUD::setValidation(ResultTypeRequest::class);
 
         CRUD::addFields([
-            ['name' => 'name',
-                'label' => 'Name',
-                'type' => 'textarea', ],
-            ['name' => 'description',
-                'label' => 'Description',
-                'type' => 'textarea', ],
+            [
+                'name' => 'name',
+                'label' => __('Name'),
+                'type' => 'text',
+            ],
+            [
+                'name' => 'description',
+                'label' => __('Description'),
+                'type' => 'textarea',
+            ],
         ]);
     }
 

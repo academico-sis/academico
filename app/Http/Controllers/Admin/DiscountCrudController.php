@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\DiscountRequest as StoreRequest;
+use App\Http\Requests\DiscountRequest;
 use App\Models\Discount;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -38,13 +38,11 @@ class DiscountCrudController extends CrudController
                 'label' => 'ID',
             ],
             [
-                // Discount name
                 'label' => __('Name'),
                 'type' => 'text',
                 'name' => 'name',
             ],
             [
-                // Value
                 'label' => __('Discount Value'),
                 'type' => 'decimal',
                 'name' => 'value',
@@ -55,16 +53,15 @@ class DiscountCrudController extends CrudController
 
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(StoreRequest::class);
+        CRUD::setValidation(DiscountRequest::class);
+
         CRUD::addFields([
             [
-                // Discount name
                 'label' => __('Name'),
                 'type' => 'text',
                 'name' => 'name',
             ],
             [
-                // Value
                 'label' => __('Discount Value (0-100%)'),
                 'type' => 'number',
                 'attributes' => ['step' => '1'],

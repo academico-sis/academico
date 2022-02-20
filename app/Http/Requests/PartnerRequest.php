@@ -25,7 +25,11 @@ class PartnerRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'name' => 'required|min:5|max:255'
+             'name' => 'required|min:1|max:255|unique',
+             'started_on' => 'required|date',
+             'expired_on' => 'nullable|date',
+             'last_alert_sent_at' => 'nullable|date',
+             'send_report_on' => 'nullable|int',
         ];
     }
 

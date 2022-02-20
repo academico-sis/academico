@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\CouponRequest as StoreRequest;
+use App\Http\Requests\CouponRequest;
 use App\Models\Coupon;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -20,27 +20,24 @@ class CouponCrudController extends CrudController
 
     public function setup()
     {
-        /*
-        |--------------------------------------------------------------------------
-        | CrudPanel Basic Information
-        |--------------------------------------------------------------------------
-        */
         CRUD::setModel(Coupon::class);
-        CRUD::setRoute(config('backpack.base.route_prefix').'/coupon');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/coupon');
         CRUD::setEntityNameStrings(__('coupon'), __('coupons'));
+    }
 
-        /*
-        |--------------------------------------------------------------------------
-        | CrudPanel Configuration
-        |--------------------------------------------------------------------------
-        */
-
+    public function setupListOperation()
+    {
         CRUD::addColumns([
             ['name' => 'name',
                 'label' => 'Name', ],
             ['name' => 'value',
                 'label' => 'Value', ],
         ]);
+    }
+
+    public function setupCreateOperation()
+    {
+        CRUD::setValidation(CouponRequest::class);
 
         CRUD::addFields([
             ['name' => 'name',
@@ -52,12 +49,7 @@ class CouponCrudController extends CrudController
         ]);
     }
 
-    protected function setupCreateOperation()
-    {
-        CRUD::setValidation(StoreRequest::class);
-    }
-
-    protected function setupUpdateOperation()
+    public function setupUpdateOperation()
     {
         $this->setupCreateOperation();
     }

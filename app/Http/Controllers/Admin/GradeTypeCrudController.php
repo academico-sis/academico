@@ -23,28 +23,24 @@ class GradeTypeCrudController extends CrudController
 
     public function setup()
     {
-        /*
-        |--------------------------------------------------------------------------
-        | CrudPanel Basic Information
-        |--------------------------------------------------------------------------
-        */
         CRUD::setModel(GradeType::class);
-        CRUD::setRoute(config('backpack.base.route_prefix').'/gradetype');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/gradetype');
         CRUD::setEntityNameStrings(__('grade type'), __('grade types'));
+    }
 
-        /*
-        |--------------------------------------------------------------------------
-        | CrudPanel Configuration
-        |--------------------------------------------------------------------------
-        */
-
+    protected function setupListOperation()
+    {
         CRUD::addColumns([
-            ['name' => 'name',
-                'label' => 'Name', ],
-            ['name' => 'total',
-                'label' => 'Total', ],
             [
-                'label' => 'Category',
+                'name' => 'name',
+                'label' => __('Name'),
+                ],
+            [
+                'name' => 'total',
+                'label' => __('Total'),
+            ],
+            [
+                'label' => __('Category'),
                 'type' => 'select',
                 'name' => 'grade_type_category_id',
                 'entity' => 'category',
@@ -56,40 +52,36 @@ class GradeTypeCrudController extends CrudController
 
     protected function setupCreateOperation()
     {
+        CRUD::setValidation(GradeTypeRequest::class);
+
         CRUD::addFields([
             [
                 'name' => 'name',
-                'label' => 'Name',
+                'label' => __('Name'),
                 'type' => 'text',
             ],
 
             [
                 'name' => 'total',
-                'label' => 'Total',
+                'label' => __('Total'),
                 'type' => 'text',
             ],
+
+            [
+                'label' => __('Category'),
+                'type' => 'select',
+                'name'      => 'grade_type_category_id',
+                'entity'    => 'category',
+                'model'     => GradeTypeCategory::class,
+                'attribute' => 'name',
+                'ajax' => true,
+            ]
         ]);
-
-        CRUD::addField([
-            'label' => 'Category',
-            'type' => 'select',
-            'name'      => 'grade_type_category_id',
-            'entity'    => 'category',
-            'model'     => GradeTypeCategory::class,
-            'attribute' => 'name',
-            'ajax' => true,
-        ]);
-
-
-        CRUD::setRequiredFields(GradeTypeRequest::class);
-
-        CRUD::setValidation(GradeTypeRequest::class);
     }
 
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
-        CRUD::setRequiredFields(GradeTypeRequest::class);
     }
 
     protected function fetchCategory()

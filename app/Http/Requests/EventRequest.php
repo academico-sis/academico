@@ -25,9 +25,13 @@ class EventRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:3|max:255',
+            'name' => 'required|min:1|max:255',
             'start' => 'required|date',
             'end' => 'required|date',
+            'course_id' => 'nullable|int',
+            'teacher_id' => 'nullable|int',
+            'room_id' => 'nullable|int',
+            'exempt_attendance' => 'nullable|bool'
         ];
     }
 

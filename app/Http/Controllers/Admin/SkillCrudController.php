@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\SkillRequest as StoreRequest;
+use App\Http\Requests\SkillRequest;
 use App\Models\Level;
 use App\Models\Skills\Skill;
 use App\Models\Skills\SkillType;
@@ -27,13 +27,14 @@ class SkillCrudController extends CrudController
         CRUD::setModel(Skill::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/skill');
         CRUD::setEntityNameStrings(__('skill'), __('skills'));
+        CRUD::enableExportButtons();
     }
 
     protected function setupListOperation()
     {
         CRUD::setColumns([
-            [ // skill type
-                'label' => 'Type',
+            [
+                'label' => __('Type'),
                 'type' => 'select',
                 'name' => 'skillType',
                 'entity' => 'skillType',
@@ -41,13 +42,12 @@ class SkillCrudController extends CrudController
                 'model' => 'skillType',
             ],
             [
-                'label' => 'Name',
-                // skill description
+                'label' => __('Name'),
                 'type' => 'text',
                 'name' => 'name',
             ],
-            [ // skill level
-                'label' => 'Level',
+            [
+                'label' => __('Level'),
                 'type' => 'select',
                 'name' => 'level',
                 'entity' => 'level',
@@ -56,9 +56,7 @@ class SkillCrudController extends CrudController
             ],
         ]);
 
-        CRUD::enableExportButtons();
-
-        CRUD::addFilter([ // select2 filter
+        CRUD::addFilter([
             'name' => 'level_id',
             'type' => 'select2',
             'label' => 'Level',
@@ -66,7 +64,7 @@ class SkillCrudController extends CrudController
             CRUD::addClause('where', 'level_id', $value);
         });
 
-        CRUD::addFilter([ // select2 filter
+        CRUD::addFilter([
             'name' => 'skill_type_id',
             'type' => 'select2',
             'label' => 'Type',
@@ -77,10 +75,11 @@ class SkillCrudController extends CrudController
 
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(StoreRequest::class);
+        CRUD::setValidation(SkillRequest::class);
+
         CRUD::addFields([
-            [ // skill type
-                'label' => 'Type',
+            [
+                'label' => __('Type'),
                 'type' => 'select',
                 'name' => 'skill_type_id',
                 'entity' => 'skillType',
@@ -88,13 +87,12 @@ class SkillCrudController extends CrudController
                 'model' => SkillType::class,
             ],
             [
-                'label' => 'Name',
-                // skill description
+                'label' => __('Name'),
                 'type' => 'text',
                 'name' => 'name',
             ],
-            [ // skill level
-                'label' => 'Level',
+            [
+                'label' => __('Level'),
                 'type' => 'select',
                 'name' => 'level_id',
                 'entity' => 'level',

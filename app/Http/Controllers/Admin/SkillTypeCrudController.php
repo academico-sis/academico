@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\SkillTypeRequest as StoreRequest;
+use App\Http\Requests\SkillTypeRequest;
 use App\Models\Skills\SkillType;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -39,7 +39,7 @@ class SkillTypeCrudController extends CrudController
 
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(StoreRequest::class);
+        CRUD::setValidation(SkillTypeRequest::class);
         CRUD::addFields([
             ['name' => 'shortname',
                 'label' => 'Shortname',

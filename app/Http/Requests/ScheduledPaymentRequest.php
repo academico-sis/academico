@@ -25,7 +25,10 @@ class ScheduledPaymentRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'name' => 'required|min:5|max:255'
+            'date' => 'required|date',
+            'value' => 'required|numeric|min:0',
+            'status' => 'required|int',
+            'enrollment_id' => 'required|int',
         ];
     }
 

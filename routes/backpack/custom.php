@@ -12,7 +12,6 @@ Route::namespace('\App\Http\Controllers')->middleware('web', 'loggedin', 'langua
     Route::crud('student', 'Admin\StudentCrudController');
     Route::crud('course', 'Admin\CourseCrudController');
     Route::crud('externalcourse', 'Admin\ExternalCourseCrudController');
-    Route::crud('comment', 'Admin\CommentCrudController');
 }
 );
 
@@ -51,9 +50,7 @@ Route::prefix(config('backpack.base.route_prefix'))->middleware('web', 'role:adm
     Route::crud('skilltype', 'SkillTypeCrudController');
     Route::crud('skillscale', 'SkillScaleCrudController');
     Route::crud('resulttype', 'ResultTypeCrudController');
-    Route::crud('remoteevent', 'RemoteEventCrudController');
     Route::crud('leave', 'LeaveCrudController');
-    Route::crud('leadtype', 'LeadTypeCrudController');
     Route::crud('book', 'BookCrudController');
     Route::crud('gradetypecategory', 'GradeTypeCategoryCrudController');
     Route::crud('member', 'MemberCrudController');

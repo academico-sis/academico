@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\RhythmRequest as StoreRequest;
+use App\Http\Requests\RhythmRequest;
 use App\Models\Rhythm;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -28,34 +28,51 @@ class RhythmCrudController extends CrudController
     protected function setupListOperation()
     {
         CRUD::addColumns([
-            ['name' => 'name',
-                'label' => 'Name', ],
-            ['name' => 'default_volume',
-                'label' => 'Default volume', ],
-            ['name' => 'product_code',
-                'label' => 'Product code', ],
-            ['name' => 'lms_id',
-                'label' => 'LMS code',
-                'type' => 'text', ],
+            [
+                'name' => 'name',
+                'label' => __('Name'),
+            ],
+            [
+                'name' => 'default_volume',
+                'label' => __('Default volume'),
+            ],
+            [
+                'name' => 'product_code',
+                'label' => __('Product code'),
+            ],
+            [
+                'name' => 'lms_id',
+                'label' => __('LMS code'),
+                'type' => 'text',
+            ],
         ]);
     }
 
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(StoreRequest::class);
+        CRUD::setValidation(RhythmRequest::class);
+
         CRUD::addFields([
-            ['name' => 'name',
-                'label' => 'Name',
-                'type' => 'text', ],
-            ['name' => 'default_volume',
-                'label' => 'Default volume',
-                'type' => 'text', ],
-            ['name' => 'product_code',
-                'label' => 'Product code',
-                'type' => 'text', ],
-            ['name' => 'lms_id',
-                'label' => 'LMS code',
-                'type' => 'text', ],
+            [
+                'name' => 'name',
+                'label' => __('Name'),
+                'type' => 'text',
+            ],
+            [
+                'name' => 'default_volume',
+                'label' => __('Default volume'),
+                'type' => 'text',
+            ],
+            [
+                'name' => 'product_code',
+                'label' => __('Product Code'),
+                'type' => 'text',
+            ],
+            [
+                'name' => 'lms_id',
+                'label' => __('LMS code'),
+                'type' => 'text',
+            ],
         ]);
     }
 

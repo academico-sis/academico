@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\LevelRequest as StoreRequest;
+use App\Http\Requests\LevelRequest;
 use App\Models\Level;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -27,22 +27,33 @@ class LevelCrudController extends CrudController
 
     protected function setupListOperation()
     {
-        CRUD::addColumn(['name' => 'name',
-            'label' => 'Name', ]);
-        CRUD::addColumn(['name' => 'lms_id',
-            'label' => 'LMS code',
-            'type' => 'text', ],);
+        CRUD::addColumn([
+            'name' => 'name',
+            'label' => __('Name'),
+        ]);
+
+        CRUD::addColumn([
+            'name' => 'lms_id',
+            'label' => __('LMS code'),
+            'type' => 'text',
+        ]);
     }
 
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(StoreRequest::class);
-        CRUD::addField(['name' => 'name',
+        CRUD::setValidation(LevelRequest::class);
+
+        CRUD::addField([
+            'name' => 'name',
             'label' => 'Name',
-            'type' => 'text', ]);
-        CRUD::addField(['name' => 'lms_id',
+            'type' => 'text',
+        ]);
+
+        CRUD::addField([
+            'name' => 'lms_id',
             'label' => 'LMS code',
-            'type' => 'text', ],);
+            'type' => 'text',
+        ]);
     }
 
     protected function setupUpdateOperation()

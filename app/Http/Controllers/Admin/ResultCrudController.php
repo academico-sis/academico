@@ -116,7 +116,7 @@ class ResultCrudController extends CrudController
             CRUD::addClause('period', $value);
         });
 
-        CRUD::addFilter([ // select2_multiple filter
+        CRUD::addFilter([
             'name' => 'result',
             'type' => 'select2',
             'label' => __('Result'),

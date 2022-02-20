@@ -11,10 +11,6 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Redirect;
 
-/**
- * Class PaymentCrudController
- * @property-read CrudPanel $crud
- */
 class PaymentCrudController extends CrudController
 {
     use ListOperation;
@@ -26,9 +22,6 @@ class PaymentCrudController extends CrudController
         $this->middleware('permission:enrollments.edit');
     }
 
-    /**
-     * Configure the CrudPanel object. Apply settings to all operations.
-     */
     public function setup()
     {
         CRUD::setModel(Payment::class);
@@ -40,9 +33,6 @@ class PaymentCrudController extends CrudController
         $this->crud->addButtonFromView('top', 'createInvoice', 'createInvoice', 'start');
     }
 
-    /**
-     * Define what happens when the List operation is loaded.
-     */
     protected function setupListOperation()
     {
         $this->crud->addFilter(

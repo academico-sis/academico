@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\YearRequest as StoreRequest;
+use App\Http\Requests\YearRequest;
 use App\Models\Year;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -35,7 +35,7 @@ class YearCrudController extends CrudController
 
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(StoreRequest::class);
+        CRUD::setValidation(YearRequest::class);
         CRUD::addField(['name' => 'name',
             'label' => 'Name',
             'type' => 'text', ]);

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\PaymentmethodRequest as StoreRequest;
+use App\Http\Requests\PaymentmethodRequest;
 use App\Models\Paymentmethod;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -20,11 +20,6 @@ class PaymentmethodCrudController extends CrudController
 
     public function setup()
     {
-        /*
-        |--------------------------------------------------------------------------
-        | CrudPanel Basic Information
-        |--------------------------------------------------------------------------
-        */
         CRUD::setModel(Paymentmethod::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/paymentmethod');
         CRUD::setEntityNameStrings(__('Payment method'), __('Payment methods'));
@@ -33,23 +28,32 @@ class PaymentmethodCrudController extends CrudController
     protected function setupListOperation()
     {
         CRUD::addColumns([
-            ['name' => 'name',
-                'label' => 'Name', ],
-            ['name' => 'code',
-                'label' => 'Code', ],
+            [
+                'name' => 'name',
+                'label' => __('Name'),
+            ],
+            [
+                'name' => 'code',
+                'label' => __('Code'),
+            ],
         ]);
     }
 
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(StoreRequest::class);
+        CRUD::setValidation(PaymentmethodRequest::class);
+
         CRUD::addFields([
-            ['name' => 'name',
+            [
+                'name' => 'name',
                 'label' => 'Name',
-                'type' => 'text', ],
-            ['name' => 'code',
-                'label' => 'Code',
-                'type' => 'text', ],
+                'type' => 'text',
+            ],
+            [
+                'name' => 'code',
+                'label' => __('Code'),
+                'type' => 'text',
+            ],
         ]);
     }
 

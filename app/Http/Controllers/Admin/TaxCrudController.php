@@ -13,10 +13,6 @@ use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
-/**
- * Class TaxCrudController
- * @property-read CrudPanel $crud
- */
 class TaxCrudController extends CrudController
 {
     use ListOperation;
@@ -25,11 +21,6 @@ class TaxCrudController extends CrudController
     use DeleteOperation;
     use ShowOperation;
 
-    /**
-     * Configure the CrudPanel object. Apply settings to all operations.
-     *
-     * @return void
-     */
     public function setup()
     {
         CRUD::setModel(Tax::class);
@@ -37,12 +28,6 @@ class TaxCrudController extends CrudController
         CRUD::setEntityNameStrings('tax', 'taxes');
     }
 
-    /**
-     * Define what happens when the List operation is loaded.
-     *
-     * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
-     * @return void
-     */
     protected function setupListOperation()
     {
         CRUD::setColumns([
@@ -51,14 +36,12 @@ class TaxCrudController extends CrudController
                 'label' => 'ID',
             ],
             [
-                // Discount name
                 'label' => __('Name'),
                 'type' => 'text',
                 'name' => 'name',
             ],
             [
-                // Value
-                'label' => __('Discount Value'),
+                'label' => __('Value'),
                 'type' => 'decimal',
                 'name' => 'value',
                 'suffix' => '%',
@@ -66,25 +49,17 @@ class TaxCrudController extends CrudController
         ]);
     }
 
-    /**
-     * Define what happens when the Create operation is loaded.
-     *
-     * @see https://backpackforlaravel.com/docs/crud-operation-create
-     * @return void
-     */
     protected function setupCreateOperation()
     {
         CRUD::setValidation(TaxRequest::class);
 
         CRUD::addFields([
             [
-                // Discount name
                 'label' => __('Name'),
                 'type' => 'text',
                 'name' => 'name',
             ],
             [
-                // Value
                 'label' => __('Value (0-100%)'),
                 'type' => 'number',
                 'name' => 'value',
@@ -92,12 +67,6 @@ class TaxCrudController extends CrudController
         ]);
     }
 
-    /**
-     * Define what happens when the Update operation is loaded.
-     *
-     * @see https://backpackforlaravel.com/docs/crud-operation-update
-     * @return void
-     */
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();

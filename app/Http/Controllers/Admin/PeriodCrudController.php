@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\PeriodRequest;
 use App\Models\Period;
 use App\Models\Year;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -61,6 +62,8 @@ class PeriodCrudController extends CrudController
 
     public function setupCreateOperation()
     {
+        CRUD::setValidation(PeriodRequest::class);
+
         if (config('backpack.base.license_code')) {
             CRUD::addField(['type' => 'relationship', 'name' => 'year_id', 'inline_create' => true]);
         } else {

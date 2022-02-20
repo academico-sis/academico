@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\RoomRequest as StoreRequest;
+use App\Http\Requests\RoomRequest;
 use App\Models\Room;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -51,7 +51,8 @@ class RoomCrudController extends CrudController
 
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(StoreRequest::class);
+        CRUD::setValidation(RoomRequest::class);
+
         CRUD::addFields([
             [
                 'label' => 'Campus',

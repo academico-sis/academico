@@ -25,7 +25,8 @@ class TaxRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'name' => 'required|min:5|max:255'
+            'name' => 'required|min:2|max:255|unique',
+            'value' => 'required|numeric|min:0|max:100',
         ];
     }
 

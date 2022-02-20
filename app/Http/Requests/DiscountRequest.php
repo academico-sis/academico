@@ -25,8 +25,8 @@ class DiscountRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:2|max:255',
-            'value' => 'required',
+            'name' => 'required|min:2|max:255|unique',
+            'value' => 'required|numeric|min:0|max:100',
         ];
     }
 
