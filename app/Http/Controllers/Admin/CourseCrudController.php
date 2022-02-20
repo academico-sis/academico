@@ -24,21 +24,30 @@ use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Support\Facades\Gate;
 use Prologue\Alerts\Facades\Alert;
+use App\Traits\CurrencyFormatTrait;
 
 class CourseCrudController extends CrudController
 {
     use ListOperation;
     use CreateOperation { store as traitStore; }
-    use UpdateOperation { update as traitUpdate; }
+    use UpdateOperation;
     use DeleteOperation;
     use ShowStudentPhotoRosterOperation;
     use ShowStudentListOperation;
+
+    private array $currency = [];
 
     public function __construct()
     {
         parent::__construct();
         $this->middleware('permission:courses.view', ['except' => ['showstudentlist', 'showstudentphotoroster']]);
         $this->middleware('permission:courses.edit', ['only' => ['update', 'create', 'store', 'destroy']]);
+
+        if (config('academico.currency_position') === 'before') {
+            $this->currency = ['prefix' => config('academico.currency_symbol')];
+        } else {
+            $this->currency = ['suffix' => config('academico.currency_symbol')];
+        }
     }
 
     public function setup()
@@ -46,7 +55,6 @@ class CourseCrudController extends CrudController
         CRUD::setModel(Course::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/course');
         CRUD::setEntityNameStrings(__('course'), __('courses'));
-//        $this->crud->enableDetailsRow();
         CRUD::addClause('internal');
         $permissions = backpack_user()->getAllPermissions();
 
@@ -279,154 +287,66 @@ class CourseCrudController extends CrudController
 
     protected function setupCreateOperation()
     {
-        if (config('academico.currency_position') === 'before') {
-            $currency = ['prefix' => config('academico.currency_symbol')];
-        } else {
-            $currency = ['suffix' => config('academico.currency_symbol')];
-        }
+        $this->addRhythmField();
+        $this->addLevelField();
+        $this->addNameField();
+        $this->addPriceFields();
 
-        CRUD::addFields([
-            [
-                // RYTHM
-                'label' => __('Rhythm'),
-                'type' => 'select',
-                'name' => 'rhythm_id',
-                'entity' => 'rhythm',
-                'attribute' => 'name',
-                'model' => Rhythm::class,
-                'tab' => __('Course info'),
-            ],
+        $this->addCourseInfoFields();
 
-            [
-                // LEVEL
-                'label' => __('Level'),
-                'type' => 'select',
-                'name' => 'level_id',
-                'entity' => 'level',
-                'attribute' => 'name',
-                'model' => Level::class,
-                'tab' => __('Course info'),
-            ],
-
-            [
-                'name' => 'name',
-                'label' => __('Name'),
-                'tab' => __('Course info'),
-            ],
-
-            array_merge([
-                'name' => 'price',
-                'label' => __('Price'),
-                'tab' => __('Course info'),
-                'type' => 'number',
-            ], $currency),
-        ]);
-
-        if (config('invoicing.price_categories_enabled')) {
-            CRUD::addFields([
-                array_merge([
-                    'name' => 'price_b',
-                    'label' => __('Price B'),
-                    'tab' => __('Course info'),
-                    'type' => 'number',
-                ], $currency),
-
-                array_merge([
-                    'name' => 'price_c',
-                    'label' => __('PriceC'),
-                    'tab' => __('Course info'),
-                    'type' => 'number',
-                ], $currency),
-            ]);
-        }
-
-        CRUD::addFields([
-            [
-                'name' => 'volume',
-                'label' => __('Presential volume'),
-                'suffix' => 'h',
-                'tab' => __('Course info'),
-            ],
-
-            [
-                'name' => 'remote_volume',
-                'label' => __('Remote volume'),
-                'suffix' => 'h',
-                'tab' => __('Course info'),
-            ],
-
-            [
-                'name' => 'spots',
-                'label' => __('Spots'),
-                'tab' => __('Course info'),
-            ],
-
-            [
-                'name' => 'exempt_attendance',
-                'label' => __('Exempt Attendance'),
-                'type' => 'checkbox',
-                'tab' => __('Course info'),
-            ],
-
-            [
-                'name' => 'sublevels',
-                'label' => __('Course sublevels'),
-                'type' => 'repeatable',
-                'subfields' => [
-                    [
-                        'name' => 'name',
-                        // The db column name
-                        'label' => __('Name'),
-                    ],
-                    [
-                        'name' => 'level_id',
-                        'label' => __('Level'),
-                        'type' => 'select',
-                        'entity' => 'level',
-                        'attribute' => 'name',
-                        'model' => Level::class,
-                        'allows_null' => true,
-                        'wrapper' => ['class' => 'form-group col-md-4'],
-                    ],
-
-                    array_merge([
-                        'name' => 'price',
-                        // The db column name
-                        'label' => __('Price'),
-                        'type' => 'number',
-                    ], $currency),
-
-                    [
-                        'name' => 'volume',
-                        // The db column name
-                        'label' => __('Presential volume'),
-                        'suffix' => 'h',
-                    ],
-
-                    [
-                        'name' => 'remote_volume',
-                        // The db column name
-                        'label' => __('Remote volume'),
-                        'suffix' => 'h',
-                    ],
-
-                    [
-                        'name' => 'start_date',
-                        'type' => 'date',
-                        'label' => __('Start Date'),
-                        'wrapper' => ['class' => 'form-group col-md-4'],
-                    ],
-                    [
-                        'name' => 'end_date',
-                        'type' => 'date',
-                        'label' => __('End Date'),
-                        'wrapper' => ['class' => 'form-group col-md-4'],
-                    ],
+        CRUD::addField([
+            'name' => 'sublevels',
+            'label' => __('Course sublevels'),
+            'type' => 'repeatable',
+            'subfields' => [
+                [
+                    'name' => 'name',
+                    'label' => __('Name'),
                 ],
-                'tab' => __('Course sublevels'),
-                'init_rows' => 0,
+                [
+                    'name' => 'level_id',
+                    'label' => __('Level'),
+                    'type' => 'select',
+                    'entity' => 'level',
+                    'attribute' => 'name',
+                    'model' => Level::class,
+                    'allows_null' => true,
+                    'wrapper' => ['class' => 'form-group col-md-4'],
+                ],
 
+                array_merge([
+                    'name' => 'price',
+                    'label' => __('Price'),
+                    'type' => 'number',
+                ], $this->currency),
+
+                [
+                    'name' => 'volume',
+                    'label' => __('Presential volume'),
+                    'suffix' => 'h',
+                ],
+
+                [
+                    'name' => 'remote_volume',
+                    'label' => __('Remote volume'),
+                    'suffix' => 'h',
+                ],
+
+                [
+                    'name' => 'start_date',
+                    'type' => 'date',
+                    'label' => __('Start Date'),
+                    'wrapper' => ['class' => 'form-group col-md-4'],
+                ],
+                [
+                    'name' => 'end_date',
+                    'type' => 'date',
+                    'label' => __('End Date'),
+                    'wrapper' => ['class' => 'form-group col-md-4'],
+                ],
             ],
+            'tab' => __('Course sublevels'),
+            'init_rows' => 0,
         ]);
 
         if (config('lms.sync_to') == 'apolearn') {
@@ -438,182 +358,31 @@ class CourseCrudController extends CrudController
             ]);
         }
 
-        CRUD::addFields([
-            [
-                'name' => 'color',
-                'label' => __('Color'),
-                'tab' => __('Course info'),
-                'type' => 'color_picker',
-            ],
+        $this->addCourseResourceFields();
+        $this->addCoursePedagogyFields();
 
-            [
-                // TEACHER
-                'label' => __('Teacher'),
-                'type' => 'select',
-                'name' => 'teacher_id',
-                'entity' => 'teacher',
-                'attribute' => 'name',
-                'model' => Teacher::class,
-                'tab' => __('Resources'),
-            ],
-
-            [
-                // ROOM
-                'label' => __('Room'),
-                'type' => 'select',
-                'name' => 'room_id',
-                'entity' => 'room',
-                'attribute' => 'name',
-                'model' => Room::class,
-                'tab' => __('Resources'),
-            ],
-
-            [
-                // RYTHM
-                'label' => __('Campus'),
-                'type' => 'hidden',
-                'name' => 'campus_id',
-                'value' => 1,
-            ],
-
-            [
-                // n-n relationship (with pivot table)
-                'label' => __('Books'),
-                'type' => 'select_multiple',
-                'name' => 'books',
-                'entity' => 'books',
-                'attribute' => 'name',
-                'model' => Book::class,
-                'pivot' => true,
-                // on create&update, do you need to add/delete pivot table entries?
-                'tab' => __('Pedagogy'),
-            ],
-
-            [
-                'label' => __('Evaluation method'),
-                'type' => 'select2',
-                'name' => 'evaluationType',
-                'entity' => 'evaluationType',
-                'attribute' => 'name',
-                'model' => EvaluationType::class,
-                'tab' => __('Pedagogy'),
-            ],
-
-            [
-                // PERIOD
-                'label' => __('Period'),
-                'type' => 'select',
-                'name' => 'period_id',
-                'entity' => 'period',
-                'attribute' => 'name',
-                'model' => Period::class,
-                'tab' => __('Schedule'),
-                'default' => Period::get_enrollments_period()->id,
-            ],
-
-            [
-                'name' => 'start_date',
-                'label' => __('Start Date'),
-                'type' => 'date',
-                'tab' => __('Schedule'),
-                'default' => Period::get_enrollments_period()->start,
-
-            ],
-
-            [
-                'name' => 'end_date',
-                'label' => __('End Date'),
-                'type' => 'date',
-                'tab' => __('Schedule'),
-                'default' => Period::get_enrollments_period()->end,
-            ],
-
-            [   // repeatable
-                'name' => 'times',
-                'label' => __('Course Schedule'),
-                'type' => 'repeatable',
-                'subfields' => [
-                    [
-                        'name' => 'day',
-                        'label' => __('Day'),
-                        'type' => 'select_from_array',
-                        'options' => [
-                            0 => __('Sunday'),
-                            1 => __('Monday'),
-                            2 => __('Tuesday'),
-                            3 => __('Wednesday'),
-                            4 => __('Thursday'),
-                            5 => __('Friday'),
-                            6 => __('Saturday'),
-                        ],
-                        'allows_null' => false,
-                        'default' => 1,
-                        'wrapper' => ['class' => 'form-group col-md-4'],
-                    ],
-                    [
-                        'name' => 'start',
-                        'type' => 'time',
-                        'label' => __('Start'),
-                        'wrapper' => ['class' => 'form-group col-md-4'],
-                    ],
-                    [
-                        'name' => 'end',
-                        'type' => 'time',
-                        'label' => __('End'),
-                        'wrapper' => ['class' => 'form-group col-md-4'],
-                    ],
-                ],
-                'init_rows' => 0,
-                'tab' => __('Schedule'),
-            ],
-
-            [
-                'name' => 'remoteevents',
-                'label' => __('Remote events'),
-                'type' => 'repeatable',
-                'subfields' => [
-                    [
-                        'name' => 'name',
-                        'type' => 'text',
-                        'label' => __('Name'),
-                        'wrapper' => ['class' => 'form-group col-md-6'],
-                    ],
-                    [
-                        'name' => 'worked_hours',
-                        'type' => 'number',
-                        'attributes' => ['step' => '0.25'],
-                        'suffix' => 'h',
-                        'label' => __('Weekly Volume'),
-                        'wrapper' => ['class' => 'form-group col-md-6'],
-                    ],
-                ],
-                'tab' => __('Schedule'),
-                'init_rows' => 0,
-            ],
-
-            [   // view
-                'name' => 'custom-ajax-button',
-                'type' => 'view',
-                'view' => 'courses/schedule-preset-alert',
-                'tab' => __('Schedule'),
-            ],
-
+        CRUD::addField([
+            'type' => 'hidden',
+            'name' => 'campus_id',
+            'value' => 1,
         ]);
 
-        // add asterisk for fields that are required in CourseRequest
+        $this->addCourseScheduleFields();
+        $this->addCourseScheduleFieldsForRealCourses();
+
         CRUD::setValidation(CourseRequest::class);
     }
 
     protected function setupUpdateOperation()
     {
         if (config('academico.currency_position') === 'before') {
-            $currency = ['prefix' => config('academico.currency_symbol')];
+            $this->currency = ['prefix' => config('academico.currency_symbol')];
         } else {
-            $currency = ['suffix' => config('academico.currency_symbol')];
+            $this->currency = ['suffix' => config('academico.currency_symbol')];
         }
 
         if ($this->crud->getCurrentEntry()->children->count() > 0) {
-            CRUD::addField([   // view
+            CRUD::addField([
                 'name' => 'custom-ajax-button',
                 'type' => 'view',
                 'view' => 'courses/parent-course-alert',
@@ -621,15 +390,51 @@ class CourseCrudController extends CrudController
         }
 
         if ($this->crud->getCurrentEntry()->parent_course_id !== null) {
-            CRUD::addField([   // view
+            CRUD::addField([
                 'name' => 'custom-ajax-button',
                 'type' => 'view',
                 'view' => 'courses/child-course-alert',
             ]);
         }
 
+        $this->addRhythmField();
+
+        // unless the course has children, show the level field
+        if ($this->crud->getCurrentEntry()->children->count() == 0) {
+            $this->addLevelField();
+        }
+
+        $this->addNameField();
+        $this->addPriceFields();
+        $this->addCourseInfoFields();
+
+        // unless the course has children, show the resources tab
+        if ($this->crud->getCurrentEntry()->children->count() == 0) {
+            $this->addCourseResourceFields();
+        }
+
+        $this->addCoursePedagogyFields();
+
+        CRUD::addFields([
+            [
+                'label' => __('Evaluation ready'),
+                'name' => 'marked',
+                'tab' => __('Pedagogy'),
+            ],
+        ]);
+
+        $this->addCourseScheduleFields();
+
+        // unless the course has children, show the coursetimes tab
+        if ($this->crud->getCurrentEntry()->children->count() == 0) {
+            $this->addCourseScheduleFieldsForRealCourses();
+        }
+
+        CRUD::setValidation(CourseRequest::class);
+    }
+
+    private function addRhythmField() {
         CRUD::addField([
-            // RYTHM
             'label' => __('Rhythm'),
             'type' => 'select',
             'name' => 'rhythm_id',
@@ -638,34 +443,35 @@ class CourseCrudController extends CrudController
             'model' => Rhythm::class,
             'tab' => __('Course info'),
         ]);
+    }
 
-        // unless the course has children, show the level field
-        if ($this->crud->getCurrentEntry()->children->count() == 0) {
-            CRUD::addField([
-                // LEVEL
-                'label' => __('Level'),
-                'type' => 'select',
-                'name' => 'level_id',
-                'entity' => 'level',
-                'attribute' => 'name',
-                'model' => Level::class,
-                'tab' => __('Course info'),
-            ]);
-        }
+    private function addLevelField()
+    {
+        CRUD::addField([
+            'label' => __('Level'),
+            'type' => 'select',
+            'name' => 'level_id',
+            'entity' => 'level',
+            'attribute' => 'name',
+            'model' => Level::class,
+            'tab' => __('Course info'),
+        ]);
+    }
 
+    private function addNameField()
+    {
+        CRUD::addField(['name' => 'name', 'label' => __('Name'), 'tab' => __('Course info')]);
+    }
+
+    private function addPriceFields()
+    {
         CRUD::addFields([
-            [
-                'name' => 'name',
-                'label' => __('Name'),
-                'tab' => __('Course info'),
-            ],
-
             array_merge([
                 'name' => 'price',
                 'label' => __('Price'),
                 'tab' => __('Course info'),
                 'type' => 'number',
-            ], $currency),
+            ], $this->currency),
         ]);
 
         if (config('invoicing.price_categories_enabled')) {
@@ -675,17 +481,20 @@ class CourseCrudController extends CrudController
                     'label' => __('Price B'),
                     'tab' => __('Course info'),
                     'type' => 'number',
-                ], $currency),
+                ], $this->currency),
 
                 array_merge([
                     'name' => 'price_c',
                     'label' => __('PriceC'),
                     'tab' => __('Course info'),
                     'type' => 'number',
-                ], $currency),
+                ], $this->currency),
             ]);
         }
+    }
 
+    private function addCourseInfoFields()
+    {
         CRUD::addFields([
             [
                 'name' => 'volume',
@@ -721,44 +530,37 @@ class CourseCrudController extends CrudController
                 'type' => 'color_picker',
             ],
         ]);
+    }
 
-        // unless the course has children, show the resources tab
-        if ($this->crud->getCurrentEntry()->children->count() == 0) {
-            CRUD::addFields([
-                [
-                    // TEACHER
-                    'label' => __('Teacher'),
-                    'type' => 'select',
-                    'name' => 'teacher_id',
-                    'entity' => 'teacher',
-                    'attribute' => 'name',
-                    'model' => Teacher::class,
-                    'tab' => __('Resources'),
-                ],
-
-                [
-                    // ROOM
-                    'label' => __('Room'),
-                    'type' => 'select',
-                    'name' => 'room_id',
-                    'entity' => 'room',
-                    'attribute' => 'name',
-                    'model' => Room::class,
-                    'tab' => __('Resources'),
-                ],
-            ]);
-        }
-
+    private function addCourseResourceFields()
+    {
         CRUD::addFields([
             [
-                // CAMPUS
-                'label' => __('Campus'),
-                'type' => 'hidden',
-                'name' => 'campus_id',
-                'value' => 1,
+                'label' => __('Teacher'),
+                'type' => 'select',
+                'name' => 'teacher_id',
+                'entity' => 'teacher',
+                'attribute' => 'name',
+                'model' => Teacher::class,
+                'tab' => __('Resources'),
             ],
+
             [
-                // n-n relationship (with pivot table)
+                'label' => __('Room'),
+                'type' => 'select',
+                'name' => 'room_id',
+                'entity' => 'room',
+                'attribute' => 'name',
+                'model' => Room::class,
+                'tab' => __('Resources'),
+            ],
+        ]);
+    }
+
+    private function addCoursePedagogyFields()
+    {
+        CRUD::addFields([
+            [
                 'label' => __('Books'),
                 'type' => 'select_multiple',
                 'name' => 'books',
@@ -766,7 +568,6 @@ class CourseCrudController extends CrudController
                 'attribute' => 'name',
                 'model' => Book::class,
                 'pivot' => true,
-                // on create&update, do you need to add/delete pivot table entries?
                 'tab' => __('Pedagogy'),
             ],
 
@@ -779,15 +580,13 @@ class CourseCrudController extends CrudController
                 'model' => EvaluationType::class,
                 'tab' => __('Pedagogy'),
             ],
+        ]);
+    }
 
+    private function addCourseScheduleFields()
+    {
+        CRUD::addFields([
             [
-                'label' => __('Evaluation ready'),
-                'name' => 'marked',
-                'tab' => __('Pedagogy'),
-            ],
-
-            [
-                // PERIOD
                 'label' => __('Period'),
                 'type' => 'select',
                 'name' => 'period_id',
@@ -802,7 +601,6 @@ class CourseCrudController extends CrudController
                 'label' => __('Start Date'),
                 'type' => 'date',
                 'tab' => __('Schedule'),
-
             ],
 
             [
@@ -811,12 +609,13 @@ class CourseCrudController extends CrudController
                 'type' => 'date',
                 'tab' => __('Schedule'),
             ],
-
         ]);
+    }
 
-        // unless the course has children, show the coursetimes tab
-        if ($this->crud->getCurrentEntry()->children->count() == 0) {
-            CRUD::addField([
+    private function addCourseScheduleFieldsForRealCourses()
+    {
+        CRUD::addFields([
+            [
                 'name' => 'times',
                 'label' => __('Course Schedule'),
                 'type' => 'repeatable',
@@ -851,39 +650,10 @@ class CourseCrudController extends CrudController
                         'wrapper' => ['class' => 'form-group col-md-4'],
                     ],
                 ],
-                'tab' => __('Schedule'),
                 'init_rows' => 0,
-            ]);
-
-            if ($this->crud->getCurrentEntry()->children->count() == 0) {
-                CRUD::addField([
-                    'name' => 'remoteevents',
-                    'label' => __('Remote events'),
-                    'type' => 'repeatable',
-                    'subfields' => [
-                        [
-                            'name' => 'name',
-                            'type' => 'text',
-                            'label' => __('Name'),
-                            'wrapper' => ['class' => 'form-group col-md-6'],
-                        ],
-                        [
-                            'name' => 'worked_hours',
-                            'type' => 'number',
-                            'attributes' => ['step' => '0.25'],
-                            'suffix' => 'h',
-                            'label' => __('Weekly Volume'),
-                            'wrapper' => ['class' => 'form-group col-md-6'],
-                        ],
-                    ],
-                    'tab' => __('Schedule'),
-                    'init_rows' => 0,
-                ]);
-            }
-        }
-
-        // add asterisk for fields that are required in CourseRequest
-        CRUD::setValidation(CourseRequest::class);
+                'tab' => __('Schedule'),
+            ],
+        ]);
     }
 
     protected function createSublevels($course, $sublevels, $courseTimes, $teacherId, $roomId): void
@@ -893,13 +663,13 @@ class CourseCrudController extends CrudController
             $childCourse = Course::create([
                 'campus_id' => $course->campus_id,
                 'rhythm_id' => $course->rhythm_id,
-                'level_id' => $sublevel->level_id,
-                'volume' => $sublevel->volume,
-                'remote_volume' => $sublevel->remote_volume,
-                'name' => $sublevel->name,
-                'price' => $sublevel->price,
-                'start_date' => $sublevel->start_date,
-                'end_date' => $sublevel->end_date,
+                'level_id' => $sublevel['level_id'],
+                'volume' => $sublevel['volume'] ?? null,
+                'remote_volume' => $sublevel['remote_volume'] ?? null,
+                'name' => $sublevel['name'],
+                'price' => $sublevel['price'],
+                'start_date' => $sublevel['start_date'],
+                'end_date' => $sublevel['end_date'],
                 'room_id' => $roomId,
                 'teacher_id' => $teacherId,
                 'parent_course_id' => $course->id,
@@ -913,18 +683,6 @@ class CourseCrudController extends CrudController
         }
     }
 
-    public function update()
-    {
-        $course = $this->crud->getCurrentEntry();
-        $newCourseTimes = collect(json_decode($this->crud->getRequest()->input('times'), null, 512, JSON_THROW_ON_ERROR));
-        $course->saveCourseTimes($newCourseTimes);
-
-        $remoteEvents = collect(json_decode($this->crud->getRequest()->input('remoteevents'), null, 512, JSON_THROW_ON_ERROR));
-        $course->saveRemoteEvents($remoteEvents);
-
-        // update model
-        return $this->traitUpdate();
-    }
 
     public function store()
     {
@@ -933,13 +691,9 @@ class CourseCrudController extends CrudController
 
         $response = $this->traitStore();
         $course = $this->crud->getCurrentEntry();
+        $courseTimes = collect($this->crud->getRequest()->input('times'));
 
-        $courseTimes = collect(json_decode($this->crud->getRequest()->input('times'), null, 512, JSON_THROW_ON_ERROR));
-
-        $remoteEvents = collect(json_decode($this->crud->getRequest()->input('remoteevents'), null, 512, JSON_THROW_ON_ERROR));
-        $course->saveRemoteEvents($remoteEvents);
-
-        $sublevels = collect(json_decode($this->crud->getRequest()->input('sublevels'), null, 512, JSON_THROW_ON_ERROR));
+        $sublevels = collect($this->crud->getRequest()->input('sublevels'));
 
         // if subcourses were added
         if ($sublevels->count() > 0) {

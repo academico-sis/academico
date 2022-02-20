@@ -110,11 +110,6 @@ class Invoice extends Model
         return $this->invoiceDetails()->sum('price') / 100;
     }
 
-    public function getTotalPriceAttribute()
-    {
-        return $this->totalPrice();
-    }
-
     public function getFormattedNumberAttribute()
     {
         if (config('invoicing.invoice_numbering') === 'manual') {

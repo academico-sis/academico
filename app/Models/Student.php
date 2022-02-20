@@ -45,10 +45,6 @@ class Student extends Model implements HasMedia
 
     protected $appends = ['email', 'name', 'firstname', 'lastname', 'student_age', 'student_birthdate', 'is_enrolled'];
 
-    protected $casts = [
-        'phone' => 'json'
-    ];
-
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()->logUnguarded();

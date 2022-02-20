@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\LogOptions;
@@ -13,6 +14,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 class CourseTime extends Model
 {
     use LogsActivity;
+    use CrudTrait;
 
     public $timestamps = false;
     protected $guarded = ['id'];
@@ -23,7 +25,7 @@ class CourseTime extends Model
 
         // when a coursetime is added, we should create corresponding events
         static::created(function ($coursetime) {
-            $coursetime->create_events();
+            $coursetime->createEvents();
         });
 
         // when a coursetime is deleted, we should delete all associated future events
@@ -43,7 +45,7 @@ class CourseTime extends Model
         return $this->day;
     }
 
-    public function create_events()
+    public function createEvents()
     {
         $today = Carbon::parse($this->course->start_date)->startOfDay();
         $end = Carbon::parse($this->course->end_date)->endOfDay();

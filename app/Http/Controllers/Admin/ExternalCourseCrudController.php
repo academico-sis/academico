@@ -27,8 +27,8 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 class ExternalCourseCrudController extends CrudController
 {
     use ListOperation;
-    use CreateOperation { store as traitStore; }
-    use UpdateOperation { update as traitUpdate; }
+    use CreateOperation;
+    use UpdateOperation;
     use DeleteOperation;
 
     public function __construct()
@@ -402,22 +402,6 @@ class ExternalCourseCrudController extends CrudController
                 'init_rows' => 0,
                 'tab' => __('Schedule'),
             ],
-
-            [   // view
-                'name' => 'custom-ajax-button',
-                'type' => 'view',
-                'view' => 'courses/schedule-preset-alert',
-                'tab' => __('Schedule'),
-            ],
-        ]);
-
-        CRUD::addField([
-            'name' => 'schedulepreset',
-            'label' => __('Schedule Preset'),
-            'type' => 'select_from_array',
-            'options' => array_column(SchedulePreset::all()->toArray(), 'name', 'presets'),
-            'allows_null' => true,
-            'tab' => __('Schedule'),
         ]);
     }
 
@@ -598,34 +582,5 @@ class ExternalCourseCrudController extends CrudController
         ]);
 
         CRUD::setValidation(UpdateRequest::class);
-    }
-
-    public function update()
-    {
-        $course = $this->crud->getCurrentEntry();
-        $newCourseTimes = collect(json_decode($this->crud->getRequest()->input('times'), null, 512, JSON_THROW_ON_ERROR));
-        $course->saveCourseTimes($newCourseTimes);
-
-        // update model
-        return $this->traitUpdate();
-    }
-
-    public function store()
-    {
-        // if a schedule preset was applied, use it
-        if ($this->crud->getRequest()->input('schedulepreset') !== null) {
-            $courseTimes = collect(json_decode($this->crud->getRequest()->input('schedulepreset'), null, 512, JSON_THROW_ON_ERROR));
-        } else {
-            // otherwise, use any user-defined course times
-            $courseTimes = collect(json_decode($this->crud->getRequest()->input('times'), null, 512, JSON_THROW_ON_ERROR));
-        }
-
-        $response = $this->traitStore();
-        $course = $this->crud->getCurrentEntry();
-
-        // apply course times to the parent.
-        $course->saveCourseTimes($courseTimes);
-
-        return $response;
     }
 }

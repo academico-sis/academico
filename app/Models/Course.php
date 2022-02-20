@@ -30,7 +30,8 @@ class Course extends Model
 
     protected $casts = [
         'start_date' => 'datetime',
-        'end_date' => 'datetime', 'children' => 'array',
+        'end_date' => 'datetime',
+        'children' => 'array',
     ];
 
     public $timestamps = true;
@@ -311,17 +312,6 @@ class Course extends Model
                     'end' => Carbon::parse($courseTime->end)->toTimeString(),
                 ]);
             }
-        }
-    }
-
-    public function saveRemoteEvents($events)
-    {
-        $this->remoteEvents()->delete();
-        foreach ($events as $event) {
-            $this->remoteEvents()->create([
-                'name' => $event->name ?? $this->name,
-                'worked_hours' => $event->worked_hours,
-            ]);
         }
     }
 

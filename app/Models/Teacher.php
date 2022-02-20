@@ -75,6 +75,7 @@ class Teacher extends Model
         return $this->hasMany(Event::class);
     }
 
+    /** @deprecated */
     public function remote_events()
     {
         return $this->hasMany(RemoteEvent::class);

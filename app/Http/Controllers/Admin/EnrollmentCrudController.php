@@ -29,7 +29,7 @@ class EnrollmentCrudController extends CrudController
 {
     use ListOperation;
     use ShowOperation { show as traitShow; }
-    use UpdateOperation { update as traitUpdate; }
+    use UpdateOperation;
     use DeleteOperation;
 
     protected string $mode = 'global';
@@ -246,13 +246,18 @@ class EnrollmentCrudController extends CrudController
         ]);
 
         if ($this->mode === 'global') {
-            CRUD::addFilter(['name' => 'status_id',
+            CRUD::addFilter([
+                'name' => 'status_id',
                 'type' => 'select2_multiple',
-                'label' => __('Status'), ], fn () => EnrollmentStatusType::all()->pluck('name', 'id')->toArray(), function ($values) {
+                'label' => __('Status'),
+            ],
+            fn () => EnrollmentStatusType::all()->pluck('name', 'id')->toArray(),
+                function ($values) {
                     foreach (json_decode($values, null, 512, JSON_THROW_ON_ERROR) as $value) {
                         CRUD::addClause('orWhere', 'status_id', $value);
                     }
-                });
+                }
+            );
 
             CRUD::addFilter(['name' => 'period_id',
                 'type' => 'select2',
@@ -326,7 +331,6 @@ class EnrollmentCrudController extends CrudController
 
         CRUD::addField(array_merge([
             'name' => 'price',
-            // The db column name
             'label' => __('Price'),
             'type' => 'number',
         ], $currency));
@@ -335,12 +339,8 @@ class EnrollmentCrudController extends CrudController
             CRUD::addField([
                 'name' => 'scheduledPayments',
                 'label' => __('Scheduled Payments'),
-                'type' => 'repeatable',
+                'type' => 'relationship',
                 'subfields' => [
-                    [
-                        'name' => 'id',
-                        'type' => 'hidden',
-                    ],
                     [
                         'name' => 'date',
                         'type' => 'date',
@@ -378,17 +378,6 @@ class EnrollmentCrudController extends CrudController
             'model' => EnrollmentStatusType::class,
             'attribute' => 'name',
         ]);
-    }
-
-    public function update()
-    {
-        $enrollment = $this->crud->getCurrentEntry();
-        if ($this->crud->getRequest()->has('scheduledPayments')) {
-            $newScheduledPayments = collect(json_decode($this->crud->getRequest()->input('scheduledPayments'), null, 512, JSON_THROW_ON_ERROR));
-            $enrollment->saveScheduledPayments($newScheduledPayments);
-        }
-
-        return $this->traitUpdate();
     }
 
     public function destroy($enrollment)
