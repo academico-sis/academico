@@ -4,7 +4,6 @@ namespace App\Listeners;
 
 use App\Events\LeaveCreated;
 use App\Events\LeaveUpdated;
-use App\Models\Teacher;
 
 class UpdateTeacherEvents
 {

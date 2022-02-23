@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\EventRequest;
 use App\Models\Course;
 use App\Models\Event;
 use App\Models\Room;
@@ -13,8 +12,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 /**
  * Class EventCrudController
@@ -157,7 +155,20 @@ class EventCrudController extends CrudController
 
     public function setupCreateOperation()
     {
-        CRUD::setValidation(EventRequest::class);
+        CRUD::setValidation([
+            'name' => [
+                'required',
+                'min:1',
+                'max:255',
+                Rule::unique($this->crud->getModel()->getTable())->ignore($this->crud->getCurrentEntry()),
+            ],
+            'start' => 'required|date',
+            'end' => 'required|date',
+            'course_id' => 'nullable|integer',
+            'teacher_id' => 'nullable|integer',
+            'room_id' => 'nullable|integer',
+            'exempt_attendance' => 'nullable|bool'
+        ]);
 
         CRUD::addFields([
             [

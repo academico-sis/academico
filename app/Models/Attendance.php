@@ -3,9 +3,6 @@
 namespace App\Models;
 
 use App\Events\AttendanceSavedEvent;
-use App\Events\StudentDeleting;
-use App\Events\StudentUpdated;
-use App\Jobs\WatchAttendance;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;

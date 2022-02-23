@@ -61,7 +61,7 @@ class EnrollmentControllerTest extends TestCase
         $this->assertActionUsesFormRequest(
             \App\Http\Controllers\EnrollmentController::class,
             'store',
-            \App\Http\Requests\StoreEnrollmentRequest::class
+            \App\Http\Requests\EnrollmentCreateRequest::class
         );
     }
 

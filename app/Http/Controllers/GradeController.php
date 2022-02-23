@@ -21,7 +21,7 @@ class GradeController extends Controller
 
         return view('grades.edit', [
             'enrollments' => $course->enrollments,
-            'course_grade_types' => $course->grade_types->sortBy('id'),
+            'course_grade_types' => $course->gradeTypes->sortBy('id'),
             'grades' => $course->grades,
             'course' => $course,
         ]);

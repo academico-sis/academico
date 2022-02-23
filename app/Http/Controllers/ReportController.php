@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Config;
-use App\Models\Course;
 use App\Models\Partner;
 use App\Models\Period;
 use App\Models\Year;
+use App\Services\DateRange;
+use App\Services\StatService;
 use App\Traits\PeriodSelection;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -20,13 +21,15 @@ class ReportController extends Controller
         $currentPeriod = Period::get_default_period();
         $enrollmentsPeriod = Period::get_enrollments_period();
 
+        $stats = new StatService(external: false, reference: $currentPeriod, partner: null);
+
         return view('reports.index', [
             'currentPeriod' => $currentPeriod,
             'enrollmentsPeriod' => $enrollmentsPeriod,
-            'pending_enrollment_count' => $currentPeriod->pending_enrollments_count,
-            'paid_enrollment_count' => $currentPeriod->paid_enrollments_count,
-            'total_enrollment_count' => $currentPeriod->internal_enrollments_count,
-            'students_count' => $currentPeriod->studentCount(),
+            'pending_enrollment_count' => $stats->pendingEnrollmentsCount(),
+            'paid_enrollment_count' => $stats->paidEnrollmentsCount(),
+            'total_enrollment_count' => $stats->enrollmentsCount(),
+            'students_count' => $stats->studentsCount(),
         ]);
     }
 
@@ -36,23 +39,19 @@ class ReportController extends Controller
         $report_start_date = $request->report_start_date ?? Carbon::parse('2019-01-01');
         $report_end_date = $request->report_end_date ?? Carbon::now();
 
-        $courses = Course::external()->where('end_date', '>', $report_start_date)->where('start_date', '<', $report_end_date)->get();
+        $stats = new StatService(external: true, reference: new DateRange($report_start_date, $report_end_date), partner: null);
 
-        $data['courses'] = $courses->count();
-        $data['enrollments'] = $courses->sum('head_count');
-        $data['students'] = $courses->sum('new_students');
-        $data['taught_hours'] = $courses->where('parent_course_id', null)->sum('total_volume');
-        $total = 0;
-        foreach ($courses->where('parent_course_id', null) as $course) {
-            $total += $course->total_volume * $course->head_count;
-        }
-        $data['sold_hours'] = $total;
+        $data['courses'] = $stats->coursesCount();
+        $data['enrollments'] = $stats->enrollmentsCount();
+        $data['students'] = $stats->studentsCount();
+        $data['taught_hours'] = $stats->taughtHoursCount();
+        $data['sold_hours'] = $stats->soldHoursCount();
 
         return view('reports.external2', [
             'start' => Carbon::parse($report_start_date)->format('Y-m-d'),
             'end' => Carbon::parse($report_end_date)->format('Y-m-d'),
             'data' => $data,
-            'courses' => $courses,
+            'courses' => $stats->coursesQuery->get(),
         ]);
     }
 
@@ -60,13 +59,15 @@ class ReportController extends Controller
     {
         $data = [];
         $year_data = [];
-        $years = []; // New array
+        $years = [];
 
         if (! isset($request->period)) {
             $startperiod = Period::find(Config::where('name', 'first_external_period')->first()->value ?? Period::first()->id);
         } else {
             $startperiod = Period::find($request->period);
         }
+
+        $selectedPartner = Partner::find($request->partner);
 
         $periods = Period::where('id', '>=', $startperiod->id)->get();
 
@@ -78,15 +79,17 @@ class ReportController extends Controller
         $year_data[$current_year_id]['taught_hours'] = 0;
         $year_data[$current_year_id]['sold_hours'] = 0;
 
-        foreach ($periods as $i => $data_period) {
+        foreach ($periods as $data_period) {
+            $periodStats = new StatService(external: true, reference: $data_period, partner: $selectedPartner);
+
             $data[$data_period->id]['period'] = $data_period->name;
             $data[$data_period->id]['year_id'] = $data_period->year_id;
-            $data[$data_period->id]['courses'] = $data_period->external_courses_count;
-            $data[$data_period->id]['partnerships'] = $data_period->partnerships_count;
-            $data[$data_period->id]['enrollments'] = $data_period->external_enrollments_count;
-            $data[$data_period->id]['students'] = $data_period->external_students_count;
-            $data[$data_period->id]['taught_hours'] = $data_period->external_taught_hours_count;
-            $data[$data_period->id]['sold_hours'] = $data_period->external_sold_hours_count;
+            $data[$data_period->id]['courses'] = $periodStats->coursesCount();
+            $data[$data_period->id]['partnerships'] = $periodStats->partnershipsCount();
+            $data[$data_period->id]['enrollments'] = $periodStats->enrollmentsCount();
+            $data[$data_period->id]['students'] = $periodStats->studentsCount();
+            $data[$data_period->id]['taught_hours'] = $periodStats->taughtHoursCount();
+            $data[$data_period->id]['sold_hours'] = $periodStats->soldHoursCount();
 
             // if we are starting a new year, push the year data to the array
             if ($current_year_id != $data_period->year_id) {
@@ -100,22 +103,25 @@ class ReportController extends Controller
                 $year_data[$current_year_id]['sold_hours'] = 0;
             }
 
-            $year_data[$current_year_id]['students'] += $data_period->external_students_count;
-            $year_data[$current_year_id]['enrollments'] += $data_period->external_enrollments_count;
-            $year_data[$current_year_id]['taught_hours'] += $data_period->external_taught_hours_count;
-            $year_data[$current_year_id]['sold_hours'] += $data_period->external_sold_hours_count;
+            $year_data[$current_year_id]['students'] += $data[$data_period->id]['students'];
+            $year_data[$current_year_id]['enrollments'] += $data[$data_period->id]['enrollments'];
+            $year_data[$current_year_id]['taught_hours'] += $data[$data_period->id]['taught_hours'];
+            $year_data[$current_year_id]['sold_hours'] += $data[$data_period->id]['sold_hours'];
 
             $year = Year::find($data_period->year_id)->append('partnerships');
-            $years[$data_period->year_id]['year'] = $year->name; // New array using the Model
-            $years[$data_period->year_id]['partnerships'] = $year->partnerships;
+
+            $yearStats = new StatService(external: true, reference: $year, partner: $selectedPartner);
+            $years[$data_period->year_id]['year'] = $year->name;
+            $years[$data_period->year_id]['partnerships'] = $yearStats->partnershipsCount();
         }
 
         return view('reports.external', [
             'selected_period' => $startperiod,
+            'selected_partner' => $selectedPartner,
             'data' => $data,
             'year_data' => $year_data,
-            // Existing array
             'years' => $years,
+            'partners' => Partner::all(),
         ]);
     }
 
@@ -132,17 +138,13 @@ class ReportController extends Controller
         $report_start_date = $request->report_start_date ?? Carbon::parse('2019-01-01');
         $report_end_date = $request->report_end_date ?? Carbon::now();
 
-        $courses = Course::external()->where('partner_id', $partner->id)->where('end_date', '>', $report_start_date)->where('start_date', '<', $report_end_date)->get();
+        $stats = new StatService(external: true, reference: new DateRange($report_start_date, $report_end_date), partner: $partner);
 
-        $data['courses'] = $courses->count();
-        $data['enrollments'] = $courses->sum('head_count');
-        $data['students'] = $courses->sum('new_students');
-        $data['taught_hours'] = $courses->where('parent_course_id', null)->sum('total_volume');
-        $total = 0;
-        foreach ($courses->where('parent_course_id', null) as $course) {
-            $total += $course->total_volume * $course->head_count;
-        }
-        $data['sold_hours'] = $total;
+        $data['courses'] = $stats->coursesCount();
+        $data['enrollments'] = $stats->enrollmentsCount();
+        $data['students'] = $stats->studentsCount();
+        $data['taught_hours'] = $stats->taughtHoursCount();
+        $data['sold_hours'] = $stats->soldHoursCount();
 
         return view('reports.partner', [
             'partner' => $partner,
@@ -161,43 +163,51 @@ class ReportController extends Controller
      */
     public function internal(Request $request)
     {
-        $period = Period::get_default_period();
-
         $startperiod = $this->getStartperiod($request);
 
-        $periods = Period::orderBy('year_id')->orderBy('order')->orderBy('id')->where('id', '>=', $startperiod->id)->get();
+        $chartData = Period::orderBy('year_id')->orderBy('order')->orderBy('id')
+            ->where('id', '>=', $startperiod->id)
+            ->get()
+            ->groupBy('year_id')
+            ->map(function ($yearData) {
+                $data = [];
 
-        $data = [];
-        $years = [];
+                foreach ($yearData as $data_period) {
+                    $stats = new StatService(external: false, reference: $data_period);
 
-        foreach ($periods as $data_period) {
-            $data[$data_period->id]['period'] = $data_period->name;
-            $data[$data_period->id]['year_id'] = $data_period->year_id;
+                    $data[$data_period->id]['period'] = $data_period->name;
+                    $data[$data_period->id]['year_id'] = $data_period->year_id;
 
-            $data[$data_period->id]['enrollments'] = $data_period->internal_enrollments_count;
-            $data[$data_period->id]['students'] = $data_period->studentCount();
-            $data[$data_period->id]['acquisition_rate'] = $data_period->acquisition_rate;
-            $data[$data_period->id]['new_students'] = $data_period->newStudents()->count();
-            $data[$data_period->id]['taught_hours'] = $data_period->period_taught_hours_count;
-            $data[$data_period->id]['sold_hours'] = $data_period->period_sold_hours_count;
+                    $data[$data_period->id]['enrollments'] = $stats->enrollmentsCount();
+                    $data[$data_period->id]['students'] = $stats->studentsCount();
+                    $data[$data_period->id]['acquisition_rate'] = $data_period->acquisition_rate;
+                    $data[$data_period->id]['new_students'] = $data_period->newStudents()->count();
+                    $data[$data_period->id]['taught_hours'] = $stats->taughtHoursCount();
+                    $data[$data_period->id]['sold_hours'] = $stats->soldHoursCount();
 
-            if (config('academico.include_takings_in_reports')) {
-                $data[$data_period->id]['takings'] = $data_period->takings;
-                $data[$data_period->id]['avg_takings'] = $data_period->takings / max(1, $data_period->period_taught_hours_count);
-            }
+                    if (config('academico.include_takings_in_reports')) {
+                        $data[$data_period->id]['takings'] = $data_period->takings;
+                        $data[$data_period->id]['avg_takings'] = $data_period->takings / max(1, $stats->taughtHoursCount());
+                    }
 
-            $years[$data_period->year_id] = Year::find($data_period->year_id); // New array using the Model
-        }
+                    $year = $data_period->year;
+                    $yearStats = new StatService(external: false, reference: $year);
+                }
+
+                return [
+                    'year' => $year,
+                    'students' => 0,
+                    'enrollments' => 0,
+                    'taught_hours' => 0,
+                    'sold_hours' => 0,
+                    'takings' => 0,
+                    'periods' => $data,
+                ];
+             });
 
         return view('reports.internal', [
-            'pending_enrollment_count' => $period->pending_enrollments_count,
-            'paid_enrollment_count' => $period->paid_enrollments_count,
-            'total_enrollment_count' => $period->internal_enrollments_count,
-            'students_count' => $period->studentCount(),
-            'data' => $data,
+            'data' => $chartData,
             'selected_period' => $startperiod,
-            'years' => $years,
-            // New array
         ]);
     }
 
@@ -212,22 +222,24 @@ class ReportController extends Controller
                 $yearPeriods = [];
 
                 foreach ($yearData as $period) {
-                    $studentCountInPeriod = $period->studentCount();
+                    $periodStats = new StatService(external: false, reference: $period);
+                    $studentCountInPeriod = $periodStats->studentsCount();
 
                     $yearPeriods[$period->id]['period'] = $period->name;
-                    $yearPeriods[$period->id]['male'] = $studentCountInPeriod > 0 ? 100 * $period->studentCount(2) / $studentCountInPeriod : 0;
-                    $yearPeriods[$period->id]['female'] = $studentCountInPeriod > 0 ? 100 * $period->studentCount(1) / $studentCountInPeriod : 0;
-                    $yearPeriods[$period->id]['unknown'] = $studentCountInPeriod > 0 ? 100 * $period->studentCount(0) / $studentCountInPeriod : 0;
+                    $yearPeriods[$period->id]['male'] = $studentCountInPeriod > 0 ? 100 * $periodStats->studentsCount(2) / $studentCountInPeriod : 0;
+                    $yearPeriods[$period->id]['female'] = $studentCountInPeriod > 0 ? 100 * $periodStats->studentsCount(1) / $studentCountInPeriod : 0;
+                    $yearPeriods[$period->id]['unknown'] = $studentCountInPeriod > 0 ? 100 * $periodStats->studentsCount(0) / $studentCountInPeriod : 0;
                 }
 
                 $year = $yearData[0]->year;
-                $studentCountInYear = $year->studentCount();
+                $yearStats = new StatService(external: false, reference: $year);
+                $studentCountInYear = $yearStats->studentsCount();
 
                 return [
                     'year' => $year->name,
-                    'male' => $studentCountInYear > 0 ? 100 * $year->studentCount(2) / $studentCountInYear : 0,
-                    'female' => $studentCountInYear > 0 ? 100 * $year->studentCount(1) / $studentCountInYear : 0,
-                    'unknown' => $studentCountInYear > 0 ? 100 * $year->studentCount(0) / $studentCountInYear : 0,
+                    'male' => $studentCountInYear > 0 ? 100 * $yearStats->studentsCount(2) / $studentCountInYear : 0,
+                    'female' => $studentCountInYear > 0 ? 100 * $yearStats->studentsCount(1) / $studentCountInYear : 0,
+                    'unknown' => $studentCountInYear > 0 ? 100 * $yearStats->studentsCount(0) / $studentCountInYear : 0,
                     'periods' => $yearPeriods,
                 ];
             });

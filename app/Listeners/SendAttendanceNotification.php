@@ -3,10 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\AttendanceSavedEvent;
-use App\Events\ResultSavedEvent;
 use App\Jobs\WatchAttendance;
-use App\Mail\ResultNotification;
-use Illuminate\Support\Facades\Mail;
 
 class SendAttendanceNotification
 {

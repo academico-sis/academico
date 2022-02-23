@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\ResultTypeRequest;
 use App\Models\ResultType;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -10,6 +9,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Validation\Rule;
 
 class ResultTypeCrudController extends CrudController
 {
@@ -39,7 +39,15 @@ class ResultTypeCrudController extends CrudController
 
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(ResultTypeRequest::class);
+        CRUD::setValidation([
+            'name' => [
+                'required',
+                'min:1',
+                'max:40',
+                Rule::unique($this->crud->getModel()->getTable())->ignore($this->crud->getCurrentEntry()),
+            ],
+            'description' => 'max:255|nullable',
+        ]);
 
         CRUD::addFields([
             [

@@ -37,7 +37,7 @@
                             <div class="card-header">
                                 <strong>{{ $course->name }}</strong>
                                 <div class="card-header-actions">
-                                    @if($course->campus_id == 1)
+                                    @if($course->isInternal())
                                         <a href="/course/{{$course->id}}/show" class="btn btn-default btn-xs"><i class="la la-users"></i></a>
                                     @endif
 

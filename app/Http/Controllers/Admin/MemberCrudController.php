@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\MemberRequest;
 use App\Models\Member;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -10,7 +9,6 @@ use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 class MemberCrudController extends CrudController
@@ -35,7 +33,11 @@ class MemberCrudController extends CrudController
 
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(MemberRequest::class);
+        CRUD::setValidation([
+            'firstname' => 'required|min:1|max:255',
+            'lastname' => 'required|min:1|max:255',
+            'email' => 'nullable|email',
+        ]);
 
         CRUD::setFromDb();
 

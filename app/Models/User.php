@@ -26,8 +26,6 @@ class User extends Authenticatable
 
     protected $guarded = ['id'];
 
-    protected static bool $logFillable = true;
-
     protected $hidden = ['password', 'remember_token'];
 
     protected $dispatchesEvents = [

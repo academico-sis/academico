@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\InstitutionRequest;
 use App\Models\Institution;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -37,7 +36,9 @@ class InstitutionCrudController extends CrudController
 
     protected function setupCreateOperation()
     {
-        $this->crud->setValidation(InstitutionRequest::class);
+        $this->crud->setValidation([
+             'name' => 'required|min:1|max:255'
+        ]);
 
         $this->crud->addField([
             'name' => 'name',

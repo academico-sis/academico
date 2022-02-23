@@ -7,6 +7,7 @@ use App\Models\LeadType;
 use App\Models\Period;
 use App\Models\Student;
 use App\Models\Teacher;
+use App\Services\StatService;
 use App\Traits\PeriodSelection;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -113,13 +114,15 @@ class HomeController extends Controller
             'title' => $teacher['user']['firstname'],
         ], $teachers);
 
+        $stats = new StatService(external: false, partner: null, reference: $currentPeriod);
+
         return view('admin.dashboard', [
-            'pending_enrollment_count' => $currentPeriod->pending_enrollments_count,
-            'paid_enrollment_count' => $currentPeriod->paid_enrollments_count,
-            'students_count' => $currentPeriod->studentCount(),
+            'pending_enrollment_count' => $stats->pendingEnrollmentsCount(),
+            'paid_enrollment_count' => $stats->paidEnrollmentsCount(),
+            'students_count' => $stats->studentsCount(),
             'currentPeriod' => $currentPeriod,
             'enrollmentsPeriod' => $enrollmentsPeriod,
-            'total_enrollment_count' => $currentPeriod->internal_enrollments_count,
+            'total_enrollment_count' => $stats->enrollmentsCount(),
             'resources' => $teachers,
             'events' => $events,
             'pending_attendance' => $currentPeriod->courses_with_pending_attendance,

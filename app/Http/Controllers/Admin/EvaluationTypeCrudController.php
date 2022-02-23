@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\EvaluationTypeRequest;
 use App\Models\EvaluationType;
 use App\Models\GradeType;
 use App\Models\Skills\Skill;
@@ -12,6 +11,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Validation\Rule;
 
 class EvaluationTypeCrudController extends CrudController
 {
@@ -37,7 +37,14 @@ class EvaluationTypeCrudController extends CrudController
 
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(EvaluationTypeRequest::class);
+        CRUD::setValidation([
+            'name' => [
+                'required',
+                'min:1',
+                'max:255',
+                Rule::unique($this->crud->getModel()->getTable())->ignore($this->crud->getCurrentEntry()),
+            ],
+        ]);
 
         CRUD::addField([
             'name' => 'name',

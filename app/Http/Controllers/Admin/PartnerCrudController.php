@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\PartnerRequest;
 use App\Models\Partner;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -10,8 +9,8 @@ use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Validation\Rule;
 
 class PartnerCrudController extends CrudController
 {
@@ -63,7 +62,18 @@ class PartnerCrudController extends CrudController
 
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(PartnerRequest::class);
+        CRUD::setValidation([
+            'name' => [
+                'required',
+                'min:1',
+                'max:255',
+                Rule::unique($this->crud->getModel()->getTable())->ignore($this->crud->getCurrentEntry()),
+            ],
+            'started_on' => 'required|date',
+            'expired_on' => 'nullable|date',
+            'last_alert_sent_at' => 'nullable|date',
+            'send_report_on' => 'nullable|integer',
+        ]);
 
         CRUD::addField([
             'name' => 'name',

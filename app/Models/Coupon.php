@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Traits\PriceTrait;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 
 /**

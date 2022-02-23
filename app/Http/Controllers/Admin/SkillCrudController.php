@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\SkillRequest;
 use App\Models\Level;
 use App\Models\Skills\Skill;
 use App\Models\Skills\SkillType;
@@ -13,6 +12,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Validation\Rule;
 
 class SkillCrudController extends CrudController
 {
@@ -75,7 +75,16 @@ class SkillCrudController extends CrudController
 
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(SkillRequest::class);
+        CRUD::setValidation([
+            'name' => [
+                'required',
+                'min:1',
+                'max:40',
+                Rule::unique($this->crud->getModel()->getTable())->ignore($this->crud->getCurrentEntry()),
+            ],
+            'level_id' => 'required',
+            'skill_type_id' => 'required',
+        ]);
 
         CRUD::addFields([
             [

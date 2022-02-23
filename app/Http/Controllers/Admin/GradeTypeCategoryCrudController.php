@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\GradeTypeCategoryRequest;
 use App\Models\GradeTypeCategory;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -11,8 +10,8 @@ use Backpack\CRUD\app\Http\Controllers\Operations\InlineCreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Validation\Rule;
 
 class GradeTypeCategoryCrudController extends CrudController
 {
@@ -40,7 +39,14 @@ class GradeTypeCategoryCrudController extends CrudController
 
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(GradeTypeCategoryRequest::class);
+        CRUD::setValidation([
+            'name' => [
+                'required',
+                'min:1',
+                'max:255',
+                Rule::unique($this->crud->getModel()->getTable())->ignore($this->crud->getCurrentEntry()),
+            ],
+        ]);
 
         CRUD::addField([
             'name' => 'name',

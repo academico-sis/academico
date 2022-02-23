@@ -7,9 +7,7 @@ use App\Http\Controllers\Admin\Operations\ShowStudentPhotoRosterOperation;
 use App\Http\Requests\CourseRequest;
 use App\Models\Book;
 use App\Models\Course;
-use App\Models\Enrollment;
 use App\Models\EvaluationType;
-use App\Models\Event;
 use App\Models\Level;
 use App\Models\Period;
 use App\Models\Rhythm;
@@ -19,12 +17,10 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use Illuminate\Support\Facades\Gate;
-use Prologue\Alerts\Facades\Alert;
 use App\Traits\CurrencyFormatTrait;
+use App\Http\Requests\CourseCreateRequest;
 
 class CourseCrudController extends CrudController
 {
@@ -35,7 +31,7 @@ class CourseCrudController extends CrudController
     use ShowStudentPhotoRosterOperation;
     use ShowStudentListOperation;
 
-    private array $currency = [];
+    protected array $currency = [];
 
     public function __construct()
     {
@@ -245,14 +241,14 @@ class CourseCrudController extends CrudController
         );
 
         CRUD::addFilter(
-            [ // add a "simple" filter called Draft
+            [
                 'type' => 'simple',
                 'name' => 'parent',
                 'label' => __('Hide Children Courses'),
             ],
             false,
             function () {
-                CRUD::addClause('parent');
+                CRUD::addClause('hideChildren');
             }
         );
 
@@ -287,6 +283,8 @@ class CourseCrudController extends CrudController
 
     protected function setupCreateOperation()
     {
+        CRUD::setValidation(CourseCreateRequest::class);
+
         $this->addRhythmField();
         $this->addLevelField();
         $this->addNameField();
@@ -295,9 +293,10 @@ class CourseCrudController extends CrudController
         $this->addCourseInfoFields();
 
         CRUD::addField([
-            'name' => 'sublevels',
+            'name' => 'children',
             'label' => __('Course sublevels'),
-            'type' => 'repeatable',
+            'type' => 'relationship',
+            'force_delete'  => true,
             'subfields' => [
                 [
                     'name' => 'name',
@@ -369,8 +368,6 @@ class CourseCrudController extends CrudController
 
         $this->addCourseScheduleFields();
         $this->addCourseScheduleFieldsForRealCourses();
-
-        CRUD::setValidation(CourseRequest::class);
     }
 
     protected function setupUpdateOperation()
@@ -430,10 +427,10 @@ class CourseCrudController extends CrudController
             $this->addCourseScheduleFieldsForRealCourses();
         }
 
-        CRUD::setValidation(CourseRequest::class);
+        CRUD::setValidation();
     }
 
-    private function addRhythmField() {
+    protected function addRhythmField() {
         CRUD::addField([
             'label' => __('Rhythm'),
             'type' => 'select',
@@ -445,7 +442,7 @@ class CourseCrudController extends CrudController
         ]);
     }
 
-    private function addLevelField()
+    protected function addLevelField()
     {
         CRUD::addField([
             'label' => __('Level'),
@@ -458,21 +455,23 @@ class CourseCrudController extends CrudController
         ]);
     }
 
-    private function addNameField()
+    protected function addNameField()
     {
-        CRUD::addField(['name' => 'name', 'label' => __('Name'), 'tab' => __('Course info')]);
+        CRUD::addField([
+            'name' => 'name',
+            'label' => __('Name'),
+            'tab' => __('Course info'),
+        ]);
     }
 
     private function addPriceFields()
     {
-        CRUD::addFields([
-            array_merge([
+        CRUD::addField(array_merge([
                 'name' => 'price',
                 'label' => __('Price'),
                 'tab' => __('Course info'),
                 'type' => 'number',
-            ], $this->currency),
-        ]);
+            ], $this->currency));
 
         if (config('invoicing.price_categories_enabled')) {
             CRUD::addFields([
@@ -532,7 +531,7 @@ class CourseCrudController extends CrudController
         ]);
     }
 
-    private function addCourseResourceFields()
+    protected function addCourseResourceFields()
     {
         CRUD::addFields([
             [
@@ -583,7 +582,7 @@ class CourseCrudController extends CrudController
         ]);
     }
 
-    private function addCourseScheduleFields()
+    protected function addCourseScheduleFields()
     {
         CRUD::addFields([
             [
@@ -612,7 +611,7 @@ class CourseCrudController extends CrudController
         ]);
     }
 
-    private function addCourseScheduleFieldsForRealCourses()
+    protected function addCourseScheduleFieldsForRealCourses()
     {
         CRUD::addFields([
             [

@@ -1,8 +1,5 @@
 <?php
 
-use App\Services\AFLojaCertificatesService;
-use App\Services\GenericCertificatesService;
-
 return [
     'company_name' => env('COMPANY_NAME', 'Academico'),
     'company_address' => env('COMPANY_ADDRESS', ''),

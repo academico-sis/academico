@@ -149,7 +149,8 @@ class InvoiceCrudController extends CrudController
         CRUD::addField([
             'name' => 'invoiceDetails',
             'label' => __('Products'),
-            'type' => 'repeatable',
+            'type' => 'relationship',
+            'force_delete'  => true,
             'subfields' => [
                 [
                     'name' => 'product_name',
@@ -179,7 +180,8 @@ class InvoiceCrudController extends CrudController
         CRUD::addField([
             'name' => 'payments',
             'label' => __('Payments'),
-            'type' => 'repeatable',
+            'type' => 'relationship',
+            'force_delete'  => true,
             'subfields' => [
                 [
                     'name' => 'payment_method',

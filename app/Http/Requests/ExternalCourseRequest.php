@@ -25,13 +25,19 @@ class ExternalCourseRequest extends FormRequest
     public function rules()
     {
         return [
-            'campus_id' => 'required',
+            'rhythm_id' => 'required',
+            'partner_id' => 'required',
             'volume' => 'required|numeric',
-            'name' => 'required|string|max:255',
-            'price' => 'nullable|numeric',
+            'name' => 'required|min:1|max:100',
+            'hourly_price' => 'required|numeric|min:0',
             'start_date' => 'required|date',
             'end_date' => 'required|date',
             'period_id' => 'required|numeric',
+            'head_count' => 'required|numeric',
+            'new_students' => 'required|numeric',
+            'times.*.day' => 'required',
+            'times.*.start' => 'required',
+            'times.*.end' => 'required',
         ];
     }
 

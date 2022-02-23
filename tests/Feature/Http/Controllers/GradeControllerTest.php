@@ -39,7 +39,7 @@ class GradeControllerTest extends TestCase
         $enrollment_id = $student->enroll($course);
         $gradeType = factory(GradeType::class)->create();
         // has no grade types
-        $this->assertEquals(0, $course->grade_types()->count());
+        $this->assertEquals(0, $course->gradeTypes()->count());
         // and no grades for the student
         $this->assertEmpty($course->grades);
 
@@ -52,7 +52,7 @@ class GradeControllerTest extends TestCase
 
 //        $response->assertRedirect();
         // the grade type is listed
-        $this->assertNotEmpty($course->grade_types());
+        $this->assertNotEmpty($course->gradeTypes());
     }
 
     /** @test */
@@ -108,7 +108,7 @@ class GradeControllerTest extends TestCase
         $course = factory(Course::class)->create(['teacher_id' => $teacher->id]);
         $course->evaluationType()->associate(EvaluationType::find(1));
         $gradetype1 = factory(GradeType::class)->create();
-        $course->grade_types()->save($gradetype1);
+        $course->gradeTypes()->save($gradetype1);
         $response = $this->get(route('editCourseGrades', ['course' => $course->id]));
         $response->assertSeeText($gradetype1->name);
     }

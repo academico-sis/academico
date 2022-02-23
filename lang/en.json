@@ -1,4 +1,5 @@
 {
+    "validation.required": "Please fill all the required fields",
     "% of period max": "% of period max",
     "Absence Notification": "Absence Notification",
     "absences": "absences",

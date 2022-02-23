@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\EnrollmentUpdateRequest;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\EnrollmentStatusType;
@@ -36,11 +37,20 @@ class EnrollmentCrudController extends CrudController
 
     protected ?Course $course = null;
 
+    private array $currency;
+
     public function __construct()
     {
-        parent::__construct();
         $this->middleware(['permission:enrollments.view']);
         $this->middleware('permission:enrollments.delete', ['only' => ['destroy']]);
+
+        if (config('academico.currency_position') === 'before') {
+            $this->currency = ['prefix' => config('academico.currency_symbol')];
+        } else {
+            $this->currency = ['suffix' => config('academico.currency_symbol')];
+        }
+
+        parent::__construct();
     }
 
     public function setup()
@@ -49,12 +59,6 @@ class EnrollmentCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix').'/enrollment');
         CRUD::setEntityNameStrings(__('enrollment'), __('enrollments'));
     }
-
-    /*
-    |--------------------------------------------------------------------------
-    | CrudPanel Configuration
-    |--------------------------------------------------------------------------
-    */
 
     public function setupListOperation()
     {
@@ -84,12 +88,6 @@ class EnrollmentCrudController extends CrudController
 
             CRUD::addButtonFromView('top', 'enroll-student-in-course', 'enroll-student-in-course', 'end');
             CRUD::addButtonFromView('top', 'switch-to-photo-roster', 'switch-to-photo-roster', 'end');
-        }
-
-        if (config('academico.currency_position') === 'before') {
-            $currency = ['prefix' => config('academico.currency_symbol')];
-        } else {
-            $currency = ['suffix' => config('academico.currency_symbol')];
         }
 
         CRUD::addColumns([['name' => 'id',
@@ -210,14 +208,14 @@ class EnrollmentCrudController extends CrudController
             'name' => 'price',
             'label' => __('Price'),
             'type' => 'number',
-        ], $currency));
+        ], $this->currency));
 
         if (config('invoicing.invoices_contain_enrollments_only')) {
             CRUD::addColumn(array_merge([
                 'name' => 'balance',
                 'label' => __('Balance'),
                 'type' => 'number',
-            ], $currency));
+            ], $this->currency));
         }
 
         CRUD::addColumns([
@@ -311,21 +309,15 @@ class EnrollmentCrudController extends CrudController
 
     protected function setupUpdateOperation()
     {
-        if (config('academico.currency_position') === 'before') {
-            $currency = ['prefix' => config('academico.currency_symbol')];
-        } else {
-            $currency = ['suffix' => config('academico.currency_symbol')];
-        }
+        CRUD::setValidation(EnrollmentUpdateRequest::class);
 
         CRUD::addField([
             'label' => __('Course'),
             'type' => 'select2',
             'name' => 'course_id',
-
             'entity' => 'course',
             'model' => Course::class,
             'attribute' => 'name',
-
             'options' => (fn ($query) => $query->orderBy('level_id', 'ASC')->where('period_id', $this->crud->getCurrentEntry()->course->period_id)->get()),
         ]);
 
@@ -333,13 +325,14 @@ class EnrollmentCrudController extends CrudController
             'name' => 'price',
             'label' => __('Price'),
             'type' => 'number',
-        ], $currency));
+        ], $this->currency));
 
         if (config('invoicing.allow_scheduled_payments')) {
             CRUD::addField([
                 'name' => 'scheduledPayments',
                 'label' => __('Scheduled Payments'),
                 'type' => 'relationship',
+                'force_delete'  => true,
                 'subfields' => [
                     [
                         'name' => 'date',
@@ -354,7 +347,8 @@ class EnrollmentCrudController extends CrudController
                             'min' => 0, ],
                         'label' => __('Value'),
                         'wrapper' => ['class' => 'form-group col-md-4'],
-                    ], $currency),
+                        'validationRules' => 'required',
+                    ], $this->currency),
                     [
                         'name' => 'status',
                         'type' => 'radio',

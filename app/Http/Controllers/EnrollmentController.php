@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\EnrollmentCourseUpdated;
-use App\Http\Requests\StoreEnrollmentRequest;
+use App\Http\Requests\EnrollmentCreateRequest;
 use App\Interfaces\EnrollmentSheetInterface;
 use App\Models\Attendance;
 use App\Models\Book;
-use App\Models\Config;
 use App\Models\Course;
 use App\Models\Discount;
 use App\Models\Enrollment;
@@ -20,14 +18,8 @@ use App\Services\AFSantiagoEnrollmentSheetService;
 use App\Traits\PeriodSelection;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use PhpOffice\PhpWord\IOFactory;
-use PhpOffice\PhpWord\PhpWord;
 use Prologue\Alerts\Facades\Alert;
 
 class EnrollmentController extends Controller
@@ -49,7 +41,7 @@ class EnrollmentController extends Controller
     /**
      * Store the newly created enrollment.
      */
-    public function store(StoreEnrollmentRequest $request)
+    public function store(EnrollmentCreateRequest $request)
     {
         $course = Course::findOrFail($request->input('course_id'));
 

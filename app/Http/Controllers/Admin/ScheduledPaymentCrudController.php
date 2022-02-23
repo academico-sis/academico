@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\ScheduledPaymentRequest;
 use App\Models\ScheduledPayment;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 class ScheduledPaymentCrudController extends CrudController
@@ -110,7 +108,12 @@ class ScheduledPaymentCrudController extends CrudController
 
     protected function setupUpdateOperation()
     {
-        CRUD::setValidation(ScheduledPaymentRequest::class);
+        CRUD::setValidation([
+            'date' => 'required|date',
+            'value' => 'required|numeric|min:0',
+            'status' => 'required|integer',
+            'enrollment_id' => 'required|integer',
+        ]);
 
         CRUD::field('value');
         CRUD::field('date');

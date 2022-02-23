@@ -27,6 +27,8 @@ class Enrollment extends Model implements InvoiceableModel
     use LogsActivity;
     use PriceTrait;
 
+    public const ENROLLMENT_STATUSES_TO_COUNT_IN_STATS = ['1', '2'];
+
     protected $guarded = ['id'];
 
     protected $appends = ['type', 'name', 'result_name', 'product_code', 'price', 'price_with_currency'];
@@ -114,12 +116,6 @@ class Enrollment extends Model implements InvoiceableModel
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
-
-    public function changeCourse(Course $newCourse)
-    {
-        $this->course_id = $newCourse->id;
-        $this->save();
-    }
 
     public function markAsPaid()
     {

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Events\UserCreated;
 use App\Exceptions\UserSyncException;
-use App\Http\Requests\StudentRequest;
 use App\Models\Institution;
 use App\Models\LeadType;
 use App\Models\Period;
@@ -13,6 +12,7 @@ use App\Models\Profession;
 use App\Models\Student;
 use App\Models\User;
 use App\Traits\PeriodSelection;
+use App\Traits\UsernameTrait;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
@@ -23,7 +23,6 @@ use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\CRUD\app\Library\Widget;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -36,6 +35,7 @@ class StudentCrudController extends CrudController
     use PeriodSelection;
     use DeleteOperation { destroy as traitDelete; }
     use FetchOperation;
+    use UsernameTrait;
 
     public function __construct()
     {
@@ -238,12 +238,11 @@ class StudentCrudController extends CrudController
 
     public function setupCreateOperation()
     {
-        CRUD::setValidation(StudentRequest::class);
-        CRUD::field('firstname')->label(__('Firstname'))->tab(__('Student Info'));
-        CRUD::field('lastname')->label(__('Lastname'))->tab(__('Student Info'));
-        CRUD::field('email')->label(__('Email'))->tab(__('Student Info'));
-        CRUD::field('idnumber')->label(__('ID number'))->tab(__('Student Info'));
-        CRUD::field('birthdate')->label(__('Birthdate'))->tab(__('Student Info'));
+        CRUD::field('firstname')->label(__('Firstname'))->tab(__('Student Info'))->validationRules('required|string|max:30');
+        CRUD::field('lastname')->label(__('Lastname'))->tab(__('Student Info'))->validationRules('required|string|max:30');
+        CRUD::field('email')->label(__('Email'))->tab(__('Student Info'))->validationRules('nullable|email|max:60');
+        CRUD::field('idnumber')->label(__('ID number'))->tab(__('Student Info'))->validationRules('nullable|string');
+        CRUD::field('birthdate')->label(__('Birthdate'))->tab(__('Student Info'))->validationRules('nullable|date');
 
         $this->crud->addField([
             'name' => 'gender_id',
@@ -256,12 +255,14 @@ class StudentCrudController extends CrudController
             ],
             'inline' => true,
             'tab' => __('Student Info'),
+            'validationRules' => 'required|integer',
         ]);
 
         if (config('backpack.base.license_code'))
         {
             CRUD::addField([
                 'type' => 'relationship',
+                'force_delete'  => true,
                 'name' => 'phone',
                 'tab' => __('Student Info'),
                 'label' => __('Phone'),
@@ -299,42 +300,96 @@ class StudentCrudController extends CrudController
 
         }
 
-        CRUD::field('address')->label(__('Address'))->tab(__('Address'));
-        CRUD::field('zip_code')->label(__('zip'))->tab(__('Address'));
-        CRUD::field('city')->label(__('City'))->tab(__('Address'));
-        CRUD::field('state')->label(__('State'))->tab(__('Address'));
-        CRUD::field('country')->label(__('Country'))->tab(__('Address'));
+        CRUD::field('address')->label(__('Address'))->tab(__('Address'))->validationRules('nullable|string|max:60');
+        CRUD::field('zip_code')->label(__('zip'))->tab(__('Address'))->validationRules('nullable|string|max:10');
+        CRUD::field('city')->label(__('City'))->tab(__('Address'))->validationRules('nullable|string|max:30');
+        CRUD::field('state')->label(__('State'))->tab(__('Address'))->validationRules('nullable|string|max:30');
+        CRUD::field('country')->label(__('Country'))->tab(__('Address'))->validationRules('nullable|string|max:20');
 
-        CRUD::field('iban')->label('IBAN')->tab(__('Invoicing Info'));
-        CRUD::field('bic')->label('BIC')->tab(__('Invoicing Info'));
+        CRUD::field('iban')->label('IBAN')->tab(__('Invoicing Info'))->validationRules('nullable|string|max:90');
+        CRUD::field('bic')->label('BIC')->tab(__('Invoicing Info'))->validationRules('nullable|string|max:30');
+
+        CRUD::setValidation();
     }
+
 
     public function setupUpdateOperation()
     {
-        $this->setupCreateOperation();
-    }
+        CRUD::field('firstname')->label(__('Firstname'))->tab(__('Student Info'))->validationRules('required|string|max:30');
+        CRUD::field('lastname')->label(__('Lastname'))->tab(__('Student Info'))->validationRules('required|string|max:30');
+        CRUD::field('email')->label(__('Email'))->tab(__('Student Info'))->validationRules('nullable|email|max:60');
+        CRUD::field('idnumber')->label(__('ID number'))->tab(__('Student Info'))->validationRules('nullable|string');
+        CRUD::field('birthdate')->label(__('Birthdate'))->tab(__('Student Info'))->validationRules('nullable|date');
 
-    protected function generateUsername($fullName): string
-    {
-        $username_parts = array_filter(explode(' ', strtolower($fullName)));
-        $username_parts = array_slice($username_parts, -2);
-
-        $part1 = (! empty($username_parts[0])) ? substr($username_parts[0], 0, 3) : '';
-        $part2 = (! empty($username_parts[1])) ? substr($username_parts[1], 0, 8) : '';
-        $part3 = random_int(999, 9999);
-
-        //str_shuffle to randomly shuffle all characters
-
-        return $part1.$part2.$part3;
-    }
-
-    public function store(Request $request)
-    {
-        $request->validate([
-            'firstname' => 'required|max:255',
-            'lastname' => 'required|max:255',
-            'email' => 'nullable|email',
+        $this->crud->addField([
+            'name' => 'gender_id',
+            'label' => __('Gender'),
+            'type' => 'radio',
+            'options' => [
+                0 => __('Other / Rather not say'),
+                1 => __('Female'),
+                2 => __('Male'),
+            ],
+            'inline' => true,
+            'tab' => __('Student Info'),
+            'validationRules' => 'required|integer',
         ]);
+
+        if (config('backpack.base.license_code'))
+        {
+            CRUD::addField([
+                'type' => 'relationship',
+                'force_delete'  => true,
+                'name' => 'phone',
+                'tab' => __('Student Info'),
+                'label' => __('Phone'),
+                'subfields'   => [
+                    [
+                        'name' => 'phone_number',
+                        'type' => 'text',
+                        'wrapper' => [
+                            'class' => 'form-group col-md-3',
+                        ],
+                    ],
+                ],
+            ]);
+        }
+
+        $this->crud->addField([
+            'label' => __('Profile Picture'),
+            'name' => 'image',
+            'type' => 'image',
+            'crop' => true,
+            'tab' => __('Student Info'),
+        ]);
+
+        if (config('backpack.base.license_code')) {
+            CRUD::addField(['type' => 'relationship', 'name' => 'profession', 'inline_create' => true, 'tab' => __('Student Info'), 'label' => __('Profession'), 'attribute' => 'name']);
+        } else {
+            CRUD::addField(['type' => 'select', 'name' => 'profession', 'tab' => __('Student Info'), 'label' => __('Profession'), 'attribute' => 'name']);
+        }
+
+        if (config('backpack.base.license_code')) {
+            CRUD::addField(['type' => 'relationship', 'name' => 'institution', 'inline_create' => true, 'tab' => __('Student Info'), 'label' => __('Institution'), 'attribute' => 'name']);
+        } else {
+            CRUD::addField(['type' => 'select', 'name' => 'institution', 'tab' => __('Student Info'), 'label' => __('Institution'), 'attribute' => 'name']);
+        }
+
+        CRUD::field('address')->label(__('Address'))->tab(__('Address'))->validationRules('nullable|string|max:60');
+        CRUD::field('zip_code')->label(__('zip'))->tab(__('Address'))->validationRules('nullable|string|max:10');
+        CRUD::field('city')->label(__('City'))->tab(__('Address'))->validationRules('nullable|string|max:30');
+        CRUD::field('state')->label(__('State'))->tab(__('Address'))->validationRules('nullable|string|max:30');
+        CRUD::field('country')->label(__('Country'))->tab(__('Address'))->validationRules('nullable|string|max:20');
+
+        CRUD::field('iban')->label('IBAN')->tab(__('Invoicing Info'))->validationRules('nullable|string|max:90');
+        CRUD::field('bic')->label('BIC')->tab(__('Invoicing Info'))->validationRules('nullable|string|max:30');
+
+        CRUD::setValidation();
+    }
+
+    public function store()
+    {
+        $request = $this->crud->getRequest();
 
         if ($request->email && User::where('email', $request->email)->count() === 0) {
             $username = $request->email;

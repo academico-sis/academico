@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\TeacherRequest as StoreRequest;
 use App\Models\Teacher;
 use App\Models\User;
+use App\Traits\UsernameTrait;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -19,6 +18,7 @@ class TeacherCrudController extends CrudController
     use ListOperation;
     use CreateOperation { store as traitStore; }
     use UpdateOperation;
+    use UsernameTrait;
 
     public function setup()
     {
@@ -104,7 +104,13 @@ class TeacherCrudController extends CrudController
 
     public function setupCreateOperation()
     {
-        CRUD::setValidation(StoreRequest::class);
+        CRUD::setValidation([
+            'firstname' => 'required|max:255',
+            'lastname' => 'required|max:255',
+            'email' => 'required|email',
+            'max_week_hours' => 'nullable|numeric',
+            'hired_at' => 'nullable|date',
+        ]);
 
         CRUD::field('firstname')->label(__('Firstname'));
         CRUD::field('lastname')->label(__('Lastname'));
@@ -127,29 +133,13 @@ class TeacherCrudController extends CrudController
 
     protected function setupUpdateOperation()
     {
-        CRUD::setValidation(StoreRequest::class);
-
-        CRUD::field('firstname')->label(__('Firstname'));
-        CRUD::field('lastname')->label(__('Lastname'));
-        CRUD::field('email')->label(__('Email'));
-
-        CRUD::addFields([
-            [
-                'name' => 'max_week_hours',
-                'label' => __('Weekly workable hours'),
-                'type' => 'number',
-                'attributes' => ['step' => '0.01'],
-            ],
-            [
-                'name' => 'hired_at',
-                'label' => __('Hire Date'),
-                'type' => 'date',
-            ],
-        ]);
+        $this->setupCreateOperation();
     }
 
-    public function store(Request $request)
+    public function store()
     {
+        $request = $this->crud->getRequest();
+
         if (User::where('email', $request->email)->count() === 0) {
             $username = $request->email;
         } else {
@@ -171,19 +161,5 @@ class TeacherCrudController extends CrudController
         ]);
 
         return redirect()->route('teacher.index');
-    }
-
-    protected function generateUsername($fullName): string
-    {
-        $username_parts = array_filter(explode(' ', strtolower($fullName)));
-        $username_parts = array_slice($username_parts, -2);
-
-        $part1 = (! empty($username_parts[0])) ? substr($username_parts[0], 0, 3) : '';
-        $part2 = (! empty($username_parts[1])) ? substr($username_parts[1], 0, 8) : '';
-        $part3 = random_int(999, 9999);
-
-        //str_shuffle to randomly shuffle all characters
-
-        return $part1.$part2.$part3;
     }
 }

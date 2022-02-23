@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\PeriodRequest;
 use App\Models\Period;
 use App\Models\Year;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -12,6 +11,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Validation\Rule;
 
 class PeriodCrudController extends CrudController
 {
@@ -62,7 +62,17 @@ class PeriodCrudController extends CrudController
 
     public function setupCreateOperation()
     {
-        CRUD::setValidation(PeriodRequest::class);
+        CRUD::setValidation([
+            'name' => [
+                'required',
+                'min:1',
+                'max:40',
+                Rule::unique($this->crud->getModel()->getTable())->ignore($this->crud->getCurrentEntry()),
+            ],
+            'year_id' => 'required|integer',
+            'start' => 'date|required',
+            'end' => 'date|required',
+        ]);
 
         if (config('backpack.base.license_code')) {
             CRUD::addField(['type' => 'relationship', 'name' => 'year_id', 'inline_create' => true]);

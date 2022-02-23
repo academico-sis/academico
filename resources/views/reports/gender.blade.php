@@ -40,8 +40,6 @@
                             <th>@lang('Students of unknown gender')</th>
                         </thead>
 
-                        @php $current_year_id = $selected_period->year_id; @endphp
-
                         <tbody>
                             @foreach($data as $year)
                                 @foreach($year['periods'] as $period)

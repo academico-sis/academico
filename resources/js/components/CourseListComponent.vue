@@ -195,7 +195,7 @@
                                 </a>
 
                                 <a
-                                    v-if="course.evaluation_type && course.evaluation_type.grade_types.length > 0 && course.course_enrollments_count > 0"
+                                    v-if="course.evaluation_type && course.evaluationType.gradeTypes.length > 0 && course.course_enrollments_count > 0"
                                     :href="`course/${course.id}/grades`"
                                     class="dropdown-item">
                                     <i class="la la-th"></i> {{ $t('Manage grades') }}
