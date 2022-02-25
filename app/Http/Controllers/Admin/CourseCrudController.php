@@ -295,8 +295,7 @@ class CourseCrudController extends CrudController
         CRUD::addField([
             'name' => 'children',
             'label' => __('Course sublevels'),
-            'type' => 'relationship',
-            'force_delete'  => true,
+            'type' => 'repeatable',
             'subfields' => [
                 [
                     'name' => 'name',
@@ -688,11 +687,9 @@ class CourseCrudController extends CrudController
         $teacherId = $this->crud->getRequest()->input('teacher_id');
         $roomId = $this->crud->getRequest()->input('room_id');
 
-        $response = $this->traitStore();
-        $course = $this->crud->getCurrentEntry();
         $courseTimes = collect($this->crud->getRequest()->input('times'));
 
-        $sublevels = collect($this->crud->getRequest()->input('sublevels'));
+        $sublevels = collect($this->crud->getRequest()->input('children'));
 
         // if subcourses were added
         if ($sublevels->count() > 0) {
@@ -705,7 +702,11 @@ class CourseCrudController extends CrudController
 
             // do not persist course times on parent but on children
             $this->crud->getRequest()->request->remove('times');
+            $this->crud->getRequest()->request->remove('children');
         }
+
+        $response = $this->traitStore();
+        $course = $this->crud->getCurrentEntry();
 
         if ($sublevels->count() > 0) {
             // create sublevels and apply coursetimes to them
