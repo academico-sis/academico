@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
 use Spatie\Activitylog\LogOptions;
@@ -123,7 +124,7 @@ class Student extends Model implements HasMedia
     |--------------------------------------------------------------------------
     */
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'id', 'id');
     }
@@ -205,7 +206,6 @@ class Student extends Model implements HasMedia
     {
         return new Attribute(
             get: fn (): string => $this->user ? Str::title($this->user->firstname) : '',
-            set: fn ($value) => $this->user->update(['firstname' => $value]),
         );
     }
 
@@ -213,7 +213,6 @@ class Student extends Model implements HasMedia
     {
         return new Attribute(
             get: fn (): string => $this->user ? Str::title($this->user->lastname) : '',
-            set: fn ($value) => $this->user->update(['lastname' => $value]),
         );
     }
 
@@ -221,7 +220,6 @@ class Student extends Model implements HasMedia
     {
         return new Attribute(
             get: fn (): ?string => $this?->user?->email,
-            set: fn ($value) => $this->user->update(['email' => $value]),
         );
     }
 

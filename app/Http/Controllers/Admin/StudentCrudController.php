@@ -30,7 +30,7 @@ class StudentCrudController extends CrudController
 {
     use ListOperation;
     use ShowOperation { show as traitShow; }
-    use UpdateOperation;
+    use UpdateOperation { update as traitUpdate; }
     use CreateOperation { store as traitStore; }
     use PeriodSelection;
     use DeleteOperation { destroy as traitDelete; }
@@ -59,7 +59,6 @@ class StudentCrudController extends CrudController
 
     public function setupListOperation()
     {
-
         // display lead status counts on page top
         foreach (LeadType::all() as $leadType) {
             if ($leadType->id === 4) {
@@ -238,9 +237,27 @@ class StudentCrudController extends CrudController
 
     public function setupCreateOperation()
     {
-        CRUD::field('firstname')->label(__('Firstname'))->tab(__('Student Info'))->validationRules('required|string|max:30');
-        CRUD::field('lastname')->label(__('Lastname'))->tab(__('Student Info'))->validationRules('required|string|max:30');
-        CRUD::field('email')->label(__('Email'))->tab(__('Student Info'))->validationRules('nullable|email|max:60');
+        CRUD::addField([
+            'name' => 'firstname',
+            'label' => __('Firstname'),
+            'tab' => __('Student Info'),
+            'validationRules' => 'required|string|max:30'
+        ]);
+
+        CRUD::addField([
+            'name' => 'lastname',
+            'label' => __('Lastname'),
+            'tab' => __('Student Info'),
+            'validationRules' => 'required|string|max:30'
+        ]);
+
+        CRUD::addField([
+            'name' => 'email',
+            'label' => __('Email'),
+            'tab' => __('Student Info'),
+            'validationRules' => 'nullable|email|max:60'
+        ]);
+
         CRUD::field('idnumber')->label(__('ID number'))->tab(__('Student Info'))->validationRules('nullable|string');
         CRUD::field('birthdate')->label(__('Birthdate'))->tab(__('Student Info'))->validationRules('nullable|date');
 
@@ -315,76 +332,7 @@ class StudentCrudController extends CrudController
 
     public function setupUpdateOperation()
     {
-        CRUD::field('firstname')->label(__('Firstname'))->tab(__('Student Info'))->validationRules('required|string|max:30');
-        CRUD::field('lastname')->label(__('Lastname'))->tab(__('Student Info'))->validationRules('required|string|max:30');
-        CRUD::field('email')->label(__('Email'))->tab(__('Student Info'))->validationRules('nullable|email|max:60');
-        CRUD::field('idnumber')->label(__('ID number'))->tab(__('Student Info'))->validationRules('nullable|string');
-        CRUD::field('birthdate')->label(__('Birthdate'))->tab(__('Student Info'))->validationRules('nullable|date');
-
-        $this->crud->addField([
-            'name' => 'gender_id',
-            'label' => __('Gender'),
-            'type' => 'radio',
-            'options' => [
-                0 => __('Other / Rather not say'),
-                1 => __('Female'),
-                2 => __('Male'),
-            ],
-            'inline' => true,
-            'tab' => __('Student Info'),
-            'validationRules' => 'required|integer',
-        ]);
-
-        if (config('backpack.base.license_code'))
-        {
-            CRUD::addField([
-                'type' => 'relationship',
-                'force_delete'  => true,
-                'name' => 'phone',
-                'tab' => __('Student Info'),
-                'label' => __('Phone'),
-                'subfields'   => [
-                    [
-                        'name' => 'phone_number',
-                        'type' => 'text',
-                        'wrapper' => [
-                            'class' => 'form-group col-md-3',
-                        ],
-                    ],
-                ],
-            ]);
-        }
-
-        $this->crud->addField([
-            'label' => __('Profile Picture'),
-            'name' => 'image',
-            'type' => 'image',
-            'crop' => true,
-            'tab' => __('Student Info'),
-        ]);
-
-        if (config('backpack.base.license_code')) {
-            CRUD::addField(['type' => 'relationship', 'name' => 'profession', 'inline_create' => true, 'tab' => __('Student Info'), 'label' => __('Profession'), 'attribute' => 'name']);
-        } else {
-            CRUD::addField(['type' => 'select', 'name' => 'profession', 'tab' => __('Student Info'), 'label' => __('Profession'), 'attribute' => 'name']);
-        }
-
-        if (config('backpack.base.license_code')) {
-            CRUD::addField(['type' => 'relationship', 'name' => 'institution', 'inline_create' => true, 'tab' => __('Student Info'), 'label' => __('Institution'), 'attribute' => 'name']);
-        } else {
-            CRUD::addField(['type' => 'select', 'name' => 'institution', 'tab' => __('Student Info'), 'label' => __('Institution'), 'attribute' => 'name']);
-        }
-
-        CRUD::field('address')->label(__('Address'))->tab(__('Address'))->validationRules('nullable|string|max:60');
-        CRUD::field('zip_code')->label(__('zip'))->tab(__('Address'))->validationRules('nullable|string|max:10');
-        CRUD::field('city')->label(__('City'))->tab(__('Address'))->validationRules('nullable|string|max:30');
-        CRUD::field('state')->label(__('State'))->tab(__('Address'))->validationRules('nullable|string|max:30');
-        CRUD::field('country')->label(__('Country'))->tab(__('Address'))->validationRules('nullable|string|max:20');
-
-        CRUD::field('iban')->label('IBAN')->tab(__('Invoicing Info'))->validationRules('nullable|string|max:90');
-        CRUD::field('bic')->label('BIC')->tab(__('Invoicing Info'))->validationRules('nullable|string|max:30');
-
-        CRUD::setValidation();
+        $this->setupCreateOperation();
     }
 
     public function store()
@@ -458,6 +406,35 @@ class StudentCrudController extends CrudController
 
         return redirect()->route('student.index');
     }
+
+    public function update()
+    {
+        $this->crud->hasAccessOrFail('update');
+        $request = $this->crud->validateRequest();
+        $this->crud->registerFieldEvents();
+
+        $this->crud->getCurrentEntry()->user()->update([
+                'firstname' => $request->firstname,
+                'lastname' => $request->lastname,
+                'email' => $request->email,
+        ]);
+
+        $this->crud->getRequest()->request->remove('firstname');
+        $this->crud->getRequest()->request->remove('lastname');
+        $this->crud->getRequest()->request->remove('email');
+
+        $item = $this->crud->update(
+            $request->get($this->crud->model->getKeyName()),
+            $this->crud->getStrippedSaveRequest($request)
+        );
+        $this->data['entry'] = $this->crud->entry = $item;
+
+        \Alert::success(trans('backpack::crud.update_success'))->flash();
+
+        $this->crud->setSaveAction();
+        return $this->crud->performSaveAction($item->getKey());
+    }
+
 
     public function show($student)
     {

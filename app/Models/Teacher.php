@@ -7,8 +7,10 @@ use App\Traits\UserAttributesTrait;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -20,7 +22,6 @@ class Teacher extends Model
     use CrudTrait;
     use SoftDeletes;
     use LogsActivity;
-    use UserAttributesTrait;
 
     public $timestamps = true;
 
@@ -200,6 +201,34 @@ class Teacher extends Model
         }
 
         return collect($eventsWithMissingAttendance);
+    }
+
+    public function firstname(): Attribute
+    {
+        return new Attribute(
+            get: fn (): string => $this->user ? Str::title($this->user->firstname) : '',
+        );
+    }
+
+    public function lastname(): Attribute
+    {
+        return new Attribute(
+            get: fn (): string => $this->user ? Str::title($this->user->lastname) : '',
+        );
+    }
+
+    public function email(): Attribute
+    {
+        return new Attribute(
+            get: fn (): ?string => $this?->user?->email,
+        );
+    }
+
+    public function name(): Attribute
+    {
+        return new Attribute(
+            get: fn (): string => $this->user ? "{$this->firstname} {$this->lastname}" : '',
+        );
     }
 
 }

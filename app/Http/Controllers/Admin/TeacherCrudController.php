@@ -162,4 +162,32 @@ class TeacherCrudController extends CrudController
 
         return redirect()->route('teacher.index');
     }
+
+    public function update()
+    {
+        $this->crud->hasAccessOrFail('update');
+        $request = $this->crud->validateRequest();
+        $this->crud->registerFieldEvents();
+
+        $this->crud->getCurrentEntry()->user()->update([
+            'firstname' => $request->firstname,
+            'lastname' => $request->lastname,
+            'email' => $request->email,
+        ]);
+
+        $this->crud->getRequest()->request->remove('firstname');
+        $this->crud->getRequest()->request->remove('lastname');
+        $this->crud->getRequest()->request->remove('email');
+
+        $item = $this->crud->update(
+            $request->get($this->crud->model->getKeyName()),
+            $this->crud->getStrippedSaveRequest($request)
+        );
+        $this->data['entry'] = $this->crud->entry = $item;
+
+        \Alert::success(trans('backpack::crud.update_success'))->flash();
+
+        $this->crud->setSaveAction();
+        return $this->crud->performSaveAction($item->getKey());
+    }
 }
