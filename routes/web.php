@@ -4,6 +4,8 @@ use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\Auth;
 use App\Http\Controllers\Auth\MyAccountController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\Calendar\RoomCalendarController;
+use App\Http\Controllers\Calendar\TeacherCalendarController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ConfigController;
 use App\Http\Controllers\ContactController;
@@ -23,11 +25,9 @@ use App\Http\Controllers\LevelController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ResultController;
 use App\Http\Controllers\RhythmController;
-use App\Http\Controllers\RoomController;
 use App\Http\Controllers\ScheduledPaymentController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentPhoneNumberController;
-use App\Http\Controllers\TeacherCalendarController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TeacherLeaveController;
 use Illuminate\Support\Facades\Route;
@@ -170,8 +170,8 @@ Route::middleware('web', 'permission:enrollments.edit', 'language')->group(funct
 
 // calendars routes
 Route::middleware('web', 'language')->group(function () {
-    Route::get('/calendar/room/{room}', [RoomController::class, 'show'])->name('roomCalendar');
-    Route::get('/calendar/room', [RoomController::class, 'index'])->name('roomsCalendar');
+    Route::get('/calendar/room/{room}', [RoomCalendarController::class, 'show'])->name('roomCalendar');
+    Route::get('/calendar/room', [RoomCalendarController::class, 'index'])->name('roomsCalendar');
     Route::get('/leave/teachers', [TeacherLeaveController::class, 'leaves'])->name('teachersLeaves');
 
     Route::get('/calendar/teacher/{teacher}', [TeacherCalendarController::class, 'show'])->name('teacherCalendar');

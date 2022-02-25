@@ -188,14 +188,14 @@
                                 <a v-if="editable === 1" :href="`course/${course.id}/edit`" class="dropdown-item">
                                     <i class="la la-edit"></i> {{ $t("Edit") }}</a>
 
-                                <a v-if="course.evaluation_type && course.evaluation_type.skills.length > 0 && course.course_enrollments_count > 0"
+                                <a v-if="course.evaluationType && course.evaluationType.skills.length > 0 && course.course_enrollments_count > 0"
                                     :href="`course/${course.id}/skillsevaluation`"
                                     class="dropdown-item">
                                     <i class="la la-th"></i> {{ $t('Evaluate skills') }}
                                 </a>
 
                                 <a
-                                    v-if="course.evaluation_type && course.evaluationType.gradeTypes.length > 0 && course.course_enrollments_count > 0"
+                                    v-if="course.evaluationType && course.evaluationType.gradeTypes.length > 0 && course.course_enrollments_count > 0"
                                     :href="`course/${course.id}/grades`"
                                     class="dropdown-item">
                                     <i class="la la-th"></i> {{ $t('Manage grades') }}
@@ -248,9 +248,9 @@
                             <span v-if="course.spots > 0">, {{ Math.max(0, course.spots - course.course_enrollments_count) }} {{ $t("spots left") }}</span>
                         </div>
 
-                        <div v-if="course.evaluation_type">
+                        <div v-if="course.evaluationType">
                             <i class="la la-th"></i>
-                            {{ course.evaluation_type.translated_name }}
+                            {{ course.evaluationType.translated_name }}
                         </div>
                     </div>
                 </div>

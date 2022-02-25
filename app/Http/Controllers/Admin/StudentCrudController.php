@@ -462,9 +462,9 @@ class StudentCrudController extends CrudController
         // get entry ID from Request (makes sure its the last ID for nested resources)
         $id = $this->crud->getCurrentEntryId() ?? $id;
 
-        User::where('id', $id)->delete();
+        $this->crud->delete($id);
 
-        return $this->crud->delete($id);
+        return User::where('id', $id)->forceDelete();
     }
 
     protected function fetchInstitution()

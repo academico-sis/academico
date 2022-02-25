@@ -75,7 +75,7 @@ class StatService
 
     public function taughtHoursCount(): int
     {
-        return $this->coursesQuery->where('parent_course_id', null)->get()->sum('total_volume');
+        return $this->coursesQuery->whereNull('parent_course_id')->get()->sum('total_volume');
     }
 
     public function soldHoursCount(): int
@@ -99,28 +99,20 @@ class StatService
 
     public function pendingEnrollmentsCount(): int
     {
-        if ($this->reference::class === Period::class) {
-            return $this->reference
-                ->enrollments
-                ->where('status_id', 1)
-                ->where('parent_id', null)
-                ->count();
-        }
-
-        throw new InvalidArgumentException('Logic error');
+        return match ($this->reference::class) {
+            Period::class => $this->getPendingEnrollmentsCountForPeriod($this->reference),
+            Year::class => $this->getPendingEnrollmentsCountForYear($this->reference),
+            default => throw new InvalidArgumentException('Logic error'),
+        };
     }
 
     public function paidEnrollmentsCount(): int
     {
-        if ($this->reference::class === Period::class) {
-            return $this->reference
-                ->enrollments
-                ->where('status_id', 2) // paid
-                ->where('parent_id', null)
-                ->count();
-        }
-
-        throw new InvalidArgumentException('Logic error');
+        return match ($this->reference::class) {
+            Period::class => $this->getPaidEnrollmentsCountForPeriod($this->reference),
+            Year::class => $this->getPaidEnrollmentsCountForYear($this->reference),
+            default => throw new InvalidArgumentException('Logic error'),
+        };
     }
 
     private function countInternalStudentsForYear(?int $gender = null)
@@ -221,4 +213,39 @@ class StatService
         return $query;
     }
 
+    private function getPendingEnrollmentsCountForPeriod(Period $period): int
+    {
+        return $period->enrollments->where('status_id', 1)->where('parent_id', null)->count();
+    }
+
+    private function getPendingEnrollmentsCountForYear(Year $year)
+    {
+        $total = 0;
+
+        foreach ($year->periods as $period) {
+            $total += $this->getPendingEnrollmentsCountForPeriod($period);
+        }
+
+        return $total;
+    }
+
+    private function getPaidEnrollmentsCountForPeriod(Period $period): int
+    {
+            return $period
+                ->enrollments
+                ->where('status_id', 2) // paid
+                ->where('parent_id', null)
+                ->count();
+    }
+
+    private function getPaidEnrollmentsCountForYear(Year $year)
+    {
+        $total = 0;
+
+        foreach ($year->periods as $period) {
+            $total += $this->getPaidEnrollmentsCountForPeriod($period);
+        }
+
+        return $total;
+    }
 }

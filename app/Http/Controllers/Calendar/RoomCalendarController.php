@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Calendar;
 
+use App\Http\Controllers\Controller;
 use App\Models\Event;
 use App\Models\Room;
 use Carbon\Carbon;
 
-class RoomController extends Controller
+class RoomCalendarController extends Controller
 {
     public function __construct()
     {
@@ -69,14 +70,13 @@ class RoomController extends Controller
      */
     public function show(Room $room)
     {
-        $events = $room->events->toArray();
-        $events = array_map(fn ($event) => [
-            'title' => $event['name'],
-            'start' => $event['start'],
-            'end' => $event['end'],
-            'backgroundColor' => $event['color'],
-            'borderColor' => $event['color'],
-        ], $events);
+        $events = $room->events->map(fn ($event) => [
+            'title' => $event->name,
+            'start' => $event->start,
+            'end' => $event->end,
+            'backgroundColor' => $event->color,
+            'borderColor' => $event->color,
+        ]);
 
         return view('calendars.simple', [
             'events' => $events,

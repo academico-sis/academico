@@ -49,7 +49,7 @@
 
                         <tbody>
                         @foreach($data as $year)
-                            @foreach($year as $p => $period)
+                            @foreach($year['periods'] as $p => $period)
 
                                 <tr>
                                     <td>
@@ -141,11 +141,11 @@
                                         </td>
 
                                         <td>
-                                            @if ($year['year']['taught_hours'] > 1)
+                                            @if ($year['year']['avg_takings'])
                                                 @if (config('academico.currency_position') === 'before')
-                                                    {{ config('academico.currency_symbol') }} {{ number_format($year['year']['takings'] / $year['year']['taught_hours'], 2) }}
+                                                    {{ config('academico.currency_symbol') }} {{ number_format($year['year']['avg_takings'], 2) }}
                                                 @else
-                                                    {{ number_format($year['year']['takings'] / $year['year']['taught_hours'], 2) }} {{ config('academico.currency_symbol') }}
+                                                    {{ number_format($year['year']['avg_takings'], 2) }} {{ config('academico.currency_symbol') }}
                                                 @endif
                                             @endif
                                         </td>
@@ -173,7 +173,7 @@
 <script>
 $(document).ready(() => {
     var data = @json($data->pluck('periods')->flatten(1));
-    
+
     var chartData = {
       labels: [],
       datasets: [

@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Events\LeadStatusUpdatedEvent;
 use App\Events\StudentDeleting;
 use App\Events\StudentUpdated;
-use App\Traits\UserAttributesTrait;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;

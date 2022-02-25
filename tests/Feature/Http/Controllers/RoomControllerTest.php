@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
- * @see \App\Http\Controllers\RoomController
+ * @see \App\Http\Controllers\Calendar\RoomCalendarController
  */
 class RoomControllerTest extends TestCase
 {

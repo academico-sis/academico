@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Calendar;
 
+use App\Http\Controllers\Controller;
 use App\Models\Event;
 use App\Models\Leave;
 use App\Models\Teacher;
@@ -90,8 +91,7 @@ class TeacherCalendarController extends Controller
         ]);
 
         $leaves = $teacher->leaves->map(fn ($event) => [
-            'title' => $event->leaveType->name ?? 'vacances',
-            // todo fix
+            'title' => $event->leaveType->name ?? 'vacances', // todo fix
             'start' => $event['date'],
             'allDay' => true,
         ]);

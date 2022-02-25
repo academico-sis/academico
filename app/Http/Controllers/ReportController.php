@@ -36,8 +36,8 @@ class ReportController extends Controller
     public function external2(Request $request)
     {
         $data = [];
-        $report_start_date = $request->report_start_date ?? Carbon::parse('2019-01-01');
-        $report_end_date = $request->report_end_date ?? Carbon::now();
+        $report_start_date = Carbon::parse($request->report_start_date) ?? Carbon::parse('2019-01-01');
+        $report_end_date = Carbon::parse($request->report_end_date) ?? Carbon::now();
 
         $stats = new StatService(external: true, reference: new DateRange($report_start_date, $report_end_date), partner: null);
 
@@ -135,8 +135,8 @@ class ReportController extends Controller
     public function partner(Partner $partner, Request $request)
     {
         $data = [];
-        $report_start_date = $request->report_start_date ?? Carbon::parse('2019-01-01');
-        $report_end_date = $request->report_end_date ?? Carbon::now();
+        $report_start_date = Carbon::parse($request->report_start_date) ?? Carbon::parse('2019-01-01');
+        $report_end_date = Carbon::parse($request->report_end_date) ?? Carbon::now();
 
         $stats = new StatService(external: true, reference: new DateRange($report_start_date, $report_end_date), partner: $partner);
 
@@ -189,20 +189,26 @@ class ReportController extends Controller
                         $data[$data_period->id]['takings'] = $data_period->takings;
                         $data[$data_period->id]['avg_takings'] = $data_period->takings / max(1, $stats->taughtHoursCount());
                     }
-
-                    $year = $data_period->year;
-                    $yearStats = new StatService(external: false, reference: $year);
                 }
 
-                return [
+                $year = $data_period->year;
+                $yearStats = new StatService(external: false, reference: $year);
+
+                $yearOutput = [
                     'year' => $year,
-                    'students' => 0,
-                    'enrollments' => 0,
-                    'taught_hours' => 0,
-                    'sold_hours' => 0,
-                    'takings' => 0,
+                    'students' => $yearStats->studentsCount(),
+                    'enrollments' => collect($data[$data_period->id])->sum('enrollments'),
+                    'taught_hours' => collect($data[$data_period->id])->sum('taught_hours'),
+                    'sold_hours' => collect($data[$data_period->id])->sum('sold_hours'),
                     'periods' => $data,
                 ];
+
+                if (config('academico.include_takings_in_reports')) {
+                    $yearOutput['takings'] = collect($data[$data_period->id])->sum('takings');
+                    $yearOutput['avg_takings'] = $yearOutput['takings'] / max(1, $stats->taughtHoursCount());
+                }
+
+                return $yearOutput;
              });
 
         return view('reports.internal', [

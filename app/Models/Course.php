@@ -393,21 +393,21 @@ class Course extends Model
         return $this->volume + $this->remote_volume;
     }
 
-    public function price_b(): Attribute
-    {
-        return new Attribute(
-            get: fn ($value) => $value / 100,
-            set: fn ($value) => $value * 100,
-        );
-    }
-
-    public function price_c(): Attribute
-    {
-        return new Attribute(
-            get: fn ($value) => $value / 100,
-            set: fn ($value) => $value * 100,
-        );
-    }
+//    public function price_b(): Attribute
+//    {
+//        return new Attribute(
+//            get: fn ($value) => $value / 100,
+//            set: fn ($value) => $value * 100,
+//        );
+//    }
+//
+//    public function price_c(): Attribute
+//    {
+//        return new Attribute(
+//            get: fn ($value) => $value / 100,
+//            set: fn ($value) => $value * 100,
+//        );
+//    }
 
     public function getFormattedStartDateAttribute()
     {
