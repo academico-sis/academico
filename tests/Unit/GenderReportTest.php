@@ -6,6 +6,7 @@ use App\Models\Course;
 use App\Models\Period;
 use App\Models\Student;
 use App\Models\User;
+use App\Services\StatService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;
@@ -28,9 +29,11 @@ class GenderReportTest extends TestCase
 
         $this->prepareData($period);
 
-        $this->assertEquals(1, $period->studentCount(1));
-        $this->assertEquals(1, $period->studentCount(2));
-        $this->assertEquals(3, $period->studentCount(0));
+        $stats = new StatService(external: false, reference: $period);
+
+        $this->assertEquals(1, $stats->studentsCount(1));
+        $this->assertEquals(1, $stats->studentsCount(2));
+        $this->assertEquals(3, $stats->studentsCount(0));
     }
 
     public function test_view_returns_an_ok_response()

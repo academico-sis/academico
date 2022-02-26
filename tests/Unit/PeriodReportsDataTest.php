@@ -6,6 +6,7 @@ use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Period;
 use App\Models\Student;
+use App\Services\StatService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -148,7 +149,9 @@ class PeriodReportsDataTest extends TestCase
         }
 
         // they are only counted once in the total
-        $this->assertEquals(($studentsEnrolledOnce + $studentsEnrolledTwice), $period->studentCount());
+        $stats = new StatService(external: false, reference: $period);
+
+        $this->assertEquals(($studentsEnrolledOnce + $studentsEnrolledTwice), $stats->studentsCount());
     }
 
     /** getAcquisitionRateAttribute

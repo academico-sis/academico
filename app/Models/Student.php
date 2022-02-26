@@ -211,7 +211,7 @@ class Student extends Model implements HasMedia
     public function lastname(): Attribute
     {
         return new Attribute(
-            get: fn (): string => $this->user ? Str::title($this->user->lastname) : '',
+            get: fn (): string => $this->user ? Str::upper($this->user->lastname) : '',
         );
     }
 

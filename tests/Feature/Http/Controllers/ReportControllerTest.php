@@ -78,13 +78,6 @@ class ReportControllerTest extends TestCase
 
         $response->assertOk();
         $response->assertViewIs('reports.internal');
-        $response->assertViewHas('selected_period');
-        $response->assertViewHas('pending_enrollment_count');
-        $response->assertViewHas('paid_enrollment_count');
-        $response->assertViewHas('total_enrollment_count');
-        $response->assertViewHas('students_count');
-        $response->assertViewHas('data');
-        $response->assertViewHas('years');
 
         // TODO complete this
     }
