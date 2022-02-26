@@ -76,7 +76,7 @@ class EnrollmentCrudController extends CrudController
             CRUD::denyAccess(['create', 'update', 'delete']);
         }
 
-        CRUD::enableExportButtons();
+
 
         if ($this->mode === 'course') {
             Widget::add(['type' => 'view',
@@ -278,12 +278,6 @@ class EnrollmentCrudController extends CrudController
                     }
                 });
         }
-
-        if (config('invoicing.invoices_contain_enrollments_only') && $this->mode === 'global' && $this->crud->getOperation() === 'list' && $this->crud->filters()->where('name', 'status_id')->count() > 0) {
-            if ($this->crud->filters()->where('name', 'status_id')->first()->currentValue && in_array(1, json_decode($this->crud->filters()->where('name', 'status_id')->first()->currentValue))) {
-                Widget::add()->type('view')->view('enrollments.total_balance_widget')->to('before_content');
-            }
-        }
     }
 
     public function show($enrollment)
@@ -316,7 +310,7 @@ class EnrollmentCrudController extends CrudController
 
         CRUD::addField([
             'label' => __('Course'),
-            'type' => 'select2',
+            'type' => 'select',
             'name' => 'course_id',
             'entity' => 'course',
             'model' => Course::class,
@@ -329,43 +323,6 @@ class EnrollmentCrudController extends CrudController
             'label' => __('Price'),
             'type' => 'number',
         ], $this->currency));
-
-        if (config('invoicing.allow_scheduled_payments')) {
-            CRUD::addField([
-                'name' => 'scheduledPayments',
-                'label' => __('Scheduled Payments'),
-                'type' => 'relationship',
-                'force_delete'  => true,
-                'subfields' => [
-                    [
-                        'name' => 'date',
-                        'type' => 'date',
-                        'label' => __('Date'),
-                        'wrapper' => ['class' => 'form-group col-md-4'],
-                    ],
-                    array_merge([
-                        'name' => 'value',
-                        'type' => 'number',
-                        'attributes' => ['step' => 0.01,
-                            'min' => 0, ],
-                        'label' => __('Value'),
-                        'wrapper' => ['class' => 'form-group col-md-4'],
-                        'validationRules' => 'required',
-                    ], $this->currency),
-                    [
-                        'name' => 'status',
-                        'type' => 'radio',
-                        'label' => __('Status'),
-                        'wrapper' => ['class' => 'form-group col-md-4'],
-                        'options' => [
-                            1 => __('Pending'),
-                            2 => __('Paid'),
-                        ],
-                        'inline' => true,
-                    ],
-                ],
-            ]);
-        }
 
         CRUD::addField([
             'label' => __('Status'),

@@ -20,7 +20,7 @@ class ScheduledPaymentCrudController extends CrudController
         CRUD::setModel(ScheduledPayment::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/scheduled-payment');
         CRUD::setEntityNameStrings(__('scheduled payment'), __('scheduled payments'));
-        CRUD::enableExportButtons();
+
     }
 
     protected function setupListOperation()
@@ -89,21 +89,6 @@ class ScheduledPaymentCrudController extends CrudController
         ]);
 
         CRUD::column('date');
-
-        CRUD::addFilter(
-            [
-                'name' => 'status_id',
-                'type' => 'select2',
-                'label' => __('Status'),
-            ],
-            fn () => [
-                1 => __('Pending'),
-                2 => __('Paid'),
-            ],
-            function ($value) {
-                CRUD::addClause('status', $value);
-            }
-        );
     }
 
     protected function setupUpdateOperation()

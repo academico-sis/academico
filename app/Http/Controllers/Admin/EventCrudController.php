@@ -90,67 +90,7 @@ class EventCrudController extends CrudController
                 'label' => __('End Date'),
                 'type' => 'datetime',
             ],
-
         ]);
-
-        CRUD::addFilter(
-            [
-                'type' => 'date_range',
-                'name' => 'from_to',
-                'label' => __('Date range'),
-            ],
-            false,
-            function ($value) { // if the filter is active, apply these constraints
-                $dates = json_decode($value, null, 512, JSON_THROW_ON_ERROR);
-
-                if ($dates->from) {
-                    CRUD::addClause('where', 'start', '>=', $dates->from);
-                }
-                if ($dates->to) {
-                    CRUD::addClause('where', 'start', '<=', $dates->to.' 23:59:59');
-                }
-            }
-        );
-
-        CRUD::addFilter(
-            [
-                'type' => 'simple',
-                'name' => 'orphan',
-                'label' => __('Events with no course'),
-            ],
-            false,
-            function () { // if the filter is active
-                $this->crud->query->where('course_id', null);
-            },
-            function () { // if the filter is NOT active
-            }
-        );
-
-        CRUD::addFilter(
-            [
-                'type' => 'simple',
-                'name' => 'unassigned',
-                'label' => __('Events with no teacher'),
-            ],
-            false,
-            function () {
-                CRUD::addClause('unassigned');
-            }
-        );
-
-        CRUD::addFilter(
-            [
-                'name' => 'teacher_id',
-                'type' => 'select2',
-                'label' => __('Teacher'),
-            ],
-            fn () => Teacher::all()->pluck('name', 'id')->toArray(),
-            function ($value) {
-                CRUD::addClause('where', 'teacher_id', $value);
-            },
-            function () {
-            }
-        );
     }
 
     public function setupCreateOperation()

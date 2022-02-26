@@ -90,25 +90,6 @@ class InvoiceCrudController extends CrudController
                 'type' => 'number',
             ], $this->currency)
         );
-
-        CRUD::addFilter(
-            [
-                'type' => 'date_range',
-                'name' => 'from_to',
-                'label' => __('Date range'),
-            ],
-            false,
-            function ($value) { // if the filter is active, apply these constraints
-                $dates = json_decode($value, null, 512, JSON_THROW_ON_ERROR);
-
-                if ($dates->from) {
-                    CRUD::addClause('where', 'date', '>=', $dates->from);
-                }
-                if ($dates->to) {
-                    CRUD::addClause('where', 'date', '<=', $dates->to.' 23:59:59');
-                }
-            }
-        );
     }
 
     protected function setupUpdateOperation()
@@ -138,82 +119,6 @@ class InvoiceCrudController extends CrudController
         CRUD::field('client_idnumber')->label(__('Client ID Number'))->tab(__('Invoice'));
         CRUD::field('client_address')->label(__('Client address'))->tab(__('Invoice'));
         CRUD::field('client_email')->label(__('Client email'))->tab(__('Invoice'));
-
-        CRUD::addField([
-            'tab' => __('Products'),
-            'name' => 'alert',
-            'type' => 'view',
-            'view' => 'invoices/invoice-editing-alert',
-        ]);
-
-        CRUD::addField([
-            'name' => 'invoiceDetails',
-            'label' => __('Products'),
-            'type' => 'relationship',
-            'force_delete'  => true,
-            'subfields' => [
-                [
-                    'name' => 'product_name',
-                    'type' => 'text',
-                    'label' => __('Product'),
-                    'wrapper' => ['class' => 'form-group col-md-8'],
-                ],
-                [
-                    'name' => 'quantity',
-                    'type' => 'number',
-                    'label' => __('Quantity'),
-                    'attributes' => ['step' => '0.01', 'min' => 1],
-                    'wrapper' => ['class' => 'form-group col-md-2'],
-                ],
-                array_merge([
-                    'name' => 'price',
-                    'type' => 'number',
-                    'attributes' => ['step' => '0.01'],
-                    'label' => __('Price'),
-                    'wrapper' => ['class' => 'form-group col-md-2'],
-                ], $this->currency),
-            ],
-            'tab' => __('Products'),
-            'init_rows' => 0,
-        ]);
-
-        CRUD::addField([
-            'name' => 'payments',
-            'label' => __('Payments'),
-            'type' => 'relationship',
-            'force_delete'  => true,
-            'subfields' => [
-                [
-                    'name' => 'payment_method',
-                    'label' => __('Payment method'),
-                    'type'        => 'select2_from_array',
-                    'options'     => Paymentmethod::all()->pluck('name', 'code')->toArray(),
-                    'allows_null' => false,
-                    'wrapper' => ['class' => 'form-group col-md-6'],
-                ],
-                [
-                    'name' => 'date',
-                    'type' => 'date',
-                    'label' => __('Date'),
-                    'wrapper' => ['class' => 'form-group col-md-3'],
-                ],
-                array_merge([
-                    'name' => 'value',
-                    'type' => 'number',
-                    'attributes' => ['step' => '0.01'],
-                    'label' => __('Value'),
-                    'wrapper' => ['class' => 'form-group col-md-3'],
-                ], $this->currency),
-                [
-                    'name' => 'comment',
-                    'type' => 'text',
-                    'label' => __('Comment'),
-                    'wrapper' => ['class' => 'form-group col-md-12'],
-                ],
-            ],
-            'tab' => __('Payments'),
-            'init_rows' => 0,
-        ]);
     }
 
     public function show($id)

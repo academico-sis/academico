@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Institution;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-use Backpack\CRUD\app\Http\Controllers\Operations\InlineCreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
@@ -14,7 +13,6 @@ class InstitutionCrudController extends CrudController
 {
     use ListOperation;
     use CreateOperation;
-    use InlineCreateOperation;
     use UpdateOperation;
     use ShowOperation { show as traitShow; }
 
