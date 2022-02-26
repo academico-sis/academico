@@ -35,8 +35,6 @@ class ExternalCourseCrudController extends CourseCrudController
         CRUD::setRoute(config('backpack.base.route_prefix').'/externalcourse');
         CRUD::setEntityNameStrings(__('External Course'), __('External Courses'));
         CRUD::addClause('external');
-
-        CRUD::enableExportButtons();
     }
 
     protected function setupListOperation()
@@ -135,67 +133,7 @@ class ExternalCourseCrudController extends CourseCrudController
                 'label' => __('End Date'),
                 'type' => 'date',
             ],
-
         ]);
-
-        CRUD::addFilter(
-            [
-                'name' => 'rhythm_id',
-                'type' => 'select2',
-                'label' => __('Rhythm'),
-            ],
-            fn () => Rhythm::all()->pluck('name', 'id')->toArray(),
-            function ($value) {
-                CRUD::addClause('where', 'rhythm_id', $value);
-            },
-            function () {
-            }
-        );
-
-        CRUD::addFilter(
-            [
-                'name' => 'teacher_id',
-                'type' => 'select2',
-                'label' => __('Teacher'),
-            ],
-            fn () => Teacher::all()->pluck('name', 'id')->toArray(),
-            function ($value) {
-                CRUD::addClause('where', 'teacher_id', $value);
-            },
-            function () {
-            }
-        );
-
-        CRUD::addFilter(
-            [
-                'name' => 'level_id',
-                'type' => 'select2',
-                'label' => __('Level'),
-            ],
-            fn () => Level::all()->pluck('name', 'id')->toArray(),
-            function ($value) {
-                CRUD::addClause('where', 'level_id', $value);
-            },
-            function () {
-            }
-        );
-
-        CRUD::addFilter(
-            [
-                'name' => 'period_id',
-                'type' => 'select2',
-                'label' => __('Period'),
-            ],
-            fn () => Period::all()->pluck('name', 'id')->toArray(),
-            function ($value) {
-                CRUD::addClause('where', 'period_id', $value);
-            },
-            function () {
-                $period = Period::get_default_period()->id;
-                CRUD::addClause('where', 'period_id', $period);
-                $this->crud->getRequest()->request->add(['period_id' => $period]); // to make the filter look active
-            }
-        );
     }
 
     protected function setupCreateOperation()

@@ -69,7 +69,6 @@ class CourseCrudController extends CrudController
         }
 
         if (backpack_user()->hasRole('admin')) {
-            CRUD::enableExportButtons();
             CRUD::addButtonFromView('line', 'evaluation', 'evaluation', 'end');
         }
 
@@ -177,108 +176,6 @@ class CourseCrudController extends CrudController
                 'type'  => 'check',
             ],
         ]);
-
-        CRUD::addFilter(
-            [
-                'name' => 'rhythm_id',
-                'type' => 'select2',
-                'label' => __('Rhythm'),
-            ],
-            fn () => Rhythm::all()->pluck('name', 'id')->toArray(),
-            function ($value) {
-                CRUD::addClause('where', 'rhythm_id', $value);
-            },
-            function () {
-                // if the filter is NOT active (the GET parameter "checkbox" does not exit)
-            }
-        );
-
-        CRUD::addFilter(
-            [
-                'name' => 'teacher_id',
-                'type' => 'select2',
-                'label' => __('Teacher'),
-            ],
-            fn () => Teacher::all()->pluck('name', 'id')->toArray(),
-            function ($value) {
-                CRUD::addClause('where', 'teacher_id', $value);
-            },
-            function () {
-                // if the filter is NOT active (the GET parameter "checkbox" does not exit)
-            }
-        );
-
-        CRUD::addFilter(
-            [
-                'name' => 'level_id',
-                'type' => 'select2',
-                'label' => __('Level'),
-            ],
-            fn () => Level::all()->pluck('name', 'id')->toArray(),
-            function ($value) {
-                CRUD::addClause('where', 'level_id', $value);
-            },
-            function () {
-                // if the filter is NOT active (the GET parameter "checkbox" does not exit)
-            }
-        );
-
-        CRUD::addFilter(
-            [
-                'name' => 'period_id',
-                'type' => 'select2',
-                'label' => __('Period'),
-            ],
-            fn () => Period::all()->sortByDesc('id')->pluck('name', 'id')->toArray(),
-            function ($value) {
-                CRUD::addClause('where', 'period_id', $value);
-            },
-            function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
-                $period = Period::get_default_period()->id;
-                CRUD::addClause('where', 'period_id', $period);
-                $this->crud->getRequest()->request->add(['period_id' => $period]); // to make the filter look active
-            }
-        );
-
-        CRUD::addFilter(
-            [
-                'type' => 'simple',
-                'name' => 'parent',
-                'label' => __('Hide Children Courses'),
-            ],
-            false,
-            function () {
-                CRUD::addClause('hideChildren');
-            }
-        );
-
-        $this->crud->addFilter(
-            [
-                'type' => 'date_range',
-                'name' => 'start_date',
-                'label' => __('Start'),
-            ],
-            false,
-            function ($value) { // if the filter is active, apply these constraints
-                $dates = json_decode($value, null, 512, JSON_THROW_ON_ERROR);
-                $this->crud->addClause('where', 'start_date', '>=', $dates->from);
-                $this->crud->addClause('where', 'start_date', '<=', $dates->to.' 23:59:59');
-            }
-        );
-
-        $this->crud->addFilter(
-            [
-                'type' => 'date_range',
-                'name' => 'end_date',
-                'label' => __('End'),
-            ],
-            false,
-            function ($value) { // if the filter is active, apply these constraints
-                $dates = json_decode($value, null, 512, JSON_THROW_ON_ERROR);
-                $this->crud->addClause('where', 'end_date', '>=', $dates->from);
-                $this->crud->addClause('where', 'end_date', '<=', $dates->to.' 23:59:59');
-            }
-        );
     }
 
     protected function setupCreateOperation()
@@ -291,61 +188,6 @@ class CourseCrudController extends CrudController
         $this->addPriceFields();
 
         $this->addCourseInfoFields();
-
-        CRUD::addField([
-            'name' => 'children',
-            'label' => __('Course sublevels'),
-            'type' => 'repeatable',
-            'subfields' => [
-                [
-                    'name' => 'name',
-                    'label' => __('Name'),
-                ],
-                [
-                    'name' => 'level_id',
-                    'label' => __('Level'),
-                    'type' => 'select',
-                    'entity' => 'level',
-                    'attribute' => 'name',
-                    'model' => Level::class,
-                    'allows_null' => true,
-                    'wrapper' => ['class' => 'form-group col-md-4'],
-                ],
-
-                array_merge([
-                    'name' => 'price',
-                    'label' => __('Price'),
-                    'type' => 'number',
-                ], $this->currency),
-
-                [
-                    'name' => 'volume',
-                    'label' => __('Presential volume'),
-                    'suffix' => 'h',
-                ],
-
-                [
-                    'name' => 'remote_volume',
-                    'label' => __('Remote volume'),
-                    'suffix' => 'h',
-                ],
-
-                [
-                    'name' => 'start_date',
-                    'type' => 'date',
-                    'label' => __('Start Date'),
-                    'wrapper' => ['class' => 'form-group col-md-4'],
-                ],
-                [
-                    'name' => 'end_date',
-                    'type' => 'date',
-                    'label' => __('End Date'),
-                    'wrapper' => ['class' => 'form-group col-md-4'],
-                ],
-            ],
-            'tab' => __('Course sublevels'),
-            'init_rows' => 0,
-        ]);
 
         if (config('lms.sync_to') == 'apolearn') {
             CRUD::addField([
@@ -520,13 +362,6 @@ class CourseCrudController extends CrudController
                 'type' => 'checkbox',
                 'tab' => __('Course info'),
             ],
-
-            [
-                'name' => 'color',
-                'label' => __('Color'),
-                'tab' => __('Course info'),
-                'type' => 'color_picker',
-            ],
         ]);
     }
 
@@ -571,7 +406,7 @@ class CourseCrudController extends CrudController
 
             [
                 'label' => __('Evaluation method'),
-                'type' => 'select2',
+                'type' => 'select',
                 'name' => 'evaluationType',
                 'entity' => 'evaluationType',
                 'attribute' => 'name',
@@ -612,46 +447,7 @@ class CourseCrudController extends CrudController
 
     protected function addCourseScheduleFieldsForRealCourses()
     {
-        CRUD::addFields([
-            [
-                'name' => 'times',
-                'label' => __('Course Schedule'),
-                'type' => 'repeatable',
-                'subfields' => [
-                    [
-                        'name' => 'day',
-                        'label' => __('Day'),
-                        'type' => 'select_from_array',
-                        'options' => [
-                            0 => __('Sunday'),
-                            1 => __('Monday'),
-                            2 => __('Tuesday'),
-                            3 => __('Wednesday'),
-                            4 => __('Thursday'),
-                            5 => __('Friday'),
-                            6 => __('Saturday'),
-                        ],
-                        'allows_null' => false,
-                        'default' => 1,
-                        'wrapper' => ['class' => 'form-group col-md-4'],
-                    ],
-                    [
-                        'name' => 'start',
-                        'type' => 'time',
-                        'label' => __('Start'),
-                        'wrapper' => ['class' => 'form-group col-md-4'],
-                    ],
-                    [
-                        'name' => 'end',
-                        'type' => 'time',
-                        'label' => __('End'),
-                        'wrapper' => ['class' => 'form-group col-md-4'],
-                    ],
-                ],
-                'init_rows' => 0,
-                'tab' => __('Schedule'),
-            ],
-        ]);
+
     }
 
     protected function createSublevels($course, $sublevels, $courseTimes, $teacherId, $roomId): void

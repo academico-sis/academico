@@ -16,7 +16,6 @@ use App\Traits\UsernameTrait;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-use Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
@@ -34,7 +33,6 @@ class StudentCrudController extends CrudController
     use CreateOperation { store as traitStore; }
     use PeriodSelection;
     use DeleteOperation { destroy as traitDelete; }
-    use FetchOperation;
     use UsernameTrait;
 
     public function __construct()
@@ -49,7 +47,6 @@ class StudentCrudController extends CrudController
         CRUD::setModel(Student::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/student');
         CRUD::setEntityNameStrings(__('student'), __('students'));
-        CRUD::enableExportButtons();
 
         $permissions = backpack_user()->getAllPermissions();
         if ($permissions->contains('name', 'enrollments.edit')) {
@@ -173,66 +170,6 @@ class StudentCrudController extends CrudController
             ],
 
         ]);
-
-        CRUD::addFilter(
-            [
-                'name' => 'enrolled',
-                'type' => 'select2',
-                'label' => __('Is Enrolled in'),
-            ],
-            fn () => Period::all()->pluck('name', 'id')->toArray(),
-            function ($value) {
-                $this->crud->query = $this->crud->query->whereHas('enrollments', fn ($query) => $query->whereHas('course', function ($q) use ($value) {
-                    $q->where('period_id', $value);
-                }));
-            },
-            function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
-            }
-        );
-
-        CRUD::addFilter([
-            'name' => 'notenrolled',
-            'type' => 'select2_multiple',
-            'label' => __('Is Not Enrolled in'),
-        ], fn () => Period::all()->pluck('name', 'id')->toArray(), function ($values) {
-            foreach (json_decode($values, null, 512, JSON_THROW_ON_ERROR) as $value) {
-                $this->crud->query = $this->crud->query->whereDoesntHave('enrollments', fn ($query) => $query->whereHas('course', function ($q) use ($value) {
-                    $q->where('period_id', $value);
-                }));
-            }
-        });
-
-        CRUD::addFilter(
-            [
-                'name' => 'new_students',
-                'type' => 'select2',
-                'label' => __('New In'),
-            ],
-            fn () => Period::all()->pluck('name', 'id')->toArray(),
-            function ($value) {
-                CRUD::addClause('newInPeriod', $value);
-            }
-        );
-
-        $this->crud->addFilter([
-            'name' => 'institution_id',
-            'type' => 'select2',
-            'label' => __('Institution'),
-        ], fn () => Institution::all()->pluck('name', 'id')->toArray(), function ($value) {
-            $this->crud->addClause('where', 'institution_id', $value);
-        });
-
-        $this->crud->addFilter([
-            'name' => 'lead_type_id',
-            'type' => 'select2',
-            'label' => __('Lead Status'),
-        ], fn () => LeadType::all()->pluck('name', 'id')->toArray(), function ($value) {
-            if ($value === '4') {
-                $this->crud->query = $this->crud->query->where('lead_type_id', $value)->orWhere('lead_type_id', null);
-            } else {
-                $this->crud->addClause('where', 'lead_type_id', $value);
-            }
-        });
     }
 
     public function setupCreateOperation()
@@ -275,47 +212,9 @@ class StudentCrudController extends CrudController
             'validationRules' => 'required|integer',
         ]);
 
-        if (config('backpack.base.license_code'))
-        {
-            CRUD::addField([
-                'type' => 'relationship',
-                'force_delete'  => true,
-                'name' => 'phone',
-                'tab' => __('Student Info'),
-                'label' => __('Phone'),
-                'subfields'   => [
-                    [
-                        'name' => 'phone_number',
-                        'type' => 'text',
-                        'wrapper' => [
-                            'class' => 'form-group col-md-3',
-                        ],
-                    ],
-                ],
-            ]);
-        }
+        CRUD::addField(['type' => 'select', 'name' => 'profession', 'tab' => __('Student Info'), 'label' => __('Profession'), 'attribute' => 'name']);
 
-        $this->crud->addField([
-            'label' => __('Profile Picture'),
-            'name' => 'image',
-            'type' => 'image',
-            'crop' => true,
-            'tab' => __('Student Info'),
-        ]);
-
-        if (config('backpack.base.license_code')) {
-            CRUD::addField(['type' => 'relationship', 'name' => 'profession', 'inline_create' => true, 'tab' => __('Student Info'), 'label' => __('Profession'), 'attribute' => 'name']);
-        } else {
-            CRUD::addField(['type' => 'select', 'name' => 'profession', 'tab' => __('Student Info'), 'label' => __('Profession'), 'attribute' => 'name']);
-
-        }
-
-        if (config('backpack.base.license_code')) {
-            CRUD::addField(['type' => 'relationship', 'name' => 'institution', 'inline_create' => true, 'tab' => __('Student Info'), 'label' => __('Institution'), 'attribute' => 'name']);
-        } else {
-            CRUD::addField(['type' => 'select', 'name' => 'institution', 'tab' => __('Student Info'), 'label' => __('Institution'), 'attribute' => 'name']);
-
-        }
+        CRUD::addField(['type' => 'select', 'name' => 'institution', 'tab' => __('Student Info'), 'label' => __('Institution'), 'attribute' => 'name']);
 
         CRUD::field('address')->label(__('Address'))->tab(__('Address'))->validationRules('nullable|string|max:60');
         CRUD::field('zip_code')->label(__('zip'))->tab(__('Address'))->validationRules('nullable|string|max:10');
@@ -465,21 +364,5 @@ class StudentCrudController extends CrudController
         $this->crud->delete($id);
 
         return User::where('id', $id)->forceDelete();
-    }
-
-    protected function fetchInstitution()
-    {
-        return $this->fetch([
-            'model' => Institution::class,
-            'searchable_attributes' => ['name'],
-        ]);
-    }
-
-    protected function fetchProfession()
-    {
-        return $this->fetch([
-            'model' => Profession::class,
-            'searchable_attributes' => ['name'],
-        ]);
     }
 }
