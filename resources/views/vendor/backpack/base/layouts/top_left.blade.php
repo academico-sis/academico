@@ -49,8 +49,8 @@
   @include(backpack_view('inc.scripts'))
 
   <script src="{{ mix('/js/app.js') }}"></script>
-  <script src="{{ mix('/js/manifest.js') }}"></script>
-  <script src="{{ mix('/js/vendor.js') }}"></script>
+{{--  <script src="{{ mix('/js/manifest.js') }}"></script>--}}
+{{--  <script src="{{ mix('/js/vendor.js') }}"></script>--}}
 
   @yield('after_scripts')
   @stack('after_scripts')
