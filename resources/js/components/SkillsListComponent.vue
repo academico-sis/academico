@@ -12,10 +12,10 @@
 
             <div class="card-body" v-if="loading">{{$t('Loading...')}}</div>
             <div class="card-body" v-else>
-                <table class="table table-responsive-sm table-sm" v-for="category in availableskills" :key="category[0].skill_type.id">
+                <table class="table table-responsive-sm table-sm" v-for="category in availableskills" :key="category[0].skillType.id">
                     <thead>
                         <tr>
-                            <th>{{ category[0].skill_type.name }}</th>
+                            <th>{{ category[0].skillType.name }}</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -45,10 +45,10 @@
             </div>
             <div class="card-body" v-if="loading">{{$t('Loading...')}}</div>
             <div class="card-body" v-else>
-                <table class="table table-responsive-sm table-sm" v-for="(category, index) in courseskills" :key="category[0].skill_type.id">
+                <table class="table table-responsive-sm table-sm" v-for="(category, index) in courseskills" :key="category[0].skillType.id">
                     <thead>
                         <tr>
-                            <th>{{ category[0].skill_type.name }}</th>
+                            <th>{{ category[0].skillType.name }}</th>
                             <th></th>
                         </tr>
                     </thead>

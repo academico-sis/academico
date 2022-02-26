@@ -1,20 +1,21 @@
 require('./bootstrap');
 
-window.Vue = require('vue');
+import Chart from 'chart.js';
+
+window.Vue = require('vue').default;
 
 Vue.use(require('vue-moment'));
 
 import VueInternationalization from 'vue-i18n';
 const messages = {
-    en: require("../lang/en.json"),
-    fr: require("../lang/fr.json"),
-    es: require("../lang/es.json"),
+    en: require("../../lang/en.json"),
+    fr: require("../../lang/fr.json"),
+    es: require("../../lang/es.json"),
 };
 
 Vue.use(VueInternationalization);
 
 const lang = document.documentElement.lang.substr(0, 2);
-// or however you determine your current app locale
 
 const i18n = new VueInternationalization({
     locale: lang,
@@ -50,8 +51,6 @@ Vue.component('student-skills-component', require('./components/StudentSkillEval
 Vue.component('course-result-component', require('./components/CourseResultComponent.vue').default);
 
 Vue.component('lead-status-component', require('./components/LeadStatusComponent.vue').default);
-
-Vue.component('skills-list', require('./components/SkillsListComponent.vue').default);
 
 Vue.component('phone-number-update-component', require('./components/PhoneNumberUpdateComponent.vue').default);
 Vue.component('contact-phone-number-update-component', require('./components/ContactPhoneNumberUpdateComponent.vue').default);

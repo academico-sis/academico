@@ -4,17 +4,26 @@ namespace App\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
+ * @deprecated 
  * @mixin IdeHelperSchedulePreset
  */
 class SchedulePreset extends Model
 {
     use CrudTrait;
+    use LogsActivity;
 
     protected $table = 'schedule_presets';
 
     protected $guarded = ['id'];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logUnguarded();
+    }
 
     /*
     |--------------------------------------------------------------------------

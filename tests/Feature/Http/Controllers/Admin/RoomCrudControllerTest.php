@@ -12,7 +12,7 @@ class RoomCrudControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->seed('TestSeeder');
@@ -43,7 +43,7 @@ class RoomCrudControllerTest extends TestCase
         $response = $this->delete(route('room.destroy', ['id' => $id]));
 
         $response->assertOk();
-        $this->assertDeleted($room);
+        $this->assertModelMissing($room);
 
         // TODO: perform additional assertions
     }

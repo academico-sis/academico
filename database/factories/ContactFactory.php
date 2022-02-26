@@ -6,9 +6,9 @@ use Faker\Generator as Faker;
 $factory->define(Contact::class, function (Faker $faker) {
     return [
         'student_id' => 1,
-        'firstname' => $faker->name,
-        'lastname' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
+        'firstname' => $faker->name(),
+        'lastname' => $faker->name(),
+        'email' => $faker->unique()->safeEmail(),
         'idnumber' => '121212SS',
         'address' => 'Example Street 54',
     ];

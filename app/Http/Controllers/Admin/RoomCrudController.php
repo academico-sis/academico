@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\RoomRequest as StoreRequest;
 use App\Models\Room;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -10,6 +9,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Validation\Rule;
 
 class RoomCrudController extends CrudController
 {
@@ -29,9 +29,8 @@ class RoomCrudController extends CrudController
     {
         CRUD::setColumns([
             [
-                // 1-n relationship
                 'label' => 'Campus',
-                'type' => 'relationship',
+                'type' => 'select',
                 'name' => 'campus',
                 'attribute' => 'name',
             ],
@@ -52,10 +51,17 @@ class RoomCrudController extends CrudController
 
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(StoreRequest::class);
+        CRUD::setValidation([
+            'name' => [
+                'required',
+                'min:1',
+                'max:40',
+                Rule::unique($this->crud->getModel()->getTable())->ignore($this->crud->getCurrentEntry()),
+            ],
+        ]);
+
         CRUD::addFields([
             [
-                // 1-n relationship
                 'label' => 'Campus',
                 'type' => 'select',
                 'entity' => 'campus',

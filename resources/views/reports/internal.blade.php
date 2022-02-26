@@ -11,11 +11,7 @@
 
 @section('content')
 
-
     <div class="row">
-
-
-
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
@@ -45,167 +41,78 @@
                             <th>@lang('New Students')</th>
                             <th>@lang('Hours Taught')</th>
                             <th>@lang('Hours Sold')</th>
-                            @if (config('app.include_takings_in_reports'))
+                            @if (config('academico.include_takings_in_reports'))
                                 <th>@lang('Takings')</th>
                                 <th>@lang('Average takings per hour taught')</th>
                             @endif
                         </thead>
 
-                        @php
-                            $current_year_id = $selected_period->year_id;
-                            $i = 0;
-                            $year_enrollments = 0;
-                            $year_taught_hours = 0;
-                            $year_sold_hours = 0;
-                            $year_takings = 0;
-                        @endphp
-
                         <tbody>
-                            @foreach($data as $d => $data_period)
-
-                            {{-- if we are starting a new year, display previous year's totals first --}}
-                            @if ($current_year_id != $data_period['year_id'])
-
-                                <tr style="font-weight: bold">
-                                    <td>
-                                        {{ $years[$current_year_id]->name ?? '-' }}
-                                    </td>
-
-                                    <td>
-                                        {{ $year_enrollments ?? '-' }}
-                                    </td>
-
-                                    <td>
-                                        {{ $years[$current_year_id]->studentCount() ?? '-' }}
-                                    </td>
-
-                                    <td>
-                                        -
-                                    </td>
-
-                                    <td>
-                                        -
-                                    </td>
-
-                                    <td>
-                                        {{ number_format($year_taught_hours ?? '0') }}
-                                    </td>
-
-                                    <td>
-                                        {{ number_format($year_sold_hours ?? '0') }}
-                                    </td>
-
-                                    @if (config('app.include_takings_in_reports'))
-                                        <td>
-                                            @if (config('app.currency_position') === 'before')
-                                                {{ config('app.currency_symbol') }} {{ number_format($year_takings) }}
-                                            @else
-                                                {{ number_format($year_takings) }} {{ config('app.currency_symbol') }}
-                                            @endif
-                                        </td>
-                                    @endif
-
-                                    @if (config('app.include_takings_in_reports'))
-                                        <td>
-                                            @if ($year_taught_hours > 1)
-                                                @if (config('app.currency_position') === 'before')
-                                                    {{ config('app.currency_symbol') }} {{ number_format($year_takings / $year_taught_hours, 2) }}
-                                                @else
-                                                    {{ number_format($year_takings / $year_taught_hours, 2) }} {{ config('app.currency_symbol') }}
-                                                @endif
-                                            @endif
-                                        </td>
-                                    @endif
-                                </tr>
-
-                                @php
-                                    $i ++;
-                                    $year_enrollments = 0;
-                                    $year_taught_hours = 0;
-                                    $year_sold_hours = 0;
-                                    $year_takings = 0;
-                                @endphp
-
-                            @endif
-
-                            @php
-                                $year_enrollments += $data_period['enrollments'];
-                                $year_taught_hours += $data_period['taught_hours'];
-                                $year_sold_hours += $data_period['sold_hours'];
-                                if (config('app.include_takings_in_reports')) {$year_takings += $data_period['takings']; }
-                            @endphp
+                        @foreach($data as $year)
+                            @foreach($year['periods'] as $p => $period)
 
                                 <tr>
                                     <td>
-                                        {{ $data_period['period'] ?? '-' }}
+                                        {{ $period['period'] ?? '-' }}
                                     </td>
 
                                     <td>
-                                        {{ $data_period['enrollments'] ?? '-' }}
+                                        {{ $period['enrollments'] ?? '-' }}
                                     </td>
 
                                     <td>
-                                        {{ $data_period['students'] ?? '-' }}
+                                        {{ $period['students'] ?? '-' }}
                                     </td>
 
                                     <td>
-                                        {{ $data_period['acquisition_rate'] ?? '-' }}
+                                        {{ $period['acquisition_rate'] ?? '-' }}
                                     </td>
 
                                     <td>
-                                        <a href="{{ route('student.index', ['new_students' => $d]) }}">
-                                            {{ $data_period['new_students'] ?? '-' }}
+                                        <a href="{{ route('student.index', ['new_students' => $p]) }}">
+                                            {{ $period['new_students'] ?? '-' }}
                                         </a>
                                     </td>
 
                                     <td>
-                                        {{ number_format($data_period['taught_hours'] ?? '0') }}
+                                        {{ number_format($period['taught_hours'] ?? '0') }}
                                     </td>
 
                                     <td>
-                                        {{ number_format($data_period['sold_hours'] ?? '0') }}
+                                        {{ number_format($period['sold_hours'] ?? '0') }}
                                     </td>
 
-                                    @if (config('app.include_takings_in_reports'))
+                                    @if (config('academico.include_takings_in_reports'))
                                         <td>
-                                            @if (config('app.currency_position') === 'before')
-                                                {{ config('app.currency_symbol') }} {{ number_format($data_period['takings'] ?? '-') }}
+                                            @if (config('academico.currency_position') === 'before')
+                                                {{ config('academico.currency_symbol') }} {{ number_format($period['takings'] ?? '-') }}
                                             @else
-                                                {{ number_format($data_period['takings'] ?? '-') }} {{ config('app.currency_symbol') }}
+                                                {{ number_format($period['takings'] ?? '-') }} {{ config('academico.currency_symbol') }}
                                             @endif
                                         </td>
 
                                         <td>
-                                            @if (config('app.currency_position') === 'before')
-                                                {{ config('app.currency_symbol') }} {{ number_format($data_period['avg_takings'] ?? '-', 2) }}
+                                            @if (config('academico.currency_position') === 'before')
+                                                {{ config('academico.currency_symbol') }} {{ number_format($period['avg_takings'] ?? '-', 2) }}
                                             @else
-                                                {{ number_format($data_period['avg_takings'] ?? '-', 2) }} {{ config('app.currency_symbol') }}
+                                                {{ number_format($period['avg_takings'] ?? '-', 2) }} {{ config('academico.currency_symbol') }}
                                             @endif
                                         </td>
                                     @endif
                                 </tr>
-
-                                @php
-                                    $current_year_id = $data_period['year_id'];
-                                    $i ++
-                                @endphp
                             @endforeach
 
                             <tr style="font-weight: bold">
                                     <td>
-                                        {{ $years[$current_year_id]->name ?? '-' }}
+                                        {{ $year['year']['name'] ?? '-' }}
                                     </td>
 
                                     <td>
-                                        {{ $year_enrollments ?? '-' }}
+                                        {{ $year['year']['enrollments'] }}
                                     </td>
 
                                     <td>
-                                        {{ $years[$current_year_id]->studentCount() ?? '-' }}
-                                    </td>
-
-                                    <td>
-                                        -
+                                        {{ $year['year']['students'] }}
                                     </td>
 
                                     <td>
@@ -213,34 +120,38 @@
                                     </td>
 
                                     <td>
-                                        {{ number_format($year_taught_hours ?? '0') }}
+                                        -
                                     </td>
 
                                     <td>
-                                        {{ number_format($year_sold_hours ?? '0') }}
+                                        {{ number_format($year['year']['taught_hours'] ?? '0') }}
                                     </td>
 
-                                    @if (config('app.include_takings_in_reports'))
+                                    <td>
+                                        {{ number_format($year['year']['sold_hours'] ?? '0') }}
+                                    </td>
+
+                                    @if (config('academico.include_takings_in_reports'))
                                         <td>
-                                            @if (config('app.currency_position') === 'before')
-                                                {{ config('app.currency_symbol') }} {{ number_format($year_takings ?? '-') }}
+                                            @if (config('academico.currency_position') === 'before')
+                                                {{ config('academico.currency_symbol') }} {{ number_format($year['year']['takings'] ?? '-') }}
                                             @else
-                                                {{ number_format($year_takings ?? '-') }} {{ config('app.currency_symbol') }}
+                                                {{ number_format($year['year']['takings'] ?? '-') }} {{ config('academico.currency_symbol') }}
                                             @endif
                                         </td>
 
                                         <td>
-                                            @if ($year_taught_hours > 1)
-                                                @if (config('app.currency_position') === 'before')
-                                                    {{ config('app.currency_symbol') }} {{ number_format($year_takings / $year_taught_hours, 2) }}
+                                            @if ($year['year']['avg_takings'])
+                                                @if (config('academico.currency_position') === 'before')
+                                                    {{ config('academico.currency_symbol') }} {{ number_format($year['year']['avg_takings'], 2) }}
                                                 @else
-                                                    {{ number_format($year_takings / $year_taught_hours, 2) }} {{ config('app.currency_symbol') }}
+                                                    {{ number_format($year['year']['avg_takings'], 2) }} {{ config('academico.currency_symbol') }}
                                                 @endif
                                             @endif
                                         </td>
                                 @endif
                                 </tr>
-
+                        @endforeach
                         </tbody>
                     </table>
                     <p>(*) = @lang('share of students from previous period who were re-enrolled')</p>
@@ -261,25 +172,25 @@
 
 <script>
 $(document).ready(() => {
-var data = @json(array_values($data));
+    var data = @json($data->pluck('periods')->flatten(1));
 
-var chartData = {
-  labels: [],
-  datasets: [
-    {
-        label: "Apprenants différents",
-        data: [],
-        backgroundColor: '#98d1f1',
-        borderColor: '#5b76d8'
-    },
-    {
-        label: "Inscriptions",
-        data: [],
-        borderColor: '#dd4b39',
-        backgroundColor: '#ffc9d1'
-    }
-]
-};
+    var chartData = {
+      labels: [],
+      datasets: [
+        {
+            label: "Apprenants différents",
+            data: [],
+            backgroundColor: '#98d1f1',
+            borderColor: '#5b76d8'
+        },
+        {
+            label: "Inscriptions",
+            data: [],
+            borderColor: '#dd4b39',
+            backgroundColor: '#ffc9d1'
+        }
+    ]
+    };
 
 for (s in data) {
     chartData.labels.push(data[s].period);

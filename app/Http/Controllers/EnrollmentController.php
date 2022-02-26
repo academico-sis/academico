@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\EnrollmentCourseUpdated;
-use App\Http\Requests\StoreEnrollmentRequest;
+use App\Http\Requests\EnrollmentCreateRequest;
 use App\Interfaces\EnrollmentSheetInterface;
 use App\Models\Attendance;
 use App\Models\Book;
-use App\Models\Config;
 use App\Models\Course;
 use App\Models\Discount;
 use App\Models\Enrollment;
@@ -20,14 +18,8 @@ use App\Services\AFSantiagoEnrollmentSheetService;
 use App\Traits\PeriodSelection;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use PhpOffice\PhpWord\IOFactory;
-use PhpOffice\PhpWord\PhpWord;
 use Prologue\Alerts\Facades\Alert;
 
 class EnrollmentController extends Controller
@@ -43,13 +35,13 @@ class EnrollmentController extends Controller
         // these methods are reserved to administrators or staff members.
         // Only the store method can also be called by teachers to enroll students in their courses
         $this->middleware('permission:enrollments.edit', ['except' => 'store']);
-        $this->enrollmentSheetService = new AFSantiagoEnrollmentSheetService($this);
+        $this->enrollmentSheetService = new AFSantiagoEnrollmentSheetService();
     }
 
     /**
      * Store the newly created enrollment.
      */
-    public function store(StoreEnrollmentRequest $request)
+    public function store(EnrollmentCreateRequest $request)
     {
         $course = Course::findOrFail($request->input('course_id'));
 
@@ -134,36 +126,30 @@ class EnrollmentController extends Controller
         foreach (Fee::where('default', 1)->get() as $fee) {
             // Set quantity to 1
 
-            array_push($products, $fee);
+            $products[] = $fee;
         }
 
         if (config('invoicing.invoices_contain_enrollments_only')) {
             $enrollment->append('balance');
         }
 
-        array_push($products, $enrollment);
+        $products[] = $enrollment;
 
         if ($enrollment->course->books->count() > 0 && config('invoicing.add_books_to_invoices')) {
             // Set quantity to 1
 
             foreach ($enrollment->course->books as $book) {
-                array_push($products, $book);
+                $products[] = $book;
             }
         }
 
         // build an array with all contact data
         $clients = [];
 
-        array_push($clients, [
-            'name' => $enrollment->student_name,
-            'email' => $enrollment->student_email,
-            'idnumber' => $enrollment->student->idnumber,
-            'address' => $enrollment->student->address,
-            'phone' => $enrollment->student->phone,
-        ]);
+        $clients[] = ['name' => $enrollment->student_name, 'email' => $enrollment->student_email, 'idnumber' => $enrollment->student->idnumber, 'address' => $enrollment->student->address, 'phone' => $enrollment->student->phone,];
 
         foreach ($enrollment->student->contacts as $client) {
-            array_push($clients, $client);
+            $clients[] = $client;
         }
 
         $data = [
@@ -213,7 +199,7 @@ class EnrollmentController extends Controller
     {
         $request->validate(['price' => 'required|numeric']);
 
-        $enrollment->update(['total_price' => $request->price]);
+        $enrollment->update(['price' => $request->price]);
 
         return $enrollment->fresh();
     }

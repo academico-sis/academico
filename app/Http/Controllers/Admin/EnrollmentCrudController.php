@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\EnrollmentUpdateRequest;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\EnrollmentStatusType;
@@ -29,18 +30,27 @@ class EnrollmentCrudController extends CrudController
 {
     use ListOperation;
     use ShowOperation { show as traitShow; }
-    use UpdateOperation { update as traitUpdate; }
+    use UpdateOperation;
     use DeleteOperation;
 
     protected string $mode = 'global';
 
     protected ?Course $course = null;
 
+    private array $currency;
+
     public function __construct()
     {
-        parent::__construct();
         $this->middleware(['permission:enrollments.view']);
         $this->middleware('permission:enrollments.delete', ['only' => ['destroy']]);
+
+        if (config('academico.currency_position') === 'before') {
+            $this->currency = ['prefix' => config('academico.currency_symbol')];
+        } else {
+            $this->currency = ['suffix' => config('academico.currency_symbol')];
+        }
+
+        parent::__construct();
     }
 
     public function setup()
@@ -49,12 +59,6 @@ class EnrollmentCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix').'/enrollment');
         CRUD::setEntityNameStrings(__('enrollment'), __('enrollments'));
     }
-
-    /*
-    |--------------------------------------------------------------------------
-    | CrudPanel Configuration
-    |--------------------------------------------------------------------------
-    */
 
     public function setupListOperation()
     {
@@ -86,12 +90,6 @@ class EnrollmentCrudController extends CrudController
             CRUD::addButtonFromView('top', 'switch-to-photo-roster', 'switch-to-photo-roster', 'end');
         }
 
-        if (config('app.currency_position') === 'before') {
-            $currency = ['prefix' => config('app.currency_symbol')];
-        } else {
-            $currency = ['suffix' => config('app.currency_symbol')];
-        }
-
         CRUD::addColumns([['name' => 'id',
             'label' => 'ID',
             'wrapper' => ['element' => function ($crud, $column, $entry) {
@@ -109,7 +107,7 @@ class EnrollmentCrudController extends CrudController
                 'key' => 'user_lastname',
                 'attribute' => 'lastname',
                 'label' => __('Last Name'),
-                'type' => 'relationship',
+                'type' => 'select',
                 'wrapper' => ['element' => function ($crud, $column, $entry) {
                     return $entry->status_id > 2 ? 'del' : 'span';
                 }],
@@ -131,7 +129,7 @@ class EnrollmentCrudController extends CrudController
                 'key' => 'user_firstname',
                 'attribute' => 'firstname',
                 'label' => __('First Name'),
-                'type' => 'relationship',
+                'type' => 'select',
                 'wrapper' => ['element' => function ($crud, $column, $entry) {
                     return $entry->status_id > 2 ? 'del' : 'span';
                 }],
@@ -156,13 +154,16 @@ class EnrollmentCrudController extends CrudController
                 'name' => 'student_birthdate', ], ]);
 
         if ($this->mode === 'global') {
-            CRUD::addColumns([['label' => __('Course'),
-                'type' => 'select',
-                'name' => 'course_id',
-                'entity' => 'course',
-                'attribute' => 'name',
-                'model' => Course::class, ],
-                ['type' => 'relationship',
+            CRUD::addColumns([
+                [
+                    'label' => __('Course'),
+                    'type' => 'select',
+                    'name' => 'course_id',
+                    'entity' => 'course',
+                    'attribute' => 'name',
+                    'model' => Course::class,
+                    ],
+                ['type' => 'select',
                     'name' => 'course.period',
                     'label' => __('Period'),
                     'attribute' => 'name',
@@ -185,7 +186,7 @@ class EnrollmentCrudController extends CrudController
                     return 'badge badge-pill badge-'.$entry->enrollmentStatus->styling();
                 }, ], ]]);
 
-        if (config('app.books_module') && $this->mode === 'course') {
+        if (config('academico.books_module') && $this->mode === 'course') {
             CRUD::addColumn(['name' => 'hasBook',
                 'type' => 'model_function',
                 'function_name' => 'getHasBookForCourseAttribute',
@@ -194,54 +195,67 @@ class EnrollmentCrudController extends CrudController
         }
 
         if (config('invoicing.allow_scheduled_payments')) {
-            CRUD::addColumn(['name' => 'scheduledPayments',
-                'type' => 'relationship',
+            CRUD::addColumn([
+                'name' => 'scheduledPayments',
+                'type' => 'select',
                 'label' => __('Scheduled Payments'),
-                // OPTIONAL
                 'attribute' => 'date',
                 'model' => ScheduledPayment::class,
             ]);
         }
 
-        CRUD::addColumn(array_merge(['name' => 'price',
-            // The db column name
+        CRUD::addColumn(array_merge([
+            'name' => 'price',
             'label' => __('Price'),
             'type' => 'number',
-        ], $currency));
+        ], $this->currency));
 
         if (config('invoicing.invoices_contain_enrollments_only')) {
-            CRUD::addColumn(array_merge(['name' => 'balance',
+            CRUD::addColumn(array_merge([
+                'name' => 'balance',
                 'label' => __('Balance'),
-                'type' => 'number', ], $currency));
+                'type' => 'number',
+            ], $this->currency));
         }
 
         CRUD::addColumns([
-
-            ['name' => 'scholarships',
-                'type' => 'relationship',
+            [
+                'name' => 'scholarships',
+                'type' => 'select',
                 'label' => __('Scholarship'),
                 'attribute' => 'name',
-                'model' => Scholarship::class, ],
+                'model' => Scholarship::class,
+                ],
 
-            ['label' => __('Email'),
+            [
+                'label' => __('Email'),
                 'name' => 'user',
                 'attribute' => 'email',
-                'type' => 'relationship', ],
+                'type' => 'select',
+            ],
 
-            ['label' => __('Phone Number'),
+            [
+                'label' => __('Phone Number'),
                 'type' => 'select_multiple',
                 'name' => 'student.phone',
                 'attribute' => 'phone_number',
-                'model' => PhoneNumber::class, ], ]);
+                'model' => PhoneNumber::class,
+            ],
+        ]);
 
         if ($this->mode === 'global') {
-            CRUD::addFilter(['name' => 'status_id',
+            CRUD::addFilter([
+                'name' => 'status_id',
                 'type' => 'select2_multiple',
-                'label' => __('Status'), ], fn () => EnrollmentStatusType::all()->pluck('name', 'id')->toArray(), function ($values) {
+                'label' => __('Status'),
+            ],
+            fn () => EnrollmentStatusType::all()->pluck('name', 'id')->toArray(),
+                function ($values) {
                     foreach (json_decode($values, null, 512, JSON_THROW_ON_ERROR) as $value) {
                         CRUD::addClause('orWhere', 'status_id', $value);
                     }
-                });
+                }
+            );
 
             CRUD::addFilter(['name' => 'period_id',
                 'type' => 'select2',
@@ -276,8 +290,9 @@ class EnrollmentCrudController extends CrudController
         // then load the page
         $commentsIncludingInvoices = $enrollment->comments
             ->concat($enrollment->invoices()
-                ->map(fn($invoice) => $invoice->comments->map(function ($comment) use ($invoice) {
-                    $comment->prefix = '(' . __('Invoice') . " " . ($invoice->invoice_reference ?? $invoice->id) . ")";
+                ->map(fn ($invoice) => $invoice->comments->map(function ($comment) use ($invoice) {
+                    $comment->prefix = '('.__('Invoice').' '.($invoice->invoice_reference ?? $invoice->id).')';
+
                     return $comment;
                 }))
                 ->flatten()
@@ -294,41 +309,31 @@ class EnrollmentCrudController extends CrudController
 
     protected function setupUpdateOperation()
     {
-        if (config('app.currency_position') === 'before') {
-            $currency = ['prefix' => config('app.currency_symbol')];
-        } else {
-            $currency = ['suffix' => config('app.currency_symbol')];
-        }
+        CRUD::setValidation(EnrollmentUpdateRequest::class);
 
         CRUD::addField([
             'label' => __('Course'),
             'type' => 'select2',
             'name' => 'course_id',
-
             'entity' => 'course',
             'model' => Course::class,
             'attribute' => 'name',
-
             'options' => (fn ($query) => $query->orderBy('level_id', 'ASC')->where('period_id', $this->crud->getCurrentEntry()->course->period_id)->get()),
         ]);
 
         CRUD::addField(array_merge([
             'name' => 'price',
-            // The db column name
             'label' => __('Price'),
             'type' => 'number',
-        ], $currency));
+        ], $this->currency));
 
         if (config('invoicing.allow_scheduled_payments')) {
             CRUD::addField([
                 'name' => 'scheduledPayments',
                 'label' => __('Scheduled Payments'),
-                'type' => 'repeatable',
-                'fields' => [
-                    [
-                        'name' => 'id',
-                        'type' => 'hidden',
-                    ],
+                'type' => 'relationship',
+                'force_delete'  => true,
+                'subfields' => [
                     [
                         'name' => 'date',
                         'type' => 'date',
@@ -342,7 +347,8 @@ class EnrollmentCrudController extends CrudController
                             'min' => 0, ],
                         'label' => __('Value'),
                         'wrapper' => ['class' => 'form-group col-md-4'],
-                    ], $currency),
+                        'validationRules' => 'required',
+                    ], $this->currency),
                     [
                         'name' => 'status',
                         'type' => 'radio',
@@ -366,16 +372,6 @@ class EnrollmentCrudController extends CrudController
             'model' => EnrollmentStatusType::class,
             'attribute' => 'name',
         ]);
-    }
-
-    public function update()
-    {
-        $enrollment = $this->crud->getCurrentEntry();
-        if ($this->crud->getRequest()->has('scheduledPayments')) {
-            $newScheduledPayments = collect(json_decode($this->crud->getRequest()->input('scheduledPayments'), null, 512, JSON_THROW_ON_ERROR));
-            $enrollment->saveScheduledPayments($newScheduledPayments);
-        }
-        return $this->traitUpdate();
     }
 
     public function destroy($enrollment)

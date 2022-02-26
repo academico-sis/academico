@@ -12,7 +12,7 @@ class DiscountCrudControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->seed('TestSeeder');
@@ -43,7 +43,7 @@ class DiscountCrudControllerTest extends TestCase
         $response = $this->delete(route('discount.destroy', ['id' => $id]));
 
         $response->assertOk();
-        $this->assertDeleted($discount);
+        $this->assertModelMissing($discount);
 
         // TODO: perform additional assertions
     }

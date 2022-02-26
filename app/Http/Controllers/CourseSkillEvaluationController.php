@@ -22,13 +22,11 @@ class CourseSkillEvaluationController extends Controller
             abort(403);
         }
 
-        $skills = $course->skills->groupBy('skill_type_id');
-        $enrollments = $course->enrollments()->with('skill_evaluations')->get();
-
-        // get skill evaluations for the course
-        $skill_evaluations = $course->skill_evaluations;
-
-        return view('skills.students', compact('course', 'skills', 'skill_evaluations', 'enrollments'));
+        return view('skills.students', [
+            'course' => $course,
+            'skills' => $course->skills->groupBy('skill_type_id'),
+            'enrollments' => $course->enrollments()->with('skillEvaluations')->get(),
+        ]);
     }
 
     /**
@@ -64,7 +62,7 @@ class CourseSkillEvaluationController extends Controller
             abort(403);
         }
 
-        $student_skills = $enrollment->skill_evaluations;
+        $student_skills = $enrollment->skillEvaluations;
 
         $course = Course::with('evaluationType')->find($enrollment->course_id);
 

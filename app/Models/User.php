@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -25,8 +26,6 @@ class User extends Authenticatable
 
     protected $guarded = ['id'];
 
-    protected static bool $logFillable = true;
-
     protected $hidden = ['password', 'remember_token'];
 
     protected $dispatchesEvents = [
@@ -34,9 +33,9 @@ class User extends Authenticatable
         'updated' => UserUpdated::class,
     ];
 
-    public function getEmailForPasswordReset(): string
+    public function getActivitylogOptions(): LogOptions
     {
-        return $this->email;
+        return LogOptions::defaults()->logUnguarded();
     }
 
     public function isTeacher()
@@ -59,17 +58,17 @@ class User extends Authenticatable
         return $this->hasOne(Teacher::class, 'id', 'id');
     }
 
-    public function getFirstnameAttribute($value)
+    public function getFirstnameAttribute($value): string
     {
         return Str::title($value);
     }
 
-    public function getLastnameAttribute($value)
+    public function getLastnameAttribute($value): string
     {
         return Str::upper($value);
     }
 
-    public function getNameAttribute()
+    public function getNameAttribute(): string
     {
         return $this->firstname.' '.$this->lastname;
     }

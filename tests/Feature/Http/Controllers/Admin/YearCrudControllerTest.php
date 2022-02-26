@@ -12,7 +12,7 @@ class YearCrudControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->seed('TestSeeder');
@@ -43,7 +43,7 @@ class YearCrudControllerTest extends TestCase
         $response = $this->delete(route('year.destroy', ['id' => $id]));
 
         $response->assertOk();
-        $this->assertDeleted($year);
+        $this->assertModelMissing($year);
 
         // TODO: perform additional assertions
     }

@@ -14,7 +14,8 @@ class TeacherUpdated
 
     public User $user;
 
-    public function __construct(public Teacher $teacher) {
+    public function __construct(public Teacher $teacher)
+    {
         $this->user = $teacher->user;
     }
 }

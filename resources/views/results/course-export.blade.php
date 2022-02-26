@@ -63,7 +63,7 @@
         <tr>
             <td class="names-col"></td>
             @php $total = 0; @endphp
-            @foreach ($course->grade_types->sortBy('id') as $grade_type)
+            @foreach ($course->gradeTypes->sortBy('id') as $grade_type)
                 <td class="criteria-col">
                     ({{$grade_type->category->name}})<br> <strong>{{$grade_type->name}}</strong>
                 </td>
@@ -78,7 +78,7 @@
             <tr>
                 <td class="names-col">{{ $enrollment->student_name }}</td>
 
-                @foreach ($course->grade_types->sortBy('id') as $grade_type)
+                @foreach ($course->gradeTypes->sortBy('id') as $grade_type)
                     <td class="criteria-col">
                         @foreach($enrollment->grades->where('grade_type_id', $grade_type->id) as $grade)
                             @php $student_total += $grade->grade; @endphp

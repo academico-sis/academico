@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\InvoiceRequest;
 use App\Models\Invoice;
+use App\Models\InvoiceType;
 use App\Models\Paymentmethod;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
@@ -11,22 +12,16 @@ use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use Carbon\Carbon;
 
 class InvoiceCrudController extends CrudController
 {
     use ListOperation;
-    use UpdateOperation { update as traitUpdate; }
+    use UpdateOperation;
     use DeleteOperation;
     use ShowOperation { show as traitShow; }
 
     private array $currency;
 
-    /**
-     * Configure the CrudPanel object. Apply settings to all operations.
-     *
-     * @return void
-     */
     public function setup()
     {
         CRUD::setModel(Invoice::class);
@@ -36,19 +31,13 @@ class InvoiceCrudController extends CrudController
             $this->crud->addButtonFromView('top', 'createInvoice', 'createInvoice', 'start');
         }
 
-        if (config('app.currency_position') === 'before') {
-            $this->currency = ['prefix' => config('app.currency_symbol')];
+        if (config('academico.currency_position') === 'before') {
+            $this->currency = ['prefix' => config('academico.currency_symbol')];
         } else {
-            $this->currency = ['suffix' => config('app.currency_symbol')];
+            $this->currency = ['suffix' => config('academico.currency_symbol')];
         }
     }
 
-    /**
-     * Define what happens when the List operation is loaded.
-     *
-     * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
-     * @return void
-     */
     protected function setupListOperation()
     {
         if (config('invoicing.invoice_numbering') === 'manual') {
@@ -58,10 +47,12 @@ class InvoiceCrudController extends CrudController
 
             CRUD::addColumn([
                 'name' => 'invoiceType',
-                'type' => 'relationship',
                 'label' => __('Type'),
-                'searchLogic' => false,
+                'type'      => 'select',
+                'entity'    => 'invoiceType',
                 'attribute' => 'name',
+                'model'     => InvoiceType::class,
+                'searchLogic' => false,
             ]);
         }
 
@@ -132,11 +123,13 @@ class InvoiceCrudController extends CrudController
             CRUD::field('invoice_number')->tab(__('Invoice'));
 
             CRUD::addField([
-                'name' => 'invoiceType',
-                'type' => 'relationship',
-                'label' => 'Type',
+                'label' => __('Type'),
+                'type'      => 'select',
+                'name' => 'invoice_type_id',
+                'entity'    => 'invoiceType',
+                'model'     => InvoiceType::class,
+                'attribute' => 'description',
                 'searchLogic' => false,
-                'attribute' => 'name',
                 'tab' => __('Invoice'),
             ]);
         }
@@ -156,12 +149,9 @@ class InvoiceCrudController extends CrudController
         CRUD::addField([
             'name' => 'invoiceDetails',
             'label' => __('Products'),
-            'type' => 'repeatable',
-            'fields' => [
-                [
-                    'name' => 'id',
-                    'type' => 'hidden',
-                ],
+            'type' => 'relationship',
+            'force_delete'  => true,
+            'subfields' => [
                 [
                     'name' => 'product_name',
                     'type' => 'text',
@@ -190,12 +180,9 @@ class InvoiceCrudController extends CrudController
         CRUD::addField([
             'name' => 'payments',
             'label' => __('Payments'),
-            'type' => 'repeatable',
-            'fields' => [
-                [
-                    'name' => 'id',
-                    'type' => 'hidden',
-                ],
+            'type' => 'relationship',
+            'force_delete'  => true,
+            'subfields' => [
                 [
                     'name' => 'payment_method',
                     'label' => __('Payment method'),
@@ -245,67 +232,5 @@ class InvoiceCrudController extends CrudController
             'comments' => $invoice->comments,
             'afterSuccessUrl' => $invoice->enrollments->count() > 0 ? "/enrollment/{$invoice->enrollments->first()->product_id}/show" : '/invoice', // TODO fix this, an invoice can theoretically contain several enrollments
         ]);
-    }
-
-    public function update()
-    {
-        // update model an run validator
-        $response = $this->traitUpdate();
-
-        /** @var Invoice $invoice */
-        $invoice = $this->crud->getCurrentEntry();
-        $newInvoiceDetails = collect(json_decode($this->crud->getRequest()->input('invoiceDetails'), null, 512, JSON_THROW_ON_ERROR));
-        $newPaymentsList = collect(json_decode($this->crud->getRequest()->input('payments'), null, 512, JSON_THROW_ON_ERROR));
-
-        $this->saveInvoiceDetails($invoice, $newInvoiceDetails);
-        $this->savePayments($invoice, $newPaymentsList);
-
-        return $response;
-    }
-
-    private function saveInvoiceDetails(Invoice $invoice, $newInvoiceDetails)
-    {
-        // delete entries that have been removed.
-        foreach ($invoice->invoiceDetails as $oldInvoiceDetail) {
-            if ($newInvoiceDetails->where('id', $oldInvoiceDetail->id)->count() === 0) {
-                $oldInvoiceDetail->delete();
-            }
-        }
-
-        // sync new entries
-        foreach ($newInvoiceDetails as $invoiceDetail) {
-            $invoice->invoiceDetails()->updateOrCreate(
-                ['id' => $invoiceDetail->id],
-                [
-                    'product_name' => $invoiceDetail->product_name,
-                    'price' => $invoiceDetail->price,
-                    'quantity' => $invoiceDetail->quantity,
-                ]
-            );
-        }
-    }
-
-    private function savePayments(Invoice $invoice, $newPayments)
-    {
-        // delete entries that have been removed.
-        foreach ($invoice->payments as $oldPayment) {
-            if ($newPayments->where('id', $oldPayment->id)->count() === 0) {
-                $oldPayment->delete();
-            }
-        }
-
-        // sync new entries
-        foreach ($newPayments as $payment) {
-            $invoice->payments()->updateOrCreate(
-                ['id' => $payment->id],
-                [
-                    'payment_method' => $payment->payment_method,
-                    'date' => $payment->date,
-                    'value' => $payment->value,
-                    'comment' => $payment->comment,
-                    'responsable_id' => backpack_user()->id,
-                ]
-            );
-        }
     }
 }

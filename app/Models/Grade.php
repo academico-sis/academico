@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
@@ -14,13 +15,16 @@ class Grade extends Model
 
     protected $guarded = ['id'];
 
-    protected $with = ['grade_type'];
+    protected $with = ['gradeType'];
 
     protected $appends = ['grade_type_category'];
 
-    protected static bool $logFillable = true;
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logUnguarded();
+    }
 
-    public function grade_type()
+    public function gradeType()
     {
         return $this->belongsTo(GradeType::class);
     }
@@ -32,6 +36,6 @@ class Grade extends Model
 
     public function getGradeTypeCategoryAttribute()
     {
-        return $this->grade_type->category->name;
+        return $this->gradeType->category->name;
     }
 }

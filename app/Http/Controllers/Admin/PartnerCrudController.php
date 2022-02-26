@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\PartnerRequest;
 use App\Models\Partner;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -10,13 +9,9 @@ use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Validation\Rule;
 
-/**
- * Class PartnerCrudController
- * @property-read CrudPanel $crud
- */
 class PartnerCrudController extends CrudController
 {
     use ListOperation;
@@ -25,11 +20,6 @@ class PartnerCrudController extends CrudController
     use DeleteOperation;
     use ShowOperation;
 
-    /**
-     * Configure the CrudPanel object. Apply settings to all operations.
-     *
-     * @return void
-     */
     public function setup()
     {
         CRUD::setModel(Partner::class);
@@ -37,12 +27,6 @@ class PartnerCrudController extends CrudController
         CRUD::setEntityNameStrings(__('partnership'), __('partnerships'));
     }
 
-    /**
-     * Define what happens when the List operation is loaded.
-     *
-     * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
-     * @return void
-     */
     protected function setupListOperation()
     {
         CRUD::addColumn([
@@ -76,15 +60,20 @@ class PartnerCrudController extends CrudController
         ]);
     }
 
-    /**
-     * Define what happens when the Create operation is loaded.
-     *
-     * @see https://backpackforlaravel.com/docs/crud-operation-create
-     * @return void
-     */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(PartnerRequest::class);
+        CRUD::setValidation([
+            'name' => [
+                'required',
+                'min:1',
+                'max:255',
+                Rule::unique($this->crud->getModel()->getTable())->ignore($this->crud->getCurrentEntry()),
+            ],
+            'started_on' => 'required|date',
+            'expired_on' => 'nullable|date',
+            'last_alert_sent_at' => 'nullable|date',
+            'send_report_on' => 'nullable|integer',
+        ]);
 
         CRUD::addField([
             'name' => 'name',
@@ -104,7 +93,7 @@ class PartnerCrudController extends CrudController
             'type' => 'date',
         ]);
 
-        CRUD::addField([   // Checkbox
+        CRUD::addField([
             'name' => 'auto_renewal',
             'label' => __('Tacit renewal'),
             'type' => 'checkbox',
@@ -114,18 +103,14 @@ class PartnerCrudController extends CrudController
             'name' => 'send_report_on',
             'label' => __('Send report on ... of the month'),
             'type' => 'number',
-            'attributes' => ['step' => 1,
+            'attributes' => [
+                'step' => 1,
                 'min' => 1,
-                'max' => 28, ],
+                'max' => 28,
+            ],
         ]);
     }
 
-    /**
-     * Define what happens when the Update operation is loaded.
-     *
-     * @see https://backpackforlaravel.com/docs/crud-operation-update
-     * @return void
-     */
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();

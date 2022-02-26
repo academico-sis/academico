@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Events\UserCreated;
 use App\Exceptions\UserSyncException;
-use App\Http\Requests\StudentRequest;
 use App\Models\Institution;
 use App\Models\LeadType;
 use App\Models\Period;
@@ -13,6 +12,7 @@ use App\Models\Profession;
 use App\Models\Student;
 use App\Models\User;
 use App\Traits\PeriodSelection;
+use App\Traits\UsernameTrait;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
@@ -23,7 +23,6 @@ use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\CRUD\app\Library\Widget;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -31,11 +30,12 @@ class StudentCrudController extends CrudController
 {
     use ListOperation;
     use ShowOperation { show as traitShow; }
-    use UpdateOperation;
+    use UpdateOperation { update as traitUpdate; }
     use CreateOperation { store as traitStore; }
     use PeriodSelection;
     use DeleteOperation { destroy as traitDelete; }
     use FetchOperation;
+    use UsernameTrait;
 
     public function __construct()
     {
@@ -59,7 +59,6 @@ class StudentCrudController extends CrudController
 
     public function setupListOperation()
     {
-
         // display lead status counts on page top
         foreach (LeadType::all() as $leadType) {
             if ($leadType->id === 4) {
@@ -88,9 +87,8 @@ class StudentCrudController extends CrudController
                 'name' => 'idnumber',
             ],
             [
-                // 1-n relationship
                 'label' => __('Last Name'),
-                'type' => 'relationship',
+                'type' => 'select',
                 'key' => 'lastname',
                 'name' => 'user',
                 'attribute' => 'lastname',
@@ -106,9 +104,8 @@ class StudentCrudController extends CrudController
             ],
 
             [
-                // 1-n relationship
                 'label' => __('First Name'),
-                'type' => 'relationship',
+                'type' => 'select',
                 'key' => 'firstname',
                 'name' => 'user',
                 'attribute' => 'firstname',
@@ -124,9 +121,8 @@ class StudentCrudController extends CrudController
             ],
 
             [
-                // 1-n relationship
                 'label' => __('Email'),
-                'type' => 'relationship',
+                'type' => 'select',
                 'name' => 'user',
                 'attribute' => 'email',
                 'model' => User::class,
@@ -142,7 +138,7 @@ class StudentCrudController extends CrudController
 
             [
                 'label' => __('Username'),
-                'type' => 'relationship',
+                'type' => 'select',
                 'key' => 'username',
                 'name' => 'user',
                 'attribute' => 'username',
@@ -162,7 +158,6 @@ class StudentCrudController extends CrudController
             ],
 
             [
-                // n-n relationship (with pivot table)
                 'label' => __('Phone number'),
                 'type' => 'select_multiple',
                 'name' => 'phone',
@@ -171,7 +166,6 @@ class StudentCrudController extends CrudController
             ],
 
             [
-                // 1-n relationship
                 'label' => __('Status'),
                 'type' => 'text',
                 'name' => 'lead_status_name',
@@ -181,7 +175,7 @@ class StudentCrudController extends CrudController
         ]);
 
         CRUD::addFilter(
-            [ // select2 filter
+            [
                 'name' => 'enrolled',
                 'type' => 'select2',
                 'label' => __('Is Enrolled in'),
@@ -196,7 +190,7 @@ class StudentCrudController extends CrudController
             }
         );
 
-        CRUD::addFilter([ // select2_multiple filter
+        CRUD::addFilter([
             'name' => 'notenrolled',
             'type' => 'select2_multiple',
             'label' => __('Is Not Enrolled in'),
@@ -220,7 +214,6 @@ class StudentCrudController extends CrudController
             }
         );
 
-        // select2 filter
         $this->crud->addFilter([
             'name' => 'institution_id',
             'type' => 'select2',
@@ -244,12 +237,29 @@ class StudentCrudController extends CrudController
 
     public function setupCreateOperation()
     {
-        CRUD::setValidation(StudentRequest::class);
-        CRUD::field('firstname')->label(__('Firstname'))->tab(__('Student Info'));
-        CRUD::field('lastname')->label(__('Lastname'))->tab(__('Student Info'));
-        CRUD::field('email')->label(__('Email'))->tab(__('Student Info'));
-        CRUD::field('idnumber')->label(__('ID number'))->tab(__('Student Info'));
-        CRUD::field('birthdate')->label(__('Birthdate'))->tab(__('Student Info'));
+        CRUD::addField([
+            'name' => 'firstname',
+            'label' => __('Firstname'),
+            'tab' => __('Student Info'),
+            'validationRules' => 'required|string|max:30'
+        ]);
+
+        CRUD::addField([
+            'name' => 'lastname',
+            'label' => __('Lastname'),
+            'tab' => __('Student Info'),
+            'validationRules' => 'required|string|max:30'
+        ]);
+
+        CRUD::addField([
+            'name' => 'email',
+            'label' => __('Email'),
+            'tab' => __('Student Info'),
+            'validationRules' => 'nullable|email|max:60'
+        ]);
+
+        CRUD::field('idnumber')->label(__('ID number'))->tab(__('Student Info'))->validationRules('nullable|string');
+        CRUD::field('birthdate')->label(__('Birthdate'))->tab(__('Student Info'))->validationRules('nullable|date');
 
         $this->crud->addField([
             'name' => 'gender_id',
@@ -262,64 +272,28 @@ class StudentCrudController extends CrudController
             ],
             'inline' => true,
             'tab' => __('Student Info'),
+            'validationRules' => 'required|integer',
         ]);
 
-        CRUD::addField([
-            'type' => 'text',
-            'name' => 'phone',
-            'tab' => __('Student Info'),
-            'label' => __('Phone'),
-        ]);
-
-        CRUD::addField([
-            'type' => 'relationship',
-            'name' => 'profession',
-            'inline_create' => true,
-            'tab' => __('Student Info'),
-            'label' => __('Profession'),
-            'attribute' => 'name',
-        ]);
-
-        CRUD::addField([
-            'type' => 'relationship',
-            'name' => 'institution',
-            'inline_create' => true,
-            'tab' => __('Student Info'),
-            'label' => __('Institution'),
-            'attribute' => 'name',
-        ]);
-
-        CRUD::field('address')->label(__('Address'))->tab(__('Address'));
-        CRUD::field('zip_code')->label(__('zip'))->tab(__('Address'));
-        CRUD::field('city')->label(__('City'))->tab(__('Address'));
-        CRUD::field('state')->label(__('State'))->tab(__('Address'));
-        CRUD::field('country')->label(__('Country'))->tab(__('Address'));
-
-        CRUD::field('iban')->label('IBAN')->tab(__('Invoicing Info'));
-        CRUD::field('bic')->label('BIC')->tab(__('Invoicing Info'));
-    }
-
-    public function setupUpdateOperation()
-    {
-        CRUD::setValidation(StudentRequest::class);
-        CRUD::field('firstname')->label(__('Firstname'))->tab(__('Student Info'));
-        CRUD::field('lastname')->label(__('Lastname'))->tab(__('Student Info'));
-        CRUD::field('email')->label(__('Email'))->tab(__('Student Info'));
-        CRUD::field('idnumber')->label(__('ID number'))->tab(__('Student Info'));
-        CRUD::field('birthdate')->label(__('Birthdate'))->tab(__('Student Info'));
-
-        $this->crud->addField([
-            'name' => 'gender_id',
-            'label' => __('Gender'),
-            'type' => 'radio',
-            'options' => [
-                0 => __('Other / Rather not say'),
-                1 => __('Female'),
-                2 => __('Male'),
-            ],
-            'inline' => true,
-            'tab' => __('Student Info'),
-        ]);
+        if (config('backpack.base.license_code'))
+        {
+            CRUD::addField([
+                'type' => 'relationship',
+                'force_delete'  => true,
+                'name' => 'phone',
+                'tab' => __('Student Info'),
+                'label' => __('Phone'),
+                'subfields'   => [
+                    [
+                        'name' => 'phone_number',
+                        'type' => 'text',
+                        'wrapper' => [
+                            'class' => 'form-group col-md-3',
+                        ],
+                    ],
+                ],
+            ]);
+        }
 
         $this->crud->addField([
             'label' => __('Profile Picture'),
@@ -329,59 +303,41 @@ class StudentCrudController extends CrudController
             'tab' => __('Student Info'),
         ]);
 
-        CRUD::addField([
-            'type' => 'relationship',
-            'name' => 'profession',
-            'inline_create' => true,
-            'tab' => __('Student Info'),
-            'label' => __('Profession'),
-            'attribute' => 'name',
-        ]);
+        if (config('backpack.base.license_code')) {
+            CRUD::addField(['type' => 'relationship', 'name' => 'profession', 'inline_create' => true, 'tab' => __('Student Info'), 'label' => __('Profession'), 'attribute' => 'name']);
+        } else {
+            CRUD::addField(['type' => 'select', 'name' => 'profession', 'tab' => __('Student Info'), 'label' => __('Profession'), 'attribute' => 'name']);
 
-        CRUD::addField([
-            'type' => 'relationship',
-            'name' => 'institution',
-            'inline_create' => [
-                'entity' => 'institution',
-                'force_select' => true,
-                'include_main_form_fields' => ['name'],
-            ],
-            'tab' => __('Student Info'),
-            'label' => __('Institution'),
-            'attribute' => 'name',
-        ]);
+        }
 
-        CRUD::field('address')->label(__('Address'))->tab(__('Address'));
-        CRUD::field('zip_code')->label(__('zip'))->tab(__('Address'));
-        CRUD::field('city')->label(__('City'))->tab(__('Address'));
-        CRUD::field('state')->label(__('State'))->tab(__('Address'));
-        CRUD::field('country')->label(__('Country'))->tab(__('Address'));
+        if (config('backpack.base.license_code')) {
+            CRUD::addField(['type' => 'relationship', 'name' => 'institution', 'inline_create' => true, 'tab' => __('Student Info'), 'label' => __('Institution'), 'attribute' => 'name']);
+        } else {
+            CRUD::addField(['type' => 'select', 'name' => 'institution', 'tab' => __('Student Info'), 'label' => __('Institution'), 'attribute' => 'name']);
 
-        CRUD::field('iban')->label('IBAN')->tab(__('Invoicing Info'));
-        CRUD::field('bic')->label('BIC')->tab(__('Invoicing Info'));
+        }
+
+        CRUD::field('address')->label(__('Address'))->tab(__('Address'))->validationRules('nullable|string|max:60');
+        CRUD::field('zip_code')->label(__('zip'))->tab(__('Address'))->validationRules('nullable|string|max:10');
+        CRUD::field('city')->label(__('City'))->tab(__('Address'))->validationRules('nullable|string|max:30');
+        CRUD::field('state')->label(__('State'))->tab(__('Address'))->validationRules('nullable|string|max:30');
+        CRUD::field('country')->label(__('Country'))->tab(__('Address'))->validationRules('nullable|string|max:20');
+
+        CRUD::field('iban')->label('IBAN')->tab(__('Invoicing Info'))->validationRules('nullable|string|max:90');
+        CRUD::field('bic')->label('BIC')->tab(__('Invoicing Info'))->validationRules('nullable|string|max:30');
+
+        CRUD::setValidation();
     }
 
-    protected function generateUsername($fullName): string
+
+    public function setupUpdateOperation()
     {
-        $username_parts = array_filter(explode(' ', strtolower($fullName)));
-        $username_parts = array_slice($username_parts, -2);
-
-        $part1 = (! empty($username_parts[0])) ? substr($username_parts[0], 0, 3) : '';
-        $part2 = (! empty($username_parts[1])) ? substr($username_parts[1], 0, 8) : '';
-        $part3 = random_int(999, 9999);
-
-        //str_shuffle to randomly shuffle all characters
-
-        return $part1.$part2.$part3;
+        $this->setupCreateOperation();
     }
 
-    public function store(Request $request)
+    public function store()
     {
-        $request->validate([
-            'firstname' => 'required|max:255',
-            'lastname' => 'required|max:255',
-            'email' => 'nullable|email',
-        ]);
+        $request = $this->crud->getRequest();
 
         if ($request->email && User::where('email', $request->email)->count() === 0) {
             $username = $request->email;
@@ -451,6 +407,35 @@ class StudentCrudController extends CrudController
         return redirect()->route('student.index');
     }
 
+    public function update()
+    {
+        $this->crud->hasAccessOrFail('update');
+        $request = $this->crud->validateRequest();
+        $this->crud->registerFieldEvents();
+
+        $this->crud->getCurrentEntry()->user()->update([
+                'firstname' => $request->firstname,
+                'lastname' => $request->lastname,
+                'email' => $request->email,
+        ]);
+
+        $this->crud->getRequest()->request->remove('firstname');
+        $this->crud->getRequest()->request->remove('lastname');
+        $this->crud->getRequest()->request->remove('email');
+
+        $item = $this->crud->update(
+            $request->get($this->crud->model->getKeyName()),
+            $this->crud->getStrippedSaveRequest($request)
+        );
+        $this->data['entry'] = $this->crud->entry = $item;
+
+        \Alert::success(trans('backpack::crud.update_success'))->flash();
+
+        $this->crud->setSaveAction();
+        return $this->crud->performSaveAction($item->getKey());
+    }
+
+
     public function show($student)
     {
         $student = Student::findOrFail($student);
@@ -477,9 +462,9 @@ class StudentCrudController extends CrudController
         // get entry ID from Request (makes sure its the last ID for nested resources)
         $id = $this->crud->getCurrentEntryId() ?? $id;
 
-        User::where('id', $id)->delete();
+        $this->crud->delete($id);
 
-        return $this->crud->delete($id);
+        return User::where('id', $id)->forceDelete();
     }
 
     protected function fetchInstitution()

@@ -6,6 +6,7 @@ use App\Events\InvoiceDeleting;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
@@ -18,8 +19,6 @@ class Invoice extends Model
 
     protected $guarded = ['id'];
 
-    protected static bool $logUnguarded = true;
-
     protected $appends = ['total_price_with_currency', 'formatted_date'];
 
     protected $casts = [
@@ -29,6 +28,11 @@ class Invoice extends Model
     protected $dispatchesEvents = [
         'deleting' => InvoiceDeleting::class,
     ];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logUnguarded();
+    }
 
     public function invoiceDetails()
     {
@@ -94,11 +98,11 @@ class Invoice extends Model
 
     public function getTotalPriceWithCurrencyAttribute()
     {
-        if (config('app.currency_position') === 'before') {
-            return config('app.currency_symbol').' '.$this->totalPrice();
+        if (config('academico.currency_position') === 'before') {
+            return config('academico.currency_symbol').' '.$this->totalPrice();
         }
 
-        return $this->totalPrice().' '.config('app.currency_symbol');
+        return $this->totalPrice().' '.config('academico.currency_symbol');
     }
 
     public function totalPrice()
@@ -109,11 +113,6 @@ class Invoice extends Model
         }
 
         return $total;
-    }
-
-    public function getTotalPriceAttribute()
-    {
-        return $this->totalPrice();
     }
 
     public function getFormattedNumberAttribute()

@@ -2,30 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\ScheduledPaymentRequest;
 use App\Models\ScheduledPayment;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
-/**
- * Class ScheduledPaymentCrudController
- * @property-read CrudPanel $crud
- */
 class ScheduledPaymentCrudController extends CrudController
 {
     use ListOperation;
     use UpdateOperation;
     use DeleteOperation;
 
-    /**
-     * Configure the CrudPanel object. Apply settings to all operations.
-     *
-     * @return void
-     */
     public function setup()
     {
         CRUD::setModel(ScheduledPayment::class);
@@ -34,12 +23,6 @@ class ScheduledPaymentCrudController extends CrudController
         CRUD::enableExportButtons();
     }
 
-    /**
-     * Define what happens when the List operation is loaded.
-     *
-     * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
-     * @return void
-     */
     protected function setupListOperation()
     {
         CRUD::addColumn([
@@ -47,7 +30,7 @@ class ScheduledPaymentCrudController extends CrudController
             'key' => 'student_lastname',
             'attribute' => 'lastname',
             'label' => __('Last Name'),
-            'type' => 'relationship',
+            'type' => 'select',
             'searchLogic' => function ($query, $column, $searchTerm) {
                 $query->orWhereHas('enrollment', function ($q) use ($searchTerm) {
                     $q->whereHas('user', function ($q) use ($searchTerm) {
@@ -62,7 +45,7 @@ class ScheduledPaymentCrudController extends CrudController
             'key' => 'student_firstname',
             'attribute' => 'firstname',
             'label' => __('First Name'),
-            'type' => 'relationship',
+            'type' => 'select',
             'searchLogic' => function ($query, $column, $searchTerm) {
                 $query->orWhereHas('enrollment', function ($q) use ($searchTerm) {
                     $q->whereHas('user', function ($q) use ($searchTerm) {
@@ -77,7 +60,7 @@ class ScheduledPaymentCrudController extends CrudController
             'key' => 'student_email',
             'attribute' => 'email',
             'label' => __('Email'),
-            'type' => 'relationship',
+            'type' => 'select',
             'searchLogic' => function ($query, $column, $searchTerm) {
                 $query->orWhereHas('enrollment', function ($q) use ($searchTerm) {
                     $q->whereHas('user', function ($q) use ($searchTerm) {
@@ -87,10 +70,10 @@ class ScheduledPaymentCrudController extends CrudController
             },
         ]);
 
-        if (config('app.currency_position') === 'before') {
-            $currency = ['prefix' => config('app.currency_symbol')];
+        if (config('academico.currency_position') === 'before') {
+            $currency = ['prefix' => config('academico.currency_symbol')];
         } else {
-            $currency = ['suffix' => config('app.currency_symbol')];
+            $currency = ['suffix' => config('academico.currency_symbol')];
         }
 
         CRUD::addColumn(array_merge([
@@ -123,34 +106,16 @@ class ScheduledPaymentCrudController extends CrudController
         );
     }
 
-    /**
-     * Define what happens when the Create operation is loaded.
-     *
-     * @see https://backpackforlaravel.com/docs/crud-operation-create
-     * @return void
-     */
-    protected function setupCreateOperation()
+    protected function setupUpdateOperation()
     {
-        CRUD::setValidation(ScheduledPaymentRequest::class);
+        CRUD::setValidation([
+            'date' => 'required|date',
+            'value' => 'required|numeric|min:0',
+            'status' => 'required|integer',
+            'enrollment_id' => 'required|integer',
+        ]);
 
         CRUD::field('value');
         CRUD::field('date');
-
-        /**
-         * Fields can be defined using the fluent syntax or array syntax:
-         * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
-         */
-    }
-
-    /**
-     * Define what happens when the Update operation is loaded.
-     *
-     * @see https://backpackforlaravel.com/docs/crud-operation-update
-     * @return void
-     */
-    protected function setupUpdateOperation()
-    {
-        $this->setupCreateOperation();
     }
 }

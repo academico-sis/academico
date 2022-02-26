@@ -19,15 +19,6 @@ class Kernel extends ConsoleKernel
     use HandlesAttendance;
 
     /**
-     * The Artisan commands provided by your application.
-     *
-     * @var array
-     */
-    protected $commands = [
-        //
-    ];
-
-    /**
      * Define the application's command schedule.
      *
      * @return void
@@ -88,7 +79,7 @@ class Kernel extends ConsoleKernel
             })->monthlyOn(20);
         }
 
-        $schedule->command('activitylog:clean')->daily();
+        $schedule->command('activitylog:clean')->monthly();
 
         $schedule->command('telescope:prune --hours=96')->daily();
     }

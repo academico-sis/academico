@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLevelsTable extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -36,4 +35,4 @@ class CreateLevelsTable extends Migration
         Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('levels');
     }
-}
+};

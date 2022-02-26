@@ -1,12 +1,11 @@
 require('../bootstrap');
 
-window.Vue = require('vue');
-
-Vue.use(require('vue-moment'));
-
 import VueInternationalization from 'vue-i18n';
 import Locale from './vue-i18n-locales';
 
+window.Vue = require('vue').default;
+
+Vue.use(require('vue-moment'));
 Vue.use(VueInternationalization);
 
 const lang = document.documentElement.lang.substr(0, 2);

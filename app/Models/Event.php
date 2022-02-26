@@ -6,6 +6,7 @@ use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Prologue\Alerts\Facades\Alert;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
@@ -40,7 +41,10 @@ class Event extends Model
 
     protected $appends = ['length'];
 
-    protected static bool $logUnguarded = true;
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logUnguarded();
+    }
 
     /*
     |--------------------------------------------------------------------------
@@ -53,11 +57,6 @@ class Event extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
-
-    public function coursetime()
-    {
-        return $this->belongsTo(CourseTime::class);
-    }
 
     public function course()
     {
@@ -82,11 +81,6 @@ class Event extends Model
     public function room()
     {
         return $this->belongsTo(Room::class)->withTrashed();
-    }
-
-    public function getPeriodAttribute()
-    {
-        return $this->course->period_id;
     }
 
     /*
@@ -150,10 +144,4 @@ class Event extends Model
     {
         return $this?->course->color ?? ('#'.substr(md5($this->course_id ?? '0'), 0, 6));
     }
-
-    /*
-    |--------------------------------------------------------------------------
-    | MUTATORS
-    |--------------------------------------------------------------------------
-    */
 }

@@ -4,14 +4,14 @@ namespace App\Models;
 
 use App\Events\CourseCreated;
 use App\Events\CourseUpdated;
-use App\Models\Partner;
-use App\Models\Skills\Skill;
+use App\Traits\PriceTrait;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
@@ -21,22 +21,21 @@ class Course extends Model
 {
     use CrudTrait;
     use LogsActivity;
+    use PriceTrait;
 
     protected $dispatchesEvents = [
         'updated' => CourseUpdated::class,
         'created' => CourseCreated::class,
     ];
 
-    /*
-    |--------------------------------------------------------------------------
-    | GLOBAL VARIABLES
-    |--------------------------------------------------------------------------
-    */
+    protected $casts = [
+        'start_date' => 'datetime',
+        'end_date' => 'datetime',
+    ];
+
     public $timestamps = true;
 
     protected $guarded = ['id'];
-
-    protected $dates = ['start_date', 'end_date'];
 
     protected $with = ['times', 'evaluationType'];
 
@@ -50,7 +49,10 @@ class Course extends Model
         'sortable_id',
     ];
 
-    protected static bool $logUnguarded = true;
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logUnguarded();
+    }
 
     /*
     |--------------------------------------------------------------------------
@@ -58,25 +60,24 @@ class Course extends Model
     |--------------------------------------------------------------------------
     */
 
-    /** filter only the courses that have no parent */
-    public function scopeParent($query)
+    public function scopeHideChildren($query)
     {
         return $query->where('parent_course_id', null);
     }
 
-    public function scopeChildren($query)
-    {
-        return $query->where('parent_course_id', '!=', null);
-    }
-
     public function scopeInternal($query)
     {
-        return $query->where('campus_id', 1);
+        return $query->whereNull('partner_id');
     }
 
     public function scopeExternal($query)
     {
-        return $query->where('campus_id', 2);
+        return $query->whereNotNull('partner_id');
+    }
+
+    public function scopePartner($query, Partner $partner)
+    {
+        return $query->where('partner_id', $partner->id);
     }
 
     public function scopeRealcourses($query)
@@ -84,25 +85,18 @@ class Course extends Model
         return $query->doesntHave('children');
     }
 
+
     /*
     |--------------------------------------------------------------------------
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
 
-    /** returns all courses that are open for enrollments */
-    public static function get_available_courses(Period $period)
+    public function isInternal()
     {
-        return self::where('period_id', $period->id)
-        ->where('campus_id', 1)
-        ->with('times')
-        ->with('teacher')
-        ->with('room')
-        ->with('rhythm')
-        ->with('level')
-        ->withCount('enrollments')
-        ->get();
+        return $this->partner_id === null;
     }
+
 
     /*
     |--------------------------------------------------------------------------
@@ -127,7 +121,6 @@ class Course extends Model
         return $this->hasMany(RemoteEvent::class);
     }
 
-    /** may be null if the teacher is not yet assigned */
     public function teacher()
     {
         return $this->belongsTo(Teacher::class)->withTrashed();
@@ -138,25 +131,21 @@ class Course extends Model
         return $this->belongsTo(Campus::class);
     }
 
-    /** may be null if the room is not yet assigned */
     public function room()
     {
         return $this->belongsTo(Room::class)->withTrashed();
     }
 
-    /** the "category" of course */
     public function rhythm()
     {
         return $this->belongsTo(Rhythm::class)->withTrashed();
     }
 
-    /** a course can only have one level. Parent courses would generally have no level defined */
     public function level()
     {
         return $this->belongsTo(Level::class)->withTrashed();
     }
 
-    /** a course needs to belong to a period */
     public function period()
     {
         return $this->belongsTo(Period::class);
@@ -186,7 +175,7 @@ class Course extends Model
     }
 
     /** the different grade types associated to the course, ie. criteria that will receive the grades */
-    public function grade_types()
+    public function gradeTypes()
     {
         if ($this->evaluationType) {
             return $this->evaluationType->gradeTypes()->orderBy('order');
@@ -217,51 +206,11 @@ class Course extends Model
         return $this->hasManyThrough(Attendance::class, Event::class);
     }
 
-    /**
-     * Return events for which the attendance records do not match the course student count.
-     *
-     * todo - optimize this method (reduce the number of queries and avoid the foreach loop)
-     * but filtering the collection increases the number of DB queries... (why ?)
-     */
-    public function getPendingAttendanceAttribute()
-    {
-        $events = Event::where(function ($query) {
-            $query->where('course_id', $this->id);
-            $query->where('exempt_attendance', '!=', true);
-            $query->where('exempt_attendance', '!=', 1);
-            $query->orWhereNull('exempt_attendance');
-        })
-        ->where('course_id', '!=', null)
-        ->with('attendance')
-        ->with('teacher')
-        ->with('course.enrollments')
-        ->where('start', '<', Carbon::now(config('settings.courses_timezone'))->toDateTimeString())
-        ->get();
-
-        $pending_events = [];
-
-        foreach ($events as $event) {
-            // if the attendance record count do not match the enrollment count, push the event to array
-            $pending_attendance = $event->course->enrollments->count() - $event->attendance->count();
-
-            if ($pending_attendance != 0) {
-                $pending_events[$event->id]['event'] = $event->name ?? '';
-                $pending_events[$event->id]['event_id'] = $event->id;
-                $pending_events[$event->id]['course_id'] = $event->course_id;
-                $pending_events[$event->id]['event_date'] = Carbon::parse($event->start)->toDateString();
-                $pending_events[$event->id]['teacher'] = $event->teacher->name ?? '';
-                $pending_events[$event->id]['pending'] = $pending_attendance ?? '';
-            }
-        }
-
-        return $pending_events;
-    }
-
     public function enrollments()
     {
         return $this
             ->hasMany(Enrollment::class, 'course_id', 'id')
-            ->whereIn('status_id', [1, 2]) // pending or paid enrollments only
+            ->whereIn('status_id', Enrollment::ENROLLMENT_STATUSES_TO_COUNT_IN_STATS)
             ->with('student');
     }
 
@@ -269,10 +218,11 @@ class Course extends Model
     public function real_enrollments()
     {
         return $this->hasMany(Enrollment::class, 'course_id', 'id')
-        ->whereIn('status_id', ['1', '2']) // pending or paid
-        ->where('parent_id', null);
+            ->whereIn('status_id', Enrollment::ENROLLMENT_STATUSES_TO_COUNT_IN_STATS)
+            ->where('parent_id', null);
     }
 
+    // "Partners" are institutions for external courses
     public function partner()
     {
         return $this->belongsTo(Partner::class);
@@ -299,27 +249,16 @@ class Course extends Model
         foreach ($newCourseTimes as $courseTime) {
             // create missing course times
             if ($this->times()
-                    ->where('day', $courseTime->day)
-                    ->where('start', Carbon::parse($courseTime->start)->toTimeString())
-                    ->where('end', Carbon::parse($courseTime->end)->toTimeString())
+                    ->where('day', $courseTime['day'])
+                    ->where('start', Carbon::parse($courseTime['start'])->toTimeString())
+                    ->where('end', Carbon::parse($courseTime['end'])->toTimeString())
                     ->count() == 0) {
                 $this->times()->create([
-                    'day' => $courseTime->day,
-                    'start' => Carbon::parse($courseTime->start)->toTimeString(),
-                    'end' => Carbon::parse($courseTime->end)->toTimeString(),
+                    'day' => $courseTime['day'],
+                    'start' => Carbon::parse($courseTime['start'])->toTimeString(),
+                    'end' => Carbon::parse($courseTime['end'])->toTimeString(),
                 ]);
             }
-        }
-    }
-
-    public function saveRemoteEvents($events)
-    {
-        $this->remoteEvents()->delete();
-        foreach ($events as $event) {
-            $this->remoteEvents()->create([
-                'name' => $event->name ?? $this->name,
-                'worked_hours' => $event->worked_hours,
-            ]);
         }
     }
 
@@ -378,25 +317,6 @@ class Course extends Model
         return trim($result, ' | ');
     }
 
-    public function getCourseRoomNameAttribute()
-    {
-        return strtoupper($this->room->name);
-    }
-
-    public function getCourseLevelNameAttribute(): string
-    {
-        if ($this->level->exists()) {
-            return $this->level->name;
-        }
-
-        return '';
-    }
-
-    public function getCourseRhythmNameAttribute()
-    {
-        return strtoupper($this->rhythm->name);
-    }
-
     public function getCoursePeriodNameAttribute()
     {
         return $this->period->name ?? '';
@@ -421,16 +341,6 @@ class Course extends Model
         return '['.$this->course_period_name.'] - '.$this->name;
     }
 
-    public function getChildrenCountAttribute()
-    {
-        return self::where('parent_course_id', $this->id)->count();
-    }
-
-    public function getChildrenAttribute()
-    {
-        return self::where('parent_course_id', $this->id)->get();
-    }
-
     public function getCourseEnrollmentsCountAttribute()
     {
         return $this->enrollments()->count();
@@ -442,7 +352,7 @@ class Course extends Model
             return true;
         }
 
-        return $this->spots - $this->enrollments()->whereIn('status_id', [1, 2])->count() > 0;
+        return $this->spots - $this->enrollments()->whereIn('status_id', Enrollment::ENROLLMENT_STATUSES_TO_COUNT_IN_STATS)->count() > 0;
     }
 
     public function getTakesAttendanceAttribute(): bool
@@ -450,6 +360,7 @@ class Course extends Model
         return $this->events_count > 0 && $this->exempt_attendance !== 1 && $this->course_enrollments_count > 0;
     }
 
+    // TODO Rename this attribute to avoid confusions.
     public function getParentAttribute()
     {
         if ($this->parent_course_id !== null) {
@@ -482,29 +393,21 @@ class Course extends Model
         return $this->volume + $this->remote_volume;
     }
 
-    public function getPriceAttribute($value)
-    {
-        return $value / 100;
-    }
-
-    public function getPriceWithCurrencyAttribute()
-    {
-        if (config('app.currency_position') === 'before') {
-            return config('app.currency_symbol').' '.$this->price;
-        }
-
-        return $this->price.' '.config('app.currency_symbol');
-    }
-
-    public function getPriceBAttribute($value)
-    {
-        return $value / 100;
-    }
-
-    public function getPriceCAttribute($value)
-    {
-        return $value / 100;
-    }
+//    public function price_b(): Attribute
+//    {
+//        return new Attribute(
+//            get: fn ($value) => $value / 100,
+//            set: fn ($value) => $value * 100,
+//        );
+//    }
+//
+//    public function price_c(): Attribute
+//    {
+//        return new Attribute(
+//            get: fn ($value) => $value / 100,
+//            set: fn ($value) => $value * 100,
+//        );
+//    }
 
     public function getFormattedStartDateAttribute()
     {
@@ -514,26 +417,5 @@ class Course extends Model
     public function getFormattedEndDateAttribute()
     {
         return Carbon::parse($this->end_date, 'UTC')->locale(App::getLocale())->isoFormat('LL');
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | MUTATORS
-    |--------------------------------------------------------------------------
-    */
-
-    public function setPriceAttribute($value)
-    {
-        $this->attributes['price'] = $value * 100;
-    }
-
-    public function setPriceBAttribute($value)
-    {
-        $this->attributes['price_b'] = $value * 100;
-    }
-
-    public function setPriceCAttribute($value)
-    {
-        $this->attributes['price_c'] = $value * 100;
     }
 }

@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use App\Mail\ResultNotification;
+use App\Events\ResultSavedEvent;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Mail;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
@@ -18,18 +18,12 @@ class Result extends Model
 
     protected $guarded = ['id'];
 
-    protected static bool $logUnguarded = true;
-
-    protected static function boot()
+    protected $dispatchesEvents = [
+        'saved' => ResultSavedEvent::class,
+    ];
+    public function getActivitylogOptions(): LogOptions
     {
-        parent::boot();
-
-        if (config('app.send_emails_for_results')) {
-            // when a result is added, send a notification
-            static::saved(function (self $result) {
-                Mail::to($result->enrollment->student->user->email)->locale($result->enrollment->student->user->locale)->queue(new ResultNotification($result->enrollment->course, $result->enrollment->student->user));
-            });
-        }
+        return LogOptions::defaults()->logUnguarded();
     }
 
     public function comments()

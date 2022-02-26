@@ -37,7 +37,7 @@
                 <p>@lang('Enrollment ID'): {{ $enrollment->id }}</p>
                 <p>@lang('Course'): <a href="{{ route('enrollment.index', ['course_id' => $enrollment->course_id]) }}">{{ $enrollment->course->name }}</a></p>
                 <p>@lang('Period'): {{ $enrollment->course->period->name }}</p>
-                <p><enrollment-price-field writeaccess="{{ $writeaccess }}" :enrollment="{{ json_encode($enrollment) }}" currency="{{ config('app.currency_symbol') }}" currencyposition="{{ config('app.currency_position') }}"></enrollment-price-field></p>
+                <p><enrollment-price-field writeaccess="{{ $writeaccess }}" :enrollment="{{ json_encode($enrollment) }}" currency="{{ config('academico.currency_symbol') }}" currencyposition="{{ config('academico.currency_position') }}"></enrollment-price-field></p>
 
                 <div class="form-group">
                     @if($enrollment->status_id === 2)
@@ -157,10 +157,10 @@
                                 <td><strong>{{ __('Remaining balance') }}</strong></td>
                                 <td></td>
                                 <td>
-                                    @if (config('app.currency_position') === 'before')
-                                        {{ config('app.currency_symbol') }} <strong>{{ $enrollment->balance }}</strong>
+                                    @if (config('academico.currency_position') === 'before')
+                                        {{ config('academico.currency_symbol') }} <strong>{{ $enrollment->balance }}</strong>
                                     @else
-                                        <strong>{{ $enrollment->balance }}</strong> {{ config('app.currency_symbol') }}
+                                        <strong>{{ $enrollment->balance }}</strong> {{ config('academico.currency_symbol') }}
                                     @endif
                                 </td>
                             </tr>

@@ -6,6 +6,7 @@ use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Period;
 use App\Models\Student;
+use App\Services\StatService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -13,7 +14,7 @@ class ChildCoursesTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -59,6 +60,7 @@ class ChildCoursesTest extends TestCase
 
         $student->enroll($parentCourse);
 
-        $this->assertEquals(1, $period->studentCount());
+        $stats = new StatService(external: false, reference: $period);
+        $this->assertEquals(1, $stats->studentsCount());
     }
 }

@@ -2,21 +2,21 @@
 
 namespace App\Models;
 
+use App\Models\Interfaces\InvoiceableModel;
+use App\Traits\PriceTrait;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * @mixin IdeHelperBook
  */
-class Book extends Model
+class Book extends Model implements InvoiceableModel
 {
     use CrudTrait;
-
-    /*
-    |--------------------------------------------------------------------------
-    | GLOBAL VARIABLES
-    |--------------------------------------------------------------------------
-    */
+    use LogsActivity;
+    use PriceTrait;
 
     public $timestamps = false;
 
@@ -24,57 +24,13 @@ class Book extends Model
 
     protected $appends = ['price_with_currency', 'type'];
 
-    /*
-    |--------------------------------------------------------------------------
-    | FUNCTIONS
-    |--------------------------------------------------------------------------
-    */
-
-    /*
-    |--------------------------------------------------------------------------
-    | RELATIONS
-    |--------------------------------------------------------------------------
-    */
-
-    /*
-    |--------------------------------------------------------------------------
-    | SCOPES
-    |--------------------------------------------------------------------------
-    */
-
-    /*
-    |--------------------------------------------------------------------------
-    | ACCESORS
-    |--------------------------------------------------------------------------
-    */
-
-    public function getPriceAttribute($value)
+    public function getActivitylogOptions(): LogOptions
     {
-        return $value / 100;
+        return LogOptions::defaults()->logUnguarded();
     }
 
-    public function getPriceWithCurrencyAttribute()
-    {
-        if (config('app.currency_position') === 'before') {
-            return config('app.currency_symbol').' '.$this->price;
-        }
-
-        return $this->price.' '.config('app.currency_symbol');
-    }
-
-    public function getTypeAttribute()
+    public function getTypeAttribute(): string
     {
         return 'book';
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | MUTATORS
-    |--------------------------------------------------------------------------
-    */
-
-    public function setPriceAttribute($value)
-    {
-        $this->attributes['price'] = $value * 100;
     }
 }

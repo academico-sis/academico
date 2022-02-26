@@ -11,6 +11,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Validation\Rule;
 
 class PeriodCrudController extends CrudController
 {
@@ -32,8 +33,10 @@ class PeriodCrudController extends CrudController
         CRUD::setColumns([
             [
                 'label' => __('Year'),
-                'type' => 'relationship',
-                'name' => 'year',
+                'type' => 'select',
+                'name' => 'year_id',
+                'entity' => 'year',
+                'model' => Year::class,
                 'attribute' => 'name',
             ],
 
@@ -59,14 +62,33 @@ class PeriodCrudController extends CrudController
 
     public function setupCreateOperation()
     {
-        CRUD::addFields([
-            [
-                'type' => 'relationship',
-                'name' => 'year_id',
-                'inline_create' => true,
-                // assumes the URL will be "/admin/category/inline/create"
+        CRUD::setValidation([
+            'name' => [
+                'required',
+                'min:1',
+                'max:40',
+                Rule::unique($this->crud->getModel()->getTable())->ignore($this->crud->getCurrentEntry()),
             ],
+            'year_id' => 'required|integer',
+            'start' => 'date|required',
+            'end' => 'date|required',
+        ]);
 
+        if (config('backpack.base.license_code')) {
+            CRUD::addField(['type' => 'relationship', 'name' => 'year_id', 'inline_create' => true]);
+        } else {
+            CRUD::addField([
+                'label' => __('Year'),
+                'type' => 'select',
+                'name' => 'year_id',
+                'entity' => 'year',
+                'model' => Year::class,
+                'attribute' => 'name',
+            ]);
+
+        }
+
+            CRUD::addFields([
             [
                 'label' => __('Name'),
                 'type' => 'text',

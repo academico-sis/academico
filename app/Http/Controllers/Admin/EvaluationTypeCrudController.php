@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\EvaluationTypeRequest as StoreRequest;
 use App\Models\EvaluationType;
 use App\Models\GradeType;
 use App\Models\Skills\Skill;
@@ -12,6 +11,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Validation\Rule;
 
 class EvaluationTypeCrudController extends CrudController
 {
@@ -29,47 +29,50 @@ class EvaluationTypeCrudController extends CrudController
 
     protected function setupListOperation()
     {
-        CRUD::addColumn(['name' => 'name',
-            'label' => 'Name', ]);
+        CRUD::addColumn([
+            'name' => 'name',
+            'label' => __('Name'),
+        ]);
     }
 
     protected function setupCreateOperation()
     {
-        CRUD::addField(['name' => 'name',
-            'label' => 'Name',
-            'type' => 'text', ]);
+        CRUD::setValidation([
+            'name' => [
+                'required',
+                'min:1',
+                'max:255',
+                Rule::unique($this->crud->getModel()->getTable())->ignore($this->crud->getCurrentEntry()),
+            ],
+        ]);
 
-        CRUD::addField([    // Select2Multiple = n-n relationship (with pivot table)
+        CRUD::addField([
+            'name' => 'name',
+            'label' => __('Name'),
+            'type' => 'text',
+        ]);
+
+        CRUD::addField([
             'label' => __('Grade Types'),
             'type' => 'select2_multiple',
             'name' => 'gradeTypes',
-
-            // optional
             'entity' => 'gradeTypes',
             'model' => GradeType::class,
             'attribute' => 'complete_name',
             'pivot' => true,
-            // on create&update, do you need to add/delete pivot table entries?
             'select_all' => true,
-            // show Select All and Clear buttons?
         ]);
 
-        CRUD::addField([    // Select2Multiple = n-n relationship (with pivot table)
+        CRUD::addField([
             'label' => __('Skills'),
             'type' => 'select2_multiple',
             'name' => 'skills',
-
-            // optional
             'entity' => 'skills',
             'model' => Skill::class,
             'attribute' => 'complete_name',
             'pivot' => true,
-            // on create&update, do you need to add/delete pivot table entries?
             'select_all' => true,
-            // show Select All and Clear buttons?
         ]);
-
-        CRUD::setValidation(StoreRequest::class);
     }
 
     protected function setupUpdateOperation()
@@ -90,7 +93,7 @@ class EvaluationTypeCrudController extends CrudController
 
     private function overrideTranslations($entry, $value)
     {
-        foreach (config('app.languages') as $i => $locale) {
+        foreach (config('academico.languages') as $i => $locale) {
             $entry->setTranslation('name', $locale, $value);
         }
         $entry->save();

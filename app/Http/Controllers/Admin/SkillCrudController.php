@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\SkillRequest as StoreRequest;
 use App\Models\Level;
 use App\Models\Skills\Skill;
 use App\Models\Skills\SkillType;
@@ -13,6 +12,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Validation\Rule;
 
 class SkillCrudController extends CrudController
 {
@@ -27,27 +27,27 @@ class SkillCrudController extends CrudController
         CRUD::setModel(Skill::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/skill');
         CRUD::setEntityNameStrings(__('skill'), __('skills'));
+        CRUD::enableExportButtons();
     }
 
     protected function setupListOperation()
     {
         CRUD::setColumns([
-            [ // skill type
-                'label' => 'Type',
+            [
+                'label' => __('Type'),
                 'type' => 'select',
-                'name' => 'skill_type',
-                'entity' => 'skill_type',
+                'name' => 'skillType',
+                'entity' => 'skillType',
                 'attribute' => 'name',
-                'model' => 'skill_type',
+                'model' => 'skillType',
             ],
             [
-                'label' => 'Name',
-                // skill description
+                'label' => __('Name'),
                 'type' => 'text',
                 'name' => 'name',
             ],
-            [ // skill level
-                'label' => 'Level',
+            [
+                'label' => __('Level'),
                 'type' => 'select',
                 'name' => 'level',
                 'entity' => 'level',
@@ -56,9 +56,7 @@ class SkillCrudController extends CrudController
             ],
         ]);
 
-        CRUD::enableExportButtons();
-
-        CRUD::addFilter([ // select2 filter
+        CRUD::addFilter([
             'name' => 'level_id',
             'type' => 'select2',
             'label' => 'Level',
@@ -66,7 +64,7 @@ class SkillCrudController extends CrudController
             CRUD::addClause('where', 'level_id', $value);
         });
 
-        CRUD::addFilter([ // select2 filter
+        CRUD::addFilter([
             'name' => 'skill_type_id',
             'type' => 'select2',
             'label' => 'Type',
@@ -77,24 +75,33 @@ class SkillCrudController extends CrudController
 
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(StoreRequest::class);
+        CRUD::setValidation([
+            'name' => [
+                'required',
+                'min:1',
+                'max:40',
+                Rule::unique($this->crud->getModel()->getTable())->ignore($this->crud->getCurrentEntry()),
+            ],
+            'level_id' => 'required',
+            'skill_type_id' => 'required',
+        ]);
+
         CRUD::addFields([
-            [ // skill type
-                'label' => 'Type',
+            [
+                'label' => __('Type'),
                 'type' => 'select',
                 'name' => 'skill_type_id',
-                'entity' => 'skill_type',
+                'entity' => 'skillType',
                 'attribute' => 'name',
                 'model' => SkillType::class,
             ],
             [
-                'label' => 'Name',
-                // skill description
+                'label' => __('Name'),
                 'type' => 'text',
                 'name' => 'name',
             ],
-            [ // skill level
-                'label' => 'Level',
+            [
+                'label' => __('Level'),
                 'type' => 'select',
                 'name' => 'level_id',
                 'entity' => 'level',
@@ -103,22 +110,9 @@ class SkillCrudController extends CrudController
             ],
             [
                 'label' => __('Skill Type'),
-                'type' => 'relationship',
-                'name' => 'skill_type',
+                'type' => 'select',
+                'name' => 'skillType',
                 'ajax' => true,
-                'inline_create' => [ // specify the entity in singular
-                    'entity' => 'skilltype',
-                    // the entity in singular
-                    // OPTIONALS
-                    'force_select' => true,
-                    // should the inline-created entry be immediately selected?
-                    'modal_class' => 'modal-dialog modal-xl',
-                    // use modal-sm, modal-lg to change width
-                    'modal_route' => route('skilltype-inline-create'),
-                    // InlineCreate::getInlineCreateModal()
-                    'create_route' => route('skilltype-inline-create-save'),
-                    // InlineCreate::storeInlineCreate()
-                ],
             ],
         ]);
     }

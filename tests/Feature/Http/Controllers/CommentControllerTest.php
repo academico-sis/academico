@@ -21,7 +21,7 @@ class CommentControllerTest extends TestCase
         $response = $this->delete('comment/{comment}');
 
         $response->assertOk();
-        $this->assertDeleted($comment);
+        $this->assertModelMissing($comment);
 
         // TODO: perform additional assertions
     }

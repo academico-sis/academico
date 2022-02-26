@@ -1,7 +1,7 @@
 
 <h2>
-    {{ $widget['course']->name ?? '' }}<br>
-    <span class="text-muted text-uppercase font-weight-bold small">{{ $widget['course']->rhythm->name ?? '-' . ' ' . $widget['course']->level->name ?? '-' }}</span>
+    {{ $widget['course']?->name ?? '' }}<br>
+    <span class="text-muted text-uppercase font-weight-bold small">{{ $widget['course']?->rhythm->name ?? '-' . ' ' . $widget['course']?->level->name ?? '-' }}</span>
     |
     @if ($widget['course']->start_date && $widget['course']->end_date) <span class="text-muted small">{{ $widget['course']->formatted_start_date }} - {{ $widget['course']->formatted_end_date }}</span>@endif
 </h2>

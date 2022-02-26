@@ -99,7 +99,7 @@ class AuthServiceProvider extends ServiceProvider
             }
 
             if (config('settings.teachers_can_edit_result')) {
-                return ($user->isTeacher() && $user->id === $enrollment->course->teacher_id);
+                return $user->isTeacher() && $user->id === $enrollment->course->teacher_id;
             }
 
             return false;

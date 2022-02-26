@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\EventRequest as StoreRequest;
 use App\Models\Course;
 use App\Models\Event;
 use App\Models\Room;
@@ -13,8 +12,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 /**
  * Class EventCrudController
@@ -30,26 +28,15 @@ class EventCrudController extends CrudController
 
     public function setup()
     {
-        /*
-        |--------------------------------------------------------------------------
-        | CrudPanel Basic Information
-        |--------------------------------------------------------------------------
-        */
         CRUD::setModel(Event::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/event');
         CRUD::setEntityNameStrings(__('event'), __('events'));
         CRUD::setCreateView('events.create');
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | CrudPanel Configuration
-    |--------------------------------------------------------------------------
-    */
     public function setupListOperation()
     {
         CRUD::setColumns([
-
             [
                 'name' => 'name',
                 'label' => 'Name',
@@ -57,7 +44,6 @@ class EventCrudController extends CrudController
             ],
 
             [
-                // ROOM
                 'label' => __('Course'),
                 'type' => 'select',
                 'name' => 'course_id',
@@ -75,7 +61,6 @@ class EventCrudController extends CrudController
             ],
 
             [
-                // TEACHER
                 'label' => __('Teacher'),
                 'type' => 'select',
                 'name' => 'teacher_id',
@@ -86,7 +71,6 @@ class EventCrudController extends CrudController
             ],
 
             [
-                // ROOM
                 'label' => __('Room'),
                 'type' => 'select',
                 'name' => 'room_id',
@@ -99,20 +83,18 @@ class EventCrudController extends CrudController
                 'name' => 'start',
                 'label' => __('Start Date'),
                 'type' => 'datetime',
-                // 'format' => 'l j F Y', // use something else than the base.defauormat config value
             ],
 
             [
                 'name' => 'end',
                 'label' => __('End Date'),
                 'type' => 'datetime',
-                // 'format' => 'l j F Y', // use something else than the base.default_date_format config value
             ],
 
         ]);
 
         CRUD::addFilter(
-            [ // daterange filter
+            [
                 'type' => 'date_range',
                 'name' => 'from_to',
                 'label' => __('Date range'),
@@ -137,10 +119,10 @@ class EventCrudController extends CrudController
                 'label' => __('Events with no course'),
             ],
             false,
-            function () { // if the filter is active, apply these constraints
+            function () { // if the filter is active
                 $this->crud->query->where('course_id', null);
             },
-            function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
+            function () { // if the filter is NOT active
             }
         );
 
@@ -151,13 +133,13 @@ class EventCrudController extends CrudController
                 'label' => __('Events with no teacher'),
             ],
             false,
-            function () { // if the filter is active, apply these constraints
+            function () {
                 CRUD::addClause('unassigned');
             }
         );
 
         CRUD::addFilter(
-            [ // select2 filter
+            [
                 'name' => 'teacher_id',
                 'type' => 'select2',
                 'label' => __('Teacher'),
@@ -166,32 +148,29 @@ class EventCrudController extends CrudController
             function ($value) {
                 CRUD::addClause('where', 'teacher_id', $value);
             },
-            function () { // if the filter is NOT active (the GET parameter "checkbox" does not exit)
+            function () {
             }
         );
     }
 
-    public function store(Request $request)
+    public function setupCreateOperation()
     {
-        $request->validate([
-            'name' => 'required',
+        CRUD::setValidation([
+            'name' => [
+                'required',
+                'min:1',
+                'max:255',
+                Rule::unique($this->crud->getModel()->getTable())->ignore($this->crud->getCurrentEntry()),
+            ],
+            'start' => 'required|date',
+            'end' => 'required|date',
+            'course_id' => 'nullable|integer',
+            'teacher_id' => 'nullable|integer',
+            'room_id' => 'nullable|integer',
+            'exempt_attendance' => 'nullable|bool'
         ]);
 
-        foreach ($request->createList as $eventData) {
-            Event::create([
-                'name' => $request->name,
-                'start' => Carbon::parse($eventData['start']),
-                'end' => Carbon::parse($eventData['end']),
-                'teacher_id' => $request->teacher,
-                'room_id' => $request->room,
-            ]);
-        }
-    }
-
-    public function setupUpdateOperation()
-    {
         CRUD::addFields([
-
             [
                 'name' => 'name',
                 'label' => 'Name',
@@ -199,18 +178,15 @@ class EventCrudController extends CrudController
             ],
 
             [
-                // TEACHER
                 'label' => 'Teacher',
                 'type' => 'select',
                 'name' => 'teacher_id',
                 'entity' => 'teacher',
                 'attribute' => 'name',
                 'model' => Teacher::class,
-
             ],
 
             [
-                // ROOM
                 'label' => 'Room',
                 'type' => 'select',
                 'name' => 'room_id',
@@ -230,9 +206,11 @@ class EventCrudController extends CrudController
                 'label' => 'End Date',
                 'type' => 'datetime_picker',
             ],
-
         ]);
+    }
 
-        CRUD::setValidation(StoreRequest::class);
+    public function setupUpdateOperation()
+    {
+        $this->setupCreateOperation();
     }
 }

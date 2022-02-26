@@ -6,6 +6,7 @@ use App\Events\LeaveCreated;
 use App\Events\LeaveUpdated;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
@@ -20,12 +21,15 @@ class Leave extends Model
 
     protected $with = ['leaveType'];
 
-    protected static bool $logUnguarded = true;
-
     protected $dispatchesEvents = [
         'updated' => LeaveUpdated::class,
         'created' => LeaveCreated::class,
     ];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logUnguarded();
+    }
 
     protected static function boot()
     {

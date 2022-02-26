@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\SkillScaleRequest as StoreRequest;
 use App\Models\Skills\SkillScale;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -10,6 +9,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Validation\Rule;
 
 class SkillScaleCrudController extends CrudController
 {
@@ -39,7 +39,17 @@ class SkillScaleCrudController extends CrudController
 
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(StoreRequest::class);
+        CRUD::setValidation([
+            'name' => [
+                'required',
+                'min:1',
+                'max:40',
+                Rule::unique($this->crud->getModel()->getTable())->ignore($this->crud->getCurrentEntry()),
+            ],
+            'shortname' => 'required|max:8|unique:skill_scales',
+            'value' => 'required|numeric|between:0,1',
+        ]);
+
         CRUD::addFields([
             ['name' => 'shortname',
                 'label' => 'Shortname',

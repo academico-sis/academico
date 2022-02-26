@@ -2,13 +2,16 @@
 
 namespace App\Models;
 
-use App\Events\TeacherDeleted;
 use App\Events\TeacherUpdated;
+use App\Traits\UserAttributesTrait;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
@@ -30,37 +33,19 @@ class Teacher extends Model
 
     protected $appends = ['firstname', 'lastname', 'name', 'email'];
 
-    protected static bool $logUnguarded = true;
-
     protected $dispatchesEvents = [
         'updated' => TeacherUpdated::class,
     ];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logUnguarded();
+    }
 
     /** relations */
     public function user()
     {
         return $this->belongsTo(User::class, 'id', 'id')->withTrashed();
-    }
-
-    /** attributes */
-    public function getFirstnameAttribute(): ?string
-    {
-        return $this?->user?->firstname;
-    }
-
-    public function getLastnameAttribute(): ?string
-    {
-        return $this?->user?->lastname;
-    }
-
-    public function getEmailAttribute(): ?string
-    {
-        return $this?->user?->email;
-    }
-
-    public function getNameAttribute(): ?string
-    {
-        return $this?->user?->firstname.' '.$this?->user?->lastname;
     }
 
     public function period_courses(Period $period)
@@ -91,6 +76,7 @@ class Teacher extends Model
         return $this->hasMany(Event::class);
     }
 
+    /** @deprecated */
     public function remote_events()
     {
         return $this->hasMany(RemoteEvent::class);
@@ -119,9 +105,9 @@ class Teacher extends Model
                     // push the range to result array
                     $range_end = Carbon::parse($dates[$i]['date']);
                     if ($range_start == $range_end) {
-                        array_push($formatted_leaves, $range_start->format('d/m/Y'));
+                        $formatted_leaves[] = $range_start->format('d/m/Y');
                     } else {
-                        array_push($formatted_leaves, $range_start->format('d/m/Y').' - '.$range_end->format('d/m/Y'));
+                        $formatted_leaves[] = $range_start->format('d/m/Y') . ' - ' . $range_end->format('d/m/Y');
                     }
 
                     $range_start = Carbon::parse($dates[$i + 1]['date']);
@@ -130,9 +116,9 @@ class Teacher extends Model
                 // if there is no further date
                 $range_end = Carbon::parse($dates[$i]['date']);
                 if ($range_start == $range_end) {
-                    array_push($formatted_leaves, $range_start->format('d/m/Y'));
+                    $formatted_leaves[] = $range_start->format('d/m/Y');
                 } else {
-                    array_push($formatted_leaves, $range_start->format('d/m/Y').' - '.$range_end->format('d/m/Y'));
+                    $formatted_leaves[] = $range_start->format('d/m/Y') . ' - ' . $range_end->format('d/m/Y');
                 }
             }
         }
@@ -217,19 +203,32 @@ class Teacher extends Model
         return collect($eventsWithMissingAttendance);
     }
 
-    // SETTERS
-    public function setFirstnameAttribute($value)
+    public function firstname(): Attribute
     {
-        $this->user->update(['firstname' => $value]);
+        return new Attribute(
+            get: fn (): string => $this->user ? Str::title($this->user->firstname) : '',
+        );
     }
 
-    public function setLastnameAttribute($value)
+    public function lastname(): Attribute
     {
-        $this->user->update(['lastname' => $value]);
+        return new Attribute(
+            get: fn (): string => $this->user ? Str::title($this->user->lastname) : '',
+        );
     }
 
-    public function setEmailAttribute($value)
+    public function email(): Attribute
     {
-        $this->user->update(['email' => $value]);
+        return new Attribute(
+            get: fn (): ?string => $this?->user?->email,
+        );
     }
+
+    public function name(): Attribute
+    {
+        return new Attribute(
+            get: fn (): string => $this->user ? "{$this->firstname} {$this->lastname}" : '',
+        );
+    }
+
 }

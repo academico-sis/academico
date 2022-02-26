@@ -6,15 +6,10 @@ use App\Models\Payment;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
-use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Redirect;
 
-/**
- * Class PaymentCrudController
- * @property-read CrudPanel $crud
- */
 class PaymentCrudController extends CrudController
 {
     use ListOperation;
@@ -26,9 +21,6 @@ class PaymentCrudController extends CrudController
         $this->middleware('permission:enrollments.edit');
     }
 
-    /**
-     * Configure the CrudPanel object. Apply settings to all operations.
-     */
     public function setup()
     {
         CRUD::setModel(Payment::class);
@@ -40,9 +32,6 @@ class PaymentCrudController extends CrudController
         $this->crud->addButtonFromView('top', 'createInvoice', 'createInvoice', 'start');
     }
 
-    /**
-     * Define what happens when the List operation is loaded.
-     */
     protected function setupListOperation()
     {
         $this->crud->addFilter(
@@ -60,10 +49,10 @@ class PaymentCrudController extends CrudController
 
         CRUD::column('month');
 
-        if (config('app.currency_position') === 'before') {
-            $currency = ['prefix' => config('app.currency_symbol')];
+        if (config('academico.currency_position') === 'before') {
+            $currency = ['prefix' => config('academico.currency_symbol')];
         } else {
-            $currency = ['suffix' => config('app.currency_symbol')];
+            $currency = ['suffix' => config('academico.currency_symbol')];
         }
 
         CRUD::addColumn([

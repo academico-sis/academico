@@ -12,8 +12,8 @@
  */
 
 /*!
- * vue-i18n v8.26.8 
- * (c) 2021 kazuya kawaguchi
+ * vue-i18n v8.27.0 
+ * (c) 2022 kazuya kawaguchi
  * Released under the MIT License.
  */
 
@@ -57,13 +57,6 @@ PERFORMANCE OF THIS SOFTWARE.
  * Released under MIT license <https://lodash.com/license>
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
  * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- */
-
-/**!
- * Sortable 1.10.2
- * @author	RubaXa   <trash@rubaxa.org>
- * @author	owenm    <owen23355@gmail.com>
- * @license MIT
  */
 
 //! moment.js

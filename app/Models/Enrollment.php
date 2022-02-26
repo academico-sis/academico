@@ -6,21 +6,28 @@ use App\Events\EnrollmentCreated;
 use App\Events\EnrollmentDeleting;
 use App\Events\EnrollmentUpdated;
 use App\Events\EnrollmentUpdating;
+use App\Models\Interfaces\InvoiceableModel;
 use App\Models\Skills\SkillEvaluation;
+use App\Traits\PriceTrait;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * @mixin IdeHelperEnrollment
  */
-class Enrollment extends Model
+class Enrollment extends Model implements InvoiceableModel
 {
     use CrudTrait;
     use LogsActivity;
+    use PriceTrait;
+
+    public const ENROLLMENT_STATUSES_TO_COUNT_IN_STATS = ['1', '2'];
 
     protected $guarded = ['id'];
 
@@ -28,14 +35,24 @@ class Enrollment extends Model
 
     protected $with = ['student', 'course', 'childrenEnrollments'];
 
-    protected static bool $logUnguarded = true;
-
     protected $dispatchesEvents = [
         'deleting' => EnrollmentDeleting::class,
         'created' => EnrollmentCreated::class,
         'updating' => EnrollmentUpdating::class,
         'updated' => EnrollmentUpdated::class,
     ];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logUnguarded();
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | SCOPES
+    |--------------------------------------------------------------------------
+    */
 
     /**
      * return all pending enrollments, without the child enrollments.
@@ -94,12 +111,11 @@ class Enrollment extends Model
         return $query->where('course_id', $courseId);
     }
 
-    /** FUNCTIONS */
-    public function changeCourse(Course $newCourse)
-    {
-        $this->course_id = $newCourse->id;
-        $this->save();
-    }
+    /*
+    |--------------------------------------------------------------------------
+    | FUNCTIONS
+    |--------------------------------------------------------------------------
+    */
 
     public function markAsPaid()
     {
@@ -149,7 +165,12 @@ class Enrollment extends Model
         }
     }
 
-    /** RELATIONS */
+    /*
+    |--------------------------------------------------------------------------
+    | RELATIONS
+    |--------------------------------------------------------------------------
+    */
+
     public function student()
     {
         return $this->belongsTo(Student::class, 'student_id');
@@ -236,14 +257,19 @@ class Enrollment extends Model
         }
     }
 
-    /* Accessors */
+
+    /*
+    |--------------------------------------------------------------------------
+    | ACCESORS
+    |--------------------------------------------------------------------------
+    */
 
     public function getResultNameAttribute()
     {
         return $this->result->result_name->name ?? '-';
     }
 
-    public function skill_evaluations()
+    public function skillEvaluations()
     {
         return $this->hasMany(SkillEvaluation::class);
     }
@@ -258,15 +284,10 @@ class Enrollment extends Model
         return __('Enrollment for').' '.$this->student_name;
     }
 
-    public function getTypeAttribute()
+    public function getTypeAttribute(): string
     {
         return 'enrollment';
     }
-
-    /*     public function getStudentIdAttribute()
-        {
-            return $this->student['id'];
-        } */
 
     public function getStudentAgeAttribute()
     {
@@ -325,10 +346,10 @@ class Enrollment extends Model
         return $attendances->where('attendance_type_id', 3)->count() + $attendances->where('attendance_type_id', 4)->count();
     }
 
-    public function getPriceAttribute()
+    public function getPrice($value)
     {
-        if ($this->total_price !== null) {
-            return $this->total_price / 100;
+        if ($value !== null) {
+            return $value / 100;
         }
 
         // if enabled, retrieve the default price category for the student
@@ -340,15 +361,6 @@ class Enrollment extends Model
 
         // finally, we default to the course price or 0 (because some screens need a value here, it cannot be null)
         return $this->course->price ?? 0;
-    }
-
-    public function getPriceWithCurrencyAttribute()
-    {
-        if (config('app.currency_position') === 'before') {
-            return config('app.currency_symbol').' '.$this->price;
-        }
-
-        return $this->price.' '.config('app.currency_symbol');
     }
 
     public function cancel()
@@ -382,11 +394,6 @@ class Enrollment extends Model
         return $total;
     }
 
-    public function setTotalPriceAttribute($value)
-    {
-        $this->attributes['total_price'] = $value * 100;
-    }
-
     public function getHasBookForCourseAttribute()
     {
         if ($this->course->books->count() > 0) {
@@ -418,5 +425,13 @@ class Enrollment extends Model
         }
 
         return number_format($balance, 2);
+    }
+
+    public function price(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => $this->getPrice($value),
+            set: fn ($value) => $value * 100,
+        );
     }
 }

@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\ValueTrait;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
@@ -16,18 +18,16 @@ class ScheduledPayment extends Model
 {
     use CrudTrait;
     use LogsActivity;
+    use ValueTrait;
 
     protected $table = 'scheduled_payments';
 
     protected $guarded = ['id'];
 
-    protected static bool $logUnguarded = true;
-
-    /*
-    |--------------------------------------------------------------------------
-    | FUNCTIONS
-    |--------------------------------------------------------------------------
-    */
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logUnguarded();
+    }
 
     public function scopeStatus(Builder $query, $status)
     {
@@ -43,12 +43,6 @@ class ScheduledPayment extends Model
         $this->status = 2;
         $this->save();
     }
-
-    /*
-    |--------------------------------------------------------------------------
-    | RELATIONS
-    |--------------------------------------------------------------------------
-    */
 
     public function enrollment()
     {
@@ -68,31 +62,6 @@ class ScheduledPayment extends Model
     public function invoices()
     {
         return $this->invoiceDetails->map(fn (InvoiceDetail $invoiceDetail) => $invoiceDetail->invoice)->filter();
-    }
-    /*
-    |--------------------------------------------------------------------------
-    | SCOPES
-    |--------------------------------------------------------------------------
-    */
-
-    /*
-    |--------------------------------------------------------------------------
-    | ACCESSORS
-    |--------------------------------------------------------------------------
-    */
-
-    public function getValueAttribute($value)
-    {
-        return $value / 100;
-    }
-
-    public function getValueWithCurrencyAttribute()
-    {
-        if (config('app.currency_position') === 'before') {
-            return config('app.currency_symbol').' '.$this->value;
-        }
-
-        return $this->value.' '.config('app.currency_symbol');
     }
 
     public function getDateForHumansAttribute()
@@ -128,16 +97,5 @@ class ScheduledPayment extends Model
             1 => __('Pending'),
             default => '-',
         };
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | MUTATORS
-    |--------------------------------------------------------------------------
-    */
-
-    public function setValueAttribute($value)
-    {
-        $this->attributes['value'] = $value * 100;
     }
 }

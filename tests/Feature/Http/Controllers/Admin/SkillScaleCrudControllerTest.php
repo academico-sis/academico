@@ -12,7 +12,7 @@ class SkillScaleCrudControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->seed('TestSeeder');
@@ -43,7 +43,7 @@ class SkillScaleCrudControllerTest extends TestCase
         $response = $this->delete(route('skillscale.destroy', ['id' => $id]));
 
         $response->assertOk();
-        $this->assertDeleted($skillscale);
+        $this->assertModelMissing($skillscale);
 
         // TODO: perform additional assertions
     }

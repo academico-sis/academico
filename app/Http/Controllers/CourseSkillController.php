@@ -42,8 +42,8 @@ class CourseSkillController extends Controller
                 $section->addText('Niveau '.$level);
             }
 
-            if ($skill->skill_type->name != $type) {
-                $type = $skill->skill_type->name;
+            if ($skill->skillType->name != $type) {
+                $type = $skill->skillType->name;
 
                 $section->addText($type);
             }

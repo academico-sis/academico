@@ -30,9 +30,9 @@ class SkillsTest extends TestCase
             'skill_scale_id' => 3,
         ]);
 
-        $skill->skill_evaluations()->save($evaluation);
+        $skill->skillEvaluations()->save($evaluation);
 
-        $this->assertEquals($skill->skill_evaluations->first()->skill_scale_id, 3);
+        $this->assertEquals($skill->skillEvaluations->first()->skill_scale_id, 3);
 
         $this->assertEquals($evaluation->skill->id, $skill->id);
     }

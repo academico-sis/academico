@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\LeaveRequest as StoreRequest;
-use App\Http\Requests\LeaveUpdateRequest as UpdateRequest;
+use App\Http\Requests\LeaveRequest;
 use App\Models\Leave;
 use App\Models\LeaveType;
 use App\Models\Teacher;
@@ -24,25 +23,16 @@ class LeaveCrudController extends CrudController
 
     public function setup()
     {
-        /*
-        |--------------------------------------------------------------------------
-        | CrudPanel Basic Information
-        |--------------------------------------------------------------------------
-        */
         CRUD::setModel(Leave::class);
-        CRUD::setRoute(config('backpack.base.route_prefix').'/leave');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/leave');
         CRUD::setEntityNameStrings(__('leave'), __('leaves'));
+    }
 
-        /*
-        |--------------------------------------------------------------------------
-        | CrudPanel Configuration
-        |--------------------------------------------------------------------------
-        */
-
+    protected function setupListOperation()
+    {
         CRUD::setColumns([
             [
-                // 1-n relationship
-                'label' => 'Teacher',
+                'label' => __('Teacher'),
                 'type' => 'select',
                 'name' => 'teacher_id',
                 'entity' => 'teacher',
@@ -51,8 +41,7 @@ class LeaveCrudController extends CrudController
             ],
 
             [
-                // 1-n relationship
-                'label' => 'Type',
+                'label' => __('Type'),
                 'type' => 'select',
                 'name' => 'leave_type_id',
                 'entity' => 'leaveType',
@@ -62,13 +51,13 @@ class LeaveCrudController extends CrudController
 
             [
                 'name' => 'date',
-                'label' => 'Date',
+                'label' => __('Date'),
                 'type' => 'date',
             ],
         ]);
 
         CRUD::addFilter(
-            [ // select2 filter
+            [
                 'name' => 'teacher_id',
                 'type' => 'select2',
                 'label' => __('Teacher'),
@@ -82,7 +71,7 @@ class LeaveCrudController extends CrudController
         );
 
         CRUD::addFilter(
-            [ // daterange filter
+            [
                 'type' => 'date_range',
                 'name' => 'from_to',
                 'label' => __('Date range'),
@@ -98,12 +87,11 @@ class LeaveCrudController extends CrudController
 
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(StoreRequest::class);
+        CRUD::setValidation(LeaveRequest::class);
 
         CRUD::addFields([
             [
-                // 1-n relationship
-                'label' => 'Teacher',
+                'label' => __('Teacher'),
                 'type' => 'select_multiple',
                 'name' => 'teacher_id',
                 'entity' => 'teacher',
@@ -112,8 +100,7 @@ class LeaveCrudController extends CrudController
             ],
 
             [
-                // 1-n relationship
-                'label' => 'Type',
+                'label' => __('Type'),
                 'type' => 'select',
                 'name' => 'leave_type_id',
                 'entity' => 'leaveType',
@@ -121,18 +108,16 @@ class LeaveCrudController extends CrudController
                 'model' => LeaveType::class,
             ],
 
-            [   // date_range
+            [
                 'name' => ['start_date', 'end_date'],
-                // db columns for start_date & end_date
-                'label' => 'Event Date Range',
+                'label' =>__('Date Range'),
                 'type' => 'date_range',
                 'default' => [Carbon::now()->format('Y-m-d 00:00'), Carbon::now()->addDays(2)->format('Y-m-d 00:00')],
-                // default value for start_date and end_date
             ],
         ]);
     }
 
-    public function store(StoreRequest $request)
+    public function store(LeaveRequest $request)
     {
         foreach ($request->teacher_id as $teacher_id) {
             $start = Carbon::parse($request->start_date);
@@ -154,11 +139,10 @@ class LeaveCrudController extends CrudController
 
     protected function setupUpdateOperation()
     {
-        CRUD::setValidation(UpdateRequest::class);
+        CRUD::setValidation(LeaveRequest::class);
 
         CRUD::addFields([
             [
-                // 1-n relationship
                 'label' => 'Type',
                 'type' => 'select',
                 'name' => 'leave_type_id',
@@ -167,7 +151,7 @@ class LeaveCrudController extends CrudController
                 'model' => LeaveType::class,
             ],
 
-            [   // datepicker
+            [
                 'name' => 'date',
                 'label' => 'Event Date',
                 'type' => 'date',

@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
@@ -12,6 +14,10 @@ use Spatie\Activitylog\Traits\LogsActivity;
 class CourseTime extends Model
 {
     use LogsActivity;
+    use CrudTrait;
+
+    public $timestamps = false;
+    protected $guarded = ['id'];
 
     protected static function boot()
     {
@@ -19,7 +25,7 @@ class CourseTime extends Model
 
         // when a coursetime is added, we should create corresponding events
         static::created(function ($coursetime) {
-            $coursetime->create_events();
+            $coursetime->createEvents();
         });
 
         // when a coursetime is deleted, we should delete all associated future events
@@ -29,24 +35,17 @@ class CourseTime extends Model
         });
     }
 
-    public $timestamps = false;
-
-    protected $guarded = ['id'];
-
-    protected static bool $logUnguarded = true;
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logUnguarded();
+    }
 
     public function identifiableAttribute()
     {
         return $this->day;
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | FUNCTIONS
-    |--------------------------------------------------------------------------
-    */
-
-    public function create_events()
+    public function createEvents()
     {
         $today = Carbon::parse($this->course->start_date)->startOfDay();
         $end = Carbon::parse($this->course->end_date)->endOfDay();
@@ -71,12 +70,6 @@ class CourseTime extends Model
         }
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | RELATIONS
-    |--------------------------------------------------------------------------
-    */
-
     /** events = class sessions.
      * An Event is related to the CourseTime that generated it. This is needed to update related events when updating the course schedule.
      */
@@ -89,22 +82,4 @@ class CourseTime extends Model
     {
         return $this->belongsTo(Course::class);
     }
-
-    /*
-    |--------------------------------------------------------------------------
-    | SCOPES
-    |--------------------------------------------------------------------------
-    */
-
-    /*
-    |--------------------------------------------------------------------------
-    | ACCESORS
-    |--------------------------------------------------------------------------
-    */
-
-    /*
-    |--------------------------------------------------------------------------
-    | MUTATORS
-    |--------------------------------------------------------------------------
-    */
 }

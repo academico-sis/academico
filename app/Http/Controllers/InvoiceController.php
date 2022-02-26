@@ -142,7 +142,7 @@ class InvoiceController extends Controller
 
         // send the details to Accounting
         // and receive and store the invoice number
-        if ($request->sendinvoice == true && config('invoicing.invoicing_system')) {
+        if ($request->sendinvoice && config('invoicing.invoicing_system')) {
             try {
                 $invoiceNumber = $this->invoicingService->saveInvoice($invoice);
                 Log::info($invoiceNumber);
@@ -193,7 +193,7 @@ class InvoiceController extends Controller
 
         $notes = $invoice->invoiceType->notes;
 
-        $currencyFormat = config('app.currency_position') === 'before' ? '{SYMBOL}{VALUE}' : '{VALUE}{SYMBOL}';
+        $currencyFormat = config('academico.currency_position') === 'before' ? '{SYMBOL}{VALUE}' : '{VALUE}{SYMBOL}';
         $generatedInvoice = InvoiceAlias::make()
             ->buyer($customer)
             ->series($invoice->invoice_series)
@@ -201,8 +201,8 @@ class InvoiceController extends Controller
             ->dateFormat('d/m/Y')
             ->date($invoice->date)
             ->logo(storage_path('logo2.png'))
-            ->currencySymbol(config('app.currency_symbol'))
-            ->currencyCode(config('app.currency_code'))
+            ->currencySymbol(config('academico.currency_symbol'))
+            ->currencyCode(config('academico.currency_code'))
             ->currencyFormat($currencyFormat)
             ->notes($notes ?? '');
 

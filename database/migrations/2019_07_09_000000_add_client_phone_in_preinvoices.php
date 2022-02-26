@@ -2,8 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class AddClientPhoneInPreinvoices extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -25,4 +24,4 @@ class AddClientPhoneInPreinvoices extends Migration
     {
         //
     }
-}
+};

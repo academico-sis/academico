@@ -1,12 +1,12 @@
 <?php
 
+use App\Models\Enrollment;
 use App\Models\Invoice;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEnrollmentInvoiceTable extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -20,7 +20,7 @@ class CreateEnrollmentInvoiceTable extends Migration
             $table->unsignedInteger('invoice_id')->references('id')->on('invoices')->onDelete('cascade');
         });
 
-        foreach (\App\Models\Enrollment::all() as $enrollment) {
+        foreach (Enrollment::all() as $enrollment) {
             $invoices = Invoice::whereId($enrollment->invoice_id);
 
             if ($invoices->count() > 0) {
@@ -40,4 +40,4 @@ class CreateEnrollmentInvoiceTable extends Migration
     {
         Schema::dropIfExists('enrollment_invoice');
     }
-}
+};

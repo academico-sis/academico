@@ -17,7 +17,7 @@ class CourseSkillEvaluationControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -59,7 +59,7 @@ class CourseSkillEvaluationControllerTest extends TestCase
         $response->assertViewIs('skills.students');
         $response->assertViewHas('course');
         $response->assertViewHas('skills');
-        $response->assertViewHas('skill_evaluations');
+        $response->assertViewHas('skillEvaluations');
         $response->assertViewHas('enrollments');
     }
 
@@ -73,7 +73,6 @@ class CourseSkillEvaluationControllerTest extends TestCase
         $enrollment = factory(Enrollment::class)->create();
         $course->skills()->attach($skill, ['weight' => 1]);
         $skillScale = factory(SkillScale::class)->create();
-        $this->assertEmpty($course->skill_evaluations);
 
         $response = $this->post(route('storeSkillEvaluation'), [
             'skill' => $skill->id,
@@ -83,7 +82,7 @@ class CourseSkillEvaluationControllerTest extends TestCase
         $course->refresh();
 
         $response->assertOk();
-        $this->assertEquals($enrollment->skill_evaluations->first()->skill_id, $skill->id);
-        $this->assertEquals($enrollment->skill_evaluations->first()->skill_scale_id, $skillScale->id);
+        $this->assertEquals($enrollment->skillEvaluations->first()->skill_id, $skill->id);
+        $this->assertEquals($enrollment->skillEvaluations->first()->skill_scale_id, $skillScale->id);
     }
 }

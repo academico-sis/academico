@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class ModifyInvoicingStructure extends Migration
-{
+return new class extends Migration {
     public function up()
     {
         Schema::table('enrollments', function (Blueprint $table) {
@@ -30,4 +29,4 @@ class ModifyInvoicingStructure extends Migration
             //
         });
     }
-}
+};

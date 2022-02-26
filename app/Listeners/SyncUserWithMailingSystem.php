@@ -15,7 +15,7 @@ class SyncUserWithMailingSystem
     // receives the user's email - name - lastname -- and list id
     public function handle(LeadStatusUpdatedEvent $event): void
     {
-        if (config('mailing-system.external_mailing_enabled') == true && $event->email && $event->firstname && $event->lastname && $event->listId) {
+        if (config('mailing-system.external_mailing_enabled') && $event->email && $event->firstname && $event->lastname && $event->listId) {
             $this->mailingSystem->subscribeUser($event->email, $event->firstname, $event->lastname, $event->listId);
         }
     }

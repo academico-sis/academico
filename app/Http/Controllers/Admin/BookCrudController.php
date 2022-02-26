@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\BookRequest as StoreRequest;
 use App\Models\Book;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -10,6 +9,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Validation\Rule;
 
 class BookCrudController extends CrudController
 {
@@ -18,52 +18,80 @@ class BookCrudController extends CrudController
     use UpdateOperation;
     use DeleteOperation;
 
+    private array $currency = [];
+
+    public function __construct()
+    {
+        if (config('academico.currency_position') === 'before') {
+            $this->currency = ['prefix' => config('academico.currency_symbol')];
+        } else {
+            $this->currency = ['suffix' => config('academico.currency_symbol')];
+        }
+
+        parent::__construct();
+    }
+
     public function setup()
     {
-        /*
-        |--------------------------------------------------------------------------
-        | CrudPanel Basic Information
-        |--------------------------------------------------------------------------
-        */
         CRUD::setModel(Book::class);
-        CRUD::setRoute(config('backpack.base.route_prefix').'/book');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/book');
         CRUD::setEntityNameStrings(__('book'), __('books'));
+    }
 
-        /*
-        |--------------------------------------------------------------------------
-        | CrudPanel Configuration
-        |--------------------------------------------------------------------------
-        */
-
+    public function setupListOperation()
+    {
         CRUD::addColumns([
-            ['name' => 'name',
-                'label' => 'Name', ],
-            ['name' => 'price',
-                'label' => 'Price', ],
-            ['name' => 'product_code',
-                'label' => 'Product Code', ],
+            [
+                'name' => 'name',
+                'label' => __('Name'),
+            ],
+            [
+                'name' => 'price_with_currency',
+                'label' => __('Price'),
+            ],
+            [
+                'name' => 'product_code',
+                'label' => __('Product Code'),
+            ],
+        ]);
+    }
+
+    public function setupCreateOperation()
+    {
+        CRUD::setValidation([
+            'name' => [
+                'required',
+                'min:1',
+                'max:255',
+                Rule::unique($this->crud->getModel()->getTable())->ignore($this->crud->getCurrentEntry()),
+            ],
+            'price' => 'required|numeric|min:0',
+            'product_code' => 'string|nullable',
         ]);
 
         CRUD::addFields([
-            ['name' => 'name',
-                'label' => 'Name',
-                'type' => 'text', ],
-            ['name' => 'price',
-                'label' => 'Price',
+            [
+                'name' => 'name',
+                'label' => __('Name'),
+                'type' => 'text',
+            ],
+
+            array_merge([
+                'name' => 'price',
+                'label' => __('Price'),
                 'type' => 'number',
-                'attributes' => ['step' => '0.01'], ],
-            ['name' => 'product_code',
-                'label' => 'Product Code',
-                'type' => 'text', ],
+                'attributes' => ['step' => '0.01'],
+            ], $this->currency),
+
+            [
+                'name' => 'product_code',
+                'label' => __('Product Code'),
+                'type' => 'text',
+            ],
         ]);
     }
 
-    protected function setupCreateOperation()
-    {
-        CRUD::setValidation(StoreRequest::class);
-    }
-
-    protected function setupUpdateOperation()
+    public function setupUpdateOperation()
     {
         $this->setupCreateOperation();
     }

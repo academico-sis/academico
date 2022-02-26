@@ -13,7 +13,7 @@ class PeriodCrudControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->seed('TestSeeder');
@@ -37,7 +37,7 @@ class PeriodCrudControllerTest extends TestCase
         $period = factory(Period::class)->create();
         $response = $this->delete(route('period.destroy', ['id' => $period->id]));
         $response->assertOk();
-        $this->assertDeleted($period);
+        $this->assertModelMissing($period);
     }
 
     /**

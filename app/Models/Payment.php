@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\ValueTrait;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * @mixin IdeHelperPayment
@@ -13,10 +16,17 @@ use Illuminate\Support\Facades\App;
 class Payment extends Model
 {
     use CrudTrait;
+    use LogsActivity;
+    use ValueTrait;
 
     protected $guarded = ['id'];
 
     protected $appends = ['date_for_humans', 'value_with_currency'];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logUnguarded();
+    }
 
     /*
     |--------------------------------------------------------------------------
@@ -35,25 +45,9 @@ class Payment extends Model
         return $this->belongsTo(Invoice::class);
     }
 
-    public function paymentmethod() {
-        return $this->belongsTo(Paymentmethod::class, 'payment_method', 'code')->withDefault();
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | SCOPES
-    |--------------------------------------------------------------------------
-    */
-
-    /*
-    |--------------------------------------------------------------------------
-    | ACCESORS
-    |--------------------------------------------------------------------------
-    */
-
-    public function getValueAttribute($value)
+    public function paymentmethod()
     {
-        return $value / 100;
+        return $this->belongsTo(Paymentmethod::class, 'payment_method', 'code')->withDefault();
     }
 
     public function getEnrollmentNameAttribute(): string
@@ -97,23 +91,7 @@ class Payment extends Model
         return Carbon::parse($this->date)->locale(App::getLocale())->isoFormat('MMMM Y');
     }
 
-    public function getValueWithCurrencyAttribute()
-    {
-        if (config('app.currency_position') === 'before') {
-            return config('app.currency_symbol').' '.$this->value;
-        }
-
-        return $this->value.' '.config('app.currency_symbol');
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | MUTATORS
-    |--------------------------------------------------------------------------
-    */
-
-    public function setValueAttribute($value)
-    {
-        $this->attributes['value'] = $value * 100;
+    public function identifiableAttribute() {
+        return $this->id;
     }
 }

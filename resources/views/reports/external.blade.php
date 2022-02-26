@@ -30,13 +30,17 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
+
+                    <span>@lang('Partnership')</span>
+                    <!-- Partner selection dropdown -->
+                    @include('partials.partner_selection')
                     <div class="card-header-actions">
-                        <span>@lang('Start from period:')</span>
+                        <span>@lang('Start') :</span>
                         <!-- Period selection dropdown -->
                         @include('partials.period_selection')
                     </div>
                 </div>
-                
+
                 <div class="card-body">
                     <table class="table table-striped">
                         <thead>
@@ -44,7 +48,7 @@
                             <th>@lang('Number of Courses')</th>
                             <th>@lang('Number of Partnerships')</th>
                             <th>@lang('Enrollments')</th>
-                            <th>@lang('New Students')</th>    
+                            <th>@lang('New Students')</th>
                             <th>@lang('Hours Taught')</th>
                             <th>@lang('Hours Sold')</th>
                         </thead>
@@ -85,11 +89,11 @@
                                     <td>
                                         {{ $year_students ?? '-' }}
                                     </td>
-                                    
+
                                     <td>
                                         {{ number_format($year_taught_hours ?? '0', 0, ',', ' ') }}
                                     </td>
-                                    
+
                                     <td>
                                         {{ number_format($year_sold_hours ?? '0', 0, ',', ' ') }}
                                     </td>
@@ -103,7 +107,7 @@
                                     $year_taught_hours = 0;
                                     $year_sold_hours = 0;
                                 @endphp
-                                
+
                             @endif
 
                             @php
@@ -134,11 +138,11 @@
                                     <td>
                                         {{ $data_period['students'] ?? '-' }}
                                     </td>
-                                    
+
                                     <td>
                                         {{ number_format($data_period['taught_hours'] ?? '0', 0, ',', ' ') }}
                                     </td>
-                                    
+
                                     <td>
                                         {{ number_format($data_period['sold_hours'] ?? '0', 0, ',', ' ') }}
                                     </td>
@@ -170,11 +174,11 @@
                                     <td>
                                         {{ $year_students ?? '-' }}
                                     </td>
-                                    
+
                                     <td>
                                         {{ number_format($year_taught_hours ?? '0', 0, ',', ' ') }}
                                     </td>
-                                    
+
                                     <td>
                                         {{ number_format($year_sold_hours ?? '0', 0, ',', ' ') }}
                                     </td>
@@ -191,7 +195,7 @@
 
 
 @section('before_scripts')
-   
+
 @endsection
 
 
