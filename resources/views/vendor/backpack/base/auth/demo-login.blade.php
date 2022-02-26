@@ -14,7 +14,7 @@
                             <label class="control-label" for="{{ $username }}">{{ config('backpack.base.authentication_column_name') }}</label>
 
                             <div>
-                                <input value="admin@academico.site" type="text" class="form-control{{ $errors->has($username) ? ' is-invalid' : '' }}" name="{{ $username }}" value="{{ old($username) }}" id="{{ $username }}">
+                                <input value="admin" type="text" class="form-control{{ $errors->has($username) ? ' is-invalid' : '' }}" name="{{ $username }}" value="{{ old($username) }}" id="{{ $username }}">
 
                                 @if ($errors->has($username))
                                     <span class="invalid-feedback">
