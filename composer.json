@@ -28,6 +28,8 @@
         "spatie/laravel-medialibrary": "^10.0",
         "spatie/laravel-query-builder": "^5.0",
         "spatie/laravel-translatable": "^5.2",
+        "symfony/http-client": "^6.0",
+        "symfony/mailgun-mailer": "^6.0",
         "symfony/psr-http-message-bridge": "^2.1"
     },
     "require-dev": {
