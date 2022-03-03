@@ -275,7 +275,7 @@ class EnrollmentCrudController extends CrudController
                 });
         }
 
-        if ($this->mode === 'global' && $this->crud->getOperation() === 'list' && $this->crud->filters()->where('name', 'status_id')->count() > 0) {
+        if (config('invoicing.invoices_contain_enrollments_only') && $this->mode === 'global' && $this->crud->getOperation() === 'list' && $this->crud->filters()->where('name', 'status_id')->count() > 0) {
             if ($this->crud->filters()->where('name', 'status_id')->first()->currentValue && in_array(1, json_decode($this->crud->filters()->where('name', 'status_id')->first()->currentValue))) {
                 Widget::add()->type('view')->view('enrollments.total_balance_widget')->to('before_content');
             }
