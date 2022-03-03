@@ -214,7 +214,6 @@ class EnrollmentCrudController extends CrudController
             CRUD::addColumn(array_merge([
                 'name' => 'balance',
                 'label' => __('Balance'),
-                'type' => 'number',
             ], $this->currency));
         }
 

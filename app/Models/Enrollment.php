@@ -356,7 +356,7 @@ class Enrollment extends Model implements InvoiceableModel
         if (config('invoicing.price_categories_enabled') && $this->student?->price_category) {
             $price_category = $this->student->price_category;
 
-            return $this->course->$price_category ?? 0;
+            return $this->course->$price_category / 100 ?? 0;
         }
 
         // finally, we default to the course price or 0 (because some screens need a value here, it cannot be null)
@@ -424,7 +424,7 @@ class Enrollment extends Model implements InvoiceableModel
             $balance -= $invoice->paidTotal();
         }
 
-        return number_format($balance, 2);
+        return $balance;
     }
 
     public function price(): Attribute

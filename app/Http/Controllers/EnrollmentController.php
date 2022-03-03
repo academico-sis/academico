@@ -222,6 +222,7 @@ class EnrollmentController extends Controller
             $pendingBalance = Enrollment::pending()->sum('balance');
         }
 
+        return $pendingBalance;
         return number_format($pendingBalance, 2);
     }
 }
