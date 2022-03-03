@@ -160,7 +160,6 @@ class EventCrudController extends CrudController
                 'required',
                 'min:1',
                 'max:255',
-                Rule::unique($this->crud->getModel()->getTable())->ignore($this->crud->getCurrentEntry()),
             ],
             'start' => 'required|date',
             'end' => 'required|date',

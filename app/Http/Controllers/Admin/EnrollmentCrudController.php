@@ -321,7 +321,7 @@ class EnrollmentCrudController extends CrudController
         ]);
 
         CRUD::addField(array_merge([
-            'name' => 'price',
+            'name' => 'total_price',
             'label' => __('Price'),
             'type' => 'number',
         ], $this->currency));
