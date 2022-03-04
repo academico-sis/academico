@@ -38,7 +38,6 @@
                 <p>@lang('Course'): <a href="{{ route('enrollment.index', ['course_id' => $enrollment->course_id]) }}">{{ $enrollment->course->name }}</a></p>
                 <p>@lang('Period'): {{ $enrollment->course->period->name }}</p>
                 <p>@lang('Price'): {{ $enrollment->price_with_currency }}</p>
-{{--                <p><enrollment-price-field writeaccess="{{ $writeaccess }}" :enrollment="{{ json_encode($enrollment) }}" currency="{{ config('academico.currency_symbol') }}" currencyposition="{{ config('academico.currency_position') }}"></enrollment-price-field></p>--}}
 
                 <div class="form-group">
                     @if($enrollment->status_id === 2)

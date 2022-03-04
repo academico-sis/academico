@@ -418,7 +418,7 @@ class Enrollment extends Model implements InvoiceableModel
             abort(422, 'Configuration options forbid to access this value');
         }
 
-        $balance = $this->price;
+        $balance = $this->total_price;
         foreach ($this->invoices() as $invoice) {
             $balance -= $invoice->paidTotal();
         }

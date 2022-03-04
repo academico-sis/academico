@@ -78,7 +78,6 @@ Route::middleware('web', 'language')->group(function () {
     Route::get('enrollment/{enrollment}/export-certificate', [ResultController::class, 'exportCertificate'])->name('enrollment-export-certificate');
 
     Route::post('checkout', [InvoiceController::class, 'store']);
-    Route::post('enrollment/{enrollment}/price', [EnrollmentController::class, 'savePrice']);
 
     Route::get('invoice/{invoice}/pdf', [InvoiceController::class, 'download'])->name('export-invoice');
 

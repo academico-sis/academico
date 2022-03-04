@@ -195,15 +195,6 @@ class EnrollmentController extends Controller
         return redirect()->back();
     }
 
-    public function savePrice(Enrollment $enrollment, Request $request)
-    {
-        $request->validate(['price' => 'required|numeric']);
-
-        $enrollment->update(['total_price' => $request->price]);
-
-        return $enrollment->fresh();
-    }
-
     public function exportToWord(Enrollment $enrollment)
     {
         return $this->enrollmentSheetService->exportToWord($enrollment);
