@@ -54,7 +54,7 @@ class Invoice extends Model
         return $this->hasMany(Payment::class);
     }
 
-    public function paidTotal()
+    public function paidTotal(): float
     {
         return $this->payments->sum('value');
     }

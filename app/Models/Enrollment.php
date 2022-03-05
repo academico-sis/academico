@@ -25,7 +25,6 @@ class Enrollment extends Model implements InvoiceableModel
 {
     use CrudTrait;
     use LogsActivity;
-    use PriceTrait;
 
     public const ENROLLMENT_STATUSES_TO_COUNT_IN_STATS = ['1', '2'];
 
@@ -419,19 +418,35 @@ class Enrollment extends Model implements InvoiceableModel
             abort(422, 'Configuration options forbid to access this value');
         }
 
-        $balance = $this->price;
+        $balance = $this->total_price;
         foreach ($this->invoices() as $invoice) {
             $balance -= $invoice->paidTotal();
         }
 
-        return number_format($balance, 2);
+        return $balance;
     }
 
     public function price(): Attribute
     {
-        return new Attribute(
+        return Attribute::make(
+            get: fn ($value) => $this->getPrice($value),
+        );
+    }
+
+    public function totalPrice(): Attribute
+    {
+        return Attribute::make(
             get: fn ($value) => $this->getPrice($value),
             set: fn ($value) => $value * 100,
         );
+    }
+
+    public function getPriceWithCurrencyAttribute(): string
+    {
+        if (config('academico.currency_position') === 'before') {
+            return config('academico.currency_symbol').' '.$this->total_price;
+        }
+
+        return $this->total_price.' '.config('academico.currency_symbol');
     }
 }

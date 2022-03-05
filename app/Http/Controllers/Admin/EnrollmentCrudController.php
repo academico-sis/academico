@@ -90,11 +90,15 @@ class EnrollmentCrudController extends CrudController
             CRUD::addButtonFromView('top', 'switch-to-photo-roster', 'switch-to-photo-roster', 'end');
         }
 
-        CRUD::addColumns([['name' => 'id',
-            'label' => 'ID',
-            'wrapper' => ['element' => function ($crud, $column, $entry) {
+        CRUD::addColumns([
+            [
+                'name' => 'id',
+                'label' => 'ID',
+                'type' => 'string',
+                'wrapper' => ['element' => function ($crud, $column, $entry) {
                 return $entry->status_id > 2 ? 'del' : 'span';
-            }], ],
+            }],
+            ],
 
             ['label' => __('ID number'),
                 'type' => 'text',
@@ -205,7 +209,7 @@ class EnrollmentCrudController extends CrudController
         }
 
         CRUD::addColumn(array_merge([
-            'name' => 'price',
+            'name' => 'total_price',
             'label' => __('Price'),
             'type' => 'number',
         ], $this->currency));
@@ -214,7 +218,6 @@ class EnrollmentCrudController extends CrudController
             CRUD::addColumn(array_merge([
                 'name' => 'balance',
                 'label' => __('Balance'),
-                'type' => 'number',
             ], $this->currency));
         }
 
@@ -283,7 +286,7 @@ class EnrollmentCrudController extends CrudController
         ]);
 
         CRUD::addField(array_merge([
-            'name' => 'price',
+            'name' => 'total_price',
             'label' => __('Price'),
             'type' => 'number',
         ], $this->currency));

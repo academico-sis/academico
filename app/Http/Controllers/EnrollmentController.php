@@ -195,15 +195,6 @@ class EnrollmentController extends Controller
         return redirect()->back();
     }
 
-    public function savePrice(Enrollment $enrollment, Request $request)
-    {
-        $request->validate(['price' => 'required|numeric']);
-
-        $enrollment->update(['price' => $request->price]);
-
-        return $enrollment->fresh();
-    }
-
     public function exportToWord(Enrollment $enrollment)
     {
         return $this->enrollmentSheetService->exportToWord($enrollment);
@@ -222,6 +213,7 @@ class EnrollmentController extends Controller
             $pendingBalance = Enrollment::pending()->sum('balance');
         }
 
+        return $pendingBalance;
         return number_format($pendingBalance, 2);
     }
 }
