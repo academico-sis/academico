@@ -83,9 +83,6 @@ Route::middleware('web', 'language')->group(function () {
 
     Route::post('invoice/{invoice}/payments', [InvoiceController::class, 'savePayments'])->name('invoice-save-payments');
 
-    Route::put('enrollment/{enrollment}/price', [EnrollmentController::class, 'savePrice']);
-    Route::post('enrollment/{enrollment}/markaspaid', [EnrollmentController::class, 'markaspaid']);
-    Route::post('enrollment/{enrollment}/markasunpaid', [EnrollmentController::class, 'markasunpaid']);
     Route::get('enrollment/{enrollment}/scheduled-payments', [ScheduledPaymentController::class, 'create'])->name('enrollment-scheduled-payments');
     Route::post('enrollment/{enrollment}/scheduled-payments', [ScheduledPaymentController::class, 'store'])->name('enrollment-save-scheduled-payments');
     Route::get('accountingservice/status', [InvoiceController::class, 'accountingServiceStatus']);

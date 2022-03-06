@@ -38,6 +38,11 @@ class ScheduledPayment extends Model
         };
     }
 
+    public function isPaid(): bool
+    {
+        return $this->status === 2;
+    }
+
     public function markAsPaid()
     {
         $this->status = 2;

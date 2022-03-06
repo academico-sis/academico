@@ -236,10 +236,10 @@ class InvoiceController extends Controller
         return $invoice->fresh()->payments;
     }
 
-    private function ifTheInvoiceIsFullyPaidMarkItsProductsAsSuch(Invoice $invoice): void
+    public function ifTheInvoiceIsFullyPaidMarkItsProductsAsSuch(Invoice $invoice): void
     {
         foreach ($invoice->scheduledPayments as $scheduledPayment) {
-            if ($invoice->totalPrice() === $invoice->paidTotal()) {
+            if ($invoice->totalPrice() == $invoice->paidTotal()) {
                 $scheduledPayment->product->markAsPaid();
 
                 /** @var Enrollment $relatedEnrollment */
@@ -251,7 +251,7 @@ class InvoiceController extends Controller
         }
 
         foreach ($invoice->enrollments as $enrollment) {
-            if ($invoice->totalPrice() === $invoice->paidTotal() && $enrollment->product->price == $enrollment->product->total_paid_price) {
+            if ($invoice->totalPrice() == $invoice->paidTotal() && $enrollment->product->price == $enrollment->product->totalPaidPrice()) {
                 $enrollment->product->markAsPaid();
             }
         }

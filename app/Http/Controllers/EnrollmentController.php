@@ -181,20 +181,6 @@ class EnrollmentController extends Controller
         return view('carts.show', $data);
     }
 
-    public function markaspaid(Enrollment $enrollment)
-    {
-        $enrollment->markAsPaid();
-
-        return redirect()->back();
-    }
-
-    public function markasunpaid(Enrollment $enrollment)
-    {
-        $enrollment->update(['status_id' => 1]);
-
-        return redirect()->back();
-    }
-
     public function exportToWord(Enrollment $enrollment)
     {
         return $this->enrollmentSheetService->exportToWord($enrollment);
