@@ -387,7 +387,6 @@ class Enrollment extends Model implements InvoiceableModel
     {
         $total = 0;
         foreach ($this->invoices() as $invoice) {
-            dd($invoice->invoiceDetails);
             $total += $invoice->paidTotal();
         }
 
