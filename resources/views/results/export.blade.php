@@ -89,7 +89,7 @@
                             <tr>
                                 <td><strong>{{ __('Total') }}</strong></td>
                                 {{-- specific to AF Loja to format legacy grade criterias correctly --}}
-                                @if ($cat_total == 60 && $grade->grade_type->grade_type_category_id == 2)
+                                @if ($cat_total == 60 && $grade->gradeType->gradeTypeCategory_id == 2)
                                 @php $cat_grade = $cat_grade / 2; @endphp
                                 @php $cat_total = $cat_total / 2; @endphp
                                 @endif
