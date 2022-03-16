@@ -374,13 +374,11 @@ class StudentCrudController extends CrudController
 
         // save phone number
         if ($request->phone) {
-            $phone_number = PhoneNumber::firstOrCreate([
-                'phone_number' => $request->phone,
-                'phoneable_id' => $student->id,
-                'phoneable_type' => Student::class,
-            ]);
+            foreach ($request->phone as $phone_number) {
+                $phone_number = PhoneNumber::firstOrCreate(['phone_number' => $phone_number['phone_number'], 'phoneable_id' => $student->id, 'phoneable_type' => Student::class,]);
 
-            $student->phone()->save($phone_number);
+                $student->phone()->save($phone_number);
+            }
         }
 
         // save profession and institution
