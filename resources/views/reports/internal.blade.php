@@ -134,9 +134,9 @@
                                     @if (config('academico.include_takings_in_reports'))
                                         <td>
                                             @if (config('academico.currency_position') === 'before')
-                                                {{ config('academico.currency_symbol') }} {{ number_format($year['year']['takings'] ?? '-') }}
+                                                {{ config('academico.currency_symbol') }} {{ $year['year']['takings'] ?? '-' }}
                                             @else
-                                                {{ number_format($year['year']['takings'] ?? '-') }} {{ config('academico.currency_symbol') }}
+                                                {{ $year['year']['takings'] ?? '-' }} {{ config('academico.currency_symbol') }}
                                             @endif
                                         </td>
 
