@@ -16,6 +16,8 @@ return new class extends Migration
         Schema::table('courses', function (Blueprint $table) {
             $table->bigInteger('hourly_price')->nullable()->change();
         });
+
+
     }
 
     /**
@@ -26,7 +28,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('courses', function (Blueprint $table) {
-            //
+            $table->decimal('hourly_price', 8, 2)->nullable()->change();
         });
     }
 };
