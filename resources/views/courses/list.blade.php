@@ -27,6 +27,7 @@
         :rhythms="{{ $rhythms }}"
         :levels="{{ $levels }}"
         :editable="{{ $isAllowedToEdit }}"
+        :filters="{{ json_encode($filters) }}"
         mode="{{ $mode }}"
         :student="{{ $student }}"
         enrollment_id="{{ $enrollment_id }}"
