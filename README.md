@@ -1,6 +1,6 @@
 # About this project
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-12-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-13-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/academico-sis/academico/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/academico-sis/academico/?branch=master)
@@ -38,6 +38,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://bit.ly/doode-website"><img src="https://avatars.githubusercontent.com/u/1921806?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Vitor Micillo</b></sub></a><br /><a href="#maintenance-vitormicillo" title="Maintenance">🚧</a></td>
     <td align="center"><a href="https://github.com/Dummdevka"><img src="https://avatars.githubusercontent.com/u/87282400?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Tatiana Goloviznina</b></sub></a><br /><a href="https://github.com/academico-sis/academico/commits?author=Dummdevka" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/rm-yakovenko"><img src="https://avatars.githubusercontent.com/u/2056667?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Rm Yakovenko</b></sub></a><br /><a href="https://github.com/academico-sis/academico/commits?author=rm-yakovenko" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/MizouziE"><img src="https://avatars.githubusercontent.com/u/90829439?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Sam</b></sub></a><br /><a href="https://github.com/academico-sis/academico/commits?author=MizouziE" title="Code">💻</a> <a href="https://github.com/academico-sis/academico/commits?author=MizouziE" title="Documentation">📖</a></td>
   </tr>
 </table>
 
