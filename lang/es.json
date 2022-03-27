@@ -542,5 +542,6 @@
     "You are editing an invoice": "Esta modificando una factura",
     "Please remember that your changes here might also affect related data. Proceed with caution!": "Por favor, tener cuidado: sus cambios aqui pueden alterar otros datos.",
     "Adding products to an existing invoice is not supported at the moment": "No es posible agregar productos addicionales a una factura",
-    "Product Code": "Codigo contable"
+    "Product Code": "Codigo contable",
+    "The result is not validated": "El curso no esta aprobado"
 }
