@@ -275,16 +275,19 @@ export default {
         "editable",
         "mode",
         "student",
-        "enrollment_id"
+        "enrollment_id",
+        "filters",
     ],
 
     data() {
+        const filters = this.filters || {};
+
         return {
-            selectedPeriod: this.defaultperiod.id,
-            selectedTeacher: "",
+            selectedPeriod: filters.period_id || this.defaultperiod.id,
+            selectedTeacher: filters.teacher_id || '',
             courses: [],
-            selectedRhythms: [],
-            selectedLevels: [],
+            selectedRhythms: (filters.rhythm_id || '').split(','),
+            selectedLevels: (filters.searchable_levels || '').split(','),
             highlightedSortableId: null,
             isLoading: true,
             hasErrors: false,

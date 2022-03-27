@@ -33,11 +33,18 @@ class CourseController extends Controller
         $student = Student::with('enrollments')->find($request->student_id) ?? collect(['']);
         $enrollment_id = $request->enrollment_id ?? 'none';
 
-        return view('courses.list', compact('defaultPeriod', 'isAllowedToEdit', 'rhythms', 'levels', 'mode', 'student', 'enrollment_id'));
+        $filters = session()->get('courses.filters', []);
+
+        return view(
+            'courses.list',
+            compact('defaultPeriod', 'isAllowedToEdit', 'rhythms', 'levels', 'mode', 'student', 'enrollment_id', 'filters')
+        );
     }
 
     public function search()
     {
+        session()->put('courses.filters', request('filter'));
+
         return QueryBuilder::for(Course::class)->whereNull('partner_id')
         ->with('room')->withCount('events')->withCount('children')->withCount('enrollments')
         ->allowedFilters([
