@@ -127,7 +127,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | The following credentials are used to share your Enlightn report with
-    | the Enlightn Github Bot. This allows the bot to compile the report
+    | the Enlightn GitHub Bot. This allows the bot to compile the report
     | and add review comments on your pull requests.
     |
     */
@@ -136,7 +136,7 @@ return [
         'api_token' => env('ENLIGHTN_API_TOKEN'),
     ],
 
-    // Set this value to your Github repo for integrating with the Enlightn Github Bot
+    // Set this value to your GitHub repo for integrating with the Enlightn GitHub Bot
     // Format: "myorg/myrepo" like "laravel/framework".
     'github_repo' => env('ENLIGHTN_GITHUB_REPO'),
 
