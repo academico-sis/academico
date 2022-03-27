@@ -245,39 +245,6 @@ class EnrollmentCrudController extends CrudController
                 'model' => PhoneNumber::class,
             ],
         ]);
-
-        if ($this->mode === 'global') {
-            CRUD::addFilter([
-                'name' => 'status_id',
-                'type' => 'select2_multiple',
-                'label' => __('Status'),
-            ],
-            fn () => EnrollmentStatusType::all()->pluck('name', 'id')->toArray(),
-                function ($values) {
-                    foreach (json_decode($values, null, 512, JSON_THROW_ON_ERROR) as $value) {
-                        CRUD::addClause('orWhere', 'status_id', $value);
-                    }
-                }
-            );
-
-            CRUD::addFilter(['name' => 'period_id',
-                'type' => 'select2',
-                'label' => __('Period'), ], fn () => Period::all()->pluck('name', 'id')->toArray(), function ($value) {
-                    CRUD::addClause('period', $value);
-                });
-
-            CRUD::addFilter(['name' => 'scholarship',
-                'type' => 'select2',
-                'label' => __('Scholarship'), ], fn () => Scholarship::all()->pluck('name', 'id')->toArray(), function ($value) {
-                    if ($value == 'all') {
-                        CRUD::addClause('whereHas', 'scholarships');
-                    } else {
-                        CRUD::addClause('whereHas', 'scholarships', function ($q) use ($value) {
-                            $q->where('scholarships.id', $value);
-                        });
-                    }
-                });
-        }
     }
 
     public function show($enrollment)
