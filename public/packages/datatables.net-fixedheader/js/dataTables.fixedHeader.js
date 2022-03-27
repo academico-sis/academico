@@ -1,4 +1,4 @@
-/*! FixedHeader 3.2.1
+/*! FixedHeader 3.2.2
  * ©2009-2021 SpryMedia Ltd - datatables.net/license
  */
 
@@ -6,7 +6,7 @@
  * @summary     FixedHeader
  * @description Fix a table's header or footer, so it is always visible while
  *              scrolling
- * @version     3.2.1
+ * @version     3.2.2
  * @file        dataTables.fixedHeader.js
  * @author      SpryMedia Ltd (www.sprymedia.co.uk)
  * @contact     www.sprymedia.co.uk/contact
@@ -141,14 +141,30 @@ $.extend( FixedHeader.prototype, {
 	 * Kill off FH and any events
 	 */
 	destroy: function () {
+		var dom = this.dom;
+
 		this.s.dt.off( '.dtfc' );
 		$(window).off( this.s.namespace );
+
+		// Remove clones of FC blockers
+		if (dom.header.rightBlocker) {
+			dom.header.rightBlocker.remove();
+		}
+		if (dom.header.leftBlocker) {
+			dom.header.leftBlocker.remove();
+		}
+		if (dom.footer.rightBlocker) {
+			dom.footer.rightBlocker.remove();
+		}
+		if (dom.footer.leftBlocker) {
+			dom.footer.leftBlocker.remove();
+		}
 
 		if ( this.c.header ) {
 			this._modeChange( 'in-place', 'header', true );
 		}
 
-		if ( this.c.footer && this.dom.tfoot.length ) {
+		if ( this.c.footer && dom.tfoot.length ) {
 			this._modeChange( 'in-place', 'footer', true );
 		}
 	},
@@ -300,6 +316,7 @@ $.extend( FixedHeader.prototype, {
 	 */
 	_clone: function ( item, force )
 	{
+		var that = this;
 		var dt = this.s.dt;
 		var itemDom = this.dom[ item ];
 		var itemElement = item === 'header' ?
@@ -329,6 +346,8 @@ $.extend( FixedHeader.prototype, {
 			var tableNode = $(dt.table().node()); 
 			var scrollBody = $(tableNode.parent());
 			var scrollEnabled = this._scrollEnabled();
+			var docScrollLeft = $(document).scrollLeft();
+			var docScrollTop = $(document).scrollTop();
 
 			itemDom.floating = $( dt.table().node().cloneNode( false ) )
 				.attr( 'aria-hidden', 'true' )
@@ -365,14 +384,16 @@ $.extend( FixedHeader.prototype, {
 
 			this._stickyPosition(itemDom.floating, '-');
 
-			var scrollLeftUpdate = () => {
+			var scrollLeftUpdate = function () {
 				var scrollLeft = scrollBody.scrollLeft()
-				this.s.scrollLeft = {footer: scrollLeft, header: scrollLeft};
-				itemDom.floatingParent.scrollLeft(this.s.scrollLeft.header);
+				that.s.scrollLeft = {footer: scrollLeft, header: scrollLeft};
+				itemDom.floatingParent.scrollLeft(that.s.scrollLeft.header);
 			}
 
 			scrollLeftUpdate();
-			scrollBody.scroll(scrollLeftUpdate)
+			scrollBody
+				.off('scroll.dtfh')
+				.on('scroll.dtfh', scrollLeftUpdate);
 
 			// Insert a fake thead/tfoot into the DataTable to stop it jumping around
 			itemDom.placeholder = itemElement.clone( false );
@@ -384,6 +405,13 @@ $.extend( FixedHeader.prototype, {
 
 			// Clone widths
 			this._matchWidths( itemDom.placeholder, itemDom.floating );
+
+			// The above action will remove the table header, potentially causing the table to
+			// collapse to a smaller size, before it is then re-inserted (append). The result
+			// can be that the document, if scrolling, can "jump".
+			$(document)
+				.scrollTop(docScrollTop)
+				.scrollLeft(docScrollLeft);
 		}
 	},
 
@@ -719,6 +747,10 @@ $.extend( FixedHeader.prototype, {
 	 */
 	_scroll: function ( forceChange )
 	{
+		if (this.s.dt.settings()[0].bDestroying) {
+			return;
+		}
+
 		// ScrollBody details
 		var scrollEnabled = this._scrollEnabled();
 		var scrollBody = $(this.s.dt.table().node()).parent();
@@ -821,12 +853,12 @@ $.extend( FixedHeader.prototype, {
 
 			this._horizontal( 'footer', windowLeft );
 			
-			var getOffsetHeight = (el) => {
+			var getOffsetHeight = function (el) {
 				return {
 					offset: el.offset(),
 					height: el.outerHeight()
-				}
-			}
+				};
+			};
 		
 			header = this.dom.header.floating ? getOffsetHeight(this.dom.header.floating) : getOffsetHeight(this.dom.thead);
 			footer = this.dom.footer.floating ? getOffsetHeight(this.dom.footer.floating) : getOffsetHeight(this.dom.tfoot);
@@ -883,13 +915,15 @@ $.extend( FixedHeader.prototype, {
 		// Cloning these is cleaner than creating as our own as it will keep consistency with fixedColumns automatically
 		// ASSUMING that the class remains the same
 		if (this.s.dt.settings()[0]._fixedColumns !== undefined) {
-			var adjustBlocker = (side, end, el) => {
+			var adjustBlocker = function (side, end, el) {
 				if (el === undefined) {
-					let blocker = $('div.dtfc-'+side+'-'+end+'-blocker');
+					var blocker = $('div.dtfc-'+side+'-'+end+'-blocker');
+
 					el = blocker.length === 0 ?
 						null :
 						blocker.clone().appendTo('body').css('z-index', 1);
 				}
+
 				if(el !== null) {
 					el.css({
 						top: end === 'top' ? header.offset.top : footer.offset.top,
@@ -927,7 +961,7 @@ $.extend( FixedHeader.prototype, {
  * @type {String}
  * @static
  */
-FixedHeader.version = "3.2.1";
+FixedHeader.version = "3.2.2";
 
 /**
  * Defaults
