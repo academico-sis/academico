@@ -120,6 +120,16 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "MizouziE",
+      "name": "Sam",
+      "avatar_url": "https://avatars.githubusercontent.com/u/90829439?v=4",
+      "profile": "https://github.com/MizouziE",
+      "contributions": [
+        "code",
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
