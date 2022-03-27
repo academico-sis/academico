@@ -409,6 +409,14 @@ class Course extends Model
         );
     }
 
+    public function hourlyPrice(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => $value / 100,
+            set: fn ($value) => $value * 100,
+        );
+    }
+
     public function getFormattedStartDateAttribute()
     {
         return Carbon::parse($this->start_date, 'UTC')->locale(App::getLocale())->isoFormat('LL');
