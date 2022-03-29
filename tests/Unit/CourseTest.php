@@ -207,6 +207,58 @@ class CourseTest extends TestCase
         $this->assertSame('Mon 10:00 AM - 11:00 AM / 11:30 AM - 12:45 PM', $courseTimeParsed);
     }
 
+
+    /**
+     * @link https://github.com/academico-sis/academico/issues/237
+     *
+     * @test
+     */
+    public function course_with_sequential_days_is_correctly_parsed()
+    {
+        // given a course and events
+        $course = factory(Course::class)->create();
+
+        foreach (range(1, 3) as $day) {
+            $course->times()->create(
+                [
+                    'course_id' => $course->id,
+                    'day' => $day,
+                    'start' => '10:00',
+                    'end' => '11:00',
+                ]
+            );
+        }
+
+        // day in the sequence but with different time
+        $course->times()->create(
+            [
+                'course_id' => $course->id,
+                'day' => 4,
+                'start' => '10:15',
+                'end' => '11:00',
+            ]
+        );
+
+
+        foreach (range(5, 6) as $day) {
+            $course->times()->create(
+                [
+                    'course_id' => $course->id,
+                    'day' => $day,
+                    'start' => '10:00',
+                    'end' => '11:00',
+                ]
+            );
+        }
+
+        $courseTimeParsed = $course->course_times;
+
+        $this->assertSame(
+            'Mon - Wed 10:00 AM - 11:00 AM | Fri - Sat 10:00 AM - 11:00 AM | Thu 10:15 AM - 11:00 AM',
+            $courseTimeParsed
+        );
+    }
+
     /** @test */
     public function course_with_two_schedules_on_different_day_is_correctly_parsed()
     {

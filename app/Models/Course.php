@@ -9,6 +9,7 @@ use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
 use Spatie\Activitylog\LogOptions;
@@ -274,7 +275,6 @@ class Course extends Model
      */
     public function getCourseTimesAttribute()
     {
-        $parsedCourseTimes = [];
         // TODO localize these
         $daysInitials = [
             __('Sun'),
@@ -293,28 +293,51 @@ class Course extends Model
             $courseTimes = $this->children->first()->times;
         }
 
-        if ($courseTimes) {
-            foreach ($courseTimes as $courseTime) {
-                $initial = $daysInitials[$courseTime->day];
+        foreach ($courseTimes as $courseTime) {
+            $timeString = sprintf(
+                '%s - %s',
+                Carbon::parse($courseTime->start)->locale(App::getLocale())->isoFormat('LT'),
+                Carbon::parse($courseTime->end)->locale(App::getLocale())->isoFormat('LT')
+            );
+            $courseTime->timeString = $timeString;
+            $courseTime->dayString = $daysInitials[$courseTime->day];
+        }
 
-                if (! isset($parsedCourseTimes[$initial])) {
-                    $parsedCourseTimes[$initial] = [];
+        $courseTimes = $courseTimes->sortBy('day');
+        foreach ($courseTimes->groupBy('timeString') as $groupedCourseTimes) {
+            $currentSeq = [];
+            foreach ($groupedCourseTimes as $courseTime) {
+                $prevCourseTime = end($currentSeq);
+                if ($prevCourseTime && ($courseTime->day - $prevCourseTime->day) !== 1) {
+                    $currentSeq = [];
                 }
-
-                $parsedCourseTimes[$initial][] = sprintf(
-                    '%s - %s',
-                    Carbon::parse($courseTime->start)->locale(App::getLocale())->isoFormat('LT'),
-                    Carbon::parse($courseTime->end)->locale(App::getLocale())->isoFormat('LT')
-                );
+                $currentSeq[] = $courseTime;
+                $courseTime->firstOfSeq = reset($currentSeq);
             }
         }
 
-        $result = '';
-        foreach ($parsedCourseTimes as $day => $times) {
-            $result .= $day.' '.implode(' / ', $times).' | ';
+        $groups = $courseTimes->groupBy(fn (CourseTime $courseTime) => $courseTime->firstOfSeq->id)
+            ->groupBy(fn (Collection $seqGroup) => $seqGroup->count() > 1 ? 'multi_days' : 'multi_times');
+
+        $result = [];
+
+        // Instead of showing this:
+        // Mon 9:00 - 5:00 | Tue 9:00 - 5:00 | Wed 9:00 - 5:00 | Thu 9:00 - 5:00 | Fri 9:00 - 5:00
+        // we could show:
+        // Mon - Fri 9:00 - 5:00
+        foreach (collect($groups->get('multi_days', [])) as $group) {
+            $firstDay = $group->first();
+            $lastDay = $group->last();
+            $result[] = "{$firstDay->dayString} - {$lastDay->dayString} {$firstDay->timeString}";
         }
 
-        return trim($result, ' | ');
+        // Mon 10:00 AM - 11:00 AM / 11:30 AM - 12:45 PM
+        foreach (collect($groups->get('multi_times', []))->flatten()->groupBy('day') as $group) {
+            $firstDay = $group->first();
+            $result[] = "{$firstDay->dayString} {$group->pluck('timeString')->join(' / ')}";
+        }
+
+        return implode(' | ', $result);
     }
 
     public function getCoursePeriodNameAttribute()
