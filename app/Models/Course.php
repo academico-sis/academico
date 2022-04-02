@@ -293,6 +293,10 @@ class Course extends Model
             $courseTimes = $this->children->first()->times;
         }
 
+        if (!$courseTimes) {
+            return '';
+        }
+
         foreach ($courseTimes as $courseTime) {
             $timeString = sprintf(
                 '%s - %s',
