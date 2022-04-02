@@ -418,6 +418,8 @@ class CourseCrudController extends CrudController
 
     protected function addCourseScheduleFields()
     {
+        $defaultPeriod = Period::get_default_period();
+
         CRUD::addFields([
             [
                 'label' => __('Period'),
@@ -426,6 +428,7 @@ class CourseCrudController extends CrudController
                 'entity' => 'period',
                 'attribute' => 'name',
                 'model' => Period::class,
+                'default' => $defaultPeriod->id,
                 'tab' => __('Schedule'),
             ],
 
@@ -433,6 +436,7 @@ class CourseCrudController extends CrudController
                 'name' => 'start_date',
                 'label' => __('Start Date'),
                 'type' => 'date',
+                'default' => $defaultPeriod->start,
                 'tab' => __('Schedule'),
             ],
 
@@ -440,6 +444,7 @@ class CourseCrudController extends CrudController
                 'name' => 'end_date',
                 'label' => __('End Date'),
                 'type' => 'date',
+                'default' => $defaultPeriod->end,
                 'tab' => __('Schedule'),
             ],
         ]);
