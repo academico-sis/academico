@@ -62,8 +62,6 @@ class EnrollmentCrudController extends CrudController
 
     public function setupListOperation()
     {
-        $this->crud->setDefaultPageLength(200);
-
         if ($this->crud->getRequest()->has('course_id')) {
             $this->mode = 'course';
             $this->course = Course::findOrFail($this->crud->getRequest()->course_id);
