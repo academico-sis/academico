@@ -54,18 +54,6 @@
 
     <div class="col-md-4 col-sm-6">
         <div class="card">
-            <div class="card-body p-3 d-flex align-items-center"><i class="la la-user bg-danger p-3 font-2xl mr-3"></i>
-                <div>
-                    <div class="text-value-sm text-danger">{{ $pending_leads }}</div>
-                    <div class="text-muted text-uppercase font-weight-bold small">@lang('Pending leads')</div>
-                </div>
-            </div>
-            <div class="card-footer px-3 py-2"><a class="btn-block text-muted d-flex justify-content-between align-items-center" href='student?lead_status_is=4'><span class="small font-weight-bold">@lang('View')</span><i class="la la-angle-right"></i></a></div>
-        </div>
-    </div>
-
-    <div class="col-md-4 col-sm-6">
-        <div class="card">
             <div class="card-body p-3 d-flex align-items-center"><i class="la la-calendar bg-danger p-3 font-2xl mr-3"></i>
                 <div>
                     <div class="text-value-sm text-danger">{{ $pending_attendance }}</div>

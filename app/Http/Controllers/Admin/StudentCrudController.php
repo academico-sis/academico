@@ -59,27 +59,6 @@ class StudentCrudController extends CrudController
 
     public function setupListOperation()
     {
-        // display lead status counts on page top
-        foreach (LeadType::all() as $leadType) {
-            if ($leadType->id === 4) {
-                $count = Student::where('lead_type_id', $leadType->id)->orWhereNull('lead_type_id')->count();
-            } else {
-                $count = Student::where('lead_type_id', $leadType->id)->count();
-            }
-            if ($count > 0) {
-                Widget::add([
-                    'type' => 'view',
-                    'view' => 'students.lead-type-insights-widget',
-                    'studentCount' => $count,
-                    'name' => Str::plural($leadType->name),
-                    'icon' => $leadType->icon,
-                    'leadTypeId' => $leadType->id,
-                    'description' => $leadType->description,
-                ])->to('before_content');
-            }
-        }
-
-        // Columns.
         CRUD::setColumns([
             [
                 'label' => __('ID number'),
