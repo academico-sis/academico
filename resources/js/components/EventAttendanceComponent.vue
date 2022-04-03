@@ -1,9 +1,4 @@
 <template>
-    <tr>
-        <td>
-            {{ attendance.student }}
-        </td>
-
         <td>
             <div class="btn-group" role="group" aria-label="">
                 <div class="btn-group" role="group">
@@ -16,12 +11,9 @@
                         <span v-html="attendance_type.icon"></span>
                         {{ attendance_type.translated_name }}
                     </button>
-
                 </div>
-
             </div>
         </td>
-    </tr>
 </template>
 
 <script>
@@ -30,7 +22,7 @@ export default {
 
     data() {
         return {
-            studentAttendance: this.attendance.attendance,
+            studentAttendance: this.attendance,
         };
     },
 
@@ -53,10 +45,10 @@ export default {
         buttonClass(attendance_type) {
             if (this.studentAttendance.attendance_type_id === attendance_type.id)
             {
-                return `btn btn-${attendance_type.class}`
+                return `btn btn-sm btn-${attendance_type.class}`
             }
             else {
-                return "btn btn-secondary"
+                return "btn btn-sm btn-secondary"
             }
         }
     }

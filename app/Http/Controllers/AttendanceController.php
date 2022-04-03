@@ -189,9 +189,15 @@ class AttendanceController extends Controller
 
         $attendances = $student->attendance()->with('event')->get()->whereIn('event_id', $courseEventIds);
         $enrollment = $studentEnrollments->where('course_id', $selectedCourse->id)->first();
-        $attendanceratio = $enrollment->attendance_ratio;
 
-        return view('attendance.student', compact('student', 'selectedCourse', 'studentEnrollments', 'attendances', 'attendanceratio'));
+        return view('attendance.student', [
+            'student' => $student,
+            'selectedCourse' => $selectedCourse,
+            'studentEnrollments' => $studentEnrollments,
+            'attendances' => $attendances,
+            'attendanceratio' => $enrollment->attendance_ratio,
+            'attendance_types' => AttendanceType::all(),
+        ]);
     }
 
     public function toggleEventAttendanceStatus(Event $event, Request $request)
