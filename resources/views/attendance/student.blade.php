@@ -77,13 +77,14 @@
                         <tbody>
                         @foreach ($attendances as $attendance)
                             <tr>
-                            <td>{{ $attendance->event->name }}</td>
-                            <td>{{ Carbon\Carbon::parse($attendance->event->start)->locale(app()->getLocale())->isoFormat('Do MMM YYYY') }}</td>
-                            <td>
-                                <label class="badge badge-{{ $attendance->attendanceType->class }}">
-                                {!! $attendance->attendanceType->icon !!}
-                                {{ $attendance->attendanceType->translated_name }}
-                            </td>
+                                <td>{{ $attendance->event->name }}</td>
+                                <td>{{ Carbon\Carbon::parse($attendance->event->start)->locale(app()->getLocale())->isoFormat('Do MMM YYYY') }}</td>
+                                <td is="event-attendance-component"
+                                    :attendance="{{ json_encode($attendance) }}"
+                                    :attendance_types="{{ json_encode($attendance_types) }}"
+                                    :event="{{ json_encode($attendance->event) }}"
+                                    route="{{ route('storeAttendance') }}">
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
