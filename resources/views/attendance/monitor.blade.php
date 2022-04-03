@@ -30,7 +30,7 @@
             </div>
 
             <div class="card-body">
-                <table class="table">
+                <table class="table" id="courseAttendanceTable">
                 <thead>
                     <tr>
                         <th>@lang('Course')</th>
@@ -68,6 +68,7 @@
                         <div class="card-header-actions">
                             <!-- Period selection dropdown -->
                             @include('partials.period_selection')
+
                         </div>
                     </div>
                 </div>
@@ -123,6 +124,12 @@
         $('#studentAttendanceTable').DataTable({
             "paging": false,
             "order": [[3, "desc"]]
+    }));
+
+    $(document).ready(() =>
+        $('#courseAttendanceTable').DataTable({
+            "paging": false,
+            "order": [[2, "desc"]]
         }));
 </script>
 @endsection
