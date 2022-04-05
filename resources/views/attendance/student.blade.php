@@ -81,6 +81,7 @@
                                 <td>{{ Carbon\Carbon::parse($attendance->event->start)->locale(app()->getLocale())->isoFormat('Do MMM YYYY') }}</td>
                                 <td is="event-attendance-component"
                                     :attendance="{{ json_encode($attendance) }}"
+                                    :student_id="{{ $student->id }}"
                                     :attendance_types="{{ json_encode($attendance_types) }}"
                                     :event="{{ json_encode($attendance->event) }}"
                                     route="{{ route('storeAttendance') }}">

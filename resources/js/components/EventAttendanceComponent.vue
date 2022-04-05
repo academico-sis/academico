@@ -18,7 +18,7 @@
 
 <script>
 export default {
-    props: ["attendance", "event", "route", "attendance_types"],
+    props: ["attendance", "event", "student_id", "route", "attendance_types"],
 
     data() {
         return {
@@ -33,7 +33,7 @@ export default {
             axios
                 .post(this.route, {
                     event_id: this.event.id,
-                    student_id: this.attendance.student_id,
+                    student_id: this.student_id,
                     attendance_type_id,
                 })
                 .then(response => {
