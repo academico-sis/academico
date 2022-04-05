@@ -28,6 +28,7 @@
                                 <td>{{ $attendance['student'] }}</td>
                                 <td is="event-attendance-component"
                                     :attendance="{{ json_encode($attendance['attendance']) }}"
+                                    :student_id="{{ $attendance['student_id'] }}"
                                     :attendance_types="{{ json_encode($attendance_types) }}"
                                     :event="{{ json_encode($event) }}"
                                     route="{{ route('storeAttendance') }}">
