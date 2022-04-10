@@ -42,7 +42,7 @@ class Student extends Model implements HasMedia
 
     protected $with = ['user', 'phone', 'institution', 'profession'];
 
-    protected $appends = ['email', 'name', 'firstname', 'lastname', 'student_age', 'student_birthdate', 'is_enrolled'];
+    protected $appends = ['email', 'name', 'firstname', 'lastname', 'student_age', 'student_birthdate', 'is_enrolled', 'formatted_gender'];
 
     public function getActivitylogOptions(): LogOptions
     {
@@ -294,5 +294,14 @@ class Student extends Model implements HasMedia
                 ->usingFileName('profilePicture.jpg')
                 ->toMediaCollection('profile-picture');
         }
+    }
+
+    public function getFormattedGenderAttribute(): string
+    {
+        return match ($this->gender_id) {
+            1 => 'F',
+            2 => 'M',
+            default => '',
+        };
     }
 }
