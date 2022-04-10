@@ -298,6 +298,11 @@ class Enrollment extends Model implements InvoiceableModel
         return $this->student->birthdate;
     }
 
+    public function getStudentFormattedGenderAttribute()
+    {
+        return $this->student->formatted_gender;
+    }
+
     public function getStudentEmailAttribute()
     {
         return $this->student['email'];

@@ -154,6 +154,15 @@ class EnrollmentCrudController extends CrudController
             ['label' => __('Age'),
                 'name' => 'student_age', ],
 
+            [
+                'label' => __('Gender'),
+                'type' => 'text',
+                'name' => 'student.gender_id',
+                'value' => function($entry) {
+                    return $entry->student->formatted_gender;
+                }
+            ],
+
             ['label' => __('Birthdate'),
                 'name' => 'student_birthdate', ], ]);
 
