@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "80a26f9419679c39e480e63c9be7cc9a",
+    "content-hash": "903292e6ac9d779a0b0b1fc90b6c0b8d",
     "packages": [
         {
             "name": "akaunting/laravel-language",
@@ -297,17 +297,17 @@
         },
         {
             "name": "backpack/pro",
-            "version": "1.0.12",
+            "version": "1.0.14",
             "source": {
                 "type": "git",
                 "url": "git@github.com:DigitallyHappy/backpack-pro.git",
-                "reference": "b09aca93d927294f99de5eddd92fa5af80b59c5f"
+                "reference": "990af3bd438b6568eac17c248fe89b85e5a48bf3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://repo.backpackforlaravel.com/dist/backpack/pro/backpack-pro-b09aca93d927294f99de5eddd92fa5af80b59c5f-zip-98039b.zip",
-                "reference": "b09aca93d927294f99de5eddd92fa5af80b59c5f",
-                "shasum": "c161a35e435cc40cb79a196526b55113e8b87964"
+                "url": "https://repo.backpackforlaravel.com/dist/backpack/pro/backpack-pro-990af3bd438b6568eac17c248fe89b85e5a48bf3-zip-c2fcce.zip",
+                "reference": "990af3bd438b6568eac17c248fe89b85e5a48bf3",
+                "shasum": "4d511485f3fbc7efa4b44dda52b071c9511117ce"
             },
             "require": {
                 "backpack/crud": "^5.0.9"
@@ -359,10 +359,10 @@
                 "Pro"
             ],
             "support": {
-                "source": "https://github.com/DigitallyHappy/backpack-pro/tree/1.0.12",
+                "source": "https://github.com/DigitallyHappy/backpack-pro/tree/1.0.14",
                 "issues": "https://github.com/DigitallyHappy/backpack-pro/issues"
             },
-            "time": "2022-04-01T09:53:20+00:00"
+            "time": "2022-04-26T11:39:24+00:00"
         },
         {
             "name": "barryvdh/laravel-dompdf",
