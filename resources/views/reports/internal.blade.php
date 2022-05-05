@@ -108,15 +108,11 @@
                                     </td>
 
                                     <td>
-                                        {{ $year['year']['enrollments'] }}
+                                        {{ $year['enrollments'] }}
                                     </td>
 
                                     <td>
-                                        {{ $year['year']['students'] }}
-                                    </td>
-
-                                    <td>
-                                        -
+                                        {{ $year['students'] }}
                                     </td>
 
                                     <td>
@@ -124,28 +120,32 @@
                                     </td>
 
                                     <td>
-                                        {{ number_format($year['year']['taught_hours'] ?? '0') }}
+                                        -
                                     </td>
 
                                     <td>
-                                        {{ number_format($year['year']['sold_hours'] ?? '0') }}
+                                        {{ number_format($year['taught_hours'] ?? '0') }}
+                                    </td>
+
+                                    <td>
+                                        {{ number_format($year['sold_hours'] ?? '0') }}
                                     </td>
 
                                     @if (config('academico.include_takings_in_reports'))
                                         <td>
                                             @if (config('academico.currency_position') === 'before')
-                                                {{ config('academico.currency_symbol') }} {{ $year['year']['takings'] ?? '-' }}
+                                                {{ config('academico.currency_symbol') }} {{ $year['takings'] ?? '-' }}
                                             @else
-                                                {{ $year['year']['takings'] ?? '-' }} {{ config('academico.currency_symbol') }}
+                                                {{ $year['takings'] ?? '-' }} {{ config('academico.currency_symbol') }}
                                             @endif
                                         </td>
 
                                         <td>
-                                            @if ($year['year']['avg_takings'])
+                                            @if ($year['avg_takings'])
                                                 @if (config('academico.currency_position') === 'before')
-                                                    {{ config('academico.currency_symbol') }} {{ number_format($year['year']['avg_takings'], 2) }}
+                                                    {{ config('academico.currency_symbol') }} {{ number_format($year['avg_takings'], 2) }}
                                                 @else
-                                                    {{ number_format($year['year']['avg_takings'], 2) }} {{ config('academico.currency_symbol') }}
+                                                    {{ number_format($year['avg_takings'], 2) }} {{ config('academico.currency_symbol') }}
                                                 @endif
                                             @endif
                                         </td>
