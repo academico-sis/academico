@@ -9,7 +9,7 @@
         "akaunting/laravel-language": "^1.0",
         "backpack/crud": "^5.0.0",
         "backpack/permissionmanager": "^6.0.0",
-        "backpack/pro": "^1.0.0",
+        "backpack/pro": "1.0.12",
         "curl/curl": "^2.3.0",
         "fruitcake/laravel-cors": "^2.0.5",
         "guzzlehttp/guzzle": "^7.2",
