@@ -172,6 +172,12 @@ class ReportController extends Controller
             ->map(function ($yearData) {
                 $data = [];
 
+                $enrollments = 0;
+                $taught_hours = 0;
+                $sold_hours = 0;
+                $takings = 0;
+                $avg_takings = 0;
+
                 foreach ($yearData as $data_period) {
                     $stats = new StatService(external: false, reference: $data_period);
 
@@ -189,6 +195,12 @@ class ReportController extends Controller
                         $data[$data_period->id]['takings'] = $data_period->takings;
                         $data[$data_period->id]['avg_takings'] = $data_period->takings / max(1, $stats->taughtHoursCount());
                     }
+
+                    $enrollments += $data[$data_period->id]['enrollments'];
+                    $taught_hours += $data[$data_period->id]['taught_hours'];
+                    $sold_hours += $data[$data_period->id]['sold_hours'];
+                    $takings += $data[$data_period->id]['takings'];
+                    $avg_takings += $data[$data_period->id]['avg_takings'];
                 }
 
                 $year = $data_period->year;
@@ -197,15 +209,15 @@ class ReportController extends Controller
                 $yearOutput = [
                     'year' => $year,
                     'students' => $yearStats->studentsCount(),
-                    'enrollments' => collect($data[$data_period->id])->sum('enrollments'),
-                    'taught_hours' => collect($data[$data_period->id])->sum('taught_hours'),
-                    'sold_hours' => collect($data[$data_period->id])->sum('sold_hours'),
+                    'enrollments' => $enrollments,
+                    'taught_hours' => $taught_hours,
+                    'sold_hours' => $sold_hours,
                     'periods' => $data,
                 ];
 
                 if (config('academico.include_takings_in_reports')) {
-                    $yearOutput['takings'] = collect($data[$data_period->id])->sum('takings');
-                    $yearOutput['avg_takings'] = $yearOutput['takings'] / max(1, $stats->taughtHoursCount());
+                    $yearOutput['takings'] = $takings;
+                    $yearOutput['avg_takings'] = $takings / max(1, $stats->taughtHoursCount());
                 }
 
                 return $yearOutput;
