@@ -269,6 +269,7 @@ class StudentCrudController extends CrudController
             'state' => $request->state,
             'country' => $request->country,
             'birthdate' => $request->birthdate,
+            'gender_id' => $request->gender_id,
         ]);
 
         // save phone number
