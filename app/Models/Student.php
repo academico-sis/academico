@@ -172,7 +172,8 @@ class Student extends Model implements HasMedia
     public function enrollments()
     {
         return $this->hasMany(Enrollment::class)
-            ->with('course')->orderByDesc('course_id');
+            ->with('course')
+            ->orderByDesc('created_at');
     }
 
     public function leadType()
