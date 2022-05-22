@@ -28,6 +28,11 @@ class CourseTime extends Model
             $coursetime->createEvents();
         });
 
+        static::updated(function ($coursetime) {
+            $coursetime->events()->delete();
+            $coursetime->createEvents();
+        });
+
         // when a coursetime is deleted, we should delete all associated future events
         static::deleted(function ($coursetime) {
             $coursetime->events()->delete();
