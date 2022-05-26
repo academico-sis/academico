@@ -16,8 +16,8 @@ use Illuminate\Validation\Rule;
 class EvaluationTypeCrudController extends CrudController
 {
     use ListOperation;
-    use CreateOperation {store as traitStore; }
-    use UpdateOperation {update as traitUpdate; }
+    use CreateOperation;
+    use UpdateOperation;
     use DeleteOperation;
 
     public function setup()
@@ -80,33 +80,4 @@ class EvaluationTypeCrudController extends CrudController
         $this->setupCreateOperation();
     }
 
-    public function store()
-    {
-        $value = $this->crud->getRequest()->input('name');
-        $response = $this->traitStore();
-        $entry = $this->crud->getCurrentEntry();
-
-        $this->overrideTranslations($entry, $value);
-
-        return $response;
-    }
-
-    private function overrideTranslations($entry, $value)
-    {
-        foreach (config('academico.languages') as $i => $locale) {
-            $entry->setTranslation('name', $locale, $value);
-        }
-        $entry->save();
-    }
-
-    public function update()
-    {
-        $value = $this->crud->getRequest()->input('name');
-        $response = $this->traitUpdate();
-        $entry = $this->crud->getCurrentEntry();
-
-        $this->overrideTranslations($entry, $value);
-
-        return $response;
-    }
 }

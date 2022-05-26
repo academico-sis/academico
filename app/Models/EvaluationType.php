@@ -13,17 +13,12 @@ use Spatie\Translatable\HasTranslations;
 class EvaluationType extends Model
 {
     use CrudTrait;
-    use HasTranslations;
 
     public $timestamps = false;
 
     protected $guarded = ['id'];
 
     protected $with = ['gradeTypes', 'skills'];
-
-    public array $translatable = ['name'];
-
-    protected $appends = ['translated_name'];
 
     public function courses()
     {
@@ -38,10 +33,5 @@ class EvaluationType extends Model
     public function skills()
     {
         return $this->morphedByMany(Skill::class, 'presettable', 'evaluation_type_presets');
-    }
-
-    public function getTranslatedNameAttribute()
-    {
-        return $this->getTranslation('name', app()->getLocale());
     }
 }
