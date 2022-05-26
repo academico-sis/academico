@@ -47,7 +47,7 @@
     <span class="t18">CERTIFICADO DE APROBACIÓN DE MÓDULO</span><br>
     <span class="t24">- {{ Str::upper($enrollment->course->level->name) }} -</span><br>
 
-    <span class="t14">Luego de haber cursado con éxito {{ $enrollment->course->volume}} horas de francés</span>
+    <span class="t14">Luego de haber cursado con éxito {{ $enrollment->course->volume + $enrollment->course->remote_volume }} horas de francés</span>
 
     <p class="t28">a: {{ Str::upper($enrollment->student->lastname) }} {{ $enrollment->student->firstname }}</p>
 
