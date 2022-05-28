@@ -36,6 +36,7 @@ use App\Listeners\SendMonthlyReport;
 use App\Listeners\SendResultNotification;
 use App\Listeners\SyncUserWithMailingSystem;
 use App\Listeners\UpdateChildrenEnrollments;
+use App\Listeners\UpdateCourseEvents;
 use App\Listeners\UpdateTeacherEvents;
 use App\Listeners\UpdateUsername;
 use Illuminate\Auth\Events\Registered;
@@ -52,6 +53,10 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+
+        CourseUpdated::class => [
+            UpdateCourseEvents::class,
         ],
 
         EnrollmentUpdating::class => [
