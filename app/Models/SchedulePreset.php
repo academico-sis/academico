@@ -8,7 +8,7 @@ use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
- * @deprecated 
+ * @deprecated
  * @mixin IdeHelperSchedulePreset
  */
 class SchedulePreset extends Model

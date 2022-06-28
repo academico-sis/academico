@@ -76,7 +76,8 @@ class AFSantiagoEnrollmentSheetService implements EnrollmentSheetInterface
 
         $path = $templateProcessor->save();
 
-        $fileName = Str::slug("HOJA DE MATRÍCULA " . $enrollment->student_name);
-        return response()->download(file: $path, name: $fileName . ".docx")->deleteFileAfterSend(true);
+        $fileName = Str::slug('HOJA DE MATRÍCULA '.$enrollment->student_name);
+
+        return response()->download(file: $path, name: $fileName.'.docx')->deleteFileAfterSend(true);
     }
 }

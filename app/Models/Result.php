@@ -21,6 +21,7 @@ class Result extends Model
     protected $dispatchesEvents = [
         'saved' => ResultSavedEvent::class,
     ];
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()->logUnguarded();

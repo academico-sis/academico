@@ -24,7 +24,7 @@ class GradeTypeCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(GradeType::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/gradetype');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/gradetype');
         CRUD::setEntityNameStrings(__('grade type'), __('grade types'));
     }
 
@@ -34,7 +34,7 @@ class GradeTypeCrudController extends CrudController
             [
                 'name' => 'name',
                 'label' => __('Name'),
-                ],
+            ],
             [
                 'name' => 'total',
                 'label' => __('Total'),
@@ -83,7 +83,7 @@ class GradeTypeCrudController extends CrudController
                 'model'     => GradeTypeCategory::class,
                 'attribute' => 'name',
                 'ajax' => true,
-            ]
+            ],
         ]);
     }
 

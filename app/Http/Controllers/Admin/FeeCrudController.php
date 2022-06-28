@@ -33,7 +33,7 @@ class FeeCrudController extends CrudController
                 'label' => __('Name'),
             ],
             [
-            '   name' => 'price',
+                '   name' => 'price',
                 'label' => __('Price'),
             ],
             [

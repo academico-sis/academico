@@ -188,6 +188,7 @@ class TeacherCrudController extends CrudController
         \Alert::success(trans('backpack::crud.update_success'))->flash();
 
         $this->crud->setSaveAction();
+
         return $this->crud->performSaveAction($item->getKey());
     }
 }

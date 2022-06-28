@@ -96,8 +96,8 @@ class EnrollmentCrudController extends CrudController
                 'label' => 'ID',
                 'type' => 'string',
                 'wrapper' => ['element' => function ($crud, $column, $entry) {
-                return $entry->status_id > 2 ? 'del' : 'span';
-            }],
+                    return $entry->status_id > 2 ? 'del' : 'span';
+                }],
             ],
 
             ['label' => __('ID number'),
@@ -158,9 +158,9 @@ class EnrollmentCrudController extends CrudController
                 'label' => __('Gender'),
                 'type' => 'text',
                 'name' => 'student.gender_id',
-                'value' => function($entry) {
+                'value' => function ($entry) {
                     return $entry->student->formatted_gender;
-                }
+                },
             ],
 
             ['label' => __('Birthdate'),
@@ -175,7 +175,7 @@ class EnrollmentCrudController extends CrudController
                     'entity' => 'course',
                     'attribute' => 'name',
                     'model' => Course::class,
-                    ],
+                ],
                 ['type' => 'select',
                     'name' => 'course.period',
                     'label' => __('Period'),
@@ -237,7 +237,7 @@ class EnrollmentCrudController extends CrudController
                 'label' => __('Scholarship'),
                 'attribute' => 'name',
                 'model' => Scholarship::class,
-                ],
+            ],
 
             [
                 'label' => __('Email'),

@@ -34,7 +34,7 @@ class BookCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(Book::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/book');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/book');
         CRUD::setEntityNameStrings(__('book'), __('books'));
     }
 

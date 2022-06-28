@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Admin\Operations\ShowStudentListOperation;
 use App\Http\Controllers\Admin\Operations\ShowStudentPhotoRosterOperation;
-use App\Http\Requests\CourseRequest;
+use App\Http\Requests\CourseCreateRequest;
 use App\Models\Book;
 use App\Models\Course;
 use App\Models\EvaluationType;
@@ -19,8 +19,6 @@ use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use App\Traits\CurrencyFormatTrait;
-use App\Http\Requests\CourseCreateRequest;
 
 class CourseCrudController extends CrudController
 {
@@ -429,7 +427,8 @@ class CourseCrudController extends CrudController
         CRUD::setValidation();
     }
 
-    protected function addRhythmField() {
+    protected function addRhythmField()
+    {
         CRUD::addField([
             'label' => __('Rhythm'),
             'type' => 'select',
@@ -466,11 +465,11 @@ class CourseCrudController extends CrudController
     private function addPriceFields()
     {
         CRUD::addField(array_merge([
-                'name' => 'price',
-                'label' => __('Price'),
-                'tab' => __('Course info'),
-                'type' => 'number',
-            ], $this->currency));
+            'name' => 'price',
+            'label' => __('Price'),
+            'tab' => __('Course info'),
+            'type' => 'number',
+        ], $this->currency));
 
         if (config('invoicing.price_categories_enabled')) {
             CRUD::addFields([
@@ -685,7 +684,6 @@ class CourseCrudController extends CrudController
             $childCourse->books()->attach($course->books);
         }
     }
-
 
     public function store()
     {

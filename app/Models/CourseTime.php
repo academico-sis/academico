@@ -17,6 +17,7 @@ class CourseTime extends Model
     use CrudTrait;
 
     public $timestamps = false;
+
     protected $guarded = ['id'];
 
     protected static function boot()

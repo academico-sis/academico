@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Events\TeacherUpdated;
-use App\Traits\UserAttributesTrait;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -107,7 +106,7 @@ class Teacher extends Model
                     if ($range_start == $range_end) {
                         $formatted_leaves[] = $range_start->format('d/m/Y');
                     } else {
-                        $formatted_leaves[] = $range_start->format('d/m/Y') . ' - ' . $range_end->format('d/m/Y');
+                        $formatted_leaves[] = $range_start->format('d/m/Y').' - '.$range_end->format('d/m/Y');
                     }
 
                     $range_start = Carbon::parse($dates[$i + 1]['date']);
@@ -118,7 +117,7 @@ class Teacher extends Model
                 if ($range_start == $range_end) {
                     $formatted_leaves[] = $range_start->format('d/m/Y');
                 } else {
-                    $formatted_leaves[] = $range_start->format('d/m/Y') . ' - ' . $range_end->format('d/m/Y');
+                    $formatted_leaves[] = $range_start->format('d/m/Y').' - '.$range_end->format('d/m/Y');
                 }
             }
         }
@@ -230,5 +229,4 @@ class Teacher extends Model
             get: fn (): string => $this->user ? "{$this->firstname} {$this->lastname}" : '',
         );
     }
-
 }

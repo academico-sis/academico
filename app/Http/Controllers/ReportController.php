@@ -221,7 +221,7 @@ class ReportController extends Controller
                 }
 
                 return $yearOutput;
-             });
+            });
 
         return view('reports.internal', [
             'data' => $chartData,

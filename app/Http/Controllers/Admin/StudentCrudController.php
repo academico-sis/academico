@@ -21,7 +21,6 @@ use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use Backpack\CRUD\app\Library\Widget;
 use Exception;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -220,21 +219,21 @@ class StudentCrudController extends CrudController
             'name' => 'firstname',
             'label' => __('Firstname'),
             'tab' => __('Student Info'),
-            'validationRules' => 'required|string|max:30'
+            'validationRules' => 'required|string|max:30',
         ]);
 
         CRUD::addField([
             'name' => 'lastname',
             'label' => __('Lastname'),
             'tab' => __('Student Info'),
-            'validationRules' => 'required|string|max:30'
+            'validationRules' => 'required|string|max:30',
         ]);
 
         CRUD::addField([
             'name' => 'email',
             'label' => __('Email'),
             'tab' => __('Student Info'),
-            'validationRules' => 'nullable|email|max:60'
+            'validationRules' => 'nullable|email|max:60',
         ]);
 
         CRUD::field('idnumber')->label(__('ID number'))->tab(__('Student Info'))->validationRules('nullable|string');
@@ -254,8 +253,7 @@ class StudentCrudController extends CrudController
             'validationRules' => 'required|integer',
         ]);
 
-        if (config('backpack.base.license_code'))
-        {
+        if (config('backpack.base.license_code')) {
             CRUD::addField([
                 'type' => 'relationship',
                 'force_delete'  => true,
@@ -286,14 +284,12 @@ class StudentCrudController extends CrudController
             CRUD::addField(['type' => 'relationship', 'name' => 'profession', 'inline_create' => true, 'tab' => __('Student Info'), 'label' => __('Profession'), 'attribute' => 'name']);
         } else {
             CRUD::addField(['type' => 'select', 'name' => 'profession', 'tab' => __('Student Info'), 'label' => __('Profession'), 'attribute' => 'name']);
-
         }
 
         if (config('backpack.base.license_code')) {
             CRUD::addField(['type' => 'relationship', 'name' => 'institution', 'inline_create' => true, 'tab' => __('Student Info'), 'label' => __('Institution'), 'attribute' => 'name']);
         } else {
             CRUD::addField(['type' => 'select', 'name' => 'institution', 'tab' => __('Student Info'), 'label' => __('Institution'), 'attribute' => 'name']);
-
         }
 
         CRUD::field('address')->label(__('Address'))->tab(__('Address'))->validationRules('nullable|string|max:60');
@@ -307,7 +303,6 @@ class StudentCrudController extends CrudController
 
         CRUD::setValidation();
     }
-
 
     public function setupUpdateOperation()
     {
@@ -355,7 +350,7 @@ class StudentCrudController extends CrudController
         // save phone number
         if ($request->phone) {
             foreach ($request->phone as $phone_number) {
-                $phone_number = PhoneNumber::firstOrCreate(['phone_number' => $phone_number['phone_number'], 'phoneable_id' => $student->id, 'phoneable_type' => Student::class,]);
+                $phone_number = PhoneNumber::firstOrCreate(['phone_number' => $phone_number['phone_number'], 'phoneable_id' => $student->id, 'phoneable_type' => Student::class]);
 
                 $student->phone()->save($phone_number);
             }
@@ -392,9 +387,9 @@ class StudentCrudController extends CrudController
         $this->crud->registerFieldEvents();
 
         $this->crud->getCurrentEntry()->user()->update([
-                'firstname' => $request->firstname,
-                'lastname' => $request->lastname,
-                'email' => $request->email,
+            'firstname' => $request->firstname,
+            'lastname' => $request->lastname,
+            'email' => $request->email,
         ]);
 
         $this->crud->getRequest()->request->remove('firstname');
@@ -410,9 +405,9 @@ class StudentCrudController extends CrudController
         \Alert::success(trans('backpack::crud.update_success'))->flash();
 
         $this->crud->setSaveAction();
+
         return $this->crud->performSaveAction($item->getKey());
     }
-
 
     public function show($student)
     {

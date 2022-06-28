@@ -116,7 +116,6 @@ class Student extends Model implements HasMedia
         return $enrollment->id;
     }
 
-
     /*
     |--------------------------------------------------------------------------
     | RELATIONS

@@ -51,7 +51,8 @@ class InvoiceDetail extends Model
         return ($value * $this->quantity) / 100;
     }
 
-    public function identifiableAttribute() {
+    public function identifiableAttribute()
+    {
         return $this->id;
     }
 }

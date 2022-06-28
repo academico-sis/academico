@@ -79,5 +79,4 @@ class EvaluationTypeCrudController extends CrudController
     {
         $this->setupCreateOperation();
     }
-
 }

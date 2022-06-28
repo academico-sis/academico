@@ -40,7 +40,6 @@ class MemberCrudController extends CrudController
         ]);
 
         CRUD::setFromDb();
-
     }
 
     protected function setupUpdateOperation()

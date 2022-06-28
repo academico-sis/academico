@@ -8,17 +8,16 @@ use App\Models\Partner;
 use App\Models\Period;
 use App\Models\Year;
 use DateTime;
-use InvalidArgumentException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
+use InvalidArgumentException;
 
 class DateRange
 {
     public function __construct(
         public DateTime $start,
         public DateTime $end,
-    )
-    {
+    ) {
     }
 }
 
@@ -30,8 +29,7 @@ class StatService
         private bool $external,
         private Period|Year|DateRange $reference,
         private ?Partner $partner = null,
-    )
-    {
+    ) {
         $this->coursesQuery = match ($this->reference::class) {
             Period::class => $this->applyQueryScopes(Course::where('period_id', $this->reference->id)),
             Year::class => $this->applyQueryScopes(Course::whereIn('period_id', $this->reference->periods->pluck('id'))),
@@ -39,7 +37,6 @@ class StatService
             default => abort(422, 'Stats requested for undefined reference period'),
         };
     }
-
 
     public function coursesCount(): int
     {
@@ -66,7 +63,7 @@ class StatService
             return $this->coursesQuery->sum('new_students');
         }
 
-        return match($this->reference::class) {
+        return match ($this->reference::class) {
             Year::class => $this->countInternalStudentsForYear($gender),
             Period::class => $this->countInternalStudentsForPeriod($gender),
             DateRange::class => throw new InvalidArgumentException('Logic error'),
@@ -151,8 +148,6 @@ class StatService
         ->where('enrollments.parent_id', null)->where('enrollments.deleted_at', null)->distinct('student_id')->count('enrollments.student_id');
     }
 
-
-
     private function countInternalStudentsForPeriod(?int $gender = null)
     {
         if ($this->reference::class !== Period::class) {
@@ -231,7 +226,7 @@ class StatService
 
     private function getPaidEnrollmentsCountForPeriod(Period $period): int
     {
-            return $period
+        return $period
                 ->enrollments
                 ->where('status_id', 2) // paid
                 ->where('parent_id', null)

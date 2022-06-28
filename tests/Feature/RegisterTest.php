@@ -32,6 +32,7 @@ class RegisterTest extends TestCase
 
     /**
      * Check that a user is created with the form action endpoint.
+     *
      * @test
      */
     public function testIfUserIsCreated()
@@ -46,6 +47,7 @@ class RegisterTest extends TestCase
 
     /**
      * Check that validation rules prevent incomplete data to be submitted to the DB.
+     *
      * @test
      */
     public function testUserCreationValidationRules()

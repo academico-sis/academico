@@ -2,7 +2,6 @@
 
 namespace Tests\Unit;
 
-use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Skills\Skill;
 use App\Models\Skills\SkillEvaluation;

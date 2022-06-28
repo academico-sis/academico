@@ -85,10 +85,9 @@ class PeriodCrudController extends CrudController
                 'model' => Year::class,
                 'attribute' => 'name',
             ]);
-
         }
 
-            CRUD::addFields([
+        CRUD::addFields([
             [
                 'label' => __('Name'),
                 'type' => 'text',

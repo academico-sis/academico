@@ -10,7 +10,6 @@ use App\Models\Period;
 use App\Models\Rhythm;
 use App\Models\Room;
 use App\Models\Teacher;
-use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
@@ -20,6 +19,7 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
  * Class ExternalCourseCrudController.
+ *
  * @property-read CrudPanel $crud
  */
 class ExternalCourseCrudController extends CourseCrudController
@@ -231,7 +231,6 @@ class ExternalCourseCrudController extends CourseCrudController
                 'type' => 'number',
             ], $this->currency)
         );
-
 
         CRUD::addFields([
             [

@@ -37,7 +37,7 @@ class InstitutionCrudController extends CrudController
     protected function setupCreateOperation()
     {
         $this->crud->setValidation([
-             'name' => 'required|min:1|max:255'
+            'name' => 'required|min:1|max:255',
         ]);
 
         $this->crud->addField([

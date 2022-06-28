@@ -12,7 +12,6 @@ use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use Illuminate\Validation\Rule;
 
 /**
  * Class EventCrudController
@@ -166,7 +165,7 @@ class EventCrudController extends CrudController
             'course_id' => 'nullable|integer',
             'teacher_id' => 'nullable|integer',
             'room_id' => 'nullable|integer',
-            'exempt_attendance' => 'nullable|bool'
+            'exempt_attendance' => 'nullable|bool',
         ]);
 
         CRUD::addFields([
