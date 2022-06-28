@@ -57,7 +57,7 @@ class InvoiceCrudController extends CrudController
         }
 
         $this->crud->addColumn([
-            'name' => 'created_at',
+            'name' => 'date',
             'key' => 'year',
             'label' => __('Year'),
             'type' => 'date',
@@ -65,7 +65,7 @@ class InvoiceCrudController extends CrudController
         ]);
 
         $this->crud->addColumn([
-            'name' => 'created_at',
+            'name' => 'date',
             'key' => 'date',
             'label' => __('Date'),
             'type' => 'date',

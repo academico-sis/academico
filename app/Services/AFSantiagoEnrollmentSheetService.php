@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Interfaces\EnrollmentSheetInterface;
 use App\Models\Enrollment;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
 use PhpOffice\PhpWord\Element\Table;
@@ -45,8 +46,8 @@ class AFSantiagoEnrollmentSheetService implements EnrollmentSheetInterface
         $templateProcessor->setValue('email', $email);
 
         $templateProcessor->setValue('description', $this->utf8_for_xml($enrollment->course->name ?? ''));
-        $templateProcessor->setValue('start_date', $enrollment->course->formatted_start_date);
-        $templateProcessor->setValue('end_date', $enrollment->course->formatted_end_date);
+        $templateProcessor->setValue('start_date', Carbon::parse($enrollment->course->start_date, 'UTC')->locale('es')->isoFormat('LL'));
+        $templateProcessor->setValue('end_date', Carbon::parse($enrollment->course->end_date, 'UTC')->locale('es')->isoFormat('LL'));
         $templateProcessor->setValue('volume', $enrollment->course->volume);
 
         $table = new Table(['borderSize' => 8,
