@@ -199,8 +199,11 @@ class ReportController extends Controller
                     $enrollments += $data[$data_period->id]['enrollments'];
                     $taught_hours += $data[$data_period->id]['taught_hours'];
                     $sold_hours += $data[$data_period->id]['sold_hours'];
-                    $takings += $data[$data_period->id]['takings'];
-                    $avg_takings += $data[$data_period->id]['avg_takings'];
+
+                    if (config('academico.include_takings_in_reports')) {
+                        $takings += $data[$data_period->id]['takings'];
+                        $avg_takings += $data[$data_period->id]['avg_takings'];
+                    }
                 }
 
                 $year = $data_period->year;
