@@ -131,8 +131,7 @@ class InvoiceCrudController extends CrudController
 
         return view('invoices.show', [
             'invoice' => $invoice,
-            'availablePaymentMethods' => Paymentmethod::all(),
-            'editable' => true,
+            'paidTotal' => $invoice->payments->sum('value'),
             'enrollment' => $invoice->enrollments->first()?->product,
             'comments' => $invoice->comments,
             'afterSuccessUrl' => $invoice->enrollments->count() > 0 ? "/enrollment/{$invoice->enrollments->first()->product_id}/show" : '/invoice', // TODO fix this, an invoice can theoretically contain several enrollments

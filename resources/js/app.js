@@ -36,9 +36,6 @@ Vue.component('dashboard-calendar', require('./components/calendar/DashboardCale
 Vue.component('simple-calendar', require('./components/calendar/SimpleCalendar.vue').default);
 Vue.component('overview-calendar', require('./components/calendar/OverviewCalendar.vue').default);
 
-
-Vue.component('payment-component', require('./components/PaymentComponent.vue').default);
-
 Vue.component('event-attendance-component', require('./components/EventAttendanceComponent.vue').default);
 
 Vue.component('course-attendance-component', require('./components/CourseAttendanceComponent.vue').default);

@@ -21,6 +21,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use LaravelDaily\Invoices\Classes\Buyer;
 use LaravelDaily\Invoices\Classes\InvoiceItem;
 use LaravelDaily\Invoices\Invoice as InvoiceAlias;
@@ -127,6 +128,7 @@ class InvoiceController extends Controller
                 'price' => $product['price'],
                 'final_price' => $productFinalPrice,
                 'quantity' => $product['quantity'] ?? 1,
+                'comment' => isset($product['comment']) ? Str::limit($product['comment'], 150) : null,
             ]);
         }
 
@@ -214,6 +216,10 @@ class InvoiceController extends Controller
 
         foreach ($invoice->invoiceDetails as $product) {
             $item = (new InvoiceItem())->title($product->product_name)->pricePerUnit($product->price)->quantity($product->quantity);
+
+            if ($product->comment) {
+                $item->description($product->comment);
+            }
 
             $generatedInvoice->addItem($item);
         }

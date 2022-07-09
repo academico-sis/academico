@@ -86,11 +86,7 @@ class DatabaseSeeder extends Seeder
 
         EvaluationType::create([
             'id' => 1,
-            'name' => [
-                'fr' => 'NOTES',
-                'es' => 'NOTAS',
-                'en' => 'GRADES',
-            ],
+            'name' => 'NOTES',
         ]);
 
         AttendanceType::create([
@@ -190,51 +186,6 @@ class DatabaseSeeder extends Seeder
                 'es' => 'Matriculado ahora',
             ],
             'icon' => 'la-check',
-        ]);
-
-        LeadType::create([
-            'id' => '2',
-            'name' => [
-                'fr' => 'Inactif',
-                'en' => 'Inactive',
-                'es' => 'Inactivo',
-            ],
-            'description' => [
-                'fr' => 'Non disponible maintenant',
-                'en' => 'Currently unavailable',
-                'es' => 'No esta disponible ahora',
-            ],
-            'icon' => 'la-calendar-times',
-        ]);
-
-        LeadType::create([
-            'id' => '3',
-            'name' => [
-                'fr' => 'Ancien client',
-                'en' => 'Former client',
-                'es' => 'Clientes antiguos',
-            ],
-            'description' => [
-                'fr' => 'Cursus terminé ou abandon définitif',
-                'en' => 'Permanently ended their learning',
-                'es' => 'Acabó su aprendizaje o no regresará',
-            ],
-            'icon' => 'la-certificate',
-        ]);
-
-        LeadType::create([
-            'id' => '4',
-            'name' => [
-                'fr' => 'Client potentiel',
-                'en' => 'Potential Client',
-                'es' => 'Cliente potencial',
-            ],
-            'description' => [
-                'fr' => 'Inscription attendue pour ce cycle',
-                'en' => 'Expected enrollment for this session',
-                'es' => 'Deberia matricularse este ciclo',
-            ],
-            'icon' => 'la-user-circle',
         ]);
 
         Paymentmethod::create(['id' => '1', 'name' => 'Tarjeta de Crédito', 'code' => 'TC']);
