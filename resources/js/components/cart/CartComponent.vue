@@ -5,7 +5,7 @@
 
         <div v-if="step === 1" class="row">
 
-            <div class="col col-md-8">
+            <div class="col col-md-10">
 
                 <cart-product-list-component
                     :products="products"
@@ -31,7 +31,7 @@
 
             </div>
 
-            <div class="col col-md-4">
+            <div class="col col-md-2">
                 <!-- Add more products -->
                 <div class="card" v-if="! invoicesContainEnrollmentsOnly">
                     <div class="card-header">

@@ -106,6 +106,12 @@
             .text-uppercase {
                 text-transform: uppercase !important;
             }
+
+            .comment {
+                color: #606f7b;
+                font-size: smaller;
+                font-style: italic;
+            }
             * {
                 font-family: "DejaVu Sans";
             }
@@ -235,7 +241,7 @@
             <thead>
                 <tr>
                     <th scope="col" class="border-0 pl-0">{{ __('invoices::invoice.description') }}</th>
-                    @if($invoice->hasItemUnits)
+                @if($invoice->hasItemUnits)
                         <th scope="col" class="text-center border-0">{{ __('invoices::invoice.units') }}</th>
                     @endif
                     <th scope="col" class="text-center border-0">{{ __('invoices::invoice.quantity') }}</th>
@@ -253,7 +259,12 @@
                 {{-- Items --}}
                 @foreach($invoice->items as $item)
                 <tr>
-                    <td class="pl-0">{{ $item->title }}</td>
+                    <td class="pl-0">
+                        {{ $item->title }}
+                        @if ($item->description !== null)
+                            <p class="comment">{{ $item->description }}</p>
+                        @endif
+                    </td>
                     @if($invoice->hasItemUnits)
                         <td class="text-center">{{ $item->units }}</td>
                     @endif

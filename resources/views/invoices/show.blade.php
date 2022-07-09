@@ -46,7 +46,9 @@
             <div class="card">
                 <div class="card-header">
                     @lang('Details')
-                    <div class="card-header-actions"><a href="{{ route('export-invoice', ['invoice' => $invoice]) }}">{{ __('Export') }}</a></div>
+                    <div class="card-header-actions">
+                        <a href="{{ route('export-invoice', ['invoice' => $invoice]) }}">{{ __('Export') }}</a>
+                    </div>
                 </div>
 
                 <div class="card-body">
@@ -59,7 +61,10 @@
                         <tbody>
                         @foreach($invoice->invoiceDetails as $product)
                             <tr>
-                                <td>{{ $product->product_name }}</td>
+                                <td>
+                                    {{ $product->product_name }}
+                                    @if ($product->comment)<p style="font-style: italic">{{ $product->comment }}</p>@endif
+                                </td>
                                 <td>
                                     {{ $product->quantity }} x {{ $product->price_with_currency }}
                                     @if ($product->tax_rate > 0)
@@ -75,14 +80,70 @@
                         </tbody>
                     </table>
 
-                    <payment-component
-                        :invoice="{{ json_encode($invoice) }}"
-                        :availablepaymentmethods="{{ json_encode($availablePaymentMethods ?? []) }}"
-                        editable="{{ $editable ?? false }}"
-                        currency="{{ config('academico.currency_symbol') }}"
-                        currencyposition="{{ config('academico.currency_position') }}"
-                        after-success-url="{{ $afterSuccessUrl }}"
-                    ></payment-component>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    @lang('Payments')
+                    <div class="card-header-actions">
+                        <a class="btn btn-sm btn-warning" href="{{ route('invoice.edit', ['id' => $invoice->id]) }}">
+                            {{ __('Edit') }}
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card-body">
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>{{ __("Payment") }}</th>
+                            <th>{{ __("Date") }}</th>
+                            <th>{{ __("Value") }}</th>
+                            <th>{{ __('Comment') }}</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($invoice->payments as $payment)
+                            <tr>
+                                <td >{{ $payment->payment_method }}</td>
+
+                                <td>
+                                    {{ $payment->date_for_humans }}
+                                </td>
+
+                                <td>
+                                    @if (config('academico.currency_position') === 'before')
+                                        {{ config('academico.currency_symbol') }} {{ $payment->value }}
+                                    @else
+                                        {{ $payment->value }} {{ config('academico.currency_symbol') }}
+                                    @endif
+                                </td>
+
+                                <td>
+                                    {{ $payment->comment }}
+                                </td>
+
+                            </tr>
+                        @endforeach
+                        <tr>
+                            <td></td>
+                            <td style="font-weight: bold">{{ __("Total received amount") }}</td>
+                            <td style="font-weight: bold">
+                                @if (config('academico.currency_position') === 'before')
+                                    {{ config('academico.currency_symbol') }} {{ $paidTotal }}
+                                @else
+                                    {{ $paidTotal }} {{ config('academico.currency_symbol') }}
+                                @endif
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+
+                        </tbody>
+                    </table>
 
                 </div>
             </div>

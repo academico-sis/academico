@@ -541,7 +541,6 @@
     "No comment yet": "Pas encore de commentaire",
     "You are editing an invoice": "Vous êtes en train d'éditer une facture",
     "Please remember that your changes here might also affect related data. Proceed with caution!": "Veuillez prendre en compte que vos changements peuvent avoir un impact sur les données liées à cette facture (inscriptions, statistiques...). Procédez avec prudence !",
-    "Adding products to an existing invoice is not supported at the moment": "Il n'est pas possible d'ajouter des produits à une facture existante",
     "Product Code": "Référence comptable du produit",
     "The result is not validated": "Le résultat n'a pas \u00e9té validé"
 }
