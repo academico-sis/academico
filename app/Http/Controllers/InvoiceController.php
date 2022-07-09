@@ -191,7 +191,13 @@ class InvoiceController extends Controller
             ],
         ]);
 
-        $notes = $invoice->invoiceType->notes;
+        $notes = [$invoice->invoiceType->notes];
+
+        foreach($invoice->comments as $comment) {
+            $notes[] = $comment->body;
+        }
+
+        $notes = implode("<br><br>", $notes);
 
         $currencyFormat = config('academico.currency_position') === 'before' ? '{SYMBOL}{VALUE}' : '{VALUE}{SYMBOL}';
         $generatedInvoice = InvoiceAlias::make()
