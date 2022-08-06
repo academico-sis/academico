@@ -133,7 +133,7 @@
     </tr>
 </table>
 
-
+@if ($enrollment->course->teacher)
 <div style="margin-top: 1cm;">
     <span style="text-align: left; font-size: 10pt; font-weight: bold;">
         PROFESOR ENCARGADO DEL MÓDULO
@@ -143,6 +143,7 @@
         {{ $enrollment->course->teacher->name }}
     </span>
 </div>
+@endif
 
 </div>
 </body>

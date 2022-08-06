@@ -100,7 +100,7 @@
     </table>
 
 </div>
-
+@if ($enrollment->course->teacher)
 <div style="margin-top: 1cm;">
     <span style="text-align: left; font-size: 10pt; font-weight: bold;">
         PROFESOR ENCARGADO DEL MÓDULO
@@ -111,6 +111,7 @@
     </span>
     <p class="t14">En Loja, el {{ \Carbon\Carbon::now(config('settings.courses_timezone'))->isoFormat('d \d\e\ MMMM \d\e Y') }}</p>
 </div>
+@endif
 
 
 </body>
