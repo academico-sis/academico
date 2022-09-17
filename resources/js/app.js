@@ -46,8 +46,6 @@ Vue.component('student-skills-component', require('./components/StudentSkillEval
 
 Vue.component('course-result-component', require('./components/CourseResultComponent.vue').default);
 
-Vue.component('lead-status-component', require('./components/LeadStatusComponent.vue').default);
-
 Vue.component('phone-number-update-component', require('./components/PhoneNumberUpdateComponent.vue').default);
 Vue.component('contact-phone-number-update-component', require('./components/ContactPhoneNumberUpdateComponent.vue').default);
 

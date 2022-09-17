@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Events\UserCreated;
 use App\Exceptions\UserSyncException;
 use App\Models\Institution;
-use App\Models\LeadType;
 use App\Models\Period;
 use App\Models\PhoneNumber;
 use App\Models\Profession;
@@ -20,7 +19,6 @@ use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use Backpack\CRUD\app\Library\Widget;
 use Exception;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -56,27 +54,6 @@ class StudentCrudController extends CrudController
 
     public function setupListOperation()
     {
-        // display lead status counts on page top
-        foreach (LeadType::all() as $leadType) {
-            if ($leadType->id === 4) {
-                $count = Student::where('lead_type_id', $leadType->id)->orWhereNull('lead_type_id')->count();
-            } else {
-                $count = Student::where('lead_type_id', $leadType->id)->count();
-            }
-            if ($count > 0) {
-                Widget::add([
-                    'type' => 'view',
-                    'view' => 'students.lead-type-insights-widget',
-                    'studentCount' => $count,
-                    'name' => Str::plural($leadType->name),
-                    'icon' => $leadType->icon,
-                    'leadTypeId' => $leadType->id,
-                    'description' => $leadType->description,
-                ])->to('before_content');
-            }
-        }
-
-        // Columns.
         CRUD::setColumns([
             [
                 'label' => __('ID number'),
@@ -160,13 +137,6 @@ class StudentCrudController extends CrudController
                 'name' => 'phone',
                 'attribute' => 'phone_number',
                 'model' => PhoneNumber::class,
-            ],
-
-            [
-                'label' => __('Status'),
-                'type' => 'text',
-                'name' => 'lead_status_name',
-                'orderable' => false,
             ],
 
         ]);
@@ -347,7 +317,6 @@ class StudentCrudController extends CrudController
         return view('students/show', [
             'student' => $student,
             'comments' => $comments,
-            'lead_types' => LeadType::all(),
             'attendances' => $student->periodAttendance()->get(),
             'writeaccess' => backpack_user()->can('enrollments.edit') ?? 0,
         ]);

@@ -20,7 +20,6 @@ use App\Http\Controllers\GradeController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HRController;
 use App\Http\Controllers\InvoiceController;
-use App\Http\Controllers\LeadStatusController;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ResultController;
@@ -40,7 +39,7 @@ Route::post('register', [Auth\RegisterController::class, 'register']);
 Route::get('searchstudents', [StudentController::class, 'search']);
 
 /* DASHBOARD ROUTES */
-Route::middleware('web', 'language')->group(function () {
+Route::middleware(['web', 'language'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home')->middleware('forceupdate');
     Route::get('/', [HomeController::class, 'index'])->middleware('forceupdate');
     Route::get('/admin', [HomeController::class, 'admin'])->name('admin');
@@ -51,7 +50,7 @@ Route::middleware('web', 'language')->group(function () {
 );
 
 /* ATTENDANCE-RELATED ROUTES */
-Route::middleware('web', 'language')->group(function () {
+Route::middleware(['web', 'language'])->group(function () {
     // Attendance routes
     Route::get('attendance', [AttendanceController::class, 'index'])->name('monitorAttendance');
     Route::get('attendance/student/{student}', [AttendanceController::class, 'showStudentAttendanceForCourse'])->name('studentAttendance');
@@ -66,7 +65,7 @@ Route::middleware('web', 'language')->group(function () {
 );
 
 /* ENROLLMENTS-RELATED ROUTES */
-Route::middleware('web', 'language')->group(function () {
+Route::middleware(['web', 'language'])->group(function () {
     Route::post('student/enroll', [EnrollmentController::class, 'store'])->name('storeEnrollment'); // create a new enrollment
     Route::post('enrollment/{enrollment}/changeCourse', [EnrollmentController::class, 'update'])->name('changeCourse');
     Route::get('enrollment/{enrollment}/bill', [EnrollmentController::class, 'bill']);
@@ -94,7 +93,7 @@ Route::middleware('web', 'language')->group(function () {
 );
 
 /* STUDENTS-RELATED ROUTES */
-Route::middleware('web', 'language')->group(function () {
+Route::middleware(['web', 'language'])->group(function () {
     Route::get('phonenumber/student/{student}', [StudentPhoneNumberController::class, 'get']);
     Route::post('phonenumber/student/{student}', [StudentPhoneNumberController::class, 'store']);
     Route::delete('phonenumber/{phoneNumber}', [StudentPhoneNumberController::class, 'destroy']);
@@ -107,7 +106,7 @@ Route::middleware('web', 'language')->group(function () {
 );
 
 /* CONTACTS-RELATED ROUTES */
-Route::middleware('web', 'language')->group(function () {
+Route::middleware(['web', 'language'])->group(function () {
     Route::post('user/addcontact', [ContactController::class, 'store'])->name('addContact'); // save an additional contact for a student
     Route::get('contact/{contact}/edit', [ContactController::class, 'edit']);
     Route::delete('contact/{contact}/delete', [ContactController::class, 'destroy'])->name('deleteContact');
@@ -118,7 +117,7 @@ Route::middleware('web', 'language')->group(function () {
 );
 
 // EVALUATION RELATED ROUTES
-Route::middleware('web', 'language')->group(function () {
+Route::middleware(['web', 'language'])->group(function () {
 
         /* Course grades update */
     Route::get('course/{course}/grades', [GradeController::class, 'edit'])->name('editCourseGrades');
@@ -140,7 +139,7 @@ Route::get('enrollment/{enrollment}/export-certificate', [ResultController::clas
 Route::get('course/{course}/export-course-results', [ResultController::class, 'exportCourseResults'])->name('course-export-results');
 
 // COURSE EDITION ROUTES
-Route::middleware('web', 'permission:courses.edit', 'language')->group(function () {
+Route::middleware(['web', 'permission:courses.edit', 'language'])->group(function () {
     // Course Events routes
         Route::get('course/{course}/events/get', [EventController::class, 'getCourseEvents'])->name('getCourseEvents'); // todo use route name
         Route::patch('calendar/teacher', [EventController::class, 'update_course_teacher']);
@@ -149,7 +148,7 @@ Route::middleware('web', 'permission:courses.edit', 'language')->group(function 
 );
 
 // Comments routes
-Route::middleware('web', 'permission:comments.edit', 'language')->group(function () {
+Route::middleware(['web', 'permission:comments.edit', 'language'])->group(function () {
     Route::put('edit-comment/{comment}', [CommentController::class, 'update']);
     Route::delete('comment/{comment}', [CommentController::class, 'destroy']);
 }
@@ -158,14 +157,14 @@ Route::middleware('web', 'permission:comments.edit', 'language')->group(function
 Route::post('comment', [CommentController::class, 'store'])->name('storeComment');
 
 /* SETUP ROUTES */
-Route::middleware('web', 'permission:enrollments.edit', 'language')->group(function () {
+Route::middleware(['web', 'permission:enrollments.edit', 'language'])->group(function () {
     Route::get('config/default-periods', [ConfigController::class, 'get'])->name('get-default-periods-screen');
     Route::post('config/default-periods', [ConfigController::class, 'update'])->name('set-default-periods');
 }
 );
 
 // calendars routes
-Route::middleware('web', 'language')->group(function () {
+Route::middleware(['web', 'language'])->group(function () {
     Route::get('/calendar/room/{room}', [RoomCalendarController::class, 'show'])->name('roomCalendar');
     Route::get('/calendar/room', [RoomCalendarController::class, 'index'])->name('roomsCalendar');
     Route::get('/leave/teachers', [TeacherLeaveController::class, 'leaves'])->name('teachersLeaves');
@@ -176,13 +175,13 @@ Route::middleware('web', 'language')->group(function () {
 );
 
 // HR routes
-Route::middleware('web', 'permission:hr.view', 'language')->group(function () {
+Route::middleware(['web', 'permission:hr.view', 'language'])->group(function () {
     Route::get('/hr', [HRController::class, 'index'])->name('hrDashboard');
 }
 );
 
 // Reports routes
-Route::middleware('web', 'permission:reports.view', 'language')->group(function () {
+Route::middleware(['web', 'permission:reports.view', 'language'])->group(function () {
     Route::get('/report', [ReportController::class, 'index'])->name('allReports');
 
     Route::get('/report/internal', [ReportController::class, 'internal'])->name('homeReport');
@@ -198,10 +197,8 @@ Route::middleware('web', 'permission:reports.view', 'language')->group(function 
 }
 );
 
-Route::post('leadstatus', [LeadStatusController::class, 'update'])->name('postLeadStatus');
-
 // New COURSES module
-Route::middleware('web', 'language')->group(function () {
+Route::middleware(['web', 'language'])->group(function () {
     Route::get('courselist', [CourseController::class, 'index'])->name('get-courses-list');
     Route::get('courselist/search', [CourseController::class, 'search'])->name('search-courses');
     Route::get('course-user-view', [CourseController::class, 'redirectToUserPreferredView'])->name('course-view-find');
@@ -210,7 +207,7 @@ Route::middleware('web', 'language')->group(function () {
 );
 
 // Registration Routes...
-Route::namespace('\App\Http\Controllers')->middleware('web', 'loggedin', 'language')->prefix(config('backpack.base.route_prefix'))->group(function () {
+Route::namespace('\App\Http\Controllers')->middleware(['web', 'loggedin', 'language'])->prefix(config('backpack.base.route_prefix'))->group(function () {
     Route::post('edit-account', [MyAccountController::class, 'postAccountInfoForm'])->name('backpack.account.info.store');
     Route::post('edit-student-info', [MyAccountController::class, 'postStudentInfoForm']);
     Route::post('edit-profession', [MyAccountController::class, 'postAccountProfessionForm']);
@@ -221,7 +218,7 @@ Route::namespace('\App\Http\Controllers')->middleware('web', 'loggedin', 'langua
 }
 );
 
-Route::namespace('\App\Http\Controllers')->middleware('web', 'loggedin', 'language', 'forceupdate')->prefix(config('backpack.base.route_prefix'))->group(function () {
+Route::namespace('\App\Http\Controllers')->middleware(['web', 'loggedin', 'language', 'forceupdate'])->prefix(config('backpack.base.route_prefix'))->group(function () {
     // route numbers match the DB forceupdate field
     Route::permanentRedirect('/edit-account-info', '/edit/1')->name('backpack.account.info');
     Route::get('edit/1', [MyAccountController::class, 'getAccountInfoForm'])->name('backpack.account.edit_info');
@@ -234,7 +231,7 @@ Route::namespace('\App\Http\Controllers')->middleware('web', 'loggedin', 'langua
 }
 );
 
-Route::middleware('web', 'role:admin', 'language')->group(function () {
+Route::middleware(['web', 'role:admin', 'language'])->group(function () {
     Route::post('teacher/{id}/restore', [TeacherController::class, 'restore']);
     Route::post('teacher/{teacher}/delete', [TeacherController::class, 'destroy']);
 
