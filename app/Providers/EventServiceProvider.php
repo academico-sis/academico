@@ -11,7 +11,6 @@ use App\Events\EnrollmentUpdating;
 use App\Events\ExpiringPartnershipsEvent;
 use App\Events\ExternalCoursesReportEvent;
 use App\Events\InvoiceDeleting;
-use App\Events\LeadStatusUpdatedEvent;
 use App\Events\LeaveCreated;
 use App\Events\LeaveUpdated;
 use App\Events\MonthlyReportEvent;
@@ -34,7 +33,6 @@ use App\Listeners\SendExpiringPartnershipsAlerts;
 use App\Listeners\SendExternalCoursesReport;
 use App\Listeners\SendMonthlyReport;
 use App\Listeners\SendResultNotification;
-use App\Listeners\SyncUserWithMailingSystem;
 use App\Listeners\UpdateChildrenEnrollments;
 use App\Listeners\UpdateCourseEvents;
 use App\Listeners\UpdateTeacherEvents;
@@ -105,10 +103,6 @@ class EventServiceProvider extends ServiceProvider
 
         MonthlyReportEvent::class => [
             SendMonthlyReport::class,
-        ],
-
-        LeadStatusUpdatedEvent::class => [
-            SyncUserWithMailingSystem::class,
         ],
 
         InvoiceDeleting::class => [

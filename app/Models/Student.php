@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Events\LeadStatusUpdatedEvent;
 use App\Events\StudentDeleting;
 use App\Events\StudentUpdated;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
@@ -104,14 +103,6 @@ class Student extends Model implements HasMedia
         }
 
         $this->update(['lead_type_id' => null]); // fallback to default (converted)
-
-        // to subscribe the student to mailing lists and so on
-        $listId = config('mailing-system.mailerlite.activeStudentsListId');
-        LeadStatusUpdatedEvent::dispatch($this, $listId);
-
-        foreach ($this->contacts as $contact) {
-            LeadStatusUpdatedEvent::dispatch($contact, $listId);
-        }
 
         return $enrollment->id;
     }
@@ -248,32 +239,6 @@ class Student extends Model implements HasMedia
         }
 
         return false;
-    }
-
-    public function getLeadStatusNameAttribute()
-    {
-        return LeadType::find($this->lead_type_id)->name ?? null;
-    }
-
-    public function computedLeadStatus()
-    {
-        // if the student is currently enrolled, they are CONVERTED
-        if ($this->is_enrolled) {
-            return 1;
-        }
-
-        // if the student has a special status, return it
-        if ($this->leadType != null) {
-            return $this->leadType->id;
-        }
-
-        // if the student was previously enrolled, they must be potential students
-        if ($this->has('enrollments')) {
-            return 4;
-        }
-
-        // otherwise, their status cannot be determined and should be left blank
-        return null;
     }
 
     public function getImageAttribute(): ?string

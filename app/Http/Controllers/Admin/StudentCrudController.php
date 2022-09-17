@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Events\UserCreated;
 use App\Exceptions\UserSyncException;
 use App\Models\Institution;
-use App\Models\LeadType;
 use App\Models\Period;
 use App\Models\PhoneNumber;
 use App\Models\Profession;
@@ -143,13 +142,6 @@ class StudentCrudController extends CrudController
                 'model' => PhoneNumber::class,
             ],
 
-            [
-                'label' => __('Status'),
-                'type' => 'text',
-                'name' => 'lead_status_name',
-                'orderable' => false,
-            ],
-
         ]);
 
         CRUD::addFilter(
@@ -198,18 +190,6 @@ class StudentCrudController extends CrudController
             'label' => __('Institution'),
         ], fn () => Institution::all()->pluck('name', 'id')->toArray(), function ($value) {
             $this->crud->addClause('where', 'institution_id', $value);
-        });
-
-        $this->crud->addFilter([
-            'name' => 'lead_type_id',
-            'type' => 'select2',
-            'label' => __('Lead Status'),
-        ], fn () => LeadType::all()->pluck('name', 'id')->toArray(), function ($value) {
-            if ($value === '4') {
-                $this->crud->query = $this->crud->query->where('lead_type_id', $value)->orWhere('lead_type_id', null);
-            } else {
-                $this->crud->addClause('where', 'lead_type_id', $value);
-            }
         });
     }
 
@@ -422,7 +402,6 @@ class StudentCrudController extends CrudController
         return view('students/show', [
             'student' => $student,
             'comments' => $comments,
-            'lead_types' => LeadType::all(),
             'attendances' => $student->periodAttendance()->get(),
             'writeaccess' => backpack_user()->can('enrollments.edit') ?? 0,
         ]);
