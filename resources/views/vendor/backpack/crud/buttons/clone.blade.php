@@ -1,4 +1,4 @@
-@if ($crud->hasAccess('clone')  && $entry instanceof \App\Models\Course && $entry->parent_course_id === null && $entry->children_count === 0)
+@if ($crud->hasAccess('clone')  && $entry instanceof \App\Models\Course && $entry->parent_course_id === null && $entry->children->count() === 0)
 	<a href="javascript:void(0)" onclick="cloneEntry(this)" data-route="{{ url($crud->route.'/'.$entry->getKey().'/clone') }}" class="btn btn-sm btn-link" data-button-type="clone"><i class="la la-copy"></i> {{ trans('backpack::crud.clone') }}</a>
 @endif
 
