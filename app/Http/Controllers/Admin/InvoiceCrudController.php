@@ -48,10 +48,10 @@ class InvoiceCrudController extends CrudController
             CRUD::addColumn([
                 'name' => 'invoiceType',
                 'label' => __('Type'),
-                'type'      => 'select',
-                'entity'    => 'invoiceType',
+                'type' => 'select',
+                'entity' => 'invoiceType',
                 'attribute' => 'name',
-                'model'     => InvoiceType::class,
+                'model' => InvoiceType::class,
                 'searchLogic' => false,
             ]);
         }
@@ -124,10 +124,10 @@ class InvoiceCrudController extends CrudController
 
             CRUD::addField([
                 'label' => __('Type'),
-                'type'      => 'select',
+                'type' => 'select',
                 'name' => 'invoice_type_id',
-                'entity'    => 'invoiceType',
-                'model'     => InvoiceType::class,
+                'entity' => 'invoiceType',
+                'model' => InvoiceType::class,
                 'attribute' => 'description',
                 'searchLogic' => false,
                 'tab' => __('Invoice'),
@@ -150,7 +150,7 @@ class InvoiceCrudController extends CrudController
             'name' => 'invoiceDetails',
             'label' => __('Products'),
             'type' => 'relationship',
-            'force_delete'  => true,
+            'force_delete' => true,
             'subfields' => [
                 [
                     'name' => 'product_name',
@@ -181,13 +181,13 @@ class InvoiceCrudController extends CrudController
             'name' => 'payments',
             'label' => __('Payments'),
             'type' => 'relationship',
-            'force_delete'  => true,
+            'force_delete' => true,
             'subfields' => [
                 [
                     'name' => 'payment_method',
                     'label' => __('Payment method'),
-                    'type'        => 'select2_from_array',
-                    'options'     => Paymentmethod::all()->pluck('name', 'code')->toArray(),
+                    'type' => 'select2_from_array',
+                    'options' => Paymentmethod::all()->pluck('name', 'code')->toArray(),
                     'allows_null' => false,
                     'wrapper' => ['class' => 'form-group col-md-6'],
                 ],

@@ -110,7 +110,7 @@ class LeaveCrudController extends CrudController
 
             [
                 'name' => ['start_date', 'end_date'],
-                'label' =>__('Date Range'),
+                'label' => __('Date Range'),
                 'type' => 'date_range',
                 'default' => [Carbon::now()->format('Y-m-d 00:00'), Carbon::now()->addDays(2)->format('Y-m-d 00:00')],
             ],

@@ -344,7 +344,7 @@ class EnrollmentCrudController extends CrudController
                 'name' => 'scheduledPayments',
                 'label' => __('Scheduled Payments'),
                 'type' => 'relationship',
-                'force_delete'  => true,
+                'force_delete' => true,
                 'subfields' => [
                     [
                         'name' => 'date',

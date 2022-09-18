@@ -236,11 +236,11 @@ class StudentCrudController extends CrudController
         if (config('backpack.base.license_code')) {
             CRUD::addField([
                 'type' => 'relationship',
-                'force_delete'  => true,
+                'force_delete' => true,
                 'name' => 'phone',
                 'tab' => __('Student Info'),
                 'label' => __('Phone'),
-                'subfields'   => [
+                'subfields' => [
                     [
                         'name' => 'phone_number',
                         'type' => 'text',

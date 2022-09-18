@@ -78,9 +78,9 @@ class GradeTypeCrudController extends CrudController
             [
                 'label' => __('Category'),
                 'type' => 'select',
-                'name'      => 'grade_type_category_id',
-                'entity'    => 'category',
-                'model'     => GradeTypeCategory::class,
+                'name' => 'grade_type_category_id',
+                'entity' => 'category',
+                'model' => GradeTypeCategory::class,
                 'attribute' => 'name',
                 'ajax' => true,
             ],

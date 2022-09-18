@@ -19,6 +19,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Backpack\Pro\Http\Controllers\Operations\CloneOperation;
 
 class CourseCrudController extends CrudController
 {
@@ -28,6 +29,7 @@ class CourseCrudController extends CrudController
     use DeleteOperation;
     use ShowStudentPhotoRosterOperation;
     use ShowStudentListOperation;
+    use CloneOperation { clone as traitClone; }
 
     protected array $currency = [];
 
@@ -170,9 +172,9 @@ class CourseCrudController extends CrudController
             ],
 
             [
-                'name'  => 'marked',
+                'name' => 'marked',
                 'label' => __('Evaluation ready'),
-                'type'  => 'check',
+                'type' => 'check',
             ],
         ]);
 
@@ -720,5 +722,30 @@ class CourseCrudController extends CrudController
         }
 
         return $response;
+    }
+
+    public function clone($id)
+    {
+        $this->crud->hasAccessOrFail('clone');
+        $this->crud->setOperation('clone');
+
+        $initialCourse = $this->crud->model->findOrFail($id);
+
+        // block duplication of courses with subcourses
+        if ($initialCourse->children->count() > 0) {
+            abort(403, 'Cannot duplicate a course with subcourses');
+        }
+
+        $clonedEntry = $initialCourse->replicate();
+
+        $clonedEntry->save();
+
+        // create times and events
+        $clonedEntry->saveCourseTimes($initialCourse->times);
+
+        // books
+        $clonedEntry->books()->attach($initialCourse->books);
+
+        return (string) $clonedEntry->push();
     }
 }
