@@ -6,21 +6,21 @@
  */
 
 /*!
- * Vue.js v2.6.14
- * (c) 2014-2021 Evan You
+ * Vue.js v2.7.10
+ * (c) 2014-2022 Evan You
  * Released under the MIT License.
  */
 
 /*!
-FullCalendar Scheduler v5.10.2
+FullCalendar Scheduler v5.11.3
 Docs & License: https://fullcalendar.io/scheduler
-(c) 2021 Adam Shaw
+(c) 2022 Adam Shaw
 */
 
 /*!
-FullCalendar v5.10.2
+FullCalendar v5.11.3
 Docs & License: https://fullcalendar.io/
-(c) 2021 Adam Shaw
+(c) 2022 Adam Shaw
 */
 
 /**
