@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
-use App\Models\LeadType;
 use App\Models\Period;
 use App\Models\Student;
 use App\Models\Teacher;
