@@ -107,7 +107,9 @@ class EnrollmentCrudController extends CrudController
                     return $entry->status_id > 2 ? 'del' : 'span';
                 }], ],
 
-            ['name' => 'user',
+            [
+                'visibleInExport' => false,
+                'name' => 'user',
                 'key' => 'user_lastname',
                 'attribute' => 'lastname',
                 'label' => __('Last Name'),
@@ -129,7 +131,22 @@ class EnrollmentCrudController extends CrudController
                 },
             ],
 
-            ['name' => 'user',
+            [
+                'limit' => 200,
+                'exportOnlyField' => true,
+                'name' => 'user',
+                'key' => 'user_lastname_export',
+                'attribute' => 'lastname',
+                'label' => __('Last Name'),
+                'type' => 'select',
+                'wrapper' => ['element' => function ($crud, $column, $entry) {
+                    return $entry->status_id > 2 ? 'del' : 'span';
+                }],
+            ],
+
+            [
+                'visibleInExport' => false,
+                'name' => 'user',
                 'key' => 'user_firstname',
                 'attribute' => 'firstname',
                 'label' => __('First Name'),
@@ -151,6 +168,19 @@ class EnrollmentCrudController extends CrudController
                 'orderable' => true,
             ],
 
+            [
+                'limit' => 200,
+                'exportOnlyField' => true,
+                'name' => 'user',
+                'key' => 'user_firstname_export',
+                'attribute' => 'firstname',
+                'label' => __('First Name'),
+                'type' => 'select',
+                'wrapper' => ['element' => function ($crud, $column, $entry) {
+                    return $entry->status_id > 2 ? 'del' : 'span';
+                }],
+            ],
+
             ['label' => __('Age'),
                 'name' => 'student_age', ],
 
@@ -169,6 +199,20 @@ class EnrollmentCrudController extends CrudController
         if ($this->mode === 'global') {
             CRUD::addColumns([
                 [
+                    'visibleInExport' => false,
+                    'key' => 'course_name',
+                    'label' => __('Course'),
+                    'type' => 'select',
+                    'name' => 'course_id',
+                    'entity' => 'course',
+                    'attribute' => 'name',
+                    'model' => Course::class,
+                ],
+
+                [
+                    'limit' => 1000,
+                    'exportOnlyField' => true,
+                    'key' => 'course_name_export',
                     'label' => __('Course'),
                     'type' => 'select',
                     'name' => 'course_id',
@@ -240,7 +284,19 @@ class EnrollmentCrudController extends CrudController
             ],
 
             [
+                'visibleInExport' => false,
                 'label' => __('Email'),
+                'key' => 'email_display',
+                'name' => 'user',
+                'attribute' => 'email',
+                'type' => 'select',
+            ],
+
+            [
+                'limit' => 1000,
+                'exportOnlyField' => true,
+                'label' => __('Email'),
+                'key' => 'email_export',
                 'name' => 'user',
                 'attribute' => 'email',
                 'type' => 'select',
