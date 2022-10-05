@@ -80,6 +80,7 @@ class ScheduledPaymentCrudController extends CrudController
             'name' => 'value',
             'label' => __('Value'),
             'type' => 'number',
+            'decimals'      => 2,
         ], $currency));
 
         CRUD::addColumn([
