@@ -117,8 +117,10 @@ class LeaveCrudController extends CrudController
         ]);
     }
 
-    public function store(LeaveRequest $request)
+    public function store()
     {
+        $request = $this->crud->getRequest();
+
         foreach ($request->teacher_id as $teacher_id) {
             $start = Carbon::parse($request->start_date);
             $end = Carbon::parse($request->end_date);

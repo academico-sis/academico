@@ -56,11 +56,13 @@ class CourseTime extends Model
         $today = Carbon::parse($this->course->start_date)->startOfDay();
         $end = Carbon::parse($this->course->end_date)->endOfDay();
 
+        $teacher = $this->course->teacher;
+
         // for each day in the course period span
         while ($today <= $end) {
 
                 // if today is a day of class, create the event
-            if ($this->day == $today->format('w')) {
+            if ($this->day == $today->format('w') && (!$teacher || ! $teacher->leaves->contains('date', $today->toDateString()))) {
                 Event::create([
                     'course_id' => $this->course->id,
                     'teacher_id' => $this->course->teacher_id,
