@@ -62,8 +62,21 @@ class StudentCrudController extends CrudController
                 'label' => __('ID number'),
                 'type' => 'text',
                 'name' => 'idnumber',
+                'visibleInExport' => false,
+                'key' => 'idnumber_display',
             ],
+
             [
+                'label' => __('ID number'),
+                'type' => 'text',
+                'name' => 'idnumber',
+                'exportOnlyField' => true,
+                'limit' => 200,
+                'key' => 'idnumber_export',
+            ],
+
+            [
+                'visibleInExport' => false,
                 'label' => __('Last Name'),
                 'type' => 'select',
                 'key' => 'lastname',
@@ -81,6 +94,18 @@ class StudentCrudController extends CrudController
             ],
 
             [
+                'exportOnlyField' => true,
+                'limit' => 200,
+                'label' => __('Last Name'),
+                'type' => 'select',
+                'key' => 'lastname_export',
+                'name' => 'user',
+                'attribute' => 'lastname',
+                'model' => User::class,
+            ],
+
+            [
+                'visibleInExport' => false,
                 'label' => __('First Name'),
                 'type' => 'select',
                 'key' => 'firstname',
@@ -98,10 +123,23 @@ class StudentCrudController extends CrudController
             ],
 
             [
+                'exportOnlyField' => true,
+                'limit' => 200,
+                'label' => __('First Name'),
+                'type' => 'select',
+                'key' => 'firstname_export',
+                'name' => 'user',
+                'attribute' => 'firstname',
+                'model' => User::class,
+            ],
+
+            [
+                'visibleInExport' => false,
                 'label' => __('Email'),
                 'type' => 'select',
                 'name' => 'user',
                 'attribute' => 'email',
+                'key' => 'email_display',
                 'model' => User::class,
                 'orderable' => true,
                 'orderLogic' => fn ($query, $column, $columnDirection) => $query->leftJoin('users', 'users.id', '=', 'students.id')
@@ -114,6 +152,18 @@ class StudentCrudController extends CrudController
             ],
 
             [
+                'exportOnlyField' => true,
+                'limit' => 200,
+                'label' => __('Email'),
+                'type' => 'select',
+                'name' => 'user',
+                'attribute' => 'email',
+                'key' => 'email_export',
+                'model' => User::class,
+            ],
+
+            [
+                'visibleInExport' => false,
                 'label' => __('Username'),
                 'type' => 'select',
                 'key' => 'username',
