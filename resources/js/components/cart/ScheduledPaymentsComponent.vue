@@ -102,6 +102,7 @@
 </template>
 
 <script>
+import moment from 'moment';
 export default {
     props: ['currency', 'currencyposition', 'enrollment'],
 
@@ -109,7 +110,7 @@ export default {
         return {
             loading: false,
             paymentsCount: 1,
-            firstPaymentDate: new Date().toISOString().substr(0, 10),
+            firstPaymentDate: moment().format('YYYY-MM-DD'),
             paymentsDefaultValue: null,
             payments: [],
         };
@@ -122,16 +123,16 @@ export default {
     methods: {
         addPayment(value) {
             if (this.payments.length > 0) {
-                let previousPaymentDate = new Date(this.payments[this.payments.length - 1].date);
-                var nextPaymentDate = new Date(previousPaymentDate.setMonth(previousPaymentDate.getMonth()+1));
+                let previousPaymentDate = moment(this.payments[this.payments.length - 1].date);
+                var nextPaymentDate = previousPaymentDate.add(1, "month").format('yyyy-MM-DD');
             }
             else {
-                var nextPaymentDate = new Date(this.firstPaymentDate);
+                var nextPaymentDate = this.firstPaymentDate;
             }
 
             let payment = {
                 value,
-                date: nextPaymentDate.toISOString().substr(0, 10),
+                date: nextPaymentDate,
             };
 
             this.payments.push(payment);
