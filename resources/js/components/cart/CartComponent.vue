@@ -388,7 +388,7 @@ export default {
         selectInvoiceData(contact) {
             this.clientname = contact.name ?? "";
             this.clientphone =
-                typeof contact.phone === "undefined"
+                typeof contact.phone === "undefined" || contact.phone.length === 0
                     ? ""
                     : contact.phone[0].phone_number;
             this.clientaddress = contact.address ?? "";
