@@ -71,16 +71,24 @@ class ScheduledPaymentCrudController extends CrudController
         ]);
 
         if (config('academico.currency_position') === 'before') {
-            $currency = ['prefix' => config('academico.currency_symbol')];
+            $currency = [
+                'prefix' => config('academico.currency_symbol'),
+                'type' => 'number',
+                'decimals'      => 2,
+                'dec_point'     => ',',
+            ];
         } else {
-            $currency = ['suffix' => config('academico.currency_symbol')];
+            $currency = [
+                'suffix' => config('academico.currency_symbol'),
+                'type' => 'number',
+                'decimals'      => 2,
+                'dec_point'     => ',',
+            ];
         }
 
         CRUD::addColumn(array_merge([
             'name' => 'value',
             'label' => __('Value'),
-            'type' => 'number',
-            'decimals'      => 2,
         ], $currency));
 
         CRUD::addColumn([
