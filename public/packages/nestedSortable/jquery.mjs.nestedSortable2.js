@@ -820,10 +820,6 @@
 
 			if (o.isTree) {
 				replaceClass(item, o.branchClass, o.leafClass, doNotClear);
-
-				if (doNotClear && hasChildren) {
-					replaceClass(item, o.collapsedClass, o.expandedClass);
-				}
 			}
 
 			if (!doNotClear) {

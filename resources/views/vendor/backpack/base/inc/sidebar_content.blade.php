@@ -1,6 +1,6 @@
 <!-- This file is used to store sidebar items, starting with Backpack\Base 0.9.0 -->
 
-<li class='nav-item'><a class='nav-link' href="{{ url('/') }}"><i class="nav-icon la la-book"></i> <span>{{ __('Home') }}</span></a></li>
+{{--<li class='nav-item'><a class='nav-link' href="{{ url('/') }}"><i class="nav-icon la la-book"></i> <span>{{ __('Home') }}</span></a></li>--}}
 
 @if(backpack_user()->hasRole(['admin', 'secretary']))
     <li class="nav-title">@lang('COURSES')</li>
@@ -13,7 +13,6 @@
         <li class='nav-item'><a class='nav-link' href="{{ backpack_url('enrollment') }}"><i class="nav-icon la la-credit-card"></i> <span>@lang('Enrollments')</span></a></li>
         <li class='nav-item'><a class='nav-link' href="{{ backpack_url('attendance') }}"><i class="nav-icon la la-calendar"></i> <span>@lang('Attendance')</span></a></li>
         <li class='nav-item'><a class='nav-link' href="{{ backpack_url('result') }}"><i class="nav-icon la la-percent"></i> <span>@lang('Results')</span></a></li>
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('member') }}'><i class='nav-icon la la-question'></i>@lang('Members')</a></li>
 
     <li class="nav-title">{{ Str::upper(trans('Invoicing')) }}</li>
         <li class='nav-item'><a class='nav-link' href="{{ backpack_url('/enrollment?status_id=["1"]&hidechildren=true') }}"><i class="nav-icon la la-credit-card"></i> <span>@lang('Pending')</span></a></li>

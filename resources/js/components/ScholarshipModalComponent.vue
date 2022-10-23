@@ -30,22 +30,23 @@ export default {
     methods: {
         addScholarship()
         {
-            this.loading = true,
+          var self = this;
+            this.loading = true;
             axios
             .post(`/enrollment/${this.enrollment_id}/scholarships/add`, {
                 scholarship_id: this.selectedScholarship
             })
             .then(function (response) {
                 new Noty({
-                        title: this.$t("Operation successful"),
-                        text: this.$t("The scholarship has been successfully added"),
+                        title: self.$t("Operation successful"),
+                        text: self.$t("The scholarship has been successfully added"),
                         type: "success",
                     }).show();
                 window.location.reload()
             })
             .catch(function (error) {
                 console.log(error);
-                this.loading = false
+                self.loading = false
             });
         }
     },

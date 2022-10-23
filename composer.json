@@ -7,7 +7,7 @@
         "php": "^8.1",
         "ext-gd": "*",
         "akaunting/laravel-language": "^1.0",
-        "backpack/crud": "5.0.15",
+        "backpack/crud": "^5.0.15",
         "backpack/permissionmanager": "^6.0.0",
         "backpack/pro": "1.0.14",
         "curl/curl": "^2.3.0",
