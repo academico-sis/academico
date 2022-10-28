@@ -12,6 +12,8 @@ use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
+use Prologue\Alerts\Facades\Alert;
 
 class TeacherCrudController extends CrudController
 {
@@ -100,6 +102,30 @@ class TeacherCrudController extends CrudController
                 'type' => 'date',
             ],
         ]);
+
+        CRUD::addFilter(
+            [
+                'name' => 'rhythm_id',
+                'type' => 'select2',
+                'label' => __('Status'),
+            ],
+            [
+                'active' => __('Active'),
+                'archived' => __('Archived'),
+                'all' => __('All'),
+            ],
+            function ($value) {
+                if ($value === 'active') {
+                    CRUD::addClause('where', 'deleted_at', null);
+                }
+                if ($value === 'archived') {
+                    CRUD::addClause('where', 'deleted_at', '!=', null);
+                }
+            },
+            function () {
+                CRUD::addClause('where', 'deleted_at', null);
+            }
+        );
     }
 
     public function setupCreateOperation()
@@ -107,7 +133,11 @@ class TeacherCrudController extends CrudController
         CRUD::setValidation([
             'firstname' => 'required|max:255',
             'lastname' => 'required|max:255',
-            'email' => 'required|email',
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('users', 'email')->ignore($this->crud->getCurrentEntryId()),
+            ],
             'max_week_hours' => 'nullable|numeric',
             'hired_at' => 'nullable|date',
         ]);
@@ -138,19 +168,13 @@ class TeacherCrudController extends CrudController
 
     public function store()
     {
-        $request = $this->crud->getRequest();
-
-        if (User::where('email', $request->email)->count() === 0) {
-            $username = $request->email;
-        } else {
-            $username = $this->generateUsername($request->firstname.' '.$request->lastname);
-        }
+        $request = $this->crud->validateRequest();
 
         $user = User::create([
             'firstname' => $request->firstname,
             'lastname' => $request->lastname,
             'email' => $request->email,
-            'username' => $username,
+            'username' => $request->email,
             'password' => Hash::make(Str::random(12)),
         ]);
 
@@ -173,6 +197,7 @@ class TeacherCrudController extends CrudController
             'firstname' => $request->firstname,
             'lastname' => $request->lastname,
             'email' => $request->email,
+            'username' => $request->email,
         ]);
 
         $this->crud->getRequest()->request->remove('firstname');
