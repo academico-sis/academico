@@ -34,6 +34,8 @@ class HomeController extends Controller
             return redirect()->route('teacherDashboard');
         } elseif (backpack_user()->isStudent()) {
             return redirect()->route('studentDashboard');
+        } elseif (backpack_user()->hasPermissionTo('reports.view')) {
+            return redirect()->route('allReports');
         } else {
             // this should never happen
             Log::warning(backpack_user()->id.' accessed the generic dashboard (no role identified)');

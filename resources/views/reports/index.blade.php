@@ -11,8 +11,6 @@
 
 @section('content')
 
-@include('reports.insights')
-
     <div class="row">
 
 
@@ -21,7 +19,7 @@
 
 
 @section('before_scripts')
-   
+
 @endsection
 
 
