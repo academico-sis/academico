@@ -18,6 +18,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\CRUD\app\Library\Widget;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 
@@ -343,6 +344,31 @@ class EnrollmentCrudController extends CrudController
                     } else {
                         CRUD::addClause('whereHas', 'scholarships', function ($q) use ($value) {
                             $q->where('scholarships.id', $value);
+                        });
+                    }
+                });
+
+
+            CRUD::addFilter([
+                'name' => 'age',
+                'type'       => 'range',
+                'label'      => __('Age'),
+                'label_from' => 'min',
+                'label_to'   => 'max',
+            ],
+                false,
+                function($value) {
+                    $range = json_decode($value);
+                    if ($range->from && (int) $range->from > 0) {
+                        $minDate = Carbon::now()->subYears($range->from);
+                        CRUD::addClause('whereHas', 'student', function ($q) use ($minDate) {
+                            $q->where('birthdate', '<=', $minDate);
+                        });
+                    }
+                    if ($range->to) {
+                        $maxDate = Carbon::now()->subYears($range->to);
+                        CRUD::addClause('whereHas', 'student', function ($q) use ($maxDate) {
+                            $q->where('birthdate', '>=', $maxDate);
                         });
                     }
                 });

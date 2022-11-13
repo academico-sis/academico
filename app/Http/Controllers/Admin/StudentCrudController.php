@@ -20,6 +20,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -234,13 +235,33 @@ class StudentCrudController extends CrudController
             }
         );
 
-        $this->crud->addFilter([
+        CRUD::addFilter([
             'name' => 'institution_id',
             'type' => 'select2',
             'label' => __('Institution'),
         ], fn () => Institution::all()->pluck('name', 'id')->toArray(), function ($value) {
             $this->crud->addClause('where', 'institution_id', $value);
         });
+
+        CRUD::addFilter([
+            'name' => 'age',
+            'type'       => 'range',
+            'label'      => __('Age'),
+            'label_from' => 'min',
+            'label_to'   => 'max',
+        ],
+            false,
+            function($value) {
+                $range = json_decode($value);
+                if ($range->from && (int) $range->from > 0) {
+                    $minDate = Carbon::now()->subYears($range->from);
+                    $this->crud->addClause('where', 'birthdate', '<=', $minDate);
+                }
+                if ($range->to) {
+                    $maxDate = Carbon::now()->subYears($range->to);
+                    $this->crud->addClause('where', 'birthdate', '>=', $maxDate);
+                }
+            });
     }
 
     public function setupCreateOperation()
