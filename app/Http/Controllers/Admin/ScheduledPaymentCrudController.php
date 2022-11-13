@@ -74,15 +74,15 @@ class ScheduledPaymentCrudController extends CrudController
             $currency = [
                 'prefix' => config('academico.currency_symbol'),
                 'type' => 'number',
-                'decimals'      => 2,
-                'dec_point'     => ',',
+                'decimals' => 2,
+                'dec_point' => ',',
             ];
         } else {
             $currency = [
                 'suffix' => config('academico.currency_symbol'),
                 'type' => 'number',
-                'decimals'      => 2,
-                'dec_point'     => ',',
+                'decimals' => 2,
+                'dec_point' => ',',
             ];
         }
 

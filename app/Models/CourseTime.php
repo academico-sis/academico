@@ -62,7 +62,7 @@ class CourseTime extends Model
         while ($today <= $end) {
 
                 // if today is a day of class, create the event
-            if ($this->day == $today->format('w') && (!$teacher || ! $teacher->leaves->contains('date', $today->toDateString()))) {
+            if ($this->day == $today->format('w') && (! $teacher || ! $teacher->leaves->contains('date', $today->toDateString()))) {
                 Event::create([
                     'course_id' => $this->course->id,
                     'teacher_id' => $this->course->teacher_id,

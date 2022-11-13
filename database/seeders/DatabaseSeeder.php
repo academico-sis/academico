@@ -86,11 +86,7 @@ class DatabaseSeeder extends Seeder
 
         EvaluationType::create([
             'id' => 1,
-            'name' => [
-                'fr' => 'NOTES',
-                'es' => 'NOTAS',
-                'en' => 'GRADES',
-            ],
+            'name' => 'NOTES',
         ]);
 
         AttendanceType::create([

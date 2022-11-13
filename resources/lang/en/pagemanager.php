@@ -9,8 +9,8 @@
 // actual language file, from the package.
 
 // If a langfile with the same name exists in the package, load that one
-if (file_exists(__DIR__ . '/../../../../../pagemanager/src/resources/lang/' . basename(__DIR__) . 'pagemanager.php/' .basename(__FILE__))) {
-    return include __DIR__ . '/../../../../../pagemanager/src/resources/lang/' . basename(__DIR__) . 'pagemanager.php/' .basename(__FILE__);
+if (file_exists(__DIR__.'/../../../../../pagemanager/src/resources/lang/'.basename(__DIR__).'pagemanager.php/'.basename(__FILE__))) {
+    return include __DIR__.'/../../../../../pagemanager/src/resources/lang/'.basename(__DIR__).'pagemanager.php/'.basename(__FILE__);
 }
 
 return [];

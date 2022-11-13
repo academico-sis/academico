@@ -265,16 +265,16 @@ class EnrollmentCrudController extends CrudController
             'name' => 'total_price',
             'label' => __('Price'),
             'type' => 'number',
-            'decimals'      => 2,
-            'dec_point'     => ',',
+            'decimals' => 2,
+            'dec_point' => ',',
         ], $this->currency));
 
         if (config('invoicing.invoices_contain_enrollments_only')) {
             CRUD::addColumn(array_merge([
                 'name' => 'balance',
                 'label' => __('Balance'),
-                'decimals'      => 2,
-                'dec_point'     => ',',
+                'decimals' => 2,
+                'dec_point' => ',',
             ], $this->currency));
         }
 
