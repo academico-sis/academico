@@ -69,6 +69,7 @@ class CourseSkillEvaluationController extends Controller
         $skills = $course->skills->map(function ($skill, $key) use ($student_skills) {
             $skill['status'] = $student_skills->where('skill_id', $skill->id)->first()->skill_scale_id ?? null;
             $skill['skill_type_name'] = $skill->skillType->name;
+
             return $skill;
         })->groupBy('skill_type_id');
 

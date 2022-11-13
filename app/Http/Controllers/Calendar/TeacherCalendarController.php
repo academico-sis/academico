@@ -43,7 +43,7 @@ class TeacherCalendarController extends Controller
             'title' => $teacher['name'] ?? '',
         ], $teachers);
 
-        $teachers[] = ['id' => 'tbd', 'title' => 'Unassigned',];
+        $teachers[] = ['id' => 'tbd', 'title' => 'Unassigned'];
 
         $unassigned_events = Event::unassigned()->get()->map(fn ($event) => [
             'title' => $event->name ?? '',

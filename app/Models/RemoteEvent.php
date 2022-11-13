@@ -10,7 +10,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 /**
  * A RemoteEvent represents hours that do not have a specific date/time, but that should be taken into account in the teacher's total for the month or the period
  *
- * @deprecated 
+ * @deprecated
  * @mixin IdeHelperRemoteEvent
  */
 class RemoteEvent extends Model

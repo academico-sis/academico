@@ -40,6 +40,7 @@
         "filp/whoops": "^2.14",
         "jasonmccreary/laravel-test-assertions": "^2.1",
         "laracasts/generators": "^2.0",
+        "laravel/pint": "^1.2",
         "laravel/sail": "^1.13",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.1",

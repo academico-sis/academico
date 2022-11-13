@@ -127,7 +127,6 @@ class HomeController extends Controller
             'pending_attendance' => $currentPeriod->courses_with_pending_attendance,
             // todo: optimize
             'unassigned_events' => Event::unassigned()->count(),
-            'pending_leads' => LeadType::find(4)->students()->count(),
         ]);
     }
 }

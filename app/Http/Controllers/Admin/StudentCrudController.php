@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Events\UserCreated;
 use App\Exceptions\UserSyncException;
 use App\Models\Institution;
-use App\Models\Period;
 use App\Models\PhoneNumber;
 use App\Models\Profession;
 use App\Models\Student;
@@ -148,21 +147,21 @@ class StudentCrudController extends CrudController
             'name' => 'firstname',
             'label' => __('Firstname'),
             'tab' => __('Student Info'),
-            'validationRules' => 'required|string|max:30'
+            'validationRules' => 'required|string|max:30',
         ]);
 
         CRUD::addField([
             'name' => 'lastname',
             'label' => __('Lastname'),
             'tab' => __('Student Info'),
-            'validationRules' => 'required|string|max:30'
+            'validationRules' => 'required|string|max:30',
         ]);
 
         CRUD::addField([
             'name' => 'email',
             'label' => __('Email'),
             'tab' => __('Student Info'),
-            'validationRules' => 'nullable|email|max:60'
+            'validationRules' => 'nullable|email|max:60',
         ]);
 
         CRUD::field('idnumber')->label(__('ID number'))->tab(__('Student Info'))->validationRules('nullable|string');
@@ -197,7 +196,6 @@ class StudentCrudController extends CrudController
 
         CRUD::setValidation();
     }
-
 
     public function setupUpdateOperation()
     {
@@ -245,7 +243,7 @@ class StudentCrudController extends CrudController
         // save phone number
         if ($request->phone) {
             foreach ($request->phone as $phone_number) {
-                $phone_number = PhoneNumber::firstOrCreate(['phone_number' => $phone_number['phone_number'], 'phoneable_id' => $student->id, 'phoneable_type' => Student::class,]);
+                $phone_number = PhoneNumber::firstOrCreate(['phone_number' => $phone_number['phone_number'], 'phoneable_id' => $student->id, 'phoneable_type' => Student::class]);
 
                 $student->phone()->save($phone_number);
             }
@@ -282,9 +280,9 @@ class StudentCrudController extends CrudController
         $this->crud->registerFieldEvents();
 
         $this->crud->getCurrentEntry()->user()->update([
-                'firstname' => $request->firstname,
-                'lastname' => $request->lastname,
-                'email' => $request->email,
+            'firstname' => $request->firstname,
+            'lastname' => $request->lastname,
+            'email' => $request->email,
         ]);
 
         $this->crud->getRequest()->request->remove('firstname');
@@ -300,9 +298,9 @@ class StudentCrudController extends CrudController
         \Alert::success(trans('backpack::crud.update_success'))->flash();
 
         $this->crud->setSaveAction();
+
         return $this->crud->performSaveAction($item->getKey());
     }
-
 
     public function show($student)
     {

@@ -146,7 +146,7 @@ class EnrollmentController extends Controller
         // build an array with all contact data
         $clients = [];
 
-        $clients[] = ['name' => $enrollment->student_name, 'email' => $enrollment->student_email, 'idnumber' => $enrollment->student->idnumber, 'address' => $enrollment->student->address, 'phone' => $enrollment->student->phone,];
+        $clients[] = ['name' => $enrollment->student_name, 'email' => $enrollment->student_email, 'idnumber' => $enrollment->student->idnumber, 'address' => $enrollment->student->address, 'phone' => $enrollment->student->phone];
 
         foreach ($enrollment->student->contacts as $client) {
             $clients[] = $client;
@@ -200,6 +200,7 @@ class EnrollmentController extends Controller
         }
 
         return $pendingBalance;
+
         return number_format($pendingBalance, 2);
     }
 }

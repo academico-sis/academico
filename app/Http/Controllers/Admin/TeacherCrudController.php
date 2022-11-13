@@ -13,7 +13,6 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
-use Prologue\Alerts\Facades\Alert;
 
 class TeacherCrudController extends CrudController
 {
@@ -102,30 +101,6 @@ class TeacherCrudController extends CrudController
                 'type' => 'date',
             ],
         ]);
-
-        CRUD::addFilter(
-            [
-                'name' => 'rhythm_id',
-                'type' => 'select2',
-                'label' => __('Status'),
-            ],
-            [
-                'active' => __('Active'),
-                'archived' => __('Archived'),
-                'all' => __('All'),
-            ],
-            function ($value) {
-                if ($value === 'active') {
-                    CRUD::addClause('where', 'deleted_at', null);
-                }
-                if ($value === 'archived') {
-                    CRUD::addClause('where', 'deleted_at', '!=', null);
-                }
-            },
-            function () {
-                CRUD::addClause('where', 'deleted_at', null);
-            }
-        );
     }
 
     public function setupCreateOperation()
@@ -213,6 +188,7 @@ class TeacherCrudController extends CrudController
         \Alert::success(trans('backpack::crud.update_success'))->flash();
 
         $this->crud->setSaveAction();
+
         return $this->crud->performSaveAction($item->getKey());
     }
 }

@@ -4,8 +4,6 @@ namespace App\Listeners;
 
 use App\Events\CourseUpdated;
 use App\Models\Event;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
 
 class UpdateCourseEvents
 {

@@ -8,7 +8,6 @@ use App\Events\EnrollmentUpdated;
 use App\Events\EnrollmentUpdating;
 use App\Models\Interfaces\InvoiceableModel;
 use App\Models\Skills\SkillEvaluation;
-use App\Traits\PriceTrait;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -45,7 +44,6 @@ class Enrollment extends Model implements InvoiceableModel
     {
         return LogOptions::defaults()->logUnguarded();
     }
-
 
     /*
     |--------------------------------------------------------------------------
@@ -255,7 +253,6 @@ class Enrollment extends Model implements InvoiceableModel
             ]);
         }
     }
-
 
     /*
     |--------------------------------------------------------------------------

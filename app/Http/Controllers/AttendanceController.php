@@ -105,8 +105,7 @@ class AttendanceController extends Controller
      */
     public function showCourse(Course $course)
     {
-
-    // The current is not allowed to view the page
+        // The current is not allowed to view the page
         if (Gate::forUser(backpack_user())->denies('view-course-attendance', $course)) {
             abort(403);
         }
@@ -143,8 +142,7 @@ class AttendanceController extends Controller
 
     public function showEvent(Event $event)
     {
-
-    // The current is not allowed to view the page
+        // The current is not allowed to view the page
         if (Gate::forUser(backpack_user())->denies('view-event-attendance', $event)) {
             abort(403);
         }

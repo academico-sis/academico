@@ -20,7 +20,6 @@ class SkillEvaluation extends Model
 
     protected $with = ['skill', 'skill_scale'];
 
-
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()->logUnguarded();

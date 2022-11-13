@@ -15,5 +15,4 @@ class Config extends Model
     protected $table = 'config';
 
     protected $guarded = ['id'];
-
 }

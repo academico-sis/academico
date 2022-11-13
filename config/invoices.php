@@ -7,7 +7,7 @@ return [
         /**
          * Carbon date format
          */
-        'format'         => 'Y-m-d',
+        'format' => 'Y-m-d',
         /**
          * Due date for payment since invoice's date.
          */
@@ -15,38 +15,38 @@ return [
     ],
 
     'serial_number' => [
-        'series'           => 'FC',
-        'sequence'         => 1,
+        'series' => 'FC',
+        'sequence' => 1,
         /**
          * Sequence will be padded accordingly, for ex. 00001
          */
         'sequence_padding' => 5,
-        'delimiter'        => '-',
+        'delimiter' => '-',
         /**
          * Supported tags {SERIES}, {DELIMITER}, {SEQUENCE}
          * Example: AA.00001
          */
-        'format'           => '{SERIES}{DELIMITER}{SEQUENCE}',
+        'format' => '{SERIES}{DELIMITER}{SEQUENCE}',
     ],
 
     'currency' => [
-        'code'                => 'eur',
+        'code' => 'eur',
         /**
          * Usually cents
          * Used when spelling out the amount and if your currency has decimals.
          *
          * Example: Amount in words: Eight hundred fifty thousand sixty-eight EUR and fifteen ct.
          */
-        'fraction'            => 'ct.',
-        'symbol'              => '€',
+        'fraction' => 'ct.',
+        'symbol' => '€',
         /**
          * Example: 19.00
          */
-        'decimals'            => 2,
+        'decimals' => 2,
         /**
          * Example: 1.99
          */
-        'decimal_point'       => '.',
+        'decimal_point' => '.',
         /**
          * By default empty.
          * Example: 1,999.00
@@ -56,12 +56,12 @@ return [
          * Supported tags {VALUE}, {SYMBOL}, {CODE}
          * Example: 1.99 €
          */
-        'format'              => '{VALUE} {SYMBOL}',
+        'format' => '{VALUE} {SYMBOL}',
     ],
 
     'paper' => [
         // A4 = 210 mm x 297 mm = 595 pt x 842 pt
-        'size'        => 'a4',
+        'size' => 'a4',
         'orientation' => 'portrait',
     ],
 
@@ -80,8 +80,8 @@ return [
          * Default attributes for Seller::class
          */
         'attributes' => [
-            'name'          => config('academico.company_name'),
-            'address'       => config('academico.company_address'),
+            'name' => config('academico.company_name'),
+            'address' => config('academico.company_address'),
             'custom_fields' => [
                 /**
                  * Custom attributes for Seller::class

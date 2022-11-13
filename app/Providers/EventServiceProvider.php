@@ -22,7 +22,6 @@ use App\Events\UserDeleting;
 use App\Events\UserUpdated;
 use App\Listeners\AddPastAttendance;
 use App\Listeners\CleanChildrenEnrollments;
-use App\Listeners\ComputeStudentLeadStatus;
 use App\Listeners\DeleteEnrollmentData;
 use App\Listeners\DeleteInvoiceDetails;
 use App\Listeners\DeleteStudentData;
@@ -63,7 +62,7 @@ class EventServiceProvider extends ServiceProvider
 
         EnrollmentUpdated::class => [
             UpdateChildrenEnrollments::class,
-//            ComputeStudentLeadStatus::class,
+            //            ComputeStudentLeadStatus::class,
         ],
 
         StudentDeleting::class => [

@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Events\TeacherUpdated;
-use App\Traits\UserAttributesTrait;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -98,7 +97,6 @@ class Teacher extends Model
 
         // loop through all leave dates
         for ($i = 0; $i < (is_countable($dates) ? count($dates) : 0); $i++) {
-
             // if the next date does not touch current range
             if (isset($dates[$i + 1])) {
                 if (Carbon::parse($dates[$i]['date'])->addDay() != Carbon::parse($dates[$i + 1]['date'])) {
@@ -107,7 +105,7 @@ class Teacher extends Model
                     if ($range_start == $range_end) {
                         $formatted_leaves[] = $range_start->format('d/m/Y');
                     } else {
-                        $formatted_leaves[] = $range_start->format('d/m/Y') . ' - ' . $range_end->format('d/m/Y');
+                        $formatted_leaves[] = $range_start->format('d/m/Y').' - '.$range_end->format('d/m/Y');
                     }
 
                     $range_start = Carbon::parse($dates[$i + 1]['date']);
@@ -118,7 +116,7 @@ class Teacher extends Model
                 if ($range_start == $range_end) {
                     $formatted_leaves[] = $range_start->format('d/m/Y');
                 } else {
-                    $formatted_leaves[] = $range_start->format('d/m/Y') . ' - ' . $range_end->format('d/m/Y');
+                    $formatted_leaves[] = $range_start->format('d/m/Y').' - '.$range_end->format('d/m/Y');
                 }
             }
         }
@@ -145,7 +143,6 @@ class Teacher extends Model
         $total = 0;
         // retrieve courses within period
         foreach ($this->courses()->realcourses()->whereDate('start_date', '<=', $end)->get() as $course) {
-
             // the number of days (selected period) overlapping the course length
             // latest of course and report start dates.
             $startDate = Carbon::parse($course->start_date)->max($start);
@@ -188,7 +185,6 @@ class Teacher extends Model
 
         foreach ($eventsWithExpectedAttendance as $event) {
             foreach ($event->enrollments as $enrollment) {
-
                 // if a student has no attendance record for the class (event)
                 $hasNotAttended = $event->attendance->where('student_id', $enrollment->student_id)->isEmpty();
 
@@ -230,5 +226,4 @@ class Teacher extends Model
             get: fn (): string => $this->user ? "{$this->firstname} {$this->lastname}" : '',
         );
     }
-
 }

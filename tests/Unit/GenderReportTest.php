@@ -85,7 +85,7 @@ class GenderReportTest extends TestCase
         });
 
         // The year shall have the correct total for both periods
-        $response->assertViewHas('data', function ($data) use ($otherPeriodInSameYear, $otherPeriod) {
+        $response->assertViewHas('data', function ($data) use ($otherPeriod) {
             $year = collect($data->values()[1]);
 
             return

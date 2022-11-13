@@ -10,12 +10,11 @@ class Language extends Controller
     /**
      * Set locale if it's allowed.
      *
-     * @param string                   $locale
-     * @param Request $request
+     * @param  string  $locale
+     * @param  Request  $request
      **/
     private function setLocale($locale, $request)
     {
-
         // Check if is allowed and set default locale if not
         if (! language()->allowed($locale)) {
             $locale = config('app.locale');
@@ -31,8 +30,7 @@ class Language extends Controller
     /**
      * Set locale and return home url.
      *
-     * @param string                   $locale
-     *
+     * @param  string  $locale
      * @return string
      **/
     public function home($locale, Request $request)
@@ -47,8 +45,7 @@ class Language extends Controller
     /**
      * Set locale and return back.
      *
-     * @param string                   $locale
-     *
+     * @param  string  $locale
      * @return string
      **/
     public function back($locale, Request $request)

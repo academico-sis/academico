@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Course;
 use App\Models\Enrollment;
-use App\Models\Period;
 use App\Models\Result;
 use App\Models\ResultType;
 use Backpack\CRUD\app\Http\Controllers\CrudController;

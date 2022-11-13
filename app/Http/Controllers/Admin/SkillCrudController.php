@@ -25,7 +25,6 @@ class SkillCrudController extends CrudController
         CRUD::setModel(Skill::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/skill');
         CRUD::setEntityNameStrings(__('skill'), __('skills'));
-
     }
 
     protected function setupListOperation()

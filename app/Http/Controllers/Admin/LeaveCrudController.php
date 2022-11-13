@@ -24,7 +24,7 @@ class LeaveCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(Leave::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/leave');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/leave');
         CRUD::setEntityNameStrings(__('leave'), __('leaves'));
     }
 
@@ -82,7 +82,7 @@ class LeaveCrudController extends CrudController
 
             [
                 'name' => ['start_date', 'end_date'],
-                'label' =>__('Date Range'),
+                'label' => __('Date Range'),
                 'type' => 'date_range',
                 'default' => [Carbon::now()->format('Y-m-d 00:00'), Carbon::now()->addDays(2)->format('Y-m-d 00:00')],
             ],

@@ -31,7 +31,6 @@ class HomeControllerTest extends TestCase
         $response->assertViewHas('upcoming_leaves');
         $response->assertViewHas('resources');
         $response->assertViewHas('events');
-        $response->assertViewHas('pending_leads');
         $response->assertViewHas('action_comments');
 
         // TODO: perform additional assertions

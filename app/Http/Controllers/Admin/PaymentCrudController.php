@@ -42,7 +42,7 @@ class PaymentCrudController extends CrudController
             ],
             false,
             function ($value) { // if the filter is active, apply these constraints
-                $this->crud->addClause('where', 'date', '>=', Carbon::parse($value)->firstOfMonth());
+            $this->crud->addClause('where', 'date', '>=', Carbon::parse($value)->firstOfMonth());
                 $this->crud->addClause('where', 'date', '<=', Carbon::parse($value)->lastOfMonth());
             }
         );

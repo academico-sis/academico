@@ -85,7 +85,6 @@ class Course extends Model
         return $query->doesntHave('children');
     }
 
-
     /*
     |--------------------------------------------------------------------------
     | FUNCTIONS
@@ -96,7 +95,6 @@ class Course extends Model
     {
         return $this->partner_id === null;
     }
-
 
     /*
     |--------------------------------------------------------------------------

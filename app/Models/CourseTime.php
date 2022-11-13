@@ -17,6 +17,7 @@ class CourseTime extends Model
     use CrudTrait;
 
     public $timestamps = false;
+
     protected $guarded = ['id'];
 
     protected static function boot()
@@ -57,8 +58,7 @@ class CourseTime extends Model
 
         // for each day in the course period span
         while ($today <= $end) {
-
-                // if today is a day of class, create the event
+            // if today is a day of class, create the event
             if ($this->day == $today->format('w')) {
                 Event::create([
                     'course_id' => $this->course->id,

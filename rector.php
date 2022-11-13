@@ -10,7 +10,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     // get parameters
     $parameters = $containerConfigurator->parameters();
     $parameters->set(Option::PATHS, [
-        __DIR__ . '/src'
+        __DIR__.'/src',
     ]);
 
     // Define what rule sets will be applied

@@ -86,9 +86,9 @@ Route::middleware(['web', 'language'])->group(function () {
     Route::post('enrollment/{enrollment}/scheduled-payments', [ScheduledPaymentController::class, 'store'])->name('enrollment-save-scheduled-payments');
     Route::get('accountingservice/status', [InvoiceController::class, 'accountingServiceStatus']);
     Route::post('enrollment/{enrollment}/scholarships/add', [EnrollmentScholarshipController::class, 'store'])->name('add-scholarship'); // update the invoice number
-        Route::post('enrollment/{enrollment}/scholarships/remove', [EnrollmentScholarshipController::class, 'destroy'])->name('remove-scholarship'); // update the invoice number
+    Route::post('enrollment/{enrollment}/scholarships/remove', [EnrollmentScholarshipController::class, 'destroy'])->name('remove-scholarship'); // update the invoice number
 
-        Route::post('getEnrollmentBalance', [EnrollmentController::class, 'getBalance'])->middleware('role:admin');
+    Route::post('getEnrollmentBalance', [EnrollmentController::class, 'getBalance'])->middleware('role:admin');
 }
 );
 
@@ -118,8 +118,7 @@ Route::middleware(['web', 'language'])->group(function () {
 
 // EVALUATION RELATED ROUTES
 Route::middleware(['web', 'language'])->group(function () {
-
-        /* Course grades update */
+    /* Course grades update */
     Route::get('course/{course}/grades', [GradeController::class, 'edit'])->name('editCourseGrades');
     Route::post('grades', [GradeController::class, 'store']);
     Route::post('grades/enrollment-total', [GradeController::class, 'getEnrollmentTotal']);
@@ -141,8 +140,8 @@ Route::get('course/{course}/export-course-results', [ResultController::class, 'e
 // COURSE EDITION ROUTES
 Route::middleware(['web', 'permission:courses.edit', 'language'])->group(function () {
     // Course Events routes
-        Route::get('course/{course}/events/get', [EventController::class, 'getCourseEvents'])->name('getCourseEvents'); // todo use route name
-        Route::patch('calendar/teacher', [EventController::class, 'update_course_teacher']);
+    Route::get('course/{course}/events/get', [EventController::class, 'getCourseEvents'])->name('getCourseEvents'); // todo use route name
+    Route::patch('calendar/teacher', [EventController::class, 'update_course_teacher']);
     Route::patch('calendar/room', [EventController::class, 'update_course_room']);
 }
 );

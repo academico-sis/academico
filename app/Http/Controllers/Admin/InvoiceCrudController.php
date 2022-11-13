@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\InvoiceRequest;
 use App\Models\Invoice;
 use App\Models\InvoiceType;
-use App\Models\Paymentmethod;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
@@ -48,10 +47,10 @@ class InvoiceCrudController extends CrudController
             CRUD::addColumn([
                 'name' => 'invoiceType',
                 'label' => __('Type'),
-                'type'      => 'select',
-                'entity'    => 'invoiceType',
+                'type' => 'select',
+                'entity' => 'invoiceType',
                 'attribute' => 'name',
-                'model'     => InvoiceType::class,
+                'model' => InvoiceType::class,
                 'searchLogic' => false,
             ]);
         }
@@ -105,10 +104,10 @@ class InvoiceCrudController extends CrudController
 
             CRUD::addField([
                 'label' => __('Type'),
-                'type'      => 'select',
+                'type' => 'select',
                 'name' => 'invoice_type_id',
-                'entity'    => 'invoiceType',
-                'model'     => InvoiceType::class,
+                'entity' => 'invoiceType',
+                'model' => InvoiceType::class,
                 'attribute' => 'description',
                 'searchLogic' => false,
                 'tab' => __('Invoice'),

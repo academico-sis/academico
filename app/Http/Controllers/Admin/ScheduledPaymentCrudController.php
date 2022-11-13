@@ -20,7 +20,6 @@ class ScheduledPaymentCrudController extends CrudController
         CRUD::setModel(ScheduledPayment::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/scheduled-payment');
         CRUD::setEntityNameStrings(__('scheduled payment'), __('scheduled payments'));
-
     }
 
     protected function setupListOperation()
