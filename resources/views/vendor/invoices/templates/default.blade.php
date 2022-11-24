@@ -262,7 +262,7 @@
                     <td class="pl-0">
                         {{ $item->title }}
                         @if ($item->description !== null)
-                            <p class="comment">{{ $item->description }}</p>
+                            <p class="comment">{!! $item->description !!}</p>
                         @endif
                     </td>
                     @if($invoice->hasItemUnits)

@@ -217,8 +217,24 @@ class InvoiceController extends Controller
         foreach ($invoice->invoiceDetails as $product) {
             $item = (new InvoiceItem())->title($product->product_name)->pricePerUnit($product->price)->quantity($product->quantity);
 
+            $description = null;
+
+            if ($product->product instanceof Enrollment) {
+                if ($product->product->course->name) {
+                    $description .= "Curso: ".$product->product->course->name;
+                }
+
+                if ($product->product->course?->level?->name) {
+                    $description .= "<br>Nivel: ".$product->product->course->level->name;
+                }
+            }
+
             if ($product->comment) {
-                $item->description($product->comment);
+                $description .= "<br><br>".$product->comment;
+            }
+
+            if ($description) {
+                $item->description($description);
             }
 
             $generatedInvoice->addItem($item);
