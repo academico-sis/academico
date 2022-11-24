@@ -185,9 +185,9 @@
                         @endif
 
                         @foreach($invoice->seller->custom_fields as $key => $value)
-                            <p class="seller-custom-field">
-                                {{ ucfirst($key) }}: {{ $value }}
-                            </p>
+                            @if ($value)
+                                <p class="seller-custom-field">{{ ucfirst($key) }}: {{ $value }}</p>
+                            @endif
                         @endforeach
                     </td>
                     <td class="border-0"></td>
