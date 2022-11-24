@@ -222,6 +222,7 @@ class InvoiceController extends Controller
             if ($product->product instanceof Enrollment) {
                 if ($product->product->course->name) {
                     $description .= "Curso: ".$product->product->course->name;
+                    $description .= "<br>Ciclo: ".$product->product->course->period->name;
                 }
 
                 if ($product->product->course?->level?->name) {
