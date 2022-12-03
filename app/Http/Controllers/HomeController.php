@@ -96,7 +96,7 @@ class HomeController extends Controller
         Log::info(backpack_user()->firstname.' '.backpack_user()->lastname.' accessed the admin dashboard');
 
         // todo optimize this !!
-        $events = Event::where('start', '>', Carbon::now()->subDays(15))->where('end', '<', Carbon::now()->addDays(15))->orderBy('id', 'desc')
+        $events = Event::where('start', '>', Carbon::now()->subDays(3))->where('end', '<', Carbon::now()->addDays(7))->orderBy('id', 'desc')
             ->get()
             ->map(fn ($event) => [
                 'title' => $event['name'],
@@ -126,10 +126,6 @@ class HomeController extends Controller
             'total_enrollment_count' => $stats->enrollmentsCount(),
             'resources' => $teachers,
             'events' => $events,
-            'pending_attendance' => $currentPeriod->courses_with_pending_attendance,
-            // todo: optimize
-            'unassigned_events' => Event::unassigned()->count(),
-            //            'pending_leads' => LeadType::find(4)->students()->count(),
         ]);
     }
 }
