@@ -22,6 +22,7 @@ class Ecuasolutions implements InvoicingInterface
     {
         $ivkardex = [];
         $pckardex = [];
+        $notes = [];
 
         foreach ($invoice->payments as $p => $payment) {
             $pckardex[$p] = [
@@ -45,6 +46,16 @@ class Ecuasolutions implements InvoicingInterface
                     'preciototal' => $product->final_price,
                     'valoriva' => 0,
                 ];
+
+                if ($product->product->student_name) {
+                    $notes[] = 'Taller de Francés de ' . $product->product->student_name;
+                }
+                if ($product->product->course?->level?->name) {
+                    $notes[] = 'Nivel: ' . $product->product->course?->level?->name;
+                }
+                if ($product->product->course?->period?->name) {
+                    $notes[] = 'Ciclo: ' . $product->product->course?->period?->name;
+                }
             } elseif ($product->product instanceof Fee) {
                 $ivkardex[] = [
                     'codinventario' => $product->product_code,
@@ -68,13 +79,17 @@ class Ecuasolutions implements InvoicingInterface
             }
         }
 
+        foreach ($invoice->comments as $comment) {
+            $notes[] = $comment->body;
+        }
+
         $body = [
             'codtrans' => 'FE',
             // was 'OP'
             'numtrans' => $invoice->id,
             'fechatrans' => $invoice->created_at,
             'horatrans' => $invoice->created_at,
-            'descripcion' => 'Facturado desde el academico por '.backpack_user()->firstname.' '.backpack_user()->lastname,
+            'descripcion' => implode(' - ', $notes),
             'codusuario' => 'web',
             'codprovcli' => $invoice->client_idnumber,
             // si existe, se busca el cliente. Si no lo creamos.
