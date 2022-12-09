@@ -142,15 +142,6 @@ class InvoiceController extends Controller
             ]);
         }
 
-        if (isset($request->comment)) {
-            $comment = Comment::create([
-                'commentable_id' => $invoice->id,
-                'commentable_type' => Invoice::class,
-                'body' => $request->comment,
-                'author_id' => backpack_user()->id,
-            ]);
-        }
-
         // send the details to Accounting
         // and receive and store the invoice number
         if ($request->sendinvoice && config('invoicing.invoicing_system')) {
@@ -174,9 +165,17 @@ class InvoiceController extends Controller
         }
         if (isset($success)) {
             $this->ifTheInvoiceIsFullyPaidMarkItsProductsAsSuch($invoice);
+
+            if (isset($request->comment)) {
+                Comment::create([
+                    'commentable_id' => $invoice->id,
+                    'commentable_type' => Invoice::class,
+                    'body' => $request->comment,
+                    'author_id' => backpack_user()->id,
+                ]);
+            }
         } else {
             Invoice::where('id', $invoice->id)->delete();
-            Comment::where('id', $comment->id)->delete();
             abort(500);
         }
     }

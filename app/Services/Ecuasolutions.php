@@ -79,10 +79,6 @@ class Ecuasolutions implements InvoicingInterface
             }
         }
 
-        foreach ($invoice->comments as $comment) {
-            $notes[] = $comment->body;
-        }
-
         $body = [
             'codtrans' => 'FE',
             // was 'OP'
