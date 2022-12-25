@@ -16,6 +16,6 @@ yarn-error.log
 .idea
 deploy.php
 /dockerfiles
-docker-compose.yml
 .php-cs-fixer.cache
 auth.json
+.DS_Store
