@@ -32,11 +32,31 @@ class AttendanceController extends Controller
         Log::info('Attendance dashboard viewed by '.backpack_user()->id);
         $selected_period = $this->selectPeriod($request);
 
-        // student attendance overview
-        $absences = (new Attendance())->get_absence_count_per_student($selected_period);
+        $coursesIds = Course::wherePeriodId($selected_period->id)->pluck('id');
+        $eventsIds = Event::whereIn('course_id', $coursesIds)->pluck('id');
+
+        $absencesPerStudent = Attendance::with(['student', 'event', 'event.course'])->whereIn('event_id', $eventsIds)->whereIn('attendance_type_id', [3, 4])->get()->groupBy('student_id')->map(function ($item) {
+            return [
+                'studentName' => $item->first()->student->name,
+                'absencesCount' => $item->count(),
+                'courseName' => $item->first()->event->course->name,
+                'teacherName' => $item->first()->event->course->teacher->name,
+                'studentId' => $item->first()->student->id,
+                'courseId' =>  $item->first()->event->course->id,
+            ];
+        });
+
+
 
         // get all courses for period and preload relations
-        $courses = $selected_period->courses()->whereHas('events')->whereHas('enrollments')->with('attendance')->with('events')->get();
+        $courses = Course::with('events')
+            ->with('enrollments')
+            ->with('attendance')
+            ->wherePeriodId($selected_period->id)
+            ->whereHas('events')
+            ->whereHas('enrollments')
+            ->get()
+        ;
 
         // loop through all courses and get the number of events with incomplete attendance
         foreach ($courses as $course) {
@@ -46,12 +66,14 @@ class AttendanceController extends Controller
             $coursesdata[$course->id]['exempt_attendance'] = $course->exempt_attendance;
             $coursesdata[$course->id]['teachername'] = $course->course_teacher_name;
 
-            foreach ($course->eventsWithExpectedAttendance as $event) {
-                foreach ($course->enrollments as $enrollment) {
+            $courseAttendanceRecords = $course->attendance;
+            $courseEnrollments = $course->enrollments;
+
+            foreach ($course->events as $event) {
+                $eventAttendanceRecords = $courseAttendanceRecords->where('event_id', $event->id);
+                foreach ($courseEnrollments as $enrollment) {
                     // if a student has no attendance record for the class (event)
-                    $hasNotAttended = $course->attendance->where('student_id', $enrollment->student_id)
-                    ->where('event_id', $event->id)
-                    ->isEmpty();
+                    $hasNotAttended = $eventAttendanceRecords->where('student_id', $enrollment->student_id)->isEmpty();
 
                     // count one and break loop
                     if ($hasNotAttended) {
@@ -68,7 +90,7 @@ class AttendanceController extends Controller
         $courses = collect($coursesdata ?? [])->sortByDesc('missing')->toArray();
         $isadmin = backpack_user()->hasPermissionTo('courses.edit');
 
-        return view('attendance.monitor', compact('absences', 'courses', 'selected_period', 'isadmin'));
+        return view('attendance.monitor', compact('absencesPerStudent', 'courses', 'selected_period', 'isadmin'));
     }
 
     /**
