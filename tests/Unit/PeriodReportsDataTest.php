@@ -189,7 +189,7 @@ class PeriodReportsDataTest extends TestCase
         }
 
         // the acquisition rate for period P should be the ratio between period 1 and 2
-        $this->assertEquals('25.0%', $period2->acquisition_rate);
+        $this->assertEquals('25.0', $period2->acquisition_rate);
     }
 
     /** getNewStudentsCountAttribute

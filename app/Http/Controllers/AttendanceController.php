@@ -42,11 +42,9 @@ class AttendanceController extends Controller
                 'courseName' => $item->first()->event->course->name,
                 'teacherName' => $item->first()->event->course->teacher->name,
                 'studentId' => $item->first()->student->id,
-                'courseId' =>  $item->first()->event->course->id,
+                'courseId' => $item->first()->event->course->id,
             ];
         });
-
-
 
         // get all courses for period and preload relations
         $courses = Course::with('events')
@@ -55,8 +53,7 @@ class AttendanceController extends Controller
             ->wherePeriodId($selected_period->id)
             ->whereHas('events')
             ->whereHas('enrollments')
-            ->get()
-        ;
+            ->get();
 
         // loop through all courses and get the number of events with incomplete attendance
         foreach ($courses as $course) {

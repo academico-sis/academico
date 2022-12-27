@@ -348,16 +348,15 @@ class EnrollmentCrudController extends CrudController
                     }
                 });
 
-
             CRUD::addFilter([
                 'name' => 'age',
-                'type'       => 'range',
-                'label'      => __('Age'),
+                'type' => 'range',
+                'label' => __('Age'),
                 'label_from' => 'min',
-                'label_to'   => 'max',
+                'label_to' => 'max',
             ],
                 false,
-                function($value) {
+                function ($value) {
                     $range = json_decode($value);
                     if ($range->from && (int) $range->from > 0) {
                         $minDate = Carbon::now()->subYears($range->from);

@@ -82,6 +82,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('activitylog:clean')->monthly();
 
         $schedule->command('telescope:prune --hours=96')->daily();
+
+        $schedule->command('academico:build-report')->dailyAt('05:15');
     }
 
     /**

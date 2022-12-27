@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CachedReport;
 use App\Models\Config;
 use App\Models\Partner;
 use App\Models\Period;
@@ -11,6 +12,7 @@ use App\Services\StatService;
 use App\Traits\PeriodSelection;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ReportController extends Controller
 {
@@ -157,77 +159,51 @@ class ReportController extends Controller
     /**
      * The reports dashboard
      * Displays last insights on enrollments; along with comparison to previous periods.
-     *
-     * Todo - optimize this method: is there another way than using an array? How to reduce the number of queries?
-     * Todo - Limit to the three last years to keep the figures readable
      */
     public function internal(Request $request)
     {
         $startperiod = $this->getStartperiod($request);
 
-        $chartData = Period::orderBy('year_id')->orderBy('order')->orderBy('id')
-            ->where('id', '>=', $startperiod->id)
+        $data = DB::table(CachedReport::TABLE_NAME)
+            ->whereNull('year_id')
+            ->orderBy('order')
+            ->orderBy('period_name')
             ->get()
-            ->groupBy('year_id')
-            ->map(function ($yearData) {
-                $data = [];
-
-                $enrollments = 0;
-                $taught_hours = 0;
-                $sold_hours = 0;
-                $takings = 0;
-                $avg_takings = 0;
-
-                foreach ($yearData as $data_period) {
-                    $stats = new StatService(external: false, reference: $data_period);
-
-                    $data[$data_period->id]['period'] = $data_period->name;
-                    $data[$data_period->id]['year_id'] = $data_period->year_id;
-
-                    $data[$data_period->id]['enrollments'] = $stats->enrollmentsCount();
-                    $data[$data_period->id]['students'] = $stats->studentsCount();
-                    $data[$data_period->id]['acquisition_rate'] = $data_period->acquisition_rate;
-                    $data[$data_period->id]['new_students'] = $data_period->newStudents()->count();
-                    $data[$data_period->id]['taught_hours'] = $stats->taughtHoursCount();
-                    $data[$data_period->id]['sold_hours'] = $stats->soldHoursCount();
-
-                    if (config('academico.include_takings_in_reports')) {
-                        $data[$data_period->id]['takings'] = $data_period->takings;
-                        $data[$data_period->id]['avg_takings'] = $data_period->takings / max(1, $stats->taughtHoursCount());
-                    }
-
-                    $enrollments += $data[$data_period->id]['enrollments'];
-                    $taught_hours += $data[$data_period->id]['taught_hours'];
-                    $sold_hours += $data[$data_period->id]['sold_hours'];
-
-                    if (config('academico.include_takings_in_reports')) {
-                        $takings += $data[$data_period->id]['takings'];
-                        $avg_takings += $data[$data_period->id]['avg_takings'];
-                    }
-                }
-
-                $year = $data_period->year;
-                $yearStats = new StatService(external: false, reference: $year);
-
-                $yearOutput = [
-                    'year' => $year,
-                    'students' => $yearStats->studentsCount(),
-                    'enrollments' => $enrollments,
-                    'taught_hours' => $taught_hours,
-                    'sold_hours' => $sold_hours,
-                    'periods' => $data,
+            ->map(fn ($y) => CachedReport::from($y))
+            ->map(function (CachedReport $yearData) use ($startperiod) {
+                return [
+                    'period' => $yearData->periodName,
+                    'students' => $yearData->students,
+                    'enrollments' => $yearData->enrollments,
+                    'taught_hours' => $yearData->taughtHours,
+                    'sold_hours' => $yearData->soldHours,
+                    'periods' => DB::table(CachedReport::TABLE_NAME)
+                        ->where('period_id', '>=', $startperiod->id)
+                        ->where('year_id', '=', $yearData->periodId)
+                        ->orderBy('order')
+                        ->orderBy('period_name')
+                        ->get()
+                        ->map(fn ($p) => CachedReport::from($p))
+                        ->map(function (CachedReport $periodData) {
+                            return [
+                                'period' => $periodData->periodName,
+                                'students' => $periodData->students,
+                                'enrollments' => $periodData->enrollments,
+                                'taught_hours' => $periodData->taughtHours,
+                                'sold_hours' => $periodData->soldHours,
+                                'acquisition_rate' => $periodData->acquisitionRate.'%',
+                                'new_students' => $periodData->newStudents,
+                                'takings' => $periodData->takings,
+                                'avg_takings' => $periodData->avgTakings,
+                            ];
+                        })
+                        ->toArray(),
                 ];
-
-                if (config('academico.include_takings_in_reports')) {
-                    $yearOutput['takings'] = $takings;
-                    $yearOutput['avg_takings'] = $takings / max(1, $stats->taughtHoursCount());
-                }
-
-                return $yearOutput;
-            });
+            })
+        ->where(fn ($d) => count($d['periods']) > 0);
 
         return view('reports.internal', [
-            'data' => $chartData,
+            'data' => $data,
             'selected_period' => $startperiod,
         ]);
     }

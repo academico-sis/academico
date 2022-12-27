@@ -38,7 +38,7 @@ class Event extends Model
     public $timestamps = true;
 
     protected $guarded = ['id'];
-    
+
     protected $with = ['course'];
 
     protected $appends = ['length'];

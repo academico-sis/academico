@@ -48,13 +48,13 @@ class Ecuasolutions implements InvoicingInterface
                 ];
 
                 if ($product->product->student_name) {
-                    $notes[] = 'Taller de Francés de ' . $product->product->student_name;
+                    $notes[] = 'Taller de Francés de '.$product->product->student_name;
                 }
                 if ($product->product->course?->level?->name) {
-                    $notes[] = 'Nivel: ' . $product->product->course?->level?->name;
+                    $notes[] = 'Nivel: '.$product->product->course?->level?->name;
                 }
                 if ($product->product->course?->period?->name) {
-                    $notes[] = 'Ciclo: ' . $product->product->course?->period?->name;
+                    $notes[] = 'Ciclo: '.$product->product->course?->period?->name;
                 }
             } elseif ($product->product instanceof Fee) {
                 $ivkardex[] = [
