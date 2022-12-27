@@ -104,7 +104,7 @@
 
                             <tr style="font-weight: bold">
                                     <td>
-                                        {{ $year['year']['name'] ?? '-' }}
+                                        {{ $year['period'] ?? '-' }}
                                     </td>
 
                                     <td>
