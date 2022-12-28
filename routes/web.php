@@ -248,5 +248,4 @@ Route::middleware(['web', 'role:admin', 'language'])->group(function () {
 Route::middleware(['web', 'language'])->group(function () {
     Route::get('email', [EmailController::class, 'index'])->name('email-dashboard');
     Route::post('email/send', [EmailController::class, 'send'])->name('emailSend');
-    Route::get('/email/test', [EmailController::class, 'test'])->name('emailSend');
 });

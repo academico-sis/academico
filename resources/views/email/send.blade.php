@@ -36,6 +36,16 @@
                             </div>
                         @endif
 
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
                         <div class="form-group col-sm-12 required">
                             @php
                                 $label = trans('Student');
@@ -78,7 +88,7 @@
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-success">
-                        <span class="ladda-label"><i class="la la-save"></i> {{ trans('Send') }}</span>
+                        <span class="ladda-label"><i class="la la-envelope"></i> {{ trans('Send') }}</span>
                     </button>
                     <a href="/email/" class="btn btn-default"><span class="ladda-label">{{ trans('Cancel') }}</span></a>
                 </div>
@@ -88,12 +98,3 @@
 @endsection
 
 
-
-@push('before_styles')
-    <style>
-        .dropdown-menu {
-            max-height: 400px;
-            overflow-y: auto;
-        }
-    </style>
-@endpush
