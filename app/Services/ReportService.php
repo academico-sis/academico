@@ -69,7 +69,7 @@ class ReportService
                     taughtHours: $taught_hours,
                     soldHours: $sold_hours,
                     takings: config('academico.include_takings_in_reports') ? $takings : null,
-                    avgTakings: config('academico.include_takings_in_reports') ? $avg_takings : null,
+                    avgTakings: config('academico.include_takings_in_reports') ? $avg_takings / count($yearData) : null,
                 );
 
                 DB::table(CachedReport::TABLE_NAME)->insert($yearData->toArray());

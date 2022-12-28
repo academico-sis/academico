@@ -177,6 +177,8 @@ class ReportController extends Controller
                     'enrollments' => $yearData->enrollments,
                     'taught_hours' => $yearData->taughtHours,
                     'sold_hours' => $yearData->soldHours,
+                    'takings' => $yearData->takings,
+                    'avg_takings' => $yearData->avgTakings,
                     'periods' => DB::table(CachedReport::TABLE_NAME)
                         ->where('period_id', '>=', $startperiod->id)
                         ->where('year_id', '=', $yearData->periodId)
