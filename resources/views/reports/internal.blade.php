@@ -141,7 +141,7 @@
                                         </td>
 
                                         <td>
-                                            @if ($year['avg_takings'])
+                                            @if (isset($year['avg_takings']))
                                                 @if (config('academico.currency_position') === 'before')
                                                     {{ config('academico.currency_symbol') }} {{ number_format($year['avg_takings'], 2) }}
                                                 @else
