@@ -187,6 +187,7 @@ class ReportController extends Controller
                         ->map(function (CachedReport $periodData) {
                             return [
                                 'period' => $periodData->periodName,
+                                'id' => $periodData->periodId,
                                 'students' => $periodData->students,
                                 'enrollments' => $periodData->enrollments,
                                 'taught_hours' => $periodData->taughtHours,

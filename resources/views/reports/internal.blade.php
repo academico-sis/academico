@@ -49,7 +49,7 @@
 
                         <tbody>
                         @foreach($data as $year)
-                            @foreach($year['periods'] as $p => $period)
+                            @foreach($year['periods'] as $period)
 
                                 <tr>
                                     <td>
@@ -69,7 +69,7 @@
                                     </td>
 
                                     <td>
-                                        <a href="{{ route('student.index', ['new_students' => $p]) }}">
+                                        <a href="{{ route('student.index', ['new_students' => $period['id']]) }}">
                                             {{ $period['new_students'] ?? '-' }}
                                         </a>
                                     </td>
