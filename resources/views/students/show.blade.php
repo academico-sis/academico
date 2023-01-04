@@ -4,6 +4,9 @@
 <section class="container-fluid">
     <h1>
         @lang('Student details for') {{ $student->name }}
+        <a href="{{ route('email-dashboard', ['student'=> $student->email]) }}" class="btn btn-sm btn-primary">
+            <i class="la la-send"></i> Send Email
+        </a>
     </h1>
 </section>
 @endsection

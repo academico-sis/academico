@@ -24,6 +24,7 @@
     <div class="row">
         <div class="col-md-12">
             <form action="/email/send" method="POST">
+                <input type="hidden" value="{{ $course }}" name="courseid"/>
 
                 {!! csrf_field() !!}
 
@@ -54,8 +55,13 @@
 
                             <label class="required">{{ $label }}</label>
                             <select class="form-control"  name="{{ $field }}" >
+                                    <option value="all" @selected($preselect == "all")>All Students (Send this email to all students)</option>
                                 @foreach($students as $student)
-                                    <option value="{{$student->email}}">{{ $student->username }} ({{$student->email}})</option>
+                                    @if($preselect == $student->email)
+                                        <option selected value="{{$student->email}}">{{ $student->username }} ({{$student->email}})</option>
+                                    @else
+                                        <option value="{{$student->email}}">{{ $student->username }} ({{$student->email}})</option>
+                                    @endif
                                 @endforeach
                             </select>
 
