@@ -66,7 +66,8 @@ class AttendanceController extends Controller
             $courseAttendanceRecords = $course->attendance;
             $courseEnrollments = $course->enrollments;
 
-            foreach ($course->events as $event) {
+            $coursePastEvents = $course->events->filter(fn ($value, $key) => Carbon::parse($value->start) < Carbon::now())->sortByDesc('start');
+            foreach ($coursePastEvents as $event) {
                 $eventAttendanceRecords = $courseAttendanceRecords->where('event_id', $event->id);
                 foreach ($courseEnrollments as $enrollment) {
                     // if a student has no attendance record for the class (event)

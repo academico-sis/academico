@@ -597,7 +597,12 @@ class CourseCrudController extends CrudController
                 'default' => $defaultPeriod->id,
                 'tab' => __('Schedule'),
             ],
-
+            [
+                'name' => 'coursedates-alert',
+                'type' => 'view',
+                'view' => 'courses/course-dates-edit-alert',
+                'tab' => __('Schedule'),
+            ],
             [
                 'name' => 'start_date',
                 'label' => __('Start Date'),
