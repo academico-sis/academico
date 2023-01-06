@@ -50,7 +50,7 @@ class LMSControllerTest extends TestCase
                 'url' => 'string', ], 200, ['Headers']),
         ]);
 
-        $response = Http::get("apolearnapi.com/users/getbyemail/$user->email", [
+        Http::get("apolearnapi.com/users/getbyemail/$user->email", [
             'auth_token' => config('lms.apolearn.token'),
             'api_key' => config('lms.apolearn.api_key'),
         ]);

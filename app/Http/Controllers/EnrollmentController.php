@@ -63,7 +63,6 @@ class EnrollmentController extends Controller
     public function update(Enrollment $enrollment, Request $request)
     {
         $course = Course::findOrFail($request->input('course_id'));
-        $previousCourse = $enrollment->course;
 
         // if enrollment has children, delete them
         Enrollment::where('parent_id', $enrollment->id)->delete();
@@ -200,7 +199,5 @@ class EnrollmentController extends Controller
         }
 
         return $pendingBalance;
-
-        return number_format($pendingBalance, 2);
     }
 }

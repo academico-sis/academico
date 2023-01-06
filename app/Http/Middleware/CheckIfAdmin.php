@@ -20,7 +20,7 @@ class CheckIfAdmin
      * @param [type] $user [description]
      * @return bool [description]
      */
-    private function checkIfUserIsAdmin($user)
+    private function checkIfUserIsAdmin(): bool
     {
         // return ($user->is_admin == 1);
         return true;
@@ -53,7 +53,7 @@ class CheckIfAdmin
             return $this->respondToUnauthorizedRequest($request);
         }
 
-        if (! $this->checkIfUserIsAdmin(backpack_user())) {
+        if (! $this->checkIfUserIsAdmin()) {
             return $this->respondToUnauthorizedRequest($request);
         }
 

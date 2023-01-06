@@ -37,7 +37,7 @@ class CourseController extends Controller
 
         return view(
             'courses.list',
-            compact('defaultPeriod', 'isAllowedToEdit', 'rhythms', 'levels', 'mode', 'student', 'enrollment_id', 'filters')
+            ['defaultPeriod' => $defaultPeriod, 'isAllowedToEdit' => $isAllowedToEdit, 'rhythms' => $rhythms, 'levels' => $levels, 'mode' => $mode, 'student' => $student, 'enrollment_id' => $enrollment_id, 'filters' => $filters]
         );
     }
 

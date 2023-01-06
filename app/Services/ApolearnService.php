@@ -91,7 +91,7 @@ class ApolearnService implements LMSInterface
                 $data = Arr::add($data, 'password', $password);
             }
 
-            $response = Http::put(config('lms.apolearn.url').'/users/'.$user->lms_id, $data);
+            Http::put(config('lms.apolearn.url').'/users/'.$user->lms_id, $data);
         }
     }
 
@@ -198,7 +198,7 @@ class ApolearnService implements LMSInterface
             $this->createUser($student->user);
         }
 
-        $response = Http::post(config('lms.apolearn.url')."/classrooms/addstudent/$courseId", [
+        Http::post(config('lms.apolearn.url')."/classrooms/addstudent/$courseId", [
             'user_id' => $student->user->lms_id,
             'auth_token' => $this->token,
             'api_key' => $this->apiKey,
@@ -224,7 +224,7 @@ class ApolearnService implements LMSInterface
 
             // then sync to API
             Log::info('pushing course user to API');
-            $response = Http::post(config('lms.apolearn.url')."/classrooms/addteacher/$course->lms_id", [
+            Http::post(config('lms.apolearn.url')."/classrooms/addteacher/$course->lms_id", [
                 'user_id' => $course->teacher->user->lms_id,
                 'auth_token' => $this->token,
                 'api_key' => $this->apiKey,
@@ -235,7 +235,7 @@ class ApolearnService implements LMSInterface
     protected function removeTeacher($courseId, $teacherId): void
     {
         Log::info('Removing teacher '.$teacherId.' from course '.$courseId);
-        $response = Http::put(config('lms.apolearn.url')."/classrooms/removeteacher/$courseId", [
+        Http::put(config('lms.apolearn.url')."/classrooms/removeteacher/$courseId", [
             'user_id' => $teacherId,
             'auth_token' => $this->token,
             'api_key' => $this->apiKey,
@@ -248,7 +248,7 @@ class ApolearnService implements LMSInterface
     public function removeStudent($courseId, $userId): void
     {
         Log::info('removing user id '.$userId.' from course '.$courseId);
-        $response = Http::put(config('lms.apolearn.url')."/classrooms/removestudent/$courseId", [
+        Http::put(config('lms.apolearn.url')."/classrooms/removestudent/$courseId", [
             'user_id' => $userId,
             'auth_token' => $this->token,
             'api_key' => $this->apiKey,

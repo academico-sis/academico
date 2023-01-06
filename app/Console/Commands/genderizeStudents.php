@@ -13,7 +13,7 @@ class genderizeStudents extends Command
     protected $description = 'Guess gender for existing students, based on their firstname';
 
     // wordpress implementation, from https://github.com/WordPress/WordPress/blob/a2693fd8602e3263b5925b9d799ddd577202167d/wp-includes/formatting.php#L1528
-    private function remove_accents($string)
+    private function remove_accents($string): string
     {
         $chars = [
             // Decompositions for Latin-1 Supplement

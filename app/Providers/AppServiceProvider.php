@@ -32,11 +32,7 @@ class AppServiceProvider extends ServiceProvider
         if (\Schema::hasTable('periods') && \Schema::hasTable('config')) {
             $firstPeriod = Period::find(Config::where('name', 'first_period')->first()->value);
 
-            if ($firstPeriod) {
-                $periods = Period::where('id', '>=', $firstPeriod->id)->get();
-            } else {
-                $periods = Period::all();
-            }
+            $periods = $firstPeriod ? Period::where('id', '>=', $firstPeriod->id)->get() : Period::all();
 
             $current_period = Period::get_default_period();
             View::share('periods', $periods);

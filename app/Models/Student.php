@@ -231,7 +231,7 @@ class Student extends Model implements HasMedia
         return $this->birthdate ? Carbon::parse($this->birthdate)->locale(App::getLocale())->isoFormat('LL') : '';
     }
 
-    public function getIsEnrolledAttribute()
+    public function getIsEnrolledAttribute(): int|bool
     {
         // if the student is currently enrolled
         if ($this->enrollments()->whereHas('course', fn ($q) => $q->where('period_id', Period::get_default_period()->id))->count() > 0) {

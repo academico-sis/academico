@@ -12,6 +12,7 @@ use Tests\TestCase;
  */
 class BookCrudControllerTest extends TestCase
 {
+    public $entityname;
     use RefreshDatabase;
 
     public $user;
@@ -51,7 +52,7 @@ class BookCrudControllerTest extends TestCase
         \Auth::guard(backpack_guard_name())->login($this->user);
         $response = $this->post(route($this->entityname.'.store'), $entity->toArray());
 
-        $entity->price = $entity->price * 100;
+        $entity->price *= 100;
         $this->assertDatabaseHas($this->table, $entity->only(['name', 'price', 'product_code']));
     }
 
@@ -69,7 +70,7 @@ class BookCrudControllerTest extends TestCase
 
         $response = $this->delete(route($this->entityname.'.destroy', ['id' => $entity->id]));
 
-        $entity->price = $entity->price * 100;
+        $entity->price *= 100;
         $this->assertDatabaseMissing($this->table, $entity->only(['name', 'price', 'product_code']));
     }
 
@@ -78,7 +79,7 @@ class BookCrudControllerTest extends TestCase
      */
     public function index_returns_an_ok_response()
     {
-        $entity = factory($this->model)->create();
+        factory($this->model)->create();
         \Auth::guard(backpack_guard_name())->login($this->user);
         $response = $this->get(route($this->entityname.'.index'));
         $response->assertOk();
@@ -104,7 +105,7 @@ class BookCrudControllerTest extends TestCase
     {
         \Auth::guard(backpack_guard_name())->login($this->user);
 
-        $response = $this->post(route($this->entityname.'.store'), [
+        $this->post(route($this->entityname.'.store'), [
             'name' => 'My Book',
             'price' => 12,
         ]);

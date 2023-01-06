@@ -77,7 +77,7 @@ class InvoiceController extends Controller
         $invoice->setNumber(); // TODO extract this to model events.
 
         // persist the products
-        foreach ($request->products as $f => $product) {
+        foreach ($request->products as $product) {
             $productType = match ($product['type']) {
                 'enrollment' => Enrollment::class,
                 'scheduledPayment' => ScheduledPayment::class,
@@ -91,7 +91,7 @@ class InvoiceController extends Controller
 
             // The front end sends the discounts value as percent, but  for the invoice we want to store their actual value relative to the product they were applied on
             if (isset($product['discounts'])) {
-                foreach ($product['discounts'] as $d => $discount) {
+                foreach ($product['discounts'] as $discount) {
                     InvoiceDetail::create([
                         'invoice_id' => $invoice->id,
                         'product_name' => $discount['name'],
@@ -105,7 +105,7 @@ class InvoiceController extends Controller
             }
 
             if (isset($product['taxes'])) {
-                foreach ($product['taxes'] as $d => $tax) {
+                foreach ($product['taxes'] as $tax) {
                     $productFinalPrice += (($tax['value']) * $product['price']) * ($product['quantity'] ?? 1); // no need to multiply by 100 because discount is in %
 
                     InvoiceDetail::create([
@@ -131,7 +131,7 @@ class InvoiceController extends Controller
             ]);
         }
 
-        foreach ($request->payments as $p => $payment) {
+        foreach ($request->payments as $payment) {
             Payment::create([
                 'responsable_id' => backpack_user()->id,
                 'invoice_id' => $invoice->id,
@@ -165,7 +165,7 @@ class InvoiceController extends Controller
         if (isset($success)) {
             $this->ifTheInvoiceIsFullyPaidMarkItsProductsAsSuch($invoice);
 
-            if (isset($request->comment)) {
+            if (property_exists($request, 'comment') && $request->comment !== null) {
                 Comment::create([
                     'commentable_id' => $invoice->id,
                     'commentable_type' => Invoice::class,

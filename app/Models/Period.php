@@ -117,7 +117,7 @@ class Period extends Model
     }
 
     /** Compute the acquisition rate = the part of students from period P-1 who have been kept in period P */
-    public function getAcquisitionRateAttribute()
+    public function getAcquisitionRateAttribute(): string
     {
         // get students enrolled in period P-1
         $previous_period_student_ids = $this->previousPeriod()->real_enrollments->pluck('student_id');

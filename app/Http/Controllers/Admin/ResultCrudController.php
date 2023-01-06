@@ -105,6 +105,6 @@ class ResultCrudController extends CrudController
         $results = ResultType::all();
         $writeaccess = Gate::forUser(backpack_user())->check('edit-result', $enrollment);
 
-        return view('results.show', compact('enrollment', 'writeaccess', 'grades', 'skills', 'result', 'results'));
+        return view('results.show', ['enrollment' => $enrollment, 'writeaccess' => $writeaccess, 'grades' => $grades, 'skills' => $skills, 'result' => $result, 'results' => $results]);
     }
 }

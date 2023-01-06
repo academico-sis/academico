@@ -11,11 +11,6 @@ class syncLeadStatuses extends Command
 
     protected $description = 'Student have a computed status, which is stored in the DB for performance reasons. In case statuses get out of sync, this command will resync them.';
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function handle()
     {
         foreach (Student::where('lead_type_id', 1)->get() as $student) {

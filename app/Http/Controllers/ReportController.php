@@ -61,7 +61,7 @@ class ReportController extends Controller
         $year_data = [];
         $years = [];
 
-        if (! isset($request->period)) {
+        if (! (property_exists($request, 'period') && $request->period !== null)) {
             $startperiod = Period::find(Config::where('name', 'first_external_period')->first()->value ?? Period::first()->id);
         } else {
             $startperiod = Period::find($request->period);
@@ -344,7 +344,7 @@ class ReportController extends Controller
 
     private function getStartperiod(Request $request)
     {
-        if (! isset($request->period)) {
+        if (! (property_exists($request, 'period') && $request->period !== null)) {
             $startperiod = Period::find(Config::where('name', 'first_period')->first()->value);
         } else {
             $startperiod = Period::find($request->period);

@@ -10,6 +10,6 @@ class TeacherLeaveController extends Controller
     {
         $teachers = Teacher::all();
 
-        return view('leaves.index', compact('teachers'));
+        return view('leaves.index', ['teachers' => $teachers]);
     }
 }

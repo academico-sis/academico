@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a2ea85d133745d77853cf582d5cebb6c",
+    "content-hash": "abe4d6fc65fdc763846c61537e115d15",
     "packages": [
         {
             "name": "akaunting/laravel-language",
@@ -10758,6 +10758,55 @@
                 }
             ],
             "time": "2022-12-30T00:15:36+00:00"
+        },
+        {
+            "name": "driftingly/rector-laravel",
+            "version": "0.14.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/driftingly/rector-laravel.git",
+                "reference": "077a1d72aef3166216f632b273d449235c6e8866"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/driftingly/rector-laravel/zipball/077a1d72aef3166216f632b273d449235c6e8866",
+                "reference": "077a1d72aef3166216f632b273d449235c6e8866",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1"
+            },
+            "require-dev": {
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan": "^1.8.2",
+                "phpstan/phpstan-strict-rules": "^1.2",
+                "phpstan/phpstan-webmozart-assert": "^1.1",
+                "phpunit/phpunit": "^9.5",
+                "rector/phpstan-rules": "^0.6",
+                "rector/rector": "^0.14.7",
+                "rector/rector-debugging": "dev-main",
+                "symplify/easy-coding-standard": "^11.0",
+                "symplify/phpstan-extensions": "^11.0",
+                "symplify/phpstan-rules": "^11.0",
+                "symplify/rule-doc-generator": "^11.0",
+                "symplify/vendor-patches": "^11.0"
+            },
+            "type": "rector-extension",
+            "autoload": {
+                "psr-4": {
+                    "RectorLaravel\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Rector upgrades rules for Laravel Framework",
+            "support": {
+                "issues": "https://github.com/driftingly/rector-laravel/issues",
+                "source": "https://github.com/driftingly/rector-laravel/tree/0.14.1"
+            },
+            "time": "2022-11-05T17:05:59+00:00"
         },
         {
             "name": "fakerphp/faker",

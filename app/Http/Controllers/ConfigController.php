@@ -18,7 +18,7 @@ class ConfigController extends Controller
         $enrollmentsPeriod = Period::get_enrollments_period();
         $availablePeriods = Period::all();
 
-        return view('admin.defaultPeriodsSelection', compact('currentPeriod', 'enrollmentsPeriod', 'availablePeriods'));
+        return view('admin.defaultPeriodsSelection', ['currentPeriod' => $currentPeriod, 'enrollmentsPeriod' => $enrollmentsPeriod, 'availablePeriods' => $availablePeriods]);
     }
 
     public function update(UpdateConfigRequest $request)

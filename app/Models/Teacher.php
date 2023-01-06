@@ -94,9 +94,11 @@ class Teacher extends Model
         }
         $formatted_leaves = [];
         $range_start = Carbon::parse($dates[0]['date']);
+        // loop through all leave dates
+        $datesCount = count($dates);
 
         // loop through all leave dates
-        for ($i = 0; $i < (is_countable($dates) ? count($dates) : 0); $i++) {
+        for ($i = 0; $i < (is_countable($dates) ? $datesCount : 0); $i++) {
             // if the next date does not touch current range
             if (isset($dates[$i + 1])) {
                 if (Carbon::parse($dates[$i]['date'])->addDay() != Carbon::parse($dates[$i + 1]['date'])) {

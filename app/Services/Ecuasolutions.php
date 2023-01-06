@@ -34,7 +34,7 @@ class Ecuasolutions implements InvoicingInterface
             ];
         }
 
-        foreach ($invoice->invoiceDetails as $po => $product) {
+        foreach ($invoice->invoiceDetails as $product) {
             if ($product->product instanceof Enrollment) {
                 $ivkardex[] = [
                     'codinventario' => $product->product_code,

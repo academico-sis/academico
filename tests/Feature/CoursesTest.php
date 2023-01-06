@@ -105,7 +105,7 @@ class CoursesTest extends TestCase
         $this->assertEquals(0, $course->times()->count());
 
         // some coursetimes can be added
-        $response = $this->putJson(route('course.update', ['id' => $course->id]), [
+        $this->putJson(route('course.update', ['id' => $course->id]), [
             'campus_id' => $course->campus_id,
             'rhythm_id' => $course->rhythm_id,
             'level_id' => $course->level_id,
