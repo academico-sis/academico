@@ -1,6 +1,41 @@
 CKEditor 4 Changelog
 ====================
 
+## CKEditor 4.20.1
+
+Fixed Issues:
+
+* [#5333](https://github.com/ckeditor/ckeditor4/issues/5333): Fixed: The original name of the uploaded image is not preserved by the [Upload Image](https://ckeditor.com/cke4/addon/uploadimage) plugin if the [Clipboard](https://ckeditor.com/cke4/addon/clipboard) plugin has enabled image handling.
+* [#2881](https://github.com/ckeditor/ckeditor4/issues/2881): Fixed: Changing table headers from "Both" to "First column" in the [Table](https://ckeditor.com/cke4/addon/table) dialog does not change the first column cell correctly.
+* [#2996](https://github.com/ckeditor/ckeditor4/issues/2996): Fixed: Table header "scope" attribute is incorrect for the "Headers: both" option in the [Table](https://ckeditor.com/cke4/addon/table) dialog.
+* [#4802](https://github.com/ckeditor/ckeditor4/issues/4802): Fixed: [Tableselection](https://ckeditor.com/cke4/addon/tableselection) caret moves to the previous cell after tabbing into the next cell and then removing its content.
+* [#5365](https://github.com/ckeditor/ckeditor4/issues/5365): Fixed: The value of the [`config.baseFloatZIndex`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-baseFloatZIndex) config variable is incorrectly applied to parent dialog when the child dialog is closed resulting in the dialog overlay covering up the dialog. Thanks to [JenoDK](https://github.com/JenoDK)!
+* [#5305](https://github.com/ckeditor/ckeditor4/issues/5305): Fixed: Anchor name can invalidly include spaces.
+
+## CKEditor 4.20
+
+New Features:
+
+* [#5084](https://github.com/ckeditor/ckeditor4/issues/5084): Added the [`config.tabletools_scopedHeaders`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-tabletools_scopedHeaders) configuration option controlling the behaviour of table headers with and without the `[scope]` attribute.
+* [#5219](https://github.com/ckeditor/ckeditor4/issues/5219): Added the [`config.image2_defaultLockRatio`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-image2_defaultLockRatio) configuration option allowing to set the default value of the "Lock ratio" option in the [Enhanced Image](https://ckeditor.com/cke4/addon/image2) dialog.
+* [#2008](https://github.com/ckeditor/ckeditor-dev/pull/2008): Extended the [Mentions](https://ckeditor.com/cke4/addon/mentions) and [Emoji](https://ckeditor.com/cke4/addon/emoji) plugins with a feature option that adds a space after an accepted autocompletion match. See:
+	* [`configDefinition.followingSpace`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_mentions_configDefinition.html#property-followingSpace) option for the mentions plugin, and
+	* [`config.emoji_followingSpace`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-emoji_followingSpace) option for the emoji plugin.
+* [#5215](https://github.com/ckeditor/ckeditor4/issues/5215): Added the [`config.coreStyles_toggleSubSup`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-coreStyles_toggleSubSup) configuration option which disallows setting the subscript and superscript on the same element simultaneously using UI buttons. This option is turned off by default.
+
+Fixed Issues:
+
+* [#4889](https://github.com/ckeditor/ckeditor4/issues/4889): Fixed: Incorrect position of the [Table Resize](https://ckeditor.com/cke4/addon/tableresize) cursor after scrolling the editor horizontally.
+* [#5319](https://github.com/ckeditor/ckeditor4/issues/5319): Fixed: [Autolink](https://ckeditor.com/cke4/addon/autolink) [`config.autolink_urlRegex`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-autolink_urlRegex) option produced invalid links when configured directly using the editor instance config. Thanks to [Aigars Zeiza](https://github.com/Zuzon)!
+* [#4941](https://github.com/ckeditor/ckeditor4/issues/4941): Fixed: Some entities got wrongly encoded when using [`entities_processNumerical = true`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-entities_processNumerical) configuration option.
+* [#4931](https://github.com/ckeditor/ckeditor4/issues/4931): Fixed: Selecting the whole editor content when there is only a list with an empty element at the end inside and deleting it did not delete all list items.
+
+
+API changes:
+
+* [#5122](https://github.com/ckeditor/ckeditor4/issues/5122): Added the ability to provide a list of buttons as an array to the [`config.removeButtons`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-removeButtons) config variable.
+* [#2008](https://github.com/ckeditor/ckeditor-dev/pull/2008): Added [Autocomplete](https://ckeditor.com/cke4/addon/autocomplete) [`followingSpace`](https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_plugins_autocomplete_configDefinition.html#property-followingSpace) option that finishes an accepted match with a space.
+
 ## CKEditor 4.19.1
 
 Fixed Issues:
