@@ -4,7 +4,7 @@
     "description": "A student information system built for simplicity.",
     "license": "MIT",
     "require": {
-        "php": "^8.0",
+        "php": "^8.2",
         "ext-gd": "*",
         "akaunting/laravel-language": "^1.0",
         "backpack/crud": "^5.0.0",
@@ -41,11 +41,11 @@
         "jasonmccreary/laravel-test-assertions": "^2.1",
         "laracasts/generators": "^2.0",
         "laravel/pint": "^1.2",
-        "laravel/sail": "^1.13",
+        "laravel/sail": "^1.17",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.1",
         "phpunit/phpunit": "^9.5.10",
-        "rector/rector": "^0.12.8",
+        "rector/rector": "^0.15.2",
         "spatie/laravel-ignition": "^1.0"
     },
     "config": {
