@@ -48,12 +48,9 @@ class MyAccountController extends Controller
             Alert::success(trans('backpack::base.account_updated'))->flash();
 
             // if the user has been selected for a forced update, move to the next step
-            if ($this->guard()->user()->isStudent()) {
-                if ($this->guard()->user()->student->force_update == 1) {
-                    $this->guard()->user()->student->update(['force_update' => 2]);
-
-                    return redirect('edit/2');
-                }
+            if ($this->guard()->user()->isStudent() && $this->guard()->user()->student->force_update == 1) {
+                $this->guard()->user()->student->update(['force_update' => 2]);
+                return redirect('edit/2');
             }
         } else {
             Alert::error(trans('backpack::base.error_saving'))->flash();
@@ -84,12 +81,9 @@ class MyAccountController extends Controller
             Alert::success(trans('backpack::base.account_updated'))->flash();
 
             // if the user has been selected for a forced update, move to the next step
-            if ($this->guard()->user()->isStudent()) {
-                if ($this->guard()->user()->student->force_update == 2) {
-                    $this->guard()->user()->student->update(['force_update' => 3]);
-
-                    return redirect('edit/3');
-                }
+            if ($this->guard()->user()->isStudent() && $this->guard()->user()->student->force_update == 2) {
+                $this->guard()->user()->student->update(['force_update' => 3]);
+                return redirect('edit/3');
             }
         } else {
             Alert::error(trans('backpack::base.error_saving'))->flash();

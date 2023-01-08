@@ -10,6 +10,8 @@ use Tests\TestCase;
 
 class AttendanceTest extends TestCase
 {
+    public $course;
+    public $attributes;
     use RefreshDatabase;
 
     protected function setUp(): void

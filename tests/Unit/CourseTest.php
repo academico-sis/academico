@@ -11,6 +11,12 @@ use Tests\TestCase;
 
 class CourseTest extends TestCase
 {
+    public $weeksUntilCourseStart;
+    public $weeksUntilCourseEnd;
+    public $initialStartDate;
+    public $initialEndDate;
+    public $eventDay;
+    public $expectedEvents;
     use RefreshDatabase;
 
     protected function setUp(): void

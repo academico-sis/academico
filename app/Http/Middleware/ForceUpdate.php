@@ -21,14 +21,10 @@ class ForceUpdate
 
         // if the current user has a forceupdate field set, we check that they can only access this route or a lower forceupdate step
 
-        if (backpack_user() != null) {
-            if (backpack_user()->isStudent()) {
-                if (backpack_user()->student->force_update) {
-                    // if the user wants to go further than authorized, redirect them to the current step
-                    if ($request->path() != 'edit/'.backpack_user()->student->force_update) {
-                        return redirect(url('edit/'.backpack_user()->student->force_update));
-                    }
-                }
+        if (backpack_user() != null && backpack_user()->isStudent()) {
+            // if the user wants to go further than authorized, redirect them to the current step
+            if (backpack_user()->student->force_update && $request->path() !== 'edit/'.backpack_user()->student->force_update) {
+                return redirect(url('edit/'.backpack_user()->student->force_update));
             }
         }
 

@@ -17,7 +17,7 @@ class PeriodSelectionTest extends TestCase
     public function testDefaultPeriodSelectionFromConfig()
     {
         // given two periods
-        $period1 = factory(Period::class)->create([
+        factory(Period::class)->create([
             'start' => date('Y-m-d', strtotime('-3 months')),
             'end' => date('Y-m-d', strtotime('-2 months')),
             'year_id' => 1,
@@ -52,7 +52,7 @@ class PeriodSelectionTest extends TestCase
             'name' => 'period 1 current',
         ]);
 
-        $period2 = factory(Period::class)->create([
+        factory(Period::class)->create([
             'start' => date('Y-m-d', strtotime('+2 months')),
             'end' => date('Y-m-d', strtotime('+4 months')),
             'year_id' => 1,
@@ -72,7 +72,7 @@ class PeriodSelectionTest extends TestCase
     public function testEnrollmentPeriodSelectionFromConfig()
     {
         // given two periods
-        $period1 = factory(Period::class)->create([
+        factory(Period::class)->create([
             'start' => date('Y-m-d', strtotime('-3 months')),
             'end' => date('Y-m-d', strtotime('-2 months')),
             'year_id' => 1,

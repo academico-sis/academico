@@ -270,7 +270,7 @@ class Course extends Model
      * returns the course repeating schedule
      * todo improve this method.
      */
-    public function getCourseTimesAttribute()
+    public function getCourseTimesAttribute(): string
     {
         $parsedCourseTimes = [];
         // TODO localize these

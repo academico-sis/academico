@@ -57,6 +57,6 @@ trait ShowStudentPhotoRosterOperation
 
         $enrollments = $course->enrollments()->with('student')->get();
 
-        return view('courses/showRoster', compact('course', 'enrollments'));
+        return view('courses/showRoster', ['course' => $course, 'enrollments' => $enrollments]);
     }
 }

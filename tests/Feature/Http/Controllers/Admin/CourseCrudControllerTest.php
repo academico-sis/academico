@@ -74,7 +74,7 @@ class CourseCrudControllerTest extends TestCase
         $this->assertTrue($course->times->count() == 0);
 
         // course times can be created
-        $response = $this->put(route('course.update', ['id' => $course->id]), [
+        $this->put(route('course.update', ['id' => $course->id]), [
             'times' => '[{"day":"3","start":"09:00:00","end":"11:00:00"}]',
         ]);
 

@@ -12,6 +12,10 @@ use Tests\TestCase;
  */
 class EvaluationTypeCrudControllerTest extends TestCase
 {
+    /**
+     * @var string
+     */
+    public $entityname;
     use RefreshDatabase;
 
     public $user;

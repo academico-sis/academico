@@ -9,6 +9,7 @@ use Tests\TestCase;
 
 class UpdateDataTest extends TestCase
 {
+    public $student;
     use RefreshDatabase;
     use WithFaker;
 

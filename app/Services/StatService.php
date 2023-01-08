@@ -197,7 +197,7 @@ class StatService
      */
     private function applyQueryScopes(Builder $query): Builder
     {
-        if ($this->partner) {
+        if ($this->partner !== null) {
             $query->where('partner_id', $this->partner->id);
         } elseif ($this->external) {
             $query->external();

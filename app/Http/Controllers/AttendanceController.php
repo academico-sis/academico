@@ -68,7 +68,7 @@ class AttendanceController extends Controller
         $courses = collect($coursesdata ?? [])->sortByDesc('missing')->toArray();
         $isadmin = backpack_user()->hasPermissionTo('courses.edit');
 
-        return view('attendance.monitor', compact('absences', 'courses', 'selected_period', 'isadmin'));
+        return view('attendance.monitor', ['absences' => $absences, 'courses' => $courses, 'selected_period' => $selected_period, 'isadmin' => $isadmin]);
     }
 
     /**
@@ -137,7 +137,7 @@ class AttendanceController extends Controller
 
         $isadmin = backpack_user()->hasPermissionTo('courses.edit');
 
-        return view('attendance/course', compact('attendances', 'isadmin', 'course', 'events'));
+        return view('attendance/course', ['attendances' => $attendances, 'isadmin' => $isadmin, 'course' => $course, 'events' => $events]);
     }
 
     public function showEvent(Event $event)
@@ -166,7 +166,7 @@ class AttendanceController extends Controller
         }
         Log::info('Attendance for event viewed by '.backpack_user()->id);
 
-        return view('attendance/event', compact('attendances', 'event', 'attendance_types'));
+        return view('attendance/event', ['attendances' => $attendances, 'event' => $event, 'attendance_types' => $attendance_types]);
     }
 
     public function showStudentAttendanceForCourse(Student $student, Request $request)

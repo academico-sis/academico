@@ -36,7 +36,7 @@ class GradeControllerTest extends TestCase
         $course = factory(Course::class)->create();
         // with one enrolled student
         $student = factory(Student::class)->create();
-        $enrollment_id = $student->enroll($course);
+        $student->enroll($course);
         $gradeType = factory(GradeType::class)->create();
         // has no grade types
         $this->assertEquals(0, $course->gradeTypes()->count());
@@ -44,7 +44,7 @@ class GradeControllerTest extends TestCase
         $this->assertEmpty($course->grades);
 
         // after adding a grade type
-        $response = $this->post('course/gradetype', [
+        $this->post('course/gradetype', [
             'course_id' => $course->id,
             'grade_type_id' => $gradeType->id,
         ]);

@@ -8,7 +8,7 @@ class EnrollmentUpdateRequest extends FormRequest
 {
     public function rules(): array
     {
-        $rules = [
+        return [
             'course_id' => 'required',
             'total_price' => 'required|numeric|min:0',
             'status_id' => 'required|integer',
@@ -16,7 +16,5 @@ class EnrollmentUpdateRequest extends FormRequest
             'scheduledPayments.*.value' => 'required|numeric|min:0',
             'scheduledPayments.*.status' => 'required|in:1,2',
         ];
-
-        return $rules;
     }
 }

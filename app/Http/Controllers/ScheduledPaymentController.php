@@ -25,7 +25,7 @@ class ScheduledPaymentController extends Controller
     public function store(Enrollment $enrollment, Request $request)
     {
         // Should only be used to create payments, not to edit them.
-        foreach ($request->payments as $p => $payment) {
+        foreach ($request->payments as $payment) {
             $enrollment->scheduledPayments()->create([
                 'responsable_id' => backpack_user()->id,
                 'value' => $payment['value'],

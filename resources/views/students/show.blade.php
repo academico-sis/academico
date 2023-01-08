@@ -44,19 +44,6 @@
             </div>
         </div>
     @endif
-
-    @if(backpack_user()->can('leads.manage'))
-        <div class="row">
-        <div class="col-md-12">
-            <lead-status-component
-            :student="{{ json_encode($student) }}"
-            :leadtypes="{{ json_encode($lead_types) }}"
-            route="{{ route('postLeadStatus') }}"
-            >
-            </lead-status-component>
-            </div>
-        </div>
-    @endif
 </div>
 </div><!-- end of first row -->
 

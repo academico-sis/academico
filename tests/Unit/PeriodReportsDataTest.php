@@ -34,7 +34,7 @@ class PeriodReportsDataTest extends TestCase
             // given an enrollment in the current period
             $course = factory(Course::class)->create(['period_id' => $period->id]);
             $student = factory(Student::class)->create();
-            $enrollment = $student->enroll($course);
+            $student->enroll($course);
         }
 
         $countAfterEnrollment = $period->real_enrollments->count();
@@ -92,9 +92,9 @@ class PeriodReportsDataTest extends TestCase
 
         // if the course has children
         $parentCourse = factory(Course::class)->create();
-        $childrenCourse = factory(Course::class)->create(['parent_course_id' => $parentCourse->id]);
+        factory(Course::class)->create(['parent_course_id' => $parentCourse->id]);
         $student = factory(Student::class)->create();
-        $enrollment = $student->enroll($parentCourse);
+        $student->enroll($parentCourse);
         $this->assertEquals(2, $student->enrollments->count());
 
         // the enrollment is only counted once
@@ -115,7 +115,7 @@ class PeriodReportsDataTest extends TestCase
         $parentCourse = factory(Course::class)->create();
         $childrenCourse = factory(Course::class)->create(['parent_course_id' => $parentCourse->id]);
         $student = factory(Student::class)->create();
-        $enrollment = $student->enroll($childrenCourse);
+        $student->enroll($childrenCourse);
 
         // the enrollment is counted once
         $countAfterEnrollment = $period->real_enrollments->count();
@@ -189,7 +189,7 @@ class PeriodReportsDataTest extends TestCase
         }
 
         // the acquisition rate for period P should be the ratio between period 1 and 2
-        $this->assertEquals('25.0%', $period2->acquisition_rate);
+        $this->assertEquals('25.0', $period2->acquisition_rate);
     }
 
     /** getNewStudentsCountAttribute
