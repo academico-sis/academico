@@ -84,7 +84,9 @@ class EnrollmentCrudController extends CrudController
             CRUD::addButtonFromView('line', 'showStudent', 'showStudentForEnrollment');
 
             CRUD::addButtonFromView('top', 'enroll-student-in-course', 'enroll-student-in-course', 'end');
-            CRUD::addButtonFromView('top', 'switch-to-photo-roster', 'switch-to-photo-roster', 'end');
+            CRUD::addButtonFromView('top', 'sendEmail', 'send-students-email','left');
+            CRUD::addButtonFromView('top', 'switch-to-photo-roster', 'switch-to-photo-roster', 'left');
+
         }
 
         CRUD::addColumns([

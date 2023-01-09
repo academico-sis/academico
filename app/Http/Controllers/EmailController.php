@@ -13,7 +13,7 @@ class EmailController extends Controller
     public function __construct()
     {
         parent::__construct();
-      //  $this->middleware('permission:hr.view', ['except' => 'teacher']);
+        $this->middleware('permission:student.edit', []);
     }
 
     /**
@@ -21,9 +21,8 @@ class EmailController extends Controller
      */
     public function index(Request $request)
     {
-        $student = "";
-        if($request->get("student")){
-            $student = $request->get("student");
+        if(!$request->has("student")){
+            return redirect("/")->with("error","Required values missing");
         }
         $data = DB::table('students')
             ->select('students.id', 'users.username','users.email')
@@ -31,7 +30,7 @@ class EmailController extends Controller
             ->get();
         return view('email.send', [
             'students' => $data,
-            'preselect' => $student,
+            'preselect' => $request->get("student"),
             'course' => $request->get("course")
         ]);
     }
@@ -40,7 +39,7 @@ class EmailController extends Controller
     public function send(Request $request){
 
         $request->validate([
-          //  'student' => 'required|email',
+            'student' => 'required',
             'subject' => 'required|min:4',
             'message' => 'required',
         ]);
@@ -58,18 +57,16 @@ class EmailController extends Controller
         return redirect(route('email-dashboard'))->with('success', 'Profile updated!');
     }
 
-    private function getEmails($courseId){
-        $emails = [];
+    private function getEmails(int $courseId){
         $data = DB::table('enrollments')
             ->select('users.email')
             ->join('students', 'enrollments.student_id', '=', 'students.id')
             ->join('users', 'users.id', '=', 'students.id')
             ->where('enrollments.course_id','=',$courseId)
             ->get();
-        foreach ($data as  $record){
-            $emails[] = $record->email;
-        }
-        return $emails;
+        return $data->map(function($record){
+           return $record->email;
+        });
     }
 
 }

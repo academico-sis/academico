@@ -52,11 +52,15 @@
             <div v-if="student.birthdate"><strong>{{ $t('Birthdate') }}:</strong> {{ student.student_birthdate }} ({{ student.student_age }})</div>
             <div v-if="student.institution"><strong>{{ $t('Institution') }}:</strong> <a :href="`/student?institutionId=${student.institution.id}`">{{ student.institution.name }}</a></div>
             <div v-if="student.profession"><strong>{{ $t('Profession') }}:</strong>{{ student.profession.name }}</div>
-            <div v-if="writeaccess">
-                <a class="btn btn-sm btn-warning" :href="`/student/${student.id}/edit`">
+            <div>
+                <a v-if="writeaccess"class="btn btn-sm btn-warning" :href="`/student/${student.id}/edit`">
                     <i class="la la-edit"></i>
                 </a>
+                <a title="Send email" class="btn btn-sm btn-default" :href="`/email/?student=${student.email}`">
+                    <i class="la la-envelope"></i>
+                </a>
             </div>
+
         </div>
 
         <div class="tab-pane fade" v-for="contact in this.contactsData" v-bind:key="contact.id" v-bind:id="`contact-${contact.id}-pane`" role="tabpanel" :aria-labelledby="`${contact.id}-tab`">
