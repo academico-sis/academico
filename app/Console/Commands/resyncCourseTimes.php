@@ -34,10 +34,6 @@ class resyncCourseTimes extends Command
         foreach ($this->argument('course_ids') as $courseId) {
             $course = Course::find($courseId);
 
-            if (Carbon::parse($course->start_date) < Carbon::now()) {
-                continue;
-            }
-
             DB::table('events')->where('course_id', $courseId)->delete();
 
             $courseStartDate = Carbon::parse($course->start_date)->startOfDay();
