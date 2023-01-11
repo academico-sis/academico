@@ -142,20 +142,12 @@ class TestSeeder extends Seeder
 
         EvaluationType::create([
             'id' => 1,
-            'name' => [
-                'fr' => 'NOTES',
-                'es' => 'NOTAS',
-                'en' => 'GRADES',
-            ],
+            'name' => 'GRADES',
         ]);
 
         EvaluationType::create([
             'id' => 2,
-            'name' => [
-                'fr' => 'COMPÉTENCES',
-                'es' => 'COMPETENCIAS',
-                'en' => 'SKILLS',
-            ],
+            'name' => 'SKILLS'
         ]);
 
         AttendanceType::create([
