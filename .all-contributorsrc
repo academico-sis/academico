@@ -130,6 +130,15 @@
         "code",
         "doc"
       ]
+    },
+    {
+      "login": "wyntonfranklin",
+      "name": "Wynton Franklin",
+      "avatar_url": "https://avatars.githubusercontent.com/u/30404746?v=4",
+      "profile": "https://github.com/wyntonfranklin",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
@@ -137,5 +146,6 @@
   "projectOwner": "academico-sis",
   "repoType": "github",
   "repoHost": "https://github.com",
-  "skipCi": true
+  "skipCi": true,
+  "commitConvention": "angular"
 }
