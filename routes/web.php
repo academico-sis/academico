@@ -13,6 +13,7 @@ use App\Http\Controllers\ContactPhoneNumberController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CourseSkillController;
 use App\Http\Controllers\CourseSkillEvaluationController;
+use App\Http\Controllers\EmailController;
 use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\EnrollmentScholarshipController;
 use App\Http\Controllers\EventController;
@@ -241,4 +242,10 @@ Route::middleware(['web', 'role:admin', 'language'])->group(function () {
     Route::post('rhythm/{rhythm}/delete', [RhythmController::class, 'destroy']);
 
     Route::get('createinvoice', [InvoiceController::class, 'create'])->name('invoice.create');
+});
+
+// Email sending routes
+Route::middleware(['web', 'language'])->group(function () {
+    Route::get('email', [EmailController::class, 'index'])->name('email-dashboard');
+    Route::post('email/send', [EmailController::class, 'send'])->name('emailSend');
 });
