@@ -24,6 +24,8 @@
 
                     @if(isset($enrollment->result_name))
                         <p>@lang('Result') : <a href="/result/{{ $enrollment->id }}/show">{{ $enrollment->result_name }}</a></p>
+                    @elseif($enrollment->status_id === 1)
+                        <p>{{__('The enrollment is unpaid') }}</p>
                     @endif
 
                     <p>@lang('Status') : {{ $enrollment->status }}</p>

@@ -2,7 +2,7 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                {{ $t('Course result') }}
+                {{ $t("Course result") }}
             </div>
 
             <div class="card-body">
@@ -11,15 +11,15 @@
                     role="group"
                     aria-label=""
                 >
-                        <button
-                            v-for="result in results"
-                            :key="result.id"
-                            v-bind:class="buttonClass(result)"
-                            @click="saveResult(result)"
-                            :disabled="loading || !writeaccess"
-                        >
-                            {{ result.translated_name }}
-                        </button>
+                    <button
+                        v-for="result in results"
+                        :key="result.id"
+                        :class="buttonClass(result)"
+                        :disabled="loading || !writeaccess"
+                        @click="saveResult(result)"
+                    >
+                        {{ result.translated_name }}
+                    </button>
                 </div>
             </div>
         </div>
@@ -33,7 +33,7 @@ export default {
         "results",
         "result",
         "resultPostRoute",
-        "writeaccess"
+        "writeaccess",
     ],
 
     data() {
@@ -55,20 +55,21 @@ export default {
                     student: this.enrollment.student_id,
                     enrollment: this.enrollment.id,
                 })
-                .then(response => {
+                .then((response) => {
                     this.loading = false;
-                    window.location.reload()
+                    window.location.reload();
                 })
-                .catch(e => this.errors.push(e));
+                .catch((e) => this.errors.push(e));
         },
 
         buttonClass(result_type) {
-            if (this.course_result && this.course_result.result_type_id === result_type.id)
-            {
-                return `btn btn-${result_type.class}`
-            }
-            else {
-                return "btn btn-secondary"
+            if (
+                this.course_result &&
+                this.course_result.result_type_id === result_type.id
+            ) {
+                return `btn btn-${result_type.class}`;
+            } else {
+                return "btn btn-secondary";
             }
         },
     },
