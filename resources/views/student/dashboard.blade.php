@@ -22,7 +22,7 @@
                 <div class="card-body">
                     <p>@lang('Period') : {{ $enrollment->course->period->name }}</p>
 
-                    @if(isset($enrollment->result_name))
+                    @if(isset($enrollment->result_name) && $enrollment->status_id !== 1)
                         <p>@lang('Result') : <a href="/result/{{ $enrollment->id }}/show">{{ $enrollment->result_name }}</a></p>
                     @elseif($enrollment->status_id === 1)
                         <p>{{__('The enrollment is unpaid') }}</p>
