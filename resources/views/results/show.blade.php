@@ -25,7 +25,7 @@
                     <p>{{ $enrollment->course->name }} ({{ $enrollment->course->period->name }})</p>
                 </a>
 
-                @if (config('certificates-generation.supported') && $enrollment->result && backpack_user()->hasRole(['admin', 'secretary']))
+                @if (config('certificates-generation.supported') && $enrollment->result)
                     <a href="{{ route('enrollment-export-result', ['enrollment' => $enrollment->id]) }}" class="btn btn-primary @if($enrollment->enrollmentStatus->id === 1) disabled @endif">@lang('Generate grade report')</a>
                     <a href="{{ route('enrollment-export-certificate', ['enrollment' => $enrollment->id]) }}" class="btn btn-primary @if (($enrollment->enrollmentStatus->id === 1 || $enrollment->result->result_type_id !== 1)) disabled @endif">@lang('Generate diploma')</a>
                     @if ($enrollment->enrollmentStatus->id === 1) {{__('The enrollment is unpaid') }} @endif

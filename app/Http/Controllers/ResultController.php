@@ -38,6 +38,10 @@ class ResultController extends Controller
 
     public function exportResult(Enrollment $enrollment, CertificatesInterface $certificatesService)
     {
+        if (Gate::forUser(backpack_user())->denies('view-enrollment', $enrollment)) {
+            abort(403);
+        }
+
         $certificatesService->exportResult($enrollment);
     }
 
@@ -48,6 +52,10 @@ class ResultController extends Controller
 
     public function exportCertificate(Enrollment $enrollment, CertificatesInterface $certificatesService)
     {
+        if (Gate::forUser(backpack_user())->denies('view-enrollment', $enrollment)) {
+            abort(403);
+        }
+
         $certificatesService->exportCertificate($enrollment);
     }
 }

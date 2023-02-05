@@ -25,7 +25,11 @@
                     @if(isset($enrollment->result_name) && $enrollment->status_id !== 1)
                         <p>@lang('Result') : <a href="/result/{{ $enrollment->id }}/show">{{ $enrollment->result_name }}</a></p>
                     @elseif($enrollment->status_id === 1)
-                        <p>{{__('The enrollment is unpaid') }}</p>
+                        @if (config('certificates-generation.style' === 'afloja'))
+                            <p>Su reporte de nota no esta disponible, esta pendiente el pago del curso. Favor de comunicarse al 0969365220.</p>
+                        @else
+                            <p>{{__('The enrollment is unpaid') }}</p>
+                        @endif
                     @endif
 
                     <p>@lang('Status') : {{ $enrollment->status }}</p>
