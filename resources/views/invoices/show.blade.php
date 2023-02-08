@@ -12,6 +12,7 @@
         <div class="col-md-4">
 
             <student-comments
+                    writeaccess="{{ $writeaccess }}"
                     :comments="{{ json_encode($comments) }}"
                     :id="{{ json_encode($invoice->id) }}"
                     :type="'App\\Models\\Invoice'"

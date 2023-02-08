@@ -33,6 +33,7 @@
 
     @if (isset($result))
     <student-comments
+        writeaccess="{{ $writeaccess }}"
         route="{{ route('storeComment') }}"
         :comments="{{ json_encode($result->comments ?? null) }}"
         :id="{{ json_encode($result->id) }}"

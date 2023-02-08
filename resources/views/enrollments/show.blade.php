@@ -91,6 +91,7 @@
     <div class="col-md-6">
 
         <student-comments
+            writeaccess="{{ $writeaccess }}"
             :comments="{{ json_encode($comments) }}"
             :id="{{ json_encode($enrollment->id) }}"
             :type="'App\\Models\\Enrollment'"

@@ -230,6 +230,7 @@ class InvoiceCrudController extends CrudController
             'enrollment' => $invoice->enrollments->first()?->product,
             'comments' => $invoice->comments,
             'afterSuccessUrl' => $invoice->enrollments->count() > 0 ? "/enrollment/{$invoice->enrollments->first()->product_id}/show" : '/invoice', // TODO fix this, an invoice can theoretically contain several enrollments
+            'writeaccess' => backpack_user()->can('enrollments.edit') ?? 0,
         ]);
     }
 }
