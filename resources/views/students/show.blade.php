@@ -33,6 +33,7 @@
         <div class="row">
         <div class="col-md-12">
             <student-comments
+            :writeaccess="{{ $writeaccess }}"
             :comments="{{ json_encode($comments) }}"
             :id="{{ json_encode($student->id) }}"
             :type="'App\\Models\\Student'"
