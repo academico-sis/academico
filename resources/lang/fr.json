@@ -546,5 +546,7 @@
     "Please remember that your changes here might also affect related data. Proceed with caution!": "Veuillez prendre en compte que vos changements peuvent avoir un impact sur les données liées à cette facture (inscriptions, statistiques...). Procédez avec prudence !",
     "Product Code": "Référence comptable du produit",
     "The result is not validated": "Le résultat n'a pas \u00e9té validé",
-    "Please be aware that if you modify the course dates, the existing attendance for this course will be lost!": "Attention, si vous modifiez les dates du cours, les présences existantes seront effacées !"
+    "Please be aware that if you modify the course dates, the existing attendance for this course will be lost!": "Attention, si vous modifiez les dates du cours, les présences existantes seront effacées !",
+    "Other": "Autre",
+    "Reference": "Nom du groupe (statistiques)"
 }

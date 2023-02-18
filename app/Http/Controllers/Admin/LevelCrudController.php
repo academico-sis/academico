@@ -33,8 +33,8 @@ class LevelCrudController extends CrudController
         ]);
 
         CRUD::addColumn([
-            'name' => 'lms_id',
-            'label' => __('LMS code'),
+            'name' => 'reference',
+            'label' => __('Reference'),
             'type' => 'text',
         ]);
     }
@@ -57,8 +57,8 @@ class LevelCrudController extends CrudController
         ]);
 
         CRUD::addField([
-            'name' => 'lms_id',
-            'label' => 'LMS code',
+            'name' => 'reference',
+            'label' => __('Reference'),
             'type' => 'text',
         ]);
     }

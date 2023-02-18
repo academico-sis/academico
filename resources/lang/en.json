@@ -546,5 +546,7 @@
     "Please remember that your changes here might also affect related data. Proceed with caution!": "Please remember that your changes here might also affect related data. Proceed with caution!",
     "Product Code": "Product Code",
     "The result is not validated": "The result is not validated",
-    "Please be aware that if you modify the course dates, the existing attendance for this course will be lost!": "Please be aware that if you modify the course dates, the existing attendance for this course will be lost!"
+    "Please be aware that if you modify the course dates, the existing attendance for this course will be lost!": "Please be aware that if you modify the course dates, the existing attendance for this course will be lost!",
+    "Other": "Other",
+    "Reference": "Name to group by"
 }
