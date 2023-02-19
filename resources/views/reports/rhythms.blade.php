@@ -6,11 +6,13 @@
 
     <div class="col-md-6">
         <div class="card">
-            <div class="card-header">
-                    @lang('Enrollments per Rhythm')
+            <div class="card-header" style="display: flex; justify-content: space-between; align-items: center">
+                <div style="display: flex; flex-direction: column; align-items: center">
+                    @lang('Enrollments per Rhythm') - @if ($selected_period['type'] === 'year') {{ __('Year') }} @else {{ __('Period') }}@endif {{ $selected_period['value'] }}
+                </div>
                 <div class="card-header-actions">
                     <!-- Period selection dropdown -->
-                    @include('partials.period_selection')
+                    @include('partials.period_selection', ['allow_year_selection' => true, 'selected_period' => $selected_period])
                 </div>
             </div>
 

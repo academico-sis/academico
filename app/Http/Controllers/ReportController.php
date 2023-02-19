@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CachedReport;
 use App\Models\Config;
+use App\Models\Course;
 use App\Models\Partner;
 use App\Models\Period;
 use App\Models\Year;
@@ -11,6 +12,7 @@ use App\Services\DateRange;
 use App\Services\StatService;
 use App\Traits\PeriodSelection;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -255,22 +257,25 @@ class ReportController extends Controller
      */
     public function rhythms(Request $request)
     {
-        $period = $this->selectPeriod($request);
-
-        $count = $period->courses()->where('parent_course_id', null)->with('rhythm')->withCount('enrollments')
-            ->get()
-            ->where('enrollments_count', '>', 0)
-            ->groupBy('rhythm_id');
+        $year = $this->selectYear($request);
+        if ($year) {
+            $periodGroups = $this->buildRhythmStatsForYear($year);
+            $selectedPeriod = ['type' => 'year', 'value' => $year->name];
+        } else {
+            $period = $this->selectPeriod($request);
+            $periodGroups = $this->buildRhythmStatsForPeriod($period);
+            $selectedPeriod = ['type' => 'period', 'value' => $period->name];
+        }
 
         $data = [];
 
-        foreach ($count as $i => $course) {
+        foreach ($periodGroups as $i => $course) {
             $data[$i]['rhythm'] = $course[0]->rhythm->name ?? 'Other';
             $data[$i]['enrollment_count'] = $course->sum('enrollments_count');
         }
 
         return view('reports.rhythms', [
-            'selected_period' => $period,
+            'selected_period' => $selectedPeriod,
             'data' => $data,
         ]);
     }
@@ -294,17 +299,20 @@ class ReportController extends Controller
     /** Number of students per level */
     public function levels(Request $request)
     {
-        $period = $this->selectPeriod($request);
-
-        $count = $period->courses()->where('parent_course_id', null)->with('level')->withCount('enrollments')
-            ->get()
-            ->where('enrollments_count', '>', 0)
-            ->groupBy('level.reference');
+        $year = $this->selectYear($request);
+        if ($year) {
+            $periodGroups = $this->buildLevelStatsForYear($year);
+            $selectedPeriod = ['type' => 'year', 'value' => $year->name];
+        } else {
+            $period = $this->selectPeriod($request);
+            $periodGroups = $this->buildLevelStatsForPeriod($period);
+            $selectedPeriod = ['type' => 'period', 'value' => $period->name];
+        }
 
         $data = [];
 
-        foreach ($count as $i => $coursegroup) {
-            $data[$i]['level'] = $coursegroup[0]->level->reference ?? 'Other';
+        foreach ($periodGroups as $i => $coursegroup) {
+            $data[$i]['level'] = $coursegroup[0]->level->reference ?? __('Other');
             $data[$i]['enrollment_count'] = $coursegroup->sum('enrollments_count');
             $data[$i]['taught_hours_count'] = $coursegroup->sum('total_volume');
 
@@ -317,8 +325,9 @@ class ReportController extends Controller
         }
 
         return view('reports.levels', [
-            'selected_period' => $period,
+            'selected_period' => $selectedPeriod,
             'data' => $data,
+            'allow_year_selection' => true,
         ]);
     }
 
@@ -331,5 +340,43 @@ class ReportController extends Controller
         }
 
         return $startperiod;
+    }
+
+    private function buildLevelStatsForPeriod(Period $period): Collection
+    {
+        return $period->courses()->where('parent_course_id', null)->with('level')->withCount('enrollments')
+            ->get()
+            ->where('enrollments_count', '>', 0)
+            ->groupBy('level.reference');
+    }
+
+    private function buildLevelStatsForYear(Year $year): Collection
+    {
+        $periods = Period::whereYearId($year->id)->pluck('id');
+
+        return Course::whereIn('period_id', $periods)
+             ->where('parent_course_id', null)->with('level')->withCount('enrollments')
+            ->get()
+            ->where('enrollments_count', '>', 0)
+            ->groupBy('level.reference');
+    }
+
+    public function buildRhythmStatsForPeriod(Period $period): Collection
+    {
+        return $period->courses()->where('parent_course_id', null)->with('rhythm')->withCount('enrollments')
+            ->get()
+            ->where('enrollments_count', '>', 0)
+            ->groupBy('rhythm_id');
+    }
+
+    public function buildRhythmStatsForYear(Year $year): Collection
+    {
+        $periods = Period::whereYearId($year->id)->pluck('id');
+
+        return Course::whereIn('period_id', $periods)
+            ->where('parent_course_id', null)->with('rhythm')->withCount('enrollments')
+            ->get()
+            ->where('enrollments_count', '>', 0)
+            ->groupBy('rhythm_id');
     }
 }

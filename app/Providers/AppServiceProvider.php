@@ -14,6 +14,7 @@ use App\Models\EnrollmentStatusType;
 use App\Models\Period;
 use App\Models\Room;
 use App\Models\Teacher;
+use App\Models\Year;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -40,6 +41,7 @@ class AppServiceProvider extends ServiceProvider
 
             $current_period = Period::get_default_period();
             View::share('periods', $periods);
+            View::share('allYears', Year::all());
             View::share('current_period', $current_period);
         }
 

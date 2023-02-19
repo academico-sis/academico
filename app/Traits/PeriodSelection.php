@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Models\Period;
+use App\Models\Year;
 use Illuminate\Http\Request;
 
 trait PeriodSelection
@@ -16,7 +17,14 @@ trait PeriodSelection
         }
     }
 
-    protected function selectPeriod(Request $request)
+    protected function selectYear(Request $request): ?Year
+    {
+        $year_id = $request->query('year');
+
+        return $year_id ? Year::find($year_id) : null;
+    }
+
+    protected function selectPeriod(Request $request): Period
     {
         $period_id = $request->query('period');
         if ($period_id == null) {
