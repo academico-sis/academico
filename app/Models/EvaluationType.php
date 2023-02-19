@@ -6,9 +6,6 @@ use App\Models\Skills\Skill;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * @mixin IdeHelperEvaluationType
- */
 class EvaluationType extends Model
 {
     use CrudTrait;

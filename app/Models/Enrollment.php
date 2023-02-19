@@ -17,9 +17,6 @@ use Illuminate\Support\Facades\App;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-/**
- * @mixin IdeHelperEnrollment
- */
 class Enrollment extends Model implements InvoiceableModel
 {
     use CrudTrait;

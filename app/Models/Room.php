@@ -8,9 +8,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-/**
- * @mixin IdeHelperRoom
- */
 class Room extends Model
 {
     use CrudTrait;

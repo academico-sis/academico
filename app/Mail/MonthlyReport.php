@@ -32,7 +32,7 @@ class MonthlyReport extends Mailable implements ShouldQueue
         $this->start = Carbon::parse('First day of this month');
         $this->end = Carbon::parse('Last day of this month');
 
-        $this->teachers = Teacher::with('remote_events')->with('events')->with('courses')->get();
+        $this->teachers = Teacher::with('events')->with('courses')->get();
     }
 
     public function build()

@@ -11,9 +11,6 @@ use Illuminate\Support\Facades\App;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-/**
- * @mixin IdeHelperScheduledPayment
- */
 class ScheduledPayment extends Model
 {
     use CrudTrait;

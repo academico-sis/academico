@@ -5,9 +5,6 @@ namespace App\Models;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * @mixin IdeHelperGradeType
- */
 class GradeType extends Model
 {
     use CrudTrait;

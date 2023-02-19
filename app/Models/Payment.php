@@ -10,9 +10,6 @@ use Illuminate\Support\Facades\App;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-/**
- * @mixin IdeHelperPayment
- */
 class Payment extends Model
 {
     use CrudTrait;

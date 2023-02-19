@@ -9,9 +9,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-/**
- * @mixin IdeHelperInvoiceDetail
- */
 class InvoiceDetail extends Model
 {
     use SoftDeletes;

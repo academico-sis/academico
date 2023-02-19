@@ -6,9 +6,6 @@ use App\Traits\PriceTrait;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * @mixin IdeHelperCoupon
- */
 class Coupon extends Model
 {
     use CrudTrait;

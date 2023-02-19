@@ -6,9 +6,6 @@ use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Backpack\CRUD\app\Models\Traits\SpatieTranslatable\HasTranslations;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * @mixin IdeHelperGradeTypeCategory
- */
 class GradeTypeCategory extends Model
 {
     use CrudTrait;

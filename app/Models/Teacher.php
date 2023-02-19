@@ -13,9 +13,6 @@ use Illuminate\Support\Str;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-/**
- * @mixin IdeHelperTeacher
- */
 class Teacher extends Model
 {
     use CrudTrait;
@@ -64,21 +61,9 @@ class Teacher extends Model
             ->where('end', '<=', Carbon::parse($period->end)->setTime(23, 59, 0)->toDateTimeString());
     }
 
-    public function period_remote_events(Period $period)
-    {
-        return $this->remote_events
-            ->where('period_id', $period->id);
-    }
-
     public function events()
     {
         return $this->hasMany(Event::class);
-    }
-
-    /** @deprecated */
-    public function remote_events()
-    {
-        return $this->hasMany(RemoteEvent::class);
     }
 
     public function leaves()
@@ -142,8 +127,10 @@ class Teacher extends Model
     public function plannedRemoteHoursInPeriod($start, $end)
     {
         $total = 0;
-        // retrieve courses within period
+        /** @var Course $course */
         foreach ($this->courses()->realcourses()->whereDate('start_date', '<=', $end)->get() as $course) {
+
+            $courseRemoteVolumePerWeek = $course->remote_volume / max(1, $course->end_date->diffInWeeks($course->start_date) + 1);
 
             // the number of days (selected period) overlapping the course length
             // latest of course and report start dates.
@@ -156,7 +143,7 @@ class Teacher extends Model
                 // add 1 to include current week.
                 $numberOfWeeks = $startDate->diffInWeeks($endDate) + 1;
 
-                $total += $course->remoteEvents->sum('worked_hours') * $numberOfWeeks;
+                $total += $courseRemoteVolumePerWeek * $numberOfWeeks;
             }
         }
 

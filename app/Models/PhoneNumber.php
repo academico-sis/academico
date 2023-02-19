@@ -7,9 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-/**
- * @mixin IdeHelperPhoneNumber
- */
 class PhoneNumber extends Model
 {
     use LogsActivity;

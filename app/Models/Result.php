@@ -8,9 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-/**
- * @mixin IdeHelperResult
- */
 class Result extends Model
 {
     use CrudTrait;

@@ -9,9 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-/**
- * @mixin IdeHelperBook
- */
 class Book extends Model implements InvoiceableModel
 {
     use CrudTrait;

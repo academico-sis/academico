@@ -7,13 +7,9 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * @mixin IdeHelperPartner
- */
 class Partner extends Model
 {
     use CrudTrait;
-    use HasFactory;
 
     protected $guarded = ['id'];
 

@@ -9,9 +9,6 @@ use Prologue\Alerts\Facades\Alert;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-/**
- * @mixin IdeHelperEvent
- */
 class Event extends Model
 {
     use CrudTrait;

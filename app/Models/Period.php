@@ -10,9 +10,6 @@ use Illuminate\Support\Facades\DB;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-/**
- * @mixin IdeHelperPeriod
- */
 class Period extends Model
 {
     use CrudTrait;

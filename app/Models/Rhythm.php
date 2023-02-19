@@ -8,9 +8,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-/**
- * @mixin IdeHelperRhythm
- */
 class Rhythm extends Model
 {
     use CrudTrait;

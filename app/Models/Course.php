@@ -14,9 +14,6 @@ use Illuminate\Support\Str;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-/**
- * @mixin IdeHelperCourse
- */
 class Course extends Model
 {
     use CrudTrait;
@@ -112,11 +109,6 @@ class Course extends Model
     public function events()
     {
         return $this->hasMany(Event::class)->orderBy('start');
-    }
-
-    public function remoteEvents()
-    {
-        return $this->hasMany(RemoteEvent::class);
     }
 
     public function teacher()

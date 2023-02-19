@@ -32,7 +32,7 @@
                         </div>
 
                         <div class="col align-bottom">
-                            <button id="sumbit" style="position: absolute; bottom: 0;" class="btn btn-primary" type="submit">OK</button>
+                            <button id="submit" style="position: absolute; bottom: 0;" class="btn btn-primary" type="submit">OK</button>
                         </div>
 
                     </div>
@@ -51,28 +51,29 @@
                     </thead>
 
                     <tbody>
-                        @foreach ($teachers as $teacher)
+                        @foreach ($teacherHours as $teacher)
                         <tr>
-                            <td>{{ $teacher->name }}</td>
+                            <td>{{ $teacher['name'] }}</td>
+
                             <td>
-                                @if ($teacher->remoteVolume)
-                                    <p>@lang('Remote') : {{ number_format($teacher->remoteVolume, 2, '.', ',') }} h</p>
-                                @endif
+                                @isset($teacher['remoteVolume'])
+                                    <p>@lang('Remote') : {{ $teacher['remoteVolume'] }} h</p>
+                                @endisset
 
-                                @if ($teacher->volume)
-                                    <p>@lang('Face-to-face') : {{ number_format($teacher->volume, 2, '.', ',') }} h</p>
-                                @endif
+                                @isset($teacher['volume'])
+                                    <p>@lang('Face-to-face') : {{ $teacher['volume'] }} h</p>
+                                @endisset
 
-                                @if ($teacher->volume && $teacher->remoteVolume)
+                                @if(isset($teacher['volume']) && isset($teacher['remoteVolume']))
                                     <p>
-                                        <strong>@lang('Total:') {{ number_format($teacher->volume + $teacher->remoteVolume, 2, '.', ',') }} h</strong>
+                                        <strong>@lang('Total:') {{ $teacher['volume'] + $teacher['remoteVolume'] }} h</strong>
                                     </p>
                                 @endif
                             </td>
 
                             <td>
-                                <p>@lang('Face-to-face') : {{ number_format($teacher->plannedHoursInPeriod($start, $end), 2, '.', ',') }} h</p>
-                                <p>@lang('Remote') : {{ number_format($teacher->plannedRemoteHoursInPeriod($start, $end), 2, '.', ',') }} h</p>
+                                <p>@lang('Face-to-face') : {{ $teacher['realVolume'] }} h</p>
+                                <p>@lang('Remote') : {{ $teacher['realRemoteVolume'] }} h</p>
                             </td>
                         </tr>
                         @endforeach

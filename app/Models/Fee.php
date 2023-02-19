@@ -7,9 +7,6 @@ use App\Traits\PriceTrait;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * @mixin IdeHelperFee
- */
 class Fee extends Model implements InvoiceableModel
 {
     use CrudTrait;
