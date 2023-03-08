@@ -96,7 +96,7 @@ class HomeController extends Controller
         Log::info(backpack_user()->firstname.' '.backpack_user()->lastname.' accessed the admin dashboard');
 
         // todo optimize this !!
-        $events = Event::where('start', '>', Carbon::now()->subDays(3))->where('end', '<', Carbon::now()->addDays(7))->orderBy('id', 'desc')
+        $events = Event::where('start', '>', Carbon::now()->subDays(3))->where('end', '<', Carbon::now()->addDays(90))->orderBy('id', 'desc')
             ->get()
             ->map(fn ($event) => [
                 'title' => $event['name'],
