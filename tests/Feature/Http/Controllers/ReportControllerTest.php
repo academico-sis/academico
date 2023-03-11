@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
- * @see \App\Http\Controllers\ReportController
+ * @see \App\Http\Controllers\Report\ReportController
  */
 class ReportControllerTest extends TestCase
 {
