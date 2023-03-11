@@ -56,4 +56,4 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
 
 # License
-This software is based on Laravel and Backpack for Laravel. The OSS branch (default) is free for everyone to use, with limited features. The "pro" branch required [a Backpack license](https://backpackforlaravel.com) and adds features such as filters, exports, more advanced CRUD forms, etc. You may run the pro version on localhost without a license.
+This software is based on Laravel and Backpack for Laravel. The OSS branch (default) is free for everyone to use, with limited features. The "pro" branch requires [a Backpack license](https://backpackforlaravel.com) and adds features such as filters, exports, more advanced CRUD forms, etc.
