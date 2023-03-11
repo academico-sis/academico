@@ -12,10 +12,13 @@ Academico is an open-source, Lavarel-based school management platform. Its main 
 # Documentation
 * Technical documentation (EN), including installation instructions -> https://github.com/laxsmi/academico/wiki
 
+# Maintainers wanted!
+This project does not get as much of my attention as it deserves. The "pro" version is used by several institutions but the "oss" version (that does not require a paid Backpack for Laravel licence) does not receive many updates anymore. I would be happy to put a link here to an active fork of this project, if you want to take over the free/oss version. Please open an issue if you're interested to discuss it!
+
 # Contributors welcome! ✨
 This project was initially developed to address the needs of one specific school, however, the project is now published as open-source with the hope that others might use it. Developing and maintaining a new application takes a lot of time and effort, and everyone wins by using and improving already existing software instead of starting from scratch every time.
 
-The project founder is still actively maintaining the code and fixing bugs on his spare time, however, the project would greatly benefit from new contributors. Contributing to this project is also a great way to train your developer skills. Some issues are available to beginners. Please see [this page on the wiki](https://github.com/laxsmi/academico/wiki/Development-Roadmap) for details.
+There are many areas of this project that would greatly benefit from new contributions. It is also a great way to train your developer skills. Some issues are available to beginners. Please see [this page on the wiki](https://github.com/laxsmi/academico/wiki/Development-Roadmap) for details.
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
