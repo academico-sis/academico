@@ -129,7 +129,6 @@ class Teacher extends Model
         $total = 0;
         /** @var Course $course */
         foreach ($this->courses()->realcourses()->whereDate('start_date', '<=', $end)->get() as $course) {
-
             $courseRemoteVolumePerWeek = $course->remote_volume / max(1, $course->end_date->diffInWeeks($course->start_date) + 1);
 
             // the number of days (selected period) overlapping the course length

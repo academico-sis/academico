@@ -21,6 +21,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HRController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\LevelController;
+use App\Http\Controllers\Report\AttendanceReportController;
 use App\Http\Controllers\Report\ExternalReportController;
 use App\Http\Controllers\Report\ReportController;
 use App\Http\Controllers\ResultController;
@@ -183,7 +184,7 @@ Route::middleware(['web', 'permission:hr.view', 'language'])->group(function () 
 
 // Reports routes
 Route::middleware(['web', 'permission:reports.view', 'language'])->group(function () {
-    Route::get('/report', [ReportController::class, 'index'])->name('allReports');
+    Route::permanentRedirect('/report', '/report/internal')->name('allReports');
 
     Route::get('/report/internal', [ReportController::class, 'internal'])->name('homeReport');
     Route::get('/report/gender', [ReportController::class, 'genderReport'])->name('genderReport');
@@ -195,8 +196,11 @@ Route::middleware(['web', 'permission:reports.view', 'language'])->group(functio
     Route::get('/report/courses', [ReportController::class, 'courses'])->name('courseReport');
     Route::get('/report/rhythms', [ReportController::class, 'rhythms'])->name('rhythmReport');
     Route::get('/report/levels', [ReportController::class, 'levels'])->name('levelReport');
-}
-);
+    Route::get('/report/attendance/for-course', [AttendanceReportController::class, 'forCourse'])->name('attendanceReportForCourse');
+    Route::get('/report/attendance/by-course', [AttendanceReportController::class, 'byCourse'])->name('attendanceReportByCourse');
+    Route::get('/report/attendance/by-level', [AttendanceReportController::class, 'byLevel'])->name('attendanceReportByLevel');
+    Route::get('/report/attendance/by-rhythm', [AttendanceReportController::class, 'byRhythm'])->name('attendanceReportByRhythm');
+});
 
 // New COURSES module
 Route::middleware(['web', 'language'])->group(function () {

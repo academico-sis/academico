@@ -274,6 +274,7 @@
     "Pending Attendance": "Pr\u00e9sences en attente",
     "Pending leads": "Clients potentiels",
     "Per course": "Par cours",
+    "For course": "Pour un cours...",
     "Per rhythm": "Par modalit\u00e9",
     "Period": "Cycle",
     "period": "cycle",
@@ -548,5 +549,9 @@
     "The result is not validated": "Le résultat n'a pas \u00e9té validé",
     "Please be aware that if you modify the course dates, the existing attendance for this course will be lost!": "Attention, si vous modifiez les dates du cours, les présences existantes seront effacées !",
     "Other": "Autre",
-    "Reference": "Nom du groupe (statistiques)"
+    "Reference": "Nom du groupe (statistiques)",
+    "Attendance report for course": "Statistiques des présences pour le cours",
+    "Attendance report by course": "Statistiques des présences par cours",
+    "Attendance report by level": "Statistiques des présences par niveau",
+    "Attendance report by rhythm": "Statistiques des présences par modalité"
 }

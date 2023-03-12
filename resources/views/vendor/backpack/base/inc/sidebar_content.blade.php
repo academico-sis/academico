@@ -81,6 +81,16 @@
         </ul></li>
         @endif
 
+    @if (config('settings.attendance_reports_enabled'))
+        <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-link"></i> @lang('Attendance')</a>
+            <ul class="nav-dropdown-items">
+                <li class='nav-item'><a class='nav-link' href="{{ route('attendanceReportForCourse') }}"><i class="nav-icon la la-percent"></i> <span>@lang('For course')</span></a></li>
+                <li class='nav-item'><a class='nav-link' href="{{ route('attendanceReportByCourse') }}"><i class="nav-icon la la-percent"></i> <span>@lang('Per course')</span></a></li>
+                <li class='nav-item'><a class='nav-link' href="{{ route('attendanceReportByLevel') }}"><i class="nav-icon la la-percent"></i> <span>@lang('Per level')</span></a></li>
+                <li class='nav-item'><a class='nav-link' href="{{ route('attendanceReportByRhythm') }}"><i class="nav-icon la la-percent"></i> <span>@lang('Per rhythm')</span></a></li>
+            </ul></li>
+    @endif
+
 @endif
 
 @if(backpack_user()->hasRole(['admin', 'secretary']))

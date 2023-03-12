@@ -15,6 +15,8 @@ class AttendanceType extends Model
 
     protected $appends = ['translated_name'];
 
+    protected $fillable = ['color'];
+
     public function getTranslatedNameAttribute()
     {
         return $this->getTranslation('name', app()->getLocale());

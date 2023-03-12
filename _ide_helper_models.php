@@ -14,7 +14,6 @@ namespace App\Models{
 /**
  * App\Models\Attendance
  *
- * @mixin IdeHelperAttendance
  * @property int $id
  * @property int $student_id
  * @property int $event_id
@@ -44,7 +43,6 @@ namespace App\Models{
 /**
  * App\Models\AttendanceType
  *
- * @mixin IdeHelperAttendanceType
  * @property int $id
  * @property array $name
  * @property string|null $class
@@ -66,7 +64,6 @@ namespace App\Models{
 /**
  * App\Models\Book
  *
- * @mixin IdeHelperBook
  * @property int $id
  * @property string $name
  * @property int|null $price
@@ -91,7 +88,6 @@ namespace App\Models{
  * NOTE: In the current configuration, the campus with the ID of 1 represent the school itself
  * the campus model with the ID of 2 represents all external courses
  *
- * @mixin IdeHelperCampus
  * @property int $id
  * @property array $name
  * @property \Illuminate\Support\Carbon|null $deleted_at
@@ -113,7 +109,6 @@ namespace App\Models{
 /**
  * App\Models\Comment
  *
- * @mixin IdeHelperComment
  * @property int $id
  * @property int $commentable_id
  * @property string $commentable_type
@@ -146,7 +141,6 @@ namespace App\Models{
 /**
  * App\Models\Config
  *
- * @mixin IdeHelperConfig
  * @property int $id
  * @property string $name
  * @property string|null $value
@@ -168,7 +162,6 @@ namespace App\Models{
 /**
  * App\Models\Contact
  *
- * @mixin IdeHelperContact
  * @property int $id
  * @property int $student_id
  * @property string $firstname
@@ -212,7 +205,6 @@ namespace App\Models{
 /**
  * App\Models\ContactRelationship
  *
- * @mixin IdeHelperContactRelationship
  * @property int $id
  * @property array $name
  * @property-read mixed $translated_name
@@ -230,7 +222,6 @@ namespace App\Models{
 /**
  * App\Models\Coupon
  *
- * @mixin IdeHelperCoupon
  * @property int $id
  * @property string $name
  * @property string $value
@@ -253,7 +244,6 @@ namespace App\Models{
 /**
  * App\Models\Course
  *
- * @mixin IdeHelperCourse
  * @property int $id
  * @property int $campus_id
  * @property int|null $rhythm_id
@@ -368,7 +358,6 @@ namespace App\Models{
 /**
  * App\Models\CourseTime
  *
- * @mixin IdeHelperCourseTime
  * @property int $id
  * @property int $course_id
  * @property int $day
@@ -395,7 +384,6 @@ namespace App\Models{
 /**
  * App\Models\Discount
  *
- * @mixin IdeHelperDiscount
  * @property int $id
  * @property string $name
  * @property string $value
@@ -417,7 +405,6 @@ namespace App\Models{
 /**
  * App\Models\Enrollment
  *
- * @mixin IdeHelperEnrollment
  * @property int $id
  * @property int $student_id
  * @property int $responsible_id
@@ -498,7 +485,6 @@ namespace App\Models{
 /**
  * App\Models\EnrollmentStatusType
  *
- * @mixin IdeHelperEnrollmentStatusType
  * @property int $id
  * @property array $name
  * @property-read array $translations
@@ -515,7 +501,6 @@ namespace App\Models{
 /**
  * App\Models\EvaluationType
  *
- * @mixin IdeHelperEvaluationType
  * @property int $id
  * @property string $name
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Course> $courses
@@ -537,7 +522,6 @@ namespace App\Models{
 /**
  * App\Models\Event
  *
- * @mixin IdeHelperEvent
  * @property int $id
  * @property int|null $course_id
  * @property int|null $teacher_id
@@ -587,7 +571,6 @@ namespace App\Models{
 /**
  * App\Models\Fee
  *
- * @mixin IdeHelperFee
  * @property int $id
  * @property string $name
  * @property int|null $price
@@ -611,7 +594,6 @@ namespace App\Models{
 /**
  * App\Models\Grade
  *
- * @mixin IdeHelperGrade
  * @property int $id
  * @property int $grade_type_id
  * @property int|null $enrollment_id
@@ -642,7 +624,6 @@ namespace App\Models{
 /**
  * App\Models\GradeType
  *
- * @mixin IdeHelperGradeType
  * @property int $id
  * @property int $grade_type_category_id
  * @property string $name
@@ -672,7 +653,6 @@ namespace App\Models{
 /**
  * App\Models\GradeTypeCategory
  *
- * @mixin IdeHelperGradeTypeCategory
  * @property int $id
  * @property array $name
  * @property-read mixed $translated_name
@@ -690,7 +670,6 @@ namespace App\Models{
 /**
  * App\Models\Institution
  *
- * @mixin IdeHelperInstitution
  * @property int $id
  * @property string $name
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -710,7 +689,6 @@ namespace App\Models{
 /**
  * App\Models\Invoice
  *
- * @mixin IdeHelperInvoice
  * @property int $id
  * @property int|null $invoice_number
  * @property int|null $invoice_type_id
@@ -773,7 +751,6 @@ namespace App\Models{
 /**
  * App\Models\InvoiceDetail
  *
- * @mixin IdeHelperInvoiceDetail
  * @property int $id
  * @property int $invoice_id
  * @property string $product_name
@@ -822,7 +799,6 @@ namespace App\Models{
 /**
  * App\Models\InvoiceType
  *
- * @mixin IdeHelperInvoiceType
  * @property int $id
  * @property string $name
  * @property array|null $description
@@ -850,7 +826,6 @@ namespace App\Models{
 /**
  * App\Models\LeadType
  *
- * @mixin IdeHelperLeadType
  * @property int $id
  * @property array $name
  * @property array|null $description
@@ -878,7 +853,6 @@ namespace App\Models{
 /**
  * App\Models\Leave
  *
- * @mixin IdeHelperLeave
  * @property int $id
  * @property int $teacher_id
  * @property string $date
@@ -906,7 +880,6 @@ namespace App\Models{
 /**
  * App\Models\LeaveType
  *
- * @mixin IdeHelperLeaveType
  * @property int $id
  * @property array $name
  * @property-read array $translations
@@ -923,7 +896,6 @@ namespace App\Models{
 /**
  * App\Models\Level
  *
- * @mixin IdeHelperLevel
  * @property int $id
  * @property string $name
  * @property string|null $reference
@@ -950,7 +922,6 @@ namespace App\Models{
 /**
  * App\Models\Member
  *
- * @mixin IdeHelperMember
  * @property int $id
  * @property string $firstname
  * @property string $lastname
@@ -976,7 +947,6 @@ namespace App\Models{
 /**
  * App\Models\Partner
  *
- * @mixin IdeHelperPartner
  * @property int $id
  * @property string $name
  * @property string|null $started_on
@@ -1010,7 +980,6 @@ namespace App\Models{
 /**
  * App\Models\Payment
  *
- * @mixin IdeHelperPayment
  * @property int $id
  * @property int|null $responsable_id
  * @property int $invoice_id
@@ -1050,7 +1019,6 @@ namespace App\Models{
 /**
  * App\Models\Paymentmethod
  *
- * @mixin IdeHelperPaymentmethod
  * @property int $id
  * @property string $name
  * @property string $code
@@ -1072,7 +1040,6 @@ namespace App\Models{
 /**
  * App\Models\Period
  *
- * @mixin IdeHelperPeriod
  * @property int $id
  * @property string $name
  * @property string $start
@@ -1108,7 +1075,6 @@ namespace App\Models{
 /**
  * App\Models\PhoneNumber
  *
- * @mixin IdeHelperPhoneNumber
  * @property int $id
  * @property int $phoneable_id
  * @property string $phoneable_type
@@ -1131,7 +1097,6 @@ namespace App\Models{
 /**
  * App\Models\Profession
  *
- * @mixin IdeHelperProfession
  * @property int $id
  * @property string $name
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -1151,7 +1116,6 @@ namespace App\Models{
 /**
  * App\Models\Result
  *
- * @mixin IdeHelperResult
  * @property int $id
  * @property int $enrollment_id
  * @property int $result_type_id
@@ -1183,7 +1147,6 @@ namespace App\Models{
 /**
  * App\Models\ResultType
  *
- * @mixin IdeHelperResultType
  * @property int $id
  * @property array $name
  * @property array|null $description
@@ -1212,7 +1175,6 @@ namespace App\Models{
 /**
  * App\Models\Rhythm
  *
- * @mixin IdeHelperRhythm
  * @property int $id
  * @property string $name
  * @property int|null $default_volume
@@ -1241,7 +1203,6 @@ namespace App\Models{
 /**
  * App\Models\Room
  *
- * @mixin IdeHelperRoom
  * @property int $id
  * @property string $name
  * @property int $campus_id
@@ -1272,7 +1233,6 @@ namespace App\Models{
  * App\Models\SchedulePreset
  *
  * @deprecated 
- * @mixin IdeHelperSchedulePreset
  * @property int $id
  * @property string $name
  * @property string $presets
@@ -1296,7 +1256,6 @@ namespace App\Models{
 /**
  * App\Models\ScheduledPayment
  *
- * @mixin IdeHelperScheduledPayment
  * @property int $id
  * @property int $enrollment_id
  * @property int $value
@@ -1333,7 +1292,6 @@ namespace App\Models{
 /**
  * App\Models\Scholarship
  *
- * @mixin IdeHelperScholarship
  * @property int $id
  * @property string $name
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -1362,7 +1320,6 @@ namespace App\Models\Skills{
 /**
  * App\Models\Skills\Skill
  *
- * @mixin IdeHelperSkill
  * @property int $id
  * @property string $name
  * @property int $default_weight
@@ -1401,7 +1358,6 @@ namespace App\Models\Skills{
 /**
  * App\Models\Skills\SkillEvaluation
  *
- * @mixin IdeHelperSkillEvaluation
  * @property int|null $enrollment_id
  * @property int $skill_scale_id
  * @property int $skill_id
@@ -1432,7 +1388,6 @@ namespace App\Models\Skills{
 /**
  * App\Models\Skills\SkillScale
  *
- * @mixin IdeHelperSkillScale
  * @property int $id
  * @property array $shortname
  * @property array $name
@@ -1462,7 +1417,6 @@ namespace App\Models\Skills{
 /**
  * App\Models\Skills\SkillType
  *
- * @mixin IdeHelperSkillType
  * @property int $id
  * @property string $shortname
  * @property string|null $name
@@ -1486,7 +1440,6 @@ namespace App\Models{
 /**
  * App\Models\Student
  *
- * @mixin IdeHelperStudent
  * @property int $id
  * @property string|null $idnumber
  * @property string|null $address
@@ -1571,7 +1524,6 @@ namespace App\Models{
 /**
  * App\Models\Tax
  *
- * @mixin IdeHelperTax
  * @property int $id
  * @property string $name
  * @property string $value
@@ -1637,7 +1589,6 @@ namespace App\Models{
 /**
  * App\Models\User
  *
- * @mixin IdeHelperUser
  * @property int $id
  * @property string $username
  * @property string $firstname
@@ -1696,7 +1647,6 @@ namespace App\Models{
 /**
  * App\Models\Year
  *
- * @mixin IdeHelperYear
  * @property int $id
  * @property string $name
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Period> $periods

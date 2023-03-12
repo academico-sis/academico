@@ -3,9 +3,7 @@
 namespace App\Http\Controllers\Report;
 
 use App\Http\Controllers\Controller;
-use App\Models\CachedReport;
 use App\Models\Config;
-use App\Models\Course;
 use App\Models\Partner;
 use App\Models\Period;
 use App\Models\Year;
@@ -13,9 +11,7 @@ use App\Services\DateRange;
 use App\Services\StatService;
 use App\Traits\PeriodSelection;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class ExternalReportController extends Controller
 {

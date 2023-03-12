@@ -78,9 +78,8 @@
     </div>
 @endsection
 
-
 @section('before_scripts')
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.2/dist/chart.umd.min.js"></script>
 @endsection
 
 
@@ -100,13 +99,15 @@
                         label: femaleLabel,
                         data: [],
                         backgroundColor: 'rgba(245,255,152,0.6)',
-                        borderColor: '#f5e700'
+                        borderColor: '#f5e700',
+                        fill: 'end',
                     },
                     {
                         label: maleLabel,
                         data: [],
                         borderColor: '#cb47fc',
-                        backgroundColor: 'rgba(230,176,255,0.6)'
+                        backgroundColor: 'rgba(230,176,255,0.6)',
+                        fill: 'start',
                     }
                 ]
             };

@@ -1,7 +1,5 @@
 require('./bootstrap');
 
-import Chart from 'chart.js';
-
 window.Vue = require('vue').default;
 
 Vue.use(require('vue-moment'));

@@ -58,7 +58,7 @@
 @endsection
 
 @section('before_scripts')
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.2/dist/chart.umd.min.js"></script>
 @endsection
 
 
@@ -88,17 +88,11 @@ for (s in data) {
 	ctx = $("#myChart");
 
 	barGraph = new Chart(ctx, {
-		type: 'horizontalBar',
+		type: 'bar',
 		data: chartData,
 		options: {
+            indexAxis: 'y',
 			legend: { display: true },
-			scales: {
-                 xAxes: [{
-                     ticks: {
-                         beginAtZero: true
-                     }
-                 }]
-            }
 		}
 	});
 

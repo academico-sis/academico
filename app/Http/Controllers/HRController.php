@@ -6,7 +6,6 @@ use App\Models\Teacher;
 use App\Traits\PeriodSelection;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 
 class HRController extends Controller
@@ -40,9 +39,7 @@ class HRController extends Controller
         $start = $report_start_date->format('Y-m-d');
         $end = $report_end_date->format('Y-m-d');
 
-        $teacherHours = Teacher::all()->map(function(Teacher $teacher) use ($end, $start, $computeTheoreticalValues, $period, $report_end_date, $report_start_date, $request) {
-
-
+        $teacherHours = Teacher::all()->map(function (Teacher $teacher) use ($end, $start, $computeTheoreticalValues, $period) {
             return [
                 'name' => $teacher->name,
                 'remoteVolume' => $computeTheoreticalValues ? number_format($teacher->courses()->realcourses()->where('period_id', $period->id)->sum('remote_volume'), 2) : null,
@@ -52,9 +49,7 @@ class HRController extends Controller
             ];
         });
 
-
         Log::info('HR Dahsboard viewed by '.backpack_user()->firstname);
-
 
         return view('hr.dashboard', [
             'selected_period' => $period,

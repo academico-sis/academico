@@ -6,13 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\CachedReport;
 use App\Models\Config;
 use App\Models\Course;
-use App\Models\Partner;
 use App\Models\Period;
 use App\Models\Year;
-use App\Services\DateRange;
 use App\Services\StatService;
 use App\Traits\PeriodSelection;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -21,28 +18,6 @@ class ReportController extends Controller
 {
     use PeriodSelection;
 
-    public function index()
-    {
-        $currentPeriod = Period::get_default_period();
-        $enrollmentsPeriod = Period::get_enrollments_period();
-
-        $stats = new StatService(external: false, reference: $currentPeriod, partner: null);
-
-        return view('reports.index', [
-            'currentPeriod' => $currentPeriod,
-            'enrollmentsPeriod' => $enrollmentsPeriod,
-            'pending_enrollment_count' => $stats->pendingEnrollmentsCount(),
-            'paid_enrollment_count' => $stats->paidEnrollmentsCount(),
-            'total_enrollment_count' => $stats->enrollmentsCount(),
-            'students_count' => $stats->studentsCount(),
-        ]);
-    }
-
-
-    /**
-     * The reports dashboard
-     * Displays last insights on enrollments; along with comparison to previous periods.
-     */
     public function internal(Request $request)
     {
         $startperiod = $this->getStartperiod($request);
@@ -69,6 +44,7 @@ class ReportController extends Controller
                         ->orderBy('period_name')
                         ->get()
                         ->map(fn ($p) => CachedReport::from($p))
+                        ->filter(fn ($p) => $p->enrollments > 0)
                         ->map(function (CachedReport $periodData) {
                             return [
                                 'period' => $periodData->periodName,

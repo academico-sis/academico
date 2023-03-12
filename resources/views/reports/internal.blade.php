@@ -164,9 +164,8 @@
 
 
 @section('before_scripts')
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.2/dist/chart.umd.min.js"></script>
 @endsection
-
 
 @section('after_scripts')
 
@@ -181,13 +180,17 @@ $(document).ready(() => {
             label: "Apprenants différents",
             data: [],
             backgroundColor: '#98d1f1',
-            borderColor: '#5b76d8'
+            borderColor: '#5b76d8',
+            fill: true,
+            tension: 0.3,
         },
         {
             label: "Inscriptions",
             data: [],
             borderColor: '#dd4b39',
-            backgroundColor: '#ffc9d1'
+            backgroundColor: '#ffc9d1',
+            fill: true,
+            tension: 0.3,
         }
     ]
     };
@@ -204,13 +207,6 @@ for (s in data) {
 		type: 'line',
 		data: chartData,
 		options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true,
-                    }
-                }]
-            },
 			legend: {
 				display: true
                 },

@@ -53,6 +53,9 @@
 </div>
 @endsection
 
+@section('before_scripts')
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.2/dist/chart.umd.min.js"></script>
+@endsection
 
 
 @section('after_scripts')

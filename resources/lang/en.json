@@ -274,6 +274,7 @@
     "Pending Attendance": "Pending Attendance",
     "Pending leads": "Pending leads",
     "Per course": "Per course",
+    "For course": "For single course",
     "Per rhythm": "Per rhythm",
     "Period": "Period",
     "period": "period",
@@ -548,5 +549,10 @@
     "The result is not validated": "The result is not validated",
     "Please be aware that if you modify the course dates, the existing attendance for this course will be lost!": "Please be aware that if you modify the course dates, the existing attendance for this course will be lost!",
     "Other": "Other",
-    "Reference": "Name to group by"
+    "Reference": "Name to group by",
+    "Attendance report for course": "Attendance report for course",
+    "Attendance report by course": "Attendance report by course",
+    "Attendance report by level": "Attendance report by level",
+    "Attendance report by rhythm": "Attendance report by rhythm"
+
 }
