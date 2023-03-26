@@ -39,8 +39,8 @@ class AttendanceController extends Controller
             return [
                 'studentName' => $item->first()->student->name,
                 'absencesCount' => $item->count(),
-                'courseName' => $item->first()->event->course->name,
-                'teacherName' => $item->first()->event->course->teacher->name,
+                'courseName' => $item->first()->event->course?->name ?? '',
+                'teacherName' => $item->first()->event->course?->teacher?->name ?? '',
                 'studentId' => $item->first()->student->id,
                 'courseId' => $item->first()->event->course->id,
             ];
