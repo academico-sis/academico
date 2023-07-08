@@ -6,13 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\Event;
 use App\Models\Room;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Gate;
 
 class RoomCalendarController extends Controller
 {
     public function __construct()
     {
         parent::__construct();
-        $this->middleware(['permission:calendars.view']);
+        $this->middleware('permission:calendars.view', ['except' => 'show']);
     }
 
     /**
@@ -70,6 +71,10 @@ class RoomCalendarController extends Controller
      */
     public function show(Room $room)
     {
+        if (Gate::forUser(backpack_user())->denies('view-room-calendar')) {
+            abort(403);
+        }
+
         $events = $room->events->map(fn ($event) => [
             'title' => $event->name,
             'start' => $event->start,
