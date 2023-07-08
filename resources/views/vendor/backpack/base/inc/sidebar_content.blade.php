@@ -23,8 +23,11 @@
         @if (config('invoicing.allow_scheduled_payments'))
             <li class='nav-item'><a class='nav-link' href='{{ backpack_url('scheduled-payment') }}'><i class='nav-icon la la-question'></i> @lang('Scheduled Payments')</a></li>
         @endif
+@endif
 
+@if(backpack_user()->hasRole(['admin', 'secretary']) || backpack_user()->isTeacher())
     <li class="nav-title">@lang('CALENDARS')</li>
+    @if(backpack_user()->hasRole(['admin', 'secretary']))
         <li class='nav-item'><a class='nav-link' href="{{ route('teachersCalendar') }}"><i class="nav-icon la la-binoculars"></i><span>@lang('Teachers overview')</span></a></li>
         <li class='nav-item'><a class='nav-link' href="{{ route('roomsCalendar') }}"><i class="nav-icon la la-binoculars"></i><span>@lang('Rooms overview')</span></a></li>
         @if (isset($teachers) && $teachers->count() > 0)
@@ -36,18 +39,19 @@
           </ul>
         </li>
         @endif
+    @endif
 
-        @if(isset($rooms) && $rooms->count() > 0)
-        <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-building"></i> @lang('rooms')</a>
-            <ul class="nav-dropdown-items">
-              @foreach ($rooms as $room)
-                <li class='nav-item'><a class='nav-link' href="{{ route('roomCalendar', ['room' => $room->id]) }}"><span>{{ $room->name }}</span></a></li>
-              @endforeach
-            </ul>
-        </li>
-        @endif
+    @if(isset($rooms) && $rooms->count() > 0)
+    <li class="nav-item nav-dropdown"><a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-building"></i> @lang('rooms')</a>
+        <ul class="nav-dropdown-items">
+          @foreach ($rooms as $room)
+            <li class='nav-item'><a class='nav-link' href="{{ route('roomCalendar', ['room' => $room->id]) }}"><span>{{ $room->name }}</span></a></li>
+          @endforeach
+        </ul>
+    </li>
+    @endif
 
-        <li class='nav-item'><a class='nav-link' href="{{ backpack_url('event') }}"><i class="nav-icon la la-calendar"></i> <span>@lang('Events')</span></a></li>
+    <li class='nav-item'><a class='nav-link' href="{{ backpack_url('event') }}"><i class="nav-icon la la-calendar"></i> <span>@lang('Events')</span></a></li>
 @endif
 
 

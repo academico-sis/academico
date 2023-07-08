@@ -14,4 +14,5 @@ return [
     'monthly_report' => env('MONTHLY_REPORT', false),
     'teachers_can_edit_result' => env('TEACHERS_CAN_EDIT_RESULT', false),
     'attendance_reports_enabled' => env('ATTENDANCE_REPORTS_ENABLED', false),
+    'teachers_can_view_calendars' => env('TEACHERS_CAN_VIEW_CALENDARS', false),
 ];
