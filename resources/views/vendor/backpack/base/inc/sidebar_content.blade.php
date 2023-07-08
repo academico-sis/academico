@@ -136,7 +136,8 @@
 
 @if(backpack_user()->isTeacher())
     <li class="nav-title">@lang('TEACHER')</li>
-        <li class='nav-item'><a class='nav-link' href="{{ route('teacherCalendar', ['teacher' => backpack_user()->id]) }}"><i class="nav-icon la la-calendar"></i> <span>@lang('My Schedule')</span></a></li>
+    <li class="nav-item"><a class='nav-link' href="/"><i class="la la-user"></i> <span>{{ __('Courses') }}</span></a></li>
+    <li class='nav-item'><a class='nav-link' href="{{ route('teacherCalendar', ['teacher' => backpack_user()->id]) }}"><i class="nav-icon la la-calendar"></i> <span>@lang('My Schedule')</span></a></li>
 @endif
 
 @if(backpack_user()->isStudent())
