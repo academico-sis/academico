@@ -186,6 +186,7 @@ Route::middleware(['web', 'permission:reports.view', 'language'])->group(functio
 
     Route::get('/report/internal', [ReportController::class, 'internal'])->name('homeReport');
     Route::get('/report/gender', [ReportController::class, 'genderReport'])->name('genderReport');
+    Route::get('/report/age', [ReportController::class, 'ageReport'])->name('ageReport');
     Route::get('/report/external', [ReportController::class, 'external'])->name('externalReport');
     Route::get('/report/external2', [ReportController::class, 'external2'])->name('externalReport2');
     Route::get('/report/external3', [ReportController::class, 'external3'])->name('externalReport3');

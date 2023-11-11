@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Config;
-use App\Models\Partner;
-use App\Models\Period;
+use Carbon\Carbon;
 use App\Models\Year;
+use App\Models\Config;
+use App\Models\Period;
+use App\Models\Partner;
+use App\Models\Student;
 use App\Services\DateRange;
+use Illuminate\Http\Request;
 use App\Services\StatService;
 use App\Traits\PeriodSelection;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
 
 class ReportController extends Controller
 {
@@ -61,7 +62,7 @@ class ReportController extends Controller
         $year_data = [];
         $years = [];
 
-        if (! (property_exists($request, 'period') && $request->period !== null)) {
+        if (!(property_exists($request, 'period') && $request->period !== null)) {
             $startperiod = Period::find(Config::where('name', 'first_external_period')->first()->value ?? Period::first()->id);
         } else {
             $startperiod = Period::find($request->period);
@@ -270,6 +271,52 @@ class ReportController extends Controller
         ]);
     }
 
+    public function ageReport()
+    {
+        $ages = app('config')->get('age');
+
+        $all_students = Student::all(); //Fetch all students
+        $ages_of_all_students = []; //Initiate an array to add all student ages
+
+        foreach ($all_students as $single_student) {
+            $age_of_each_student = Carbon::parse($single_student->birthdate)->age;
+            array_push($ages_of_all_students, $age_of_each_student); //add every age to the ages_of_all_students array
+
+        }
+
+        $labels = []; // This will contain the labels to be interpolated in the bar graph report
+        $data = []; // This will contain the data to be interpolated in the bar graph report
+
+        $counts = array_fill_keys(array_keys($ages), 0);
+        // Initialize an array to store counts for each range
+
+        foreach ($ages_of_all_students as $value) {
+            // Iterate through the values and count them in the specified ranges
+            foreach ($ages as $range => $limits) {
+                if ($value >= $limits[0] && $value <= $limits[1]) {
+                    $counts[$range]++;
+                    break; // No need to check other ranges once a match is found
+                }
+            }
+        }
+
+        foreach ($counts as $range => $count) {
+            array_push($labels, $range);
+            array_push($data, $count);
+            // Add range and count from env to the labels and data arrays
+        }
+
+        return view('reports.age')->with(
+            [
+                'ages' => $ages,
+                'ages_of_all_students' => $ages_of_all_students,
+                'labels' => $labels,
+                'data' => $data,
+            ]
+
+        );
+    }
+
     /**
      * Show the enrollment numbers per rhythm.
      */
@@ -344,7 +391,7 @@ class ReportController extends Controller
 
     private function getStartperiod(Request $request)
     {
-        if (! (property_exists($request, 'period') && $request->period !== null)) {
+        if (!(property_exists($request, 'period') && $request->period !== null)) {
             $startperiod = Period::find(Config::where('name', 'first_period')->first()->value);
         } else {
             $startperiod = Period::find($request->period);
