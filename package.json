@@ -36,7 +36,7 @@
         "@fullcalendar/resource-timegrid": "^5.10.1",
         "@fullcalendar/resource-timeline": "^5.10.1",
         "@fullcalendar/vue": "^5.10.1",
-        "axios": "^0.25",
+        "axios": "^1.6",
         "buefy": "^0.8.20",
         "chart.js": "^2.9.4",
         "moment": "^2.29.1",
