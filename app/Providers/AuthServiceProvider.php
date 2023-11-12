@@ -58,6 +58,8 @@ class AuthServiceProvider extends ServiceProvider
          */
         Gate::define('view-teacher-calendar', fn ($user, $teacher) => ($user->isTeacher() && $user->id == $teacher->id) || $user->can('calendars.view'));
 
+        Gate::define('view-room-calendar', fn ($user) => ($user->isTeacher() && config('settings.teachers_can_view_calendars')) || $user->can('calendars.view'));
+
         /*
          * teachers are allowed to view their own courses,
          * and users with explicit permission can view all courses
