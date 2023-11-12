@@ -1,6 +1,6 @@
 # About this project
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-14-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-15-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/academico-sis/academico/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/academico-sis/academico/?branch=master)
@@ -44,6 +44,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/rm-yakovenko"><img src="https://avatars.githubusercontent.com/u/2056667?v=4?s=100" width="100px;" alt="Rm Yakovenko"/><br /><sub><b>Rm Yakovenko</b></sub></a><br /><a href="https://github.com/academico-sis/academico/commits?author=rm-yakovenko" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/MizouziE"><img src="https://avatars.githubusercontent.com/u/90829439?v=4?s=100" width="100px;" alt="Sam"/><br /><sub><b>Sam</b></sub></a><br /><a href="https://github.com/academico-sis/academico/commits?author=MizouziE" title="Code">💻</a> <a href="https://github.com/academico-sis/academico/commits?author=MizouziE" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/wyntonfranklin"><img src="https://avatars.githubusercontent.com/u/30404746?v=4?s=100" width="100px;" alt="Wynton Franklin"/><br /><sub><b>Wynton Franklin</b></sub></a><br /><a href="https://github.com/academico-sis/academico/commits?author=wyntonfranklin" title="Code">💻</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://ronocollins.netlify.app/"><img src="https://avatars.githubusercontent.com/u/55147824?v=4?s=100" width="100px;" alt="Collins Kiplangat Rono"/><br /><sub><b>Collins Kiplangat Rono</b></sub></a><br /><a href="https://github.com/academico-sis/academico/commits?author=rono516" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
