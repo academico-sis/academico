@@ -553,5 +553,8 @@
     "Attendance report for course": "Statistiques des présences pour le cours",
     "Attendance report by course": "Statistiques des présences par cours",
     "Attendance report by level": "Statistiques des présences par niveau",
-    "Attendance report by rhythm": "Statistiques des présences par modalité"
+    "Attendance report by rhythm": "Statistiques des présences par modalité",
+    "Download": "Télécharger",
+    "bulkDownloadConfirm": "Vous êtes sur le point de télécharger toutes les factures sélectionnées. Vous recevrez un fichier ZIP par email. Cette opération peut prendre quelques minutes.",
+    "bulkDownloadRequested": "Le téléchargement a été lancé et le fichier vous sera envoyé par email"
 }

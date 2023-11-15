@@ -553,6 +553,8 @@
     "Attendance report for course": "Attendance report for course",
     "Attendance report by course": "Attendance report by course",
     "Attendance report by level": "Attendance report by level",
-    "Attendance report by rhythm": "Attendance report by rhythm"
-
+    "Attendance report by rhythm": "Attendance report by rhythm",
+    "Download": "Download",
+    "bulkDownloadConfirm": "You are about to download all selected files. Please be aware that this might take a while. You will receive a ZIP file by email",
+    "bulkDownloadRequested": "Your download has been requested. Check your email."
 }

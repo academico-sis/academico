@@ -553,5 +553,8 @@
     "Attendance report for course": "Reporte de attendencia para el curso",
     "Attendance report by course": "Reporte de attendencia por curso",
     "Attendance report by level": "Reporte de attendencia por nivel",
-    "Attendance report by rhythm": "Reporte de attendencia por modalidad"
+    "Attendance report by rhythm": "Reporte de attendencia por modalidad",
+    "Download": "Descargar",
+    "bulkDownloadConfirm": "Descargarás todas las facturas seleccionadas. Recibirá un archivo ZIP por correo electrónico. Esta operación puede tardar unos minutos.",
+    "bulkDownloadRequested": "Se ha solicitado su descarga. Revisa su correo electrónico."
 }

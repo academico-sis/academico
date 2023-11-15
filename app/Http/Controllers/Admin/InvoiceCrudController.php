@@ -3,15 +3,23 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\InvoiceRequest;
+use App\Jobs\BuildInvoicesZip;
 use App\Models\Invoice;
 use App\Models\InvoiceType;
 use App\Models\Paymentmethod;
+use App\Models\User;
+use App\Services\InvoiceService;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Route;
+use Ramsey\Uuid\Uuid;
+use ZipArchive;
 
 class InvoiceCrudController extends CrudController
 {
@@ -19,6 +27,11 @@ class InvoiceCrudController extends CrudController
     use UpdateOperation;
     use DeleteOperation;
     use ShowOperation { show as traitShow; }
+
+    public function __construct(public InvoiceService $invoiceService)
+    {
+        parent::__construct();
+    }
 
     private array $currency;
 
@@ -232,5 +245,36 @@ class InvoiceCrudController extends CrudController
             'afterSuccessUrl' => $invoice->enrollments->count() > 0 ? "/enrollment/{$invoice->enrollments->first()->product_id}/show" : '/invoice', // TODO fix this, an invoice can theoretically contain several enrollments
             'writeaccess' => backpack_user()->can('enrollments.edit') ?? 0,
         ]);
+    }
+
+    public function bulkDownload()
+    {
+        $this->crud->hasAccessOrFail('create');
+
+        $entries = $this->crud->getRequest()->input('entries');
+
+        BuildInvoicesZip::dispatch(
+            entries: $entries,
+            email: User::find(backpack_user()->getAuthIdentifier())->email,
+        );
+    }
+
+    protected function setupBulkDownloadRoutes($segment, $routeName, $controller)
+    {
+        Route::post($segment.'/bulk-download', [
+            'as'        => $routeName.'.bulkDownload',
+            'uses'      => $controller.'@bulkDownload',
+            'operation' => 'bulkDownload',
+        ]);
+    }
+
+    protected function setupBulkDownloadDefaults()
+    {
+        $this->crud->allowAccess('create');
+
+        $this->crud->operation('list', function () {
+            $this->crud->enableBulkActions();
+            $this->crud->addButton(stack: 'bottom', name: 'bulk_download_invoices', type: 'view', content: 'bulk_download_invoices', position: 'beginning');
+        });
     }
 }
