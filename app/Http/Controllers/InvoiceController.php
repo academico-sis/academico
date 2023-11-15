@@ -25,7 +25,10 @@ use Illuminate\Support\Str;
 
 class InvoiceController extends Controller
 {
-    public function __construct(public InvoiceService $invoiceService)
+    public function __construct(
+        public InvoiceService     $invoiceDocumentService,
+        public InvoicingInterface $invoicingService,
+    )
     {
         parent::__construct();
         $this->middleware(['permission:enrollments.edit']);
@@ -179,7 +182,7 @@ class InvoiceController extends Controller
 
     public function download(Invoice $invoice)
     {
-        return $this->invoiceService->download($invoice)->stream();
+        return $this->invoiceDocumentService->download($invoice)->stream();
     }
 
     public function savePayments(Request $request, Invoice $invoice)
