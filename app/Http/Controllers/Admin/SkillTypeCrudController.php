@@ -43,7 +43,7 @@ class SkillTypeCrudController extends CrudController
             'name' => [
                 'required',
                 'min:1',
-                'max:40',
+                'max:90',
                 Rule::unique($this->crud->getModel()->getTable())->ignore($this->crud->getCurrentEntry()),
             ],
             'shortname' => [
