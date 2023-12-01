@@ -154,6 +154,7 @@ class InvoiceController extends Controller
                     $success = true;
                 } else {
                     Invoice::where('id', $invoice->id)->delete();
+                    Log::error('aborting because no invoice number was received');
                     abort(500);
                 }
             } catch (Exception $exception) {

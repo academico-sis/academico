@@ -98,28 +98,33 @@ class Ecuasolutions implements InvoicingInterface
             'pckardex' => $pckardex,
         ];
 
-        $client = new Client(['debug' => true,
-            'connect_timeout' => 20, ]);
+        $client = new Client([
+            'debug' => true,
+            'timeout' => 8,
+        ]);
 
         $serverurl = config('invoicing.ecuasolutions.url');
 
-        Log::info($body);
-
-        $response = $client->post($serverurl, [
-            'headers' => [
-                'authorization' => config('invoicing.ecuasolutions.key'),
-                'Content-Type' => 'application/json',
-            ],
-            'json' => $body,
-        ]);
-
         Log::info('Sending data to accounting');
+        Log::info('request sent: ' . json_encode($body));
+
+        $response = $client->post(
+            uri: $serverurl,
+            options: [
+                'headers' => [
+                    'authorization' => config('invoicing.ecuasolutions.key'),
+                    'Content-Type' => 'application/json',
+                ],
+                'json' => $body,
+                'timeout' => 8,
+            ]);
+
 
         if ($response->getBody()) {
             $code = json_decode(preg_replace('/[\\x00-\\x1F\\x80-\\xFF]/', '', $response->getBody()), true, 512, JSON_THROW_ON_ERROR);
         }
 
-        Log::info($response->getBody());
+        Log::info('response: ' . $response->getBody());
 
         return $code['mensaje'] ?? null;
     }
