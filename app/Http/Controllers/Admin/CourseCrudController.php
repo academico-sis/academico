@@ -229,7 +229,7 @@ class CourseCrudController extends CrudController
                 'type' => 'select2',
                 'label' => __('Period'),
             ],
-            fn () => Period::all()->sortByDesc('id')->pluck('name', 'id')->toArray(),
+            fn () => Period::active()->pluck('name', 'id')->toArray(),
             function ($value) {
                 CRUD::addClause('where', 'period_id', $value);
             },

@@ -34,9 +34,9 @@ class AppServiceProvider extends ServiceProvider
             $firstPeriod = Period::find(Config::where('name', 'first_period')->first()->value);
 
             if ($firstPeriod) {
-                $periods = Period::where('id', '>=', $firstPeriod->id)->get();
+                $periods = Period::active()->where('id', '>=', $firstPeriod->id)->get();
             } else {
-                $periods = Period::all();
+                $periods = Period::active()->get();
             }
 
             $current_period = Period::get_default_period();

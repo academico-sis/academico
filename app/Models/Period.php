@@ -17,14 +17,22 @@ class Period extends Model
 
     public $timestamps = false;
 
-    protected $fillable = ['name', 'year_id', 'start', 'end'];
+    protected $fillable = ['name', 'year_id', 'start', 'end', 'archived'];
 
     protected static function boot()
     {
         parent::boot();
 
         static::addGlobalScope('order', function (Builder $builder) {
-            $builder->orderBy('year_id')->orderBy('order')->orderBy('id');
+            $builder->orderByDesc('year_id')->orderByDesc('order')->orderByDesc('id');
+        });
+    }
+
+    public function scopeActive(Builder $query): void
+    {
+        $query->where(function (Builder $query) {
+            $query->where('archived', false)
+            ->orWhere('archived', null);
         });
     }
 

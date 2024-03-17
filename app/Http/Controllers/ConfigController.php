@@ -16,7 +16,7 @@ class ConfigController extends Controller
 
         $currentPeriod = Period::get_default_period();
         $enrollmentsPeriod = Period::get_enrollments_period();
-        $availablePeriods = Period::all();
+        $availablePeriods = Period::active()->get();
 
         return view('admin.defaultPeriodsSelection', compact('currentPeriod', 'enrollmentsPeriod', 'availablePeriods'));
     }

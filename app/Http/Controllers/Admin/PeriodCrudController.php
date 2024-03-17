@@ -57,6 +57,12 @@ class PeriodCrudController extends CrudController
                 'type' => 'date',
                 'name' => 'end',
             ],
+
+            [
+                'label' => __('Archived'),
+                'type' => 'boolean',
+                'name' => 'archived',
+            ],
         ]);
     }
 
@@ -104,6 +110,12 @@ class PeriodCrudController extends CrudController
                 'label' => __('End'),
                 'type' => 'date',
                 'name' => 'end',
+            ],
+
+            [
+                'label' => __('Archived_s'),
+                'type' => 'switch',
+                'name' => 'archived',
             ],
         ]);
     }

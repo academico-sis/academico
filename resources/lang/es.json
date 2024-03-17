@@ -362,6 +362,7 @@
     "Status": "Estado",
     "Active": "Activos",
     "Archived": "Desactivados",
+    "Archived_s": "Desactivado",
     "All": "Todos",
     "Status is": "Estado es",
     "Status is not": "Estado no es",

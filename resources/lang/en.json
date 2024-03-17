@@ -362,6 +362,7 @@
     "Status": "Status",
     "Active": "Active",
     "Archived": "Archived",
+    "Archived_s": "Archived",
     "All": "All",
     "Status is": "Status is",
     "Status is not": "Status is not",
