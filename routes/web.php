@@ -211,7 +211,7 @@ Route::middleware(['web', 'language'])->group(function () {
 );
 
 // Registration Routes...
-Route::namespace('\App\Http\Controllers')->middleware(['web', 'loggedin', 'language'])->prefix(config('backpack.base.route_prefix'))->group(function () {
+Route::middleware(['web', 'loggedin', 'language'])->prefix(config('backpack.base.route_prefix'))->group(function () {
     Route::post('edit-account', [MyAccountController::class, 'postAccountInfoForm'])->name('backpack.account.info.store');
     Route::post('edit-student-info', [MyAccountController::class, 'postStudentInfoForm']);
     Route::post('edit-profession', [MyAccountController::class, 'postAccountProfessionForm']);
@@ -222,7 +222,7 @@ Route::namespace('\App\Http\Controllers')->middleware(['web', 'loggedin', 'langu
 }
 );
 
-Route::namespace('\App\Http\Controllers')->middleware(['web', 'loggedin', 'language', 'forceupdate'])->prefix(config('backpack.base.route_prefix'))->group(function () {
+Route::middleware(['web', 'loggedin', 'language', 'forceupdate'])->prefix(config('backpack.base.route_prefix'))->group(function () {
     // route numbers match the DB forceupdate field
     Route::permanentRedirect('/edit-account-info', '/edit/1')->name('backpack.account.info');
     Route::get('edit/1', [MyAccountController::class, 'getAccountInfoForm'])->name('backpack.account.edit_info');

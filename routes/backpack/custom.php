@@ -7,7 +7,7 @@
 // Routes you generate using Backpack\Generators will be placed here.
 
 /* These routes are protected in the controller */
-Route::namespace('\App\Http\Controllers')->middleware('web', 'loggedin', 'language')->prefix(config('backpack.base.route_prefix'))->group(function () {
+Route::middleware('web', 'loggedin', 'language')->prefix(config('backpack.base.route_prefix'))->group(function () {
     Route::crud('result', 'Admin\ResultCrudController');
     Route::crud('student', 'Admin\StudentCrudController');
     Route::crud('course', 'Admin\CourseCrudController');
@@ -17,13 +17,13 @@ Route::namespace('\App\Http\Controllers')->middleware('web', 'loggedin', 'langua
 
 /* enrollments and invoicing */
 
-Route::prefix(config('backpack.base.route_prefix'))->middleware('web', 'permission:enrollments.view', 'language')->namespace('App\Http\Controllers\Admin')->group(function () {
+Route::prefix(config('backpack.base.route_prefix'))->middleware('web', 'permission:enrollments.view', 'language')->group(function () {
     Route::crud('enrollment', 'EnrollmentCrudController');
 }
 );
 
 /* CRUD routes accessible to admins or secretary */
-Route::prefix(config('backpack.base.route_prefix'))->middleware('web', 'role:admin|secretary', 'language')->namespace('App\Http\Controllers\Admin')->group(function () {
+Route::prefix(config('backpack.base.route_prefix'))->middleware('web', 'role:admin|secretary', 'language')->group(function () {
     Route::crud('fee', 'FeeCrudController');
     Route::crud('discount', 'DiscountCrudController');
     Route::crud('coupon', 'CouponCrudController');
@@ -34,7 +34,7 @@ Route::prefix(config('backpack.base.route_prefix'))->middleware('web', 'role:adm
 
 /* Admin routes - Backpack's CRUD panels, accessible only to administrators */
 
-Route::prefix(config('backpack.base.route_prefix'))->middleware('web', 'role:admin', 'language')->namespace('App\Http\Controllers\Admin')->group(function () {
+Route::prefix(config('backpack.base.route_prefix'))->middleware('web', 'role:admin', 'language')->group(function () {
     Route::crud('period', 'PeriodCrudController');
     Route::crud('event', 'EventCrudController');
     Route::crud('level', 'LevelCrudController');
