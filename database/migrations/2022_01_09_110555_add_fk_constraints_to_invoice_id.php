@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
-    public function up()
+    public function up(): void
     {
         Schema::table('payments', function (Blueprint $table) {
             $table->foreign('invoice_id')->references('id')->on('invoices')->cascadeOnDelete()->restrictOnUpdate();
@@ -16,7 +16,7 @@ return new class extends Migration {
         });
     }
 
-    public function down()
+    public function down(): void
     {
         Schema::table('', function (Blueprint $table) {
             //

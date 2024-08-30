@@ -26,7 +26,7 @@ class CourseSkillEvaluationControllerTest extends TestCase
     }
 
     /** @test */
-    public function edit_returns_an_ok_response()
+    public function edit_returns_an_ok_response(): void
     {
         $this->markTestIncomplete('Needs refactor for new eval workflow');
         $this->logAdmin();
@@ -47,7 +47,7 @@ class CourseSkillEvaluationControllerTest extends TestCase
     }
 
     /** @test */
-    public function index_returns_an_ok_response()
+    public function index_returns_an_ok_response(): void
     {
         $this->markTestIncomplete('Needs refactor for new eval workflow');
         $this->logAdmin();
@@ -64,7 +64,7 @@ class CourseSkillEvaluationControllerTest extends TestCase
     }
 
     /** @test */
-    public function skills_can_be_evaluated()
+    public function skills_can_be_evaluated(): void
     {
         $this->markTestIncomplete('Needs refactor for new eval workflow');
         $this->logAdmin();

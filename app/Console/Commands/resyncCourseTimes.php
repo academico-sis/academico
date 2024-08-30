@@ -29,7 +29,7 @@ class resyncCourseTimes extends Command
      *
      * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         foreach ($this->argument('course_ids') as $courseId) {
             $course = Course::find($courseId);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use Illuminate\Http\Request;
 use Closure;
 use Illuminate\Support\Facades\Request;
 
@@ -13,7 +14,7 @@ class ForceUpdate
      * @param  \Illuminate\Http\Request  $request
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
         if (Request::isMethod('post')) {
             return $next($request);

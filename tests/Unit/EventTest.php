@@ -15,7 +15,7 @@ class EventTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_that_events_are_created_with_new_coursetime()
+    public function test_that_events_are_created_with_new_coursetime(): void
     {
         $rhythm = factory(Rhythm::class)->create();
         $level = factory(Level::class)->create();
@@ -48,7 +48,7 @@ class EventTest extends TestCase
         $this->assertEquals('2019-01-03 15:00:00', $course->events->first()->start);
     }
 
-    public function test_that_events_are_deleted_with_coursetime()
+    public function test_that_events_are_deleted_with_coursetime(): void
     {
         $rhythm = factory(Rhythm::class)->create();
         $level = factory(Level::class)->create();

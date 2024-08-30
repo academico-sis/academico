@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use Symfony\Component\HttpFoundation\Response;
 use Closure;
 use Illuminate\Http\Request;
 
@@ -13,7 +14,7 @@ class RoleMiddleware
      * @param  Request  $request
      * @return mixed
      */
-    public function handle($request, Closure $next, $role)
+    public function handle(Request $request, Closure $next, $role): Response
     {
         if (backpack_auth()->guest()) {
             return redirect('/login');

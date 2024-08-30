@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -12,7 +13,7 @@ class Partner extends Model
 
     protected $guarded = ['id'];
 
-    public function courses()
+    public function courses(): HasMany
     {
         return $this->hasMany(Course::class);
     }

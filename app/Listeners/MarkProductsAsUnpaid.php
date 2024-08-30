@@ -7,7 +7,7 @@ use function Sentry\captureMessage;
 
 class MarkProductsAsUnpaid
 {
-    public function handle($event)
+    public function handle($event): void
     {
         /** @var Invoice $invoice */
         $invoice = $event->invoice;

@@ -4,7 +4,7 @@ namespace App\Listeners;
 
 class ComputeStudentLeadStatus
 {
-    public function handle($event)
+    public function handle($event): void
     {
         // Get the student and update the lead status id
         $student = $event->enrollment->student;

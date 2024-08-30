@@ -2,6 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Events\CourseCreated;
 use App\Events\CourseUpdated;
 use App\Traits\PriceTrait;
@@ -100,66 +104,66 @@ class Course extends Model
     */
 
     /** the scheduled day/times for the course, that repeat throughout the course date span */
-    public function times()
+    public function times(): HasMany
     {
         return $this->hasMany(CourseTime::class, 'course_id');
     }
 
     /** course sessions (classes) with a specific start and end date/time */
-    public function events()
+    public function events(): HasMany
     {
         return $this->hasMany(Event::class)->orderBy('start');
     }
 
-    public function teacher()
+    public function teacher(): BelongsTo
     {
         return $this->belongsTo(Teacher::class)->withTrashed();
     }
 
-    public function campus()
+    public function campus(): BelongsTo
     {
         return $this->belongsTo(Campus::class);
     }
 
-    public function room()
+    public function room(): BelongsTo
     {
         return $this->belongsTo(Room::class)->withTrashed();
     }
 
-    public function rhythm()
+    public function rhythm(): BelongsTo
     {
         return $this->belongsTo(Rhythm::class)->withTrashed();
     }
 
-    public function level()
+    public function level(): BelongsTo
     {
         return $this->belongsTo(Level::class)->withTrashed();
     }
 
-    public function period()
+    public function period(): BelongsTo
     {
         return $this->belongsTo(Period::class);
     }
 
     /** children courses = sub-courses, or course modules */
-    public function children()
+    public function children(): HasMany
     {
         return $this->hasMany(self::class, 'parent_course_id');
     }
 
-    public function parent()
+    public function parent(): BelongsTo
     {
         return $this->belongsTo(self::class, 'parent_course_id');
     }
 
     /** evaluation methods associated to the course - grades, skill-based evaluation... */
-    public function evaluationType()
+    public function evaluationType(): BelongsTo
     {
         return $this->belongsTo(EvaluationType::class);
     }
 
     /** a Grade model = an individual grade, belongs to a student */
-    public function grades()
+    public function grades(): HasManyThrough
     {
         return $this->hasManyThrough(Grade::class, Enrollment::class);
     }
@@ -182,7 +186,7 @@ class Course extends Model
         return $this->evaluationType?->skills()->orderBy('order');
     }
 
-    public function books()
+    public function books(): BelongsToMany
     {
         return $this->belongsToMany(Book::class);
     }
@@ -191,7 +195,7 @@ class Course extends Model
      * return attendance records associated to the course
      * Since the attendance records are linked to the event, we use a hasManyThrough relation.
      */
-    public function attendance()
+    public function attendance(): HasManyThrough
     {
         return $this->hasManyThrough(Attendance::class, Event::class);
     }
@@ -205,7 +209,7 @@ class Course extends Model
     }
 
     /** returns only pending or paid enrollments, without the child enrollments */
-    public function real_enrollments()
+    public function real_enrollments(): HasMany
     {
         return $this->hasMany(Enrollment::class, 'course_id', 'id')
             ->whereIn('status_id', Enrollment::ENROLLMENT_STATUSES_TO_COUNT_IN_STATS)
@@ -213,7 +217,7 @@ class Course extends Model
     }
 
     // "Partners" are institutions for external courses
-    public function partner()
+    public function partner(): BelongsTo
     {
         return $this->belongsTo(Partner::class);
     }

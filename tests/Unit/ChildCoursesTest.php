@@ -22,7 +22,7 @@ class ChildCoursesTest extends TestCase
         $this->seed('TestSeeder');
     }
 
-    public function test_that_an_enrollment_in_a_course_with_children_also_create_child_enrollments()
+    public function test_that_an_enrollment_in_a_course_with_children_also_create_child_enrollments(): void
     {
         $parentCourse = factory(Course::class)->create();
         $childCourse = factory(Course::class)->create(['parent_course_id' => $parentCourse->id]);
@@ -34,7 +34,7 @@ class ChildCoursesTest extends TestCase
         $this->assertEquals(1, $childCourse->enrollments()->where('student_id', $student->id)->count());
     }
 
-    public function test_that_billing_a_parent_enrollment_also_bills_child_enrollments()
+    public function test_that_billing_a_parent_enrollment_also_bills_child_enrollments(): void
     {
         $parentCourse = factory(Course::class)->create();
         $childCourse = factory(Course::class)->create(['parent_course_id' => $parentCourse->id]);
@@ -51,7 +51,7 @@ class ChildCoursesTest extends TestCase
         $this->assertTrue($enrollmentInChildCourse->fresh()->isPaid());
     }
 
-    public function test_that_a_parent_enrollment_only_appears_once_in_students_lists()
+    public function test_that_a_parent_enrollment_only_appears_once_in_students_lists(): void
     {
         $period = factory(Period::class)->create();
         $parentCourse = factory(Course::class)->create(['period_id' => $period->id]);

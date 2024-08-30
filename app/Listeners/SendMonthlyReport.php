@@ -23,7 +23,7 @@ class SendMonthlyReport
      *
      * @return void
      */
-    public function handle(MonthlyReportEvent $event)
+    public function handle(MonthlyReportEvent $event): void
     {
         $recipients = [];
 

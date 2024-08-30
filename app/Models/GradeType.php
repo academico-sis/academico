@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,12 +17,12 @@ class GradeType extends Model
 
     protected $appends = ['complete_name'];
 
-    public function category()
+    public function category(): BelongsTo
     {
         return $this->belongsTo(GradeTypeCategory::class, 'grade_type_category_id');
     }
 
-    public function presets()
+    public function presets(): MorphToMany
     {
         return $this->morphToMany(EvaluationType::class, 'presettable', 'evaluation_type_presets');
     }

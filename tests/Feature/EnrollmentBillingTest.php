@@ -18,7 +18,7 @@ class EnrollmentBillingTest extends TestCase
         $this->seed('TestSeeder');
     }
 
-    public function test_pending_enrollment_checkout()
+    public function test_pending_enrollment_checkout(): void
     {
         // when an enrollment is first created, the status is pending
         $student = factory(Student::class)->create();
@@ -32,7 +32,7 @@ class EnrollmentBillingTest extends TestCase
         $this->assertEquals(2, $enrollment->status_id);
     }
 
-    public function test_pending_childrenEnrollment_checkout()
+    public function test_pending_childrenEnrollment_checkout(): void
     {
         // when an enrollment is first created, the status is pending including for children enrollments
         $student = factory(Student::class)->create();
@@ -56,7 +56,7 @@ class EnrollmentBillingTest extends TestCase
     }
 
     /** @test */
-    public function default_fees_are_billed_along_with_enrollment()
+    public function default_fees_are_billed_along_with_enrollment(): void
     {
         // [WIP] given several fees recorded in the DB
         // the fees with a flag of "default" will be automatically added to the cart along with an enrollment

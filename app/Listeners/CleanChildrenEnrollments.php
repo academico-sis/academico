@@ -8,7 +8,7 @@ use App\Models\Enrollment;
 
 class CleanChildrenEnrollments
 {
-    public function handle(EnrollmentUpdating $event)
+    public function handle(EnrollmentUpdating $event): void
     {
         $enrollment = $event->enrollment;
 

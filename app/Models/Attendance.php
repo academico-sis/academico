@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Events\AttendanceSavedEvent;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\LogOptions;
@@ -24,17 +25,17 @@ class Attendance extends Model
         return LogOptions::defaults()->logUnguarded();
     }
 
-    public function student()
+    public function student(): BelongsTo
     {
         return $this->belongsTo(Student::class);
     }
 
-    public function event()
+    public function event(): BelongsTo
     {
         return $this->belongsTo(Event::class);
     }
 
-    public function attendanceType()
+    public function attendanceType(): BelongsTo
     {
         return $this->belongsTo(AttendanceType::class);
     }

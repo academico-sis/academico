@@ -27,7 +27,7 @@ class EnrollmentTest extends TestCase
     }
 
     /** @test */
-    public function authorized_users_may_enroll_students()
+    public function authorized_users_may_enroll_students(): void
     {
         $admin = factory(User::class)->create();
         $admin->assignRole('admin');
@@ -55,7 +55,7 @@ class EnrollmentTest extends TestCase
     /** @test
      * Non authorized users may not enroll students
      */
-    public function unauthorized_users_may_not_enroll_students()
+    public function unauthorized_users_may_not_enroll_students(): void
     {
         $user = factory(User::class)->create();
         backpack_auth()->login($user, true);
@@ -78,7 +78,7 @@ class EnrollmentTest extends TestCase
     /** @test
      * A teacher should not be allowed to perform enrollments unless the course is theirs
      */
-    public function unauthorized_teachers_may_not_enroll_students()
+    public function unauthorized_teachers_may_not_enroll_students(): void
     {
         $teacher = factory(Teacher::class)->create();
         backpack_auth()->login($teacher->user, true);
@@ -103,7 +103,7 @@ class EnrollmentTest extends TestCase
     /** @test
      * A teacher should be allowed to perform enrollments into their courses
      */
-    public function teachers_may_enroll_students_in_their_course()
+    public function teachers_may_enroll_students_in_their_course(): void
     {
         $teacher = factory(Teacher::class)->create();
         backpack_auth()->login($teacher->user, true);
@@ -131,7 +131,7 @@ class EnrollmentTest extends TestCase
      * if an enrollment is created in a parent course; enrollments are automatically created in children courses as well
      * The "real_enrollments" scpe allows to return student enrollments excluding "meta" enrollments in parent courses
      */
-    public function access_student_real_enrollments()
+    public function access_student_real_enrollments(): void
     {
         // create a student
         $student = factory(Student::class)->create();
@@ -166,7 +166,7 @@ class EnrollmentTest extends TestCase
     }
 
     /** @test */
-    public function an_enrollment_may_be_changed_by_authorized_users()
+    public function an_enrollment_may_be_changed_by_authorized_users(): void
     {
         $admin = factory(User::class)->create();
         $admin->assignRole('admin');

@@ -2,6 +2,8 @@
 
 namespace App\Models\Skills;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use App\Models\EvaluationType;
 use App\Models\Level;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
@@ -33,18 +35,18 @@ class Skill extends Model
     }
 
     /** A skill belongs to a level, this allows to filter available skills when attaching them to courses */
-    public function level()
+    public function level(): BelongsTo
     {
         return $this->belongsTo(Level::class);
     }
 
     /** A skill is linked to skill evaluations (themselves linked to enrollments) */
-    public function skillEvaluations()
+    public function skillEvaluations(): HasMany
     {
         return $this->hasMany(SkillEvaluation::class);
     }
 
-    public function presets()
+    public function presets(): MorphToMany
     {
         return $this->morphToMany(EvaluationType::class, 'presettable', 'evaluation_type_presets');
     }

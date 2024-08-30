@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -86,24 +89,24 @@ class Period extends Model
         }
     }
 
-    public function enrollments()
+    public function enrollments(): HasManyThrough
     {
         return $this->hasManyThrough(Enrollment::class, Course::class)
             ->with('course');
     }
 
-    public function courses()
+    public function courses(): HasMany
     {
         return $this->hasMany(Course::class);
     }
 
-    public function year()
+    public function year(): BelongsTo
     {
         return $this->belongsTo(Year::class);
     }
 
     /** returns only pending or paid enrollments, without the child enrollments */
-    public function real_enrollments()
+    public function real_enrollments(): HasManyThrough
     {
         return $this->hasManyThrough(Enrollment::class, Course::class)
         ->whereIn('status_id', ['1', '2']) // pending or paid

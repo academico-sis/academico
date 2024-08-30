@@ -20,7 +20,7 @@ class SkillsTest extends TestCase
         $this->seed('TestSeeder');
     }
 
-    public function testSkillsHaveEvaluations()
+    public function testSkillsHaveEvaluations(): void
     {
         $skill = factory(Skill::class)->create();
 
@@ -36,14 +36,14 @@ class SkillsTest extends TestCase
         $this->assertEquals($evaluation->skill->id, $skill->id);
     }
 
-    public function testSkillEvaluationsBelongToEnrollments()
+    public function testSkillEvaluationsBelongToEnrollments(): void
     {
         $enrollment = factory(Enrollment::class)->create();
         $skillEvaluation = factory(SkillEvaluation::class)->create(['enrollment_id' => $enrollment->id]);
         $this->assertEquals($skillEvaluation->enrollment->id, $enrollment->id);
     }
 
-    public function testSkillEvaluationsHaveAScale()
+    public function testSkillEvaluationsHaveAScale(): void
     {
         $scale = factory(SkillScale::class)->create();
         $skillEvaluation = factory(SkillEvaluation::class)->create(['skill_scale_id' => $scale->id]);

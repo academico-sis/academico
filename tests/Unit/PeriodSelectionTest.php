@@ -14,7 +14,7 @@ class PeriodSelectionTest extends TestCase
     /**
      * If there is a config key and the period exists, return it.
      */
-    public function testDefaultPeriodSelectionFromConfig()
+    public function testDefaultPeriodSelectionFromConfig(): void
     {
         // given two periods
         $period1 = factory(Period::class)->create([
@@ -43,7 +43,7 @@ class PeriodSelectionTest extends TestCase
      * If the default period cannot be fouund,
      * return the first period which has not yet ended.
      */
-    public function testDefaultPeriodFallbackToFirstPeriodNotOver()
+    public function testDefaultPeriodFallbackToFirstPeriodNotOver(): void
     {
         $period1 = factory(Period::class)->create([
             'start' => date('Y-m-d', strtotime('-3 months')),
@@ -69,7 +69,7 @@ class PeriodSelectionTest extends TestCase
      * We use this period to display the list of available courses to enrol a student
      * If there is a config key and the period exists, return it.
      */
-    public function testEnrollmentPeriodSelectionFromConfig()
+    public function testEnrollmentPeriodSelectionFromConfig(): void
     {
         // given two periods
         $period1 = factory(Period::class)->create([

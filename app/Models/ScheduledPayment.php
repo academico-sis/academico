@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use App\Traits\ValueTrait;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
@@ -46,17 +48,17 @@ class ScheduledPayment extends Model
         $this->save();
     }
 
-    public function enrollment()
+    public function enrollment(): BelongsTo
     {
         return $this->belongsTo(Enrollment::class);
     }
 
-    public function statusType()
+    public function statusType(): BelongsTo
     {
         return $this->belongsTo(EnrollmentStatusType::class, 'status');
     }
 
-    public function invoiceDetails()
+    public function invoiceDetails(): MorphMany
     {
         return $this->morphMany(InvoiceDetail::class, 'product');
     }

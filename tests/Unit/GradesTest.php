@@ -20,7 +20,7 @@ class GradesTest extends TestCase
         $this->seed('TestSeeder');
     }
 
-    public function testGradesHaveCategoryNames()
+    public function testGradesHaveCategoryNames(): void
     {
         $gradeCategory = factory(GradeTypeCategory::class)->create();
         $gradeType = factory(GradeType::class)->create(['grade_type_category_id' => $gradeCategory->id]);
@@ -32,7 +32,7 @@ class GradesTest extends TestCase
         $this->assertEquals($grade->grade_type_category, $gradeCategory->name);
     }
 
-    public function testGradesBelongToEnrollments()
+    public function testGradesBelongToEnrollments(): void
     {
         $enrollment = factory(Enrollment::class)->create();
         $grade = factory(Grade::class)->create([

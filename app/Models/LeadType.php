@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
@@ -17,7 +18,7 @@ class LeadType extends Model
 
     protected $appends = ['translated_name'];
 
-    public function students()
+    public function students(): HasMany
     {
         return $this->hasMany(Student::class);
     }

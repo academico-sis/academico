@@ -30,7 +30,7 @@ class AttendanceTest extends TestCase
     /**
      * Send email reminders to all teachers who have classes with incomplete attendance records.
      */
-    public function testRemindPendingAttendance()
+    public function testRemindPendingAttendance(): void
     {
         Mail::fake();
         // given a course with incomplete attendance
@@ -55,7 +55,7 @@ class AttendanceTest extends TestCase
     }
 
     /** Absence count per student for the selected period */
-    public function test_get_absence_count_per_student()
+    public function test_get_absence_count_per_student(): void
     {
         Mail::fake();
         // given a course with incomplete attendance
@@ -105,7 +105,7 @@ class AttendanceTest extends TestCase
     /**
      * Return events with incomplete attendance. This is shown on the dashboard.
      */
-    public function test_get_pending_attendance()
+    public function test_get_pending_attendance(): void
     {
         // given a course with incomplete attendance
         $teacher = factory(Teacher::class)->create();
@@ -155,7 +155,7 @@ class AttendanceTest extends TestCase
         $this->assertEquals(0, $coursesWithPendingAttendanceCount);
     }
 
-    public function testStudentNameCanBeAccessed()
+    public function testStudentNameCanBeAccessed(): void
     {
         $student = factory(Student::class)->create();
         $attendance = new Attendance([

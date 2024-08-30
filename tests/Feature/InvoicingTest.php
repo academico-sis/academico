@@ -15,27 +15,27 @@ class InvoicingTest extends TestCase
         $this->seed('TestSeeder');
     }
 
-    public function test_scheduled_payments_can_be_generated_for_enrollment()
+    public function test_scheduled_payments_can_be_generated_for_enrollment(): void
     {
         $this->markTestIncomplete('Test unfinished');
     }
 
-    public function test_invoice_can_be_generated_for_product()
+    public function test_invoice_can_be_generated_for_product(): void
     {
         $this->markTestIncomplete('Test unfinished');
     }
 
-    public function test_invoice_can_be_generated_for_enrollment()
+    public function test_invoice_can_be_generated_for_enrollment(): void
     {
         $this->markTestIncomplete('Test unfinished');
     }
 
-    public function test_invoice_can_be_generated_for_scheduled_payment()
+    public function test_invoice_can_be_generated_for_scheduled_payment(): void
     {
         $this->markTestIncomplete('Test unfinished');
     }
 
-    public function test_when_invoice_is_paid_enrollment_is_marked_as_paid()
+    public function test_when_invoice_is_paid_enrollment_is_marked_as_paid(): void
     {
         $this->markTestIncomplete('Test unfinished');
     }
@@ -45,17 +45,17 @@ class InvoicingTest extends TestCase
         $this->markTestIncomplete('Test unfinished');
     }
 
-    public function test_invoice_balance_is_available()
+    public function test_invoice_balance_is_available(): void
     {
         $this->markTestIncomplete('Test unfinished');
     }
 
-    public function test_invoice_total_price_is_available()
+    public function test_invoice_total_price_is_available(): void
     {
         $this->markTestIncomplete('Test unfinished');
     }
 
-    public function test_invoice_total_paid_price_is_available()
+    public function test_invoice_total_paid_price_is_available(): void
     {
         $this->markTestIncomplete('Test unfinished');
     }

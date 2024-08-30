@@ -19,7 +19,7 @@ class CoreTest extends TestCase
     }
 
     /** @test */
-    public function guest_users_are_redirected_to_login_page()
+    public function guest_users_are_redirected_to_login_page(): void
     {
         $response = $this->get('/');
         $response->assertStatus(302);
@@ -27,7 +27,7 @@ class CoreTest extends TestCase
     }
 
     /** @test */
-    public function guest_may_log_in()
+    public function guest_may_log_in(): void
     {
         $response = $this->post('/login', [
             'username' => '',
@@ -39,7 +39,7 @@ class CoreTest extends TestCase
     }
 
     /** @test */
-    public function admin_users_are_redirected_to_admin_panel()
+    public function admin_users_are_redirected_to_admin_panel(): void
     {
         $user = factory(User::class)->create();
         $user->assignRole('admin');
@@ -51,7 +51,7 @@ class CoreTest extends TestCase
     }
 
     /** @test */
-    public function teachers_are_redirected_to_teacher_panel()
+    public function teachers_are_redirected_to_teacher_panel(): void
     {
         $user = factory(Teacher::class)->create();
 

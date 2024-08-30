@@ -35,7 +35,7 @@ class CourseTest extends TestCase
     }
 
     /** @test */
-    public function events_are_updated_after_course_dates_are_changed()
+    public function events_are_updated_after_course_dates_are_changed(): void
     {
         // given a course and events
         $course = factory(Course::class)->create([
@@ -84,7 +84,7 @@ class CourseTest extends TestCase
     }
 
     /** @test */
-    public function events_are_deleted_after_course_dates_are_changed()
+    public function events_are_deleted_after_course_dates_are_changed(): void
     {
         $course = factory(Course::class)->create([
             'start_date' => $this->initialStartDate->format('Y-m-d'),
@@ -131,7 +131,7 @@ class CourseTest extends TestCase
     }
 
     /** @test */
-    public function events_are_updated_after_assign_a_completely_new_date_to_course()
+    public function events_are_updated_after_assign_a_completely_new_date_to_course(): void
     {
         // given a course and events
         $course = factory(Course::class)->create([
@@ -169,7 +169,7 @@ class CourseTest extends TestCase
     }
 
     /** @test */
-    public function course_with_one_scheduled_day_is_correctly_parsed()
+    public function course_with_one_scheduled_day_is_correctly_parsed(): void
     {
         // given a course and events
         $course = factory(Course::class)->create();
@@ -185,7 +185,7 @@ class CourseTest extends TestCase
     }
 
     /** @test */
-    public function course_with_two_schedules_on_same_day_is_correctly_parsed()
+    public function course_with_two_schedules_on_same_day_is_correctly_parsed(): void
     {
         // given a course and events
         $course = factory(Course::class)->create();
@@ -208,7 +208,7 @@ class CourseTest extends TestCase
     }
 
     /** @test */
-    public function course_with_two_schedules_on_different_day_is_correctly_parsed()
+    public function course_with_two_schedules_on_different_day_is_correctly_parsed(): void
     {
         // given a course and events
         $course = factory(Course::class)->create();
@@ -231,7 +231,7 @@ class CourseTest extends TestCase
     }
 
     /** @test */
-    public function course_with_child_is_correctly_parsed()
+    public function course_with_child_is_correctly_parsed(): void
     {
         // given a course and events
         $parentCourse = factory(Course::class)->create();
@@ -257,7 +257,7 @@ class CourseTest extends TestCase
     }
 
     /** @test */
-    public function a_course_can_have_an_evaluation_method()
+    public function a_course_can_have_an_evaluation_method(): void
     {
         // given a course
         $course = factory(Course::class)->create();

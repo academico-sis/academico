@@ -15,7 +15,7 @@ class UserTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function access_student_birthdate()
+    public function access_student_birthdate(): void
     {
         App::setLocale('en');
         // create a student
@@ -27,7 +27,7 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    public function access_student_age()
+    public function access_student_age(): void
     {
         // create a student
         $student = factory(Student::class)->create([
@@ -38,7 +38,7 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    public function access_student_base_information()
+    public function access_student_base_information(): void
     {
         // create a user
         $user = factory(User::class)->create();

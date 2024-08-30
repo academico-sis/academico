@@ -6,7 +6,7 @@ use App\Models\Invoice;
 
 class DeleteInvoiceDetails
 {
-    public function handle($event)
+    public function handle($event): void
     {
         /** @var Invoice $invoice */
         $invoice = $event->invoice;

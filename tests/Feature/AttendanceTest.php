@@ -56,7 +56,7 @@ class AttendanceTest extends TestCase
     }
 
     /** @test */
-    public function authorized_users_can_take_attendance()
+    public function authorized_users_can_take_attendance(): void
     {
         $this->recordAttendanceByTeacher($this->attributes);
 
@@ -67,7 +67,7 @@ class AttendanceTest extends TestCase
     /** @test
      * guests can not use the post route
      */
-    public function unauthorized_users_cannot_take_attendance()
+    public function unauthorized_users_cannot_take_attendance(): void
     {
         $student = $this->course->enrollments()->first()->student;
 
@@ -97,14 +97,14 @@ class AttendanceTest extends TestCase
         $this->assertDatabaseMissing('attendances', $attributes);
     }
 
-    public function test_attendance_overview_per_course()
+    public function test_attendance_overview_per_course(): void
     {
         $this->markTestIncomplete();
         // the teacher can view the attendance for their courses
         // but not for other courses
     }
 
-    public function test_absence_monitoring()
+    public function test_absence_monitoring(): void
     {
         $student = $this->course->enrollments()->first()->student;
 

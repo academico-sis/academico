@@ -11,7 +11,7 @@ class CommentRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         // only allow updates if the user is logged in
         return backpack_auth()->check();
@@ -22,7 +22,7 @@ class CommentRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'body' => 'required|min:5|max:800',
@@ -34,7 +34,7 @@ class CommentRequest extends FormRequest
      *
      * @return array
      */
-    public function attributes()
+    public function attributes(): array
     {
         return [
             //
@@ -46,7 +46,7 @@ class CommentRequest extends FormRequest
      *
      * @return array
      */
-    public function messages()
+    public function messages(): array
     {
         return [
 

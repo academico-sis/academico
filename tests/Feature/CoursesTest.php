@@ -24,7 +24,7 @@ class CoursesTest extends TestCase
     }
 
     /** @test */
-    public function admin_can_see_course_list()
+    public function admin_can_see_course_list(): void
     {
         $user = factory(User::class)->create();
         $user->assignRole('admin');
@@ -43,7 +43,7 @@ class CoursesTest extends TestCase
     /**
      * Check if a course created within the current period is visible in the course management panel.
      */
-    public function test_that_authorized_user_can_view_courses_within_the_current_period()
+    public function test_that_authorized_user_can_view_courses_within_the_current_period(): void
     {
         $currentPeriod = factory(Period::class)->create();
         $anotherPeriod = factory(Period::class)->create();
@@ -75,7 +75,7 @@ class CoursesTest extends TestCase
     /**
      * Ensure that courses administration is not accessible to users who don't have permission.
      */
-    public function test_that_unauthroized_user_cannot_view_courses()
+    public function test_that_unauthroized_user_cannot_view_courses(): void
     {
         $period = factory(Period::class)->create();
         factory(Course::class)->create([
@@ -95,7 +95,7 @@ class CoursesTest extends TestCase
     }
 
     /** @test */
-    public function a_coursetime_can_be_added_to_an_existing_course()
+    public function a_coursetime_can_be_added_to_an_existing_course(): void
     {
         $this->logAdmin();
 

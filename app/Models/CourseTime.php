@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -77,12 +79,12 @@ class CourseTime extends Model
     /** events = class sessions.
      * An Event is related to the CourseTime that generated it. This is needed to update related events when updating the course schedule.
      */
-    public function events()
+    public function events(): HasMany
     {
         return $this->hasMany(Event::class);
     }
 
-    public function course()
+    public function course(): BelongsTo
     {
         return $this->belongsTo(Course::class);
     }

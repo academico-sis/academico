@@ -7,7 +7,7 @@ use App\Models\Enrollment;
 
 class UpdateChildrenEnrollments
 {
-    public function handle(EnrollmentUpdated $event)
+    public function handle(EnrollmentUpdated $event): void
     {
         $enrollment = $event->enrollment;
 

@@ -16,7 +16,7 @@ class syncLeadStatuses extends Command
         parent::__construct();
     }
 
-    public function handle()
+    public function handle(): int
     {
         foreach (Student::where('lead_type_id', 1)->get() as $student) {
             $student->update(['lead_type_id' => null]);

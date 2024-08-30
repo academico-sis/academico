@@ -26,7 +26,7 @@ class ReportControllerTest extends TestCase
     /**
      * @test
      */
-    public function courses_returns_an_ok_response()
+    public function courses_returns_an_ok_response(): void
     {
         $this->logAdmin();
 
@@ -53,7 +53,7 @@ class ReportControllerTest extends TestCase
     /**
      * @test
      */
-    public function levels_returns_an_ok_response()
+    public function levels_returns_an_ok_response(): void
     {
         $this->logAdmin();
 
@@ -70,7 +70,7 @@ class ReportControllerTest extends TestCase
     /**
      * @test
      */
-    public function internal_returns_an_ok_response()
+    public function internal_returns_an_ok_response(): void
     {
         $this->logAdmin();
 
@@ -85,7 +85,7 @@ class ReportControllerTest extends TestCase
     /**
      * @test
      */
-    public function rhythms_returns_an_ok_response()
+    public function rhythms_returns_an_ok_response(): void
     {
         $this->logAdmin();
 

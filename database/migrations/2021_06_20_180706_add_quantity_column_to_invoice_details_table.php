@@ -10,7 +10,7 @@ return new class extends Migration {
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('invoice_details', function (Blueprint $table) {
             $table->decimal('quantity')->default(1)->after('product_type');
@@ -22,7 +22,7 @@ return new class extends Migration {
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('invoice_details', function (Blueprint $table) {
             //

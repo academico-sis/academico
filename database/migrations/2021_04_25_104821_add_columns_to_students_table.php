@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
-    public function up()
+    public function up(): void
     {
         Schema::table('students', function (Blueprint $table) {
             $table->string('zip_code')->after('address')->nullable();
@@ -14,7 +14,7 @@ return new class extends Migration {
         });
     }
 
-    public function down()
+    public function down(): void
     {
         Schema::table('students', function (Blueprint $table) {
             //

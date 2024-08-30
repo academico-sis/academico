@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Traits\ValueTrait;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
@@ -37,12 +38,12 @@ class Payment extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function invoice()
+    public function invoice(): BelongsTo
     {
         return $this->belongsTo(Invoice::class);
     }
 
-    public function paymentmethod()
+    public function paymentmethod(): BelongsTo
     {
         return $this->belongsTo(Paymentmethod::class, 'payment_method', 'code')->withDefault();
     }

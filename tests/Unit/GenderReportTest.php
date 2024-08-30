@@ -23,7 +23,7 @@ class GenderReportTest extends TestCase
         $this->seed('TestSeeder');
     }
 
-    public function testStudentsGenderIsReflectedInReport()
+    public function testStudentsGenderIsReflectedInReport(): void
     {
         $period = Period::get_default_period();
 
@@ -36,7 +36,7 @@ class GenderReportTest extends TestCase
         $this->assertEquals(3, $stats->studentsCount(0));
     }
 
-    public function test_view_returns_an_ok_response()
+    public function test_view_returns_an_ok_response(): void
     {
         $user = factory(User::class)->create();
         $user->assignRole('admin');

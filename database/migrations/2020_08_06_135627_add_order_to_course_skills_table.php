@@ -10,7 +10,7 @@ return new class extends Migration {
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('course_skill', function (Blueprint $table) {
             $table->string('order')->nullable()->after('weight');
@@ -23,7 +23,7 @@ return new class extends Migration {
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
     }
 };

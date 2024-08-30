@@ -39,7 +39,7 @@ class BuildInvoicesZip implements ShouldQueue, ShouldBeUnique
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         $folder = Uuid::uuid4()->toString();
 

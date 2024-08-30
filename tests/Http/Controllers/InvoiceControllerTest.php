@@ -22,7 +22,7 @@ class InvoiceControllerTest extends TestCase
         $this->seed('TestSeeder');
     }
 
-    public function testEnrollmentIsMarkedAsPaidIfRegularInvoiceIsFullyPaid()
+    public function testEnrollmentIsMarkedAsPaidIfRegularInvoiceIsFullyPaid(): void
     {
         $enrollment = factory(Enrollment::class)->create();
 
@@ -56,7 +56,7 @@ class InvoiceControllerTest extends TestCase
         $this->assertTrue($enrollment->fresh()->isPaid());
     }
 
-    public function testEnrollmentIsMarkedAsPaidIfScheduledPaymentsAreFullyPaid()
+    public function testEnrollmentIsMarkedAsPaidIfScheduledPaymentsAreFullyPaid(): void
     {
         $enrollment = factory(Enrollment::class)->create();
 
@@ -99,7 +99,7 @@ class InvoiceControllerTest extends TestCase
         $this->assertTrue($scheduledPayment->fresh()->isPaid());
     }
 
-    public function testEnrollmentIsNotMarkedAsPaidIfScheduledPaymentsAreNotFullyPaid()
+    public function testEnrollmentIsNotMarkedAsPaidIfScheduledPaymentsAreNotFullyPaid(): void
     {
         $enrollment = factory(Enrollment::class)->create();
 
@@ -149,7 +149,7 @@ class InvoiceControllerTest extends TestCase
         $this->assertFalse($remainingScheduledPayment->fresh()->isPaid());
     }
 
-    public function testEnrollmentIsNotMarkedAsPaidIfRegularInvoiceIsNotFullyPaid()
+    public function testEnrollmentIsNotMarkedAsPaidIfRegularInvoiceIsNotFullyPaid(): void
     {
         $enrollment = factory(Enrollment::class)->create();
 

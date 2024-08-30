@@ -28,7 +28,7 @@ class GradeControllerTest extends TestCase
     }
 
     /** @test */
-    public function add_grade_type_to_course_creates_grades_for_students()
+    public function add_grade_type_to_course_creates_grades_for_students(): void
     {
         $this->markTestIncomplete('Needs refactor for new eval workflow');
         $this->logAdmin();
@@ -56,7 +56,7 @@ class GradeControllerTest extends TestCase
     }
 
     /** @test */
-    public function grades_edit_screen_is_available_to_admins()
+    public function grades_edit_screen_is_available_to_admins(): void
     {
         $this->logAdmin();
         $course = factory(Course::class)->create();
@@ -66,7 +66,7 @@ class GradeControllerTest extends TestCase
     }
 
     /** @test */
-    public function grades_edit_screen_is_available_to_authorized_users()
+    public function grades_edit_screen_is_available_to_authorized_users(): void
     {
         $teacher = factory(Teacher::class)->create();
         \Auth::guard(backpack_guard_name())->login($teacher->user);
@@ -77,7 +77,7 @@ class GradeControllerTest extends TestCase
     }
 
     /** @test */
-    public function grades_edit_screen_is_not_available_to_guests()
+    public function grades_edit_screen_is_not_available_to_guests(): void
     {
         $course = factory(Course::class)->create();
         $course->evaluationType()->associate(EvaluationType::find(1));
@@ -86,7 +86,7 @@ class GradeControllerTest extends TestCase
     }
 
     /** @test */
-    public function grades_edit_screen_is_not_available_to_unauthorized_users()
+    public function grades_edit_screen_is_not_available_to_unauthorized_users(): void
     {
         // given a teacher who is not the owner of the course
         $teacher = factory(Teacher::class)->create();
@@ -100,7 +100,7 @@ class GradeControllerTest extends TestCase
     }
 
     /** @test */
-    public function gradetypes_can_be_added_to_course_by_authorized_users()
+    public function gradetypes_can_be_added_to_course_by_authorized_users(): void
     {
         $this->markTestIncomplete('Test awaiting update to reflect new structure and logic');
         $teacher = factory(Teacher::class)->create();
@@ -114,7 +114,7 @@ class GradeControllerTest extends TestCase
     }
 
     /** @test */
-    public function grades_can_be_edited()
+    public function grades_can_be_edited(): void
     {
         $this->logAdmin();
         $grade = factory(Grade::class)->create([
@@ -132,7 +132,7 @@ class GradeControllerTest extends TestCase
     }
 
     /** @test */
-    public function remove_grade_type_from_course_returns_an_ok_response()
+    public function remove_grade_type_from_course_returns_an_ok_response(): void
     {
         $this->markTestIncomplete('Needs refactor for new eval workflow');
         $this->logAdmin();

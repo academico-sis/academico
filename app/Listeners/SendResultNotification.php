@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Mail;
 
 class SendResultNotification
 {
-    public function handle(ResultSavedEvent $event)
+    public function handle(ResultSavedEvent $event): void
     {
         if (! config('academico.send_emails_for_results')) {
             return;

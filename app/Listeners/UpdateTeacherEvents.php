@@ -7,7 +7,7 @@ use App\Events\LeaveUpdated;
 
 class UpdateTeacherEvents
 {
-    public function handle(LeaveCreated|LeaveUpdated $event)
+    public function handle(LeaveCreated|LeaveUpdated $event): void
     {
         $teacher = $event->leave->teacher;
         foreach ($teacher->events()->whereDate('start', '>=', $event->leave->date)->whereDate('end', '<=', $event->leave->date)->get() as $event) {

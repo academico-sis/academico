@@ -24,7 +24,7 @@ class RegisterTest extends TestCase
      *
      * @test
      */
-    public function RegisterationPageIsAvailable()
+    public function RegisterationPageIsAvailable(): void
     {
         $response = $this->get('/register');
         $response->assertStatus(200);
@@ -35,12 +35,12 @@ class RegisterTest extends TestCase
      *
      * @test
      */
-    public function testIfUserIsCreated()
+    public function testIfUserIsCreated(): void
     {
         $this->markTestIncomplete('Test unfinished');
     }
 
-    public function test_that_a_student_is_created()
+    public function test_that_a_student_is_created(): void
     {
         $this->markTestIncomplete('Test unfinished');
     }
@@ -50,7 +50,7 @@ class RegisterTest extends TestCase
      *
      * @test
      */
-    public function testUserCreationValidationRules()
+    public function testUserCreationValidationRules(): void
     {
         // when we post failing data to the endpoint
         // Assert that the errors are returned

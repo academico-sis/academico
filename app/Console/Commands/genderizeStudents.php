@@ -347,7 +347,7 @@ class genderizeStudents extends Command
         return  strtr($string, $chars);
     }
 
-    public function handle()
+    public function handle(): void
     {
         Student::whereNull('gender_id')->chunkById(10, function ($students) {
             $query = $students->map(fn ($student) => ['id' => $student->id,

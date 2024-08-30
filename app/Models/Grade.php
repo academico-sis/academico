@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -21,12 +22,12 @@ class Grade extends Model
         return LogOptions::defaults()->logUnguarded();
     }
 
-    public function gradeType()
+    public function gradeType(): BelongsTo
     {
         return $this->belongsTo(GradeType::class);
     }
 
-    public function enrollment()
+    public function enrollment(): BelongsTo
     {
         return $this->belongsTo(Enrollment::class);
     }

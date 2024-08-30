@@ -17,7 +17,7 @@ class CoreTest extends TestCase
     }
 
     /** @test */
-    public function there_exists_a_current_period()
+    public function there_exists_a_current_period(): void
     {
         factory(Period::class)->create();
         $this->assertTrue(Period::get_default_period()->exists());

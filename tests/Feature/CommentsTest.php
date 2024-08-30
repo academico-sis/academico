@@ -19,7 +19,7 @@ class CommentsTest extends TestCase
     /**
      * Check that an authorized user can add a comment visible to everyone.
      */
-    public function test_student_comment_creation()
+    public function test_student_comment_creation(): void
     {
         $this->markTestIncomplete('Test unfinished');
         // act: when the teacher submits the comment form

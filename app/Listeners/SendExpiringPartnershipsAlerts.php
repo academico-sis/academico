@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Mail;
 
 class SendExpiringPartnershipsAlerts
 {
-    public function handle($event)
+    public function handle($event): void
     {
         foreach ($event->partners as $partner) {
             Mail::to(config('settings.secretary_email'))->queue(new ExpiringPartnershipAlert($partner));

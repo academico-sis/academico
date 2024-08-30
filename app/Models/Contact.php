@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\LogOptions;
@@ -23,7 +25,7 @@ class Contact extends Model
         return LogOptions::defaults()->logUnguarded();
     }
 
-    public function phone()
+    public function phone(): MorphMany
     {
         return $this->morphMany(PhoneNumber::class, 'phoneable');
     }
@@ -33,17 +35,17 @@ class Contact extends Model
         return $this->firstname.' '.$this->lastname;
     }
 
-    public function student()
+    public function student(): BelongsTo
     {
         return $this->belongsTo(Student::class);
     }
 
-    public function relationship()
+    public function relationship(): BelongsTo
     {
         return $this->belongsTo(ContactRelationship::class);
     }
 
-    public function profession()
+    public function profession(): BelongsTo
     {
         return $this->belongsTo(Profession::class);
     }

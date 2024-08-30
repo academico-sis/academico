@@ -7,7 +7,7 @@ use App\Models\Event;
 
 class UpdateCourseEvents
 {
-    public function handle(CourseUpdated $event)
+    public function handle(CourseUpdated $event): void
     {
         $course = $event->course;
 

@@ -9,7 +9,7 @@ class UserUpdateCrudRequest extends \Backpack\PermissionManager\app\Http\Request
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'email' => 'required|unique:'.config('permission.table_names.users', 'users').',email,'.$this->get('id'),

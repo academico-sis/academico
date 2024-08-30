@@ -23,7 +23,7 @@ class LMSControllerTest extends TestCase
     /**
      * @test
      */
-    public function localUsersAreCreatedOnRemoteLMS()
+    public function localUsersAreCreatedOnRemoteLMS(): void
     {
         $user = factory(User::class)->create();
 

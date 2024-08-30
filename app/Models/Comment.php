@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -25,12 +27,12 @@ class Comment extends Model
         return Carbon::parse($this->updated_at, 'UTC')->toFormattedDateString();
     }
 
-    public function commentable()
+    public function commentable(): MorphTo
     {
         return $this->morphTo();
     }
 
-    public function author()
+    public function author(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

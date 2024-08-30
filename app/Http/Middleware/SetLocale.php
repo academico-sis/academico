@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use Symfony\Component\HttpFoundation\Response;
 use Carbon\Carbon;
 use Closure;
 use Illuminate\Http\Request;
@@ -75,7 +76,7 @@ class SetLocale
      * @param  Request  $request
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next): Response
     {
         if (backpack_auth()->check()) {
             $this->setUserLocale();

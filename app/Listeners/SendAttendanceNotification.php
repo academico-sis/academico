@@ -7,7 +7,7 @@ use App\Jobs\WatchAttendance;
 
 class SendAttendanceNotification
 {
-    public function handle(AttendanceSavedEvent $event)
+    public function handle(AttendanceSavedEvent $event): void
     {
         $attendance = $event->attendance;
 

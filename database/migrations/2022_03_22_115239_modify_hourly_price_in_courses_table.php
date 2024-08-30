@@ -11,7 +11,7 @@ return new class extends Migration {
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('courses', function (Blueprint $table) {
             $table->bigInteger('hourly_price')->nullable()->change();
@@ -25,7 +25,7 @@ return new class extends Migration {
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('courses', function (Blueprint $table) {
             $table->decimal('hourly_price', 8, 2)->nullable()->change();

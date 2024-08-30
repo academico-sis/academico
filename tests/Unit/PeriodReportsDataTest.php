@@ -25,7 +25,7 @@ class PeriodReportsDataTest extends TestCase
     /**
      * Period->real_enrollments must return the count of pending enrollments in the period.
      */
-    public function testRealEnrollmentsCountIncludesPendingEnrollments()
+    public function testRealEnrollmentsCountIncludesPendingEnrollments(): void
     {
         $period = Period::get_default_period();
 
@@ -44,7 +44,7 @@ class PeriodReportsDataTest extends TestCase
     /**
      * Period->real_enrollments must return the count of paid enrollments in the period.
      */
-    public function testRealEnrollmentsCountIncludesPaidEnrollments()
+    public function testRealEnrollmentsCountIncludesPaidEnrollments(): void
     {
         $period = Period::get_default_period();
 
@@ -65,7 +65,7 @@ class PeriodReportsDataTest extends TestCase
      * Period->real_enrollments must return the count of paid or pending enrollments in the period
      * without deleted enrollments.
      */
-    public function testRealEnrollmentsCountExcludesDeletedEnrollments()
+    public function testRealEnrollmentsCountExcludesDeletedEnrollments(): void
     {
         $total = rand(2, 10);
         for ($i = 0; $i < $total; $i++) {
@@ -85,7 +85,7 @@ class PeriodReportsDataTest extends TestCase
      * Period->real_enrollments must return the count of paid or pending enrollments in the period
      * without children enrollments.
      */
-    public function testRealEnrollmentsCountExcludesChildrenEnrollments()
+    public function testRealEnrollmentsCountExcludesChildrenEnrollments(): void
     {
         // given an enrollment in the current period
         $period = Period::get_default_period();
@@ -106,7 +106,7 @@ class PeriodReportsDataTest extends TestCase
      * Period->real_enrollments must count paid or pending enrollments in children courses,
      * provided that this enrollment has no parent.
      */
-    public function testRealEnrollmentsCountIncludesEnrollmentsInChildrenCourses()
+    public function testRealEnrollmentsCountIncludesEnrollmentsInChildrenCourses(): void
     {
         // given an enrollment in the current period
         $period = Period::get_default_period();
@@ -125,7 +125,7 @@ class PeriodReportsDataTest extends TestCase
     /** Period->getStudentsCountAttribute
      * Return the number of unique students for the period.
      */
-    public function testPeriodStudentsCountAttribute()
+    public function testPeriodStudentsCountAttribute(): void
     {
         $period = Period::get_default_period();
         $course = factory(Course::class)->create(['period_id' => $period->id]);
@@ -159,7 +159,7 @@ class PeriodReportsDataTest extends TestCase
      * TODO make the numbers random.
      * The attribute should return the raw value and another getter should be used to format it as %.
      */
-    public function testAcquisitionRateAttribute()
+    public function testAcquisitionRateAttribute(): void
     {
         // given a number of students enrolled in period P-1
         $period1 = Period::get_default_period();
@@ -195,7 +195,7 @@ class PeriodReportsDataTest extends TestCase
     /** getNewStudentsCountAttribute
      * Number of students in period P who have never been enrolled before.
      */
-    public function testNewStudentsCountAttribute()
+    public function testNewStudentsCountAttribute(): void
     {
         $period1 = factory(Period::class)->create();
         $courseForPeriod1 = factory(Course::class)->create(['period_id' => $period1->id]);

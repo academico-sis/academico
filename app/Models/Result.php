@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Events\ResultSavedEvent;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
@@ -24,12 +26,12 @@ class Result extends Model
         return LogOptions::defaults()->logUnguarded();
     }
 
-    public function comments()
+    public function comments(): MorphMany
     {
         return $this->morphMany(Comment::class, 'commentable');
     }
 
-    public function result_name()
+    public function result_name(): BelongsTo
     {
         return $this->belongsTo(ResultType::class, 'result_type_id');
     }
@@ -42,7 +44,7 @@ class Result extends Model
     /**
      * A Result is linked to an Enrollment.
      */
-    public function enrollment()
+    public function enrollment(): BelongsTo
     {
         return $this->belongsTo(Enrollment::class);
     }

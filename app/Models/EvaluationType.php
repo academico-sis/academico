@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphedByMany;
 use App\Models\Skills\Skill;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
@@ -16,17 +18,17 @@ class EvaluationType extends Model
 
     protected $with = ['gradeTypes', 'skills'];
 
-    public function courses()
+    public function courses(): BelongsToMany
     {
         return $this->belongsToMany(Course::class);
     }
 
-    public function gradeTypes()
+    public function gradeTypes(): MorphedByMany
     {
         return $this->morphedByMany(GradeType::class, 'presettable', 'evaluation_type_presets');
     }
 
-    public function skills()
+    public function skills(): MorphedByMany
     {
         return $this->morphedByMany(Skill::class, 'presettable', 'evaluation_type_presets');
     }

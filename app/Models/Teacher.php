@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Events\TeacherUpdated;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Carbon\Carbon;
@@ -39,7 +41,7 @@ class Teacher extends Model
     }
 
     /** relations */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'id', 'id')->withTrashed();
     }
@@ -61,12 +63,12 @@ class Teacher extends Model
             ->where('end', '<=', Carbon::parse($period->end)->setTime(23, 59, 0)->toDateTimeString());
     }
 
-    public function events()
+    public function events(): HasMany
     {
         return $this->hasMany(Event::class);
     }
 
-    public function leaves()
+    public function leaves(): HasMany
     {
         return $this->hasMany(Leave::class)->with('leaveType');
     }
@@ -109,7 +111,7 @@ class Teacher extends Model
         return $formatted_leaves;
     }
 
-    public function courses()
+    public function courses(): HasMany
     {
         return $this->hasMany(Course::class);
     }

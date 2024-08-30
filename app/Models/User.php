@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use App\Events\UserDeleting;
 use App\Events\UserUpdated;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
@@ -45,12 +46,12 @@ class User extends Authenticatable
         return Student::whereId($this->id)->count() > 0;
     }
 
-    public function student()
+    public function student(): HasOne
     {
         return $this->hasOne(Student::class, 'id', 'id');
     }
 
-    public function teacher()
+    public function teacher(): HasOne
     {
         return $this->hasOne(Teacher::class, 'id', 'id');
     }

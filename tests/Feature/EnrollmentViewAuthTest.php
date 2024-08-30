@@ -20,7 +20,7 @@ class EnrollmentViewAuthTest extends TestCase
     }
 
     /** @test **/
-    public function unathorized_users_cannot_view_enrollments()
+    public function unathorized_users_cannot_view_enrollments(): void
     {
         $response = $this->get('enrollment');
         $response->assertStatus(302);
@@ -28,7 +28,7 @@ class EnrollmentViewAuthTest extends TestCase
     }
 
     /** @test **/
-    public function teachers_cannot_view_enrollments()
+    public function teachers_cannot_view_enrollments(): void
     {
         $teacher = factory(Teacher::class)->create();
         backpack_auth()->login($teacher->user, true);
@@ -38,7 +38,7 @@ class EnrollmentViewAuthTest extends TestCase
     }
 
     /** @test **/
-    public function students_cannot_view_enrollments()
+    public function students_cannot_view_enrollments(): void
     {
         $student = factory(Student::class)->create();
         backpack_auth()->login($student->user, true);
@@ -48,7 +48,7 @@ class EnrollmentViewAuthTest extends TestCase
     }
 
     /** @test **/
-    public function admins_may_view_enrollments()
+    public function admins_may_view_enrollments(): void
     {
         $user = factory(User::class)->create();
         $user->assignRole('admin');
@@ -60,7 +60,7 @@ class EnrollmentViewAuthTest extends TestCase
     }
 
     /** @test **/
-    public function secreteries_may_view_enrollments()
+    public function secreteries_may_view_enrollments(): void
     {
         $user = factory(User::class)->create();
         $user->assignRole('secretary');

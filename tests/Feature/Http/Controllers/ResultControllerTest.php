@@ -24,7 +24,7 @@ class ResultControllerTest extends TestCase
     }
 
     /** @test */
-    public function can_add_a_result_for_the_enrollment()
+    public function can_add_a_result_for_the_enrollment(): void
     {
         $this->logAdmin();
         $enrollment = factory(Enrollment::class)->create();
@@ -41,7 +41,7 @@ class ResultControllerTest extends TestCase
     }
 
     /** @test */
-    public function can_edit_a_result_for_the_enrollment()
+    public function can_edit_a_result_for_the_enrollment(): void
     {
         $this->logAdmin();
         $enrollment = factory(Enrollment::class)->create();

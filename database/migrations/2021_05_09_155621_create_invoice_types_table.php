@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
-    public function up()
+    public function up(): void
     {
         if (! Schema::hasTable('invoice_types')) {
             Schema::create('invoice_types', function (Blueprint $table) {
@@ -25,7 +25,7 @@ return new class extends Migration {
         }
     }
 
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('invoice_types');
     }

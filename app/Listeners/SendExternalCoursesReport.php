@@ -20,7 +20,7 @@ class SendExternalCoursesReport
         //
     }
 
-    public function handle()
+    public function handle(): void
     {
         $period_start = Carbon::parse('first day of this month');
         $period_end = Carbon::parse('last day of this month');

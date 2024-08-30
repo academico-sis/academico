@@ -29,7 +29,7 @@ class WatchAttendance implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         if ($this->attendance->attendance_type_id == 4) {
             // if so, send an email

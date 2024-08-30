@@ -7,7 +7,7 @@ use App\Models\InvoiceDetail;
 
 class DeleteEnrollmentData
 {
-    public function handle(EnrollmentDeleting $event)
+    public function handle(EnrollmentDeleting $event): void
     {
         /** @var InvoiceDetail $invoiceDetail */
         foreach ($event->enrollment->invoiceDetails as $invoiceDetail) {
