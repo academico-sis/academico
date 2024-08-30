@@ -55,17 +55,17 @@ class InvoiceService
 
             if ($product->product instanceof Enrollment) {
                 if ($product->product->course->name) {
-                    $description .= 'Curso: ' . $product->product->course->name;
-                    $description .= '<br>Ciclo: ' . $product->product->course->period->name;
+                    $description .= 'Curso: '.$product->product->course->name;
+                    $description .= '<br>Ciclo: '.$product->product->course->period->name;
                 }
 
                 if ($product->product->course?->level?->name) {
-                    $description .= '<br>Nivel: ' . $product->product->course->level->name;
+                    $description .= '<br>Nivel: '.$product->product->course->level->name;
                 }
             }
 
             if ($product->comment) {
-                $description .= '<br><br>' . $product->comment;
+                $description .= '<br><br>'.$product->comment;
             }
 
             if ($description) {

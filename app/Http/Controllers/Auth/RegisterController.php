@@ -122,7 +122,6 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
      */
     public function register(Request $request)
     {
-
         // if registration is closed, deny access
         if (! config('backpack.base.registration_open')) {
             abort(403, trans('backpack::base.registration_closed'));

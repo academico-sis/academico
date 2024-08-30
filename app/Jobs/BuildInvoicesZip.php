@@ -30,8 +30,7 @@ class BuildInvoicesZip implements ShouldQueue, ShouldBeUnique
     public function __construct(
         public array $entries,
         public string $email,
-    )
-    {
+    ) {
         //
     }
 
@@ -53,14 +52,13 @@ class BuildInvoicesZip implements ShouldQueue, ShouldBeUnique
                 $invoiceService
                     ->download(invoice: $entry)
                     ->filename($folder.DIRECTORY_SEPARATOR.$entry->invoice_number)
-                    ->save()
-                ;
+                    ->save();
             }
         }
 
         $zip = new ZipArchive();
         $files = File::files(storage_path('app'.DIRECTORY_SEPARATOR.$folder));
-        if ($zip->open(storage_path($folder.'.zip'), \ZipArchive::CREATE)== TRUE) {
+        if ($zip->open(storage_path($folder.'.zip'), ZipArchive::CREATE) == true) {
             foreach ($files as $file) {
                 $relativeName = basename($file);
                 $zip->addFile(filepath: $file, entryname: $relativeName);

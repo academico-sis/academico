@@ -26,10 +26,9 @@ use Illuminate\Support\Str;
 class InvoiceController extends Controller
 {
     public function __construct(
-        public InvoiceService     $invoiceDocumentService,
+        public InvoiceService $invoiceDocumentService,
         public InvoicingInterface $invoicingService,
-    )
-    {
+    ) {
         parent::__construct();
         $this->middleware(['permission:enrollments.edit']);
     }
@@ -62,7 +61,6 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-
         // receive the client data and create a invoice with status = pending
         $invoice = Invoice::create([
             'client_name' => $request->client_name,

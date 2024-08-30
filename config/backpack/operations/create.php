@@ -40,7 +40,7 @@ return [
  * - false - fall back to Backpack's default (ONLY save inputs that have fields)
  * - closure - process your own request (example removes all inputs that begin with underscode).
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  Illuminate\Http\Request  $request
  * @return array
  */
     // 'strippedRequest' => (function ($request) {

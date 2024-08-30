@@ -116,7 +116,7 @@ class SkillCrudController extends CrudController
                 'entity' => 'level',
                 'attribute' => 'name',
                 'model' => Level::class,
-            ]
+            ],
         ]);
     }
 
@@ -160,8 +160,9 @@ class SkillCrudController extends CrudController
     {
         $this->crud->hasAccessOrFail('update');
 
-        if (!$request->file('file')) {
+        if (! $request->file('file')) {
             \Alert::error('Le fichier est invalide.')->flash();
+
             return \Redirect::to($this->crud->route);
         }
 
@@ -169,6 +170,7 @@ class SkillCrudController extends CrudController
             $csv = Reader::createFromString(content: $request->file('file')->getContent());
         } catch (\Exception $e) {
             \Alert::error('Le fichier est invalide.')->flash();
+
             return \Redirect::to($this->crud->route);
         }
 
@@ -178,18 +180,21 @@ class SkillCrudController extends CrudController
         // check data before doing anything
         foreach ($csv as $record) {
             $data = array_values($record);
-            if (! $data[2] || !$level = Level::firstWhere(['name' => $data[2]])) {
+            if (! $data[2] || ! $level = Level::firstWhere(['name' => $data[2]])) {
                 \Alert::error('Le fichier contient des niveaux invalides.')->flash();
+
                 return \Redirect::to($this->crud->route);
             }
 
             if (! $data[1]) {
                 \Alert::error('Le fichier contient des compétences invalides.')->flash();
+
                 return \Redirect::to($this->crud->route);
             }
 
-            if (! $data[0] || !$skillType = SkillType::firstWhere(['shortname' => $data[0]]) ?? SkillType::firstWhere(['name' => $data[0]])) {
+            if (! $data[0] || ! $skillType = SkillType::firstWhere(['shortname' => $data[0]]) ?? SkillType::firstWhere(['name' => $data[0]])) {
                 \Alert::error('Le fichier contient des catégories de compétences invalides.')->flash();
+
                 return \Redirect::to($this->crud->route);
             }
         }
@@ -197,6 +202,7 @@ class SkillCrudController extends CrudController
         if ($groupName = $request->group) {
             if (EvaluationType::firstWhere(['name' => $request->group])) {
                 \Alert::error("Ce nom est déjà utilisé pour un autre type d'évaluation.")->flash();
+
                 return \Redirect::to($this->crud->route);
             }
 
@@ -221,5 +227,4 @@ class SkillCrudController extends CrudController
 
         return \Redirect::to($this->crud->route);
     }
-
 }

@@ -106,7 +106,7 @@ class Ecuasolutions implements InvoicingInterface
         $serverurl = config('invoicing.ecuasolutions.url');
 
         Log::info('Sending data to accounting');
-        Log::info('request sent: ' . json_encode($body));
+        Log::info('request sent: '.json_encode($body));
 
         $response = $client->post(
             uri: $serverurl,
@@ -119,12 +119,11 @@ class Ecuasolutions implements InvoicingInterface
                 'timeout' => 8,
             ]);
 
-
         if ($response->getBody()) {
             $code = json_decode(preg_replace('/[\\x00-\\x1F\\x80-\\xFF]/', '', $response->getBody()), true, 512, JSON_THROW_ON_ERROR);
         }
 
-        Log::info('response: ' . $response->getBody());
+        Log::info('response: '.$response->getBody());
 
         return $code['mensaje'] ?? null;
     }

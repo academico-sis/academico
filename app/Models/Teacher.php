@@ -82,7 +82,6 @@ class Teacher extends Model
 
         // loop through all leave dates
         for ($i = 0; $i < (is_countable($dates) ? count($dates) : 0); $i++) {
-
             // if the next date does not touch current range
             if (isset($dates[$i + 1])) {
                 if (Carbon::parse($dates[$i]['date'])->addDay() != Carbon::parse($dates[$i + 1]['date'])) {
@@ -173,7 +172,6 @@ class Teacher extends Model
 
         foreach ($eventsWithExpectedAttendance as $event) {
             foreach ($event->enrollments as $enrollment) {
-
                 // if a student has no attendance record for the class (event)
                 $hasNotAttended = $event->attendance->where('student_id', $enrollment->student_id)->isEmpty();
 

@@ -322,7 +322,7 @@ class EnrollmentCrudController extends CrudController
                 'type' => 'select2_multiple',
                 'label' => __('Status'),
             ],
-            fn () => EnrollmentStatusType::all()->pluck('name', 'id')->toArray(),
+                fn () => EnrollmentStatusType::all()->pluck('name', 'id')->toArray(),
                 function ($values) {
                     foreach (json_decode($values, null, 512, JSON_THROW_ON_ERROR) as $value) {
                         CRUD::addClause('orWhere', 'status_id', $value);
