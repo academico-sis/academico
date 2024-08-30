@@ -42,7 +42,7 @@
         "jasonmccreary/laravel-test-assertions": "^2.3",
         "laracasts/generators": "^2.0",
         "laravel/pint": "^1.0",
-        "laravel/sail": "^1.18",
+        "laravel/sail": "*",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.1",
         "phpunit/phpunit": "^9.5.10",
