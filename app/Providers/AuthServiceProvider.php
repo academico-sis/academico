@@ -24,8 +24,6 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->registerPolicies();
-
         /*
          * a user is allowed to edit the course grades if they are the teacher for this course,
          * or if they have explicit permission to do so
