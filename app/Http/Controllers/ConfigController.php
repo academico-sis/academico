@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\View\View;
-use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\UpdateConfigRequest;
 use App\Models\Config;
 use App\Models\Period;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class ConfigController extends Controller
 {

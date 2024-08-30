@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\View\View;
 use App\Http\Requests\InvoiceRequest;
 use App\Jobs\BuildInvoicesZip;
 use App\Models\Invoice;
@@ -19,6 +18,7 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\View\View;
 use Ramsey\Uuid\Uuid;
 use ZipArchive;
 

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\RedirectResponse;
 use App\Models\Rhythm;
+use Illuminate\Http\RedirectResponse;
 
 class RhythmController extends Controller
 {

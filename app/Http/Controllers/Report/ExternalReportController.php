@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Report;
 
-use Illuminate\View\View;
 use App\Http\Controllers\Controller;
 use App\Models\Config;
 use App\Models\Partner;
@@ -13,6 +12,7 @@ use App\Services\StatService;
 use App\Traits\PeriodSelection;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class ExternalReportController extends Controller
 {

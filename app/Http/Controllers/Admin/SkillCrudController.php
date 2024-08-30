@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\View\View;
 use App\Models\EvaluationType;
 use App\Models\Level;
 use App\Models\Skills\Skill;
@@ -17,6 +16,7 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Validation\Rule;
+use Illuminate\View\View;
 use League\Csv\Reader;
 
 class SkillCrudController extends CrudController

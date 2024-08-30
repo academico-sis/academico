@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Calendar;
 
-use Illuminate\View\View;
 use App\Http\Controllers\Controller;
 use App\Models\Event;
 use App\Models\Room;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\View\View;
 
 class RoomCalendarController extends Controller
 {

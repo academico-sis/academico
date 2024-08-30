@@ -2,10 +2,10 @@
 
 namespace App\Models\Skills;
 
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\Enrollment;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 

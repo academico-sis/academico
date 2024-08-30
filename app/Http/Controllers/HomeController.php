@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\RedirectResponse;
-use Illuminate\View\View;
 use App\Models\Event;
 use App\Models\Period;
 use App\Models\Student;
@@ -11,8 +9,10 @@ use App\Models\Teacher;
 use App\Services\StatService;
 use App\Traits\PeriodSelection;
 use Carbon\Carbon;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
 
 class HomeController extends Controller
 {

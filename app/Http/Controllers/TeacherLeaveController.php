@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\View\View;
 use App\Models\Teacher;
+use Illuminate\View\View;
 
 class TeacherLeaveController extends Controller
 {

@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Calendar;
 
-use Illuminate\View\View;
 use App\Http\Controllers\Controller;
 use App\Models\Event;
 use App\Models\Leave;
 use App\Models\Teacher;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\View\View;
 
 class TeacherCalendarController extends Controller
 {

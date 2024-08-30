@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\View\View;
 use App\Models\Book;
 use App\Models\Discount;
 use App\Models\Enrollment;
@@ -13,6 +12,7 @@ use App\Models\ScheduledPayment;
 use App\Models\Tax;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
 
 class ScheduledPaymentController extends Controller
 {

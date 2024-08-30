@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin\Operations;
 
-use Illuminate\View\View;
 use App\Models\Course;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
+use Illuminate\View\View;
 
 trait ShowStudentListOperation
 {

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Report;
 
-use Illuminate\View\View;
 use App\Http\Controllers\Controller;
 use App\Models\CachedReport;
 use App\Models\Config;
@@ -14,6 +13,7 @@ use App\Traits\PeriodSelection;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\View\View;
 
 class ReportController extends Controller
 {

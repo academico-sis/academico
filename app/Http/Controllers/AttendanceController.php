@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\View\View;
 use App\Models\Attendance;
 use App\Models\AttendanceType;
 use App\Models\Course;
@@ -13,6 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
 use Prologue\Alerts\Facades\Alert;
 
 class AttendanceController extends Controller

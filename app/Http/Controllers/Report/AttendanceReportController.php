@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Report;
 
-use Illuminate\View\View;
 use App\Http\Controllers\Controller;
 use App\Models\AttendanceType;
 use App\Models\Course;
@@ -11,6 +10,7 @@ use App\Models\Period;
 use App\Models\Rhythm;
 use App\Traits\PeriodSelection;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class AttendanceReportController extends Controller
 {

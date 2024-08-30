@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\RedirectResponse;
 use App\Models\Level;
+use Illuminate\Http\RedirectResponse;
 
 class LevelController extends Controller
 {
