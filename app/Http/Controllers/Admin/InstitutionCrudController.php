@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Http\RedirectResponse;
 use App\Models\Institution;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -52,7 +53,7 @@ class InstitutionCrudController extends CrudController
         $this->setupCreateOperation();
     }
 
-    public function show($id)
+    public function show($id): RedirectResponse
     {
         return redirect()->route('student.index', ['institution_id' => $id]);
     }

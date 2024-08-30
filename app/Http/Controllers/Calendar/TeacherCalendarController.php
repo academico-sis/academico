@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Calendar;
 
+use Illuminate\View\View;
 use App\Http\Controllers\Controller;
 use App\Models\Event;
 use App\Models\Leave;
@@ -20,7 +21,7 @@ class TeacherCalendarController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): View
     {
         // Do not fetch all events but only those closest to current date.
         $events = Event::with('course')
@@ -75,7 +76,7 @@ class TeacherCalendarController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Teacher $teacher)
+    public function show(Teacher $teacher): View
     {
         // If the user is not allowed to perform this action
         if (Gate::forUser(backpack_user())->denies('view-teacher-calendar', $teacher)) {

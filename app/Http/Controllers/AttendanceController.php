@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\View\View;
 use App\Models\Attendance;
 use App\Models\AttendanceType;
 use App\Models\Course;
@@ -160,7 +161,7 @@ class AttendanceController extends Controller
         return view('attendance/course', compact('attendances', 'isadmin', 'course', 'events'));
     }
 
-    public function showEvent(Event $event)
+    public function showEvent(Event $event): View
     {
         // The current is not allowed to view the page
         if (Gate::forUser(backpack_user())->denies('view-event-attendance', $event)) {
@@ -189,7 +190,7 @@ class AttendanceController extends Controller
         return view('attendance/event', compact('attendances', 'event', 'attendance_types'));
     }
 
-    public function showStudentAttendanceForCourse(Student $student, Request $request)
+    public function showStudentAttendanceForCourse(Student $student, Request $request): View
     {
         if ($request->query('course_id') == null) {
             $selectedCourse = $student->enrollments->last()->course;

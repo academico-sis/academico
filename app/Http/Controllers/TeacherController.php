@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use App\Models\Teacher;
 
 class TeacherController extends Controller
 {
-    public function destroy(Teacher $teacher)
+    public function destroy(Teacher $teacher): RedirectResponse
     {
         $teacher->delete();
 
         return redirect()->back();
     }
 
-    public function restore($id)
+    public function restore($id): RedirectResponse
     {
         Teacher::withTrashed()
         ->whereId($id)

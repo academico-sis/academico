@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Http\RedirectResponse;
 use App\Models\Teacher;
 use App\Models\User;
 use App\Traits\UsernameTrait;
@@ -165,7 +166,7 @@ class TeacherCrudController extends CrudController
         $this->setupCreateOperation();
     }
 
-    public function store()
+    public function store(): RedirectResponse
     {
         $request = $this->crud->validateRequest();
 

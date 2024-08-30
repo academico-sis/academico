@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Http\RedirectResponse;
 use App\Models\Payment;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
@@ -89,7 +90,7 @@ class PaymentCrudController extends CrudController
         ]);
     }
 
-    public function show($id)
+    public function show($id): RedirectResponse
     {
         $payment = Payment::findOrFail($id);
 

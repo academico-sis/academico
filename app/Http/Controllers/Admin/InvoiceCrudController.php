@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\View\View;
 use App\Http\Requests\InvoiceRequest;
 use App\Jobs\BuildInvoicesZip;
 use App\Models\Invoice;
@@ -229,7 +230,7 @@ class InvoiceCrudController extends CrudController
         ]);
     }
 
-    public function show($id)
+    public function show($id): View
     {
         $invoice = Invoice::findOrFail($id)->load('payments');
 

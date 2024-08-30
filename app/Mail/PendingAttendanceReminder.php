@@ -27,7 +27,7 @@ class PendingAttendanceReminder extends Mailable implements ShouldQueue
      *
      * @return $this
      */
-    public function build()
+    public function build(): static
     {
         return $this
             ->subject(__('Incomplete Attendance'))

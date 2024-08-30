@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
@@ -13,7 +14,7 @@ class Language extends Controller
      * @param  string  $locale
      * @param  Request  $request
      **/
-    private function setLocale($locale, $request)
+    private function setLocale(string $locale, Request $request)
     {
         // Check if is allowed and set default locale if not
         if (! language()->allowed($locale)) {
@@ -33,7 +34,7 @@ class Language extends Controller
      * @param  string  $locale
      * @return string
      **/
-    public function home($locale, Request $request)
+    public function home(string $locale, Request $request): RedirectResponse
     {
         $this->setLocale($locale, $request);
 
@@ -48,7 +49,7 @@ class Language extends Controller
      * @param  string  $locale
      * @return string
      **/
-    public function back($locale, Request $request)
+    public function back(string $locale, Request $request): RedirectResponse
     {
         $this->setLocale($locale, $request);
 

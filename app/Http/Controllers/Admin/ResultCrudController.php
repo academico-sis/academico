@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\View\View;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Period;
@@ -130,7 +131,7 @@ class ResultCrudController extends CrudController
     /**
      * Display the specified resource (result for a specific enrollment).
      */
-    public function show($enrollment)
+    public function show($enrollment): View
     {
         // the user is allowed to view the result if they are the student,
         // if they are the teacher of the course for this result

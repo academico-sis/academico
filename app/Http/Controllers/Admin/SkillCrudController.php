@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\View\View;
 use App\Models\EvaluationType;
 use App\Models\Level;
 use App\Models\Skills\Skill;
@@ -144,7 +145,7 @@ class SkillCrudController extends CrudController
         ]);
     }
 
-    public function getImportForm()
+    public function getImportForm(): View
     {
         $this->crud->hasAccessOrFail('update');
         $this->crud->setOperation('Import');

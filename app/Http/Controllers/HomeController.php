@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 use App\Models\Event;
 use App\Models\Period;
 use App\Models\Student;
@@ -26,7 +28,7 @@ class HomeController extends Controller
     /**
      * redirect the user according to their role.
      */
-    public function index()
+    public function index(): RedirectResponse
     {
         if (backpack_user()->hasRole(['admin', 'secretary'])) {
             return redirect()->route('admin');
@@ -44,7 +46,7 @@ class HomeController extends Controller
         }
     }
 
-    public function teacher(Request $request)
+    public function teacher(Request $request): View
     {
         if (! backpack_user()->isTeacher()) {
             abort(403);
@@ -69,7 +71,7 @@ class HomeController extends Controller
         ]);
     }
 
-    public function student()
+    public function student(): View
     {
         if (! backpack_user()->isStudent()) {
             abort(403);
@@ -84,7 +86,7 @@ class HomeController extends Controller
         ]);
     }
 
-    public function admin()
+    public function admin(): View
     {
         $currentPeriod = Period::get_default_period();
         $enrollmentsPeriod = Period::get_enrollments_period();

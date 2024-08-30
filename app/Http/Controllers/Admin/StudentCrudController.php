@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 use App\Events\UserCreated;
 use App\Exceptions\UserSyncException;
 use App\Models\Institution;
@@ -360,7 +362,7 @@ class StudentCrudController extends CrudController
         $this->setupCreateOperation();
     }
 
-    public function store()
+    public function store(): RedirectResponse
     {
         $request = $this->crud->getRequest();
 
@@ -460,7 +462,7 @@ class StudentCrudController extends CrudController
         return $this->crud->performSaveAction($item->getKey());
     }
 
-    public function show($student)
+    public function show($student): View
     {
         $student = Student::findOrFail($student);
 

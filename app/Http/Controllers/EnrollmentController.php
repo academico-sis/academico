@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\View\View;
 use App\Http\Requests\EnrollmentCreateRequest;
 use App\Interfaces\EnrollmentSheetInterface;
 use App\Models\Attendance;
@@ -116,7 +117,7 @@ class EnrollmentController extends Controller
      * Create a new cart with the specified enrollment
      * and display the cart.
      */
-    public function bill(Enrollment $enrollment)
+    public function bill(Enrollment $enrollment): View
     {
         Log::info('User # '.backpack_user()->id.' is generating a invoice');
 

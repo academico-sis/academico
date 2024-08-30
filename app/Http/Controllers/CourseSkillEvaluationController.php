@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\View\View;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Result;
@@ -16,7 +17,7 @@ class CourseSkillEvaluationController extends Controller
     /**
      * Show the skills overview for all students in the course.
      */
-    public function index(Course $course)
+    public function index(Course $course): View
     {
         if (Gate::forUser(backpack_user())->denies('view-course', $course)) {
             abort(403);

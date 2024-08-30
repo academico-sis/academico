@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Calendar;
 
+use Illuminate\View\View;
 use App\Http\Controllers\Controller;
 use App\Models\Event;
 use App\Models\Room;
@@ -19,7 +20,7 @@ class RoomCalendarController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): View
     {
         // Do not fetch all events but only those closest to current date. TODO optimize this.
         $events = Event::with('course')
@@ -69,7 +70,7 @@ class RoomCalendarController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Room $room)
+    public function show(Room $room): View
     {
         if (Gate::forUser(backpack_user())->denies('view-room-calendar')) {
             abort(403);

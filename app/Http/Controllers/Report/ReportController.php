@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Report;
 
+use Illuminate\View\View;
 use App\Http\Controllers\Controller;
 use App\Models\CachedReport;
 use App\Models\Config;
@@ -116,7 +117,7 @@ class ReportController extends Controller
     /**
      * Show the enrollment numbers per rhythm.
      */
-    public function rhythms(Request $request)
+    public function rhythms(Request $request): View
     {
         $year = $this->selectYear($request);
         if ($year) {
@@ -142,7 +143,7 @@ class ReportController extends Controller
     }
 
     /** Number of students per course */
-    public function courses(Request $request)
+    public function courses(Request $request): View
     {
         $period = $this->selectPeriod($request);
 
@@ -158,7 +159,7 @@ class ReportController extends Controller
     }
 
     /** Number of students per level */
-    public function levels(Request $request)
+    public function levels(Request $request): View
     {
         $year = $this->selectYear($request);
         if ($year) {

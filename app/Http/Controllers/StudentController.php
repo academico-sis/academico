@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
@@ -9,7 +10,7 @@ use Illuminate\Support\Facades\Gate;
 class StudentController extends Controller
 {
     /* Return search results for enrollment modal */
-    public function search(Request $request)
+    public function search(Request $request): JsonResponse
     {
         // If the user is not allowed to perform this action
         if (Gate::forUser(backpack_user())->denies('enroll-students')) {

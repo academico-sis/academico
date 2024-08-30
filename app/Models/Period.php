@@ -50,7 +50,7 @@ class Period extends Model
      *
      * @return self
      */
-    public static function get_default_period()
+    public static function get_default_period(): self
     {
         $configPeriod = Config::where('name', 'current_period');
 

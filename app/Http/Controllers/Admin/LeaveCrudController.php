@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\LeaveRequest;
 use App\Models\Leave;
 use App\Models\LeaveType;
@@ -117,7 +118,7 @@ class LeaveCrudController extends CrudController
         ]);
     }
 
-    public function store()
+    public function store(): RedirectResponse
     {
         $request = $this->crud->getRequest();
 

@@ -21,7 +21,7 @@ class CheckIfAdmin
      * @param [type] $user [description]
      * @return bool [description]
      */
-    private function checkIfUserIsAdmin($user)
+    private function checkIfUserIsAdmin($user): bool
     {
         // return ($user->is_admin == 1);
         return true;

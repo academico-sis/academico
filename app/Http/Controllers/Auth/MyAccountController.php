@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
 use App\Models\ContactRelationship;
 use App\Models\Institution;
@@ -25,7 +27,7 @@ class MyAccountController extends Controller
     /**
      * Show the user a form to change his personal information.
      */
-    public function getAccountInfoForm()
+    public function getAccountInfoForm(): View
     {
         $this->data['title'] = trans('backpack::base.my_account');
         $this->data['user'] = $this->guard()->user();
@@ -36,7 +38,7 @@ class MyAccountController extends Controller
     /**
      * Save the modified personal information for a user.
      */
-    public function postAccountInfoForm(Request $request)
+    public function postAccountInfoForm(Request $request): RedirectResponse
     {
         $request->validate([
             'firstname' => 'required',
@@ -62,7 +64,7 @@ class MyAccountController extends Controller
         return redirect()->back();
     }
 
-    public function getChangePasswordForm()
+    public function getChangePasswordForm(): View
     {
         $this->data['title'] = trans('Change password');
         $this->data['user'] = $this->guard()->user();
@@ -70,7 +72,7 @@ class MyAccountController extends Controller
         return view('student.account.change_password', $this->data);
     }
 
-    public function postChangePasswordForm(Request $request)
+    public function postChangePasswordForm(Request $request): RedirectResponse
     {
         $request->validate([
             'password' => 'required|confirmed',
@@ -102,7 +104,7 @@ class MyAccountController extends Controller
      * Show the student a form to change his personal information.
      * The difference with getAccountInfoForm is that the former is available to all users. This one is specific to stuents (different DB tables).
      */
-    public function getStudentInfoForm()
+    public function getStudentInfoForm(): View
     {
         $this->data['title'] = trans('backpack::base.my_account');
         $this->data['user'] = $this->guard()->user();
@@ -113,7 +115,7 @@ class MyAccountController extends Controller
     /**
      * Save the modified personal information for a user.
      */
-    public function postStudentInfoForm(Request $request)
+    public function postStudentInfoForm(Request $request): RedirectResponse
     {
         $request->validate([
             'idnumber' => 'required',
@@ -143,7 +145,7 @@ class MyAccountController extends Controller
     /**
      * Show the phone numbers edit screen.
      */
-    public function getPhoneForm()
+    public function getPhoneForm(): View
     {
         $this->data['title'] = trans('backpack::base.my_account');
         $this->data['user'] = $this->guard()->user();
@@ -154,7 +156,7 @@ class MyAccountController extends Controller
     /**
      * Move the update step after reviewing the phone numbers.
      */
-    public function postPhoneForm()
+    public function postPhoneForm(): RedirectResponse
     {
         // if the user has been selected for a forced update, move to the next step
         if ($this->guard()->user()->student->force_update == 4) {
@@ -169,7 +171,7 @@ class MyAccountController extends Controller
     /**
      * Show the phone numbers edit screen.
      */
-    public function getAccountProfessionForm()
+    public function getAccountProfessionForm(): View
     {
         $this->data['title'] = trans('backpack::base.my_account');
         $this->data['user'] = $this->guard()->user();
@@ -177,7 +179,7 @@ class MyAccountController extends Controller
         return view('student.account.update_profession', $this->data);
     }
 
-    public function postAccountProfessionForm(Request $request)
+    public function postAccountProfessionForm(Request $request): RedirectResponse
     {
         $request->validate([
             'profession' => 'required',
@@ -214,7 +216,7 @@ class MyAccountController extends Controller
     /**
      * Show the photo edit screen.
      */
-    public function getPhotoForm()
+    public function getPhotoForm(): View
     {
         $this->data['title'] = trans('backpack::base.my_account');
         $this->data['user'] = $this->guard()->user();
@@ -222,7 +224,7 @@ class MyAccountController extends Controller
         return view('student.account.update_photo', $this->data);
     }
 
-    public function postPhotoForm(Request $request)
+    public function postPhotoForm(Request $request): RedirectResponse
     {
         if ($request->fileToUpload != null) {
             $user = Student::where('id', $this->guard()->user()->id)->first();
@@ -246,7 +248,7 @@ class MyAccountController extends Controller
     /**
      * Show the additional contacts review screen.
      */
-    public function getContactsForm()
+    public function getContactsForm(): View
     {
         $this->data['title'] = trans('backpack::base.my_account');
         $this->data['user'] = $this->guard()->user();
@@ -255,7 +257,7 @@ class MyAccountController extends Controller
         return view('student.account.additional_contacts', $this->data);
     }
 
-    public function postContactsForm(Request $request)
+    public function postContactsForm(Request $request): RedirectResponse
     {
         if ($this->guard()->user()->student->force_update == 7) {
             $this->guard()->user()->student->update(['force_update' => null]);
@@ -275,7 +277,7 @@ class MyAccountController extends Controller
      *
      * @return StatefulGuard
      */
-    protected function guard()
+    protected function guard(): StatefulGuard
     {
         return backpack_auth();
     }

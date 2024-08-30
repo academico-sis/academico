@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\UpdateConfigRequest;
 use App\Models\Config;
 use App\Models\Period;
 
 class ConfigController extends Controller
 {
-    public function get()
+    public function get(): View
     {
         if (! backpack_user()->hasPermissionTo('courses.edit')) {
             abort(403);
@@ -21,7 +23,7 @@ class ConfigController extends Controller
         return view('admin.defaultPeriodsSelection', compact('currentPeriod', 'enrollmentsPeriod', 'availablePeriods'));
     }
 
-    public function update(UpdateConfigRequest $request)
+    public function update(UpdateConfigRequest $request): RedirectResponse
     {
         if (! backpack_user()->hasPermissionTo('courses.edit')) {
             abort(403);

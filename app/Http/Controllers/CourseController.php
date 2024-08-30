@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 use App\Models\Course;
 use App\Models\Level;
 use App\Models\Period;
@@ -23,7 +25,7 @@ class CourseController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $defaultPeriod = Period::get_default_period();
         $rhythms = Rhythm::all();
@@ -65,7 +67,7 @@ class CourseController extends Controller
         };
     }
 
-    public function switchViews(Request $request)
+    public function switchViews(Request $request): RedirectResponse
     {
         switch ($request->view) {
             case 'blocks':

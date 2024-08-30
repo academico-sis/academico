@@ -31,7 +31,7 @@ class StudentPhoneNumberController extends Controller
      *
      * @return Response
      */
-    public function destroy(PhoneNumber $phoneNumber)
+    public function destroy(PhoneNumber $phoneNumber): Response
     {
         $phoneNumber->delete();
     }

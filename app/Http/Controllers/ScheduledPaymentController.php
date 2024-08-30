@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\View\View;
 use App\Models\Book;
 use App\Models\Discount;
 use App\Models\Enrollment;
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Log;
 
 class ScheduledPaymentController extends Controller
 {
-    public function create(Enrollment $enrollment)
+    public function create(Enrollment $enrollment): View
     {
         return view('invoices.create_scheduled_payments', [
             'enrollment' => $enrollment,
@@ -39,7 +40,7 @@ class ScheduledPaymentController extends Controller
      * Create a new cart with the specified payment
      * and display the cart.
      */
-    public function bill(ScheduledPayment $scheduledPayment)
+    public function bill(ScheduledPayment $scheduledPayment): View
     {
         // otherwise create a new one.
         Log::info('User # '.backpack_user()->id.' is generating a invoice for a scheduled payment');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use App\Models\Book;
 use App\Models\Student;
 use Carbon\Carbon;
@@ -10,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 
 class BookController extends Controller
 {
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $request->validate([
             'book_id' => 'required',

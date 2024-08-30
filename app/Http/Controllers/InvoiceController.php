@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\View\View;
 use App\Interfaces\InvoicingInterface;
 use App\Models\Book;
 use App\Models\Comment;
@@ -38,7 +39,7 @@ class InvoiceController extends Controller
         return $this->invoicingService->status();
     }
 
-    public function create()
+    public function create(): View
     {
         if (config('invoicing.price_categories_enabled')) {
             abort(403, 'Unable to create an invoice because price categories are enabled in your setup.');

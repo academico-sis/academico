@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\View\View;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Grade;
@@ -15,7 +16,7 @@ class GradeController extends Controller
      *
      * Todo refactor to prevent the number of queries to depend upon the number of records
      */
-    public function edit(Course $course)
+    public function edit(Course $course): View
     {
         $this->checkAccessForCourse($course);
 
