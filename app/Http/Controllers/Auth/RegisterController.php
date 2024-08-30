@@ -42,9 +42,6 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
 
     /**
      * Get a validator for an incoming registration request.
-     *
-     *
-     * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data): \Illuminate\Contracts\Validation\Validator
     {
@@ -116,9 +113,6 @@ class RegisterController extends \Backpack\CRUD\app\Http\Controllers\Auth\Regist
 
     /**
      * Handle a registration request for the application.
-     *
-     *
-     * @return Response
      */
     public function register(Request $request): Response
     {

@@ -20,8 +20,6 @@ class SendMonthlyReport
 
     /**
      * Handle the event.
-     *
-     * @return void
      */
     public function handle(MonthlyReportEvent $event): void
     {

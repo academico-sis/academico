@@ -11,8 +11,6 @@ class Language extends Controller
     /**
      * Set locale if it's allowed.
      *
-     * @param  string  $locale
-     * @param  Request  $request
      **/
     private function setLocale(string $locale, Request $request)
     {
@@ -31,8 +29,6 @@ class Language extends Controller
     /**
      * Set locale and return home url.
      *
-     * @param  string  $locale
-     * @return string
      **/
     public function home(string $locale, Request $request): RedirectResponse
     {
@@ -46,8 +42,6 @@ class Language extends Controller
     /**
      * Set locale and return back.
      *
-     * @param  string  $locale
-     * @return string
      **/
     public function back(string $locale, Request $request): RedirectResponse
     {

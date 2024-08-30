@@ -28,8 +28,6 @@ class StudentPhoneNumberController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @return Response
      */
     public function destroy(PhoneNumber $phoneNumber): Response
     {

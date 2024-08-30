@@ -274,8 +274,6 @@ class MyAccountController extends Controller
 
     /**
      * Get the guard to be used for account manipulation.
-     *
-     * @return StatefulGuard
      */
     protected function guard(): StatefulGuard
     {

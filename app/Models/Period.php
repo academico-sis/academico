@@ -47,8 +47,6 @@ class Period extends Model
     /**
      * Return the current period to be used as a default system-wide.
      * First look in Config DB table; otherwise select current or closest next period.
-     *
-     * @return self
      */
     public static function get_default_period(): self
     {

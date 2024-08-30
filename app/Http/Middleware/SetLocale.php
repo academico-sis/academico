@@ -72,9 +72,6 @@ class SetLocale
 
     /**
      * Handle an incoming request.
-     *
-     * @param  Request  $request
-     * @return mixed
      */
     public function handle(Request $request, Closure $next): Response
     {

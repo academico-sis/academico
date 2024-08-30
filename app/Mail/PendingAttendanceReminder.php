@@ -24,8 +24,6 @@ class PendingAttendanceReminder extends Mailable implements ShouldQueue
 
     /**
      * Build the message.
-     *
-     * @return $this
      */
     public function build(): static
     {
