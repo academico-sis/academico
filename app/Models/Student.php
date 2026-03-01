@@ -165,11 +165,6 @@ class Student extends Model implements HasMedia
             ->orderByDesc('created_at');
     }
 
-    public function leadType(): BelongsTo
-    {
-        return $this->belongsTo(LeadType::class);
-    }
-
     public function institution(): BelongsTo
     {
         return $this->belongsTo(Institution::class);

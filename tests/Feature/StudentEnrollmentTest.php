@@ -69,8 +69,7 @@ class StudentEnrollmentTest extends TestCase
 
     public function test_enroll_clears_lead_type(): void
     {
-        $leadType = \App\Models\LeadType::factory()->create();
-        $student = Student::factory()->create(['lead_type_id' => $leadType->id]);
+        $student = Student::factory()->create(['lead_type_id' => 1]);
         $course = Course::factory()->create();
 
         $student->enroll($course);
