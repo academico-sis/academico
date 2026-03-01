@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Settings\Books;
 use App\Filament\Resources\Settings\Books\Pages\ManageBooks;
 use App\Models\Book;
 use BackedEnum;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -81,7 +82,9 @@ class BookResource extends Resource
             ])
             ->recordActions([
                 EditAction::make(),
-                DeleteAction::make(),
+                ActionGroup::make([
+                    DeleteAction::make(),
+                ]),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

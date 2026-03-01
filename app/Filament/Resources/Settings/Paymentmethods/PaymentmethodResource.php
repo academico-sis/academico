@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Settings\Paymentmethods;
 use App\Filament\Resources\Settings\Paymentmethods\Pages\ManagePaymentmethods;
 use App\Models\Paymentmethod;
 use BackedEnum;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -73,7 +74,9 @@ class PaymentmethodResource extends Resource
             ])
             ->recordActions([
                 EditAction::make(),
-                DeleteAction::make(),
+                ActionGroup::make([
+                    DeleteAction::make(),
+                ]),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

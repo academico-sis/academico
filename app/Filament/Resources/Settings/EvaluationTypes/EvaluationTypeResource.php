@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Settings\EvaluationTypes;
 use App\Filament\Resources\Settings\EvaluationTypes\Pages\ManageEvaluationTypes;
 use App\Models\EvaluationType;
 use BackedEnum;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -79,7 +80,9 @@ class EvaluationTypeResource extends Resource
             ])
             ->recordActions([
                 EditAction::make(),
-                DeleteAction::make(),
+                ActionGroup::make([
+                    DeleteAction::make(),
+                ]),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

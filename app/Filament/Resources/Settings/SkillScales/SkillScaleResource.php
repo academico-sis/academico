@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Settings\SkillScales;
 use App\Filament\Resources\Settings\SkillScales\Pages\ManageSkillScales;
 use App\Models\Skills\SkillScale;
 use BackedEnum;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -85,7 +86,9 @@ class SkillScaleResource extends Resource
             ])
             ->recordActions([
                 EditAction::make(),
-                DeleteAction::make(),
+                ActionGroup::make([
+                    DeleteAction::make(),
+                ]),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

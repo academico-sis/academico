@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Members;
 use App\Filament\Resources\Members\Pages\ManageMembers;
 use App\Models\Member;
 use BackedEnum;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -79,7 +80,9 @@ class MemberResource extends Resource
             ])
             ->recordActions([
                 EditAction::make(),
-                DeleteAction::make(),
+                ActionGroup::make([
+                    DeleteAction::make(),
+                ]),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

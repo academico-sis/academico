@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Settings\Years;
 use App\Filament\Resources\Settings\Years\Pages\ManageYears;
 use App\Models\Year;
 use BackedEnum;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -66,7 +67,9 @@ class YearResource extends Resource
             ])
             ->recordActions([
                 EditAction::make(),
-                DeleteAction::make(),
+                ActionGroup::make([
+                    DeleteAction::make(),
+                ]),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Settings\Discounts;
 use App\Filament\Resources\Settings\Discounts\Pages\ManageDiscounts;
 use App\Models\Discount;
 use BackedEnum;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -78,7 +79,9 @@ class DiscountResource extends Resource
             ])
             ->recordActions([
                 EditAction::make(),
-                DeleteAction::make(),
+                ActionGroup::make([
+                    DeleteAction::make(),
+                ]),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

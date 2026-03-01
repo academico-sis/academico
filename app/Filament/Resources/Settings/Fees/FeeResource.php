@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Settings\Fees;
 use App\Filament\Resources\Settings\Fees\Pages\ManageFees;
 use App\Models\Fee;
 use BackedEnum;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -90,7 +91,9 @@ class FeeResource extends Resource
             ])
             ->recordActions([
                 EditAction::make(),
-                DeleteAction::make(),
+                ActionGroup::make([
+                    DeleteAction::make(),
+                ]),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

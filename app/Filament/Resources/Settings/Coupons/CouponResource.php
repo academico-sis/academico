@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Settings\Coupons;
 use App\Filament\Resources\Settings\Coupons\Pages\ManageCoupons;
 use App\Models\Coupon;
 use BackedEnum;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -74,7 +75,9 @@ class CouponResource extends Resource
             ])
             ->recordActions([
                 EditAction::make(),
-                DeleteAction::make(),
+                ActionGroup::make([
+                    DeleteAction::make(),
+                ]),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Settings\ContactRelationships;
 use App\Filament\Resources\Settings\ContactRelationships\Pages\ManageContactRelationships;
 use App\Models\ContactRelationship;
 use BackedEnum;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -63,7 +64,9 @@ class ContactRelationshipResource extends Resource
             ])
             ->recordActions([
                 EditAction::make(),
-                DeleteAction::make(),
+                ActionGroup::make([
+                    DeleteAction::make(),
+                ]),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

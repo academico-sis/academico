@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Settings\LeaveTypes;
 use App\Filament\Resources\Settings\LeaveTypes\Pages\ManageLeaveTypes;
 use App\Models\LeaveType;
 use BackedEnum;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -63,7 +64,9 @@ class LeaveTypeResource extends Resource
             ])
             ->recordActions([
                 EditAction::make(),
-                DeleteAction::make(),
+                ActionGroup::make([
+                    DeleteAction::make(),
+                ]),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

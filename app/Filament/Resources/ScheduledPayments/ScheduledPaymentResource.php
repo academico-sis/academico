@@ -5,6 +5,7 @@ namespace App\Filament\Resources\ScheduledPayments;
 use App\Filament\Resources\ScheduledPayments\Pages\ManageScheduledPayments;
 use App\Models\ScheduledPayment;
 use BackedEnum;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -122,7 +123,9 @@ class ScheduledPaymentResource extends Resource
             ])
             ->recordActions([
                 EditAction::make(),
-                DeleteAction::make(),
+                ActionGroup::make([
+                    DeleteAction::make(),
+                ]),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Settings\SkillTypes;
 use App\Filament\Resources\Settings\SkillTypes\Pages\ManageSkillTypes;
 use App\Models\Skills\SkillType;
 use BackedEnum;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -76,7 +77,9 @@ class SkillTypeResource extends Resource
             ])
             ->recordActions([
                 EditAction::make(),
-                DeleteAction::make(),
+                ActionGroup::make([
+                    DeleteAction::make(),
+                ]),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

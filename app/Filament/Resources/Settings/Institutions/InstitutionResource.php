@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Settings\Institutions;
 use App\Filament\Resources\Settings\Institutions\Pages\ManageInstitutions;
 use App\Models\Institution;
 use BackedEnum;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -65,7 +66,9 @@ class InstitutionResource extends Resource
             ])
             ->recordActions([
                 EditAction::make(),
-                DeleteAction::make(),
+                ActionGroup::make([
+                    DeleteAction::make(),
+                ]),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

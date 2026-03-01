@@ -6,6 +6,7 @@ use App\Filament\Resources\ExternalCourses\Pages\ManageExternalCourses;
 use App\Models\Course;
 use App\Models\Period;
 use BackedEnum;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -193,7 +194,9 @@ class ExternalCourseResource extends Resource
             ])
             ->recordActions([
                 EditAction::make(),
-                DeleteAction::make(),
+                ActionGroup::make([
+                    DeleteAction::make(),
+                ]),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

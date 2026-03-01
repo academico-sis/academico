@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Settings\Taxes;
 use App\Filament\Resources\Settings\Taxes\Pages\ManageTaxes;
 use App\Models\Tax;
 use BackedEnum;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -77,7 +78,9 @@ class TaxResource extends Resource
             ])
             ->recordActions([
                 EditAction::make(),
-                DeleteAction::make(),
+                ActionGroup::make([
+                    DeleteAction::make(),
+                ]),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

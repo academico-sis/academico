@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Settings\AttendanceTypes;
 use App\Filament\Resources\Settings\AttendanceTypes\Pages\ManageAttendanceTypes;
 use App\Models\AttendanceType;
 use BackedEnum;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -70,7 +71,9 @@ class AttendanceTypeResource extends Resource
             ])
             ->recordActions([
                 EditAction::make(),
-                DeleteAction::make(),
+                ActionGroup::make([
+                    DeleteAction::make(),
+                ]),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
