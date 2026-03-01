@@ -25,11 +25,7 @@ class EnrollmentsRelationManager extends RelationManager
                 TextColumn::make('enrollmentStatus.name')
                     ->label(__('Status'))
                     ->badge()
-                    ->color(fn (string $state): string => match ($state) {
-                        'Pending' => 'warning',
-                        'Paid' => 'success',
-                        default => 'gray',
-                    }),
+                    ->color(fn ($record): ?string => $record->enrollmentStatus?->color),
                 TextColumn::make('total_price')
                     ->label(__('Price'))
                     ->money(config('academico.currency_code', 'USD')),

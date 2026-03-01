@@ -49,10 +49,11 @@
                             @foreach($scales as $scale)
                                 @php
                                     $isActive = ($evaluations[$skill['id']] ?? null) === $scale['id'];
+                                    $scaleColor = $isActive ? ($scale['color'] ?? 'primary') : 'gray';
                                 @endphp
                                 <x-filament::button
                                     wire:click="setEvaluation({{ $skill['id'] }}, {{ $scale['id'] }})"
-                                    :color="$isActive ? 'primary' : 'gray'"
+                                    :color="$scaleColor"
                                     :outlined="!$isActive"
                                     size="xs"
                                 >

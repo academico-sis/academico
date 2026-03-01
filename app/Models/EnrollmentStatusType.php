@@ -14,12 +14,5 @@ class EnrollmentStatusType extends Model
 
     public $timestamps = false;
 
-    public function styling()
-    {
-        return match ($this->id) {
-            1 => 'warning',
-            2 => 'info',
-            default => 'danger',
-        };
-    }
+    protected $fillable = ['color'];
 }

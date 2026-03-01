@@ -50,6 +50,7 @@ class SkillEvaluationPage extends Page
                 'name' => $s->name,
                 'shortname' => $s->shortname,
                 'value' => $s->value,
+                'color' => $s->color,
             ])
             ->toArray();
         $this->loadCourses();

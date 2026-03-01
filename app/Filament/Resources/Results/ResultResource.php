@@ -91,7 +91,7 @@ class ResultResource extends Resource
                     ->label(__('Result'))
                     ->sortable()
                     ->badge()
-                    ->color(fn ($state) => $state ? 'success' : 'gray'),
+                    ->color(fn (Enrollment $record): ?string => $record->result?->result_name?->color),
             ])
             ->defaultSort('id', 'desc')
             ->filters([

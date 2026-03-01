@@ -75,11 +75,7 @@ class EnrollmentResource extends Resource
                         TextEntry::make('enrollmentStatus.name')
                             ->label(__('Status'))
                             ->badge()
-                            ->color(fn (string $state): string => match ($state) {
-                                'Pending' => 'warning',
-                                'Paid' => 'success',
-                                default => 'gray',
-                            }),
+                            ->color(fn (Enrollment $record): ?string => $record->enrollmentStatus?->color),
                         TextEntry::make('total_price')
                             ->label(__('Price'))
                             ->money(config('academico.currency_code', 'USD')),
@@ -120,11 +116,7 @@ class EnrollmentResource extends Resource
                 TextColumn::make('enrollmentStatus.name')
                     ->label(__('Status'))
                     ->badge()
-                    ->color(fn (string $state): string => match ($state) {
-                        'Pending' => 'warning',
-                        'Paid' => 'success',
-                        default => 'gray',
-                    }),
+                    ->color(fn (Enrollment $record): ?string => $record->enrollmentStatus?->color),
                 TextColumn::make('total_price')
                     ->label(__('Price'))
                     ->money(config('academico.currency_code', 'USD'))

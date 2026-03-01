@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\Resources\Settings\SkillScales;
+namespace App\Filament\Resources\Settings\EnrollmentStatusTypes;
 
-use App\Filament\Resources\Settings\SkillScales\Pages\ManageSkillScales;
-use App\Models\Skills\SkillScale;
+use App\Filament\Resources\Settings\EnrollmentStatusTypes\Pages\ManageEnrollmentStatusTypes;
+use App\Models\EnrollmentStatusType;
 use BackedEnum;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
@@ -18,11 +18,11 @@ use Filament\Tables\Columns\ColorColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
-class SkillScaleResource extends Resource
+class EnrollmentStatusTypeResource extends Resource
 {
-    protected static ?string $model = SkillScale::class;
+    protected static ?string $model = EnrollmentStatusType::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedScale;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedTag;
 
     protected static ?string $cluster = \App\Filament\Clusters\Settings\SettingsCluster::class;
 
@@ -33,36 +33,21 @@ class SkillScaleResource extends Resource
 
     public static function getModelLabel(): string
     {
-        return __('Skill Scale');
+        return __('Enrollment Status Type');
     }
 
     public static function getPluralModelLabel(): string
     {
-        return __('Skill Scales');
+        return __('Enrollment Status Types');
     }
 
     public static function form(Schema $schema): Schema
     {
         return $schema
             ->components([
-                TextInput::make('shortname')
-                    ->label(__('Abbreviation'))
-                    ->required()
-                    ->maxLength(8)
-                    ->unique(table: 'skill_scales', ignoreRecord: true),
                 TextInput::make('name')
                     ->label(__('Name'))
-                    ->required()
-                    ->minLength(1)
-                    ->maxLength(40)
-                    ->unique(ignoreRecord: true),
-                TextInput::make('value')
-                    ->label(__('Value'))
-                    ->required()
-                    ->numeric()
-                    ->minValue(0)
-                    ->maxValue(1)
-                    ->step(0.01),
+                    ->required(),
                 ColorPicker::make('color')
                     ->label(__('Color'))
                     ->nullable(),
@@ -73,16 +58,9 @@ class SkillScaleResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('shortname')
-                    ->label(__('Abbreviation'))
-                    ->searchable()
-                    ->sortable(),
                 TextColumn::make('name')
                     ->label(__('Name'))
                     ->searchable()
-                    ->sortable(),
-                TextColumn::make('value')
-                    ->label(__('Value'))
                     ->sortable(),
                 ColorColumn::make('color')
                     ->label(__('Color')),
@@ -104,7 +82,7 @@ class SkillScaleResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ManageSkillScales::route('/'),
+            'index' => ManageEnrollmentStatusTypes::route('/'),
         ];
     }
 }

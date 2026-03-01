@@ -9,11 +9,13 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Columns\ColorColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -54,6 +56,9 @@ class ResultTypeResource extends Resource
                     ->label(__('Description'))
                     ->maxLength(255)
                     ->nullable(),
+                ColorPicker::make('color')
+                    ->label(__('Color'))
+                    ->nullable(),
             ]);
     }
 
@@ -68,6 +73,8 @@ class ResultTypeResource extends Resource
                 TextColumn::make('description')
                     ->label(__('Description'))
                     ->limit(50),
+                ColorColumn::make('color')
+                    ->label(__('Color')),
             ])
             ->filters([
                 //
