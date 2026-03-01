@@ -299,4 +299,102 @@ class EnrollmentBusinessLogicTest extends TestCase
         $this->expectException(\Symfony\Component\HttpKernel\Exception\HttpException::class);
         $enrollment->balance;
     }
+
+    public function test_total_paid_price_sums_invoice_payments(): void
+    {
+        $enrollment = Enrollment::factory()->create();
+        $invoiceType = InvoiceType::factory()->create();
+
+        $invoice = Invoice::factory()->create(['invoice_type_id' => $invoiceType->id]);
+        InvoiceDetail::create([
+            'invoice_id' => $invoice->id,
+            'product_name' => 'Enrollment',
+            'product_code' => 'E',
+            'product_id' => $enrollment->id,
+            'product_type' => Enrollment::class,
+            'price' => 100,
+        ]);
+
+        Payment::factory()->create(['invoice_id' => $invoice->id, 'value' => 40]);
+        Payment::factory()->create(['invoice_id' => $invoice->id, 'value' => 30]);
+
+        $this->assertEquals(70, $enrollment->fresh()->total_paid_price);
+    }
+
+    public function test_total_paid_price_returns_zero_with_no_invoices(): void
+    {
+        $enrollment = Enrollment::factory()->create();
+
+        $this->assertEquals(0, $enrollment->total_paid_price);
+    }
+
+    public function test_has_book_for_course_returns_ok(): void
+    {
+        $course = Course::factory()->create();
+        $student = Student::factory()->create();
+        $book = \App\Models\Book::factory()->create();
+
+        $course->books()->attach($book);
+        $student->books()->attach($book, [
+            'code' => 'ABC',
+            'status_id' => 1,
+            'expiry_date' => now()->addYear()->format('Y-m-d'),
+        ]);
+
+        $enrollment = Enrollment::create([
+            'student_id' => $student->id,
+            'course_id' => $course->id,
+            'status_id' => 1,
+        ]);
+
+        $this->assertEquals('OK', $enrollment->fresh()->has_book_for_course);
+    }
+
+    public function test_has_book_for_course_returns_false_when_missing(): void
+    {
+        $course = Course::factory()->create();
+        $student = Student::factory()->create();
+        $book = \App\Models\Book::factory()->create();
+
+        $course->books()->attach($book);
+        // Student does NOT have this book
+
+        $enrollment = Enrollment::create([
+            'student_id' => $student->id,
+            'course_id' => $course->id,
+            'status_id' => 1,
+        ]);
+
+        $this->assertFalse($enrollment->fresh()->has_book_for_course);
+    }
+
+    public function test_has_book_for_course_returns_exp_when_expired(): void
+    {
+        $course = Course::factory()->create();
+        $student = Student::factory()->create();
+        $book = \App\Models\Book::factory()->create();
+
+        $course->books()->attach($book);
+        $student->books()->attach($book, [
+            'code' => 'ABC',
+            'status_id' => 1,
+            'expiry_date' => now()->subDay()->format('Y-m-d'),
+        ]);
+
+        $enrollment = Enrollment::create([
+            'student_id' => $student->id,
+            'course_id' => $course->id,
+            'status_id' => 1,
+        ]);
+
+        $this->assertEquals('EXP', $enrollment->fresh()->has_book_for_course);
+    }
+
+    public function test_has_book_for_course_returns_null_when_no_books(): void
+    {
+        $course = Course::factory()->create();
+        $enrollment = Enrollment::factory()->create(['course_id' => $course->id]);
+
+        $this->assertNull($enrollment->fresh()->has_book_for_course);
+    }
 }

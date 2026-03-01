@@ -5,6 +5,8 @@ namespace Tests\Feature;
 use App\Models\Course;
 use App\Models\CourseTime;
 use App\Models\Enrollment;
+use App\Models\Event;
+use App\Models\Partner;
 use App\Models\Student;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -131,5 +133,98 @@ class CourseBusinessLogicTest extends TestCase
 
         // real_enrollments excludes children
         $this->assertEquals(1, $course->real_enrollments()->count());
+    }
+
+    public function test_accepts_new_students_when_spots_null(): void
+    {
+        $course = Course::factory()->create(['spots' => null]);
+
+        $this->assertTrue($course->accepts_new_students);
+    }
+
+    public function test_accepts_new_students_when_spots_available(): void
+    {
+        $course = Course::factory()->create(['spots' => 10]);
+
+        // Only 1 enrollment, spots = 10
+        Enrollment::create([
+            'student_id' => Student::factory()->create()->id,
+            'course_id' => $course->id,
+            'status_id' => 1,
+        ]);
+
+        $this->assertTrue($course->fresh()->accepts_new_students);
+    }
+
+    public function test_does_not_accept_when_full(): void
+    {
+        $course = Course::factory()->create(['spots' => 1]);
+
+        Enrollment::create([
+            'student_id' => Student::factory()->create()->id,
+            'course_id' => $course->id,
+            'status_id' => 1,
+        ]);
+
+        $this->assertFalse($course->fresh()->accepts_new_students);
+    }
+
+    public function test_internal_scope_excludes_partner_courses(): void
+    {
+        $partner = Partner::factory()->create();
+        $internalCourse = Course::factory()->create(['partner_id' => null]);
+        $externalCourse = Course::factory()->create(['partner_id' => $partner->id]);
+
+        $internalIds = Course::internal()->pluck('id');
+
+        $this->assertTrue($internalIds->contains($internalCourse->id));
+        $this->assertFalse($internalIds->contains($externalCourse->id));
+    }
+
+    public function test_external_scope_returns_partner_courses(): void
+    {
+        $partner = Partner::factory()->create();
+        $internalCourse = Course::factory()->create(['partner_id' => null]);
+        $externalCourse = Course::factory()->create(['partner_id' => $partner->id]);
+
+        $externalIds = Course::external()->pluck('id');
+
+        $this->assertFalse($externalIds->contains($internalCourse->id));
+        $this->assertTrue($externalIds->contains($externalCourse->id));
+    }
+
+    public function test_events_with_expected_attendance_excludes_exempt_and_future(): void
+    {
+        $course = Course::factory()->create(['exempt_attendance' => false]);
+
+        // Past non-exempt event — should be included
+        $pastEvent = Event::factory()->create([
+            'course_id' => $course->id,
+            'start' => now()->subDays(2)->toDateTimeString(),
+            'end' => now()->subDays(2)->addHour()->toDateTimeString(),
+            'exempt_attendance' => null,
+        ]);
+
+        // Future event — should be excluded
+        $futureEvent = Event::factory()->create([
+            'course_id' => $course->id,
+            'start' => now()->addDays(10)->toDateTimeString(),
+            'end' => now()->addDays(10)->addHour()->toDateTimeString(),
+            'exempt_attendance' => null,
+        ]);
+
+        // Past exempt event — should be excluded
+        $exemptEvent = Event::factory()->create([
+            'course_id' => $course->id,
+            'start' => now()->subDays(1)->toDateTimeString(),
+            'end' => now()->subDays(1)->addHour()->toDateTimeString(),
+            'exempt_attendance' => 1,
+        ]);
+
+        $events = $course->eventsWithExpectedAttendance()->get();
+
+        $this->assertTrue($events->contains('id', $pastEvent->id));
+        $this->assertFalse($events->contains('id', $futureEvent->id));
+        $this->assertFalse($events->contains('id', $exemptEvent->id));
     }
 }

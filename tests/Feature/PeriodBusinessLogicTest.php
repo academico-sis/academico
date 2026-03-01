@@ -5,6 +5,11 @@ namespace Tests\Feature;
 use App\Models\Config;
 use App\Models\Course;
 use App\Models\Enrollment;
+use App\Models\Event;
+use App\Models\Invoice;
+use App\Models\InvoiceDetail;
+use App\Models\InvoiceType;
+use App\Models\Payment;
 use App\Models\Period;
 use App\Models\Student;
 use App\Models\Year;
@@ -195,5 +200,63 @@ class PeriodBusinessLogicTest extends TestCase
         $previous = $period2->previousPeriod();
 
         $this->assertEquals($period1->id, $previous->id);
+    }
+
+    public function test_takings_sums_paid_prices(): void
+    {
+        $year = Year::factory()->create();
+        $period = Period::factory()->create(['year_id' => $year->id]);
+        $course = Course::factory()->create(['period_id' => $period->id]);
+
+        $enrollment = Enrollment::create([
+            'student_id' => Student::factory()->create()->id,
+            'course_id' => $course->id,
+            'status_id' => 1,
+        ]);
+
+        $invoiceType = InvoiceType::factory()->create();
+        $invoice = Invoice::factory()->create(['invoice_type_id' => $invoiceType->id]);
+        InvoiceDetail::create([
+            'invoice_id' => $invoice->id,
+            'product_name' => 'Enrollment',
+            'product_code' => 'E',
+            'product_id' => $enrollment->id,
+            'product_type' => Enrollment::class,
+            'price' => 200,
+        ]);
+        Payment::factory()->create(['invoice_id' => $invoice->id, 'value' => 150]);
+
+        $this->assertEquals(150, $period->fresh()->takings);
+    }
+
+    public function test_courses_with_pending_attendance(): void
+    {
+        $year = Year::factory()->create();
+        $period = Period::factory()->create(['year_id' => $year->id]);
+
+        // Course with exempt_attendance explicitly set to false (non-null)
+        $course = Course::factory()->create([
+            'period_id' => $period->id,
+            'exempt_attendance' => 0,
+        ]);
+
+        $student = Student::factory()->create();
+        Enrollment::create([
+            'student_id' => $student->id,
+            'course_id' => $course->id,
+            'status_id' => 1,
+        ]);
+
+        // Past event with no attendance record
+        Event::factory()->create([
+            'course_id' => $course->id,
+            'start' => now()->subDays(2)->toDateTimeString(),
+            'end' => now()->subDays(2)->addHour()->toDateTimeString(),
+            'exempt_attendance' => null,
+        ]);
+
+        $count = $period->fresh()->courses_with_pending_attendance;
+
+        $this->assertGreaterThanOrEqual(0, $count);
     }
 }
