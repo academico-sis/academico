@@ -46,48 +46,82 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 
 # Getting started
 
-This application runs in Docker using FrankenPHP, a modern application server for PHP built on Caddy.
+This application runs in Docker using FrankenPHP (a modern PHP application server built on Caddy) and MariaDB.
 
 ## Prerequisites
-- Docker Desktop installed
-- Docker Compose installed
+
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) (includes Docker Compose)
 
 ## Quick Start
 
-1. Copy the environment file:
+1. Clone the repository and copy the environment file:
+
 ```bash
+git clone https://github.com/academico-sis/academico.git
+cd academico
 cp .env.example .env
 ```
 
-2. Start the Docker containers:
+2. Start the containers (the first run builds the image, which may take a few minutes):
+
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
-3. Install dependencies:
+This starts two services:
+- **app** — the FrankenPHP application server on `http://localhost:8080`
+- **mariadb** — a MariaDB 11 database server on port `3306`
+
+The app container waits for MariaDB to be healthy before starting.
+
+3. Generate the application key:
+
 ```bash
-docker-compose exec app composer install
-docker-compose exec app npm install && npm run build
+docker compose exec app php artisan key:generate
 ```
 
-4. Generate application key:
+4. Run the database migrations:
+
 ```bash
-docker-compose exec app php artisan key:generate
+docker compose exec app php artisan migrate
 ```
 
-5. Run migrations:
+5. (Optional) Seed the database with sample data:
+
 ```bash
-docker-compose exec app php artisan migrate
+docker compose exec app php artisan db:seed
 ```
 
-6. Access the application at `http://localhost:8080`
+6. Open `http://localhost:8080` in your browser.
+
+## Running commands inside the container
+
+All PHP and artisan commands should be run inside the `app` container:
+
+```bash
+# Run tests
+docker compose exec app php artisan test
+
+# Run the linter
+docker compose exec app ./vendor/bin/pint
+
+# Run any artisan command
+docker compose exec app php artisan <command>
+```
+
+## Stopping the environment
+
+```bash
+docker compose down          # Stop containers (data is preserved in a Docker volume)
+docker compose down -v       # Stop containers and delete the database volume
+```
 
 ## Custom Login Page
 
-The Docker setup includes an optional custom login page. This is configured via a Docker volume mount in `docker-compose.yml`:
+The Docker setup supports an optional custom login page via a volume mount in `docker-compose.yml`:
 
 ```yaml
 - /path/to/custom-views/login.blade.php:/app/resources/views/filament/auth/login.blade.php
 ```
 
-The custom login class (`App\Filament\Auth\Login`) detects at runtime whether this Blade file is present. When the file exists (i.e. in Docker), it renders the custom layout. When absent, the standard Filament login page is shown.
+The custom login class (`App\Filament\Auth\Login`) detects at runtime whether this Blade file is present. When the file exists, it renders the custom layout; otherwise, the standard Filament login page is shown.
