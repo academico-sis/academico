@@ -22,6 +22,11 @@ class MemberResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUserGroup;
 
+    public static function canAccess(): bool
+    {
+        return (bool) config('settings.members_enabled');
+    }
+
     public static function getNavigationGroup(): ?string
     {
         return 'A revoir / WIP';
