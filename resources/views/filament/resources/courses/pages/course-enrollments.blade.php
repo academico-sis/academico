@@ -5,7 +5,7 @@
         <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
             @forelse ($this->getRosterEnrollments() as $enrollment)
                 <a
-                    href="{{ \App\Filament\Resources\Enrollments\EnrollmentResource::getUrl('edit', ['record' => $enrollment]) }}"
+                    href="{{ \App\Filament\Resources\Enrollments\EnrollmentResource::getUrl('view', ['record' => $enrollment]) }}"
                     class="group block overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-gray-950/5 transition hover:shadow-md dark:bg-gray-900 dark:ring-white/10"
                 >
                     <div class="aspect-square overflow-hidden bg-gray-100 dark:bg-gray-800">

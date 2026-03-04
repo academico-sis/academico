@@ -18,6 +18,9 @@ class EnrollmentsRelationManager extends RelationManager
     {
         return $table
             ->columns([
+                TextColumn::make('id')
+                    ->label(__('ID'))
+                    ->sortable(),
                 TextColumn::make('course.name')
                     ->label(__('Course'))
                     ->searchable(),
