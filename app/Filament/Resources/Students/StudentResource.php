@@ -182,6 +182,8 @@ class StudentResource extends Resource
                     ->sortable(),
                 TextColumn::make('user.email')
                     ->label(__('Email'))
+                    ->wrap()
+                    ->width('180px')
                     ->searchable(),
                 TextColumn::make('student_age')
                     ->label(__('Age')),

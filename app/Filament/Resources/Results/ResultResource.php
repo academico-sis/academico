@@ -72,6 +72,8 @@ class ResultResource extends Resource
                     ->sortable(),
                 TextColumn::make('student.name')
                     ->label(__('Student'))
+                    ->wrap()
+                    ->width('160px')
                     ->searchable(query: function (Builder $query, string $search): Builder {
                         return $query->whereHas('student', function ($q) use ($search) {
                             $q->whereHas('user', function ($q) use ($search) {
@@ -84,6 +86,8 @@ class ResultResource extends Resource
                     ->sortable(),
                 TextColumn::make('course.name')
                     ->label(__('Course'))
+                    ->wrap()
+                    ->width('180px')
                     ->sortable(),
                 TextColumn::make('course.period.name')
                     ->label(__('Period'))

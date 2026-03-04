@@ -90,10 +90,14 @@ class ScheduledPaymentResource extends Resource
                     ->sortable(),
                 TextColumn::make('enrollment.student.user.email')
                     ->label(__('Email'))
+                    ->wrap()
+                    ->width('180px')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('enrollment.course.name')
                     ->label(__('Course'))
+                    ->wrap()
+                    ->width('180px')
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('value')
                     ->label(__('Amount'))

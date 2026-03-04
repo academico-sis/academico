@@ -88,10 +88,14 @@ class EventResource extends Resource
             ->columns([
                 TextColumn::make('name')
                     ->label(__('Name'))
+                    ->wrap()
+                    ->width('180px')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('course.name')
                     ->label(__('Course'))
+                    ->wrap()
+                    ->width('180px')
                     ->sortable(),
                 TextColumn::make('volume')
                     ->label(__('Hours'))

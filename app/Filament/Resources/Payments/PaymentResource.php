@@ -68,6 +68,8 @@ class PaymentResource extends Resource
                     ->sortable('date'),
                 TextColumn::make('enrollment_name')
                     ->label(__('Student'))
+                    ->wrap()
+                    ->width('160px')
                     ->searchable(query: function (Builder $query, string $search): Builder {
                         return $query->whereHas('invoice', fn ($q) => $q->where('client_name', 'like', "%{$search}%"));
                     }),
@@ -79,6 +81,8 @@ class PaymentResource extends Resource
                     ->sortable(),
                 TextColumn::make('comment')
                     ->label(__('Comment'))
+                    ->wrap()
+                    ->width('200px')
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->defaultSort('date', 'desc')

@@ -17,6 +17,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -131,46 +132,59 @@ class ExternalCourseResource extends Resource
             ->columns([
                 TextColumn::make('partner.name')
                     ->label(__('Partnership'))
+                    ->wrap()
+                    ->width('150px')
                     ->sortable()
                     ->searchable(),
-                TextColumn::make('rhythm.name')
-                    ->label(__('Rhythm'))
-                    ->sortable(),
-                TextColumn::make('level.name')
-                    ->label(__('Level'))
-                    ->sortable(),
                 TextColumn::make('name')
                     ->label(__('Name'))
+                    ->wrap()
+                    ->width('180px')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('volume')
-                    ->label(__('Volume'))
-                    ->suffix('h')
-                    ->numeric(),
-                TextColumn::make('hourly_price')
-                    ->label(__('Price'))
-                    ->money(config('academico.currency_code', 'EUR')),
+                Stack::make([
+                    TextColumn::make('rhythm.name')
+                        ->label(__('Rhythm')),
+                    TextColumn::make('level.name')
+                        ->label(__('Level')),
+                ]),
+                Stack::make([
+                    TextColumn::make('volume')
+                        ->label(__('Volume'))
+                        ->suffix('h')
+                        ->numeric(),
+                    TextColumn::make('hourly_price')
+                        ->label(__('Price'))
+                        ->money(config('academico.currency_code', 'EUR')),
+                ]),
                 TextColumn::make('teacher.user.name')
-                    ->label(__('Teacher')),
+                    ->label(__('Teacher'))
+                    ->wrap()
+                    ->width('120px'),
                 TextColumn::make('room.name')
                     ->label(__('Room')),
                 TextColumn::make('course_times')
                     ->label(__('Schedule'))
-                    ->limit(50),
-                TextColumn::make('head_count')
-                    ->label(__('Students'))
-                    ->numeric(),
-                TextColumn::make('new_students')
-                    ->label(__('Year Students'))
-                    ->numeric(),
-                TextColumn::make('start_date')
-                    ->label(__('Start Date'))
-                    ->date()
-                    ->sortable(),
-                TextColumn::make('end_date')
-                    ->label(__('End Date'))
-                    ->date()
-                    ->sortable(),
+                    ->limit(50)
+                    ->width('160px'),
+                Stack::make([
+                    TextColumn::make('head_count')
+                        ->label(__('Students'))
+                        ->numeric(),
+                    TextColumn::make('new_students')
+                        ->label(__('Year Students'))
+                        ->numeric(),
+                ]),
+                Stack::make([
+                    TextColumn::make('start_date')
+                        ->label(__('Start Date'))
+                        ->date()
+                        ->sortable(),
+                    TextColumn::make('end_date')
+                        ->label(__('End Date'))
+                        ->date()
+                        ->sortable(),
+                ]),
             ])
             ->defaultSort('id', 'desc')
             ->filters([

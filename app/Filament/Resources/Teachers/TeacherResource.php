@@ -90,6 +90,8 @@ class TeacherResource extends Resource
                     ->sortable(),
                 TextColumn::make('user.email')
                     ->label(__('Email'))
+                    ->wrap()
+                    ->width('180px')
                     ->searchable(),
                 TextColumn::make('max_week_hours')
                     ->label(__('Max hours/week'))

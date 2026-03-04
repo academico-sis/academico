@@ -23,6 +23,7 @@ use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Colors\Color;
 use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\Filter;
@@ -99,16 +100,21 @@ class EnrollmentResource extends Resource
                 TextColumn::make('id')
                     ->label(__('ID'))
                     ->sortable(),
-                TextColumn::make('student.user.lastname')
-                    ->label(__('Last name'))
-                    ->searchable()
-                    ->sortable(),
-                TextColumn::make('student.user.firstname')
-                    ->label(__('First name'))
-                    ->searchable()
-                    ->sortable(),
+                Stack::make([
+                    TextColumn::make('student.user.lastname')
+                        ->label(__('Last name'))
+                        ->searchable()
+                        ->sortable()
+                        ->weight('bold'),
+                    TextColumn::make('student.user.firstname')
+                        ->label(__('First name'))
+                        ->searchable()
+                        ->sortable(),
+                ]),
                 TextColumn::make('course.name')
                     ->label(__('Course'))
+                    ->wrap()
+                    ->width('200px')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('course.period.name')

@@ -79,6 +79,8 @@ class PartnerResource extends Resource
             ->columns([
                 TextColumn::make('name')
                     ->label(__('Name'))
+                    ->wrap()
+                    ->width('200px')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('started_on')

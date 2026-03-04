@@ -118,6 +118,8 @@ class InvoiceResource extends Resource
                     ->sortable(),
                 TextColumn::make('client_name')
                     ->label(__('Client'))
+                    ->wrap()
+                    ->width('160px')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('client_idnumber')
@@ -126,6 +128,8 @@ class InvoiceResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('client_email')
                     ->label(__('Email'))
+                    ->wrap()
+                    ->width('180px')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('total_price_with_currency')

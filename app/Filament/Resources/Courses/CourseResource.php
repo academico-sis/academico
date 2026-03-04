@@ -228,7 +228,9 @@ class CourseResource extends Resource
                 TextColumn::make('name')
                     ->label(__('Name'))
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->wrap()
+                    ->width('200px'),
                 TextColumn::make('volume')
                     ->label(__('Volume'))
                     ->suffix('h')
@@ -242,14 +244,18 @@ class CourseResource extends Resource
                 TextColumn::make('teacher.name')
                     ->label(__('Teacher'))
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->wrap()
+                    ->width('200px'),
                 TextColumn::make('room.name')
                     ->label(__('Room'))
                     ->sortable()
                     ->toggleable(),
                 TextColumn::make('course_times')
                     ->label(__('Schedule'))
-                    ->toggleable(),
+                    ->toggleable()
+                    ->wrap()
+                    ->width('200px'),
                 TextColumn::make('course_enrollments_count')
                     ->label(__('Enrollments'))
                     ->sortable()
