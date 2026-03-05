@@ -2,17 +2,20 @@
 
 namespace App\Filament\Resources\Students;
 
+use App\Filament\Exports\StudentExporter;
 use App\Filament\Resources\Students\Pages\CreateStudent;
 use App\Filament\Resources\Students\Pages\EditStudent;
 use App\Filament\Resources\Students\Pages\EnrollStudent;
 use App\Filament\Resources\Students\Pages\ListStudents;
 use App\Filament\Resources\Students\RelationManagers\ContactsRelationManager;
 use App\Filament\Resources\Students\RelationManagers\EnrollmentsRelationManager;
+use App\Models\Period;
 use App\Models\Student;
 use BackedEnum;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ExportBulkAction;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Repeater;
@@ -26,6 +29,7 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 
 class StudentResource extends Resource
@@ -200,6 +204,23 @@ class StudentResource extends Resource
                     ->label(__('Institution'))
                     ->preload()
                     ->searchable(),
+                TernaryFilter::make('new_in_period')
+                    ->label(__('New Students'))
+                    ->queries(
+                        true: function ($query) {
+                            $period = Period::get_default_period();
+                            if ($period) {
+                                $query->newInPeriod($period->id);
+                            }
+                        },
+                        false: function ($query) {
+                            $period = Period::get_default_period();
+                            if ($period) {
+                                $newIds = Period::find($period->id)->newStudents()->pluck('student_id')->toArray();
+                                $query->whereNotIn('id', $newIds);
+                            }
+                        },
+                    ),
             ])
             ->defaultSort('id', 'desc')
             ->recordActions([
@@ -207,6 +228,8 @@ class StudentResource extends Resource
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
+                    ExportBulkAction::make()
+                        ->exporter(StudentExporter::class),
                     DeleteBulkAction::make(),
                 ]),
             ]);

@@ -173,7 +173,12 @@
                 @foreach ($contacts as $ci => $contact)
                     <div class="rounded-lg border border-gray-200 bg-gray-50 p-4">
                         <div class="mb-3 flex items-center justify-between">
-                            <h3 class="font-medium">{{ __('Contact') }} {{ $ci + 1 }}</h3>
+                            <h3 class="font-medium">
+                                {{ __('Contact') }} {{ $ci + 1 }}
+                                @if (!empty($contact['relationship_name']))
+                                    <span class="ml-2 text-sm font-normal text-gray-500">({{ $contact['relationship_name'] }})</span>
+                                @endif
+                            </h3>
                             <button type="button" wire:click="removeContact({{ $ci }})" class="text-sm text-red-600 hover:text-red-800">&times; {{ __('Remove') }}</button>
                         </div>
                         <div class="space-y-3">

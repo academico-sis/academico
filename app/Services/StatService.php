@@ -84,6 +84,15 @@ class StatService
         return $total;
     }
 
+    public function newStudentsCount(): int
+    {
+        if ($this->reference::class !== Period::class) {
+            return 0;
+        }
+
+        return $this->reference->newStudents()->count();
+    }
+
     public function pendingEnrollmentsCount(): int
     {
         return match ($this->reference::class) {

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Widgets;
 
+use App\Filament\Resources\Students\StudentResource;
 use App\Models\Period;
 use App\Services\StatService;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
@@ -38,6 +39,12 @@ class StatsOverview extends BaseWidget
                 ->description($period->name)
                 ->icon('heroicon-o-user-group')
                 ->color('info'),
+
+            Stat::make(__('New Students'), $stats->newStudentsCount())
+                ->description($period->name)
+                ->icon('heroicon-o-user-plus')
+                ->color('warning')
+                ->url(StudentResource::getUrl('index', ['tableFilters' => ['new_in_period' => ['isActive' => true]]])),
         ];
     }
 }

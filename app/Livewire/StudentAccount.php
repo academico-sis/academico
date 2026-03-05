@@ -100,6 +100,7 @@ class StudentAccount extends Component
                     'email' => $c->email,
                     'idnumber' => $c->idnumber ?? '',
                     'address' => $c->address ?? '',
+                    'relationship_name' => $c->relationship?->name ?? '',
                     'phonenumbers' => $c->phone->map(function ($p) {
                         return ['id' => $p->id, 'phone_number' => $p->phone_number];
                     })->toArray() ?: [['id' => null, 'phone_number' => '']],
@@ -341,6 +342,7 @@ class StudentAccount extends Component
                 'email' => $c->email,
                 'idnumber' => $c->idnumber ?? '',
                 'address' => $c->address ?? '',
+                'relationship_name' => $c->relationship?->name ?? '',
                 'phonenumbers' => $c->phone->map(fn ($p) => ['id' => $p->id, 'phone_number' => $p->phone_number])->toArray() ?: [['id' => null, 'phone_number' => '']],
             ];
         })->toArray();
