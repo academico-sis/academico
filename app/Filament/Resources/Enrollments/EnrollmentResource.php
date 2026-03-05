@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Enrollments;
 
+use App\Filament\Exports\EnrollmentExporter;
 use App\Filament\RelationManagers\CommentsRelationManager;
 use App\Filament\Resources\Courses\CourseResource;
 use App\Filament\Resources\Enrollments\Pages\ChangeEnrollmentCourse;
@@ -15,6 +16,7 @@ use BackedEnum;
 use Carbon\Carbon;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\ExportBulkAction;
 use Filament\Actions\ViewAction;
 use Filament\Forms\Components\TextInput;
 use Filament\Infolists\Components\TextEntry;
@@ -92,6 +94,14 @@ class EnrollmentResource extends Resource
                             ->label(__('Result'))
                             ->placeholder('-'),
                     ]),
+                Section::make(__('Books'))
+                    ->schema([
+                        TextEntry::make('course.books.name')
+                            ->label(__('Books'))
+                            ->badge()
+                            ->placeholder(__('No books assigned')),
+                    ])
+                    ->collapsible(),
             ]);
     }
 
@@ -193,6 +203,8 @@ class EnrollmentResource extends Resource
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
+                    ExportBulkAction::make()
+                        ->exporter(EnrollmentExporter::class),
                     DeleteBulkAction::make(),
                 ]),
             ]);

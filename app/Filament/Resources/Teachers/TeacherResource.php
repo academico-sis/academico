@@ -20,7 +20,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\TrashedFilter;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -123,7 +123,20 @@ class TeacherResource extends Resource
                     ->visibleFrom('md'),
             ])
             ->filters([
-                TrashedFilter::make(),
+                SelectFilter::make('status')
+                    ->label(__('Status'))
+                    ->options([
+                        'active' => __('Active'),
+                        'inactive' => __('Inactive'),
+                    ])
+                    ->default('active')
+                    ->query(function (Builder $query, array $data): Builder {
+                        return match ($data['value']) {
+                            'active' => $query->whereNull('deleted_at'),
+                            'inactive' => $query->whereNotNull('deleted_at'),
+                            default => $query->withTrashed(),
+                        };
+                    }),
             ])
             ->recordActions([
                 ActionGroup::make([
@@ -137,6 +150,14 @@ class TeacherResource extends Resource
                     ForceDeleteBulkAction::make(),
                     RestoreBulkAction::make(),
                 ]),
+            ]);
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->withoutGlobalScopes([
+                SoftDeletingScope::class,
             ]);
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Courses;
 
+use App\Filament\Exports\CourseExporter;
 use App\Filament\Pages\GradeEdit;
 use App\Filament\Pages\SkillEvaluationPage;
 use App\Filament\Resources\Courses\Pages\CourseBlockView;
@@ -18,6 +19,7 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ExportBulkAction;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\DatePicker;
@@ -362,6 +364,8 @@ class CourseResource extends Resource
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
+                    ExportBulkAction::make()
+                        ->exporter(CourseExporter::class),
                     DeleteBulkAction::make(),
                 ]),
             ]);

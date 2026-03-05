@@ -2,12 +2,15 @@
 
 namespace App\Filament\Resources\Results;
 
+use App\Filament\Exports\ResultExporter;
 use App\Filament\Resources\Results\Pages\ManageResults;
 use App\Interfaces\CertificatesInterface;
 use App\Models\Enrollment;
 use App\Models\Period;
 use BackedEnum;
 use Filament\Actions\Action;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\ExportBulkAction;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Colors\Color;
@@ -161,6 +164,12 @@ class ResultResource extends Resource
 
                         return $service->exportCertificate($record);
                     }),
+            ])
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    ExportBulkAction::make()
+                        ->exporter(ResultExporter::class),
+                ]),
             ]);
     }
 

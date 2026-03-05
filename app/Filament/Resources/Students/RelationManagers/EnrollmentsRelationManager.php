@@ -33,6 +33,17 @@ class EnrollmentsRelationManager extends RelationManager
                 TextColumn::make('total_price')
                     ->label(__('Price'))
                     ->money(config('academico.currency_code', 'USD')),
+                TextColumn::make('student.student_age')
+                    ->label(__('Age'))
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('student.user.birthdate')
+                    ->label(__('Birthdate'))
+                    ->date()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('student.phone.phone_number')
+                    ->label(__('Phone'))
+                    ->badge()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
                     ->label(__('Enrolled'))
                     ->date(),
