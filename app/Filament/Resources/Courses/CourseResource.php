@@ -175,6 +175,48 @@ class CourseResource extends Resource
                                     ->visibleOn('edit'),
                             ]),
 
+                        Tab::make(__('Sub-levels'))
+                            ->schema([
+                                Repeater::make('children')
+                                    ->relationship()
+                                    ->label(__('Children courses'))
+                                    ->schema([
+                                        TextInput::make('name')
+                                            ->label(__('Name'))
+                                            ->required()
+                                            ->maxLength(100),
+                                        Select::make('level_id')
+                                            ->label(__('Level'))
+                                            ->relationship('level', 'name')
+                                            ->preload()
+                                            ->searchable()
+                                            ->nullable(),
+                                        TextInput::make('volume')
+                                            ->label(__('Volume'))
+                                            ->numeric()
+                                            ->minValue(0)
+                                            ->suffix('h')
+                                            ->nullable(),
+                                    ])
+                                    ->columns(3)
+                                    ->defaultItems(0)
+                                    ->reorderable(false)
+                                    ->mutateRelationshipDataBeforeCreateUsing(function (array $data, $livewire): array {
+                                        $parent = $livewire->getRecord();
+                                        $data['period_id'] = $parent->period_id;
+                                        $data['teacher_id'] = $parent->teacher_id;
+                                        $data['room_id'] = $parent->room_id;
+                                        $data['start_date'] = $parent->start_date;
+                                        $data['end_date'] = $parent->end_date;
+                                        $data['price'] = $parent->price;
+                                        $data['rhythm_id'] = $parent->rhythm_id;
+                                        $data['spots'] = $parent->spots;
+
+                                        return $data;
+                                    }),
+                            ])
+                            ->visibleOn('edit'),
+
                         Tab::make(__('Schedule'))
                             ->schema([
                                 TextEntry::make(__('Please be aware that if you modify the course dates, the existing attendance for this course will be lost!'))
@@ -315,6 +357,11 @@ class CourseResource extends Resource
                     ->sortable()
                     ->toggleable()
                     ->visibleFrom('lg'),
+                IconColumn::make('parent_course_id')
+                    ->label('')
+                    ->icon(fn ($state) => $state ? 'heroicon-o-arrow-uturn-left' : null)
+                    ->tooltip(__('Child course'))
+                    ->toggleable(isToggledHiddenByDefault: true),
                 IconColumn::make('marked')
                     ->boolean()
                     ->label(__('Evaluation complete'))

@@ -19,7 +19,9 @@ use Filament\Actions\EditAction;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
@@ -100,6 +102,40 @@ class InvoiceResource extends Resource
                 TextInput::make('client_phone')
                     ->label(__('Phone'))
                     ->maxLength(255),
+            ]);
+    }
+
+    public static function infolist(Schema $schema): Schema
+    {
+        $currencySymbol = config('academico.currency_symbol');
+        $currencyPosition = config('academico.currency_position');
+        $formatCurrency = fn ($value) => $currencyPosition === 'before'
+            ? $currencySymbol.' '.number_format((float) $value, 2)
+            : number_format((float) $value, 2).' '.$currencySymbol;
+
+        return $schema
+            ->components([
+                Section::make(__('Invoice Summary'))
+                    ->columns(3)
+                    ->schema([
+                        TextEntry::make('invoice_reference')
+                            ->label(__('Invoice #')),
+                        TextEntry::make('date')
+                            ->label(__('Date'))
+                            ->date(),
+                        TextEntry::make('client_name')
+                            ->label(__('Client')),
+                        TextEntry::make('total_price_computed')
+                            ->label(__('Total'))
+                            ->state(fn (Invoice $record) => $formatCurrency($record->totalPrice())),
+                        TextEntry::make('paid_total')
+                            ->label(__('Total Received'))
+                            ->state(fn (Invoice $record) => $formatCurrency($record->paidTotal())),
+                        TextEntry::make('balance')
+                            ->label(__('Balance'))
+                            ->state(fn (Invoice $record) => $formatCurrency($record->balance))
+                            ->color(fn (Invoice $record) => $record->balance > 0 ? 'danger' : 'success'),
+                    ]),
             ]);
     }
 

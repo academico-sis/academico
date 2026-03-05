@@ -95,6 +95,9 @@ class TeacherResource extends Resource
                     ->wrap()
                     ->hiddenFrom('md'),
                 // Desktop columns
+                TextColumn::make('id')
+                    ->label(__('ID Number'))
+                    ->sortable(),
                 TextColumn::make('user.lastname')
                     ->label(__('Last name'))
                     ->searchable()
