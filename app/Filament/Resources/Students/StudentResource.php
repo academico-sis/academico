@@ -38,6 +38,7 @@ use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class StudentResource extends Resource
 {
@@ -322,23 +323,33 @@ class StudentResource extends Resource
                                 ->where('birthdate', '>=', Carbon::now()->subYears((int) $data['max_age'] + 1)));
                         }
                     }),
-                TernaryFilter::make('new_in_period')
-                    ->label(__('New Students'))
-                    ->queries(
-                        true: function ($query) {
-                            $period = Period::get_default_period();
-                            if ($period) {
-                                $query->newInPeriod($period->id);
-                            }
-                        },
-                        false: function ($query) {
-                            $period = Period::get_default_period();
-                            if ($period) {
-                                $newIds = Period::find($period->id)->newStudents()->pluck('student_id')->toArray();
-                                $query->whereNotIn('id', $newIds);
-                            }
-                        },
-                    ),
+                SelectFilter::make('enrolled_in_period')
+                    ->label(__('Enrolled In'))
+                    ->options(Period::pluck('name', 'id'))
+                    ->query(fn (Builder $query, array $data) => $query->when(
+                        $data['value'],
+                        fn (Builder $q, $v) => $q->whereHas('enrollments', fn (Builder $e) => $e->whereHas('course', fn (Builder $c) => $c->where('period_id', $v)))
+                    )),
+                SelectFilter::make('not_enrolled_in_periods')
+                    ->label(__('Not Enrolled In'))
+                    ->options(Period::pluck('name', 'id'))
+                    ->multiple()
+                    ->query(fn (Builder $query, array $data) => $query->when(
+                        $data['values'] ?? null,
+                        fn (Builder $q, $values) => collect($values)->each(
+                            fn ($v) => $q->whereDoesntHave('enrollments', fn (Builder $e) => $e->whereHas('course', fn (Builder $c) => $c->where('period_id', $v)))
+                        )
+                    )),
+                Filter::make('new_in_period')
+                    ->form([
+                        Select::make('period_id')
+                            ->label(__('New Students In'))
+                            ->options(Period::pluck('name', 'id')),
+                    ])
+                    ->query(fn (Builder $query, array $data) => $query->when(
+                        $data['period_id'],
+                        fn (Builder $q, $v) => $q->newInPeriod($v)
+                    )),
             ])
             ->defaultSort('id', 'desc')
             ->recordActions([
