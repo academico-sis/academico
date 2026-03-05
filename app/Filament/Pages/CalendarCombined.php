@@ -3,6 +3,7 @@
 namespace App\Filament\Pages;
 
 use App\Models\Event;
+use App\Models\Leave;
 use App\Models\Period;
 use App\Models\Room;
 use App\Models\Teacher;
@@ -17,7 +18,9 @@ class CalendarCombined extends Page
 
     protected string $view = 'filament.pages.calendar-combined';
 
-    /** @var array<int> */
+    public const UNASSIGNED_KEY = 'unassigned';
+
+    /** @var array<int|string> */
     public array $selectedTeacherIds = [];
 
     /** @var array<int> */
@@ -77,10 +80,11 @@ class CalendarCombined extends Page
 
     protected function loadEvents(): void
     {
-        $teacherIds = array_map('intval', $this->selectedTeacherIds);
+        $teacherIds = array_map('intval', array_filter($this->selectedTeacherIds, fn ($id) => $id !== self::UNASSIGNED_KEY));
         $roomIds = array_map('intval', $this->selectedRoomIds);
+        $includeUnassigned = in_array(self::UNASSIGNED_KEY, $this->selectedTeacherIds);
 
-        if (empty($teacherIds) && empty($roomIds)) {
+        if (empty($teacherIds) && empty($roomIds) && ! $includeUnassigned) {
             $this->events = [];
 
             return;
@@ -88,11 +92,14 @@ class CalendarCombined extends Page
 
         $period = Period::get_default_period();
 
-        $this->events = Event::with(['course', 'teacher.user', 'room'])
+        $events = Event::with(['course', 'teacher.user', 'room'])
             ->when($period, fn ($q) => $q->whereHas('course', fn ($q2) => $q2->where('period_id', $period->id)))
-            ->where(function ($q) use ($teacherIds, $roomIds) {
+            ->where(function ($q) use ($teacherIds, $roomIds, $includeUnassigned) {
                 if (! empty($teacherIds)) {
                     $q->orWhereIn('teacher_id', $teacherIds);
+                }
+                if ($includeUnassigned) {
+                    $q->orWhereNull('teacher_id');
                 }
                 if (! empty($roomIds)) {
                     $q->orWhereIn('room_id', $roomIds);
@@ -108,6 +115,40 @@ class CalendarCombined extends Page
                 'color' => $this->teacherColors[$event->teacher_id] ?? ($event->course?->color ?? '#3b82f6'),
                 'teacher' => $event->teacher?->user?->name ?? '',
                 'room' => $event->room?->name ?? '',
+                'allDay' => false,
+            ])
+            ->values()
+            ->toArray();
+
+        $leaveEvents = $this->loadLeaveEvents($teacherIds, $period);
+
+        $this->events = array_merge($events, $leaveEvents);
+    }
+
+    /** @return array<int, array<string, mixed>> */
+    protected function loadLeaveEvents(array $teacherIds, ?Period $period): array
+    {
+        if (empty($teacherIds)) {
+            return [];
+        }
+
+        $query = Leave::with(['teacher.user', 'leaveType'])
+            ->whereIn('teacher_id', $teacherIds);
+
+        if ($period) {
+            $query->whereBetween('date', [$period->start, $period->end]);
+        }
+
+        return $query->get()
+            ->map(fn (Leave $leave) => [
+                'id' => 'leave-'.$leave->id,
+                'title' => __('Leave').': '.($leave->teacher?->user?->name ?? '').' ('.$leave->leaveType->name.')',
+                'start' => $leave->date,
+                'end' => $leave->date,
+                'color' => '#ef4444',
+                'teacher' => $leave->teacher?->user?->name ?? '',
+                'room' => '',
+                'allDay' => true,
             ])
             ->values()
             ->toArray();
