@@ -100,7 +100,7 @@ class HrDashboard extends Page
 
     public static function getNavigationGroup(): ?string
     {
-        return __('HR');
+        return __('Organization');
     }
 
     public static function getNavigationLabel(): string

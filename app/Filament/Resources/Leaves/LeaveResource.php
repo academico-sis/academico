@@ -37,7 +37,7 @@ class LeaveResource extends Resource
 
     public static function getNavigationGroup(): ?string
     {
-        return __('HR');
+        return __('Organization');
     }
 
     public static function getModelLabel(): string

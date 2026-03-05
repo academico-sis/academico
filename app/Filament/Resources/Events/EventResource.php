@@ -38,7 +38,7 @@ class EventResource extends Resource
 
     public static function getNavigationGroup(): ?string
     {
-        return __('Calendar');
+        return __('Organization');
     }
 
     public static function getModelLabel(): string
