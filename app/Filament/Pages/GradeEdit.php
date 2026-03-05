@@ -43,6 +43,20 @@ class GradeEdit extends Page
 
     public function mount(): void
     {
+        $courseId = request()->integer('courseId') ?: null;
+
+        if ($courseId) {
+            $course = Course::find($courseId);
+            if ($course) {
+                $this->selectedPeriodId = $course->period_id;
+                $this->loadCourses();
+                $this->selectedCourseId = $course->id;
+                $this->loadGradeData();
+
+                return;
+            }
+        }
+
         $period = Period::get_default_period();
         $this->selectedPeriodId = $period?->id;
         $this->loadCourses();

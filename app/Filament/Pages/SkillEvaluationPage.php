@@ -52,8 +52,6 @@ class SkillEvaluationPage extends Page
 
     public function mount(): void
     {
-        $period = Period::get_default_period();
-        $this->selectedPeriodId = $period?->id;
         $this->scales = SkillScale::orderBy('value')->get()
             ->map(fn ($s) => [
                 'id' => $s->id,
@@ -63,6 +61,23 @@ class SkillEvaluationPage extends Page
                 'color' => $s->color,
             ])
             ->toArray();
+
+        $courseId = request()->integer('courseId') ?: null;
+
+        if ($courseId) {
+            $course = Course::find($courseId);
+            if ($course) {
+                $this->selectedPeriodId = $course->period_id;
+                $this->loadCourses();
+                $this->selectedCourseId = $course->id;
+                $this->loadEnrollments();
+
+                return;
+            }
+        }
+
+        $period = Period::get_default_period();
+        $this->selectedPeriodId = $period?->id;
         $this->loadCourses();
     }
 
