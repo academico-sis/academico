@@ -34,7 +34,7 @@ class ResultResource extends Resource
 
     public static function canAccess(): bool
     {
-        return ! (auth()->user()?->isTeacher() ?? false);
+        return auth()->user()?->can('evaluation.view') ?? false;
     }
 
     public static function getNavigationGroup(): ?string

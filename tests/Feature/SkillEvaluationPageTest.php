@@ -16,6 +16,8 @@ use App\Models\User;
 use App\Models\Year;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
 class SkillEvaluationPageTest extends TestCase
@@ -69,7 +71,13 @@ class SkillEvaluationPageTest extends TestCase
             'status_id' => 1,
         ]);
 
+        Permission::findOrCreate('evaluation.view', 'web');
+        $role = Role::findOrCreate('admin', 'web');
+        $role->givePermissionTo('evaluation.view');
+        app(\Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();
+
         $admin = User::factory()->create();
+        $admin->assignRole('admin');
         $this->actingAs($admin);
     }
 

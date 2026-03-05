@@ -14,6 +14,12 @@ class CalendarRoom extends Page
 
     protected static ?int $navigationSort = 420;
 
+    public static function canAccess(): bool
+    {
+        return (auth()->user()?->can('calendars.view') ?? false)
+            || ((auth()->user()?->isTeacher() ?? false) && (bool) config('settings.teachers_can_view_calendars'));
+    }
+
     protected string $view = 'filament.pages.calendar-room';
 
     public ?int $selectedRoomId = null;

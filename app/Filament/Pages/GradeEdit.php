@@ -16,9 +16,14 @@ class GradeEdit extends Page
 
     protected static ?int $navigationSort = 1;
 
+    public static function canAccess(): bool
+    {
+        return auth()->user()?->can('evaluation.view') ?? false;
+    }
+
     public static function shouldRegisterNavigation(): bool
     {
-        return ! (auth()->user()?->isTeacher() ?? false);
+        return static::canAccess();
     }
 
     protected string $view = 'filament.pages.grade-edit';

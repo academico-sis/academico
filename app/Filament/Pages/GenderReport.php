@@ -18,7 +18,7 @@ class GenderReport extends Page
 
     public static function canAccess(): bool
     {
-        return ! (auth()->user()?->isTeacher() ?? false);
+        return auth()->user()?->can('reports.view') ?? false;
     }
 
     public ?int $startFromPeriodId = null;

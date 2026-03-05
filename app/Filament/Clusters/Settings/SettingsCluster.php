@@ -18,7 +18,7 @@ class SettingsCluster extends Cluster
 
     public static function canAccess(): bool
     {
-        return ! (auth()->user()?->isTeacher() ?? false);
+        return auth()->user()?->hasRole('admin') ?? false;
     }
 
     public function getTitle(): string|Htmlable

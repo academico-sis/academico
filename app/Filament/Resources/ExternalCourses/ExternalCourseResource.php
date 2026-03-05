@@ -34,7 +34,7 @@ class ExternalCourseResource extends Resource
 
     public static function canAccess(): bool
     {
-        return ! (auth()->user()?->isTeacher() ?? false)
+        return (auth()->user()?->can('courses.view') ?? false)
             && (bool) config('settings.external_courses_enabled');
     }
 

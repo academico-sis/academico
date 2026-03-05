@@ -25,7 +25,7 @@ class MemberResource extends Resource
 
     public static function canAccess(): bool
     {
-        return ! (auth()->user()?->isTeacher() ?? false)
+        return (auth()->user()?->hasRole('admin') ?? false)
             && (bool) config('settings.members_enabled');
     }
 

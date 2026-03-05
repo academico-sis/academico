@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
 class AuthenticationTest extends TestCase
@@ -70,11 +71,21 @@ class AuthenticationTest extends TestCase
         $response->assertRedirect();
     }
 
-    public function test_authenticated_user_can_access_admin_panel(): void
+    public function test_authenticated_user_with_role_can_access_admin_panel(): void
+    {
+        Role::findOrCreate('admin', 'web');
+        $user = User::factory()->create();
+        $user->assignRole('admin');
+
+        $response = $this->actingAs($user)->get('/admin');
+        $response->assertStatus(200);
+    }
+
+    public function test_authenticated_user_without_role_cannot_access_admin_panel(): void
     {
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)->get('/admin');
-        $response->assertStatus(200);
+        $response->assertStatus(403);
     }
 }

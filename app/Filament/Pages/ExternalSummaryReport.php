@@ -16,7 +16,7 @@ class ExternalSummaryReport extends Page
 
     public static function canAccess(): bool
     {
-        return ! (auth()->user()?->isTeacher() ?? false)
+        return (auth()->user()?->can('reports.view') ?? false)
             && (bool) config('settings.external_courses_enabled');
     }
 

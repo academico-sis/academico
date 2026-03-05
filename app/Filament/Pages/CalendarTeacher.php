@@ -14,6 +14,12 @@ class CalendarTeacher extends Page
 
     protected static ?int $navigationSort = 410;
 
+    public static function canAccess(): bool
+    {
+        return (auth()->user()?->can('calendars.view') ?? false)
+            || (auth()->user()?->isTeacher() ?? false);
+    }
+
     protected string $view = 'filament.pages.calendar-teacher';
 
     public ?int $selectedTeacherId = null;

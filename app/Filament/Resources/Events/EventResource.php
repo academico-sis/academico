@@ -33,7 +33,7 @@ class EventResource extends Resource
 
     public static function canAccess(): bool
     {
-        return ! (auth()->user()?->isTeacher() ?? false);
+        return auth()->user()?->can('courses.view') ?? false;
     }
 
     public static function getNavigationGroup(): ?string

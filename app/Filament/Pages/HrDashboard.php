@@ -17,7 +17,7 @@ class HrDashboard extends Page
 
     public static function canAccess(): bool
     {
-        return ! (auth()->user()?->isTeacher() ?? false);
+        return auth()->user()?->can('hr.view') ?? false;
     }
 
     public ?int $selectedPeriodId = null;
