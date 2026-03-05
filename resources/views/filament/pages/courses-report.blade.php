@@ -73,6 +73,20 @@
                             </tr>
                         @endforeach
                     </tbody>
+                    @if(count($coursesData) > 1)
+                        <tfoot class="bg-gray-50 dark:bg-gray-700 font-semibold">
+                            <tr>
+                                <td class="px-4 py-2" colspan="4">{{ __('Average') }}</td>
+                                <td class="px-4 py-2 text-right">{{ number_format(collect($coursesData)->avg('enrollments'), 1) }}</td>
+                                <td class="px-4 py-2 text-right">{{ number_format(collect($coursesData)->avg('totalVolume'), 1) }}</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2" colspan="4">{{ __('Total') }}</td>
+                                <td class="px-4 py-2 text-right">{{ collect($coursesData)->sum('enrollments') }}</td>
+                                <td class="px-4 py-2 text-right">{{ collect($coursesData)->sum('totalVolume') }}</td>
+                            </tr>
+                        </tfoot>
+                    @endif
                 </table>
             </div>
         </x-filament::section>

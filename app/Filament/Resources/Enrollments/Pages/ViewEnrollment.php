@@ -2,8 +2,8 @@
 
 namespace App\Filament\Resources\Enrollments\Pages;
 
-use App\Filament\RelationManagers\CommentsRelationManager;
 use App\Filament\Resources\Enrollments\EnrollmentResource;
+use App\Filament\Resources\Enrollments\RelationManagers\EnrollmentCommentsRelationManager;
 use App\Filament\Resources\Enrollments\RelationManagers\ScholarshipsRelationManager;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Select;
@@ -84,9 +84,9 @@ class ViewEnrollment extends ViewRecord
                     ->schema([
                         $this->getInfolistContentComponent()
                             ->columnSpan(1),
-                        Livewire::make(CommentsRelationManager::class, [
+                        Livewire::make(EnrollmentCommentsRelationManager::class, [
                             ...$livewireData,
-                            ...CommentsRelationManager::getDefaultProperties(),
+                            ...EnrollmentCommentsRelationManager::getDefaultProperties(),
                         ])->key('comments')
                             ->columnSpan(1),
                     ]),

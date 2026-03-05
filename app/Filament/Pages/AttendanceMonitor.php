@@ -6,6 +6,7 @@ use App\Models\Attendance;
 use App\Models\Course;
 use App\Models\Event;
 use App\Models\Period;
+use App\Models\Teacher;
 use BackedEnum;
 use Carbon\Carbon;
 use Filament\Pages\Page;
@@ -25,6 +26,14 @@ class AttendanceMonitor extends Page
 
     public ?int $selectedPeriodId = null;
 
+    public string $search = '';
+
+    public ?int $selectedTeacherId = null;
+
+    public ?string $dateFrom = null;
+
+    public ?string $dateTo = null;
+
     /** @var array<int, array<string, mixed>> */
     public array $absencesPerStudent = [];
 
@@ -43,14 +52,57 @@ class AttendanceMonitor extends Page
         $this->loadData();
     }
 
+    public function updatedSearch(): void
+    {
+        $this->loadData();
+    }
+
+    public function updatedSelectedTeacherId(): void
+    {
+        $this->loadData();
+    }
+
+    public function updatedDateFrom(): void
+    {
+        $this->loadData();
+    }
+
+    public function updatedDateTo(): void
+    {
+        $this->loadData();
+    }
+
     protected function loadData(): void
     {
         if (! $this->selectedPeriodId) {
             return;
         }
 
-        $coursesIds = Course::where('period_id', $this->selectedPeriodId)->pluck('id');
-        $eventsIds = Event::whereIn('course_id', $coursesIds)->pluck('id');
+        $coursesQuery = Course::where('period_id', $this->selectedPeriodId);
+
+        if ($this->selectedTeacherId) {
+            $coursesQuery->where('teacher_id', $this->selectedTeacherId);
+        }
+
+        if ($this->search) {
+            $searchTerm = $this->search;
+            $coursesQuery->where(function ($q) use ($searchTerm) {
+                $q->where('name', 'like', "%{$searchTerm}%");
+            });
+        }
+
+        $coursesIds = $coursesQuery->pluck('id');
+
+        $eventsQuery = Event::whereIn('course_id', $coursesIds);
+
+        if ($this->dateFrom) {
+            $eventsQuery->where('start', '>=', $this->dateFrom);
+        }
+        if ($this->dateTo) {
+            $eventsQuery->where('start', '<=', Carbon::parse($this->dateTo)->endOfDay());
+        }
+
+        $eventsIds = $eventsQuery->pluck('id');
 
         $this->absencesPerStudent = Attendance::with(['student', 'event', 'event.course'])
             ->whereIn('event_id', $eventsIds)
@@ -71,11 +123,21 @@ class AttendanceMonitor extends Page
             ->values()
             ->toArray();
 
-        $courses = Course::with(['events', 'enrollments', 'attendance'])
+        $coursesListQuery = Course::with(['events', 'enrollments', 'attendance'])
             ->where('period_id', $this->selectedPeriodId)
             ->whereHas('events')
-            ->whereHas('enrollments')
-            ->get();
+            ->whereHas('enrollments');
+
+        if ($this->selectedTeacherId) {
+            $coursesListQuery->where('teacher_id', $this->selectedTeacherId);
+        }
+
+        if ($this->search) {
+            $searchTerm = $this->search;
+            $coursesListQuery->where('name', 'like', "%{$searchTerm}%");
+        }
+
+        $courses = $coursesListQuery->get();
 
         $coursesdata = [];
         foreach ($courses as $course) {
@@ -124,5 +186,13 @@ class AttendanceMonitor extends Page
     public function getTitle(): string|\Illuminate\Contracts\Support\Htmlable
     {
         return __('Attendance Monitor');
+    }
+
+    /** @return array<string, mixed> */
+    protected function getViewData(): array
+    {
+        return [
+            'teachers' => Teacher::with('user')->get()->sortBy('name'),
+        ];
     }
 }

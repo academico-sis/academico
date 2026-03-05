@@ -35,6 +35,35 @@
         <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
             {{-- Courses --}}
             <div class="lg:col-span-2">
+                <x-filament::section :heading="__('Results') . ' (' . count($results) . ')'" class="mb-6" collapsible>
+                    @if (empty($results))
+                        <p class="text-sm text-gray-500 dark:text-gray-400">{{ __('No results for this period.') }}</p>
+                    @else
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left">
+                                <thead class="text-xs uppercase bg-gray-50 dark:bg-gray-700">
+                                    <tr>
+                                        <th class="px-4 py-2">{{ __('Student') }}</th>
+                                        <th class="px-4 py-2">{{ __('Course') }}</th>
+                                        <th class="px-4 py-2">{{ __('Result') }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($results as $result)
+                                        <tr class="border-b dark:border-gray-600">
+                                            <td class="px-4 py-2">{{ $result['studentName'] }}</td>
+                                            <td class="px-4 py-2">{{ $result['courseName'] }}</td>
+                                            <td class="px-4 py-2">
+                                                <x-filament::badge>{{ $result['resultName'] }}</x-filament::badge>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    @endif
+                </x-filament::section>
+
                 <x-filament::section :heading="__('My Courses') . ' (' . count($courses) . ')'">
                     @if (empty($courses))
                         <p class="text-sm text-gray-500 dark:text-gray-400">{{ __('No courses for this period.') }}</p>

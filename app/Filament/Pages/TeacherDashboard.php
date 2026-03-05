@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use App\Models\Enrollment;
 use App\Models\Event;
 use App\Models\Period;
 use App\Models\Teacher;
@@ -24,6 +25,11 @@ class TeacherDashboard extends Page
 
     /** @var array<int, array<string, mixed>> */
     public array $pendingAttendance = [];
+
+    /** @var array<int, array<string, mixed>> */
+    public array $results = [];
+
+    public bool $certificatesEnabled = false;
 
     public float $volume = 0;
 
@@ -79,6 +85,21 @@ class TeacherDashboard extends Page
                 'start' => $event->start ? Carbon::parse($event->start)->format('d/m/Y H:i') : null,
             ];
         })->toArray();
+
+        // Results
+        $this->certificatesEnabled = (bool) config('certificates-generation.supported');
+        $courseIds = $teacher->period_courses($period)->pluck('id');
+        $this->results = Enrollment::with(['student', 'course', 'result.result_name'])
+            ->whereIn('course_id', $courseIds)
+            ->whereHas('result')
+            ->get()
+            ->map(fn (Enrollment $enrollment) => [
+                'id' => $enrollment->id,
+                'studentName' => $enrollment->student->name ?? '',
+                'courseName' => $enrollment->course->name ?? '',
+                'resultName' => $enrollment->result->result_name->name ?? '',
+            ])
+            ->toArray();
 
         // Volume
         $this->volume = $teacher->plannedHoursInPeriod($period->start, $period->end);

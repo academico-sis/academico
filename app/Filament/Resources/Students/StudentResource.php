@@ -12,6 +12,7 @@ use App\Filament\Resources\Students\RelationManagers\EnrollmentsRelationManager;
 use App\Models\Period;
 use App\Models\Student;
 use BackedEnum;
+use Carbon\Carbon;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -28,6 +29,7 @@ use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
@@ -228,6 +230,29 @@ class StudentResource extends Resource
                     ->label(__('Institution'))
                     ->preload()
                     ->searchable(),
+                Filter::make('age')
+                    ->label(__('Age'))
+                    ->schema([
+                        TextInput::make('min_age')
+                            ->label(__('Min Age'))
+                            ->numeric()
+                            ->minValue(0),
+                        TextInput::make('max_age')
+                            ->label(__('Max Age'))
+                            ->numeric()
+                            ->minValue(0),
+                    ])
+                    ->columns(2)
+                    ->query(function ($query, array $data) {
+                        if ($data['min_age']) {
+                            $query->whereHas('user', fn ($q) => $q
+                                ->where('birthdate', '<=', Carbon::now()->subYears((int) $data['min_age'])));
+                        }
+                        if ($data['max_age']) {
+                            $query->whereHas('user', fn ($q) => $q
+                                ->where('birthdate', '>=', Carbon::now()->subYears((int) $data['max_age'] + 1)));
+                        }
+                    }),
                 TernaryFilter::make('new_in_period')
                     ->label(__('New Students'))
                     ->queries(

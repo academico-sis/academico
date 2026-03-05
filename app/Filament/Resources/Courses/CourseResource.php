@@ -36,6 +36,7 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 
 class CourseResource extends Resource
@@ -340,6 +341,12 @@ class CourseResource extends Resource
                     ->relationship('level', 'name')
                     ->label(__('Level'))
                     ->preload(),
+                TernaryFilter::make('hide_children')
+                    ->label(__('Hide Children Courses'))
+                    ->queries(
+                        true: fn ($query) => $query->whereNull('parent_course_id'),
+                        false: fn ($query) => $query->whereNotNull('parent_course_id'),
+                    ),
             ])
             ->defaultSort('start_date', 'desc')
             ->recordActions([

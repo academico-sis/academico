@@ -1,11 +1,34 @@
 <x-filament-panels::page>
-    <div class="mb-4">
-        <label for="period" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('Period') }}</label>
-        <select wire:model.live="selectedPeriodId" id="period" class="block w-full max-w-xs rounded-lg border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white sm:text-sm">
-            @foreach(\App\Models\Period::all() as $period)
-                <option value="{{ $period->id }}">{{ $period->name }}</option>
-            @endforeach
-        </select>
+    <div class="mb-4 flex flex-wrap items-end gap-4">
+        <div>
+            <label for="period" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('Period') }}</label>
+            <select wire:model.live="selectedPeriodId" id="period" class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white sm:text-sm">
+                @foreach(\App\Models\Period::all() as $period)
+                    <option value="{{ $period->id }}">{{ $period->name }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div>
+            <label for="search" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('Search') }}</label>
+            <input type="text" wire:model.live.debounce.300ms="search" id="search" placeholder="{{ __('Course name...') }}" class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white sm:text-sm">
+        </div>
+        <div>
+            <label for="teacher" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('Teacher') }}</label>
+            <select wire:model.live="selectedTeacherId" id="teacher" class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white sm:text-sm">
+                <option value="">{{ __('All Teachers') }}</option>
+                @foreach($teachers as $teacher)
+                    <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div>
+            <label for="dateFrom" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('From') }}</label>
+            <input type="date" wire:model.live="dateFrom" id="dateFrom" class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white sm:text-sm">
+        </div>
+        <div>
+            <label for="dateTo" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('To') }}</label>
+            <input type="date" wire:model.live="dateTo" id="dateTo" class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white sm:text-sm">
+        </div>
     </div>
 
     <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
