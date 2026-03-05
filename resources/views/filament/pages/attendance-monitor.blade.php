@@ -24,7 +24,7 @@
         <x-filament::section>
             <x-slot name="heading">{{ __('Absences per Student') }}</x-slot>
 
-            @if(count($absencesPerStudent) > 0)
+            @if($paginatedAbsences->isNotEmpty())
                 <div class="overflow-x-auto">
                     <table class="w-full text-sm text-left">
                         <thead class="text-xs uppercase bg-gray-50 dark:bg-gray-700">
@@ -35,7 +35,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($absencesPerStudent as $record)
+                            @foreach($paginatedAbsences as $record)
                                 <tr class="border-b dark:border-gray-600">
                                     <td class="px-4 py-2">
                                         <a href="{{ route('filament.admin.pages.student-attendance', ['studentId' => $record['studentId'], 'courseId' => $record['courseId']]) }}" class="text-primary-600 hover:underline">
@@ -51,6 +51,22 @@
                         </tbody>
                     </table>
                 </div>
+
+                @if($absencesTotalPages > 1)
+                    <div class="mt-3 flex items-center justify-between text-sm">
+                        <span class="text-gray-500 dark:text-gray-400">
+                            {{ __('Page :current of :total', ['current' => $this->absencesPage, 'total' => $absencesTotalPages]) }}
+                        </span>
+                        <div class="flex gap-1">
+                            <x-filament::button size="sm" color="gray" wire:click="goToAbsencesPage({{ $this->absencesPage - 1 }})" :disabled="$this->absencesPage <= 1">
+                                &laquo;
+                            </x-filament::button>
+                            <x-filament::button size="sm" color="gray" wire:click="goToAbsencesPage({{ $this->absencesPage + 1 }})" :disabled="$this->absencesPage >= $absencesTotalPages">
+                                &raquo;
+                            </x-filament::button>
+                        </div>
+                    </div>
+                @endif
             @else
                 <p class="text-sm text-gray-500">{{ __('No absences recorded for this period.') }}</p>
             @endif
@@ -60,7 +76,7 @@
         <x-filament::section>
             <x-slot name="heading">{{ __('Courses with Missing Attendance') }}</x-slot>
 
-            @if(count($coursesData) > 0)
+            @if($paginatedCourses->isNotEmpty())
                 <div class="overflow-x-auto">
                     <table class="w-full text-sm text-left">
                         <thead class="text-xs uppercase bg-gray-50 dark:bg-gray-700">
@@ -71,7 +87,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($coursesData as $course)
+                            @foreach($paginatedCourses as $course)
                                 <tr class="border-b dark:border-gray-600">
                                     <td class="px-4 py-2">
                                         <a href="{{ route('filament.admin.pages.course-attendance', ['courseId' => $course['id']]) }}" class="text-primary-600 hover:underline">
@@ -91,6 +107,22 @@
                         </tbody>
                     </table>
                 </div>
+
+                @if($coursesTotalPages > 1)
+                    <div class="mt-3 flex items-center justify-between text-sm">
+                        <span class="text-gray-500 dark:text-gray-400">
+                            {{ __('Page :current of :total', ['current' => $this->coursesPage, 'total' => $coursesTotalPages]) }}
+                        </span>
+                        <div class="flex gap-1">
+                            <x-filament::button size="sm" color="gray" wire:click="goToCoursesPage({{ $this->coursesPage - 1 }})" :disabled="$this->coursesPage <= 1">
+                                &laquo;
+                            </x-filament::button>
+                            <x-filament::button size="sm" color="gray" wire:click="goToCoursesPage({{ $this->coursesPage + 1 }})" :disabled="$this->coursesPage >= $coursesTotalPages">
+                                &raquo;
+                            </x-filament::button>
+                        </div>
+                    </div>
+                @endif
             @else
                 <p class="text-sm text-gray-500">{{ __('No courses with events and enrollments found.') }}</p>
             @endif
