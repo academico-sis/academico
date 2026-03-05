@@ -17,6 +17,11 @@ class SkillEvaluationPage extends Page
 
     protected static ?int $navigationSort = 2;
 
+    public static function shouldRegisterNavigation(): bool
+    {
+        return ! (auth()->user()?->isTeacher() ?? false);
+    }
+
     protected string $view = 'filament.pages.skill-evaluation';
 
     public ?int $selectedPeriodId = null;

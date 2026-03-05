@@ -30,6 +30,11 @@ class LeaveResource extends Resource
 
     protected static ?int $navigationSort = 530;
 
+    public static function canAccess(): bool
+    {
+        return ! (auth()->user()?->isTeacher() ?? false);
+    }
+
     public static function getNavigationGroup(): ?string
     {
         return __('HR');

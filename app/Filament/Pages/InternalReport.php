@@ -17,6 +17,11 @@ class InternalReport extends Page
 
     protected string $view = 'filament.pages.internal-report';
 
+    public static function canAccess(): bool
+    {
+        return ! (auth()->user()?->isTeacher() ?? false);
+    }
+
     public ?int $startFromPeriodId = null;
 
     /** @var array<int, array<string, mixed>> */

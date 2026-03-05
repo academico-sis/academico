@@ -34,7 +34,8 @@ class ExternalCourseResource extends Resource
 
     public static function canAccess(): bool
     {
-        return (bool) config('settings.external_courses_enabled');
+        return ! (auth()->user()?->isTeacher() ?? false)
+            && (bool) config('settings.external_courses_enabled');
     }
 
     public static function getNavigationGroup(): ?string

@@ -42,6 +42,11 @@ class CourseResource extends Resource
 
     protected static ?int $navigationSort = 100;
 
+    public static function canAccess(): bool
+    {
+        return ! (auth()->user()?->isTeacher() ?? false);
+    }
+
     public static function getNavigationGroup(): ?string
     {
         return __('Courses');

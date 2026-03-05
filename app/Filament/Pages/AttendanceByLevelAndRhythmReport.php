@@ -18,7 +18,8 @@ class AttendanceByLevelAndRhythmReport extends Page
 
     public static function canAccess(): bool
     {
-        return (bool) config('settings.attendance_reports_enabled');
+        return ! (auth()->user()?->isTeacher() ?? false)
+            && (bool) config('settings.attendance_reports_enabled');
     }
 
     protected string $view = 'filament.pages.attendance-by-level-and-rhythm-report';

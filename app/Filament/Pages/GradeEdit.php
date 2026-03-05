@@ -16,6 +16,11 @@ class GradeEdit extends Page
 
     protected static ?int $navigationSort = 1;
 
+    public static function shouldRegisterNavigation(): bool
+    {
+        return ! (auth()->user()?->isTeacher() ?? false);
+    }
+
     protected string $view = 'filament.pages.grade-edit';
 
     public ?int $selectedPeriodId = null;

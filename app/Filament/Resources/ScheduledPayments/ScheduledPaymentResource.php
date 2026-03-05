@@ -30,7 +30,8 @@ class ScheduledPaymentResource extends Resource
 
     public static function canAccess(): bool
     {
-        return (bool) config('invoicing.allow_scheduled_payments');
+        return ! (auth()->user()?->isTeacher() ?? false)
+            && (bool) config('invoicing.allow_scheduled_payments');
     }
 
     public static function getNavigationGroup(): ?string

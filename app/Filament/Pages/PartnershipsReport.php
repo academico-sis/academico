@@ -14,6 +14,11 @@ class PartnershipsReport extends Page
 
     protected string $view = 'filament.pages.partnerships-report';
 
+    public static function canAccess(): bool
+    {
+        return ! (auth()->user()?->isTeacher() ?? false);
+    }
+
     /** @var array<int, array<string, mixed>> */
     public array $partnersData = [];
 

@@ -25,7 +25,8 @@ class MemberResource extends Resource
 
     public static function canAccess(): bool
     {
-        return (bool) config('settings.members_enabled');
+        return ! (auth()->user()?->isTeacher() ?? false)
+            && (bool) config('settings.members_enabled');
     }
 
     public static function getNavigationGroup(): ?string

@@ -32,6 +32,11 @@ class ResultResource extends Resource
 
     protected static ?string $slug = 'results';
 
+    public static function canAccess(): bool
+    {
+        return ! (auth()->user()?->isTeacher() ?? false);
+    }
+
     public static function getNavigationGroup(): ?string
     {
         return 'A revoir / WIP';

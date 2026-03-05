@@ -31,6 +31,11 @@ class EventResource extends Resource
 
     protected static ?int $navigationSort = 430;
 
+    public static function canAccess(): bool
+    {
+        return ! (auth()->user()?->isTeacher() ?? false);
+    }
+
     public static function getNavigationGroup(): ?string
     {
         return __('Calendar');

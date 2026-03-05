@@ -31,6 +31,11 @@ class PeriodResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCalendar;
 
+    public static function canAccess(): bool
+    {
+        return ! (auth()->user()?->isTeacher() ?? false);
+    }
+
     public static function getNavigationGroup(): ?string
     {
         return __('Academic');

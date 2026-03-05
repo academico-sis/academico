@@ -33,6 +33,11 @@ class TeacherResource extends Resource
 
     protected static ?int $navigationSort = 510;
 
+    public static function canAccess(): bool
+    {
+        return ! (auth()->user()?->isTeacher() ?? false);
+    }
+
     public static function getNavigationGroup(): ?string
     {
         return __('HR');

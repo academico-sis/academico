@@ -16,6 +16,11 @@ class SettingsCluster extends Cluster
 
     protected string $view = 'filament.clusters.settings';
 
+    public static function canAccess(): bool
+    {
+        return ! (auth()->user()?->isTeacher() ?? false);
+    }
+
     public function getTitle(): string|Htmlable
     {
         return __('Settings');

@@ -38,6 +38,11 @@ class CheckoutPage extends Page
 
     public ?array $data = [];
 
+    public static function canAccess(): bool
+    {
+        return ! (auth()->user()?->isTeacher() ?? false);
+    }
+
     public static function getNavigationGroup(): ?string
     {
         return 'A revoir / WIP';

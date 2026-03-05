@@ -38,7 +38,9 @@ class InvoiceResource extends Resource
 
     public static function canAccess(): bool
     {
-        return config('invoicing.accounting_enabled') && ! config('invoicing.price_categories_enabled');
+        return ! (auth()->user()?->isTeacher() ?? false)
+            && config('invoicing.accounting_enabled')
+            && ! config('invoicing.price_categories_enabled');
     }
 
     public static function getNavigationGroup(): ?string

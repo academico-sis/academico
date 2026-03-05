@@ -16,6 +16,11 @@ class GenderReport extends Page
 
     protected string $view = 'filament.pages.gender-report';
 
+    public static function canAccess(): bool
+    {
+        return ! (auth()->user()?->isTeacher() ?? false);
+    }
+
     public ?int $startFromPeriodId = null;
 
     /** @var array<int, array<string, mixed>> */

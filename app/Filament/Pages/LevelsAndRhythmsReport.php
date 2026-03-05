@@ -14,6 +14,11 @@ class LevelsAndRhythmsReport extends Page
 
     protected string $view = 'filament.pages.levels-and-rhythms-report';
 
+    public static function canAccess(): bool
+    {
+        return ! (auth()->user()?->isTeacher() ?? false);
+    }
+
     public ?int $selectedPeriodId = null;
 
     /** @var array<int, array<string, mixed>> */
