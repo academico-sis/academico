@@ -16,6 +16,7 @@ use BackedEnum;
 use Carbon\Carbon;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\ExportAction;
 use Filament\Actions\ExportBulkAction;
 use Filament\Actions\ViewAction;
 use Filament\Forms\Components\TextInput;
@@ -224,6 +225,10 @@ class EnrollmentResource extends Resource
             ->defaultSort('id', 'desc')
             ->recordActions([
                 ViewAction::make(),
+            ])
+            ->headerActions([
+                ExportAction::make()
+                    ->exporter(EnrollmentExporter::class),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

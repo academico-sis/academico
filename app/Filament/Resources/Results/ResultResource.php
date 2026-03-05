@@ -10,6 +10,7 @@ use App\Models\Period;
 use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\ExportAction;
 use Filament\Actions\ExportBulkAction;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
@@ -164,6 +165,10 @@ class ResultResource extends Resource
 
                         return $service->exportCertificate($record);
                     }),
+            ])
+            ->headerActions([
+                ExportAction::make()
+                    ->exporter(ResultExporter::class),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

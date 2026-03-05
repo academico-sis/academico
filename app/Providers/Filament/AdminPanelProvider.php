@@ -44,6 +44,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
             ->widgets([])
+            ->databaseNotifications()
             ->navigationItems([
                 NavigationItem::make(__('Pending Enrollments'))
                     ->url(fn (): string => EnrollmentResource::getUrl('index', ['tableFilters' => ['status_id' => ['values' => ['1']]]]))

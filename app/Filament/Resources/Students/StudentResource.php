@@ -17,6 +17,7 @@ use Carbon\Carbon;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ExportAction;
 use Filament\Actions\ExportBulkAction;
 use Filament\Actions\ViewAction;
 use Filament\Forms\Components\DatePicker;
@@ -343,6 +344,10 @@ class StudentResource extends Resource
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
+            ])
+            ->headerActions([
+                ExportAction::make()
+                    ->exporter(StudentExporter::class),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

@@ -19,6 +19,7 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ExportAction;
 use Filament\Actions\ExportBulkAction;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\ColorPicker;
@@ -415,6 +416,10 @@ class CourseResource extends Resource
                         ->visible(fn ($record) => $record->evaluationType?->gradeTypes()?->count() > 0 && $record->enrollments()->count() > 0),
                     DeleteAction::make(),
                 ]),
+            ])
+            ->headerActions([
+                ExportAction::make()
+                    ->exporter(CourseExporter::class),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
