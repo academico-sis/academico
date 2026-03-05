@@ -80,27 +80,42 @@ class TeacherResource extends Resource
     {
         return $table
             ->columns([
+                // Mobile: stacked teacher info
+                TextColumn::make('mobile_name')
+                    ->label(__('Teacher'))
+                    ->state(fn ($record) => $record->user?->lastname.', '.$record->user?->firstname)
+                    ->description(fn ($record) => $record->user?->email)
+                    ->searchable(query: fn ($query, $search) => $query->whereHas('user', fn ($q) => $q->where('lastname', 'like', "%{$search}%")->orWhere('firstname', 'like', "%{$search}%")))
+                    ->sortable(query: fn ($query, $direction) => $query->join('users', 'teachers.user_id', '=', 'users.id')->orderBy('users.lastname', $direction))
+                    ->wrap()
+                    ->hiddenFrom('md'),
+                // Desktop columns
                 TextColumn::make('user.lastname')
                     ->label(__('Last name'))
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->visibleFrom('md'),
                 TextColumn::make('user.firstname')
                     ->label(__('First name'))
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->visibleFrom('md'),
                 TextColumn::make('user.email')
                     ->label(__('Email'))
                     ->wrap()
                     ->width('180px')
-                    ->searchable(),
+                    ->searchable()
+                    ->visibleFrom('md'),
                 TextColumn::make('max_week_hours')
                     ->label(__('Max hours/week'))
                     ->numeric(decimalPlaces: 2)
-                    ->sortable(),
+                    ->sortable()
+                    ->visibleFrom('md'),
                 TextColumn::make('hired_at')
                     ->label(__('Hire Date'))
                     ->date()
-                    ->sortable(),
+                    ->sortable()
+                    ->visibleFrom('md'),
             ])
             ->filters([
                 TrashedFilter::make(),

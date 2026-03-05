@@ -105,33 +105,48 @@ class InvoiceResource extends Resource
     {
         return $table
             ->columns([
+                // Mobile: stacked invoice info
+                TextColumn::make('mobile_invoice')
+                    ->label(__('Invoice'))
+                    ->state(fn ($record) => $record->invoice_reference.' · '.$record->invoiceType?->name)
+                    ->description(fn ($record) => $record->client_name.' · '.$record->date?->format('M j, Y'))
+                    ->searchable(query: fn ($query, $search) => $query->where('client_name', 'like', "%{$search}%")->orWhere('invoice_number', 'like', "%{$search}%"))
+                    ->wrap()
+                    ->hiddenFrom('md'),
+                // Desktop columns
                 TextColumn::make('invoice_reference')
                     ->label(__('Invoice #'))
                     ->searchable(['invoice_number', 'receipt_number'])
-                    ->sortable('invoice_number'),
+                    ->sortable('invoice_number')
+                    ->visibleFrom('md'),
                 TextColumn::make('invoiceType.name')
                     ->label(__('Type'))
-                    ->sortable(),
+                    ->sortable()
+                    ->visibleFrom('md'),
                 TextColumn::make('date')
                     ->label(__('Date'))
                     ->date()
-                    ->sortable(),
+                    ->sortable()
+                    ->visibleFrom('md'),
                 TextColumn::make('client_name')
                     ->label(__('Client'))
                     ->wrap()
                     ->width('160px')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->visibleFrom('md'),
                 TextColumn::make('client_idnumber')
                     ->label(__('ID Number'))
                     ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->visibleFrom('lg'),
                 TextColumn::make('client_email')
                     ->label(__('Email'))
                     ->wrap()
                     ->width('180px')
                     ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->visibleFrom('lg'),
                 TextColumn::make('total_price_with_currency')
                     ->label(__('Total'))
                     ->sortable(false),

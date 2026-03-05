@@ -17,7 +17,6 @@ use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
-use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -130,61 +129,69 @@ class ExternalCourseResource extends Resource
     {
         return $table
             ->columns([
+                // Mobile: stacked course info
+                TextColumn::make('mobile_course')
+                    ->label(__('Course'))
+                    ->state(fn ($record) => $record->name)
+                    ->description(fn ($record) => collect([$record->partner?->name, $record->rhythm?->name, $record->level?->name])->filter()->implode(' · '))
+                    ->searchable(query: fn ($query, $search) => $query->where('name', 'like', "%{$search}%"))
+                    ->wrap()
+                    ->hiddenFrom('md'),
+                TextColumn::make('mobile_details')
+                    ->label(__('Details'))
+                    ->state(fn ($record) => collect([$record->teacher?->user?->name, $record->room?->name])->filter()->implode(' · '))
+                    ->description(fn ($record) => $record->start_date?->format('M j, Y').' → '.$record->end_date?->format('M j, Y'))
+                    ->wrap()
+                    ->hiddenFrom('md'),
+                // Desktop columns
                 TextColumn::make('partner.name')
                     ->label(__('Partnership'))
                     ->wrap()
                     ->width('150px')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->visibleFrom('md'),
                 TextColumn::make('name')
                     ->label(__('Name'))
                     ->wrap()
                     ->width('180px')
                     ->searchable()
-                    ->sortable(),
-                Stack::make([
-                    TextColumn::make('rhythm.name')
-                        ->label(__('Rhythm')),
-                    TextColumn::make('level.name')
-                        ->label(__('Level')),
-                ]),
-                Stack::make([
-                    TextColumn::make('volume')
-                        ->label(__('Volume'))
-                        ->suffix('h')
-                        ->numeric(),
-                    TextColumn::make('hourly_price')
-                        ->label(__('Price'))
-                        ->money(config('academico.currency_code', 'EUR')),
-                ]),
+                    ->sortable()
+                    ->visibleFrom('md'),
+                TextColumn::make('rhythm.name')
+                    ->label(__('Rhythm'))
+                    ->description(fn ($record) => $record->level?->name)
+                    ->visibleFrom('md'),
+                TextColumn::make('volume')
+                    ->label(__('Volume'))
+                    ->suffix('h')
+                    ->numeric()
+                    ->description(fn ($record) => $record->hourly_price ? number_format($record->hourly_price, 2).' '.config('academico.currency_symbol', '€') : null)
+                    ->visibleFrom('md'),
                 TextColumn::make('teacher.user.name')
                     ->label(__('Teacher'))
                     ->wrap()
-                    ->width('120px'),
+                    ->width('120px')
+                    ->visibleFrom('md'),
                 TextColumn::make('room.name')
-                    ->label(__('Room')),
+                    ->label(__('Room'))
+                    ->visibleFrom('lg'),
                 TextColumn::make('course_times')
                     ->label(__('Schedule'))
                     ->limit(50)
-                    ->width('160px'),
-                Stack::make([
-                    TextColumn::make('head_count')
-                        ->label(__('Students'))
-                        ->numeric(),
-                    TextColumn::make('new_students')
-                        ->label(__('Year Students'))
-                        ->numeric(),
-                ]),
-                Stack::make([
-                    TextColumn::make('start_date')
-                        ->label(__('Start Date'))
-                        ->date()
-                        ->sortable(),
-                    TextColumn::make('end_date')
-                        ->label(__('End Date'))
-                        ->date()
-                        ->sortable(),
-                ]),
+                    ->width('160px')
+                    ->visibleFrom('lg'),
+                TextColumn::make('head_count')
+                    ->label(__('Students'))
+                    ->numeric()
+                    ->description(fn ($record) => $record->new_students ? $record->new_students.' '.__('new') : null)
+                    ->visibleFrom('md'),
+                TextColumn::make('start_date')
+                    ->label(__('Start Date'))
+                    ->date()
+                    ->sortable()
+                    ->description(fn ($record) => $record->end_date?->format('M j, Y'))
+                    ->visibleFrom('md'),
             ])
             ->defaultSort('id', 'desc')
             ->filters([

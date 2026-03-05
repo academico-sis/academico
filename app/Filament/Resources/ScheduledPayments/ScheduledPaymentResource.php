@@ -80,25 +80,38 @@ class ScheduledPaymentResource extends Resource
     {
         return $table
             ->columns([
+                // Mobile: stacked student + date
+                TextColumn::make('mobile_student')
+                    ->label(__('Student'))
+                    ->state(fn ($record) => $record->enrollment?->student?->user?->lastname.' '.$record->enrollment?->student?->user?->firstname)
+                    ->description(fn ($record) => $record->date?->format('M j, Y'))
+                    ->searchable(query: fn ($query, $search) => $query->whereHas('enrollment.student.user', fn ($q) => $q->where('lastname', 'like', "%{$search}%")->orWhere('firstname', 'like', "%{$search}%")))
+                    ->wrap()
+                    ->hiddenFrom('md'),
+                // Desktop columns
                 TextColumn::make('enrollment.student.user.lastname')
                     ->label(__('Last name'))
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->visibleFrom('md'),
                 TextColumn::make('enrollment.student.user.firstname')
                     ->label(__('First name'))
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->visibleFrom('md'),
                 TextColumn::make('enrollment.student.user.email')
                     ->label(__('Email'))
                     ->wrap()
                     ->width('180px')
                     ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->visibleFrom('md'),
                 TextColumn::make('enrollment.course.name')
                     ->label(__('Course'))
                     ->wrap()
                     ->width('180px')
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->visibleFrom('md'),
                 TextColumn::make('value')
                     ->label(__('Amount'))
                     ->money(config('academico.currency_code', 'USD'))
@@ -114,7 +127,8 @@ class ScheduledPaymentResource extends Resource
                 TextColumn::make('date')
                     ->label(__('Date'))
                     ->date()
-                    ->sortable(),
+                    ->sortable()
+                    ->visibleFrom('md'),
             ])
             ->defaultSort('date', 'desc')
             ->filters([

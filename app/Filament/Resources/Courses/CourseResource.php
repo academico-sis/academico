@@ -219,61 +219,97 @@ class CourseResource extends Resource
 
         return $table
             ->columns([
+                // Mobile: stacked course info (name + rhythm · level)
+                TextColumn::make('mobile_name')
+                    ->label(__('Course'))
+                    ->state(fn ($record) => $record->name)
+                    ->description(fn ($record) => collect([$record->rhythm?->name, $record->level?->name])->filter()->implode(' · '))
+                    ->searchable(query: fn ($query, $search) => $query->where('name', 'like', "%{$search}%"))
+                    ->sortable(query: fn ($query, $direction) => $query->orderBy('name', $direction))
+                    ->wrap()
+                    ->hiddenFrom('md'),
+                // Mobile: stacked details (teacher, room, schedule)
+                TextColumn::make('mobile_details')
+                    ->label(__('Details'))
+                    ->state(fn ($record) => $record->teacher?->name)
+                    ->description(fn ($record) => collect([$record->room?->name, $record->course_times])->filter()->implode(' · '))
+                    ->wrap()
+                    ->hiddenFrom('md'),
+                // Mobile: stacked dates (start → end)
+                TextColumn::make('mobile_dates')
+                    ->label(__('Dates'))
+                    ->state(fn ($record) => $record->start_date?->format('M j, Y'))
+                    ->description(fn ($record) => $record->end_date?->format('M j, Y'))
+                    ->sortable(query: fn ($query, $direction) => $query->orderBy('start_date', $direction))
+                    ->hiddenFrom('md'),
+                // Desktop columns
                 TextColumn::make('rhythm.name')
                     ->label(__('Rhythm'))
-                    ->sortable(),
+                    ->sortable()
+                    ->visibleFrom('md'),
                 TextColumn::make('level.name')
                     ->label(__('Level'))
-                    ->sortable(),
+                    ->sortable()
+                    ->visibleFrom('md'),
                 TextColumn::make('name')
                     ->label(__('Name'))
                     ->searchable()
                     ->sortable()
                     ->wrap()
-                    ->width('200px'),
+                    ->width('200px')
+                    ->visibleFrom('md'),
                 TextColumn::make('volume')
                     ->label(__('Volume'))
                     ->suffix('h')
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->visibleFrom('md'),
                 TextColumn::make('remote_volume')
                     ->label(__('Remote volume'))
                     ->suffix('h')
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->visibleFrom('lg'),
                 TextColumn::make('teacher.name')
                     ->label(__('Teacher'))
                     ->sortable()
                     ->toggleable()
                     ->wrap()
-                    ->width('200px'),
+                    ->width('200px')
+                    ->visibleFrom('md'),
                 TextColumn::make('room.name')
                     ->label(__('Room'))
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->visibleFrom('lg'),
                 TextColumn::make('course_times')
                     ->label(__('Schedule'))
                     ->toggleable()
                     ->wrap()
-                    ->width('200px'),
+                    ->width('200px')
+                    ->visibleFrom('lg'),
                 TextColumn::make('course_enrollments_count')
                     ->label(__('Enrollments'))
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->visibleFrom('md'),
                 TextColumn::make('start_date')
                     ->label(__('Start Date'))
                     ->date()
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->visibleFrom('md'),
                 TextColumn::make('end_date')
                     ->label(__('End Date'))
                     ->date()
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->visibleFrom('lg'),
                 IconColumn::make('marked')
                     ->boolean()
                     ->label(__('Evaluation complete'))
-                    ->toggleable(),
+                    ->toggleable()
+                    ->visibleFrom('md'),
             ])
             ->filters([
                 SelectFilter::make('period_id')

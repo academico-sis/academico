@@ -23,7 +23,6 @@ use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Colors\Color;
 use Filament\Support\Icons\Heroicon;
-use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\Filter;
@@ -99,27 +98,35 @@ class EnrollmentResource extends Resource
             ->columns([
                 TextColumn::make('id')
                     ->label(__('ID'))
-                    ->sortable(),
-                Stack::make([
-                    TextColumn::make('student.user.lastname')
-                        ->label(__('Last name'))
-                        ->searchable()
-                        ->sortable()
-                        ->weight('bold'),
-                    TextColumn::make('student.user.firstname')
-                        ->label(__('First name'))
-                        ->searchable()
-                        ->sortable(),
-                ]),
+                    ->sortable()
+                    ->visibleFrom('md'),
+                TextColumn::make('student.user.lastname')
+                    ->label(__('Last name'))
+                    ->searchable()
+                    ->sortable()
+                    ->weight('bold')
+                    ->description(fn (Enrollment $record) => $record->student?->user?->firstname)
+                    ->visibleFrom('md'),
+                // Mobile: stacked student + course info
+                TextColumn::make('mobile_student')
+                    ->label(__('Student'))
+                    ->state(fn (Enrollment $record) => $record->student?->user?->lastname.' '.$record->student?->user?->firstname)
+                    ->weight('bold')
+                    ->description(fn (Enrollment $record) => $record->course?->name)
+                    ->searchable(query: fn ($query, $search) => $query->whereHas('student.user', fn ($q) => $q->where('lastname', 'like', "%{$search}%")->orWhere('firstname', 'like', "%{$search}%")))
+                    ->wrap()
+                    ->hiddenFrom('md'),
                 TextColumn::make('course.name')
                     ->label(__('Course'))
                     ->wrap()
                     ->width('200px')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->visibleFrom('md'),
                 TextColumn::make('course.period.name')
                     ->label(__('Period'))
-                    ->sortable(),
+                    ->sortable()
+                    ->visibleFrom('lg'),
                 TextColumn::make('enrollmentStatus.name')
                     ->label(__('Status'))
                     ->badge()
@@ -131,7 +138,8 @@ class EnrollmentResource extends Resource
                 TextColumn::make('student.user.email')
                     ->label(__('Email'))
                     ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->visibleFrom('md'),
                 TextColumn::make('scholarships.name')
                     ->label(__('Scholarships'))
                     ->badge()

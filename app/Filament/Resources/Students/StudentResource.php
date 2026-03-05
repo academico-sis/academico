@@ -169,32 +169,49 @@ class StudentResource extends Resource
     {
         return $table
             ->columns([
+                // Mobile: stacked student info (name + email · phone)
+                TextColumn::make('mobile_name')
+                    ->label(__('Student'))
+                    ->state(fn ($record) => $record->user?->lastname.', '.$record->user?->firstname)
+                    ->description(fn ($record) => collect([$record->user?->email, $record->phone->first()?->phone_number])->filter()->implode(' · '))
+                    ->searchable(query: fn ($query, $search) => $query->whereHas('user', fn ($q) => $q->where('lastname', 'like', "%{$search}%")->orWhere('firstname', 'like', "%{$search}%")->orWhere('email', 'like', "%{$search}%")))
+                    ->sortable(query: fn ($query, $direction) => $query->join('users', 'students.user_id', '=', 'users.id')->orderBy('users.lastname', $direction))
+                    ->wrap()
+                    ->hiddenFrom('md'),
+                // Desktop columns
                 TextColumn::make('idnumber')
                     ->label(__('ID'))
-                    ->searchable(),
+                    ->searchable()
+                    ->visibleFrom('md'),
                 TextColumn::make('user.lastname')
                     ->label(__('Last name'))
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->visibleFrom('md'),
                 TextColumn::make('user.firstname')
                     ->label(__('First name'))
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->visibleFrom('md'),
                 TextColumn::make('user.email')
                     ->label(__('Email'))
                     ->wrap()
                     ->width('180px')
-                    ->searchable(),
+                    ->searchable()
+                    ->visibleFrom('md'),
                 TextColumn::make('student_age')
-                    ->label(__('Age')),
+                    ->label(__('Age'))
+                    ->visibleFrom('md'),
                 TextColumn::make('user.birthdate')
                     ->label(__('Birthdate'))
                     ->date()
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->visibleFrom('lg'),
                 TextColumn::make('phone.phone_number')
                     ->label(__('Phone'))
-                    ->badge(),
+                    ->badge()
+                    ->visibleFrom('md'),
             ])
             ->filters([
                 SelectFilter::make('institution_id')

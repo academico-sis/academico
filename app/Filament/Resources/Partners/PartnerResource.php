@@ -77,26 +77,40 @@ class PartnerResource extends Resource
     {
         return $table
             ->columns([
+                // Mobile: stacked partner info
+                TextColumn::make('mobile_partner')
+                    ->label(__('Partner'))
+                    ->state(fn ($record) => $record->name)
+                    ->description(fn ($record) => $record->started_on?->format('M j, Y').' → '.$record->expired_on?->format('M j, Y'))
+                    ->searchable(query: fn ($query, $search) => $query->where('name', 'like', "%{$search}%"))
+                    ->wrap()
+                    ->hiddenFrom('md'),
+                // Desktop columns
                 TextColumn::make('name')
                     ->label(__('Name'))
                     ->wrap()
                     ->width('200px')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->visibleFrom('md'),
                 TextColumn::make('started_on')
                     ->label(__('Start Date'))
                     ->date()
-                    ->sortable(),
+                    ->sortable()
+                    ->visibleFrom('md'),
                 TextColumn::make('expired_on')
                     ->label(__('End Date'))
                     ->date()
-                    ->sortable(),
+                    ->sortable()
+                    ->visibleFrom('md'),
                 TextColumn::make('send_report_on')
                     ->label(__('Report Day'))
-                    ->numeric(),
+                    ->numeric()
+                    ->visibleFrom('md'),
                 IconColumn::make('auto_renewal')
                     ->label(__('Tacit renewal'))
-                    ->boolean(),
+                    ->boolean()
+                    ->visibleFrom('md'),
             ])
             ->recordActions([
                 EditAction::make(),

@@ -86,35 +86,56 @@ class EventResource extends Resource
     {
         return $table
             ->columns([
+                // Mobile: stacked event info
+                TextColumn::make('mobile_event')
+                    ->label(__('Event'))
+                    ->state(fn ($record) => $record->name)
+                    ->description(fn ($record) => collect([$record->teacher?->name, $record->room?->name])->filter()->implode(' · '))
+                    ->searchable(query: fn ($query, $search) => $query->where('name', 'like', "%{$search}%"))
+                    ->wrap()
+                    ->hiddenFrom('md'),
+                TextColumn::make('mobile_schedule')
+                    ->label(__('Schedule'))
+                    ->state(fn ($record) => $record->start?->format('M j, Y H:i'))
+                    ->description(fn ($record) => $record->end?->format('M j, Y H:i'))
+                    ->hiddenFrom('md'),
+                // Desktop columns
                 TextColumn::make('name')
                     ->label(__('Name'))
                     ->wrap()
                     ->width('180px')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->visibleFrom('md'),
                 TextColumn::make('course.name')
                     ->label(__('Course'))
                     ->wrap()
                     ->width('180px')
-                    ->sortable(),
+                    ->sortable()
+                    ->visibleFrom('md'),
                 TextColumn::make('volume')
                     ->label(__('Hours'))
                     ->formatStateUsing(fn ($state): string => number_format($state, 1).'h')
-                    ->sortable(),
+                    ->sortable()
+                    ->visibleFrom('md'),
                 TextColumn::make('teacher.name')
                     ->label(__('Teacher'))
-                    ->sortable(),
+                    ->sortable()
+                    ->visibleFrom('md'),
                 TextColumn::make('room.name')
                     ->label(__('Room'))
-                    ->sortable(),
+                    ->sortable()
+                    ->visibleFrom('lg'),
                 TextColumn::make('start')
                     ->label(__('Start'))
                     ->dateTime()
-                    ->sortable(),
+                    ->sortable()
+                    ->visibleFrom('md'),
                 TextColumn::make('end')
                     ->label(__('End'))
                     ->dateTime()
-                    ->sortable(),
+                    ->sortable()
+                    ->visibleFrom('lg'),
             ])
             ->defaultSort('start', 'desc')
             ->filters([

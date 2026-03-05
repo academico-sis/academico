@@ -67,9 +67,19 @@ class ResultResource extends Resource
     {
         return $table
             ->columns([
+                // Mobile: stacked student + course
+                TextColumn::make('mobile_student')
+                    ->label(__('Student'))
+                    ->state(fn ($record) => $record->student?->name)
+                    ->description(fn ($record) => $record->course?->name)
+                    ->searchable(query: fn (Builder $query, string $search): Builder => $query->whereHas('student', fn ($q) => $q->whereHas('user', fn ($q) => $q->where('firstname', 'like', "%{$search}%")->orWhere('lastname', 'like', "%{$search}%"))))
+                    ->wrap()
+                    ->hiddenFrom('md'),
+                // Desktop columns
                 TextColumn::make('id')
                     ->label(__('ID'))
-                    ->sortable(),
+                    ->sortable()
+                    ->visibleFrom('md'),
                 TextColumn::make('student.name')
                     ->label(__('Student'))
                     ->wrap()
@@ -83,15 +93,18 @@ class ResultResource extends Resource
                             });
                         });
                     })
-                    ->sortable(),
+                    ->sortable()
+                    ->visibleFrom('md'),
                 TextColumn::make('course.name')
                     ->label(__('Course'))
                     ->wrap()
                     ->width('180px')
-                    ->sortable(),
+                    ->sortable()
+                    ->visibleFrom('md'),
                 TextColumn::make('course.period.name')
                     ->label(__('Period'))
-                    ->sortable(),
+                    ->sortable()
+                    ->visibleFrom('lg'),
                 TextColumn::make('result.result_type')
                     ->label(__('Result'))
                     ->sortable()

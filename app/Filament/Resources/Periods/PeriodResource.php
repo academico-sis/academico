@@ -87,21 +87,34 @@ class PeriodResource extends Resource
 
         return $table
             ->columns([
+                // Mobile: stacked period info
+                TextColumn::make('mobile_period')
+                    ->label(__('Period'))
+                    ->state(fn ($record) => $record->name)
+                    ->description(fn ($record) => collect([$record->year?->name, $record->start?->format('M j, Y').' → '.$record->end?->format('M j, Y')])->filter()->implode(' · '))
+                    ->searchable(query: fn ($query, $search) => $query->where('name', 'like', "%{$search}%"))
+                    ->wrap()
+                    ->hiddenFrom('md'),
+                // Desktop columns
                 TextColumn::make('year.name')
                     ->label(__('Year'))
-                    ->sortable(),
+                    ->sortable()
+                    ->visibleFrom('md'),
                 TextColumn::make('name')
                     ->label(__('Name'))
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->visibleFrom('md'),
                 TextColumn::make('start')
                     ->label(__('Start Date'))
                     ->date()
-                    ->sortable(),
+                    ->sortable()
+                    ->visibleFrom('md'),
                 TextColumn::make('end')
                     ->label(__('End Date'))
                     ->date()
-                    ->sortable(),
+                    ->sortable()
+                    ->visibleFrom('lg'),
                 TextColumn::make('status')
                     ->label(__('Status'))
                     ->badge()
