@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\Courses;
 
+use App\Filament\Pages\GradeEdit;
+use App\Filament\Pages\SkillEvaluationPage;
 use App\Filament\Resources\Courses\Pages\CourseBlockView;
 use App\Filament\Resources\Courses\Pages\CourseEnrollments;
 use App\Filament\Resources\Courses\Pages\CreateCourse;
@@ -298,6 +300,16 @@ class CourseResource extends Resource
                         ->label(__('View Enrollments'))
                         ->icon('heroicon-o-academic-cap')
                         ->url(fn ($record) => static::getUrl('enrollments', ['record' => $record])),
+                    Action::make('evaluate_skills')
+                        ->label(__('Evaluate Skills'))
+                        ->icon('heroicon-o-star')
+                        ->url(fn ($record) => SkillEvaluationPage::getUrl(['courseId' => $record->id]))
+                        ->visible(fn ($record) => $record->evaluationType?->skills()?->count() > 0 && $record->enrollments()->count() > 0),
+                    Action::make('manage_grades')
+                        ->label(__('Manage Grades'))
+                        ->icon('heroicon-o-pencil-square')
+                        ->url(fn ($record) => GradeEdit::getUrl(['courseId' => $record->id]))
+                        ->visible(fn ($record) => $record->evaluationType?->gradeTypes()?->count() > 0 && $record->enrollments()->count() > 0),
                     DeleteAction::make(),
                 ]),
             ])
