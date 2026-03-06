@@ -90,6 +90,6 @@ class ViewResult extends ViewRecord
 
                 $this->refreshFormData(['result']);
             })
-        )->toArray();
+        )->all();
     }
 }
