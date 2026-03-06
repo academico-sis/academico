@@ -9,6 +9,7 @@ use App\Models\Period;
 use BackedEnum;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Illuminate\Support\Facades\Gate;
 
 class GradeEdit extends Page
 {
@@ -18,7 +19,9 @@ class GradeEdit extends Page
 
     public static function canAccess(): bool
     {
-        return auth()->user()?->can('evaluation.view') ?? false;
+        $user = auth()->user();
+
+        return $user?->can('evaluation.edit') || $user?->isTeacher();
     }
 
     public static function shouldRegisterNavigation(): bool
@@ -143,6 +146,12 @@ class GradeEdit extends Page
 
     public function saveGrade(int $enrollmentId, int $gradeTypeId, string $value): void
     {
+        $course = Course::find($this->selectedCourseId);
+
+        if (! $course || Gate::denies('edit-course-grades', $course)) {
+            abort(403);
+        }
+
         $numericValue = $value !== '' ? (float) $value : null;
 
         if ($numericValue === null) {

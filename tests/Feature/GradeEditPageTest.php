@@ -60,9 +60,9 @@ class GradeEditPageTest extends TestCase
             'evaluation_type_id' => $this->evaluationType->id,
         ]);
 
-        Permission::findOrCreate('evaluation.view', 'web');
+        Permission::findOrCreate('evaluation.edit', 'web');
         $role = Role::findOrCreate('admin', 'web');
-        $role->givePermissionTo('evaluation.view');
+        $role->givePermissionTo('evaluation.edit');
         app(\Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();
 
         $admin = User::factory()->create();
