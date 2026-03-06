@@ -71,9 +71,16 @@ class ViewResult extends ViewRecord
     {
         $resultTypes = ResultType::all();
 
+        $currentResultTypeId = $this->record->result?->result_type_id;
+
         return $resultTypes->map(fn (ResultType $resultType) => Action::make("set_result_{$resultType->id}")
             ->label($resultType->name)
-            ->color(fn () => $resultType->color ? Color::hex($resultType->color) : 'gray')
+            ->color(fn () => match (true) {
+                $resultType->id === $currentResultTypeId => 'primary',
+                $resultType->color !== null && $resultType->color !== '' => Color::hex($resultType->color),
+                default => 'gray',
+            })
+            ->outlined(fn () => $resultType->id !== $currentResultTypeId)
             ->requiresConfirmation()
             ->action(function () use ($resultType) {
                 Result::updateOrCreate(
