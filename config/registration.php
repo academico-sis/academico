@@ -7,4 +7,7 @@ return [
     ],
 
     'ensure_email_unicity' => env('ENSURE_EMAIL_UNICITY', false),
+
+    'terms_url' => env('TERMS_URL'),
+    'rules_url' => env('RULES_URL'),
 ];

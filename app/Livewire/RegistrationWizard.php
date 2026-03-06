@@ -73,12 +73,18 @@ class RegistrationWizard extends Component
 
     public bool $checkEmailUnicity = false;
 
+    public ?string $termsUrl = null;
+
+    public ?string $rulesUrl = null;
+
     public function mount(): void
     {
         $this->institutions = Institution::orderBy('name')->pluck('name')->toArray();
         $this->pictureAllowed = config('registration.picture.enabled', true);
         $this->pictureMandatory = config('registration.picture.mandatory', false);
         $this->checkEmailUnicity = config('registration.ensure_email_unicity', false);
+        $this->termsUrl = config('registration.terms_url');
+        $this->rulesUrl = config('registration.rules_url');
 
         if (! $this->pictureAllowed) {
             $this->totalSteps = 4;
@@ -272,10 +278,10 @@ class RegistrationWizard extends Component
                 'contacts.*.phonenumbers' => 'required|array|min:1',
                 'contacts.*.phonenumbers.*' => 'required|string|max:30',
             ],
-            'review' => [
-                'accept_terms' => 'accepted',
-                'accept_rules' => 'accepted',
-            ],
+            'review' => array_filter([
+                'accept_terms' => $this->termsUrl ? 'accepted' : null,
+                'accept_rules' => $this->rulesUrl ? 'accepted' : null,
+            ]),
             default => [],
         };
 

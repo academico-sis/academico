@@ -266,19 +266,29 @@
                         </div>
                     @endif
 
-                    <div class="mt-6 space-y-3 rounded-lg border border-amber-200 bg-amber-50 p-4">
-                        <div class="flex items-start gap-3">
-                            <input type="checkbox" wire:model="accept_terms" id="accept_terms" class="mt-1 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-                            <label for="accept_terms" class="text-sm text-gray-700">{{ __('I accept the Terms and Conditions') }} *</label>
-                        </div>
-                        @error('accept_terms') <p class="text-sm text-red-600">{{ $message }}</p> @enderror
+                    @if ($termsUrl || $rulesUrl)
+                        <div class="mt-6 space-y-3 rounded-lg border border-amber-200 bg-amber-50 p-4">
+                            @if ($termsUrl)
+                                <div class="flex items-start gap-3">
+                                    <input type="checkbox" wire:model="accept_terms" id="accept_terms" class="mt-1 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                                    <label for="accept_terms" class="text-sm text-gray-700">
+                                        {{ __('I accept the') }} <a href="{{ $termsUrl }}" target="_blank" class="font-medium text-blue-600 underline hover:text-blue-800">{{ __('Terms and Conditions') }}</a> *
+                                    </label>
+                                </div>
+                                @error('accept_terms') <p class="text-sm text-red-600">{{ $message }}</p> @enderror
+                            @endif
 
-                        <div class="flex items-start gap-3">
-                            <input type="checkbox" wire:model="accept_rules" id="accept_rules" class="mt-1 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-                            <label for="accept_rules" class="text-sm text-gray-700">{{ __('I accept the School Rules') }} *</label>
+                            @if ($rulesUrl)
+                                <div class="flex items-start gap-3">
+                                    <input type="checkbox" wire:model="accept_rules" id="accept_rules" class="mt-1 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                                    <label for="accept_rules" class="text-sm text-gray-700">
+                                        {{ __('I accept the') }} <a href="{{ $rulesUrl }}" target="_blank" class="font-medium text-blue-600 underline hover:text-blue-800">{{ __('School Rules') }}</a> *
+                                    </label>
+                                </div>
+                                @error('accept_rules') <p class="text-sm text-red-600">{{ $message }}</p> @enderror
+                            @endif
                         </div>
-                        @error('accept_rules') <p class="text-sm text-red-600">{{ $message }}</p> @enderror
-                    </div>
+                    @endif
                 </div>
             @endif
 
