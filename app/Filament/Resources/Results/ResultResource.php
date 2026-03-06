@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Results;
 
 use App\Filament\Exports\ResultExporter;
 use App\Filament\Resources\Results\Pages\ManageResults;
+use App\Filament\Resources\Results\Pages\ViewResult;
 use App\Interfaces\CertificatesInterface;
 use App\Models\Enrollment;
 use App\Models\Period;
@@ -12,6 +13,7 @@ use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\ExportAction;
 use Filament\Actions\ExportBulkAction;
+use Filament\Actions\ViewAction;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Colors\Color;
@@ -147,6 +149,7 @@ class ResultResource extends Resource
                     ->relationship('result.result_name', 'name'),
             ])
             ->recordActions([
+                ViewAction::make(),
                 Action::make('export_result')
                     ->label(__('Result PDF'))
                     ->icon(Heroicon::OutlinedDocumentArrowDown)
@@ -182,6 +185,7 @@ class ResultResource extends Resource
     {
         return [
             'index' => ManageResults::route('/'),
+            'view' => ViewResult::route('/{record}'),
         ];
     }
 }
