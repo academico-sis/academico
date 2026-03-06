@@ -26,7 +26,7 @@ class Period extends Model
         parent::boot();
 
         static::addGlobalScope('order', function (Builder $builder) {
-            $builder->orderByDesc('year_id')->orderByDesc('order')->orderByDesc('id');
+            $builder->orderByDesc('periods.year_id')->orderByDesc('periods.order')->orderByDesc('periods.id');
         });
     }
 
