@@ -31,10 +31,16 @@
                             <th class="px-4 py-2 sticky left-0 bg-gray-50 dark:bg-gray-700 z-10">{{ __('Student') }}</th>
                             @foreach($gradeTypes as $gt)
                                 <th class="px-4 py-2 text-center">
+                                    @if($gt['categoryName'])
+                                        <span class="text-xs text-gray-400 block">({{ $gt['categoryName'] }})</span>
+                                    @endif
                                     {{ $gt['name'] }}
                                     <span class="text-xs text-gray-400">/{{ $gt['total'] }}</span>
                                 </th>
                             @endforeach
+                            <th class="px-4 py-2 text-center font-bold">{{ __('Total') }}</th>
+                            <th class="px-4 py-2 text-center">{{ __('Result') }}</th>
+                            <th class="px-4 py-2 text-center">{{ __('Comment') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -56,6 +62,29 @@
                                         >
                                     </td>
                                 @endforeach
+                                <td class="px-4 py-2 text-center font-bold">
+                                    {{ $enrollment['total'] ?: '' }}
+                                </td>
+                                <td class="px-4 py-2 text-center">
+                                    <select
+                                        wire:change="saveResult({{ $enrollment['enrollmentId'] }}, $event.target.value)"
+                                        class="w-28 text-xs rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                                    >
+                                        <option value="">—</option>
+                                        @foreach($resultTypes as $rt)
+                                            <option value="{{ $rt['id'] }}" @selected($enrollment['resultTypeId'] == $rt['id'])>
+                                                {{ $rt['name'] }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </td>
+                                <td class="px-4 py-2">
+                                    <textarea
+                                        rows="1"
+                                        wire:change="saveComment({{ $enrollment['enrollmentId'] }}, $event.target.value)"
+                                        class="w-32 text-xs rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                                    >{{ $comments[$enrollment['enrollmentId']] ?? '' }}</textarea>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
