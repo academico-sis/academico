@@ -111,6 +111,21 @@ class CourseEnrollments extends Page implements HasTable
         return __('Enrollments').' — '.$this->getRecord()->name;
     }
 
+    public function getCourseInfo(): array
+    {
+        $course = $this->getRecord();
+
+        return [
+            'teacher' => $course->teacher?->name ?? '-',
+            'schedule' => $course->course_times ?: '-',
+            'room' => $course->room?->name ?? '-',
+            'period' => $course->period?->name ?? '-',
+            'level' => $course->level?->name ?? '-',
+            'rhythm' => $course->rhythm?->name ?? '-',
+            'enrollments' => $course->course_enrollments_count ?? 0,
+        ];
+    }
+
     public function getRosterEnrollments(): \Illuminate\Support\Collection
     {
         return $this->getRecord()

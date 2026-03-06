@@ -1,4 +1,45 @@
 <x-filament-panels::page>
+    @php
+        $info = $this->getCourseInfo();
+    @endphp
+
+    <div class="grid grid-cols-2 gap-4 mb-6 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7">
+        <x-filament::section>
+            <div class="text-xs text-gray-500 dark:text-gray-400">{{ __('Teacher') }}</div>
+            <div class="text-sm font-medium text-gray-950 dark:text-white">{{ $info['teacher'] }}</div>
+        </x-filament::section>
+
+        <x-filament::section>
+            <div class="text-xs text-gray-500 dark:text-gray-400">{{ __('Schedule') }}</div>
+            <div class="text-sm font-medium text-gray-950 dark:text-white">{{ $info['schedule'] }}</div>
+        </x-filament::section>
+
+        <x-filament::section>
+            <div class="text-xs text-gray-500 dark:text-gray-400">{{ __('Room') }}</div>
+            <div class="text-sm font-medium text-gray-950 dark:text-white">{{ $info['room'] }}</div>
+        </x-filament::section>
+
+        <x-filament::section>
+            <div class="text-xs text-gray-500 dark:text-gray-400">{{ __('Period') }}</div>
+            <div class="text-sm font-medium text-gray-950 dark:text-white">{{ $info['period'] }}</div>
+        </x-filament::section>
+
+        <x-filament::section>
+            <div class="text-xs text-gray-500 dark:text-gray-400">{{ __('Level') }}</div>
+            <div class="text-sm font-medium text-gray-950 dark:text-white">{{ $info['level'] }}</div>
+        </x-filament::section>
+
+        <x-filament::section>
+            <div class="text-xs text-gray-500 dark:text-gray-400">{{ __('Rhythm') }}</div>
+            <div class="text-sm font-medium text-gray-950 dark:text-white">{{ $info['rhythm'] }}</div>
+        </x-filament::section>
+
+        <x-filament::section>
+            <div class="text-xs text-gray-500 dark:text-gray-400">{{ __('Enrollments') }}</div>
+            <div class="text-sm font-medium text-gray-950 dark:text-white">{{ $info['enrollments'] }}</div>
+        </x-filament::section>
+    </div>
+
     @if ($this->viewMode === 'list')
         {{ $this->table }}
     @else
