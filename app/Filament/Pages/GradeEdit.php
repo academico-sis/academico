@@ -50,7 +50,7 @@ class GradeEdit extends Page
 
         if ($courseId) {
             $course = Course::find($courseId);
-            if ($course) {
+            if ($course && Gate::allows('edit-course-grades', $course)) {
                 $this->selectedPeriodId = $course->period_id;
                 $this->loadCourses();
                 $this->selectedCourseId = $course->id;
@@ -86,12 +86,14 @@ class GradeEdit extends Page
 
         $this->courses = Course::where('period_id', $this->selectedPeriodId)
             ->whereHas('enrollments')
-            ->orderBy('name')
             ->get()
+            ->filter(fn ($course) => Gate::allows('edit-course-grades', $course))
+            ->sortBy('name')
             ->map(fn ($course) => [
                 'id' => $course->id,
                 'name' => $course->name,
             ])
+            ->values()
             ->toArray();
     }
 
@@ -103,7 +105,7 @@ class GradeEdit extends Page
 
         $course = Course::with('evaluationType.gradeTypes')->find($this->selectedCourseId);
 
-        if (! $course || ! $course->evaluationType) {
+        if (! $course || ! $course->evaluationType || Gate::denies('edit-course-grades', $course)) {
             $this->gradeTypes = [];
             $this->enrollments = [];
 
