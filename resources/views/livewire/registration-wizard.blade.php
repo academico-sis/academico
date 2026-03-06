@@ -265,6 +265,20 @@
                             @endforeach
                         </div>
                     @endif
+
+                    <div class="mt-6 space-y-3 rounded-lg border border-amber-200 bg-amber-50 p-4">
+                        <div class="flex items-start gap-3">
+                            <input type="checkbox" wire:model="accept_terms" id="accept_terms" class="mt-1 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                            <label for="accept_terms" class="text-sm text-gray-700">{{ __('I accept the Terms and Conditions') }} *</label>
+                        </div>
+                        @error('accept_terms') <p class="text-sm text-red-600">{{ $message }}</p> @enderror
+
+                        <div class="flex items-start gap-3">
+                            <input type="checkbox" wire:model="accept_rules" id="accept_rules" class="mt-1 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                            <label for="accept_rules" class="text-sm text-gray-700">{{ __('I accept the School Rules') }} *</label>
+                        </div>
+                        @error('accept_rules') <p class="text-sm text-red-600">{{ $message }}</p> @enderror
+                    </div>
                 </div>
             @endif
 

@@ -57,7 +57,10 @@ class RegistrationWizard extends Component
     /** @var array<int, array{firstname: string, lastname: string, email: string, idnumber: string, address: string, phonenumbers: array<int, string>}> */
     public array $contacts = [];
 
-    // Step 5: Review — no extra fields
+    // Step 5: Review & consent
+    public bool $accept_terms = false;
+
+    public bool $accept_rules = false;
 
     public bool $registered = false;
 
@@ -268,6 +271,10 @@ class RegistrationWizard extends Component
                 'contacts.*.address' => 'nullable|string|max:255',
                 'contacts.*.phonenumbers' => 'required|array|min:1',
                 'contacts.*.phonenumbers.*' => 'required|string|max:30',
+            ],
+            'review' => [
+                'accept_terms' => 'accepted',
+                'accept_rules' => 'accepted',
             ],
             default => [],
         };
