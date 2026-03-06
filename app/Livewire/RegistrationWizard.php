@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Events\UserCreated;
 use App\Models\Contact;
 use App\Models\Institution;
 use App\Models\PhoneNumber;
@@ -233,6 +234,8 @@ class RegistrationWizard extends Component
 
         // Log the user in
         auth()->login($user);
+
+        event(new UserCreated($user));
 
         $this->registered = true;
     }
