@@ -8,6 +8,7 @@ use App\Models\Enrollment;
 use App\Models\Result;
 use App\Models\ResultType;
 use Filament\Actions\Action;
+use Filament\Forms\Components\Select;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ViewRecord;
@@ -69,32 +70,32 @@ class ViewResult extends ViewRecord
 
     protected function getHeaderActions(): array
     {
-        $resultTypes = ResultType::all();
+        return [
+            Action::make('edit_result')
+                ->label(__('Edit Result'))
+                ->icon('heroicon-o-pencil-square')
+                ->fillForm(fn () => [
+                    'result_type_id' => $this->record->result?->result_type_id,
+                ])
+                ->form([
+                    Select::make('result_type_id')
+                        ->label(__('Result'))
+                        ->options(ResultType::all()->pluck('name', 'id'))
+                        ->required(),
+                ])
+                ->action(function (array $data) {
+                    Result::updateOrCreate(
+                        ['enrollment_id' => $this->record->id],
+                        ['result_type_id' => $data['result_type_id']],
+                    );
 
-        $currentResultTypeId = $this->record->result?->result_type_id;
+                    Notification::make()
+                        ->success()
+                        ->title(__('Result updated'))
+                        ->send();
 
-        return $resultTypes->map(fn (ResultType $resultType) => Action::make("set_result_{$resultType->id}")
-            ->label($resultType->name)
-            ->color(fn () => match (true) {
-                $resultType->id === $currentResultTypeId => 'primary',
-                $resultType->color !== null && $resultType->color !== '' => Color::hex($resultType->color),
-                default => 'gray',
-            })
-            ->outlined(fn () => $resultType->id !== $currentResultTypeId)
-            ->requiresConfirmation()
-            ->action(function () use ($resultType) {
-                Result::updateOrCreate(
-                    ['enrollment_id' => $this->record->id],
-                    ['result_type_id' => $resultType->id],
-                );
-
-                Notification::make()
-                    ->success()
-                    ->title(__('Result updated'))
-                    ->send();
-
-                $this->redirect(static::getUrl(['record' => $this->record]));
-            })
-        )->all();
+                    $this->redirect(static::getUrl(['record' => $this->record]));
+                }),
+        ];
     }
 }
