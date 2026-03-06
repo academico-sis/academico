@@ -81,14 +81,12 @@ class ViewResult extends ViewRecord
                     ['result_type_id' => $resultType->id],
                 );
 
-                $this->record->load('result.result_name');
-
                 Notification::make()
                     ->success()
                     ->title(__('Result updated'))
                     ->send();
 
-                $this->refreshFormData(['result']);
+                $this->redirect(static::getUrl(['record' => $this->record]));
             })
         )->all();
     }
