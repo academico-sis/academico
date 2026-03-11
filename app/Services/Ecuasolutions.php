@@ -116,7 +116,7 @@ class Ecuasolutions implements InvoicingInterface
                     'Content-Type' => 'application/json',
                 ],
                 'json' => $body,
-                'timeout' => 8,
+                'timeout' => 15,
             ]);
 
         if ($response->getBody()) {
