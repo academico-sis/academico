@@ -22,6 +22,8 @@ class BuildCachedReport extends Command
 
     public function handle(): int
     {
+        ini_set('memory_limit', '2G');
+
         $this->info('Building cached report data...');
         DB::table('cached_reports')->truncate();
 
