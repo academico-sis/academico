@@ -10,9 +10,15 @@ use BackedEnum;
 use Carbon\Carbon;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Illuminate\Support\Facades\Gate;
 
 class StudentAttendance extends Page
 {
+    public static function canAccess(): bool
+    {
+        return auth()->user()?->can('attendance.view') ?? false;
+    }
+
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-user';
 
     protected static bool $shouldRegisterNavigation = false;
@@ -148,6 +154,9 @@ class StudentAttendance extends Page
         if (! $this->studentId) {
             return;
         }
+
+        $event = \App\Models\Event::find($eventId);
+        abort_unless($event && Gate::allows('edit-attendance', $event), 403);
 
         Attendance::updateOrCreate(
             [

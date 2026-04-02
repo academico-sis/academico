@@ -10,9 +10,15 @@ use BackedEnum;
 use Carbon\Carbon;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Illuminate\Support\Facades\Gate;
 
 class CourseAttendance extends Page
 {
+    public static function canAccess(): bool
+    {
+        return auth()->user()?->can('attendance.view') ?? false;
+    }
+
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-table-cells';
 
     protected static ?int $navigationSort = 2;
@@ -47,6 +53,8 @@ class CourseAttendance extends Page
         if (! $course) {
             return;
         }
+
+        abort_unless(Gate::allows('view-course-attendance', $course), 403);
 
         $this->courseName = $course->name;
 
@@ -111,6 +119,9 @@ class CourseAttendance extends Page
 
     public function toggleAttendance(int $studentId, int $eventId, int $typeId): void
     {
+        $event = \App\Models\Event::find($eventId);
+        abort_unless($event && Gate::allows('edit-attendance', $event), 403);
+
         Attendance::updateOrCreate(
             [
                 'student_id' => $studentId,

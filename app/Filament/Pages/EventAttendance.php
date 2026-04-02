@@ -9,9 +9,15 @@ use BackedEnum;
 use Carbon\Carbon;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Illuminate\Support\Facades\Gate;
 
 class EventAttendance extends Page
 {
+    public static function canAccess(): bool
+    {
+        return auth()->user()?->can('attendance.view') ?? false;
+    }
+
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-hand-raised';
 
     protected static ?int $navigationSort = 3;
@@ -35,6 +41,8 @@ class EventAttendance extends Page
         $this->eventId = request()->integer('eventId') ?: null;
 
         if ($this->eventId) {
+            $event = Event::find($this->eventId);
+            abort_unless($event && Gate::allows('view-event-attendance', $event), 403);
             $this->loadData();
         }
     }
@@ -81,6 +89,8 @@ class EventAttendance extends Page
         if (! $this->eventId) {
             return;
         }
+
+        abort_unless($this->event && Gate::allows('edit-attendance', $this->event), 403);
 
         Attendance::updateOrCreate(
             [

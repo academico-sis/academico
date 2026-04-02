@@ -11,6 +11,7 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Concerns\InteractsWithRecord;
 use Filament\Resources\Pages\Page;
 use Filament\Tables\Columns\TextColumn;
+use Illuminate\Support\Facades\Gate;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Filters\SelectFilter;
@@ -24,6 +25,11 @@ class EnrollStudent extends Page implements HasTable
     protected static string $resource = StudentResource::class;
 
     protected string $view = 'filament.resources.students.pages.enroll-student';
+
+    public static function canAccess(array $parameters = []): bool
+    {
+        return Gate::allows('enroll-students');
+    }
 
     public function mount(int|string $record): void
     {

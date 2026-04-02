@@ -12,6 +12,11 @@ use Filament\Pages\Page;
 
 class CalendarCombined extends Page
 {
+    public static function canAccess(): bool
+    {
+        return auth()->user()?->can('calendars.view') ?? false;
+    }
+
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-calendar';
 
     protected static ?int $navigationSort = 400;

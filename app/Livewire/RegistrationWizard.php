@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Validation\Rules\Password;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -159,6 +160,14 @@ class RegistrationWizard extends Component
 
     public function register(): void
     {
+        $key = 'registration:'.request()->ip();
+        if (RateLimiter::tooManyAttempts($key, 5)) {
+            session()->flash('error', __('Too many registration attempts. Please try again later.'));
+
+            return;
+        }
+        RateLimiter::hit($key, 300);
+
         $this->validateCurrentStep();
 
         Log::info('Starting student registration process');

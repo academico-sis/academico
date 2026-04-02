@@ -31,7 +31,10 @@ class LocaleSwitcher extends Component
         $this->currentLocale = $locale;
         App::setLocale($locale);
 
-        $this->redirect(request()->header('Referer', '/'), navigate: true);
+        $referer = request()->header('Referer', '/');
+        $parsed = parse_url($referer);
+        $path = ($parsed['path'] ?? '/') . (isset($parsed['query']) ? '?' . $parsed['query'] : '');
+        $this->redirect($path, navigate: true);
     }
 
     public function render(): \Illuminate\View\View

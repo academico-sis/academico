@@ -48,7 +48,7 @@ class ScholarshipResource extends Resource
 
     public static function canAccess(): bool
     {
-        return Scholarship::withTrashed()->exists();
+        return auth()->user()?->hasAnyRole(['admin', 'secretary']) && Scholarship::withTrashed()->exists();
     }
 
     public static function form(Schema $schema): Schema

@@ -204,7 +204,7 @@ class StudentAccount extends Component
         // Create or update
         foreach ($this->phonenumbers as $phone) {
             if ($phone['id']) {
-                PhoneNumber::where('id', $phone['id'])->update(['phone_number' => $phone['phone_number']]);
+                $student->phone()->where('id', $phone['id'])->update(['phone_number' => $phone['phone_number']]);
             } else {
                 PhoneNumber::create([
                     'phoneable_id' => $student->id,
@@ -297,7 +297,7 @@ class StudentAccount extends Component
 
         foreach ($this->contacts as $contactData) {
             if (! empty($contactData['id'])) {
-                $contact = Contact::find($contactData['id']);
+                $contact = $student->contacts()->where('id', $contactData['id'])->first();
                 $contact?->update([
                     'firstname' => $contactData['firstname'],
                     'lastname' => $contactData['lastname'],
@@ -323,7 +323,7 @@ class StudentAccount extends Component
 
                 foreach ($contactData['phonenumbers'] as $phone) {
                     if (! empty($phone['id'])) {
-                        PhoneNumber::where('id', $phone['id'])->update(['phone_number' => $phone['phone_number']]);
+                        $contact->phone()->where('id', $phone['id'])->update(['phone_number' => $phone['phone_number']]);
                     } else {
                         PhoneNumber::create([
                             'phoneable_id' => $contact->id,
