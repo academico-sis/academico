@@ -33,7 +33,9 @@ COPY . .
 COPY --from=assets /app/public/js public/js
 COPY --from=assets /app/public/mix-manifest.json public/mix-manifest.json
 
-RUN composer dump-autoload --optimize --no-dev --no-scripts \
+RUN composer dump-autoload --optimize --no-dev \
+    && php artisan package:discover --ansi \
+    && php artisan view:clear \
     && php artisan storage:link || true
 
 RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache
