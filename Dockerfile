@@ -1,4 +1,4 @@
-FROM node:20-alpine AS assets
+FROM node:18-alpine AS assets
 WORKDIR /app
 COPY package.json package-lock.json* ./
 RUN npm install --legacy-peer-deps
