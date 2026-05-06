@@ -53,6 +53,13 @@ class MailerliteService implements MailingSystemInterface
 
     public function unsubscribeUser(string $email, $listId): void
     {
-        // TODO: Implement unsubscribeUser() method.
+        try {
+            $this->groupsApi->removeSubscriber($listId, $email);
+        } catch (\Throwable $e) {
+            $this->reportError($e, 'MailerliteService::unsubscribeUser', [
+                'email' => $email,
+                'list_id' => $listId,
+            ]);
+        }
     }
 }

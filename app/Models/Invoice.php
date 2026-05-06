@@ -75,10 +75,12 @@ class Invoice extends Model
 
     public function setNumber()
     {
-        // retrieve the last entry for the same type / year, and increment
-        $count = self::whereInvoiceTypeId($this->invoice_type_id)->whereYear('created_at', $this->created_at->year)->orderByDesc('invoice_number')->first()->invoice_number;
+        $last = self::whereInvoiceTypeId($this->invoice_type_id)
+            ->whereYear('created_at', $this->created_at->year)
+            ->orderByDesc('invoice_number')
+            ->first();
 
-        $this->update(['invoice_number' => $count + 1]);
+        $this->update(['invoice_number' => ($last->invoice_number ?? 0) + 1]);
     }
 
     public function getInvoiceReferenceAttribute()

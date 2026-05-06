@@ -58,8 +58,8 @@ class Payment extends Model
 
     public function getIbanAttribute(): string
     {
-        if ($this->invoice->enrollments()->exists()) {
-            return $this->invoices->enrollments->first()->student->iban ?? '';
+        if ($this->invoice && $this->invoice->enrollments()->exists()) {
+            return $this->invoice->enrollments->first()->student->iban ?? '';
         }
 
         return '';
@@ -67,8 +67,8 @@ class Payment extends Model
 
     public function getBicAttribute(): string
     {
-        if ($this->invoice->enrollments()->exists()) {
-            return $this->invoices->enrollments->first()->student->bic ?? '';
+        if ($this->invoice && $this->invoice->enrollments()->exists()) {
+            return $this->invoice->enrollments->first()->student->bic ?? '';
         }
 
         return '';

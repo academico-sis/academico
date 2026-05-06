@@ -18,7 +18,7 @@ class AFSantiagoEnrollmentSheetService implements EnrollmentSheetInterface
 
     public function __construct()
     {
-        if (config('enrollment-sheet.style' !== 'afsantiago')) {
+        if (config('enrollment-sheet.style') !== 'afsantiago') {
             abort(403);
         }
     }

@@ -10,16 +10,16 @@ class GenericCertificatesService implements CertificatesInterface
 {
     public function exportCertificate(Enrollment $enrollment)
     {
-        abort(403);
+        abort(501, __('Certificate generation is not configured. Set CERTIFICATES_STYLE in your .env file.'));
     }
 
     public function exportCourseResults(Course $course)
     {
-        abort(403);
+        abort(501, __('Certificate generation is not configured. Set CERTIFICATES_STYLE in your .env file.'));
     }
 
     public function exportResult(Enrollment $enrollment)
     {
-        abort(403);
+        abort(501, __('Certificate generation is not configured. Set CERTIFICATES_STYLE in your .env file.'));
     }
 }

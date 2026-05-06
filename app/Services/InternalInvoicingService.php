@@ -14,6 +14,6 @@ class InternalInvoicingService implements InvoicingInterface
 
     public function saveInvoice(Invoice $invoice): ?string
     {
-        return null;
+        return 'ok';
     }
 }

@@ -9,6 +9,6 @@ class GenericEnrollmentSheetService implements EnrollmentSheetInterface
 {
     public function exportToWord(Enrollment $enrollment)
     {
-        abort(403, 'This method is not implemented yet');
+        abort(501, __('Enrollment sheet export is not configured. Set ENROLLMENT_SHEET_STYLE in your .env file.'));
     }
 }

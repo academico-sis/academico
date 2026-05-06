@@ -5,6 +5,8 @@ namespace App\Listeners;
 use App\Events\EnrollmentUpdating;
 use App\Models\Attendance;
 use App\Models\Enrollment;
+use App\Models\Grade;
+use App\Models\Skills\SkillEvaluation;
 use App\Traits\ReportsErrors;
 
 class CleanChildrenEnrollments
@@ -32,7 +34,8 @@ class CleanChildrenEnrollments
                     }
                 }
 
-                // TODO delete grades and/or skills
+                Grade::where('enrollment_id', $enrollment->id)->delete();
+                SkillEvaluation::where('enrollment_id', $enrollment->id)->delete();
             }
 
             // If the status has changed to paid, also update children
