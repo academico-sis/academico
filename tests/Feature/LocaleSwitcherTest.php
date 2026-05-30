@@ -16,7 +16,7 @@ class LocaleSwitcherTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        config()->set('app.translatable_locales', ['en', 'es', 'fr']);
+        config()->set('app.translatable_locales', ['en', 'es', 'fr', 'pt']);
     }
 
     public function test_mount_sets_current_locale(): void

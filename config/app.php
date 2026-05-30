@@ -84,7 +84,7 @@ return [
 
     'faker_locale' => env('APP_FAKER_LOCALE', 'en_US'),
 
-    'translatable_locales' => ['en', 'es', 'fr'],
+    'translatable_locales' => ['en', 'es', 'fr', 'pt'],
 
     /*
     |--------------------------------------------------------------------------

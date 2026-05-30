@@ -21,7 +21,7 @@ class UserFactory extends Factory
             'lastname' => fake()->lastName(),
             'email' => fake()->unique()->safeEmail(),
             'password' => Hash::make('password'),
-            'locale' => fake()->randomElement(['en', 'es', 'fr']),
+            'locale' => fake()->randomElement(['en', 'es', 'fr', 'pt']),
         ];
     }
 }
