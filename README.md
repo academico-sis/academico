@@ -1,5 +1,8 @@
 # About this project
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-13-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
@@ -20,23 +23,11 @@ Thanks goes to these wonderful people for past or current version of this applic
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
 <table>
-  <tr>
-    <td align="center"><a href="https://github.com/thdebay"><img src="https://avatars3.githubusercontent.com/u/1422621?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Thomas Debay</b></sub></a><br /><a href="https://github.com/academico-sis/academico/commits?author=thdebay" title="Code">💻</a> <a href="https://github.com/academico-sis/academico/commits?author=thdebay" title="Documentation">📖</a> <a href="#ideas-thdebay" title="Ideas, Planning, & Feedback">🤔</a> <a href="#maintenance-thdebay" title="Maintenance">🚧</a> <a href="https://github.com/academico-sis/academico/commits?author=thdebay" title="Tests">⚠️</a></td>
-    <td align="center"><a href="https://github.com/marcmarina"><img src="https://avatars3.githubusercontent.com/u/38327883?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Marc Marina Miravitlles</b></sub></a><br /><a href="https://github.com/academico-sis/academico/commits?author=marcmarina" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/damienBAUDET"><img src="https://avatars1.githubusercontent.com/u/51827692?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Damien Baudet</b></sub></a><br /><a href="#maintenance-damienBAUDET" title="Maintenance">🚧</a> <a href="https://github.com/academico-sis/academico/commits?author=damienBAUDET" title="Code">💻</a></td>
-    <td align="center"><a href="http://techarewa.com"><img src="https://avatars3.githubusercontent.com/u/7858376?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Mubarak M Aminu</b></sub></a><br /><a href="https://github.com/academico-sis/academico/commits?author=mubarak23" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/Aybee5"><img src="https://avatars1.githubusercontent.com/u/42099896?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Ibrahim Abdullahi Aliyu</b></sub></a><br /><a href="https://github.com/academico-sis/academico/commits?author=Aybee5" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/AleksandarMitevski"><img src="https://avatars3.githubusercontent.com/u/59975218?v=4?s=100" width="100px;" alt=""/><br /><sub><b>AleksandarMitevski</b></sub></a><br /><a href="https://github.com/academico-sis/academico/commits?author=AleksandarMitevski" title="Tests">⚠️</a> <a href="https://github.com/academico-sis/academico/commits?author=AleksandarMitevski" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/TanoRojas"><img src="https://avatars0.githubusercontent.com/u/7780437?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Tano Rojas</b></sub></a><br /><a href="https://github.com/academico-sis/academico/commits?author=TanoRojas" title="Tests">⚠️</a> <a href="https://github.com/academico-sis/academico/commits?author=TanoRojas" title="Code">💻</a></td>
-  </tr>
-  <tr>
-    <td align="center"><a href="https://cirkovic.me"><img src="https://avatars0.githubusercontent.com/u/32557332?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Nikola Cirkovic</b></sub></a><br /><a href="https://github.com/academico-sis/academico/issues?q=author%3ACirkaN" title="Bug reports">🐛</a> <a href="#maintenance-CirkaN" title="Maintenance">🚧</a></td>
-    <td align="center"><a href="https://github.com/quieneslatern"><img src="https://avatars.githubusercontent.com/u/57142715?v=4?s=100" width="100px;" alt=""/><br /><sub><b>quieneslatern</b></sub></a><br /><a href="#translation-quieneslatern" title="Translation">🌍</a></td>
-    <td align="center"><a href="https://bit.ly/doode-website"><img src="https://avatars.githubusercontent.com/u/1921806?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Vitor Micillo</b></sub></a><br /><a href="#maintenance-vitormicillo" title="Maintenance">🚧</a></td>
-    <td align="center"><a href="https://github.com/Dummdevka"><img src="https://avatars.githubusercontent.com/u/87282400?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Tatiana Goloviznina</b></sub></a><br /><a href="https://github.com/academico-sis/academico/commits?author=Dummdevka" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/rm-yakovenko"><img src="https://avatars.githubusercontent.com/u/2056667?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Rm Yakovenko</b></sub></a><br /><a href="https://github.com/academico-sis/academico/commits?author=rm-yakovenko" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/MizouziE"><img src="https://avatars.githubusercontent.com/u/90829439?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Sam</b></sub></a><br /><a href="https://github.com/academico-sis/academico/commits?author=MizouziE" title="Code">💻</a> <a href="https://github.com/academico-sis/academico/commits?author=MizouziE" title="Documentation">📖</a></td>
-  </tr>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/rafaelfariasbsb"><img src="https://avatars.githubusercontent.com/u/4338815?v=4?s=100" width="100px;" alt="Rafael Farias"/><br /><sub><b>Rafael Farias</b></sub></a><br /><a href="#translation-rafaelfariasbsb" title="Translation">🌍</a></td>
+    </tr>
+  </tbody>
 </table>
 
 <!-- markdownlint-restore -->
@@ -128,3 +119,16 @@ The Docker setup supports an optional custom login page via a volume mount in `d
 ```
 
 The custom login class (`App\Filament\Auth\Login`) detects at runtime whether this Blade file is present. When the file exists, it renders the custom layout; otherwise, the standard Filament login page is shown.
+
+## Contributors ✨
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
