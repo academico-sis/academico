@@ -69,6 +69,7 @@ class SkillEvaluationPage extends Page
         $course = $courseId ? Course::find($courseId) : null;
 
         abort_unless($course, 404);
+        abort_unless(Gate::allows('view-course-grades', $course), 403);
 
         $this->courseId = $course->id;
         $this->courseName = $course->name;

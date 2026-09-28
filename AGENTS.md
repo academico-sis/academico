@@ -17,7 +17,7 @@ This application is a Laravel application and its main Laravel ecosystems packag
 - laravel/mcp (MCP) - v0
 - laravel/pint (PINT) - v1
 - laravel/sail (SAIL) - v1
-- phpunit/phpunit (PHPUNIT) - v11
+- phpunit/phpunit (PHPUNIT) - v12
 - tailwindcss (TAILWINDCSS) - v4
 
 ## Conventions
@@ -245,11 +245,10 @@ protected function isAccessible(User $user, ?string $path = null): bool
 
 ## Running Commands (Docker Environment)
 
-Claude Code runs inside a `claude` Docker container. PHP commands must be routed through the `app` container using wrapper scripts in `bin/`:
+Claude Code runs inside a `claude` Docker container (with access to the host Docker socket). PHP commands must be run in the `app` service defined in this repository's `docker-compose.yml`, from the project root:
 
-- **Instead of** `php artisan test --compact` → **use** `bin/artisan test --compact`
-- **Instead of** `php artisan make:model Foo` → **use** `bin/artisan make:model Foo`
-- **Instead of** `php script.php` → **use** `bin/php script.php`
+- **Instead of** `php artisan test --compact` → **use** `docker compose exec app php artisan test --compact`
+- **Instead of** `php artisan make:model Foo` → **use** `docker compose exec app php artisan make:model Foo`
+- **Instead of** `php script.php` → **use** `docker compose exec app php script.php`
 
-These scripts use `docker compose exec app` under the hood, ensuring the correct PHP version, extensions, and network (pgsql, redis, etc.) are available.
-
+This ensures the correct PHP version, extensions and network (mariadb, etc.) are available. Start the stack with `docker compose up -d` if it is not running.

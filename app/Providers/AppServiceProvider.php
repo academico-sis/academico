@@ -61,6 +61,10 @@ class AppServiceProvider extends ServiceProvider
         // or if they have explicit permission
         Gate::define('edit-course-grades', fn ($user, $course) => ($user->isTeacher() && $user->id == $course->teacher_id) || $user->can('evaluation.edit'));
 
+        // A user can view course grades and evaluations if they are the course teacher,
+        // or if they have explicit permission
+        Gate::define('view-course-grades', fn ($user, $course) => ($user->isTeacher() && $user->id == $course->teacher_id) || $user->can('evaluation.view') || $user->can('evaluation.edit'));
+
         // A user can view a course attendance sheet if they are the course teacher,
         // or if they have explicit permission
         Gate::define('view-course-attendance', fn ($user, $course) => ($user->isTeacher() && $user->id == $course->teacher_id) || $user->can('attendance.view'));
@@ -84,8 +88,8 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('view-course', fn ($user, $course) => ($user->isTeacher() && $user->id === $course->teacher_id) || $user->can('courses.view'));
 
         // A user can view an enrollment if they are the student,
-        // if they are a teacher, or if they have explicit permission
-        Gate::define('view-enrollment', fn ($user, $enrollment) => ($user->isStudent() && $user->id == $enrollment->student_id) || $user->isTeacher() || $user->can('evaluation.view'));
+        // if they are the course teacher, or if they have explicit permission
+        Gate::define('view-enrollment', fn ($user, $enrollment) => ($user->isStudent() && $user->id == $enrollment->student_id) || ($user->isTeacher() && $user->id == $enrollment->course?->teacher_id) || $user->can('evaluation.view'));
 
         // The course teacher or users with enrollment edit permission can enroll in a course
         Gate::define('enroll-in-course', fn ($user, $course) => $course->teacher_id == $user->id || $user->can('enrollments.edit'));

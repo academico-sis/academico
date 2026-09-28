@@ -11,6 +11,7 @@ use App\Models\Grade;
 use App\Models\GradeType;
 use App\Models\Period;
 use App\Models\Student;
+use App\Models\Teacher;
 use App\Models\User;
 use App\Models\Year;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -90,6 +91,45 @@ class GradeEditPageTest extends TestCase
     public function test_page_aborts_without_course_id(): void
     {
         $this->get(GradeEdit::getUrl())->assertNotFound();
+    }
+
+    public function test_course_teacher_can_view_grades(): void
+    {
+        $teacher = Teacher::factory()->create();
+        $this->course->update(['teacher_id' => $teacher->id]);
+        $student = Student::factory()->create();
+        Enrollment::create([
+            'student_id' => $student->id,
+            'course_id' => $this->course->id,
+            'status_id' => 1,
+        ]);
+
+        $this->actingAs($teacher->user);
+
+        $component = Livewire::withQueryParams(['courseId' => $this->course->id])
+            ->test(GradeEdit::class);
+
+        $component->assertSet('isReadOnly', false);
+        $this->assertNotEmpty($component->get('enrollments'));
+    }
+
+    public function test_other_teacher_cannot_view_grades(): void
+    {
+        $teacher = Teacher::factory()->create();
+        $otherTeacher = Teacher::factory()->create();
+        $this->course->update(['teacher_id' => $otherTeacher->id]);
+        $student = Student::factory()->create();
+        Enrollment::create([
+            'student_id' => $student->id,
+            'course_id' => $this->course->id,
+            'status_id' => 1,
+        ]);
+
+        $this->actingAs($teacher->user);
+
+        Livewire::withQueryParams(['courseId' => $this->course->id])
+            ->test(GradeEdit::class)
+            ->assertForbidden();
     }
 
     public function test_grade_data_loaded_on_mount(): void

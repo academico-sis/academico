@@ -69,6 +69,56 @@ class AuthorizationGateTest extends TestCase
         $this->assertTrue(Gate::allows('edit-course-grades', $course));
     }
 
+    // ── view-course-grades ──
+
+    public function test_view_course_grades_allowed_for_course_teacher(): void
+    {
+        $teacher = Teacher::factory()->create();
+        $course = Course::factory()->create(['teacher_id' => $teacher->id]);
+
+        $this->actingAs($teacher->user);
+        $this->assertTrue(Gate::allows('view-course-grades', $course));
+    }
+
+    public function test_view_course_grades_denied_for_other_teacher(): void
+    {
+        $teacher = Teacher::factory()->create();
+        $otherTeacher = Teacher::factory()->create();
+        $course = Course::factory()->create(['teacher_id' => $otherTeacher->id]);
+
+        $this->actingAs($teacher->user);
+        $this->assertFalse(Gate::allows('view-course-grades', $course));
+    }
+
+    public function test_view_course_grades_allowed_with_view_permission(): void
+    {
+        $user = User::factory()->create();
+        $user->givePermissionTo('evaluation.view');
+        $course = Course::factory()->create();
+
+        $this->actingAs($user);
+        $this->assertTrue(Gate::allows('view-course-grades', $course));
+    }
+
+    public function test_view_course_grades_allowed_with_edit_permission(): void
+    {
+        $user = User::factory()->create();
+        $user->givePermissionTo('evaluation.edit');
+        $course = Course::factory()->create();
+
+        $this->actingAs($user);
+        $this->assertTrue(Gate::allows('view-course-grades', $course));
+    }
+
+    public function test_view_course_grades_denied_without_permission(): void
+    {
+        $user = User::factory()->create();
+        $course = Course::factory()->create();
+
+        $this->actingAs($user);
+        $this->assertFalse(Gate::allows('view-course-grades', $course));
+    }
+
     // ── view-course-attendance ──
 
     public function test_view_course_attendance_allowed_for_course_teacher(): void
@@ -294,11 +344,11 @@ class AuthorizationGateTest extends TestCase
         $this->assertTrue(Gate::allows('view-enrollment', $enrollment));
     }
 
-    public function test_view_enrollment_allowed_for_any_teacher(): void
+    public function test_view_enrollment_allowed_for_course_teacher(): void
     {
         $teacher = Teacher::factory()->create();
         $student = Student::factory()->create();
-        $course = Course::factory()->create();
+        $course = Course::factory()->create(['teacher_id' => $teacher->id]);
         $enrollment = Enrollment::create([
             'student_id' => $student->id,
             'course_id' => $course->id,
@@ -307,6 +357,22 @@ class AuthorizationGateTest extends TestCase
 
         $this->actingAs($teacher->user);
         $this->assertTrue(Gate::allows('view-enrollment', $enrollment));
+    }
+
+    public function test_view_enrollment_denied_for_other_teacher(): void
+    {
+        $teacher = Teacher::factory()->create();
+        $otherTeacher = Teacher::factory()->create();
+        $student = Student::factory()->create();
+        $course = Course::factory()->create(['teacher_id' => $otherTeacher->id]);
+        $enrollment = Enrollment::create([
+            'student_id' => $student->id,
+            'course_id' => $course->id,
+            'status_id' => 1,
+        ]);
+
+        $this->actingAs($teacher->user);
+        $this->assertFalse(Gate::allows('view-enrollment', $enrollment));
     }
 
     public function test_view_enrollment_denied_for_other_student(): void
