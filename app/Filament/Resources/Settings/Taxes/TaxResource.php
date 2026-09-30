@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Settings\Taxes;
 
+use App\Filament\Clusters\Settings\SettingsCluster;
 use App\Filament\Resources\Settings\Taxes\Pages\ManageTaxes;
 use App\Models\Tax;
 use BackedEnum;
@@ -23,7 +24,7 @@ class TaxResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCalculator;
 
-    protected static ?string $cluster = \App\Filament\Clusters\Settings\SettingsCluster::class;
+    protected static ?string $cluster = SettingsCluster::class;
 
     public static function getNavigationGroup(): ?string
     {

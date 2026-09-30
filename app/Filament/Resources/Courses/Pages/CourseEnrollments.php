@@ -20,6 +20,7 @@ use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\Url;
 
@@ -126,7 +127,7 @@ class CourseEnrollments extends Page implements HasTable
         ];
     }
 
-    public function getRosterEnrollments(): \Illuminate\Support\Collection
+    public function getRosterEnrollments(): Collection
     {
         return $this->getRecord()
             ->enrollments()

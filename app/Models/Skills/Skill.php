@@ -4,6 +4,7 @@ namespace App\Models\Skills;
 
 use App\Models\EvaluationType;
 use App\Models\Level;
+use Database\Factories\SkillFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -55,8 +56,8 @@ class Skill extends Model
         return '['.($this->level->name ?? '').'] '.($this->skillType->shortname ?? '').' - '.$this->name ?? '';
     }
 
-    protected static function newFactory(): \Database\Factories\SkillFactory
+    protected static function newFactory(): SkillFactory
     {
-        return \Database\Factories\SkillFactory::new();
+        return SkillFactory::new();
     }
 }

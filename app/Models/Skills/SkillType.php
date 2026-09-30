@@ -2,6 +2,7 @@
 
 namespace App\Models\Skills;
 
+use Database\Factories\SkillTypeFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,8 +12,8 @@ class SkillType extends Model
 
     protected $guarded = ['id'];
 
-    protected static function newFactory(): \Database\Factories\SkillTypeFactory
+    protected static function newFactory(): SkillTypeFactory
     {
-        return \Database\Factories\SkillTypeFactory::new();
+        return SkillTypeFactory::new();
     }
 }

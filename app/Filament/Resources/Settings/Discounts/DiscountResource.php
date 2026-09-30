@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Settings\Discounts;
 
+use App\Filament\Clusters\Settings\SettingsCluster;
 use App\Filament\Resources\Settings\Discounts\Pages\ManageDiscounts;
 use App\Models\Discount;
 use BackedEnum;
@@ -23,7 +24,7 @@ class DiscountResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedReceiptPercent;
 
-    protected static ?string $cluster = \App\Filament\Clusters\Settings\SettingsCluster::class;
+    protected static ?string $cluster = SettingsCluster::class;
 
     public static function getNavigationGroup(): ?string
     {

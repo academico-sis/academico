@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Settings\Books;
 
+use App\Filament\Clusters\Settings\SettingsCluster;
 use App\Filament\Resources\Settings\Books\Pages\ManageBooks;
 use App\Models\Book;
 use BackedEnum;
@@ -23,7 +24,7 @@ class BookResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBookOpen;
 
-    protected static ?string $cluster = \App\Filament\Clusters\Settings\SettingsCluster::class;
+    protected static ?string $cluster = SettingsCluster::class;
 
     public static function getNavigationGroup(): ?string
     {

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Settings\Institutions;
 
+use App\Filament\Clusters\Settings\SettingsCluster;
 use App\Filament\Resources\Settings\Institutions\Pages\ManageInstitutions;
 use App\Models\Institution;
 use BackedEnum;
@@ -23,7 +24,7 @@ class InstitutionResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBuildingOffice2;
 
-    protected static ?string $cluster = \App\Filament\Clusters\Settings\SettingsCluster::class;
+    protected static ?string $cluster = SettingsCluster::class;
 
     public static function getNavigationGroup(): ?string
     {

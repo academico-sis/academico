@@ -1,5 +1,7 @@
 <?php
 
+use LaravelDaily\Invoices\Classes\Seller;
+
 return [
     'date' => [
 
@@ -81,7 +83,7 @@ return [
          * Must implement LaravelDaily\Invoices\Contracts\PartyContract
          *      or extend LaravelDaily\Invoices\Classes\Party
          */
-        'class' => \LaravelDaily\Invoices\Classes\Seller::class,
+        'class' => Seller::class,
 
         /*
          * Default attributes for Seller::class

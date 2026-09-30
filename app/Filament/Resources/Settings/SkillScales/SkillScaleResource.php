@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Settings\SkillScales;
 
+use App\Filament\Clusters\Settings\SettingsCluster;
 use App\Filament\Resources\Settings\SkillScales\Pages\ManageSkillScales;
 use App\Models\Skills\SkillScale;
 use BackedEnum;
@@ -25,7 +26,7 @@ class SkillScaleResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedScale;
 
-    protected static ?string $cluster = \App\Filament\Clusters\Settings\SettingsCluster::class;
+    protected static ?string $cluster = SettingsCluster::class;
 
     public static function getNavigationGroup(): ?string
     {

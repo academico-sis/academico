@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Settings\Coupons;
 
+use App\Filament\Clusters\Settings\SettingsCluster;
 use App\Filament\Resources\Settings\Coupons\Pages\ManageCoupons;
 use App\Models\Coupon;
 use BackedEnum;
@@ -23,7 +24,7 @@ class CouponResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedTicket;
 
-    protected static ?string $cluster = \App\Filament\Clusters\Settings\SettingsCluster::class;
+    protected static ?string $cluster = SettingsCluster::class;
 
     public static function getNavigationGroup(): ?string
     {

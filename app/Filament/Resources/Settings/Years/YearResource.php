@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Settings\Years;
 
+use App\Filament\Clusters\Settings\SettingsCluster;
 use App\Filament\Resources\Settings\Years\Pages\ManageYears;
 use App\Models\Year;
 use BackedEnum;
@@ -23,7 +24,7 @@ class YearResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCalendarDays;
 
-    protected static ?string $cluster = \App\Filament\Clusters\Settings\SettingsCluster::class;
+    protected static ?string $cluster = SettingsCluster::class;
 
     public static function getNavigationGroup(): ?string
     {

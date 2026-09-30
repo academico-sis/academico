@@ -10,6 +10,7 @@ use App\Models\ResultType;
 use BackedEnum;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Facades\Gate;
 
 class GradeEdit extends Page
@@ -308,7 +309,7 @@ class GradeEdit extends Page
         return __('Grades');
     }
 
-    public function getTitle(): string|\Illuminate\Contracts\Support\Htmlable
+    public function getTitle(): string|Htmlable
     {
         return __('Grade Editing');
     }

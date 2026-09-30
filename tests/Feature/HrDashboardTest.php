@@ -16,6 +16,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\PermissionRegistrar;
 use Tests\TestCase;
 
 class HrDashboardTest extends TestCase
@@ -38,7 +39,7 @@ class HrDashboardTest extends TestCase
         Permission::findOrCreate('hr.view', 'web');
         $adminRole = Role::findOrCreate('admin', 'web');
         $adminRole->givePermissionTo('hr.view');
-        app(\Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();
+        app(PermissionRegistrar::class)->forgetCachedPermissions();
 
         $year = Year::factory()->create();
         $this->period = Period::factory()->create([

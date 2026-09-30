@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Settings\Levels;
 
+use App\Filament\Clusters\Settings\SettingsCluster;
 use App\Filament\Resources\Settings\Levels\Pages\ManageLevels;
 use App\Models\Level;
 use BackedEnum;
@@ -30,7 +31,7 @@ class LevelResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedAcademicCap;
 
-    protected static ?string $cluster = \App\Filament\Clusters\Settings\SettingsCluster::class;
+    protected static ?string $cluster = SettingsCluster::class;
 
     public static function getNavigationGroup(): ?string
     {

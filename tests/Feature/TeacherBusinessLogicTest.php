@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Course;
 use App\Models\Event;
 use App\Models\Leave;
+use App\Models\LeaveType;
 use App\Models\Period;
 use App\Models\Teacher;
 use App\Models\Year;
@@ -148,7 +149,7 @@ class TeacherBusinessLogicTest extends TestCase
         \DB::table('leaves')->insert([
             'teacher_id' => $teacher->id,
             'date' => $futureDate,
-            'leave_type_id' => \App\Models\LeaveType::factory()->create()->id,
+            'leave_type_id' => LeaveType::factory()->create()->id,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -162,7 +163,7 @@ class TeacherBusinessLogicTest extends TestCase
     public function test_upcoming_leaves_consecutive_days_as_range(): void
     {
         $teacher = Teacher::factory()->create();
-        $leaveTypeId = \App\Models\LeaveType::factory()->create()->id;
+        $leaveTypeId = LeaveType::factory()->create()->id;
 
         $day1 = Carbon::now()->addDays(10)->format('Y-m-d');
         $day2 = Carbon::now()->addDays(11)->format('Y-m-d');
@@ -187,7 +188,7 @@ class TeacherBusinessLogicTest extends TestCase
     public function test_upcoming_leaves_non_consecutive_as_separate(): void
     {
         $teacher = Teacher::factory()->create();
-        $leaveTypeId = \App\Models\LeaveType::factory()->create()->id;
+        $leaveTypeId = LeaveType::factory()->create()->id;
 
         $day1 = Carbon::now()->addDays(10)->format('Y-m-d');
         $day2 = Carbon::now()->addDays(15)->format('Y-m-d');

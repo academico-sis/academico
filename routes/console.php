@@ -20,7 +20,7 @@ Schedule::call(function (): void {
             use HandlesAttendance;
         };
         $handler->remindPendingAttendance();
-    } catch (\Throwable $e) {
+    } catch (Throwable $e) {
         Log::error('[Schedule::attendanceReminders] '.$e->getMessage(), ['exception' => $e::class]);
         if (function_exists('\Sentry\captureException')) {
             \Sentry\captureException($e);
@@ -41,7 +41,7 @@ Schedule::call(function (): void {
         if (Period::get_enrollments_period() == Period::get_default_period()) {
             Config::where('name', 'default_enrollment_period')->update(['value' => null]);
         }
-    } catch (\Throwable $e) {
+    } catch (Throwable $e) {
         Log::error('[Schedule::periodCheck] '.$e->getMessage(), ['exception' => $e::class]);
         if (function_exists('\Sentry\captureException')) {
             \Sentry\captureException($e);
@@ -63,7 +63,7 @@ if (config('settings.partnership_alerts')) {
             if ($partners->count() > 0) {
                 event(new ExpiringPartnershipsEvent($partners->get()));
             }
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             Log::error('[Schedule::partnershipAlerts] '.$e->getMessage(), ['exception' => $e::class]);
             if (function_exists('\Sentry\captureException')) {
                 \Sentry\captureException($e);
@@ -77,7 +77,7 @@ if (config('settings.external_courses_report')) {
     Schedule::call(function (): void {
         try {
             event(new ExternalCoursesReportEvent);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             Log::error('[Schedule::externalCoursesReport] '.$e->getMessage(), ['exception' => $e::class]);
             if (function_exists('\Sentry\captureException')) {
                 \Sentry\captureException($e);
@@ -91,7 +91,7 @@ if (config('settings.monthly_report')) {
     Schedule::call(function (): void {
         try {
             event(new MonthlyReportEvent);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             Log::error('[Schedule::monthlyReport] '.$e->getMessage(), ['exception' => $e::class]);
             if (function_exists('\Sentry\captureException')) {
                 \Sentry\captureException($e);

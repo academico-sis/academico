@@ -4,6 +4,7 @@ namespace App\Filament\Pages;
 
 use App\Models\Period;
 use BackedEnum;
+use Illuminate\Contracts\Support\Htmlable;
 
 class LevelsAndRhythmsReport extends ReportPage
 {
@@ -158,7 +159,7 @@ class LevelsAndRhythmsReport extends ReportPage
         return __('Levels & Rhythms Report');
     }
 
-    public function getTitle(): string|\Illuminate\Contracts\Support\Htmlable
+    public function getTitle(): string|Htmlable
     {
         return __('Levels & Rhythms Report');
     }

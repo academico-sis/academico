@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Settings\Rhythms;
 
+use App\Filament\Clusters\Settings\SettingsCluster;
 use App\Filament\Resources\Settings\Rhythms\Pages\ManageRhythms;
 use App\Models\Rhythm;
 use BackedEnum;
@@ -45,7 +46,7 @@ class RhythmResource extends Resource
         return __('Rhythms');
     }
 
-    protected static ?string $cluster = \App\Filament\Clusters\Settings\SettingsCluster::class;
+    protected static ?string $cluster = SettingsCluster::class;
 
     public static function form(Schema $schema): Schema
     {

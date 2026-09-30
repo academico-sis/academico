@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use Illuminate\Support\Facades\App;
+use Illuminate\View\View;
 use Livewire\Component;
 
 class LocaleSwitcher extends Component
@@ -37,7 +38,7 @@ class LocaleSwitcher extends Component
         $this->redirect($path, navigate: true);
     }
 
-    public function render(): \Illuminate\View\View
+    public function render(): View
     {
         return view('livewire.locale-switcher', [
             'locales' => config('app.translatable_locales', ['en', 'es', 'fr']),

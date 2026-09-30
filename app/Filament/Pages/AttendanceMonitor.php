@@ -10,6 +10,7 @@ use App\Models\Teacher;
 use BackedEnum;
 use Carbon\Carbon;
 use Filament\Pages\Page;
+use Illuminate\Contracts\Support\Htmlable;
 
 class AttendanceMonitor extends Page
 {
@@ -161,7 +162,7 @@ class AttendanceMonitor extends Page
         return __('Attendance Monitor');
     }
 
-    public function getTitle(): string|\Illuminate\Contracts\Support\Htmlable
+    public function getTitle(): string|Htmlable
     {
         return __('Attendance Monitor');
     }

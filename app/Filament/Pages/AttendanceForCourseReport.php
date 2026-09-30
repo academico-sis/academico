@@ -6,6 +6,7 @@ use App\Models\AttendanceType;
 use App\Models\Course;
 use App\Models\Period;
 use BackedEnum;
+use Illuminate\Contracts\Support\Htmlable;
 
 class AttendanceForCourseReport extends ReportPage
 {
@@ -126,7 +127,7 @@ class AttendanceForCourseReport extends ReportPage
         return __('Attendance per Course');
     }
 
-    public function getTitle(): string|\Illuminate\Contracts\Support\Htmlable
+    public function getTitle(): string|Htmlable
     {
         return __('Attendance per Course');
     }

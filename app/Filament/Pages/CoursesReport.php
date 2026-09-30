@@ -5,6 +5,7 @@ namespace App\Filament\Pages;
 use App\Models\Course;
 use App\Models\Period;
 use BackedEnum;
+use Illuminate\Contracts\Support\Htmlable;
 
 class CoursesReport extends ReportPage
 {
@@ -83,7 +84,7 @@ class CoursesReport extends ReportPage
         return __('Courses Report');
     }
 
-    public function getTitle(): string|\Illuminate\Contracts\Support\Htmlable
+    public function getTitle(): string|Htmlable
     {
         return __('Courses Report');
     }

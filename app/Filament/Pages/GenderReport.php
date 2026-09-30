@@ -6,6 +6,7 @@ use App\Models\Config;
 use App\Models\Period;
 use App\Services\StatService;
 use BackedEnum;
+use Illuminate\Contracts\Support\Htmlable;
 
 class GenderReport extends ReportPage
 {
@@ -169,7 +170,7 @@ class GenderReport extends ReportPage
         return __('Gender Report');
     }
 
-    public function getTitle(): string|\Illuminate\Contracts\Support\Htmlable
+    public function getTitle(): string|Htmlable
     {
         return __('Gender Report');
     }

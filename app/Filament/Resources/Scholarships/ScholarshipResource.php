@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Scholarships;
 
+use App\Filament\Clusters\Settings\SettingsCluster;
 use App\Filament\Resources\Scholarships\Pages\ManageScholarships;
 use App\Models\Scholarship;
 use BackedEnum;
@@ -29,7 +30,7 @@ class ScholarshipResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedTrophy;
 
-    protected static ?string $cluster = \App\Filament\Clusters\Settings\SettingsCluster::class;
+    protected static ?string $cluster = SettingsCluster::class;
 
     public static function getNavigationGroup(): ?string
     {

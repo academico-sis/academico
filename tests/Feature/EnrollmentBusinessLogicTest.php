@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Attendance;
+use App\Models\Book;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Event;
@@ -10,9 +11,12 @@ use App\Models\Invoice;
 use App\Models\InvoiceDetail;
 use App\Models\InvoiceType;
 use App\Models\Payment;
+use App\Models\Result;
+use App\Models\ResultType;
 use App\Models\Scholarship;
 use App\Models\Student;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Tests\TestCase;
 
 class EnrollmentBusinessLogicTest extends TestCase
@@ -142,9 +146,9 @@ class EnrollmentBusinessLogicTest extends TestCase
         $enrollmentWithResult = Enrollment::factory()->create();
 
         // Create a result for one enrollment
-        \App\Models\Result::create([
+        Result::create([
             'enrollment_id' => $enrollmentWithResult->id,
-            'result_type_id' => \App\Models\ResultType::factory()->create()->id,
+            'result_type_id' => ResultType::factory()->create()->id,
         ]);
 
         $noresult = Enrollment::noresult()->pluck('id');
@@ -296,7 +300,7 @@ class EnrollmentBusinessLogicTest extends TestCase
 
         $enrollment = Enrollment::factory()->create();
 
-        $this->expectException(\Symfony\Component\HttpKernel\Exception\HttpException::class);
+        $this->expectException(HttpException::class);
         $enrollment->balance;
     }
 
@@ -332,7 +336,7 @@ class EnrollmentBusinessLogicTest extends TestCase
     {
         $course = Course::factory()->create();
         $student = Student::factory()->create();
-        $book = \App\Models\Book::factory()->create();
+        $book = Book::factory()->create();
 
         $course->books()->attach($book);
         $student->books()->attach($book, [
@@ -354,7 +358,7 @@ class EnrollmentBusinessLogicTest extends TestCase
     {
         $course = Course::factory()->create();
         $student = Student::factory()->create();
-        $book = \App\Models\Book::factory()->create();
+        $book = Book::factory()->create();
 
         $course->books()->attach($book);
         // Student does NOT have this book
@@ -372,7 +376,7 @@ class EnrollmentBusinessLogicTest extends TestCase
     {
         $course = Course::factory()->create();
         $student = Student::factory()->create();
-        $book = \App\Models\Book::factory()->create();
+        $book = Book::factory()->create();
 
         $course->books()->attach($book);
         $student->books()->attach($book, [

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Settings\LeaveTypes;
 
+use App\Filament\Clusters\Settings\SettingsCluster;
 use App\Filament\Resources\Settings\LeaveTypes\Pages\ManageLeaveTypes;
 use App\Models\LeaveType;
 use BackedEnum;
@@ -23,7 +24,7 @@ class LeaveTypeResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCalendar;
 
-    protected static ?string $cluster = \App\Filament\Clusters\Settings\SettingsCluster::class;
+    protected static ?string $cluster = SettingsCluster::class;
 
     public static function getNavigationGroup(): ?string
     {

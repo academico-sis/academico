@@ -2,8 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Models\Course;
 use App\Models\Event;
 use App\Models\LeaveType;
+use App\Models\Room;
 use App\Models\Teacher;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -46,8 +48,8 @@ class EventBusinessLogicTest extends TestCase
 
         $event = Event::create([
             'teacher_id' => $teacher->id,
-            'course_id' => \App\Models\Course::factory()->create()->id,
-            'room_id' => \App\Models\Room::factory()->create()->id,
+            'course_id' => Course::factory()->create()->id,
+            'room_id' => Room::factory()->create()->id,
             'start' => '2025-06-15 09:00:00',
             'end' => '2025-06-15 11:00:00',
             'name' => 'Test event',
@@ -62,8 +64,8 @@ class EventBusinessLogicTest extends TestCase
 
         $event = Event::create([
             'teacher_id' => $teacher->id,
-            'course_id' => \App\Models\Course::factory()->create()->id,
-            'room_id' => \App\Models\Room::factory()->create()->id,
+            'course_id' => Course::factory()->create()->id,
+            'room_id' => Room::factory()->create()->id,
             'start' => '2025-06-20 09:00:00',
             'end' => '2025-06-20 11:00:00',
             'name' => 'Test event',

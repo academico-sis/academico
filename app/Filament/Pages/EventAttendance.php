@@ -9,6 +9,7 @@ use BackedEnum;
 use Carbon\Carbon;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Facades\Gate;
 
 class EventAttendance extends Page
@@ -127,7 +128,7 @@ class EventAttendance extends Page
         return __('Event Attendance');
     }
 
-    public function getTitle(): string|\Illuminate\Contracts\Support\Htmlable
+    public function getTitle(): string|Htmlable
     {
         return $this->event
             ? __('Attendance').': '.($this->event->name ?? ($this->event->start ? Carbon::parse($this->event->start)->format('d/m/Y') : ''))
