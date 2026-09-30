@@ -8,6 +8,7 @@ use App\Models\Period;
 use App\Models\Year;
 use App\Services\StatService;
 use BackedEnum;
+
 class ExternalReport extends ReportPage
 {
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-building-office';

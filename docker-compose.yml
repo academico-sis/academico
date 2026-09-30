@@ -1,39 +1,67 @@
+# Development environment. Only Docker is required on the host:
+# PHP and Node dependencies are installed inside the containers.
 services:
   app:
     build:
       context: .
       dockerfile: Dockerfile
+      target: dev
     container_name: academico-filament-app
     restart: unless-stopped
     working_dir: /app
     ports:
-      - "8080:80"
-      - "8443:443"
+      - "${APP_PORT:-8080}:80"
     volumes:
       - .:/app
-      - ./storage:/app/storage
-      - ./bootstrap/cache:/app/bootstrap/cache
+      # Keep dependencies in a Docker volume rather than on the host (much faster on macOS and Windows)
+      - vendor:/app/vendor
       - ./docker/Caddyfile:/etc/caddy/Caddyfile
     networks:
       - academico-network
     environment:
       - SERVER_NAME=:80
+      - APP_URL=http://localhost:${APP_PORT:-8080}
       - DB_CONNECTION=mariadb
       - DB_HOST=mariadb
       - DB_PORT=3306
       - DB_DATABASE=academico_filament
       - DB_USERNAME=academico
       - DB_PASSWORD=secret
+    healthcheck:
+      test: ["CMD", "php", "-r", "exit(@file_get_contents('http://localhost/up') === false ? 1 : 0);"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5m
     depends_on:
       mariadb:
         condition: service_healthy
+      assets:
+        condition: service_healthy
+
+  # Builds the frontend assets into public/build and rebuilds them when resources change
+  assets:
+    image: node:22-slim
+    container_name: academico-filament-assets
+    restart: unless-stopped
+    working_dir: /app
+    command: sh -c "npm ci && npx vite build --watch"
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    healthcheck:
+      test: ["CMD", "test", "-f", "/app/public/build/manifest.json"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 5m
 
   mariadb:
     image: mariadb:11
     container_name: academico-filament-mariadb
     restart: unless-stopped
     ports:
-      - "3306:3306"
+      - "${FORWARD_DB_PORT:-3306}:3306"
     environment:
       MARIADB_DATABASE: academico_filament
       MARIADB_USER: academico
@@ -55,4 +83,8 @@ networks:
 
 volumes:
   mariadb-data:
+    driver: local
+  vendor:
+    driver: local
+  node_modules:
     driver: local

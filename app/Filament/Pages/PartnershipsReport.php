@@ -4,6 +4,7 @@ namespace App\Filament\Pages;
 
 use App\Models\Partner;
 use BackedEnum;
+
 class PartnershipsReport extends ReportPage
 {
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-user-group';

@@ -6,6 +6,7 @@ use App\Models\Config;
 use App\Models\Period;
 use App\Services\StatService;
 use BackedEnum;
+
 class GenderReport extends ReportPage
 {
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-user-group';

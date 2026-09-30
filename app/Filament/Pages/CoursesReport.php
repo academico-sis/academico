@@ -5,6 +5,7 @@ namespace App\Filament\Pages;
 use App\Models\Course;
 use App\Models\Period;
 use BackedEnum;
+
 class CoursesReport extends ReportPage
 {
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-book-open';

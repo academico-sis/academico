@@ -16,8 +16,8 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction --no-script
 COPY . .
 RUN composer dump-autoload --no-dev --optimize
 
-# Stage 3: Final runtime image
-FROM dunglas/frankenphp:1-php8.5
+# Stage 3: PHP runtime shared by the development and production images
+FROM dunglas/frankenphp:1-php8.5 AS base
 
 WORKDIR /app
 
@@ -36,6 +36,29 @@ RUN install-php-extensions \
     opcache \
     intl \
     zip
+
+# Stage 4: Development image (used by docker-compose.yml)
+# The source code is bind-mounted at runtime; dependencies are installed by the entrypoint.
+FROM base AS dev
+
+RUN apt-get update && apt-get install -y \
+    git \
+    unzip \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+ENV COMPOSER_ALLOW_SUPERUSER=1
+
+COPY docker/dev-entrypoint.sh /usr/local/bin/dev-entrypoint
+RUN chmod +x /usr/local/bin/dev-entrypoint
+
+EXPOSE 80
+
+ENTRYPOINT ["dev-entrypoint"]
+CMD ["frankenphp", "run", "--config", "/etc/caddy/Caddyfile"]
+
+# Stage 5: Production image (default target)
+FROM base AS production
 
 COPY . .
 COPY --from=vendor /app/vendor ./vendor

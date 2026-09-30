@@ -1,0 +1,57 @@
+name: Bug report
+description: Something does not work as expected
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time to report a bug.
+        Security problems must not be reported here: see the security policy instead.
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Describe the problem and what you expected to happen instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Go to ...
+        2. Click on ...
+        3. See the error
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Release tag, Docker image tag or commit hash.
+      placeholder: v1.0.0, academicosis/academico:latest, or a1b2c3d
+    validations:
+      required: true
+  - type: dropdown
+    id: install
+    attributes:
+      label: How are you running Academico?
+      options:
+        - Docker Compose from this repository
+        - Published Docker image
+        - Without Docker
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Operating system, and browser if the problem is in the interface.
+      placeholder: macOS 15 with Docker Desktop, Firefox 140
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs and error messages
+      description: Output of `docker compose logs app`, content of `storage/logs/laravel.log`, or the error shown on screen. Remove any personal data or secrets.
+      render: text

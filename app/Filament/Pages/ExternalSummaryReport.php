@@ -6,6 +6,7 @@ use App\Services\DateRange;
 use App\Services\StatService;
 use BackedEnum;
 use Carbon\Carbon;
+
 class ExternalSummaryReport extends ReportPage
 {
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-building-office-2';
