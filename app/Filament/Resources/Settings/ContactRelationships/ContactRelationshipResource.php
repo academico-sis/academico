@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Settings\ContactRelationships;
 
+use App\Filament\Clusters\Settings\SettingsCluster;
 use App\Filament\Resources\Settings\ContactRelationships\Pages\ManageContactRelationships;
 use App\Models\ContactRelationship;
 use BackedEnum;
@@ -23,7 +24,7 @@ class ContactRelationshipResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUsers;
 
-    protected static ?string $cluster = \App\Filament\Clusters\Settings\SettingsCluster::class;
+    protected static ?string $cluster = SettingsCluster::class;
 
     public static function getNavigationGroup(): ?string
     {

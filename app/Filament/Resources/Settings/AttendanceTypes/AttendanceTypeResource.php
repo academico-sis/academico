@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Settings\AttendanceTypes;
 
+use App\Filament\Clusters\Settings\SettingsCluster;
 use App\Filament\Resources\Settings\AttendanceTypes\Pages\ManageAttendanceTypes;
 use App\Models\AttendanceType;
 use BackedEnum;
@@ -25,7 +26,7 @@ class AttendanceTypeResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedClipboardDocumentCheck;
 
-    protected static ?string $cluster = \App\Filament\Clusters\Settings\SettingsCluster::class;
+    protected static ?string $cluster = SettingsCluster::class;
 
     public static function getNavigationGroup(): ?string
     {

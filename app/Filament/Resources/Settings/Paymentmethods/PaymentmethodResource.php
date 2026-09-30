@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Settings\Paymentmethods;
 
+use App\Filament\Clusters\Settings\SettingsCluster;
 use App\Filament\Resources\Settings\Paymentmethods\Pages\ManagePaymentmethods;
 use App\Models\Paymentmethod;
 use BackedEnum;
@@ -23,7 +24,7 @@ class PaymentmethodResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCreditCard;
 
-    protected static ?string $cluster = \App\Filament\Clusters\Settings\SettingsCluster::class;
+    protected static ?string $cluster = SettingsCluster::class;
 
     public static function getNavigationGroup(): ?string
     {

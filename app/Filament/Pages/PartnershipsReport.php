@@ -4,6 +4,7 @@ namespace App\Filament\Pages;
 
 use App\Models\Partner;
 use BackedEnum;
+use Illuminate\Contracts\Support\Htmlable;
 
 class PartnershipsReport extends ReportPage
 {
@@ -47,7 +48,7 @@ class PartnershipsReport extends ReportPage
         return __('Partnerships');
     }
 
-    public function getTitle(): string|\Illuminate\Contracts\Support\Htmlable
+    public function getTitle(): string|Htmlable
     {
         return __('Partnerships Report');
     }

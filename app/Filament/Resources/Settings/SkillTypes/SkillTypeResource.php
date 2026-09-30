@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Settings\SkillTypes;
 
+use App\Filament\Clusters\Settings\SettingsCluster;
 use App\Filament\Resources\Settings\SkillTypes\Pages\ManageSkillTypes;
 use App\Models\Skills\SkillType;
 use BackedEnum;
@@ -23,7 +24,7 @@ class SkillTypeResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedPuzzlePiece;
 
-    protected static ?string $cluster = \App\Filament\Clusters\Settings\SettingsCluster::class;
+    protected static ?string $cluster = SettingsCluster::class;
 
     public static function getNavigationGroup(): ?string
     {

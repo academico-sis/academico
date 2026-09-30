@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Settings\EvaluationTypes;
 
+use App\Filament\Clusters\Settings\SettingsCluster;
 use App\Filament\Resources\Settings\EvaluationTypes\Pages\ManageEvaluationTypes;
 use App\Models\EvaluationType;
 use BackedEnum;
@@ -24,7 +25,7 @@ class EvaluationTypeResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDocumentCheck;
 
-    protected static ?string $cluster = \App\Filament\Clusters\Settings\SettingsCluster::class;
+    protected static ?string $cluster = SettingsCluster::class;
 
     public static function getNavigationGroup(): ?string
     {

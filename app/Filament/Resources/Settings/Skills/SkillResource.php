@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Settings\Skills;
 
+use App\Filament\Clusters\Settings\SettingsCluster;
 use App\Filament\Resources\Settings\Skills\Pages\ManageSkills;
 use App\Models\Skills\Skill;
 use App\Models\Skills\SkillType;
@@ -28,7 +29,7 @@ class SkillResource extends Resource
 
     protected static ?int $navigationSort = 7;
 
-    protected static ?string $cluster = \App\Filament\Clusters\Settings\SettingsCluster::class;
+    protected static ?string $cluster = SettingsCluster::class;
 
     public static function getNavigationGroup(): ?string
     {

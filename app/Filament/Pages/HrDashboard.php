@@ -7,6 +7,7 @@ use App\Models\Teacher;
 use BackedEnum;
 use Carbon\Carbon;
 use Filament\Pages\Page;
+use Illuminate\Contracts\Support\Htmlable;
 
 class HrDashboard extends Page
 {
@@ -140,7 +141,7 @@ class HrDashboard extends Page
         return __('HR Dashboard');
     }
 
-    public function getTitle(): string|\Illuminate\Contracts\Support\Htmlable
+    public function getTitle(): string|Htmlable
     {
         return __('HR Dashboard');
     }

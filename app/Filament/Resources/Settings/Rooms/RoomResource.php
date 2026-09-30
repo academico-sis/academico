@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Settings\Rooms;
 
+use App\Filament\Clusters\Settings\SettingsCluster;
 use App\Filament\Resources\Settings\Rooms\Pages\ManageRooms;
 use App\Models\Room;
 use BackedEnum;
@@ -31,7 +32,7 @@ class RoomResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBuildingOffice;
 
-    protected static ?string $cluster = \App\Filament\Clusters\Settings\SettingsCluster::class;
+    protected static ?string $cluster = SettingsCluster::class;
 
     public static function getNavigationGroup(): ?string
     {

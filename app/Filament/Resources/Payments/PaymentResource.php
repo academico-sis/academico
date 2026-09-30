@@ -7,6 +7,7 @@ use App\Models\Payment;
 use BackedEnum;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
+use Filament\Forms\Components\DatePicker;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -103,7 +104,7 @@ class PaymentResource extends Resource
             ->filters([
                 Filter::make('month')
                     ->form([
-                        \Filament\Forms\Components\DatePicker::make('month')
+                        DatePicker::make('month')
                             ->label(__('Month'))
                             ->displayFormat('MM/YYYY'),
                     ])

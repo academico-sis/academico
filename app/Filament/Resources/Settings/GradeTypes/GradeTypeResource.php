@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Settings\GradeTypes;
 
+use App\Filament\Clusters\Settings\SettingsCluster;
 use App\Filament\Resources\Settings\GradeTypes\Pages\ManageGradeTypes;
 use App\Models\GradeType;
 use BackedEnum;
@@ -24,7 +25,7 @@ class GradeTypeResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedChartBar;
 
-    protected static ?string $cluster = \App\Filament\Clusters\Settings\SettingsCluster::class;
+    protected static ?string $cluster = SettingsCluster::class;
 
     public static function getNavigationGroup(): ?string
     {

@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Http;
 use Livewire\Livewire;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\PermissionRegistrar;
 use Tests\TestCase;
 
 class CheckoutPageTest extends TestCase
@@ -67,7 +68,7 @@ class CheckoutPageTest extends TestCase
         Permission::findOrCreate('enrollments.view', 'web');
         $role = Role::findOrCreate('admin', 'web');
         $role->givePermissionTo(['enrollments.edit', 'enrollments.view']);
-        app(\Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();
+        app(PermissionRegistrar::class)->forgetCachedPermissions();
 
         $admin = User::factory()->create();
         $admin->assignRole('admin');

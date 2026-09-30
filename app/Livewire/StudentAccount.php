@@ -8,6 +8,7 @@ use App\Models\PhoneNumber;
 use App\Models\Profession;
 use App\Models\Student;
 use App\Traits\ReportsErrors;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
@@ -74,7 +75,7 @@ class StudentAccount extends Component
         if ($student) {
             $this->idnumber = $student->idnumber ?? '';
             $this->address = $student->address ?? '';
-            $this->birthdate = $student->birthdate ? \Carbon\Carbon::parse($student->birthdate)->format('Y-m-d') : '';
+            $this->birthdate = $student->birthdate ? Carbon::parse($student->birthdate)->format('Y-m-d') : '';
             $this->forceUpdate = $student->force_update;
 
             // Phone numbers

@@ -9,6 +9,7 @@ use App\Models\Room;
 use App\Models\Teacher;
 use BackedEnum;
 use Filament\Pages\Page;
+use Illuminate\Contracts\Support\Htmlable;
 
 class CalendarCombined extends Page
 {
@@ -169,7 +170,7 @@ class CalendarCombined extends Page
         return __('Combined Schedule');
     }
 
-    public function getTitle(): string|\Illuminate\Contracts\Support\Htmlable
+    public function getTitle(): string|Htmlable
     {
         return __('Combined Schedule');
     }

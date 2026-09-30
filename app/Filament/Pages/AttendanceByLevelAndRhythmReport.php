@@ -8,6 +8,8 @@ use App\Models\Level;
 use App\Models\Period;
 use App\Models\Rhythm;
 use BackedEnum;
+use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Support\Collection;
 
 class AttendanceByLevelAndRhythmReport extends ReportPage
 {
@@ -75,7 +77,7 @@ class AttendanceByLevelAndRhythmReport extends ReportPage
     }
 
     /**
-     * @param  \Illuminate\Support\Collection<int, Course>  $courses
+     * @param  Collection<int, Course>  $courses
      */
     protected function loadLevelData($courses): void
     {
@@ -131,7 +133,7 @@ class AttendanceByLevelAndRhythmReport extends ReportPage
     }
 
     /**
-     * @param  \Illuminate\Support\Collection<int, Course>  $courses
+     * @param  Collection<int, Course>  $courses
      */
     protected function loadRhythmData($courses): void
     {
@@ -196,7 +198,7 @@ class AttendanceByLevelAndRhythmReport extends ReportPage
         return __('Attendance by Level & Rhythm');
     }
 
-    public function getTitle(): string|\Illuminate\Contracts\Support\Htmlable
+    public function getTitle(): string|Htmlable
     {
         return __('Attendance by Level & Rhythm');
     }

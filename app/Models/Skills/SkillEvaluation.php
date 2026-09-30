@@ -3,6 +3,7 @@
 namespace App\Models\Skills;
 
 use App\Models\Enrollment;
+use Database\Factories\SkillEvaluationFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -37,8 +38,8 @@ class SkillEvaluation extends Model
         return $this->belongsTo(SkillScale::class);
     }
 
-    protected static function newFactory(): \Database\Factories\SkillEvaluationFactory
+    protected static function newFactory(): SkillEvaluationFactory
     {
-        return \Database\Factories\SkillEvaluationFactory::new();
+        return SkillEvaluationFactory::new();
     }
 }

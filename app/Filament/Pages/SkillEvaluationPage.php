@@ -11,6 +11,7 @@ use App\Models\Skills\SkillScale;
 use BackedEnum;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Facades\Gate;
 
 class SkillEvaluationPage extends Page
@@ -351,7 +352,7 @@ class SkillEvaluationPage extends Page
         return __('Skill Evaluation');
     }
 
-    public function getTitle(): string|\Illuminate\Contracts\Support\Htmlable
+    public function getTitle(): string|Htmlable
     {
         return __('Skill Evaluation');
     }

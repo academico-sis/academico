@@ -6,6 +6,7 @@ use App\Services\DateRange;
 use App\Services\StatService;
 use BackedEnum;
 use Carbon\Carbon;
+use Illuminate\Contracts\Support\Htmlable;
 
 class ExternalSummaryReport extends ReportPage
 {
@@ -92,7 +93,7 @@ class ExternalSummaryReport extends ReportPage
         return __('External Summary');
     }
 
-    public function getTitle(): string|\Illuminate\Contracts\Support\Htmlable
+    public function getTitle(): string|Htmlable
     {
         return __('External Summary Report');
     }

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Professions;
 
+use App\Filament\Clusters\Settings\SettingsCluster;
 use App\Filament\Resources\Professions\Pages\ManageProfessions;
 use App\Models\Profession;
 use BackedEnum;
@@ -21,7 +22,7 @@ class ProfessionResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBriefcase;
 
-    protected static ?string $cluster = \App\Filament\Clusters\Settings\SettingsCluster::class;
+    protected static ?string $cluster = SettingsCluster::class;
 
     public static function getNavigationGroup(): ?string
     {

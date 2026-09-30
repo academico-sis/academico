@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Periods;
 
+use App\Filament\Clusters\Settings\SettingsCluster;
 use App\Filament\Resources\Periods\Pages\ListPeriods;
 use App\Models\Config;
 use App\Models\Period;
@@ -51,7 +52,7 @@ class PeriodResource extends Resource
         return __('Periods');
     }
 
-    protected static ?string $cluster = \App\Filament\Clusters\Settings\SettingsCluster::class;
+    protected static ?string $cluster = SettingsCluster::class;
 
     public static function form(Schema $schema): Schema
     {

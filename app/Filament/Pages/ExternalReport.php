@@ -8,6 +8,7 @@ use App\Models\Period;
 use App\Models\Year;
 use App\Services\StatService;
 use BackedEnum;
+use Illuminate\Contracts\Support\Htmlable;
 
 class ExternalReport extends ReportPage
 {
@@ -227,7 +228,7 @@ class ExternalReport extends ReportPage
         return __('External Report');
     }
 
-    public function getTitle(): string|\Illuminate\Contracts\Support\Htmlable
+    public function getTitle(): string|Htmlable
     {
         return __('External Report');
     }

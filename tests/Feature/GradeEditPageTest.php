@@ -18,6 +18,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\PermissionRegistrar;
 use Tests\TestCase;
 
 class GradeEditPageTest extends TestCase
@@ -64,7 +65,7 @@ class GradeEditPageTest extends TestCase
         Permission::findOrCreate('evaluation.edit', 'web');
         $role = Role::findOrCreate('admin', 'web');
         $role->givePermissionTo('evaluation.edit');
-        app(\Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();
+        app(PermissionRegistrar::class)->forgetCachedPermissions();
 
         $admin = User::factory()->create();
         $admin->assignRole('admin');

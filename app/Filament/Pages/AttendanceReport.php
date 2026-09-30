@@ -8,6 +8,7 @@ use App\Models\Course;
 use App\Models\Event;
 use App\Models\Period;
 use BackedEnum;
+use Illuminate\Contracts\Support\Htmlable;
 
 class AttendanceReport extends ReportPage
 {
@@ -127,7 +128,7 @@ class AttendanceReport extends ReportPage
         return __('Attendance Report');
     }
 
-    public function getTitle(): string|\Illuminate\Contracts\Support\Htmlable
+    public function getTitle(): string|Htmlable
     {
         return __('Attendance Report');
     }

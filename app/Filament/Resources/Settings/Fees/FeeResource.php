@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Settings\Fees;
 
+use App\Filament\Clusters\Settings\SettingsCluster;
 use App\Filament\Resources\Settings\Fees\Pages\ManageFees;
 use App\Models\Fee;
 use BackedEnum;
@@ -25,7 +26,7 @@ class FeeResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBanknotes;
 
-    protected static ?string $cluster = \App\Filament\Clusters\Settings\SettingsCluster::class;
+    protected static ?string $cluster = SettingsCluster::class;
 
     public static function getNavigationGroup(): ?string
     {
