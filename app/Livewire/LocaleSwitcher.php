@@ -33,7 +33,7 @@ class LocaleSwitcher extends Component
 
         $referer = request()->header('Referer', '/');
         $parsed = parse_url($referer);
-        $path = ($parsed['path'] ?? '/') . (isset($parsed['query']) ? '?' . $parsed['query'] : '');
+        $path = ($parsed['path'] ?? '/').(isset($parsed['query']) ? '?'.$parsed['query'] : '');
         $this->redirect($path, navigate: true);
     }
 

@@ -6,6 +6,7 @@ use App\Models\AttendanceType;
 use App\Models\Course;
 use App\Models\Period;
 use BackedEnum;
+
 class AttendanceForCourseReport extends ReportPage
 {
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-clipboard-document-check';

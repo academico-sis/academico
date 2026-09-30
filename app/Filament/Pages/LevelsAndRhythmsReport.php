@@ -4,6 +4,7 @@ namespace App\Filament\Pages;
 
 use App\Models\Period;
 use BackedEnum;
+
 class LevelsAndRhythmsReport extends ReportPage
 {
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-academic-cap';

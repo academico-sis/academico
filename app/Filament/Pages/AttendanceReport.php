@@ -8,6 +8,7 @@ use App\Models\Course;
 use App\Models\Event;
 use App\Models\Period;
 use BackedEnum;
+
 class AttendanceReport extends ReportPage
 {
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-clipboard-document-list';

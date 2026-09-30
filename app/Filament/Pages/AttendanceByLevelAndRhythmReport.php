@@ -8,6 +8,7 @@ use App\Models\Level;
 use App\Models\Period;
 use App\Models\Rhythm;
 use BackedEnum;
+
 class AttendanceByLevelAndRhythmReport extends ReportPage
 {
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-bars-3';

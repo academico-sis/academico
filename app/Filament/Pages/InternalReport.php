@@ -7,6 +7,7 @@ use App\Models\Period;
 use App\Models\Year;
 use App\Services\StatService;
 use BackedEnum;
+
 class InternalReport extends ReportPage
 {
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-chart-bar';
