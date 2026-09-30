@@ -3,7 +3,7 @@
 [![All Contributors](https://img.shields.io/badge/all_contributors-14-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
-Academico is an open-source, Lavarel-based school management platform. Its main features include course management, enrolments management, resources scheduling, reports and stats. It is primarily targeted at small and medium-sized institutions who need a simple and affordable solution to manage their school and courses.
+Academico is an open-source, Laravel-based school management platform. Its main features include course management, enrolments management, resources scheduling, reports and stats. It is primarily targeted at small and medium-sized institutions who need a simple and affordable solution to manage their school and courses.
 
 # New 2026 version (Filament-based)
 The first versions of this project were built with the awesome Backpack for Laravel framework. However, the application was entirely rewritten with Laravel Filament. No changes in the database structure has been made, so the Filament version should work as a drop-in replacement of the Backpack version, with similar features. You can still access the Backpack version in the `pro` branch (but a Backpack license is required and the packages have not been updated in a long time). I strongly recommend switching to the Filament version.
@@ -54,56 +54,68 @@ This application runs in Docker using FrankenPHP (a modern PHP application serve
 
 ## Prerequisites
 
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/) (includes Docker Compose)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/), or Docker Engine with the Compose plugin
+
+Nothing else is needed on your machine: PHP, Composer and Node run inside the containers.
 
 ## Quick Start
 
-1. Clone the repository and copy the environment file:
+1. Clone the repository:
 
 ```bash
 git clone https://github.com/academico-sis/academico.git
 cd academico
-cp .env.example .env
 ```
 
-2. Start the containers (the first run builds the image, which may take a few minutes):
+2. Start the containers and wait until the application is ready:
 
 ```bash
-docker compose up -d
+docker compose up -d --wait
 ```
 
-This starts two services:
+The first run builds the image and installs the dependencies, which takes a few minutes. You can follow the progress with `docker compose logs -f app`.
+
+This starts three services:
 - **app** — the FrankenPHP application server on `http://localhost:8080`
+- **assets** — builds the frontend assets, and rebuilds them when you edit `resources/css` or `resources/js`
 - **mariadb** — a MariaDB 11 database server on port `3306`
 
-The app container waits for MariaDB to be healthy before starting.
+On startup, the app container creates `.env` from `.env.example` if it does not exist, installs the Composer dependencies, generates the application key and runs the database migrations.
 
-3. Generate the application key:
-
-```bash
-docker compose exec app php artisan key:generate
-```
-
-4. Run the database migrations:
-
-```bash
-docker compose exec app php artisan migrate
-```
-
-5. (Optional) Seed the database with sample data:
+3. Create the administrator account and the reference data:
 
 ```bash
 docker compose exec app php artisan db:seed
 ```
 
-6. Open `http://localhost:8080` in your browser.
+4. Open `http://localhost:8080` in your browser and log in with `academico@thomasdebay.com` / `secret`.
+
+## Sample data
+
+To explore the application with sample courses, students and enrollments, rebuild the database with the test seeder instead. **This deletes all existing data.**
+
+```bash
+docker compose exec app php artisan migrate:fresh --seeder=TestSeeder
+```
+
+Then log in with `contact@thomasdebay.com` / `secret`.
+
+## Changing the ports
+
+If port `8080` or `3306` is already used on your machine, set other ports when starting the containers:
+
+```bash
+APP_PORT=8081 FORWARD_DB_PORT=3307 docker compose up -d --wait
+```
+
+You can also add these two variables to your `.env` file.
 
 ## Running commands inside the container
 
 All PHP and artisan commands should be run inside the `app` container:
 
 ```bash
-# Run tests
+# Run tests (they use an in-memory SQLite database, not the MariaDB data)
 docker compose exec app php artisan test
 
 # Run the linter
@@ -113,12 +125,28 @@ docker compose exec app ./vendor/bin/pint
 docker compose exec app php artisan <command>
 ```
 
+## How the development setup works
+
+Your checkout is mounted into the containers, so code changes are visible immediately. The `vendor` and `node_modules` directories are kept in Docker volumes rather than on your machine, which avoids slow file sharing on macOS and Windows. These two directories therefore stay empty on the host.
+
+After pulling changes that modify `composer.lock` or `package-lock.json`, restart the containers to install the new dependencies:
+
+```bash
+docker compose restart
+```
+
+Set `AUTO_MIGRATE=false` in the `app` service environment if you prefer to run the migrations yourself.
+
 ## Stopping the environment
 
 ```bash
-docker compose down          # Stop containers (data is preserved in a Docker volume)
-docker compose down -v       # Stop containers and delete the database volume
+docker compose down          # Stop containers (data is preserved in Docker volumes)
+docker compose down -v       # Stop containers and delete the database and dependency volumes
 ```
+
+## Production image
+
+`docker-compose.yml` is meant for development. A production image is built from the same `Dockerfile` and published on Docker Hub as [`academicosis/academico`](https://hub.docker.com/r/academicosis/academico).
 
 ## Custom Login Page
 
@@ -130,15 +158,12 @@ The Docker setup supports an optional custom login page via a volume mount in `d
 
 The custom login class (`App\Filament\Auth\Login`) detects at runtime whether this Blade file is present. When the file exists, it renders the custom layout; otherwise, the standard Filament login page is shown.
 
-## Contributors ✨
+# Contributing
 
-Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+See [CONTRIBUTING.md](CONTRIBUTING.md) for how to set up a development environment and submit changes. Notable changes are listed in [CHANGELOG.md](CHANGELOG.md).
 
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-<!-- markdownlint-restore -->
-<!-- prettier-ignore-end -->
-<!-- ALL-CONTRIBUTORS-LIST:END -->
+To report a security problem, follow the [security policy](SECURITY.md) instead of opening a public issue.
 
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+# License
+
+Academico is open-source software licensed under the [MIT License](LICENSE).
