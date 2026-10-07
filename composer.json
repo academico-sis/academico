@@ -18,7 +18,7 @@
         "sentry/sentry-laravel": "^4.21",
         "spatie/laravel-activitylog": "^4.11",
         "spatie/laravel-medialibrary": "^11.17",
-        "spatie/laravel-permission": "^6.24",
+        "spatie/laravel-permission": "^8.3",
         "spatie/laravel-translatable": "^6.12",
         "symfony/http-client": "^8.0",
         "symfony/mailgun-mailer": "^8.0"
