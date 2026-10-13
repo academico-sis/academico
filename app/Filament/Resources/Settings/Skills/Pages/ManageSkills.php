@@ -27,7 +27,7 @@ class ManageSkills extends ManageRecords
             Action::make('importCsv')
                 ->label(__('Import CSV'))
                 ->icon('heroicon-o-arrow-up-tray')
-                ->form([
+                ->schema([
                     FileUpload::make('file')
                         ->label(__('CSV File'))
                         ->acceptedFileTypes(['text/csv', 'application/vnd.ms-excel'])
@@ -40,7 +40,7 @@ class ManageSkills extends ManageRecords
                     $filePath = storage_path('app/public/'.$data['file']);
 
                     try {
-                        $csv = Reader::createFromPath($filePath);
+                        $csv = Reader::from($filePath, 'r');
                     } catch (\Exception $e) {
                         Log::error('[ManageSkills::importCsv] Failed to read CSV file', [
                             'exception' => $e::class,

@@ -7,7 +7,7 @@ use Maatwebsite\Excel\Concerns\ToModel;
 
 class CourseSkillsImport implements ToModel
 {
-    public function model(array $row)
+    public function model(array $row): ?Skill
     {
         return Skill::find($row[0]);
     }

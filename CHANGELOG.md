@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ### Changed
 
 - The test suite always uses the in-memory SQLite database, even when `DB_*` environment variables are set. Previously, running the tests inside the Docker container wiped the development database.
+- Updated Filament and frontend build dependencies to patched releases, migrated deprecated APIs, and added LaraBeacon as a development-time quality check.
 
 ### Removed
 

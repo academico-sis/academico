@@ -241,8 +241,13 @@ class Enrollment extends Model implements InvoiceableModel
 
     public function saveScheduledPayments($payments)
     {
-        $paymentsToDelete = $this->scheduledPayments()->pluck('id')->diff($payments->pluck('id'));
-        ScheduledPayment::whereIn('id', $paymentsToDelete)->delete();
+        $paymentIds = $payments->pluck('id')
+            ->filter(fn ($id) => $id !== null)
+            ->values();
+
+        $this->scheduledPayments()
+            ->whereNotIn('id', $paymentIds)
+            ->delete();
 
         foreach ($payments as $payment) {
             $this->scheduledPayments()->updateOrCreate([

@@ -340,7 +340,7 @@ class StudentResource extends Resource
                         )
                     )),
                 Filter::make('new_in_period')
-                    ->form([
+                    ->schema([
                         Select::make('period_id')
                             ->label(__('New Students In'))
                             ->options(Period::pluck('name', 'id')),

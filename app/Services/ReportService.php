@@ -19,6 +19,9 @@ class ReportService
                 ->get()
                 ->groupBy('year_id')
                 ->each(function ($yearData) {
+                    /** @var Period $firstPeriod */
+                    $firstPeriod = $yearData->first();
+                    $year = $firstPeriod->year;
                     $enrollments = 0;
                     $taught_hours = 0;
                     $sold_hours = 0;
@@ -62,7 +65,6 @@ class ReportService
                         gc_collect_cycles();
                     }
 
-                    $year = $data_period->year;
                     $yearStats = new StatService(external: false, reference: $year);
 
                     $yearData = new CachedReport(

@@ -208,7 +208,7 @@ class InvoiceResource extends Resource
             ->defaultSort('id', 'desc')
             ->filters([
                 Filter::make('date')
-                    ->form([
+                    ->schema([
                         DatePicker::make('from')->label(__('From')),
                         DatePicker::make('until')->label(__('Until')),
                     ])

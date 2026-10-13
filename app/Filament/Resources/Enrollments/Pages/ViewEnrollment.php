@@ -10,7 +10,6 @@ use App\Filament\Resources\Enrollments\RelationManagers\EnrollmentCommentsRelati
 use App\Filament\Resources\Enrollments\RelationManagers\ScholarshipsRelationManager;
 use App\Filament\Resources\Invoices\InvoiceResource;
 use Filament\Actions\Action;
-use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Infolists\Components\TextEntry;
@@ -42,7 +41,7 @@ class ViewEnrollment extends ViewRecord
                 ->label(__('Price'))
                 ->icon('heroicon-o-currency-dollar')
                 ->fillForm(fn () => ['total_price' => $this->record->total_price])
-                ->form([
+                ->schema([
                     TextInput::make('total_price')
                         ->label(__('Price'))
                         ->numeric()
@@ -61,7 +60,7 @@ class ViewEnrollment extends ViewRecord
                 ->label(__('Status'))
                 ->icon('heroicon-o-arrow-path')
                 ->fillForm(fn () => ['status_id' => $this->record->status_id])
-                ->form([
+                ->schema([
                     Select::make('status_id')
                         ->label(__('Status'))
                         ->relationship('enrollmentStatus', 'name')
@@ -202,9 +201,9 @@ class ViewEnrollment extends ViewRecord
                                         Tab::make(__('Invoices'))
                                             ->icon('heroicon-o-document-text')
                                             ->schema([
-                                                Placeholder::make('invoices_list')
+                                                TextEntry::make('invoices_list')
                                                     ->label('')
-                                                    ->content(fn () => new HtmlString($this->getInvoicesHtml())),
+                                                    ->state(fn () => new HtmlString($this->getInvoicesHtml())),
                                             ]),
                                         Tab::make(__('Books'))
                                             ->icon('heroicon-o-book-open')

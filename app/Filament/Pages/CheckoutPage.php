@@ -22,11 +22,11 @@ use Filament\Actions\Action;
 use Filament\Actions\Action as PageAction;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Hidden;
-use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Schemas\Components\Section;
@@ -269,7 +269,7 @@ class CheckoutPage extends Page
                                             PageAction::make('addDiscount')
                                                 ->label(__('Add discount'))
                                                 ->icon(Heroicon::OutlinedReceiptPercent)
-                                                ->form([
+                                                ->schema([
                                                     Select::make('discount_id')
                                                         ->label(__('Discount'))
                                                         ->options(Discount::pluck('name', 'id'))
@@ -300,7 +300,7 @@ class CheckoutPage extends Page
                                             PageAction::make('addTax')
                                                 ->label(__('Add tax'))
                                                 ->icon(Heroicon::OutlinedCalculator)
-                                                ->form([
+                                                ->schema([
                                                     Select::make('tax_id')
                                                         ->label(__('Tax'))
                                                         ->options(Tax::pluck('name', 'id'))
@@ -329,9 +329,9 @@ class CheckoutPage extends Page
                                                     $component->rawState($items);
                                                 }),
                                         ]),
-                                    Placeholder::make('total')
+                                    TextEntry::make('total')
                                         ->label(__('Total'))
-                                        ->content(fn ($get) => $this->getFormattedTotal($get('products'))),
+                                        ->state(fn ($get) => $this->getFormattedTotal($get('products'))),
                                 ]),
 
                             // Sidebar
@@ -355,9 +355,9 @@ class CheckoutPage extends Page
                                     Section::make(__('Price category'))
                                         ->visible(fn () => config('invoicing.price_categories_enabled') && $this->enrollment)
                                         ->schema([
-                                            Placeholder::make('price_category_buttons')
+                                            TextEntry::make('price_category_buttons')
                                                 ->label('')
-                                                ->content(fn () => new HtmlString(
+                                                ->state(fn () => new HtmlString(
                                                     '<div class="flex flex-col gap-2">'
                                                     .'<button type="button" wire:click="setPriceCategory(\'price\')" class="fi-btn fi-btn-size-sm fi-color-gray rounded-lg px-3 py-1.5 text-sm font-medium text-gray-700 bg-white shadow-sm ring-1 ring-gray-300 hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-200 dark:ring-gray-600">'.__('Price A').' ('.($this->enrollment?->course?->price ?? 0).')</button>'
                                                     .'<button type="button" wire:click="setPriceCategory(\'price_b\')" class="fi-btn fi-btn-size-sm fi-color-gray rounded-lg px-3 py-1.5 text-sm font-medium text-gray-700 bg-white shadow-sm ring-1 ring-gray-300 hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-200 dark:ring-gray-600">'.__('Price B').' ('.($this->enrollment?->course?->price_b ?? 0).')</button>'
@@ -376,9 +376,9 @@ class CheckoutPage extends Page
                             Section::make(__('Products Summary'))
                                 ->columnSpan(8)
                                 ->schema([
-                                    Placeholder::make('products_summary')
+                                    TextEntry::make('products_summary')
                                         ->label('')
-                                        ->content(fn ($get) => new HtmlString($this->getProductsSummaryHtml($get('products')))),
+                                        ->state(fn ($get) => new HtmlString($this->getProductsSummaryHtml($get('products')))),
                                     Repeater::make('payments')
                                         ->label(__('Payments'))
                                         ->schema([
@@ -404,9 +404,9 @@ class CheckoutPage extends Page
                                         ->defaultItems(1)
                                         ->addActionLabel(__('Add Payment'))
                                         ->reorderable(false),
-                                    Placeholder::make('total_received')
+                                    TextEntry::make('total_received')
                                         ->label(__('Total received'))
-                                        ->content(fn ($get) => $this->getFormattedPaymentTotal($get('payments'))),
+                                        ->state(fn ($get) => $this->getFormattedPaymentTotal($get('payments'))),
                                 ]),
 
                             // Sidebar — Invoice Data

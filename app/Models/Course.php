@@ -197,7 +197,7 @@ class Course extends Model
         return $this->hasManyThrough(Attendance::class, Event::class);
     }
 
-    public function enrollments()
+    public function enrollments(): HasMany
     {
         return $this
             ->hasMany(Enrollment::class, 'course_id', 'id')

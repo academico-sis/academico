@@ -49,7 +49,7 @@ class CommentsRelationManager extends RelationManager
             ->headerActions([
                 CreateAction::make()
                     ->label(__('Add a comment'))
-                    ->mutateFormDataUsing(function (array $data): array {
+                    ->mutateDataUsing(function (array $data): array {
                         $data['author_id'] = auth()->id();
 
                         return $data;
