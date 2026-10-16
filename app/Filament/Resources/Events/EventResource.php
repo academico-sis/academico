@@ -146,7 +146,7 @@ class EventResource extends Resource
             ->defaultSort('start', 'desc')
             ->filters([
                 Filter::make('date_range')
-                    ->form([
+                    ->schema([
                         DatePicker::make('from')->label(__('From')),
                         DatePicker::make('until')->label(__('Until')),
                     ])

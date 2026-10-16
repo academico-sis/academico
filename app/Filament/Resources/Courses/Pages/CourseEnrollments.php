@@ -141,7 +141,7 @@ class CourseEnrollments extends Page implements HasTable
             Action::make('enroll_student')
                 ->label(__('Enroll a student'))
                 ->icon('heroicon-o-plus-circle')
-                ->form([
+                ->schema([
                     Select::make('student_id')
                         ->label(__('Student'))
                         ->searchable()

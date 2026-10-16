@@ -103,7 +103,7 @@ class PaymentResource extends Resource
             ->defaultSort('date', 'desc')
             ->filters([
                 Filter::make('month')
-                    ->form([
+                    ->schema([
                         DatePicker::make('month')
                             ->label(__('Month'))
                             ->displayFormat('MM/YYYY'),

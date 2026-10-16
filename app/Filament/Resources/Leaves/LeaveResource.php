@@ -101,7 +101,7 @@ class LeaveResource extends Resource
                     ->options(fn () => Teacher::with('user')->get()->pluck('name', 'id'))
                     ->searchable(),
                 Filter::make('date_range')
-                    ->form([
+                    ->schema([
                         DatePicker::make('from')->label(__('From')),
                         DatePicker::make('until')->label(__('Until')),
                     ])
