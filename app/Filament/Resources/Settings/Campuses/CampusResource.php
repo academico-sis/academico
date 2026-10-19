@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Settings\Campuses;
 
 use App\Filament\Clusters\Settings\SettingsCluster;
+use App\Filament\Concerns\RequiresClusterAccess;
 use App\Filament\Resources\Settings\Campuses\Pages\ManageCampuses;
 use App\Models\Campus;
 use BackedEnum;
@@ -27,6 +28,8 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class CampusResource extends Resource
 {
+    use RequiresClusterAccess;
+
     protected static ?string $model = Campus::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBuildingLibrary;

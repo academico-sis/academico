@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Courses;
 
+use App\Filament\Concerns\AuthorizesWritesWithPermissions;
 use App\Filament\Exports\CourseExporter;
 use App\Filament\Pages\GradeEdit;
 use App\Filament\Pages\SkillEvaluationPage;
@@ -42,6 +43,12 @@ use Filament\Tables\Table;
 
 class CourseResource extends Resource
 {
+    use AuthorizesWritesWithPermissions;
+
+    protected static string $editPermission = 'courses.edit';
+
+    protected static string $deletePermission = 'courses.delete';
+
     protected static ?string $model = Course::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBookOpen;

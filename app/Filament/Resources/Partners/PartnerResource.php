@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Partners;
 
+use App\Filament\Concerns\AuthorizesWritesWithPermissions;
 use App\Filament\Resources\Partners\Pages\ManagePartners;
 use App\Models\Partner;
 use BackedEnum;
@@ -22,6 +23,12 @@ use Filament\Tables\Table;
 
 class PartnerResource extends Resource
 {
+    use AuthorizesWritesWithPermissions;
+
+    protected static string $editPermission = 'courses.edit';
+
+    protected static string $deletePermission = 'courses.delete';
+
     protected static ?string $model = Partner::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBuildingOffice2;

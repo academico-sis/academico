@@ -25,6 +25,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - The seeded attendance types now have a color, so each series of the attendance reports is displayed in a different color instead of the grey fallback.
 
+### Security
+
+- Users who can view courses, events, periods, partners, external courses, enrollments, students, teachers or leaves can no longer create, edit or delete them without the matching permission (`courses.edit`, `courses.delete`, `enrollments.edit`, `enrollments.delete`, `hr.manage`). ([GHSA-w76j-4qgr-3r9f](https://github.com/academico-sis/academico/security/advisories/GHSA-w76j-4qgr-3r9f))
+- The resources of the Settings cluster are restricted to administrators: they were reachable by URL by any user with panel access, including teachers.
+- The grade and skill evaluation pages check that the enrollment belongs to the course before saving grades, results, comments or skill evaluations, and their course and read-only state can no longer be changed by the client. ([GHSA-x47v-xg6f-42xj](https://github.com/academico-sis/academico/security/advisories/GHSA-x47v-xg6f-42xj))
+
 ### Removed
 
 - The unused `.env.docker` file.

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\ExternalCourses;
 
+use App\Filament\Concerns\AuthorizesWritesWithPermissions;
 use App\Filament\Resources\ExternalCourses\Pages\ManageExternalCourses;
 use App\Models\Course;
 use App\Models\Period;
@@ -24,6 +25,12 @@ use Illuminate\Database\Eloquent\Builder;
 
 class ExternalCourseResource extends Resource
 {
+    use AuthorizesWritesWithPermissions;
+
+    protected static string $editPermission = 'courses.edit';
+
+    protected static string $deletePermission = 'courses.delete';
+
     protected static ?string $model = Course::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedGlobeAlt;

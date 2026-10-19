@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Settings\ResultTypes;
 
 use App\Filament\Clusters\Settings\SettingsCluster;
+use App\Filament\Concerns\RequiresClusterAccess;
 use App\Filament\Resources\Settings\ResultTypes\Pages\ManageResultTypes;
 use App\Models\ResultType;
 use BackedEnum;
@@ -23,6 +24,8 @@ use Filament\Tables\Table;
 
 class ResultTypeResource extends Resource
 {
+    use RequiresClusterAccess;
+
     protected static ?string $model = ResultType::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedClipboardDocumentList;

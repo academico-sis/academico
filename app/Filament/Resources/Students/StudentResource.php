@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Students;
 
+use App\Filament\Concerns\AuthorizesWritesWithPermissions;
 use App\Filament\Exports\StudentExporter;
 use App\Filament\Resources\Students\Pages\CreateStudent;
 use App\Filament\Resources\Students\Pages\EditStudent;
@@ -41,6 +42,12 @@ use Illuminate\Database\Eloquent\Builder;
 
 class StudentResource extends Resource
 {
+    use AuthorizesWritesWithPermissions;
+
+    protected static string $editPermission = 'enrollments.edit';
+
+    protected static string $deletePermission = 'enrollments.delete';
+
     protected static ?string $model = Student::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUsers;

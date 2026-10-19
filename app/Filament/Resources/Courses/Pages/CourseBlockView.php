@@ -94,7 +94,7 @@ class CourseBlockView extends Page
                 'spots' => $course->spots,
                 'has_teacher' => $course->teacher_id !== null,
                 'has_room' => $course->room_id !== null,
-                'edit_url' => CourseResource::getUrl('edit', ['record' => $course->id]),
+                'edit_url' => CourseResource::canEdit($course) ? CourseResource::getUrl('edit', ['record' => $course->id]) : null,
                 'enrollments_url' => CourseResource::getUrl('enrollments', ['record' => $course->id]),
             ])
             ->toArray();

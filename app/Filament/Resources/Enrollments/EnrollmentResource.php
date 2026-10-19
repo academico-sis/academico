@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Enrollments;
 
+use App\Filament\Concerns\AuthorizesWritesWithPermissions;
 use App\Filament\Exports\EnrollmentExporter;
 use App\Filament\Resources\Courses\CourseResource;
 use App\Filament\Resources\Enrollments\Pages\ChangeEnrollmentCourse;
@@ -34,6 +35,12 @@ use Filament\Tables\Table;
 
 class EnrollmentResource extends Resource
 {
+    use AuthorizesWritesWithPermissions;
+
+    protected static string $editPermission = 'enrollments.edit';
+
+    protected static string $deletePermission = 'enrollments.delete';
+
     protected static ?string $model = Enrollment::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedClipboardDocumentList;
@@ -78,7 +85,9 @@ class EnrollmentResource extends Resource
                             ->label(__('Enrollment ID')),
                         TextEntry::make('course.name')
                             ->label(__('Course'))
-                            ->url(fn (Enrollment $record) => CourseResource::getUrl('edit', ['record' => $record->course_id])),
+                            ->url(fn (Enrollment $record) => CourseResource::canEdit($record->course)
+                                ? CourseResource::getUrl('edit', ['record' => $record->course_id])
+                                : CourseResource::getUrl('enrollments', ['record' => $record->course_id])),
                         TextEntry::make('course.period.name')
                             ->label(__('Period')),
                         TextEntry::make('enrollmentStatus.name')

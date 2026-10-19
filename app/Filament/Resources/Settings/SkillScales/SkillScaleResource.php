@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Settings\SkillScales;
 
 use App\Filament\Clusters\Settings\SettingsCluster;
+use App\Filament\Concerns\RequiresClusterAccess;
 use App\Filament\Resources\Settings\SkillScales\Pages\ManageSkillScales;
 use App\Models\Skills\SkillScale;
 use BackedEnum;
@@ -22,6 +23,8 @@ use Filament\Tables\Table;
 
 class SkillScaleResource extends Resource
 {
+    use RequiresClusterAccess;
+
     protected static ?string $model = SkillScale::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedScale;

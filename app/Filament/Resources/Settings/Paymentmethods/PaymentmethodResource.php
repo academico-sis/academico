@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Settings\Paymentmethods;
 
 use App\Filament\Clusters\Settings\SettingsCluster;
+use App\Filament\Concerns\RequiresClusterAccess;
 use App\Filament\Resources\Settings\Paymentmethods\Pages\ManagePaymentmethods;
 use App\Models\Paymentmethod;
 use BackedEnum;
@@ -20,6 +21,8 @@ use Filament\Tables\Table;
 
 class PaymentmethodResource extends Resource
 {
+    use RequiresClusterAccess;
+
     protected static ?string $model = Paymentmethod::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCreditCard;

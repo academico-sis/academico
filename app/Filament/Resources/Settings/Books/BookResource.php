@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Settings\Books;
 
 use App\Filament\Clusters\Settings\SettingsCluster;
+use App\Filament\Concerns\RequiresClusterAccess;
 use App\Filament\Resources\Settings\Books\Pages\ManageBooks;
 use App\Models\Book;
 use BackedEnum;
@@ -20,6 +21,8 @@ use Filament\Tables\Table;
 
 class BookResource extends Resource
 {
+    use RequiresClusterAccess;
+
     protected static ?string $model = Book::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBookOpen;

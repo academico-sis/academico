@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Settings\Institutions;
 
 use App\Filament\Clusters\Settings\SettingsCluster;
+use App\Filament\Concerns\RequiresClusterAccess;
 use App\Filament\Resources\Settings\Institutions\Pages\ManageInstitutions;
 use App\Models\Institution;
 use BackedEnum;
@@ -20,6 +21,8 @@ use Filament\Tables\Table;
 
 class InstitutionResource extends Resource
 {
+    use RequiresClusterAccess;
+
     protected static ?string $model = Institution::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBuildingOffice2;

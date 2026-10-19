@@ -12,6 +12,7 @@ use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Facades\Gate;
+use Livewire\Attributes\Locked;
 
 class GradeEdit extends Page
 {
@@ -33,12 +34,15 @@ class GradeEdit extends Page
 
     protected string $view = 'filament.pages.grade-edit';
 
+    #[Locked]
     public int $courseId;
 
     public string $courseName = '';
 
+    #[Locked]
     public ?int $selectedEnrollmentId = null;
 
+    #[Locked]
     public bool $isReadOnly = false;
 
     /** @var array<int, array<string, mixed>> */
@@ -176,17 +180,25 @@ class GradeEdit extends Page
         return null;
     }
 
+    /**
+     * The enrollment id comes from the client: check that it belongs to the course
+     * and that the user may edit the grades of this course.
+     */
+    protected function authorizeEnrollmentEdit(int $enrollmentId): void
+    {
+        $course = Course::find($this->courseId);
+
+        abort_unless($course && Gate::allows('edit-course-grades', $course), 403);
+        abort_unless(Enrollment::whereKey($enrollmentId)->where('course_id', $course->id)->exists(), 403);
+    }
+
     public function saveGrade(int $enrollmentId, int $gradeTypeId, string $value): void
     {
         if ($this->isReadOnly) {
             return;
         }
 
-        $course = Course::find($this->courseId);
-
-        if (! $course || Gate::denies('edit-course-grades', $course)) {
-            abort(403);
-        }
+        $this->authorizeEnrollmentEdit($enrollmentId);
 
         $numericValue = $value !== '' ? (float) $value : null;
 
@@ -230,11 +242,7 @@ class GradeEdit extends Page
             return;
         }
 
-        $course = Course::find($this->courseId);
-
-        if (! $course || Gate::denies('edit-course-grades', $course)) {
-            abort(403);
-        }
+        $this->authorizeEnrollmentEdit($enrollmentId);
 
         if ($resultTypeId === '') {
             Result::where('enrollment_id', $enrollmentId)->delete();
@@ -269,11 +277,7 @@ class GradeEdit extends Page
             return;
         }
 
-        $course = Course::find($this->courseId);
-
-        if (! $course || Gate::denies('edit-course-grades', $course)) {
-            abort(403);
-        }
+        $this->authorizeEnrollmentEdit($enrollmentId);
 
         $result = Result::firstOrCreate(
             ['enrollment_id' => $enrollmentId],

@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Settings\ContactRelationships;
 
 use App\Filament\Clusters\Settings\SettingsCluster;
+use App\Filament\Concerns\RequiresClusterAccess;
 use App\Filament\Resources\Settings\ContactRelationships\Pages\ManageContactRelationships;
 use App\Models\ContactRelationship;
 use BackedEnum;
@@ -20,6 +21,8 @@ use Filament\Tables\Table;
 
 class ContactRelationshipResource extends Resource
 {
+    use RequiresClusterAccess;
+
     protected static ?string $model = ContactRelationship::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUsers;

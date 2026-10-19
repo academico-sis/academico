@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Settings\Rhythms;
 
 use App\Filament\Clusters\Settings\SettingsCluster;
+use App\Filament\Concerns\RequiresClusterAccess;
 use App\Filament\Resources\Settings\Rhythms\Pages\ManageRhythms;
 use App\Models\Rhythm;
 use BackedEnum;
@@ -27,6 +28,8 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class RhythmResource extends Resource
 {
+    use RequiresClusterAccess;
+
     protected static ?string $model = Rhythm::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedClock;

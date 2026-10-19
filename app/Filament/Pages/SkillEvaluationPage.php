@@ -13,6 +13,7 @@ use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Facades\Gate;
+use Livewire\Attributes\Locked;
 
 class SkillEvaluationPage extends Page
 {
@@ -32,12 +33,15 @@ class SkillEvaluationPage extends Page
 
     protected string $view = 'filament.pages.skill-evaluation';
 
+    #[Locked]
     public int $courseId;
 
     public string $courseName = '';
 
+    #[Locked]
     public ?int $selectedEnrollmentId = null;
 
+    #[Locked]
     public bool $isReadOnly = false;
 
     /** @var array<int, array<string, mixed>> */
@@ -183,6 +187,8 @@ class SkillEvaluationPage extends Page
 
     public function selectStudent(int $enrollmentId): void
     {
+        abort_unless(collect($this->enrollments)->contains('id', $enrollmentId), 403);
+
         $this->selectedEnrollmentId = $enrollmentId;
         $this->loadSkillsAndEvaluations();
     }
@@ -225,11 +231,25 @@ class SkillEvaluationPage extends Page
         return null;
     }
 
+    /**
+     * The enrollment id comes from the client: check that it belongs to the course
+     * and that the user may edit the grades of this course.
+     */
+    protected function authorizeEnrollmentEdit(int $enrollmentId): void
+    {
+        $course = Course::find($this->courseId);
+
+        abort_unless($course && Gate::allows('edit-course-grades', $course), 403);
+        abort_unless(Enrollment::whereKey($enrollmentId)->where('course_id', $course->id)->exists(), 403);
+    }
+
     public function setEvaluation(int $skillId, int $scaleId): void
     {
         if (! $this->selectedEnrollmentId || $this->isReadOnly) {
             return;
         }
+
+        $this->authorizeEnrollmentEdit($this->selectedEnrollmentId);
 
         SkillEvaluation::updateOrCreate(
             [
@@ -257,6 +277,8 @@ class SkillEvaluationPage extends Page
             return;
         }
 
+        $this->authorizeEnrollmentEdit($enrollmentId);
+
         SkillEvaluation::updateOrCreate(
             [
                 'enrollment_id' => $enrollmentId,
@@ -278,11 +300,7 @@ class SkillEvaluationPage extends Page
 
     public function saveResult(int $enrollmentId, string $resultTypeId): void
     {
-        $course = Course::find($this->courseId);
-
-        if (! $course || Gate::denies('edit-course-grades', $course)) {
-            abort(403);
-        }
+        $this->authorizeEnrollmentEdit($enrollmentId);
 
         if ($resultTypeId === '') {
             Result::where('enrollment_id', $enrollmentId)->delete();
@@ -312,11 +330,7 @@ class SkillEvaluationPage extends Page
 
     public function saveComment(int $enrollmentId, string $body): void
     {
-        $course = Course::find($this->courseId);
-
-        if (! $course || Gate::denies('edit-course-grades', $course)) {
-            abort(403);
-        }
+        $this->authorizeEnrollmentEdit($enrollmentId);
 
         $result = Result::firstOrCreate(
             ['enrollment_id' => $enrollmentId],

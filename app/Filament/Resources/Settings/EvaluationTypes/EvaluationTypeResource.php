@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Settings\EvaluationTypes;
 
 use App\Filament\Clusters\Settings\SettingsCluster;
+use App\Filament\Concerns\RequiresClusterAccess;
 use App\Filament\Resources\Settings\EvaluationTypes\Pages\ManageEvaluationTypes;
 use App\Models\EvaluationType;
 use BackedEnum;
@@ -21,6 +22,8 @@ use Filament\Tables\Table;
 
 class EvaluationTypeResource extends Resource
 {
+    use RequiresClusterAccess;
+
     protected static ?string $model = EvaluationType::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDocumentCheck;

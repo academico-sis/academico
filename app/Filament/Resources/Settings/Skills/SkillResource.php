@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Settings\Skills;
 
 use App\Filament\Clusters\Settings\SettingsCluster;
+use App\Filament\Concerns\RequiresClusterAccess;
 use App\Filament\Resources\Settings\Skills\Pages\ManageSkills;
 use App\Models\Skills\Skill;
 use App\Models\Skills\SkillType;
@@ -23,6 +24,8 @@ use Filament\Tables\Table;
 
 class SkillResource extends Resource
 {
+    use RequiresClusterAccess;
+
     protected static ?string $model = Skill::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedAcademicCap;
