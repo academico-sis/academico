@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Settings\GradeTypeCategories;
 
 use App\Filament\Clusters\Settings\SettingsCluster;
+use App\Filament\Concerns\RequiresClusterAccess;
 use App\Filament\Resources\Settings\GradeTypeCategories\Pages\ManageGradeTypeCategories;
 use App\Models\GradeTypeCategory;
 use BackedEnum;
@@ -20,6 +21,8 @@ use Filament\Tables\Table;
 
 class GradeTypeCategoryResource extends Resource
 {
+    use RequiresClusterAccess;
+
     protected static ?string $model = GradeTypeCategory::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedTag;

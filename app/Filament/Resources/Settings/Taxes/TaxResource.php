@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Settings\Taxes;
 
 use App\Filament\Clusters\Settings\SettingsCluster;
+use App\Filament\Concerns\RequiresClusterAccess;
 use App\Filament\Resources\Settings\Taxes\Pages\ManageTaxes;
 use App\Models\Tax;
 use BackedEnum;
@@ -20,6 +21,8 @@ use Filament\Tables\Table;
 
 class TaxResource extends Resource
 {
+    use RequiresClusterAccess;
+
     protected static ?string $model = Tax::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCalculator;

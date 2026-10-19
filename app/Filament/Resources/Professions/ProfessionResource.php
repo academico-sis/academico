@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Professions;
 
 use App\Filament\Clusters\Settings\SettingsCluster;
+use App\Filament\Concerns\RequiresClusterAccess;
 use App\Filament\Resources\Professions\Pages\ManageProfessions;
 use App\Models\Profession;
 use BackedEnum;
@@ -18,6 +19,8 @@ use Filament\Tables\Table;
 
 class ProfessionResource extends Resource
 {
+    use RequiresClusterAccess;
+
     protected static ?string $model = Profession::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBriefcase;

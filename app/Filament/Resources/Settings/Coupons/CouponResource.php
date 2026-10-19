@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Settings\Coupons;
 
 use App\Filament\Clusters\Settings\SettingsCluster;
+use App\Filament\Concerns\RequiresClusterAccess;
 use App\Filament\Resources\Settings\Coupons\Pages\ManageCoupons;
 use App\Models\Coupon;
 use BackedEnum;
@@ -20,6 +21,8 @@ use Filament\Tables\Table;
 
 class CouponResource extends Resource
 {
+    use RequiresClusterAccess;
+
     protected static ?string $model = Coupon::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedTicket;

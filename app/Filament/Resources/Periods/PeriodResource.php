@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Periods;
 
 use App\Filament\Clusters\Settings\SettingsCluster;
+use App\Filament\Concerns\AuthorizesWritesWithPermissions;
 use App\Filament\Resources\Periods\Pages\ListPeriods;
 use App\Models\Config;
 use App\Models\Period;
@@ -28,6 +29,12 @@ use Filament\Tables\Table;
 
 class PeriodResource extends Resource
 {
+    use AuthorizesWritesWithPermissions;
+
+    protected static string $editPermission = 'courses.edit';
+
+    protected static string $deletePermission = 'courses.delete';
+
     protected static ?string $model = Period::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCalendar;

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Events;
 
+use App\Filament\Concerns\AuthorizesWritesWithPermissions;
 use App\Filament\Resources\Events\Pages\ListEvents;
 use App\Models\Event;
 use BackedEnum;
@@ -26,6 +27,12 @@ use Illuminate\Database\Eloquent\Builder;
 
 class EventResource extends Resource
 {
+    use AuthorizesWritesWithPermissions;
+
+    protected static string $editPermission = 'courses.edit';
+
+    protected static string $deletePermission = 'courses.delete';
+
     protected static ?string $model = Event::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCalendar;

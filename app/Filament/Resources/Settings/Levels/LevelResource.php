@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Settings\Levels;
 
 use App\Filament\Clusters\Settings\SettingsCluster;
+use App\Filament\Concerns\RequiresClusterAccess;
 use App\Filament\Resources\Settings\Levels\Pages\ManageLevels;
 use App\Models\Level;
 use BackedEnum;
@@ -27,6 +28,8 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class LevelResource extends Resource
 {
+    use RequiresClusterAccess;
+
     protected static ?string $model = Level::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedAcademicCap;

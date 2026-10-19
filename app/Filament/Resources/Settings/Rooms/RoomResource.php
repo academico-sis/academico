@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Settings\Rooms;
 
 use App\Filament\Clusters\Settings\SettingsCluster;
+use App\Filament\Concerns\RequiresClusterAccess;
 use App\Filament\Resources\Settings\Rooms\Pages\ManageRooms;
 use App\Models\Room;
 use BackedEnum;
@@ -28,6 +29,8 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class RoomResource extends Resource
 {
+    use RequiresClusterAccess;
+
     protected static ?string $model = Room::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBuildingOffice;

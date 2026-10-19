@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Settings\SkillTypes;
 
 use App\Filament\Clusters\Settings\SettingsCluster;
+use App\Filament\Concerns\RequiresClusterAccess;
 use App\Filament\Resources\Settings\SkillTypes\Pages\ManageSkillTypes;
 use App\Models\Skills\SkillType;
 use BackedEnum;
@@ -20,6 +21,8 @@ use Filament\Tables\Table;
 
 class SkillTypeResource extends Resource
 {
+    use RequiresClusterAccess;
+
     protected static ?string $model = SkillType::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedPuzzlePiece;

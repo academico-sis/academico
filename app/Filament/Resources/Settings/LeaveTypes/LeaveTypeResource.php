@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Settings\LeaveTypes;
 
 use App\Filament\Clusters\Settings\SettingsCluster;
+use App\Filament\Concerns\RequiresClusterAccess;
 use App\Filament\Resources\Settings\LeaveTypes\Pages\ManageLeaveTypes;
 use App\Models\LeaveType;
 use BackedEnum;
@@ -20,6 +21,8 @@ use Filament\Tables\Table;
 
 class LeaveTypeResource extends Resource
 {
+    use RequiresClusterAccess;
+
     protected static ?string $model = LeaveType::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCalendar;

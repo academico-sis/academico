@@ -64,19 +64,21 @@
                             }
                         @endphp
                         <div class="relative rounded-lg border-2 {{ $borderClass }} bg-white shadow-sm transition hover:shadow-md dark:bg-gray-800">
-                            {{-- Actions dropdown --}}
-                            <div x-data="{ open: false }" class="absolute right-2 top-2 z-10">
-                                <button @click.prevent="open = !open" type="button" class="rounded-md p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-gray-700 dark:hover:text-gray-300">
-                                    <x-heroicon-m-ellipsis-vertical class="h-5 w-5" />
-                                </button>
-                                <div x-show="open" @click.outside="open = false" x-transition
-                                    class="absolute right-0 mt-1 w-40 rounded-md border border-gray-200 bg-white py-1 shadow-lg dark:border-gray-600 dark:bg-gray-700">
-                                    <a href="{{ $course['edit_url'] }}" class="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600">
-                                        <x-heroicon-m-pencil-square class="h-4 w-4" />
-                                        {{ __('Edit') }}
-                                    </a>
+                            @if ($course['edit_url'])
+                                {{-- Actions dropdown --}}
+                                <div x-data="{ open: false }" class="absolute right-2 top-2 z-10">
+                                    <button @click.prevent="open = !open" type="button" class="rounded-md p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-gray-700 dark:hover:text-gray-300">
+                                        <x-heroicon-m-ellipsis-vertical class="h-5 w-5" />
+                                    </button>
+                                    <div x-show="open" @click.outside="open = false" x-transition
+                                        class="absolute right-0 mt-1 w-40 rounded-md border border-gray-200 bg-white py-1 shadow-lg dark:border-gray-600 dark:bg-gray-700">
+                                        <a href="{{ $course['edit_url'] }}" class="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600">
+                                            <x-heroicon-m-pencil-square class="h-4 w-4" />
+                                            {{ __('Edit') }}
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
+                            @endif
 
                             {{-- Card content - links to enrollments --}}
                             <a href="{{ $course['enrollments_url'] }}" class="block p-4">

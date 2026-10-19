@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Settings\EnrollmentStatusTypes;
 
 use App\Filament\Clusters\Settings\SettingsCluster;
+use App\Filament\Concerns\RequiresClusterAccess;
 use App\Filament\Resources\Settings\EnrollmentStatusTypes\Pages\ManageEnrollmentStatusTypes;
 use App\Models\EnrollmentStatusType;
 use BackedEnum;
@@ -21,6 +22,8 @@ use Filament\Tables\Table;
 
 class EnrollmentStatusTypeResource extends Resource
 {
+    use RequiresClusterAccess;
+
     protected static ?string $model = EnrollmentStatusType::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedTag;

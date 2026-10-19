@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Settings\Fees;
 
 use App\Filament\Clusters\Settings\SettingsCluster;
+use App\Filament\Concerns\RequiresClusterAccess;
 use App\Filament\Resources\Settings\Fees\Pages\ManageFees;
 use App\Models\Fee;
 use BackedEnum;
@@ -22,6 +23,8 @@ use Filament\Tables\Table;
 
 class FeeResource extends Resource
 {
+    use RequiresClusterAccess;
+
     protected static ?string $model = Fee::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBanknotes;

@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Settings\Years;
 
 use App\Filament\Clusters\Settings\SettingsCluster;
+use App\Filament\Concerns\RequiresClusterAccess;
 use App\Filament\Resources\Settings\Years\Pages\ManageYears;
 use App\Models\Year;
 use BackedEnum;
@@ -20,6 +21,8 @@ use Filament\Tables\Table;
 
 class YearResource extends Resource
 {
+    use RequiresClusterAccess;
+
     protected static ?string $model = Year::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCalendarDays;

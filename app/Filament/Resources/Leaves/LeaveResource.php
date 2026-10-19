@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Leaves;
 
+use App\Filament\Concerns\AuthorizesWritesWithPermissions;
 use App\Filament\Resources\Leaves\Pages\CreateLeave;
 use App\Filament\Resources\Leaves\Pages\EditLeave;
 use App\Filament\Resources\Leaves\Pages\ListLeaves;
@@ -25,6 +26,12 @@ use Illuminate\Database\Eloquent\Builder;
 
 class LeaveResource extends Resource
 {
+    use AuthorizesWritesWithPermissions;
+
+    protected static string $editPermission = 'hr.manage';
+
+    protected static string $deletePermission = 'hr.manage';
+
     protected static ?string $model = Leave::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCalendarDays;

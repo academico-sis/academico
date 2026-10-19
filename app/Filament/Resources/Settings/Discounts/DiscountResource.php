@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Settings\Discounts;
 
 use App\Filament\Clusters\Settings\SettingsCluster;
+use App\Filament\Concerns\RequiresClusterAccess;
 use App\Filament\Resources\Settings\Discounts\Pages\ManageDiscounts;
 use App\Models\Discount;
 use BackedEnum;
@@ -20,6 +21,8 @@ use Filament\Tables\Table;
 
 class DiscountResource extends Resource
 {
+    use RequiresClusterAccess;
+
     protected static ?string $model = Discount::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedReceiptPercent;

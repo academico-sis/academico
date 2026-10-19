@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Settings\GradeTypes;
 
 use App\Filament\Clusters\Settings\SettingsCluster;
+use App\Filament\Concerns\RequiresClusterAccess;
 use App\Filament\Resources\Settings\GradeTypes\Pages\ManageGradeTypes;
 use App\Models\GradeType;
 use BackedEnum;
@@ -21,6 +22,8 @@ use Filament\Tables\Table;
 
 class GradeTypeResource extends Resource
 {
+    use RequiresClusterAccess;
+
     protected static ?string $model = GradeType::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedChartBar;
