@@ -19,6 +19,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - The test suite always uses the in-memory SQLite database, even when `DB_*` environment variables are set. Previously, running the tests inside the Docker container wiped the development database.
 
+### Fixed
+
+- The seeded attendance types now have a color, so each series of the attendance reports is displayed in a different color instead of the grey fallback.
+
 ### Removed
 
 - The unused `.env.docker` file.
