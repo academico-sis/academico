@@ -27,6 +27,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Security
 
+- Upgraded Filament from 5.2 to 5.10.2, which fixes several security advisories (XSS in image columns and summarizers, unauthenticated uploads on auth pages, attach/associate scope, multi-factor authentication). The custom login page now relies on Filament's authentication, so it gets the timing-safe login and no longer reveals whether the password of an account without panel access is valid.
 - Users who can view courses, events, periods, partners, external courses, enrollments, students, teachers or leaves can no longer create, edit or delete them without the matching permission (`courses.edit`, `courses.delete`, `enrollments.edit`, `enrollments.delete`, `hr.manage`). ([GHSA-w76j-4qgr-3r9f](https://github.com/academico-sis/academico/security/advisories/GHSA-w76j-4qgr-3r9f))
 - The resources of the Settings cluster are restricted to administrators: they were reachable by URL by any user with panel access, including teachers.
 - The grade and skill evaluation pages check that the enrollment belongs to the course before saving grades, results, comments or skill evaluations, and their course and read-only state can no longer be changed by the client. ([GHSA-x47v-xg6f-42xj](https://github.com/academico-sis/academico/security/advisories/GHSA-x47v-xg6f-42xj))

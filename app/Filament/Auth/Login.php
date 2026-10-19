@@ -2,12 +2,13 @@
 
 namespace App\Filament\Auth;
 
-use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
+use App\Models\User;
 use Filament\Actions\Action;
 use Filament\Auth\Http\Responses\Contracts\LoginResponse;
 use Filament\Auth\Pages\Login as BaseLogin;
 use Filament\Facades\Filament;
 use Filament\Support\Enums\Width;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\HtmlString;
@@ -16,25 +17,9 @@ class Login extends BaseLogin
 {
     public function authenticate(): ?LoginResponse
     {
-        try {
-            $this->rateLimit(5);
-        } catch (TooManyRequestsException $exception) {
-            $this->getRateLimitedNotification($exception)?->send();
+        $response = parent::authenticate();
 
-            return null;
-        }
-
-        $data = $this->form->getState();
-
-        if (! Filament::auth()->attempt($this->getCredentialsFromFormData($data), $data['remember'] ?? false)) {
-            $this->throwFailureValidationException();
-        }
-
-        $user = Filament::auth()->user();
-
-        if ($user->isStudent()) {
-            session()->regenerate();
-
+        if ($response && Filament::auth()->user()?->isStudent()) {
             return new class implements LoginResponse
             {
                 public function toResponse($request)
@@ -44,15 +29,17 @@ class Login extends BaseLogin
             };
         }
 
-        if (! $user->canAccessPanel(Filament::getCurrentPanel())) {
-            Filament::auth()->logout();
+        return $response;
+    }
 
-            $this->throwFailureValidationException();
-        }
-
-        session()->regenerate();
-
-        return app(LoginResponse::class);
+    /**
+     * Students sign in on this page too: they are redirected to their dashboard
+     * instead of the panel. The parent class keeps the timing-safe credential and
+     * panel access checks.
+     */
+    protected function isUserAllowedToAccessPanel(Authenticatable $user): bool
+    {
+        return ($user instanceof User && $user->isStudent()) || parent::isUserAllowedToAccessPanel($user);
     }
 
     public function getSubheading(): string|Htmlable|null
