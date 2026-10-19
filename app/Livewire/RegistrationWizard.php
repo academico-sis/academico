@@ -317,7 +317,15 @@ class RegistrationWizard extends Component
             default => [],
         };
 
-        $this->validate(array_filter($rules));
+        $rules = array_filter($rules);
+
+        // Livewire treats an empty array as "no rules given" and throws, looking for a $rules property.
+        // This happens on the review step when neither terms nor rules URLs are configured.
+        if ($rules === []) {
+            return;
+        }
+
+        $this->validate($rules);
     }
 
     protected function getActualStep(): string
