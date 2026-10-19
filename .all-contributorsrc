@@ -150,6 +150,24 @@
       "contributions": [
         "security"
       ]
+    },
+    {
+      "login": "tonghuaroot",
+      "name": "tonghuaroot (童话)",
+      "avatar_url": "https://avatars.githubusercontent.com/u/23011166?v=4",
+      "profile": "https://github.com/tonghuaroot",
+      "contributions": [
+        "security"
+      ]
+    },
+    {
+      "login": "M4ru-0x03",
+      "name": "Nathan Lima",
+      "avatar_url": "https://avatars.githubusercontent.com/u/153677080?v=4",
+      "profile": "https://github.com/M4ru-0x03",
+      "contributions": [
+        "security"
+      ]
     }
   ],
   "contributorsPerLine": 7,

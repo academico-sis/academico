@@ -1,6 +1,6 @@
 # About this project
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-15-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-17-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Academico is an open-source, Laravel-based school management platform. Its main features include course management, enrolments management, resources scheduling, reports and stats. It is primarily targeted at small and medium-sized institutions who need a simple and affordable solution to manage their school and courses.
@@ -41,6 +41,8 @@ Thanks goes to these wonderful people for past or current version of this applic
     </tr>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/kta1kri"><img src="https://avatars.githubusercontent.com/u/77656895?v=4?s=100" width="100px;" alt="kta1kri"/><br /><sub><b>kta1kri</b></sub></a><br /><a href="#security-kta1kri" title="Security">🛡️</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/tonghuaroot"><img src="https://avatars.githubusercontent.com/u/23011166?v=4?s=100" width="100px;" alt="tonghuaroot (童话)"/><br /><sub><b>tonghuaroot (童话)</b></sub></a><br /><a href="#security-tonghuaroot" title="Security">🛡️</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/M4ru-0x03"><img src="https://avatars.githubusercontent.com/u/153677080?v=4?s=100" width="100px;" alt="Nathan Lima"/><br /><sub><b>Nathan Lima</b></sub></a><br /><a href="#security-M4ru-0x03" title="Security">🛡️</a></td>
     </tr>
   </tbody>
 </table>
