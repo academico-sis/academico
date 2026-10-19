@@ -152,6 +152,7 @@ class ReferenceDataSeeder extends Seeder
             'id' => 1,
             'name' => ['fr' => 'PRÉSENT(E)', 'es' => 'PRESENTE', 'en' => 'PRESENT'],
             'class' => 'success',
+            'color' => '#00C851',
             'icon' => '<i class="la la-user"></i>',
         ]);
 
@@ -159,6 +160,7 @@ class ReferenceDataSeeder extends Seeder
             'id' => 2,
             'name' => ['fr' => 'PRÉSENCE PARTIELLE', 'es' => 'PRESENCIA PARCIAL', 'en' => 'PARTIAL PRESENCE'],
             'class' => 'warning',
+            'color' => '#FFBB33',
             'icon' => '<i class="la la-clock-o"></i>',
         ]);
 
@@ -166,6 +168,7 @@ class ReferenceDataSeeder extends Seeder
             'id' => 3,
             'name' => ['fr' => 'EXCUSÉ(E)', 'es' => 'JUSTIFICADO', 'en' => 'EXCUSED'],
             'class' => 'info',
+            'color' => '#33B5E5',
             'icon' => '<i class="la la-exclamation"></i>',
         ]);
 
@@ -173,6 +176,7 @@ class ReferenceDataSeeder extends Seeder
             'id' => 4,
             'name' => ['fr' => 'ABSENT(E)', 'es' => 'AUSENTE', 'en' => 'ABSENT'],
             'class' => 'danger',
+            'color' => '#ff4444',
             'icon' => '<i class="la la-user-times"></i>',
         ]);
     }
