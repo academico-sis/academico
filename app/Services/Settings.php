@@ -59,6 +59,14 @@ class Settings
         'invoicing.add_books_to_invoices',
         'invoicing.invoices_contain_enrollments_only',
         'invoicing.invoice_footer',
+        'certificates.enabled',
+        'certificates.title',
+        'certificates.body',
+        'certificates.city',
+        'certificates.signer_name',
+        'certificates.signer_function',
+        'certificates.signature',
+        'certificates.background',
     ];
 
     /**

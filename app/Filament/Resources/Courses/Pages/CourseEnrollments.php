@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Courses\Pages;
 
+use App\Filament\Actions\DownloadCourseResultsAction;
 use App\Filament\Pages\StudentAttendance;
 use App\Filament\Resources\Courses\CourseResource;
 use App\Filament\Resources\Enrollments\EnrollmentResource;
@@ -175,6 +176,8 @@ class CourseEnrollments extends Page implements HasTable
                         ->send();
                 })
                 ->visible(fn () => Gate::allows('enroll-in-course', $this->getRecord())),
+            DownloadCourseResultsAction::make()
+                ->record(fn (): Course => $this->getRecord()),
             Action::make('switch_to_roster')
                 ->label(__('Photo roster'))
                 ->icon('heroicon-o-photo')

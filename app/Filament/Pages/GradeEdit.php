@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use App\Filament\Actions\DownloadCourseResultsAction;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Grade;
@@ -71,6 +72,14 @@ class GradeEdit extends Page
         $this->isReadOnly = Gate::denies('edit-course-grades', $course);
 
         $this->loadGradeData();
+    }
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            DownloadCourseResultsAction::make()
+                ->record(fn (): ?Course => Course::find($this->courseId)),
+        ];
     }
 
     protected function loadGradeData(): void

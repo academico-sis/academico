@@ -97,7 +97,7 @@ docker compose exec app php artisan db:seed
 
 4. Open `http://localhost:8080` in your browser and log in with `academico@thomasdebay.com` / `secret`.
 
-5. Go to **Settings > General settings** to enter your institution's name, logo, language, timezone and currency, and to enable the features you need. These settings are stored in the database, not in `.env`.
+5. Go to **Settings > General settings** to enter your institution's name, logo, language, timezone and currency, and to enable the features you need, such as certificates. These settings are stored in the database, not in `.env`.
 
 ## Sample data
 

@@ -2,13 +2,19 @@
 
 namespace App\Filament\Pages;
 
+use App\Filament\Actions\DownloadCertificateAction;
+use App\Filament\Actions\DownloadCourseResultsAction;
+use App\Filament\Actions\DownloadResultAction;
+use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Event;
 use App\Models\Period;
 use App\Models\Teacher;
 use BackedEnum;
 use Carbon\Carbon;
+use Filament\Actions\Action;
 use Filament\Pages\Page;
+use Illuminate\Database\Eloquent\Model;
 
 class TeacherDashboard extends Page
 {
@@ -34,6 +40,13 @@ class TeacherDashboard extends Page
     public float $remoteVolume = 0;
 
     public float $totalVolume = 0;
+
+    /**
+     * Records of the download links, loaded once per request so that each link is checked against its own record.
+     *
+     * @var array<string, Model|null>
+     */
+    protected array $linkRecords = [];
 
     public function mount(): void
     {
@@ -102,6 +115,38 @@ class TeacherDashboard extends Page
         $this->volume = $teacher->plannedHoursInPeriod($period->start, $period->end);
         $this->remoteVolume = $teacher->plannedRemoteHoursInPeriod($period->start, $period->end);
         $this->totalVolume = $this->volume + $this->remoteVolume;
+    }
+
+    public function downloadResultAction(): Action
+    {
+        return DownloadResultAction::make()
+            ->record(fn (array $arguments): ?Model => $this->linkRecord(Enrollment::class, $arguments['enrollment'] ?? null))
+            ->link()
+            ->size('sm');
+    }
+
+    public function downloadCertificateAction(): Action
+    {
+        return DownloadCertificateAction::make()
+            ->record(fn (array $arguments): ?Model => $this->linkRecord(Enrollment::class, $arguments['enrollment'] ?? null))
+            ->link()
+            ->size('sm');
+    }
+
+    public function downloadCourseResultsAction(): Action
+    {
+        return DownloadCourseResultsAction::make()
+            ->record(fn (array $arguments): ?Model => $this->linkRecord(Course::class, $arguments['course'] ?? null))
+            ->link()
+            ->size('sm');
+    }
+
+    /**
+     * @param  class-string<Model>  $model
+     */
+    protected function linkRecord(string $model, int|string|null $id): ?Model
+    {
+        return $this->linkRecords[$model.':'.$id] ??= $model::query()->find($id);
     }
 
     protected function getTeacher(): ?Teacher

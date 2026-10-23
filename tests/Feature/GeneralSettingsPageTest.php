@@ -104,6 +104,48 @@ class GeneralSettingsPageTest extends TestCase
         $this->assertSame('es', app()->getLocale());
     }
 
+    public function test_certificate_settings_are_saved(): void
+    {
+        Livewire::test(GeneralSettings::class)
+            ->fillForm([
+                'certificates.enabled' => true,
+                'certificates.title' => 'Diploma',
+                'certificates.body' => '{student} passed {level}.',
+                'certificates.city' => 'Lyon',
+                'certificates.signer_name' => 'John Smith',
+                'certificates.signer_function' => 'Director',
+            ])
+            ->call('save')
+            ->assertHasNoFormErrors();
+
+        $this->assertTrue(config('certificates.enabled'));
+        $this->assertSame('Diploma', config('certificates.title'));
+        $this->assertSame('{student} passed {level}.', config('certificates.body'));
+        $this->assertSame('Lyon', config('certificates.city'));
+        $this->assertSame('John Smith', config('certificates.signer_name'));
+        $this->assertSame('Director', config('certificates.signer_function'));
+    }
+
+    public function test_certificate_images_are_stored_on_the_private_disk(): void
+    {
+        Storage::fake('local');
+        Storage::fake('public');
+
+        Livewire::test(GeneralSettings::class)
+            ->fillForm([
+                'certificates.signature' => UploadedFile::fake()->image('signature.png'),
+                'certificates.background' => UploadedFile::fake()->image('background.jpg'),
+            ])
+            ->call('save')
+            ->assertHasNoFormErrors();
+
+        foreach (['certificates.signature', 'certificates.background'] as $key) {
+            $this->assertNotNull(config($key));
+            Storage::disk('local')->assertExists(config($key));
+            Storage::disk('public')->assertMissing(config($key));
+        }
+    }
+
     public function test_deleted_period_does_not_block_saving(): void
     {
         app(Settings::class)->set(['first_period' => 99999]);

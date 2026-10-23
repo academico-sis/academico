@@ -4,6 +4,7 @@ namespace App\Filament\Pages\Settings;
 
 use App\Filament\Clusters\Settings\SettingsCluster;
 use App\Models\Period;
+use App\Services\CertificateService;
 use App\Services\Settings;
 use BackedEnum;
 use DateTimeZone;
@@ -96,6 +97,7 @@ class GeneralSettings extends Page
                         $this->featuresTab(),
                         $this->registrationTab(),
                         $this->invoicingTab(),
+                        $this->certificatesTab(),
                     ]),
             ])
             ->statePath('data');
@@ -342,6 +344,56 @@ class GeneralSettings extends Page
                 Textarea::make('invoicing.invoice_footer')
                     ->label(__('Invoice footer'))
                     ->rows(3),
+            ]);
+    }
+
+    private function certificatesTab(): Tab
+    {
+        return Tab::make(__('Certificates'))
+            ->icon(Heroicon::OutlinedDocumentCheck)
+            ->columns(2)
+            ->schema([
+                Toggle::make('certificates.enabled')
+                    ->label(__('Certificates'))
+                    ->helperText(__('Staff can download a certificate for enrollments that have a result.'))
+                    ->columnSpanFull(),
+                TextInput::make('certificates.title')
+                    ->label(__('Title'))
+                    ->placeholder(__('Certificate of completion'))
+                    ->maxLength(255)
+                    ->columnSpanFull(),
+                Textarea::make('certificates.body')
+                    ->label(__('Text'))
+                    ->placeholder(__('This certifies that {student} has completed the course {course}, a total of {hours} hours.'))
+                    ->helperText(__('Available placeholders: :placeholders', ['placeholders' => implode(' ', CertificateService::PLACEHOLDERS)]))
+                    ->rows(4)
+                    ->columnSpanFull(),
+                TextInput::make('certificates.city')
+                    ->label(__('Place of issue'))
+                    ->helperText(__('Printed before the date.'))
+                    ->maxLength(255)
+                    ->columnSpanFull(),
+                TextInput::make('certificates.signer_name')
+                    ->label(__('Signer name'))
+                    ->maxLength(255),
+                TextInput::make('certificates.signer_function')
+                    ->label(__('Signer position'))
+                    ->maxLength(255),
+                FileUpload::make('certificates.signature')
+                    ->label(__('Signature'))
+                    ->image()
+                    ->disk('local')
+                    ->directory('settings')
+                    ->visibility('private')
+                    ->maxSize(2048),
+                FileUpload::make('certificates.background')
+                    ->label(__('Background image'))
+                    ->helperText(__('Covers the whole page, in landscape A4 format.'))
+                    ->image()
+                    ->disk('local')
+                    ->directory('settings')
+                    ->visibility('private')
+                    ->maxSize(5120),
             ]);
     }
 

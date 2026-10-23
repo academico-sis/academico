@@ -46,6 +46,7 @@
                                         <th class="px-4 py-2">{{ __('Student') }}</th>
                                         <th class="px-4 py-2">{{ __('Course') }}</th>
                                         <th class="px-4 py-2">{{ __('Result') }}</th>
+                                        <th class="px-4 py-2"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -55,6 +56,15 @@
                                             <td class="px-4 py-2">{{ $result['courseName'] }}</td>
                                             <td class="px-4 py-2">
                                                 <x-filament::badge>{{ $result['resultName'] }}</x-filament::badge>
+                                            </td>
+                                            <td class="px-4 py-2">
+                                                <div class="flex flex-wrap gap-3">
+                                                    @foreach ([($this->downloadResultAction)(['enrollment' => $result['id']]), ($this->downloadCertificateAction)(['enrollment' => $result['id']])] as $documentAction)
+                                                        @if ($documentAction->isVisible())
+                                                            {{ $documentAction }}
+                                                        @endif
+                                                    @endforeach
+                                                </div>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -77,6 +87,12 @@
                                             <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
                                                 {{ $course['start_date'] }} — {{ $course['end_date'] }}
                                             </p>
+                                            @php($courseResultsAction = ($this->downloadCourseResultsAction)(['course' => $course['id']]))
+                                            @if ($courseResultsAction->isVisible())
+                                                <div class="mt-2">
+                                                    {{ $courseResultsAction }}
+                                                </div>
+                                            @endif
                                         </div>
                                         <div class="text-right">
                                             <span class="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800 dark:bg-blue-900 dark:text-blue-200">
