@@ -5,20 +5,36 @@ namespace App\Services;
 use App\Mail\InvoiceBulkDownload;
 use App\Models\Enrollment;
 use App\Models\Invoice;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Traits\Localizable;
 use LaravelDaily\Invoices\Classes\Buyer;
 use LaravelDaily\Invoices\Classes\InvoiceItem;
 use LaravelDaily\Invoices\Classes\Party;
 use LaravelDaily\Invoices\Invoice as LaravelDailyInvoice;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class InvoiceService
 {
-    public function download(Invoice $invoice): LaravelDailyInvoice
-    {
-        App::setLocale(config('app.locale'));
+    use Localizable;
 
+    /**
+     * The invoice as a PDF file, in the institution's language.
+     */
+    public function download(Invoice $invoice): StreamedResponse
+    {
+        $pdf = $this->withLocale(config('academico.locale'), fn (): string => $this->make($invoice)->stream()->getContent());
+
+        return response()->streamDownload(function () use ($pdf): void {
+            echo $pdf;
+        }, 'invoice-'.($invoice->invoice_reference ?? $invoice->id).'.pdf', ['Content-Type' => 'application/pdf']);
+    }
+
+    /**
+     * The invoice document, in the current language.
+     */
+    public function make(Invoice $invoice): LaravelDailyInvoice
+    {
         $customer = new Buyer([
             'name' => $invoice->client_name,
             'address' => $invoice->client_address,

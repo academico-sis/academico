@@ -13,6 +13,7 @@ use App\Models\Skills\Skill;
 use App\Models\Skills\SkillEvaluation;
 use App\Models\Skills\SkillScale;
 use App\Models\Student;
+use App\Models\Teacher;
 use App\Models\User;
 use App\Models\Year;
 use App\Services\Settings;
@@ -332,5 +333,31 @@ class SkillEvaluationPageTest extends TestCase
 
         $comments = $component->get('comments');
         $this->assertEquals('Test comment', $comments[$this->enrollment->id]);
+    }
+
+    public function test_teacher_evaluates_the_skills_of_their_own_course(): void
+    {
+        $teacher = Teacher::factory()->create();
+        $this->course->update(['teacher_id' => $teacher->id]);
+        $this->actingAs($teacher->user);
+
+        $this->get(SkillEvaluationPage::getUrl(['courseId' => $this->course->id]))->assertOk();
+
+        Livewire::withQueryParams(['courseId' => $this->course->id])->test(SkillEvaluationPage::class)
+            ->assertSet('isReadOnly', false)
+            ->call('setEvaluationFromMatrix', $this->enrollment->id, $this->skill->id, $this->scale->id);
+
+        $this->assertDatabaseHas('skill_evaluations', [
+            'enrollment_id' => $this->enrollment->id,
+            'skill_id' => $this->skill->id,
+            'skill_scale_id' => $this->scale->id,
+        ]);
+    }
+
+    public function test_teacher_cannot_open_the_skills_of_another_course(): void
+    {
+        $this->actingAs(Teacher::factory()->create()->user);
+
+        $this->get(SkillEvaluationPage::getUrl(['courseId' => $this->course->id]))->assertForbidden();
     }
 }

@@ -25,9 +25,9 @@ class MonthlyReport extends Mailable implements ShouldQueue
 
     public function __construct()
     {
-        Carbon::setLocale(config('app.locale'));
-        $this->monthName = Carbon::now()->monthName;
-        $this->year = Carbon::now()->year;
+        $now = Carbon::now()->locale(config('academico.locale'));
+        $this->monthName = $now->monthName;
+        $this->year = $now->year;
 
         $this->start = Carbon::parse('First day of this month');
         $this->end = Carbon::parse('Last day of this month');

@@ -9,6 +9,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
 use Filament\Support\Icons\Heroicon;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ViewInvoice extends ViewRecord
 {
@@ -20,14 +21,7 @@ class ViewInvoice extends ViewRecord
             Action::make('download_pdf')
                 ->label(__('Download PDF'))
                 ->icon(Heroicon::OutlinedArrowDownTray)
-                ->action(function () {
-                    $service = app(InvoiceService::class);
-                    $record = $this->getRecord();
-
-                    return response()->streamDownload(function () use ($service, $record) {
-                        echo $service->download($record)->stream()->getContent();
-                    }, 'invoice-'.($record->invoice_reference ?? $record->id).'.pdf');
-                }),
+                ->action(fn (): StreamedResponse => app(InvoiceService::class)->download($this->getRecord())),
             EditAction::make(),
             DeleteAction::make(),
         ];

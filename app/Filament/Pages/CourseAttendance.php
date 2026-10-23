@@ -13,12 +13,18 @@ use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Facades\Gate;
+use Livewire\Attributes\Locked;
 
 class CourseAttendance extends Page
 {
+    /**
+     * Teachers can open the page; the gates restrict them to their own courses.
+     */
     public static function canAccess(): bool
     {
-        return auth()->user()?->can('attendance.view') ?? false;
+        $user = auth()->user();
+
+        return $user?->can('attendance.view') || $user?->isTeacher();
     }
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-table-cells';
@@ -29,6 +35,7 @@ class CourseAttendance extends Page
 
     protected static bool $shouldRegisterNavigation = false;
 
+    #[Locked]
     public ?int $courseId = null;
 
     public string $courseName = '';
@@ -121,8 +128,9 @@ class CourseAttendance extends Page
 
     public function toggleAttendance(int $studentId, int $eventId, int $typeId): void
     {
-        $event = Event::find($eventId);
+        $event = Event::where('course_id', $this->courseId)->find($eventId);
         abort_unless($event && Gate::allows('edit-attendance', $event), 403);
+        abort_unless(Enrollment::where('course_id', $this->courseId)->where('student_id', $studentId)->exists(), 403);
 
         Attendance::updateOrCreate(
             [

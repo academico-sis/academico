@@ -87,12 +87,19 @@
                                             <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
                                                 {{ $course['start_date'] }} — {{ $course['end_date'] }}
                                             </p>
-                                            @php($courseResultsAction = ($this->downloadCourseResultsAction)(['course' => $course['id']]))
-                                            @if ($courseResultsAction->isVisible())
-                                                <div class="mt-2">
+                                            <div class="mt-2 flex flex-wrap gap-3">
+                                                <x-filament::link :href="$course['attendance_url']" size="sm">{{ __('Attendance') }}</x-filament::link>
+                                                @if ($course['grades_url'])
+                                                    <x-filament::link :href="$course['grades_url']" size="sm">{{ __('Grades') }}</x-filament::link>
+                                                @endif
+                                                @if ($course['skills_url'])
+                                                    <x-filament::link :href="$course['skills_url']" size="sm">{{ __('Skills') }}</x-filament::link>
+                                                @endif
+                                                @php($courseResultsAction = ($this->downloadCourseResultsAction)(['course' => $course['id']]))
+                                                @if ($courseResultsAction->isVisible())
                                                     {{ $courseResultsAction }}
-                                                </div>
-                                            @endif
+                                                @endif
+                                            </div>
                                         </div>
                                         <div class="text-right">
                                             <span class="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800 dark:bg-blue-900 dark:text-blue-200">
@@ -116,11 +123,11 @@
                     @else
                         <div class="space-y-2">
                             @foreach ($pendingAttendance as $event)
-                                <div class="rounded-lg border border-amber-200 bg-amber-50 p-3 dark:border-amber-800 dark:bg-amber-900/20">
+                                <a href="{{ $event['url'] }}" class="block rounded-lg border border-amber-200 bg-amber-50 p-3 hover:bg-amber-100 dark:border-amber-800 dark:bg-amber-900/20 dark:hover:bg-amber-900/40">
                                     <p class="text-sm font-medium text-amber-800 dark:text-amber-200">{{ $event['name'] }}</p>
                                     <p class="text-xs text-amber-600 dark:text-amber-400">{{ $event['course_name'] }}</p>
                                     <p class="text-xs text-amber-600 dark:text-amber-400">{{ $event['start'] }}</p>
-                                </div>
+                                </a>
                             @endforeach
                         </div>
                     @endif

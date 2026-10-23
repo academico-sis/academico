@@ -84,6 +84,9 @@ class TeacherDashboard extends Page
                 'start_date' => $course->start_date?->format('d/m/Y'),
                 'end_date' => $course->end_date?->format('d/m/Y'),
                 'room' => $course->room?->name ?? '-',
+                'attendance_url' => CourseAttendance::getUrl(['courseId' => $course->id]),
+                'grades_url' => $course->evaluationType?->gradeTypes()->exists() ? GradeEdit::getUrl(['courseId' => $course->id]) : null,
+                'skills_url' => $course->evaluationType?->skills()->exists() ? SkillEvaluationPage::getUrl(['courseId' => $course->id]) : null,
             ];
         })->toArray();
 
@@ -94,6 +97,7 @@ class TeacherDashboard extends Page
                 'name' => $event->name,
                 'course_name' => $event->course?->name ?? '-',
                 'start' => $event->start ? Carbon::parse($event->start)->format('d/m/Y H:i') : null,
+                'url' => EventAttendance::getUrl(['eventId' => $event->id]),
             ];
         })->toArray();
 
