@@ -166,7 +166,7 @@ class PeriodResource extends Resource
                     ->icon('heroicon-m-check-circle')
                     ->color('success')
                     ->requiresConfirmation()
-                    ->hidden(fn (Period $record) => (string) $record->id === (string) $currentPeriodId)
+                    ->hidden(fn (Period $record) => (string) $record->id === (string) $currentPeriodId || ! static::canEdit($record))
                     ->action(function (Period $record) {
                         app(Settings::class)->set(['current_period' => $record->id]);
 
@@ -181,7 +181,7 @@ class PeriodResource extends Resource
                     ->icon('heroicon-m-academic-cap')
                     ->color('info')
                     ->requiresConfirmation()
-                    ->hidden(fn (Period $record) => (string) $record->id === (string) $enrollmentPeriodId)
+                    ->hidden(fn (Period $record) => (string) $record->id === (string) $enrollmentPeriodId || ! static::canEdit($record))
                     ->action(function (Period $record) {
                         app(Settings::class)->set(['default_enrollment_period' => $record->id]);
 

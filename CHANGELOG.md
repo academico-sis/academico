@@ -30,6 +30,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - The `config` table (current and enrollment periods, report start periods, invoice footer) is moved into the new `settings` table by a migration.
 - Scheduled tasks that depend on a setting (monthly report, external courses report) are always registered and check the setting when they run, so changing it takes effect without restarting the scheduler.
 - **Email addresses are unique, and usernames are removed.** Users log in with their email address. The registration, student and teacher forms refuse an address that another user already has, and the "Refuse an email address that is already registered" setting is removed. Students can still be created without an email address. A migration adds a unique index on `users.email` and drops `users.username`. It stops if several users share an email address: run `php artisan academico:deduplicate-emails` to list them, then change them, or run the command again with `--fix` to keep each address on its oldest account and change the others to `name+ID@domain`. Then run the migrations again.
+- The grade and skill evaluation buttons of the enrollment page are shown to users who can edit the grades of the course (`evaluation.edit`), instead of to administrators only.
 
 ### Fixed
 
@@ -59,6 +60,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - The registration form only validated the step shown when it was submitted, and the browser could change that step, or turn off the mandatory picture and the acceptance of the terms and rules. It now validates every step on submission, and its steps and settings can no longer be changed from the browser.
 - The student dashboard and account pages were open to every logged-in user, and saving the personal information there gave teachers and staff a student record, after which they were treated as students. These pages are now restricted to students, and the forced profile update can no longer be skipped from the browser.
 - Passwords must have at least 8 characters (previously 6) at registration, in the student account and when resetting a password. Students must enter their current password to change it.
+- Users who could view enrollments could also change their price, status and course, cancel them, attach or detach scholarships, and edit or delete any comment. These actions now require `enrollments.edit`. Comments can be added by users who can edit the enrollment or the student, and changed or deleted by their author or by users with the `comments.edit` permission (administrators by default). Setting the current or enrollment period requires `courses.edit`.
 
 ### Removed
 
@@ -75,3 +77,4 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - The unused `maatwebsite/excel` and `laravel/sail` packages.
 - Unused code inherited from the Backpack version: events without listeners, traits and model methods.
 - A migration drops unused tables (`lead_types`, `remote_events`, `schedule_presets`, `titles`) and columns (`lms_id` of `courses`, `levels`, `rhythms` and `users`, `courses.sync_to_lms`, `users.api_token`, `users.preferred_course_view`, `students.lead_type_id`, `students.how_did_you_know_us`, `enrollments.invoice_id` and `invoices.company_id`).
+- The `leads.manage` and `student.edit` permissions, which nothing checked. A migration removes them; editing students still requires `enrollments.edit`.

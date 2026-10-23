@@ -24,6 +24,7 @@ use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Schemas\Schema;
 use Filament\Support\Colors\Color;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\HtmlString;
 
 class ViewEnrollment extends ViewRecord
@@ -43,6 +44,7 @@ class ViewEnrollment extends ViewRecord
             Action::make('edit_price')
                 ->label(__('Price'))
                 ->icon('heroicon-o-currency-dollar')
+                ->visible(fn (): bool => EnrollmentResource::canEdit($this->record))
                 ->fillForm(fn () => ['total_price' => $this->record->total_price])
                 ->form([
                     TextInput::make('total_price')
@@ -62,6 +64,7 @@ class ViewEnrollment extends ViewRecord
             Action::make('edit_status')
                 ->label(__('Status'))
                 ->icon('heroicon-o-arrow-path')
+                ->visible(fn (): bool => EnrollmentResource::canEdit($this->record))
                 ->fillForm(fn () => ['status_id' => $this->record->status_id])
                 ->form([
                     Select::make('status_id')
@@ -78,12 +81,14 @@ class ViewEnrollment extends ViewRecord
             Action::make('change_course')
                 ->label(__('Change course'))
                 ->icon('heroicon-o-academic-cap')
+                ->visible(fn (): bool => EnrollmentResource::canEdit($this->record))
                 ->url(EnrollmentResource::getUrl('change-course', ['record' => $this->record])),
 
             Action::make('cancel')
                 ->label(__('Cancel Enrollment'))
                 ->color('danger')
                 ->icon('heroicon-o-x-circle')
+                ->visible(fn (): bool => EnrollmentResource::canEdit($this->record))
                 ->requiresConfirmation()
                 ->modalDescription(__('This will cancel the enrollment and delete associated attendance records. This action cannot be undone.'))
                 ->action(function () {
@@ -166,13 +171,13 @@ class ViewEnrollment extends ViewRecord
                                                         ->icon('heroicon-o-pencil-square')
                                                         ->size('sm')
                                                         ->url(GradeEdit::getUrl(['courseId' => $ownerRecord->course_id]))
-                                                        ->visible(auth()->user()?->hasRole('admin') && $ownerRecord->course?->evaluationType?->gradeTypes()?->count() > 0),
+                                                        ->visible($ownerRecord->course?->evaluationType?->gradeTypes()?->count() > 0 && Gate::allows('edit-course-grades', $ownerRecord->course)),
                                                     Action::make('edit_skills')
                                                         ->label(__('Evaluate Skills'))
                                                         ->icon('heroicon-o-star')
                                                         ->size('sm')
                                                         ->url(SkillEvaluationPage::getUrl(['courseId' => $ownerRecord->course_id]))
-                                                        ->visible(auth()->user()?->hasRole('admin') && $ownerRecord->course?->evaluationType?->skills()?->count() > 0),
+                                                        ->visible($ownerRecord->course?->evaluationType?->skills()?->count() > 0 && Gate::allows('edit-course-grades', $ownerRecord->course)),
                                                     DownloadResultAction::make()
                                                         ->record($ownerRecord)
                                                         ->size('sm'),
