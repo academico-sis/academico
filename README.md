@@ -157,15 +157,33 @@ docker compose down -v       # Stop containers and delete the database and depen
 
 `docker-compose.yml` is meant for development. A production image is built from the same `Dockerfile` and published on Docker Hub as [`academicosis/academico`](https://hub.docker.com/r/academicosis/academico).
 
-## Custom Login Page
+## Serving several institutions
 
-The Docker setup supports an optional custom login page via a volume mount in `docker-compose.yml`:
+An install serves a single institution by default. To serve several, each with its own database, files and domains, set `LANDLORD_DB_DATABASE` to a separate database that holds the list of institutions (the *tenants*) and their domains. The `DB_*` user needs the right to create databases: each institution gets its own database on the same server.
 
-```yaml
-- /path/to/custom-views/login.blade.php:/app/resources/views/filament/auth/login.blade.php
+```bash
+# Create the landlord tables (and, later, run every migration after an upgrade)
+php artisan academico:migrate --force
+
+# Create an institution: its database, files folder, domain and first administrator, who receives a link to choose a password
+php artisan academico:tenant:create "Example School" school.example.org --admin-email=admin@example.org --admin-firstname=Jane --admin-lastname=Doe
+
+# Add another domain, make it the primary one (used in links and emails), or remove one
+php artisan academico:tenant:domain "Example School" www.example-school.org --primary
+php artisan academico:tenant:domain "Example School" school.example.org --remove
+
+# List the institutions
+php artisan academico:tenant:list
+
+# Run a command for one institution, or for all of them without --tenant
+php artisan tenants:artisan "academico:resync-coursetimes 12" --tenant=1
 ```
 
-The custom login class (`App\Filament\Auth\Login`) detects at runtime whether this Blade file is present. When the file exists, it renders the custom layout; otherwise, the standard Filament login page is shown.
+- Each domain must point to the server. Requests on a host name that matches no institution get a 404, unless `TENANCY_DEFAULT_TENANT` names an institution to use instead.
+- One scheduler (`php artisan schedule:run` every minute) and one queue worker serve all institutions. Scheduled tasks run for each institution at its time, in its timezone. The queue and the cache are stored in the landlord database.
+- The files of each institution are in `storage/tenants/<ID>`.
+
+A single-institution install needs none of this: its database also holds the landlord tables, and its one institution answers on any host name.
 
 # Contributing
 

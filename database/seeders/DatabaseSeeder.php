@@ -2,9 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Period;
 use App\Models\User;
-use App\Models\Year;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -14,10 +12,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call([
-            ReferenceDataSeeder::class,
-            PermissionsSeeder::class,
-        ]);
+        $this->call(InstitutionSeeder::class);
 
         $admin = User::factory()->create([
             'email' => 'academico@thomasdebay.com',
@@ -25,15 +20,5 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $admin->assignRole('admin');
-
-        $year = Year::create(['name' => now()->year]);
-
-        Period::create([
-            'name' => 'Default',
-            'year_id' => $year->id,
-            'start' => now()->subDays(rand(1, 30))->format('Y-m-d'),
-            'end' => now()->addDays(rand(10, 90))->format('Y-m-d'),
-            'order' => 1,
-        ]);
     }
 }
