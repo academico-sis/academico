@@ -130,4 +130,27 @@ class SettingsServiceTest extends TestCase
 
         $this->assertSame('£', Cache::get('currency_symbol_in_job'));
     }
+
+    public function test_reload_puts_back_the_default_of_settings_that_are_no_longer_stored(): void
+    {
+        $defaultName = config('app.name');
+        app(Settings::class)->set(['academico.currency_symbol' => '$', 'academico.company_name' => 'Acme School']);
+
+        Setting::query()->delete();
+        app(Settings::class)->reload();
+
+        $this->assertSame('€', config('academico.currency_symbol'));
+        $this->assertSame($defaultName, config('app.name'));
+        $this->assertSame($defaultName, config('mail.from.name'));
+    }
+
+    public function test_forget_puts_back_the_config_defaults(): void
+    {
+        app(Settings::class)->set(['academico.currency_symbol' => '$', 'settings.monthly_report' => true]);
+
+        app(Settings::class)->forget();
+
+        $this->assertSame('€', config('academico.currency_symbol'));
+        $this->assertFalse(config('settings.monthly_report'));
+    }
 }
