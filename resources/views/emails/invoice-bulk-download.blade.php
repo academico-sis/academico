@@ -1,3 +1,3 @@
-<h2>Téléchargement de factures</h2>
+<h2>{{ __('Invoice Bulk Download') }}</h2>
 
-Veuillez trouver ci-joint le fichier que vous avez demandé.
+{{ __('Please find attached the file you requested.') }}

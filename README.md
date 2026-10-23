@@ -6,7 +6,7 @@
 Academico is an open-source, Laravel-based school management platform. Its main features include course management, enrolments management, resources scheduling, reports and stats. It is primarily targeted at small and medium-sized institutions who need a simple and affordable solution to manage their school and courses.
 
 # New 2026 version (Filament-based)
-The first versions of this project were built with the awesome Backpack for Laravel framework. However, the application was entirely rewritten with Laravel Filament. No changes in the database structure has been made, so the Filament version should work as a drop-in replacement of the Backpack version, with similar features. I strongly recommend switching to the Filament version, which is the only supported version.
+The first versions of this project were built with the awesome Backpack for Laravel framework. However, the application was entirely rewritten with Laravel Filament, which is the only supported version. The Filament version started from the same database structure, but it now evolves independently: it is no longer a drop-in replacement for the Backpack version, and moving an existing Backpack installation to it would need a dedicated migration.
 
 # Disclaimer
 This software is provided "as-is", without any warranties. Please use with caution, and report bugs if you encounter them. Contributions are welcome to make Academico a better, more usable software.

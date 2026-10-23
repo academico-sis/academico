@@ -13,7 +13,6 @@ use App\Models\Student;
 use App\Models\User;
 use App\Models\Year;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Http;
 use Livewire\Livewire;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -180,56 +179,27 @@ class CheckoutPageTest extends TestCase
             ->assertDontSee(__('Checkout enrollment'));
     }
 
-    public function test_accounting_called_when_toggle_on(): void
+    public function test_receipt_number_field_visible_with_manual_numbering(): void
     {
-        config(['invoicing.invoicing_system' => 'ecuasolutions']);
-        config(['invoicing.ecuasolutions.url' => 'https://mock-accounting.test/api']);
-        config(['invoicing.ecuasolutions.ping_url' => 'https://mock-accounting.test/ping']);
-        config(['invoicing.ecuasolutions.key' => 'test-key']);
+        config(['invoicing.invoice_numbering' => 'manual']);
 
-        Http::fake([
-            'mock-accounting.test/*' => Http::response(['mensaje' => 'REC-001'], 200),
-        ]);
-
-        $component = Livewire::withQueryParams(['enrollment_id' => $this->enrollment->id])
-            ->test(CheckoutPage::class);
-
-        $component->set('data.products', [
-            [
-                'product_name' => $this->course->name,
-                'product_code' => 'COURSE01',
-                'product_type' => Enrollment::class,
-                'product_id' => $this->enrollment->id,
-                'price' => 100,
-                'quantity' => 1,
-                'comment' => '',
-            ],
-        ]);
-
-        $component->set('data.payments', [
-            ['payment_method' => $this->paymentMethod->code, 'value' => 100, 'date' => now()->format('Y-m-d')],
-        ]);
-
-        $component->set('data.client_name', 'Test Client');
-        $component->set('data.client_idnumber', '1234567890');
-        $component->set('data.invoice_type_id', $this->invoiceType->id);
-        $component->set('data.date', now()->format('Y-m-d'));
-        $component->set('data.send_to_accounting', true);
-
-        $component->call('submit');
-
-        Http::assertSent(fn ($request) => str_contains($request->url(), 'mock-accounting.test/api'));
-        $this->assertDatabaseHas('invoices', ['receipt_number' => 'REC-001']);
+        Livewire::withQueryParams(['enrollment_id' => $this->enrollment->id])
+            ->test(CheckoutPage::class)
+            ->assertFormFieldVisible('receipt_number');
     }
 
-    public function test_accounting_not_called_when_toggle_off(): void
+    public function test_receipt_number_field_hidden_with_automatic_numbering(): void
     {
-        config(['invoicing.invoicing_system' => 'ecuasolutions']);
-        config(['invoicing.ecuasolutions.url' => 'https://mock-accounting.test/api']);
-        config(['invoicing.ecuasolutions.ping_url' => 'https://mock-accounting.test/ping']);
-        config(['invoicing.ecuasolutions.key' => 'test-key']);
+        config(['invoicing.invoice_numbering' => 'auto']);
 
-        Http::fake();
+        Livewire::withQueryParams(['enrollment_id' => $this->enrollment->id])
+            ->test(CheckoutPage::class)
+            ->assertFormFieldHidden('receipt_number');
+    }
+
+    public function test_submit_saves_manual_receipt_number(): void
+    {
+        config(['invoicing.invoice_numbering' => 'manual']);
 
         $component = Livewire::withQueryParams(['enrollment_id' => $this->enrollment->id])
             ->test(CheckoutPage::class);
@@ -253,46 +223,10 @@ class CheckoutPageTest extends TestCase
         $component->set('data.client_name', 'Test Client');
         $component->set('data.invoice_type_id', $this->invoiceType->id);
         $component->set('data.date', now()->format('Y-m-d'));
-        $component->set('data.send_to_accounting', false);
+        $component->set('data.receipt_number', 'R-0042');
 
         $component->call('submit');
 
-        Http::assertNothingSent();
-        $this->assertDatabaseCount('invoices', 1);
-    }
-
-    public function test_accounting_not_called_when_internal_system(): void
-    {
-        config(['invoicing.invoicing_system' => 'internal']);
-
-        Http::fake();
-
-        $component = Livewire::withQueryParams(['enrollment_id' => $this->enrollment->id])
-            ->test(CheckoutPage::class);
-
-        $component->set('data.products', [
-            [
-                'product_name' => $this->course->name,
-                'product_code' => '',
-                'product_type' => Enrollment::class,
-                'product_id' => $this->enrollment->id,
-                'price' => 100,
-                'quantity' => 1,
-                'comment' => '',
-            ],
-        ]);
-
-        $component->set('data.payments', [
-            ['payment_method' => $this->paymentMethod->code, 'value' => 100, 'date' => now()->format('Y-m-d')],
-        ]);
-
-        $component->set('data.client_name', 'Test Client');
-        $component->set('data.invoice_type_id', $this->invoiceType->id);
-        $component->set('data.date', now()->format('Y-m-d'));
-
-        $component->call('submit');
-
-        Http::assertNothingSent();
-        $this->assertDatabaseCount('invoices', 1);
+        $this->assertDatabaseHas('invoices', ['client_name' => 'Test Client', 'receipt_number' => 'R-0042']);
     }
 }

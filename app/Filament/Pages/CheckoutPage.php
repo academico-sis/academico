@@ -2,7 +2,6 @@
 
 namespace App\Filament\Pages;
 
-use App\Interfaces\InvoicingInterface;
 use App\Models\Book;
 use App\Models\Comment;
 use App\Models\Discount;
@@ -18,7 +17,6 @@ use App\Models\Tax;
 use App\Traits\ReportsErrors;
 use BackedEnum;
 use Carbon\Carbon;
-use Filament\Actions\Action;
 use Filament\Actions\Action as PageAction;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Hidden;
@@ -26,7 +24,6 @@ use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Schemas\Components\Section;
@@ -50,8 +47,6 @@ class CheckoutPage extends Page
     public ?array $data = [];
 
     public ?Enrollment $enrollment = null;
-
-    public ?int $lastInvoiceId = null;
 
     public static function canAccess(): bool
     {
@@ -200,7 +195,6 @@ class CheckoutPage extends Page
             'payments' => [['payment_method' => null, 'value' => $total, 'date' => now()->format('Y-m-d')]],
             'add_book' => null,
             'add_fee' => null,
-            'send_to_accounting' => ! in_array(config('invoicing.invoicing_system'), ['internal', null], true),
         ];
     }
 
@@ -440,21 +434,13 @@ class CheckoutPage extends Page
                                         ->label(__('Date'))
                                         ->default(now())
                                         ->required(),
+                                    TextInput::make('receipt_number')
+                                        ->label(__('Receipt Number'))
+                                        ->maxLength(255)
+                                        ->visible(fn () => config('invoicing.invoice_numbering') === 'manual'),
                                     TextInput::make('invoice_comment')
                                         ->label(__('Comment'))
                                         ->maxLength(500),
-                                ]),
-
-                            // External accounting section — below payments
-                            Section::make(__('External Accounting'))
-                                ->columnSpan(8)
-                                ->visible(fn () => config('invoicing.accounting_enabled') || $this->isExternalAccountingSystem())
-                                ->schema([
-                                    TextInput::make('receipt_number')
-                                        ->label(__('Edit Receipt Number'))
-                                        ->visible(fn () => config('invoicing.invoice_numbering') === 'manual' || $this->isExternalAccountingSystem()),
-                                    Toggle::make('send_to_accounting')
-                                        ->label(__('Send invoice to external accounting system')),
                                 ]),
                         ]),
                 ])
@@ -601,11 +587,6 @@ class CheckoutPage extends Page
             .'</table>';
     }
 
-    private function isExternalAccountingSystem(): bool
-    {
-        return ! in_array(config('invoicing.invoicing_system'), ['internal', null], true);
-    }
-
     public function submit(): void
     {
         $data = $this->data;
@@ -659,7 +640,7 @@ class CheckoutPage extends Page
                     ]);
                 }
 
-                // 5. Optional comment
+                // 4. Optional comment
                 if (! empty($data['invoice_comment'])) {
                     Comment::create([
                         'body' => $data['invoice_comment'],
@@ -669,44 +650,11 @@ class CheckoutPage extends Page
                     ]);
                 }
 
-                // 6. Mark products as paid if invoice is fully paid
+                // 5. Mark products as paid if invoice is fully paid
                 $this->markPaidProductsIfFullyPaid($invoice);
 
                 return $invoice;
             });
-
-            // 4. Optional external accounting (outside transaction so it doesn't rollback the invoice)
-            if (! empty($data['send_to_accounting'])) {
-                $accountingSuccess = false;
-
-                try {
-                    $invoicingSystem = config('invoicing.invoicing_system');
-                    $serviceClass = config("invoicing.{$invoicingSystem}.class");
-                    if ($serviceClass) {
-                        $service = app($serviceClass);
-                        if ($service instanceof InvoicingInterface) {
-                            if ($service->status()) {
-                                $result = $service->saveInvoice($invoice);
-                                if ($result && $result !== 'ok') {
-                                    $invoice->update(['receipt_number' => $result]);
-                                }
-                                $accountingSuccess = $result !== null;
-                            }
-                        }
-                    }
-                } catch (\Throwable $e) {
-                    $this->reportError($e, 'CheckoutPage::submit.accounting', [
-                        'invoice_id' => $invoice->id,
-                    ]);
-                }
-
-                if (! $accountingSuccess) {
-                    $this->lastInvoiceId = $invoice->id;
-                    $this->mountAction('accountingFailed');
-
-                    return;
-                }
-            }
 
             Notification::make()
                 ->title(__('Invoice created successfully'))
@@ -728,69 +676,6 @@ class CheckoutPage extends Page
                 ->danger()
                 ->send();
         }
-    }
-
-    public function accountingFailedAction(): Action
-    {
-        return Action::make('accountingFailed')
-            ->modalHeading(__('External accounting failed'))
-            ->modalDescription(__('The invoice was created locally but could not be sent to the accounting system.'))
-            ->closeModalByClickingAway(false)
-            ->modalSubmitAction(false)
-            ->extraModalFooterActions([
-                Action::make('keepLocalInvoice')
-                    ->label(__('Keep local invoice'))
-                    ->color('success')
-                    ->action(function () {
-                        Notification::make()
-                            ->title(__('Invoice created locally'))
-                            ->success()
-                            ->send();
-
-                        $invoice = Invoice::find($this->lastInvoiceId);
-                        if ($this->enrollment) {
-                            $this->redirect(route('filament.admin.resources.enrollments.view', $this->enrollment));
-                        } else {
-                            $this->redirect(route('filament.admin.resources.invoices.view', $invoice));
-                        }
-                    }),
-                Action::make('deleteAndRetry')
-                    ->label(__('Delete and retry later'))
-                    ->color('danger')
-                    ->action(function () {
-                        $invoice = Invoice::find($this->lastInvoiceId);
-
-                        if ($invoice) {
-                            $invoice->load('invoiceDetails');
-
-                            foreach ($invoice->invoiceDetails as $detail) {
-                                $product = $detail->product;
-
-                                if ($product instanceof Enrollment) {
-                                    $product->markAsUnpaid();
-                                }
-
-                                if ($product instanceof ScheduledPayment) {
-                                    $product->update(['status' => 1]);
-                                    $product->enrollment?->markAsUnpaid();
-                                }
-                            }
-
-                            $invoice->delete();
-                        }
-
-                        Notification::make()
-                            ->title(__('Invoice deleted. You can retry when the accounting server is available.'))
-                            ->info()
-                            ->send();
-
-                        if ($this->enrollment) {
-                            $this->redirect(route('filament.admin.resources.enrollments.view', $this->enrollment));
-                        } else {
-                            $this->redirect(route('filament.admin.pages.checkout'));
-                        }
-                    }),
-            ]);
     }
 
     protected function markPaidProductsIfFullyPaid(Invoice $invoice): void
