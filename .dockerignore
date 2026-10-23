@@ -19,3 +19,11 @@ Dockerfile
 README.md
 tests
 *.md
+# Local files written at runtime (logs, sessions, caches, uploads, test disks): only the empty directories are kept
+bootstrap/cache/*
+storage/app/*
+storage/framework/*
+storage/logs/*
+storage/media-library
+!bootstrap/cache/.gitignore
+!storage/**/.gitignore
