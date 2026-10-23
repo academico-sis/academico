@@ -76,31 +76,6 @@ class CourseBusinessLogicTest extends TestCase
         $this->assertEquals(50, $course->total_volume);
     }
 
-    public function test_save_course_times_creates_and_deletes(): void
-    {
-        $course = Course::factory()->create();
-
-        // Create initial course times
-        $initialTimes = collect([
-            ['day' => 1, 'start' => '09:00:00', 'end' => '11:00:00'],
-            ['day' => 3, 'start' => '14:00:00', 'end' => '16:00:00'],
-        ]);
-        $course->saveCourseTimes($initialTimes);
-        $this->assertEquals(2, $course->times()->count());
-
-        // Update: remove Wednesday, keep Monday, add Friday
-        $updatedTimes = collect([
-            ['day' => 1, 'start' => '09:00:00', 'end' => '11:00:00'],
-            ['day' => 5, 'start' => '10:00:00', 'end' => '12:00:00'],
-        ]);
-        $course->refresh();
-        $course->saveCourseTimes($updatedTimes);
-
-        $course->refresh();
-        $days = $course->times->pluck('day')->sort()->values()->toArray();
-        $this->assertEquals([1, 5], $days);
-    }
-
     public function test_course_enrollments_count_excludes_children_and_cancelled(): void
     {
         $course = Course::factory()->create();

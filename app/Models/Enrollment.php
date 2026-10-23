@@ -52,43 +52,11 @@ class Enrollment extends Model implements InvoiceableModel
     |--------------------------------------------------------------------------
     */
 
-    /**
-     * return all pending enrollments, without the child enrollments.
-     */
-    public function scopeParent($query)
-    {
-        return $query
-            ->where('parent_id', null)
-            ->get();
-    }
-
     public function scopeReal($query)
     {
         return $query
             ->whereDoesntHave('childrenEnrollments')
             ->whereIn('status_id', ['1', '2'])
-            ->get();
-    }
-
-    public function scopeWithoutChildren($query)
-    {
-        return $query
-            ->where(function ($query) {
-                $query->whereDoesntHave('childrenEnrollments')
-                    ->where('parent_id', null);
-            })
-            ->orWhere(function ($query) {
-                $query->where('parent_id', null);
-            })
-            ->get();
-    }
-
-    /** only pending enrollments */
-    public function scopePending($query)
-    {
-        return $query
-            ->where('status_id', 1)
-            ->where('parent_id', null)
             ->get();
     }
 
@@ -294,16 +262,6 @@ class Enrollment extends Model implements InvoiceableModel
     public function getStudentBirthdateAttribute()
     {
         return $this->student->birthdate;
-    }
-
-    public function getStudentFormattedGenderAttribute()
-    {
-        return $this->student->formatted_gender;
-    }
-
-    public function getStudentEmailAttribute()
-    {
-        return $this->student['email'];
     }
 
     public function getDateAttribute()

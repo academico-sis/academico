@@ -56,11 +56,6 @@ class ScheduledPayment extends Model
         return $this->belongsTo(Enrollment::class);
     }
 
-    public function statusType(): BelongsTo
-    {
-        return $this->belongsTo(EnrollmentStatusType::class, 'status');
-    }
-
     public function invoiceDetails(): MorphMany
     {
         return $this->morphMany(InvoiceDetail::class, 'product');
@@ -78,23 +73,6 @@ class ScheduledPayment extends Model
         }
 
         return Carbon::parse($this->created_at, 'UTC')->locale(App::getLocale())->isoFormat('LL');
-    }
-
-    /** @deprecated  */
-    public function getComputedStatusAttribute()
-    {
-        // if there is a custom status, always take it
-        if ($this->status) {
-            return $this->status;
-        }
-
-        // otherwise, check if the scheduled payment has invoices
-        return $this->invoices()->count() > 0 ? 2 : 1;
-    }
-
-    public function identifiableAttribute()
-    {
-        return $this->date?->format('Y-m-d').' ('.$this->value_with_currency.')';
     }
 
     public function getStatusTypeNameAttribute()

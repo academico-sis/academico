@@ -2,10 +2,8 @@
 
 namespace App\Services;
 
-use App\Mail\InvoiceBulkDownload;
 use App\Models\Enrollment;
 use App\Models\Invoice;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Traits\Localizable;
 use LaravelDaily\Invoices\Classes\Buyer;
@@ -110,11 +108,5 @@ class InvoiceService
         $generatedInvoice->footer = config('invoicing.invoice_footer') ?? '';
 
         return $generatedInvoice;
-    }
-
-    public function sendFileByEmail(string $filename, string $email): void
-    {
-        Mail::to($email)
-            ->send(new InvoiceBulkDownload($filename));
     }
 }

@@ -95,11 +95,6 @@ class User extends Authenticatable implements FilamentUser
         return $this->firstname.' '.$this->lastname;
     }
 
-    public function getForceUpdateAttribute()
-    {
-        return $this->force_update ?? null;
-    }
-
     public function setEmailAttribute($value)
     {
         $this->attributes['email'] = strtolower($value);

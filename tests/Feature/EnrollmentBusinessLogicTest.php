@@ -109,37 +109,6 @@ class EnrollmentBusinessLogicTest extends TestCase
         $this->assertFalse($enrollment->isPaid());
     }
 
-    public function test_pending_scope_returns_parent_pending_only(): void
-    {
-        $course = Course::factory()->create();
-        $student = Student::factory()->create();
-
-        $pendingEnrollment = Enrollment::create([
-            'student_id' => $student->id,
-            'course_id' => $course->id,
-            'status_id' => 1,
-        ]);
-
-        $paidEnrollment = Enrollment::create([
-            'student_id' => Student::factory()->create()->id,
-            'course_id' => $course->id,
-            'status_id' => 2,
-        ]);
-
-        $childEnrollment = Enrollment::create([
-            'student_id' => Student::factory()->create()->id,
-            'course_id' => $course->id,
-            'status_id' => 1,
-            'parent_id' => $pendingEnrollment->id,
-        ]);
-
-        $pending = Enrollment::query()->pending();
-
-        $this->assertTrue($pending->contains('id', $pendingEnrollment->id));
-        $this->assertFalse($pending->contains('id', $paidEnrollment->id));
-        $this->assertFalse($pending->contains('id', $childEnrollment->id));
-    }
-
     public function test_noresult_scope_returns_enrollments_without_result(): void
     {
         $enrollmentWithoutResult = Enrollment::factory()->create();

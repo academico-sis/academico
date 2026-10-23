@@ -87,9 +87,4 @@ class Payment extends Model
     {
         return Carbon::parse($this->date)->locale(App::getLocale())->isoFormat('MMMM Y');
     }
-
-    public function identifiableAttribute()
-    {
-        return $this->id;
-    }
 }
