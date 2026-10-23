@@ -35,7 +35,6 @@ class Settings
         'settings.reports_email',
         'settings.secretary_email',
         'settings.courses_timezone',
-        'settings.partnership_alerts',
         'settings.external_courses_enabled',
         'settings.external_courses_report',
         'settings.monthly_report',

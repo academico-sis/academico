@@ -9,7 +9,6 @@ return [
     'reports_email' => null,
     'secretary_email' => null,
     'courses_timezone' => 'UTC',
-    'partnership_alerts' => false,
     'external_courses_enabled' => false,
     'external_courses_report' => false,
     'monthly_report' => false,

@@ -16,8 +16,6 @@ class PartnerFactory extends Factory
     {
         return [
             'name' => fake()->company(),
-            'started_on' => fake()->date(),
-            'expired_on' => fake()->optional()->date(),
         ];
     }
 }

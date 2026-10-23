@@ -65,3 +65,4 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - The school-specific certificate templates (`CERTIFICATES_STYLE`, `CERTIFICATES_SIG_*`). They were not reachable from the interface.
 - The hook for a custom login view.
 - The unused `books_module`, `admin_email`, `allowed_blank_fields`, `app_url`, `sentry_laravel_dsn` and `languages` keys of `config/academico.php`, with the `BOOKS_MODULE_ENABLED`, `ADMIN_EMAIL` and `ALLOWED_EMPTY_INVOICE_FIELDS` variables.
+- Partnership contracts: their start and end dates, tacit renewal, the expiry alerts and their setting, and the Partnerships report. Partners remain as the institutions of external courses, with the day their monthly report is sent. A migration drops the `started_on`, `expired_on`, `auto_renewal` and `last_alert_sent_at` columns of the `partners` table.
