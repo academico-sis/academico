@@ -19,7 +19,7 @@ class CreateTeacher extends CreateRecord
             'firstname' => $data['firstname'],
             'lastname' => $data['lastname'],
             'email' => $data['email'],
-            'username' => Str::slug($data['firstname'].'.'.$data['lastname']),
+            'username' => User::generateUniqueUsername($data['firstname'], $data['lastname']),
             'password' => bcrypt(Str::random(16)),
         ]);
 

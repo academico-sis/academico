@@ -374,6 +374,12 @@ class Course extends Model
         return $this->enrollments()->count();
     }
 
+    /** Enrollments of any status, in the course or in its submodules, prevent deleting it */
+    public function hasEnrollments(): bool
+    {
+        return Enrollment::whereIn('course_id', $this->children()->pluck('id')->push($this->id))->exists();
+    }
+
     public function getAcceptsNewStudentsAttribute(): bool
     {
         if (! $this->spots || $this->spots == 0) {

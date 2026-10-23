@@ -155,6 +155,29 @@ class StatServiceTest extends TestCase
         $this->assertEquals(80, $stats->soldHoursCount());
     }
 
+    public function test_hours_count_courses_without_remote_volume(): void
+    {
+        $course = Course::factory()->create([
+            'period_id' => $this->period->id,
+            'partner_id' => null,
+            'volume' => 40,
+            'remote_volume' => null,
+        ]);
+        Course::factory()->create([
+            'period_id' => $this->period->id,
+            'partner_id' => null,
+            'volume' => null,
+            'remote_volume' => 10,
+        ]);
+
+        Enrollment::create(['student_id' => Student::factory()->create()->id, 'course_id' => $course->id, 'status_id' => 1]);
+
+        $stats = new StatService(external: false, reference: $this->period);
+
+        $this->assertEquals(50, $stats->taughtHoursCount());
+        $this->assertEquals(40, $stats->soldHoursCount());
+    }
+
     public function test_paid_and_pending_enrollment_counts(): void
     {
         $course = Course::factory()->create(['period_id' => $this->period->id, 'partner_id' => null]);

@@ -12,6 +12,21 @@ class UserModelTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function test_generate_unique_username_adds_suffix_for_homonyms(): void
+    {
+        $this->assertEquals('janedoe', User::generateUniqueUsername('Jane', 'Doe'));
+
+        User::factory()->create(['username' => 'janedoe']);
+        User::factory()->create(['username' => 'janedoe2'])->delete();
+
+        $this->assertEquals('janedoe3', User::generateUniqueUsername('Jane', 'Doe'));
+    }
+
+    public function test_generate_unique_username_falls_back_when_name_has_no_slug(): void
+    {
+        $this->assertEquals('user', User::generateUniqueUsername('', ''));
+    }
+
     public function test_is_teacher_returns_true_when_teacher_exists(): void
     {
         $teacher = Teacher::factory()->create();

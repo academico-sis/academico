@@ -4,7 +4,6 @@ namespace App\Filament\Resources\Students\Pages;
 
 use App\Filament\Resources\Students\StudentResource;
 use App\Models\Course;
-use App\Models\Enrollment;
 use App\Models\Period;
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
@@ -25,6 +24,9 @@ class EnrollStudent extends Page implements HasTable
     protected static string $resource = StudentResource::class;
 
     protected string $view = 'filament.resources.students.pages.enroll-student';
+
+    /** @var array<int, ?string> refusal reasons by course ID, computed once per request */
+    protected array $enrollmentRefusalReasons = [];
 
     public static function canAccess(array $parameters = []): bool
     {
@@ -110,15 +112,22 @@ class EnrollStudent extends Page implements HasTable
                 Action::make('enroll')
                     ->label(__('Enroll'))
                     ->icon('heroicon-o-plus-circle')
+                    ->disabled(fn (Course $record): bool => filled($this->getEnrollmentRefusalReason($record)))
+                    ->tooltip(fn (Course $record): ?string => $this->getEnrollmentRefusalReason($record))
                     ->requiresConfirmation()
                     ->action(function (Course $record) {
-                        Enrollment::create([
-                            'student_id' => $this->getRecord()->id,
-                            'course_id' => $record->id,
-                            'responsible_id' => auth()->id(),
-                            'status_id' => 1,
-                            'total_price' => $record->price,
-                        ]);
+                        $refusalReason = $this->getEnrollmentRefusalReason($record);
+
+                        if ($refusalReason) {
+                            Notification::make()
+                                ->title($refusalReason)
+                                ->danger()
+                                ->send();
+
+                            return;
+                        }
+
+                        $this->getRecord()->enroll($record);
 
                         Notification::make()
                             ->title(__('Student enrolled successfully'))
@@ -128,6 +137,15 @@ class EnrollStudent extends Page implements HasTable
                         $this->redirect(StudentResource::getUrl('edit', ['record' => $this->getRecord()]));
                     }),
             ]);
+    }
+
+    protected function getEnrollmentRefusalReason(Course $course): ?string
+    {
+        if (! array_key_exists($course->id, $this->enrollmentRefusalReasons)) {
+            $this->enrollmentRefusalReasons[$course->id] = $this->getRecord()->getEnrollmentRefusalReason($course);
+        }
+
+        return $this->enrollmentRefusalReasons[$course->id];
     }
 
     public function getTitle(): string

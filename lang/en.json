@@ -794,5 +794,8 @@
     "Select a book": "Select a book",
     "Select a fee": "Select a fee",
     "Total received": "Total received",
-    "Unit Price": "Unit Price"
+    "Unit Price": "Unit Price",
+    "This course is full.": "This course is full.",
+    "The student is already enrolled in this course.": "The student is already enrolled in this course.",
+    "This course cannot be deleted because it has enrollments.": "This course cannot be deleted because it has enrollments."
 }

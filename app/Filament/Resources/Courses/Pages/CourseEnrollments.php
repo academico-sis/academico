@@ -7,8 +7,8 @@ use App\Filament\Resources\Courses\CourseResource;
 use App\Filament\Resources\Enrollments\EnrollmentResource;
 use App\Filament\Resources\Students\StudentResource;
 use App\Models\Course;
-use App\Models\Enrollment;
 use App\Models\Student;
+use Closure;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Select;
 use Filament\Notifications\Notification;
@@ -141,6 +141,8 @@ class CourseEnrollments extends Page implements HasTable
             Action::make('enroll_student')
                 ->label(__('Enroll a student'))
                 ->icon('heroicon-o-plus-circle')
+                ->disabled(fn (): bool => ! $this->getRecord()->accepts_new_students)
+                ->tooltip(fn (): ?string => $this->getRecord()->accepts_new_students ? null : __('This course is full.'))
                 ->form([
                     Select::make('student_id')
                         ->label(__('Student'))
@@ -153,17 +155,19 @@ class CourseEnrollments extends Page implements HasTable
                             ->get()
                             ->pluck('name', 'id'))
                         ->getOptionLabelUsing(fn ($value) => Student::find($value)?->name)
-                        ->required(),
+                        ->required()
+                        ->rules([
+                            fn (): Closure => function (string $attribute, mixed $value, Closure $fail): void {
+                                $refusalReason = Student::find($value)?->getEnrollmentRefusalReason($this->getRecord());
+
+                                if ($refusalReason) {
+                                    $fail($refusalReason);
+                                }
+                            },
+                        ]),
                 ])
                 ->action(function (array $data) {
-                    $course = $this->getRecord();
-
-                    Enrollment::create([
-                        'student_id' => $data['student_id'],
-                        'course_id' => $course->id,
-                        'status_id' => 1,
-                        'total_price' => $course->price,
-                    ]);
+                    Student::findOrFail($data['student_id'])->enroll($this->getRecord());
 
                     Notification::make()
                         ->title(__('Student enrolled successfully'))

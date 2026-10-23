@@ -14,7 +14,7 @@ class RegistrationWizardTest extends TestCase
 {
     use RefreshDatabase;
 
-    private function fillWizard(): Testable
+    private function fillWizard(string $birthdate = '2000-01-01'): Testable
     {
         return Livewire::test(RegistrationWizard::class)
             ->set('firstname', 'Jane')
@@ -25,7 +25,7 @@ class RegistrationWizardTest extends TestCase
             ->set('gender', 2)
             ->set('idnumber', '123456')
             ->call('nextStep')
-            ->set('birthdate', '2000-01-01')
+            ->set('birthdate', $birthdate)
             ->set('address', '1 Main Street')
             ->set('phonenumbers', ['0123456789'])
             ->call('nextStep')
@@ -57,5 +57,12 @@ class RegistrationWizardTest extends TestCase
             ->assertSet('registered', false);
 
         $this->assertFalse(User::where('email', 'jane@example.com')->exists());
+    }
+
+    public function test_birthdate_cannot_be_in_the_future(): void
+    {
+        $this->fillWizard(birthdate: today()->addDay()->toDateString())
+            ->assertHasErrors(['birthdate' => 'before_or_equal'])
+            ->assertSet('currentStep', 2);
     }
 }

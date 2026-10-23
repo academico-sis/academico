@@ -98,7 +98,7 @@
                 <div class="space-y-4">
                     <div>
                         <label class="mb-1 block text-sm font-medium text-gray-700">{{ __('Date of birth') }} *</label>
-                        <input type="date" wire:model="birthdate" class="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                        <input type="date" wire:model="birthdate" max="{{ today()->toDateString() }}" class="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
                         @error('birthdate') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                     </div>
 

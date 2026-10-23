@@ -160,6 +160,7 @@ class StudentResource extends Resource
                                     ->nullable(),
                                 DatePicker::make('birthdate')
                                     ->label(__('Birthdate'))
+                                    ->maxDate(today())
                                     ->nullable(),
                                 Radio::make('gender_id')
                                     ->label(__('Gender'))

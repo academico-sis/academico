@@ -43,6 +43,23 @@ class User extends Authenticatable implements FilamentUser
         return LogOptions::defaults()->logUnguarded();
     }
 
+    /**
+     * Build a username from the person's name, with a numeric suffix for homonyms.
+     * Usernames are unique, including those of soft-deleted users.
+     */
+    public static function generateUniqueUsername(string $firstname, string $lastname): string
+    {
+        $base = Str::slug($firstname.'.'.$lastname) ?: 'user';
+        $username = $base;
+        $suffix = 2;
+
+        while (static::withTrashed()->where('username', $username)->exists()) {
+            $username = $base.$suffix++;
+        }
+
+        return $username;
+    }
+
     public function isTeacher()
     {
         return Teacher::whereId($this->id)->count() > 0;
