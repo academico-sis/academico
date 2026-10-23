@@ -85,26 +85,25 @@ class CourseFeatureTest extends TestCase
         $this->assertEquals(2, $course->fresh()->course_enrollments_count);
     }
 
-    public function test_course_events_are_recreated_when_dates_change(): void
+    public function test_sessions_added_by_hand_are_kept_when_dates_change(): void
     {
         $course = Course::factory()->create([
             'start_date' => now()->subDays(5)->format('Y-m-d'),
             'end_date' => now()->addDays(5)->format('Y-m-d'),
         ]);
 
-        $oldEvent = Event::factory()->create([
+        // not generated from a time slot of the course
+        $sessionAddedByHand = Event::factory()->create([
             'course_id' => $course->id,
             'start' => now()->toDateTimeString(),
             'end' => now()->addHour()->toDateTimeString(),
         ]);
 
-        // Change dates to trigger UpdateCourseEvents listener
         $course->start_date = now()->subDays(2)->format('Y-m-d');
         $course->end_date = now()->addDays(2)->format('Y-m-d');
         $course->save();
 
-        // Old events should be deleted
-        $this->assertDatabaseMissing('events', ['id' => $oldEvent->id]);
+        $this->assertModelExists($sessionAddedByHand);
     }
 
     public function test_real_enrollments_excludes_child_enrollments(): void

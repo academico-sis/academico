@@ -72,6 +72,11 @@ class Teacher extends Model
         return $this->hasMany(Leave::class)->with('leaveType');
     }
 
+    public function isOnLeave(mixed $date): bool
+    {
+        return $date !== null && $this->leaves()->whereDate('date', Carbon::parse($date)->toDateString())->exists();
+    }
+
     public function getUpcomingLeavesAttribute()
     {
         $dates = $this->leaves->where('date', '>=', Carbon::now()->format('Y-m-d'))->sortBy('date')->values()->all();

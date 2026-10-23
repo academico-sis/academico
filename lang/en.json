@@ -797,5 +797,9 @@
     "Unit Price": "Unit Price",
     "This course is full.": "This course is full.",
     "The student is already enrolled in this course.": "The student is already enrolled in this course.",
-    "This course cannot be deleted because it has enrollments.": "This course cannot be deleted because it has enrollments."
+    "This course cannot be deleted because it has enrollments.": "This course cannot be deleted because it has enrollments.",
+    "Apply changes to the sessions from": "Apply changes to the sessions from",
+    "Earlier sessions keep their date, time, teacher and room. Choose an earlier date to correct past sessions. Sessions with recorded attendance are never deleted.": "Earlier sessions keep their date, time, teacher and room. Choose an earlier date to correct past sessions. Sessions with recorded attendance are never deleted.",
+    ":count session is outside the course dates|:count sessions are outside the course dates": ":count session is outside the course dates|:count sessions are outside the course dates",
+    "They were kept because they have recorded attendance or are before the date from which the changes apply. Delete them from the events list if they did not take place.": "They were kept because they have recorded attendance or are before the date from which the changes apply. Delete them from the events list if they did not take place."
 }

@@ -797,5 +797,9 @@
     "Unit Price": "Precio unitario",
     "This course is full.": "Este curso está completo.",
     "The student is already enrolled in this course.": "El estudiante ya está inscrito en este curso.",
-    "This course cannot be deleted because it has enrollments.": "Este curso no se puede eliminar porque tiene inscripciones."
+    "This course cannot be deleted because it has enrollments.": "Este curso no se puede eliminar porque tiene inscripciones.",
+    "Apply changes to the sessions from": "Aplicar los cambios a las sesiones a partir del",
+    "Earlier sessions keep their date, time, teacher and room. Choose an earlier date to correct past sessions. Sessions with recorded attendance are never deleted.": "Las sesiones anteriores conservan su fecha, horario, profesor y sala. Elija una fecha anterior para corregir sesiones pasadas. Las sesiones con asistencia registrada nunca se eliminan.",
+    ":count session is outside the course dates|:count sessions are outside the course dates": ":count sesión está fuera de las fechas del curso|:count sesiones están fuera de las fechas del curso",
+    "They were kept because they have recorded attendance or are before the date from which the changes apply. Delete them from the events list if they did not take place.": "Se conservaron porque tienen asistencia registrada o son anteriores a la fecha a partir de la cual se aplican los cambios. Elimínelas de la lista de clases si no tuvieron lugar."
 }
