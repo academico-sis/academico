@@ -29,6 +29,7 @@ use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class InvoiceResource extends Resource
 {
@@ -226,13 +227,7 @@ class InvoiceResource extends Resource
                 Action::make('download_pdf')
                     ->label(__('PDF'))
                     ->icon(Heroicon::OutlinedArrowDownTray)
-                    ->action(function (Invoice $record) {
-                        $service = app(InvoiceService::class);
-
-                        return response()->streamDownload(function () use ($service, $record) {
-                            echo $service->download($record)->stream()->getContent();
-                        }, 'invoice-'.($record->invoice_reference ?? $record->id).'.pdf');
-                    }),
+                    ->action(fn (Invoice $record): StreamedResponse => app(InvoiceService::class)->download($record)),
                 ActionGroup::make([
                     EditAction::make(),
                     DeleteAction::make(),

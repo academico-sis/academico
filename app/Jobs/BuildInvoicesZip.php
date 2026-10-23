@@ -50,7 +50,7 @@ class BuildInvoicesZip implements ShouldBeUnique, ShouldQueue
             foreach ($this->entries as $key => $id) {
                 if ($entry = Invoice::find($id)) {
                     $invoiceService
-                        ->download(invoice: $entry)
+                        ->make(invoice: $entry)
                         ->filename($folder.DIRECTORY_SEPARATOR.$entry->invoice_number)
                         ->save();
                 }

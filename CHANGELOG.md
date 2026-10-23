@@ -46,6 +46,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - The sample data (`TestSeeder`) created class sessions that did not match the course schedules.
 - Invoices printed hard-coded Spanish labels for the course and the customer details, and the bulk invoice download email was only in French. Both are now translated.
 - Teachers could not open the attendance pages of their own classes and courses, nor the skill evaluation page of their own courses, and nothing linked to these pages. The teacher dashboard now links each pending class to its attendance page, and each course to its attendance, grades and skills pages. Attendance can only be recorded for students enrolled in the course.
+- Invoices were printed in the language of the user who downloaded them. They are now printed in the institution language, like certificates. The month of the monthly report is also named in the institution language.
 
 ### Security
 
