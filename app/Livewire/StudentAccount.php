@@ -97,7 +97,7 @@ class StudentAccount extends Component
             $this->institution = $student->institution?->name ?? '';
 
             // Photo
-            $this->currentPhotoUrl = $student->getFirstMediaUrl('profile-picture', 'thumb') ?: null;
+            $this->currentPhotoUrl = $student->image;
 
             // Contacts
             $this->contacts = $student->contacts->map(function ($c) {
@@ -263,7 +263,7 @@ class StudentAccount extends Component
                     ->usingFileName('profilePicture.jpg')
                     ->toMediaCollection('profile-picture');
 
-                $this->currentPhotoUrl = $student->getFirstMediaUrl('profile-picture', 'thumb');
+                $this->currentPhotoUrl = $student->refresh()->image;
                 $this->photo = null;
 
                 Log::info('User updated their profile picture');

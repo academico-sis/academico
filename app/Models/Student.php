@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use OverflowException;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
@@ -59,6 +60,14 @@ class Student extends Model implements HasMedia
     public function scopeNewInPeriod(Builder $query, int $periodId)
     {
         return $query->whereIn('id', Period::find($periodId)->newStudents()->pluck(['student_id'])->toArray());
+    }
+
+    /**
+     * Photos of students, who are often minors, are kept on the private disk and shown through temporary signed URLs.
+     */
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('profile-picture')->useDisk('local');
     }
 
     public function registerMediaConversions(?Media $media = null): void
@@ -245,9 +254,22 @@ class Student extends Model implements HasMedia
         return false;
     }
 
+    /**
+     * URL of the profile picture. It expires after 30 minutes, unless the photo is still on a public disk.
+     */
     public function getImageAttribute(): ?string
     {
-        return $this->getMedia('profile-picture')->last()?->getUrl('thumb');
+        $media = $this->getMedia('profile-picture')->last();
+
+        if (! $media) {
+            return null;
+        }
+
+        $conversion = $media->hasGeneratedConversion('thumb') ? 'thumb' : '';
+
+        return Storage::disk($media->disk)->providesTemporaryUrls()
+            ? $media->getTemporaryUrl(now()->addMinutes(30), $conversion)
+            : $media->getUrl($conversion);
     }
 
     public function getFormattedGenderAttribute(): string
