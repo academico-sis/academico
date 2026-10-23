@@ -38,7 +38,9 @@ return new class extends Migration
         $tables = config('permission.table_names');
 
         foreach ($this->permissions as $permission) {
-            DB::table($tables['permissions'])->insertOrIgnore(['name' => $permission, 'guard_name' => 'web', 'created_at' => now(), 'updated_at' => now()]);
+            if (! DB::table($tables['permissions'])->where('name', $permission)->exists()) {
+                DB::table($tables['permissions'])->insert(['name' => $permission, 'guard_name' => 'web', 'created_at' => now(), 'updated_at' => now()]);
+            }
         }
 
         app(PermissionRegistrar::class)->forgetCachedPermissions();
