@@ -29,7 +29,6 @@ use App\Models\Student;
 use App\Models\Teacher;
 use App\Models\User;
 use App\Models\Year;
-use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -272,6 +271,14 @@ class TestSeeder extends Seeder
             'end_date' => $pastPeriod->end,
         ]);
 
+        // its sessions are created from its weekly schedule
+        CourseTime::factory()->create([
+            'course_id' => $pastCourse->id,
+            'day' => 2,
+            'start' => '10:00:00',
+            'end' => '12:00:00',
+        ]);
+
         // Enroll students in current courses (4-8 students per course)
         $allEnrollments = collect();
         $studentIndex = 0;
@@ -313,52 +320,6 @@ class TestSeeder extends Seeder
             $enrollment->scholarships()->attach($scholarship->id);
         });
 
-        // Create events for each current course (8-12 class sessions)
-        $allEvents = collect();
-        foreach ($courses as $course) {
-            $eventCount = fake()->numberBetween(8, 12);
-            $courseStart = Carbon::parse($course->start_date);
-
-            for ($e = 0; $e < $eventCount; $e++) {
-                $eventDate = $courseStart->copy()->addDays($e * 3);
-                if ($eventDate->isWeekend()) {
-                    $eventDate->addDays(2);
-                }
-
-                $startHour = fake()->randomElement([8, 10, 14, 16, 18]);
-                $start = $eventDate->copy()->setHour($startHour)->setMinute(0);
-                $end = $start->copy()->addHours(2);
-
-                $event = Event::factory()->create([
-                    'course_id' => $course->id,
-                    'teacher_id' => $course->teacher_id,
-                    'room_id' => $course->room_id,
-                    'start' => $start,
-                    'end' => $end,
-                    'name' => 'Class '.($e + 1),
-                ]);
-
-                $allEvents->push($event);
-            }
-        }
-
-        // Past course events
-        $pastStart = Carbon::parse($pastCourse->start_date);
-        for ($e = 0; $e < 15; $e++) {
-            $eventDate = $pastStart->copy()->addDays($e * 4);
-            $start = $eventDate->copy()->setHour(10)->setMinute(0);
-            $end = $start->copy()->addHours(2);
-
-            Event::factory()->create([
-                'course_id' => $pastCourse->id,
-                'teacher_id' => $pastCourse->teacher_id,
-                'room_id' => $pastCourse->room_id,
-                'start' => $start,
-                'end' => $end,
-                'name' => 'Class '.($e + 1),
-            ]);
-        }
-
         // Create attendance for past events (all past events get attendance)
         $pastEvents = Event::where('course_id', $pastCourse->id)->get();
         $pastEnrollments = Enrollment::where('course_id', $pastCourse->id)->get();
@@ -375,9 +336,8 @@ class TestSeeder extends Seeder
 
         // Current events: attendance for events that are in the past
         foreach ($courses as $course) {
-            $courseEvents = $allEvents->where('course_id', $course->id);
             $courseEnrollments = $allEnrollments->where('course_id', $course->id);
-            $pastCourseEvents = $courseEvents->filter(fn ($event) => Carbon::parse($event->start)->isPast());
+            $pastCourseEvents = $course->events()->where('start', '<', now())->get();
 
             foreach ($pastCourseEvents as $event) {
                 foreach ($courseEnrollments as $enrollment) {

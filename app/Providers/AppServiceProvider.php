@@ -6,6 +6,7 @@ use App\Interfaces\CertificatesInterface;
 use App\Interfaces\EnrollmentSheetInterface;
 use App\Interfaces\InvoicingInterface;
 use App\Interfaces\MailingSystemInterface;
+use App\Services\CourseEventScheduler;
 use Filament\Tables\Enums\RecordActionsPosition;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Gate;
@@ -18,6 +19,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        // holds the moment from which course changes apply to the sessions, for the current request
+        $this->app->scoped(CourseEventScheduler::class);
+
         $this->app->bind(InvoicingInterface::class, function () {
             $driver = config('invoicing.invoicing_system');
 

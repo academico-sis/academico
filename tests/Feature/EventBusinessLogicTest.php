@@ -16,25 +16,6 @@ class EventBusinessLogicTest extends TestCase
 
     public function test_event_detaches_teacher_when_on_leave(): void
     {
-        // Register a fake for the Alert facade since prologue/alerts is not installed
-        $alertMock = new class
-        {
-            public function warning($msg)
-            {
-                return $this;
-            }
-
-            public function flash() {}
-        };
-        $this->app->instance('alert', $alertMock);
-        class_exists('Prologue\Alerts\Facades\Alert') || $this->app->bind('Prologue\Alerts\Facades\Alert', fn () => $alertMock);
-
-        // Create an alias so the facade resolves
-        if (! class_exists('Prologue\Alerts\Facades\Alert')) {
-            // We need to create the facade class at runtime
-            eval('namespace Prologue\Alerts\Facades; class Alert extends \Illuminate\Support\Facades\Facade { protected static function getFacadeAccessor() { return "alert"; } }');
-        }
-
         $teacher = Teacher::factory()->create();
         $leaveType = LeaveType::factory()->create();
 

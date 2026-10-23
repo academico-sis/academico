@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Prologue\Alerts\Facades\Alert;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 use Spatie\Activitylog\Support\LogOptions;
 
@@ -19,16 +18,10 @@ class Event extends Model
     {
         parent::boot();
 
-        // before adding an event, we check that the teacher is available
+        // a teacher on leave cannot teach: the event waits for a substitute
         static::saving(function ($event) {
-            $teacher = Teacher::find($event->teacher_id);
-            // if the teacher is on leave on the day of the event
-            if ($event->teacher_id !== null && $teacher) {
-                if ($teacher->leaves->contains('date', Carbon::parse($event->start)->toDateString())) {
-                    // detach the teacher from the event
-                    $event->teacher_id = null;
-                    Alert::warning(__('The selected teacher is not available on this date'))->flash();
-                }
+            if ($event->teacher_id !== null && Teacher::find($event->teacher_id)?->isOnLeave($event->start)) {
+                $event->teacher_id = null;
             }
         });
     }

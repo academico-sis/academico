@@ -5,7 +5,9 @@ namespace App\Filament\Resources\Events;
 use App\Filament\Concerns\AuthorizesWritesWithPermissions;
 use App\Filament\Resources\Events\Pages\ListEvents;
 use App\Models\Event;
+use App\Models\Teacher;
 use BackedEnum;
+use Closure;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
@@ -16,6 +18,7 @@ use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
@@ -80,7 +83,14 @@ class EventResource extends Resource
                     ->getOptionLabelFromRecordUsing(fn ($record) => $record->name)
                     ->preload()
                     ->searchable()
-                    ->nullable(),
+                    ->nullable()
+                    ->rules([
+                        fn (Get $get): Closure => function (string $attribute, mixed $value, Closure $fail) use ($get): void {
+                            if ($value && Teacher::find($value)?->isOnLeave($get('start'))) {
+                                $fail(__('The selected teacher is not available on this date'));
+                            }
+                        },
+                    ]),
                 Select::make('room_id')
                     ->label(__('Room'))
                     ->relationship('room', 'name')
@@ -91,6 +101,7 @@ class EventResource extends Resource
                     ->required(),
                 DateTimePicker::make('end')
                     ->label(__('End'))
+                    ->after('start')
                     ->required(),
             ]);
     }

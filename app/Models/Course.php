@@ -29,6 +29,8 @@ class Course extends Model
     protected $casts = [
         'start_date' => 'datetime',
         'end_date' => 'datetime',
+        'exempt_attendance' => 'boolean',
+        'marked' => 'boolean',
     ];
 
     public $timestamps = true;
@@ -391,7 +393,7 @@ class Course extends Model
 
     public function getTakesAttendanceAttribute(): bool
     {
-        return $this->events_count > 0 && $this->exempt_attendance !== 1 && $this->course_enrollments_count > 0;
+        return $this->events_count > 0 && ! $this->exempt_attendance && $this->course_enrollments_count > 0;
     }
 
     // TODO Rename this attribute to avoid confusions.

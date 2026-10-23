@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Services\CourseEventScheduler;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -22,21 +24,21 @@ class CourseTime extends Model
     {
         parent::boot();
 
-        // when a coursetime is added, we should create corresponding events
-        static::created(function ($coursetime) {
-            $coursetime->createEvents();
-        });
+        // keep the sessions (events) of the course in line with its weekly schedule
+        static::created(fn (self $timeSlot) => app(CourseEventScheduler::class)->timeSlotCreated($timeSlot));
+        static::updated(fn (self $timeSlot) => app(CourseEventScheduler::class)->timeSlotUpdated($timeSlot));
+        static::deleting(fn (self $timeSlot) => app(CourseEventScheduler::class)->timeSlotDeleting($timeSlot));
+    }
 
-        static::updated(function ($coursetime) {
-            $coursetime->events()->delete();
-            $coursetime->createEvents();
-        });
+    /** Times are stored with seconds: '09:00' and '09:00:00' must not be considered as a change */
+    protected function start(): Attribute
+    {
+        return Attribute::make(set: fn ($value) => $value === null ? null : Carbon::parse($value)->format('H:i:s'));
+    }
 
-        // when a coursetime is deleted, we should delete all associated future events
-        static::deleted(function ($coursetime) {
-            $coursetime->events()->delete();
-            // todo delete only future events
-        });
+    protected function end(): Attribute
+    {
+        return Attribute::make(set: fn ($value) => $value === null ? null : Carbon::parse($value)->format('H:i:s'));
     }
 
     public function getActivitylogOptions(): LogOptions
@@ -47,32 +49,6 @@ class CourseTime extends Model
     public function identifiableAttribute()
     {
         return $this->day;
-    }
-
-    public function createEvents()
-    {
-        $today = Carbon::parse($this->course->start_date)->startOfDay();
-        $end = Carbon::parse($this->course->end_date)->endOfDay();
-
-        $teacher = $this->course->teacher;
-
-        // for each day in the course period span
-        while ($today <= $end) {
-            // if today is a day of class, create the event
-            if ($this->day == $today->format('w') && (! $teacher || ! $teacher->leaves->contains('date', $today->toDateString()))) {
-                Event::create([
-                    'course_id' => $this->course->id,
-                    'teacher_id' => $this->course->teacher_id,
-                    'room_id' => $this->course->room_id,
-                    'start' => $today->setTimeFromTimeString($this->start)->toDateTimeString(),
-                    'end' => $today->setTimeFromTimeString($this->end)->toDateTimeString(),
-                    'name' => $this->course->name,
-                    'course_time_id' => $this->id,
-                    'exempt_attendance' => $this->course->exempt_attendance,
-                ]);
-            }
-            $today->addDay();
-        }
     }
 
     /** events = class sessions.

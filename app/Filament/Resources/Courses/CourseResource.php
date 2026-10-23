@@ -29,7 +29,6 @@ use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\TimePicker;
-use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
@@ -238,9 +237,6 @@ class CourseResource extends Resource
 
                         Tab::make(__('Schedule'))
                             ->schema([
-                                TextEntry::make(__('Please be aware that if you modify the course dates, the existing attendance for this course will be lost!'))
-                                    ->columnSpanFull()
-                                    ->visibleOn('edit'),
                                 Select::make('period_id')
                                     ->label(__('Period'))
                                     ->relationship('period', 'name')
@@ -283,6 +279,13 @@ class CourseResource extends Resource
                                     ->reorderable(false),
                             ]),
                     ]),
+                // not saved with the course: tells which sessions the changes of dates, schedule, teacher and room apply to
+                DatePicker::make('apply_changes_from')
+                    ->label(__('Apply changes to the sessions from'))
+                    ->helperText(__('Earlier sessions keep their date, time, teacher and room. Choose an earlier date to correct past sessions. Sessions with recorded attendance are never deleted.'))
+                    ->required()
+                    ->dehydrated(false)
+                    ->visibleOn('edit'),
             ]);
     }
 

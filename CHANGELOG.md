@@ -20,6 +20,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Upgraded `spatie/laravel-activitylog` to v5. A migration moves the tracked changes of existing activities from `properties` to the new `attribute_changes` column and drops the unused `batch_uuid` column. The `ACTIVITY_LOGGER_ENABLED` variable is still honoured, `ACTIVITYLOG_ENABLED` takes precedence.
 - Upgraded `spatie/laravel-permission` to v8, `laravel/tinker` to v3, `phpunit/phpunit` to v13 and `concurrently` to v10 (requires Node.js 22).
 - The test suite always uses the in-memory SQLite database, even when `DB_*` environment variables are set. Previously, running the tests inside the Docker container wiped the development database.
+- Course changes now only apply to the class sessions from a date chosen in the course form (today by default): earlier sessions keep their date, time, teacher and room, and sessions with recorded attendance are never deleted. Sessions given to a substitute, moved to another room or renamed keep these changes. A warning lists the sessions left outside the course dates.
+- A class session on a day the teacher is on leave is now created without teacher (waiting for a substitute) instead of not being created.
+- `academico:resync-coursetimes` creates the missing sessions and deletes those outside the schedule, but no longer deletes sessions with attendance or sessions added by hand.
 
 ### Fixed
 
@@ -30,6 +33,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - A course can no longer end before it starts, and a time slot can no longer end before it begins: such courses were saved without any class.
 - Deleting a course that has enrollments failed with a server error. The delete button is now disabled with an explanation, and the bulk delete skips these courses.
 - Birthdates in the future and negative weekly hours for teachers are refused.
+- Saving a course, even without any change, deleted and re-created all its class sessions, with their attendance. Changing the course dates or weekly schedule did the same, and the re-created sessions could keep the previous dates.
+- Changing the teacher, room or name of a course rewrote every session of the course, including past sessions (whose hours moved to the new teacher) and sessions given to a substitute.
+- Assigning a teacher on leave to a class session failed with a server error. The event form now refuses it.
+- An existing leave could not be edited, and deleting or moving a leave did not give the sessions of that day back to the teacher.
+- The sample data (`TestSeeder`) created class sessions that did not match the course schedules.
 
 ### Security
 
