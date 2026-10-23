@@ -7,6 +7,7 @@ use App\Filament\Resources\Teachers\Pages\CreateTeacher;
 use App\Filament\Resources\Teachers\Pages\EditTeacher;
 use App\Filament\Resources\Teachers\Pages\ListTeachers;
 use App\Models\Teacher;
+use App\Models\User;
 use BackedEnum;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
@@ -76,7 +77,8 @@ class TeacherResource extends Resource
                     ->label(__('Email'))
                     ->email()
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->unique(User::class, 'email', ignorable: fn (?Teacher $record): ?User => $record?->user),
                 TextInput::make('max_week_hours')
                     ->label(__('Max weekly hours'))
                     ->numeric()

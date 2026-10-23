@@ -47,6 +47,22 @@ class RegistrationWizardTest extends TestCase
         $this->assertTrue(Student::whereKey($user->id)->exists());
     }
 
+    public function test_email_already_registered_is_refused(): void
+    {
+        User::factory()->create(['email' => 'jane@example.com']);
+
+        Livewire::test(RegistrationWizard::class)
+            ->set('firstname', 'Jane')
+            ->set('lastname', 'Doe')
+            ->set('email', 'jane@example.com')
+            ->set('password', 'secret123')
+            ->set('password_confirmation', 'secret123')
+            ->set('gender', 2)
+            ->call('nextStep')
+            ->assertHasErrors(['email' => 'unique'])
+            ->assertSet('currentStep', 1);
+    }
+
     public function test_terms_must_be_accepted_when_configured(): void
     {
         config(['registration.terms_url' => 'https://example.com/terms']);

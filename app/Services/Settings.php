@@ -45,7 +45,6 @@ class Settings
         'settings.members_enabled',
         'registration.picture.enabled',
         'registration.picture.mandatory',
-        'registration.ensure_email_unicity',
         'registration.terms_url',
         'registration.rules_url',
         'invoicing.accounting_enabled',

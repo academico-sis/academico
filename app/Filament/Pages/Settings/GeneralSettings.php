@@ -298,8 +298,6 @@ class GeneralSettings extends Page
                     ->label(__('Students can upload a picture')),
                 Toggle::make('registration.picture.mandatory')
                     ->label(__('The picture is mandatory')),
-                Toggle::make('registration.ensure_email_unicity')
-                    ->label(__('Refuse an email address that is already registered')),
                 TextInput::make('registration.terms_url')
                     ->label(__('Terms and conditions URL'))
                     ->url()

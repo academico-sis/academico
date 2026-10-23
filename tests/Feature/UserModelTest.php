@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Student;
 use App\Models\Teacher;
 use App\Models\User;
+use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -12,19 +13,20 @@ class UserModelTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_generate_unique_username_adds_suffix_for_homonyms(): void
+    public function test_email_is_unique_regardless_of_case(): void
     {
-        $this->assertEquals('janedoe', User::generateUniqueUsername('Jane', 'Doe'));
+        User::factory()->create(['email' => 'jane@example.com']);
 
-        User::factory()->create(['username' => 'janedoe']);
-        User::factory()->create(['username' => 'janedoe2'])->delete();
+        $this->expectException(UniqueConstraintViolationException::class);
 
-        $this->assertEquals('janedoe3', User::generateUniqueUsername('Jane', 'Doe'));
+        User::factory()->create(['email' => 'Jane@Example.com']);
     }
 
-    public function test_generate_unique_username_falls_back_when_name_has_no_slug(): void
+    public function test_users_without_email_do_not_conflict(): void
     {
-        $this->assertEquals('user', User::generateUniqueUsername('', ''));
+        $users = collect(['', '  ', null])->map(fn (?string $email): User => User::factory()->create(['email' => $email]));
+
+        $this->assertSame([null, null, null], $users->map(fn (User $user): ?string => $user->fresh()->email)->all());
     }
 
     public function test_is_teacher_returns_true_when_teacher_exists(): void
@@ -71,7 +73,7 @@ class UserModelTest extends TestCase
 
     public function test_email_mutator_lowercases(): void
     {
-        $user = User::factory()->create(['email' => 'John.Doe@Example.COM']);
+        $user = User::factory()->create(['email' => ' John.Doe@Example.COM ']);
 
         $this->assertEquals('john.doe@example.com', $user->email);
     }

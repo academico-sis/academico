@@ -10,8 +10,6 @@ return [
         'mandatory' => false,
     ],
 
-    'ensure_email_unicity' => false,
-
     'terms_url' => null,
     'rules_url' => null,
 ];

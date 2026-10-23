@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Events\StudentDeleting;
-use App\Events\StudentUpdated;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -31,7 +30,6 @@ class Student extends Model implements HasMedia
 
     protected $dispatchesEvents = [
         'deleting' => StudentDeleting::class,
-        'updated' => StudentUpdated::class,
     ];
 
     public $timestamps = true;

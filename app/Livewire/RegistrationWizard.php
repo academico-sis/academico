@@ -75,8 +75,6 @@ class RegistrationWizard extends Component
 
     public bool $pictureMandatory = false;
 
-    public bool $checkEmailUnicity = false;
-
     public ?string $termsUrl = null;
 
     public ?string $rulesUrl = null;
@@ -86,7 +84,6 @@ class RegistrationWizard extends Component
         $this->institutions = Institution::orderBy('name')->pluck('name')->toArray();
         $this->pictureAllowed = config('registration.picture.enabled', true);
         $this->pictureMandatory = config('registration.picture.mandatory', false);
-        $this->checkEmailUnicity = config('registration.ensure_email_unicity', false);
         $this->termsUrl = config('registration.terms_url');
         $this->rulesUrl = config('registration.rules_url');
 
@@ -174,15 +171,10 @@ class RegistrationWizard extends Component
         try {
             $user = DB::transaction(function () {
                 // 1. Create User
-                $username = User::where('email', $this->email)->exists()
-                    ? $this->generateUsername($this->firstname.' '.$this->lastname)
-                    : $this->email;
-
                 $user = User::create([
                     'firstname' => $this->firstname,
                     'lastname' => $this->lastname,
                     'email' => $this->email,
-                    'username' => $username,
                     'password' => Hash::make($this->password),
                 ]);
 
@@ -281,7 +273,7 @@ class RegistrationWizard extends Component
             'user_data' => [
                 'firstname' => 'required|max:255',
                 'lastname' => 'required|max:255',
-                'email' => ['required', 'email', 'max:255', $this->checkEmailUnicity ? 'unique:users,email' : ''],
+                'email' => ['required', 'email', 'max:255', 'unique:users,email'],
                 'password' => ['required', 'confirmed', Password::min(6)],
                 'gender' => 'required|in:0,1,2',
                 'idnumber' => 'required|max:12',
@@ -345,17 +337,6 @@ class RegistrationWizard extends Component
             5 => 'review',
             default => 'review',
         };
-    }
-
-    protected function generateUsername(string $fullName): string
-    {
-        $parts = array_filter(explode(' ', strtolower($fullName)));
-        $parts = array_slice($parts, -2);
-        $part1 = ! empty($parts[0]) ? substr($parts[0], 0, 3) : '';
-        $part2 = ! empty($parts[1]) ? substr($parts[1], 0, 8) : '';
-        $part3 = random_int(999, 9999);
-
-        return $part1.$part2.$part3;
     }
 
     public function render()
