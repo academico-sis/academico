@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
+use Livewire\Attributes\Locked;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -60,6 +61,7 @@ class StudentAccount extends Component
     /** @var array<int, array{id: ?int, firstname: string, lastname: string, email: string, idnumber: string, address: string, phonenumbers: array<int, array{id: ?int, phone_number: string}>}> */
     public array $contacts = [];
 
+    #[Locked]
     public ?int $forceUpdate = null;
 
     public string $message = '';
@@ -174,15 +176,11 @@ class StudentAccount extends Component
             'birthdate' => 'required|date|before_or_equal:today',
         ]);
 
-        $student = auth()->user()->student;
-        Student::updateOrCreate(
-            ['id' => auth()->id()],
-            [
-                'idnumber' => $this->idnumber,
-                'address' => $this->address,
-                'birthdate' => $this->birthdate,
-            ]
-        );
+        auth()->user()->student->update([
+            'idnumber' => $this->idnumber,
+            'address' => $this->address,
+            'birthdate' => $this->birthdate,
+        ]);
 
         $this->advanceForceUpdate(3, 4);
         $this->message = __('Your data has been saved');

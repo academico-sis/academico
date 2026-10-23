@@ -57,6 +57,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - The resources of the Settings cluster are restricted to administrators: they were reachable by URL by any user with panel access, including teachers.
 - The grade and skill evaluation pages check that the enrollment belongs to the course before saving grades, results, comments or skill evaluations, and their course and read-only state can no longer be changed by the client. ([GHSA-x47v-xg6f-42xj](https://github.com/academico-sis/academico/security/advisories/GHSA-x47v-xg6f-42xj))
 - The registration form only validated the step shown when it was submitted, and the browser could change that step, or turn off the mandatory picture and the acceptance of the terms and rules. It now validates every step on submission, and its steps and settings can no longer be changed from the browser.
+- The student dashboard and account pages were open to every logged-in user, and saving the personal information there gave teachers and staff a student record, after which they were treated as students. These pages are now restricted to students, and the forced profile update can no longer be skipped from the browser.
 
 ### Removed
 
