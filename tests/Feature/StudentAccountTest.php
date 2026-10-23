@@ -7,6 +7,7 @@ use App\Models\Student;
 use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 use Livewire\Features\SupportLockedProperties\CannotUpdateLockedPropertyException;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -117,5 +118,29 @@ class StudentAccountTest extends TestCase
         $this->expectException(CannotUpdateLockedPropertyException::class);
 
         Livewire::actingAs($student->user)->test(StudentAccount::class)->set('forceUpdate', null);
+    }
+
+    public function test_changing_the_password_requires_the_current_password(): void
+    {
+        $student = Student::factory()->create();
+
+        Livewire::actingAs($student->user)
+            ->test(StudentAccount::class)
+            ->set('current_password', 'wrong-password')
+            ->set('password', 'new-password')
+            ->set('password_confirmation', 'new-password')
+            ->call('savePassword')
+            ->assertHasErrors(['current_password' => 'current_password'])
+            ->set('current_password', 'password')
+            ->set('password', 'short')
+            ->set('password_confirmation', 'short')
+            ->call('savePassword')
+            ->assertHasErrors(['password'])
+            ->set('password', 'new-password')
+            ->set('password_confirmation', 'new-password')
+            ->call('savePassword')
+            ->assertHasNoErrors();
+
+        $this->assertTrue(Hash::check('new-password', $student->user->fresh()->password));
     }
 }

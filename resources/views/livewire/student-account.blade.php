@@ -63,6 +63,11 @@
         {{-- Password Tab --}}
         @elseif ($activeTab === 'password')
             <form wire:submit="savePassword" class="space-y-4">
+                <div>
+                    <label class="mb-1 block text-sm font-medium text-gray-700">{{ __('Current Password') }} *</label>
+                    <input type="password" wire:model="current_password" autocomplete="current-password" class="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                    @error('current_password') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="mb-1 block text-sm font-medium text-gray-700">{{ __('New Password') }} *</label>

@@ -113,4 +113,19 @@ class RegistrationWizardTest extends TestCase
             }
         }
     }
+
+    public function test_password_must_have_at_least_eight_characters(): void
+    {
+        Livewire::test(RegistrationWizard::class)
+            ->set('firstname', 'Jane')
+            ->set('lastname', 'Doe')
+            ->set('email', 'jane@example.com')
+            ->set('password', 'secret1')
+            ->set('password_confirmation', 'secret1')
+            ->set('gender', 2)
+            ->set('idnumber', '123456')
+            ->call('nextStep')
+            ->assertHasErrors(['password'])
+            ->assertSet('currentStep', 1);
+    }
 }

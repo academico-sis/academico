@@ -309,7 +309,7 @@ class RegistrationWizard extends Component
                 'firstname' => 'required|max:255',
                 'lastname' => 'required|max:255',
                 'email' => ['required', 'email', 'max:255', 'unique:users,email'],
-                'password' => ['required', 'confirmed', Password::min(6)],
+                'password' => ['required', 'confirmed', Password::defaults()],
                 'gender' => 'required|in:0,1,2',
                 'idnumber' => 'required|max:12',
             ],

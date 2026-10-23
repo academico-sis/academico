@@ -11,6 +11,7 @@ use Illuminate\Queue\Events\JobProcessing;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Validation\Rules\Password;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -33,6 +34,9 @@ class AppServiceProvider extends ServiceProvider
         $this->applySettings();
 
         $this->registerGates();
+
+        // Used by the registration, the student account and Filament's password reset
+        Password::defaults(fn (): Password => Password::min(8));
 
         Table::configureUsing(function (Table $table): Table {
             return $table->recordActionsPosition(RecordActionsPosition::BeforeCells);

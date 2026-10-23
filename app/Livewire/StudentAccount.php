@@ -11,6 +11,7 @@ use App\Traits\ReportsErrors;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\View\View;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
@@ -29,6 +30,8 @@ class StudentAccount extends Component
     public string $lastname = '';
 
     // Password (Step 2)
+    public string $current_password = '';
+
     public string $password = '';
 
     public string $password_confirmation = '';
@@ -153,13 +156,15 @@ class StudentAccount extends Component
     public function savePassword(): void
     {
         $this->validate([
-            'password' => 'required|confirmed|min:6',
+            'current_password' => ['required', 'current_password'],
+            'password' => ['required', 'confirmed', Password::defaults()],
         ]);
 
         auth()->user()->update([
             'password' => Hash::make($this->password),
         ]);
 
+        $this->current_password = '';
         $this->password = '';
         $this->password_confirmation = '';
 
