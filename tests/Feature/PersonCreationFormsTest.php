@@ -83,7 +83,7 @@ class PersonCreationFormsTest extends TestCase
     {
         app(Settings::class)->set(['current_period' => Period::factory()->create()->id]);
         $teacher = Teacher::factory()->create();
-        $student = Student::factory()->create();
+        $student = Student::factory()->create(['gender_id' => 1]);
 
         Livewire::test(EditTeacher::class, ['record' => $teacher->id])
             ->fillForm(['lastname' => 'Smith'])
