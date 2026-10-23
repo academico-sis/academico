@@ -2,10 +2,6 @@
 
 namespace App\Providers;
 
-use App\Interfaces\CertificatesInterface;
-use App\Interfaces\EnrollmentSheetInterface;
-use App\Interfaces\InvoicingInterface;
-use App\Interfaces\MailingSystemInterface;
 use App\Services\CourseEventScheduler;
 use Filament\Tables\Enums\RecordActionsPosition;
 use Filament\Tables\Table;
@@ -21,30 +17,6 @@ class AppServiceProvider extends ServiceProvider
     {
         // holds the moment from which course changes apply to the sessions, for the current request
         $this->app->scoped(CourseEventScheduler::class);
-
-        $this->app->bind(InvoicingInterface::class, function () {
-            $driver = config('invoicing.invoicing_system');
-
-            return new (config("invoicing.{$driver}.class"));
-        });
-
-        $this->app->bind(CertificatesInterface::class, function () {
-            $driver = config('certificates-generation.style');
-
-            return new (config("certificates-generation.{$driver}.class"));
-        });
-
-        $this->app->bind(EnrollmentSheetInterface::class, function () {
-            $driver = config('enrollment-sheet.style');
-
-            return new (config("enrollment-sheet.{$driver}.class"));
-        });
-
-        $this->app->bind(MailingSystemInterface::class, function () {
-            $driver = config('mailing-system.mailing_system');
-
-            return new (config("mailing-system.{$driver}.class"));
-        });
     }
 
     /**

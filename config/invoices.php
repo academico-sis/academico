@@ -89,18 +89,9 @@ return [
          * Default attributes for Seller::class
          */
         'attributes' => [
-            'name' => config('academico.company_name'),
-            'address' => config('academico.company_address'),
-            'custom_fields' => [
-                /**
-                 * Custom attributes for Seller::class
-                 *
-                 * Used to display additional info on Seller section in invoice
-                 * attribute => value
-                 */
-                'Telf' => config('academico.company_phone'),
-                'CIF' => config('academico.company_id'),
-            ],
+            'name' => null,
+            'address' => null,
+            'custom_fields' => [],
         ],
     ],
 

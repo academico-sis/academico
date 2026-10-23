@@ -29,8 +29,6 @@ class TeacherDashboard extends Page
     /** @var array<int, array<string, mixed>> */
     public array $results = [];
 
-    public bool $certificatesEnabled = false;
-
     public float $volume = 0;
 
     public float $remoteVolume = 0;
@@ -87,7 +85,6 @@ class TeacherDashboard extends Page
         })->toArray();
 
         // Results
-        $this->certificatesEnabled = (bool) config('certificates-generation.supported');
         $courseIds = $teacher->period_courses($period)->pluck('id');
         $this->results = Enrollment::with(['student', 'course', 'result.result_name'])
             ->whereIn('course_id', $courseIds)

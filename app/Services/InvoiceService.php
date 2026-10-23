@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Mail;
 use LaravelDaily\Invoices\Classes\Buyer;
 use LaravelDaily\Invoices\Classes\InvoiceItem;
+use LaravelDaily\Invoices\Classes\Party;
 use LaravelDaily\Invoices\Invoice as LaravelDailyInvoice;
 
 class InvoiceService
@@ -20,11 +21,18 @@ class InvoiceService
 
         $customer = new Buyer([
             'name' => $invoice->client_name,
-            'custom_fields' => [
-                'nif/cif' => $invoice->client_idnumber,
-                'domicilio' => $invoice->client_address,
-                'email' => $invoice->client_email,
-            ],
+            'address' => $invoice->client_address,
+            'vat' => $invoice->client_idnumber,
+            'custom_fields' => array_filter([
+                __('Email') => $invoice->client_email,
+            ]),
+        ]);
+
+        $seller = new Party([
+            'name' => config('academico.company_name'),
+            'address' => config('academico.company_address'),
+            'vat' => config('academico.company_id'),
+            'phone' => config('academico.company_phone'),
         ]);
 
         $notes = [$invoice->invoiceType->notes];
@@ -37,6 +45,7 @@ class InvoiceService
 
         $currencyFormat = config('academico.currency_position') === 'before' ? '{SYMBOL}{VALUE}' : '{VALUE}{SYMBOL}';
         $generatedInvoice = LaravelDailyInvoice::make()
+            ->seller($seller)
             ->buyer($customer)
             ->series($invoice->invoice_series)
             ->sequence($invoice->invoice_number ?? $invoice->id)
@@ -60,12 +69,12 @@ class InvoiceService
 
             if ($product->product instanceof Enrollment) {
                 if ($product->product->course->name) {
-                    $description .= 'Curso: '.$product->product->course->name;
-                    $description .= '<br>Ciclo: '.$product->product->course->period->name;
+                    $description .= __('Course').': '.$product->product->course->name;
+                    $description .= '<br>'.__('Period').': '.$product->product->course->period->name;
                 }
 
                 if ($product->product->course?->level?->name) {
-                    $description .= '<br>Nivel: '.$product->product->course->level->name;
+                    $description .= '<br>'.__('Level').': '.$product->product->course->level->name;
                 }
             }
 

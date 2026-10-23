@@ -38,6 +38,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Assigning a teacher on leave to a class session failed with a server error. The event form now refuses it.
 - An existing leave could not be edited, and deleting or moving a leave did not give the sessions of that day back to the teacher.
 - The sample data (`TestSeeder`) created class sessions that did not match the course schedules.
+- Invoices printed hard-coded Spanish labels for the course and the customer details, and the bulk invoice download email was only in French. Both are now translated.
 
 ### Security
 
@@ -50,3 +51,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - The unused `.env.docker` file.
 - The `8443` port mapping from Docker Compose (HTTPS is disabled in the development Caddyfile).
+- The Ecuasolutions accounting integration and the invoicing drivers (`INVOICING_SYSTEM`, `ECUASOLUTIONS_*`), with the "send to accounting" option of the checkout and its retry action. Receipt numbers can still be entered at checkout when invoice numbering is manual.
+- The MailerLite integration (`EXTERNAL_MAILING_ENABLED`, `MAILING_SYSTEM`, `MAILERLITE_API_KEY`, `*_MAILING_LIST_ID`) and the `mailerlite/mailerlite-api-v2-php-sdk` package.
+- The enrollment sheet (`ENROLLMENT_SHEET_STYLE`), which was only implemented for one school, and the `phpoffice/phpword` package.
+- The school-specific certificate templates (`CERTIFICATES_STYLE`, `CERTIFICATES_SIG_*`). They were not reachable from the interface.
+- The hook for a custom login view.

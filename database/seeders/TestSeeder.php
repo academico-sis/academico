@@ -115,7 +115,7 @@ class TestSeeder extends Seeder
 
         // Partner for external courses
         $partner = Partner::factory()->create([
-            'name' => 'Alliance Française',
+            'name' => 'City Business School',
             'started_on' => now()->subYear()->format('Y-m-d'),
         ]);
 
