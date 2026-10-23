@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Enrollments\RelationManagers;
 
+use App\Filament\Resources\Enrollments\EnrollmentResource;
 use Filament\Actions\AttachAction;
 use Filament\Actions\DetachAction;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -12,9 +13,12 @@ class ScholarshipsRelationManager extends RelationManager
 {
     protected static string $relationship = 'scholarships';
 
+    /**
+     * Attaching and detaching scholarships changes the enrollment.
+     */
     public function isReadOnly(): bool
     {
-        return false;
+        return ! EnrollmentResource::canEdit($this->getOwnerRecord());
     }
 
     public static function getTitle(mixed $ownerRecord, string $pageClass): string

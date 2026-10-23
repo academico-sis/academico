@@ -38,11 +38,8 @@ class PermissionsSeeder extends Seeder
         Permission::create(['name' => 'hr.view']);
         Permission::create(['name' => 'hr.manage']);
 
-        // student related permissions
-        Permission::create(['name' => 'student.edit']);
+        // edit and delete the comments of other users
         Permission::create(['name' => 'comments.edit']);
-
-        Permission::create(['name' => 'leads.manage']);
 
         // admins have all permissions
         $role = Role::create(['name' => 'admin']);
@@ -59,7 +56,6 @@ class PermissionsSeeder extends Seeder
         $role->givePermissionTo('enrollments.view');
         $role->givePermissionTo('enrollments.edit');
         $role->givePermissionTo('courses.view');
-        $role->givePermissionTo('leads.manage');
 
         // viewers can access the panel but have no resource permissions
         Role::create(['name' => 'viewer']);

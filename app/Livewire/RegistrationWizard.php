@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Validation\Rules\Password;
+use Livewire\Attributes\Locked;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -23,8 +24,10 @@ class RegistrationWizard extends Component
     use ReportsErrors;
     use WithFileUploads;
 
+    #[Locked]
     public int $currentStep = 1;
 
+    #[Locked]
     public int $totalSteps = 5;
 
     // Step 1: User data
@@ -66,17 +69,24 @@ class RegistrationWizard extends Component
 
     public bool $accept_rules = false;
 
+    #[Locked]
     public bool $registered = false;
 
     /** @var array<int, string> */
+    #[Locked]
     public array $institutions = [];
 
+    // The registration settings are locked, so that the browser cannot turn off the picture or the terms.
+    #[Locked]
     public bool $pictureAllowed = true;
 
+    #[Locked]
     public bool $pictureMandatory = false;
 
+    #[Locked]
     public ?string $termsUrl = null;
 
+    #[Locked]
     public ?string $rulesUrl = null;
 
     public function mount(): void
@@ -164,7 +174,8 @@ class RegistrationWizard extends Component
         }
         RateLimiter::hit($key, 300);
 
-        $this->validateCurrentStep();
+        // The browser decides which step is shown, so every step is validated again.
+        $this->validateSteps($this->steps());
 
         Log::info('Starting student registration process');
 
@@ -269,12 +280,36 @@ class RegistrationWizard extends Component
 
     protected function validateCurrentStep(): void
     {
-        $rules = match ($this->getActualStep()) {
+        $this->validateSteps([$this->getActualStep()]);
+    }
+
+    /**
+     * @param  list<string>  $steps
+     */
+    protected function validateSteps(array $steps): void
+    {
+        $rules = array_filter(array_merge(...array_map(fn (string $step): array => $this->rulesForStep($step), $steps)));
+
+        // Livewire treats an empty array as "no rules given" and throws, looking for a $rules property.
+        // This happens on the review step when neither terms nor rules URLs are configured.
+        if ($rules === []) {
+            return;
+        }
+
+        $this->validate($rules);
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    protected function rulesForStep(string $step): array
+    {
+        return match ($step) {
             'user_data' => [
                 'firstname' => 'required|max:255',
                 'lastname' => 'required|max:255',
                 'email' => ['required', 'email', 'max:255', 'unique:users,email'],
-                'password' => ['required', 'confirmed', Password::min(6)],
+                'password' => ['required', 'confirmed', Password::defaults()],
                 'gender' => 'required|in:0,1,2',
                 'idnumber' => 'required|max:12',
             ],
@@ -299,44 +334,27 @@ class RegistrationWizard extends Component
                 'contacts.*.phonenumbers' => 'required|array|min:1',
                 'contacts.*.phonenumbers.*' => 'required|string|max:30',
             ],
-            'review' => array_filter([
+            'review' => [
                 'accept_terms' => $this->termsUrl ? 'accepted' : null,
                 'accept_rules' => $this->rulesUrl ? 'accepted' : null,
-            ]),
+            ],
             default => [],
         };
+    }
 
-        $rules = array_filter($rules);
-
-        // Livewire treats an empty array as "no rules given" and throws, looking for a $rules property.
-        // This happens on the review step when neither terms nor rules URLs are configured.
-        if ($rules === []) {
-            return;
-        }
-
-        $this->validate($rules);
+    /**
+     * @return list<string>
+     */
+    protected function steps(): array
+    {
+        return $this->pictureAllowed
+            ? ['user_data', 'personal_info', 'picture', 'contacts', 'review']
+            : ['user_data', 'personal_info', 'contacts', 'review'];
     }
 
     protected function getActualStep(): string
     {
-        if (! $this->pictureAllowed) {
-            return match ($this->currentStep) {
-                1 => 'user_data',
-                2 => 'personal_info',
-                3 => 'contacts',
-                4 => 'review',
-                default => 'review',
-            };
-        }
-
-        return match ($this->currentStep) {
-            1 => 'user_data',
-            2 => 'personal_info',
-            3 => 'picture',
-            4 => 'contacts',
-            5 => 'review',
-            default => 'review',
-        };
+        return $this->steps()[$this->currentStep - 1] ?? 'review';
     }
 
     public function render()

@@ -14,6 +14,14 @@ class PeriodInfo extends Widget
 
     protected int|string|array $columnSpan = 'full';
 
+    /**
+     * The current periods, for users who can view courses and periods.
+     */
+    public static function canView(): bool
+    {
+        return auth()->user()?->can('courses.view') ?? false;
+    }
+
     public function getData(): array
     {
         $currentPeriod = Period::get_default_period();

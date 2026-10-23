@@ -11,7 +11,9 @@ use App\Traits\ReportsErrors;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\View\View;
+use Livewire\Attributes\Locked;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -28,6 +30,8 @@ class StudentAccount extends Component
     public string $lastname = '';
 
     // Password (Step 2)
+    public string $current_password = '';
+
     public string $password = '';
 
     public string $password_confirmation = '';
@@ -60,6 +64,7 @@ class StudentAccount extends Component
     /** @var array<int, array{id: ?int, firstname: string, lastname: string, email: string, idnumber: string, address: string, phonenumbers: array<int, array{id: ?int, phone_number: string}>}> */
     public array $contacts = [];
 
+    #[Locked]
     public ?int $forceUpdate = null;
 
     public string $message = '';
@@ -92,7 +97,7 @@ class StudentAccount extends Component
             $this->institution = $student->institution?->name ?? '';
 
             // Photo
-            $this->currentPhotoUrl = $student->getFirstMediaUrl('profile-picture', 'thumb') ?: null;
+            $this->currentPhotoUrl = $student->image;
 
             // Contacts
             $this->contacts = $student->contacts->map(function ($c) {
@@ -151,13 +156,15 @@ class StudentAccount extends Component
     public function savePassword(): void
     {
         $this->validate([
-            'password' => 'required|confirmed|min:6',
+            'current_password' => ['required', 'current_password'],
+            'password' => ['required', 'confirmed', Password::defaults()],
         ]);
 
         auth()->user()->update([
             'password' => Hash::make($this->password),
         ]);
 
+        $this->current_password = '';
         $this->password = '';
         $this->password_confirmation = '';
 
@@ -174,15 +181,11 @@ class StudentAccount extends Component
             'birthdate' => 'required|date|before_or_equal:today',
         ]);
 
-        $student = auth()->user()->student;
-        Student::updateOrCreate(
-            ['id' => auth()->id()],
-            [
-                'idnumber' => $this->idnumber,
-                'address' => $this->address,
-                'birthdate' => $this->birthdate,
-            ]
-        );
+        auth()->user()->student->update([
+            'idnumber' => $this->idnumber,
+            'address' => $this->address,
+            'birthdate' => $this->birthdate,
+        ]);
 
         $this->advanceForceUpdate(3, 4);
         $this->message = __('Your data has been saved');
@@ -260,7 +263,7 @@ class StudentAccount extends Component
                     ->usingFileName('profilePicture.jpg')
                     ->toMediaCollection('profile-picture');
 
-                $this->currentPhotoUrl = $student->getFirstMediaUrl('profile-picture', 'thumb');
+                $this->currentPhotoUrl = $student->refresh()->image;
                 $this->photo = null;
 
                 Log::info('User updated their profile picture');

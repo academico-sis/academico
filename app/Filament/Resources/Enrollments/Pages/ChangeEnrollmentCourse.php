@@ -30,6 +30,8 @@ class ChangeEnrollmentCourse extends Page implements HasTable
     public function mount(int|string $record): void
     {
         $this->record = $this->resolveRecord($record);
+
+        abort_unless(static::getResource()::canEdit($this->record), 403);
     }
 
     public function table(Table $table): Table

@@ -11,6 +11,8 @@ use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Auth\Access\Response;
+use Illuminate\Database\Eloquent\Model;
 
 class CommentsRelationManager extends RelationManager
 {
@@ -24,6 +26,36 @@ class CommentsRelationManager extends RelationManager
     public static function getTitle(mixed $ownerRecord, string $pageClass): string
     {
         return __('Comments');
+    }
+
+    /**
+     * Users who can edit the commented record, or who hold `comments.edit`, can add comments.
+     */
+    protected function getCreateAuthorizationResponse(): Response
+    {
+        return $this->canEditAnyComment() || $this->getPageClass()::getResource()::canEdit($this->getOwnerRecord())
+            ? Response::allow()
+            : Response::deny();
+    }
+
+    /**
+     * A comment can be changed by its author, or by users who hold `comments.edit`.
+     */
+    protected function getEditAuthorizationResponse(Model $record): Response
+    {
+        return $this->canEditAnyComment() || $record->author()->is(auth()->user())
+            ? Response::allow()
+            : Response::deny();
+    }
+
+    protected function getDeleteAuthorizationResponse(Model $record): Response
+    {
+        return $this->getEditAuthorizationResponse($record);
+    }
+
+    protected function canEditAnyComment(): bool
+    {
+        return auth()->user()?->can('comments.edit') ?? false;
     }
 
     public function table(Table $table): Table

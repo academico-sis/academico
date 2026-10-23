@@ -30,6 +30,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - The `config` table (current and enrollment periods, report start periods, invoice footer) is moved into the new `settings` table by a migration.
 - Scheduled tasks that depend on a setting (monthly report, external courses report) are always registered and check the setting when they run, so changing it takes effect without restarting the scheduler.
 - **Email addresses are unique, and usernames are removed.** Users log in with their email address. The registration, student and teacher forms refuse an address that another user already has, and the "Refuse an email address that is already registered" setting is removed. Students can still be created without an email address. A migration adds a unique index on `users.email` and drops `users.username`. It stops if several users share an email address: run `php artisan academico:deduplicate-emails` to list them, then change them, or run the command again with `--fix` to keep each address on its oldest account and change the others to `name+ID@domain`. Then run the migrations again.
+- The grade and skill evaluation buttons of the enrollment page are shown to users who can edit the grades of the course (`evaluation.edit`), instead of to administrators only.
 
 ### Fixed
 
@@ -48,6 +49,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Invoices printed hard-coded Spanish labels for the course and the customer details, and the bulk invoice download email was only in French. Both are now translated.
 - Teachers could not open the attendance pages of their own classes and courses, nor the skill evaluation page of their own courses, and nothing linked to these pages. The teacher dashboard now links each pending class to its attendance page, and each course to its attendance, grades and skills pages. Attendance can only be recorded for students enrolled in the course.
 - Invoices were printed in the language of the user who downloaded them. They are now printed in the institution language, like certificates. The month of the monthly report is also named in the institution language.
+- Password reset links could not be sent, because the table holding the reset tokens had been renamed back to its former name. A migration restores the `password_reset_tokens` table.
 
 ### Security
 
@@ -55,6 +57,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Users who can view courses, events, periods, partners, external courses, enrollments, students, teachers or leaves can no longer create, edit or delete them without the matching permission (`courses.edit`, `courses.delete`, `enrollments.edit`, `enrollments.delete`, `hr.manage`). ([GHSA-w76j-4qgr-3r9f](https://github.com/academico-sis/academico/security/advisories/GHSA-w76j-4qgr-3r9f))
 - The resources of the Settings cluster are restricted to administrators: they were reachable by URL by any user with panel access, including teachers.
 - The grade and skill evaluation pages check that the enrollment belongs to the course before saving grades, results, comments or skill evaluations, and their course and read-only state can no longer be changed by the client. ([GHSA-x47v-xg6f-42xj](https://github.com/academico-sis/academico/security/advisories/GHSA-x47v-xg6f-42xj))
+- The registration form only validated the step shown when it was submitted, and the browser could change that step, or turn off the mandatory picture and the acceptance of the terms and rules. It now validates every step on submission, and its steps and settings can no longer be changed from the browser.
+- The student dashboard and account pages were open to every logged-in user, and saving the personal information there gave teachers and staff a student record, after which they were treated as students. These pages are now restricted to students, and the forced profile update can no longer be skipped from the browser.
+- Passwords must have at least 8 characters (previously 6) at registration, in the student account and when resetting a password. Students must enter their current password to change it.
+- Users who could view enrollments could also change their price, status and course, cancel them, attach or detach scholarships, and edit or delete any comment. These actions now require `enrollments.edit`. Comments can be added by users who can edit the enrollment or the student, and changed or deleted by their author or by users with the `comments.edit` permission (administrators by default). Setting the current or enrollment period requires `courses.edit`.
+- The dashboard widgets were shown to every user of the panel, so teachers and viewers saw the enrollment and student figures and the classes of every teacher. The figures now require `enrollments.view`, the daily classes `calendars.view` and the period information `courses.view`.
+- **Student photos are private.** They were stored on the public disk, where anyone could download them without logging in, at addresses built from sequential numbers. Photos are now stored on the private disk and shown through links that expire after 30 minutes. After upgrading, run `php artisan academico:move-student-photos` to move the existing photos to the private disk.
+- **The `X-Forwarded-*` headers are only trusted from the proxies listed in the new `TRUSTED_PROXIES` variable.** They were trusted from any client, so anyone reaching the application directly could fake their IP address, for example to get around the registration rate limit. Behind a reverse proxy or load balancer, set `TRUSTED_PROXIES` to its addresses, or to `*` if the application cannot be reached without it, otherwise links may use HTTP instead of HTTPS.
+- Session cookies are only sent over HTTPS when `APP_URL` starts with `https://`. `SESSION_SECURE_COOKIE` still overrides this.
+- The production Docker image runs as `www-data` instead of root, and its base images are pinned to exact versions, which Dependabot now updates. Volumes mounted on `/app/storage` must be writable by `www-data` (UID 33). Local logs, sessions, caches and uploads are no longer copied into images built from a working copy.
 
 ### Removed
 
@@ -71,3 +82,4 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - The unused `maatwebsite/excel` and `laravel/sail` packages.
 - Unused code inherited from the Backpack version: events without listeners, traits and model methods.
 - A migration drops unused tables (`lead_types`, `remote_events`, `schedule_presets`, `titles`) and columns (`lms_id` of `courses`, `levels`, `rhythms` and `users`, `courses.sync_to_lms`, `users.api_token`, `users.preferred_course_view`, `students.lead_type_id`, `students.how_did_you_know_us`, `enrollments.invoice_id` and `invoices.company_id`).
+- The `leads.manage` and `student.edit` permissions, which nothing checked. A migration removes them; editing students still requires `enrollments.edit`.

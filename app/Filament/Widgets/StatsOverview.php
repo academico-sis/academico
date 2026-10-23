@@ -14,6 +14,14 @@ class StatsOverview extends BaseWidget
 
     protected ?string $pollingInterval = null;
 
+    /**
+     * Enrollment and student figures, for users who can view enrollments.
+     */
+    public static function canView(): bool
+    {
+        return auth()->user()?->can('enrollments.view') ?? false;
+    }
+
     protected function getStats(): array
     {
         $period = Period::get_default_period();

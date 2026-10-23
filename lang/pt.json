@@ -848,5 +848,6 @@
     "Staff can download a certificate for enrollments that have a result.": "A equipe pode baixar um certificado para as matrículas que têm um resultado.",
     "Text": "Texto",
     "This certifies that {student} has completed the course {course}, a total of {hours} hours.": "Certificamos que {student} concluiu o curso {course}, num total de {hours} horas.",
-    "Title": "Título"
+    "Title": "Título",
+    "Current Password": "Senha atual"
 }

@@ -36,7 +36,7 @@ class PanelAuthorizationTest extends TestCase
             'evaluation.edit', 'evaluation.view',
             'reports.view', 'calendars.view',
             'hr.view', 'hr.manage',
-            'student.edit', 'comments.edit', 'leads.manage',
+            'comments.edit',
         ] as $perm) {
             Permission::findOrCreate($perm, 'web');
         }
@@ -54,7 +54,6 @@ class PanelAuthorizationTest extends TestCase
         $secretaryRole->givePermissionTo('enrollments.view');
         $secretaryRole->givePermissionTo('enrollments.edit');
         $secretaryRole->givePermissionTo('courses.view');
-        $secretaryRole->givePermissionTo('leads.manage');
 
         Role::create(['name' => 'viewer']);
 

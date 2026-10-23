@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\EnsureUserIsStudent;
 use App\Http\Middleware\ForceUpdate;
 use App\Livewire\RegistrationWizard;
 use App\Livewire\StudentAccount;
@@ -28,8 +29,8 @@ Route::middleware('guest')->group(function () {
     Route::get('/login', fn () => redirect('/admin/login'))->name('login');
 });
 
-// Student-facing routes (authenticated)
-Route::middleware(['auth', ForceUpdate::class])->group(function () {
+// Student-facing routes (authenticated students only)
+Route::middleware(['auth', EnsureUserIsStudent::class, ForceUpdate::class])->group(function () {
     Route::get('/dashboard', StudentDashboard::class)->name('student.dashboard');
     Route::get('/account', StudentAccount::class)->name('student.account');
 });
