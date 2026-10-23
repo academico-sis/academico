@@ -45,7 +45,7 @@ class CreateTenant extends Command
         $data = [
             'name' => trim((string) $this->argument('name')),
             'domain' => Str::lower(trim((string) $this->argument('domain'))),
-            'database' => $this->option('database') ?: 'academico_'.Str::slug((string) $this->argument('name'), '_'),
+            'database' => $this->option('database') ?: 'academico_'.Str::limit(Str::slug((string) $this->argument('name'), '_'), 54, ''),
             'email' => $this->option('admin-email') ?? $this->ask('Email address of the first administrator'),
             'firstname' => $this->option('admin-firstname') ?? $this->ask('First name of the first administrator'),
             'lastname' => $this->option('admin-lastname') ?? $this->ask('Last name of the first administrator'),
@@ -54,7 +54,8 @@ class CreateTenant extends Command
         $validator = Validator::make($data, [
             'name' => ['required', 'max:255'],
             'domain' => ['required', 'max:253', 'regex:/^([a-z0-9]([a-z0-9-]*[a-z0-9])?\.)+[a-z0-9]([a-z0-9-]*[a-z0-9])?$/', Rule::unique(TenantDomain::class, 'domain')],
-            'database' => ['required', 'max:64', Rule::unique(Tenant::class, 'database'), ...($this->landlordDriver() === 'sqlite' ? [] : ['regex:/^[A-Za-z0-9_]+$/'])],
+            // A SQLite database is a file path; database servers limit names to 64 letters, digits and underscores
+            'database' => ['required', Rule::unique(Tenant::class, 'database'), ...($this->landlordDriver() === 'sqlite' ? ['max:255'] : ['max:64', 'regex:/^[A-Za-z0-9_]+$/'])],
             'email' => ['required', 'email', 'max:255'],
             'firstname' => ['required', 'max:255'],
             'lastname' => ['required', 'max:255'],
