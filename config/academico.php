@@ -30,6 +30,8 @@ return [
 
     'send_emails_for_absences' => false,
 
+    'send_attendance_reminders' => false,
+
     'send_emails_for_results' => false,
 
     'include_takings_in_reports' => false,

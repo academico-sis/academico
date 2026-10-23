@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Setting;
+use Illuminate\Database\QueryException;
 
 /**
  * Institution settings stored in the database.
@@ -10,6 +11,10 @@ use App\Models\Setting;
  * A setting named after one of the CONFIG_KEYS overrides that config value, so the rest of the
  * application keeps reading it with config(); the config files only hold the defaults.
  * Other settings, such as the current period, are read with get().
+ *
+ * The settings belong to the database the application is connected to. reload() reads them again
+ * and puts back the config default of every setting that is not stored, so that settings can be
+ * switched, for example from one tenant to another, without keeping values of the previous one.
  */
 class Settings
 {
@@ -28,6 +33,7 @@ class Settings
         'academico.currency_code',
         'academico.currency_position',
         'academico.send_emails_for_absences',
+        'academico.send_attendance_reminders',
         'academico.send_emails_for_results',
         'academico.include_takings_in_reports',
         'academico.locale',
@@ -72,6 +78,20 @@ class Settings
      */
     private ?array $values = null;
 
+    /**
+     * The config values before any setting was applied, by config key.
+     *
+     * @var array<string, mixed>
+     */
+    private array $defaults;
+
+    public function __construct()
+    {
+        $this->defaults = collect([...self::CONFIG_KEYS, 'app.name', 'mail.from.name'])
+            ->mapWithKeys(fn (string $key): array => [$key => config($key)])
+            ->all();
+    }
+
     public function get(string $key, mixed $default = null): mixed
     {
         return $this->values()[$key] ?? $default;
@@ -107,6 +127,35 @@ class Settings
         config($configValues);
 
         if (isset($configValues['mail.from.name']) && app()->resolved('mail.manager')) {
+            app('mail.manager')->purge();
+        }
+    }
+
+    /**
+     * Put the config defaults back, then read the settings again and apply them. Before the first
+     * migration, the settings table does not exist and the defaults are kept.
+     */
+    public function reload(): void
+    {
+        $this->forget();
+
+        try {
+            $this->apply();
+        } catch (QueryException) {
+            // Keep the config defaults.
+        }
+    }
+
+    /**
+     * Forget the settings read so far and put the config defaults back.
+     */
+    public function forget(): void
+    {
+        $this->values = null;
+
+        config($this->defaults);
+
+        if (app()->resolved('mail.manager')) {
             app('mail.manager')->purge();
         }
     }
