@@ -36,13 +36,15 @@ class DashboardWidgetsTest extends TestCase
         $viewer->assignRole('viewer');
 
         foreach ([Teacher::factory()->create()->user, $viewer] as $user) {
+            // A new session, or the session check of the previous user would log this one out
+            $this->flushSession();
             $this->actingAs($user);
 
             foreach ($this->widgets as $widget) {
                 $this->assertFalse($widget::canView(), "{$widget} is shown to user {$user->id}.");
             }
 
-            $response = $this->followingRedirects()->get('/admin')->assertSuccessful();
+            $response = $this->get('/admin')->assertSuccessful();
             foreach ($this->widgets as $widget) {
                 $response->assertDontSeeLivewire($widget);
             }
