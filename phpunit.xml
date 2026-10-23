@@ -29,6 +29,9 @@
              Compose DB_* settings) cannot point the test suite at the development database -->
         <server name="DB_CONNECTION" value="sqlite"/>
         <server name="DB_DATABASE" value=":memory:"/>
+        <!-- The landlord tables live in the same in-memory database, as in a single-tenant install -->
+        <server name="LANDLORD_DB_CONNECTION" value="sqlite"/>
+        <server name="LANDLORD_DB_DATABASE" value=""/>
         <env name="MAIL_MAILER" value="array"/>
         <env name="QUEUE_CONNECTION" value="sync"/>
         <env name="SESSION_DRIVER" value="array"/>

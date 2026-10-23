@@ -30,9 +30,11 @@ return [
 
     'disks' => [
 
+        // Private files (student photos, signatures) are served by Laravel with temporary signed URLs.
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app/private'),
+            'url' => rtrim(env('APP_URL', 'http://localhost'), '/').'/private',
             'serve' => true,
             'throw' => false,
             'report' => false,
@@ -43,6 +45,8 @@ return [
             'root' => storage_path('app/public'),
             'url' => rtrim(env('APP_URL', 'http://localhost'), '/').'/storage',
             'visibility' => 'public',
+            // Served by Laravel when the file is not under the public/storage link, such as the files of a tenant.
+            'serve' => true,
             'throw' => false,
             'report' => false,
         ],

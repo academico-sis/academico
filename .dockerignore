@@ -25,5 +25,6 @@ storage/app/*
 storage/framework/*
 storage/logs/*
 storage/media-library
+storage/tenants
 !bootstrap/cache/.gitignore
 !storage/**/.gitignore

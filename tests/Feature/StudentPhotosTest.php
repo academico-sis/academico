@@ -62,8 +62,9 @@ class StudentPhotosTest extends TestCase
 
         $this->assertStringContainsString('signature=', $url);
         $this->get($url)->assertSuccessful();
+        $this->assertStringContainsString('/private/', $url);
         $this->get(strtok($url, '?'))->assertForbidden();
-        $this->get('/storage/'.$media->getPathRelativeToRoot())->assertForbidden();
+        $this->get('/storage/'.$media->getPathRelativeToRoot())->assertNotFound();
     }
 
     public function test_photos_on_the_public_disk_are_moved_to_the_private_disk(): void
