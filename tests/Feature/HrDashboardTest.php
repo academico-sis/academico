@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Filament\Pages\HrDashboard;
-use App\Models\Config;
 use App\Models\Course;
 use App\Models\Event;
 use App\Models\Leave;
@@ -12,6 +11,7 @@ use App\Models\Period;
 use App\Models\Teacher;
 use App\Models\User;
 use App\Models\Year;
+use App\Services\Settings;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Spatie\Permission\Models\Permission;
@@ -47,7 +47,7 @@ class HrDashboardTest extends TestCase
             'start' => '2025-01-01',
             'end' => '2025-01-31',
         ]);
-        Config::where('name', 'current_period')->update(['value' => $this->period->id]);
+        app(Settings::class)->set(['current_period' => $this->period->id]);
 
         $this->admin = User::factory()->create();
         $this->admin->assignRole('admin');

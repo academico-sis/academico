@@ -3,11 +3,11 @@
 namespace App\Services;
 
 use App\Mail\InvoiceBulkDownload;
-use App\Models\Config;
 use App\Models\Enrollment;
 use App\Models\Invoice;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use LaravelDaily\Invoices\Classes\Buyer;
 use LaravelDaily\Invoices\Classes\InvoiceItem;
 use LaravelDaily\Invoices\Classes\Party;
@@ -58,8 +58,10 @@ class InvoiceService
             ->currencyFormat($currencyFormat)
             ->notes($notes ?? '');
 
-        if (file_exists(storage_path('logo2.png'))) {
-            $generatedInvoice->logo(storage_path('logo2.png'));
+        $logo = config('academico.logo');
+
+        if ($logo && Storage::disk('public')->exists($logo)) {
+            $generatedInvoice->logo(Storage::disk('public')->path($logo));
         }
 
         foreach ($invoice->invoiceDetails as $product) {
@@ -89,7 +91,7 @@ class InvoiceService
             $generatedInvoice->addItem($item);
         }
 
-        $generatedInvoice->footer = Config::firstWhere('name', 'invoice_footer')->value ?? '';
+        $generatedInvoice->footer = config('invoicing.invoice_footer') ?? '';
 
         return $generatedInvoice;
     }

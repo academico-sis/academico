@@ -6,4 +6,4 @@
 
 <p>@lang('Best regards,')</p>
 
-<p>{{ config('settings.mail_from_name') }}</p>
+<p>{{ config('academico.company_name') }}</p>

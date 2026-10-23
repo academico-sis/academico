@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\Settings;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -50,20 +51,16 @@ class Period extends Model
 
     /**
      * Return the current period to be used as a default system-wide.
-     * First look in Config DB table; otherwise select current or closest next period.
+     * First look in the settings; otherwise select current or closest next period.
      */
     public static function get_default_period(): Period
     {
-        $configPeriod = Config::where('name', 'current_period');
+        $currentPeriodId = app(Settings::class)->get('current_period');
 
-        if ($configPeriod->exists()) {
-            $currentPeriodId = $configPeriod->first()->value;
-
-            if (self::where('id', $currentPeriodId)->count() > 0) {
-                return self::find($currentPeriodId);
-            } elseif ($nextActivePeriod = self::where('end', '>=', date('Y-m-d'))->first()) {
-                return $nextActivePeriod;
-            }
+        if ($currentPeriodId && self::where('id', $currentPeriodId)->count() > 0) {
+            return self::find($currentPeriodId);
+        } elseif ($nextActivePeriod = self::where('end', '>=', date('Y-m-d'))->first()) {
+            return $nextActivePeriod;
         }
 
         return self::orderByDesc('end')->first();
@@ -74,9 +71,9 @@ class Period extends Model
      */
     public static function get_enrollments_period()
     {
-        $selected_period = Config::where('name', 'default_enrollment_period')->first()->value;
+        $selected_period = app(Settings::class)->get('default_enrollment_period');
 
-        if (self::where('id', $selected_period)->count() > 0) {
+        if ($selected_period && self::where('id', $selected_period)->count() > 0) {
             return self::find($selected_period);
         } else {
             // if the current period ends within 15 days, switch to the next one

@@ -1,20 +1,21 @@
 <?php
 
+/*
+ * Institution settings. These are defaults: the values saved in the Settings area
+ * override them (see App\Services\Settings).
+ */
 return [
-    'app_url' => env('APP_URL'),
-    'manager_email' => env('MANAGER_EMAIL'),
-    'reports_email' => env('REPORTS_EMAIL'),
-    'secretary_email' => env('SECRETARY_EMAIL'),
-    'courses_timezone' => env('COURSES_TIMEZONE'),
-    'mail_from_name' => env('MAIL_FROM_NAME'),
-    'sentry_laravel_dsn' => env('SENTRY_LARAVEL_DSN'),
-    'partnership_alerts' => env('PARTNERSHIP_ALERTS', false),
-    'external_courses_enabled' => env('EXTERNAL_COURSES_ENABLED', false),
-    'external_courses_report' => env('EXTERNAL_COURSES_REPORT', false),
-    'monthly_report' => env('MONTHLY_REPORT', false),
-    'teachers_can_edit_result' => env('TEACHERS_CAN_EDIT_RESULT', false),
-    'attendance_reports_enabled' => env('ATTENDANCE_REPORTS_ENABLED', false),
-    'teachers_can_view_calendars' => env('TEACHERS_CAN_VIEW_CALENDARS', false),
-    'collect_student_banking_info' => env('COLLECT_STUDENT_BANKING_INFO', false),
-    'members_enabled' => env('MEMBERS_ENABLED', false),
+    'manager_email' => null,
+    'reports_email' => null,
+    'secretary_email' => null,
+    'courses_timezone' => 'UTC',
+    'partnership_alerts' => false,
+    'external_courses_enabled' => false,
+    'external_courses_report' => false,
+    'monthly_report' => false,
+    'teachers_can_edit_result' => false,
+    'attendance_reports_enabled' => false,
+    'teachers_can_view_calendars' => false,
+    'collect_student_banking_info' => false,
+    'members_enabled' => false,
 ];

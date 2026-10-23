@@ -5,8 +5,8 @@ namespace App\Filament\Resources\Periods;
 use App\Filament\Clusters\Settings\SettingsCluster;
 use App\Filament\Concerns\AuthorizesWritesWithPermissions;
 use App\Filament\Resources\Periods\Pages\ListPeriods;
-use App\Models\Config;
 use App\Models\Period;
+use App\Services\Settings;
 use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
@@ -95,8 +95,8 @@ class PeriodResource extends Resource
 
     public static function table(Table $table): Table
     {
-        $currentPeriodId = Config::where('name', 'current_period')->first()?->value;
-        $enrollmentPeriodId = Config::where('name', 'default_enrollment_period')->first()?->value;
+        $currentPeriodId = app(Settings::class)->get('current_period');
+        $enrollmentPeriodId = app(Settings::class)->get('default_enrollment_period');
 
         return $table
             ->defaultSort('start', 'desc')
@@ -168,7 +168,7 @@ class PeriodResource extends Resource
                     ->requiresConfirmation()
                     ->hidden(fn (Period $record) => (string) $record->id === (string) $currentPeriodId)
                     ->action(function (Period $record) {
-                        Config::updateOrCreate(['name' => 'current_period'], ['value' => $record->id]);
+                        app(Settings::class)->set(['current_period' => $record->id]);
 
                         Notification::make()
                             ->title(__('Current period updated'))
@@ -183,7 +183,7 @@ class PeriodResource extends Resource
                     ->requiresConfirmation()
                     ->hidden(fn (Period $record) => (string) $record->id === (string) $enrollmentPeriodId)
                     ->action(function (Period $record) {
-                        Config::updateOrCreate(['name' => 'default_enrollment_period'], ['value' => $record->id]);
+                        app(Settings::class)->set(['default_enrollment_period' => $record->id]);
 
                         Notification::make()
                             ->title(__('Enrollment period updated'))

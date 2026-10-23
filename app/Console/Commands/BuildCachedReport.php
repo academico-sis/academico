@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Config;
 use App\Models\Period;
 use App\Services\ReportService;
+use App\Services\Settings;
 use App\Traits\ReportsErrors;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
@@ -30,7 +30,7 @@ class BuildCachedReport extends Command
         try {
             DB::table('cached_reports')->truncate();
 
-            $startperiod = Period::find(Config::where('name', 'first_period')->first()->value);
+            $startperiod = Period::find(app(Settings::class)->get('first_period'));
 
             $this->reportService->buildInternalCoursesReport($startperiod);
 

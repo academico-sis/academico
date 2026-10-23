@@ -1,13 +1,17 @@
 <?php
 
+/*
+ * Institution settings. These are defaults: the values saved in the Settings area
+ * override them (see App\Services\Settings).
+ */
 return [
     'picture' => [
-        'enabled' => env('REGISTER_WITH_PICTURE_ALLOWED', true),
-        'mandatory' => env('REGISTER_WITH_PICTURE_MANDATORY', false),
+        'enabled' => true,
+        'mandatory' => false,
     ],
 
-    'ensure_email_unicity' => env('ENSURE_EMAIL_UNICITY', false),
+    'ensure_email_unicity' => false,
 
-    'terms_url' => env('TERMS_URL'),
-    'rules_url' => env('RULES_URL'),
+    'terms_url' => null,
+    'rules_url' => null,
 ];

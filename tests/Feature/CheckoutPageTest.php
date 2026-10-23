@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Filament\Pages\CheckoutPage;
-use App\Models\Config;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\InvoiceType;
@@ -12,6 +11,7 @@ use App\Models\Period;
 use App\Models\Student;
 use App\Models\User;
 use App\Models\Year;
+use App\Services\Settings;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Spatie\Permission\Models\Permission;
@@ -45,7 +45,7 @@ class CheckoutPageTest extends TestCase
 
         $year = Year::factory()->create();
         $this->period = Period::factory()->create(['year_id' => $year->id]);
-        Config::where('name', 'current_period')->update(['value' => $this->period->id]);
+        app(Settings::class)->set(['current_period' => $this->period->id]);
 
         $this->course = Course::factory()->create([
             'period_id' => $this->period->id,

@@ -2,12 +2,12 @@
 
 namespace Tests\Feature;
 
-use App\Models\Config;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Period;
 use App\Models\Student;
 use App\Models\Year;
+use App\Services\Settings;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -81,7 +81,7 @@ class StudentEnrollmentTest extends TestCase
     {
         $year = Year::factory()->create();
         $period = Period::factory()->create(['year_id' => $year->id]);
-        Config::where('name', 'current_period')->update(['value' => $period->id]);
+        app(Settings::class)->set(['current_period' => $period->id]);
 
         $course = Course::factory()->create(['period_id' => $period->id]);
 
