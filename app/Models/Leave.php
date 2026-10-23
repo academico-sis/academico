@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Events\LeaveCreated;
-use App\Events\LeaveUpdated;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -18,11 +16,6 @@ class Leave extends Model
     protected $guarded = ['id'];
 
     protected $with = ['leaveType'];
-
-    protected $dispatchesEvents = [
-        'updated' => LeaveUpdated::class,
-        'created' => LeaveCreated::class,
-    ];
 
     public function getActivitylogOptions(): LogOptions
     {
@@ -68,11 +61,6 @@ class Leave extends Model
             ->whereDate('start', Carbon::parse($date)->toDateString())
             ->whereHas('course', fn ($query) => $query->where('teacher_id', $teacherId))
             ->update(['teacher_id' => $teacherId]);
-    }
-
-    public static function upcoming_leaves()
-    {
-        return self::limit(15)->get()->groupBy('teacher_id'); // todo return first teacher with date span
     }
 
     public function leaveType(): BelongsTo

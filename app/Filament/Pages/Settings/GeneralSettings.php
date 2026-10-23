@@ -239,12 +239,10 @@ class GeneralSettings extends Page
                             ->label(__('Monthly report recipients'))
                             ->helperText(__('Separate several addresses with commas.'))
                             ->maxLength(255),
-                        Toggle::make('settings.partnership_alerts')
-                            ->label(__('Send alerts about expiring partnerships')),
                         Toggle::make('settings.external_courses_report')
                             ->label(__('Send a report about external courses')),
                         TextInput::make('settings.secretary_email')
-                            ->label(__('Partnership alerts and external courses report recipient'))
+                            ->label(__('External courses report recipient'))
                             ->email()
                             ->maxLength(255),
                     ]),
@@ -300,8 +298,6 @@ class GeneralSettings extends Page
                     ->label(__('Students can upload a picture')),
                 Toggle::make('registration.picture.mandatory')
                     ->label(__('The picture is mandatory')),
-                Toggle::make('registration.ensure_email_unicity')
-                    ->label(__('Refuse an email address that is already registered')),
                 TextInput::make('registration.terms_url')
                     ->label(__('Terms and conditions URL'))
                     ->url()

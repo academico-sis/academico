@@ -91,11 +91,6 @@ class Course extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function isInternal()
-    {
-        return $this->partner_id === null;
-    }
-
     /*
     |--------------------------------------------------------------------------
     | RELATIONS
@@ -148,11 +143,6 @@ class Course extends Model
     public function children(): HasMany
     {
         return $this->hasMany(self::class, 'parent_course_id');
-    }
-
-    public function parent(): BelongsTo
-    {
-        return $this->belongsTo(self::class, 'parent_course_id');
     }
 
     /** evaluation methods associated to the course - grades, skill-based evaluation... */
@@ -219,40 +209,6 @@ class Course extends Model
     public function partner(): BelongsTo
     {
         return $this->belongsTo(Partner::class);
-    }
-
-    public function saveCourseTimes($newCourseTimes)
-    {
-        // before updating, retrieve existing course times
-        $oldCourseTimes = $this->times;
-
-        // check existing coursetimes
-        foreach ($oldCourseTimes as $oldCourseTime) {
-            $newCourseTime = $newCourseTimes
-                ->where('day', $oldCourseTime->day)
-                ->where('start', Carbon::parse($oldCourseTime->start)->toTimeString())
-                ->where('end', Carbon::parse($oldCourseTime->end)->toTimeString());
-
-            // remove the course time if no longer exists
-            if ($newCourseTime->count() == 0) {
-                $oldCourseTime->delete();
-            }
-        }
-
-        foreach ($newCourseTimes as $courseTime) {
-            // create missing course times
-            if ($this->times()
-                ->where('day', $courseTime['day'])
-                ->where('start', Carbon::parse($courseTime['start'])->toTimeString())
-                ->where('end', Carbon::parse($courseTime['end'])->toTimeString())
-                ->count() == 0) {
-                $this->times()->create([
-                    'day' => $courseTime['day'],
-                    'start' => Carbon::parse($courseTime['start'])->toTimeString(),
-                    'end' => Carbon::parse($courseTime['end'])->toTimeString(),
-                ]);
-            }
-        }
     }
 
     /*
@@ -396,16 +352,6 @@ class Course extends Model
         return $this->events_count > 0 && ! $this->exempt_attendance && $this->course_enrollments_count > 0;
     }
 
-    // TODO Rename this attribute to avoid confusions.
-    public function getParentAttribute()
-    {
-        if ($this->parent_course_id !== null) {
-            return $this->parent_course_id;
-        } else {
-            return $this->id;
-        }
-    }
-
     public function eventsWithExpectedAttendance()
     {
         return $this->events()->where(function ($query) {
@@ -451,15 +397,5 @@ class Course extends Model
             get: fn ($value) => $value / 100,
             set: fn ($value) => $value * 100,
         );
-    }
-
-    public function getFormattedStartDateAttribute()
-    {
-        return Carbon::parse($this->start_date, 'UTC')->locale(App::getLocale())->isoFormat('LL');
-    }
-
-    public function getFormattedEndDateAttribute()
-    {
-        return Carbon::parse($this->end_date, 'UTC')->locale(App::getLocale())->isoFormat('LL');
     }
 }

@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Filament\Resources\Invoices\Pages\ListInvoices;
 use App\Filament\Resources\Invoices\Pages\ViewInvoice;
-use App\Mail\InvoiceBulkDownload;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Invoice;
@@ -142,15 +141,6 @@ class InvoiceServiceTest extends TestCase
         $generated = app(InvoiceService::class)->make($this->createInvoice());
 
         $this->assertEmpty($generated->logo);
-    }
-
-    public function test_bulk_download_email_is_translated(): void
-    {
-        app()->setLocale('fr');
-
-        (new InvoiceBulkDownload('invoices.zip'))
-            ->assertSeeInHtml('Téléchargement de factures')
-            ->assertSeeInHtml('Veuillez trouver ci-joint le fichier que vous avez demandé.');
     }
 
     private function createInvoiceForCourse(Course $course): Invoice

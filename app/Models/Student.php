@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Events\StudentDeleting;
-use App\Events\StudentUpdated;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -31,7 +30,6 @@ class Student extends Model implements HasMedia
 
     protected $dispatchesEvents = [
         'deleting' => StudentDeleting::class,
-        'updated' => StudentUpdated::class,
     ];
 
     public $timestamps = true;
@@ -111,8 +109,6 @@ class Student extends Model implements HasMedia
                 );
             }
 
-            $this->update(['lead_type_id' => null]); // fallback to default (converted)
-
             return $enrollment;
         });
 
@@ -156,27 +152,6 @@ class Student extends Model implements HasMedia
     public function attendance(): HasMany
     {
         return $this->hasMany(Attendance::class);
-    }
-
-    public function periodAbsences(?Period $period = null): HasMany
-    {
-        if ($period == null) {
-            $period = Period::get_default_period();
-        }
-
-        return $this->hasMany(Attendance::class)
-            ->where('attendance_type_id', 4) // absence
-            ->whereHas('event', fn ($q) => $q->whereHas('course', fn ($c) => $c->where('period_id', $period->id)));
-    }
-
-    public function periodAttendance(?Period $period = null): HasMany
-    {
-        if ($period == null) {
-            $period = Period::get_default_period();
-        }
-
-        return $this->hasMany(Attendance::class)
-            ->whereHas('event', fn ($q) => $q->whereHas('course', fn ($c) => $c->where('period_id', $period->id)));
     }
 
     public function contacts(): HasMany
@@ -247,7 +222,6 @@ class Student extends Model implements HasMedia
     {
         return new Attribute(
             get: fn (): string => $this->user ? "{$this->firstname} {$this->lastname}" : '',
-            set: fn ($value) => $value * 100,
         );
     }
 
@@ -274,21 +248,6 @@ class Student extends Model implements HasMedia
     public function getImageAttribute(): ?string
     {
         return $this->getMedia('profile-picture')->last()?->getUrl('thumb');
-    }
-
-    public function setImageAttribute($value)
-    {
-        // if the image was erased
-        if ($value == null) {
-            $this->clearMediaCollection('profile-picture');
-        }
-
-        // if a base64 was sent, store it in the db
-        if (Str::startsWith($value, 'data:image')) {
-            $this->addMediaFromBase64($value)
-                ->usingFileName('profilePicture.jpg')
-                ->toMediaCollection('profile-picture');
-        }
     }
 
     public function getFormattedGenderAttribute(): string

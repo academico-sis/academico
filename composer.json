@@ -11,7 +11,6 @@
         "laravel/framework": "^13.37",
         "laravel/tinker": "^3.0.2",
         "laraveldaily/laravel-invoices": "^4.1",
-        "maatwebsite/excel": "^4.0",
         "mpdf/mpdf": "^8.2",
         "sentry/sentry-laravel": "^4.21",
         "spatie/laravel-activitylog": "^5.1.1",
@@ -26,7 +25,6 @@
         "laravel/boost": "^2.1",
         "laravel/pail": "^1.2.2",
         "laravel/pint": "^1.24",
-        "laravel/sail": "^1.41",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.6",
         "phpunit/phpunit": "^13.4.1"

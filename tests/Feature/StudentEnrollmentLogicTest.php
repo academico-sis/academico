@@ -92,16 +92,6 @@ class StudentEnrollmentLogicTest extends TestCase
         $this->assertEquals($parentEnrollmentId, $childEnrollment->parent_id);
     }
 
-    public function test_enroll_clears_lead_type(): void
-    {
-        $student = Student::factory()->create(['lead_type_id' => 5]);
-        $course = Course::factory()->create();
-
-        $student->enroll($course);
-
-        $this->assertNull($student->fresh()->lead_type_id);
-    }
-
     public function test_student_age_accessor(): void
     {
         $student = Student::factory()->create([

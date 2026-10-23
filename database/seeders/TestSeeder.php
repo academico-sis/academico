@@ -114,10 +114,7 @@ class TestSeeder extends Seeder
         Scholarship::factory()->create(['name' => 'Staff Discount']);
 
         // Partner for external courses
-        $partner = Partner::factory()->create([
-            'name' => 'City Business School',
-            'started_on' => now()->subYear()->format('Y-m-d'),
-        ]);
+        $partner = Partner::factory()->create(['name' => 'City Business School']);
 
         // Year and periods
         $year = Year::create(['name' => (string) now()->year]);

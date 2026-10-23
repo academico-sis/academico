@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Events\UserDeleting;
-use App\Events\UserUpdated;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -35,29 +34,11 @@ class User extends Authenticatable implements FilamentUser
 
     protected $dispatchesEvents = [
         'deleting' => UserDeleting::class,
-        'updated' => UserUpdated::class,
     ];
 
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()->logUnguarded();
-    }
-
-    /**
-     * Build a username from the person's name, with a numeric suffix for homonyms.
-     * Usernames are unique, including those of soft-deleted users.
-     */
-    public static function generateUniqueUsername(string $firstname, string $lastname): string
-    {
-        $base = Str::slug($firstname.'.'.$lastname) ?: 'user';
-        $username = $base;
-        $suffix = 2;
-
-        while (static::withTrashed()->where('username', $username)->exists()) {
-            $username = $base.$suffix++;
-        }
-
-        return $username;
     }
 
     public function isTeacher()
@@ -95,13 +76,14 @@ class User extends Authenticatable implements FilamentUser
         return $this->firstname.' '.$this->lastname;
     }
 
-    public function getForceUpdateAttribute()
+    /**
+     * Emails are unique and used to log in. They are stored in lower case, and an empty email is stored as null,
+     * so that users without email do not conflict.
+     */
+    public function setEmailAttribute(?string $value): void
     {
-        return $this->force_update ?? null;
-    }
+        $value = trim((string) $value);
 
-    public function setEmailAttribute($value)
-    {
-        $this->attributes['email'] = strtolower($value);
+        $this->attributes['email'] = $value === '' ? null : Str::lower($value);
     }
 }

@@ -116,15 +116,6 @@ class Invoice extends Model
         return $total;
     }
 
-    public function getFormattedNumberAttribute()
-    {
-        if (config('invoicing.invoice_numbering') === 'manual') {
-            return $this->receipt_number;
-        }
-
-        return 'FC'.$this->receipt_number;
-    }
-
     public function getFormattedDateAttribute()
     {
         return Carbon::parse($this->date)->locale(app()->getLocale())->isoFormat('Do MMMM YYYY');

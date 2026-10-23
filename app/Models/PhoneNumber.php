@@ -21,11 +21,6 @@ class PhoneNumber extends Model
         return LogOptions::defaults()->logUnguarded();
     }
 
-    public function identifiableAttribute()
-    {
-        return $this->phone_number;
-    }
-
     public function phoneable(): MorphTo
     {
         return $this->morphTo();

@@ -20,7 +20,6 @@ class InvoiceFactory extends Factory
             'client_address' => fake()->address(),
             'client_email' => fake()->safeEmail(),
             'client_phone' => fake()->phoneNumber(),
-            'company_id' => fake()->randomNumber(),
             'receipt_number' => fake()->unique()->numerify('INV-####'),
         ];
     }

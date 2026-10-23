@@ -35,11 +35,6 @@ class Result extends Model
         return $this->belongsTo(ResultType::class, 'result_type_id');
     }
 
-    public function getResultTypeAttribute()
-    {
-        return $this->result_name->name;
-    }
-
     /**
      * A Result is linked to an Enrollment.
      */
@@ -56,10 +51,5 @@ class Result extends Model
     public function getCourseNameAttribute()
     {
         return $this->enrollment['course']['name'];
-    }
-
-    public function getCoursePeriodAttribute()
-    {
-        return $this->enrollment['course']['period']['name'];
     }
 }

@@ -111,24 +111,9 @@ class Event extends Model
         return Carbon::parse($this->start)->diffInMinutes(Carbon::parse($this->end)) / 60;
     }
 
-    public function getAttendanceCountAttribute()
-    {
-        return $this->attendance->count();
-    }
-
     public function getFormattedDateAttribute()
     {
         return Carbon::parse($this->start)->toFormattedDateString();
-    }
-
-    public function getStartTimeAttribute()
-    {
-        return Carbon::parse($this->start)->toTimeString();
-    }
-
-    public function getEndTimeAttribute()
-    {
-        return Carbon::parse($this->end)->toTimeString();
     }
 
     public function getEventLengthAttribute()

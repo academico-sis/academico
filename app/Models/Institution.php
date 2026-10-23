@@ -10,9 +10,4 @@ class Institution extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
-
-    public function identifiableAttribute()
-    {
-        return $this->name;
-    }
 }

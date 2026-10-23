@@ -28,13 +28,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - **Institution settings are no longer read from `.env`.** They are stored in the database and edited in Settings > General settings, so after upgrading, enter them again there. This covers the `COMPANY_*`, `CURRENCY_*`, `SEND_EMAILS_FOR_*`, `INCLUDE_TAKINGS_IN_REPORTS`, `MANAGER_EMAIL`, `REPORTS_EMAIL`, `SECRETARY_EMAIL`, `COURSES_TIMEZONE`, `PARTNERSHIP_ALERTS`, `EXTERNAL_COURSES_*`, `MONTHLY_REPORT`, `TEACHERS_CAN_*`, `ATTENDANCE_REPORTS_ENABLED`, `REGISTRATION_PICTURE_*`, `ENSURE_EMAIL_UNICITY`, `ACCOUNTING_ENABLED`, `ALLOW_SCHEDULED_PAYMENTS`, `INVOICE_NUMBERING`, `PRICE_CATEGORIES_ENABLED` and `MEMBERS_ENABLED` variables. The institution name is also used as application name and mail sender name.
 - The institution language is set in the settings (English by default) and no longer follows `APP_LOCALE`. It is used by queued jobs and scheduled tasks, by the documents, and for visitors whose browser asks for no supported language (they previously got the first supported language).
 - The `config` table (current and enrollment periods, report start periods, invoice footer) is moved into the new `settings` table by a migration.
-- Scheduled tasks that depend on a setting (monthly report, external courses report, partnership alerts) are always registered and check the setting when they run, so changing it takes effect without restarting the scheduler.
+- Scheduled tasks that depend on a setting (monthly report, external courses report) are always registered and check the setting when they run, so changing it takes effect without restarting the scheduler.
+- **Email addresses are unique, and usernames are removed.** Users log in with their email address. The registration, student and teacher forms refuse an address that another user already has, and the "Refuse an email address that is already registered" setting is removed. Students can still be created without an email address. A migration adds a unique index on `users.email` and drops `users.username`. It stops if several users share an email address: run `php artisan academico:deduplicate-emails` to list them, then change them, or run the command again with `--fix` to keep each address on its oldest account and change the others to `name+ID@domain`. Then run the migrations again.
 
 ### Fixed
 
 - The seeded attendance types now have a color, so each series of the attendance reports is displayed in a different color instead of the grey fallback.
 - The taught and sold hours of the reports counted 0 hours for courses without a remote volume (or without an in-person volume).
-- Creating a teacher or a student with the same first and last name as an existing user failed with a server error. Homonyms now get a numbered username.
+- Creating a teacher or a student with the same first and last name as an existing user failed with a server error.
 - Enrolling a student, from the student or from the course, now enrolls them in the submodules of the course, and refuses duplicate enrollments and courses without spots left. Changing the course of an enrollment also refuses full courses. Enrollments no longer store the course price, so they follow the student's price category.
 - A course can no longer end before it starts, and a time slot can no longer end before it begins: such courses were saved without any class.
 - Deleting a course that has enrollments failed with a server error. The delete button is now disabled with an explanation, and the bulk delete skips these courses.
@@ -65,3 +66,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - The school-specific certificate templates (`CERTIFICATES_STYLE`, `CERTIFICATES_SIG_*`). They were not reachable from the interface.
 - The hook for a custom login view.
 - The unused `books_module`, `admin_email`, `allowed_blank_fields`, `app_url`, `sentry_laravel_dsn` and `languages` keys of `config/academico.php`, with the `BOOKS_MODULE_ENABLED`, `ADMIN_EMAIL` and `ALLOWED_EMPTY_INVOICE_FIELDS` variables.
+- Partnership contracts: their start and end dates, tacit renewal, the expiry alerts and their setting, and the Partnerships report. Partners remain as the institutions of external courses, with the day their monthly report is sent. A migration drops the `started_on`, `expired_on`, `auto_renewal` and `last_alert_sent_at` columns of the `partners` table.
+- The bulk invoice download (a zip archive sent by email), which nothing triggered.
+- The unused `maatwebsite/excel` and `laravel/sail` packages.
+- Unused code inherited from the Backpack version: events without listeners, traits and model methods.
+- A migration drops unused tables (`lead_types`, `remote_events`, `schedule_presets`, `titles`) and columns (`lms_id` of `courses`, `levels`, `rhythms` and `users`, `courses.sync_to_lms`, `users.api_token`, `users.preferred_course_view`, `students.lead_type_id`, `students.how_did_you_know_us`, `enrollments.invoice_id` and `invoices.company_id`).

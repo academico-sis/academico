@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Events\TeacherUpdated;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -29,10 +28,6 @@ class Teacher extends Model
     protected $with = ['user'];
 
     protected $appends = ['firstname', 'lastname', 'name', 'email'];
-
-    protected $dispatchesEvents = [
-        'updated' => TeacherUpdated::class,
-    ];
 
     public function getActivitylogOptions(): LogOptions
     {

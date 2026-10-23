@@ -46,11 +46,6 @@ class CourseTime extends Model
         return LogOptions::defaults()->logUnguarded();
     }
 
-    public function identifiableAttribute()
-    {
-        return $this->day;
-    }
-
     /** events = class sessions.
      * An Event is related to the CourseTime that generated it. This is needed to update related events when updating the course schedule.
      */

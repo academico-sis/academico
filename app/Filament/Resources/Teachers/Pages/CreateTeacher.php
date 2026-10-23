@@ -19,7 +19,6 @@ class CreateTeacher extends CreateRecord
             'firstname' => $data['firstname'],
             'lastname' => $data['lastname'],
             'email' => $data['email'],
-            'username' => User::generateUniqueUsername($data['firstname'], $data['lastname']),
             'password' => bcrypt(Str::random(16)),
         ]);
 

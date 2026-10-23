@@ -13,6 +13,7 @@ use App\Filament\Resources\Students\RelationManagers\ContactsRelationManager;
 use App\Filament\Resources\Students\RelationManagers\EnrollmentsRelationManager;
 use App\Models\Period;
 use App\Models\Student;
+use App\Models\User;
 use BackedEnum;
 use Carbon\Carbon;
 use Filament\Actions\BulkActionGroup;
@@ -88,9 +89,6 @@ class StudentResource extends Resource
                         TextEntry::make('idnumber')
                             ->label(__('ID Number'))
                             ->placeholder('-'),
-                        TextEntry::make('user.username')
-                            ->label(__('Username'))
-                            ->placeholder('-'),
                         TextEntry::make('user.birthdate')
                             ->label(__('Birthdate'))
                             ->date(),
@@ -154,7 +152,8 @@ class StudentResource extends Resource
                                     ->label(__('Email'))
                                     ->email()
                                     ->nullable()
-                                    ->maxLength(60),
+                                    ->maxLength(60)
+                                    ->unique(User::class, 'email', ignorable: fn (?Student $record): ?User => $record?->user),
                                 TextInput::make('idnumber')
                                     ->label(__('ID Number'))
                                     ->nullable(),
@@ -282,11 +281,6 @@ class StudentResource extends Resource
                     ->width('180px')
                     ->searchable()
                     ->visibleFrom('md'),
-                TextColumn::make('user.username')
-                    ->label(__('Username'))
-                    ->searchable()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('student_age')
                     ->label(__('Age'))
                     ->visibleFrom('md'),

@@ -67,16 +67,6 @@ class StudentEnrollmentTest extends TestCase
         $this->assertEquals(1, Enrollment::where('student_id', $student->id)->where('course_id', $course->id)->count());
     }
 
-    public function test_enroll_clears_lead_type(): void
-    {
-        $student = Student::factory()->create(['lead_type_id' => 1]);
-        $course = Course::factory()->create();
-
-        $student->enroll($course);
-
-        $this->assertNull($student->fresh()->lead_type_id);
-    }
-
     public function test_enrolled_scope_returns_students_in_default_period(): void
     {
         $year = Year::factory()->create();
