@@ -9,6 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Mail\Message;
 use Illuminate\Queue\Events\JobProcessing;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Context;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
@@ -96,7 +97,10 @@ class SettingsServiceTest extends TestCase
         app(Settings::class)->set(['academico.locale' => 'fr']);
         app()->setLocale('en');
 
-        event(new JobProcessing('database', $this->createStub(Job::class)));
+        event(new JobProcessing('database', $this->createConfiguredStub(Job::class, [
+            // A job dispatched in the tenant carries its ID in the context
+            'payload' => ['job' => 'Illuminate\\Queue\\CallQueuedHandler@call', 'data' => [], 'illuminate:log:context' => Context::dehydrate()],
+        ])));
 
         $this->assertSame('fr', app()->getLocale());
     }
