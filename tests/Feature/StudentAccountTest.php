@@ -2,9 +2,11 @@
 
 namespace Tests\Feature;
 
+use App\Livewire\StudentAccount;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Livewire\Livewire;
 use Tests\TestCase;
 
 class StudentAccountTest extends TestCase
@@ -73,5 +75,18 @@ class StudentAccountTest extends TestCase
 
         $response = $this->actingAs($user)->get('/account');
         $response->assertStatus(200);
+    }
+
+    public function test_student_cannot_set_a_birthdate_in_the_future(): void
+    {
+        $student = Student::factory()->create();
+
+        Livewire::actingAs($student->user)
+            ->test(StudentAccount::class)
+            ->set('idnumber', '123456')
+            ->set('address', '1 Main Street')
+            ->set('birthdate', today()->addDay()->toDateString())
+            ->call('saveStudentInfo')
+            ->assertHasErrors(['birthdate' => 'before_or_equal']);
     }
 }

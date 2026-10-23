@@ -290,7 +290,7 @@ class RegistrationWizard extends Component
                 'idnumber' => 'required|max:12',
             ],
             'personal_info' => [
-                'birthdate' => 'required|date',
+                'birthdate' => 'required|date|before_or_equal:today',
                 'address' => 'required|max:255',
                 'phonenumbers' => 'required|array|min:1',
                 'phonenumbers.*' => 'required|string|max:30',

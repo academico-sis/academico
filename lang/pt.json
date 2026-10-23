@@ -798,5 +798,8 @@
     "Select a book": "Selecionar um livro",
     "Select a fee": "Selecionar uma taxa",
     "Total received": "Total recebido",
-    "Unit Price": "Preço Unitário"
+    "Unit Price": "Preço Unitário",
+    "This course is full.": "Este curso não tem mais vagas.",
+    "The student is already enrolled in this course.": "O aluno já está matriculado neste curso.",
+    "This course cannot be deleted because it has enrollments.": "Este curso não pode ser excluído porque tem matrículas."
 }

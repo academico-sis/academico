@@ -171,7 +171,7 @@ class StudentAccount extends Component
         $this->validate([
             'idnumber' => 'required|max:12',
             'address' => 'required|max:255',
-            'birthdate' => 'required|date',
+            'birthdate' => 'required|date|before_or_equal:today',
         ]);
 
         $student = auth()->user()->student;

@@ -14,7 +14,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use OverflowException;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 use Spatie\Activitylog\Support\LogOptions;
 use Spatie\Image\Enums\Fit;
@@ -69,29 +71,38 @@ class Student extends Model implements HasMedia
     }
 
     /**
-     * enroll the student in a course.
-     * If the course has any children, we also enroll the student in the children courses.
+     * Enroll the student in a course, and in the children courses (submodules) if any.
+     * This is the single entry point for new enrollments: if the student is already enrolled
+     * (pending or paid), the existing enrollment is returned instead of creating a duplicate.
+     *
+     * @throws OverflowException when the course has no spots left
      */
     public function enroll(Course $course): int
     {
-        // avoid duplicates by retrieving an potential existing enrollment for the same course
-        $enrollment = Enrollment::firstOrCreate(
-            [
+        $existingEnrollment = $this->activeEnrollmentIn($course);
+
+        if ($existingEnrollment) {
+            return $existingEnrollment->id;
+        }
+
+        if (! $course->accepts_new_students) {
+            throw new OverflowException(__('This course is full.'));
+        }
+
+        $enrollment = DB::transaction(function () use ($course): Enrollment {
+            // the price is left empty so that it follows the course price and the student's price category
+            $enrollment = Enrollment::create([
                 'student_id' => $this->id,
                 'course_id' => $course->id,
-            ],
-            [
+                'status_id' => 1,
                 'responsible_id' => auth()->id() ?? 1,
-            ]
-        );
+            ]);
 
-        // if the course has children, enroll in children as well.
-        if ($course->children->count() > 0) {
-            foreach ($course->children as $children_course) {
+            foreach ($course->children as $childCourse) {
                 Enrollment::firstOrCreate(
                     [
                         'student_id' => $this->id,
-                        'course_id' => $children_course->id,
+                        'course_id' => $childCourse->id,
                         'parent_id' => $enrollment->id,
                     ],
                     [
@@ -99,11 +110,36 @@ class Student extends Model implements HasMedia
                     ]
                 );
             }
-        }
 
-        $this->update(['lead_type_id' => null]); // fallback to default (converted)
+            $this->update(['lead_type_id' => null]); // fallback to default (converted)
+
+            return $enrollment;
+        });
 
         return $enrollment->id;
+    }
+
+    /** Why the student cannot be enrolled in this course, or null if they can */
+    public function getEnrollmentRefusalReason(Course $course): ?string
+    {
+        if ($this->activeEnrollmentIn($course)) {
+            return __('The student is already enrolled in this course.');
+        }
+
+        if (! $course->accepts_new_students) {
+            return __('This course is full.');
+        }
+
+        return null;
+    }
+
+    /** The pending or paid enrollment of the student in this course, if any */
+    public function activeEnrollmentIn(Course $course): ?Enrollment
+    {
+        return Enrollment::where('student_id', $this->id)
+            ->where('course_id', $course->id)
+            ->whereIn('status_id', Enrollment::ENROLLMENT_STATUSES_TO_COUNT_IN_STATS)
+            ->first();
     }
 
     /*

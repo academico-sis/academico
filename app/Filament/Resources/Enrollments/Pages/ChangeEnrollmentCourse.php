@@ -24,6 +24,9 @@ class ChangeEnrollmentCourse extends Page implements HasTable
 
     protected string $view = 'filament.resources.enrollments.pages.change-enrollment-course';
 
+    /** @var array<int, ?string> refusal reasons by course ID, computed once per request */
+    protected array $enrollmentRefusalReasons = [];
+
     public function mount(int|string $record): void
     {
         $this->record = $this->resolveRecord($record);
@@ -103,8 +106,21 @@ class ChangeEnrollmentCourse extends Page implements HasTable
                 Action::make('select')
                     ->label(__('Select'))
                     ->icon('heroicon-o-check-circle')
+                    ->disabled(fn (Course $record): bool => filled($this->getEnrollmentRefusalReason($record)))
+                    ->tooltip(fn (Course $record): ?string => $this->getEnrollmentRefusalReason($record))
                     ->requiresConfirmation()
                     ->action(function (Course $record) {
+                        $refusalReason = $this->getEnrollmentRefusalReason($record);
+
+                        if ($refusalReason) {
+                            Notification::make()
+                                ->title($refusalReason)
+                                ->danger()
+                                ->send();
+
+                            return;
+                        }
+
                         $this->getRecord()->update([
                             'course_id' => $record->id,
                             'total_price' => $record->price,
@@ -118,6 +134,15 @@ class ChangeEnrollmentCourse extends Page implements HasTable
                         $this->redirect(EnrollmentResource::getUrl('view', ['record' => $this->getRecord()]));
                     }),
             ]);
+    }
+
+    protected function getEnrollmentRefusalReason(Course $course): ?string
+    {
+        if (! array_key_exists($course->id, $this->enrollmentRefusalReasons)) {
+            $this->enrollmentRefusalReasons[$course->id] = $this->getRecord()->student->getEnrollmentRefusalReason($course);
+        }
+
+        return $this->enrollmentRefusalReasons[$course->id];
     }
 
     public function getTitle(): string

@@ -13,6 +13,9 @@ use InvalidArgumentException;
 
 class StatService
 {
+    /** Courses often have only one of the two volumes: a NULL operand would turn the whole sum into NULL */
+    private const COURSE_VOLUME = 'COALESCE(courses.volume, 0) + COALESCE(courses.remote_volume, 0)';
+
     public Builder $coursesQuery;
 
     public function __construct(
@@ -62,13 +65,13 @@ class StatService
 
     public function taughtHoursCount(): int
     {
-        return (int) $this->coursesQuery->whereNull('parent_course_id')->sum(DB::raw('volume + remote_volume'));
+        return (int) $this->coursesQuery->whereNull('parent_course_id')->sum(DB::raw(self::COURSE_VOLUME));
     }
 
     public function soldHoursCount(): int
     {
         if ($this->external) {
-            return (int) $this->coursesQuery->sum(DB::raw('(volume + remote_volume) * head_count'));
+            return (int) $this->coursesQuery->sum(DB::raw('('.self::COURSE_VOLUME.') * head_count'));
         }
 
         $courseIds = $this->coursesQuery->pluck('courses.id');
@@ -80,7 +83,7 @@ class StatService
         return (int) DB::table('courses')
             ->leftJoin(DB::raw('(SELECT course_id, COUNT(*) as cnt FROM enrollments WHERE status_id IN (1, 2) AND parent_id IS NULL GROUP BY course_id) as ec'), 'courses.id', '=', 'ec.course_id')
             ->whereIn('courses.id', $courseIds)
-            ->sum(DB::raw('(courses.volume + courses.remote_volume) * COALESCE(ec.cnt, 0)'));
+            ->sum(DB::raw('('.self::COURSE_VOLUME.') * COALESCE(ec.cnt, 0)'));
     }
 
     public function newStudentsCount(): int

@@ -99,4 +99,61 @@ class StudentEnrollmentTest extends TestCase
         $this->assertTrue($enrolled->contains($enrolledStudent->id));
         $this->assertFalse($enrolled->contains($notEnrolledStudent->id));
     }
+
+    public function test_enroll_creates_a_new_enrollment_after_a_cancelled_one(): void
+    {
+        $student = Student::factory()->create();
+        $course = Course::factory()->create();
+
+        $cancelledId = $student->enroll($course);
+        Enrollment::find($cancelledId)->update(['status_id' => 3]);
+
+        $newId = $student->enroll($course);
+
+        $this->assertNotEquals($cancelledId, $newId);
+        $this->assertEquals(1, Enrollment::find($newId)->status_id);
+    }
+
+    public function test_enroll_refuses_a_full_course(): void
+    {
+        $course = Course::factory()->create(['spots' => 1]);
+        Student::factory()->create()->enroll($course);
+
+        $this->expectException(\OverflowException::class);
+
+        Student::factory()->create()->enroll($course);
+    }
+
+    public function test_enroll_ignores_spots_when_the_course_has_no_limit(): void
+    {
+        $course = Course::factory()->create(['spots' => 0]);
+
+        Student::factory()->count(3)->create()->each(fn (Student $student) => $student->enroll($course));
+
+        $this->assertEquals(3, Enrollment::where('course_id', $course->id)->count());
+    }
+
+    public function test_enroll_lets_the_price_follow_the_course(): void
+    {
+        $student = Student::factory()->create();
+        $course = Course::factory()->create(['price' => 120]);
+
+        $enrollment = Enrollment::find($student->enroll($course));
+
+        $this->assertNull($enrollment->getRawOriginal('total_price'));
+        $this->assertEquals(120, $enrollment->total_price);
+    }
+
+    public function test_enrollment_refusal_reason(): void
+    {
+        $student = Student::factory()->create();
+        $course = Course::factory()->create(['spots' => 1]);
+
+        $this->assertNull($student->getEnrollmentRefusalReason($course));
+
+        $student->enroll($course);
+
+        $this->assertEquals(__('The student is already enrolled in this course.'), $student->getEnrollmentRefusalReason($course));
+        $this->assertEquals(__('This course is full.'), Student::factory()->create()->getEnrollmentRefusalReason($course));
+    }
 }

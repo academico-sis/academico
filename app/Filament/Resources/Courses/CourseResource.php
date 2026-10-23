@@ -40,10 +40,15 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
+use Illuminate\Auth\Access\Response;
+use Illuminate\Database\Eloquent\Model;
+use UnitEnum;
 
 class CourseResource extends Resource
 {
-    use AuthorizesWritesWithPermissions;
+    use AuthorizesWritesWithPermissions {
+        getAuthorizationResponse as getWriteAuthorizationResponse;
+    }
 
     protected static string $editPermission = 'courses.edit';
 
@@ -58,6 +63,17 @@ class CourseResource extends Resource
     public static function canAccess(): bool
     {
         return auth()->user()?->can('courses.view') ?? false;
+    }
+
+    public static function getAuthorizationResponse(string|UnitEnum $action, ?Model $record = null): Response
+    {
+        $response = static::getWriteAuthorizationResponse($action, $record);
+
+        if ($response->allowed() && $action === 'delete' && $record instanceof Course && $record->hasEnrollments()) {
+            return Response::deny(__('This course cannot be deleted because it has enrollments.'));
+        }
+
+        return $response;
     }
 
     public static function getModelLabel(): string
@@ -237,6 +253,7 @@ class CourseResource extends Resource
                                     ->required(),
                                 DatePicker::make('end_date')
                                     ->label(__('End Date'))
+                                    ->afterOrEqual('start_date')
                                     ->required(),
                                 Repeater::make('courseTimes')
                                     ->relationship('times')
@@ -257,6 +274,7 @@ class CourseResource extends Resource
                                             ->required()
                                             ->seconds(false),
                                         TimePicker::make('end')
+                                            ->after('start')
                                             ->required()
                                             ->seconds(false),
                                     ])
@@ -416,7 +434,8 @@ class CourseResource extends Resource
                         ->icon('heroicon-o-pencil-square')
                         ->url(fn ($record) => GradeEdit::getUrl(['courseId' => $record->id]))
                         ->visible(fn ($record) => $record->evaluationType?->gradeTypes()?->count() > 0 && $record->enrollments()->count() > 0),
-                    DeleteAction::make(),
+                    DeleteAction::make()
+                        ->authorizationTooltip(),
                 ]),
             ])
             ->headerActions([
@@ -427,7 +446,8 @@ class CourseResource extends Resource
                 BulkActionGroup::make([
                     ExportBulkAction::make()
                         ->exporter(CourseExporter::class),
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()
+                        ->authorizeIndividualRecords(),
                 ]),
             ]);
     }

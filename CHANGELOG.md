@@ -24,6 +24,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ### Fixed
 
 - The seeded attendance types now have a color, so each series of the attendance reports is displayed in a different color instead of the grey fallback.
+- The taught and sold hours of the reports counted 0 hours for courses without a remote volume (or without an in-person volume).
+- Creating a teacher or a student with the same first and last name as an existing user failed with a server error. Homonyms now get a numbered username.
+- Enrolling a student, from the student or from the course, now enrolls them in the submodules of the course, and refuses duplicate enrollments and courses without spots left. Changing the course of an enrollment also refuses full courses. Enrollments no longer store the course price, so they follow the student's price category.
+- A course can no longer end before it starts, and a time slot can no longer end before it begins: such courses were saved without any class.
+- Deleting a course that has enrollments failed with a server error. The delete button is now disabled with an explanation, and the bulk delete skips these courses.
+- Birthdates in the future and negative weekly hours for teachers are refused.
 
 ### Security
 

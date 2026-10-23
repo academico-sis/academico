@@ -80,6 +80,8 @@ class TeacherResource extends Resource
                 TextInput::make('max_week_hours')
                     ->label(__('Max weekly hours'))
                     ->numeric()
+                    ->minValue(0)
+                    ->maxValue(168)
                     ->step(0.01)
                     ->nullable(),
                 DatePicker::make('hired_at')
