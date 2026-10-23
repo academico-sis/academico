@@ -21,9 +21,14 @@ class SkillEvaluationPage extends Page
 
     protected static ?int $navigationSort = 2;
 
+    /**
+     * Teachers can open the page; the gates restrict them to their own courses.
+     */
     public static function canAccess(): bool
     {
-        return auth()->user()?->can('evaluation.view') ?? false;
+        $user = auth()->user();
+
+        return $user?->can('evaluation.view') || $user?->isTeacher();
     }
 
     public static function shouldRegisterNavigation(): bool

@@ -4,6 +4,7 @@ namespace App\Filament\Pages;
 
 use App\Models\Attendance;
 use App\Models\AttendanceType;
+use App\Models\Enrollment;
 use App\Models\Event;
 use BackedEnum;
 use Carbon\Carbon;
@@ -11,12 +12,18 @@ use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Facades\Gate;
+use Livewire\Attributes\Locked;
 
 class EventAttendance extends Page
 {
+    /**
+     * Teachers can open the page; the gates restrict them to their own events.
+     */
     public static function canAccess(): bool
     {
-        return auth()->user()?->can('attendance.view') ?? false;
+        $user = auth()->user();
+
+        return $user?->can('attendance.view') || $user?->isTeacher();
     }
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-hand-raised';
@@ -27,6 +34,7 @@ class EventAttendance extends Page
 
     protected static bool $shouldRegisterNavigation = false;
 
+    #[Locked]
     public ?int $eventId = null;
 
     public ?Event $event = null;
@@ -92,11 +100,12 @@ class EventAttendance extends Page
         }
 
         abort_unless($this->event && Gate::allows('edit-attendance', $this->event), 403);
+        abort_unless(Enrollment::where('course_id', $this->event->course_id)->where('student_id', $studentId)->exists(), 403);
 
         Attendance::updateOrCreate(
             [
                 'student_id' => $studentId,
-                'event_id' => $this->eventId,
+                'event_id' => $this->event->id,
             ],
             [
                 'attendance_type_id' => $attendanceTypeId,
