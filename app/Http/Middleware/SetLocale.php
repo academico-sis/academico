@@ -33,13 +33,9 @@ class SetLocale
             return $request->session()->get('locale');
         }
 
-        $allowed = config('app.translatable_locales', ['en', 'es', 'fr']);
-        $preferred = $request->getPreferredLanguage($allowed);
+        // The first locale is used when the browser asks for none of them.
+        $locales = array_values(array_unique([config('academico.locale'), ...config('app.translatable_locales')]));
 
-        if ($preferred) {
-            return $preferred;
-        }
-
-        return config('app.locale', 'en');
+        return $request->getPreferredLanguage($locales);
     }
 }

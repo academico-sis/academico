@@ -178,7 +178,7 @@ class GeneralSettings extends Page
             ->icon(Heroicon::OutlinedGlobeAlt)
             ->columns(2)
             ->schema([
-                Select::make('app.locale')
+                Select::make('academico.locale')
                     ->label(__('Default language'))
                     ->helperText(__('Used for visitors and for emails. Each user can choose their own language.'))
                     ->options(collect(config('app.translatable_locales'))

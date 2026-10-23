@@ -4,8 +4,10 @@ namespace Tests\Feature;
 
 use App\Models\Setting;
 use App\Services\Settings;
+use Illuminate\Contracts\Queue\Job;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Mail\Message;
+use Illuminate\Queue\Events\JobProcessing;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
@@ -79,11 +81,34 @@ class SettingsServiceTest extends TestCase
         $this->assertSame('Example School', $sentMessage->getOriginalMessage()->getFrom()[0]->getName());
     }
 
-    public function test_default_language_sets_the_application_locale(): void
+    public function test_saving_settings_keeps_the_language_of_the_current_user(): void
     {
-        app(Settings::class)->set(['app.locale' => 'fr']);
+        app()->setLocale('es');
+
+        app(Settings::class)->set(['academico.locale' => 'fr']);
+
+        $this->assertSame('fr', config('academico.locale'));
+        $this->assertSame('es', app()->getLocale());
+    }
+
+    public function test_queue_workers_use_the_institution_language(): void
+    {
+        app(Settings::class)->set(['academico.locale' => 'fr']);
+        app()->setLocale('en');
+
+        event(new JobProcessing('database', $this->createStub(Job::class)));
 
         $this->assertSame('fr', app()->getLocale());
+    }
+
+    public function test_sync_jobs_keep_the_language_of_the_request(): void
+    {
+        app(Settings::class)->set(['academico.locale' => 'fr']);
+        app()->setLocale('es');
+
+        dispatch(fn () => Cache::put('locale_in_job', app()->getLocale()));
+
+        $this->assertSame('es', Cache::get('locale_in_job'));
     }
 
     public function test_apply_reloads_values_saved_by_another_process(): void

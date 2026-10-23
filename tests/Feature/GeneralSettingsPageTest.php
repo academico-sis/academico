@@ -90,6 +90,20 @@ class GeneralSettingsPageTest extends TestCase
         $this->assertDatabaseHas('settings', ['key' => 'academico.company_name']);
     }
 
+    public function test_default_language_is_the_institution_language_not_the_user_language(): void
+    {
+        app(Settings::class)->set(['academico.locale' => 'fr']);
+        app()->setLocale('es');
+
+        Livewire::test(GeneralSettings::class)
+            ->assertFormSet(['academico.locale' => 'fr'])
+            ->call('save')
+            ->assertHasNoFormErrors();
+
+        $this->assertSame('fr', app(Settings::class)->get('academico.locale'));
+        $this->assertSame('es', app()->getLocale());
+    }
+
     public function test_deleted_period_does_not_block_saving(): void
     {
         app(Settings::class)->set(['first_period' => 99999]);

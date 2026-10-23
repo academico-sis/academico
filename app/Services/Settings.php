@@ -30,7 +30,7 @@ class Settings
         'academico.send_emails_for_absences',
         'academico.send_emails_for_results',
         'academico.include_takings_in_reports',
-        'app.locale',
+        'academico.locale',
         'settings.manager_email',
         'settings.reports_email',
         'settings.secretary_email',
@@ -99,10 +99,6 @@ class Settings
         }
 
         config($configValues);
-
-        if (isset($configValues['app.locale'])) {
-            app()->setLocale($configValues['app.locale']);
-        }
 
         if (isset($configValues['mail.from.name']) && app()->resolved('mail.manager')) {
             app('mail.manager')->purge();

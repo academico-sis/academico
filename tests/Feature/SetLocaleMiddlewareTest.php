@@ -49,16 +49,41 @@ class SetLocaleMiddlewareTest extends TestCase
         $this->assertEquals('es', App::getLocale());
     }
 
-    public function test_defaults_to_config_locale(): void
+    public function test_visitor_without_preference_gets_the_institution_language(): void
     {
-        config()->set('app.locale', 'en');
+        config()->set('academico.locale', 'es');
 
         $request = Request::create('/test');
+        $request->headers->remove('Accept-Language');
         $request->setLaravelSession(app('session.store'));
 
         $this->dispatchMiddleware($request);
 
-        $this->assertEquals('en', App::getLocale());
+        $this->assertEquals('es', App::getLocale());
+    }
+
+    public function test_browser_language_wins_over_the_institution_language(): void
+    {
+        config()->set('academico.locale', 'es');
+
+        $request = Request::create('/test', server: ['HTTP_ACCEPT_LANGUAGE' => 'fr-FR,fr;q=0.9']);
+        $request->setLaravelSession(app('session.store'));
+
+        $this->dispatchMiddleware($request);
+
+        $this->assertEquals('fr', App::getLocale());
+    }
+
+    public function test_unsupported_browser_language_gets_the_institution_language(): void
+    {
+        config()->set('academico.locale', 'pt');
+
+        $request = Request::create('/test', server: ['HTTP_ACCEPT_LANGUAGE' => 'de-DE,de;q=0.9']);
+        $request->setLaravelSession(app('session.store'));
+
+        $this->dispatchMiddleware($request);
+
+        $this->assertEquals('pt', App::getLocale());
     }
 
     public function test_user_locale_overrides_session(): void

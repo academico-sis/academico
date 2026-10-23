@@ -12,6 +12,12 @@ return [
     'company_email' => null,
 
     /*
+     * Default language, for visitors, emails and documents. Each user can choose their own.
+     * It is kept apart from app.locale, which App::setLocale() changes to the current user's language.
+     */
+    'locale' => 'en',
+
+    /*
      * Path of the institution logo on the public disk.
      */
     'logo' => null,
