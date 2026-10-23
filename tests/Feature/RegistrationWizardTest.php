@@ -6,6 +6,7 @@ use App\Livewire\RegistrationWizard;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Livewire\Features\SupportLockedProperties\CannotUpdateLockedPropertyException;
 use Livewire\Features\SupportTesting\Testable;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -80,5 +81,36 @@ class RegistrationWizardTest extends TestCase
         $this->fillWizard(birthdate: today()->addDay()->toDateString())
             ->assertHasErrors(['birthdate' => 'before_or_equal'])
             ->assertSet('currentStep', 2);
+    }
+
+    public function test_registration_validates_every_step_again(): void
+    {
+        $this->fillWizard()
+            ->assertSet('currentStep', 5)
+            ->set('email', 'not-an-email')
+            ->set('password', '1')
+            ->set('password_confirmation', '1')
+            ->set('phonenumbers', [])
+            ->call('register')
+            ->assertHasErrors(['email', 'password', 'phonenumbers'])
+            ->assertSet('registered', false);
+
+        $this->assertFalse(User::exists());
+    }
+
+    public function test_wizard_state_and_settings_cannot_be_changed_by_the_browser(): void
+    {
+        config(['registration.terms_url' => 'https://example.com/terms', 'registration.picture.mandatory' => true]);
+
+        $locked = ['currentStep' => 5, 'totalSteps' => 1, 'registered' => true, 'pictureAllowed' => false, 'pictureMandatory' => false, 'termsUrl' => null, 'rulesUrl' => null];
+
+        foreach ($locked as $property => $value) {
+            try {
+                Livewire::test(RegistrationWizard::class)->set($property, $value);
+                $this->fail("The browser can change {$property}.");
+            } catch (CannotUpdateLockedPropertyException) {
+                $this->addToAssertionCount(1);
+            }
+        }
     }
 }
