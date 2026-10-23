@@ -845,5 +845,6 @@
     "Text": "Texto",
     "This certifies that {student} has completed the course {course}, a total of {hours} hours.": "Se certifica que {student} ha completado el curso {course}, con un total de {hours} horas.",
     "Title": "Título",
-    "Current Password": "Contraseña actual"
+    "Current Password": "Contraseña actual",
+    "Remind teachers by email of their classes without attendance": "Recordar por correo a los profesores sus clases sin asistencia"
 }

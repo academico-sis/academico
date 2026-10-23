@@ -31,6 +31,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Scheduled tasks that depend on a setting (monthly report, external courses report) are always registered and check the setting when they run, so changing it takes effect without restarting the scheduler.
 - **Email addresses are unique, and usernames are removed.** Users log in with their email address. The registration, student and teacher forms refuse an address that another user already has, and the "Refuse an email address that is already registered" setting is removed. Students can still be created without an email address. A migration adds a unique index on `users.email` and drops `users.username`. It stops if several users share an email address: run `php artisan academico:deduplicate-emails` to list them, then change them, or run the command again with `--fix` to keep each address on its oldest account and change the others to `name+ID@domain`. Then run the migrations again.
 - The grade and skill evaluation buttons of the enrollment page are shown to users who can edit the grades of the course (`evaluation.edit`), instead of to administrators only.
+- **Scheduled tasks run at their time in the institution timezone** (the Timezone setting) instead of UTC: the period check and the monthly report at midnight, the external courses report at 03:15 (previously 02:10 UTC), the report cache at 05:15 and the attendance reminders at 08:15. They are Artisan commands that can also be run by hand: `academico:check-periods`, `academico:monthly-report`, `academico:external-courses-report`, `academico:build-report` and `academico:attendance-reminders`. The scheduler still needs `php artisan schedule:run` every minute. The external courses report also uses the date in the institution timezone to find the partners whose report day is today.
 
 ### Fixed
 
@@ -50,6 +51,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Teachers could not open the attendance pages of their own classes and courses, nor the skill evaluation page of their own courses, and nothing linked to these pages. The teacher dashboard now links each pending class to its attendance page, and each course to its attendance, grades and skills pages. Attendance can only be recorded for students enrolled in the course.
 - Invoices were printed in the language of the user who downloaded them. They are now printed in the institution language, like certificates. The month of the monthly report is also named in the institution language.
 - Password reset links could not be sent, because the table holding the reset tokens had been renamed back to its former name. A migration restores the `password_reset_tokens` table.
+- Teachers were reminded of their classes without attendance only when the absence emails to students were turned on. The reminders have their own setting in the Notifications tab of the settings, which a migration turns on where the absence emails were on.
 
 ### Security
 

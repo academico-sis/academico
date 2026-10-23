@@ -1,86 +1,16 @@
 <?php
 
-use App\Events\ExternalCoursesReportEvent;
-use App\Events\MonthlyReportEvent;
-use App\Models\Period;
-use App\Services\Settings;
-use App\Traits\HandlesAttendance;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schedule;
 
-// Daily attendance reminders at 08:15
-Schedule::call(function (): void {
-    try {
-        Log::info('Sending attendance reminders');
-        $handler = new class
-        {
-            use HandlesAttendance;
-        };
-        $handler->remindPendingAttendance();
-    } catch (Throwable $e) {
-        Log::error('[Schedule::attendanceReminders] '.$e->getMessage(), ['exception' => $e::class]);
-        if (function_exists('\Sentry\captureException')) {
-            \Sentry\captureException($e);
-        }
-    }
-})->dailyAt('08:15');
+/*
+ * These tasks run at a time of day in the institution timezone. The scheduler starts them every
+ * 15 minutes, and each command only works when the local time matches --at (and the day of the
+ * month matches --day). Commands that depend on a setting check it when they run.
+ */
+Schedule::command('academico:check-periods --at=00:00')->everyFifteenMinutes();
+Schedule::command('academico:monthly-report --day=20 --at=00:00')->everyFifteenMinutes();
+Schedule::command('academico:external-courses-report --at=03:15')->everyFifteenMinutes();
+Schedule::command('academico:build-report --at=05:15')->everyFifteenMinutes();
+Schedule::command('academico:attendance-reminders --at=08:15')->everyFifteenMinutes();
 
-// Daily period check at midnight
-Schedule::call(function (): void {
-    try {
-        Log::info('Checking default periods');
-        $changeCurrentPeriod = Carbon::parse(Period::get_default_period()->end) < Carbon::now();
-
-        if ($changeCurrentPeriod) {
-            app(Settings::class)->set(['current_period' => null]);
-        }
-
-        if (Period::get_enrollments_period() == Period::get_default_period()) {
-            app(Settings::class)->set(['default_enrollment_period' => null]);
-        }
-    } catch (Throwable $e) {
-        Log::error('[Schedule::periodCheck] '.$e->getMessage(), ['exception' => $e::class]);
-        if (function_exists('\Sentry\captureException')) {
-            \Sentry\captureException($e);
-        }
-    }
-})->dailyAt('00:00');
-
-// External courses report at 02:10 (setting-gated)
-Schedule::call(function (): void {
-    if (! config('settings.external_courses_report')) {
-        return;
-    }
-
-    try {
-        event(new ExternalCoursesReportEvent);
-    } catch (Throwable $e) {
-        Log::error('[Schedule::externalCoursesReport] '.$e->getMessage(), ['exception' => $e::class]);
-        if (function_exists('\Sentry\captureException')) {
-            \Sentry\captureException($e);
-        }
-    }
-})->name('external-courses-report')->dailyAt('02:10');
-
-// Monthly report on the 20th (setting-gated)
-Schedule::call(function (): void {
-    if (! config('settings.monthly_report')) {
-        return;
-    }
-
-    try {
-        event(new MonthlyReportEvent);
-    } catch (Throwable $e) {
-        Log::error('[Schedule::monthlyReport] '.$e->getMessage(), ['exception' => $e::class]);
-        if (function_exists('\Sentry\captureException')) {
-            \Sentry\captureException($e);
-        }
-    }
-})->name('monthly-report')->monthlyOn(20);
-
-// Clean activity log monthly
 Schedule::command('activitylog:clean')->monthly();
-
-// Build cached report daily at 05:15
-Schedule::command('academico:build-report')->dailyAt('05:15');
