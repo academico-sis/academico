@@ -5,13 +5,13 @@ namespace Tests\Feature;
 use App\Filament\Resources\Courses\Pages\CourseEnrollments;
 use App\Filament\Resources\Enrollments\Pages\ChangeEnrollmentCourse;
 use App\Filament\Resources\Students\Pages\EnrollStudent;
-use App\Models\Config;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Period;
 use App\Models\Student;
 use App\Models\User;
 use App\Models\Year;
+use App\Services\Settings;
 use Database\Seeders\PermissionsSeeder;
 use Filament\Actions\Testing\TestAction;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -41,7 +41,7 @@ class EnrollmentActionsTest extends TestCase
         $this->seed(PermissionsSeeder::class);
 
         $this->period = Period::factory()->create(['year_id' => Year::factory()->create()->id]);
-        Config::where('name', 'current_period')->update(['value' => $this->period->id]);
+        app(Settings::class)->set(['current_period' => $this->period->id]);
 
         $admin = User::factory()->create();
         $admin->assignRole('admin');

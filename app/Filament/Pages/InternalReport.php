@@ -2,9 +2,9 @@
 
 namespace App\Filament\Pages;
 
-use App\Models\Config;
 use App\Models\Period;
 use App\Models\Year;
+use App\Services\Settings;
 use App\Services\StatService;
 use BackedEnum;
 use Illuminate\Contracts\Support\Htmlable;
@@ -44,9 +44,8 @@ class InternalReport extends ReportPage
             ->map(fn ($p) => ['id' => $p->id, 'name' => $p->name])
             ->toArray();
 
-        // Default: use the first_period from config, or the very first period
-        $configFirstPeriod = Config::where('name', 'first_period')->first();
-        $this->startFromPeriodId = $configFirstPeriod?->value
+        // Default: use the first period from the settings, or the very first period
+        $this->startFromPeriodId = app(Settings::class)->get('first_period')
             ?? ($this->allPeriods[0]['id'] ?? null);
 
         $this->loadData();

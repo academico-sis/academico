@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\Enrollments\Pages;
 
+use App\Filament\Actions\DownloadCertificateAction;
+use App\Filament\Actions\DownloadResultAction;
 use App\Filament\Pages\CheckoutPage;
 use App\Filament\Pages\GradeEdit;
 use App\Filament\Pages\SkillEvaluationPage;
@@ -171,7 +173,13 @@ class ViewEnrollment extends ViewRecord
                                                         ->size('sm')
                                                         ->url(SkillEvaluationPage::getUrl(['courseId' => $ownerRecord->course_id]))
                                                         ->visible(auth()->user()?->hasRole('admin') && $ownerRecord->course?->evaluationType?->skills()?->count() > 0),
-                                                ]),
+                                                    DownloadResultAction::make()
+                                                        ->record($ownerRecord)
+                                                        ->size('sm'),
+                                                    DownloadCertificateAction::make()
+                                                        ->record($ownerRecord)
+                                                        ->size('sm'),
+                                                ])->key('evaluationActions'),
                                                 TextEntry::make('result.result_name.name')
                                                     ->label(__('Result'))
                                                     ->badge()

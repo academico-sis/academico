@@ -3,9 +3,13 @@
 namespace App\Providers;
 
 use App\Services\CourseEventScheduler;
+use App\Services\Settings;
 use Filament\Tables\Enums\RecordActionsPosition;
 use Filament\Tables\Table;
+use Illuminate\Database\QueryException;
+use Illuminate\Queue\Events\JobProcessing;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -17,6 +21,8 @@ class AppServiceProvider extends ServiceProvider
     {
         // holds the moment from which course changes apply to the sessions, for the current request
         $this->app->scoped(CourseEventScheduler::class);
+
+        $this->app->singleton(Settings::class);
     }
 
     /**
@@ -24,10 +30,42 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $this->applySettings();
+
         $this->registerGates();
 
         Table::configureUsing(function (Table $table): Table {
             return $table->recordActionsPosition(RecordActionsPosition::BeforeCells);
+        });
+    }
+
+    /**
+     * Apply the settings saved in the database once the application has booted, and again before
+     * each queued job so that long-running workers see the latest values. The settings table does
+     * not exist before the first migration, in which case the config defaults are used.
+     *
+     * The institution language becomes the default locale. Web requests then switch to the
+     * language of the user (see SetLocale).
+     */
+    protected function applySettings(): void
+    {
+        $this->app->booted(function (): void {
+            try {
+                $this->app->make(Settings::class)->apply();
+            } catch (QueryException) {
+                // Use the config defaults.
+            }
+
+            $this->app->setLocale(config('academico.locale'));
+        });
+
+        Queue::before(function (JobProcessing $event): void {
+            $this->app->make(Settings::class)->apply();
+
+            // A sync job runs inside the request and keeps the language of its user.
+            if ($event->connectionName !== 'sync') {
+                $this->app->setLocale(config('academico.locale'));
+            }
         });
     }
 

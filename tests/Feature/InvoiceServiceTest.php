@@ -10,6 +10,8 @@ use App\Models\InvoiceDetail;
 use App\Models\InvoiceType;
 use App\Services\InvoiceService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class InvoiceServiceTest extends TestCase
@@ -80,6 +82,36 @@ class InvoiceServiceTest extends TestCase
         $this->assertStringContainsString('Cours: B1 Morning', $description);
         $this->assertStringContainsString('Période: '.$course->period->name, $description);
         $this->assertStringContainsString('Niveau: '.$course->level->name, $description);
+    }
+
+    public function test_footer_comes_from_the_settings(): void
+    {
+        config(['invoicing.invoice_footer' => 'Thank you for your payment']);
+
+        $generated = app(InvoiceService::class)->download($this->createInvoice());
+
+        $this->assertSame('Thank you for your payment', $generated->footer);
+    }
+
+    public function test_logo_comes_from_the_public_disk(): void
+    {
+        Storage::fake('public');
+        $path = UploadedFile::fake()->image('logo.png')->store('settings', 'public');
+        config(['academico.logo' => $path]);
+
+        $generated = app(InvoiceService::class)->download($this->createInvoice());
+
+        $this->assertSame(Storage::disk('public')->path($path), $generated->logo);
+    }
+
+    public function test_missing_logo_file_is_ignored(): void
+    {
+        Storage::fake('public');
+        config(['academico.logo' => 'settings/missing.png']);
+
+        $generated = app(InvoiceService::class)->download($this->createInvoice());
+
+        $this->assertEmpty($generated->logo);
     }
 
     public function test_bulk_download_email_is_translated(): void

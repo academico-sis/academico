@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Filament\Pages\GradeEdit;
 use App\Filament\Pages\SkillEvaluationPage;
 use App\Models\Comment;
-use App\Models\Config;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\EvaluationType;
@@ -21,6 +20,7 @@ use App\Models\Student;
 use App\Models\Teacher;
 use App\Models\User;
 use App\Models\Year;
+use App\Services\Settings;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Features\SupportLockedProperties\CannotUpdateLockedPropertyException;
 use Livewire\Livewire;
@@ -64,7 +64,7 @@ class EvaluationEnrollmentAuthorizationTest extends TestCase
 
         $year = Year::factory()->create();
         $period = Period::factory()->create(['year_id' => $year->id]);
-        Config::where('name', 'current_period')->update(['value' => $period->id]);
+        app(Settings::class)->set(['current_period' => $period->id]);
 
         $evaluationType = EvaluationType::factory()->create();
         $this->gradeType = GradeType::factory()->create();

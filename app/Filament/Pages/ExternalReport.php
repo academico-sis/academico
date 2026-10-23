@@ -2,10 +2,10 @@
 
 namespace App\Filament\Pages;
 
-use App\Models\Config;
 use App\Models\Partner;
 use App\Models\Period;
 use App\Models\Year;
+use App\Services\Settings;
 use App\Services\StatService;
 use BackedEnum;
 use Illuminate\Contracts\Support\Htmlable;
@@ -59,9 +59,8 @@ class ExternalReport extends ReportPage
             ->map(fn ($p) => ['id' => $p->id, 'name' => $p->name])
             ->toArray();
 
-        $configFirstPeriod = Config::where('name', 'first_external_period')->first()
-            ?? Config::where('name', 'first_period')->first();
-        $this->startFromPeriodId = $configFirstPeriod?->value
+        $this->startFromPeriodId = app(Settings::class)->get('first_external_period')
+            ?? app(Settings::class)->get('first_period')
             ?? ($this->allPeriods[0]['id'] ?? null);
 
         $this->loadData();

@@ -12,7 +12,10 @@
     <nav class="border-b border-gray-200 bg-white">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="flex h-16 items-center justify-between">
-                <a href="/" class="text-xl font-semibold text-gray-800">
+                <a href="/" class="flex items-center gap-2 text-xl font-semibold text-gray-800">
+                    @if (config('academico.logo'))
+                        <img src="{{ Storage::disk('public')->url(config('academico.logo')) }}" alt="" class="h-8 w-auto">
+                    @endif
                     {{ config('app.name') }}
                 </a>
                 <div class="flex items-center gap-4">

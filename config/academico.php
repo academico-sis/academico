@@ -1,31 +1,36 @@
 <?php
 
+/*
+ * Institution settings. These are defaults: the values saved in the Settings area
+ * override them (see App\Services\Settings).
+ */
 return [
-    'company_name' => env('COMPANY_NAME', 'Academico'),
-    'company_address' => env('COMPANY_ADDRESS', ''),
-    'company_phone' => env('COMPANY_PHONE', ''),
-    'company_id' => env('COMPANY_ID', ''),
-    'company_email' => env('COMPANY_EMAIL', ''),
-
-    'calendar_start' => env('DAY_START_IN_CALENDARS', '06:00:00'),
+    'company_name' => 'Academico',
+    'company_address' => null,
+    'company_phone' => null,
+    'company_id' => null,
+    'company_email' => null,
 
     /*
- * available languages
- */
+     * Default language, for visitors, emails and documents. Each user can choose their own.
+     * It is kept apart from app.locale, which App::setLocale() changes to the current user's language.
+     */
+    'locale' => 'en',
 
-    'languages' => ['fr', 'en', 'es'],
+    /*
+     * Path of the institution logo on the public disk.
+     */
+    'logo' => null,
 
-    'currency_symbol' => env('CURRENCY_SYMBOL', '€'),
-    'currency_code' => env('CURRENCY_CODE', 'EUR'),
-    'currency_position' => env('CURRENCY_POSITION', 'after'),
+    'calendar_start' => '06:00:00',
 
-    'books_module' => env('BOOKS_MODULE_ENABLED', false),
+    'currency_symbol' => '€',
+    'currency_code' => 'EUR',
+    'currency_position' => 'after',
 
-    'send_emails_for_absences' => env('SEND_ABSENCE_NOTIFICATIONS', false),
+    'send_emails_for_absences' => false,
 
-    'send_emails_for_results' => env('SEND_RESULTS_NOTIFICATIONS', false),
+    'send_emails_for_results' => false,
 
-    'include_takings_in_reports' => env('INCLUDE_TAKINGS_IN_REPORTS', false),
-
-    'admin_email' => env('ADMIN_EMAIL'),
+    'include_takings_in_reports' => false,
 ];

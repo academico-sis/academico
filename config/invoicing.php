@@ -1,23 +1,30 @@
 <?php
 
+/*
+ * Institution settings. These are defaults: the values saved in the Settings area
+ * override them (see App\Services\Settings).
+ */
 return [
-    'accounting_enabled' => env('ACCOUNTING_ENABLED'),
+    'accounting_enabled' => false,
 
-    'allow_scheduled_payments' => env('ALLOW_SCHEDULED_PAYMENTS', false),
+    'allow_scheduled_payments' => false,
 
-    'invoice_numbering' => env('INVOICE_NUMBERING', 'auto'),
+    /*
+     * 'auto' numbers invoices per type and year, 'manual' uses the receipt number entered at checkout.
+     */
+    'invoice_numbering' => 'auto',
 
-    'allow_empty_payment_methods' => env('ALLOW_EMPTY_PAYMENT_METHODS', false),
+    'allow_empty_payment_methods' => false,
 
-    'allowed_blank_fields' => explode(',', env('ALLOWED_EMPTY_INVOICE_FIELDS', '')),
+    'adding_scholarship_marks_as_paid' => false,
 
-    'adding_scholarship_marks_as_paid' => env('ADDING_SCHOLARSHIPS_MARKS_AS_PAID', false),
+    'price_categories_enabled' => false,
 
-    'price_categories_enabled' => env('PRICE_GROUPS_ENABLED', false),
+    'skip_invoice_data_step' => false,
 
-    'skip_invoice_data_step' => env('SKIP_INVOICE_DATA_STEP', false),
+    'add_books_to_invoices' => true,
 
-    'add_books_to_invoices' => env('CHECKOUT_BOOKS_WITH_ENROLLMENTS', true),
+    'invoices_contain_enrollments_only' => false,
 
-    'invoices_contain_enrollments_only' => env('INVOICES_CONTAIN_ENROLLMENTS_ONLY', false),
+    'invoice_footer' => null,
 ];

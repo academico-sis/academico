@@ -2,20 +2,20 @@
 
 namespace Database\Factories;
 
-use App\Models\Config;
+use App\Models\Setting;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<Config>
+ * @extends Factory<Setting>
  */
-class ConfigFactory extends Factory
+class SettingFactory extends Factory
 {
-    protected $model = Config::class;
+    protected $model = Setting::class;
 
     public function definition(): array
     {
         return [
-            'name' => fake()->word(),
+            'key' => fake()->unique()->slug(2),
             'value' => fake()->word(),
         ];
     }

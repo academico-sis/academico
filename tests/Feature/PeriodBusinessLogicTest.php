@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Models\Config;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Event;
@@ -13,6 +12,7 @@ use App\Models\Payment;
 use App\Models\Period;
 use App\Models\Student;
 use App\Models\Year;
+use App\Services\Settings;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -35,7 +35,7 @@ class PeriodBusinessLogicTest extends TestCase
     {
         $year = Year::factory()->create();
         $period = Period::factory()->create(['year_id' => $year->id]);
-        Config::where('name', 'current_period')->update(['value' => $period->id]);
+        app(Settings::class)->set(['current_period' => $period->id]);
 
         $result = Period::get_default_period();
 
@@ -45,7 +45,7 @@ class PeriodBusinessLogicTest extends TestCase
     public function test_get_default_period_falls_back_to_next_active_when_config_invalid(): void
     {
         $year = Year::factory()->create();
-        Config::where('name', 'current_period')->update(['value' => 99999]);
+        app(Settings::class)->set(['current_period' => 99999]);
 
         $activePeriod = Period::factory()->create([
             'year_id' => $year->id,
@@ -61,7 +61,7 @@ class PeriodBusinessLogicTest extends TestCase
     public function test_get_default_period_returns_most_recent_when_all_expired(): void
     {
         $year = Year::factory()->create();
-        Config::where('name', 'current_period')->update(['value' => 99999]);
+        app(Settings::class)->set(['current_period' => 99999]);
 
         $olderPeriod = Period::factory()->create([
             'year_id' => $year->id,
@@ -83,7 +83,7 @@ class PeriodBusinessLogicTest extends TestCase
     {
         $year = Year::factory()->create();
         $period = Period::factory()->create(['year_id' => $year->id]);
-        Config::where('name', 'default_enrollment_period')->update(['value' => $period->id]);
+        app(Settings::class)->set(['default_enrollment_period' => $period->id]);
 
         $result = Period::get_enrollments_period();
 
@@ -108,8 +108,8 @@ class PeriodBusinessLogicTest extends TestCase
         ]);
 
         // Config points to invalid id so it falls through to default period logic
-        Config::where('name', 'default_enrollment_period')->update(['value' => 99999]);
-        Config::where('name', 'current_period')->update(['value' => $currentPeriod->id]);
+        app(Settings::class)->set(['default_enrollment_period' => 99999]);
+        app(Settings::class)->set(['current_period' => $currentPeriod->id]);
 
         $result = Period::get_enrollments_period();
 
