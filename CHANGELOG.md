@@ -17,6 +17,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - A "General settings" page in the Settings area to edit the institution settings: name, address, contact details and logo, language, timezone, currency, notifications, features, registration and invoicing. The logo is shown in the panel, on the student pages and on invoices.
 - Certificates, result sheets and course results as PDF documents, in the institution language. They can be downloaded from the enrollment, course and grades pages and from the teacher dashboard. Certificates are disabled by default; their title, text (with placeholders such as `{student}`, `{course}` and `{hours}`), place, signer, signature and background image are set in the Certificates tab of the settings.
 - **Multi-tenancy:** one install can serve several institutions, each with its own database, files and domains, using `spatie/laravel-multitenancy`. The institution is found from the host name of the request, and its settings, language, URL, files, cache and permissions are switched accordingly. Queued jobs run for the institution that queued them. Host names that match no institution get a 404. A single-institution install keeps one database and works as before: a migration adds the `tenants` and `tenant_domains` tables to it and registers it as its only tenant, which answers on any host name. To serve several institutions, set `LANDLORD_DB_DATABASE` to a separate landlord database (see `.env.example`).
+- Commands to run several institutions: `academico:tenant:create` creates an institution with its database, files folder, domain and first administrator, who receives a link to choose a password; `academico:tenant:domain` adds, makes primary or removes a domain; `academico:tenant:list` lists the institutions; `academico:migrate` runs the migrations of the landlord database and of every institution after an upgrade. The README explains the setup.
 
 ### Changed
 
@@ -34,6 +35,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - The grade and skill evaluation buttons of the enrollment page are shown to users who can edit the grades of the course (`evaluation.edit`), instead of to administrators only.
 - **Scheduled tasks run at their time in the institution timezone** (the Timezone setting) instead of UTC: the period check and the monthly report at midnight, the external courses report at 03:15 (previously 02:10 UTC), the report cache at 05:15 and the attendance reminders at 08:15. They are Artisan commands that can also be run by hand: `academico:check-periods`, `academico:monthly-report`, `academico:external-courses-report`, `academico:build-report` and `academico:attendance-reminders`. The scheduler still needs `php artisan schedule:run` every minute. The external courses report also uses the date in the institution timezone to find the partners whose report day is today.
 - Private files (student photos, certificate signatures) are served under `/private/` instead of `/storage/`. Files of the public disk that are not under the `public/storage` link, such as those of other institutions, are served by the application.
+- Scheduled tasks run for each institution, at its time and in its timezone. A failure for one institution is reported and the others still run. Each task accepts `--tenant` to run for some institutions only.
+- The database queue, job batches, failed jobs and the database cache use the landlord connection, shared by all institutions (`DB_QUEUE_CONNECTION` and `DB_CACHE_CONNECTION` can still change it). For a single institution, this is the same database as before. Queued jobs are now dispatched once the database transaction that queued them is committed.
 
 ### Fixed
 
@@ -54,6 +57,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Invoices were printed in the language of the user who downloaded them. They are now printed in the institution language, like certificates. The month of the monthly report is also named in the institution language.
 - Password reset links could not be sent, because the table holding the reset tokens had been renamed back to its former name. A migration restores the `password_reset_tokens` table.
 - Teachers were reminded of their classes without attendance only when the absence emails to students were turned on. The reminders have their own setting in the Notifications tab of the settings, which a migration turns on where the absence emails were on.
+- Failed queued jobs could not be recorded, because the `failed_jobs` table had no `uuid` column. A migration adds it.
 
 ### Security
 
