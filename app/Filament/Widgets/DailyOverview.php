@@ -28,6 +28,14 @@ class DailyOverview extends Widget
     /** @var array<int, array<string, mixed>> */
     public array $resources = [];
 
+    /**
+     * The classes of every teacher, for users who can view all calendars.
+     */
+    public static function canView(): bool
+    {
+        return auth()->user()?->can('calendars.view') ?? false;
+    }
+
     public function mount(): void
     {
         $this->selectedDate = now()->toDateString();

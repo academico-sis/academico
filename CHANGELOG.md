@@ -61,6 +61,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - The student dashboard and account pages were open to every logged-in user, and saving the personal information there gave teachers and staff a student record, after which they were treated as students. These pages are now restricted to students, and the forced profile update can no longer be skipped from the browser.
 - Passwords must have at least 8 characters (previously 6) at registration, in the student account and when resetting a password. Students must enter their current password to change it.
 - Users who could view enrollments could also change their price, status and course, cancel them, attach or detach scholarships, and edit or delete any comment. These actions now require `enrollments.edit`. Comments can be added by users who can edit the enrollment or the student, and changed or deleted by their author or by users with the `comments.edit` permission (administrators by default). Setting the current or enrollment period requires `courses.edit`.
+- The dashboard widgets were shown to every user of the panel, so teachers and viewers saw the enrollment and student figures and the classes of every teacher. The figures now require `enrollments.view`, the daily classes `calendars.view` and the period information `courses.view`.
 
 ### Removed
 
