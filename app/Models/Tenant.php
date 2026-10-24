@@ -23,7 +23,7 @@ class Tenant extends BaseTenant
     }
 
     /**
-     * The address of the tenant, built from its primary domain and the scheme of APP_URL.
+     * The address of the tenant, built from its primary domain and the scheme and port of APP_URL.
      */
     public function url(string $baseUrl): string
     {
@@ -33,7 +33,9 @@ class Tenant extends BaseTenant
             return $baseUrl;
         }
 
-        return (parse_url($baseUrl, PHP_URL_SCHEME) ?: 'https').'://'.$domain;
+        $port = parse_url($baseUrl, PHP_URL_PORT);
+
+        return (parse_url($baseUrl, PHP_URL_SCHEME) ?: 'https').'://'.$domain.($port ? ":{$port}" : '');
     }
 
     /**
