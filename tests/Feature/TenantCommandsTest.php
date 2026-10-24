@@ -71,6 +71,19 @@ class TenantCommandsTest extends TestCase
         Notification::assertSentTo($admin, ResetPassword::class);
     }
 
+    public function test_the_database_is_named_after_the_prefix_and_the_institution(): void
+    {
+        Notification::fake();
+        $this->useSeveralTenants();
+        // SQLite databases are files: the prefix is a path
+        $prefix = dirname($this->tenantDatabasePath('any')).'/school_';
+        config(['multitenancy.database_prefix' => $prefix]);
+
+        $this->artisan('academico:tenant:create', [...$this->newInstitution(), '--database' => null])->assertSuccessful();
+
+        $this->assertSame("{$prefix}second_school", Tenant::sole()->database);
+    }
+
     public function test_creation_refuses_a_domain_or_database_already_used(): void
     {
         Notification::fake();

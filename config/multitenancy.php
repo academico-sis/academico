@@ -42,6 +42,13 @@ return [
      */
     'default_tenant' => env('TENANCY_DEFAULT_TENANT'),
 
+    /*
+     * Start of the database names of new tenants, followed by their name.
+     * The database user needs the right to create databases with this prefix:
+     * choose one that no other database on the server uses.
+     */
+    'database_prefix' => env('TENANCY_DATABASE_PREFIX', 'academico_'),
+
     'tenant_finder' => DomainTenantFinder::class,
 
     /*
