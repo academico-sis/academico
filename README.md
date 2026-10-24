@@ -232,7 +232,7 @@ services:
 - One web container, one scheduler and one worker serve all institutions. The storage folder must be writable by `www-data` (UID 33).
 - The routers send requests to `TRAEFIK_SERVICE_URL` (`http://academico:80` by default) and use the `letsencrypt` resolver (`TRAEFIK_CERT_RESOLVER`). HTTP requests are redirected to HTTPS.
 - Set `TRUSTED_PROXIES=*` when the application container publishes no port and can only be reached through Traefik, so that the client IP addresses and HTTPS links are right.
-- The database user creates one database per institution. With MariaDB, this grant lets it create and use the databases whose name starts with `academico_`, the default for new institutions. Name the landlord database accordingly, for example `academico_landlord`.
+- The database user creates one database per institution, named after `TENANCY_DATABASE_PREFIX` (`academico_` by default) and the institution. With MariaDB, this grant lets it create and use the databases whose name starts with the prefix. Choose a prefix that no other database on the server uses, since the grant covers all of them, and name the landlord database with it, for example `academico_landlord`.
 
 ```sql
 GRANT ALL PRIVILEGES ON `academico\_%`.* TO 'academico'@'%';
