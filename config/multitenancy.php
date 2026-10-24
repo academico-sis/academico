@@ -51,19 +51,6 @@ return [
 
     'tenant_finder' => DomainTenantFinder::class,
 
-    /*
-     * Behind Traefik, its HTTP provider can read the routers of every tenant
-     * domain from /tenancy/traefik, sending the token as a bearer token. The
-     * endpoint is disabled while the token is empty.
-     */
-    'traefik' => [
-        'token' => env('TRAEFIK_PROVIDER_TOKEN'),
-        'service_url' => env('TRAEFIK_SERVICE_URL', 'http://academico:80'),
-        'cert_resolver' => env('TRAEFIK_CERT_RESOLVER', 'letsencrypt'),
-        'https_entrypoint' => env('TRAEFIK_HTTPS_ENTRYPOINT', 'websecure'),
-        'http_entrypoint' => env('TRAEFIK_HTTP_ENTRYPOINT', 'web'),
-    ],
-
     'tenant_artisan_search_fields' => [
         'id',
         'name',
