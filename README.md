@@ -185,6 +185,65 @@ php artisan tenants:artisan "academico:resync-coursetimes 12" --tenant=1
 
 A single-institution install needs none of this: its database also holds the landlord tables, and its one institution answers on any host name.
 
+### Behind Traefik
+
+One web container serves all institutions, so its routes are best kept in a [file provider](https://doc.traefik.io/traefik/providers/file/) configuration rather than in Docker labels: Traefik reloads the file when it changes, without recreating the container. When you add an institution, add its domains to the file; Traefik then requests their certificates.
+
+```yaml
+# traefik/dynamic/academico.yml, loaded with
+#   --providers.file.directory=/dynamic
+#   --providers.file.watch=true
+http:
+  routers:
+    academico-example-school:
+      rule: Host(`school.example.org`) || Host(`www.example-school.org`)
+      entryPoints: [websecure]
+      service: academico
+      tls:
+        certResolver: letsencrypt
+  services:
+    academico:
+      loadBalancer:
+        servers:
+          - url: http://academico:80
+```
+
+Redirect HTTP to HTTPS on the `web` entry point (`--entrypoints.web.http.redirections.entrypoint.to=websecure`), or add an HTTP router with a `redirectScheme` middleware.
+
+```yaml
+services:
+  academico:
+    image: academicosis/academico:latest
+    command: sh -c 'php artisan academico:migrate --force && php artisan optimize && frankenphp run --config /etc/caddy/Caddyfile'
+    env_file: .env
+    environment:
+      SERVER_NAME: ":80"    # Traefik handles HTTPS
+    volumes:
+      - ./storage:/app/storage
+
+  academico-scheduler:
+    image: academicosis/academico:latest
+    command: sh -c 'while true; do php artisan schedule:run --no-interaction; sleep 60; done'
+    env_file: .env
+    volumes:
+      - ./storage:/app/storage
+
+  academico-worker:
+    image: academicosis/academico:latest
+    command: php artisan queue:work --tries=3 --timeout=60
+    env_file: .env
+    volumes:
+      - ./storage:/app/storage
+```
+
+- One web container, one scheduler and one worker serve all institutions. The storage folder must be writable by `www-data` (UID 33).
+- Set `TRUSTED_PROXIES=*` when the application container publishes no port and can only be reached through Traefik, so that the client IP addresses and HTTPS links are right.
+- The database user creates one database per institution, named after `TENANCY_DATABASE_PREFIX` (`academico_` by default) and the institution. With MariaDB, this grant lets it create and use the databases whose name starts with the prefix. Choose a prefix that no other database on the server uses, since the grant covers all of them, and name the landlord database with it, for example `academico_landlord`.
+
+```sql
+GRANT ALL PRIVILEGES ON `academico\_%`.* TO 'academico'@'%';
+```
+
 # Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for how to set up a development environment and submit changes. Notable changes are listed in [CHANGELOG.md](CHANGELOG.md).
