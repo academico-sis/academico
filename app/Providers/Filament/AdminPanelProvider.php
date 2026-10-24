@@ -56,6 +56,11 @@ class AdminPanelProvider extends PanelProvider
                 fn (): string => Blade::render('@vite(\'resources/css/app.css\')'),
             )
             ->renderHook(
+                PanelsRenderHook::AUTH_LOGIN_FORM_AFTER,
+                fn (): string => view('filament.auth.demo-accounts')->render(),
+                scopes: Login::class,
+            )
+            ->renderHook(
                 PanelsRenderHook::USER_MENU_BEFORE,
                 fn (): string => Blade::render('@livewire(\'locale-switcher\')'),
             )

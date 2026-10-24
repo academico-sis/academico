@@ -3,6 +3,7 @@
 namespace App\Filament\Auth;
 
 use App\Models\User;
+use App\Services\Settings;
 use Filament\Actions\Action;
 use Filament\Auth\Http\Responses\Contracts\LoginResponse;
 use Filament\Auth\Pages\Login as BaseLogin;
@@ -38,6 +39,24 @@ class Login extends BaseLogin
     protected function isUserAllowedToAccessPanel(Authenticatable $user): bool
     {
         return ($user instanceof User && $user->isStudent()) || parent::isUserAllowedToAccessPanel($user);
+    }
+
+    /**
+     * Fills the form with an account of the demo_accounts setting, which a demo install lists on this page.
+     */
+    public function useDemoAccount(int $index): void
+    {
+        $account = (app(Settings::class)->get('demo_accounts') ?? [])[$index] ?? null;
+
+        if (! is_array($account)) {
+            return;
+        }
+
+        $this->form->fill([
+            'email' => $account['email'] ?? null,
+            'password' => $account['password'] ?? null,
+            'remember' => false,
+        ]);
     }
 
     public function getSubheading(): string|Htmlable|null
