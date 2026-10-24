@@ -18,6 +18,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
+use Sentry\Event;
+use Sentry\SentrySdk;
+use Sentry\State\Scope;
 use Tests\InteractsWithTenants;
 use Tests\TestCase;
 
@@ -188,5 +191,27 @@ class TenancyTest extends TestCase
         $this->expectExceptionMessage('DB_URL cannot be used with LANDLORD_DB_DATABASE');
 
         (new TenancyServiceProvider($this->app))->register();
+    }
+
+    public function test_error_reports_carry_the_tenant(): void
+    {
+        $this->assertSame((string) Tenant::sole()->id, $this->sentryTags()['tenant'] ?? null);
+
+        Tenant::forgetCurrent();
+
+        $this->assertArrayNotHasKey('tenant', $this->sentryTags());
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    private function sentryTags(): array
+    {
+        $tags = [];
+        SentrySdk::getCurrentHub()->configureScope(function (Scope $scope) use (&$tags): void {
+            $tags = $scope->applyToEvent(Event::createEvent())?->getTags() ?? [];
+        });
+
+        return $tags;
     }
 }

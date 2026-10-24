@@ -189,24 +189,31 @@ A single-institution install needs none of this: its database also holds the lan
 
 ### Behind Traefik
 
-Traefik can get the routers of every institution domain from the application, with its [HTTP provider](https://doc.traefik.io/traefik/providers/http/): a new institution or domain is then served, with its own Let's Encrypt certificate, within a poll interval, without changing the Traefik configuration. Set `TRAEFIK_PROVIDER_TOKEN` to a long random value, and give it to Traefik:
+One web container serves all institutions, so its routes are best kept in a [file provider](https://doc.traefik.io/traefik/providers/file/) configuration rather than in Docker labels: Traefik reloads the file when it changes, without recreating the container. When you add an institution, add its domains to the file; Traefik then requests their certificates.
+
+```yaml
+# traefik/dynamic/academico.yml, loaded with
+#   --providers.file.directory=/dynamic
+#   --providers.file.watch=true
+http:
+  routers:
+    academico-example-school:
+      rule: Host(`school.example.org`) || Host(`www.example-school.org`)
+      entryPoints: [websecure]
+      service: academico
+      tls:
+        certResolver: letsencrypt
+  services:
+    academico:
+      loadBalancer:
+        servers:
+          - url: http://academico:80
+```
+
+Redirect HTTP to HTTPS on the `web` entry point (`--entrypoints.web.http.redirections.entrypoint.to=websecure`), or add an HTTP router with a `redirectScheme` middleware.
 
 ```yaml
 services:
-  traefik:
-    image: traefik:v3.6
-    command:
-      - "--entrypoints.web.address=:80"
-      - "--entrypoints.websecure.address=:443"
-      - "--certificatesresolvers.letsencrypt.acme.httpchallenge=true"
-      - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web"
-      - "--certificatesresolvers.letsencrypt.acme.email=admin@example.org"
-      - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
-      - "--providers.http.endpoint=http://academico/tenancy/traefik"
-      - "--providers.http.headers.Authorization=Bearer ${TRAEFIK_PROVIDER_TOKEN}"
-      - "--providers.http.pollInterval=30s"
-    # ports, volumes and networks as usual
-
   academico:
     image: academicosis/academico:latest
     command: sh -c 'php artisan academico:migrate --force && php artisan optimize && frankenphp run --config /etc/caddy/Caddyfile'
@@ -232,7 +239,6 @@ services:
 ```
 
 - One web container, one scheduler and one worker serve all institutions. The storage folder must be writable by `www-data` (UID 33).
-- The routers send requests to `TRAEFIK_SERVICE_URL` (`http://academico:80` by default) and use the `letsencrypt` resolver (`TRAEFIK_CERT_RESOLVER`). HTTP requests are redirected to HTTPS.
 - Set `TRUSTED_PROXIES=*` when the application container publishes no port and can only be reached through Traefik, so that the client IP addresses and HTTPS links are right.
 - The database user creates one database per institution, named after `TENANCY_DATABASE_PREFIX` (`academico_` by default) and the institution. With MariaDB, this grant lets it create and use the databases whose name starts with the prefix. Choose a prefix that no other database on the server uses, since the grant covers all of them, and name the landlord database with it, for example `academico_landlord`.
 
