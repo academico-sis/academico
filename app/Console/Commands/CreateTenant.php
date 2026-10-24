@@ -53,7 +53,7 @@ class CreateTenant extends Command
 
         $validator = Validator::make($data, [
             'name' => ['required', 'max:255'],
-            'domain' => ['required', 'max:253', 'regex:/^([a-z0-9]([a-z0-9-]*[a-z0-9])?\.)+[a-z0-9]([a-z0-9-]*[a-z0-9])?$/', Rule::unique(TenantDomain::class, 'domain')],
+            'domain' => ['required', 'max:253', 'regex:'.TenantDomain::PATTERN, Rule::unique(TenantDomain::class, 'domain')],
             // A SQLite database is a file path; database servers limit names to 64 letters, digits and underscores
             'database' => ['required', Rule::unique(Tenant::class, 'database'), ...($this->landlordDriver() === 'sqlite' ? ['max:255'] : ['max:64', 'regex:/^[A-Za-z0-9_]+$/'])],
             'email' => ['required', 'email', 'max:255'],
