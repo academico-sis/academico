@@ -27,8 +27,10 @@ use App\Models\Skills\SkillEvaluation;
 use App\Models\Skills\SkillType;
 use App\Models\Student;
 use App\Models\Teacher;
+use App\Models\Tenant;
 use App\Models\User;
 use App\Models\Year;
+use App\Services\Settings;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -411,5 +413,28 @@ class TestSeeder extends Seeder
                 'author_id' => $admin->id,
             ]);
         });
+
+        $this->listDemoAccounts($teachers->first(), $students->first());
+    }
+
+    /**
+     * The login page of a demo lists one account per role (see the demo_accounts setting). The institution of a
+     * multi-tenant demo is named after its tenant.
+     */
+    private function listDemoAccounts(Teacher $teacher, Student $student): void
+    {
+        $password = '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm'; // secret
+        $teacher->user->update(['email' => 'teacher@academico.test', 'password' => $password]);
+        $student->user->update(['email' => 'student@academico.test', 'password' => $password]);
+
+        app(Settings::class)->set(array_filter([
+            'demo_accounts' => [
+                ['role' => 'Administrator', 'email' => 'contact@thomasdebay.com', 'password' => 'secret'],
+                ['role' => 'Secretary', 'email' => 'secretary@academico.test', 'password' => 'secret'],
+                ['role' => 'Teacher', 'email' => 'teacher@academico.test', 'password' => 'secret'],
+                ['role' => 'Student', 'email' => 'student@academico.test', 'password' => 'secret'],
+            ],
+            'academico.company_name' => Tenant::current()?->name,
+        ]));
     }
 }

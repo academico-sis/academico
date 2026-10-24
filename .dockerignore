@@ -26,5 +26,15 @@ storage/framework/*
 storage/logs/*
 storage/media-library
 storage/tenants
+# Listed one by one: a ** pattern makes Docker read every folder, including root-owned test leftovers
 !bootstrap/cache/.gitignore
-!storage/**/.gitignore
+!storage/app/.gitignore
+!storage/app/private/.gitignore
+!storage/app/public/.gitignore
+!storage/framework/.gitignore
+!storage/framework/cache/.gitignore
+!storage/framework/cache/data/.gitignore
+!storage/framework/sessions/.gitignore
+!storage/framework/testing/.gitignore
+!storage/framework/views/.gitignore
+!storage/logs/.gitignore
