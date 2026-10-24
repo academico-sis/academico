@@ -54,7 +54,7 @@ class CreateTenant extends Command
 
         $validator = Validator::make($data, [
             'name' => ['required', 'max:255'],
-            'domain' => ['required', 'max:253', 'regex:/^([a-z0-9]([a-z0-9-]*[a-z0-9])?\.)+[a-z0-9]([a-z0-9-]*[a-z0-9])?$/', Rule::unique(TenantDomain::class, 'domain')],
+            'domain' => ['required', 'max:253', 'regex:'.TenantDomain::PATTERN, Rule::unique(TenantDomain::class, 'domain')],
             // A SQLite database is a file path; database servers limit names to 64 letters, digits and underscores.
             // An existing database is refused: createDatabase() would empty a SQLite file, and the cleanup delete it.
             'database' => [

@@ -187,6 +187,59 @@ php artisan tenants:artisan "academico:resync-coursetimes 12" --tenant=1
 
 A single-institution install needs none of this: its database also holds the landlord tables, and its one institution answers on any host name.
 
+### Behind Traefik
+
+Traefik can get the routers of every institution domain from the application, with its [HTTP provider](https://doc.traefik.io/traefik/providers/http/): a new institution or domain is then served, with its own Let's Encrypt certificate, within a poll interval, without changing the Traefik configuration. Set `TRAEFIK_PROVIDER_TOKEN` to a long random value, and give it to Traefik:
+
+```yaml
+services:
+  traefik:
+    image: traefik:v3.6
+    command:
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.letsencrypt.acme.httpchallenge=true"
+      - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web"
+      - "--certificatesresolvers.letsencrypt.acme.email=admin@example.org"
+      - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
+      - "--providers.http.endpoint=http://academico/tenancy/traefik"
+      - "--providers.http.headers.Authorization=Bearer ${TRAEFIK_PROVIDER_TOKEN}"
+      - "--providers.http.pollInterval=30s"
+    # ports, volumes and networks as usual
+
+  academico:
+    image: academicosis/academico:latest
+    command: sh -c 'php artisan academico:migrate --force && php artisan optimize && frankenphp run --config /etc/caddy/Caddyfile'
+    env_file: .env
+    environment:
+      SERVER_NAME: ":80"    # Traefik handles HTTPS
+    volumes:
+      - ./storage:/app/storage
+
+  academico-scheduler:
+    image: academicosis/academico:latest
+    command: sh -c 'while true; do php artisan schedule:run --no-interaction; sleep 60; done'
+    env_file: .env
+    volumes:
+      - ./storage:/app/storage
+
+  academico-worker:
+    image: academicosis/academico:latest
+    command: php artisan queue:work --tries=3 --timeout=60
+    env_file: .env
+    volumes:
+      - ./storage:/app/storage
+```
+
+- One web container, one scheduler and one worker serve all institutions. The storage folder must be writable by `www-data` (UID 33).
+- The routers send requests to `TRAEFIK_SERVICE_URL` (`http://academico:80` by default) and use the `letsencrypt` resolver (`TRAEFIK_CERT_RESOLVER`). HTTP requests are redirected to HTTPS.
+- Set `TRUSTED_PROXIES=*` when the application container publishes no port and can only be reached through Traefik, so that the client IP addresses and HTTPS links are right.
+- The database user creates one database per institution. With MariaDB, this grant lets it create and use the databases whose name starts with `academico_`, the default for new institutions. Name the landlord database accordingly, for example `academico_landlord`.
+
+```sql
+GRANT ALL PRIVILEGES ON `academico\_%`.* TO 'academico'@'%';
+```
+
 # Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for how to set up a development environment and submit changes. Notable changes are listed in [CHANGELOG.md](CHANGELOG.md).

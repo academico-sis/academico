@@ -48,7 +48,7 @@ class SetTenantDomain extends Command
 
         if (! $existing) {
             $validator = Validator::make(['domain' => $domain], [
-                'domain' => ['max:253', 'regex:/^([a-z0-9]([a-z0-9-]*[a-z0-9])?\.)+[a-z0-9]([a-z0-9-]*[a-z0-9])?$/', Rule::unique(TenantDomain::class, 'domain')],
+                'domain' => ['max:253', 'regex:'.TenantDomain::PATTERN, Rule::unique(TenantDomain::class, 'domain')],
             ]);
 
             if ($validator->fails()) {
