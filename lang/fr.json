@@ -847,5 +847,9 @@
     "This certifies that {student} has completed the course {course}, a total of {hours} hours.": "Nous certifions que {student} a suivi le cours {course}, soit un total de {hours} heures.",
     "Title": "Titre",
     "Current Password": "Mot de passe actuel",
-    "Remind teachers by email of their classes without attendance": "Rappeler par e-mail aux professeurs leurs cours sans présences"
+    "Remind teachers by email of their classes without attendance": "Rappeler par e-mail aux professeurs leurs cours sans présences",
+    "Demo accounts": "Comptes de démonstration",
+    "Use": "Utiliser",
+    "Administrator": "Administrateur",
+    "Secretary": "Secrétariat"
 }
