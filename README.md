@@ -216,7 +216,8 @@ Redirect HTTP to HTTPS on the `web` entry point (`--entrypoints.web.http.redirec
 services:
   academico:
     image: academicosis/academico:latest
-    command: sh -c 'php artisan academico:migrate --force && php artisan optimize && frankenphp run --config /etc/caddy/Caddyfile'
+    # The server starts even when the migrations of one institution fail: the others stay online
+    command: sh -c 'php artisan academico:migrate --force; php artisan optimize && frankenphp run --config /etc/caddy/Caddyfile'
     env_file: .env
     environment:
       SERVER_NAME: ":80"    # Traefik handles HTTPS
@@ -239,6 +240,7 @@ services:
 ```
 
 - One web container, one scheduler and one worker serve all institutions. The storage folder must be writable by `www-data` (UID 33).
+- The web container runs the migrations of every institution when it starts. If those of one institution fail, the error is in the container logs (`docker compose logs academico`); fix the cause, then run `php artisan academico:migrate --force` again.
 - Set `TRUSTED_PROXIES=*` when the application container publishes no port and can only be reached through Traefik, so that the client IP addresses and HTTPS links are right.
 - The database user creates one database per institution, named after `TENANCY_DATABASE_PREFIX` (`academico_` by default) and the institution. With MariaDB, this grant lets it create and use the databases whose name starts with the prefix. Choose a prefix that no other database on the server uses, since the grant covers all of them, and name the landlord database with it, for example `academico_landlord`.
 
