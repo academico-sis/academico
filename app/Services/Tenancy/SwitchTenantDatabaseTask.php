@@ -2,12 +2,14 @@
 
 namespace App\Services\Tenancy;
 
+use App\Models\Tenant;
 use Spatie\Multitenancy\Contracts\IsTenant;
 use Spatie\Multitenancy\Tasks\SwitchTenantDatabaseTask as BaseSwitchTenantDatabaseTask;
 
 /**
- * Points the default connection to the database of the current tenant. A single-tenant install already
- * uses its own database, so nothing is switched; when no tenant is current, the configured database is used.
+ * Points the default connection to the database of the current tenant. A single-tenant install keeps the
+ * configured database, even when it was renamed after its tenant was registered; when no tenant is current,
+ * the configured database is used.
  */
 class SwitchTenantDatabaseTask extends BaseSwitchTenantDatabaseTask
 {
@@ -34,6 +36,10 @@ class SwitchTenantDatabaseTask extends BaseSwitchTenantDatabaseTask
 
     public function makeCurrent(IsTenant $tenant): void
     {
+        if (Tenant::usesSingleDatabase()) {
+            return;
+        }
+
         $this->setTenantConnectionDatabaseName($tenant->getDatabaseName());
     }
 }

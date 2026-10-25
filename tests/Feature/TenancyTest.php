@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Http\Middleware\NeedsTenant;
 use App\Models\Tenant;
+use App\Providers\TenancyServiceProvider;
 use App\Services\Tenancy\DomainTenantFinder;
 use App\Services\Tenancy\SwitchTenantFilesystemsTask;
 use App\Services\Tenancy\SwitchTenantUrlTask;
@@ -19,6 +20,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
 use Tests\TestCase;
 
 class TenancyTest extends TestCase
@@ -149,6 +151,43 @@ class TenancyTest extends TestCase
 
         $first->makeCurrent();
         $this->assertSame('$', config('academico.currency_symbol'));
+    }
+
+    public function test_signed_urls_of_a_tenant_are_refused_by_the_others(): void
+    {
+        $first = $this->tenantWithDatabase('first', []);
+        $second = $this->tenantWithDatabase('second', []);
+
+        $first->makeCurrent();
+        $request = Request::create(Storage::disk('local')->temporaryUrl('1/photo.jpg', now()->addMinutes(5)));
+        $this->assertTrue(URL::hasValidSignature($request, absolute: false));
+
+        $second->makeCurrent();
+        $this->assertFalse(URL::hasValidSignature($request, absolute: false));
+    }
+
+    public function test_a_single_tenant_install_keeps_its_configured_database(): void
+    {
+        Tenant::sole()->update(['database' => 'renamed_since']);
+        Tenant::forgetCurrent();
+
+        Tenant::sole()->makeCurrent();
+
+        $this->assertSame(':memory:', config('database.connections.sqlite.database'));
+        $this->assertSame(1, Tenant::count());
+    }
+
+    public function test_a_database_url_is_refused_in_a_multi_tenant_install(): void
+    {
+        config([
+            'multitenancy.landlord_database' => 'landlord',
+            'multitenancy.landlord_database_connection_name' => 'landlord_url_test',
+            'database.connections.sqlite.url' => 'mysql://user:secret@db/academico',
+        ]);
+
+        $this->expectExceptionMessage('DB_URL cannot be used with LANDLORD_DB_DATABASE');
+
+        (new TenancyServiceProvider($this->app))->register();
     }
 
     /**
