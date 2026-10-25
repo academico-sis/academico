@@ -6,6 +6,7 @@ use App\Services\CourseEventScheduler;
 use App\Services\Settings;
 use Filament\Tables\Enums\RecordActionsPosition;
 use Filament\Tables\Table;
+use Illuminate\Database\QueryException;
 use Illuminate\Queue\Events\JobProcessing;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Queue;
@@ -44,7 +45,8 @@ class AppServiceProvider extends ServiceProvider
 
     /**
      * Apply the settings saved in the database once the application has booted, and again before
-     * each queued job so that long-running workers see the latest values.
+     * each queued job so that long-running workers see the latest values. At boot, a database that
+     * cannot be reached leaves the config defaults, so that commands such as config:cache still run.
      *
      * The institution language becomes the default locale. Web requests then switch to the
      * language of the user (see SetLocale).
@@ -52,7 +54,11 @@ class AppServiceProvider extends ServiceProvider
     protected function applySettings(): void
     {
         $this->app->booted(function (): void {
-            $this->app->make(Settings::class)->reload();
+            try {
+                $this->app->make(Settings::class)->reload();
+            } catch (QueryException) {
+                // Use the config defaults.
+            }
 
             $this->app->setLocale(config('academico.locale'));
         });

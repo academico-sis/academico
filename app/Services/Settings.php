@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Setting;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Schema;
 
 /**
  * Institution settings stored in the database.
@@ -133,7 +134,8 @@ class Settings
 
     /**
      * Put the config defaults back, then read the settings again and apply them. Before the first
-     * migration, the settings table does not exist and the defaults are kept.
+     * migration, the settings table does not exist and the defaults are kept. Other database errors,
+     * such as a lost connection, are thrown: the defaults would hide the institution's settings.
      */
     public function reload(): void
     {
@@ -141,8 +143,10 @@ class Settings
 
         try {
             $this->apply();
-        } catch (QueryException) {
-            // Keep the config defaults.
+        } catch (QueryException $exception) {
+            if (Schema::hasTable((new Setting)->getTable())) {
+                throw $exception;
+            }
         }
     }
 
