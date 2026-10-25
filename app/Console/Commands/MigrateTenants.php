@@ -4,10 +4,12 @@ namespace App\Console\Commands;
 
 use App\Models\Tenant;
 use Illuminate\Console\Command;
+use Throwable;
 
 /**
  * Runs the migrations after an upgrade: the landlord database first, then the database of each institution.
- * A single-tenant install has one database, migrated as usual.
+ * A failure is reported and the command goes on with the next institution, so that one broken database does
+ * not leave the others on the old schema. A single-tenant install has one database, migrated as usual.
  */
 class MigrateTenants extends Command
 {
@@ -31,11 +33,18 @@ class MigrateTenants extends Command
 
         foreach (Tenant::query()->orderBy('id')->get() as $tenant) {
             $this->info("{$tenant->name} ({$tenant->database})");
-            $status = max($status, $tenant->execute(fn (): int => $this->call('migrate', [
-                '--path' => database_path('migrations'),
-                '--realpath' => true,
-                '--force' => $this->option('force'),
-            ])));
+
+            try {
+                $status = max($status, $tenant->execute(fn (): int => $this->call('migrate', [
+                    '--path' => database_path('migrations'),
+                    '--realpath' => true,
+                    '--force' => $this->option('force'),
+                ])));
+            } catch (Throwable $exception) {
+                report($exception);
+                $this->error("Tenant {$tenant->id} ({$tenant->name}): {$exception->getMessage()}");
+                $status = self::FAILURE;
+            }
         }
 
         return $status;

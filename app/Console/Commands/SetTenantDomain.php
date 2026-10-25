@@ -22,7 +22,7 @@ class SetTenantDomain extends Command
 
     public function handle(): int
     {
-        $tenant = Tenant::query()->whereKey($this->argument('tenant'))->orWhere('name', $this->argument('tenant'))->first();
+        $tenant = Tenant::query()->whereIn('id', [$this->argument('tenant')])->orWhere('name', $this->argument('tenant'))->first();
         $domain = Str::lower(trim((string) $this->argument('domain')));
 
         if (! $tenant) {
@@ -62,7 +62,8 @@ class SetTenantDomain extends Command
 
         if ($this->option('primary') || $tenant->domains()->count() === 1) {
             DB::connection($tenant->getConnectionName())->transaction(function () use ($tenant, $existing): void {
-                $tenant->domains()->update(['is_primary' => false]);
+                // The domain itself is left out: a model already primary would not save true again
+                $tenant->domains()->whereKeyNot($existing->getKey())->update(['is_primary' => false]);
                 $existing->update(['is_primary' => true]);
             });
         }

@@ -6,6 +6,7 @@ use App\Models\Tenant;
 use App\Models\TenantDomain;
 use App\Models\User;
 use App\Services\Settings;
+use Closure;
 use Database\Seeders\InstitutionSeeder;
 use Filament\Auth\Notifications\ResetPassword;
 use Filament\Facades\Filament;
@@ -54,8 +55,18 @@ class CreateTenant extends Command
         $validator = Validator::make($data, [
             'name' => ['required', 'max:255'],
             'domain' => ['required', 'max:253', 'regex:/^([a-z0-9]([a-z0-9-]*[a-z0-9])?\.)+[a-z0-9]([a-z0-9-]*[a-z0-9])?$/', Rule::unique(TenantDomain::class, 'domain')],
-            // A SQLite database is a file path; database servers limit names to 64 letters, digits and underscores
-            'database' => ['required', Rule::unique(Tenant::class, 'database'), ...($this->landlordDriver() === 'sqlite' ? ['max:255'] : ['max:64', 'regex:/^[A-Za-z0-9_]+$/'])],
+            // A SQLite database is a file path; database servers limit names to 64 letters, digits and underscores.
+            // An existing database is refused: createDatabase() would empty a SQLite file, and the cleanup delete it.
+            'database' => [
+                'required',
+                Rule::unique(Tenant::class, 'database'),
+                ...($this->landlordDriver() === 'sqlite' ? ['max:255'] : ['max:64', 'regex:/^[A-Za-z0-9_]+$/']),
+                function (string $attribute, string $value, Closure $fail): void {
+                    if ($this->databaseExists($value)) {
+                        $fail("The database {$value} already exists.");
+                    }
+                },
+            ],
             'email' => ['required', 'email', 'max:255'],
             'firstname' => ['required', 'max:255'],
             'lastname' => ['required', 'max:255'],
@@ -133,6 +144,15 @@ class CreateTenant extends Command
     private function landlordConnection(): string
     {
         return config('multitenancy.landlord_database_connection_name');
+    }
+
+    private function databaseExists(string $database): bool
+    {
+        if ($this->landlordDriver() === 'sqlite') {
+            return file_exists($database);
+        }
+
+        return collect(Schema::connection($this->landlordConnection())->getSchemas())->contains('name', $database);
     }
 
     private function landlordDriver(): ?string

@@ -6,13 +6,17 @@ use App\Events\MonthlyReportEvent;
 use App\Models\Period;
 use App\Models\Tenant;
 use App\Models\User;
+use App\Providers\TenancyServiceProvider;
+use Carbon\Carbon;
 use Filament\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
 use RuntimeException;
+use Spatie\Multitenancy\Events\MadeTenantCurrentEvent;
 use Tests\InteractsWithTenants;
 use Tests\TestCase;
 
@@ -86,6 +90,19 @@ class TenantCommandsTest extends TestCase
         $this->assertSame(1, Tenant::count());
     }
 
+    public function test_creation_refuses_an_existing_database_file(): void
+    {
+        $this->useSeveralTenants();
+        File::put($this->tenantDatabasePath('second'), 'existing data');
+
+        $this->artisan('academico:tenant:create', $this->newInstitution())
+            ->expectsOutputToContain('already exists')
+            ->assertFailed();
+
+        $this->assertSame('existing data', File::get($this->tenantDatabasePath('second')));
+        $this->assertSame(0, Tenant::count());
+    }
+
     public function test_a_failed_creation_leaves_nothing_behind(): void
     {
         $this->useSeveralTenants();
@@ -115,6 +132,9 @@ class TenantCommandsTest extends TestCase
         $this->artisan('academico:tenant:domain', ['tenant' => $tenant->id, 'domain' => 'WWW.school.example.org', '--primary' => true])->assertSuccessful();
         $this->assertSame(['www.school.example.org'], $tenant->domains()->where('is_primary', true)->pluck('domain')->all());
 
+        $this->artisan('academico:tenant:domain', ['tenant' => $tenant->id, 'domain' => 'www.school.example.org', '--primary' => true])->assertSuccessful();
+        $this->assertSame(['www.school.example.org'], $tenant->domains()->where('is_primary', true)->pluck('domain')->all());
+
         $this->artisan('academico:tenant:domain', ['tenant' => $tenant->id, 'domain' => 'school.example.org', '--remove' => true])->assertSuccessful();
         $this->assertSame(['www.school.example.org'], $tenant->domains()->pluck('domain')->all());
 
@@ -140,6 +160,29 @@ class TenantCommandsTest extends TestCase
         Event::assertDispatchedTimes(MonthlyReportEvent::class, 3);
     }
 
+    public function test_tenants_are_not_found_by_an_id_at_the_start_of_their_name(): void
+    {
+        $this->assertSame(['2'], Tenant::query()->whereIn('id', ['2', '2 Rivers School'])->getBindings());
+        $this->assertSame(['2', '2', '2 Rivers School'], Tenant::query()->whereIn('id', ['2', '2 Rivers School'])->orWhereIn('name', ['2', '2 Rivers School'])->getBindings());
+        $this->assertSame([], Tenant::query()->orWhereIn('tenants.id', ['2 Rivers School'])->getBindings());
+    }
+
+    public function test_slow_tenants_do_not_push_the_next_ones_past_their_time(): void
+    {
+        Event::fake([MonthlyReportEvent::class]);
+        $this->useSeveralTenants();
+        $this->tenantWithSettings('first', ['settings.monthly_report' => true]);
+        $this->tenantWithSettings('second', ['settings.monthly_report' => true]);
+
+        // Each tenant takes 20 minutes
+        Carbon::setTestNow(Carbon::parse('2026-10-20 08:15:00', 'UTC'));
+        Event::listen(MadeTenantCurrentEvent::class, fn () => Carbon::setTestNow(now()->addMinutes(20)));
+
+        $this->artisan('academico:monthly-report', ['--at' => '08:15'])->assertSuccessful();
+
+        Event::assertDispatchedTimes(MonthlyReportEvent::class, 2);
+    }
+
     public function test_a_failure_for_one_tenant_does_not_stop_the_others(): void
     {
         $this->useSeveralTenants();
@@ -163,6 +206,28 @@ class TenantCommandsTest extends TestCase
             ->expectsOutputToContain('Landlord database')
             ->expectsOutputToContain('Second School')
             ->assertSuccessful();
+    }
+
+    public function test_a_failed_migration_does_not_stop_the_other_institutions(): void
+    {
+        Notification::fake();
+        $this->useSeveralTenants();
+        Tenant::create(['name' => 'Broken School', 'database' => $this->tenantDatabasePath('missing')]);
+        $this->artisan('academico:tenant:create', $this->newInstitution())->assertSuccessful();
+
+        $this->artisan('academico:migrate')
+            ->expectsOutputToContain('Tenant 1 (Broken School)')
+            ->expectsOutputToContain('Second School')
+            ->assertFailed();
+    }
+
+    public function test_a_cache_store_without_prefix_is_refused_with_several_tenants(): void
+    {
+        config(['multitenancy.landlord_database' => 'landlord', 'cache.default' => 'file']);
+
+        $this->expectExceptionMessage('The file cache store cannot be used with LANDLORD_DB_DATABASE');
+
+        (new TenancyServiceProvider($this->app))->register();
     }
 
     public function test_migrations_of_a_single_tenant_install_run_as_usual(): void

@@ -182,6 +182,8 @@ php artisan tenants:artisan "academico:resync-coursetimes 12" --tenant=1
 - Each domain must point to the server. Requests on a host name that matches no institution get a 404, unless `TENANCY_DEFAULT_TENANT` names an institution to use instead.
 - One scheduler (`php artisan schedule:run` every minute) and one queue worker serve all institutions. Scheduled tasks run for each institution at its time, in its timezone. The queue and the cache are stored in the landlord database.
 - The files of each institution are in `storage/tenants/<ID>`.
+- Set the database with `DB_HOST`, `DB_PORT`, `DB_USERNAME` and `DB_PASSWORD`: `DB_URL` is refused, because a database named in it would win over the database of each institution. The file cache store is refused as well, because it would share cached data between institutions.
+- `academico:migrate` goes on with the other institutions when the migrations of one fail, and then exits with an error.
 
 A single-institution install needs none of this: its database also holds the landlord tables, and its one institution answers on any host name.
 

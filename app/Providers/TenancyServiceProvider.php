@@ -16,6 +16,7 @@ class TenancyServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->registerLandlordConnection();
+        $this->refuseSharedCacheStore();
         $this->signUrlsPerTenant();
     }
 
@@ -54,6 +55,18 @@ class TenancyServiceProvider extends ServiceProvider
         config(["database.connections.{$name}" => array_merge($default, array_filter([
             'database' => config('multitenancy.landlord_database'),
         ]))]);
+    }
+
+    /**
+     * Tenants share the cache store and are kept apart by the cache prefix, which the file store ignores.
+     */
+    private function refuseSharedCacheStore(): void
+    {
+        $store = config('cache.default');
+
+        if (! Tenant::usesSingleDatabase() && config("cache.stores.{$store}.driver") === 'file') {
+            throw new RuntimeException("The {$store} cache store cannot be used with LANDLORD_DB_DATABASE: it would share cached data between institutions. Use CACHE_STORE=database or redis.");
+        }
     }
 
     /**
