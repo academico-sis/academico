@@ -51,6 +51,104 @@ jobs:
       - name: Run tests
         run: php artisan test
 
+  # The tests run on SQLite. This job runs the migrations and the multi-tenancy commands on MariaDB,
+  # and checks that web requests reach the tenant of their host name.
+  mariadb:
+    runs-on: ubuntu-latest
+
+    services:
+      mariadb:
+        image: mariadb:11
+        env:
+          MARIADB_ROOT_PASSWORD: root
+          MARIADB_DATABASE: single
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=20
+
+    env:
+      DB_CONNECTION: mariadb
+      DB_HOST: 127.0.0.1
+      DB_PORT: 3306
+      DB_USERNAME: root
+      DB_PASSWORD: root
+      APP_URL: https://academico.example
+      MAIL_MAILER: log
+      QUEUE_CONNECTION: database
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: mbstring, exif, pcntl, bcmath, gd, xml, intl, zip, pdo_mysql
+          coverage: none
+
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      # The pages load the built assets
+      - name: Prepare environment
+        run: |
+          cp .env.example .env
+          composer install --no-interaction --prefer-dist --no-progress
+          php artisan key:generate
+          npm ci
+          npm run build
+
+      - name: Single institution
+        env:
+          DB_DATABASE: single
+        run: |
+          php artisan migrate --force --seed
+          php artisan migrate:rollback --step=9 --force
+          php artisan migrate --force
+          php artisan academico:migrate --force
+          php artisan academico:tenant:list
+          php artisan academico:check-periods
+          # Laravel's server.php router must run from public/: use index.php as the router instead
+          php -S 127.0.0.1:8001 -t public public/index.php > /dev/null 2>&1 &
+          sleep 2
+          curl -s -H 'Host: any.example.org' http://127.0.0.1:8001/admin/login > page.html
+          grep -q 'type="password"' page.html || { head -c 2000 page.html; exit 1; }
+
+      - name: Several institutions
+        env:
+          DB_DATABASE: landlord
+          LANDLORD_DB_DATABASE: landlord
+        run: |
+          php -r 'new PDO("mysql:host=127.0.0.1", "root", "root")->exec("CREATE DATABASE landlord");'
+          php artisan academico:migrate --force
+          php artisan academico:tenant:create "First School" first.example.org --admin-email=first@example.org --admin-firstname=Ann --admin-lastname=First
+          php artisan academico:tenant:create "Second School" second.example.org --admin-email=second@example.org --admin-firstname=Bob --admin-lastname=Second
+          php artisan academico:tenant:domain "Second School" www.second.example.org --primary
+          php artisan academico:tenant:list
+          php artisan academico:migrate --force
+          php artisan academico:check-periods
+          php artisan queue:work --stop-when-empty
+          php artisan queue:failed | grep -q 'No failed jobs'
+          php -S 127.0.0.1:8002 -t public public/index.php > /dev/null 2>&1 &
+          sleep 2
+          curl -s -H 'Host: first.example.org' http://127.0.0.1:8002/admin/login > page.html
+          grep -q 'First School' page.html || { head -c 2000 page.html; exit 1; }
+          curl -s -H 'Host: www.second.example.org' http://127.0.0.1:8002/admin/login > page.html
+          grep -q 'Second School' page.html || { head -c 2000 page.html; exit 1; }
+          test "$(curl -s -o /dev/null -w '%{http_code}' -H 'Host: unknown.example.org' http://127.0.0.1:8002/admin/login)" = 404
+
+      - name: Show the application log
+        if: failure()
+        run: tail -n 100 storage/logs/laravel.log
+
   lint:
     runs-on: ubuntu-latest
 
@@ -88,7 +186,7 @@ jobs:
   # Major updates are left for manual review.
   dependabot-automerge:
     runs-on: ubuntu-latest
-    needs: [tests, lint, docker]
+    needs: [tests, mariadb, lint, docker]
     if: github.event_name == 'pull_request' && github.event.pull_request.user.login == 'dependabot[bot]'
     permissions:
       contents: write
