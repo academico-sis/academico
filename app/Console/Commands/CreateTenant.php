@@ -28,7 +28,7 @@ class CreateTenant extends Command
     protected $signature = 'academico:tenant:create
         {name : Name of the institution}
         {domain : Main host name, such as school.example.org}
-        {--database= : Name of the new database (default: academico_ followed by the name)}
+        {--database= : Name of the new database (default: the TENANCY_DATABASE_PREFIX followed by the name)}
         {--admin-email= : Email address of the first administrator}
         {--admin-firstname= : First name of the first administrator}
         {--admin-lastname= : Last name of the first administrator}';
@@ -46,7 +46,7 @@ class CreateTenant extends Command
         $data = [
             'name' => trim((string) $this->argument('name')),
             'domain' => Str::lower(trim((string) $this->argument('domain'))),
-            'database' => $this->option('database') ?: 'academico_'.Str::limit(Str::slug((string) $this->argument('name'), '_'), 54, ''),
+            'database' => $this->option('database') ?: $this->defaultDatabaseName((string) $this->argument('name')),
             'email' => $this->option('admin-email') ?? $this->ask('Email address of the first administrator'),
             'firstname' => $this->option('admin-firstname') ?? $this->ask('First name of the first administrator'),
             'lastname' => $this->option('admin-lastname') ?? $this->ask('Last name of the first administrator'),
@@ -54,7 +54,7 @@ class CreateTenant extends Command
 
         $validator = Validator::make($data, [
             'name' => ['required', 'max:255'],
-            'domain' => ['required', 'max:253', 'regex:/^([a-z0-9]([a-z0-9-]*[a-z0-9])?\.)+[a-z0-9]([a-z0-9-]*[a-z0-9])?$/', Rule::unique(TenantDomain::class, 'domain')],
+            'domain' => ['required', 'max:253', 'regex:'.TenantDomain::PATTERN, Rule::unique(TenantDomain::class, 'domain')],
             // A SQLite database is a file path; database servers limit names to 64 letters, digits and underscores.
             // An existing database is refused: createDatabase() would empty a SQLite file, and the cleanup delete it.
             'database' => [
@@ -139,6 +139,17 @@ class CreateTenant extends Command
         }
 
         return $notification->url;
+    }
+
+    /**
+     * The prefix followed by the name, within the 64 characters of database servers.
+     */
+    private function defaultDatabaseName(string $name): string
+    {
+        $prefix = (string) config('multitenancy.database_prefix');
+        $slug = Str::slug($name, '_');
+
+        return $prefix.($this->landlordDriver() === 'sqlite' ? $slug : Str::limit($slug, max(1, 64 - strlen($prefix)), ''));
     }
 
     private function landlordConnection(): string

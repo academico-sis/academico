@@ -10,6 +10,7 @@ use Spatie\Multitenancy\Tasks\SwitchTenantTask;
 /**
  * Links in emails, queued notifications and files use the primary domain of the tenant. Web requests
  * already build their links from the request host; commands and queued jobs need the root URL.
+ * A single-tenant install keeps APP_URL, which may have changed since its domain was registered.
  */
 class SwitchTenantUrlTask implements SwitchTenantTask
 {
@@ -22,7 +23,7 @@ class SwitchTenantUrlTask implements SwitchTenantTask
 
     public function makeCurrent(IsTenant $tenant): void
     {
-        $this->useUrl($tenant instanceof Tenant ? $tenant->url($this->configuredUrl) : $this->configuredUrl);
+        $this->useUrl($tenant instanceof Tenant && ! Tenant::usesSingleDatabase() ? $tenant->url($this->configuredUrl) : $this->configuredUrl);
     }
 
     public function forgetCurrent(): void

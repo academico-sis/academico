@@ -7,6 +7,7 @@ use App\Services\Tenancy\SwitchTenantDatabaseTask;
 use App\Services\Tenancy\SwitchTenantFilesystemsTask;
 use App\Services\Tenancy\SwitchTenantPermissionCacheTask;
 use App\Services\Tenancy\SwitchTenantUrlTask;
+use App\Services\Tenancy\TagErrorReportsTask;
 use Illuminate\Broadcasting\BroadcastEvent;
 use Illuminate\Events\CallQueuedListener;
 use Illuminate\Mail\SendQueuedMailable;
@@ -41,6 +42,13 @@ return [
      */
     'default_tenant' => env('TENANCY_DEFAULT_TENANT'),
 
+    /*
+     * Start of the database names of new tenants, followed by their name.
+     * The database user needs the right to create databases with this prefix:
+     * choose one that no other database on the server uses.
+     */
+    'database_prefix' => env('TENANCY_DATABASE_PREFIX', 'academico_'),
+
     'tenant_finder' => DomainTenantFinder::class,
 
     'tenant_artisan_search_fields' => [
@@ -58,6 +66,7 @@ return [
         SwitchTenantPermissionCacheTask::class,
         SwitchTenantUrlTask::class,
         SwitchTenantFilesystemsTask::class,
+        TagErrorReportsTask::class,
         ApplyTenantSettingsTask::class,
     ],
 

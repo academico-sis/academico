@@ -14,6 +14,11 @@ class TenantDomain extends Model
 {
     use UsesLandlordConnection;
 
+    /**
+     * Lower-case host names: labels of letters, digits and hyphens, separated by dots.
+     */
+    public const PATTERN = '/^([a-z0-9]([a-z0-9-]*[a-z0-9])?\.)+[a-z0-9]([a-z0-9-]*[a-z0-9])?$/';
+
     protected $guarded = ['id'];
 
     protected function casts(): array
