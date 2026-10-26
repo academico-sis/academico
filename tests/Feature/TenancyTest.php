@@ -9,36 +9,22 @@ use App\Services\Tenancy\DomainTenantFinder;
 use App\Services\Tenancy\SwitchTenantFilesystemsTask;
 use App\Services\Tenancy\SwitchTenantUrlTask;
 use Filament\Facades\Filament;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
 use Illuminate\Session\Middleware\StartSession;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
+use Tests\InteractsWithTenants;
 use Tests\TestCase;
 
 class TenancyTest extends TestCase
 {
+    use InteractsWithTenants;
     use RefreshDatabase;
-
-    private string $databasesFolder;
-
-    protected function tearDown(): void
-    {
-        if (isset($this->databasesFolder)) {
-            // Back to the test database, so that its transaction is rolled back
-            config(['database.default' => 'sqlite']);
-            File::deleteDirectory($this->databasesFolder);
-        }
-
-        parent::tearDown();
-    }
 
     public function test_a_single_tenant_install_registers_its_database_as_its_tenant(): void
     {
@@ -109,7 +95,8 @@ class TenancyTest extends TestCase
     public function test_url_and_files_follow_the_tenant(): void
     {
         config(['app.url' => 'https://academico.example']);
-        $tenant = Tenant::create(['name' => 'Second school', 'database' => 'second', 'storage_folder' => 'tenants/2']);
+        $tenant = Tenant::create(['name' => 'Second school', 'database' => 'second', 'storage_folder' => 'framework/testing/tenants/2']);
+        $this->beforeApplicationDestroyed(fn () => File::deleteDirectory(storage_path('framework/testing/tenants')));
         $tenant->domains()->create(['domain' => 'www.second.example.org']);
         $tenant->domains()->create(['domain' => 'second.example.org', 'is_primary' => true]);
         $urlTask = app(SwitchTenantUrlTask::class);
@@ -120,8 +107,8 @@ class TenancyTest extends TestCase
 
         $this->assertSame('https://second.example.org', config('app.url'));
         $this->assertSame('https://second.example.org/admin', url('/admin'));
-        $this->assertSame(storage_path('tenants/2/app/private/photo.jpg'), Storage::disk('local')->path('photo.jpg'));
-        $this->assertSame(storage_path('tenants/2/app/public/logo.png'), Storage::disk('public')->path('logo.png'));
+        $this->assertSame(storage_path('framework/testing/tenants/2/app/private/photo.jpg'), Storage::disk('local')->path('photo.jpg'));
+        $this->assertSame(storage_path('framework/testing/tenants/2/app/public/logo.png'), Storage::disk('public')->path('logo.png'));
         $this->assertSame('https://second.example.org/storage/logo.png', Storage::disk('public')->url('logo.png'));
 
         $urlTask->forgetCurrent();
@@ -133,8 +120,9 @@ class TenancyTest extends TestCase
 
     public function test_each_tenant_reads_its_own_database_and_settings(): void
     {
-        $first = $this->tenantWithDatabase('first', ['academico.currency_symbol' => '$', 'academico.company_name' => 'First school']);
-        $second = $this->tenantWithDatabase('second', ['academico.currency_symbol' => '£']);
+        $this->useSeveralTenants();
+        $first = $this->tenantWithSettings('first', ['academico.currency_symbol' => '$', 'academico.company_name' => 'First school']);
+        $second = $this->tenantWithSettings('second', ['academico.currency_symbol' => '£']);
         $defaultName = config('app.name');
 
         $first->makeCurrent();
@@ -155,8 +143,9 @@ class TenancyTest extends TestCase
 
     public function test_signed_urls_of_a_tenant_are_refused_by_the_others(): void
     {
-        $first = $this->tenantWithDatabase('first', []);
-        $second = $this->tenantWithDatabase('second', []);
+        $this->useSeveralTenants();
+        $first = $this->tenantWithSettings('first');
+        $second = $this->tenantWithSettings('second');
 
         $first->makeCurrent();
         $request = Request::create(Storage::disk('local')->temporaryUrl('1/photo.jpg', now()->addMinutes(5)));
@@ -188,46 +177,5 @@ class TenancyTest extends TestCase
         $this->expectExceptionMessage('DB_URL cannot be used with LANDLORD_DB_DATABASE');
 
         (new TenancyServiceProvider($this->app))->register();
-    }
-
-    /**
-     * A tenant whose database is a SQLite file holding a settings table. The tenants are switched on a
-     * separate default connection, which leaves the test database and its transaction alone, and the
-     * landlord tables move to another in-memory database.
-     *
-     * @param  array<string, mixed>  $settings
-     */
-    private function tenantWithDatabase(string $name, array $settings): Tenant
-    {
-        if (! isset($this->databasesFolder)) {
-            $this->databasesFolder = storage_path('framework/testing/tenancy');
-            File::ensureDirectoryExists($this->databasesFolder);
-            Tenant::forgetCurrent();
-
-            config([
-                'multitenancy.landlord_database' => 'landlord',
-                'multitenancy.landlord_database_connection_name' => 'landlord_test',
-                'database.connections.landlord_test' => ['driver' => 'sqlite', 'database' => ':memory:', 'prefix' => ''],
-                'database.connections.tenant_test' => ['driver' => 'sqlite', 'database' => ':memory:', 'prefix' => ''],
-                'database.default' => 'tenant_test',
-            ]);
-            Artisan::call('migrate', ['--database' => 'landlord_test', '--path' => 'database/migrations/landlord/2026_10_24_100000_create_tenants_tables.php']);
-        }
-
-        $database = "{$this->databasesFolder}/{$name}.sqlite";
-        File::put($database, '');
-        config(["database.connections.{$name}" => ['driver' => 'sqlite', 'database' => $database, 'prefix' => '']]);
-
-        Schema::connection($name)->create('settings', function (Blueprint $table) {
-            $table->id();
-            $table->string('key')->unique();
-            $table->json('value')->nullable();
-            $table->timestamps();
-        });
-        foreach ($settings as $key => $value) {
-            DB::connection($name)->table('settings')->insert(['key' => $key, 'value' => json_encode($value)]);
-        }
-
-        return Tenant::create(['name' => $name, 'database' => $database]);
     }
 }

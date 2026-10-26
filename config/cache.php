@@ -41,9 +41,10 @@ return [
 
         'database' => [
             'driver' => 'database',
-            'connection' => env('DB_CACHE_CONNECTION'),
+            // In the landlord database, shared by all tenants: keys carry the tenant prefix.
+            'connection' => env('DB_CACHE_CONNECTION', env('LANDLORD_DB_CONNECTION', 'landlord')),
             'table' => env('DB_CACHE_TABLE', 'cache'),
-            'lock_connection' => env('DB_CACHE_LOCK_CONNECTION'),
+            'lock_connection' => env('DB_CACHE_LOCK_CONNECTION', env('LANDLORD_DB_CONNECTION', 'landlord')),
             'lock_table' => env('DB_CACHE_LOCK_TABLE'),
         ],
 

@@ -141,9 +141,9 @@ class ScheduledTasksTest extends TestCase
 
     public function test_time_must_be_a_quarter_of_an_hour(): void
     {
-        $this->expectExceptionMessage('--at must be a quarter of an hour');
-
-        $this->artisan('academico:monthly-report --at=08:10');
+        $this->artisan('academico:monthly-report --at=08:10')
+            ->expectsOutputToContain('--at must be a quarter of an hour')
+            ->assertFailed();
     }
 
     public function test_attendance_reminders_follow_their_own_setting(): void

@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Builders\TenantBuilder;
+use Illuminate\Database\Eloquent\Attributes\UseEloquentBuilder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\QueryException;
 use Spatie\Multitenancy\Models\Tenant as BaseTenant;
@@ -13,6 +15,7 @@ use Spatie\Multitenancy\Models\Tenant as BaseTenant;
  * @property string $database
  * @property ?string $storage_folder Folder of its files under storage/, or null for the folders of a single-tenant install
  */
+#[UseEloquentBuilder(TenantBuilder::class)]
 class Tenant extends BaseTenant
 {
     protected $guarded = ['id'];
