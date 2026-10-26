@@ -5,11 +5,15 @@ namespace Tests\Feature;
 use App\Models\Setting;
 use App\Services\Settings;
 use Illuminate\Contracts\Queue\Job;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Mail\Message;
 use Illuminate\Queue\Events\JobProcessing;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Schema;
+use PDOException;
 use Tests\TestCase;
 
 class SettingsServiceTest extends TestCase
@@ -129,5 +133,52 @@ class SettingsServiceTest extends TestCase
         dispatch(fn () => Cache::put('currency_symbol_in_job', config('academico.currency_symbol')));
 
         $this->assertSame('£', Cache::get('currency_symbol_in_job'));
+    }
+
+    public function test_reload_puts_back_the_default_of_settings_that_are_no_longer_stored(): void
+    {
+        $defaultName = config('app.name');
+        app(Settings::class)->set(['academico.currency_symbol' => '$', 'academico.company_name' => 'Acme School']);
+
+        Setting::query()->delete();
+        app(Settings::class)->reload();
+
+        $this->assertSame('€', config('academico.currency_symbol'));
+        $this->assertSame($defaultName, config('app.name'));
+        $this->assertSame($defaultName, config('mail.from.name'));
+    }
+
+    public function test_forget_puts_back_the_config_defaults(): void
+    {
+        app(Settings::class)->set(['academico.currency_symbol' => '$', 'settings.monthly_report' => true]);
+
+        app(Settings::class)->forget();
+
+        $this->assertSame('€', config('academico.currency_symbol'));
+        $this->assertFalse(config('settings.monthly_report'));
+    }
+
+    public function test_reload_keeps_the_defaults_without_settings_table(): void
+    {
+        app(Settings::class)->set(['academico.currency_symbol' => '$']);
+        Schema::drop('settings');
+
+        app(Settings::class)->reload();
+
+        $this->assertSame('€', config('academico.currency_symbol'));
+    }
+
+    public function test_reload_throws_other_database_errors(): void
+    {
+        app(Settings::class)->set(['academico.currency_symbol' => '$']);
+        DB::beforeExecuting(function (string $query): void {
+            if (str_contains($query, 'from "settings"')) {
+                throw new QueryException('sqlite', $query, [], new PDOException('Connection lost'));
+            }
+        });
+
+        $this->expectExceptionMessage('Connection lost');
+
+        app(Settings::class)->reload();
     }
 }

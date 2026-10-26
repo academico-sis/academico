@@ -233,6 +233,8 @@ class GeneralSettings extends Page
                     ]),
                 Section::make(__('Staff'))
                     ->schema([
+                        Toggle::make('academico.send_attendance_reminders')
+                            ->label(__('Remind teachers by email of their classes without attendance')),
                         Toggle::make('settings.monthly_report')
                             ->label(__('Send a monthly report')),
                         TextInput::make('settings.reports_email')

@@ -16,10 +16,12 @@ class SendExternalCoursesReport
 
     public function handle(ExternalCoursesReportEvent $event): void
     {
-        $period_start = Carbon::parse('first day of this month');
-        $period_end = Carbon::parse('last day of this month');
+        // The report runs at night in the institution timezone, when the UTC date may differ.
+        $today = Carbon::now(config('settings.courses_timezone'));
+        $period_start = $today->copy()->startOfMonth();
+        $period_end = $today->copy()->endOfMonth();
 
-        foreach (Partner::where('send_report_on', Carbon::now()->day)->get() as $partner) {
+        foreach (Partner::where('send_report_on', $today->day)->get() as $partner) {
             try {
                 $courses = $partner->courses()->whereHas('events', function (Builder $query) use ($period_start, $period_end) {
                     $query->where('start', '>=', $period_start->toDateString())->where('end', '<=', $period_end->toDateString());
