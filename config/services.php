@@ -42,4 +42,9 @@ return [
         ],
     ],
 
+    // Mailbox of a demo install, where its emails are caught (such as Mailpit): linked from the login page
+    'demo_mailbox' => [
+        'url' => env('DEMO_MAILBOX_URL'),
+    ],
+
 ];

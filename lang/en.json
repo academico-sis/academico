@@ -850,5 +850,9 @@
     "Demo accounts": "Demo accounts",
     "Use": "Use",
     "Administrator": "Administrator",
-    "Secretary": "Secretary"
+    "Secretary": "Secretary",
+    "Public demo": "Public demo",
+    "Anyone can see what you enter here. Do not enter real names, email addresses or other personal data.": "Anyone can see what you enter here. Do not enter real names, email addresses or other personal data.",
+    "Emails are not delivered: they all go to a public mailbox, where you can read them, for example after \":action\".": "Emails are not delivered: they all go to a public mailbox, where you can read them, for example after \":action\".",
+    "Open the demo mailbox": "Open the demo mailbox"
 }

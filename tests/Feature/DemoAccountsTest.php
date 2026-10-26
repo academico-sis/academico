@@ -23,7 +23,23 @@ class DemoAccountsTest extends TestCase
 
     public function test_the_login_page_lists_no_account_by_default(): void
     {
-        $this->get('/admin/login')->assertSuccessful()->assertDontSee(__('Demo accounts'));
+        $this->get('/admin/login')->assertSuccessful()->assertDontSee(__('Demo accounts'))->assertDontSee(__('Public demo'));
+    }
+
+    public function test_the_login_page_warns_demo_visitors_and_links_the_mailbox(): void
+    {
+        app(Settings::class)->set(['demo_accounts' => [['role' => 'Administrator', 'email' => 'admin@example.org', 'password' => 'secret']]]);
+
+        $this->get('/admin/login')
+            ->assertSee(__('Public demo'))
+            ->assertSee(__('Anyone can see what you enter here. Do not enter real names, email addresses or other personal data.'))
+            ->assertDontSee(__('Open the demo mailbox'));
+
+        config(['services.demo_mailbox.url' => 'https://mail.demo.example.org']);
+
+        $this->get('/admin/login')
+            ->assertSee(__('Open the demo mailbox'))
+            ->assertSee('href="https://mail.demo.example.org"', false);
     }
 
     public function test_the_login_page_lists_the_demo_accounts_and_fills_the_form(): void
