@@ -22,6 +22,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - The README shows how to run several institutions behind Traefik: one web container, one scheduler and one worker for all institutions, with the routes of their domains in a Traefik file provider configuration.
 - Error reports sent to Sentry carry the ID of the institution.
 - The login page can list demo accounts, with a button that fills the form. The sample data (`TestSeeder`) lists an administrator, a secretary, a teacher and a student (password `secret`), and names the institution after its tenant in a multi-tenant install. Other installs list no account.
+- On a demo install, the login page warns visitors that what they enter is public and must not include real names or email addresses. With `DEMO_MAILBOX_URL` set, it also links the public mailbox where the emails of the demo are caught (such as Mailpit).
 
 ### Changed
 

@@ -851,5 +851,9 @@
     "Demo accounts": "Comptes de démonstration",
     "Use": "Utiliser",
     "Administrator": "Administrateur",
-    "Secretary": "Secrétariat"
+    "Secretary": "Secrétariat",
+    "Public demo": "Démonstration publique",
+    "Anyone can see what you enter here. Do not enter real names, email addresses or other personal data.": "Tout le monde peut voir ce que vous saisissez ici. N’indiquez ni vrais noms, ni vraies adresses e-mail, ni autres données personnelles.",
+    "Emails are not delivered: they all go to a public mailbox, where you can read them, for example after \":action\".": "Les e-mails ne sont pas envoyés : ils arrivent tous dans une boîte aux lettres publique, où vous pouvez les lire, par exemple après « :action ».",
+    "Open the demo mailbox": "Ouvrir la boîte aux lettres de la démo"
 }
