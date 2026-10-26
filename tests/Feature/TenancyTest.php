@@ -106,6 +106,15 @@ class TenancyTest extends TestCase
         $this->assertSame('https://new-address.example.org/admin', url('/admin'));
     }
 
+    public function test_the_tenant_url_keeps_the_scheme_and_port_of_app_url(): void
+    {
+        $tenant = Tenant::create(['name' => 'Second school', 'database' => 'second']);
+        $tenant->domains()->create(['domain' => 'second.localhost', 'is_primary' => true]);
+
+        $this->assertSame('http://second.localhost:8090', $tenant->url('http://localhost:8090'));
+        $this->assertSame('https://second.localhost', $tenant->url('https://academico.example'));
+    }
+
     public function test_url_and_files_follow_the_tenant(): void
     {
         config(['app.url' => 'https://academico.example', 'multitenancy.landlord_database' => 'landlord']);

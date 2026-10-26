@@ -55,7 +55,7 @@ class TenantCommandsTest extends TestCase
         $this->useSeveralTenants();
 
         $this->artisan('academico:tenant:create', $this->newInstitution())
-            ->expectsOutputToContain('http://second.example.org/admin/password-reset/reset')
+            ->expectsOutputToContain('/admin/password-reset/reset?email=jane%40example.org')
             ->assertSuccessful();
 
         $tenant = Tenant::sole();

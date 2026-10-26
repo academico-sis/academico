@@ -21,6 +21,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - A MariaDB job in continuous integration: it runs the migrations (and rolls back the latest ones) for a single institution, creates two institutions with the tenant commands, runs the queue worker, and checks that web requests reach the institution of their host name.
 - The README shows how to run several institutions behind Traefik: one web container, one scheduler and one worker for all institutions, with the routes of their domains in a Traefik file provider configuration.
 - Error reports sent to Sentry carry the ID of the institution.
+- The login page can list demo accounts, with a button that fills the form. The sample data (`TestSeeder`) lists an administrator, a secretary, a teacher and a student (password `secret`), and names the institution after its tenant in a multi-tenant install. Other installs list no account.
 
 ### Changed
 
