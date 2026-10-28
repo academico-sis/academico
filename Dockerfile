@@ -1,5 +1,5 @@
 # Stage 1: Build frontend assets
-FROM node:26.11.1-slim AS frontend
+FROM node:26.12.0-slim AS frontend
 WORKDIR /app
 COPY package.json package-lock.json* ./
 RUN npm ci
