@@ -45,6 +45,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Fixed
 
+- The development container trusts the bind-mounted checkout, so startup no longer reports a fatal Git "dubious ownership" error.
 - The seeded attendance types now have a color, so each series of the attendance reports is displayed in a different color instead of the grey fallback.
 - The taught and sold hours of the reports counted 0 hours for courses without a remote volume (or without an in-person volume).
 - Creating a teacher or a student with the same first and last name as an existing user failed with a server error.
