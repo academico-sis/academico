@@ -20,7 +20,7 @@ COPY . .
 RUN composer dump-autoload --no-dev --optimize
 
 # Stage 3: PHP runtime shared by the development and production images
-FROM dunglas/frankenphp:1.13.4-php8.5.12 AS base
+FROM dunglas/frankenphp:1.13.5-php8.5.12 AS base
 
 WORKDIR /app
 
