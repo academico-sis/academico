@@ -9,7 +9,7 @@ COPY app ./app
 RUN npm run build
 
 # Composer, also copied into the development image
-FROM composer:2.11.0 AS composer
+FROM composer:2.11.1 AS composer
 
 # Stage 2: Install PHP dependencies
 FROM composer AS vendor
