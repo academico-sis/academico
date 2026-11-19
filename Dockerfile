@@ -49,6 +49,10 @@ RUN apt-get update && apt-get install -y \
     unzip \
     && rm -rf /var/lib/apt/lists/*
 
+# The checkout is bind-mounted from the host, so root does not own it.
+# Without this, Git refuses the repo and Composer prints a fatal "dubious ownership" error on startup.
+RUN git config --global --add safe.directory /app
+
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
